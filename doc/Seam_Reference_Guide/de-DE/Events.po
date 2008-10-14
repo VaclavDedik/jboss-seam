@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-04-04 01:24+0000\n"
+"POT-Creation-Date: 2008-10-14 11:38+0000\n"
 "PO-Revision-Date: 2008-04-04 01:24+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1191,12 +1191,20 @@ msgstr ""
 #: Events.xml:514
 #, no-c-format
 msgid ""
+"<literal>org.jboss.seam.postReInitialization </literal>&#8212; called when "
+"Seam has re-initialized and started up all components after a redeploy"
+msgstr ""
+
+#. Tag: para
+#: Events.xml:515
+#, no-c-format
+msgid ""
 "<literal>org.jboss.seam.postAuthenticate.&lt;name&gt; </literal>&#8212; "
 "called after a user is authenticated"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:515
+#: Events.xml:516
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.preAuthenticate.&lt;name&gt; </literal>&#8212; "
@@ -1204,7 +1212,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:516
+#: Events.xml:517
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.notLoggedIn</literal> &#8212; called there is no "
@@ -1212,7 +1220,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:517
+#: Events.xml:518
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.rememberMe</literal> &#8212; occurs when Seam "
@@ -1220,7 +1228,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:518
+#: Events.xml:519
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.exceptionHandled.&lt;type&gt;</literal> &#8212; "
@@ -1228,7 +1236,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:519
+#: Events.xml:520
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.exceptionHandled</literal> &#8212; called when an "
@@ -1236,7 +1244,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:520
+#: Events.xml:521
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.exceptionNotHandled</literal> &#8212; called when "
@@ -1244,7 +1252,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:521
+#: Events.xml:522
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.afterTransactionSuccess</literal> &#8212; called "
@@ -1252,7 +1260,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:522
+#: Events.xml:523
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> "
@@ -1261,7 +1269,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:525
+#: Events.xml:526
 #, no-c-format
 msgid ""
 "Seam components may observe any of these events in just the same way they "
@@ -1269,13 +1277,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:534
+#: Events.xml:535
 #, no-c-format
 msgid "Seam interceptors"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:536
+#: Events.xml:537
 #, no-c-format
 msgid ""
 "EJB 3.0 introduced a standard interceptor model for session bean components. "
@@ -1287,7 +1295,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:545
+#: Events.xml:546
 #, no-c-format
 msgid ""
 "<![CDATA[public class LoggedInInterceptor {\n"
@@ -1312,7 +1320,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:547
+#: Events.xml:548
 #, no-c-format
 msgid ""
 "To apply this interceptor to a session bean which acts as an action "
@@ -1326,7 +1334,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:556
+#: Events.xml:557
 #, no-c-format
 msgid ""
 "<![CDATA[@Target(TYPE)\n"
@@ -1336,7 +1344,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:558
+#: Events.xml:559
 #, no-c-format
 msgid ""
 "We can now simply annotate our action listener bean with <literal>@LoggedIn</"
@@ -1344,7 +1352,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:563
+#: Events.xml:564
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateless\n"
@@ -1361,7 +1369,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:565
+#: Events.xml:566
 #, no-c-format
 msgid ""
 "If interceptor ordering is important (it usually is), you can add "
@@ -1370,7 +1378,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:571
+#: Events.xml:572
 #, no-c-format
 msgid ""
 "<![CDATA[@Interceptor(around={BijectionInterceptor.class,\n"
@@ -1384,7 +1392,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:573
+#: Events.xml:574
 #, no-c-format
 msgid ""
 "You can even have a \"client-side\" interceptor, that runs around any of the "
@@ -1392,7 +1400,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:578
+#: Events.xml:579
 #, no-c-format
 msgid ""
 "<![CDATA[@Interceptor(type=CLIENT)\n"
@@ -1403,7 +1411,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:580
+#: Events.xml:581
 #, no-c-format
 msgid ""
 "EJB interceptors are stateful, with a lifecycle that is the same as the "
@@ -1413,7 +1421,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:587
+#: Events.xml:588
 #, no-c-format
 msgid ""
 "Much of the functionality of Seam is implemented as a set of built-in Seam "
@@ -1423,7 +1431,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:594
+#: Events.xml:595
 #, no-c-format
 msgid ""
 "You can even use Seam interceptors with JavaBean components, not just EJB3 "
@@ -1431,7 +1439,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:598
+#: Events.xml:599
 #, no-c-format
 msgid ""
 "EJB defines interception not only for business methods (using "
@@ -1445,13 +1453,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:610
+#: Events.xml:611
 #, no-c-format
 msgid "Managing exceptions"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:612
+#: Events.xml:613
 #, no-c-format
 msgid ""
 "JSF is surprisingly limited when it comes to exception handling. As a "
@@ -1464,13 +1472,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:622
+#: Events.xml:623
 #, no-c-format
 msgid "Exceptions and transactions"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:624
+#: Events.xml:625
 #, no-c-format
 msgid ""
 "EJB specifies well-defined rules that let us control whether an exception "
@@ -1486,7 +1494,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:637
+#: Events.xml:638
 #, no-c-format
 msgid ""
 "Note that there is a difference between marking a transaction for rollback, "
@@ -1496,7 +1504,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:644
+#: Events.xml:645
 #, no-c-format
 msgid ""
 "Seam applies the EJB 3.0 exception rollback rules also to Seam JavaBean "
@@ -1504,7 +1512,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:649
+#: Events.xml:650
 #, no-c-format
 msgid ""
 "But these rules only apply in the Seam component layer. What about an "
@@ -1515,13 +1523,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:659
+#: Events.xml:660
 #, no-c-format
 msgid "Enabling Seam exception handling"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:661
+#: Events.xml:662
 #, no-c-format
 msgid ""
 "To enable Seam's exception handling, we need to make sure we have the master "
@@ -1529,7 +1537,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:666
+#: Events.xml:667
 #, no-c-format
 msgid ""
 "<![CDATA[<filter>\n"
@@ -1544,22 +1552,22 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:668
+#: Events.xml:669
 #, no-c-format
 msgid ""
-"You may also need to disable Facelets development mode in <literal>web.xml</"
-"literal> and Seam debug mode in <literal>components.xml</literal> if you "
-"want your exception handlers to fire."
+"You need to disable Facelets development mode in <literal>web.xml</literal> "
+"and Seam debug mode in <literal>components.xml</literal> if you want your "
+"exception handlers to fire."
 msgstr ""
 
 #. Tag: title
-#: Events.xml:677
+#: Events.xml:678
 #, no-c-format
 msgid "Using annotations for exception handling"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:679
+#: Events.xml:680
 #, no-c-format
 msgid ""
 "The following exception results in a HTTP 404 error whenever it propagates "
@@ -1569,7 +1577,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:686
+#: Events.xml:687
 #, no-c-format
 msgid ""
 "<![CDATA[@HttpError(errorCode=404)\n"
@@ -1577,7 +1585,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:688
+#: Events.xml:689
 #, no-c-format
 msgid ""
 "This exception results in a browser redirect whenever it propagates out of "
@@ -1586,7 +1594,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:694
+#: Events.xml:695
 #, no-c-format
 msgid ""
 "<![CDATA[@Redirect(viewId=\"/failure.xhtml\", end=true)\n"
@@ -1595,23 +1603,24 @@ msgid ""
 "{ ... }]]>"
 msgstr ""
 
-#. Tag: para
-#: Events.xml:696
+#. Tag: note
+#: Events.xml:697
 #, no-c-format
 msgid ""
-"Note that <literal>@Redirect</literal> does not work for exceptions which "
-"occur during the render phase of the JSF lifecycle."
+"It is important to note that Seam cannot handle exceptions that occur during "
+"JSF's RENDER_RESPONSE phase, as it is not possible to perform a redirect "
+"once the response has started being written to."
 msgstr ""
 
 #. Tag: para
-#: Events.xml:701
+#: Events.xml:703
 #, no-c-format
 msgid ""
 "You can also use EL to specify the <literal>viewId</literal> to redirect to."
 msgstr ""
 
 #. Tag: para
-#: Events.xml:705
+#: Events.xml:707
 #, no-c-format
 msgid ""
 "This exception results in a redirect, along with a message to the user, when "
@@ -1620,7 +1629,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:711
+#: Events.xml:713
 #, no-c-format
 msgid ""
 "<![CDATA[@Redirect(viewId=\"/error.xhtml\", message=\"Unexpected error\")\n"
@@ -1628,13 +1637,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:716
+#: Events.xml:718
 #, no-c-format
 msgid "Using XML for exception handling"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:718
+#: Events.xml:720
 #, no-c-format
 msgid ""
 "Since we can't add annotations to all the exception classes we are "
@@ -1643,7 +1652,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:723
+#: Events.xml:725
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -1670,7 +1679,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:725
+#: Events.xml:727
 #, no-c-format
 msgid ""
 "The last <literal>&lt;exception&gt;</literal> declaration does not specify a "
@@ -1679,14 +1688,14 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:731
+#: Events.xml:733
 #, no-c-format
 msgid ""
 "You can also use EL to specify the <literal>view-id</literal> to redirect to."
 msgstr ""
 
 #. Tag: para
-#: Events.xml:735
+#: Events.xml:737
 #, no-c-format
 msgid ""
 "You can also access the handled exception instance through EL, Seam places "
@@ -1694,7 +1703,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:740
+#: Events.xml:742
 #, no-c-format
 msgid ""
 "<![CDATA[...\n"
@@ -1714,23 +1723,23 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:742
+#: Events.xml:744
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.handledException</literal> holds the nested "
 "exception that was actually handled by an exception handler. The outermost "
-"(wrapper) exception is also available, as <literal>org.jboss.seam.exception</"
-"literal>."
+"(wrapper) exception is also available, as <literal>org.jboss.seam."
+"caughtException</literal>."
 msgstr ""
 
 #. Tag: title
-#: Events.xml:749
+#: Events.xml:751
 #, no-c-format
 msgid "Suppressing exception logging"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:751
+#: Events.xml:753
 #, no-c-format
 msgid ""
 "For the exception handlers defined in <literal>pages.xml</literal>, it is "
@@ -1743,7 +1752,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:760
+#: Events.xml:762
 #, no-c-format
 msgid ""
 "<![CDATA[    <exception class=\"org.jboss.seam.security.NotLoggedInException"
@@ -1756,7 +1765,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:762
+#: Events.xml:764
 #, no-c-format
 msgid ""
 "If the <literal>log</literal> attribute is not specified, then it defaults "
@@ -1766,7 +1775,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:768
+#: Events.xml:770
 #, no-c-format
 msgid ""
 "<![CDATA[    <exception class=\"org.jboss.seam.security.NotLoggedInException"
@@ -1779,7 +1788,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:770
+#: Events.xml:772
 #, no-c-format
 msgid ""
 "The acceptable values for <literal>logLevel</literal> are: <literal>fatal, "
@@ -1789,19 +1798,19 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:781
+#: Events.xml:783
 #, no-c-format
 msgid "Some common exceptions"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:783
+#: Events.xml:785
 #, no-c-format
 msgid "If you are using JPA:"
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:787
+#: Events.xml:789
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"javax.persistence.EntityNotFoundException\">\n"
@@ -1820,13 +1829,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:789
+#: Events.xml:791
 #, no-c-format
 msgid "If you are using the Seam Application Framework:"
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:793
+#: Events.xml:795
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"org.jboss.seam.framework.EntityNotFoundException"
@@ -1838,13 +1847,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:795
+#: Events.xml:797
 #, no-c-format
 msgid "If you are using Seam Security:"
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:799
+#: Events.xml:801
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"org.jboss.seam.security.AuthorizationException"
@@ -1862,13 +1871,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:801
+#: Events.xml:803
 #, no-c-format
 msgid "And, for JSF:"
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:805
+#: Events.xml:807
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"javax.faces.application.ViewExpiredException\">\n"
@@ -1879,7 +1888,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:807
+#: Events.xml:809
 #, no-c-format
 msgid ""
 "A <literal>ViewExpiredException</literal> occurs if the user posts back to a "

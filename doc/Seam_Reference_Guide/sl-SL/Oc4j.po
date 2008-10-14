@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-04-21 00:37+0000\n"
+"POT-Creation-Date: 2008-10-14 11:38+0000\n"
 "PO-Revision-Date: 2008-04-21 00:37+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -324,8 +324,14 @@ msgstr ""
 msgid "commons-digester.jar"
 msgstr ""
 
+#. Tag: literal
+#: Oc4j.xml:203
+#, no-c-format
+msgid "concurrent.jar"
+msgstr ""
+
 #. Tag: simpara
-#: Oc4j.xml:202
+#: Oc4j.xml:207
 #, no-c-format
 msgid ""
 "<literal>log4j.jar</literal> &#8212; This can be left out if you are not "
@@ -334,7 +340,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:211
+#: Oc4j.xml:216
 #, no-c-format
 msgid ""
 "Extra OC4J jars &#8212; Running Seam on most application servers (such as "
@@ -345,13 +351,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Oc4j.xml:220
+#: Oc4j.xml:225
 #, no-c-format
 msgid "hibernate-search.jar"
 msgstr ""
 
 #. Tag: simpara
-#: Oc4j.xml:224
+#: Oc4j.xml:229
 #, no-c-format
 msgid ""
 "<literal>hibernate-common-annotations.jar</literal> &#8212; needed for "
@@ -359,37 +365,37 @@ msgid ""
 msgstr ""
 
 #. Tag: simpara
-#: Oc4j.xml:230
+#: Oc4j.xml:235
 #, no-c-format
 msgid "<literal>lucene-core.jar</literal> &#8212; needed for hibernate search"
 msgstr ""
 
 #. Tag: simpara
-#: Oc4j.xml:235
+#: Oc4j.xml:240
 #, no-c-format
 msgid "<literal>antlr.jar</literal> &#8212; needed for Seam Text"
 msgstr ""
 
 #. Tag: simpara
-#: Oc4j.xml:239
+#: Oc4j.xml:244
 #, no-c-format
 msgid "<literal>jbpm-jpdl.jar</literal> &#8212; needed for Seam's JBPM"
 msgstr ""
 
 #. Tag: literal
-#: Oc4j.xml:243
+#: Oc4j.xml:248
 #, no-c-format
 msgid "quartz.jar"
 msgstr ""
 
 #. Tag: simpara
-#: Oc4j.xml:247
+#: Oc4j.xml:252
 #, no-c-format
 msgid "<literal>dbunit.jar</literal> &#8212; needed for some testing classes"
 msgstr ""
 
 #. Tag: simpara
-#: Oc4j.xml:252
+#: Oc4j.xml:257
 #, no-c-format
 msgid ""
 "<literal>jboss-embedded-api.jar</literal> &#8212; needed for some testing "
@@ -397,7 +403,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:258
+#: Oc4j.xml:263
 #, no-c-format
 msgid ""
 "Drools &#8212; needed for Seam Security. We aren't using Seam security with "
@@ -413,25 +419,25 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Oc4j.xml:302 Oc4j.xml:500
+#: Oc4j.xml:307 Oc4j.xml:505
 #, no-c-format
 msgid "Configuration file changes"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:304
+#: Oc4j.xml:309
 #, no-c-format
 msgid "There are just a few changes to be made:"
 msgstr ""
 
 #. Tag: literal
-#: Oc4j.xml:307
+#: Oc4j.xml:312
 #, no-c-format
 msgid "web.xml"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:310
+#: Oc4j.xml:315
 #, no-c-format
 msgid ""
 "You need to declare all your ejb's in the <literal>web.xml</literal> . This "
@@ -440,14 +446,14 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:314
+#: Oc4j.xml:319
 #, no-c-format
 msgid ""
 "This is already done in the example's web.xml file, below is an example."
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:318
+#: Oc4j.xml:323
 #, no-c-format
 msgid ""
 "<![CDATA[<ejb-local-ref>\n"
@@ -463,13 +469,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Oc4j.xml:322
+#: Oc4j.xml:327
 #, no-c-format
 msgid "persistence.xml"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:325
+#: Oc4j.xml:330
 #, no-c-format
 msgid ""
 "You need to provide the correct configuration for your JPA implementation. "
@@ -479,7 +485,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:330
+#: Oc4j.xml:335
 #, no-c-format
 msgid ""
 "For our example modify the <literal>resources/META-INF/persistence.xml</"
@@ -488,7 +494,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:336
+#: Oc4j.xml:341
 #, no-c-format
 msgid ""
 "<![CDATA[<property name=\"hibernate.dialect\" \n"
@@ -500,19 +506,19 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Oc4j.xml:344
+#: Oc4j.xml:349
 #, no-c-format
 msgid "Building the <literal>jee5/booking</literal> example"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:349
+#: Oc4j.xml:354
 #, no-c-format
 msgid "Modify the <literal>build.xml</literal> file in the example:"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:353
+#: Oc4j.xml:358
 #, no-c-format
 msgid ""
 "Un-comment the labeled OC4J-related library properties. This will include "
@@ -520,13 +526,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:356
+#: Oc4j.xml:361
 #, no-c-format
 msgid "It should look like the following:"
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:359
+#: Oc4j.xml:364
 #, no-c-format
 msgid ""
 "<![CDATA[<!-- add libs for oc4j (eager classloading) -->\n"
@@ -540,7 +546,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:364
+#: Oc4j.xml:369
 #, no-c-format
 msgid ""
 "Build the demo app by running <literal>ant</literal> in the "
@@ -549,7 +555,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:370
+#: Oc4j.xml:375
 #, no-c-format
 msgid ""
 "Copy <literal>dist/jboss-seam-jee5.ear</literal> following the instructions "
@@ -557,13 +563,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Oc4j.xml:378
+#: Oc4j.xml:383
 #, no-c-format
 msgid "Deploying the Seam application to OC4J"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:379
+#: Oc4j.xml:384
 #, no-c-format
 msgid ""
 "This mini-tutorial describes the (fairly tedious) steps required to deploy a "
@@ -575,7 +581,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:388
+#: Oc4j.xml:393
 #, no-c-format
 msgid ""
 "Copy <literal>hsqldb.jar</literal> to OC4J shared library directory: "
@@ -585,7 +591,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:395
+#: Oc4j.xml:400
 #, no-c-format
 msgid ""
 "Edit the OC4J datasource file <literal>$ORACLE_HOME/j2ee/home/config/data-"
@@ -594,7 +600,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:401
+#: Oc4j.xml:406
 #, no-c-format
 msgid ""
 "<![CDATA[<managed-data-source\n"
@@ -611,7 +617,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:403
+#: Oc4j.xml:408
 #, no-c-format
 msgid ""
 "The <literal>jndi-name</literal> is used as the <literal>jta-data-source</"
@@ -619,7 +625,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:408
+#: Oc4j.xml:413
 #, no-c-format
 msgid ""
 "Edit <literal>$ORACLE_HOME/j2ee/home/config/server.xml</literal> and, inside "
@@ -627,7 +633,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:414
+#: Oc4j.xml:419
 #, no-c-format
 msgid ""
 "<![CDATA[<application name=\"jboss-seam-jee5\"\n"
@@ -637,13 +643,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:415
+#: Oc4j.xml:420
 #, no-c-format
 msgid "To keep things simple use the same names as you used for project."
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:419
+#: Oc4j.xml:424
 #, no-c-format
 msgid ""
 "Edit <literal> $ORACLE_HOME/j2ee/home/config/default-web-site.xml </"
@@ -651,7 +657,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:425
+#: Oc4j.xml:430
 #, no-c-format
 msgid ""
 "<![CDATA[<web-app application=\"jboss-seam-jee5\"\n"
@@ -661,7 +667,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:426
+#: Oc4j.xml:431
 #, no-c-format
 msgid ""
 "The <literal>root</literal> is the context path you will put into your web "
@@ -669,7 +675,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:430
+#: Oc4j.xml:435
 #, no-c-format
 msgid ""
 "Copy the application to OC4J: <literal> cp dist/jboss-seam-jee5.ear "
@@ -677,7 +683,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:435
+#: Oc4j.xml:440
 #, no-c-format
 msgid ""
 "Start/stop OC4J following instructions in <xref linkend=\"oc4j-install-"
@@ -685,20 +691,20 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:439
+#: Oc4j.xml:444
 #, no-c-format
 msgid "Checkout the app at: <literal>http://localhost:8888/seam-jee5</literal>"
 msgstr ""
 
 #. Tag: title
-#: Oc4j.xml:447
+#: Oc4j.xml:452
 #, no-c-format
 msgid ""
 "Deploying an application created using <literal>seam-gen</literal> to OC4J"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:450
+#: Oc4j.xml:455
 #, no-c-format
 msgid ""
 "<literal>seam-gen</literal> is a great tool for developers that can quickly "
@@ -711,7 +717,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:459
+#: Oc4j.xml:464
 #, no-c-format
 msgid ""
 "We will start by creating and deploying a pretty simple application using "
@@ -723,7 +729,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:467
+#: Oc4j.xml:472
 #, no-c-format
 msgid ""
 "This tutorial uses MySQL (but of course you could use any database, altering "
@@ -737,13 +743,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Oc4j.xml:479
+#: Oc4j.xml:484
 #, no-c-format
 msgid "Generating a basic <literal>seam-gen</literal> application"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:481
+#: Oc4j.xml:486
 #, no-c-format
 msgid ""
 "First we need to tell the <literal>seam-gen</literal> what we want, run "
@@ -753,7 +759,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:488
+#: Oc4j.xml:493
 #, no-c-format
 msgid ""
 "<![CDATA[> ./seam setup\n"
@@ -844,7 +850,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:490
+#: Oc4j.xml:495
 #, no-c-format
 msgid ""
 "Type <literal>./seam new-project</literal> to create your project and "
@@ -853,31 +859,31 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Oc4j.xml:497
+#: Oc4j.xml:502
 #, no-c-format
 msgid "Changes needed for deployment to OC4J"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:498
+#: Oc4j.xml:503
 #, no-c-format
 msgid "We now need to make some changes to the generated project."
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:501
+#: Oc4j.xml:506
 #, no-c-format
 msgid "Let's start with the configuration files:"
 msgstr ""
 
 #. Tag: literal
-#: Oc4j.xml:504
+#: Oc4j.xml:509
 #, no-c-format
 msgid "build.xml"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:509
+#: Oc4j.xml:514
 #, no-c-format
 msgid ""
 "Change the default target to archive (we aren't going to cover automatic "
@@ -885,14 +891,14 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:513
+#: Oc4j.xml:518
 #, no-c-format
 msgid ""
 "<![CDATA[<project name=\"oc4j_example\" default=\"archive\" basedir=\".\">]]>"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:516
+#: Oc4j.xml:521
 #, no-c-format
 msgid ""
 "OC4J looks for the drools file <literal>/security.drl</literal> file in the "
@@ -905,7 +911,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:530
+#: Oc4j.xml:535
 #, no-c-format
 msgid ""
 "<![CDATA[<copy todir=\"${war.dir}\">\n"
@@ -916,13 +922,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Oc4j.xml:537
+#: Oc4j.xml:542
 #, no-c-format
 msgid "resources/META-INF/persistence-dev.xml"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:542
+#: Oc4j.xml:547
 #, no-c-format
 msgid ""
 "Alter the <literal>jta-data-source</literal> to be <literal>jdbc/"
@@ -932,14 +938,14 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:552
+#: Oc4j.xml:557
 #, no-c-format
 msgid ""
 "Add the properties (described in <literal>jee5/booking</literal> example):"
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:557
+#: Oc4j.xml:562
 #, no-c-format
 msgid ""
 "<![CDATA[<property name=\"hibernate.query.factory_class\"\n"
@@ -953,14 +959,14 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:560
+#: Oc4j.xml:565
 #, no-c-format
 msgid ""
 "Remove the JBoss AS specific method of exposing the EntityManagerFactory:"
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:564
+#: Oc4j.xml:569
 #, no-c-format
 msgid ""
 "<![CDATA[<property \n"
@@ -969,7 +975,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:567
+#: Oc4j.xml:572
 #, no-c-format
 msgid ""
 "You'll need to alter <literal>persistence-prod.xml</literal> as well if you "
@@ -977,13 +983,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Oc4j.xml:577
+#: Oc4j.xml:582
 #, no-c-format
 msgid "resources/META-INF/jboss-app.xml"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:580
+#: Oc4j.xml:585
 #, no-c-format
 msgid ""
 "You can delete this file as we aren't deploying to JBoss AS ( <literal>jboss-"
@@ -991,13 +997,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Oc4j.xml:586
+#: Oc4j.xml:591
 #, no-c-format
 msgid "resources/*-ds.xml"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:589
+#: Oc4j.xml:594
 #, no-c-format
 msgid ""
 "You can delete these file as we aren't deploying to JBoss AS (these files "
@@ -1006,13 +1012,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Oc4j.xml:598
+#: Oc4j.xml:603
 #, no-c-format
 msgid "resources/WEB-INF/components.xml"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:603
+#: Oc4j.xml:608
 #, no-c-format
 msgid ""
 "Enable container managed transaction integration - add the <literal> &lt;"
@@ -1022,7 +1028,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:612
+#: Oc4j.xml:617
 #, no-c-format
 msgid ""
 "Alter the <literal>jndi-pattern</literal> to <literal> java:comp/env/"
@@ -1030,7 +1036,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:619
+#: Oc4j.xml:624
 #, no-c-format
 msgid ""
 "We want to use a Seam Managed Persistence Context in our application. "
@@ -1039,7 +1045,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:627
+#: Oc4j.xml:632
 #, no-c-format
 msgid ""
 "<![CDATA[<persistence:entity-manager-factory\n"
@@ -1049,7 +1055,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:628
+#: Oc4j.xml:633
 #, no-c-format
 msgid ""
 "We then need to tell Seam to use it, so we alter the <literal>managed-"
@@ -1058,7 +1064,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:635
+#: Oc4j.xml:640
 #, no-c-format
 msgid ""
 "<![CDATA[<persistence:managed-persistence-context\n"
@@ -1068,13 +1074,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Oc4j.xml:641
+#: Oc4j.xml:646
 #, no-c-format
 msgid "resources/WEB-INF/web.xml"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:644
+#: Oc4j.xml:649
 #, no-c-format
 msgid ""
 "You must add the Seam container managed transaction integration EJB entry "
@@ -1083,7 +1089,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:650
+#: Oc4j.xml:655
 #, no-c-format
 msgid ""
 "<![CDATA[<ejb-local-ref>\n"
@@ -1099,13 +1105,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Oc4j.xml:655
+#: Oc4j.xml:660
 #, no-c-format
 msgid "resources/META-INF/orion-application.xml"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:660
+#: Oc4j.xml:665
 #, no-c-format
 msgid ""
 "This is a file that you must create so that RichFaces and Ajax4Jsf "
@@ -1114,7 +1120,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:666
+#: Oc4j.xml:671
 #, no-c-format
 msgid ""
 "<![CDATA[<?xml version = '1.0' encoding = 'utf-8'?>\n"
@@ -1135,7 +1141,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:669
+#: Oc4j.xml:674
 #, no-c-format
 msgid ""
 "Now you need to tell the <literal>build.xml</literal> file that it needs to "
@@ -1146,7 +1152,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:681
+#: Oc4j.xml:686
 #, no-c-format
 msgid ""
 "<![CDATA[<copy todir=\"${ear.dir}/META-INF\">\n"
@@ -1159,13 +1165,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Oc4j.xml:689
+#: Oc4j.xml:694
 #, no-c-format
 msgid "Extra jar dependencies"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:690
+#: Oc4j.xml:695
 #, no-c-format
 msgid ""
 "This application has similar requirements as the <literal>jee5/booking</"
@@ -1173,7 +1179,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:692
+#: Oc4j.xml:697
 #, no-c-format
 msgid ""
 "The <literal>build.xml</literal> must be modified to add the jars listed "
@@ -1183,7 +1189,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:699
+#: Oc4j.xml:704
 #, no-c-format
 msgid ""
 "<![CDATA[<target name=\"ear\" description=\"Build the EAR\">\n"
@@ -1217,13 +1223,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:702
+#: Oc4j.xml:707
 #, no-c-format
 msgid "Hibernate:"
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:705
+#: Oc4j.xml:710
 #, no-c-format
 msgid ""
 "<![CDATA[<include name=\"lib/hibernate.jar\"/>\n"
@@ -1238,7 +1244,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:708
+#: Oc4j.xml:713
 #, no-c-format
 msgid ""
 "Drools &#8212; because we are using Drools to provide Seam Security rules, "
@@ -1247,13 +1253,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:714
+#: Oc4j.xml:719
 #, no-c-format
 msgid "<![CDATA[<include name=\"lib/core.jar\"/>]]>"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:717
+#: Oc4j.xml:722
 #, no-c-format
 msgid ""
 "Third party jars &#8212; most of these are only needed because of OC4J's "
@@ -1261,7 +1267,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:721
+#: Oc4j.xml:726
 #, no-c-format
 msgid ""
 "<![CDATA[<include name=\"lib/javassist.jar\"/>\n"
@@ -1274,17 +1280,18 @@ msgid ""
 "<include name=\"lib/asm.jar\"/>\n"
 "<include name=\"lib/commons-beanutils.jar\"/>\n"
 "<include name=\"lib/commons-digester.jar\"/>\n"
+"<include name=\"lib/concurrent.jar\"/>\n"
 "<include name=\"lib/antlr.jar\"/>]]>"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:725
+#: Oc4j.xml:730
 #, no-c-format
 msgid "You should end up with something like:"
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:728
+#: Oc4j.xml:733
 #, no-c-format
 msgid ""
 "<![CDATA[<fileset dir=\"${basedir}\">\n"
@@ -1315,18 +1322,19 @@ msgid ""
 "      <include name=\"lib/asm.jar\"/>\n"
 "      <include name=\"lib/commons-beanutils.jar\"/>\n"
 "      <include name=\"lib/commons-digester.jar\"/>\n"
+"      <include name=\"lib/concurrent.jar\"/>\n"
 "      <include name=\"lib/antlr.jar\"/>\n"
 "</fileset>]]>"
 msgstr ""
 
 #. Tag: title
-#: Oc4j.xml:733
+#: Oc4j.xml:738
 #, no-c-format
 msgid "Building and deploying the seam-gen'd application to OC4J"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:735
+#: Oc4j.xml:740
 #, no-c-format
 msgid ""
 "These instructions are very similar to the ones in <xref linkend=\"oc4j-app-"
@@ -1335,7 +1343,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:741
+#: Oc4j.xml:746
 #, no-c-format
 msgid ""
 "Build your application by calling <literal>ant</literal> in the base "
@@ -1345,7 +1353,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:749
+#: Oc4j.xml:754
 #, no-c-format
 msgid ""
 "Copy the <literal>mysql-connector.jar</literal> file to the <literal>"
@@ -1354,13 +1362,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Oc4j.xml:756
+#: Oc4j.xml:761
 #, no-c-format
 msgid "$ORACLE_HOME/j2ee/home/config/data-sources.xml"
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:761
+#: Oc4j.xml:766
 #, no-c-format
 msgid ""
 "<![CDATA[<managed-data-source\n"
@@ -1378,13 +1386,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Oc4j.xml:765
+#: Oc4j.xml:770
 #, no-c-format
 msgid "$ORACLE_HOME/j2ee/home/config/server.xml"
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:769
+#: Oc4j.xml:774
 #, no-c-format
 msgid ""
 "<![CDATA[<application name=\"oc4j_example\"\n"
@@ -1394,13 +1402,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Oc4j.xml:772
+#: Oc4j.xml:777
 #, no-c-format
 msgid "$ORACLE_HOME/j2ee/home/config/default-web-site.xml"
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:777
+#: Oc4j.xml:782
 #, no-c-format
 msgid ""
 "<![CDATA[<web-app application=\"oc4j_example\"\n"
@@ -1410,7 +1418,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:781
+#: Oc4j.xml:786
 #, no-c-format
 msgid ""
 "Start/stop OC4J following instructions in the <literal>Installation and "
@@ -1418,20 +1426,20 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:786
+#: Oc4j.xml:791
 #, no-c-format
 msgid ""
 "Checkout the app at: <literal>http://localhost:8888/oc4j_example</literal>"
 msgstr ""
 
 #. Tag: title
-#: Oc4j.xml:795
+#: Oc4j.xml:800
 #, no-c-format
 msgid "Extending example with reverse engineered CRUD and Drools"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:797
+#: Oc4j.xml:802
 #, no-c-format
 msgid ""
 "In this section we extend the basic <literal>seam-gen</literal> application "
@@ -1440,13 +1448,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Oc4j.xml:802
+#: Oc4j.xml:807
 #, no-c-format
 msgid "Have <literal>seam-gen</literal> generate your CRUD applications"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:804
+#: Oc4j.xml:809
 #, no-c-format
 msgid ""
 "Type <literal>./seam generate-entities</literal> in the base directory of "
@@ -1455,7 +1463,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:809
+#: Oc4j.xml:814
 #, no-c-format
 msgid ""
 "That's it...no really...that's it. Build and deploy as before and see for "
@@ -1463,13 +1471,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Oc4j.xml:814
+#: Oc4j.xml:819
 #, no-c-format
 msgid "Hook up drools authentication using your new CRUD application"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:816
+#: Oc4j.xml:821
 #, no-c-format
 msgid ""
 "As stated above this section assumes your database had a <literal>User</"
@@ -1479,7 +1487,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:822
+#: Oc4j.xml:827
 #, no-c-format
 msgid ""
 "Lets link our <literal>User</literal> entity into Seam Security by making "
@@ -1488,7 +1496,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:830
+#: Oc4j.xml:835
 #, no-c-format
 msgid ""
 "Add the <literal>@Stateless</literal> annotation to the "
@@ -1496,13 +1504,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:836
+#: Oc4j.xml:841
 #, no-c-format
 msgid "Rename the class to <literal>AuthenticatorAction</literal>"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:841
+#: Oc4j.xml:846
 #, no-c-format
 msgid ""
 "Create an interface called <literal>Authenticator</literal> which "
@@ -1514,7 +1522,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:855
+#: Oc4j.xml:860
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"authenticator\") @Stateless public class\n"
@@ -1522,7 +1530,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:858
+#: Oc4j.xml:863
 #, no-c-format
 msgid ""
 "<![CDATA[@Local public interface Authenticator { \n"
@@ -1531,7 +1539,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:861
+#: Oc4j.xml:866
 #, no-c-format
 msgid ""
 "Use <literal>@PersistenceContext</literal> to inject an EntityManager by "
@@ -1539,19 +1547,19 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:867
+#: Oc4j.xml:872
 #, no-c-format
 msgid "<![CDATA[@PersistenceContext private EntityManager entityManager;]]>"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:870
+#: Oc4j.xml:875
 #, no-c-format
 msgid "Implement authenticate:"
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:873
+#: Oc4j.xml:878
 #, no-c-format
 msgid ""
 "<![CDATA[public boolean authenticate() {\n"
@@ -1569,13 +1577,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:876
+#: Oc4j.xml:881
 #, no-c-format
 msgid "And then add the EJB3 reference to <literal>web.xml</literal> :"
 msgstr ""
 
 #. Tag: programlisting
-#: Oc4j.xml:880
+#: Oc4j.xml:885
 #, no-c-format
 msgid ""
 "<![CDATA[<ejb-local-ref>\n"
@@ -1591,7 +1599,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:884
+#: Oc4j.xml:889
 #, no-c-format
 msgid ""
 "Build and deploy as before and notice that now only actual username and "
@@ -1599,13 +1607,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Oc4j.xml:892
+#: Oc4j.xml:897
 #, no-c-format
 msgid "Finishing up"
 msgstr ""
 
 #. Tag: para
-#: Oc4j.xml:893
+#: Oc4j.xml:898
 #, no-c-format
 msgid ""
 "That's it, we're through. You now have a great starting point for any Seam "

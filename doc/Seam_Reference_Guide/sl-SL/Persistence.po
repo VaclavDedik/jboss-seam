@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-04-21 00:37+0000\n"
+"POT-Creation-Date: 2008-10-14 11:38+0000\n"
 "PO-Revision-Date: 2008-04-21 00:37+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -730,14 +730,32 @@ msgstr ""
 msgid "<![CDATA[<begin-conversation flush-mode=\"MANUAL\" />]]>"
 msgstr ""
 
-#. Tag: title
+#. Tag: para
+#: Persistence.xml:448
+#, no-c-format
+msgid ""
+"You can set any Seam Managed Persistence Context to use manual flush mode:"
+msgstr ""
+
+#. Tag: programlisting
 #: Persistence.xml:453
+#, no-c-format
+msgid ""
+"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
+"   xmlns:core=\"http://jboss.com/products/seam/core\">\n"
+"   <core:manager conversation-timeout=\"120000\" default-flush-mode=\"manual"
+"\" />\n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: title
+#: Persistence.xml:460
 #, no-c-format
 msgid "Using the JPA \"delegate\""
 msgstr ""
 
 #. Tag: para
-#: Persistence.xml:455
+#: Persistence.xml:462
 #, no-c-format
 msgid ""
 "The <literal>EntityManager</literal> interface lets you access a vendor-"
@@ -750,7 +768,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Persistence.xml:464
+#: Persistence.xml:471
 #, no-c-format
 msgid ""
 "But regardless of whether you're using Hibernate (genius!) or something else "
@@ -760,7 +778,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Persistence.xml:471
+#: Persistence.xml:478
 #, no-c-format
 msgid ""
 "<![CDATA[@In EntityManager entityManager;\n"
@@ -773,7 +791,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Persistence.xml:473
+#: Persistence.xml:480
 #, no-c-format
 msgid ""
 "But typecasts are unquestionably the ugliest syntax in the Java language, so "
@@ -783,7 +801,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Persistence.xml:479
+#: Persistence.xml:486
 #, no-c-format
 msgid ""
 "<![CDATA[<factory name=\"session\" \n"
@@ -793,13 +811,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Persistence.xml:481
+#: Persistence.xml:488
 #, no-c-format
 msgid "Now we can inject the session directly:"
 msgstr ""
 
 #. Tag: programlisting
-#: Persistence.xml:485
+#: Persistence.xml:492
 #, no-c-format
 msgid ""
 "<![CDATA[@In Session session;\n"
@@ -811,13 +829,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Persistence.xml:490
+#: Persistence.xml:497
 #, no-c-format
 msgid "Using EL in EJB-QL/HQL"
 msgstr ""
 
 #. Tag: para
-#: Persistence.xml:491
+#: Persistence.xml:498
 #, no-c-format
 msgid ""
 "Seam proxies the <literal>EntityManager</literal> or <literal>Session</"
@@ -828,7 +846,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Persistence.xml:499
+#: Persistence.xml:506
 #, no-c-format
 msgid ""
 "<![CDATA[User user = em.createQuery(\"from User where username=#{user."
@@ -837,13 +855,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Persistence.xml:501
+#: Persistence.xml:508
 #, no-c-format
 msgid "is equivalent to:"
 msgstr ""
 
 #. Tag: programlisting
-#: Persistence.xml:503
+#: Persistence.xml:510
 #, no-c-format
 msgid ""
 "<![CDATA[User user = em.createQuery(\"from User where username=:username\")\n"
@@ -852,13 +870,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Persistence.xml:505
+#: Persistence.xml:512
 #, no-c-format
 msgid "Of course, you should never, ever write it like this:"
 msgstr ""
 
 #. Tag: programlisting
-#: Persistence.xml:509
+#: Persistence.xml:516
 #, no-c-format
 msgid ""
 "<![CDATA[User user = em.createQuery(\"from User where username=\" + user."
@@ -867,19 +885,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Persistence.xml:511
+#: Persistence.xml:518
 #, no-c-format
 msgid "(It is inefficient and vulnerable to SQL injection attacks.)"
 msgstr ""
 
 #. Tag: title
-#: Persistence.xml:518
+#: Persistence.xml:525
 #, no-c-format
 msgid "Using Hibernate filters"
 msgstr ""
 
 #. Tag: para
-#: Persistence.xml:520
+#: Persistence.xml:527
 #, no-c-format
 msgid ""
 "The coolest, and most unique, feature of Hibernate is <emphasis>filters</"
@@ -891,7 +909,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Persistence.xml:528
+#: Persistence.xml:535
 #, no-c-format
 msgid ""
 "Seam-managed persistence contexts may have a list of filters defined, which "
@@ -901,7 +919,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Persistence.xml:535
+#: Persistence.xml:542
 #, no-c-format
 msgid ""
 "<![CDATA[<persistence:filter name=\"regionFilter\">\n"
@@ -923,9 +941,9 @@ msgid ""
 "<persistence:managed-persistence-context name=\"personDatabase\"\n"
 "    persistence-unit-jndi-name=\"java:/EntityManagerFactories/personDatabase"
 "\">\n"
-"    <core:filters>\n"
+"    <persistence:filters>\n"
 "        <value>#{regionFilter}</value>\n"
 "        <value>#{currentFilter}</value>\n"
-"    </core:filters>\n"
+"    </persistence:filters>\n"
 "</persistence:managed-persistence-context>]]>"
 msgstr ""

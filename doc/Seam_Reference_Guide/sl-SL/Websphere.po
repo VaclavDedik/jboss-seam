@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-04-21 00:37+0000\n"
+"POT-Creation-Date: 2008-10-14 11:39+0000\n"
 "PO-Revision-Date: 2008-04-21 00:37+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -40,7 +40,7 @@ msgid ""
 "that we used for these examples. After a good deal of research and work we "
 "were able to get EJB3 applications to function correctly. We will go over "
 "the details of those steps with the jee5 example. We will also deploy the "
-"the JPA example application."
+"JPA example application."
 msgstr ""
 
 #. Tag: title
@@ -97,7 +97,7 @@ msgid ""
 "of the installation of the feature pack you follow the instructions to "
 "create a new server profile with the EJB3 feature pack enabled, or augment "
 "one of your existing ones. This can also be done after the installation by "
-"running the profile managment tool."
+"running the profile management tool."
 msgstr ""
 
 #. Tag: title
@@ -112,7 +112,7 @@ msgstr ""
 msgid ""
 "There are times that restarting the server will be required after deploying "
 "or changes the examples in this chapter. Its does not seem like every change "
-"requires a restart. If you get errors or exceptions after modifing a "
+"requires a restart. If you get errors or exceptions after modifying a "
 "property or deploying an application try to restart the server."
 msgstr ""
 
@@ -204,7 +204,7 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Websphere.xml:126 Websphere.xml:903
+#: Websphere.xml:126 Websphere.xml:908
 #, no-c-format
 msgid "<title>Configuration file changes</title>"
 msgstr ""
@@ -217,7 +217,7 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Websphere.xml:134 Websphere.xml:977
+#: Websphere.xml:134 Websphere.xml:982
 #, no-c-format
 msgid "resources/WEB-INF/components.xml"
 msgstr ""
@@ -242,7 +242,7 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Websphere.xml:148 Websphere.xml:1009
+#: Websphere.xml:148 Websphere.xml:1014
 #, no-c-format
 msgid "resources/WEB-INF/web.xml"
 msgstr ""
@@ -477,7 +477,7 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Websphere.xml:234 Websphere.xml:943
+#: Websphere.xml:234 Websphere.xml:948
 #, no-c-format
 msgid "resources/GlassfishDerbyDialect.class"
 msgstr ""
@@ -1264,7 +1264,7 @@ msgstr ""
 #. Tag: literal
 #: Websphere.xml:805
 #, no-c-format
-msgid "jboss-archive-browsing.jar"
+msgid "jboss-common-core.jar"
 msgstr ""
 
 #. Tag: para
@@ -1311,8 +1311,14 @@ msgstr ""
 msgid "javassist.jar"
 msgstr ""
 
+#. Tag: literal
+#: Websphere.xml:861
+#, no-c-format
+msgid "concurrent.jar"
+msgstr ""
+
 #. Tag: title
-#: Websphere.xml:871
+#: Websphere.xml:876
 #, no-c-format
 msgid ""
 "Deploying an application created using <literal>seam-gen</literal> on "
@@ -1320,7 +1326,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:874
+#: Websphere.xml:879
 #, no-c-format
 msgid ""
 "<literal>seam-gen</literal> is a very useful tool for developers to quickly "
@@ -1333,13 +1339,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Websphere.xml:884
+#: Websphere.xml:889
 #, no-c-format
 msgid "Running <literal>seam-gen</literal> Setup"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:885
+#: Websphere.xml:890
 #, no-c-format
 msgid ""
 "The first step is setting up <literal>seam-gen</literal> to construct the "
@@ -1349,7 +1355,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:891
+#: Websphere.xml:896
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1445,7 +1451,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:893
+#: Websphere.xml:898
 #, no-c-format
 msgid ""
 "Type <literal>./seam new-project</literal> to create your project and "
@@ -1454,25 +1460,25 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Websphere.xml:900
+#: Websphere.xml:905
 #, no-c-format
 msgid "Changes needed for deployment to Websphere"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:901
+#: Websphere.xml:906
 #, no-c-format
 msgid "We now need to make some changes to the generated project."
 msgstr ""
 
 #. Tag: literal
-#: Websphere.xml:907
+#: Websphere.xml:912
 #, no-c-format
 msgid "resources/META-INF/persistence-dev.xml"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:912
+#: Websphere.xml:917
 #, no-c-format
 msgid ""
 "Alter the <literal>jta-data-source</literal> to be "
@@ -1481,7 +1487,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:919
+#: Websphere.xml:924
 #, no-c-format
 msgid ""
 "Add or change the properties below. These are described in detail at <xref "
@@ -1489,7 +1495,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:924
+#: Websphere.xml:929
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1505,14 +1511,14 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:927
+#: Websphere.xml:932
 #, no-c-format
 msgid ""
 "Remove the JBoss AS specific method of exposing the EntityManagerFactory:"
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:930
+#: Websphere.xml:935
 #, no-c-format
 msgid ""
 "<![CDATA[<property \n"
@@ -1521,7 +1527,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:933
+#: Websphere.xml:938
 #, no-c-format
 msgid ""
 "You'll need to alter <literal>persistence-prod.xml</literal> as well if you "
@@ -1529,7 +1535,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:946
+#: Websphere.xml:951
 #, no-c-format
 msgid ""
 "As with other examples we need to include this class for DB support. It can "
@@ -1538,7 +1544,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:952
+#: Websphere.xml:957
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1548,13 +1554,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Websphere.xml:958
+#: Websphere.xml:963
 #, no-c-format
 msgid "resources/META-INF/jboss-app.xml"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:961
+#: Websphere.xml:966
 #, no-c-format
 msgid ""
 "You can delete this file as we aren't deploying to JBoss AS ( <literal>jboss-"
@@ -1562,13 +1568,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Websphere.xml:967
+#: Websphere.xml:972
 #, no-c-format
 msgid "resources/*-ds.xml"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:970
+#: Websphere.xml:975
 #, no-c-format
 msgid ""
 "You can delete these file as we aren't deploying to JBoss AS (these files "
@@ -1576,7 +1582,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:982
+#: Websphere.xml:987
 #, no-c-format
 msgid ""
 "Enable container managed transaction integration - add the <literal> &lt;"
@@ -1586,7 +1592,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:991
+#: Websphere.xml:996
 #, no-c-format
 msgid ""
 "Alter the <literal>jndi-pattern</literal> to <literal> java:comp/env/"
@@ -1594,7 +1600,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:997
+#: Websphere.xml:1002
 #, no-c-format
 msgid ""
 "We do not need <literal>managed-persistence-context</literal> for this "
@@ -1602,7 +1608,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:1003
+#: Websphere.xml:1008
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1613,7 +1619,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:1012
+#: Websphere.xml:1017
 #, no-c-format
 msgid ""
 "Websphere does not support <literal>Servlet 2.5</literal>, it required "
@@ -1622,7 +1628,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:1018
+#: Websphere.xml:1023
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1637,7 +1643,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:1020
+#: Websphere.xml:1025
 #, no-c-format
 msgid ""
 "As with the <literal>jee5/booking</literal> example we need to add EJB "
@@ -1646,7 +1652,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:1027
+#: Websphere.xml:1032
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1667,13 +1673,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Websphere.xml:1033
+#: Websphere.xml:1038
 #, no-c-format
 msgid "Creating the <literal>AuthenticatorAction</literal> EJB"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:1035
+#: Websphere.xml:1040
 #, no-c-format
 msgid ""
 "We want to take the existing <literal>Authenticator</literal> Seam POJO "
@@ -1681,13 +1687,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:1041
+#: Websphere.xml:1046
 #, no-c-format
 msgid "Rename the class to <literal>AuthenticatorAction</literal>"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:1045
+#: Websphere.xml:1050
 #, no-c-format
 msgid ""
 "Add the <literal>@Stateless</literal> annotation to the new "
@@ -1695,7 +1701,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:1051
+#: Websphere.xml:1056
 #, no-c-format
 msgid ""
 "Create an interface called <literal>Authenticator</literal> which "
@@ -1707,7 +1713,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:1064
+#: Websphere.xml:1069
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1716,7 +1722,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:1067
+#: Websphere.xml:1072
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1726,7 +1732,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:1070
+#: Websphere.xml:1075
 #, no-c-format
 msgid ""
 "We've already added its reference to the <literal>web.xml</literal> file so "
@@ -1734,14 +1740,14 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Websphere.xml:1076
+#: Websphere.xml:1081
 #, no-c-format
 msgid ""
 "Extra jar dependencies and other changes to the <literal>build.xml</literal>"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:1078
+#: Websphere.xml:1083
 #, no-c-format
 msgid ""
 "This application has similar requirements as the <literal>jee5/booking</"
@@ -1749,7 +1755,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:1083
+#: Websphere.xml:1088
 #, no-c-format
 msgid ""
 "Change the default target to <literal>archive</literal> (we aren't going to "
@@ -1757,7 +1763,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:1089
+#: Websphere.xml:1094
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1765,7 +1771,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:1093
+#: Websphere.xml:1098
 #, no-c-format
 msgid ""
 "Websphere looks for the drools <literal>/security.drl</literal> file in the "
@@ -1778,7 +1784,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:1104
+#: Websphere.xml:1109
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1790,7 +1796,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:1107
+#: Websphere.xml:1112
 #, no-c-format
 msgid ""
 "We need to ge the <literal>GlassfishDerbyDialect.class</literal> into our "
@@ -1799,7 +1805,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:1115
+#: Websphere.xml:1120
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1816,7 +1822,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:1118
+#: Websphere.xml:1123
 #, no-c-format
 msgid ""
 "Next we need to get the <literal>jboss-seam.jar</literal> into the base of "
@@ -1827,7 +1833,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:1127
+#: Websphere.xml:1132
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1837,13 +1843,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:1128
+#: Websphere.xml:1133
 #, no-c-format
 msgid "So that the whole <literal>archive</literal> task looks like:"
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:1132
+#: Websphere.xml:1137
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1867,7 +1873,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:1135
+#: Websphere.xml:1140
 #, no-c-format
 msgid ""
 "Now we need to get extra jars into the <literal>build.xml</literal>. Look "
@@ -1876,7 +1882,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:1143
+#: Websphere.xml:1148
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1911,13 +1917,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:1146
+#: Websphere.xml:1151
 #, no-c-format
 msgid "Hibernate dependencies"
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:1147
+#: Websphere.xml:1152
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1931,7 +1937,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:1150
+#: Websphere.xml:1155
 #, no-c-format
 msgid ""
 "JSF dependencies. You will need to copy the <literal>el-ri.jar</literal> "
@@ -1939,7 +1945,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:1153
+#: Websphere.xml:1158
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1951,19 +1957,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:1156
+#: Websphere.xml:1161
 #, no-c-format
-msgid ""
-"Third party dependencies. You will need to copy the <literal>jboss-archive-"
-"browsing.jar</literal> from the <literal>$SEAM/examples/jpa/lib</literal> "
-"directory into the the projects <literal>/lib</literal> directory. You will "
-"also need to acquire the <literal>concurrent.jar</literal> and place it in "
-"the same directory. You can get this from any jboss distribution or just "
-"search for it."
+msgid "Third party dependencies."
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:1163
+#: Websphere.xml:1162
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1971,7 +1971,6 @@ msgid ""
 "   <!--<include name=\"lib/log4j.jar\" />-->\n"
 "   <include name=\"lib/javassist.jar\"/>\n"
 "   <include name=\"lib/dom4j.jar\" />\n"
-"   <include name=\"lib/jboss-archive-browsing.jar\" />\n"
 "   <include name=\"lib/concurrent.jar\" />\n"
 "   <include name=\"lib/cglib.jar\"/>\n"
 "   <include name=\"lib/asm.jar\"/>\n"
@@ -1981,7 +1980,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:1166
+#: Websphere.xml:1165
 #, no-c-format
 msgid ""
 "<literal>jboss-seam.jar</literal> - this is needed in both the <literal>ear</"
@@ -1989,7 +1988,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:1170
+#: Websphere.xml:1169
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1998,17 +1997,17 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:1174
+#: Websphere.xml:1173
 #, no-c-format
 msgid "You should end up with something like:"
 msgstr ""
 
 #. Tag: programlisting
-#: Websphere.xml:1175
+#: Websphere.xml:1174
 #, no-c-format
 msgid ""
-"<![CDATA[\n"
-"<fileset dir=\"${basedir}\">\n"
+"<![CDATA[<fileset dir=\"${basedir}\">\n"
+"               \n"
 "   <include name=\"lib/jbpm*.jar\" />\n"
 "   <include name=\"lib/jboss-el.jar\" />\n"
 "   <include name=\"lib/drools-*.jar\"/>\n"
@@ -2033,10 +2032,8 @@ msgid ""
 "   <include name=\"lib/el-ri.jar\"/>\n"
 "               \n"
 "   <!-- 3rd party and supporting jars -->\n"
-"   <!--<include name=\"lib/log4j.jar\" />-->\n"
 "   <include name=\"lib/javassist.jar\"/>\n"
 "   <include name=\"lib/dom4j.jar\" />\n"
-"   <include name=\"lib/jboss-archive-browsing.jar\" />\n"
 "   <include name=\"lib/concurrent.jar\" />\n"
 "   <include name=\"lib/cglib.jar\"/>\n"
 "   <include name=\"lib/asm.jar\"/>\n"
@@ -2051,13 +2048,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Websphere.xml:1181
+#: Websphere.xml:1180
 #, no-c-format
 msgid "Building and deploying the seam-gen'd application to Websphere"
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:1187
+#: Websphere.xml:1186
 #, no-c-format
 msgid ""
 "Build your application by calling <literal>ant</literal> in the base "
@@ -2067,7 +2064,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:1196
+#: Websphere.xml:1195
 #, no-c-format
 msgid ""
 "To deploy the application follow the instructions here : <xref linkend="
@@ -2077,7 +2074,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Websphere.xml:1202
+#: Websphere.xml:1201
 #, no-c-format
 msgid ""
 "Checkout the app at: <literal>http://localhost:9080/websphere_example/index."

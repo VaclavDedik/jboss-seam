@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-04-21 00:37+0000\n"
+"POT-Creation-Date: 2008-10-14 11:38+0000\n"
 "PO-Revision-Date: 2008-04-21 00:37+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -104,19 +104,21 @@ msgid ""
 "Another alternative is to use the open source Quartz library to manage "
 "asynchronous method. You need to bundle the Quartz library JAR (found in the "
 "<literal>lib</literal> directory) in your EAR and declare it as a Java "
-"module in <literal>application.xml</literal>. In addition, you need to add "
-"the following line to <literal>components.xml</literal> to install the "
+"module in <literal>application.xml</literal>. The Quartz dispatcher may be "
+"configured by adding a Quartz property file to the classpath. It must be "
+"named <literal>seam.quartz.properties</literal>. In addition, you need to "
+"add the following line to <literal>components.xml</literal> to install the "
 "Quartz dispatcher."
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:64
+#: Jms.xml:66
 #, no-c-format
 msgid "<![CDATA[<async:quartz-dispatcher/>]]>"
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:66
+#: Jms.xml:68
 #, no-c-format
 msgid ""
 "The Seam API for the default <literal>ScheduledThreadPoolExecutor</literal>, "
@@ -126,13 +128,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Jms.xml:73
+#: Jms.xml:75
 #, no-c-format
 msgid "Asynchronous methods"
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:75
+#: Jms.xml:77
 #, no-c-format
 msgid ""
 "In simplest form, an asynchronous call just lets a method call be processed "
@@ -144,7 +146,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:83
+#: Jms.xml:85
 #, no-c-format
 msgid ""
 "For EJB components, we annotate the local interface to specify that a method "
@@ -152,7 +154,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:88
+#: Jms.xml:90
 #, no-c-format
 msgid ""
 "<![CDATA[@Local\n"
@@ -164,7 +166,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:90
+#: Jms.xml:92
 #, no-c-format
 msgid ""
 "(For JavaBean components we can annotate the component implementation class "
@@ -172,13 +174,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:94
+#: Jms.xml:96
 #, no-c-format
 msgid "The use of asynchronicity is transparent to the bean class:"
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:98
+#: Jms.xml:100
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateless\n"
@@ -193,13 +195,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:100
+#: Jms.xml:102
 #, no-c-format
 msgid "And also transparent to the client:"
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:104
+#: Jms.xml:106
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateful\n"
@@ -218,7 +220,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:106
+#: Jms.xml:108
 #, no-c-format
 msgid ""
 "The asynchronous method is processed in a completely new event context and "
@@ -228,7 +230,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:112
+#: Jms.xml:114
 #, no-c-format
 msgid ""
 "Asynchronous method calls may be scheduled for later execution using the "
@@ -237,7 +239,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:118
+#: Jms.xml:120
 #, no-c-format
 msgid ""
 "<![CDATA[@Local\n"
@@ -255,7 +257,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:120
+#: Jms.xml:122
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateful\n"
@@ -283,7 +285,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:122
+#: Jms.xml:124
 #, no-c-format
 msgid ""
 "Both client and server may access the <literal>Timer</literal> object "
@@ -296,7 +298,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:127
+#: Jms.xml:129
 #, no-c-format
 msgid ""
 "<![CDATA[@Local\n"
@@ -309,7 +311,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:129
+#: Jms.xml:131
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateless\n"
@@ -330,7 +332,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:131
+#: Jms.xml:133
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateful\n"
@@ -352,19 +354,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:133
+#: Jms.xml:135
 #, no-c-format
 msgid "Asynchronous methods cannot return any other value to the caller."
 msgstr ""
 
 #. Tag: title
-#: Jms.xml:140
+#: Jms.xml:142
 #, no-c-format
 msgid "Asynchronous methods with the Quartz Dispatcher"
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:142
+#: Jms.xml:144
 #, no-c-format
 msgid ""
 "The Quartz dispatcher (see earlier on how to install it) allows you to use "
@@ -375,18 +377,21 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:146
-#, no-c-format
-msgid ""
-"The <literal>@FinalExpiration</literal> annotation specifies an end date for "
-"the recurring task."
-msgstr ""
-
-#. Tag: programlisting
 #: Jms.xml:148
 #, no-c-format
 msgid ""
+"The <literal>@FinalExpiration</literal> annotation specifies an end date for "
+"the recurring task. Note that you can inject the <code>QuartzTriggerHandle</"
+"code>."
+msgstr ""
+
+#. Tag: programlisting
+#: Jms.xml:150
+#, no-c-format
+msgid ""
 "<![CDATA[\n"
+"        @In QuartzTriggerHandle timer;\n"
+"        \n"
 "    // Defines the method in the \"processor\" component\n"
 "    @Asynchronous\n"
 "    public QuartzTriggerHandle schedulePayment(@Expiration Date when, \n"
@@ -409,7 +414,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:150
+#: Jms.xml:152
 #, no-c-format
 msgid ""
 "Note that the method returns the <literal>QuartzTriggerHandle</literal> "
@@ -420,7 +425,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:152
+#: Jms.xml:154
 #, no-c-format
 msgid ""
 "<![CDATA[QuartzTriggerHandle handle =\n"
@@ -439,7 +444,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:154
+#: Jms.xml:156
 #, no-c-format
 msgid ""
 "The <literal>@IntervalCron</literal> annotation supports Unix cron job "
@@ -448,7 +453,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:157
+#: Jms.xml:159
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -471,7 +476,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:159
+#: Jms.xml:161
 #, no-c-format
 msgid ""
 "The <literal>@IntervalBusinessDay</literal> annotation supports invocation "
@@ -482,7 +487,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:162
+#: Jms.xml:164
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -505,7 +510,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:164
+#: Jms.xml:166
 #, no-c-format
 msgid ""
 "The <literal>NthBusinessDay</literal> object contains the configuration of "
@@ -515,7 +520,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:166
+#: Jms.xml:168
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -545,7 +550,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:168
+#: Jms.xml:170
 #, no-c-format
 msgid ""
 "The <literal>@IntervalDuration</literal>, <literal>@IntervalCron</literal>, "
@@ -555,13 +560,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Jms.xml:173
+#: Jms.xml:175
 #, no-c-format
 msgid "Asynchronous events"
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:174
+#: Jms.xml:176
 #, no-c-format
 msgid ""
 "Component-driven events may also be asynchronous. To raise an event for "
@@ -577,11 +582,88 @@ msgstr ""
 #. Tag: title
 #: Jms.xml:188
 #, no-c-format
-msgid "Messaging in Seam"
+msgid "Handling exceptions from asynchronous calls"
 msgstr ""
 
 #. Tag: para
 #: Jms.xml:190
+#, no-c-format
+msgid ""
+"Each asynchronous dispatcher behaves differently when an exception "
+"propagates through it. For example, the <literal>java.util.concurrent</"
+"literal> dispatcher will suspend further executions of a call which repeats, "
+"and the EJB3 timer service will swallow the exception. Seam therefore "
+"catches any exception which propagates out of the asynchronous call before "
+"it reaches the dispatcher."
+msgstr ""
+
+#. Tag: para
+#: Jms.xml:200
+#, no-c-format
+msgid ""
+"By default, any exception which propagates out from an asynchronous "
+"execution will be caught and logged at error level. You can customize this "
+"behavior globally by overriding the <literal>org.jboss.seam.async."
+"asynchronousExceptionHandler</literal> component:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jms.xml:208
+#, no-c-format
+msgid ""
+"<![CDATA[@Scope(ScopeType.STATELESS)\n"
+"@Name(\"org.jboss.seam.async.asynchronousExceptionHandler\")\n"
+"public class MyAsynchronousExceptionHandler extends "
+"AsynchronousExceptionHandler { \n"
+"\n"
+"   @Logger Log log;\n"
+"   \n"
+"   @In Future timer;\n"
+"   \n"
+"   @Override\n"
+"   public void handleException(Exception exception) {\n"
+"      log.debug(exception);\n"
+"      timer.cancel(false);\n"
+"   }\n"
+"   \n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Jms.xml:210
+#, no-c-format
+msgid ""
+"Here, for example, using <literal>java.util.concurrent</literal> dispatcher, "
+"we inject it's control object and cancel all future invocations when an "
+"exception is encountered"
+msgstr ""
+
+#. Tag: para
+#: Jms.xml:216
+#, no-c-format
+msgid ""
+"You can also alter this behavior for an individual component by implementing "
+"the method <literal>public void handleAsynchronousException(Exception "
+"exception);</literal> on the component. For example:"
+msgstr ""
+
+#. Tag: programlisting
+#: Jms.xml:223
+#, no-c-format
+msgid ""
+"<![CDATA[   public void handleAsynchronousException(Exception exception) {\n"
+"      log.fatal(exception);\n"
+"   }]]>"
+msgstr ""
+
+#. Tag: title
+#: Jms.xml:230
+#, no-c-format
+msgid "Messaging in Seam"
+msgstr ""
+
+#. Tag: para
+#: Jms.xml:232
 #, no-c-format
 msgid ""
 "Seam makes it easy to send and receive JMS messages to and from Seam "
@@ -589,13 +671,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Jms.xml:196
+#: Jms.xml:238
 #, no-c-format
 msgid "Configuration"
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:197
+#: Jms.xml:239
 #, no-c-format
 msgid ""
 "To configure Seam's infrastructure for sending JMS messages, you need to "
@@ -605,7 +687,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:205
+#: Jms.xml:247
 #, no-c-format
 msgid ""
 "Seam defaults to using <literal>UIL2ConnectionFactory</literal> which is the "
@@ -617,7 +699,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:215
+#: Jms.xml:257
 #, no-c-format
 msgid ""
 "You also need to list topics and queues in <literal>components.xml</literal> "
@@ -626,7 +708,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:221
+#: Jms.xml:263
 #, no-c-format
 msgid ""
 "<![CDATA[<jms:managed-topic-publisher name=\"stockTickerPublisher\" \n"
@@ -639,13 +721,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Jms.xml:226
+#: Jms.xml:268
 #, no-c-format
 msgid "Sending messages"
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:227
+#: Jms.xml:269
 #, no-c-format
 msgid ""
 "Now, you can inject a JMS <literal>TopicPublisher</literal> and "
@@ -653,7 +735,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:232
+#: Jms.xml:274
 #, no-c-format
 msgid ""
 "<![CDATA[@In \n"
@@ -675,13 +757,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:234
+#: Jms.xml:276
 #, no-c-format
 msgid "Or, for working with a queue:"
 msgstr ""
 
 #. Tag: programlisting
-#: Jms.xml:236
+#: Jms.xml:278
 #, no-c-format
 msgid ""
 "<![CDATA[@In\n"
@@ -703,13 +785,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Jms.xml:241
+#: Jms.xml:283
 #, no-c-format
 msgid "Receiving messages using a message-driven bean"
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:242
+#: Jms.xml:284
 #, no-c-format
 msgid ""
 "You can process messages using any EJB3 message driven bean. Message-driven "
@@ -718,13 +800,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Jms.xml:250
+#: Jms.xml:292
 #, no-c-format
 msgid "Receiving messages in the client"
 msgstr ""
 
 #. Tag: para
-#: Jms.xml:251
+#: Jms.xml:293
 #, no-c-format
 msgid ""
 "Seam Remoting lets you subscribe to a JMS topic from client-side JavaScript. "

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-04-04 01:24+0000\n"
+"POT-Creation-Date: 2008-10-14 11:38+0000\n"
 "PO-Revision-Date: 2008-04-04 01:24+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -77,16 +77,16 @@ msgstr ""
 #: Gettingstarted.xml:27
 #, no-c-format
 msgid ""
-"Make sure you have JDK 5 or JDK 6, JBoss AS 4.2 and Ant 1.6, along with "
-"recent versions of Eclipse, the JBoss IDE plugin for Eclipse and the TestNG "
-"plugin for Eclipse correctly installed before starting. Add your JBoss "
-"installation to the JBoss Server View in Eclipse. Start JBoss in debug mode. "
-"Finally, start a command prompt in the directory where you unzipped the Seam "
-"distribution."
+"Make sure you have JDK 5 or JDK 6 (see <xref linkend=\"jdk_dependencies\"/> "
+"for details), JBoss AS 4.2 and Ant 1.6, along with recent versions of "
+"Eclipse, the JBoss IDE plugin for Eclipse and the TestNG plugin for Eclipse "
+"correctly installed before starting. Add your JBoss installation to the "
+"JBoss Server View in Eclipse. Start JBoss in debug mode. Finally, start a "
+"command prompt in the directory where you unzipped the Seam distribution."
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:32
+#: Gettingstarted.xml:33
 #, no-c-format
 msgid ""
 "JBoss has sophisticated support for hot re-deployment of WARs and EARs. "
@@ -99,13 +99,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Gettingstarted.xml:38
+#: Gettingstarted.xml:39
 #, no-c-format
 msgid "-Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512"
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:40
+#: Gettingstarted.xml:41
 #, no-c-format
 msgid ""
 "If you don't have so much memory available, the following is our minimum "
@@ -113,13 +113,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Gettingstarted.xml:42
+#: Gettingstarted.xml:43
 #, no-c-format
 msgid "-Xms256m -Xmx512m -XX:PermSize=128m -XX:MaxPermSize=256"
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:44
+#: Gettingstarted.xml:45
 #, no-c-format
 msgid ""
 "If you're running JBoss from the command line, you can configure the JVM "
@@ -127,7 +127,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:47
+#: Gettingstarted.xml:48
 #, no-c-format
 msgid ""
 "If you don't want to bother with this stuff now, you don't have to—come back "
@@ -135,13 +135,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Gettingstarted.xml:52
+#: Gettingstarted.xml:53
 #, no-c-format
 msgid "Setting up a new Eclipse project"
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:54
+#: Gettingstarted.xml:55
 #, no-c-format
 msgid ""
 "The first thing we need to do is configure seam-gen for your environment: "
@@ -150,7 +150,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Gettingstarted.xml:57
+#: Gettingstarted.xml:58
 #, no-c-format
 msgid ""
 "cd jboss-seam-2.0.x\n"
@@ -158,13 +158,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:59
+#: Gettingstarted.xml:60
 #, no-c-format
 msgid "And you will be prompted for the needed information:"
 msgstr ""
 
 #. Tag: programlisting
-#: Gettingstarted.xml:61
+#: Gettingstarted.xml:62
 #, no-c-format
 msgid ""
 "~/workspace/jboss-seam$ ./seam setup\n"
@@ -243,7 +243,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:63
+#: Gettingstarted.xml:64
 #, no-c-format
 msgid ""
 "The tool provides sensible defaults, which you can accept by just pressing "
@@ -251,7 +251,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:65
+#: Gettingstarted.xml:66
 #, no-c-format
 msgid ""
 "The most important choice you need to make is between EAR deployment and WAR "
@@ -265,7 +265,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:72
+#: Gettingstarted.xml:73
 #, no-c-format
 msgid ""
 "If you are working with an existing data model, make sure you tell seam-gen "
@@ -273,7 +273,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:75
+#: Gettingstarted.xml:76
 #, no-c-format
 msgid ""
 "The settings are stored in <literal>seam-gen/build.properties</literal>, but "
@@ -282,7 +282,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:78
+#: Gettingstarted.xml:79
 #, no-c-format
 msgid ""
 "Now we can create a new project in our Eclipse workspace directory, by "
@@ -290,13 +290,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Gettingstarted.xml:80
+#: Gettingstarted.xml:81
 #, no-c-format
 msgid "seam new-project"
 msgstr ""
 
 #. Tag: programlisting
-#: Gettingstarted.xml:82
+#: Gettingstarted.xml:83
 #, no-c-format
 msgid ""
 "C:\\Projects\\jboss-seam&gt;seam new-project\n"
@@ -318,7 +318,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:84
+#: Gettingstarted.xml:85
 #, no-c-format
 msgid ""
 "This copies the Seam jars, dependent jars and the JDBC driver jar to a new "
@@ -333,7 +333,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:92
+#: Gettingstarted.xml:93
 #, no-c-format
 msgid ""
 "If your default JDK in Eclipse is not a Java SE 5 or Java SE 6 JDK, you will "
@@ -342,7 +342,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:95
+#: Gettingstarted.xml:96
 #, no-c-format
 msgid ""
 "Alternatively, you can deploy the project from outside Eclipse by typing "
@@ -350,7 +350,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:97
+#: Gettingstarted.xml:98
 #, no-c-format
 msgid ""
 "Go to <literal>http://localhost:8080/helloworld</literal> to see a welcome "
@@ -361,7 +361,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:102
+#: Gettingstarted.xml:103
 #, no-c-format
 msgid ""
 "Don't get scared by the XML configuration documents that were generated into "
@@ -372,7 +372,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:106
+#: Gettingstarted.xml:107
 #, no-c-format
 msgid ""
 "The generated project includes three database and persistence "
@@ -392,13 +392,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Gettingstarted.xml:120
+#: Gettingstarted.xml:121
 #, no-c-format
 msgid "Creating a new action"
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:122
+#: Gettingstarted.xml:123
 #, no-c-format
 msgid ""
 "If you're used to traditional action-style web frameworks, you're probably "
@@ -407,13 +407,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Gettingstarted.xml:125
+#: Gettingstarted.xml:126
 #, no-c-format
 msgid "seam new-action"
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:127
+#: Gettingstarted.xml:128
 #, no-c-format
 msgid ""
 "Seam will prompt for some information, and generate a new facelets page and "
@@ -421,7 +421,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Gettingstarted.xml:130
+#: Gettingstarted.xml:131
 #, no-c-format
 msgid ""
 "C:\\Projects\\jboss-seam&gt;seam new-action\n"
@@ -448,14 +448,14 @@ msgid ""
 "new-action:\n"
 "     [echo] Creating a new stateless session bean component with an action "
 "method\n"
-"     [copy] Copying 1 file to C:\\Projects\\helloworld\\src\\action\\org"
-"\\jboss\\helloworld\n"
-"     [copy] Copying 1 file to C:\\Projects\\helloworld\\src\\action\\org"
-"\\jboss\\helloworld\n"
-"     [copy] Copying 1 file to C:\\Projects\\helloworld\\src\\action\\org"
-"\\jboss\\helloworld\\test\n"
-"     [copy] Copying 1 file to C:\\Projects\\helloworld\\src\\action\\org"
-"\\jboss\\helloworld\\test\n"
+"     [copy] Copying 1 file to C:\\Projects\\helloworld\\src\\hot\\org\\jboss"
+"\\helloworld\n"
+"     [copy] Copying 1 file to C:\\Projects\\helloworld\\src\\hot\\org\\jboss"
+"\\helloworld\n"
+"     [copy] Copying 1 file to C:\\Projects\\helloworld\\src\\hot\\org\\jboss"
+"\\helloworld\\test\n"
+"     [copy] Copying 1 file to C:\\Projects\\helloworld\\src\\hot\\org\\jboss"
+"\\helloworld\\test\n"
 "     [copy] Copying 1 file to C:\\Projects\\helloworld\\view\n"
 "     [echo] Type 'seam restart' and go to http://localhost:8080/helloworld/"
 "ping.seam\n"
@@ -466,7 +466,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:132
+#: Gettingstarted.xml:133
 #, no-c-format
 msgid ""
 "Because we've added a new Seam component, we need to restart the exploded "
@@ -479,7 +479,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:138
+#: Gettingstarted.xml:139
 #, no-c-format
 msgid ""
 "Now go to <literal>http://localhost:8080/helloworld/ping.seam</literal> and "
@@ -489,7 +489,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:142
+#: Gettingstarted.xml:143
 #, no-c-format
 msgid ""
 "Finally, locate the <literal>PingTest.xml</literal> file in the test package "
@@ -499,25 +499,25 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Gettingstarted.xml:148
+#: Gettingstarted.xml:149
 #, no-c-format
 msgid "Creating a form with an action"
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:150
+#: Gettingstarted.xml:151
 #, no-c-format
 msgid "The next step is to create a form. Type:"
 msgstr ""
 
 #. Tag: programlisting
-#: Gettingstarted.xml:152
+#: Gettingstarted.xml:153
 #, no-c-format
 msgid "seam new-form"
 msgstr ""
 
 #. Tag: programlisting
-#: Gettingstarted.xml:154
+#: Gettingstarted.xml:155
 #, no-c-format
 msgid ""
 "C:\\Projects\\jboss-seam&gt;seam new-form\n"
@@ -544,11 +544,13 @@ msgid ""
 "new-form:\n"
 "     [echo] Creating a new stateful session bean component with an action "
 "method\n"
-"     [copy] Copying 1 file to C:\\Projects\\hello\\src\\com\\hello\n"
-"     [copy] Copying 1 file to C:\\Projects\\hello\\src\\com\\hello\n"
-"     [copy] Copying 1 file to C:\\Projects\\hello\\src\\com\\hello\\test\n"
+"     [copy] Copying 1 file to C:\\Projects\\hello\\src\\hot\\com\\hello\n"
+"     [copy] Copying 1 file to C:\\Projects\\hello\\src\\hot\\com\\hello\n"
+"     [copy] Copying 1 file to C:\\Projects\\hello\\src\\hot\\com\\hello"
+"\\test\n"
 "     [copy] Copying 1 file to C:\\Projects\\hello\\view\n"
-"     [copy] Copying 1 file to C:\\Projects\\hello\\src\\com\\hello\\test\n"
+"     [copy] Copying 1 file to C:\\Projects\\hello\\src\\hot\\com\\hello"
+"\\test\n"
 "     [echo] Type 'seam restart' and go to http://localhost:8080/hello/hello."
 "seam\n"
 "\n"
@@ -558,7 +560,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:156
+#: Gettingstarted.xml:157
 #, no-c-format
 msgid ""
 "Restart the application again, and go to <literal>http://localhost:8080/"
@@ -568,13 +570,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Gettingstarted.xml:162
+#: Gettingstarted.xml:163
 #, no-c-format
 msgid "Generating an application from an existing database"
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:164
+#: Gettingstarted.xml:165
 #, no-c-format
 msgid ""
 "Manually create some tables in your database. (If you need to switch to a "
@@ -582,13 +584,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Gettingstarted.xml:167
+#: Gettingstarted.xml:168
 #, no-c-format
 msgid "seam generate-entities"
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:169
+#: Gettingstarted.xml:170
 #, no-c-format
 msgid ""
 "Restart the deployment, and go to <literal>http://localhost:8080/helloworld</"
@@ -599,27 +601,27 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Gettingstarted.xml:176
+#: Gettingstarted.xml:177
 #, no-c-format
 msgid "Generating an application from existing JPA/EJB3 entities"
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:178
+#: Gettingstarted.xml:179
 #, no-c-format
 msgid ""
-"Place your existing, valid entity classes inside the <literal>src/model</"
+"Place your existing, valid entity classes inside the <literal>src/main</"
 "literal>. Now type"
 msgstr ""
 
 #. Tag: programlisting
-#: Gettingstarted.xml:180
+#: Gettingstarted.xml:181
 #, no-c-format
 msgid "seam generate-ui"
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:182
+#: Gettingstarted.xml:183
 #, no-c-format
 msgid ""
 "Restart the deployment, and go to <literal>http://localhost:8080/helloworld</"
@@ -627,13 +629,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Gettingstarted.xml:186
+#: Gettingstarted.xml:187
 #, no-c-format
 msgid "Deploying the application as an EAR"
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:188
+#: Gettingstarted.xml:189
 #, no-c-format
 msgid ""
 "Finally, we want to be able to deploy the application using standard Java EE "
@@ -646,7 +648,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:194
+#: Gettingstarted.xml:195
 #, no-c-format
 msgid ""
 "By default, the application will be deployed with the <emphasis>dev profile</"
@@ -657,13 +659,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Gettingstarted.xml:199
+#: Gettingstarted.xml:200
 #, no-c-format
 msgid "seam -Dprofile=prod deploy"
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:201
+#: Gettingstarted.xml:202
 #, no-c-format
 msgid ""
 "You can even define new deployment profiles for your application. Just add "
@@ -674,13 +676,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Gettingstarted.xml:208
+#: Gettingstarted.xml:209
 #, no-c-format
 msgid "Seam and incremental hot deployment"
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:210
+#: Gettingstarted.xml:211
 #, no-c-format
 msgid ""
 "When you deploy your Seam application as an exploded directory, you'll get "
@@ -690,13 +692,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Gettingstarted.xml:214
+#: Gettingstarted.xml:215
 #, no-c-format
 msgid "<![CDATA[<core:init debug=\"true\">]]>"
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:216
+#: Gettingstarted.xml:217
 #, no-c-format
 msgid ""
 "Now, the following files may be redeployed without requiring a full restart "
@@ -704,19 +706,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:220
+#: Gettingstarted.xml:221
 #, no-c-format
 msgid "any facelets page"
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:224
+#: Gettingstarted.xml:225
 #, no-c-format
 msgid "any <literal>pages.xml</literal> file"
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:228
+#: Gettingstarted.xml:229
 #, no-c-format
 msgid ""
 "But if we want to change any Java code, we still need to do a full restart "
@@ -726,7 +728,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:232
+#: Gettingstarted.xml:233
 #, no-c-format
 msgid ""
 "But if you really want a fast edit/compile/test cycle, Seam supports "
@@ -737,13 +739,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:237
+#: Gettingstarted.xml:238
 #, no-c-format
 msgid "You need to be aware of the following limitations:"
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:241
+#: Gettingstarted.xml:242
 #, no-c-format
 msgid ""
 "the components must be JavaBean components, they cannot be EJB3 beans (we "
@@ -751,13 +753,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:246
+#: Gettingstarted.xml:247
 #, no-c-format
-msgid "entities can never be hot-deloyed"
+msgid "entities can never be hot-deployed"
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:250
+#: Gettingstarted.xml:251
 #, no-c-format
 msgid ""
 "components deployed via <literal>components.xml</literal> may not be hot-"
@@ -765,7 +767,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:254
+#: Gettingstarted.xml:255
 #, no-c-format
 msgid ""
 "the hot-deployable components will not be visible to any classes deployed "
@@ -773,7 +775,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:259
+#: Gettingstarted.xml:260
 #, no-c-format
 msgid ""
 "Seam debug mode must be enabled and <literal>jboss-seam-debug.jar</literal> "
@@ -781,13 +783,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:264
+#: Gettingstarted.xml:265
 #, no-c-format
 msgid "You must have the Seam filter installed in web.xml"
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:268
+#: Gettingstarted.xml:269
 #, no-c-format
 msgid ""
 "You may see errors if the system is placed under any load and debug is "
@@ -795,23 +797,23 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:273
+#: Gettingstarted.xml:274
 #, no-c-format
 msgid ""
 "If you create a WAR project using seam-gen, incremental hot deployment is "
-"available out of the box for classes in the <literal>src/action</literal> "
+"available out of the box for classes in the <literal>src/hot</literal> "
 "source directory. However, seam-gen does not support incremental hot "
 "deployment for EAR projects."
 msgstr ""
 
 #. Tag: title
-#: Gettingstarted.xml:279
+#: Gettingstarted.xml:280
 #, no-c-format
 msgid "Using Seam with JBoss 4.0"
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:281
+#: Gettingstarted.xml:282
 #, no-c-format
 msgid ""
 "Seam 2.0 was developed for JavaServer Faces 1.2. When using JBoss AS, we "
@@ -824,13 +826,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Gettingstarted.xml:288
+#: Gettingstarted.xml:289
 #, no-c-format
 msgid "Install JBoss 4.0"
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:289
+#: Gettingstarted.xml:290
 #, no-c-format
 msgid ""
 "JBoss 4.0 does not ship a default configuration compatible with Seam. To run "
@@ -842,13 +844,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Gettingstarted.xml:296
+#: Gettingstarted.xml:297
 #, no-c-format
 msgid "Install the JSF 1.2 RI"
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:298
+#: Gettingstarted.xml:299
 #, no-c-format
 msgid ""
 "The web configuration for JBoss 4.0 can be found in the <literal>server/"
@@ -862,7 +864,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gettingstarted.xml:306
+#: Gettingstarted.xml:307
 #, no-c-format
 msgid ""
 "You'll also need to edit the <literal>conf/web.xml</literal>, replacing "

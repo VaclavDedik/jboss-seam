@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-04-21 00:37+0000\n"
+"POT-Creation-Date: 2008-10-14 11:39+0000\n"
 "PO-Revision-Date: 2008-04-21 00:37+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -218,7 +218,7 @@ msgid ""
 "<![CDATA[@Stateless\n"
 "@WebService(name = \"AuctionService\", serviceName = \"AuctionService\")\n"
 "public class AuctionService implements AuctionServiceRemote\n"
-"{           \n"
+"{\n"
 "   @WebMethod\n"
 "   public boolean login(String username, String password)\n"
 "   {\n"
@@ -227,7 +227,7 @@ msgid ""
 "      Identity.instance().login();\n"
 "      return Identity.instance().isLoggedIn();\n"
 "   }\n"
-"   \n"
+"\n"
 "   // snip\n"
 "}]]>"
 msgstr ""
@@ -321,4 +321,364 @@ msgid ""
 "From this we can see how web services can participate in long running "
 "conversations, by acting as a facade and delegating the real work to a "
 "conversational Seam component."
+msgstr ""
+
+#. Tag: title
+#: Webservices.xml:142
+#, no-c-format
+msgid "RESTful HTTP webservices with RESTEasy"
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:144
+#, no-c-format
+msgid ""
+"Seam integrates the RESTEasy implementation of the JAX-RS specification (JSR "
+"311). You can decide how \"deep\" the integration into your Seam application "
+"is going to be:"
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:151
+#, no-c-format
+msgid ""
+"Seamless integration of RESTEasy bootstrap and configuration, automatic "
+"detection of resources and providers."
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:157
+#, no-c-format
+msgid ""
+"Serving HTTP/REST requests with the SeamResourceServlet, no external servlet "
+"or configuration in web.xml required."
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:163
+#, no-c-format
+msgid ""
+"Writing resources as Seam components, with full Seam lifecycle management "
+"and interception (bijection)."
+msgstr ""
+
+#. Tag: title
+#: Webservices.xml:170
+#, no-c-format
+msgid "RESTEasy configuration and request serving"
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:172
+#, no-c-format
+msgid ""
+"First, get the RESTEasy libraries and the <literal>jaxrs-api.jar</literal>, "
+"deploy them with the other libraries of your application. Also deploy the "
+"integration library, <literal>jboss-seam-resteasy.jar</literal>"
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:178
+#, no-c-format
+msgid ""
+"On startup, all classes annotated <literal>@javax.ws.rs.Path</literal> will "
+"be discovered automatically and registered as HTTP resources. Seam "
+"automatically accepts and serves HTTP requests with its built-in "
+"<literal>SeamResourceServlet</literal>. The URI of a resource is build as "
+"follows:"
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:186
+#, no-c-format
+msgid ""
+"The URI starts with the pattern mapped in <literal>web.xml</literal> for the "
+"<literal>SeamResourceServlet</literal>, e.g <literal>/seam/resource</"
+"literal> if you follow the common examples. Change this setting to expose "
+"your RESTful resources under a different base. Note that this is a global "
+"change and other Seam resources (e.g. <literal>s:graphicImage</literal>) are "
+"then also served under that base path."
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:195
+#, no-c-format
+msgid ""
+"The RESTEasy integration for Seam then appends a configurable string to the "
+"base path, by default this is <literal>/rest</literal>. Hence, the full base "
+"path of your resources would e.g. be <literal>/seam/resource/rest</literal>. "
+"We recommend that you change this string in your application, you could for "
+"example add a version number to prepare for a future REST API upgrade of "
+"your services (old clients would keep the old URI base): <literal>/seam/"
+"resource/restv1</literal>."
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:204
+#, no-c-format
+msgid ""
+"Finally, the actual resource is available under the defined <literal>@Path</"
+"literal>, e.g. a resource mapped with <literal>@Path(\"/customer\")</"
+"literal> would be available under <literal>/seam/resource/rest/customer</"
+"literal>."
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:212
+#, no-c-format
+msgid ""
+"As an example, the following resource definition would return a plaintext "
+"representation for any GET requests using the URI <literal>http://your."
+"hostname/seam/resource/rest/customer/123</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Webservices.xml:217
+#, no-c-format
+msgid ""
+"<![CDATA[@Path(\"/customer\")\n"
+"public class MyCustomerResource {\n"
+"\n"
+"    @GET\n"
+"    @Path(\"/{customerId}\")\n"
+"    @ProduceMime(\"text/plain\")\n"
+"    public String getCustomer(@PathParam(\"customerId\") int id) {\n"
+"         return ...;\n"
+"    }\n"
+"\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:219
+#, no-c-format
+msgid ""
+"No additional configuration is required, you do not have to edit "
+"<literal>web.xml</literal> or any other setting if these defauls are "
+"acceptable. However, you can configure RESTEasy in your Seam application. "
+"First import the <literal>resteasy</literal> namespace into your XML "
+"configuration file header:"
+msgstr ""
+
+#. Tag: programlisting
+#: Webservices.xml:225
+#, no-c-format
+msgid ""
+"<![CDATA[<components\n"
+"   xmlns=\"http://jboss.com/products/seam/components\"\n"
+"   xmlns:resteasy=\"http://jboss.com/products/seam/resteasy\"\n"
+"   xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"   xsi:schemaLocation=\n"
+"     http://jboss.com/products/seam/resteasy\n"
+"         http://jboss.com/products/seam/resteasy-2.1.xsd\n"
+"     http://jboss.com/products/seam/components\n"
+"         http://jboss.com/products/seam/components-2.1.xsd\">]]>"
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:227
+#, no-c-format
+msgid ""
+"You can then change the <literal>/rest</literal> prefix as mentioned earlier:"
+msgstr ""
+
+#. Tag: programlisting
+#: Webservices.xml:231
+#, no-c-format
+msgid ""
+"<![CDATA[<resteasy:application-config resource-path-prefix=\"/restv1\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:233
+#, no-c-format
+msgid ""
+"The full base path to your resources is now <literal>/seam/resource/restv1/"
+"{resource}</literal> - note that your <literal>@Path</literal> definitions "
+"and mappings do NOT change. This is an application-wide switch usually used "
+"for versioning of the HTTP API."
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:239
+#, no-c-format
+msgid ""
+"You can disable stripping of the base path if you'd like to map the full "
+"path in your resources:"
+msgstr ""
+
+#. Tag: programlisting
+#: Webservices.xml:243
+#, no-c-format
+msgid ""
+"<![CDATA[<resteasy:application-config strip-seam-resource-path=\"false\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:245
+#, no-c-format
+msgid ""
+"The path of a resource is now mapped with e.g. <literal>@Path(\"/seam/"
+"resource/rest/customer\")</literal>. We do not recommend disabling this "
+"feature, as your resource class mappings are then bound to a particular "
+"deployment scenario."
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:251
+#, no-c-format
+msgid ""
+"Seam will scan your classpath for any deployed <literal>@javax.ws.rs.Path</"
+"literal> resources and any <literal>@javax.ws.rs.ext.Provider</literal> "
+"classes. You can disable scanning and configure these classes manually:"
+msgstr ""
+
+#. Tag: programlisting
+#: Webservices.xml:257
+#, no-c-format
+msgid ""
+"<![CDATA[<resteasy:application-config\n"
+"     scan-providers=\"false\"\n"
+"     scan-resources=\"false\"\n"
+"     use-builtin-providers=\"true\">\n"
+"\n"
+"     <resteasy:resource-class-names>\n"
+"         <value>org.foo.MyCustomerResource</value>\n"
+"         <value>org.foo.MyOrderResource</value>\n"
+"     </resteasy:resource-class-names>\n"
+"\n"
+"     <resteasy:provider-class-names>\n"
+"         <value>org.foo.MyFancyProvider</value>\n"
+"     </resteasy:provider-class-names>\n"
+"\n"
+" </resteasy:application-config>]]>"
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:259
+#, no-c-format
+msgid ""
+"The <literal>use-built-in-providers</literal> switch enables (default) or "
+"disables the RESTEasy built-in providers. We recommend you leave them "
+"enabled, as they provide plaintext, JSON, and JAXB marshalling out of the "
+"box."
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:265
+#, no-c-format
+msgid "Finally, you can configure media type and language URI extensions:"
+msgstr ""
+
+#. Tag: programlisting
+#: Webservices.xml:269
+#, no-c-format
+msgid ""
+"<![CDATA[<resteasy:application-config>\n"
+"\n"
+"    <resteasy:media-type-mappings>\n"
+"       <key>txt</key><value>text/plain</value>\n"
+"    </resteasy:media-type-mappings>\n"
+"\n"
+"    <resteasy:language-mappings>\n"
+"       <key>deutsch</key><value>de-DE</value>\n"
+"    </resteasy:language-mappings>\n"
+"\n"
+"</resteasy:application-config>]]>"
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:271
+#, no-c-format
+msgid ""
+"This definition would map the URI suffix of <literal>.txt.deutsch</literal> "
+"to additional <literal>Accept</literal> and <literal>Accept-Language</"
+"literal> header values <literal>text/plain</literal> and <literal>de-DE</"
+"literal>."
+msgstr ""
+
+#. Tag: title
+#: Webservices.xml:280
+#, no-c-format
+msgid "Resources and providers as Seam components"
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:282
+#, no-c-format
+msgid ""
+"Any resource and provider instances are managed by RESTEasy by default. That "
+"means a resource class will be instantiated by RESTEasy and serve a single "
+"request, after which it will be destroyed. This is the default JAX-RS "
+"lifecycle. Providers are instantiated once for the whole application and are "
+"effectively singletons and supposed to be stateless."
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:289
+#, no-c-format
+msgid ""
+"You can write resources and providers as Seam components and benefit from "
+"the richer lifecycle management of Seam, and interception for bijection, "
+"security, and so on. Simply make your resource class a Seam component:"
+msgstr ""
+
+#. Tag: programlisting
+#: Webservices.xml:295
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"customerResource\")\n"
+"@Path(\"/customer\")\n"
+"public class MyCustomerResource {\n"
+"\n"
+"    @In\n"
+"    CustomerDAO customerDAO;\n"
+"\n"
+"    @GET\n"
+"    @Path(\"/{customerId}\")\n"
+"    @ProduceMime(\"text/plain\")\n"
+"    public String getCustomer(@PathParam(\"customerId\") int id) {\n"
+"         return customerDAO.find(id).getName();\n"
+"    }\n"
+"\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:297
+#, no-c-format
+msgid ""
+"An instance of <literal>customerResource</literal> is now handled by Seam "
+"when a request hits the server. This is a Seam JavaBean component that is "
+"<literal>EVENT</literal>-scoped, hence no different than the default JAX-RS "
+"lifecycle. However, you get full Seam injection support and all other Seam "
+"components and contexts are available to you. Currently also supported are "
+"<literal>SESSION</literal>, <literal>APPLICATION</literal>, and "
+"<literal>STATELESS</literal> resource components. Remember that any HTTP "
+"request has to transmit a valid session identifier (cookie, URI path "
+"parameter) for correct handling of the server-side session context."
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:307
+#, no-c-format
+msgid ""
+"Conversation-scoped resource components and mapping of conversations is "
+"currently not supported but will be available soon."
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:312
+#, no-c-format
+msgid ""
+"Provider classes can also be Seam components, they must be "
+"<literal>APPLICATION</literal>-scoped or <literal>STATELESS</literal>."
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:317
+#, no-c-format
+msgid ""
+"Resources and providers can be EJBs or JavaBeans, like any other Seam "
+"component."
 msgstr ""

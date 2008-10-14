@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-05-03 11:32+0000\n"
+"POT-Creation-Date: 2008-10-14 11:38+0000\n"
 "PO-Revision-Date: 2008-04-04 01:24+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -643,7 +643,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:307
+#: Mail.xml:308
 #, no-c-format
 msgid ""
 "The Seam Email module requires the use of Facelets as the view technology. "
@@ -652,7 +652,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:313
+#: Mail.xml:315
 #, no-c-format
 msgid ""
 "The <literal>mailSession</literal> component uses JavaMail to talk to a "
@@ -660,13 +660,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Mail.xml:319
+#: Mail.xml:321
 #, no-c-format
 msgid "mailSession"
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:321
+#: Mail.xml:323
 #, no-c-format
 msgid ""
 "A JavaMail Session may be available via a JNDI lookup if you are working in "
@@ -674,7 +674,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:326
+#: Mail.xml:328
 #, no-c-format
 msgid ""
 "The mailSession component's properties are described in more detail in <xref "
@@ -682,13 +682,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Mail.xml:332
+#: Mail.xml:334
 #, no-c-format
 msgid "JNDI lookup in JBoss AS"
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:334
+#: Mail.xml:336
 #, no-c-format
 msgid ""
 "The JBossAS <literal>deploy/mail-service.xml</literal> configures a JavaMail "
@@ -699,7 +699,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Mail.xml:342
+#: Mail.xml:344
 #, no-c-format
 msgid ""
 "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
@@ -712,7 +712,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:344
+#: Mail.xml:346
 #, no-c-format
 msgid ""
 "Here we tell Seam to get the mail session bound to <literal>java:/Mail</"
@@ -720,13 +720,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Mail.xml:352
+#: Mail.xml:354
 #, no-c-format
 msgid "Seam configured Session"
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:354
+#: Mail.xml:356
 #, no-c-format
 msgid ""
 "A mail session can be configured via <literal>components.xml</literal>. Here "
@@ -734,7 +734,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Mail.xml:360
+#: Mail.xml:362
 #, no-c-format
 msgid ""
 "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
@@ -747,13 +747,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Mail.xml:367
+#: Mail.xml:369
 #, no-c-format
 msgid "Meldware"
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:369
+#: Mail.xml:371
 #, no-c-format
 msgid ""
 "Seam's mail examples use Meldware (from <ulink url=\"http://buni.org\">buni."
@@ -765,69 +765,24 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:378
+#: Mail.xml:381
 #, no-c-format
 msgid ""
-"The version of Meldware distributed with Seam (in the <literal>mail/buni-"
-"meldware</literal> folder) is specially tailored for development - "
-"mailboxes, users and aliases (email addresses) are created every time the "
-"application deploys. If you want to use Meldware in production you should "
-"install the latest release from <ulink url=\"http://buni.org\">buni.org</"
-"ulink>."
-msgstr ""
-
-#. Tag: para
-#: Mail.xml:385
-#, no-c-format
-msgid ""
-"To create mailboxes, users and aliases, you can use the <literal>meldware</"
-"literal> component:"
-msgstr ""
-
-#. Tag: programlisting
-#: Mail.xml:390
-#, no-c-format
-msgid ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
-"    xmlns:core=\"http://jboss.com/products/seam/core\"\n"
-"    xmlns:mail=\"http://jboss.com/products/seam/mail\">\n"
-"              \n"
-"    <mail:mail-session host=\"smtp.example.com\"/>\n"
-"    \n"
-"    <mail:meldware>\n"
-"        <mail:users>\n"
-"            <value>#{duke}</value>\n"
-"            <value>#{root}</value>\n"
-"            </mail:users>\n"
-"    </mail:meldware>\n"
-"    \n"
-"           <mail:meldware-user name=\"duke\" username=\"duke\" password="
-"\"duke\">\n"
-"               <mail:aliases>\n"
-"                   <value>duke@jboss.org</value>\n"
-"                   <value>duke@jboss.com</value>\n"
-"               </mail:aliases>\n"
-"           <mail:meldware-user name=\"root\" username=\"root\" password="
-"\"root\" administrator=\"true\" /> \n"
-"</components>]]>"
-msgstr ""
-
-#. Tag: para
-#: Mail.xml:392
-#, no-c-format
-msgid ""
-"Here we've created two users, <literal>duke</literal>, who has two email "
-"addresses and an administrator with the username <literal>root</literal>."
+"The version of Meldware distributed with Seam (downloaded on demand) is "
+"specially tailored for development - mailboxes, users and aliases (email "
+"addresses) are created every time the application deploys. If you want to "
+"use Meldware in production you should install the latest release from <ulink "
+"url=\"http://buni.org\">buni.org</ulink>."
 msgstr ""
 
 #. Tag: title
-#: Mail.xml:400
+#: Mail.xml:393
 #, no-c-format
 msgid "Tags"
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:402
+#: Mail.xml:395
 #, no-c-format
 msgid ""
 "Emails are generated using tags in the <literal>http://jboss.com/products/"
@@ -837,7 +792,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:409
+#: Mail.xml:402
 #, no-c-format
 msgid ""
 "The standard templating tags of facelets can be used as normal. Inside the "
@@ -846,19 +801,19 @@ msgid ""
 msgstr ""
 
 #. Tag: term
-#: Mail.xml:418
+#: Mail.xml:411
 #, no-c-format
 msgid "&lt;m:message&gt;"
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:420
+#: Mail.xml:413
 #, no-c-format
 msgid "Root tag of a mail message"
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:425
+#: Mail.xml:418
 #, no-c-format
 msgid ""
 "<literal>importance</literal> &#8212; low, normal or high. By default "
@@ -866,7 +821,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:431
+#: Mail.xml:424
 #, no-c-format
 msgid ""
 "<literal>precedence</literal> &#8212; sets the precedence of the message (e."
@@ -874,7 +829,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:437
+#: Mail.xml:430
 #, no-c-format
 msgid ""
 "<literal>requestReadReceipt</literal> &#8212; by default false, if set, a "
@@ -883,7 +838,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:445
+#: Mail.xml:438
 #, no-c-format
 msgid ""
 "<literal>urlBase</literal> &#8212; If set, the value is prepended to the "
@@ -891,14 +846,20 @@ msgid ""
 "<literal>&lt;h:graphicImage&gt;</literal> in your emails."
 msgstr ""
 
+#. Tag: para
+#: Mail.xml:446
+#, no-c-format
+msgid "<literal>messageId</literal> &#8212; Sets the Message-ID explicitly"
+msgstr ""
+
 #. Tag: term
-#: Mail.xml:456
+#: Mail.xml:454
 #, no-c-format
 msgid "&lt;m:from&gt;"
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:458
+#: Mail.xml:456
 #, no-c-format
 msgid ""
 "Set's the From: address for the email. You can only have one of these per "
@@ -906,13 +867,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:464
+#: Mail.xml:462
 #, no-c-format
 msgid "<literal>name</literal> &#8212; the name the email should come from."
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:470 Mail.xml:487
+#: Mail.xml:468 Mail.xml:485
 #, no-c-format
 msgid ""
 "<literal>address</literal> &#8212; the email address the email should come "
@@ -920,13 +881,13 @@ msgid ""
 msgstr ""
 
 #. Tag: term
-#: Mail.xml:479
+#: Mail.xml:477
 #, no-c-format
 msgid "&lt;m:replyTo&gt;"
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:481
+#: Mail.xml:479
 #, no-c-format
 msgid ""
 "Set's the Reply-to: address for the email. You can only have one of these "
@@ -934,13 +895,13 @@ msgid ""
 msgstr ""
 
 #. Tag: term
-#: Mail.xml:496
+#: Mail.xml:494
 #, no-c-format
 msgid "&lt;m:to&gt;"
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:498
+#: Mail.xml:496
 #, no-c-format
 msgid ""
 "Add a recipient to the email. Use multiple &lt;m:to&gt; tags for multiple "
@@ -949,25 +910,25 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:505 Mail.xml:527 Mail.xml:550
+#: Mail.xml:503 Mail.xml:525 Mail.xml:548
 #, no-c-format
 msgid "<literal>name</literal> &#8212; the name of the recipient."
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:510 Mail.xml:532 Mail.xml:555
+#: Mail.xml:508 Mail.xml:530 Mail.xml:553
 #, no-c-format
 msgid "<literal>address</literal> &#8212; the email address of the recipient."
 msgstr ""
 
 #. Tag: term
-#: Mail.xml:518
+#: Mail.xml:516
 #, no-c-format
 msgid "&lt;m:cc&gt;"
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:520
+#: Mail.xml:518
 #, no-c-format
 msgid ""
 "Add a cc recipient to the email. Use multiple &lt;m:cc&gt; tags for multiple "
@@ -976,13 +937,13 @@ msgid ""
 msgstr ""
 
 #. Tag: term
-#: Mail.xml:541
+#: Mail.xml:539
 #, no-c-format
 msgid "&lt;m:bcc&gt;"
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:543
+#: Mail.xml:541
 #, no-c-format
 msgid ""
 "Add a bcc recipient to the email. Use multiple &lt;m:bcc&gt; tags for "
@@ -991,20 +952,20 @@ msgid ""
 msgstr ""
 
 #. Tag: term
-#: Mail.xml:564
+#: Mail.xml:562
 #, no-c-format
 msgid "&lt;m:header&gt;"
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:566
+#: Mail.xml:564
 #, no-c-format
 msgid ""
 "Add a header to the email (e.g. <literal>X-Sent-From: JBoss Seam</literal>)"
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:571
+#: Mail.xml:569
 #, no-c-format
 msgid ""
 "<literal>name</literal> &#8212; The name of the header to add (e.g. "
@@ -1012,7 +973,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:577
+#: Mail.xml:575
 #, no-c-format
 msgid ""
 "<literal>value</literal> &#8212; The value of the header to add (e.g. "
@@ -1020,25 +981,25 @@ msgid ""
 msgstr ""
 
 #. Tag: term
-#: Mail.xml:586
+#: Mail.xml:584
 #, no-c-format
 msgid "&lt;m:attachment&gt;"
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:588
+#: Mail.xml:586
 #, no-c-format
 msgid "Add an attachment to the email."
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:593
+#: Mail.xml:591
 #, no-c-format
 msgid "<literal>value</literal> &#8212; The file to attach:"
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:598
+#: Mail.xml:596
 #, no-c-format
 msgid ""
 "<literal>String</literal> &#8212; A <literal>String</literal> is interpreted "
@@ -1046,7 +1007,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:604
+#: Mail.xml:602
 #, no-c-format
 msgid ""
 "<literal>java.io.File</literal> &#8212; An EL expression can reference a "
@@ -1054,7 +1015,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:610
+#: Mail.xml:608
 #, no-c-format
 msgid ""
 "<literal>java.net.URL</literal> &#8212; An EL expression can reference a "
@@ -1062,7 +1023,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:616
+#: Mail.xml:614
 #, no-c-format
 msgid ""
 "<literal>java.io.InputStream</literal> &#8212; An EL expression can "
@@ -1072,7 +1033,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:624
+#: Mail.xml:622
 #, no-c-format
 msgid ""
 "<literal>byte[]</literal> &#8212; An EL expression can reference an "
@@ -1081,13 +1042,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:632
+#: Mail.xml:630
 #, no-c-format
 msgid "If the value attribute is ommitted:"
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:635
+#: Mail.xml:633
 #, no-c-format
 msgid ""
 "If this tag contains a <literal>&lt;p:document&gt;</literal> tag, the "
@@ -1096,7 +1057,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:643
+#: Mail.xml:641
 #, no-c-format
 msgid ""
 "If this tag contains other JSF tags a HTML document will be generated from "
@@ -1105,7 +1066,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:652
+#: Mail.xml:650
 #, no-c-format
 msgid ""
 "<literal>fileName</literal> &#8212; Specify the file name to use for the "
@@ -1113,7 +1074,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:658
+#: Mail.xml:656
 #, no-c-format
 msgid ""
 "<literal>contentType</literal> &#8212; Specify the MIME type of the attached "
@@ -1121,25 +1082,25 @@ msgid ""
 msgstr ""
 
 #. Tag: term
-#: Mail.xml:667
+#: Mail.xml:665
 #, no-c-format
 msgid "&lt;m:subject&gt;"
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:669
+#: Mail.xml:667
 #, no-c-format
 msgid "Set's the subject for the email."
 msgstr ""
 
 #. Tag: term
-#: Mail.xml:675
+#: Mail.xml:673
 #, no-c-format
 msgid "&lt;m:body&gt;"
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:677
+#: Mail.xml:675
 #, no-c-format
 msgid ""
 "Set's the body for the email. Supports an <literal>alternative</literal> "
@@ -1148,7 +1109,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Mail.xml:684
+#: Mail.xml:682
 #, no-c-format
 msgid ""
 "<literal>type</literal> &#8212; If set to <literal>plain</literal> then a "

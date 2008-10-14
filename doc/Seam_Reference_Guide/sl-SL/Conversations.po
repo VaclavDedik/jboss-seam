@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-04-21 00:37+0000\n"
+"POT-Creation-Date: 2008-10-14 11:38+0000\n"
 "PO-Revision-Date: 2008-04-21 00:37+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -174,8 +174,8 @@ msgstr ""
 #: Conversations.xml:135
 #, no-c-format
 msgid ""
-"<![CDATA[<a href=\"main.jsf?conversationId=#{conversation.id}\">Continue</"
-"a>]]>"
+"<![CDATA[<a href=\"main.jsf?#{manager.conversationIdParameter}=#"
+"{conversation.id}\">Continue</a>]]>"
 msgstr ""
 
 #. Tag: para
@@ -189,7 +189,8 @@ msgstr ""
 #, no-c-format
 msgid ""
 "<![CDATA[<h:outputLink value=\"main.jsf\">\n"
-"    <f:param name=\"conversationId\" value=\"#{conversation.id}\"/>\n"
+"    <f:param name=\"#{manager.conversationIdParameter}\" value=\"#"
+"{conversation.id}\"/>\n"
 "    <h:outputText value=\"Continue\"/>\n"
 "</h:outputLink>]]>"
 msgstr ""
@@ -1475,15 +1476,16 @@ msgstr ""
 #: Conversations.xml:888
 #, no-c-format
 msgid ""
-"Therefore Seam queues the action event for a period of time (the concurrent "
-"request timeout); if it can't process the event in time, it creates a "
-"temporary conversation and prints out a message to the user to let them know "
-"what's going on. It's therefore very important not to flood the server with "
-"AJAX events!"
+"Therefore, when you are working inside a long running conversation, Seam "
+"queues the action event for a period of time (the concurrent request "
+"timeout); if it can't process the event in time, it creates a temporary "
+"conversation and prints out a message to the user to let them know what's "
+"going on. It's therefore very important not to flood the server with AJAX "
+"events!"
 msgstr ""
 
 #. Tag: para
-#: Conversations.xml:896
+#: Conversations.xml:897
 #, no-c-format
 msgid ""
 "We can set a sensible default for the concurrent request timeout (in ms) in "
@@ -1491,77 +1493,91 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Conversations.xml:901
+#: Conversations.xml:902
 #, no-c-format
 msgid "<![CDATA[<core:manager concurrent-request-timeout=\"500\" />]]>"
 msgstr ""
 
 #. Tag: para
+#: Conversations.xml:904
+#, no-c-format
+msgid ""
+"We can also fine tune the concurrent request timeout on a page-by-page basis:"
+msgstr ""
+
+#. Tag: programlisting
 #: Conversations.xml:909
 #, no-c-format
 msgid ""
-"So far we've discussed \"synchronous\" AJAX requests - the client tells the "
-"server that an event has occur, and then rerenders part of the page based on "
-"the result. This approach is great when the AJAX request is lightweight (the "
-"methods called are simple e.g. calculating the sum of a column of numbers). "
-"But what if we need to do a complex computation?"
+"<![CDATA[<page view-id=\"/book.xhtml\" \n"
+"         conversation-required=\"true\" \n"
+"         login-required=\"true\"\n"
+"         concurrent-request-timeout=\"2000\" />]]>"
 msgstr ""
 
 #. Tag: para
-#: Conversations.xml:916
+#: Conversations.xml:911
 #, no-c-format
 msgid ""
-"For heavy computation we should use a truly asynchronous (poll based) "
-"approach &#8212; the client sends an AJAX request to the server, which "
-"causes action to be executed asynchronously on the server (so the the "
-"response to the client is immediate); the client then polls the server for "
-"updates. This is useful when you have a long-running action for which it is "
-"important that every action executes (you don't want some to be dropped as "
-"duplicates, or to timeout)."
+"So far we've discussed AJAX requests which appear serial to the user - the "
+"client tells the server that an event has occur, and then rerenders part of "
+"the page based on the result. This approach is great when the AJAX request "
+"is lightweight (the methods called are simple e.g. calculating the sum of a "
+"column of numbers). But what if we need to do a complex computation thats "
+"going to take a minute?"
 msgstr ""
 
-#. Tag: emphasis
-#: Conversations.xml:927
+#. Tag: para
+#: Conversations.xml:920
+#, no-c-format
+msgid ""
+"For heavy computation we should use a poll based approach &#8212; the client "
+"sends an AJAX request to the server, which causes action to be executed "
+"asynchronously on the server (the response to the client is immediate) and "
+"the client then polls the server for updates. This is good approach when you "
+"have a long-running action for which it is important that every action "
+"executes (you don't want some to timeout)."
+msgstr ""
+
+#. Tag: title
+#: Conversations.xml:930
 #, no-c-format
 msgid "How should we design our conversational AJAX application?"
 msgstr ""
 
 #. Tag: para
-#: Conversations.xml:930
+#: Conversations.xml:932
 #, no-c-format
 msgid ""
-"Well first, you need to decide whether you want to use the simpler "
-"\"synchronous\" request or whether you want to add using a poll-style "
-"approach."
+"Well first, you need to decide whether you want to use the simpler \"serial"
+"\" request or whether you want to use a polling approach."
 msgstr ""
 
 #. Tag: para
-#: Conversations.xml:936
+#: Conversations.xml:937
 #, no-c-format
 msgid ""
-"If you go for a \"synchronous\" approach, then you need to make an estimate "
-"of how long your AJAX request will take to complete - is it much shorter "
-"than the concurrent request timeout? If not, you probably want to alter the "
-"concurrent request timeout for this method (as discussed above). Next you "
-"probably want a queue on the client side to prevent flooding the server with "
-"requests. If the event occurs often (e.g. a keypress, onblur of input "
-"fields) and immediate update of the client is not a priority you should set "
-"a request delay on the client side. When working out your request delay, "
-"factor in that the event may also be queued on the server side."
+"If you go for a \"serial\" requests, then you need to estimate how long your "
+"request will take to complete - is it much shorter than the concurrent "
+"request timeout? If not, you probably want to alter the concurrent request "
+"timeout for this page (as discussed above). You probably want a queue on the "
+"client side to prevent flooding the server with requests. If the event "
+"occurs often (e.g. a keypress, onblur of input fields) and immediate update "
+"of the client is not a priority you should set a request delay on the client "
+"side. When working out your request delay, factor in that the event may also "
+"be queued on the server side."
 msgstr ""
 
 #. Tag: para
-#: Conversations.xml:949
+#: Conversations.xml:950
 #, no-c-format
 msgid ""
 "Finally, the client library may provide an option to abort unfinished "
-"duplicate requests in favor of the most recent. You need to be careful with "
-"this option as it can lead to flooding of the server with requests if the "
-"server is not able to abort the unfinished request."
+"duplicate requests in favor of the most recent."
 msgstr ""
 
 #. Tag: para
-#: Conversations.xml:956
+#: Conversations.xml:955
 #, no-c-format
 msgid ""
 "Using a poll-style design requires less fine-tuning. You just mark your "
@@ -1570,7 +1586,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Conversations.xml:962
+#: Conversations.xml:961
 #, no-c-format
 msgid ""
 "<![CDATA[int total;\n"
@@ -1592,11 +1608,97 @@ msgstr ""
 #. Tag: title
 #: Conversations.xml:965
 #, no-c-format
-msgid "RichFaces Ajax"
+msgid "Dealing with errors"
 msgstr ""
 
 #. Tag: para
 #: Conversations.xml:967
+#, no-c-format
+msgid ""
+"However carefully you design your application to queue concurrent requests "
+"to your conversational component, there is a risk that the server will "
+"become overloaded and be unable to process all the requests before the "
+"request will have to wait longer than the <literal>concurrent-request-"
+"timeout</literal>. In this case Seam will throw a "
+"<literal>ConcurrentRequestTimeoutException</literal> which can be handled in "
+"<literal>pages.xml</literal>. We recommend sending an HTTP 503 error:"
+msgstr ""
+
+#. Tag: programlisting
+#: Conversations.xml:978
+#, no-c-format
+msgid ""
+"<![CDATA[   <exception class=\"org.jboss.seam."
+"ConcurrentRequestTimeoutException\" logLevel=\"trace\">\n"
+"      <http-error error-code=\"503\" />\n"
+"   </exception>]]>"
+msgstr ""
+
+#. Tag: title
+#: Conversations.xml:981
+#, no-c-format
+msgid "503 Service Unavailable (HTTP/1.1 RFC)"
+msgstr ""
+
+#. Tag: para
+#: Conversations.xml:983
+#, no-c-format
+msgid ""
+"The server is currently unable to handle the request due to a temporary "
+"overloading or maintenance of the server. The implication is that this is a "
+"temporary condition which will be alleviated after some delay."
+msgstr ""
+
+#. Tag: para
+#: Conversations.xml:991
+#, no-c-format
+msgid "Alternatively you could redirect to an error page:"
+msgstr ""
+
+#. Tag: programlisting
+#: Conversations.xml:995
+#, no-c-format
+msgid ""
+"<![CDATA[<exception class=\"org.jboss.seam.ConcurrentRequestTimeoutException"
+"\" logLevel=\"trace\">\n"
+"   <end-conversation/>\n"
+"   <redirect view-id=\"/error.xhtml\">\n"
+"      <message>The server is too busy to process your request, please try "
+"again later</message>\n"
+"   </redirect>\n"
+"</exception>]]>"
+msgstr ""
+
+#. Tag: para
+#: Conversations.xml:997
+#, no-c-format
+msgid ""
+"ICEfaces, RichFaces Ajax and Seam Remoting can all handle HTTP error codes. "
+"Seam Remoting will pop up a dialog box showing the HTTP error and ICEfaces "
+"will indicate the error in it's connection status component. RichFaces Ajax "
+"provides the most complete support for handling HTTP errors by providing a "
+"user definable callback. For example, to show the error message to the user:"
+msgstr ""
+
+#. Tag: programlisting
+#: Conversations.xml:1006
+#, no-c-format
+msgid ""
+"<![CDATA[<script type=\"text/javascript\">\n"
+"   A4J.AJAX.onError = function(req,status,message) { \n"
+"      alert(\"message\");    \n"
+"   };\n"
+"</script>]]>"
+msgstr ""
+
+#. Tag: title
+#: Conversations.xml:1011
+#, no-c-format
+msgid "RichFaces Ajax"
+msgstr ""
+
+#. Tag: para
+#: Conversations.xml:1013
 #, no-c-format
 msgid ""
 "RichFaces Ajax is the AJAX library most commonly used with Seam, and "
@@ -1604,7 +1706,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Conversations.xml:974
+#: Conversations.xml:1020
 #, no-c-format
 msgid ""
 "<literal>eventsQueue</literal> &#8212; provide a queue in which events are "
@@ -1615,7 +1717,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Conversations.xml:984
+#: Conversations.xml:1030
 #, no-c-format
 msgid ""
 "<literal>ignoreDupResponses</literal> &#8212; ignore the response produced "
@@ -1626,7 +1728,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Conversations.xml:991
+#: Conversations.xml:1037
 #, no-c-format
 msgid ""
 "This option should be used with care with Seam's conversations as it allows "
@@ -1634,7 +1736,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Conversations.xml:997
+#: Conversations.xml:1043
 #, no-c-format
 msgid ""
 "<literal>requestDelay</literal> &#8212; defines the time (in ms.) that the "
@@ -1645,7 +1747,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Conversations.xml:1004
+#: Conversations.xml:1050
 #, no-c-format
 msgid ""
 "This option should be used with care with Seam's conversations as it allows "
@@ -1655,7 +1757,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Conversations.xml:1012
+#: Conversations.xml:1058
 #, no-c-format
 msgid ""
 "<literal>&lt;a:poll reRender=\"total\" interval=\"1000\" /&gt;</literal> "
