@@ -1635,7 +1635,7 @@ msgstr "Les metas-annotations pour le databinding"
 #: Annotations.xml:1443
 #, no-c-format
 msgid "These meta-annotations make it possible to implement similar functionality to <literal>@DataModel</literal> and <literal>@DataModelSelection</literal> for other datastructures apart from lists."
-msgstr "Ces meta-annotations permettent d'implémenter des fonctionnalités similaires à <literal>@DataModel</lietral> et <literal>@DataModelSelection</literal> pour des structures de données différentes des listes."
+msgstr "Ces meta-annotations permettent d'implémenter des fonctionnalités similaires à <literal>@DataModel</literal> et <literal>@DataModelSelection</literal> pour des structures de données différentes des listes."
 
 #. Tag: literal
 #: Annotations.xml:1453
