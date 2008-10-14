@@ -1009,7 +1009,7 @@ msgstr "<![CDATA[@EndTask]]>"
 #: Annotations.xml:863
 #, no-c-format
 msgid "\"Ends\" a jBPM task. Specifies that a long-running conversation ends when this method returns a non-null outcome, and that the current task is complete. Triggers a jBPM transition. The actual transition triggered will be the default transition unless the application has called <literal>Transition.setName()</literal> on the built-in component named <literal>transition</literal>."
-msgstr "Termine une tache JBPM. Spécifie qu'une conversation longue termine si la méthode ainsi annotée renvoie un résultat non null sans lever d'exception, spécifie aussi que la tâche courante a été complétée. Ceci déclanche alors une transition JBPM. La transition déclanchée sera alors la transition par défaut à moins que l'application n'ait invoqué <literal>Transition.setName()</literal> sur le composant intégré dont le nom est <literal>transition<Literal>."
+msgstr "Termine une tache JBPM. Spécifie qu'une conversation longue termine si la méthode ainsi annotée renvoie un résultat non null sans lever d'exception, spécifie aussi que la tâche courante a été complétée. Ceci déclanche alors une transition JBPM. La transition déclanchée sera alors la transition par défaut à moins que l'application n'ait invoqué <literal>Transition.setName()</literal> sur le composant intégré dont le nom est <literal>transition</literal>."
 
 #. Tag: programlisting
 #: Annotations.xml:872
