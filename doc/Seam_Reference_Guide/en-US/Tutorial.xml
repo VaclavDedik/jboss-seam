@@ -2950,29 +2950,27 @@ conversation model.</para>
         </mediaobject>
       </screenshot>
 
-        <para>TODO</para>
-        <para>Look in the <literal>dvdstore</literal> directory.</para>
+
+        <para>The Seam DVD Store demo can be run from <literal>dvdstore</literal> directory,
+        just like the other demo applications.</para>
+
     </section>
 
-    <section id="hibernate">
-        <title>An example of Seam with Hibernate: the Hibernate Booking example</title>
-
-        <para> The Hibernate Booking demo is a straight port of the Booking demo to an alternative architecture that
-            uses Hibernate for persistence and JavaBeans instead of session beans. </para>
-
-        <para>TODO</para>
-        <para>Look in the <literal>hibernate</literal> directory.</para>
-    </section>
 
     <section id="blog">
-        <title>A RESTful Seam application: the Blog example</title>
+        <title>Bookmarkable URLs with the Blog example</title>
 
         <para> Seam makes it very easy to implement applications which keep state on the server-side. However,
             server-side state is not always appropriate, especially in for functionality that serves up
-                <emphasis>content</emphasis>. For this kind of problem we often need to let the user bookmark pages and
-            have a relatively stateless server, so that any page can be accessed at any time, via the bookmark. The Blog
-            example shows how to a implement RESTful application using Seam. Every page of the application can be
-            bookmarked, including the search results page. </para>
+            <emphasis>content</emphasis>. For this kind of problem we often want to keep
+            application state in the URL so that any page can be accessed at any time through
+            a bookmark.  The blog example shows how to a implement an 
+            application that supports bookmarking throughout, even on the search results page. This
+            example
+            demonstrates how Seam can manage application state in the URL as well as how Seam can rewrite 
+            those URLs to be even
+        
+        </para>
 
         <screenshot>
         <screeninfo>Blog example</screeninfo>
@@ -2998,41 +2996,39 @@ conversation model.</para>
             <example>
                <title></title>
             <programlisting role="XHTML"><![CDATA[<h:dataTable value="#{blog.recentBlogEntries}" var="blogEntry" rows="3">
-   <h:column>
-      <div class="blogEntry">
-         <h3>#{blogEntry.title}</h3>
-         <div>
-            <h:outputText escape="false" 
-                  value="#{blogEntry.excerpt==null ? blogEntry.body : blogEntry.excerpt}"/>
-         </div>
-         <p>
-            <h:outputLink value="entry.seam" rendered="#{blogEntry.excerpt!=null}">
-               <f:param name="blogEntryId" value="#{blogEntry.id}"/>
-               Read more...
-            </h:outputLink>
-         </p>
-         <p>
-            [Posted on 
-            <h:outputText value="#{blogEntry.date}">
-               <f:convertDateTime timeZone="#{blog.timeZone}" 
-                                  locale="#{blog.locale}" type="both"/>
-            </h:outputText>]
-            &#160;
-            <h:outputLink value="entry.seam">[Link]
-               <f:param name="blogEntryId" value="#{blogEntry.id}"/>
-            </h:outputLink>
-         </p>
-      </div>
-   </h:column>
+ <h:column>
+    <div class="blogEntry">
+       <h3>#{blogEntry.title}</h3>
+       <div>
+          <s:formattedText value="#{blogEntry.excerpt==null ? blogEntry.body : blogEntry.excerpt}"/>
+       </div>
+       <p>
+          <s:link view="/entry.xhtml" rendered="#{blogEntry.excerpt!=null}" propagation="none"
+              value="Read more...">
+             <f:param name="blogEntryId" value="#{blogEntry.id}"/>
+          </s:link>
+       </p>
+       <p>
+          [Posted on&#160;
+          <h:outputText value="#{blogEntry.date}">
+              <f:convertDateTime timeZone="#{blog.timeZone}" locale="#{blog.locale}" type="both"/>
+          </h:outputText>]
+          &#160;
+          <s:link view="/entry.xhtml" propagation="none" value="[Link]">
+             <f:param name="blogEntryId" value="#{blogEntry.id}"/>
+          </s:link>
+       </p>
+    </div>
+ </h:column>
 </h:dataTable>]]></programlisting>
 </example>
             
 
-            <para> If we navigate to this page from a bookmark, how does the data used by the
-                    <literal>&lt;h:dataTable&gt;</literal> actually get initialized? Well, what happens is that
-                the <literal>Blog</literal> is retrieved lazily&#8212;"pulled"&#8212;when needed, by a Seam
-                component named <literal>blog</literal>. This is the opposite flow of control to what is usual in
-                traditional web action-based frameworks like Struts. </para>
+            <para> If we navigate to this page from a bookmark, how does the <literal>#{blog.recentBlogEntries}</literal>
+                data used by the <literal>&lt;h:dataTable&gt;</literal> actually get initialized? 
+                The <literal>Blog</literal> is retrieved lazily&#8212;"pulled"&#8212;when needed, by a Seam
+                component named <literal>blog</literal>. This is the opposite flow of control to what is used in
+                traditional action-based web frameworks like Struts. </para>
              <example>
                <title></title>
              <!-- Can't use code hightlighting with callouts -->
@@ -3122,77 +3118,112 @@ public class BlogService
 </div>]]></programlisting>
             
 
-            <para> But when we redirect, we need to include the values submitted with the form as request parameters, to
+            <para> But when we redirect, we need to include the values submitted with the form
+                in the URL
                 get a bookmarkable URL like
-                <literal>http://localhost:8080/seam-blog/search.seam?searchPattern=seam</literal>. JSF does not provide
-                an easy way to do this, but Seam does. We use a Seam <emphasis>page parameter</emphasis>, defined in
-                    <literal>WEB-INF/pages.xml</literal>: </para>
+                <literal>http://localhost:8080/seam-blog/search/</literal>. JSF does not provide
+                an easy way to do this, but Seam does. We use two Seam features
+                to accomplish this: <emphasis>page parameters</emphasis> and <emphasis>URL rewriting</emphasis>.
+                Both are defined in <literal>WEB-INF/pages.xml</literal>: </para>
             <example>
             <title></title>
 		    <programlisting role="XML"><![CDATA[<pages>
    <page view-id="/search.xhtml">
+      <rewrite pattern="/search/{searchPattern}"/> 
+      <rewrite pattern="/search"/>
+      
       <param name="searchPattern" value="#{searchService.searchPattern}"/>
+
    </page>
    ...
 </pages>]]></programlisting>
-</example>
-            
+</example>            
 
-            <para> This tells Seam to include the value of <literal>#{searchService.searchPattern}</literal> as a
-                request parameter named <literal>searchPattern</literal> when redirecting to the page, and then re-apply
-                the value of that parameter to the model before rendering the page. </para>
+            <para>
+                The page parameter instructs Seam to link the request parameter named <literal>searchPattern</literal>
+                to the value of <literal>#{searchService.searchPattern}</literal>, both whenever a request for 
+                the Search page comes in and whenever a link to the search page is generated. Seam
+                takes responsibility for maintaining the link between URL state and application state, and you,
+                the developer, don't have to worry about it.</para>
+            
+            <para>Without URL rewriting, the URL for a search on the term <literal>book</literal>
+                would be <literal>http://localhost:8080/seam-blog/seam/search.xhtml?searchPattern=book</literal>.
+                This is nice, but Seam can make the URL even simpler using a rewrite rule.  The first
+                rewrite rule, for the pattern <literal>/search/{searchPattern}</literal>, says that 
+                any time we have have a URL for search.xhtml with a searchPattern request parameter, we can 
+                fold that URL into the simpler URL.  So,the URL we saw earlier, 
+                <literal>http://localhost:8080/seam-blog/seam/search.xhtml?searchPattern=book</literal> 
+                can be written instead as <literal>http://localhost:8080/seam-blog/search/book</literal>.
+            </para>
+    
+            <para>Just like with page parameters, URL rewriting is bi-directional.  That means that Seam 
+                forwards requests for the simpler URL to the the right view, and it also automatically generates
+                the simpler view for you.  You never need to worry about constructing URLs.  It's 
+                all handled transparently behind the scenes.  The only requirement is that to use URL rewriting, 
+                the rewrite filter needs to be enabled in <literal>components.xml</literal>.         
+                </para>
+    
+              
+            <programlisting>&lt;web:rewrite-filter view-mapping=&quot;/seam/*&quot; /&gt;</programlisting>
 
             <para> The redirect takes us to the <literal>search.xhtml</literal> page: </para>
             
 		    <programlisting role="XHTML"><![CDATA[<h:dataTable value="#{searchResults}" var="blogEntry">
-   <h:column>
-      <div>
-         <h:outputLink value="entry.seam">
-            <f:param name="blogEntryId" value="#{blogEntry.id}"/>
-            #{blogEntry.title}
-         </h:outputLink>
-         posted on 
-         <h:outputText value="#{blogEntry.date}">
+  <h:column>
+     <div>
+        <s:link view="/entry.xhtml" propagation="none" value="#{blogEntry.title}">
+           <f:param name="blogEntryId" value="#{blogEntry.id}"/>
+        </s:link>
+        posted on 
+        <h:outputText value="#{blogEntry.date}">
             <f:convertDateTime timeZone="#{blog.timeZone}" locale="#{blog.locale}" type="both"/>
-         </h:outputText>
-      </div>
-   </h:column>
+        </h:outputText>
+     </div>
+  </h:column>
 </h:dataTable>]]></programlisting>
             
 
-            <para> Which again uses "pull"-style MVC to retrieve the actual search results: </para>
+            <para> Which again uses "pull"-style MVC to retrieve the actual search results using 
+            Hibernate Search.</para>
 
 		    <programlisting role="JAVA"><![CDATA[@Name("searchService")
 public class SearchService 
 {
    
    @In
-   private EntityManager entityManager;
+   private FullTextEntityManager entityManager;
    
    private String searchPattern;
    
    @Factory("searchResults")
    public List<BlogEntry> getSearchResults()
    {
-      if (searchPattern==null)
-      {
-         return null;
+      if (searchPattern==null || "".equals(searchPattern) ) {
+         searchPattern = null;
+         return entityManager.createQuery("select be from BlogEntry be order by date desc").getResultList();
       }
       else
       {
-         return entityManager.createQuery("select be from BlogEntry be "" + 
-                      "where lower(be.title) like :searchPattern " + 
-                      "lower(be.body) like :searchPattern order by be.date desc")
-               .setParameter( "searchPattern", getSqlSearchPattern() )
+         Map<String,Float> boostPerField = new HashMap<String,Float>();
+         boostPerField.put( "title", 4f );
+         boostPerField.put( "body", 1f );
+         String[] productFields = {"title", "body"};
+         QueryParser parser = new MultiFieldQueryParser(productFields, new StandardAnalyzer(), boostPerField);
+         parser.setAllowLeadingWildcard(true);
+         org.apache.lucene.search.Query luceneQuery;
+         try
+         {
+            luceneQuery = parser.parse(searchPattern);
+         }
+         catch (ParseException e)
+         {
+            return null;
+         }
+
+         return entityManager.createFullTextQuery(luceneQuery, BlogEntry.class)
                .setMaxResults(100)
                .getResultList();
       }
-   }
-
-   private String getSqlSearchPattern()
-   {
-      return searchPattern==null ? "" :
-             '%' + searchPattern.toLowerCase().replace('*', '%').replace('?', '_') + '%';
    }
 
    public String getSearchPattern()
@@ -3205,7 +3236,8 @@ public class SearchService
       this.searchPattern = searchPattern;
    }
 
-}]]></programlisting>
+}
+]]></programlisting>
             
 
         </section>
@@ -3225,11 +3257,9 @@ public class SearchService
 @Scope(STATELESS)
 public class EntryAction
 {
-   @In(create=true) 
-   private Blog blog;
+   @In Blog blog;
    
-   @Out
-   private BlogEntry blogEntry;
+   @Out BlogEntry blogEntry;
    
    public void loadBlogEntry(String id) throws EntryNotFoundException
    {
@@ -3245,39 +3275,60 @@ public class EntryAction
 		    <programlisting role="XML"><![CDATA[<pages>
    ...
 
-   <page view-id="/entry.xhtml" action="#{entryAction.loadBlogEntry(blogEntry.id)}">
-      <param name="blogEntryId" value="#{blogEntry.id}"/>
-   </page>
+    <page view-id="/entry.xhtml"> 
+        <rewrite pattern="/entry/{blogEntryId}" />
+        <rewrite pattern="/entry" />
+        
+        <param name="blogEntryId" 
+               value="#{blogEntry.id}"/>
+        
+        <action execute="#{entryAction.loadBlogEntry(blogEntry.id)}"/>
+    </page>
+    
+    <page view-id="/post.xhtml" login-required="true">
+        <rewrite pattern="/post" />
+        
+        <action execute="#{postAction.post}"
+                if="#{validation.succeeded}"/>
+        
+        <action execute="#{postAction.invalid}"
+                if="#{validation.failed}"/>
+        
+        <navigation from-action="#{postAction.post}">
+            <redirect view-id="/index.xhtml"/>
+        </navigation>
+    </page>
 
-   <page view-id="/post.xhtml" action="#{loginAction.challenge}"/>
-
-   <page view-id="*" action="#{blog.hitCount.hit}"/>
+    <page view-id="*">
+        <action execute="#{blog.hitCount.hit}"/>
+    </page>
 
 </pages>]]></programlisting>
             
 
-            <para> Notice that the example is using page actions for some other functionality&#8212;the login
-                challenge, and the pageview counter. Also notice the use of a parameter in the page action method
-                binding. This is not a standard feature of JSF EL, but Seam lets you use it, not just for page actions,
-                but also in JSF method bindings. </para>
+            <para> Notice that the example is using page actions for post validation 
+                and the pageview counter. Also notice the use of a parameter in the page action method
+                binding. This is not a standard feature of JSF EL, but Seam lets you use it, not just 
+                for page actions but also in JSF method bindings. </para>
 
             <para> When the <literal>entry.xhtml</literal> page is requested, Seam first binds the page parameter
-                    <literal>blogEntryId</literal> to the model, then runs the page action, which retrieves the needed
+                    <literal>blogEntryId</literal> to the model.  Keep in mind that because of the URL rewriting,
+                the blogEntryId parameter name won't show up in the URL.  Seam then runs the page action, which retrieves 
+                the needed
                 data&#8212;the <literal>blogEntry</literal>&#8212;and places it in the Seam event context.
                 Finally, the following is rendered: </para>
 
             <programlisting role="XHTML"><![CDATA[<div class="blogEntry">
-   <h3>#{blogEntry.title}</h3>
-   <div>
-      <h:outputText escape="false" value="#{blogEntry.body}"/>
-   </div>
-   <p>
-      [Posted on&#160;
-      <h:outputText value="#{blogEntry.date}">
-         <f:convertDateTime timezone="#{blog.timeZone}" 
-                            locale="#{blog.locale}" type="both"/>
-      </h:outputText>]
-   </p>
+    <h3>#{blogEntry.title}</h3>
+    <div>
+        <s:formattedText value="#{blogEntry.body}"/>
+    </div>
+    <p>
+    [Posted on&#160;
+    <h:outputText value="#{blogEntry.date}">
+       <f:convertDateTime timeZone="#{blog.timeZone}" locale="#{blog.locale}" type="both"/>
+    </h:outputText>]
+    </p>
 </div>]]></programlisting>
             
 
@@ -3313,7 +3364,6 @@ public class EntryAction
       blogEntry = blog.getBlogEntry( blogEntry.getId() );
       if (blogEntry==null) throw new EntryNotFoundException(id);
    }
-   
 }]]></programlisting>
 
                 <programlisting role="XML"><![CDATA[<pages>
@@ -3329,6 +3379,11 @@ public class EntryAction
 
             <para> It is a matter of taste which implementation you prefer. </para>
 
+
+            <para>
+                The blog demo also demonstrates very simple password authentication, posting to
+                the blog, page fragment caching and atom feed generation.  
+            </para>
         </section>
 
     </section>
