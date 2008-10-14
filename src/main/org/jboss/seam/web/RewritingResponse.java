@@ -42,13 +42,13 @@ public class RewritingResponse
     @Override
     public String encodeURL(String url) {        
         String result = encode(url);
-        log.info("encodeURL " + url + " -> " + result);
+        log.debug("encodeURL " + url + " -> " + result);
         return result;
     }
     
     @Override
     public String encodeRedirectURL(String url) {
-        log.info("encode redirectURL called with " + url);
+        log.debug("encode redirectURL called with " + url);
         return encodeURL(url);
     }
     
