@@ -46,8 +46,10 @@ public class Reflections
    
    public static Object get(Field field, Object target) throws Exception
    {
+      boolean accessible = field.isAccessible();
       try
       {
+         field.setAccessible(true);
          return field.get(target);
       }
       catch (IllegalArgumentException iae)
@@ -55,6 +57,10 @@ public class Reflections
          String message = "Could not get field value by reflection: " + toString(field) + 
             " on: " + target.getClass().getName();
          throw new IllegalArgumentException(message, iae);
+      }
+      finally
+      {
+         field.setAccessible(accessible);
       }
    }
    
@@ -83,8 +89,10 @@ public class Reflections
    
    public static Object getAndWrap(Field field, Object target)
    {
+      boolean accessible = field.isAccessible();
       try
       {
+         field.setAccessible(true);
          return get(field, target);
       }
       catch (Exception e)
@@ -97,6 +105,10 @@ public class Reflections
          {
             throw new IllegalArgumentException("exception setting: " + field.getName(), e);
          }
+      }
+      finally
+      {
+         field.setAccessible(accessible);
       }
    }
    
