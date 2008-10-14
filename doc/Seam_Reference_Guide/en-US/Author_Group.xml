@@ -1,11 +1,10 @@
 <?xml version="1.0" standalone="no"?>
+<!DOCTYPE authorgroup PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+]>
 <authorgroup>
    <author>
       <firstname>Gavin</firstname>
       <surname>King</surname>
-      <affiliation>
-         <shortaffil>Project Lead</shortaffil>              
-      </affiliation>
    </author>
    <author>
       <firstname>Pete</firstname>
@@ -90,8 +89,16 @@
       <firstname>Steve</firstname>
       <surname>Ebersole</surname>
    </othercredit>
+   <othercredit>
+      <firstname>Michael</firstname>
+      <surname>Courcy</surname>
+      <affiliation>
+         <shortaffil>French Translation</shortaffil>
+      </affiliation>
+   </othercredit>
    <editor>
       <firstname>Samson</firstname>
       <surname>Kittoli</surname>
    </editor>
+   
 </authorgroup>
