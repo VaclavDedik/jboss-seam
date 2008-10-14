@@ -19,6 +19,8 @@ import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.log.Log;
 
+import org.jboss.seam.example.booking.Room;
+
 @Stateful
 @Name("roomPreference")
 @Restrict("#{identity.loggedIn}")
@@ -28,21 +30,19 @@ public class RoomPreferenceAction implements RoomPreference
    @Logger 
    private Log log;
 
-   @In(required=false)
-   @Out
-   private Hotel hotel;
-
-   @In(required=false) 
-   @Out(required=false)
-   private Booking booking;
+   @In private Hotel hotel;
+   
+   @In private Booking booking;
 
    @DataModel(value="availableRooms")
    private List<Room> availableRooms;
 
    @DataModelSelection(value="availableRooms")
+   private Room roomSelection;
+    
    @In(required=false, value="roomSelection")
    @Out(required=false, value="roomSelection")
-   private Room roomSelection;
+   private Room room;
 
    @Factory("availableRooms")
    public void loadAvailableRooms()
@@ -61,9 +61,9 @@ public class RoomPreferenceAction implements RoomPreference
    @Begin(nested=true)
    public String selectPreference()
    {
-      // seam takes care of everything for us here.  we don't have to do anything other
-      // than send the appropriate outcome to forward to the payment screen.
       log.info("Room selected");
+      
+      this.room = this.roomSelection;
       
       return "payment";
    }
