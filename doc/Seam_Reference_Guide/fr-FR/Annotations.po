@@ -960,7 +960,7 @@ msgstr "Démarre une nouvelle tâche JBPM. Spécifie aussi qu'une longue convers
 #: Annotations.xml:779
 #, no-c-format
 msgid "The jBPM <literal>TaskInstance</literal> will be available in a request context variable named <literal>taskInstance</literal>. The jPBM <literal>ProcessInstance</literal> will be available in a request context variable named <literal>processInstance</literal>. (Of course, these objects are available for injection via <literal>@In</literal>.)"
-msgstr "La <literal>TaskInstance</literal> JBPM sera disponible dans le context de requète comme une variable dont le nom sera <literal>taskInstance</jbpm>. Le <literal>ProcessInstance</literal> sera disponible dans le contexte de requète comme une variable dont le nom sera <literal>processInstance</literal>. (Bien sûr ces objets peuvent être dynamiquement injectés via l'annotation <literal>@In</literal>.) "
+msgstr "La <literal>TaskInstance</literal> JBPM sera disponible dans le context de requète comme une variable dont le nom sera <literal>taskInstance</literal>. Le <literal>ProcessInstance</literal> sera disponible dans le contexte de requète comme une variable dont le nom sera <literal>processInstance</literal>. (Bien sûr ces objets peuvent être dynamiquement injectés via l'annotation <literal>@In</literal>.) "
 
 #. Tag: para
 #: Annotations.xml:791
