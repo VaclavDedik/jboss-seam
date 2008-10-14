@@ -18,17 +18,17 @@ fi
 WORKING_DIR=$PWD
 
 if [ -z "$SEAM_HOME" ]; then
-    SEAM_SCRIPT=$0
-    SEAM_SCRIPT_TARGET=`readlink $0`
-    if [ $? -eq 0 ]; then
-        SEAM_SCRIPT=$SEAM_SCRIPT_TARGET
+    if [ -h "$0" ]; then
+        SEAM_SCRIPT=`readlink "$0"`
+    else
+        SEAM_SCRIPT=$0
     fi
     # get the full path without any relative bits (not really necessary)
-    SEAM_SCRIPT_ABS_PATH=`readlink -f $0 2>/dev/null`
+    SEAM_SCRIPT_ABS_PATH=`readlink -f "$0" 2>/dev/null`
     if [ $? -eq 0 ]; then
         SEAM_SCRIPT=$SEAM_SCRIPT_ABS_PATH
     fi
-    SEAM_HOME=`dirname $SEAM_SCRIPT`
+    SEAM_HOME=`dirname "$SEAM_SCRIPT"`
 fi
 
 SEAM_GEN_DIR="$SEAM_HOME/seam-gen"
@@ -46,11 +46,11 @@ case "`uname`" in
 esac
 
 if [ -z "$SEAM_COMMAND" ]; then
-    cat $SEAM_GEN_DIR/USAGE
+    cat "$SEAM_GEN_DIR/USAGE"
 elif [ "$SEAM_COMMAND" = help ]; then
-    cat $SEAM_GEN_DIR/README
+    cat "$SEAM_GEN_DIR/README"
 elif $cygwin; then
-   java -cp "${JAVA_HOME}\lib\tools.jar;${SEAM_HOME}\build\lib\ant-launcher.jar;${SEAM_HOME}\build\lib\ant-nodeps.jar;${SEAM_HOME}\build\lib\ant.jar" -Dant.home=${SEAM_HOME}\lib org.apache.tools.ant.launch.Launcher -buildfile "${SEAM_GEN_DIR}\build.xml" -Dworking.dir=$WORKING_DIR ${*}
+   java -cp "${JAVA_HOME}\lib\tools.jar;${SEAM_HOME}\build\lib\ant-launcher.jar;${SEAM_HOME}\build\lib\ant-nodeps.jar;${SEAM_HOME}\build\lib\ant.jar" -Dant.home="${SEAM_HOME}\lib" org.apache.tools.ant.launch.Launcher -buildfile "${SEAM_GEN_DIR}\build.xml" -Dworking.dir="$WORKING_DIR" ${*}
 else
-   java -cp "${JAVA_HOME}/lib/tools.jar:${SEAM_HOME}/build/lib/ant-launcher.jar:${SEAM_HOME}/build/lib/ant-nodeps.jar:${SEAM_HOME}/build/lib/ant.jar" -Dant.home=${SEAM_HOME}/lib org.apache.tools.ant.launch.Launcher -buildfile "${SEAM_GEN_DIR}/build.xml" -Dworking.dir=$WORKING_DIR ${*}
+   java -cp "${JAVA_HOME}/lib/tools.jar:${SEAM_HOME}/build/lib/ant-launcher.jar:${SEAM_HOME}/build/lib/ant-nodeps.jar:${SEAM_HOME}/build/lib/ant.jar" -Dant.home="${SEAM_HOME}/lib" org.apache.tools.ant.launch.Launcher -buildfile "${SEAM_GEN_DIR}/build.xml" -Dworking.dir="$WORKING_DIR" ${*}
 fi
