@@ -18,15 +18,24 @@ fi
 WORKING_DIR=$PWD
 
 if [ -z "$SEAM_HOME" ]; then
-    # get the full path (without any relative bits)
-    SEAM_SCRIPT=`readlink -f $0`
+    SEAM_SCRIPT=$0
+    SEAM_SCRIPT_TARGET=`readlink $0`
+    if [ $? -eq 0 ]; then
+        SEAM_SCRIPT=$SEAM_SCRIPT_TARGET
+    fi
+    # get the full path without any relative bits (not really necessary)
+    SEAM_SCRIPT_ABS_PATH=`readlink -f $0 2>/dev/null`
+    if [ $? -eq 0 ]; then
+        SEAM_SCRIPT=$SEAM_SCRIPT_ABS_PATH
+    fi
     SEAM_HOME=`dirname $SEAM_SCRIPT`
 fi
 
 SEAM_GEN_DIR="$SEAM_HOME/seam-gen"
 SEAM_COMMAND="${1}"
 
-echo $SEAM_HOME
+echo "Location of seam script: $SEAM_HOME"
+echo "seam-gen template folder: $SEAM_GEN_DIR"
 
 # OS specific support (must be 'true' or 'false').
 cygwin=false;
