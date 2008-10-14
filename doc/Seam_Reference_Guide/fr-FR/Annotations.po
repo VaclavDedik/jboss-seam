@@ -627,7 +627,7 @@ msgstr "<![CDATA[@Factory(\"processInstance\") public void createProcessInstance
 #: Annotations.xml:472
 #, no-c-format
 msgid "Specifies that the method of the component is used to initialize the value of the named context variable, when the context variable has no value. This style is used with methods that return <literal>void</literal>."
-msgstr "Spécifie que la méthode annotée du composant sera invoquée pour initialiser la valeur de la variable de contexte quand celle-ci n'a pas encore de valeur. Ce style est utilisée avec des méthodes ne renvoyant aucune valeur (type de retour <litteral>void</literal>)."
+msgstr "Spécifie que la méthode annotée du composant sera invoquée pour initialiser la valeur de la variable de contexte quand celle-ci n'a pas encore de valeur. Ce style est utilisée avec des méthodes ne renvoyant aucune valeur (type de retour <literal>void</literal>)."
 
 #. Tag: programlisting
 #: Annotations.xml:478
