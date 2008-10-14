@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-10-14 11:39+0000\n"
+"POT-Creation-Date: 2008-10-14 13:15+0000\n"
 "PO-Revision-Date: 2008-04-04 01:24+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -3420,7 +3420,7 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1392 Tutorial.xml:1734
+#: Tutorial.xml:1392 Tutorial.xml:1617
 #, no-c-format
 msgid "HotelBookingAction.java"
 msgstr ""
@@ -3719,83 +3719,81 @@ msgstr ""
 #: Tutorial.xml:1542
 #, no-c-format
 msgid ""
-"<![CDATA[@Stateful\r\n"
-"@Name(\"roomPreference\")\r\n"
-"@Restrict(\"#{identity.loggedIn}\")\r\n"
-"public class RoomPreferenceAction implements RoomPreference \r\n"
-"{\r\n"
-"\r\n"
-"   @Logger \r\n"
-"   private Log log;\r\n"
-"\r\n"
-"   @In private Hotel hotel;\r\n"
-"   \r\n"
-"   @In private Booking booking;\r\n"
-"\r\n"
-"   @DataModel(value=\"availableRooms\")\r\n"
-"   private List<Room> availableRooms;\r\n"
-"\r\n"
-"   @DataModelSelection(value=\"availableRooms\")\r\n"
-"   private Room roomSelection;\r\n"
-"    \r\n"
-"   @In(required=false, value=\"roomSelection\")\r\n"
-"   @Out(required=false, value=\"roomSelection\")\r\n"
-"   private Room room;\r\n"
-"\r\n"
-"   @Factory(\"availableRooms\")\r\n"
-"   public void loadAvailableRooms()\r\n"
-"   {\r\n"
+"<![CDATA[@Stateful\n"
+"@Name(\"roomPreference\")\n"
+"@Restrict(\"#{identity.loggedIn}\")\n"
+"public class RoomPreferenceAction implements RoomPreference \n"
+"{\n"
+"\n"
+"   @Logger \n"
+"   private Log log;\n"
+"\n"
+"   @In private Hotel hotel;\n"
+"   \n"
+"   @In private Booking booking;\n"
+"\n"
+"   @DataModel(value=\"availableRooms\")\n"
+"   private List<Room> availableRooms;\n"
+"\n"
+"   @DataModelSelection(value=\"availableRooms\")\n"
+"   private Room roomSelection;\n"
+"    \n"
+"   @In(required=false, value=\"roomSelection\")\n"
+"   @Out(required=false, value=\"roomSelection\")\n"
+"   private Room room;\n"
+"\n"
+"   @Factory(\"availableRooms\")\n"
+"   public void loadAvailableRooms()\n"
+"   {\n"
 "      availableRooms = hotel.getAvailableRooms(booking.getCheckinDate(), "
-"booking.getCheckoutDate());\r\n"
-"      log.info(\"Retrieved #0 available rooms\", availableRooms.size());\r\n"
-"   }\r\n"
-"\r\n"
-"   public BigDecimal getExpectedPrice()\r\n"
-"   {\r\n"
-"      log.info(\"Retrieving price for room #0\", roomSelection.getName());"
-"\r\n"
-"      \r\n"
-"      return booking.getTotal(roomSelection);\r\n"
-"   }\r\n"
-"\r\n"
-"   @Begin(nested=true)\r\n"
-"   public String selectPreference()\r\n"
-"   {\r\n"
-"      log.info(\"Room selected\");\r\n"
-"      \r\n"
-"      this.room = this.roomSelection;\r\n"
-"      \r\n"
-"      return \"payment\";\r\n"
-"   }\r\n"
-"\r\n"
-"   public String requestConfirmation()\r\n"
-"   {\r\n"
+"booking.getCheckoutDate());\n"
+"      log.info(\"Retrieved #0 available rooms\", availableRooms.size());\n"
+"   }\n"
+"\n"
+"   public BigDecimal getExpectedPrice()\n"
+"   {\n"
+"      log.info(\"Retrieving price for room #0\", roomSelection.getName());\n"
+"      \n"
+"      return booking.getTotal(roomSelection);\n"
+"   }\n"
+"\n"
+"   @Begin(nested=true)\n"
+"   public String selectPreference()\n"
+"   {\n"
+"      log.info(\"Room selected\");\n"
+"      \n"
+"      this.room = this.roomSelection;\n"
+"      \n"
+"      return \"payment\";\n"
+"   }\n"
+"\n"
+"   public String requestConfirmation()\n"
+"   {\n"
 "      // all validations are performed through the s:validateAll, so checks "
-"are already\r\n"
-"      // performed\r\n"
-"      log.info(\"Request confirmation from user\");\r\n"
-"      \r\n"
-"      return \"confirm\";\r\n"
-"   }\r\n"
-"\r\n"
-"   @End(beforeRedirect=true)\r\n"
-"   public String cancel()\r\n"
-"   {\r\n"
-"      log.info(\"ending conversation\");\r\n"
-"\r\n"
-"      return \"cancel\";\r\n"
-"   }\r\n"
-"\r\n"
+"are already\n"
+"      // performed\n"
+"      log.info(\"Request confirmation from user\");\n"
+"      \n"
+"      return \"confirm\";\n"
+"   }\n"
+"\n"
+"   @End(beforeRedirect=true)\n"
+"   public String cancel()\n"
+"   {\n"
+"      log.info(\"ending conversation\");\n"
+"\n"
+"      return \"cancel\";\n"
+"   }\n"
+"\n"
 "   @Destroy "
-"@Remove                                                                      "
-"\r\n"
-"   public void destroy() {}        \r\n"
-"}\r\n"
+"@Remove                                                                      \n"
+"   public void destroy() {}        \n"
+"}\n"
 "]]>"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1612
+#: Tutorial.xml:1545
 #, no-c-format
 msgid ""
 "The <varname>hotel</varname> instance is injected from the conversation "
@@ -3807,7 +3805,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1620
+#: Tutorial.xml:1553
 #, no-c-format
 msgid ""
 "When <link linkend=\"begin-annotation\"> <literal>@Begin(nested=true)</"
@@ -3820,7 +3818,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1629
+#: Tutorial.xml:1562
 #, no-c-format
 msgid ""
 "The <varname>roomSelection</varname> is outjected to the conversation based "
@@ -3832,7 +3830,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1636
+#: Tutorial.xml:1569
 #, no-c-format
 msgid ""
 "The <link linkend=\"end-annotation\"> <literal>@End</literal> </link> "
@@ -3842,7 +3840,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1645
+#: Tutorial.xml:1578
 #, no-c-format
 msgid ""
 "When we being a nested conversation it is pushed onto the conversation "
@@ -3852,87 +3850,87 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1650
+#: Tutorial.xml:1583
 #, no-c-format
 msgid "rooms.xhtml"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1658
+#: Tutorial.xml:1591
 #, no-c-format
 msgid ""
-"<![CDATA[<div class=\"section\">\r\n"
-"        <h1>Room Preference</h1>\r\n"
-"</div>\r\n"
-"\r\n"
-"<div class=\"section\">\r\n"
-"        <h:form id=\"room_selections_form\">\r\n"
-"                <div class=\"section\">\r\n"
-"                        <h:outputText styleClass=\"output\" \r\n"
+"<![CDATA[<div class=\"section\">\n"
+"        <h1>Room Preference</h1>\n"
+"</div>\n"
+"\n"
+"<div class=\"section\">\n"
+"        <h:form id=\"room_selections_form\">\n"
+"                <div class=\"section\">\n"
+"                        <h:outputText styleClass=\"output\" \n"
 "                                value=\"No rooms available for the dates "
-"selected: \" \r\n"
+"selected: \" \n"
 "                                rendered=\"#{availableRooms != null and "
-"availableRooms.rowCount == 0}\"/>\r\n"
-"                        <h:outputText styleClass=\"output\" \r\n"
+"availableRooms.rowCount == 0}\"/>\n"
+"                        <h:outputText styleClass=\"output\" \n"
 "                                value=\"Rooms available for the dates "
-"selected: \" \r\n"
+"selected: \" \n"
 "                                rendered=\"#{availableRooms != null and "
-"availableRooms.rowCount > 0}\"/>\r\n"
-"                                \r\n"
+"availableRooms.rowCount > 0}\"/>\n"
+"                                \n"
 "                        <h:outputText styleClass=\"output\" value=\"#"
-"{booking.checkinDate}\"/> -\r\n"
+"{booking.checkinDate}\"/> -\n"
 "                        <h:outputText styleClass=\"output\" value=\"#"
-"{booking.checkoutDate}\"/>\r\n"
-"                        \r\n"
-"                        <br/><br/>\r\n"
-"                        \r\n"
+"{booking.checkoutDate}\"/>\n"
+"                        \n"
+"                        <br/><br/>\n"
+"                        \n"
 "                        <h:dataTable value=\"#{availableRooms}\" var=\"room"
-"\" \r\n"
+"\" \n"
 "                                        rendered=\"#{availableRooms.rowCount "
-"> 0}\">\r\n"
-"                                <h:column>\r\n"
+"> 0}\">\n"
+"                                <h:column>\n"
 "                                        <f:facet name=\"header\">Name</f:"
-"facet>\r\n"
-"                                        #{room.name}\r\n"
-"                                </h:column>\r\n"
-"                                <h:column>\r\n"
+"facet>\n"
+"                                        #{room.name}\n"
+"                                </h:column>\n"
+"                                <h:column>\n"
 "                                        <f:facet name=\"header"
-"\">Description</f:facet>\r\n"
-"                                        #{room.description}\r\n"
-"                                </h:column>\r\n"
-"                                <h:column>\r\n"
+"\">Description</f:facet>\n"
+"                                        #{room.description}\n"
+"                                </h:column>\n"
+"                                <h:column>\n"
 "                                        <f:facet name=\"header\">Per Night</"
-"f:facet>\r\n"
+"f:facet>\n"
 "                                        <h:outputText value=\"#{room.price}"
-"\">\r\n"
+"\">\n"
 "                                                <f:convertNumber type="
-"\"currency\" currencySymbol=\"$\"/>\r\n"
-"                                        </h:outputText>\r\n"
-"                                </h:column>\r\n"
-"                                <h:column>\r\n"
+"\"currency\" currencySymbol=\"$\"/>\n"
+"                                        </h:outputText>\n"
+"                                </h:column>\n"
+"                                <h:column>\n"
 "                                        <f:facet name=\"header\">Action</f:"
-"facet>\r\n"
+"facet>\n"
 "                                        <h:commandLink id="
-"\"selectRoomPreference\" \r\n"
+"\"selectRoomPreference\" \n"
 "                                                action=\"#{roomPreference."
-"selectPreference}\">Select</h:commandLink>\r\n"
-"                                </h:column>\r\n"
-"                        </h:dataTable>\r\n"
-"                </div>\r\n"
-"                <div class=\"entry\">\r\n"
-"                        <div class=\"label\">&#160;</div>\r\n"
-"                        <div class=\"input\">\r\n"
+"selectPreference}\">Select</h:commandLink>\n"
+"                                </h:column>\n"
+"                        </h:dataTable>\n"
+"                </div>\n"
+"                <div class=\"entry\">\n"
+"                        <div class=\"label\">&#160;</div>\n"
+"                        <div class=\"input\">\n"
 "                                <s:button id=\"cancel\" value=\"Revise Dates"
-"\" view=\"/book.xhtml\"/>\r\n"
-"                        </div>\r\n"
-"                </div>        \r\n"
-"        </h:form>\r\n"
-"</div>\r\n"
+"\" view=\"/book.xhtml\"/>\n"
+"                        </div>\n"
+"                </div>        \n"
+"        </h:form>\n"
+"</div>\n"
 "]]>"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1711
+#: Tutorial.xml:1594
 #, no-c-format
 msgid ""
 "When requested from EL, the <varname>#{availableRooms}</varname> are loaded "
@@ -3944,7 +3942,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1718
+#: Tutorial.xml:1601
 #, no-c-format
 msgid ""
 "Invoking the <varname>#{roomPreference.selectPreference}</varname> action "
@@ -3954,7 +3952,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1722
+#: Tutorial.xml:1605
 #, no-c-format
 msgid ""
 "Revising the dates simply returns to the <varname>/book.xhtml</varname>. "
@@ -3965,7 +3963,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1730
+#: Tutorial.xml:1613
 #, no-c-format
 msgid ""
 "Now that we have seen how to nest a conversation, let's see how we can "
@@ -3974,116 +3972,116 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1742
+#: Tutorial.xml:1625
 #, no-c-format
 msgid ""
-"<![CDATA[@Stateful\r\n"
-"@Name(\"hotelBooking\")\r\n"
-"@Restrict(\"#{identity.loggedIn}\")\r\n"
-"public class HotelBookingAction implements HotelBooking\r\n"
-"{\r\n"
-"   \r\n"
-"   @PersistenceContext(type=EXTENDED)\r\n"
-"   private EntityManager em;\r\n"
-"   \r\n"
-"   @In \r\n"
-"   private User user;\r\n"
-"   \r\n"
-"   @In(required=false) @Out\r\n"
-"   private Hotel hotel;\r\n"
-"   \r\n"
-"   @In(required=false) \r\n"
-"   @Out(required=false)\r\n"
-"   private Booking booking;\r\n"
-"   \r\n"
-"   @In(required=false)\r\n"
-"   private Room roomSelection;\r\n"
-"   \r\n"
-"   @In\r\n"
-"   private FacesMessages facesMessages;\r\n"
-"      \r\n"
-"   @In\r\n"
-"   private Events events;\r\n"
-"   \r\n"
-"   @Logger \r\n"
-"   private Log log;\r\n"
-"   \r\n"
-"   @Begin\r\n"
-"   public void selectHotel(Hotel selectedHotel)\r\n"
-"   {\r\n"
-"      log.info(\"Selected hotel #0\", selectedHotel.getName());\r\n"
-"      hotel = em.merge(selectedHotel);\r\n"
-"   }\r\n"
-"   \r\n"
-"   public String setBookingDates()\r\n"
-"   {\r\n"
+"<![CDATA[@Stateful\n"
+"@Name(\"hotelBooking\")\n"
+"@Restrict(\"#{identity.loggedIn}\")\n"
+"public class HotelBookingAction implements HotelBooking\n"
+"{\n"
+"   \n"
+"   @PersistenceContext(type=EXTENDED)\n"
+"   private EntityManager em;\n"
+"   \n"
+"   @In \n"
+"   private User user;\n"
+"   \n"
+"   @In(required=false) @Out\n"
+"   private Hotel hotel;\n"
+"   \n"
+"   @In(required=false) \n"
+"   @Out(required=false)\n"
+"   private Booking booking;\n"
+"   \n"
+"   @In(required=false)\n"
+"   private Room roomSelection;\n"
+"   \n"
+"   @In\n"
+"   private FacesMessages facesMessages;\n"
+"      \n"
+"   @In\n"
+"   private Events events;\n"
+"   \n"
+"   @Logger \n"
+"   private Log log;\n"
+"   \n"
+"   @Begin\n"
+"   public void selectHotel(Hotel selectedHotel)\n"
+"   {\n"
+"      log.info(\"Selected hotel #0\", selectedHotel.getName());\n"
+"      hotel = em.merge(selectedHotel);\n"
+"   }\n"
+"   \n"
+"   public String setBookingDates()\n"
+"   {\n"
 "      // the result will indicate whether or not to begin the nested "
-"conversation\r\n"
-"      // as well as the navigation.  if a null result is returned, the nested"
-"\r\n"
+"conversation\n"
+"      // as well as the navigation.  if a null result is returned, the "
+"nested\n"
 "      // conversation will not begin, and the user will be returned to the "
-"current\r\n"
-"      // page to fix validation issues\r\n"
-"      String result = null;\r\n"
-"\r\n"
-"      Calendar calendar = Calendar.getInstance();\r\n"
-"      calendar.add(Calendar.DAY_OF_MONTH, -1);\r\n"
-"\r\n"
-"      // validate what we have received from the user so far\r\n"
-"      if ( booking.getCheckinDate().before( calendar.getTime() ) )\r\n"
-"      {\r\n"
+"current\n"
+"      // page to fix validation issues\n"
+"      String result = null;\n"
+"\n"
+"      Calendar calendar = Calendar.getInstance();\n"
+"      calendar.add(Calendar.DAY_OF_MONTH, -1);\n"
+"\n"
+"      // validate what we have received from the user so far\n"
+"      if ( booking.getCheckinDate().before( calendar.getTime() ) )\n"
+"      {\n"
 "         facesMessages.addToControl(\"checkinDate\", \"Check in date must be "
-"a future date\");\r\n"
-"      }\r\n"
+"a future date\");\n"
+"      }\n"
 "      else if ( !booking.getCheckinDate().before( booking.getCheckoutDate"
-"() ) )\r\n"
-"      {\r\n"
+"() ) )\n"
+"      {\n"
 "         facesMessages.addToControl(\"checkoutDate\", \"Check out date must "
-"be later than check in date\");\r\n"
-"      }\r\n"
-"      else\r\n"
-"      {\r\n"
-"         result = \"rooms\";\r\n"
-"      }\r\n"
-"\r\n"
-"      return result;\r\n"
-"   }\r\n"
-"   \r\n"
-"   public void bookHotel()\r\n"
-"   {      \r\n"
-"      booking = new Booking(hotel, user);\r\n"
-"      Calendar calendar = Calendar.getInstance();\r\n"
-"      booking.setCheckinDate( calendar.getTime() );\r\n"
-"      calendar.add(Calendar.DAY_OF_MONTH, 1);\r\n"
-"      booking.setCheckoutDate( calendar.getTime() );\r\n"
-"   }\r\n"
-"   \r\n"
-"   @End(root=true)\r\n"
-"   public void confirm()\r\n"
-"   {\r\n"
+"be later than check in date\");\n"
+"      }\n"
+"      else\n"
+"      {\n"
+"         result = \"rooms\";\n"
+"      }\n"
+"\n"
+"      return result;\n"
+"   }\n"
+"   \n"
+"   public void bookHotel()\n"
+"   {      \n"
+"      booking = new Booking(hotel, user);\n"
+"      Calendar calendar = Calendar.getInstance();\n"
+"      booking.setCheckinDate( calendar.getTime() );\n"
+"      calendar.add(Calendar.DAY_OF_MONTH, 1);\n"
+"      booking.setCheckoutDate( calendar.getTime() );\n"
+"   }\n"
+"   \n"
+"   @End(root=true)\n"
+"   public void confirm()\n"
+"   {\n"
 "      // on confirmation we set the room preference in the booking.  the "
-"room preference\r\n"
-"      // will be injected based on the nested conversation we are in.\r\n"
-"      booking.setRoomPreference(roomSelection);\r\n"
-"\r\n"
-"      em.persist(booking);\r\n"
+"room preference\n"
+"      // will be injected based on the nested conversation we are in.\n"
+"      booking.setRoomPreference(roomSelection);\n"
+"\n"
+"      em.persist(booking);\n"
 "      facesMessages.add(\"Thank you, #{user.name}, your confimation number "
-"for #{hotel.name} is #{booking.id}\");\r\n"
-"      log.info(\"New booking: #{booking.id} for #{user.username}\");\r\n"
-"      events.raiseTransactionSuccessEvent(\"bookingConfirmed\");\r\n"
-"   }\r\n"
-"   \r\n"
-"   @End(root=true, beforeRedirect=true)\r\n"
-"   public void cancel() {}\r\n"
-"   \r\n"
-"   @Destroy @Remove\r\n"
-"   public void destroy() {}\r\n"
-"}\r\n"
+"for #{hotel.name} is #{booking.id}\");\n"
+"      log.info(\"New booking: #{booking.id} for #{user.username}\");\n"
+"      events.raiseTransactionSuccessEvent(\"bookingConfirmed\");\n"
+"   }\n"
+"   \n"
+"   @End(root=true, beforeRedirect=true)\n"
+"   public void cancel() {}\n"
+"   \n"
+"   @Destroy @Remove\n"
+"   public void destroy() {}\n"
+"}\n"
 "]]>"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1839
+#: Tutorial.xml:1628
 #, no-c-format
 msgid ""
 "Annotating an action with <link linkend=\"end-annotation\"> <varname>@End"
@@ -4095,7 +4093,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1847
+#: Tutorial.xml:1636
 #, no-c-format
 msgid ""
 "The <varname>roomSelection</varname> is only associated with the "
@@ -4107,7 +4105,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1854
+#: Tutorial.xml:1643
 #, no-c-format
 msgid ""
 "By simply annotating the cancellation action with <link linkend=\"end-"
@@ -4117,7 +4115,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1864
+#: Tutorial.xml:1653
 #, no-c-format
 msgid ""
 "Feel free to deploy the application, open many windows or tabs and attempt "
@@ -4127,13 +4125,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1871
+#: Tutorial.xml:1660
 #, no-c-format
 msgid "A complete application featuring Seam and jBPM: the DVD Store example"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1873
+#: Tutorial.xml:1662
 #, no-c-format
 msgid ""
 "The DVD Store demo application shows the practical usage of jBPM for both "
@@ -4141,7 +4139,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1875
+#: Tutorial.xml:1664
 #, no-c-format
 msgid ""
 "The user screens take advantage of a jPDL pageflow to implement searching "
@@ -4149,13 +4147,13 @@ msgid ""
 msgstr ""
 
 #. Tag: screeninfo
-#: Tutorial.xml:1879 Tutorial.xml:1894
+#: Tutorial.xml:1668 Tutorial.xml:1683
 #, no-c-format
 msgid "DVD Store example"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1890
+#: Tutorial.xml:1679
 #, no-c-format
 msgid ""
 "The administration screens take use jBPM to manage the approval and shipping "
@@ -4164,25 +4162,25 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1905 Tutorial.xml:1915
+#: Tutorial.xml:1694 Tutorial.xml:1704
 #, no-c-format
 msgid "TODO"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1906
+#: Tutorial.xml:1695
 #, no-c-format
 msgid "Look in the <literal>dvdstore</literal> directory."
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1910
+#: Tutorial.xml:1699
 #, no-c-format
 msgid "An example of Seam with Hibernate: the Hibernate Booking example"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1912
+#: Tutorial.xml:1701
 #, no-c-format
 msgid ""
 "The Hibernate Booking demo is a straight port of the Booking demo to an "
@@ -4191,19 +4189,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1916
+#: Tutorial.xml:1705
 #, no-c-format
 msgid "Look in the <literal>hibernate</literal> directory."
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1920
+#: Tutorial.xml:1709
 #, no-c-format
 msgid "A RESTful Seam application: the Blog example"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1922
+#: Tutorial.xml:1711
 #, no-c-format
 msgid ""
 "Seam makes it very easy to implement applications which keep state on the "
@@ -4217,13 +4215,13 @@ msgid ""
 msgstr ""
 
 #. Tag: screeninfo
-#: Tutorial.xml:1930
+#: Tutorial.xml:1719
 #, no-c-format
 msgid "Blog example"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1941
+#: Tutorial.xml:1730
 #, no-c-format
 msgid ""
 "The Blog example demonstrates the use of \"pull\"-style MVC, where instead "
@@ -4232,13 +4230,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1946
+#: Tutorial.xml:1735
 #, no-c-format
 msgid "Using \"pull\"-style MVC"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1948
+#: Tutorial.xml:1737
 #, no-c-format
 msgid ""
 "This snippet from the <literal>index.xhtml</literal> facelets page displays "
@@ -4246,7 +4244,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1952
+#: Tutorial.xml:1741
 #, no-c-format
 msgid ""
 "<![CDATA[<h:dataTable value=\"#{blog.recentBlogEntries}\" var=\"blogEntry\" "
@@ -4283,7 +4281,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1956
+#: Tutorial.xml:1745
 #, no-c-format
 msgid ""
 "If we navigate to this page from a bookmark, how does the data used by the "
@@ -4295,7 +4293,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1969
+#: Tutorial.xml:1758
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"blog\")\n"
@@ -4319,7 +4317,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1972
+#: Tutorial.xml:1761
 #, no-c-format
 msgid ""
 "This component uses a <emphasis>seam-managed persistence context</emphasis>. "
@@ -4330,7 +4328,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1979
+#: Tutorial.xml:1768
 #, no-c-format
 msgid ""
 "The <literal>@Unwrap</literal> annotation tells Seam to provide the return "
@@ -4340,7 +4338,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1989
+#: Tutorial.xml:1778
 #, no-c-format
 msgid ""
 "This is good so far, but what about bookmarking the result of form "
@@ -4348,13 +4346,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1995
+#: Tutorial.xml:1784
 #, no-c-format
 msgid "Bookmarkable search results page"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1997
+#: Tutorial.xml:1786
 #, no-c-format
 msgid ""
 "The blog example has a tiny form in the top right of each page that allows "
@@ -4364,7 +4362,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:2002
+#: Tutorial.xml:1791
 #, no-c-format
 msgid ""
 "<![CDATA[<div id=\"search\">\n"
@@ -4376,7 +4374,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:2005
+#: Tutorial.xml:1794
 #, no-c-format
 msgid ""
 "To implement a bookmarkable search results page, we need to perform a "
@@ -4387,7 +4385,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:2010
+#: Tutorial.xml:1799
 #, no-c-format
 msgid ""
 "<![CDATA[<navigation-rule>\n"
@@ -4400,13 +4398,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:2013
+#: Tutorial.xml:1802
 #, no-c-format
 msgid "Then the form would have looked like this:"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:2015
+#: Tutorial.xml:1804
 #, no-c-format
 msgid ""
 "<![CDATA[<div id=\"search\">\n"
@@ -4418,7 +4416,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:2018
+#: Tutorial.xml:1807
 #, no-c-format
 msgid ""
 "But when we redirect, we need to include the values submitted with the form "
@@ -4430,7 +4428,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:2025
+#: Tutorial.xml:1814
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -4443,7 +4441,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:2029
+#: Tutorial.xml:1818
 #, no-c-format
 msgid ""
 "This tells Seam to include the value of <literal>#{searchService."
@@ -4453,13 +4451,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:2033
+#: Tutorial.xml:1822
 #, no-c-format
 msgid "The redirect takes us to the <literal>search.xhtml</literal> page:"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:2035
+#: Tutorial.xml:1824
 #, no-c-format
 msgid ""
 "<![CDATA[<h:dataTable value=\"#{searchResults}\" var=\"blogEntry\">\n"
@@ -4480,14 +4478,14 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:2038
+#: Tutorial.xml:1827
 #, no-c-format
 msgid ""
 "Which again uses \"pull\"-style MVC to retrieve the actual search results:"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:2040
+#: Tutorial.xml:1829
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"searchService\")\n"
@@ -4540,13 +4538,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:2046
+#: Tutorial.xml:1835
 #, no-c-format
 msgid "Using \"push\"-style MVC in a RESTful application"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:2048
+#: Tutorial.xml:1837
 #, no-c-format
 msgid ""
 "Very occasionally, it makes more sense to use push-style MVC for processing "
@@ -4557,7 +4555,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:2053
+#: Tutorial.xml:1842
 #, no-c-format
 msgid ""
 "The <literal>entryAction</literal> component works much like an action class "
@@ -4565,7 +4563,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:2056
+#: Tutorial.xml:1845
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"entryAction\")\n"
@@ -4588,13 +4586,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:2059
+#: Tutorial.xml:1848
 #, no-c-format
 msgid "Page actions are also declared in <literal>pages.xml</literal>:"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:2061
+#: Tutorial.xml:1850
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -4613,7 +4611,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:2064
+#: Tutorial.xml:1853
 #, no-c-format
 msgid ""
 "Notice that the example is using page actions for some other "
@@ -4624,7 +4622,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:2069
+#: Tutorial.xml:1858
 #, no-c-format
 msgid ""
 "When the <literal>entry.xhtml</literal> page is requested, Seam first binds "
@@ -4635,7 +4633,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:2074
+#: Tutorial.xml:1863
 #, no-c-format
 msgid ""
 "<![CDATA[<div class=\"blogEntry\">\n"
@@ -4654,7 +4652,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:2077
+#: Tutorial.xml:1866
 #, no-c-format
 msgid ""
 "If the blog entry is not found in the database, the "
@@ -4664,7 +4662,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:2081
+#: Tutorial.xml:1870
 #, no-c-format
 msgid ""
 "<![CDATA[@ApplicationException(rollback=true)\n"
@@ -4679,7 +4677,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:2084
+#: Tutorial.xml:1873
 #, no-c-format
 msgid ""
 "An alternative implementation of the example does not use the parameter in "
@@ -4687,7 +4685,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:2086
+#: Tutorial.xml:1875
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"entryAction\")\n"
@@ -4710,7 +4708,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:2088
+#: Tutorial.xml:1877
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -4725,7 +4723,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:2091
+#: Tutorial.xml:1880
 #, no-c-format
 msgid "It is a matter of taste which implementation you prefer."
 msgstr ""
