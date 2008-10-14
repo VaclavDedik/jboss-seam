@@ -128,6 +128,7 @@
             <f:facet name="header">Action</f:facet>
             <s:link view="/${'#'}{empty from ? '${pageName}' : from}.xhtml"
                    value="${'#'}{empty from ? 'View' : 'Select'}"
+             propagation="${'#'}{empty from ? 'none' : 'default'}"
                       id="${componentName}">
 <#if pojo.isComponent(pojo.identifierProperty)>
 <#foreach componentProperty in pojo.identifierProperty.value.propertyIterator>
@@ -183,6 +184,7 @@
     <s:div styleClass="actionButtons" rendered="${'#'}{empty from}">
         <s:button view="/${editPageName}.xhtml"
                     id="create"
+           propagation="none"
                  value="Create ${componentName}">
 <#assign idName = componentName + pojo.identifierProperty.name?cap_first>
 <#if c2j.isComponent(pojo.identifierProperty)>

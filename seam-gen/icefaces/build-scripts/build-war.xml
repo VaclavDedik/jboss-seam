@@ -38,7 +38,7 @@
 
     <target name="init" description="Initialize the build">
 
-        <taskdef name ="groovyc"
+        <taskdef name="groovyc"
             classname ="org.codehaus.groovy.ant.Groovyc"
             classpathref="build.classpath"/> <!-- really only the groovy jar is necessary -->
 
@@ -47,12 +47,27 @@
         <mkdir dir="${dist.dir}" />
         <!-- if a .groovy file is in model or action, set groovy.present -->
         <available property="groovy.present" value="true" file="" searchparents="true">
-          <filepath>
-            <fileset dir="${src.action.dir}">
-              <include name="**/*.groovy"/>
-            </fileset>
-          </filepath>
+            <filepath>
+                <fileset dir="${src.action.dir}">
+                    <include name="**/*.groovy"/>
+                </fileset>
+                <fileset dir="${src.model.dir}">
+                  <include name="**/*.groovy"/>
+                </fileset>
+            </filepath>
         </available>
+        <condition property="groovy.test.present" value="true">
+            <or>
+                <isset property="groovy.present"/>
+                <available file="" searchparents="true">
+                    <filepath>
+                        <fileset dir="${src.test.dir}">
+                            <include name="**/*.groovy"/>
+                        </fileset>
+                    </filepath>
+                </available>
+            </or>
+        </condition>
         <condition property="groovy.dynamic" value="true">
             <and>
                 <isset property="groovy.present"/>
@@ -125,12 +140,12 @@
             if="eclipse.running">
         <!-- TODO check how the groovy eclipse plugin works, does it compile? -->
         <copy todir="${classes.model.dir}">
-            <fileset dir="classes/model">
+            <fileset dir="classes/main">
                 <include name="**/*.class"/>
             </fileset>
         </copy>
         <copy todir="${classes.action.dir}">
-            <fileset dir="classes/action">
+            <fileset dir="classes/hot">
                 <include name="**/*.class"/>
             </fileset>
         </copy>
@@ -199,10 +214,10 @@
         
         <copy todir="${war.dir}/WEB-INF/classes">
             <fileset dir="${basedir}/resources">
-                <include name="META-INF/orm.xml" />
                 <include name="*jpdl.xml" />
-                <include name="hibernate.cfg.xml" />
+                <include name="*hibernate.cfg.xml" />
                 <include name="jbpm.cfg.xml" />
+                <include name="META-INF/orm.xml" />
             </fileset>
         </copy>
         
@@ -289,7 +304,7 @@
         </delete>
     </target>
     
-    <target name="compiletest" unless="eclipse.running" description="Compile the Java source code for the tests">
+    <target name="compiletest" depends="groovy.compiletest" unless="eclipse.running" description="Compile the Java source code for the tests">
         <mkdir dir="${test.dir}"/>
         <javac classpathref="build.classpath"
                destdir="${test.dir}"
@@ -301,16 +316,26 @@
             <src path="${src.test.dir}" />
         </javac>
     </target>
+
+    <target name="groovy.compiletest" if="groovy.test.present" description="Compile the Groovy source code for the tests">
+        <mkdir dir="${test.dir}"/>
+        <groovyc classpathref="build.classpath"
+               destdir="${test.dir}">
+            <src path="${src.action.dir}"/>
+            <src path="${src.model.dir}"/>
+            <src path="${src.test.dir}"/>
+        </groovyc>
+    </target>
     
     <target name="copytestclasses" if="eclipse.running" description="Copy classes compiled by eclipse to the test dir">
         <mkdir dir="${test.dir}"/>
         <copy todir="${test.dir}">
-            <fileset dir="classes/model">
+            <fileset dir="classes/main">
                 <include name="**/*.class"/>
             </fileset>
         </copy>
         <copy todir="${test.dir}">
-            <fileset dir="classes/action">
+            <fileset dir="classes/hot">
                 <include name="**/*.class"/>
             </fileset>
         </copy>
@@ -321,7 +346,7 @@
         </copy>
     </target>
     
-    <target name="buildtest" depends="compiletest,copytestclasses" description="Build the tests">
+    <target name="buildtest" depends="init,compiletest,copytestclasses" description="Build the tests">
         <copy todir="${test.dir}">
             <fileset dir="${basedir}/resources">
                 <exclude name="META-INF/persistence*.xml"/>
@@ -352,7 +377,7 @@
         <path id="test.path">
             <path path="${test.dir}" />
             <fileset dir="${lib.dir}/test">
-                <include name="*.jar" />
+                <include name="*.jar"/>
             </fileset>
             <path path="${bootstrap.dir}" />
             <path refid="build.classpath" />
