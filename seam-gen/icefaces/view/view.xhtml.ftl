@@ -22,7 +22,7 @@
           <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                   <td class="iceDatTblColHdr2">
-			    <ice:outputText id="viewText${homeName}Id" value="${homeName}"/>
+			    <ice:outputText id="viewText${homeName}Id" value="${entityName}"/>
                   </td>
               </tr>
           </table>
@@ -39,11 +39,11 @@
     <div id="view${editPageName}searchButtons" class="actionButtons">      
 
         <s:button view="/${editPageName}.xhtml" 
-                    id="viewEdit${editPageName}" 
+                    id="viewEdit${editPageName}" styleClass="iceCmdBtn"
                  value="Edit"/>
 
         <s:button view="/${'#'}{empty ${componentName}From ? '${masterPageName}' : ${componentName}From}.xhtml"
-                    id="viewDone${editPageName}"
+                    id="viewDone${editPageName}" styleClass="iceCmdBtn"
                  value="Done"/>
 
     </div>
