@@ -15,16 +15,18 @@ elif [ ! -x "$JAVA_HOME"/bin/javac ]; then
     exit 1
 fi
 
-DIRNAME=`dirname $0`
 WORKING_DIR=$PWD
 
 if [ -z "$SEAM_HOME" ]; then
     # get the full path (without any relative bits)
-    SEAM_HOME=`readlink -f $DIRNAME`
+    SEAM_SCRIPT=`readlink -f $0`
+    SEAM_HOME=`dirname $SEAM_SCRIPT`
 fi
 
 SEAM_GEN_DIR="$SEAM_HOME/seam-gen"
 SEAM_COMMAND="${1}"
+
+echo $SEAM_HOME
 
 # OS specific support (must be 'true' or 'false').
 cygwin=false;
