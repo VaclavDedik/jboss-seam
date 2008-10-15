@@ -758,7 +758,18 @@
                         the current request, and that the redirect will be 
                         processed in a new temporary conversation context. 
                      </para>
-                  </listitem>
+                 </listitem>
+	             <listitem>
+                     <para>
+                        <literal>root</literal> &#8212; by default,
+                        ending a nested conversation simply pops the conversation 
+                        stack and resumes the outer conversation.  Setting 
+                        <literal>root=true</literal> specifies that the root 
+                        conversation should be destroyed which effectively destroys 
+                        the entire conversation stack.  If the conversation is not
+                        nested, the current conversation is simply ended.
+                     </para>
+                 </listitem>
 	          </itemizedlist>
            </listitem>	
          </varlistentry>
