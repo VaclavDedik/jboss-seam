@@ -2,7 +2,7 @@
    <title>Seam on IBM's Websphere</title>
    
    <para>Websphere 6.1.x is IBM's application server offering. The latest
-      release is 6.1.0.13 which does not have <literal>EJB3</literal> or
+      release is 6.1.0.19 which does not have <literal>EJB3</literal> or
       <literal>JEE5</literal> support. There is a recently released (Nov 07)
       <literal>EJB3</literal> feature pack which provides some support for
       <literal>EJB3</literal> and <literal>JPA</literal>. Currently there
@@ -28,19 +28,25 @@
       <section>
          <title>Installation versions and tips</title>
          <para>All of the examples and information in this chapter are based on
-            the the latest version of Websphere at the time of this writing.
+            the version 6.1 of Websphere at the time of this writing.
             <itemizedlist>
                <listitem>
                   <para><ulink
-                        url="http://www.ibm.com/developerworks/websphere/zones/was/">
-                     Websphere Application Server 6.1.0.13</ulink></para>
+                        url="http://www-01.ibm.com/software/webservers/appserv/was/">
+                     Websphere Application Server 6.1</ulink></para>
                </listitem>
                <listitem>
                   <para><ulink
-                        url="http://www-1.ibm.com/support/docview.wss?rs=180&amp;uid=swg21287579">
+                        url="http://www-01.ibm.com/support/docview.wss?rs=177&amp;uid=swg21287579">
                      Feature Pack for EJB 3.0 for Websphere Application Server
-                     V6.1 (3.0.6.1.0.13)</ulink></para>
+                     V6.1 (6.1.0.13)</ulink></para>
                </listitem>
+               <listitem>
+                  <para><ulink
+                        url="http://www-01.ibm.com/support/docview.wss?rs=0&amp;uid=swg24020063">
+                     Fix Pack for Websphere Application Server
+                     V6.1 (6.1.0.19)</ulink> </para>
+               </listitem>               
             </itemizedlist> </para>
          
          <para>The EJB3 feature pack that we installed came with the 6.1.0.13
@@ -51,6 +57,8 @@
             profile with the EJB3 feature pack enabled, or augment one of your
             existing ones.  This can also be done after the installation 
             by running the profile management tool.</para>
+         <para>Next is highly recommended to patch Websphere by
+			latest fix pack, at the time of this writing it is 6.1.0.19 </para>
          <note>
          <title>A note about restarting the server</title>
          <para>There are times that restarting the server will be required after
@@ -226,6 +234,7 @@
     <local-home></local-home>
     <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>
   </ejb-local-ref>]]></programlisting>
+  
                   <para>The important change is that there is an empty
                      <literal>local-home</literal> element for each EJB.
                      This tells Websphere to make the correct bindings between 
@@ -443,6 +452,20 @@ cp ../../jpa/resources-websphere61/import.sql ./resources]]></programlisting>
    <include name="lib/jboss-seam.jar" />
 </fileset>]]></programlisting>
                
+            <para>We have to also add richfaces-api.jar, jsf-impl.jar and el-ri.jar into WEB-INF/lib of the war file.
+              Add the following fileset after <literal>ear.lib.extras</literal> fileset.</para>  
+              <programlisting role="XML"><![CDATA[
+    <fileset id="war.lib.extras" dir="${seam.dir}"> 
+	   <include name="lib/richfaces-api.jar" />
+       <include name="lib/jsf-impl.jar" />
+       <include name="lib/el-ri.jar" /> 
+	</fileset>]]></programlisting>
+	<note>
+		<title>A note about copying JSF and EL jars</title>
+		<para>There is some class loading issue, which caused that jars
+			from ear lib directory are not available at the time of the
+			initialization of web module. This is a workaround. </para>
+	</note>
             
             <para>Now all that is left is to execute the <literal>ant
                archive</literal> task and the built application will be in
@@ -1502,6 +1525,18 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
    <include name="lib/jboss-seam.jar" />
                            
 </fileset>]]></programlisting>
+
+			<para>Last step is adding <literal>jsf-impl.jar</literal> and <literal>el-ri.jar</literal> 
+			into war target. Look for <literal>copy todir="${war.dir}/WEB-INF/lib"</literal></para>
+<programlisting role="XML"><![CDATA[<copy todir="${war.dir}/WEB-INF/lib">
+                        <fileset dir="${lib.dir}">
+                                <includesfile name="deployed-jars-war.list" />
+                                <include name="jsf-impl.jar" />
+       							<include name="el-ri.jar" /> 
+                                <exclude name="jboss-seam-gen.jar" />
+                        </fileset>
+</copy>]]></programlisting>
+                
             </listitem>
          </itemizedlist>
          
