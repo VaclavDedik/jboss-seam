@@ -65,9 +65,10 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     
+
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>*.seam</url-pattern>
+        <url-pattern>*.z</url-pattern>
     </servlet-mapping>
 
     <servlet>

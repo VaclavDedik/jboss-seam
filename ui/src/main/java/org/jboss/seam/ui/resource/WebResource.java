@@ -40,20 +40,20 @@ public class WebResource extends AbstractResource
       
       InputStream in = Resources.getResourceAsStream( "/org/jboss/seam/ui/resource" + pathInfo, getServletContext() );
       
-      if (in != null)
-      {
-         byte[] buffer = new byte[1024];
-         int read = in.read(buffer);
-         while (read != -1)
-         {
-            response.getOutputStream().write(buffer, 0, read);
-            read = in.read(buffer);
-         }
-         response.getOutputStream().flush();
-      }
-      else
-      {
-         response.sendError(HttpServletResponse.SC_NOT_FOUND);
+      try {
+          if (in != null) {
+              byte[] buffer = new byte[1024];
+              int read = in.read(buffer);
+              while (read != -1) {
+                  response.getOutputStream().write(buffer, 0, read);
+                  read = in.read(buffer);
+              }
+              response.getOutputStream().flush();
+          } else {
+              response.sendError(HttpServletResponse.SC_NOT_FOUND);
+          }
+      } finally {
+          Resources.closeStream(in);
       }
    }
 

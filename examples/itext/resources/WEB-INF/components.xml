@@ -2,10 +2,12 @@
             xmlns:pdf="http://jboss.com/products/seam/pdf"
             xmlns:core="http://jboss.com/products/seam/core"
             xmlns:framework="http://jboss.com/products/seam/framework"
+            xmlns:web="http://jboss.com/products/seam/web"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd 
                                 http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.1.xsd
                                 http://jboss.com/products/seam/pdf http://jboss.com/products/seam/pdf-2.1.xsd   
+                                http://jboss.com/products/seam/web  /Users/orb/proj/jboss/seam/trunk/src/main/org/jboss/seam/web-2.1.xsd  
                                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
 
     <component name="org.jboss.seam.document.documentStore"> 
@@ -23,4 +25,9 @@
     <component name="sampleButton" class="javax.swing.JButton">
         <property name="label">A JButton!</property>
     </component>
+
+<!--
+    <web:rewrite-filter view-mapping="/test/*" />
+-->
+    <web:rewrite-filter view-mapping="*.seam" /> 
 </components>

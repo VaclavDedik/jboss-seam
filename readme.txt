@@ -1,3 +1,4 @@
+
 JBoss Seam - Contextual Component framework for Java EE 5
 =========================================================
 version 2.1.0.CR1, September 2008
@@ -8,7 +9,7 @@ Public License (see lgpl.txt).
 Get Up And Running Quick
 ------------------------
    
-1. Install JBoss AS 4.2.3.GA.  The JEMS installer is no longer required for EJB3 support.
+1. Install JBoss AS 4.2.3.GA.  
 
 2. Edit the "build.properties" file and change jboss.home to your 
    JBoss AS installation directory
@@ -23,29 +24,6 @@ Get Up And Running Quick
    http://localhost:8080/seam-booking/
    
 6. Register an account, search for hotels, book a room...
-
-Running The TestNG Tests
-------------------------
-
-In the jboss-seam-x.x.x.x directory, type "ant testcore testreport" or "ant testall testreport".
-
-Then checkout the report in the /test-report directory.
-
-Running the TestNG Tests in Eclipse
------------------------------------
-
-1. Install the TestNG Eclipse plugin from http://beust.com/eclipse
-
-2. Create the jboss-seam Eclipse project with the following directories
-   in your source path:
-   
-   src/main/
-   src/test/misc
-   
-   And all jar files from the lib/ directory in your classpath.
-   
-3. Run src/test/misc/org/jboss/seam/test/testng.xml using the TestNG 
-   plugin.
 
 Learn more
 ----------
