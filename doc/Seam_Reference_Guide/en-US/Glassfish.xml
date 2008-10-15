@@ -351,7 +351,7 @@ postgres, mssql, db2, sybase, enterprisedb, h2)
 [org.hibernate.dialect.HSQLDialect]
 
 [input] Enter the filesystem path to the JDBC driver jar
-[../lib/hsqldb.jar] [../lib/hsqldb.jar]
+[/tmp/seam/lib/hsqldb.jar] [/tmp/seam/lib/hsqldb.jar]
 
 [input] Enter JDBC driver class for your database [org.hsqldb.jdbcDriver]
 [org.hsqldb.jdbcDriver]

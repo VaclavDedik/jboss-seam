@@ -1022,9 +1022,9 @@ setup:
     [input] Enter your Java project workspace (the directory that contains your 
 Seam projects) [C:/Projects] [C:/Projects]
 /home/jbalunas/workspace
-    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.2.GA] 
-[C:/Program Files/jboss-4.2.2.GA]
-/home/jbalunas/jboss/jboss-4.2.2.GA
+    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.3.GA] 
+[C:/Program Files/jboss-4.2.3.GA]
+/home/jbalunas/jboss/jboss-4.2.3.GA
     [input] Enter the project name [myproject] [myproject]
 websphere_example
      [echo] Accepted project name as: websphere_example
@@ -1052,8 +1052,8 @@ org.jboss.seam.tutorial.websphere.test
     [input] Enter the Hibernate dialect for your database [org.hibernate.
 dialect.HSQLDialect] [org.hibernate.dialect.HSQLDialect]
 
-    [input] Enter the filesystem path to the JDBC driver jar [lib/hsqldb.jar] 
-[lib/hsqldb.jar]
+    [input] Enter the filesystem path to the JDBC driver jar [/tmp/seam/lib/hsqldb.jar] 
+[/tmp/seam/lib/hsqldb.jar]
 
     [input] Enter JDBC driver class for your database [org.hsqldb.jdbcDriver] 
 [org.hsqldb.jdbcDriver]
@@ -1078,7 +1078,7 @@ import.sql each time you deploy? [n]  (y, [n], )
 [propertyfile] Creating new property file: 
 /rhdev/projects/jboss-seam/svn-seam_2_0/jboss-seam-2_0/seam-gen/build.properties
      [echo] Installing JDBC driver jar to JBoss server
-     [copy] Copying 1 file to /home/jbalunas/jboss/jboss-4.2.2.GA/server/default/lib
+     [copy] Copying 1 file to /home/jbalunas/jboss/jboss-4.2.3.GA/server/default/lib
      [echo] Type 'seam create-project' to create the new project
 
 BUILD SUCCESSFUL

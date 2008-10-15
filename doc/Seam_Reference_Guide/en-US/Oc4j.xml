@@ -412,7 +412,7 @@
       <orderedlist>
          <listitem>
             <para> Copy <literal>hsqldb.jar</literal> to OC4J shared library
-               directory: <literal> cp ../../seam-gen/lib/hsqldb.jar
+               directory: <literal> cp $SEAM_HOME/lib/hsqldb.jar
                $ORACLE_HOME/j2ee/home/applib/ </literal> (OC4J doesn't
                come with an embedded database so we decided to use HSQLDB)
                </para>
@@ -537,9 +537,9 @@ setup:
     [input] Enter your Java project workspace (the directory that contains your 
 Seam projects) [C:/Projects] [C:/Projects]
 /home/jbalunas/workspace
-    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.2.GA] 
-[C:/Program Files/jboss-4.2.2.GA]
-/home/jbalunas/jboss/jboss-4.2.2.GA
+    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.3.GA] 
+[C:/Program Files/jboss-4.2.3.GA]
+/home/jbalunas/jboss/jboss-4.2.3.GA
     [input] Enter the project name [myproject] [myproject]
 oc4j_example
      [echo] Accepted project name as: oc4j_example
@@ -564,8 +564,8 @@ mysql
     [input] Enter the Hibernate dialect for your database [org.hibernate.
 dialect.MySQLDialect] [org.hibernate.dialect.MySQLDialect]
 
-    [input] Enter the filesystem path to the JDBC driver jar [lib/hsqldb.jar] 
-[lib/hsqldb.jar]
+    [input] Enter the filesystem path to the JDBC driver jar [/tmp/seam/lib/hsqldb.jar] 
+[/tmp/seam/lib/hsqldb.jar]
 lib/mysql-connector.jar
     [input] Enter JDBC driver class for your database [com.mysql.jdbc.Driver] 
 [com.mysql.jdbc.Driver]
@@ -592,7 +592,7 @@ n
 [propertyfile] Creating new property file: 
 /home/jbalunas/workspace/jboss-seam/seam-gen/build.properties
      [echo] Installing JDBC driver jar to JBoss server
-     [copy] Copying 1 file to /home/jbalunas/jboss/jboss-4.2.2.GA/server/default/lib
+     [copy] Copying 1 file to /home/jbalunas/jboss/jboss-4.2.3.GA/server/default/lib
      [echo] Type 'seam create-project' to create the new project
 
 BUILD SUCCESSFUL]]></programlisting>
