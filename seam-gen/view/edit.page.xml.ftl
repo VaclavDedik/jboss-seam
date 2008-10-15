@@ -30,18 +30,24 @@
 </#if>
 
    <navigation from-action="${'#'}{${homeName}.persist}">
-       <end-conversation/>
-       <redirect view-id="/${pageName}.xhtml"/>
+      <rule>
+         <end-conversation/>
+         <redirect view-id="/${pageName}.xhtml"/>
+      </rule>
    </navigation>
 
    <navigation from-action="${'#'}{${homeName}.update}">
-       <end-conversation/>
-       <redirect view-id="/${pageName}.xhtml"/>
+      <rule>
+         <end-conversation/>
+         <redirect view-id="/${pageName}.xhtml"/>
+      </rule>
    </navigation>
 
    <navigation from-action="${'#'}{${homeName}.remove}">
-       <end-conversation/>
-       <redirect view-id="/${masterPageName}.xhtml"/>
+      <rule>
+         <end-conversation/>
+         <redirect view-id="/${masterPageName}.xhtml"/>
+      </rule>
    </navigation>
 
 </page>
