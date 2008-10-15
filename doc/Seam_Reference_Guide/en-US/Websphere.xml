@@ -57,7 +57,7 @@
             profile with the EJB3 feature pack enabled, or augment one of your
             existing ones.  This can also be done after the installation 
             by running the profile management tool.</para>
-         <para>Next is highly recommended to patch Websphere by
+         <para>It is highly recommended to patch Websphere by
 			latest fix pack, at the time of this writing it is 6.1.0.19 </para>
          <note>
          <title>A note about restarting the server</title>
@@ -452,20 +452,21 @@ cp ../../jpa/resources-websphere61/import.sql ./resources]]></programlisting>
    <include name="lib/jboss-seam.jar" />
 </fileset>]]></programlisting>
                
-            <para>We have to also add richfaces-api.jar, jsf-impl.jar and el-ri.jar into WEB-INF/lib of the war file.
-              Add the following fileset after <literal>ear.lib.extras</literal> fileset.</para>  
+             <para>We also need to add richfaces-api.jar, jsf-impl.jar and 
+              el-ri.jar into WEB-INF/lib of the war file.  Add the following
+              fileset after <literal>ear.lib.extras</literal> fileset.</para>  
               <programlisting role="XML"><![CDATA[
     <fileset id="war.lib.extras" dir="${seam.dir}"> 
-	   <include name="lib/richfaces-api.jar" />
+       <include name="lib/richfaces-api.jar" />
        <include name="lib/jsf-impl.jar" />
        <include name="lib/el-ri.jar" /> 
-	</fileset>]]></programlisting>
-	<note>
-		<title>A note about copying JSF and EL jars</title>
-		<para>There is some class loading issue, which caused that jars
-			from ear lib directory are not available at the time of the
-			initialization of web module. This is a workaround. </para>
-	</note>
+    </fileset>]]></programlisting>
+   <note>
+      <title>A note about copying JSF and EL jars</title>
+      <para>There is a class loading issue with WebSphere, which causes the jars
+         from ear lib directory to not be available when the web module is 
+         initialized.</para>
+   </note>
             
             <para>Now all that is left is to execute the <literal>ant
                archive</literal> task and the built application will be in
@@ -1526,13 +1527,15 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
                            
 </fileset>]]></programlisting>
 
-			<para>Last step is adding <literal>jsf-impl.jar</literal> and <literal>el-ri.jar</literal> 
-			into war target. Look for <literal>copy todir="${war.dir}/WEB-INF/lib"</literal></para>
+         <para>The last step is to add <literal>jsf-impl.jar</literal> 
+         and <literal>el-ri.jar</literal> to the war target. Look for 
+         <literal>copy todir="${war.dir}/WEB-INF/lib"</literal> and add the 
+         following:</para>
 <programlisting role="XML"><![CDATA[<copy todir="${war.dir}/WEB-INF/lib">
                         <fileset dir="${lib.dir}">
                                 <includesfile name="deployed-jars-war.list" />
                                 <include name="jsf-impl.jar" />
-       							<include name="el-ri.jar" /> 
+                                <include name="el-ri.jar" /> 
                                 <exclude name="jboss-seam-gen.jar" />
                         </fileset>
 </copy>]]></programlisting>
