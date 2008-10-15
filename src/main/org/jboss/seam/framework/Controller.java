@@ -14,6 +14,7 @@ import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Events;
+import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Validators;
 import org.jboss.seam.faces.FacesMessages;
@@ -290,6 +291,11 @@ public abstract class Controller implements Serializable
       {
          return false;
       }
+   }
+   
+   protected <T> T evaluateValueExpression(String expression, Class<T> type)
+   {
+       return Expressions.instance().createValueExpression(expression, type).getValue();
    }
 
 }
