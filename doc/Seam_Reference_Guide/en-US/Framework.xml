@@ -373,9 +373,9 @@ public class PersonHome extends EntityHome<Person> {
         return new Person(country);
     }
     
-    protected String getCreatedMessage() { return "New person #{person.firstName} #{person.lastName} created"; }
-    protected String getUpdatedMessage() { return "Person #{person.firstName} #{person.lastName} updated"; }
-    protected String getDeletedMessage() { return "Person #{person.firstName} #{person.lastName} deleted"; }
+    protected String getCreatedMessage() { return createValueExpression("New person #{person.firstName} #{person.lastName} created"); }
+    protected String getUpdatedMessage() { return createValueExpression("Person #{person.firstName} #{person.lastName} updated"); }
+    protected String getDeletedMessage() { return createValueExpression("Person #{person.firstName} #{person.lastName} deleted"); }
     
 }]]></programlisting>
 

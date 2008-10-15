@@ -17,6 +17,7 @@ import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Validators;
+import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.HttpError;
 import org.jboss.seam.faces.Redirect;
@@ -295,7 +296,22 @@ public abstract class Controller implements Serializable
    
    protected <T> T evaluateValueExpression(String expression, Class<T> type)
    {
-       return Expressions.instance().createValueExpression(expression, type).getValue();
+       return createValueExpression(expression, type).getValue();
+   }
+   
+   protected Object evaluateValueExpression(String expression)
+   {
+       return createValueExpression(expression).getValue();
+   }
+   
+   protected <T> ValueExpression<T> createValueExpression(String expression, Class<T> type)
+   {
+       return Expressions.instance().createValueExpression(expression, type);
+   }
+   
+   protected ValueExpression createValueExpression(String expression)
+   {
+       return Expressions.instance().createValueExpression(expression, Object.class);
    }
 
 }
