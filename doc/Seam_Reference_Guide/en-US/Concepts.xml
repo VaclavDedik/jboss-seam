@@ -545,10 +545,40 @@ public class LoginAction implements Login {
             <programlisting role="XML"><![CDATA[<factory name="loginAction" scope="STATELESS" value="#{com.jboss.myapp.loginAction}"/>]]></programlisting>
 
             <para> 
-                All of the built-in Seam components have qualified names, but most of them are aliased to a simple
-                name by the <literal>components.xml</literal> file included in the Seam jar. 
+                All of the built-in Seam components have qualified names but can be accessed through 
+                their unqualified names due to the namespace import feature of Seam. 
+                The <literal>components.xml</literal> file included in the Seam JAR defines the following
+                namespaces.
             </para>
-
+            
+<programlisting>&lt;components xmlns=&quot;http://jboss.com/products/seam/components&quot;&gt;
+    
+    &lt;import&gt;org.jboss.seam.core&lt;/import&gt;
+    &lt;import&gt;org.jboss.seam.cache&lt;/import&gt;
+    &lt;import&gt;org.jboss.seam.transaction&lt;/import&gt;
+    &lt;import&gt;org.jboss.seam.framework&lt;/import&gt;
+    &lt;import&gt;org.jboss.seam.web&lt;/import&gt;
+    &lt;import&gt;org.jboss.seam.faces&lt;/import&gt;
+    &lt;import&gt;org.jboss.seam.international&lt;/import&gt;
+    &lt;import&gt;org.jboss.seam.theme&lt;/import&gt;
+    &lt;import&gt;org.jboss.seam.pageflow&lt;/import&gt;
+    &lt;import&gt;org.jboss.seam.bpm&lt;/import&gt;
+    &lt;import&gt;org.jboss.seam.jms&lt;/import&gt;
+    &lt;import&gt;org.jboss.seam.mail&lt;/import&gt;
+    &lt;import&gt;org.jboss.seam.security&lt;/import&gt;
+    &lt;import&gt;org.jboss.seam.security.management&lt;/import&gt;  
+    &lt;import&gt;org.jboss.seam.security.permission&lt;/import&gt;
+    &lt;import&gt;org.jboss.seam.captcha&lt;/import&gt;
+    &lt;import&gt;org.jboss.seam.excel.exporter&lt;/import&gt;
+    &lt;!-- ... ---&gt;
+&lt;/components&gt;
+</programlisting>   
+            
+            <para>
+                When attempting to resolve an unqualified name, Seam will check each of those namespaces, in order.
+                You can include additional namespaces in your application's <literal>components.xml</literal> file
+                for application-specific namespaces.
+            </para>
         </sect2>
 
         <sect2>
