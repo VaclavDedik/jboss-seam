@@ -232,9 +232,35 @@
             A nested conversation is created by invoking a method marked
             <literal>@Begin(nested=true)</literal> inside the scope of an
             existing conversation. A nested conversation has its own
-            conversation context, and also has read-only access to the
-            context of the outer conversation. (It can read the outer
-            conversation's context variables, but not write to them.)
+            conversation context, but can read values from the outer
+            conversation's context.  The outer conversation's context is 
+            read-only within a nested conversation, but because objects 
+            are obtained by reference, changes to the objects themselves 
+            will be reflected in the outer context.
+        </para>
+        
+        <itemizedlist>
+        	<listitem>
+        		<para>Nesting a conversation through initializes a context that is 
+        		stacked on the context of the original, or outer, conversation.
+        		The outer conversation is considered the parent.
+        		</para>
+        	</listitem>
+        	<listitem>
+        	 	<para>Any values outjected or directly set into the nested 
+        	 	conversation’s context do not affect the objects accessible in 
+        	 	the parent conversation’s context.</para>
+        	</listitem>
+        	<listitem>
+        		<para>Injection or a context lookup from the conversation context
+        		will first lookup the value in the current conversation context and, 
+        		if no value is found, will proceed down the conversation stack if the
+        		conversation is nested.  As you will see in moment, this behavior 
+        		can be overriden.
+        	</listitem>
+        </itemizedlist>
+        
+        <para>
             When an <literal>@End</literal> is subsequently encountered,
             the nested conversation will be destroyed, and the outer
             conversation will resume, by "popping" the conversation stack.
@@ -250,23 +276,25 @@
             a nested conversation ends, Seam destroys all nested conversation
             contexts along with the outer context.
         </para>
+	    
+        <para>
+        	The conversation at the bottom of the conversation stack is the root 
+        	conversation.  Destroying this conversation always destroy all of its 
+        	descendents.  You can achieve this declaratively by specifying
+        	<literal>@End(root=true)</literal>.
+        </para>
         
         <para>
             A conversation may be thought of as a <emphasis>continuable state</emphasis>.
             Nested conversations allow the application to capture a consistent
             continuable state at various points in a user interaction, thus
-            insuring truly correct behavior in the face of backbuttoning and
+            ensuring truly correct behavior in the face of backbuttoning and
             workspace management.
         </para>
         
         <para>
-            TODO: an example to show how a nested conversation prevents bad 
-            stuff happening when you backbutton.
-        </para>
-        
-        <para>
-            Usually, if a component exists in a parent conversation of the 
-            current nested conversation, the nested conversation will use
+            As mentioned previously, if a component exists in a parent conversation of 
+            the current nested conversation, the nested conversation will use
             the same instance. Occasionally, it is useful to have a different
             instance in each nested conversation, so that the component 
             instance that exists in the parent conversation is invisible to
