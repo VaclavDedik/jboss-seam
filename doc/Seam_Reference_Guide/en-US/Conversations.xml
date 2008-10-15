@@ -238,28 +238,33 @@
             are obtained by reference, changes to the objects themselves 
             will be reflected in the outer context.
         </para>
-        
+
         <itemizedlist>
-        	<listitem>
-        		<para>Nesting a conversation through initializes a context that is 
-        		stacked on the context of the original, or outer, conversation.
-        		The outer conversation is considered the parent.
-        		</para>
-        	</listitem>
-        	<listitem>
-        	 	<para>Any values outjected or directly set into the nested 
-        	 	conversation’s context do not affect the objects accessible in 
-        	 	the parent conversation’s context.</para>
-        	</listitem>
-        	<listitem>
-        		<para>Injection or a context lookup from the conversation context
-        		will first lookup the value in the current conversation context and, 
-        		if no value is found, will proceed down the conversation stack if the
-        		conversation is nested.  As you will see in moment, this behavior 
-        		can be overriden.
-        	</listitem>
+           <listitem>
+              <para>
+                 Nesting a conversation through initializes a context that is
+                 stacked on the context of the original, or outer, conversation.
+                 The outer conversation is considered the parent.
+              </para>
+           </listitem>
+           <listitem>
+              <para>
+                 Any values outjected or directly set into the nested
+                 conversation’s context do not affect the objects accessible in
+                 the parent conversation’s context.
+              </para>
+           </listitem>
+           <listitem>
+              <para>
+                 Injection or a context lookup from the conversation context
+                 will first lookup the value in the current conversation context
+                 and, if no value is found, will proceed down the conversation
+                 stack if the conversation is nested. As you will see in moment,
+                 this behavior can be overriden.
+              </para>
+           </listitem>
         </itemizedlist>
-        
+
         <para>
             When an <literal>@End</literal> is subsequently encountered,
             the nested conversation will be destroyed, and the outer
