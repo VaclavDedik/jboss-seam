@@ -10,7 +10,7 @@
       no-conversation-view-id="/${masterPageName}.xhtml"
       login-required="true">
 
-   <begin-conversation join="true"/>
+   <begin-conversation join="true" flush-mode="MANUAL"/>
 
    <action execute="${'#'}{${homeName}.wire}"/>
 
