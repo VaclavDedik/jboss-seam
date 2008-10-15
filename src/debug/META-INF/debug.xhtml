@@ -104,12 +104,11 @@
           <f:facet name="header">Action</f:facet>
           <h:outputLink>
             Select
-            <f:param name="#{org.jboss.seam.core.manager.conversationIdParameter}" value="#{_entry.id}"/>
+            <f:param name="#{manager.conversationIdParameter}" value="#{_entry.id}"/>
           </h:outputLink>
           #{' '}
-          <h:commandLink actionListener="#{_entry.destroy}" action="#{org.jboss.seam.faces.redirect.execute}" value="Destroy">
-            <f:setPropertyActionListener target="#{org.jboss.seam.faces.redirect.conversationPropagationEnabled}" value="#{false}"/>
-            <f:setPropertyActionListener target="#{org.jboss.seam.faces.redirect.viewId}" value="#{view.viewId}"/>
+          <h:commandLink actionListener="#{_entry.destroy}" action="#{org.jboss.seam.debug.jsf.debugRedirect.execute}" value="Destroy">
+            <f:setPropertyActionListener target="#{org.jboss.seam.debug.jsf.debugRedirect.viewId}" value="#{view.viewId}"/>
           </h:commandLink>
         </h:column>
       </h:dataTable>
@@ -146,10 +145,10 @@
         <span id="conversationContextOff" style="display: none;">+</span>
         <span id="conversationContextOn">-</span>
         &#160;Conversation Context&#160;
-        <h:outputText value="(#{org.jboss.seam.core.manager.currentConversationId})"
-                      rendered="#{org.jboss.seam.core.manager.longRunningConversation}"/>
+        <h:outputText value="(#{manager.currentConversationId})"
+                      rendered="#{manager.longRunningConversation}"/>
         <h:outputText value="(None selected)"
-                      rendered="#{!org.jboss.seam.core.manager.longRunningConversation}"/>
+                      rendered="#{!manager.longRunningConversation}"/>
       </a>
     </h2>
     <div id="conversationContext">
@@ -161,7 +160,7 @@
         <h:outputLink>
           #{name}
           <f:param name="name" value="#{name}"/>
-          <f:param name="#{org.jboss.seam.core.manager.conversationIdParameter}" value="#{conversation.id}"/>
+          <f:param name="#{manager.conversationIdParameter}" value="#{conversation.id}"/>
         </h:outputLink>
       </h:column>
     </h:dataTable>
@@ -183,7 +182,7 @@
         <h:outputLink>
           #{name}
           <f:param name="name" value="#{name}"/>
-          <f:param name="#{org.jboss.seam.core.manager.conversationIdParameter}" value="#{conversation.id}"/>
+          <f:param name="#{manager.conversationIdParameter}" value="#{conversation.id}"/>
         </h:outputLink>
       </h:column>
     </h:dataTable>
@@ -205,7 +204,7 @@
         <h:outputLink>
           #{name}
           <f:param name="name" value="#{name}"/>
-          <f:param name="#{org.jboss.seam.core.manager.conversationIdParameter}" value="#{conversation.id}"/>
+          <f:param name="#{manager.conversationIdParameter}" value="#{conversation.id}"/>
         </h:outputLink>
       </h:column>
     </h:dataTable>
@@ -225,7 +224,7 @@
         <h:outputLink>
           #{name}
           <f:param name="name" value="#{name}"/>
-          <f:param name="#{org.jboss.seam.core.manager.conversationIdParameter}" value="#{conversation.id}"/>
+          <f:param name="#{manager.conversationIdParameter}" value="#{conversation.id}"/>
         </h:outputLink>
       </h:column>
     </h:dataTable>
