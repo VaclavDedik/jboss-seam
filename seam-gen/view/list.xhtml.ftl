@@ -21,11 +21,13 @@
 
         <rich:simpleTogglePanel label="${entityName} Search Filter" switchType="ajax">
 
+<#assign searchParamNames = []/>
 <#foreach property in pojo.allPropertiesIterator>
 <#if !c2h.isCollection(property) && !isToOne(property) && property != pojo.versionProperty!>
 <#if c2j.isComponent(property)>
 <#foreach componentProperty in property.value.propertyIterator>
 <#if isString(componentProperty)>
+<#assign searchParamNames = searchParamNames + [componentProperty.name]/>
             <s:decorate template="layout/display.xhtml">
                 <ui:define name="label">${label(componentProperty.name)}</ui:define>
                 <h:inputText id="${componentProperty.name}" value="${'#'}{${listName}.${componentName}.${property.name}.${componentProperty.name}}"/>
@@ -35,6 +37,7 @@
 </#foreach>
 <#else>
 <#if isString(property)>
+<#assign searchParamNames = searchParamNames + [property.name]/>
             <s:decorate template="layout/display.xhtml">
                 <ui:define name="label">${label(property.name)}</ui:define>
                 <h:inputText id="${property.name}" value="${'#'}{${listName}.${componentName}.${property.name}}"/>
@@ -49,6 +52,11 @@
 
         <div class="actionButtons">
             <h:commandButton id="search" value="Search" action="/${listPageName}.xhtml"/>
+            <s:button id="reset" value="Reset">
+<#list searchParamNames as paramName>
+                <f:param name="${paramName}"/>
+</#list>
+            </s:button>
         </div>
 
     </h:form>
@@ -124,7 +132,7 @@
 </#if>
 </#if>
 </#foreach>
-        <h:column>
+        <rich:column styleClass="action">
             <f:facet name="header">Action</f:facet>
             <s:link view="/${'#'}{empty from ? '${pageName}' : from}.xhtml"
                    value="${'#'}{empty from ? 'View' : 'Select'}"
@@ -140,7 +148,23 @@
                         value="${'#'}{_${componentName}.${pojo.identifierProperty.name}}"/>
 </#if>
             </s:link>
-        </h:column>
+            ${'#'}{' '}
+            <s:link view="/${pageName}Edit.xhtml"
+                   value="Edit"
+             propagation="none"
+                      id="${componentName}Edit"
+                rendered="${'#'}{empty from}">
+<#if pojo.isComponent(pojo.identifierProperty)>
+<#foreach componentProperty in pojo.identifierProperty.value.propertyIterator>
+                <f:param name="${componentName}${componentProperty.name?cap_first}"
+                        value="${'#'}{_${componentName}.${pojo.identifierProperty.name}.${componentProperty.name}}"/>
+</#foreach>
+<#else>
+                <f:param name="${componentName}${pojo.identifierProperty.name?cap_first}"
+                        value="${'#'}{_${componentName}.${pojo.identifierProperty.name}}"/>
+</#if>
+            </s:link>
+        </rich:column>
     </rich:dataTable>
 
     </div>

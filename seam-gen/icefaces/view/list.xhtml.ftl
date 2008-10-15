@@ -145,8 +145,22 @@
         <ice:column id="listColumn${pageName}Id">
             <f:facet name="header">Action</f:facet>
             <s:link view="/${'#'}{empty from ? '${pageName}' : from}.xhtml" 
-                   value="Select" 
-                      id="list${componentName}LinkId">
+                   value="${'#'}{empty from ? 'View' : 'Select'}" 
+                      id="list${componentName}ViewId">
+<#if pojo.isComponent(pojo.identifierProperty)>
+<#foreach componentProperty in pojo.identifierProperty.value.propertyIterator>
+                <f:param name="${componentName}${componentProperty.name?cap_first}" 
+                        value="${'#'}{${componentName}.${pojo.identifierProperty.name}.${componentProperty.name}}"/>
+</#foreach>
+<#else>
+                <f:param name="${componentName}${pojo.identifierProperty.name?cap_first}" 
+                        value="${'#'}{${componentName}.${pojo.identifierProperty.name}}"/>
+</#if>
+            </s:link>
+			${'#'}{' '}
+            <s:link view="/${'#'}{empty from ? '${pageName}' : from}.xhtml" 
+                   value="Edit" 
+                      id="list${componentName}EditId">
 <#if pojo.isComponent(pojo.identifierProperty)>
 <#foreach componentProperty in pojo.identifierProperty.value.propertyIterator>
                 <f:param name="${componentName}${componentProperty.name?cap_first}" 

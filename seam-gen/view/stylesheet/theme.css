@@ -186,3 +186,14 @@ ul.bullets {
 ul.bullets li {
 	padding-bottom: 2px;
 }
+
+td.action {
+	text-align: center;
+	width: 8em;
+	white-space: nowrap;
+}
+
+td.action a {
+	padding-left: 1px;
+	padding-right: 1px;
+}
