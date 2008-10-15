@@ -311,7 +311,7 @@ public abstract class Controller implements Serializable
    
    protected ValueExpression createValueExpression(String expression)
    {
-       return Expressions.instance().createValueExpression(expression, Object.class);
+       return createValueExpression(expression, Object.class);
    }
 
 }
