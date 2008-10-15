@@ -249,15 +249,15 @@
                 <mkdir dir="${jar.deploy.dir}"/>
                 <mkdir dir="${war.deploy.dir}"/>                
                 
-                <copy todir="${jar.deploy.dir}">
+                <sync todir="${jar.deploy.dir}">
                         <fileset dir="${jar.dir}"/>
-                </copy>
-                <copy todir="${war.deploy.dir}">
+                </sync>
+                <sync todir="${war.deploy.dir}">
                         <fileset dir="${war.dir}"/>
-                </copy>
-                <copy todir="${ear.deploy.dir}">
+                </sync>
+                <sync todir="${ear.deploy.dir}">
                         <fileset dir="${ear.dir}"/>
-                </copy>
+                </sync>
         </target>
 
         <target name="unexplode" description="Undeploy the exploded archive">
@@ -307,9 +307,7 @@
 
         <target name="clean" description="Cleans up the staging directory">
                 <delete dir="${dist.dir}"/>
-                <delete dir="${ear.dir}"/>
-                <delete dir="${war.dir}"/>
-                <delete dir="${jar.dir}"/>
+                <delete dir="${basedir}/exploded-archives"/>
                 <delete dir="${src.schema.dir}" failonerror="no"/>
                 <delete dir="${basedir}/test-report"/>
                 <delete dir="${basedir}/test-output"/>
