@@ -33,7 +33,6 @@ import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.panel.ComponentFeedbackPanel;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
@@ -49,7 +48,7 @@ import org.jboss.seam.example.wicket.action.HotelSearching;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wicket.SeamPropertyModel;
 
-@Restrict
+@Restrict("#{identity.loggedIn}")
 public class Main extends WebPage
 {
 

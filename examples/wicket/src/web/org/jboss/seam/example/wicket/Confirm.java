@@ -12,12 +12,11 @@ import org.apache.wicket.markup.html.link.Link;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.RaiseEvent;
 import org.jboss.seam.annotations.security.Restrict;
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.example.wicket.action.Booking;
 import org.jboss.seam.example.wicket.action.HotelBooking;
 import org.jboss.seam.wicket.annotations.NoConversationPage;
 
-@Restrict
+@Restrict("#{identity.loggedIn}")
 @NoConversationPage(Main.class)
 public class Confirm extends WebPage 
 {

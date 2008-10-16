@@ -2,10 +2,8 @@ package org.jboss.seam.example.wicket;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.border.Border;
-import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.jboss.seam.annotations.In;
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.example.wicket.action.User;
 import org.jboss.seam.security.Identity;

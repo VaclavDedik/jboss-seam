@@ -10,7 +10,7 @@ import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.example.wicket.action.HotelBooking;
 import org.jboss.seam.wicket.annotations.NoConversationPage;
 
-@Restrict
+@Restrict("#{identity.loggedIn}")
 @NoConversationPage(Main.class)
 public class Hotel extends WebPage 
 {

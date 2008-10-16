@@ -13,7 +13,7 @@ import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.example.wicket.action.ChangePassword;
 import org.jboss.seam.example.wicket.action.User;
 
-@Restrict
+@Restrict("#{identity.loggedIn}")
 public class Password extends WebPage
 {
 	

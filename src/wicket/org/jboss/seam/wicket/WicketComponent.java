@@ -203,7 +203,7 @@ public class WicketComponent<T>
                
                if ( Strings.isEmpty(restrict.value()) )
                {
-                  throw new IllegalStateException("@Restrict on a Wicket component must specify an expression");
+                  throw new IllegalStateException("@Restrict on " + cls.getName() + " must specify an expression");
                }
                
                restrictions.add(restrict.value());
