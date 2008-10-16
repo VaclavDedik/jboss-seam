@@ -182,3 +182,15 @@ Dependency changes (Maven)
 
 The "provided" platform is now JBoss AS 4.2.3, therefore javasisst:javassist and
 dom4j:dom4j are now marked as provided.
+
+
+Seam Application Framework Changes
+----------------------------------
+
+Seam now expects value expressions for a number of properties 
+(entityHome.createdMessage, entityHome.updatedMessage, entityHome.deletedMessage
+and entityQuery.restrictions); if you are using components.xml to configure your
+objects, you don't need to make any changes. If you are extending the objects in
+Java, you just need to create a value expression; for example:
+
+public ValueExpression getCreatedMessage() { return createValueExpression("New person #{person.firstName} #{person.lastName} created"); }
