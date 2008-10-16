@@ -76,6 +76,8 @@ Release Notes - Seam - Version 2.1.0.GA
     * [JBSEAM-3556] - Member variable for @UserPrincipal Annotation must be public even if there is a public getter for this member variable with @UserPrincipal Annotation
     * [JBSEAM-3560] - seam script uses readlink which is not compatible with the version of readlink shipped with OS X 10.5
     * [JBSEAM-3561] - seam-icefaces example hanging with message "Conversation has timed out or expired"
+    * [JBSEAM-3573] - Seam wicket example - IllegalStateException on deploy
+    * [JBSEAM-3574] - excel package missing in root.pom
 
 ** Feature Request
     * [JBSEAM-1201] - Support for Groovy tests in seam-gen
