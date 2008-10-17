@@ -104,10 +104,24 @@ public class Pages
    @Create
    public void create()
    {
-      initialize();
+      if (DotPageDotXmlDeploymentHandler.instance() != null)
+      {
+          initialize(DotPageDotXmlDeploymentHandler.instance().getFiles());
+      }
+      else
+      {
+          initialize();
+      }
    }
    
+   
+   
    public void initialize()
+   {
+       initialize(null);
+   }
+   
+   public void initialize(Set<String> fileNames)
    {
       pagesByViewId = Collections.synchronizedMap(new HashMap<String, Page>());   
       pageStacksByViewId = Collections.synchronizedMap(new HashMap<String, List<Page>>());   
@@ -129,9 +143,9 @@ public class Pages
          }
       }
       
-      if (DotPageDotXmlDeploymentHandler.instance() != null)
+      if (fileNames != null)
       {
-         parsePages(DotPageDotXmlDeploymentHandler.instance().getFiles());
+          parsePages(fileNames);
       }
    }
    

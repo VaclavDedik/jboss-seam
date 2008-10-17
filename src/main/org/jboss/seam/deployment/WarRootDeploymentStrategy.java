@@ -1,6 +1,7 @@
 package org.jboss.seam.deployment;
 
 import java.io.File;
+import java.util.Set;
 
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -25,6 +26,8 @@ public class WarRootDeploymentStrategy extends DeploymentStrategy
    
    public static final String NAME = "warRootDeploymentStrategy";
    
+   private DotPageDotXmlDeploymentHandler dotPageDotXmlDeploymentHandler;
+   
    public WarRootDeploymentStrategy(ClassLoader classLoader, File warRoot)
    {
       this.classLoader = classLoader;
@@ -38,7 +41,8 @@ public class WarRootDeploymentStrategy extends DeploymentStrategy
          log.warn("Unable to discover war root, .page.xml files won't be found");
          this.warRoot = new File[0];
       }
-      getDeploymentHandlers().put(DotPageDotXmlDeploymentHandler.NAME, new DotPageDotXmlDeploymentHandler());
+      dotPageDotXmlDeploymentHandler = new DotPageDotXmlDeploymentHandler();
+      getDeploymentHandlers().put(DotPageDotXmlDeploymentHandler.NAME, dotPageDotXmlDeploymentHandler);
    }
    
    @Override
@@ -66,6 +70,11 @@ public class WarRootDeploymentStrategy extends DeploymentStrategy
    public void scan()
    {
       getScanner().scanDirectories(warRoot);
+   }
+   
+   public Set<String> getDotPageDotXmlFileNames()
+   {
+      return dotPageDotXmlDeploymentHandler.getFiles();
    }
 
 }

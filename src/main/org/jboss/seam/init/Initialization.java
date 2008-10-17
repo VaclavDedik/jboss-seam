@@ -736,16 +736,16 @@ public class Initialization
       {
          try
          {
-            ServletLifecycle.beginReinitialization(request);
             hotDeploymentStrategy = createHotDeployment(Thread.currentThread().getContextClassLoader());
             if (hotDeploymentStrategy.isEnabled())
             {
                hotDeploymentStrategy.scan();
-               Init init = Init.instance();
+               Init init = (Init) ServletLifecycle.getServletContext().getAttribute( Seam.getComponentName(Init.class) );
                
                if (init.getTimestamp() < hotDeploymentStrategy.getTimestamp())
                {
                   log.info("redeploying");
+                  ServletLifecycle.beginReinitialization(request);
                   Seam.clearComponentNameCache();
                   for ( String name: init.getHotDeployableComponents() )
                   {
@@ -769,20 +769,19 @@ public class Initialization
                   Contexts.getEventContext().set(HotDeploymentStrategy.NAME, hotDeploymentStrategy);
                   init.setTimestamp( System.currentTimeMillis() );
                   installComponents(init);
+                  ServletLifecycle.endReinitialization();
                   log.info("done redeploying");
                }
                
                WarRootDeploymentStrategy warRootDeploymentStrategy = new WarRootDeploymentStrategy(Thread.currentThread().getContextClassLoader(), warRoot);
                warRootDeploymentStrategy.scan();
-               Contexts.getEventContext().set(WarRootDeploymentStrategy.NAME, warRootDeploymentStrategy);
-               Pages pages = Pages.instance();
+               Pages pages = (Pages) ServletLifecycle.getServletContext().getAttribute(Seam.getComponentName(Pages.class));
                if (pages!= null) {
-                   pages.initialize();
+                   pages.initialize(warRootDeploymentStrategy.getDotPageDotXmlFileNames());
                }
             
-               Contexts.getApplicationContext().remove(Seam.getComponentName(Exceptions.class));
+               ServletLifecycle.getServletContext().removeAttribute( Seam.getComponentName(Exceptions.class) );                 
             }
-            ServletLifecycle.endReinitialization();
          }
          finally
          {
