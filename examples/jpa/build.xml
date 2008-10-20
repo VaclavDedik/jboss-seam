@@ -61,7 +61,7 @@
    </target>
 	
 	<target name="archive">
-		<ant antfile="build-jboss.xml" target="jbosswar" />
+		<ant antfile="build-jboss.xml" target="noejb.archive" />
 	</target>
 
 </project>
