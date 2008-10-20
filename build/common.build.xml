@@ -200,43 +200,46 @@
 	</macrodef>
 	
 	<macrodef name="deployExample">
-		<attribute name="name" />
-       	<attribute name="path" default="${seam.dir}/examples/@{name}" />
-		<attribute name="repositoryId" />
-       	<sequential>
-           <ant dir="@{path}" target="archive" inheritall="false">
-           		<propertyset>
-					<propertyref name="initpomsdone" />
-					<propertyref name="copyseamdone" />
-					<propertyref name="copyseamdependenciesdone" />
-					<propertyref name="copyjbossembeddeddone" />
-					<propertyref name="core.pom" />
-					<propertyref name="root.pom" />
-					<propertyref name="parent.pom" />
-					<propertyref name="ui.pom" />
-					<propertyref name="remoting.pom" />
-                                        <propertyref name="resteasy.pom" />
-                                        <propertyref name="pdf.pom" />
-                                        <propertyref name="rss.pom" />
-					<propertyref name="gen.pom" />
-					<propertyref name="excel.pom" />
-					<propertyref name="ioc.pom" />
-					<propertyref name="mail.pom" />
-					<propertyref name="debug.pom" />
-                                        <propertyref name="wicket.pom" />
-					<propertyref name="testng.jvmargs"/>
-                                        <propertyref name="maven.settings.xml" />
-				</propertyset>
-           	</ant>
-       		<pomfile name="example.pom" value="@{path}/pom.xml" />
-       		<artifact:deploy file="@{path}/dist/jboss-seam-@{name}.ear" uniqueVersion="false" settingsFile="${maven.settings.xml}">
-       			<pom file="${example.pom}"  settingsFile="${maven.settings.xml}" />
-       		    <attach file="@{path}/resources/jboss-seam-@{name}-ds.xml" classifier="ds" type="xml" />
-       			<remoteRepository refid="@{repositoryId}" />
-       		</artifact:deploy>
-       	</sequential>
+	   <attribute name="name" />
+	   <attribute name="path" default="${seam.dir}/examples/@{name}" />
+	   <attribute name="repositoryId" />
+		<attribute name="type" default="ear" />
+	   <sequential>
+	      <ant dir="@{path}" target="archive" inheritall="false">
+	         <propertyset>
+	            <propertyref name="initpomsdone" />
+	            <propertyref name="copyseamdone" />
+	            <propertyref name="copyseamdependenciesdone" />
+	            <propertyref name="copyjbossembeddeddone" />
+	            <propertyref name="core.pom" />
+	            <propertyref name="root.pom" />
+	            <propertyref name="parent.pom" />
+	            <propertyref name="ui.pom" />
+	            <propertyref name="remoting.pom" />
+	            <propertyref name="resteasy.pom" />
+	            <propertyref name="pdf.pom" />
+	            <propertyref name="rss.pom" />
+	            <propertyref name="gen.pom" />
+	            <propertyref name="excel.pom" />
+	            <propertyref name="ioc.pom" />
+	            <propertyref name="mail.pom" />
+	            <propertyref name="debug.pom" />
+	            <propertyref name="wicket.pom" />
+	            <propertyref name="testng.jvmargs" />
+	            <propertyref name="maven.settings.xml" />
+	         </propertyset>
+	      </ant>
+	      <pomfile name="example.pom" value="@{path}/pom.xml" />
+	      <artifact:deploy file="@{path}/dist/jboss-seam-@{name}.ear"
+	         uniqueVersion="false" settingsFile="${maven.settings.xml}">
+	         <pom file="${example.pom}" settingsFile="${maven.settings.xml}" />
+	         <attach file="@{path}/resources/jboss-seam-@{name}-ds.xml"
+	            classifier="ds" type="xml" />
+	         <remoteRepository refid="@{repositoryId}" />
+	      </artifact:deploy>
+	   </sequential>
 	</macrodef>
-	
+
 	<macrodef name="installExample">
 		<attribute name="name" />
        	<attribute name="path" default="${seam.dir}/examples/@{name}" />
@@ -272,42 +275,45 @@
 	</macrodef>
 	
 	<macrodef name="deployExampleNoDs">
-			<attribute name="name" />
-	       	<attribute name="path" default="${seam.dir}/examples/@{name}" />
-			<attribute name="repositoryId" />
-	       	<sequential>
-	           <ant dir="@{path}" target="archive" inheritall="false">
-	           		<propertyset>
-						<propertyref name="initpomsdone" />
-						<propertyref name="copyseamdone" />
-						<propertyref name="copyseamdependenciesdone" />
-						<propertyref name="copyjbossembeddeddone" />
-						<propertyref name="core.pom" />
-						<propertyref name="root.pom" />
-						<propertyref name="parent.pom" />
-						<propertyref name="ui.pom" />
-						<propertyref name="remoting.pom" />
-                                                <propertyref name="resteasy.pom" />
-						<propertyref name="gen.pom" />
-						<propertyref name="pdf.pom" />
-						<propertyref name="rss.pom" />
-						<propertyref name="excel.pom" />
-						<propertyref name="ioc.pom" />
-						<propertyref name="mail.pom" />
-						<propertyref name="debug.pom" />
-                                                <propertyref name="wicket.pom" />
-						<propertyref name="testng.jvmargs"/>
-                                                <propertyref name="maven.settings.xml" />
-					</propertyset>
-	           	</ant>
-	       		<pomfile name="example.pom" value="@{path}/pom.xml" />
-	       		<artifact:deploy file="@{path}/dist/jboss-seam-@{name}.ear" uniqueVersion="false" settingsFile="${maven.settings.xml}">
-	       			<pom file="${example.pom}" settingsFile="${maven.settings.xml}" />
-	       			<remoteRepository refid="@{repositoryId}" />
-	       		</artifact:deploy>
-	       	</sequential>
-		</macrodef>
-	
+	   <attribute name="name" />
+	   <attribute name="path" default="${seam.dir}/examples/@{name}" />
+	   <attribute name="repositoryId" />
+	   <attribute name="type" default="ear" />
+		<attribute name="distdir" default="dist" />
+	   <sequential>
+	      <ant dir="@{path}" target="archive" inheritall="false">
+	         <propertyset>
+	            <propertyref name="initpomsdone" />
+	            <propertyref name="copyseamdone" />
+	            <propertyref name="copyseamdependenciesdone" />
+	            <propertyref name="copyjbossembeddeddone" />
+	            <propertyref name="core.pom" />
+	            <propertyref name="root.pom" />
+	            <propertyref name="parent.pom" />
+	            <propertyref name="ui.pom" />
+	            <propertyref name="remoting.pom" />
+	            <propertyref name="resteasy.pom" />
+	            <propertyref name="gen.pom" />
+	            <propertyref name="pdf.pom" />
+	            <propertyref name="rss.pom" />
+	            <propertyref name="excel.pom" />
+	            <propertyref name="ioc.pom" />
+	            <propertyref name="mail.pom" />
+	            <propertyref name="debug.pom" />
+	            <propertyref name="wicket.pom" />
+	            <propertyref name="testng.jvmargs" />
+	            <propertyref name="maven.settings.xml" />
+	         </propertyset>
+	      </ant>
+	      <pomfile name="example.pom" value="@{path}/pom.xml" />
+	      <artifact:deploy file="@{path}/@{distdir}/jboss-seam-@{name}.@{type}"
+	         uniqueVersion="false" settingsFile="${maven.settings.xml}">
+	         <pom file="${example.pom}" settingsFile="${maven.settings.xml}" />
+	         <remoteRepository refid="@{repositoryId}" />
+	      </artifact:deploy>
+	   </sequential>
+	</macrodef>
+
 	<macrodef name="dependencyReport">
 		<attribute name="module" />
 		<attribute name="pom" default="${tmp.dir}/poms/@{module}.pom" />

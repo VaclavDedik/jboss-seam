@@ -59,6 +59,10 @@
    <target name="test">
       <ant antfile="build-jboss.xml" target="test" />
    </target>
+	
+	<target name="archive">
+		<ant antfile="build-jboss.xml" target="jbosswar" />
+	</target>
 
 </project>
 
