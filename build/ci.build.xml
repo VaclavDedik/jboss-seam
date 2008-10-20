@@ -73,7 +73,7 @@
 	<target name="deployExamplesSnapshot" depends="initdav">
 		<deployExample name="booking" repositoryId="snapshots.jboss.org" />
 		<deployExampleNoDs name="numberguess" repositoryId="snapshots.jboss.org" />
-		<deployExampleNoDs name="jpa" distdir="dist-jboss" repositoryId="snapshots.jboss.org" />
+		<deployExampleNoDs name="jpa" distdir="dist-jboss" type="war" repositoryId="snapshots.jboss.org" />
 		<deployExample name="dvd" path="${seam.dir}/examples/dvdstore" repositoryId="snapshots.jboss.org" />
 	</target>
 	
