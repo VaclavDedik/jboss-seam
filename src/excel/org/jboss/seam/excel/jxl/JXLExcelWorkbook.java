@@ -9,6 +9,7 @@ import java.net.URI;
 import java.net.URL;
 import java.util.List;
 
+import javax.faces.component.UIComponent;
 import javax.imageio.ImageIO;
 
 import jxl.CellView;
@@ -504,6 +505,9 @@ public class JXLExcelWorkbook implements ExcelWorkbook
     */
    public void addItem(WorksheetItem item)
    {
+       if (!((UIComponent)item).isRendered()) {
+           return;
+       }
       switch (item.getItemType())
       {
       case cell:

@@ -193,6 +193,9 @@ public class Parser
          if (firstBrace >= 0 && secondBrace >= 0 && firstBrace != secondBrace)
          {
             String styleName = css.substring(0, firstBrace).trim();
+            if (styleName.startsWith(".")) {
+                styleName = styleName.substring(1);
+            }
             String styleString = css.substring(firstBrace + 1, secondBrace).trim();
             StyleMap styleMap = parseStyleString(styleString);
             styleClasses.put(styleName, styleMap);
