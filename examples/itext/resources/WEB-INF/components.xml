@@ -25,9 +25,4 @@
     <component name="sampleButton" class="javax.swing.JButton">
         <property name="label">A JButton!</property>
     </component>
-
-<!--
-    <web:rewrite-filter view-mapping="/test/*" />
--->
-    <web:rewrite-filter view-mapping="*.seam" /> 
 </components>

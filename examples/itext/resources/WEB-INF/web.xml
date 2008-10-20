@@ -68,7 +68,7 @@
 
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>*.z</url-pattern>
+        <url-pattern>*.seam</url-pattern>
     </servlet-mapping>
 
     <servlet>
