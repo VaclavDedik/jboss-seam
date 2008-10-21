@@ -32,10 +32,10 @@
             <h:outputLabel for="groups" value="Member of" styleClass="formLabel"/>
             <div class="selectMany">
               <h:selectManyCheckbox id="groups" value="#{roleAction.groups}" layout="pageDirection" styleClass="roles">
-                <s:selectItems value="#{identityManager.listRoles()}" var="role" label="#{role}"/>
+                <s:selectItems value="#{roleAction.assignableRoles}" var="role" label="#{role}"/>
               </h:selectManyCheckbox>
             </div>
-            <div class="validationError"><h:message for="roles"/></div>            
+            <div class="validationError"><h:message for="groups"/></div>            
           </div>
           
           <div class="formButtons">
