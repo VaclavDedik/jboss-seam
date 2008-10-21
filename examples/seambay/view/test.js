@@ -33,6 +33,17 @@ svc.setDescription("List Categories");
 svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" " +
                "\n    xmlns:seam=\"http://seambay.example.seam.jboss.org/\">\n  <soapenv:Header/>" +
                "\n  <soapenv:Body>\n    <seam:listCategories/>\n  </soapenv:Body>\n</soapenv:Envelope>");
+               
+var svc = new ServiceMetadata("findAuctions", "General");
+svc.setDescription("Find Auctions");
+svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" " +
+               "\n    xmlns:seam=\"http://seambay.example.seam.jboss.org/\">\n  <soapenv:Header/>" +
+               "\n  <soapenv:Body>" +
+               "\n    <seam:findAuctions>" +
+               "\n      <arg0>#{searchTerm}</arg0>" +
+               "\n    </seam:findAuctions>" +
+               "\n  </soapenv:Body>\n</soapenv:Envelope>");               
+svc.addParameter(new ServiceParam("Search Term", "searchTerm"));               
 
 svc = new ServiceMetadata("login", "Security");
 svc.setDescription("Login");

@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 public class AuctionImage implements Serializable
@@ -30,6 +31,7 @@ public class AuctionImage implements Serializable
       this.imageId = imageId;
    }
    
+   @XmlTransient
    @ManyToOne
    @JoinColumn(name = "AUCTION_ID")
    public Auction getAuction()
