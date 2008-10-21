@@ -422,11 +422,21 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       if (roleGroups == null)
       {
          // This should either be a Set, or a List...
-         if (Set.class.isAssignableFrom((Class) roleGroupsProperty.getPropertyType()))
+         Class rawType = null;
+         if (roleGroupsProperty.getPropertyType() instanceof ParameterizedType)
+         {
+            rawType = (Class) ((ParameterizedType) roleGroupsProperty.getPropertyType()).getRawType();
+         }
+         else
+         {
+            return false;
+         }                   
+          
+         if (Set.class.isAssignableFrom(rawType))
          {
             roleGroups = new HashSet();
          }
-         else if (List.class.isAssignableFrom((Class) roleGroupsProperty.getPropertyType()))
+         else if (List.class.isAssignableFrom(rawType))
          {
             roleGroups = new ArrayList();
          }

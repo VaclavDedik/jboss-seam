@@ -20,6 +20,7 @@ import org.jboss.seam.security.management.IdentityManager;
 @Install(precedence = BUILT_IN)
 public class RoleAction implements Serializable
 {
+   private String originalRole;
    private String role;
    private List<String> groups;
    
@@ -34,12 +35,18 @@ public class RoleAction implements Serializable
    @Begin
    public void editRole(String role)
    {
+      this.originalRole = role;
       this.role = role;
       groups = identityManager.getRoleGroups(role);
    }
       
    public String save()
    {
+      if (role != null && originalRole != null && !role.equals(originalRole))
+      {
+         identityManager.deleteRole(originalRole);
+      }
+      
       if (identityManager.roleExists(role))
       {
          return saveExistingRole();
@@ -91,6 +98,13 @@ public class RoleAction implements Serializable
    public String getRole()
    {
       return role;
+   }
+   
+   public List<String> getAssignableRoles()
+   {
+      List<String> roles = identityManager.listGrantableRoles();
+      roles.remove(role);
+      return roles;
    }
    
    public void setRole(String role)
