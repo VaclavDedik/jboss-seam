@@ -102,7 +102,7 @@
 </#if>
 </#if>
 </#foreach>
-            <h:column>
+            <h:column styleClass="action">
                 <f:facet name="header">Action</f:facet>
                 <s:link id="view${parentName}"
                      value="View"
