@@ -248,9 +248,9 @@
         <fail unless="jboss.home">jboss.home not set</fail>
         
         <mkdir dir="${war.deploy.dir}"/>
-        <sync todir="${war.deploy.dir}">
+        <copy todir="${war.deploy.dir}">
             <fileset dir="${war.dir}"/>
-        </sync>
+        </copy>
     </target>
     
     <target name="unexplode" description="Undeploy the exploded archive">
