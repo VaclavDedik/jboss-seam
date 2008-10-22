@@ -4,6 +4,7 @@ import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -1204,6 +1205,12 @@ public class LdapIdentityStore implements IdentityStore, Serializable
    public List<String> getRoleGroups(String name)
    {
       // TODO Auto-generated method stub
+      return null;
+   }
+   
+   public List<Principal> listMembers(String role)
+   {
+      // TODO implement
       return null;
    }
 

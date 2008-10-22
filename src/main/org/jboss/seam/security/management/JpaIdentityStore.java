@@ -6,6 +6,7 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -838,6 +839,12 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    {     
       return lookupEntityManager().createQuery(
             "select r." + roleNameProperty.getName() + " from " + roleClass.getName() + " r").getResultList();
+   }
+   
+   public List<Principal> listMembers(String role)
+   {
+      // TODO implement
+      return null;
    }
    
    public List<String> listGrantableRoles()
