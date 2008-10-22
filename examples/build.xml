@@ -566,6 +566,7 @@
 		<copy todir="${jar.dir}">
 			<fileset dir="${src.java.dir}">
 				<include name="**/*.component.xml" />
+				<include name="**/components.xml" />
 			</fileset>
 		</copy>
 	</target>
