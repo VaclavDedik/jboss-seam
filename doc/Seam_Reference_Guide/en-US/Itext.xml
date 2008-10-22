@@ -621,9 +621,7 @@
                                     <emphasis>Description</emphasis>
                                 </para>
                                 <para>The <literal>p:header</literal> and <literal>p:footer</literal> components provide
-                                    the ability to place header and footer text on each page of a generated document,
-                                    with the exception of the first page. Header and footer declarations should appear
-                                    near the top of a document. </para>
+                                    the ability to place header and footer text on each page of a generated document.                             Header and footer declarations should appear at the beginning of a document. </para>
 
 
                                 <para>
