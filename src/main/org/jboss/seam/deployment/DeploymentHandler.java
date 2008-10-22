@@ -1,5 +1,7 @@
 package org.jboss.seam.deployment;
 
+import java.util.Set;
+
 /**
  * A deployment handler is responsible for processing found resources
  * 
@@ -11,16 +13,24 @@ package org.jboss.seam.deployment;
  */
 public interface DeploymentHandler
 {
-   /**
-    * Handle a resource
-    * @param name The path to the resource
-    * @param classLoader The ClassLoader on which the resource was found
-    */
-   public void handle(String name, ClassLoader classLoader);
    
    /**
     * A key used to identify the deployment handler
     */
    public String getName();
    
+   /**
+    * Get DeploymentHandlerMetadata for resources this deployment handler is
+    * interested in processing.
+    * 
+    * If a deployment handler is interested in a number of files it should
+    * define multiple pieces of metadata
+    */
+   public DeploymentMetadata getMetadata();
+   
+   public void postProcess(ClassLoader classLoader);
+  
+   public Set<FileDescriptor> getResources();
+   
+   public void setResources(Set<FileDescriptor> resources);
 }

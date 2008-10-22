@@ -9,10 +9,11 @@ package org.jboss.seam.wiki.util;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.jboss.seam.deployment.DeploymentHandler;
+import org.jboss.seam.deployment.AbstractDeploymentHandler;
+import org.jboss.seam.deployment.DeploymentMetadata;
+import org.jboss.seam.deployment.FileDescriptor;
 import org.jboss.seam.util.DTDEntityResolver;
 
-import java.io.InputStream;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,15 +29,25 @@ import java.net.UnknownHostException;
  *
  * @author Christian Bauer
  */
-public abstract class XmlDeploymentHandler implements DeploymentHandler {
+public abstract class XmlDeploymentHandler extends AbstractDeploymentHandler {
 
-    Map<String, InputStream> files = new HashMap<String, InputStream>();
     Map<String, Element> elements;
-
-    public void handle(String s, ClassLoader classLoader) {
-        if (s.endsWith(getExtension())) {
-            files.put(s, classLoader.getResourceAsStream(s));
-        }
+    
+    private DeploymentMetadata deploymentMetadata;
+    
+    public XmlDeploymentHandler()
+    {
+        deploymentMetadata = new DeploymentMetadata() {
+           
+           public String getFileNameSuffix() {
+               return ".plugin.xml";
+           }
+           
+        };
+    }
+  
+    public DeploymentMetadata getMetadata() {
+        return deploymentMetadata;
     }
 
     public abstract String getExtension();
@@ -49,7 +60,7 @@ public abstract class XmlDeploymentHandler implements DeploymentHandler {
         // Lazy access to streams
         if (elements == null) {
             elements = new HashMap<String, Element>();
-            for (Map.Entry<String, InputStream> fileInputStream : files.entrySet()) {
+            for (FileDescriptor fileDescriptor : getResources()) {
                 try {
                     SAXReader saxReader = new SAXReader();
                     saxReader.setMergeAdjacentText(true);
@@ -60,7 +71,7 @@ public abstract class XmlDeploymentHandler implements DeploymentHandler {
                         saxReader.setFeature("http://apache.org/xml/features/validation/schema",true);
                     }
 
-                    elements.put(fileInputStream.getKey(), saxReader.read(fileInputStream.getValue()).getRootElement());
+                    elements.put(fileDescriptor.getName(), saxReader.read(fileDescriptor.getUrl().openStream()).getRootElement());
 
                 } catch (DocumentException dex) {
                     Throwable nested = dex.getNestedException();
@@ -68,7 +79,7 @@ public abstract class XmlDeploymentHandler implements DeploymentHandler {
                         if (nested instanceof FileNotFoundException) {
                             throw new RuntimeException(
                                 "Can't find schema/DTD reference for file: "
-                                + fileInputStream.getKey() + "':  "
+                                + fileDescriptor.getName() + "':  "
                                 + nested.getMessage(), dex
                             );
                         } else if (nested instanceof UnknownHostException) {
@@ -79,9 +90,9 @@ public abstract class XmlDeploymentHandler implements DeploymentHandler {
                             );
                         }
                     }
-                    throw new RuntimeException("Could not parse XML file: " + fileInputStream.getKey() ,dex);
+                    throw new RuntimeException("Could not parse XML file: " + fileDescriptor.getName() ,dex);
                 } catch (Exception ex) {
-                    throw new RuntimeException("Could not parse XML file: " + fileInputStream.getKey() ,ex);
+                    throw new RuntimeException("Could not parse XML file: " + fileDescriptor.getName() ,ex);
                 }
             }
         }

@@ -90,7 +90,7 @@ public class URLScanner extends AbstractScanner
       {
          try
          {
-            log.debug("scanning: " + urlPath);
+            log.trace("scanning: " + urlPath);
             File file = new File(urlPath);
             if ( file.isDirectory() )
             {
@@ -112,7 +112,7 @@ public class URLScanner extends AbstractScanner
    {
       try
       {
-         log.debug("archive: " + file);
+         log.trace("archive: " + file);
          touchTimestamp(file);
          ZipFile zip = new ZipFile(file);
          Enumeration<? extends ZipEntry> entries = zip.entries();
@@ -131,7 +131,7 @@ public class URLScanner extends AbstractScanner
 
    private void handleDirectory(File file, String path)
    {
-      log.debug("directory: " + file);
+      log.trace("directory: " + file);
       for ( File child: file.listFiles() )
       {
          String newPath = path==null ? child.getName() : path + '/' + child.getName();

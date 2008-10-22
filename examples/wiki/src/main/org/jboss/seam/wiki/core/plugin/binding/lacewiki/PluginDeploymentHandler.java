@@ -7,8 +7,8 @@
 package org.jboss.seam.wiki.core.plugin.binding.lacewiki;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.wiki.util.XmlDeploymentHandler;
 import org.jboss.seam.deployment.DeploymentStrategy;
+import org.jboss.seam.wiki.util.XmlDeploymentHandler;
 
 /**
  * Detects all *.plugin.xml files and offers Dom4J elements.

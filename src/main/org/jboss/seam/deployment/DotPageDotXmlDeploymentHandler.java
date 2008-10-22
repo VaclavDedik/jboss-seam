@@ -1,9 +1,5 @@
 package org.jboss.seam.deployment;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.jboss.seam.contexts.Contexts;
 
 /**
@@ -14,36 +10,21 @@ import org.jboss.seam.contexts.Contexts;
  */
 public class DotPageDotXmlDeploymentHandler extends AbstractDeploymentHandler
 {
+   
+   private static DeploymentMetadata DOTPAGEDOTXML_SUFFIX_FILE_METADATA = new DeploymentMetadata()
+   {
+
+      public String getFileNameSuffix()
+      {
+         return ".page.xml";
+      }
+      
+   };
+   
    /**
     * Name under which this {@link DeploymentHandler} is registered
     */
    public static final String NAME = "org.jboss.seam.deployment.DotPageDotXmlDeploymentHandler";
-
-   private Set<String> files;
-   
-   public DotPageDotXmlDeploymentHandler()
-   {
-      files = new HashSet<String>();
-   }
-
-   /**
-    * Get annotated Seam components
-    */
-   public Set<String> getFiles()
-   {
-      return Collections.unmodifiableSet(files);
-   }
-
-   /**
-    * @see DeploymentHandler#handle(String, ClassLoader)
-    */
-   public void handle(String name, ClassLoader classLoader)
-   {
-      if (name.endsWith(".page.xml")) 
-      {
-         files.add(name);
-      }
-   }
    
    public String getName()
    {
@@ -69,6 +50,11 @@ public class DotPageDotXmlDeploymentHandler extends AbstractDeploymentHandler
       {
          throw new IllegalStateException("Event context not active");
       }
+   }
+
+   public DeploymentMetadata getMetadata()
+   {
+      return DOTPAGEDOTXML_SUFFIX_FILE_METADATA;
    }
    
 }

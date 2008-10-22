@@ -22,14 +22,14 @@ import java.util.Set;
  */
 public class AnnotationDeploymentHelper {
 
-    public static Set<Class<Object>> getAnnotatedClasses(String annotationFQN) {
+    public static Set<Class<?>> getAnnotatedClasses(String annotationFQN) {
         DeploymentStrategy deployment = (DeploymentStrategy) Component.getInstance("deploymentStrategy");
         AnnotationDeploymentHandler handler =
                 (AnnotationDeploymentHandler)deployment.getDeploymentHandlers().get(AnnotationDeploymentHandler.NAME);
-        return handler.getClasses().get(annotationFQN);
+        return handler.getClassMap().get(annotationFQN);
     }
 
-    public static Set<Class<Object>> getAnnotatedClasses(Class annotationType) {
+    public static Set<Class<?>> getAnnotatedClasses(Class annotationType) {
         return getAnnotatedClasses(annotationType.getName());
     }
 

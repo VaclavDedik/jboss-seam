@@ -68,9 +68,9 @@ public class GroovyHotDeploymentStrategy extends HotDeploymentStrategy
    }
    
    @Override
-   public Set<Class<Object>> getScannedComponentClasses()
+   public Set<ClassDescriptor> getScannedComponentClasses()
    {
-      Set<Class<Object>> set = new HashSet<Class<Object>>();
+      Set<ClassDescriptor> set = new HashSet<ClassDescriptor>();
       set.addAll(super.getScannedComponentClasses());
       set.addAll(groovyDeploymentHandler.getClasses());
       return Collections.unmodifiableSet(set);

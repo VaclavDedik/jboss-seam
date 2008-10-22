@@ -17,6 +17,16 @@ import org.jboss.seam.log.Logging;
 public class NamespaceDeploymentHandler extends AbstractDeploymentHandler
 {
    
+   private static DeploymentMetadata NAMESPACE_METADATA = new DeploymentMetadata()
+   {
+
+      public String getFileNameSuffix()
+      {
+         return "/package-info.class";
+      }
+      
+   };
+   
    public static final String NAME = "org.jboss.seam.deployment.NamespaceDeploymentHandler";
    
    private static final LogProvider log = Logging.getLogProvider(NamespaceDeploymentHandler.class);
@@ -36,30 +46,33 @@ public class NamespaceDeploymentHandler extends AbstractDeploymentHandler
        return Collections.unmodifiableSet(packages);
    }
    
-   public void handle(String name, ClassLoader classLoader)
+   @Override
+   public void postProcess(ClassLoader classLoader)
    {
-       if ( name.endsWith("/package-info.class") ) 
-       {
-           String packageName = filenameToPackageName(name);
-           Package pkg = getPackage(packageName, classLoader);
-           if (pkg == null) 
-           {
-               log.warn("Cannot load package Dinfo for " + packageName);
-           } 
-           else 
-           {
-               if (pkg.getAnnotation(Namespace.class) != null) 
-               {
-                   packages.add(pkg);
-               }
-           }
-       }
+      for (FileDescriptor fileDescriptor : getResources())
+      {
+         String packageName = filenameToPackageName(fileDescriptor.getName());
+         Package pkg = getPackage(packageName, classLoader);
+         if (pkg == null) 
+         {
+             log.warn("Cannot load package Dinfo for " + packageName);
+         } 
+         else 
+         {
+             if (pkg.getAnnotation(Namespace.class) != null) 
+             {
+                 packages.add(pkg);
+             }
+         }
+      }
+      
+      
    }
    
    private static String filenameToPackageName(String filename)
    {
-       return filename.substring(0, filename.lastIndexOf("/package-info.class"))
-           .replace('/', '.').replace('\\', '.');
+      return filename.substring(0, filename.lastIndexOf("/package-info.class"))
+         .replace('/', '.').replace('\\', '.');
    }
    
    private static Package getPackage(String name, ClassLoader classLoader) 
@@ -78,6 +91,11 @@ public class NamespaceDeploymentHandler extends AbstractDeploymentHandler
    public String getName()
    {
       return NAME;
+   }
+   
+   public DeploymentMetadata getMetadata()
+   {
+      return NAMESPACE_METADATA;
    }
 
 }

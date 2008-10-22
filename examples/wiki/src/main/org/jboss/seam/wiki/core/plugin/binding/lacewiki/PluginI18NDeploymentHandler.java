@@ -6,15 +6,20 @@
  */
 package org.jboss.seam.wiki.core.plugin.binding.lacewiki;
 
-import org.jboss.seam.wiki.util.PatternDeploymentHandler;
 import org.jboss.seam.wiki.core.plugin.metamodel.Plugin;
 import org.jboss.seam.wiki.core.exception.InvalidWikiConfigurationException;
-import org.jboss.seam.core.ResourceLoader;
+import org.jboss.seam.deployment.AbstractDeploymentHandler;
+import org.jboss.seam.deployment.DeploymentMetadata;
 import org.jboss.seam.deployment.DeploymentStrategy;
+import org.jboss.seam.deployment.FileDescriptor;
 import org.jboss.seam.Component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Finds (during startup scanning) all plugin messages files, using the pattern
@@ -27,28 +32,51 @@ import java.util.List;
  *
  * @author Christian Bauer
  */
-public class PluginI18NDeploymentHandler extends PatternDeploymentHandler {
+public class PluginI18NDeploymentHandler extends AbstractDeploymentHandler {
 
     public static final String NAME = "pluginI18NDeploymentHandler";
     public static final String MESSAGES_PATTERN =
         "^([a-zA-Z0-9/]+)"+Plugin.PACKAGE_I18N_MESSAGES+"_("+Plugin.KEY_PATTERN+")_([a-zA-Z_]+)\\.properties$";
 
-    public String getPattern() {
-        return MESSAGES_PATTERN;
+    private static DeploymentMetadata deploymentMetadata = new DeploymentMetadata()
+    {
+
+      public String getFileNameSuffix()
+      {
+         return ".properties";
+      }
+       
+    };
+    
+    private Pattern compiledPattern;
+    
+    public PluginI18NDeploymentHandler()
+    {
+        compiledPattern = Pattern.compile(MESSAGES_PATTERN);
     }
+    
+    @Override
+    public void postProcess(ClassLoader classLoader) {
+        for (FileDescriptor fileDescriptor : getResources())
+        {
+            Matcher matcher = compiledPattern.matcher(fileDescriptor.getName());
+            if (matcher.matches()) {
+                String[] groups = new String[matcher.groupCount()];
+                for (int i = 0; i < groups.length; i++) {
+                   groups[i] = matcher.group(i+1);
+                }
+                if (groups == null || groups.length != 3) {
+                    throw new InvalidWikiConfigurationException("Deployment of i18n properties failed");
+                }
+                String packageName = groups[0];
+                String pluginKey = groups[1];
+                String locale = groups[2]; // Don't really need it here
 
-    public void handleMatch(String s, ClassLoader classLoader, String... matchedGroups) {
-        if (matchedGroups == null || matchedGroups.length != 3) {
-            throw new InvalidWikiConfigurationException("Deployment of i18n properties failed");
-        }
-
-        String packageName = matchedGroups[0];
-        String pluginKey = matchedGroups[1];
-        String locale = matchedGroups[2]; // Don't really need it here
-
-        if (packageName.endsWith(Plugin.PACKAGE_I18N+"/")) {
-            String bundleName = packageName.replaceAll("/", ".") + "messages_" + pluginKey;
-            getMessageBundleNames().add(bundleName);
+                if (packageName.endsWith(Plugin.PACKAGE_I18N+"/")) {
+                    String bundleName = packageName.replaceAll("/", ".") + "messages_" + pluginKey;
+                    getMessageBundleNames().add(bundleName);
+                }
+            }
         }
     }
 
@@ -65,6 +93,11 @@ public class PluginI18NDeploymentHandler extends PatternDeploymentHandler {
     public static PluginI18NDeploymentHandler instance() {
         DeploymentStrategy deployment = (DeploymentStrategy) Component.getInstance("deploymentStrategy");
         return (PluginI18NDeploymentHandler) deployment.getDeploymentHandlers().get(NAME);
+    }
+    
+    public DeploymentMetadata getMetadata()
+    {
+        return deploymentMetadata;
     }
 
 }

@@ -38,8 +38,8 @@ public class ResteasyBootstrap
     {
         log.info("deploying Resteasy providers and resources");
 
-        Collection<Class<java.lang.Object>> annotatedProviderClasses = null;
-        Collection<Class<java.lang.Object>> annotatedResourceClasses = null;
+        Collection<Class<?>> annotatedProviderClasses = null;
+        Collection<Class<?>> annotatedResourceClasses = null;
         if (applicationConfig.isScanProviders() || applicationConfig.isScanResources())
         {
             log.debug("scanning all classes for JAX-RS annotations");
@@ -48,8 +48,8 @@ public class ResteasyBootstrap
             AnnotationDeploymentHandler handler =
                     (AnnotationDeploymentHandler) deployment.getDeploymentHandlers().get(AnnotationDeploymentHandler.NAME);
 
-            annotatedProviderClasses = handler.getClasses().get(javax.ws.rs.ext.Provider.class.getName());
-            annotatedResourceClasses = handler.getClasses().get(javax.ws.rs.Path.class.getName());
+            annotatedProviderClasses = handler.getClassMap().get(javax.ws.rs.ext.Provider.class.getName());
+            annotatedResourceClasses = handler.getClassMap().get(javax.ws.rs.Path.class.getName());
         }
 
         log.debug("finding all Seam component classes");

@@ -5,6 +5,7 @@ import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -154,21 +155,21 @@ public class HotDeploymentStrategy extends DeploymentStrategy
    /**
     * Get all Components which the strategy has scanned and handled
     */
-   public Set<Class<Object>> getScannedComponentClasses()
+   public Set<ClassDescriptor> getScannedComponentClasses()
    {
-      return componentDeploymentHandler.getClasses();
+      return Collections.unmodifiableSet(componentDeploymentHandler.getClasses());
    }
 
-   public Map<String, Set<Class<Object>>> getAnnotatedClasses()
+   public Map<String, Set<Class<?>>> getAnnotatedClasses()
    {
-      return annotationDeploymentHandler.getClasses();
+      return Collections.unmodifiableMap(annotationDeploymentHandler.getClassMap());
    }
    
    @Override
    public void scan()
    {
       getScanner().scanDirectories(getFiles().toArray(new File[0]));
-      
+      postScan();
    }
    
    public static HotDeploymentStrategy instance()

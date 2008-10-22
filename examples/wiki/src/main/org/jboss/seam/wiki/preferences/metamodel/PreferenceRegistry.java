@@ -34,7 +34,7 @@ public class PreferenceRegistry {
     public void startup() {
         log.debug("initializing preferences registry");
 
-        Set<Class<Object>> preferencesClasses = AnnotationDeploymentHelper.getAnnotatedClasses(Preferences.class);
+        Set<Class<?>> preferencesClasses = AnnotationDeploymentHelper.getAnnotatedClasses(Preferences.class);
 
         if (preferencesClasses == null)
             throw new RuntimeException("No preference entities found, add @Preferences annotation to META-INF/seam-deployment.properties");

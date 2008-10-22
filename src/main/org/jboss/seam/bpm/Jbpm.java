@@ -31,6 +31,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.ResourceLoader;
 import org.jboss.seam.deployment.DeploymentStrategy;
+import org.jboss.seam.deployment.FileDescriptor;
 import org.jboss.seam.deployment.StandardDeploymentStrategy;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -267,7 +268,10 @@ public class Jbpm
          mergedPageflowDefinitions.addAll(Arrays.asList(pageflowDefinitions));
       }
       
-      mergedPageflowDefinitions.addAll(((PageflowDeploymentHandler) ((DeploymentStrategy) Contexts.getEventContext().get(StandardDeploymentStrategy.NAME)).getDeploymentHandlers().get(PageflowDeploymentHandler.NAME)).getPageflowDefinitions());
+      for (FileDescriptor fileDescriptor : ((PageflowDeploymentHandler) ((DeploymentStrategy) Contexts.getEventContext().get(StandardDeploymentStrategy.NAME)).getDeploymentHandlers().get(PageflowDeploymentHandler.NAME)).getResources())
+      {
+         mergedPageflowDefinitions.add(fileDescriptor.getName());
+      }
       
       for (String pageflow: mergedPageflowDefinitions)
       {

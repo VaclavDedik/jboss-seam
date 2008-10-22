@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -38,10 +39,6 @@ public abstract class DeploymentStrategy
     * /META-INF/seam-deployment.properties
     */
    public static final String SCANNERS_KEY = "org.jboss.seam.deployment.scanners";
-   
-   
-   
-   
    
    /**
     * Do the scan for resources
@@ -92,19 +89,6 @@ public abstract class DeploymentStrategy
    }
 
    protected abstract String getDeploymentHandlersKey();
-   
-   /**
-    * Handle a resource using any registered {@link DeploymentHandler}s
-    * 
-    * @param name Path to a resource to handle
-    */
-   public void handle(String name)
-   {
-      for (String key: getDeploymentHandlers().keySet())
-      {
-         getDeploymentHandlers().get(key).handle(name, getClassLoader());
-      }
-   }
       
    private void initScanner()
    {
@@ -227,6 +211,14 @@ public abstract class DeploymentStrategy
    public long getTimestamp()
    {
       return getScanner().getTimestamp();
+   }
+   
+   protected void postScan()
+   {
+      for (Entry<String, DeploymentHandler> entry : getDeploymentHandlers().entrySet())
+      {
+         entry.getValue().postProcess(getClassLoader());
+      }
    }
    
 }

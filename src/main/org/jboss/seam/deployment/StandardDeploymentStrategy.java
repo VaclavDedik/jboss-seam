@@ -1,6 +1,8 @@
 package org.jboss.seam.deployment;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -41,6 +43,7 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
    private ComponentsXmlDeploymentHandler componentsXmlDeploymentHandler;
    private NamespaceDeploymentHandler namespaceDeploymentHandler;
    private AnnotationDeploymentHandler annotationDeploymentHandler;
+   private DotComponentDotXmlDeploymentHandler dotComponentDotXmlDeploymentHandler;
    
    /**
     * @param classLoader The classloader used to load and handle resources
@@ -52,6 +55,8 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
       getDeploymentHandlers().put(ComponentDeploymentHandler.NAME, componentDeploymentHandler);
       componentsXmlDeploymentHandler = new ComponentsXmlDeploymentHandler();
       getDeploymentHandlers().put(ComponentsXmlDeploymentHandler.NAME, componentsXmlDeploymentHandler);
+      dotComponentDotXmlDeploymentHandler = new DotComponentDotXmlDeploymentHandler();
+      getDeploymentHandlers().put(DotComponentDotXmlDeploymentHandler.NAME, dotComponentDotXmlDeploymentHandler);
       namespaceDeploymentHandler = new NamespaceDeploymentHandler();
       getDeploymentHandlers().put(NamespaceDeploymentHandler.NAME, namespaceDeploymentHandler);
       annotationDeploymentHandler = new AnnotationDeploymentHandler(new SeamDeploymentProperties(classLoader).getPropertyValues(AnnotationDeploymentHandler.ANNOTATIONS_KEY), classLoader);
@@ -71,19 +76,22 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
    }
 
    /**
-    * Get all scanned and handled annotated components known to this strategy
+    * Get all annotated components known to this strategy
     */
-   public Set<Class<Object>> getScannedComponentClasses()
+   public Set<ClassDescriptor> getAnnotatedComponents()
    {
-      return componentDeploymentHandler.getClasses();
+      return Collections.unmodifiableSet(componentDeploymentHandler.getClasses());
    }
    
    /**
-    * Get all scanned and handled components.xml files
+    * Get all XML defined (throught components.xml and component.xml) components
     */
-   public Set<String> getScannedComponentResources()
+   public Set<FileDescriptor> getXmlComponents()
    {
-      return componentsXmlDeploymentHandler.getResources();
+      Set<FileDescriptor> fileDescriptors = new HashSet<FileDescriptor>();
+      fileDescriptors.addAll(componentsXmlDeploymentHandler.getResources());
+      fileDescriptors.addAll(dotComponentDotXmlDeploymentHandler.getResources());
+      return Collections.unmodifiableSet(fileDescriptors);
    }
    
    /**
@@ -91,12 +99,12 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
     */
    public Set<Package> getScannedNamespaces()
    {
-      return namespaceDeploymentHandler.getPackages();
+      return Collections.unmodifiableSet(namespaceDeploymentHandler.getPackages());
    }
    
-   public Map<String, Set<Class<Object>>> getAnnotatedClasses()
+   public Map<String, Set<Class<?>>> getAnnotatedClasses()
    {
-      return annotationDeploymentHandler.getClasses();
+      return Collections.unmodifiableMap(annotationDeploymentHandler.getClassMap());
    }
    
    @Override
@@ -104,6 +112,7 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
    {
       getScanner().scanResources(RESOURCE_NAMES);
       getScanner().scanDirectories(getFiles().toArray(new File[0]));
+      postScan();
    }
    
    public static StandardDeploymentStrategy instance()

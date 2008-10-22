@@ -6,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,13 +24,32 @@ import org.jboss.seam.log.Logging;
 public class GroovyDeploymentHandler extends AbstractDeploymentHandler
 {
    
+   private class GroovyDeploymentHandlerMetadata implements DeploymentMetadata
+   {
+      
+      private String groovyExtension;
+
+      public GroovyDeploymentHandlerMetadata(String groovyExtension)
+      {
+         this.groovyExtension = groovyExtension;
+      }
+
+      public String getFileNameSuffix()
+      {
+         return groovyExtension;
+      }
+      
+   }
+   
+   private DeploymentMetadata metadata;
+   
    private static final LogProvider log = Logging.getLogProvider(GroovyDeploymentHandler.class);
    
    public static final String NAME = "org.jboss.seam.deployment.GroovyDeploymentHandler";
    
    private final String groovyFileExtension;
    
-   private Set<Class<Object>> classes;
+   private Set<ClassDescriptor> classes;
    
    /**
     * 
@@ -40,28 +58,30 @@ public class GroovyDeploymentHandler extends AbstractDeploymentHandler
    public GroovyDeploymentHandler(String groovyFileExtension)
    {
       this.groovyFileExtension = groovyFileExtension;
-      this.classes = new HashSet<Class<Object>>();
+      this.classes = new HashSet<ClassDescriptor>();
+      this.metadata = new GroovyDeploymentHandlerMetadata(groovyFileExtension);
    }
    
    /**
     * Get all the Groovy Seam Components this handler has handled 
     */
-   public Set<Class<Object>> getClasses()
+   public Set<ClassDescriptor> getClasses()
    {
-      return Collections.unmodifiableSet(classes);
+      return classes;
    }
-
-   public void handle(String name, ClassLoader classLoader)
+   
+   @Override
+   public void postProcess(ClassLoader classLoader)
    {
-      if (name.endsWith(groovyFileExtension))
+      for (FileDescriptor fileDescriptor : getResources())
       {
-         log.debug("Found a groovy file: " + name);
-         String classname = filenameToGroovyname(name);
-         String filename = groovyComponentFilename(name);
+         log.debug("Found a groovy file: " + fileDescriptor.getName());
+         String classname = filenameToGroovyname(fileDescriptor.getName());
+         String filename = groovyComponentFilename(fileDescriptor.getName());
          BufferedReader buffReader = null;
          try
          {
-            InputStream stream = classLoader.getResourceAsStream(name);
+            InputStream stream = classLoader.getResourceAsStream(fileDescriptor.getName());
             //TODO is BufferedInputStream necessary?
             buffReader = new BufferedReader(new InputStreamReader(stream));
             String line = buffReader.readLine();
@@ -70,7 +90,7 @@ public class GroovyDeploymentHandler extends AbstractDeploymentHandler
                if (line.indexOf("@Name") != -1 || line.indexOf("@" + Name.class.getName()) != -1)
                {
                   //possibly a Seam component
-                  log.debug("Groovy file possibly a Seam component: " + name);
+                  log.debug("Groovy file possibly a Seam component: " + fileDescriptor.getName());
                   Class<Object> groovyClass = (Class<Object>) classLoader.loadClass(classname);
                   Install install = groovyClass.getAnnotation(Install.class);
                   boolean installable = ( install == null || install.value() )
@@ -78,8 +98,8 @@ public class GroovyDeploymentHandler extends AbstractDeploymentHandler
                            || classLoader.getResources(filename).hasMoreElements() );
                   if (installable)
                   {
-                     log.debug("found groovy component class: " + name);
-                     classes.add(groovyClass);
+                     log.debug("found groovy component class: " + fileDescriptor.getName());
+                     classes.add(new ClassDescriptor(fileDescriptor.getName(), fileDescriptor.getUrl(), groovyClass));
                   }
                   break;
                }
@@ -120,8 +140,9 @@ public class GroovyDeploymentHandler extends AbstractDeploymentHandler
             }
          }
       }
-
    }
+   
+
    
    private String filenameToGroovyname(String filename)
    {
@@ -139,4 +160,9 @@ public class GroovyDeploymentHandler extends AbstractDeploymentHandler
       return NAME;
    }
 
+   public DeploymentMetadata getMetadata()
+   {
+      return metadata;
+   }
+   
 }

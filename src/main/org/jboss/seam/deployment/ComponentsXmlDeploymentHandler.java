@@ -1,8 +1,8 @@
 package org.jboss.seam.deployment;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * The {@link ComponentsXmlDeploymentHandler} components.xml and .component.xml files 
@@ -12,45 +12,48 @@ import java.util.Set;
  */
 public class ComponentsXmlDeploymentHandler extends AbstractDeploymentHandler
 {
+   
+   private Pattern INF_PATTERN = Pattern.compile("(WEB-INF/components.xml$)|(META-INF/components.xml$)");
+   
+   private static DeploymentMetadata COMPONENTSXML_SUFFIX_FILE_METADATA = new DeploymentMetadata()
+   {
+
+      public String getFileNameSuffix()
+      {
+         return "components.xml";
+      }
+      
+   };
+   
    /**
     * Name under which this {@link DeploymentHandler} is registered
     */
    public static final String NAME = "org.jboss.seam.deployment.ComponentsXmlDeploymentHandler";
-
-   private Set<String> resources;
-   
-   public ComponentsXmlDeploymentHandler()
-   {
-      resources = new HashSet<String>();
-   }
-   
-   /**
-    * Get paths to components.xml files
-    */
-   public Set<String> getResources() 
-   {
-       return Collections.unmodifiableSet(resources);
-   }
-
-   /**
-    * @see DeploymentHandler#handle(String, ClassLoader)
-    */
-   public void handle(String name, ClassLoader classLoader)
-   {
-      if (name.endsWith(".component.xml") || name.endsWith("/components.xml")) 
-      {
-          // we want to skip over known meta-directories since Seam will auto-load these without a scan
-          if (!name.startsWith("WEB-INF/") && !name.startsWith("META-INF/")) 
-          {
-              resources.add(name);
-          }           
-      }
-           
-   }
    
    public String getName()
    {
       return NAME;
+   }
+   
+   public DeploymentMetadata getMetadata()
+   {
+      return COMPONENTSXML_SUFFIX_FILE_METADATA;
+   }
+   
+   @Override
+   public void postProcess(ClassLoader classLoader)
+   {
+      Set<FileDescriptor> resources = new HashSet<FileDescriptor>();
+      for (FileDescriptor fileDescriptor : getResources())
+      {
+         // we want to skip over known meta-directories since Seam will auto-load these without a scan
+         String path = fileDescriptor.getName();
+         if (!INF_PATTERN.matcher(path).matches()) 
+         {
+            resources.add(fileDescriptor);
+         }
+      }
+      setResources(resources);
    }
    
 }

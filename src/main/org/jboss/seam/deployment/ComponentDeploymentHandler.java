@@ -1,16 +1,12 @@
 package org.jboss.seam.deployment;
 
-import java.io.IOException;
-import java.util.Collections;
+import java.lang.annotation.Annotation;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import javassist.bytecode.ClassFile;
-
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 
 /**
  * The {@link ComponentDeploymentHandler} process Seam's component annotated 
@@ -19,73 +15,60 @@ import org.jboss.seam.log.Logging;
  * @author Pete Muir
  *
  */
-public class ComponentDeploymentHandler extends AbstractDeploymentHandler
+public class ComponentDeploymentHandler extends AbstractClassDeploymentHandler
 {
+   
+   private static Set<Class<? extends Annotation>> ANNOTATION_TYPES = new HashSet<Class<? extends Annotation>>(Arrays.asList(Name.class));
+   
+   public static ClassDeploymentMetadata NAME_ANNOTATED_CLASS_METADATA = new ClassDeploymentMetadata()
+   {
+
+      public Set<Class<? extends Annotation>> getClassAnnotatedWith()
+      {
+         return ANNOTATION_TYPES;
+      }
+
+      public String getFileNameSuffix()
+      {
+         return null;
+      }
+      
+   };
+   
    /**
     * Name under which this {@link DeploymentHandler} is registered
     */
    public static final String NAME = "org.jboss.seam.deployment.ComponentDeploymentHandler";
    
-   private static final LogProvider log = Logging.getLogProvider(ComponentDeploymentHandler.class);
-
-   protected Set<Class<Object>> classes;
-   
-   public ComponentDeploymentHandler()
-   {
-      classes = new HashSet<Class<Object>>();
-   }
-
-   /**
-    * Get annotated Seam components
-    */
-   public Set<Class<Object>> getClasses()
-   {
-      return Collections.unmodifiableSet(classes);
-   }
-
-   /**
-    * @see DeploymentHandler#handle(String, ClassLoader)
-    */
-   public void handle(String name, ClassLoader classLoader)
-   {
-      if (name.endsWith(".class")) 
-      {
-         String classname = filenameToClassname(name);
-         String filename = componentFilename(name);
-         try 
-         {
-            ClassFile classFile = getClassFile(name, classLoader);
-            boolean installable = ( hasAnnotation(classFile, Name.class) || classLoader.getResources(filename).hasMoreElements() )
-                     && !"false".equals( getAnnotationValue(classFile, Install.class, "value") );
-            if (installable) 
-            {
-               log.trace("found component class: " + name);
-               classes.add( (Class<Object>) classLoader.loadClass(classname) );
-            }
-         }
-         catch (ClassNotFoundException cnfe) 
-         {
-            log.debug("could not load class: " + classname, cnfe);
-         }
-         catch (NoClassDefFoundError ncdfe) 
-         {
-            log.debug("could not load class (missing dependency): " + classname, ncdfe);
-         }
-         catch (IOException ioe) 
-         {
-            log.debug("could not load classfile: " + classname, ioe);
-         }
-      }    
-   }
-  
-   private static String componentFilename(String name)
-   {
-      return name.substring( 0, name.lastIndexOf(".class") ) + ".component.xml";
-   }
-   
    public String getName()
    {
       return NAME;
+   }
+
+   public ClassDeploymentMetadata getMetadata()
+   {
+      return NAME_ANNOTATED_CLASS_METADATA;
+   }
+   
+   @Override
+   public void postProcess(ClassLoader classLoader)
+   {
+      Set<ClassDescriptor> classes = new HashSet<ClassDescriptor>();
+      for (ClassDescriptor classDescriptor : getClasses())
+      {
+         if (classDescriptor.getClazz().isAnnotationPresent(Install.class))
+         {
+            if (classDescriptor.getClazz().getAnnotation(Install.class).value())
+            {
+               classes.add(classDescriptor);
+            }
+         }
+         else
+         {
+            classes.add(classDescriptor);
+         }
+      }
+      setClasses(classes);
    }
    
 }

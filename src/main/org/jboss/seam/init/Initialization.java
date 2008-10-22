@@ -47,6 +47,8 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
+import org.jboss.seam.deployment.ClassDescriptor;
+import org.jboss.seam.deployment.FileDescriptor;
 import org.jboss.seam.deployment.HotDeploymentStrategy;
 import org.jboss.seam.deployment.SeamDeploymentProperties;
 import org.jboss.seam.deployment.StandardDeploymentStrategy;
@@ -792,8 +794,9 @@ public class Initialization
 
    private void installHotDeployableComponents()
    {
-      for (Class<Object> scannedClass: hotDeploymentStrategy.getScannedComponentClasses() )
+      for (ClassDescriptor classDescriptor: hotDeploymentStrategy.getScannedComponentClasses() )
       {
+         Class<?> scannedClass = classDescriptor.getClazz();
          installScannedComponentAndRoles(scannedClass);
       }
    }
@@ -869,15 +872,15 @@ public class Initialization
 
    private void scanForComponents()
    {
-      for ( Class<Object> scannedClass: standardDeploymentStrategy.getScannedComponentClasses() ) 
+      for ( ClassDescriptor classDescriptor : standardDeploymentStrategy.getAnnotatedComponents() ) 
       {
-          installScannedComponentAndRoles(scannedClass);
+         Class<?> scannedClass = classDescriptor.getClazz();
+         installScannedComponentAndRoles(scannedClass);
       }
       
-      
-      for ( String name: standardDeploymentStrategy.getScannedComponentResources() ) 
+      for ( FileDescriptor fileDescriptor : standardDeploymentStrategy.getXmlComponents() ) 
       {
-          installComponentsFromDescriptor( name, standardDeploymentStrategy.getClassLoader() );              
+         installComponentsFromDescriptor( fileDescriptor, standardDeploymentStrategy.getClassLoader() );              
       }
    }
 
@@ -890,10 +893,18 @@ public class Initialization
        return descriptor.substring(0,pos).replace('/', '.').replace('\\', '.');
    }
 
-   private void installComponentsFromDescriptor(String fileName, ClassLoader loader)
+   private void installComponentsFromDescriptor(FileDescriptor fileDescriptor, ClassLoader loader)
    {
       //note: this is correct, we do not need to scan other classloaders!
-      InputStream stream = loader.getResourceAsStream(fileName); 
+      InputStream stream = null;
+      try
+      {
+         stream = fileDescriptor.getUrl().openStream();
+      }
+      catch (IOException e) 
+      {
+         // No-op
+      }
       if (stream != null) 
       {
          try 
@@ -908,18 +919,18 @@ public class Initialization
             {
                 installComponentFromXmlElement(root, 
                         root.attributeValue("name"), 
-                        classFilenameFromDescriptor(fileName),
+                        classFilenameFromDescriptor(fileDescriptor.getName()),
                         replacements);
             }
          } catch (Exception e) {
-            throw new RuntimeException("error while reading " + fileName, e);
+            throw new RuntimeException("error while reading " + fileDescriptor.getName(), e);
          } finally {
              Resources.closeStream(stream);
          }
       }
    }
 
-   private void installScannedComponentAndRoles(Class<Object> scannedClass)
+   private void installScannedComponentAndRoles(Class<?> scannedClass)
    {
       try {
          if ( scannedClass.isAnnotationPresent(Name.class) )
@@ -943,7 +954,7 @@ public class Initialization
       }
    }
 
-   private void installRole(Class<Object> scannedClass, Role role)
+   private void installRole(Class<?> scannedClass, Role role)
    {
       ScopeType scope = Seam.getComponentRoleScope(scannedClass, role);
       addComponentDescriptor( new ComponentDescriptor( role.name(), scannedClass, scope ) );

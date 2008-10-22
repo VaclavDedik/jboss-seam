@@ -2,6 +2,7 @@ package org.jboss.seam.navigation;
 
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -10,7 +11,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -49,6 +49,7 @@ import org.jboss.seam.core.ResourceLoader;
 import org.jboss.seam.core.Expressions.MethodExpression;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.deployment.DotPageDotXmlDeploymentHandler;
+import org.jboss.seam.deployment.FileDescriptor;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.Validation;
 import org.jboss.seam.international.StatusMessage;
@@ -106,7 +107,7 @@ public class Pages
    {
       if (DotPageDotXmlDeploymentHandler.instance() != null)
       {
-          initialize(DotPageDotXmlDeploymentHandler.instance().getFiles());
+          initialize(DotPageDotXmlDeploymentHandler.instance().getResources());
       }
       else
       {
@@ -121,7 +122,7 @@ public class Pages
        initialize(null);
    }
    
-   public void initialize(Set<String> fileNames)
+   public void initialize(Set<FileDescriptor> fileNames)
    {
       pagesByViewId = Collections.synchronizedMap(new HashMap<String, Page>());   
       pageStacksByViewId = Collections.synchronizedMap(new HashMap<String, List<Page>>());   
@@ -149,27 +150,23 @@ public class Pages
       }
    }
    
-   private void parsePages(Set<String> ...fileNames)
+   private void parsePages(Set<FileDescriptor> files)
    {
-      Set<String> mergedFileNames = new HashSet<String>();
-      for (Set<String> f : fileNames)
+      for (FileDescriptor file : files)  
       {
-         mergedFileNames.addAll(f);
-      }
-      for (String fileName: mergedFileNames)  
-      {
-         if (!fileName.startsWith("/"))
-         {
-            fileName = "/" + fileName;
-         }
-         String viewId = fileName.substring(0,fileName.length()-".page.xml".length()) + ".xhtml"; // needs more here
+         String fileName = file.getName();
+         String viewId = "/" + fileName.substring(0,fileName.length()-".page.xml".length()) + ".xhtml"; // needs more here
          
-         InputStream stream = ResourceLoader.instance().getResourceAsStream(fileName);      
-         if (stream==null) 
+         InputStream stream = null;
+         try
          {
-            log.info("no pages.xml file found: " + fileName);
+            stream = file.getUrl().openStream();
          }
-         else 
+         catch (IOException exception)
+         {
+            // No-op
+         }
+         if (stream != null) 
          {
             log.debug("reading pages.xml file: " + fileName);
             try {

@@ -56,25 +56,17 @@ public class WarRootDeploymentStrategy extends DeploymentStrategy
    {
       return HANDLERS_KEY;
    }
-
-   @Override
-   public void handle(String name)
-   {
-      if (!(name.startsWith("WEB-INF") || name.startsWith("/WEB-INF")))
-      {
-         super.handle(name);
-      }
-   }
    
    @Override
    public void scan()
    {
       getScanner().scanDirectories(warRoot);
+      postScan();
    }
    
-   public Set<String> getDotPageDotXmlFileNames()
+   public Set<FileDescriptor> getDotPageDotXmlFileNames()
    {
-      return dotPageDotXmlDeploymentHandler.getFiles();
+      return dotPageDotXmlDeploymentHandler.getResources();
    }
 
 }

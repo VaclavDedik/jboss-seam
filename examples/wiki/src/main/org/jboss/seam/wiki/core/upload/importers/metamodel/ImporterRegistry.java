@@ -29,7 +29,7 @@ public class ImporterRegistry {
 
         log.debug("initializing upload importer registry");
 
-        Set<Class<Object>> importerClasses = AnnotationDeploymentHelper.getAnnotatedClasses(UploadImporter.class);
+        Set<Class<?>> importerClasses = AnnotationDeploymentHelper.getAnnotatedClasses(UploadImporter.class);
         if (importerClasses == null) return;
 
         for (Class<?> importerClass : importerClasses) {
