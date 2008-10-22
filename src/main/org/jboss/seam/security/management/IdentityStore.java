@@ -1,5 +1,6 @@
 package org.jboss.seam.security.management;
 
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -209,6 +210,11 @@ public interface IdentityStore
     * Returns a list of all the groups that the specified role is a member of.
     */
    List<String> getRoleGroups(String name);
+   
+   /**
+    * Lists the members of the specified role.
+    */
+   List<Principal> listMembers(String role);
 
    /**
     * Authenticates the specified user, using the specified password.

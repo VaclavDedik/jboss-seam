@@ -4,10 +4,12 @@ import static org.jboss.seam.ScopeType.EVENT;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
+import java.security.Principal;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.wicket.util.string.Strings;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
@@ -252,6 +254,12 @@ public class IdentityManager implements Serializable
       return roleIdentityStore.getImpliedRoles(name);
    }
    
+   public List<Principal> listMembers(String role)
+   {
+      Identity.instance().checkPermission(ROLE_PERMISSION_NAME, PERMISSION_READ);      
+      return roleIdentityStore.listMembers(role);
+   }
+   
    public List<String> getRoleGroups(String name)
    {
       return roleIdentityStore.getRoleGroups(name);
@@ -259,6 +267,7 @@ public class IdentityManager implements Serializable
    
    public boolean authenticate(String username, String password)
    {
+      if (Strings.isEmpty(username)) return false;      
       return identityStore.authenticate(username, password);
    }
    
