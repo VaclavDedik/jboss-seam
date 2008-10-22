@@ -80,6 +80,7 @@ import org.jboss.seam.annotations.bpm.StartTask;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.faces.Converter;
 import org.jboss.seam.annotations.faces.Validator;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.intercept.InterceptorType;
 import org.jboss.seam.annotations.intercept.Interceptors;
 import org.jboss.seam.annotations.security.Restrict;
@@ -324,6 +325,10 @@ public class Component extends Model
          {
             if ( getBeanClass().isAnnotationPresent(Converter.class) )
             {
+               if(!getBeanClass().isAnnotationPresent(BypassInterceptors.class))
+                    throw new IllegalStateException("Converter " + getBeanClass().getName() 
+                    + " must be annotated with @BypassInterceptors");
+			
                Converter converter = getBeanClass().getAnnotation(Converter.class);
                if ( converter.forClass()!=void.class )
                {
@@ -334,6 +339,10 @@ public class Component extends Model
             }
             if ( getBeanClass().isAnnotationPresent(Validator.class) )
             {
+                if(!getBeanClass().isAnnotationPresent(BypassInterceptors.class))
+                    throw new IllegalStateException("Validator " + getBeanClass().getName() 
+                        + " must be annotated with @BypassInterceptors");
+			
                Validator validator = getBeanClass().getAnnotation(Validator.class);
                String id = validator.id().equals("") ? getName() : validator.id();
                init.getValidators().put( id, getName() );
