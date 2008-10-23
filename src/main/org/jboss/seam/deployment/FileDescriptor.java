@@ -19,12 +19,12 @@ public class FileDescriptor
       this.name = name;
       if (name == null)
       {
-         throw new NullPointerException("Name cannot be null");
+         throw new NullPointerException("Name cannot be null, loading from " + classLoader);
       }
       this.url = classLoader.getResource(name);
       if (this.url == null)
       {
-         throw new NullPointerException("Cannot find URL from classLoader for " + name);
+         throw new NullPointerException("Cannot find URL from classLoader for " + name + ", loading from " + classLoader);
       }
    }
 
