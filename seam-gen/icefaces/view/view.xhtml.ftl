@@ -98,18 +98,18 @@
 </#if>
 </#if>
 <#if isToOne(parentProperty)>
-<#assign parentParentPojo = c2j.getPOJOClass(cfg.getClassMapping(parentProperty.value.referencedEntityName))>
-<#if parentParentPojo.isComponent(parentParentPojo.identifierProperty)>
-<#foreach componentProperty in parentParentPojo.identifierProperty.value.propertyIterator>
+<#assign grandparentPojo = c2j.getPOJOClass(cfg.getClassMapping(parentProperty.value.referencedEntityName))>
+<#if grandparentPojo.isComponent(grandparentPojo.identifierProperty)>
+<#foreach componentProperty in grandparentPojo.identifierProperty.value.propertyIterator>
             <ice:column id="view${parentProperty.name}ColumnId">
 	    	    <f:facet name="header">${label(parentProperty.name)} ${label(componentProperty.name)?uncap_first}</f:facet>
-		    	${'#'}{${parentName}.${parentProperty.name}.${parentParentPojo.identifierProperty.name}.${componentProperty.name}}
+		    	${'#'}{${parentName}.${parentProperty.name}.${grandparentPojo.identifierProperty.name}.${componentProperty.name}}
             </ice:column>
 </#foreach>
 <#else>
-            <ice:column id="view${parentParentPojo.identifierProperty.name}ColumnName">
-	    	    <f:facet name="header">${label(parentProperty.name)} ${label(parentParentPojo.identifierProperty.name)?uncap_first}</f:facet>
-		    	${'#'}{${parentName}.${parentProperty.name}.${parentParentPojo.identifierProperty.name}}
+            <ice:column id="view${grandparentPojo.identifierProperty.name}ColumnName">
+	    	    <f:facet name="header">${label(parentProperty.name)} ${label(grandparentPojo.identifierProperty.name)?uncap_first}</f:facet>
+		    	${'#'}{${parentName}.${parentProperty.name}.${grandparentPojo.identifierProperty.name}}
             </ice:column>
 </#if>
 </#if>
