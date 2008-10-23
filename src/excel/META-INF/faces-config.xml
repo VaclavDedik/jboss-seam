@@ -84,10 +84,6 @@
 		<component-type>org.jboss.seam.excel.ui.command.UIRowPageBreak</component-type>
 		<component-class>org.jboss.seam.excel.ui.command.UIRowPageBreak</component-class>
 	</component>
-	<component>
-		<component-type>org.jboss.seam.excel.ui.UIExcelExport</component-type>
-		<component-class>org.jboss.seam.excel.ui.UIExcelExport</component-class>
-	</component>
    <component>
       <component-type>org.jboss.seam.excel.ui.UILink</component-type>
       <component-class>org.jboss.seam.excel.ui.UILink</component-class>
