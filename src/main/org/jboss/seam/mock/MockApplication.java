@@ -250,7 +250,7 @@ public class MockApplication extends Application
    public UIComponent createComponent(String name) throws FacesException
    {
       // Best guess component creation with a dummy component if it can't be found
-      if (name.startsWith("org.jboss.seam.mail.ui"))
+      if (name.startsWith("org.jboss.seam.mail.ui") || name.startsWith("org.jboss.seam.excel.ui"))
       {
         try
         {

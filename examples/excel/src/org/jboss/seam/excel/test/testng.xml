@@ -4,6 +4,7 @@
 
    <test name="Excel Tests">
      <classes>
+       <class name="org.jboss.seam.excel.test.RenderTest"/>
      </classes>
    </test>
 	
