@@ -871,6 +871,7 @@
             <fileset dir="${templates.dir}/build-scripts">
                 <include name="build*.properties"/>
             </fileset>
+            <filterset refid="project"/>
         </copy>
 
         <mkdir dir="${project.home}/src/${model.dir}"/>
