@@ -60,9 +60,12 @@
 	
 	<target name="justSnapshot">
       <build target="cleanall" />
-      <build target="build" />
+		<build target="dist" />
       
       <ant target="deploySeamSnapshot" antfile="${ant.file}" inheritall="false" inheritrefs="false" dir=".">
+         <property name="qualifier" value="-SNAPSHOT" />
+      </ant>
+		<ant target="deployExamplesSnapshot" antfile="${ant.file}" inheritall="false" inheritrefs="false" dir=".">
          <property name="qualifier" value="-SNAPSHOT" />
       </ant>
    </target>
