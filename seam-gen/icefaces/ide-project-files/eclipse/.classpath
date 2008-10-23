@@ -10,6 +10,7 @@
     <classpathentry kind="lib" path="lib/hibernate-annotations.jar"/>
     <classpathentry kind="lib" path="lib/hibernate-commons-annotations.jar"/>
     <classpathentry kind="lib" path="lib/hibernate-entitymanager.jar"/>
+    <classpathentry kind="lib" path="lib/hibernate-search.jar"/>
     <classpathentry kind="lib" path="lib/jboss-seam.jar" sourcepath="lib/src/jboss-seam-sources.jar"/>
     <classpathentry kind="lib" path="lib/jboss-seam-ui.jar" sourcepath="lib/src/jboss-seam-ui-sources.jar"/>
     <classpathentry kind="lib" path="lib/jboss-seam-debug.jar"/>
@@ -36,6 +37,7 @@
     <classpathentry kind="lib" path="lib/core.jar"/>
     <classpathentry kind="lib" path="lib/jboss-embedded-api.jar"/> 
     <classpathentry kind="lib" path="lib/@driverJar@"/>
+    <classpathentry kind="lib" path="lib/lucene-core.jar" />
     <classpathentry kind="output" path="test-build"/>
     <classpathentry kind="lib" path="lib/icefaces.jar"/>
     <classpathentry kind="lib" path="lib/icefaces-comps.jar"/>

@@ -462,6 +462,7 @@
         <copy todir="icefaces-staging">
             <fileset dir="${seam-gen.dir}">
                 <include name="build-scripts/**"/>
+                <include name="ide-project-files/**"/>
                 <include name="hibernatetools/**"/>
                 <include name="lib/**"/>
                 <include name="resources/**"/>
@@ -469,13 +470,13 @@
                 <include name="src/**"/>
                 <include name="test/**"/>
                 <include name="view/**"/>
-                <include name="nbproject/**"/>
                 <include name="util/**"/>
             </fileset>
         </copy>
         <copy todir="icefaces-staging" overwrite="true">
             <fileset dir="${seam-gen.dir}/icefaces">
                 <include name="build-scripts/**"/>
+                <include name="ide-project-files/**"/>
                 <include name="resources/**"/>
                 <include name="src/**"/>
                 <include name="view/**"/>
@@ -744,8 +745,19 @@
             <filterset refid="jdbc"/>
         </copy>
 
+        <!-- Eclipse project files -->
+        <copy todir="${project.home}">
+            <fileset dir="${templates.dir}/ide-project-files/eclipse">
+                <include name=".classpath"/>
+                <include name=".project"/>
+                <include name=".settings/*"/>
+                <include name="explode.launch"/>
+            </fileset>
+            <filterset refid="project"/>
+        </copy>
+
         <copy tofile="${project.home}/debug-jboss-${project.name}.launch"
-                file="${templates.dir}/build-scripts/debug-jboss.launch">
+                file="${templates.dir}/ide-project-files/eclipse/debug-jboss.launch">
             <filterset refid="project"/>
         </copy>
 
@@ -763,13 +775,36 @@
             </filterset>
         </copy>
 
-        <copy tofile="${project.home}/resources/seam-gen.reveng.xml"
-                file="${templates.dir}/hibernatetools/seam-gen.reveng.xml">
+        <copy tofile="${project.home}/.settings/org.hibernate.eclipse.console.prefs"
+                file="${templates.dir}/hibernatetools/.settings/org.hibernate.eclipse.console.prefs">
             <filterset refid="project"/>
         </copy>
 
-        <copy tofile="${project.home}/.settings/org.hibernate.eclipse.console.prefs"
-                file="${templates.dir}/hibernatetools/.settings/org.hibernate.eclipse.console.prefs">
+        <!-- IDEA project files -->
+        <copy tofile="${project.home}/${project.name}.ipr"
+                file="${templates.dir}/ide-project-files/idea/project.ipr">
+            <filterset refid="project"/>
+        </copy>
+        <copy tofile="${project.home}/${project.name}.iml"
+                file="${templates.dir}/ide-project-files/idea/module.iml">
+            <filterset refid="project"/>
+        </copy>
+        <!--
+        <copy tofile="${project.home}/${project.name}.iws"
+                file="${templates.dir}/ide-project-files/idea/workspace.iws">
+            <filterset refid="project"/>
+        </copy>
+        -->
+
+        <!-- NetBeans project files -->
+        <mkdir dir="${project.home}/nbproject"/>
+        <copy todir="${project.home}/nbproject">
+            <fileset dir="${templates.dir}/ide-project-files/netbeans"/>
+            <filterset refid="project"/>
+        </copy>
+
+        <copy tofile="${project.home}/resources/seam-gen.reveng.xml"
+                file="${templates.dir}/hibernatetools/seam-gen.reveng.xml">
             <filterset refid="project"/>
         </copy>
 
@@ -834,11 +869,8 @@
 
         <copy todir="${project.home}">
             <fileset dir="${templates.dir}/build-scripts">
-                <exclude name="build*.xml"/>
-                <exclude name="*.list"/>
-                <exclude name="debug-jboss.launch"/>
+                <include name="build*.properties"/>
             </fileset>
-            <filterset refid="project"/>
         </copy>
 
         <mkdir dir="${project.home}/src/${model.dir}"/>
@@ -846,12 +878,6 @@
         <mkdir dir="${project.home}/src/${test.dir}"/>
 
         <copy todir="${project.home}/src/test" file="${templates.dir}/test/readme.txt"/>
-
-        <mkdir dir="${project.home}/nbproject"/>
-        <copy todir="${project.home}/nbproject">
-            <fileset dir="${templates.dir}/nbproject"/>
-            <filterset refid="project"/>
-        </copy>
 
     </target>
 
@@ -902,8 +928,9 @@
             description="Create a new project">
         <echo message="A new Seam project named '${project.name}' was created in the ${workspace.home} directory"/>
         <echo message="Type '${seam.cmd} explode' and go to http://localhost:8080/${project.name}"/>
-        <echo message="Eclipse Users: Add the project into Eclipse using File > New > Project and select General > Project (not Java Project)"/>
-        <echo message="NetBeans Users: Open the project in NetBeans"/>
+        <echo message="Eclipse Users: Import the project using File > Import... > Existing Projects into Workspace, set the root directory to ${workspace.home}, then select the project named ${project.name}"/>
+        <echo message="NetBeans Users: Open the project using File > Open project... and select the project folder ${project.home} "/>
+        <echo message="IDEA Users: Open the project using File > Open project... and select the file ${project.home}/${project.name}.ipr"/>
     </target>
 
     <target name="update-project" depends="validate-project,copy-lib"
