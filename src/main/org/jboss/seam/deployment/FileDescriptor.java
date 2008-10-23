@@ -17,7 +17,15 @@ public class FileDescriptor
    public FileDescriptor(String name, ClassLoader classLoader)
    {
       this.name = name;
+      if (name == null)
+      {
+         throw new NullPointerException("Name cannot be null");
+      }
       this.url = classLoader.getResource(name);
+      if (this.url == null)
+      {
+         throw new NullPointerException("Cannot find URL from classLoader for " + name);
+      }
    }
 
    public String getName()
