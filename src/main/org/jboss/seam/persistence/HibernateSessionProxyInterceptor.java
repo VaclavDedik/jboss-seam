@@ -4,12 +4,12 @@ import static org.jboss.seam.ComponentType.STATEFUL_SESSION_BEAN;
 import static org.jboss.seam.ComponentType.STATELESS_SESSION_BEAN;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.PostActivate;
 
 import org.hibernate.Session;
 import org.jboss.seam.Component.BijectedAttribute;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
+import org.jboss.seam.annotations.intercept.PostActivate;
 import org.jboss.seam.intercept.AbstractInterceptor;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.util.Reflections;
