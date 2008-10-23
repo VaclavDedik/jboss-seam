@@ -12,6 +12,7 @@ import org.jboss.seam.annotations.security.permission.Identifier;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.persistence.PersistenceProvider;
+import org.jboss.seam.util.Strings;
 
 /**
  * An Identifier strategy for entity-based permission checks
@@ -57,7 +58,7 @@ public class EntityIdentifierStrategy implements IdentifierStrategy
          if (cls.isAnnotationPresent(Identifier.class))
          {
             Identifier identifier = (Identifier) cls.getAnnotation(Identifier.class);
-            if (identifier.name() != null && !"".equals(name.trim()))
+            if ( !Strings.isEmpty(identifier.name()) )
             {
                name = identifier.name();
             }
