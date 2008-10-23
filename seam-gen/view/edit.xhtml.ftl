@@ -124,7 +124,7 @@
 <#else>
             <h:column>
                 <f:facet name="header">${label(parentProperty.name)} ${label(parentParentPojo.identifierProperty.name)?uncap_first}</f:facet>
-                <@outputValue property=parentParentPojo.indentifierProperty expression="${'#'}{_${parentName}.${parentProperty.name}.${parentParentPojo.identifierProperty.name}}" indent=16/>
+                <@outputValue property=parentParentPojo.identifierProperty expression="${'#'}{_${parentName}.${parentProperty.name}.${parentParentPojo.identifierProperty.name}}" indent=16/>
             </h:column>
 </#if>
 </#if>
