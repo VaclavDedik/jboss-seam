@@ -38,6 +38,8 @@ import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.Role;
+import org.jboss.seam.security.SimplePrincipal;
 import org.jboss.seam.util.AnnotatedBeanProperty;
 import org.jboss.seam.util.TypedBeanProperty;
 
@@ -518,6 +520,18 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          throw new NoSuchRoleException("Could not delete role, role '" + role + "' does not exist");
       }        
       
+      for (Principal principal : listMembers(role))
+      {
+         if (SimplePrincipal.class.equals(principal.getClass()))
+         {
+            revokeRole(principal.getName(), role);
+         }
+         else if (Role.class.equals(principal.getClass()))
+         {
+            removeRoleFromGroup(principal.getName(), role);
+         }
+      }
+      
       removeEntity(roleToDelete);
       return true;
    }
@@ -843,8 +857,37 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    
    public List<Principal> listMembers(String role)
    {
-      // TODO implement
-      return null;
+      List<Principal> members = new ArrayList<Principal>();
+      
+      Object roleEntity = lookupRole(role);
+
+      if (xrefClass == null)
+      {      
+         List<String> users = lookupEntityManager().createQuery("select u." + userPrincipalProperty.getName() + 
+               " from " + userClass.getName() + " u where :role member of u." + userRolesProperty.getName())
+               .setParameter("role", roleEntity)
+               .getResultList();
+         
+         for (String user : users)
+         {
+            members.add(new SimplePrincipal(user));
+         }
+         
+         if (roleGroupsProperty != null)
+         {
+            List<String> roles = lookupEntityManager().createQuery("select r." + roleNameProperty.getName() +
+                  " from " + roleClass.getName() + " r where :role member of r." + roleGroupsProperty.getName())
+                  .setParameter("role", roleEntity)
+                  .getResultList();
+            
+            for (String roleName : roles)
+            {
+               members.add(new Role(roleName));
+            }
+         }
+      }
+
+      return members;
    }
    
    public List<String> listGrantableRoles()
