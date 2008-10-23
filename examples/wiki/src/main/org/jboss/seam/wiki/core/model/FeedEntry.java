@@ -60,7 +60,7 @@ public class FeedEntry implements Serializable, Comparable {
     private String descriptionType;
 
     @Column(name = "DESCRIPTION_VALUE", nullable = false)
-    @Length(min = 1, max = 32767)
+    @Length(min = 1, max = 131072) // TODO: We don't really know how much we need... so let's go for 128kb
     private String descriptionValue;
 
     public FeedEntry() {}
