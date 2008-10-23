@@ -58,6 +58,15 @@
 		</ant>
 	</target>
 	
+	<target name="justSnapshot">
+      <build target="cleanall" />
+      <build target="build" />
+      
+      <ant target="deploySeamSnapshot" antfile="${ant.file}" inheritall="false" inheritrefs="false" dir=".">
+         <property name="qualifier" value="-SNAPSHOT" />
+      </ant>
+   </target>
+	
 	<target name="snapshotDocumentation">
 		<build target="cleanall" />
 	   <build target="refdoc">
