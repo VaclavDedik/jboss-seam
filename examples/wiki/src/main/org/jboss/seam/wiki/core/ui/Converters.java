@@ -16,6 +16,7 @@ import org.jboss.seam.wiki.core.search.metamodel.SearchRegistry;
 import org.jboss.seam.wiki.core.search.metamodel.SearchableEntity;
 import org.jboss.seam.wiki.core.upload.importers.metamodel.Importer;
 import org.jboss.seam.wiki.core.upload.importers.metamodel.ImporterRegistry;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -35,6 +36,7 @@ public class Converters {
 
     @Name("importerConverter")
     @org.jboss.seam.annotations.faces.Converter(forClass = Importer.class)
+    @BypassInterceptors
     public static class ImporterConverter implements Converter, Serializable {
 
         public Object getAsObject(FacesContext arg0,
@@ -56,6 +58,7 @@ public class Converters {
 
     @Name("searchableEntityConverter")
     @org.jboss.seam.annotations.faces.Converter(forClass = SearchableEntity.class)
+    @BypassInterceptors
     public static class SearchableEntityConverter implements Converter, Serializable {
 
         public Object getAsObject(FacesContext arg0,
