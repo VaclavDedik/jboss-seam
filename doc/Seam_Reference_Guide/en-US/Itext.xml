@@ -2293,6 +2293,123 @@
         </informaltable>
     </section>
 
+    <section id="itext.fillinforms">
+        <title>Fill-in-forms</title>
+        <para>
+        	If you have a complex, pre-generated PDF with named fields, you can easily
+        	fill in the values from you application and present it to the user.
+        </para>
+
+        <informaltable>
+            <tgroup cols="2">
+                <colspec colnum="1" colwidth="1*"/>
+                <colspec colnum="2" colwidth="3*"/>
+
+                <tbody>
+                    <row>
+                        <entry valign="top">
+                            <para>
+                                <literal>&lt;p:form&gt;</literal>
+                            </para>
+                        </entry>
+                        <entry valign="top">
+                            <para>
+                                <emphasis>Description</emphasis>
+                            </para>
+                            <para>Defines a form template to populate</para>
+
+                            <para>
+                                <emphasis>Attributes</emphasis>
+                            </para>
+
+                            <itemizedlist>
+                                <listitem>
+                                    <para>
+                                        <literal>URL</literal> &#8212; An URL pointing
+                                        to the PDF file to use as a template. If the value
+                                        has no protocol part (://), the file is read locally.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>filename</literal> &#8212; The filename
+                                        to use for the generated PDF file.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>exportKey</literal> &#8212; Place the generated
+                                        PDF file in a DocumentData object under the specified key
+                                        in the event context. If set, no redirect will occur.
+                                    </para>
+                                </listitem>
+                            </itemizedlist>
+                        </entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </informaltable>
+        
+        <informaltable>
+            <tgroup cols="2">
+                <colspec colnum="1" colwidth="1*"/>
+                <colspec colnum="2" colwidth="3*"/>
+
+                <tbody>
+                    <row>
+                        <entry valign="top">
+                            <para>
+                                <literal>&lt;p:field&gt;</literal>
+                            </para>
+                        </entry>
+                        <entry valign="top">
+                            <para>
+                                <emphasis>Description</emphasis>
+                            </para>
+                            <para>Connects a field name to its value</para>
+
+                            <para>
+                                <emphasis>Attributes</emphasis>
+                            </para>
+
+                            <itemizedlist>
+
+                                <listitem>
+                                    <para>
+                                        <literal>name</literal> &#8212; The name
+                                        of the field
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>value</literal> &#8212; The value
+                                        of the field
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>readOnly</literal> &#8212; Should the field
+                                        be read-only? Defaults to true.
+                                    </para>
+                                </listitem>
+                            </itemizedlist>
+                        </entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </informaltable>
+
+        <programlisting role="XML">
+        	<![CDATA[
+				<p:form
+       				xmlns:p="http://jboss.com/products/seam/pdf"
+       				URL="http://localhost/Concept/form.pdf">
+    				<p:field name="person.name" value="Me, myself and I"/>
+				</p:form>
+			]]>
+		</programlisting>        
+    </section>
+
 
     <section id="itext.swingcomponents">
         <title>Rendering Swing/AWT components</title>

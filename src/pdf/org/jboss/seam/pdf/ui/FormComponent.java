@@ -6,6 +6,7 @@ import javax.faces.context.FacesContext;
 public abstract class FormComponent extends UIComponentBase
 {
    protected static final String FIELDS_KEY = "acrofields";
+   protected static final String STAMPER_KEY = "acrostamper";
 
    protected Object valueOf(String name, Object defaultValue)
    {
