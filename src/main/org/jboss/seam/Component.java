@@ -954,33 +954,38 @@ public class Component extends Model
       if ( log.isDebugEnabled() ) log.debug("interceptor stack: " + interceptors);
    }
 
-   public void addInterceptor(Interceptor interceptor)
+   public void addInterceptor(Object interceptorInstance)
    {
       try
       {
-         if (interceptor.isInterceptorEnabled())
-         {
-            if (interceptor.getType()==InterceptorType.SERVER) 
-            {
-               interceptors.add(interceptor);
-            }
-            else 
-            {
-               clientSideInterceptors.add(interceptor);
-            }
-         }
+         addInterceptor(new Interceptor(interceptorInstance, this));
       }
       catch (NoClassDefFoundError e)
       {
-         log.debug("Unable to load interceptor " + interceptor, e);
+         log.debug("Unable to load interceptor " + interceptorInstance.getClass(), e);
       }
       catch (TypeNotPresentException e) 
       {
-         log.debug("Unable to load interceptor " + interceptor, e);
+         log.debug("Unable to load interceptor " + interceptorInstance.getClass(), e);
       }
       catch (Exception e)
       {
-         throw new IllegalArgumentException("Unable to load interceptor " + interceptor, e);
+         throw new IllegalArgumentException("Unable to load interceptor " + interceptorInstance.getClass(), e);
+      }
+   }
+   
+   public void addInterceptor(Interceptor interceptor)
+   {
+      if (interceptor.isInterceptorEnabled())
+      {
+         if (interceptor.getType()==InterceptorType.SERVER) 
+         {
+            interceptors.add(interceptor);
+         }
+         else 
+         {
+            clientSideInterceptors.add(interceptor);
+         }
       }
    }
 
@@ -1059,7 +1064,7 @@ public class Component extends Model
          {
             throw new IllegalArgumentException("Unable to load interceptor " + interceptorName, e);
          }
-         addInterceptor(new Interceptor(interceptorInstance, this));
+         addInterceptor(interceptorInstance);
          
       }
    }
