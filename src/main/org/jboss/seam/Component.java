@@ -956,16 +956,31 @@ public class Component extends Model
 
    public void addInterceptor(Interceptor interceptor)
    {
-      if (interceptor.isInterceptorEnabled())
+      try
       {
-         if (interceptor.getType()==InterceptorType.SERVER) 
+         if (interceptor.isInterceptorEnabled())
          {
-            interceptors.add(interceptor);
+            if (interceptor.getType()==InterceptorType.SERVER) 
+            {
+               interceptors.add(interceptor);
+            }
+            else 
+            {
+               clientSideInterceptors.add(interceptor);
+            }
          }
-         else 
-         {
-            clientSideInterceptors.add(interceptor);
-         }
+      }
+      catch (NoClassDefFoundError e)
+      {
+         log.debug("Unable to load interceptor " + interceptor, e);
+      }
+      catch (TypeNotPresentException e) 
+      {
+         log.debug("Unable to load interceptor " + interceptor, e);
+      }
+      catch (Exception e)
+      {
+         throw new IllegalArgumentException("Unable to load interceptor " + interceptor, e);
       }
    }
 
@@ -1030,12 +1045,22 @@ public class Component extends Model
          {
             Class<?> clazz = Reflections.classForName(interceptorName);
             interceptorInstance = clazz.newInstance();
+            
+         }
+         catch (NoClassDefFoundError e)
+         {
+            log.debug("Unable to load interceptor " + interceptorName, e);
+         }
+         catch (TypeNotPresentException e) 
+         {
+            log.debug("Unable to load interceptor " + interceptorName, e);
          }
          catch (Exception e)
          {
             throw new IllegalArgumentException("Unable to load interceptor " + interceptorName, e);
          }
          addInterceptor(new Interceptor(interceptorInstance, this));
+         
       }
    }
    
