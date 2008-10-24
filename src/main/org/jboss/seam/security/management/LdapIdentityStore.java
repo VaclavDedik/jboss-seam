@@ -597,8 +597,53 @@ public class LdapIdentityStore implements IdentityStore, Serializable
       {
          ctx = initialiseContext();
                  
+         // Delete the role entry itself
          String roleDN = String.format("%s=%s,%s", getRoleNameAttribute(), role, getRoleContextDN() );          
          ctx.destroySubcontext(roleDN);         
+         
+         // Then delete all user attributes that point to this role
+         int searchScope = SearchControls.SUBTREE_SCOPE;
+         int searchTimeLimit = 10000;
+         
+         String[] roleAttr = { getUserRoleAttribute() };
+                           
+         SearchControls controls = new SearchControls();
+         controls.setSearchScope(searchScope);
+         controls.setReturningAttributes(roleAttr);
+         controls.setTimeLimit(searchTimeLimit);
+         
+         StringBuilder roleFilter = new StringBuilder();
+         Object[] filterArgs = new Object[getUserObjectClasses().length + 1];
+         filterArgs[0] = roleDN;
+         
+         roleFilter.append("(&(");
+         roleFilter.append(getUserRoleAttribute());
+         roleFilter.append("={0})");
+         
+         for (int i = 0; i < getUserObjectClasses().length; i++)
+         {
+            roleFilter.append("(");
+            roleFilter.append(getObjectClassAttribute());
+            roleFilter.append("={");
+            roleFilter.append(i + 1);
+            roleFilter.append("})");
+            filterArgs[i + 1] = getUserObjectClasses()[i];
+         }
+         
+         roleFilter.append(")");
+                  
+         NamingEnumeration answer = ctx.search(getUserContextDN(), roleFilter.toString(), filterArgs, controls);
+         while (answer.hasMore())
+         {
+            SearchResult sr = (SearchResult) answer.next();
+            Attributes attrs = sr.getAttributes();
+            Attribute user = attrs.get( getUserRoleAttribute() );
+            user.remove(roleDN);            
+            ctx.modifyAttributes(sr.getNameInNamespace(), new ModificationItem[] {
+               new ModificationItem(DirContext.REPLACE_ATTRIBUTE, user)});
+         }
+         answer.close();         
+         
          return true;
       }
       catch (NamingException ex)
