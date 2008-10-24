@@ -10,6 +10,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.core.search.metamodel.SearchRegistry;
 import org.jboss.seam.wiki.core.search.metamodel.SearchableEntity;
@@ -23,7 +24,6 @@ import java.util.List;
 
 @Name("converters")
 @Scope(ScopeType.APPLICATION)
-
 public class Converters {
 
     public String[] getMonthNames() {
@@ -32,6 +32,7 @@ public class Converters {
 
     @Name("searchableEntityConverter")
     @org.jboss.seam.annotations.faces.Converter(forClass = SearchableEntity.class)
+    @BypassInterceptors
     public static class SearchableEntityConverter implements Converter, Serializable {
 
         public Object getAsObject(FacesContext arg0,
@@ -53,6 +54,7 @@ public class Converters {
 
     @Name("accessLevelConverter")
     @org.jboss.seam.annotations.faces.Converter(forClass = Role.AccessLevel.class)
+    @BypassInterceptors
     public static class AccessLevelConverter implements Converter, Serializable {
 
         public Object getAsObject(FacesContext arg0,

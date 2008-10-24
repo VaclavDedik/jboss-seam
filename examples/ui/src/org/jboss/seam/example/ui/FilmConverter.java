@@ -10,9 +10,11 @@ import javax.persistence.EntityManager;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Transactional;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 
 @Name("filmConverter")
 @org.jboss.seam.annotations.faces.Converter(forClass=Film.class)
+@BypassInterceptors
 public class FilmConverter implements Converter, Serializable
 {
    
