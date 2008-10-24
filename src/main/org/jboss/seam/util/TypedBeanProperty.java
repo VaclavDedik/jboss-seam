@@ -102,6 +102,11 @@ public class TypedBeanProperty
       }
    }   
    
+   public String getName()
+   {
+      return name;
+   }
+   
    public boolean isSet()
    {
       return set;

@@ -520,18 +520,27 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          throw new NoSuchRoleException("Could not delete role, role '" + role + "' does not exist");
       }        
       
-      for (Principal principal : listMembers(role))
+      if (xrefClass != null)
       {
-         if (SimplePrincipal.class.equals(principal.getClass()))
+         lookupEntityManager().createQuery("delete " + xrefClass.getName() + " where role = :role")
+         .setParameter("role", roleToDelete)
+         .executeUpdate();
+      }
+      else
+      {
+         List<String> users = listUserMembers(role);
+         for (String user : users)
          {
-            revokeRole(principal.getName(), role);
-         }
-         else if (Role.class.equals(principal.getClass()))
-         {
-            removeRoleFromGroup(principal.getName(), role);
+            revokeRole(user, role);
          }
       }
       
+      List<String> roles = listRoleMembers(role);
+      for (String r : roles)
+      {
+         removeRoleFromGroup(r, role);
+      }
+            
       removeEntity(roleToDelete);
       return true;
    }
@@ -859,35 +868,63 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    {
       List<Principal> members = new ArrayList<Principal>();
       
+      for (String user : listUserMembers(role))
+      {
+         members.add(new SimplePrincipal(user));
+      }
+      
+      for (String roleName : listRoleMembers(role))
+      {
+         members.add(new Role(roleName));
+      }
+      
+      return members;
+   }
+   
+   private List<String> listUserMembers(String role)
+   {      
       Object roleEntity = lookupRole(role);
 
       if (xrefClass == null)
       {      
-         List<String> users = lookupEntityManager().createQuery("select u." + userPrincipalProperty.getName() + 
+         return lookupEntityManager().createQuery("select u." + userPrincipalProperty.getName() + 
                " from " + userClass.getName() + " u where :role member of u." + userRolesProperty.getName())
                .setParameter("role", roleEntity)
                .getResultList();
-         
-         for (String user : users)
-         {
-            members.add(new SimplePrincipal(user));
-         }
-         
-         if (roleGroupsProperty != null)
-         {
-            List<String> roles = lookupEntityManager().createQuery("select r." + roleNameProperty.getName() +
-                  " from " + roleClass.getName() + " r where :role member of r." + roleGroupsProperty.getName())
-                  .setParameter("role", roleEntity)
-                  .getResultList();
-            
-            for (String roleName : roles)
-            {
-               members.add(new Role(roleName));
-            }
-         }
       }
+      else
+      {
+         List xrefs = lookupEntityManager().createQuery("select x from " + xrefClass.getName() + " x where x." +
+               xrefRoleProperty.getName() + " = :role")
+               .setParameter("role", roleEntity)
+               .getResultList();
 
-      return members;
+         List<String> members = new ArrayList<String>();
+         
+         for (Object xref : xrefs)
+         {
+            Object user = xrefUserProperty.getValue(xref);
+            members.add(userPrincipalProperty.getValue(user).toString());
+         }
+         
+         return members;
+      }
+     
+   }
+   
+   private List<String> listRoleMembers(String role)
+   {                
+      if (roleGroupsProperty != null)
+      {
+         Object roleEntity = lookupRole(role);                  
+         
+         return lookupEntityManager().createQuery("select r." + roleNameProperty.getName() +
+               " from " + roleClass.getName() + " r where :role member of r." + roleGroupsProperty.getName())
+               .setParameter("role", roleEntity)
+               .getResultList();
+      }
+      
+      return null;
    }
    
    public List<String> listGrantableRoles()
