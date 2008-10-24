@@ -413,6 +413,7 @@
 		<include name="META-INF/security-rules.drl" />
 		<include name="META-INF/standard-jaxws-endpoint-config.xml" />
 		<include name="*.jpdl.xml" />
+		<exclude name=".gpd*" />
 	</fileset>
 
 	<!-- resources to go in the jar for tomcat  -->
