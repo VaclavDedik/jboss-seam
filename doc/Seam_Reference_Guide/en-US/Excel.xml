@@ -1011,36 +1011,11 @@
                      <itemizedlist>
                         <listitem>
                            <para>
-                              <literal>&lt;e:font/&gt;</literal>
-                              &#8212;Zero or more font definitions (see
-                              <xref linkend="excel.cells.fonts" />
-                              ).
-                           </para>
-                        </listitem>
-                        <listitem>
-                           <para>
-                              <literal>&lt;e:border/&gt;</literal>
-                              &#8212;Zero or more border definitions (see
-                              <xref linkend="excel.cells.borders" />
-                              ).
-                           </para>
-                        </listitem>
-                        <listitem>
-                           <para>
-                              <literal>&lt;e:background/&gt;</literal>
-                              &#8212;Zero or more background definitions (see
-                              <xref linkend="excel.cells.backgrounds" />
-                              ).
-                           </para>
-                        </listitem>
-                        <listitem>
-                           <para>
                               Zero or more validation conditions (see
                               <xref linkend="excel.cells.validation" />
                               ).
                            </para>
                         </listitem>
-
                      </itemizedlist>
                      <para>
                         <emphasis>Facets</emphasis>
