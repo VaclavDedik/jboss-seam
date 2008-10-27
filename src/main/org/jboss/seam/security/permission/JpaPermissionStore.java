@@ -158,6 +158,15 @@ public class JpaPermissionStore implements PermissionStore, Serializable
       }
    }   
    
+   /**
+    * Creates a Query that returns a list of permission records for the specified parameters. 
+    * 
+    * @param target The target of the permission, may be null
+    * @param targets A set of permission targets, may be null
+    * @param recipient The permission recipient, may be null
+    * @param discrimination A discrimination (either user, role or both), required
+    * @return Query The query generated for the provided parameters
+    */
    protected Query createPermissionQuery(Object target, Set targets, Principal recipient, Discrimination discrimination)
    {
       if (target != null && targets != null)
@@ -172,7 +181,8 @@ public class JpaPermissionStore implements PermissionStore, Serializable
       queryKey |= (discrimination.equals(Discrimination.role) ? 16 : 0);
       queryKey |= (discrimination.equals(Discrimination.either) ? 32 : 0);
       
-      boolean isRole = discrimination.equals(Discrimination.role) && rolePermissionClass != null;
+      boolean isRole = discrimination.equals(Discrimination.role);
+      boolean useRoleTable = isRole && rolePermissionClass != null; 
       
       if (!queryCache.containsKey(queryKey))
       {  
@@ -180,13 +190,13 @@ public class JpaPermissionStore implements PermissionStore, Serializable
          
          StringBuilder q = new StringBuilder();
          q.append("select p from ");
-         q.append(isRole ? rolePermissionClass.getName() : userPermissionClass.getName());
+         q.append(useRoleTable ? rolePermissionClass.getName() : userPermissionClass.getName());
          q.append(" p");
          
          if (target != null)
          {
             q.append(" where p.");
-            q.append(isRole ? roleTargetProperty.getName() : targetProperty.getName());
+            q.append(useRoleTable ? roleTargetProperty.getName() : targetProperty.getName());
             q.append(" = :target");
             conditionsAdded = true;
          }
@@ -194,7 +204,7 @@ public class JpaPermissionStore implements PermissionStore, Serializable
          if (targets != null)
          {
             q.append(" where p.");
-            q.append(isRole ? roleTargetProperty.getName() : targetProperty.getName());
+            q.append(useRoleTable ? roleTargetProperty.getName() : targetProperty.getName());
             q.append(" in (:targets)");
             conditionsAdded = true;
          }
@@ -369,8 +379,16 @@ public class JpaPermissionStore implements PermissionStore, Serializable
             Object instance = userPermissionClass.newInstance();
             targetProperty.setValue(instance, identifierPolicy.getIdentifier(target));
             actionProperty.setValue(instance, actionSet.toString());
-            userProperty.setValue(instance, resolvePrincipalEntity(recipient));
             
+            if (recipientIsRole)
+            {
+               roleProperty.setValue(instance, resolvePrincipalEntity(recipient));
+            }
+            else
+            {
+               userProperty.setValue(instance, resolvePrincipalEntity(recipient));
+            }
+                       
             if (discriminatorProperty.isSet())
             {
                PermissionDiscriminator discriminator = discriminatorProperty.getAnnotation();
