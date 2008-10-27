@@ -784,6 +784,7 @@
         <copy tofile="${project.home}/${project.name}.ipr"
                 file="${templates.dir}/ide-project-files/idea/project.ipr">
             <filterset refid="project"/>
+            <filterset refid="jdbc"/>
         </copy>
         <copy tofile="${project.home}/${project.name}.iml"
                 file="${templates.dir}/ide-project-files/idea/module.iml">
