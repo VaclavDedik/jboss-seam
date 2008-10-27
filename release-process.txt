@@ -366,7 +366,7 @@ Portal Bridge Verification
              for them to be removed as it is integrated with portal auth/>
 * Upgrade the seam version in the seam portlet booking example
     - download the src distribution of the PBR
-    - edit the $PBR_SRC/examples/seam/booking/seamBookingPortlet/pom.xml file
+    - edit the $PBR_SRC/examples/seam/booking/pom.xml file
         - adjust the seam version properties at the top of the file
     - build the example by running "mvn install" in the $PBR_SRC/examples dir
     - <NOTE: You need to remove the "javassist.jar" from both the EAR
