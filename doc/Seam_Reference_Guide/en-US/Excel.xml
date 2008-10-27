@@ -2737,8 +2737,8 @@
                      </entry>
                      <entry valign="top">
                         <para>
-                           A shorthand for setting color and line style of the left edge
-                           of the cell, e.g style="xls-border-left: red thick"
+                           A shorthand for setting line style and color of the left edge
+                           of the cell, e.g style="xls-border-left: thick red"
                         </para>
                      </entry>
                   </row>
@@ -2779,7 +2779,7 @@
                      </entry>
                      <entry valign="top">
                         <para>
-                           A shorthand for setting color and line style of the top edge
+                           A shorthand for setting line style and color of the top edge
                            of the cell, e.g style="xls-border-left: red thick"
                         </para>
                      </entry>
@@ -2821,8 +2821,8 @@
                      </entry>
                      <entry valign="top">
                         <para>
-                           A shorthand for setting color and line style of the right edge
-                           of the cell, e.g style="xls-border-right: red thick"
+                           A shorthand for setting line style and color of the right edge
+                           of the cell, e.g style="xls-border-right: thick red"
                         </para>
                      </entry>
                   </row>
@@ -2863,8 +2863,8 @@
                      </entry>
                      <entry valign="top">
                         <para>
-                           A shorthand for setting color and line style of the bottom edge
-                           of the cell, e.g style="xls-border-bottom: red thick"
+                           A shorthand for setting line style and color of the bottom edge
+                           of the cell, e.g style="xls-border-bottom: thick red"
                         </para>
                      </entry>
                   </row>
@@ -2874,8 +2874,8 @@
                      </entry>
                      <entry valign="top">
                         <para>
-                           A shorthand for setting color and line style all edges
-                           of the cell, e.g style="xls-border: red thick"
+                           A shorthand for setting line style and color for all edges
+                           of the cell, e.g style="xls-border: thick red"
                         </para>
                      </entry>
                   </row>
