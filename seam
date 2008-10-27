@@ -4,7 +4,7 @@
 #                                            #
 # seam-gen - Seam project and code generator #
 #                                            #
-############################################ #
+##############################################
 
 # Validate the JDK installation
 if [ -z "$JAVA_HOME" ]; then
