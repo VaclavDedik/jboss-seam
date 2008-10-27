@@ -607,18 +607,8 @@
             <fileset file="${driver.jar}"/>
         </copy>
 
-        <!-- we must use an endorsed jars directory for running SeamTest under Java 6 -->
-        <artifact:dependencies filesetId="endorsed.fileset" versionsId="endorsed.versions">
-            <dependency groupId="javax.xml.bind" artifactId="jaxb-api" version="2.1">
-                <exclusion groupId="javax.xml.stream" artifactId="stax-api"/>
-                <exclusion groupId="javax.activation" artifactId="activation"/>
-            </dependency>
-            <remoteRepository refId="repository.jboss.org"/>
-        </artifact:dependencies>
-        <copy todir="${project.home}/lib/endorsed" overwrite="true">
-            <fileset refid="endorsed.fileset"/>
-            <mapper classpathref="maven-ant-tasks.classpath" classname="org.apache.maven.artifact.ant.VersionMapper" from="${endorsed.versions}" to="flatten"/>
-        </copy>
+        <!-- we must use an endorsed jars directory containing JAXB 2.1 for running SeamTest under Java 6 -->
+        <copy todir="${project.home}/lib/endorsed" file="${seam.dir}/lib/gen/jaxb-api.jar" overwrite="true"/>
 
         <echo message="Copying JBoss Embedded configuration to the ${project.home}/bootstrap directory..."/>
         <copy todir="${project.home}/bootstrap" overwrite="true">
