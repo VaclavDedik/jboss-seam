@@ -46,6 +46,12 @@
     </category>
     -->
 
+    <!-- Ajax4jsf is too noisy -->
+    <category name="org.ajax4jsf.cache">
+        <priority value="WARN"/>
+    </category>
+
+
     <!-- ############### Seam logging ################### -->
     <category name="org.jboss.seam">
         <priority value="WARN"/>
