@@ -1471,6 +1471,12 @@
 
                                 <listitem>
                                     <para>
+                                        <literal>legendOutlinePaint</literal>&#8212; The color of the border around
+                                        the legend.</para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
                                         <literal>orientation</literal> &#8212; The orientation of the plot, either
                                             <code>vertical</code> (the default) or <code>horizontal</code>. </para>
                                 </listitem>
@@ -1666,6 +1672,12 @@
                                     <para>
                                         <literal>legendItemBackgoundPaint</literal>&#8212; The background color for
                                         the legend, if different from the chart background color.</para>
+                                </listitem>
+
+                                <listitem>
+                                    <para>
+                                        <literal>legendOutlinePaint</literal>&#8212; The color of the border around
+                                        the legend.</para>
                                 </listitem>
 
                                 <listitem>

@@ -2,6 +2,7 @@ package org.jboss.seam.pdf.ui;
 
 import javax.faces.context.FacesContext;
 
+import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
@@ -21,6 +22,7 @@ public abstract class UICategoryChartBase extends UIChart
 
    private String legendBackgroundPaint;
    private String legendItemPaint;
+   private String legendOutlinePaint;
 
    private String domainAxisLabel;
    private String domainAxisPaint;
@@ -134,6 +136,14 @@ public abstract class UICategoryChartBase extends UIChart
       this.legendItemPaint = legendItemPaint;
    }
 
+   public String getLegendOutlinePaint() {
+      return (String) valueBinding("legendOutlinePaint", legendOutlinePaint);
+   }
+
+   public void setLegendOutlinePaint(String legendOutlinePaint) {
+      this.legendOutlinePaint = legendOutlinePaint;
+   }
+
    public String getDomainGridlinePaint()
    {
       return (String) valueBinding("domainGridlinePaint", domainGridlinePaint);
@@ -229,22 +239,23 @@ public abstract class UICategoryChartBase extends UIChart
       titlePaint = (String) values[6];
       legendBackgroundPaint = (String) values[7];
       legendItemPaint = (String) values[8];
-      domainAxisLabel = (String) values[9];
-      domainAxisPaint = (String) values[10];
-      domainGridlinesVisible = (Boolean) values[11];
-      domainGridlinePaint = (String) values[12];
-      domainGridlineStroke = (String) values[13];
-      rangeAxisLabel = (String) values[14];
-      rangeAxisPaint = (String) values[15];
-      rangeGridlinesVisible = (Boolean) values[16];
-      rangeGridlinePaint = (String) values[17];
-      rangeGridlineStroke = (String) values[18];
+      legendOutlinePaint = (String) values[9];
+      domainAxisLabel = (String) values[10];
+      domainAxisPaint = (String) values[11];
+      domainGridlinesVisible = (Boolean) values[12];
+      domainGridlinePaint = (String) values[13];
+      domainGridlineStroke = (String) values[14];
+      rangeAxisLabel = (String) values[15];
+      rangeAxisPaint = (String) values[16];
+      rangeGridlinesVisible = (Boolean) values[17];
+      rangeGridlinePaint = (String) values[18];
+      rangeGridlineStroke = (String) values[19];
    }
 
    @Override
    public Object saveState(FacesContext context)
    {
-      Object[] values = new Object[19];
+      Object[] values = new Object[20];
       values[0] = super.saveState(context);
       values[1] = orientation;
       values[2] = legend;
@@ -254,16 +265,17 @@ public abstract class UICategoryChartBase extends UIChart
       values[6] = titlePaint;
       values[7] = legendBackgroundPaint;
       values[8] = legendItemPaint;
-      values[9] = domainAxisLabel;
-      values[10] = domainAxisPaint;
-      values[11] = domainGridlinesVisible;
-      values[12] = domainGridlinePaint;
-      values[13] = domainGridlineStroke;
-      values[14] = rangeAxisLabel;
-      values[15] = rangeAxisPaint;
-      values[16] = rangeGridlinesVisible;
-      values[17] = rangeGridlinePaint;
-      values[18] = rangeGridlineStroke;
+      values[9] = legendOutlinePaint;
+      values[10] = domainAxisLabel;
+      values[11] = domainAxisPaint;
+      values[12] = domainGridlinesVisible;
+      values[13] = domainGridlinePaint;
+      values[14] = domainGridlineStroke;
+      values[15] = rangeAxisLabel;
+      values[16] = rangeAxisPaint;
+      values[17] = rangeGridlinesVisible;
+      values[18] = rangeGridlinePaint;
+      values[19] = rangeGridlineStroke;
 
       return values;
    }
@@ -379,6 +391,9 @@ public abstract class UICategoryChartBase extends UIChart
          {
             chartLegend.setBackgroundPaint(findColor(getLegendBackgroundPaint()));
          }
+         if (findColor(getLegendOutlinePaint())!= null) {
+            chartLegend.setBorder(new BlockBorder(findColor(getLegendOutlinePaint())));
+         }        
          if (findColor(getLegendItemPaint()) != null)
          {
             chartLegend.setItemPaint(findColor(getLegendItemPaint()));
