@@ -4,6 +4,7 @@ import static org.jboss.seam.ScopeType.SESSION;
 
 import javax.servlet.http.HttpSession;
 
+import java.io.Serializable;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Create;
@@ -20,7 +21,7 @@ import org.jboss.seam.mock.MockHttpSession;
 @BypassInterceptors
 @Install(dependencies="org.jboss.seam.faces.renderer")
 @AutoCreate
-public class HttpSessionManager
+public class HttpSessionManager implements Serializable
 {
    
    private HttpSession session;
