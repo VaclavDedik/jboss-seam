@@ -946,7 +946,7 @@ public class AbstractSeamTest
     */
    protected void setupClass() throws Exception
    {
-      servletContext = (MockServletContext) ServletLifecycle.getServletContext();
+      servletContext = ServletLifecycle.getServletContext();
       applicationFactory = (ApplicationFactory) FactoryFinder.getFactory(FactoryFinder.APPLICATION_FACTORY);
       application = applicationFactory.getApplication();
       conversationViewRootAttributes = new HashMap<String, Map>();
