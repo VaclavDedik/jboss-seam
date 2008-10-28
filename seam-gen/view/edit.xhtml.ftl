@@ -51,13 +51,13 @@
                       immediate="true"
                        rendered="${'#'}{${homeName}.managed}"/>
 
-            <s:button id="done"
-                   value="Done"
+            <s:button id="cancelEdit"
+                   value="Cancel"
              propagation="end"
                     view="/${pageName}.xhtml"
                 rendered="${'#'}{${homeName}.managed}"/>
 
-            <s:button id="cancel"
+            <s:button id="cancelAdd"
                    value="Cancel"
              propagation="end"
                     view="/${'#'}{empty ${componentName}From ? '${masterPageName}' : ${componentName}From}.xhtml"

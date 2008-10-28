@@ -56,13 +56,13 @@
                       immediate="true"
                        rendered="${'#'}{${homeName}.managed}"/>
                     
-            <s:button id="done${homeName}" styleClass="iceCmdBtn"
-                   value="Done"
+            <s:button id="cancelEdit${homeName}" styleClass="iceCmdBtn"
+                   value="Cancel"
              propagation="end"
                     view="/${pageName}.xhtml"
                 rendered="${'#'}{${homeName}.managed}"/>
                 
-            <s:button id="cancel${homeName}" styleClass="iceCmdBtn"
+            <s:button id="cancelAdd${homeName}" styleClass="iceCmdBtn"
                    value="Cancel"
              propagation="end"
                     view="/${'#'}{empty ${componentName}From ? '${masterPageName}' : ${componentName}From}.xhtml"
