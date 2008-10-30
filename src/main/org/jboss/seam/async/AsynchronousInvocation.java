@@ -18,7 +18,7 @@ public class AsynchronousInvocation extends Asynchronous
 {
    static final long serialVersionUID = 7426196491669891310L;
    
-   private LogProvider log = Logging.getLogProvider(AsynchronousInvocation.class);
+   private static transient LogProvider log = Logging.getLogProvider(AsynchronousInvocation.class);
    
    private String methodName;
    private Class[] argTypes;
