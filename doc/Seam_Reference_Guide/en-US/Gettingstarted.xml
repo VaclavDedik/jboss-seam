@@ -36,11 +36,11 @@
             development time. If you're running JBoss from JBoss IDE, you can configure this in the server launch
             configuration, under "VM arguments". We suggest the following values:</para>
 
-        <programlisting>-Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512</programlisting>
+        <programlisting>-Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m</programlisting>
 
         <para>If you don't have so much memory available, the following is our minimum recommendation:</para>
 
-        <programlisting>-Xms256m -Xmx512m -XX:PermSize=128m -XX:MaxPermSize=256</programlisting>
+        <programlisting>-Xms256m -Xmx512m -XX:PermSize=128m -XX:MaxPermSize=256m</programlisting>
 
         <para>If you're running JBoss from the command line, you can configure the JVM options in
             <literal>bin/run.conf</literal>.</para>
