@@ -150,6 +150,7 @@ public class JavassistInstrumentor
                   String newName = implementation.makeUniqueName(method.getName());
                   
                   CtMethod newMethod = CtNewMethod.copy(method, newName, implementation, null);
+                  newMethod.setModifiers(Modifier.PRIVATE);
                   implementation.addMethod(newMethod);
                   method.setBody(createBody(implementation, method, newMethod));
                   log.trace("instrumented method " + method.getName());
