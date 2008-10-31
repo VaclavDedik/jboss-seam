@@ -60,6 +60,17 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
       <antcall target="stop.selenium.server">
       </antcall>
    </target>
+	
+	   <target name="test">
+	      <antcall target="start.selenium.server">
+	      </antcall>
+
+	      <!-- Execute tests for all examples-->
+	      <testexample name="${test}" />
+
+	      <antcall target="stop.selenium.server">
+	      </antcall>
+	   </target>
 
    <target name="cleanall">
       <cleanexample name="booking" />

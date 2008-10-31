@@ -33,7 +33,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
    <property name="common.src.dir" value="${ftest.dir}/src/main" />
    <property name="build.dir" value="build" />
    <property name="classes.dir" value="${build.dir}/classes" />
-   <property name="test.output.dir" value="test-output" />
+   <property name="test.output.dir" value="${seam.dir}/test-output" />
    <property name="ftest.lib.dir" value="${ftest.dir}/lib" />
    <property name="log.dir" value="log" />
    <property name="test.report.dir" value="test-report" />
