@@ -143,7 +143,7 @@ public class JavassistInstrumentor
          
          for (CtMethod method : implementation.getDeclaredMethods())
          {
-            if (!Modifier.isStatic(method.getModifiers()))
+            if (!Modifier.isStatic(method.getModifiers()) && !Modifier.isAbstract(method.getModifiers()))
             {
                if (!("getHandler".equals(method.getName()) || "getEnclosingInstance".equals(method.getName())))
                {                  
@@ -235,7 +235,7 @@ public class JavassistInstrumentor
    private static boolean isInstrumentable(CtClass clazz)
    {
       int modifiers = clazz.getModifiers();
-      return !(Modifier.isAbstract(modifiers) || Modifier.isInterface(modifiers) || Modifier.isEnum(modifiers));
+      return !(Modifier.isInterface(modifiers) || Modifier.isEnum(modifiers));
    }
    
 }
