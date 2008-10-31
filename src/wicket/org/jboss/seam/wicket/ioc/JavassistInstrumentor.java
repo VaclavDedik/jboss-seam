@@ -161,7 +161,7 @@ public class JavassistInstrumentor
             if (constructor.isConstructor())
             {
                {
-                  String constructorObject = createConstructorObject(constructor);
+                  String constructorObject = createConstructorObject(className,constructor);
                   constructor.insertBeforeBody(constructorObject + "handler.beforeInvoke(this, constructor);");
                   constructor.addCatch("{" + constructorObject + "throw new RuntimeException(handler.handleException(this, constructor, e));}", exception, "e");
                   constructor.insertAfter(constructorObject + "handler.afterInvoke(this, constructor);");
@@ -224,10 +224,10 @@ public class JavassistInstrumentor
       return src;
    }
    
-   private static String createConstructorObject(CtConstructor constructor) throws NotFoundException
+   private static String createConstructorObject(String className, CtConstructor constructor) throws NotFoundException
    {
       String src = createParameterTypesArray(constructor);
-      src += "java.lang.reflect.Constructor constructor = this.getClass().getDeclaredConstructor(parameterTypes);";
+      src += "java.lang.reflect.Constructor constructor = " + className + ".class.getDeclaredConstructor(parameterTypes);";
       return src;
    }
 
