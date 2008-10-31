@@ -137,7 +137,7 @@ public class JavassistInstrumentor
          CtClass instrumentedComponent = classPool.get(InstrumentedComponent.class.getName());
          implementation.addInterface(instrumentedComponent);
          CtMethod getHandlerMethod = CtNewMethod.getter("getHandler", handlerField);
-         CtMethod getEnclosingInstance = CtNewMethod.make("public " + InstrumentedComponent.class.getName() +" getEnclosingInstance() { return handler.getEnclosingInstance(this); }", implementation);
+         CtMethod getEnclosingInstance = CtNewMethod.make("public " + InstrumentedComponent.class.getName() +" getEnclosingInstance() { return handler == null ? null : handler.getEnclosingInstance(this); }", implementation);
          implementation.addMethod(getEnclosingInstance);
          implementation.addMethod(getHandlerMethod);
          
@@ -181,7 +181,8 @@ public class JavassistInstrumentor
    
    private static String createBody(CtClass clazz, CtMethod method, CtMethod newMethod) throws NotFoundException
    {
-      String src = "{" + createMethodObject(method) + "handler.beforeInvoke(this, method);" + createMethodDelegation(newMethod) + "return ($r) handler.afterInvoke(this, method, ($w) result);}";
+      String src = "{" + createMethodObject(method) + "if (this.handler != null) this.handler.beforeInvoke(this, method);" + createMethodDelegation(newMethod) + "if (this.handler != null) result = ($r) this.handler.afterInvoke(this, method, ($w) result); return ($r) result;}";
+
       log.trace("Creating method " + clazz.getName() + "." + newMethod.getName() + "(" + newMethod.getSignature() + ")" + src);
       return src;
    }
@@ -203,7 +204,7 @@ public class JavassistInstrumentor
    
    private static String wrapInExceptionHandler(String src)
    {
-      return "try {" + src + "} catch (Exception e) { throw new RuntimeException(handler.handleException(this, method, e)); }";
+      return "try {" + src + "} catch (Exception e) { throw new RuntimeException(this.handler == null ? e : this.handler.handleException(this, method, e)); }";
    }
    
    private static String createParameterTypesArray(CtBehavior behavior) throws NotFoundException

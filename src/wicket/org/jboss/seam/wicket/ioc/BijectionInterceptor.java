@@ -37,7 +37,7 @@ public class BijectionInterceptor<T> implements StatelessInterceptor<T>
       InstrumentedComponent enclosingInstance = invocationContext.getInstrumentedComponent().getEnclosingInstance();
       while (enclosingInstance != null)
       {
-         if (!enclosingInstance.getHandler().isReentrant())
+         if (enclosingInstance.getHandler() != null && !enclosingInstance.getHandler().isReentrant())
          {
             WicketComponent.getInstance(enclosingInstance.getClass()).inject(enclosingInstance);
             enclosingInstance = enclosingInstance.getEnclosingInstance();
@@ -54,7 +54,7 @@ public class BijectionInterceptor<T> implements StatelessInterceptor<T>
       InstrumentedComponent enclosingInstance = invocationContext.getInstrumentedComponent().getEnclosingInstance();
       while (enclosingInstance != null)
       {
-         if (!enclosingInstance.getHandler().isReentrant())
+         if (enclosingInstance.getHandler() != null && !enclosingInstance.getHandler().isReentrant())
          {
             WicketComponent.getInstance(enclosingInstance.getClass()).disinject(enclosingInstance);
             enclosingInstance = enclosingInstance.getEnclosingInstance();
