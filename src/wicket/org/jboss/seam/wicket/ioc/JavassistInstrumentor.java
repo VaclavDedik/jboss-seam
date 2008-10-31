@@ -182,7 +182,7 @@ public class JavassistInstrumentor
    
    private static String createBody(CtClass clazz, CtMethod method, CtMethod newMethod) throws NotFoundException
    {
-      String src = "{" + createMethodObject(method) + "if (this.handler != null) this.handler.beforeInvoke(this, method);" + createMethodDelegation(newMethod) + "if (this.handler != null) result = ($r) this.handler.afterInvoke(this, method, ($w) result); return ($r) result;}";
+      String src = "{" + createMethodObject(clazz,method) + "if (this.handler != null) this.handler.beforeInvoke(this, method);" + createMethodDelegation(newMethod) + "if (this.handler != null) result = ($r) this.handler.afterInvoke(this, method, ($w) result); return ($r) result;}";
 
       log.trace("Creating method " + clazz.getName() + "." + newMethod.getName() + "(" + newMethod.getSignature() + ")" + src);
       return src;
@@ -218,10 +218,10 @@ public class JavassistInstrumentor
       return src;
    }
    
-   private static String createMethodObject(CtMethod method) throws NotFoundException
+   private static String createMethodObject(CtClass clazz, CtMethod method) throws NotFoundException
    {
       String src = createParameterTypesArray(method);
-      src += "java.lang.reflect.Method method = this.getClass().getDeclaredMethod(\""+ method.getName() + "\", parameterTypes);";
+      src += "java.lang.reflect.Method method = " + clazz.getName() +".class.getDeclaredMethod(\""+ method.getName() + "\", parameterTypes);";
       return src;
    }
    
