@@ -15,7 +15,7 @@ if "%WORKING_DIR:~-1%" == "\" (
 if ["%SEAM_HOME%"] == [""] (
     set SEAM_HOME=%~dp0
 ) else (
-    if not exist "%SEAM_HOME\seam.bat" (goto noseam)
+    if not exist "%SEAM_HOME%\seam.bat" (goto noseam)
 )
 if "%SEAM_HOME:~-1%" == "\" (
     set SEAM_HOME=%SEAM_HOME:~0,-1%
