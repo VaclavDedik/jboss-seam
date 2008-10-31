@@ -174,17 +174,20 @@ public class WicketComponent<T>
    {
       Class clazz = type;
       scanClassEnclosureHierachy();
-      for (Method method : clazz.getDeclaredMethods())
-      {
-         add(method);
-      }
-      for (Field field : clazz.getDeclaredFields())
-      {
-         add(field);
-      }
-      for(Constructor<T> constructor : clazz.getDeclaredConstructors())
-      {
-         add(constructor);
+      while (clazz != Object.class) {
+         for (Method method : clazz.getDeclaredMethods())
+         {
+            add(method);
+         }
+         for (Field field : clazz.getDeclaredFields())
+         {
+            add(field);
+         }
+         for(Constructor<T> constructor : clazz.getDeclaredConstructors())
+         {
+            add(constructor);
+         } 
+         clazz = clazz.getSuperclass();
       }
    }
    
