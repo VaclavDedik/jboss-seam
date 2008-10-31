@@ -95,13 +95,6 @@
                      </stylesheetResource>
                      <finalName>index.html</finalName>
                   </format>
-                  <format>
-                     <formatName>eclipse</formatName>
-                     <stylesheetResource>
-                        classpath:/xslt/org/jboss/seam/eclipse.xsl
-                     </stylesheetResource>
-                     <finalName>index.html</finalName>
-                  </format>
                </formats>
                <options>
                   <xincludeSupported>true</xincludeSupported>
