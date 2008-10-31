@@ -8,6 +8,7 @@ package org.jboss.seam.wiki.core.captcha;
 
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.faces.Validator;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.core.Interpolator;
@@ -29,6 +30,7 @@ import java.io.Serializable;
  */
 @Name("wikiCaptchaValidator")
 @Validator(id = "wikiCaptchaValidator")
+@BypassInterceptors
 public class WikiCaptchaValidator implements javax.faces.validator.Validator, Serializable {
 
     public static final String VERIFICATION_MSG_EXPR = "#{messages['lacewiki.label.VerificationError']}";
