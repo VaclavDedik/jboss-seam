@@ -63,9 +63,9 @@ public class RegistrationTest extends SeleniumDvdTest {
      */
     @Test
     public void basicRegistrationTest() {
-        Person person = new Person("742 Evergreen Terrace", "012-3456-7890",
-                "Visa", "Springfield", "homer@example.com", "Homer", "Simpson",
-                "password", "9185551212", "US", "homer" + suffix, "password",
+        Person person = new Person("Street 123", "012-3456-7890",
+                "Visa", "City", "john@example.com", "John", "Doe",
+                "password", "0123456789", "US", "john" + suffix, "password",
                 "01234");
 
         fillFirstPage(person);

@@ -102,8 +102,8 @@ public class RegistrationTest extends SeleniumBookingTest {
 
     @Test
     public void standardRegistrationTest() {
-        String username = "homer" + suffix;
-        String name = "Homer Simpson";
+        String username = "john" + suffix;
+        String name = "John Doe";
         String password = "password";
         register(username, name, password, password);
         assertTrue("Navigation after succesful registration failed.", browser
