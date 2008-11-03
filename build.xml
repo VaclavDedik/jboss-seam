@@ -327,7 +327,14 @@
 	</target>
 
 	<target name="jarwicket" depends="compilewicket" description="Build the distribution .jar file for the Wicket Integration package">
-		<archive classesdir="${classes.wicket.dir}" module="jboss-seam-wicket" pom="${wicket.pom}"  srcdir="${src.wicket.dir}"/>
+		<archive classesdir="${classes.wicket.dir}" module="jboss-seam-wicket" pom="${wicket.pom}"  srcdir="${src.wicket.dir}">
+			<excludes>
+				<exclude name="**/WicketInstrumentationTask*"/>
+			</excludes>
+		</archive>
+		<jar jarfile="${lib.dir}/jboss-seam-wicket-ant.jar" basedir="${classes.wicket.dir}">
+			<include name="**/WicketInstrumentationTask*" />
+		</jar>
 	</target>
 	
 	<!-- ########################### JUL TARGETS ###########################-->

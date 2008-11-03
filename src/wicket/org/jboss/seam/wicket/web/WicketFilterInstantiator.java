@@ -4,11 +4,14 @@
 package org.jboss.seam.wicket.web;
 
 import static org.jboss.seam.annotations.Install.BUILT_IN;
+import static org.jboss.seam.util.Resources.getRealFile;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import javassist.CannotCompileException;
+import javassist.ClassPool;
 import javassist.NotFoundException;
 
 import javax.servlet.Filter;
@@ -22,11 +25,11 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.util.Reflections;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.web.FilterConfigWrapper;
 import org.jboss.seam.wicket.WebApplication;
-import org.jboss.seam.wicket.SeamWebApplication;
-import org.jboss.seam.wicket.ioc.JavassistInstrumentor;
+import org.jboss.seam.wicket.ioc.WicketClassLoader;
 
 @Name("org.jboss.seam.wicket.web.wicketFilterInstantiator")
 @Install(precedence = BUILT_IN, classDependencies={"org.apache.wicket.Application"})
@@ -34,6 +37,9 @@ import org.jboss.seam.wicket.ioc.JavassistInstrumentor;
 @Scope(ScopeType.STATELESS)
 public class WicketFilterInstantiator
 {
+   
+   public static String DEFAULT_WICKET_COMPONENT_DIRECTORY_PATH = "WEB-INF/wicket";
+   private static LogProvider log = Logging.getLogProvider(WicketFilterInstantiator.class);
    
    @Unwrap
    public Filter unrwap()
@@ -49,9 +55,18 @@ public class WicketFilterInstantiator
             Map<String, String> parameters = new HashMap<String, String>();
             try
             {
-               JavassistInstrumentor javassistInstrumentor = new JavassistInstrumentor(filterConfig.getServletContext());
-               javassistInstrumentor.instrument();
-               classLoader = javassistInstrumentor.getClassLoader();
+
+               ClassLoader parent = Thread.currentThread().getContextClassLoader();
+               File dir = getRealFile(filterConfig.getServletContext(), DEFAULT_WICKET_COMPONENT_DIRECTORY_PATH);
+               if (dir == null)
+               {
+                  log.warn("No wicket components directory specified to give Seam super powers to");
+                  this.classLoader = parent;
+               }
+               else
+               {
+                  this.classLoader = new WicketClassLoader(Thread.currentThread().getContextClassLoader(), new ClassPool(), dir).instrument();
+               }
             }
             catch (NotFoundException e)
             {

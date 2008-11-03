@@ -1,9 +1,5 @@
 package org.jboss.seam.wicket.ioc;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtBehavior;
@@ -12,12 +8,9 @@ import javassist.CtConstructor;
 import javassist.CtField;
 import javassist.CtMethod;
 import javassist.CtNewMethod;
-import javassist.LoaderClassPath;
 import javassist.Modifier;
 import javassist.NotFoundException;
 import javassist.CtField.Initializer;
-
-import javax.servlet.ServletContext;
 
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -29,109 +22,32 @@ public class JavassistInstrumentor
    
    private static LogProvider log = Logging.getLogProvider(JavassistInstrumentor.class);
    
-   public static String DEFAULT_WICKET_COMPONENT_DIRECTORY_PATH = "WEB-INF/wicket";
+   private ClassPool classPool;
    
-   private ClassLoader classLoader;
-   
-   private final List<String> classes = new ArrayList<String>();
-   private File wicketComponentDirectory;
-   private ClassPool classPool = new ClassPool();
-   
-   public JavassistInstrumentor(ServletContext servletContext)
+   public JavassistInstrumentor(ClassPool classPool)
    {
-      wicketComponentDirectory = getWicketComponentDirectory(servletContext);
+       this.classPool = classPool;
    }
-   
-   public void instrument() throws NotFoundException, CannotCompileException, ClassNotFoundException
-   {
-      if (wicketComponentDirectory == null)
-      {
-         log.warn("No wicket components found to give Seam super powers to");
-         classLoader = Thread.currentThread().getContextClassLoader();
-         return;
-      }
-      ClassLoader parent = Thread.currentThread().getContextClassLoader();
-      classPool = new ClassPool();
-      classLoader = new WicketClassLoader(parent, classPool, classes, wicketComponentDirectory);
-      classPool.insertClassPath(wicketComponentDirectory.getAbsolutePath());
-      classPool.insertClassPath(new LoaderClassPath(parent));
-      
-      if (wicketComponentDirectory.exists())
-      {
-         // Scan for classes
-         handleDirectory(wicketComponentDirectory, null);
-      }
-      
-      // Ensure classes are instantiated, and create metadata
-      for (String className : classes)
-      {
-         Class clazz = classLoader.loadClass(className);
-         new WicketComponent(clazz);
-      }
-   }
-   
-   private static File getWicketComponentDirectory(ServletContext servletContext)
-   {
-      String path = servletContext.getRealPath(DEFAULT_WICKET_COMPONENT_DIRECTORY_PATH);
-      if (path==null) //WebLogic!
-      {
-         log.debug("Could not find path for " + DEFAULT_WICKET_COMPONENT_DIRECTORY_PATH);
-      }
-      else
-      {
-         File wicketComponentDir = new File(path);
-         if (wicketComponentDir.exists())
-         {
-            return wicketComponentDir;
-         }
-      }
-      return null;
-   }
-   
-   private void handleDirectory(File file, String path) throws NotFoundException, CannotCompileException
-   {
-      log.debug("directory: " + file);
-      for ( File child: file.listFiles() )
-      {
-         String newPath = path==null ? child.getName() : path + '/' + child.getName();
-         if ( child.isDirectory() )
-         {
-            handleDirectory(child, newPath);
-         }
-         else
-         {
-            handleItem(newPath);
-         }
-      }
-   }
-   
-   private void handleItem(String path) throws NotFoundException, CannotCompileException
-   {
-      if (path.endsWith(".class"))
-      {
-         String className = filenameToClassname(path); 
-         instrumentClass(className, classPool);
-      }
-   }
-   
-   protected static String filenameToClassname(String filename)
-   {
-      return filename.substring( 0, filename.lastIndexOf(".class") )
-            .replace('/', '.').replace('\\', '.');
-   }
-   
-   private void instrumentClass(String className, ClassPool classPool) throws NotFoundException, CannotCompileException
+  
+   public CtClass instrumentClass(String className) throws NotFoundException, CannotCompileException
    {
       log.debug("Instrumenting " + className);
       CtClass implementation = classPool.get(className);
       if (isInstrumentable(implementation))
       {
          CtClass handlerClass = classPool.get(WicketHandler.class.getName());
+         CtClass componentClass = classPool.get(WicketComponent.class.getName());
          
          CtField handlerField = new CtField(handlerClass, "handler", implementation);
          Initializer handlerInitializer = Initializer.byCall(handlerClass, "create");
          implementation.addField(handlerField, handlerInitializer);
          
+         CtField wicketComponentField = new CtField(componentClass,"component",implementation);
+         wicketComponentField.setModifiers(Modifier.STATIC);
+         Initializer componentInit = Initializer.byExpr("new org.jboss.seam.wicket.WicketComponent(" + className + ".class)");
+         implementation.addField(wicketComponentField,componentInit);
+
+
          CtClass exception = classPool.get(Exception.class.getName());
          
          CtClass instrumentedComponent = classPool.get(InstrumentedComponent.class.getName());
@@ -171,14 +87,9 @@ public class JavassistInstrumentor
             }
          }
       }
-      classes.add(implementation.getName());
-     
+      return implementation;
    }
    
-   public ClassLoader getClassLoader()
-   {
-      return classLoader;
-   }
    
    private static String createBody(CtClass clazz, CtMethod method, CtMethod newMethod) throws NotFoundException
    {

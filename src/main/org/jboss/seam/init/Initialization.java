@@ -5,10 +5,11 @@
  */
 package org.jboss.seam.init;
 
+import static org.jboss.seam.util.Resources.getRealFile;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -813,42 +814,6 @@ public class Initialization
          log.debug("Using Java hot deploy");
          return new HotDeploymentStrategy(classLoader, hotDeployDirectory, isDebugEnabled());
       }
-   }
-   
-   private static File getRealFile(ServletContext servletContext, String path)
-   {
-      String realPath = servletContext.getRealPath(path);
-      if (realPath==null) //WebLogic!
-      {
-         try 
-         {
-            URL resourcePath = servletContext.getResource(path);
-            if ((resourcePath != null) && (resourcePath.getProtocol().equals("file"))) 
-            {
-               realPath = resourcePath.getPath();
-            }
-            else
-            {
-               log.warn("Unable to determine real path from servlet context for \"" + path + "\" path does not exist.");
-            }
-         }
-         catch (MalformedURLException e) 
-         {
-            log.warn("Unable to determine real path from servlet context for : " + path);
-            log.debug("Caused by MalformedURLException", e);
-         }
-
-      }
-      
-      if (realPath != null)
-      {
-         File file = new File(realPath);
-         if (file.exists())
-         {
-            return file;
-         }
-      }
-      return null;
    }
    
    private static boolean isDebugEnabled()

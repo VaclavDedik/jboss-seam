@@ -51,7 +51,7 @@ public class ClassDescriptor extends FileDescriptor
    /**
     * Convert a path to a class file to a class name
     */
-   protected static String filenameToClassname(String filename)
+   public static String filenameToClassname(String filename)
    {
       return filename.substring( 0, filename.lastIndexOf(".class") )
             .replace('/', '.').replace('\\', '.');

@@ -1,38 +1,88 @@
 package org.jboss.seam.wicket.ioc;
 
+import static org.jboss.seam.deployment.ClassDescriptor.filenameToClassname;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
+import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.Loader;
+import javassist.LoaderClassPath;
+import javassist.NotFoundException;
+
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 public class WicketClassLoader extends Loader
 {
    
+   private static LogProvider log = Logging.getLogProvider(WicketClassLoader.class);
+   
    private List<String> classes;
    private File wicketComponentDirectory;
+   private ClassPool classPool;
+   private ClassLoader parentLoader;
 
-   public WicketClassLoader(List<String> classes, File wicketComponentDirectory)
+   private JavassistInstrumentor instrumentor;
+
+
+   public WicketClassLoader(ClassLoader parent, ClassPool classPool, File wicketComponentDirectory)
    {
-      super();
-      this.classes = classes;
+      super(parent, classPool);
+      this.classes = new ArrayList<String>();
       this.wicketComponentDirectory = wicketComponentDirectory;
+      this.classPool = classPool;
+      this.parentLoader = parent;
+      this.instrumentor = new JavassistInstrumentor(classPool);
    }
 
-   public WicketClassLoader(ClassLoader parent, ClassPool cp, List<String> classes, File wicketComponentDirectory)
+   public WicketClassLoader instrument() throws NotFoundException, CannotCompileException, ClassNotFoundException
    {
-      super(parent, cp);
-      this.classes = classes;
-      this.wicketComponentDirectory = wicketComponentDirectory;
+      classPool.insertClassPath(wicketComponentDirectory.getAbsolutePath());
+      classPool.insertClassPath(new LoaderClassPath(parentLoader));
+
+      // Scan for classes
+      if (wicketComponentDirectory.exists()) 
+      { 
+         handleDirectory(wicketComponentDirectory, null);
+      }
+
+      // Ensure classes' static initializers have run, to register the classes
+      // with WicketComponent
+      for (String className : classes)
+      {
+         loadClass(className);
+      }
+      return this;
    }
 
-   public WicketClassLoader(ClassPool cp, List<String> classes, File wicketComponentDirectory)
+   private void handleDirectory(File file, String path) throws NotFoundException, CannotCompileException
    {
-      super(cp);
-      this.classes = classes;
-      this.wicketComponentDirectory = wicketComponentDirectory;
+      log.trace("directory: " + file);
+      for (File child : file.listFiles())
+      {
+         String newPath = path == null ? child.getName() : path + '/' + child.getName();
+         if (child.isDirectory())
+         {
+            handleDirectory(child, newPath);
+         }
+         else
+         {
+            handleItem(newPath);
+         }
+      }
+   }
+
+   private void handleItem(String path) throws NotFoundException, CannotCompileException
+   {
+      if (path.endsWith(".class"))
+      {
+         classes.add(instrumentor.instrumentClass(filenameToClassname(path)).getName());
+      }
    }
 
    @Override
@@ -76,5 +126,4 @@ public class WicketClassLoader extends Loader
          }
       }
    }
-   
 }
