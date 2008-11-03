@@ -922,7 +922,7 @@ not allowed here
                Building it only requires running the correct ant
                command:
 
-               <programlisting>ant weblogic10.xml</programlisting>
+               <programlisting>ant weblogic10</programlisting>
                This will create a container specific distribution and
                exploded archive directories.
             </para>
