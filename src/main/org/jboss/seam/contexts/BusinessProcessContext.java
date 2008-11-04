@@ -35,13 +35,25 @@ public class BusinessProcessContext implements Context
 
    private final Map<String, Object> additions = new HashMap<String, Object>();
    private final Set<String> removals = new HashSet<String>();
+   private final boolean enabled;
 
    public ScopeType getType()
    {
       return ScopeType.BUSINESS_PROCESS;
    }
 
-   public BusinessProcessContext() {}
+   public BusinessProcessContext()
+   {
+      Init init = Init.instance();
+      if (init == null)
+      {
+         enabled = false;
+      }
+      else
+      {
+         enabled = init.isJbpmInstalled();
+      }
+   }
    
    public Object get(String name) 
    {
@@ -208,8 +220,7 @@ public class BusinessProcessContext implements Context
 
    private org.jbpm.graph.exe.ProcessInstance getProcessInstance()
    {
-      Init init = Init.instance(); //may be null in some tests
-      if ( init==null || !init.isJbpmInstalled() ) 
+      if (!enabled)
       {
          return null;
       }
@@ -221,8 +232,7 @@ public class BusinessProcessContext implements Context
    
    private org.jbpm.taskmgmt.exe.TaskInstance getTaskInstance()
    {
-      Init init = Init.instance(); //may be null in some tests
-      if ( init==null || !init.isJbpmInstalled() ) 
+      if (!enabled)
       {
          return null;
       }
