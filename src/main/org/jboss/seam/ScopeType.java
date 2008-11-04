@@ -69,6 +69,12 @@ public enum ScopeType
     */
    UNSPECIFIED;
    
+   private final String prefix;
+   
+   private ScopeType() {
+	   prefix = "org.jboss.seam." + toString();
+   }
+   
    public boolean isContextActive()
    {
       switch (this)
@@ -151,7 +157,7 @@ public enum ScopeType
    
    public String getPrefix()
    {
-      return "org.jboss.seam." + toString();
+      return prefix;
    }
 
 }
