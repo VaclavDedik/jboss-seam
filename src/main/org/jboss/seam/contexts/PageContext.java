@@ -38,6 +38,7 @@ import org.jboss.seam.core.Events;
 public class PageContext implements Context 
 {
 
+   private static final String PAGE_CONTEXT_PREFIX = ScopeType.PAGE.getPrefix() + '$';
    private Map<String, Object> previousPageMap;
    private Map<String, Object> nextPageMap;
    
@@ -59,7 +60,7 @@ public class PageContext implements Context
 
    private String getPrefix()
    {
-      return ScopeType.PAGE.getPrefix() + '$';
+      return PAGE_CONTEXT_PREFIX;
    }
 
 	public Object get(String name) 
