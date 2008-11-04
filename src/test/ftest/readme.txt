@@ -28,8 +28,9 @@ How To:
 ----------
 * Follow specific instructions for your OS
 * Set jboss.home in $SEAM_HOME/build.properties
-* execute "ant testall" in the $SEAM_HOME/src/test/ftest directory
-
+* Change to the $SEAM_HOME/src/test/ftest directory
+  * execute "ant testall" to run all of the functional tests
+  * execute "ant test -Dtest=booking" to only run the functional tests for the booking example
 
 Known Limitations:
 ---------------------
