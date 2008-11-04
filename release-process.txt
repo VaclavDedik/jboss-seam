@@ -231,7 +231,7 @@ Example verification
   - spring
   - todo (tutorial)
   - ui
-  - wicket
+  - wicket (you should verify both buildtime instrumentation and runtime instrumentation)
 * Tomcat 6 examples 
   - Note: use JBoss embedded unless specified differently
   - blog (tutorial)
