@@ -320,10 +320,15 @@ public class ServerConversationContext implements Context
       else
       {
          //TODO: for a pure temporary conversation, this is unnecessary, optimize it
-         for ( String name: getNamesFromSession() )
-         {
+         for (String name: getNamesFromSession()) {
             session.remove( getKey(name) );
          }
+         
+         // remove removed objects
+         for (String name: removals) {
+             session.remove(getKey(name));
+         }
+         removals.clear();
       }
    }
 
