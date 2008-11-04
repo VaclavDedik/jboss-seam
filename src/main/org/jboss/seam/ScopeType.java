@@ -14,7 +14,7 @@ import org.jboss.seam.contexts.Contexts;
  * 
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  */
-public enum ScopeType 
+public enum ScopeType
 {
    /**
     * The stateless pseudo-context.
@@ -70,9 +70,10 @@ public enum ScopeType
    UNSPECIFIED;
    
    private final String prefix;
-   
-   private ScopeType() {
-	   prefix = "org.jboss.seam." + toString();
+
+   private ScopeType()
+   {
+      prefix = "org.jboss.seam." + toString();
    }
    
    public boolean isContextActive()
