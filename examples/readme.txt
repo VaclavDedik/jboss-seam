@@ -115,7 +115,7 @@ How to Build and Deploy an Example on JBoss AS
    "examples/${example.name}" directory
 
 6. Start JBoss AS by typing "./run.sh" (on Linux/Unix) or "run" (on Windows) 
-   in the jboss-4.2.2.GA/bin directory
+   in the jboss-4.2.3.GA/bin directory
 
 7. Point your web browser to:
 
