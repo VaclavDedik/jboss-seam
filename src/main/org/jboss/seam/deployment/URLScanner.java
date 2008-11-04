@@ -141,7 +141,7 @@ public class URLScanner extends AbstractScanner
          }
          else
          {
-            touchTimestamp(file);
+            touchTimestamp(child);
             handleItem(newPath);
          }
       }
