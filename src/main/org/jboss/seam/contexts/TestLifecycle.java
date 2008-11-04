@@ -29,11 +29,11 @@ public class TestLifecycle
    public static void beginTest(ServletContext context, Map<String, Object> session)
    {
       log.debug( ">>> Begin test" );
+      Contexts.applicationContext.set( new ApplicationContext( new ServletApplicationMap(context) ) );
       Contexts.eventContext.set( new BasicContext(ScopeType.EVENT) );
       Contexts.conversationContext.set( new BasicContext(ScopeType.CONVERSATION) );
       Contexts.businessProcessContext.set( new BusinessProcessContext() );
       Contexts.sessionContext.set( new SessionContext(session) );
-      Contexts.applicationContext.set( new ApplicationContext( new ServletApplicationMap(context) ) );
    }
 
    public static void endTest()

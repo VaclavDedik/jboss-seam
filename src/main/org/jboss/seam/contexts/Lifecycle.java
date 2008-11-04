@@ -81,11 +81,11 @@ public class Lifecycle
    public static void beginCall()
    {
       log.debug( ">>> Begin call" );
+      Contexts.applicationContext.set( new ApplicationContext(getApplication()) );
       Contexts.eventContext.set( new BasicContext(ScopeType.EVENT) );
       Contexts.sessionContext.set( new BasicContext(ScopeType.SESSION) );
       Contexts.conversationContext.set( new BasicContext(ScopeType.CONVERSATION) );
       Contexts.businessProcessContext.set( new BusinessProcessContext() );
-      Contexts.applicationContext.set( new ApplicationContext(getApplication()) );
    }
 
    public static void endCall()
