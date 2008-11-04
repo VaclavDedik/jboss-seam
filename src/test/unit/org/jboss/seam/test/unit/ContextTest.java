@@ -191,9 +191,9 @@ public class ContextTest {
         ServletLifecycle.beginApplication(servletContext);
         MockHttpSession session = new MockHttpSession(servletContext);
         MockHttpServletRequest request = new MockHttpServletRequest(session);
-        ExternalContext externalContext = new MockExternalContext(
+        final ExternalContext externalContext = new MockExternalContext(
                 servletContext, request);
-        Map sessionAdaptor = new ServletRequestSessionMap(request);
+        final Map sessionAdaptor = new ServletRequestSessionMap(request);
         Map requestAdaptor = new ServletRequestMap(request);
         Context appContext = new ApplicationContext(externalContext
                 .getApplicationMap());
@@ -206,13 +206,21 @@ public class ContextTest {
         testContext(new SessionContext(sessionAdaptor));
         testContext(new EventContext(requestAdaptor));
         testContext(new ServerConversationContext(sessionAdaptor, "1"));
-        testEquivalence(new ServerConversationContext(sessionAdaptor, "1"),
-                new ServerConversationContext(sessionAdaptor, "1"));
-        testEquivalence(new SessionContext(sessionAdaptor), new SessionContext(
-                sessionAdaptor));
-        testEquivalence(new ApplicationContext(externalContext
-                .getApplicationMap()), new ApplicationContext(externalContext
-                .getApplicationMap()));
+        testEquivalence(new ContextCreator() {
+            public Context createContext() {
+                return new ServerConversationContext(sessionAdaptor, "1");
+            }
+        });
+        testEquivalence(new ContextCreator() {
+            public Context createContext() {
+                return new SessionContext(sessionAdaptor);
+            }
+        });
+        testEquivalence(new ContextCreator() {
+            public Context createContext() {
+                return new ApplicationContext(externalContext.getApplicationMap());
+            }
+        });
         testIsolation(new ServerConversationContext(sessionAdaptor, "1"),
                 new ServerConversationContext(sessionAdaptor, "2"));
         // testIsolation( new WebSessionContext(externalContext), new
@@ -220,14 +228,32 @@ public class ContextTest {
 
         ServletLifecycle.endApplication();
     }
+    
+    private interface ContextCreator {
+        Context createContext();
+    }
 
-    private void testEquivalence(Context ctx, Context cty) {
-        ctx.set("foo", "bar");
-        ctx.flush();
-        assert cty.get("foo").equals("bar");
-        ctx.remove("foo");
-        ctx.flush();
-        assert !cty.isSet("foo");
+    private void testEquivalence(ContextCreator creator) {
+       //Creates a new context for each action to better simulate these operations
+       //happening in different call contexts.
+        { //Test Adding
+            Context ctx = creator.createContext();
+            ctx.set("foo", "bar");
+            ctx.flush();
+        }
+        { //Is Added?
+            Context ctx = creator.createContext();
+            assert ctx.get("foo").equals("bar");
+        }
+        { // Test Removing
+            Context ctx = creator.createContext();
+            ctx.remove("foo");
+            ctx.flush();
+        }
+        { // Is Removed?
+            Context ctx = creator.createContext();
+            assert !ctx.isSet("foo");
+        }
     }
 
     private void testIsolation(Context ctx, Context cty) {
