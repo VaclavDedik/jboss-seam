@@ -17,11 +17,17 @@ public class SwingComponent
             System.out.println("Error setting Java LAF: " + e);
         }
         
-        System.out.println("** " + UIManager.getLookAndFeel());
+        //System.out.println("** " + UIManager.getLookAndFeel());
     }
     
-    public Component getButton() {
+    public Component getLabel1() {
         JLabel label = new JLabel("Hello, Seam", SwingConstants.CENTER);
+
+        return label;        
+    }
+
+    public Component getLabel2() {
+        JLabel label = new JLabel("A label!", SwingConstants.CENTER);
 
         return label;        
     }

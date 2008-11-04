@@ -21,8 +21,4 @@
                           key-alias="pdfKey" />
 
     <core:init debug="true" jndi-pattern="@jndiPattern@" />
-
-    <component name="sampleButton" class="javax.swing.JButton">
-        <property name="label">A JButton!</property>
-    </component>
 </components>
