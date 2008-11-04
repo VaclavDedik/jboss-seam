@@ -44,9 +44,11 @@ TBD
 
 Unix/Linux Setup
 -----------------
-*must set to the location of your firefox browser like this:
+* You must set to the location of your firefox browser like this:
    export LD_LIBRARY_PATH=/jboss/projects/seam/automation/firefox:$LD_LIBRARY_PATH
    export PATH=/jboss/projects/seam/automation/firefox:$PATH
+Otherwise, you get the message:
+   Error: com.thoughtworks.selenium.SeleniumException: ERROR Server Exception: sessionId should not be null; has this session been started yet?
 
 Mac OS Setup
 --------------
