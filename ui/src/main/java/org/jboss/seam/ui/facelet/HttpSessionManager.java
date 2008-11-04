@@ -2,12 +2,12 @@ package org.jboss.seam.ui.facelet;
 
 import static org.jboss.seam.ScopeType.SESSION;
 
+import java.io.Serializable;
+
 import javax.servlet.http.HttpSession;
 
-import java.io.Serializable;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.AutoCreate;
-import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -24,17 +24,15 @@ import org.jboss.seam.mock.MockHttpSession;
 public class HttpSessionManager implements Serializable
 {
    
-   private HttpSession session;
-   
-   @Create
-   public void create()
-   {
-      this.session = new MockHttpSession(ServletContextManager.instance());
-   }
+   private transient HttpSession session;
    
    @Unwrap
    public HttpSession getSession()
    {
+      if (session == null)
+      {
+         this.session = new MockHttpSession(ServletContextManager.instance());
+      }
       return session;
    }
    
