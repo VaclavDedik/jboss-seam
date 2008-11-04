@@ -27,14 +27,14 @@ UNDER DEVELOPMENT NOT COMPLETE
 How To:
 ----------
 * Follow specific instructions for your OS
-* Set jboss.home in $SEA</build.properties
-* execute "ant testall" in the $SEAM/src/test/ftest directory
+* Set jboss.home in $SEAM_HOME/build.properties
+* execute "ant testall" in the $SEAM_HOME/src/test/ftest directory
 
 
 Known Limitations:
 ---------------------
 * Only tested on Linux with Firefox
-* jboss.home must be set in $SEAM/build.properties
+* jboss.home must be set in $SEAM_HOME/build.properties
 * JBoss AS must be started (preferably with nothing deployed)
 
 Windows Setup
@@ -63,7 +63,7 @@ TODO's:
 * set up a project file for these tests, or update the existing?
 * Describe how to debug the tests using eclipse
   - start server, sel server, and in eclipse set props in ftest.prop file and testng plugin
-* We currently have 3 required jars in the $SEAM/src/test/ftest/lib directory
+* We currently have 3 required jars in the $SEAM_HOME/src/test/ftest/lib directory
   - When the build system is updated these will be removed and dependencies will
     be handled as the rest of the source is.
   - We are trying to keep the ftest builds as separate from seam builds as possible.
