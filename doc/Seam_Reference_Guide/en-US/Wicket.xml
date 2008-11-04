@@ -189,20 +189,42 @@ public class Hotel extends WebPage {]]></programlisting>
       <title>Setting up your project</title>
       
       <para>
-         To enable bijection and orchestration control via annotations in Wicket
-         you must place your classes in <code>WEB-INF/wicket</code>. Seam needs
-         to instrument the bytecode of your Wicket classes to be able to
-         intercept the annotations you use. 
+         Seam needs to instrument the bytecode of your Wicket classes to be able
+         to intercept the annotations you use. Seam provides two ways to do 
+         this.The first is to place your classes in <code>WEB-INF/wicket</code>.
+         Seam will look for classes placed in this directory at startup and 
+         instrument them.  An alternative approach, which can be used alongside
+         the first, is to use an ant task for instrumention. Seam provides such
+         a task; it is packaged in <literal>jboss-seam-wicket-ant.jar </literal>,
+         and can be used in the following manner:
       </para>
-      
-      <note>
-         <para>
-            Currently only bytecode instrumentation using a custom classloader
-            which reads classes in <code>WEB-INF/wicket</code> is supported. In the 
-            an Ant task or Maven plugin may be developed to support bytecode
-            instrumentation when the project artifacts are built. 
-         </para>
-      </note>
+      <programlisting role="XML"><![CDATA[<taskdef name="instrumentWicket" 
+   classname="org.jboss.seam.wicket.ioc.WicketInstrumentationTask">
+  <classpath>
+    <pathelement location="lib/jboss-seam-wicket-ant.jar"/>
+    <pathelement location="web/WEB-INF/lib/jboss-seam-wicket.jar"/>
+    <pathelement location="lib/javassist.jar"/>
+    <pathelement location="lib/jboss-seam.jar"/>
+  </classpath>
+</taskdef>
+
+<instrumentWicket outputDirectory="${build.instrumented}">
+  <classpath refid="build.classpath"/>
+  <fileset dir="${build.classes}" includes="**/*.class"/>
+</instrumentWicket>]]></programlisting>
+      <para> 
+		   Then have ant copy the instrumented classes in
+         <literal>${build.instrumented}</literal> into 
+		   <literal>WEB-INF/classes</literal>. If you want to hot deploy the 
+         Wicket components, you can copy the instrumented classes to 
+         <literal>WEB-INF/dev</literal>; if you use hot deploy, make sure that
+         your <literal>WicketApplication</literal> class is also hot-deployed.
+         Upon a reload of hot-deployed classes, the entire WicketApplication 
+         instance has to be  re-initialized, in order to pick up new references 
+		   to the classes of mounted pages.
+      </para>
+    
+     
       
       <section>
          <title>Defining the Application</title>
