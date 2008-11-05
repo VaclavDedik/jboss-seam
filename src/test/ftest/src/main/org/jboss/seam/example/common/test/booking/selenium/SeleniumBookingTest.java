@@ -107,12 +107,20 @@ public class SeleniumBookingTest extends SeamSeleniumTest {
         if (click) {
             browser.click(getProperty("SEARCH_SUBMIT"));
         }
+        // wait for javascript to show spinner
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+        }
+        // wait for page to get updated
         new Wait() {
+            @Override
             public boolean until() {
                 return !browser.isVisible(getProperty("SPINNER"));
             }
         }.wait("Spinner hasn't come out.");
         new Wait() {
+            @Override
             public boolean until() {
                 return (browser.isElementPresent(getProperty("SEARCH_RESULT_TABLE")) || browser
                         .isElementPresent(getProperty("NO_HOTELS_FOUND")));
@@ -125,5 +133,19 @@ public class SeleniumBookingTest extends SeamSeleniumTest {
         browser.type(getProperty("SEARCH_STRING_FIELD"), query);
         browser.click(getProperty("SEARCH_SUBMIT"));
         browser.waitForPageToLoad(TIMEOUT);
+    }
+    
+    public void waitForForm() {
+        if (getProperty("USE_ICEFACES_FORMS").equalsIgnoreCase("TRUE")) {
+            new Wait() {            
+                @Override
+                public boolean until() {
+                    return !browser.isElementPresent("xpath=//*[@style='cursor: wait;']")
+                        && browser.isElementPresent(getProperty("FOOTER"));
+                }
+            }.wait("Page was not refreshed.");
+        } else {
+            browser.waitForPageToLoad(TIMEOUT);
+        }
     }
 }

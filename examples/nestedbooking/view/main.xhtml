@@ -13,7 +13,7 @@
   <h:form id="main">
   
     <span class="errors">
-       <h:messages globalOnly="true"/>
+       <h:messages id="messages" globalOnly="true"/>
     </span>
     
 	<h1>Search Hotels</h1>
@@ -43,7 +43,7 @@
 
 <a:outputPanel id="searchResults">
   <div class="section">
-	<h:outputText id="NoBookingsFoundMessage" value="No Hotels Found" rendered="#{hotels != null and hotels.rowCount==0}"/>
+	<h:outputText id="NoHotelsFoundMessage" value="No Hotels Found" rendered="#{hotels != null and hotels.rowCount==0}"/>
 	<h:dataTable id="hotels" value="#{hotels}" var="hot" rendered="#{hotels.rowCount>0}">
 		<h:column id="column1">
 			<f:facet id="NameFacet" name="header">Name</f:facet>

@@ -18,7 +18,7 @@
  * License along with this software; if not, write to the Free
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- */ 
+ */
 package org.jboss.seam.example.common.test.booking.selenium;
 
 import org.testng.annotations.BeforeMethod;
@@ -105,6 +105,6 @@ public class ChangePasswordTest extends SeleniumBookingTest {
         browser.type(getProperty("PASSWORD_PASSWORD"), newPassword);
         browser.type(getProperty("PASSWORD_VERIFY"), verify);
         browser.click(getProperty("PASSWORD_SUBMIT"));
-        browser.waitForPageToLoad(TIMEOUT);
+        waitForForm();
     }
 }

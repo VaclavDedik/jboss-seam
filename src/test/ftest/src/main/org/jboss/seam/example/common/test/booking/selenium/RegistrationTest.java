@@ -53,7 +53,6 @@ public class RegistrationTest extends SeleniumBookingTest {
     @BeforeMethod
     public void setUp() {
         startBrowser();
-        assertTrue("Login failed.", login());
     }
 
     @Override
@@ -128,7 +127,7 @@ public class RegistrationTest extends SeleniumBookingTest {
         browser.type(getProperty("REGISTRATION_PASSWORD"), password);
         browser.type(getProperty("REGISTRATION_VERIFY"), verify);
         browser.click(getProperty("REGISTRATION_SUBMIT"));
-        browser.waitForPageToLoad(TIMEOUT);
+        waitForForm();
     }
 
 }

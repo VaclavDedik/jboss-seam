@@ -64,7 +64,7 @@
 			<ui:define name="label">Credit Card #:</ui:define>
 			#{booking.creditCard}
 		</s:decorate>
-		<s:decorate template="output.xhtml">
+		<s:decorate id="buttonDecorate" template="output.xhtml">
 			<ui:define name="label">&#160;</ui:define>
 			<h:commandButton id="confirm" value="Confirm" action="#{hotelBooking.confirm}"/>&#160;
    			<s:button id="revise" value="Revise" view="/payment.xhtml"/>&#160;

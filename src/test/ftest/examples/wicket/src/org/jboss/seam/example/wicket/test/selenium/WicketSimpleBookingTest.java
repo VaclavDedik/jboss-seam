@@ -35,13 +35,8 @@ public class WicketSimpleBookingTest extends SimpleBookingTest {
     protected void populateBookingFields(int bed, int smoking,
             String creditCard, String creditCardName) {
         super.populateBookingFields(bed, smoking, creditCard, creditCardName);
-        populateBookingFields();
-    }
-
-    protected void populateBookingFields() {
-        browser
-                .select(getProperty("HOTEL_CREDIT_CARD_EXPIRY_MONTH"),
-                        "index=1");
+        browser.select(getProperty("HOTEL_CREDIT_CARD_EXPIRY_MONTH"),
+                "index=1");
         browser.select(getProperty("HOTEL_CREDIT_CARD_EXPIRY_YEAR"), "index=1");
     }
 }

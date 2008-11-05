@@ -36,9 +36,9 @@ import static org.testng.AssertJUnit.*;
  */
 public class SimpleBookingTest extends SeleniumBookingTest {
 
-    private final String EXPECTED_NAME = "Demo User";
-    private final String CREDIT_CARD = "0123456789012345";
-    private final String CREDIT_CARD_NAME = "visa";
+    protected final String EXPECTED_NAME = "Demo User";
+    protected final String CREDIT_CARD = "0123456789012345";
+    protected final String CREDIT_CARD_NAME = "visa";
 
     /**
      * Tries searching for non existing hotel.
@@ -55,7 +55,7 @@ public class SimpleBookingTest extends SeleniumBookingTest {
      */
     @Test(enabled = true)
     public void simpleBookingTest() {
-        String hotelName = "Swissotel";
+        String hotelName = "W Hotel";
         int confirmationNumber;
         confirmationNumber = bookHotel(hotelName);
         assertTrue("Booking with confirmation number " + confirmationNumber
@@ -68,7 +68,7 @@ public class SimpleBookingTest extends SeleniumBookingTest {
      */
     @Test(enabled = true)
     public void invalidDatesTest() {
-        String hotelName = "Swissotel";
+        String hotelName = "W Hotel";
         enterSearchQuery(hotelName);
         browser.click(getProperty("SEARCH_RESULT_TABLE_FIRST_ROW_LINK"));
         browser.waitForPageToLoad(TIMEOUT);
@@ -76,16 +76,12 @@ public class SimpleBookingTest extends SeleniumBookingTest {
         browser.click(getProperty("BOOKING_BOOK"));
         browser.waitForPageToLoad(TIMEOUT);
         // booking page
-        String checkIn = browser.getValue(getProperty("HOTEL_CHECKIN_DATE_FIELD"));
         String checkOut = browser.getValue(getProperty("HOTEL_CHECKOUT_DATE_FIELD"));
         populateBookingFields();
         // switch check in and check out date
         browser.type(getProperty("HOTEL_CHECKIN_DATE_FIELD"), checkOut);
-        browser.type(getProperty("HOTEL_CHECKOUT_DATE_FIELD"), checkIn);
-        browser.type(getProperty("HOTEL_CREDIT_CARD"), CREDIT_CARD);
-        browser.type(getProperty("HOTEL_CREDIT_CARD_NAME"), CREDIT_CARD_NAME);
         browser.click(getProperty("HOTEL_PROCEED"));
-        browser.waitForPageToLoad(TIMEOUT);
+        waitForForm();
         assertTrue("Date verification #1 failed.", browser
                 .isTextPresent(getProperty("BOOKING_INVALID_DATE_MESSAGE1")));
         assertTrue("Check-out date error message expected.", browser
@@ -93,7 +89,7 @@ public class SimpleBookingTest extends SeleniumBookingTest {
         // set check in to past
         browser.type(getProperty("HOTEL_CHECKIN_DATE_FIELD"), "01/01/1970");
         browser.click(getProperty("HOTEL_PROCEED"));
-        browser.waitForPageToLoad(TIMEOUT);
+        waitForForm();
         assertTrue("Date verification #2 failed.", browser
                 .isTextPresent(getProperty("BOOKING_INVALID_DATE_MESSAGE2")));
         assertTrue("Checkin-date error message expected.", browser
@@ -112,7 +108,6 @@ public class SimpleBookingTest extends SeleniumBookingTest {
         // make 3 bookings
         for (int i = 0; i < 3; i++) {
             int confirmationNumber = bookHotel(hotelNames[i]);
-            assertNotSame("Booking process failed.", -1, confirmationNumber);
             confirmationNumbers[i] = confirmationNumber;
         }
         // assert that there bookings are listed in hotel booking list
@@ -138,7 +133,7 @@ public class SimpleBookingTest extends SeleniumBookingTest {
     protected int bookHotel(String hotelName, int bed, int smoking,
             String creditCard, String creditCardName) {
         if (!isLoggedIn())
-            return -1;
+            fail();
         if (!browser.isElementPresent(getProperty("SEARCH_SUBMIT"))) {
             browser.open(getProperty("MAIN_PAGE"));
             browser.waitForPageToLoad(TIMEOUT);
@@ -160,15 +155,12 @@ public class SimpleBookingTest extends SeleniumBookingTest {
         browser.waitForPageToLoad(TIMEOUT);
         // main page
         String message = browser.getText(getProperty("HOTEL_MESSAGE"));
-        if (message.matches(MessageFormat.format(
-                getProperty("BOOKING_CONFIRMATION_MESSAGE"), EXPECTED_NAME, hotelName))) {
+        assertTrue("Booking failed. Confirmation message does not match.", message.matches(
+                MessageFormat.format(getProperty("BOOKING_CONFIRMATION_MESSAGE"), EXPECTED_NAME, hotelName)));
             String[] messageParts = message.split(" ");
             int confirmationNumber = Integer
                     .parseInt(messageParts[messageParts.length - 1]);
             return confirmationNumber;
-        } else {
-            return -1;
-        }
     }
 
     protected int bookHotel(String hotelName) {
@@ -189,5 +181,6 @@ public class SimpleBookingTest extends SeleniumBookingTest {
     }
 
     protected void populateBookingFields() {
+        populateBookingFields(2, 0, CREDIT_CARD, CREDIT_CARD_NAME);
     }
 }
