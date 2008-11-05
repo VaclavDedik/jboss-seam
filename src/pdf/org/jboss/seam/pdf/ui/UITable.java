@@ -1,5 +1,7 @@
 package org.jboss.seam.pdf.ui;
 
+import java.awt.Color;
+
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.pdf.ITextUtils;
@@ -225,29 +227,20 @@ public class UITable extends ITextComponent
    }
 
    @Override
-   public void handleAdd(Object o)
-   {
-      if (o instanceof PdfPCell)
-      {
-         table.addCell((PdfPCell) o);
-      }
-      else if (o instanceof PdfPTable)
-      {
-         table.addCell((PdfPTable) o);
-      }
-      else if (o instanceof Phrase)
-      {
-         table.addCell((Phrase) o);
-      }
-      else if (o instanceof Image)
-      {
-         table.addCell((Image) o);
-      }
-      else
-      {
-         throw new RuntimeException("Can't add " + o.getClass().getName() + " to table");
-      }
-   }
+   public void handleAdd(Object o) {
+        if (o instanceof PdfPCell) {
+            table.addCell((PdfPCell) o);
+        } else if (o instanceof PdfPTable) {
+            table.addCell((PdfPTable) o);
+        } else if (o instanceof Phrase) {
+            table.addCell((Phrase) o);
+        } else if (o instanceof Image) {
+            table.addCell((Image) o);
+        } else {
+            throw new RuntimeException("Can't add " + o.getClass().getName()
+                    + " to table");
+        }
+    }
 
    public PdfPCell getDefaultCellFacet()
    {
