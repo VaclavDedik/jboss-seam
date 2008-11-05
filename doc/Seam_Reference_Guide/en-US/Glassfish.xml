@@ -70,12 +70,13 @@
          <programlisting>$ bin/asadmin start-domain domain1</programlisting>
 
          <para>
-            The web adminstration console is available at <literal>http://localhost:4848/</literal>.
+            The web administration console is available at <literal>http://localhost:4848/</literal>.
             You can access the web admin console with the default username 
             (<literal>admin</literal>) and password (<literal>adminadmin</literal>).
-            Alternatively, you could copy EAR/WAR file to 
-            <literal>glassfish/domains/domain1/autodeploy</literal> to deploy 
-            it.
+            We will be using the the admin console to deploy our examples.  
+            You can also copy EAR/WAR files to the
+            <literal>glassfish/domains/domain1/autodeploy</literal> directory 
+            to deploy them, although we are not going to cover that.
          </para>
 
          <para>
@@ -95,7 +96,23 @@
          designed to run on GlassFish. It is located in
          <literal>$SEAM_DIST/examples/jee5/booking</literal>.
       </para>
+      
+      <section>
+         <title>Building the <literal>jee5/booking</literal> example</title>
 
+         <para>
+            To build the example, simply execute the default 
+            <literal>ant</literal> target:
+         </para>
+         
+         <programlisting>$ ant</programlisting>
+         
+         <para>
+            in the <literal>examples/jee5/booking</literal> directory.  This 
+            will create the <literal>dist</literal> and 
+            <literal>exploded-archives</literal> directories.
+         </para>
+      </section>
       <section id="jee5-glassfish-deploy">
          <title>Deploying the application to GlassFish</title>
 
@@ -187,7 +204,8 @@
 
          <para>
             This is very similar to the <literal>jee5</literal> example at
-            <xref linkend="jee5-glassfish-deploy" />.
+            <xref linkend="jee5-glassfish-deploy" /> except that this is a
+            <literal>war</literal> and not an <literal>ear</literal>.
          </para>
 
          <itemizedlist>
@@ -245,7 +263,7 @@
          </note>
       </section>
 
-      <section>
+      <section id="glassfish_jpa_diff">
          <title>What's different for GlassFish v2 UR2</title>
 
          <itemizedlist>
@@ -291,9 +309,7 @@
          quickly get an application up and running, and provides a foundation to
          add your own functionality. Out of box <literal>seam-gen</literal> will
          produce applications configured to run on JBoss AS. These instructions 
-         will show the steps needed to get it to run on GlassFish. As stated 
-         above in <xref linkend="jee5-glassfish-section" /> it's easy to deploy 
-         either an EJB3 or a Seam POJOs application on Glassfish.
+         will show the steps needed to get it to run on GlassFish. 
       </para>
 
       <section>
@@ -419,9 +435,9 @@ Total time: 4 minutes 5 seconds]]></programlisting>
                         </listitem>
                         <listitem>
                            <para>
-                              Add or change the properties below. These are
-                              described in detail at 
-                              <xref linkend="jee5-glassfish-section" />:
+                              Replace all of the properties with the following.
+                              The key differences are briefly described in 
+                              <xref linkend="glassfish_jpa_diff" />:
                            </para>
                            <programlisting role="XML"><![CDATA[<property name="hibernate.dialect" value="GlassFishDerbyDialect"/>
 <property name="hibernate.hbm2ddl.auto" value="update"/>
@@ -499,7 +515,7 @@ $SEAM_DIST/examples/jpa/resources-glassfish/WEB-INF/classes/GlassFishDerbyDialec
                         <listitem>
                            <para>
                               Alter the <literal>jndi-pattern</literal> to
-                              <literal>java:comp/env/seamgen_example/#{ejbName}/local</literal>
+                              <literal>java:comp/env/seamgen_example/#{ejbName}</literal>
                            </para>
                         </listitem>
                      </itemizedlist>
@@ -604,7 +620,6 @@ public interface Authenticator {
                This application has similar requirements as the
                <literal>jee5/booking</literal> example.
             </para>
-
             <itemizedlist>
                <listitem>
                   <para>
@@ -614,30 +629,12 @@ public interface Authenticator {
 
                   <programlisting role="XML"><![CDATA[<project name="seamgen_example" default="archive" basedir=".">]]></programlisting>
                </listitem>
-
-               <listitem>
-                  <para>
-                     Websphere looks for the drools <literal>/security.drl</literal>
-                     file in the root of the <literal>war</literal> file instead of the root of the
-                     <literal>seamgen_example.jar</literal> so we need to have
-                     the <literal>build.xml</literal> move it to the correct 
-                     location at build time. The following must be added at the
-                     top of the <literal><![CDATA[<target name="war" depends="compile" description="Build the distribution .war file">]]></literal>
-                     target.
-                  </para>
-
-                  <programlisting role="XML"><![CDATA[<copy todir="${war.dir}">
-   <fileset dir="${basedir}/resources">
-      <include name="*.drl" />
-   </fileset> 
-</copy>]]></programlisting>
-               </listitem>
-
                <listitem>
                   <para>
                      We need to get the <literal>GlassFishDerbyDialect.class</literal>
                      into our application jar. To do that find the <literal>jar</literal>
-                     task and modify the top of it so that it looks like this:
+                     task and add the <literal>GlassFishDerbyDialect.class</literal>
+                     line as shown below:
                   </para>
 
                   <programlisting role="XML"><![CDATA[<target name="jar" depends="compile,copyclasses" description="Build the distribution .jar file">
@@ -650,156 +647,65 @@ public interface Authenticator {
    </copy>
    ...]]></programlisting>
                </listitem>
-
                <listitem>
                   <para>
-                     Next we need to get the <literal>jboss-seam.jar</literal>
-                     into the base of the <literal>EAR</literal> file. For 
-                     deployment GlassFish requires this jar to be in both the
-                     <literal>/lib</literal> directory and at the base of the
-                     <literal>EAR</literal>. You must add the following to the
-                     <literal>archive</literal> task:
+                     Now we need to get extra jars into the <literal>ear</literal>
+                     file.  Look for the 
+                     <literal><![CDATA[<copy todir="${ear.dir}/lib">]]></literal>
+                     section of the <literal>ear</literal> target. Add the following
+                     to the child 
+                     <literal><![CDATA[<fileset dir="${lib.dir}">]]></literal>
+                     element.
                   </para>
-
-                  <programlisting role="XML"><![CDATA[<fileset dir="${lib.dir}">
-   <include name="jboss-seam.jar" >
-</fileset>]]></programlisting>
-
-                  <para>
-                     So that the whole <literal>archive</literal> task looks 
-                     like:
-                  </para>
-
-                  <programlisting role="XML"><![CDATA[<target name="archive" depends="jar,war,ear" description="Package the archives">
-   <jar jarfile="${dist.dir}/${project.name}.jar" basedir="${jar.dir}"/> 
-   <jar jarfile="${dist.dir}/${project.name}.war" basedir="${war.dir}"/>
-   <jar jarfile="${dist.dir}/${project.name}.ear">
-      <fileset dir="${ear.dir}"/>
-      <fileset dir="${dist.dir}">
-         <include name="${project.name}.jar"/>
-         <include name="${project.name}.war"/>
-      </fileset>
-      <fileset dir="${lib.dir}">
-         <include name="jboss-seam.jar" />
-      </fileset>
-   </jar>
-</target>]]></programlisting>
                </listitem>
-               <listitem>
-                  <para>
-                     Now we need to get extra jars into the <literal>build.xml</literal>.
-                     Look for the <literal><![CDATA[<fileset dir="${basedir}">]]></literal>
-                     section of the task below. Add the new includes at the
-                     bottom of the fileset.
-                  </para>
-
-                  <programlisting role="XML"><![CDATA[<target name="ear" description="Build the EAR">
-   <copy todir="${ear.dir}">
-      <fileset dir="${basedir}/resources">
-         <include name="*jpdl.xml" />
-         <include name="*hibernate.cfg.xml" />
-         <include name="jbpm.cfg.xml" /> 
-      </fileset>
-      <fileset dir="${lib.dir}">
-         <include name="jboss-seam.jar" />
-      </fileset>
-      <fileset dir="${basedir}">
-         <include name="lib/jbpm*.jar" />
-         <include name="lib/jboss-el.jar" />
-         <include name="lib/drools-*.jar"/>
-         <include name="lib/core.jar"/>
-         <include name="lib/janino*.jar"/>
-         <include name="lib/antlr-*.jar"/>
-         <include name="lib/mvel*.jar"/> 
-         <include name="lib/richfaces-api*.jar" />
-      </fileset>
-   </copy>
-   <copy todir="${ear.dir}/META-INF">
-      <fileset dir="${basedir}/resources/META-INF">
-         <include name="application.xml" />
-         <include name="jboss-app.xml" />
-      </fileset>
-   </copy>
-</target>]]></programlisting>
-
+               <listitem> 
                   <itemizedlist>
                      <listitem>
                         <para>Add Hibernate dependencies</para>
-
                         <programlisting role="XML"><![CDATA[<!-- Hibernate and deps --> 
-<include name="lib/hibernate.jar"/>
-<include name="lib/hibernate-commons-annotations.jar"/>
-<include name="lib/hibernate-annotations.jar"/>
-<include name="lib/hibernate-entitymanager.jar"/>
-<include name="lib/hibernate-validator.jar"/>
-<include name="lib/jboss-common-core.jar"/>]]></programlisting>
+<include name="hibernate.jar"/>
+<include name="hibernate-commons-annotations.jar"/>
+<include name="hibernate-annotations.jar"/>
+<include name="hibernate-entitymanager.jar"/>
+<include name="hibernate-validator.jar"/>
+<include name="jboss-common-core.jar"/>]]></programlisting>
                      </listitem>
-
-                     <listitem>
-                        <para>
-                           Add JSF dependencies. You will need to copy the
-                           <literal>el-ri.jar</literal> from the
-                           <literal>$SEAM_DIST/lib</literal> directory.
-                        </para>
-
-                        <programlisting role="XML"><![CDATA[<!-- jsf libs --> 
-<include name="lib/jsf-api.jar" />
-<include name="lib/jsf-impl.jar" />
-<include name="lib/el-api.jar" />
-<include  name="lib/el-ri.jar"/>]]></programlisting>
-                     </listitem>
-
                      <listitem>
                         <para>Add third party dependencies.</para>
-
                         <programlisting role="XML"><![CDATA[<!-- 3rd party and supporting jars -->
-<include name="lib/javassist.jar"/>
-<include name="lib/dom4j.jar"/> 
-<include name="lib/concurrent.jar" />
-<include name="lib/cglib.jar"/>
-<include name="lib/asm.jar"/>
-<include name="lib/antlr.jar" />
-<include name="lib/commons-logging.jar" />
-<include name="lib/commons-collections.jar" />]]></programlisting>
+<include name="javassist.jar"/>
+<include name="dom4j.jar"/> 
+<include name="concurrent.jar" />
+<include name="cglib.jar"/>
+<include name="asm.jar"/>
+<include name="antlr.jar" />
+<include name="commons-logging.jar" />
+<include name="commons-collections.jar" />]]></programlisting>
                      </listitem>
                   </itemizedlist>
 
                   <para>You should end up with something like:</para>
 
-                  <programlisting role="XML"><![CDATA[<fileset dir="${basedir}">
-   <include name="lib/jbpm*.jar" />
-   <include name="lib/jboss-el.jar" />
-   <include name="lib/drools-*.jar"/>
-   <include name="lib/core.jar"/>
-   <include name="lib/janino*.jar"/>
-   <include name="lib/antlr-*.jar"/>
-   <include name="lib/mvel*.jar"/>
-   <include name="lib/richfaces-api*.jar" />
-
+                  <programlisting role="XML"><![CDATA[<fileset dir="${lib.dir}">
+   <includesfile name="deployed-jars-ear.list" />
+   
    <!-- Hibernate and deps -->
-   <include name="lib/hibernate.jar"/>
-   <include name="lib/hibernate-commons-annotations.jar"/>
-   <include name="lib/hibernate-annotations.jar"/>
-   <include name="lib/hibernate-entitymanager.jar"/>
-   <include name="lib/hibernate-validator.jar"/>
-   <include name="lib/jboss-common-core.jar" />
-
-   <!-- jsf libs -->
-   <include name="lib/jsf-api.jar" />
-   <include name="lib/jsf-impl.jar" />
-   <include name="lib/el-api.jar" />
-   <include name="lib/el-ri.jar"/>
-
+   <include name="hibernate.jar"/>
+   <include name="hibernate-commons-annotations.jar"/>
+   <include name="hibernate-annotations.jar"/>
+   <include name="hibernate-entitymanager.jar"/>
+   <include name="hibernate-validator.jar"/>
+   <include name="jboss-common-core.jar" />
+   
    <!-- 3rd party and supporting jars -->
-   <include name="lib/javassist.jar" />
-   <include name="lib/dom4j.jar" />
-   <include name="lib/concurrent.jar" />
-   <include name="lib/cglib.jar" />
-   <include name="lib/asm.jar" />
-   <include name="lib/antlr.jar" />
-   <include name="lib/commons-logging.jar" />
-   <include name="lib/commons-collections.jar" />
-
+   <include name="javassist.jar" />
+   <include name="dom4j.jar" />
+   <include name="concurrent.jar" />
+   <include name="cglib.jar" />
+   <include name="asm.jar" />
+   <include name="antlr.jar" />
+   <include name="commons-logging.jar" />
+   <include name="commons-collections.jar" />
 </fileset>]]></programlisting>
                </listitem>
             </itemizedlist>
