@@ -1483,7 +1483,7 @@ public class Component extends Model
 
    public void initialize(Object bean) throws Exception
    {
-      if ( log.isDebugEnabled() ) log.debug("initializing new instance of: " + name);
+      if ( log.isTraceEnabled() ) log.trace("initializing new instance of: " + name);
 
       injectLog(bean);
 
@@ -1500,7 +1500,7 @@ public class Component extends Model
          setFieldValue(bean, field, field.getName(), initialValue );
       }
 
-      if ( log.isDebugEnabled() ) log.debug("done initializing: " + name);
+      if ( log.isTraceEnabled() ) log.trace("done initializing: " + name);
    }
 
    /**
@@ -2074,8 +2074,8 @@ public class Component extends Model
 
    public Object newInstance()
    {
-      if (log.isDebugEnabled()) {
-         log.debug("instantiating Seam component: " + name);
+      if (log.isTraceEnabled()) {
+         log.trace("instantiating Seam component: " + name);
       }
 
       Object instance;

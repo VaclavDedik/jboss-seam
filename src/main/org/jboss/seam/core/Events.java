@@ -59,7 +59,7 @@ public class Events
    public void raiseEvent(String type, Object... parameters)
    {
       //TODO: find a way to map event parameters to params in an EL-defined listener
-      log.debug("Processing event:" + type);
+      log.trace("Processing event:" + type);
       List<Init.ObserverMethodExpression> list = Init.instance().getObserverMethodExpressions(type);
       if (list!=null)
       {
