@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.faces.model.SelectItem;
 
+import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.ConversationEntry;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.faces.Switcher;
@@ -336,4 +337,105 @@ public class ConversationTest
         }.run();
     }
 
+   @Test
+   public void killAllOthers() throws Exception
+   {
+      new FacesRequest("/pageWithAnotherDescription.xhtml") {
+         @Override
+         protected void invokeApplication() throws Exception
+         {
+            Manager.instance().beginConversation();
+         }
+
+         @Override
+         protected void renderResponse() throws Exception
+         {
+            assert ConversationEntries.instance().size() == 1;
+         }
+      }.run();
+
+      new FacesRequest("/pageWithoutDescription.xhtml") {
+         @Override
+         protected void invokeApplication() throws Exception
+         {
+            Manager.instance().beginConversation();
+         }
+
+         @Override
+         protected void renderResponse() throws Exception
+         {
+            assert ConversationEntries.instance().size() == 2;
+         }
+      }.run();
+
+      new FacesRequest("/pageWithDescription.xhtml") {
+         @Override
+         protected void invokeApplication() throws Exception
+         {
+            Manager.instance().beginConversation();
+            Manager.instance().killAllOtherConversations();
+         }
+
+         @Override
+         protected void renderResponse() throws Exception
+         {
+            assert ConversationEntries.instance().size() == 1;
+         }
+      }.run();
+
+   }
+
+   @Test
+   public void nestedKillAllOthers() throws Exception
+   {
+
+      final String unrelated = new FacesRequest("/pageWithoutDescription.xhtml") {
+         @Override
+         protected void invokeApplication() throws Exception
+         {
+            Manager.instance().beginConversation();
+         }
+
+         @Override
+         protected void renderResponse() throws Exception
+         {
+            assert ConversationEntries.instance().size() == 1;
+         }
+      }.run();
+
+      String root = new FacesRequest("/pageWithDescription.xhtml") {
+         @Override
+         protected void invokeApplication() throws Exception
+         {
+            Manager.instance().beginConversation();
+         }
+
+         @Override
+         protected void renderResponse() throws Exception
+         {
+            assert ConversationEntries.instance().size() == 2;
+         }
+      }.run();
+
+      // nested conversation
+      new FacesRequest("/pageWithDescription.xhtml", root) {
+         @Override
+         protected void invokeApplication() throws Exception
+         {
+            Manager.instance().beginNestedConversation();
+         }
+
+         @Override
+         protected void renderResponse() throws Exception
+         {
+            assert ConversationEntries.instance().size() == 3;
+
+            Manager.instance().killAllOtherConversations();
+            assert ConversationEntries.instance().size() == 2;
+            assert ConversationEntries.instance().getConversationIds()
+                  .contains(unrelated) == false;
+         }
+
+      }.run();
+   }
 }

@@ -34,6 +34,14 @@ public class Conversation implements Serializable
    private Integer concurrentRequestTimeout;
    String description;
    String viewId;
+   
+   /**
+    * Kills all conversations except the current one
+    */
+   public void killAllOthers()
+   {
+      Manager.instance().killAllOtherConversations();
+   }
 
    /**
     * Get the timeout for this conversation instance.

@@ -11,6 +11,7 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -45,6 +46,10 @@ import org.jboss.seam.web.Session;
 @BypassInterceptors
 public class Manager
 {
+   public static final String EVENT_CONVERSATION_TIMEOUT = "org.jboss.seam.conversationTimeout";
+   public static final String EVENT_CONVERSATION_DESTROYED = "org.jboss.seam.conversationDestroyed";
+   public static final String EVENT_CONVERSATION_BEGIN = "org.jboss.seam.beginConversation";
+   public static final String EVENT_CONVERSATION_END = "org.jboss.seam.endConversation";
    
    private static final LogProvider log = Logging.getLogProvider(Manager.class);
    
@@ -72,7 +77,98 @@ public class Manager
    private String URIEncoding = DEFAULT_ENCODING;
    
    private FlushModeType defaultFlushMode;
+
+   /**
+    * Kills all conversations except the current one 
+    */
+   public void killAllOtherConversations()
+   {
+      ConversationEntries conversationEntries = ConversationEntries.instance();
+      Events events = Events.exists() ? Events.instance() : null;
+
+      if (conversationEntries != null)
+      {
+         List<ConversationEntry> entries = new ArrayList<ConversationEntry>(
+               conversationEntries.getConversationEntries());
+
+         for (ConversationEntry conversationEntry : entries)
+         {
+            // kill all entries expect the current one
+            // current conversation entry will be null if , kill-all is called
+            // inside a new @Begin
+            if (getCurrentConversationEntry() == null
+                  || !getCurrentConversationIdStack().contains(
+                        conversationEntry.getId()))
+            {
+               log.info("Kill all other conversations, executed: kill conversation id = "
+                           + conversationEntry.getId());
+
+               boolean locked = conversationEntry.lockNoWait(); // we had better
+               // not wait for it, or we would be waiting for ALL other requests
+               try
+               {
+                  if (locked)
+                  {
+                     if (log.isDebugEnabled())
+                     {
+                        log.debug("conversation killed manually: " + conversationEntry.getId());
+                     }
+                  } 
+                  else
+                  {
+                     // if we could not acquire the lock, someone has left a
+                     // garbage lock lying around
+                     // the reason garbage locks can exist is that we don't
+                     // require a servlet filter to
+                     // exist - but if we do use SeamExceptionFilter, it will
+                     // clean up garbage and this
+                     // case should never occur
+
+                     // NOTE: this is slightly broken - in theory there is a
+                     // window where a new request
+                     // could have come in and got the lock just before us but
+                     // called touch() just
+                     // after we check the timeout - but in practice this would
+                     // be extremely rare,
+                     // and that request will get an
+                     // IllegalMonitorStateException when it tries to
+                     // unlock() the CE
+                     log.debug("kill conversation with garbage lock: "
+                           + conversationEntry.getId());
+                  }
+                  if (events != null)
+                  {
+                     events.raiseEvent(EVENT_CONVERSATION_DESTROYED);
+                  }
+                  destroyConversation(conversationEntry.getId(), getSessionMap());
+               } 
+               finally
+               {
+                  if (locked)
+                  {
+                     conversationEntry.unlock();
+                  }
+               }
+            }
+         }
+      }      
+   }
    
+   /**
+    * @return Map session
+    */
+   private Map<String, Object> getSessionMap()
+   {
+      // this method could be moved to a utility class
+      Map<String, Object> session = new HashMap<String, Object>();
+      String[] sessionAttributeNames = Contexts.getSessionContext().getNames();
+   
+      for (String attributeName : sessionAttributeNames)
+      {
+         session.put(attributeName, Contexts.getSessionContext().get(attributeName));
+      }
+      return session;
+   }   
    
    // DONT BREAK, icefaces uses this
    public String getCurrentConversationId()
@@ -320,7 +416,7 @@ public class Manager
                   }
                   if ( Events.exists() ) 
                   {
-                     Events.instance().raiseEvent("org.jboss.seam.conversationTimeout", conversationEntry.getId());
+                     Events.instance().raiseEvent(EVENT_CONVERSATION_TIMEOUT, conversationEntry.getId());
                   }
                   destroyConversation( conversationEntry.getId(), session );
                }
@@ -589,7 +685,7 @@ public class Manager
          createConversationEntry();
          Conversation.instance(); //force instantiation of the Conversation in the outer (non-nested) conversation
          storeConversationToViewRootIfNecessary();
-         if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.beginConversation");
+         if ( Events.exists() ) Events.instance().raiseEvent(EVENT_CONVERSATION_BEGIN);
       }
    }
 
@@ -610,7 +706,7 @@ public class Manager
       createCurrentConversationIdStack(id).addAll(oldStack);
       createConversationEntry();
       storeConversationToViewRootIfNecessary();
-      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.beginConversation");
+      if ( Events.exists() ) Events.instance().raiseEvent(EVENT_CONVERSATION_BEGIN);
    }
    
    /**
@@ -621,7 +717,7 @@ public class Manager
       if ( isLongRunningConversation() )
       {
          log.debug("Ending long-running conversation");
-         if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.endConversation");
+         if ( Events.exists() ) Events.instance().raiseEvent(EVENT_CONVERSATION_END);
          setLongRunningConversation(false);
          destroyBeforeRedirect = beforeRedirect;
          endNestedConversations( getCurrentConversationId() );
