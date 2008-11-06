@@ -7,6 +7,7 @@ import javax.faces.context.FacesContext;
 
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions.ValueExpression;
+import org.jboss.seam.util.Strings;
 
 /**
  * Metadata for an &lt;rule/&gt; in pages.xml
@@ -23,7 +24,7 @@ public final class Rule
    private TaskControl taskControl = new TaskControl();
    private ProcessControl processControl = new ProcessControl();
    private List<NavigationHandler> navigationHandlers = new ArrayList<NavigationHandler>();
-   private String eventType;
+   private List<String> eventTypes = new ArrayList<String>();
 
    public boolean matches(String actualValue)
    {
@@ -91,7 +92,7 @@ public final class Rule
       {
          output.out();
       }
-      if (eventType!=null)
+      for (String eventType : eventTypes)
       {
          Events.instance().raiseEvent(eventType);
       }
@@ -102,13 +103,16 @@ public final class Rule
       return false;
    }
 
-   public String getEventType()
+   public List<String> getEventTypes()
    {
-      return eventType;
+      return eventTypes;
    }
 
-   public void setEventType(String event)
+   public void addEventType(String eventType)
    {
-      this.eventType = event;
+      if (!Strings.isEmpty(eventType))
+      {
+         eventTypes.add(eventType);
+      }
    }
 }

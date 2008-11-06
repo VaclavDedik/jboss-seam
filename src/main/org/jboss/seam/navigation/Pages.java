@@ -1217,10 +1217,10 @@ public class Pages
            page.addRewritePattern(pattern.attributeValue("pattern"));
       }
       
-      Element eventElement = element.element("raise-event");
-      if (eventElement!=null)
+      List<Element> events = element.elements("raise-event");
+      for (Element eventElement : events)
       {
-         page.setEventType( eventElement.attributeValue("type") );
+         page.addEventType( eventElement.attributeValue("type") );
       }
       
       Action action = parseAction(element, "action", false);
@@ -1413,10 +1413,10 @@ public class Pages
    
    private static void parseEvent(Element element, Rule rule)
    {
-      Element eventElement = element.element("raise-event");
-      if ( eventElement!=null )
+      List<Element> events = element.elements("raise-event");
+      for (Element eventElement : events)
       {
-         rule.setEventType( eventElement.attributeValue("type") );
+         rule.addEventType( eventElement.attributeValue("type") );
       }
    }
    

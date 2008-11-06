@@ -16,7 +16,7 @@ import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.ResourceLoader;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.security.Identity;
-import org.jboss.seam.util.Faces;
+import org.jboss.seam.util.Strings;
 import org.jboss.seam.web.Pattern;
 
 /**
@@ -45,7 +45,7 @@ public final class Page
    private TaskControl taskControl = new TaskControl();
    private ProcessControl processControl = new ProcessControl();
    private ConversationIdParameter conversationIdParameter;
-   private String eventType;
+   private List<String> eventTypes = new ArrayList<String>();
    private List<Pattern> rewritePatterns = new ArrayList<Pattern>();
    private List<Header> httpHeaders = new ArrayList<Header>();
    
@@ -270,7 +270,7 @@ public final class Page
       
       for ( Input in: getInputs() ) in.in();
       
-      if (eventType!=null)
+      for (String eventType : eventTypes)
       {
          Events.instance().raiseEvent(eventType);
       }
@@ -386,20 +386,23 @@ public final class Page
       this.conversationIdParameter = param;
    }
 
-   public String getEventType()
+   public List<String> getEventTypes()
    {
-      return eventType;
+      return eventTypes;
    }
 
-   public void setEventType(String eventType)
+   public void addEventType(String eventType)
    {
-      this.eventType = eventType;
+      if (!Strings.isEmpty(eventType))
+      {
+         eventTypes.add(eventType);
+      }
    }
-
    
-    public List<Pattern> getRewritePatterns() {
-        return rewritePatterns;
-    }
+   public List<Pattern> getRewritePatterns() 
+   {
+      return rewritePatterns;
+   }
 
     //public void setRewritePatterns(List<String> rewritePatterns) {
     //    this.rewritePatterns = rewritePatterns;
