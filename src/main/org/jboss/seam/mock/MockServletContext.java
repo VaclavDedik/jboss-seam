@@ -56,7 +56,7 @@ public class MockServletContext implements ServletContext
          }
          else
          {
-            webappRoot = new File(getClass().getResource("/").toURI());
+            webappRoot = new File(getClass().getResource("/.").toURI());
          }
       }
       catch (URISyntaxException e)
