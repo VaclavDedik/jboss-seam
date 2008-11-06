@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seam_Reference_Guide \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-10-14 11:39+0000\n"
+"POT-Creation-Date: 2008-11-06 00:24+0000\n"
 "PO-Revision-Date: 2008-10-14 11:39+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -166,7 +166,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Wicket.xml:109 Wicket.xml:136 Wicket.xml:202
+#: Wicket.xml:109 Wicket.xml:136 Wicket.xml:211
 #, no-c-format
 msgid "For example:"
 msgstr ""
@@ -273,30 +273,58 @@ msgstr ""
 #: Wicket.xml:176
 #, no-c-format
 msgid ""
-"To enable bijection and orchestration control via annotations in Wicket you "
-"must place your classes in <code>WEB-INF/wicket</code>. Seam needs to "
-"instrument the bytecode of your Wicket classes to be able to intercept the "
-"annotations you use."
+"Seam needs to instrument the bytecode of your Wicket classes to be able to "
+"intercept the annotations you use. Seam provides two ways to do this.The "
+"first is to place your classes in <code>WEB-INF/wicket</code>. Seam will "
+"look for classes placed in this directory at startup and instrument them. An "
+"alternative approach, which can be used alongside the first, is to use an "
+"ant task for instrumention. Seam provides such a task; it is packaged in "
+"<literal>jboss-seam-wicket-ant.jar </literal>, and can be used in the "
+"following manner:"
+msgstr ""
+
+#. Tag: programlisting
+#: Wicket.xml:186
+#, no-c-format
+msgid ""
+"<![CDATA[<taskdef name=\"instrumentWicket\" \n"
+"   classname=\"org.jboss.seam.wicket.ioc.WicketInstrumentationTask\">\n"
+"  <classpath>\n"
+"    <pathelement location=\"lib/jboss-seam-wicket-ant.jar\"/>\n"
+"    <pathelement location=\"web/WEB-INF/lib/jboss-seam-wicket.jar\"/>\n"
+"    <pathelement location=\"lib/javassist.jar\"/>\n"
+"    <pathelement location=\"lib/jboss-seam.jar\"/>\n"
+"  </classpath>\n"
+"</taskdef>\n"
+"\n"
+"<instrumentWicket outputDirectory=\"${build.instrumented}\">\n"
+"  <classpath refid=\"build.classpath\"/>\n"
+"  <fileset dir=\"${build.classes}\" includes=\"**/*.class\"/>\n"
+"</instrumentWicket>]]>"
 msgstr ""
 
 #. Tag: para
-#: Wicket.xml:184
+#: Wicket.xml:187
 #, no-c-format
 msgid ""
-"Currently only bytecode instrumentation using a custom classloader which "
-"reads classes in <code>WEB-INF/wicket</code> is supported. In the an Ant "
-"task or Maven plugin may be developed to support bytecode instrumentation "
-"when the project artifacts are built."
+"Then have ant copy the instrumented classes in <literal>${build.instrumented}"
+"</literal> into <literal>WEB-INF/classes</literal>. If you want to hot "
+"deploy the Wicket components, you can copy the instrumented classes to "
+"<literal>WEB-INF/dev</literal>; if you use hot deploy, make sure that your "
+"<literal>WicketApplication</literal> class is also hot-deployed. Upon a "
+"reload of hot-deployed classes, the entire WicketApplication instance has to "
+"be re-initialized, in order to pick up new references to the classes of "
+"mounted pages."
 msgstr ""
 
 #. Tag: title
-#: Wicket.xml:193
+#: Wicket.xml:202
 #, no-c-format
 msgid "Defining the Application"
 msgstr ""
 
 #. Tag: para
-#: Wicket.xml:195
+#: Wicket.xml:204
 #, no-c-format
 msgid ""
 "A Wicket web application which uses Seam should use "
@@ -306,7 +334,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Wicket.xml:206
+#: Wicket.xml:215
 #, no-c-format
 msgid ""
 "The <code>SeamAuthorizationStrategy</code> delegates authorization to Seam "
@@ -317,7 +345,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Wicket.xml:214
+#: Wicket.xml:223
 #, no-c-format
 msgid ""
 "You'll also need to set the home page of the application by implementing the "
@@ -325,7 +353,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Wicket.xml:219
+#: Wicket.xml:228
 #, no-c-format
 msgid ""
 "<![CDATA[public class WicketBookingApplication extends SeamWebApplication {\n"
@@ -345,7 +373,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Wicket.xml:221
+#: Wicket.xml:230
 #, no-c-format
 msgid ""
 "Seam automatically installs the Wicket filter for you (ensuring that it is "
@@ -354,7 +382,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Wicket.xml:227
+#: Wicket.xml:236
 #, no-c-format
 msgid ""
 "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
@@ -366,7 +394,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Wicket.xml:230
+#: Wicket.xml:239
 #, no-c-format
 msgid ""
 "Take a look at the Wicket documentation for more on authorization strategies "

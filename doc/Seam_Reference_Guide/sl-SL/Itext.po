@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-10-14 11:38+0000\n"
+"POT-Creation-Date: 2008-11-06 00:23+0000\n"
 "PO-Revision-Date: 2008-04-21 00:37+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -80,10 +80,11 @@ msgstr ""
 
 #. Tag: emphasis
 #: Itext.xml:42 Itext.xml:184 Itext.xml:256 Itext.xml:291 Itext.xml:324
-#: Itext.xml:374 Itext.xml:397 Itext.xml:528 Itext.xml:592 Itext.xml:656
-#: Itext.xml:696 Itext.xml:751 Itext.xml:854 Itext.xml:941 Itext.xml:1082
-#: Itext.xml:1310 Itext.xml:1500 Itext.xml:1690 Itext.xml:1833 Itext.xml:1904
-#: Itext.xml:1965 Itext.xml:2012 Itext.xml:2092 Itext.xml:2205
+#: Itext.xml:374 Itext.xml:397 Itext.xml:528 Itext.xml:592 Itext.xml:654
+#: Itext.xml:694 Itext.xml:749 Itext.xml:852 Itext.xml:939 Itext.xml:1080
+#: Itext.xml:1308 Itext.xml:1504 Itext.xml:1700 Itext.xml:1843 Itext.xml:1914
+#: Itext.xml:1975 Itext.xml:2022 Itext.xml:2102 Itext.xml:2214 Itext.xml:2264
+#: Itext.xml:2324
 #, no-c-format
 msgid "Description"
 msgstr ""
@@ -102,10 +103,10 @@ msgstr ""
 
 #. Tag: emphasis
 #: Itext.xml:51 Itext.xml:190 Itext.xml:264 Itext.xml:298 Itext.xml:330
-#: Itext.xml:415 Itext.xml:535 Itext.xml:601 Itext.xml:706 Itext.xml:798
-#: Itext.xml:859 Itext.xml:946 Itext.xml:1087 Itext.xml:1314 Itext.xml:1504
-#: Itext.xml:1694 Itext.xml:1838 Itext.xml:1908 Itext.xml:1970 Itext.xml:2016
-#: Itext.xml:2097 Itext.xml:2210
+#: Itext.xml:415 Itext.xml:535 Itext.xml:599 Itext.xml:704 Itext.xml:796
+#: Itext.xml:857 Itext.xml:944 Itext.xml:1085 Itext.xml:1312 Itext.xml:1508
+#: Itext.xml:1704 Itext.xml:1848 Itext.xml:1918 Itext.xml:1980 Itext.xml:2026
+#: Itext.xml:2107 Itext.xml:2219 Itext.xml:2269 Itext.xml:2329
 #, no-c-format
 msgid "Attributes"
 msgstr ""
@@ -215,10 +216,10 @@ msgstr ""
 
 #. Tag: emphasis
 #: Itext.xml:143 Itext.xml:242 Itext.xml:276 Itext.xml:309 Itext.xml:359
-#: Itext.xml:382 Itext.xml:510 Itext.xml:558 Itext.xml:642 Itext.xml:662
-#: Itext.xml:735 Itext.xml:840 Itext.xml:901 Itext.xml:1067 Itext.xml:1243
-#: Itext.xml:1486 Itext.xml:1676 Itext.xml:1819 Itext.xml:1890 Itext.xml:1948
-#: Itext.xml:1998 Itext.xml:2058 Itext.xml:2172 Itext.xml:2230
+#: Itext.xml:382 Itext.xml:510 Itext.xml:558 Itext.xml:640 Itext.xml:660
+#: Itext.xml:733 Itext.xml:838 Itext.xml:899 Itext.xml:1065 Itext.xml:1241
+#: Itext.xml:1490 Itext.xml:1686 Itext.xml:1829 Itext.xml:1900 Itext.xml:1958
+#: Itext.xml:2008 Itext.xml:2068 Itext.xml:2182 Itext.xml:2349
 #, no-c-format
 msgid "Usage"
 msgstr ""
@@ -274,25 +275,25 @@ msgid "firstLineIndent"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:201 Itext.xml:1162
+#: Itext.xml:201 Itext.xml:1160
 #, no-c-format
 msgid "extraParagraphSpace"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:206 Itext.xml:1134
+#: Itext.xml:206 Itext.xml:1132
 #, no-c-format
 msgid "leading"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:211 Itext.xml:1142
+#: Itext.xml:211 Itext.xml:1140
 #, no-c-format
 msgid "multipliedLeading"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:215 Itext.xml:462 Itext.xml:1027
+#: Itext.xml:215 Itext.xml:462 Itext.xml:1025
 #, no-c-format
 msgid ""
 "<literal>spacingBefore</literal> &#8212; The blank space to be inserted "
@@ -300,7 +301,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:220 Itext.xml:467 Itext.xml:1033
+#: Itext.xml:220 Itext.xml:467 Itext.xml:1031
 #, no-c-format
 msgid ""
 "<literal>spacingAfter</literal> &#8212; The blank space to be inserted after "
@@ -320,7 +321,7 @@ msgid "indentationRight"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:236 Itext.xml:1061
+#: Itext.xml:236 Itext.xml:1059
 #, no-c-format
 msgid "keepTogether"
 msgstr ""
@@ -651,7 +652,7 @@ msgid "Headers and Footers"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:584 Itext.xml:746
+#: Itext.xml:584 Itext.xml:744
 #, no-c-format
 msgid "&lt;p:header&gt;"
 msgstr ""
@@ -668,12 +669,12 @@ msgstr ""
 msgid ""
 "The <literal>p:header</literal> and <literal>p:footer</literal> components "
 "provide the ability to place header and footer text on each page of a "
-"generated document, with the exception of the first page. Header and footer "
-"declarations should appear near the top of a document."
+"generated document. Header and footer declarations should appear at the "
+"beginning of a document."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:609 Itext.xml:714 Itext.xml:867
+#: Itext.xml:607 Itext.xml:712 Itext.xml:865
 #, no-c-format
 msgid ""
 "<literal>alignment</literal> &#8212; The alignment of the header/footer box "
@@ -681,7 +682,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:616
+#: Itext.xml:614
 #, no-c-format
 msgid ""
 "<literal>backgroundColor</literal> &#8212; The background color of the "
@@ -689,7 +690,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:625
+#: Itext.xml:623
 #, no-c-format
 msgid ""
 "<literal>borderColor</literal> &#8212; The border color of the header/footer "
@@ -700,7 +701,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:633
+#: Itext.xml:631
 #, no-c-format
 msgid ""
 "<literal>borderWidth</literal> &#8212; The width of the border. Inidvidual "
@@ -710,7 +711,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Itext.xml:644
+#: Itext.xml:642
 #, no-c-format
 msgid ""
 "<![CDATA[<p:facet name=\"header\">\n"
@@ -724,13 +725,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:651
+#: Itext.xml:649
 #, no-c-format
 msgid "&lt;p:pageNumber&gt;"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:658
+#: Itext.xml:656
 #, no-c-format
 msgid ""
 "The current page number can be placed inside of a header or footer using the "
@@ -739,7 +740,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Itext.xml:664
+#: Itext.xml:662
 #, no-c-format
 msgid ""
 "&lt;p:footer borderWidthTop=&quot;1&quot; borderColorTop=&quot;blue&quot; \n"
@@ -749,25 +750,25 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Itext.xml:677
+#: Itext.xml:675
 #, no-c-format
 msgid "Chapters and Sections"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:688
+#: Itext.xml:686
 #, no-c-format
 msgid "&lt;p:chapter&gt;"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:691
+#: Itext.xml:689
 #, no-c-format
 msgid "&lt;p:section&gt;"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:699
+#: Itext.xml:697
 #, no-c-format
 msgid ""
 "If the generated document follows a book/article structure, the <literal>p:"
@@ -778,7 +779,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:721
+#: Itext.xml:719
 #, no-c-format
 msgid ""
 "<literal>number</literal> &#8212; The chapter number. Every chapter should "
@@ -786,7 +787,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:726
+#: Itext.xml:724
 #, no-c-format
 msgid ""
 "<literal>numberDepth</literal> &#8212; The depth of numbering for section. "
@@ -798,7 +799,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Itext.xml:738
+#: Itext.xml:736
 #, no-c-format
 msgid ""
 "<![CDATA[<p:document xmlns:p=\"http://jboss.com/products/seam/pdf\"\n"
@@ -818,7 +819,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:754
+#: Itext.xml:752
 #, no-c-format
 msgid ""
 "Any chapter or section can contain a <literal>p:title</literal>. The title "
@@ -827,13 +828,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Itext.xml:767
+#: Itext.xml:765
 #, no-c-format
 msgid "Lists"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:769
+#: Itext.xml:767
 #, no-c-format
 msgid ""
 "List structures can be displayed using the <literal>p:list</literal> and "
@@ -844,7 +845,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Itext.xml:774
+#: Itext.xml:772
 #, no-c-format
 msgid ""
 "<![CDATA[<p:document xmlns:p=\"http://jboss.com/products/seam/pdf\"\n"
@@ -859,13 +860,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:787
+#: Itext.xml:785
 #, no-c-format
 msgid "&lt;p:list&gt;"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:804
+#: Itext.xml:802
 #, no-c-format
 msgid ""
 "<literal>style</literal> &#8212; The ordering/bulleting style of list. One "
@@ -876,7 +877,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:811
+#: Itext.xml:809
 #, no-c-format
 msgid ""
 "<literal>listSymbol</literal> &#8212; For bulleted lists, specifies the "
@@ -884,13 +885,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:816
+#: Itext.xml:814
 #, no-c-format
 msgid "<literal>indent</literal> &#8212; The indentation level of the list."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:822
+#: Itext.xml:820
 #, no-c-format
 msgid ""
 "<literal>lowerCase</literal> &#8212; For list styles using letters, "
@@ -898,7 +899,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:828
+#: Itext.xml:826
 #, no-c-format
 msgid ""
 "<literal>charNumber</literal> &#8212; For ZAPFDINGBATS, indicates the "
@@ -906,7 +907,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:834
+#: Itext.xml:832
 #, no-c-format
 msgid ""
 "<literal>numberType</literal> &#8212; For ZAPFDINGBATS_NUMBER, indicates the "
@@ -914,7 +915,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Itext.xml:842
+#: Itext.xml:840
 #, no-c-format
 msgid ""
 "<![CDATA[<p:list style=\"numbered\">\n"
@@ -925,19 +926,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:849
+#: Itext.xml:847
 #, no-c-format
 msgid "&lt;p:listItem&gt;"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:856
+#: Itext.xml:854
 #, no-c-format
 msgid "<literal>p:listItem</literal> supports the following attributes:"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:874
+#: Itext.xml:872
 #, no-c-format
 msgid ""
 "<literal>alignment</literal> &#8212; The alignment of the list item. (See "
@@ -945,20 +946,20 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:880
+#: Itext.xml:878
 #, no-c-format
 msgid "<literal>indentationLeft</literal> &#8212; The left indentation amount."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:887
+#: Itext.xml:885
 #, no-c-format
 msgid ""
 "<literal>indentationRight</literal> &#8212; The right indentation amount."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:894
+#: Itext.xml:892
 #, no-c-format
 msgid ""
 "<literal>listSymbol</literal> &#8212; Overrides the default list symbol for "
@@ -966,19 +967,19 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Itext.xml:903
+#: Itext.xml:901
 #, no-c-format
 msgid "<programlisting>...</programlisting>"
 msgstr ""
 
 #. Tag: title
-#: Itext.xml:917
+#: Itext.xml:915
 #, no-c-format
 msgid "Tables"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:919
+#: Itext.xml:917
 #, no-c-format
 msgid ""
 "Table structures can be created using the <literal>p:table</literal> and "
@@ -990,19 +991,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:936
+#: Itext.xml:934
 #, no-c-format
 msgid "&lt;p:table&gt;"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:943
+#: Itext.xml:941
 #, no-c-format
 msgid "<literal>p:table</literal> supports the following attributes."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:953
+#: Itext.xml:951
 #, no-c-format
 msgid ""
 "<literal>columns</literal> &#8212; The number of columns (cells) that make "
@@ -1010,7 +1011,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:960
+#: Itext.xml:958
 #, no-c-format
 msgid ""
 "<literal>widths</literal> &#8212; The relative widths of each column. There "
@@ -1020,7 +1021,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:969
+#: Itext.xml:967
 #, no-c-format
 msgid ""
 "<literal>headerRows</literal> &#8212; The initial number of rows which are "
@@ -1029,7 +1030,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:977
+#: Itext.xml:975
 #, no-c-format
 msgid ""
 "<literal>footerRows</literal> &#8212; The number of rows that are considered "
@@ -1040,7 +1041,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:988
+#: Itext.xml:986
 #, no-c-format
 msgid ""
 "<literal>widthPercentage</literal> &#8212; The percentage of the page width "
@@ -1048,7 +1049,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:993
+#: Itext.xml:991
 #, no-c-format
 msgid ""
 "<literal>horizontalAlignment</literal> &#8212; The horizontal alignment of "
@@ -1056,49 +1057,49 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1000
+#: Itext.xml:998
 #, no-c-format
 msgid "skipFirstHeader"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1006 Itext.xml:1210
+#: Itext.xml:1004 Itext.xml:1208
 #, no-c-format
 msgid "runDirection"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1012
+#: Itext.xml:1010
 #, no-c-format
 msgid "lockedWidth"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1020
+#: Itext.xml:1018
 #, no-c-format
 msgid "splitRows"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1038
+#: Itext.xml:1036
 #, no-c-format
 msgid "extendLastRow"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1046
+#: Itext.xml:1044
 #, no-c-format
 msgid "headersInEvent"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1053
+#: Itext.xml:1051
 #, no-c-format
 msgid "splitLate"
 msgstr ""
 
 #. Tag: programlisting
-#: Itext.xml:1069
+#: Itext.xml:1067
 #, no-c-format
 msgid ""
 "<![CDATA[<p:table columns=\"3\" headerRows=\"1\">\n"
@@ -1114,19 +1115,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1077
+#: Itext.xml:1075
 #, no-c-format
 msgid "&lt;p:cell&gt;"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1084
+#: Itext.xml:1082
 #, no-c-format
 msgid "<literal>p:cell</literal> supports the following attributes."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1094
+#: Itext.xml:1092
 #, no-c-format
 msgid ""
 "<literal>colspan</literal> &#8212; Cells can span more than one column by "
@@ -1135,7 +1136,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1103
+#: Itext.xml:1101
 #, no-c-format
 msgid ""
 "<literal>horizontalAlignment</literal> &#8212; The horizontal alignment of "
@@ -1143,7 +1144,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1111
+#: Itext.xml:1109
 #, no-c-format
 msgid ""
 "<literal>verticalAlignment</literal> &#8212; The vertical alignment of the "
@@ -1151,7 +1152,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1118
+#: Itext.xml:1116
 #, no-c-format
 msgid ""
 "<literal>padding</literal> &#8212; Padding on a given side can also be "
@@ -1160,97 +1161,97 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1128
+#: Itext.xml:1126
 #, no-c-format
 msgid "useBorderPadding"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1150
+#: Itext.xml:1148
 #, no-c-format
 msgid "indent"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1156
+#: Itext.xml:1154
 #, no-c-format
 msgid "verticalAlignment"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1170
+#: Itext.xml:1168
 #, no-c-format
 msgid "fixedHeight"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1177
+#: Itext.xml:1175
 #, no-c-format
 msgid "noWrap"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1183
+#: Itext.xml:1181
 #, no-c-format
 msgid "minimumHeight"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1190
+#: Itext.xml:1188
 #, no-c-format
 msgid "followingIndent"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1198
+#: Itext.xml:1196
 #, no-c-format
 msgid "rightIndent"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1204
+#: Itext.xml:1202
 #, no-c-format
 msgid "spaceCharRatio"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1216
+#: Itext.xml:1214
 #, no-c-format
 msgid "arabicOptions"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1223
+#: Itext.xml:1221
 #, no-c-format
 msgid "useAscender"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1231
+#: Itext.xml:1229
 #, no-c-format
 msgid "grayFill"
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1237
+#: Itext.xml:1235
 #, no-c-format
 msgid "rotation"
 msgstr ""
 
 #. Tag: programlisting
-#: Itext.xml:1245
+#: Itext.xml:1243
 #, no-c-format
 msgid "<![CDATA[<p:cell>...</p:cell>]]>"
 msgstr ""
 
 #. Tag: title
-#: Itext.xml:1257
+#: Itext.xml:1255
 #, no-c-format
 msgid "Document Constants"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1259
+#: Itext.xml:1257
 #, no-c-format
 msgid ""
 "This section documents some of the constants shared by attributes on "
@@ -1258,13 +1259,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Itext.xml:1262
+#: Itext.xml:1260
 #, no-c-format
 msgid "Color Values"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1263
+#: Itext.xml:1261
 #, no-c-format
 msgid ""
 "Seam documents do not yet support a full color specification. Currently, "
@@ -1277,13 +1278,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Itext.xml:1273
+#: Itext.xml:1271
 #, no-c-format
 msgid "Alignment Values"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1274
+#: Itext.xml:1272
 #, no-c-format
 msgid ""
 "Where alignment values are used, the Seam PDF supports the following "
@@ -1295,13 +1296,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Itext.xml:1288
+#: Itext.xml:1286
 #, no-c-format
 msgid "Charting"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1290
+#: Itext.xml:1288
 #, no-c-format
 msgid ""
 "Charting support is also provided with <literal>jboss-seam-pdf.jar</"
@@ -1313,19 +1314,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1305
+#: Itext.xml:1303
 #, no-c-format
 msgid "&lt;p:barchart&gt;"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1312
+#: Itext.xml:1310
 #, no-c-format
 msgid "Displays a bar chart."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1319 Itext.xml:1509
+#: Itext.xml:1317 Itext.xml:1513
 #, no-c-format
 msgid ""
 "<literal>borderVisible</literal> &#8212; Controls whether or not a border is "
@@ -1333,14 +1334,14 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1325 Itext.xml:1515
+#: Itext.xml:1323 Itext.xml:1519
 #, no-c-format
 msgid ""
 "<literal>borderPaint</literal> &#8212; The color of the border, if visible;"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1330 Itext.xml:1520
+#: Itext.xml:1328 Itext.xml:1524
 #, no-c-format
 msgid ""
 "<literal>borderBackgroundPaint</literal> &#8212; The default background "
@@ -1348,13 +1349,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1335 Itext.xml:1525
+#: Itext.xml:1333 Itext.xml:1529
 #, no-c-format
 msgid "<literal>borderStroke</literal> &#8212;"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1341 Itext.xml:1531
+#: Itext.xml:1339 Itext.xml:1535
 #, no-c-format
 msgid ""
 "<literal>domainAxisLabel</literal> &#8212; The text label for the domain "
@@ -1362,7 +1363,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1346 Itext.xml:1536
+#: Itext.xml:1344 Itext.xml:1540
 #, no-c-format
 msgid ""
 "<literal>domainAxisPaint</literal> &#8212; The color of the domain axis "
@@ -1370,7 +1371,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1352 Itext.xml:1542
+#: Itext.xml:1350 Itext.xml:1546
 #, no-c-format
 msgid ""
 "<literal>domainGridlinesVisible</literal>&#8212; Controls whether or not "
@@ -1378,7 +1379,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1357 Itext.xml:1547
+#: Itext.xml:1355 Itext.xml:1551
 #, no-c-format
 msgid ""
 "<literal>domainGridlinePaint</literal>&#8212; The color of the domain "
@@ -1386,7 +1387,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1362 Itext.xml:1552
+#: Itext.xml:1360 Itext.xml:1556
 #, no-c-format
 msgid ""
 "<literal>domainGridlineStroke</literal> &#8212; The stroke style of the "
@@ -1394,19 +1395,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1368 Itext.xml:1558
+#: Itext.xml:1366 Itext.xml:1562
 #, no-c-format
 msgid "<literal>height</literal> &#8212; The height of the chart."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1373 Itext.xml:1480 Itext.xml:1563 Itext.xml:1670
+#: Itext.xml:1371 Itext.xml:1484 Itext.xml:1567 Itext.xml:1680
 #, no-c-format
 msgid "<literal>width</literal> &#8212; The width of the chart."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1378 Itext.xml:1568
+#: Itext.xml:1376 Itext.xml:1572
 #, no-c-format
 msgid ""
 "<literal>is3D</literal> &#8212; A boolean value indicating that the chart "
@@ -1414,7 +1415,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1384 Itext.xml:1574
+#: Itext.xml:1382 Itext.xml:1578
 #, no-c-format
 msgid ""
 "<literal>legend</literal> &#8212; A boolean value indicating whether or not "
@@ -1422,7 +1423,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1390 Itext.xml:1580
+#: Itext.xml:1388 Itext.xml:1584
 #, no-c-format
 msgid ""
 "<literal>legendItemPaint</literal>&#8212; The default color of the text "
@@ -1430,7 +1431,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1396 Itext.xml:1586
+#: Itext.xml:1394 Itext.xml:1590
 #, no-c-format
 msgid ""
 "<literal>legendItemBackgoundPaint</literal>&#8212; The background color for "
@@ -1438,7 +1439,15 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1402 Itext.xml:1592
+#: Itext.xml:1400 Itext.xml:1596
+#, no-c-format
+msgid ""
+"<literal>legendOutlinePaint</literal>&#8212; The color of the border around "
+"the legend."
+msgstr ""
+
+#. Tag: para
+#: Itext.xml:1406 Itext.xml:1602
 #, no-c-format
 msgid ""
 "<literal>orientation</literal> &#8212; The orientation of the plot, either "
@@ -1446,7 +1455,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1408 Itext.xml:1598
+#: Itext.xml:1412 Itext.xml:1608
 #, no-c-format
 msgid ""
 "<literal>plotBackgroundPaint</literal>&#8212; The color of the plot "
@@ -1454,7 +1463,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1414 Itext.xml:1604
+#: Itext.xml:1418 Itext.xml:1614
 #, no-c-format
 msgid ""
 "<literal>plotBackgroundAlpha</literal>&#8212; The alpha (transparency) level "
@@ -1463,7 +1472,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1421 Itext.xml:1611
+#: Itext.xml:1425 Itext.xml:1621
 #, no-c-format
 msgid ""
 "<literal>plotForegroundAlpha</literal>&#8212; The alpha (transparency) level "
@@ -1472,7 +1481,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1428 Itext.xml:1618
+#: Itext.xml:1432 Itext.xml:1628
 #, no-c-format
 msgid ""
 "<literal>plotOutlinePaint</literal>&#8212; The color of the range gridlines, "
@@ -1480,7 +1489,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1433 Itext.xml:1623
+#: Itext.xml:1437 Itext.xml:1633
 #, no-c-format
 msgid ""
 "<literal>plotOutlineStroke</literal> &#8212; The stroke style of the range "
@@ -1488,21 +1497,21 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1439 Itext.xml:1629
+#: Itext.xml:1443 Itext.xml:1639
 #, no-c-format
 msgid ""
 "<literal>rangeAxisLabel</literal> &#8212; The text label for the range axis."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1444 Itext.xml:1634
+#: Itext.xml:1448 Itext.xml:1644
 #, no-c-format
 msgid ""
 "<literal>rangeAxisPaint</literal> &#8212; The color of the range axis label."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1450 Itext.xml:1640
+#: Itext.xml:1454 Itext.xml:1650
 #, no-c-format
 msgid ""
 "<literal>rangeGridlinesVisible</literal>&#8212; Controls whether or not "
@@ -1510,7 +1519,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1455 Itext.xml:1645
+#: Itext.xml:1459 Itext.xml:1655
 #, no-c-format
 msgid ""
 "<literal>rangeGridlinePaint</literal>&#8212; The color of the range "
@@ -1518,7 +1527,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1460 Itext.xml:1650
+#: Itext.xml:1464 Itext.xml:1660
 #, no-c-format
 msgid ""
 "<literal>rangeGridlineStroke</literal> &#8212; The stroke style of the range "
@@ -1526,19 +1535,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1466 Itext.xml:1656
+#: Itext.xml:1470 Itext.xml:1666
 #, no-c-format
 msgid "<literal>title</literal> &#8212; The chart title text."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1470 Itext.xml:1660
+#: Itext.xml:1474 Itext.xml:1670
 #, no-c-format
 msgid "<literal>titlePaint</literal>&#8212; The color of the chart title text."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1475 Itext.xml:1665
+#: Itext.xml:1479 Itext.xml:1675
 #, no-c-format
 msgid ""
 "<literal>titleBackgroundPaint</literal>&#8212; The background color around "
@@ -1546,7 +1555,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Itext.xml:1488
+#: Itext.xml:1492
 #, no-c-format
 msgid ""
 "<![CDATA[<p:barchart title=\"Bar Chart\" legend=\"true\"\n"
@@ -1562,19 +1571,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1495
+#: Itext.xml:1499
 #, no-c-format
 msgid "&lt;p:linechart&gt;"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1502
+#: Itext.xml:1506
 #, no-c-format
 msgid "Displays a line chart."
 msgstr ""
 
 #. Tag: programlisting
-#: Itext.xml:1678
+#: Itext.xml:1688
 #, no-c-format
 msgid ""
 "<![CDATA[<p:linechart title=\"Line Chart\"\n"
@@ -1590,32 +1599,32 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1685
+#: Itext.xml:1695
 #, no-c-format
 msgid "&lt;p:piechart&gt;"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1692
+#: Itext.xml:1702
 #, no-c-format
 msgid "Displays a pie chart."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1700
+#: Itext.xml:1710
 #, no-c-format
 msgid "<literal>title</literal>&#8212; The chart title text."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1704
+#: Itext.xml:1714
 #, no-c-format
 msgid ""
 "<literal>label</literal>&#8212; The default label text for pie sections."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1709
+#: Itext.xml:1719
 #, no-c-format
 msgid ""
 "<literal>legend</literal>&#8212; A boolean value indicating whether or not "
@@ -1623,7 +1632,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1714
+#: Itext.xml:1724
 #, no-c-format
 msgid ""
 "<literal>is3D</literal>&#8212;A boolean value indicating that the chart "
@@ -1631,13 +1640,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1719
+#: Itext.xml:1729
 #, no-c-format
 msgid "<literal>labelLinkMargin</literal>&#8212; The link margin for labels."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1724
+#: Itext.xml:1734
 #, no-c-format
 msgid ""
 "<literal>labelLinkPaint</literal>&#8212; The paint used for the label "
@@ -1645,7 +1654,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1729
+#: Itext.xml:1739
 #, no-c-format
 msgid ""
 "<literal>labelLinkStroke</literal>&#8212; he stroke used for the label "
@@ -1653,7 +1662,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1735
+#: Itext.xml:1745
 #, no-c-format
 msgid ""
 "<literal>labelLinksVisible</literal>&#8212; A flag that controls whether or "
@@ -1661,7 +1670,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1740
+#: Itext.xml:1750
 #, no-c-format
 msgid ""
 "<literal>labelOutlinePaint</literal>&#8212; The paint used to draw the "
@@ -1669,7 +1678,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1745
+#: Itext.xml:1755
 #, no-c-format
 msgid ""
 "<literal>labelOutlineStroke</literal>&#8212; The stroke used to draw the "
@@ -1677,7 +1686,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1750
+#: Itext.xml:1760
 #, no-c-format
 msgid ""
 "<literal>labelShadowPaint</literal>&#8212; The paint used to draw the shadow "
@@ -1685,7 +1694,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1755
+#: Itext.xml:1765
 #, no-c-format
 msgid ""
 "<literal>labelPaint</literal>&#8212; The color used to draw the section "
@@ -1693,7 +1702,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1760
+#: Itext.xml:1770
 #, no-c-format
 msgid ""
 "<literal>labelGap</literal>&#8212; The gap between the labels and the plot "
@@ -1701,7 +1710,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1765
+#: Itext.xml:1775
 #, no-c-format
 msgid ""
 "<literal>labelBackgroundPaint</literal>&#8212; The color used to draw the "
@@ -1710,14 +1719,14 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1772
+#: Itext.xml:1782
 #, no-c-format
 msgid ""
 "<literal>startAngle</literal>&#8212; The starting angle of the first section."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1777
+#: Itext.xml:1787
 #, no-c-format
 msgid ""
 "<literal>circular</literal>&#8212; A boolean value indicating that the chart "
@@ -1726,7 +1735,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1783
+#: Itext.xml:1793
 #, no-c-format
 msgid ""
 "<literal>direction</literal>&#8212; The direction the pie section are drawn. "
@@ -1735,7 +1744,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1789
+#: Itext.xml:1799
 #, no-c-format
 msgid ""
 "<literal>sectionOutlinePaint</literal>&#8212; The outline paint for all "
@@ -1743,7 +1752,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1794
+#: Itext.xml:1804
 #, no-c-format
 msgid ""
 "<literal>sectionOutlineStroke</literal>&#8212; The outline stroke for all "
@@ -1751,7 +1760,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1799
+#: Itext.xml:1809
 #, no-c-format
 msgid ""
 "<literal>sectionOutlinesVisible</literal>&#8212; Indicates whether an "
@@ -1759,7 +1768,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1804
+#: Itext.xml:1814
 #, no-c-format
 msgid ""
 "<literal>baseSectionOutlinePaint</literal>&#8212; The base section outline "
@@ -1767,13 +1776,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1809
+#: Itext.xml:1819
 #, no-c-format
 msgid "<literal>baseSectionPaint</literal>&#8212; The base section paint."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1813
+#: Itext.xml:1823
 #, no-c-format
 msgid ""
 "<literal>baseSectionOutlineStroke</literal>&#8212; The base section outline "
@@ -1781,7 +1790,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Itext.xml:1821
+#: Itext.xml:1831
 #, no-c-format
 msgid ""
 "<![CDATA[<p:piechart title=\"Pie Chart\" circular=\"false\" direction="
@@ -1798,13 +1807,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1828
+#: Itext.xml:1838
 #, no-c-format
 msgid "&lt;p:series&gt;"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1835
+#: Itext.xml:1845
 #, no-c-format
 msgid ""
 "Category data can be broken down into series. The series tag is used to "
@@ -1813,20 +1822,20 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1844
+#: Itext.xml:1854
 #, no-c-format
 msgid "<literal>key</literal> &#8212; The series name."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1855
+#: Itext.xml:1865
 #, no-c-format
 msgid ""
 "<literal>seriesPaint</literal> &#8212; The color of each item in the series"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1861
+#: Itext.xml:1871
 #, no-c-format
 msgid ""
 "<literal>seriesOutlinePaint</literal> &#8212; The outline color for each "
@@ -1834,7 +1843,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1866
+#: Itext.xml:1876
 #, no-c-format
 msgid ""
 "<literal>seriesOutlineStroke</literal> &#8212; The stroke used to draw each "
@@ -1842,7 +1851,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1878
+#: Itext.xml:1888
 #, no-c-format
 msgid ""
 "<literal>seriesVisible</literal> &#8212; A boolean indicating if the series "
@@ -1850,7 +1859,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1883
+#: Itext.xml:1893
 #, no-c-format
 msgid ""
 "<literal>seriesVisibleInLegend</literal> &#8212; A boolean indiciating if "
@@ -1858,7 +1867,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Itext.xml:1892
+#: Itext.xml:1902
 #, no-c-format
 msgid ""
 "<![CDATA[<p:series key=\"data1\">\n"
@@ -1869,25 +1878,25 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1899
+#: Itext.xml:1909
 #, no-c-format
 msgid "&lt;p:data&gt;"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1906
+#: Itext.xml:1916
 #, no-c-format
 msgid "The data tag describes each data point to be displayed in the graph."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1913
+#: Itext.xml:1923
 #, no-c-format
 msgid "<literal>key</literal> &#8212; The name of the data item."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1917
+#: Itext.xml:1927
 #, no-c-format
 msgid ""
 "<literal>series</literal> &#8212; The series name, when not embedded inside "
@@ -1895,13 +1904,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1922
+#: Itext.xml:1932
 #, no-c-format
 msgid "<literal>value</literal> &#8212; The numeric data value."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1926
+#: Itext.xml:1936
 #, no-c-format
 msgid ""
 "<literal>explodedPercent</literal> &#8212; For pie charts, indicates how "
@@ -1909,7 +1918,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1932
+#: Itext.xml:1942
 #, no-c-format
 msgid ""
 "<literal>sectionOutlinePaint</literal> &#8212; For bar charts, the color of "
@@ -1917,7 +1926,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1937
+#: Itext.xml:1947
 #, no-c-format
 msgid ""
 "<literal>sectionOutlineStroke</literal> &#8212; For bar charts, the stroke "
@@ -1925,7 +1934,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1942
+#: Itext.xml:1952
 #, no-c-format
 msgid ""
 "<literal>sectionPaint</literal> &#8212; For bar charts, the color of the "
@@ -1933,7 +1942,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Itext.xml:1953
+#: Itext.xml:1963
 #, no-c-format
 msgid ""
 "<![CDATA[<p:data key=\"foo\" value=\"20\" sectionPaint=\"#111111\" \n"
@@ -1944,13 +1953,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:1960
+#: Itext.xml:1970
 #, no-c-format
 msgid "&lt;p:color&gt;"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1967
+#: Itext.xml:1977
 #, no-c-format
 msgid ""
 "The color component declares a color or gradient than can be referenced when "
@@ -1958,7 +1967,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1976
+#: Itext.xml:1986
 #, no-c-format
 msgid ""
 "<literal>color</literal> &#8212; The color value. For gradient colors, this "
@@ -1966,7 +1975,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1982
+#: Itext.xml:1992
 #, no-c-format
 msgid ""
 "<literal>color2</literal> &#8212; For gradient colors, this is the color "
@@ -1974,7 +1983,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1987
+#: Itext.xml:1997
 #, no-c-format
 msgid ""
 "<literal>point</literal> &#8212; The co-ordinates where the gradient color "
@@ -1982,7 +1991,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1992
+#: Itext.xml:2002
 #, no-c-format
 msgid ""
 "<literal>point2</literal> &#8212; The co-ordinates where the gradient color "
@@ -1990,7 +1999,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Itext.xml:2000
+#: Itext.xml:2010
 #, no-c-format
 msgid ""
 "<![CDATA[<p:color id=\"foo\" color=\"#0ff00f\"/>\n"
@@ -1999,25 +2008,25 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:2007
+#: Itext.xml:2017
 #, no-c-format
 msgid "&lt;p:stroke&gt;"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2014
+#: Itext.xml:2024
 #, no-c-format
 msgid "Describes a stroke used to draw lines in a chart."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2022
+#: Itext.xml:2032
 #, no-c-format
 msgid "<literal>width</literal> &#8212; The width of the stroke."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2027
+#: Itext.xml:2037
 #, no-c-format
 msgid ""
 "<literal>cap</literal> &#8212; The line cap type. Valid values are "
@@ -2026,7 +2035,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2033
+#: Itext.xml:2043
 #, no-c-format
 msgid ""
 "<literal>join</literal> &#8212; The line join type. Valid values are "
@@ -2035,7 +2044,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2039
+#: Itext.xml:2049
 #, no-c-format
 msgid ""
 "<literal>miterLimit</literal> &#8212; For miter joins, this value is the "
@@ -2043,7 +2052,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2045
+#: Itext.xml:2055
 #, no-c-format
 msgid ""
 "<literal>dash</literal> &#8212; The dash value sets the dash pattern to be "
@@ -2052,7 +2061,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2052
+#: Itext.xml:2062
 #, no-c-format
 msgid ""
 "<literal>dashPhase</literal> &#8212; The dash phase indicates the offset "
@@ -2060,7 +2069,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Itext.xml:2060
+#: Itext.xml:2070
 #, no-c-format
 msgid ""
 "<![CDATA[<p:stroke id=\"dot2\" width=\"2\" cap=\"round\" join=\"bevel\" dash="
@@ -2068,13 +2077,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Itext.xml:2072
+#: Itext.xml:2082
 #, no-c-format
 msgid "Bar codes"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2073
+#: Itext.xml:2083
 #, no-c-format
 msgid ""
 "Seam can use iText to generate barcodes in a wide variety of formats. These "
@@ -2084,19 +2093,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:2087
+#: Itext.xml:2097
 #, no-c-format
 msgid "&lt;p:barCode&gt;"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2094
+#: Itext.xml:2104
 #, no-c-format
 msgid "Displays a barcode image."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2103
+#: Itext.xml:2113
 #, no-c-format
 msgid ""
 "<literal>type</literal> &#8212; A barcode type supported by iText. Valid "
@@ -2108,13 +2117,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2113
+#: Itext.xml:2123
 #, no-c-format
 msgid "<literal>code</literal>&#8212; The value to be encoded by the barcode."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2118
+#: Itext.xml:2128
 #, no-c-format
 msgid ""
 "<literal>xpos</literal>&#8212; For PDFs, the absolute y position of the "
@@ -2122,7 +2131,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2123
+#: Itext.xml:2133
 #, no-c-format
 msgid ""
 "<literal>ypos</literal>&#8212; For PDFs, the absolute y position of the "
@@ -2130,7 +2139,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2128
+#: Itext.xml:2138
 #, no-c-format
 msgid ""
 "<literal>rotDegrees</literal> &#8212; For PDFs, the rotation factor of the "
@@ -2138,20 +2147,20 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2133
+#: Itext.xml:2143
 #, no-c-format
 msgid ""
 "<literal>barHeight</literal> &#8212; The height of the bars in the barCode"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2139
+#: Itext.xml:2149
 #, no-c-format
 msgid "<literal>minBarWidth</literal> &#8212; The minimum bar width."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2143
+#: Itext.xml:2153
 #, no-c-format
 msgid ""
 "<literal>barMultiplier</literal> &#8212; The bar multiplier for wide bars or "
@@ -2160,27 +2169,27 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2149
+#: Itext.xml:2159
 #, no-c-format
 msgid "<literal>barColor</literal> &#8212; The color to draw the bars."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2154
+#: Itext.xml:2164
 #, no-c-format
 msgid ""
 "<literal>textColor</literal> &#8212; The color of any text on the barcode."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2159
+#: Itext.xml:2169
 #, no-c-format
 msgid ""
 "<literal>textSize</literal> &#8212; The size of the barcode text, if any."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2164
+#: Itext.xml:2174
 #, no-c-format
 msgid ""
 "<literal>altText</literal> &#8212; The <literal>alt</literal> text for HTML "
@@ -2188,7 +2197,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Itext.xml:2174
+#: Itext.xml:2184
 #, no-c-format
 msgid ""
 "<![CDATA[<p:barCode type=\"code128\" \n"
@@ -2200,13 +2209,112 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Itext.xml:2185
+#: Itext.xml:2194
+#, no-c-format
+msgid "Fill-in-forms"
+msgstr ""
+
+#. Tag: para
+#: Itext.xml:2195
+#, no-c-format
+msgid ""
+"If you have a complex, pre-generated PDF with named fields, you can easily "
+"fill in the values from you application and present it to the user."
+msgstr ""
+
+#. Tag: literal
+#: Itext.xml:2209
+#, no-c-format
+msgid "&lt;p:form&gt;"
+msgstr ""
+
+#. Tag: para
+#: Itext.xml:2216
+#, no-c-format
+msgid "Defines a form template to populate"
+msgstr ""
+
+#. Tag: para
+#: Itext.xml:2224
+#, no-c-format
+msgid ""
+"<literal>URL</literal> &#8212; An URL pointing to the PDF file to use as a "
+"template. If the value has no protocol part (://), the file is read locally."
+msgstr ""
+
+#. Tag: para
+#: Itext.xml:2231
+#, no-c-format
+msgid ""
+"<literal>filename</literal> &#8212; The filename to use for the generated "
+"PDF file."
+msgstr ""
+
+#. Tag: para
+#: Itext.xml:2237
+#, no-c-format
+msgid ""
+"<literal>exportKey</literal> &#8212; Place the generated PDF file in a "
+"DocumentData object under the specified key in the event context. If set, no "
+"redirect will occur."
+msgstr ""
+
+#. Tag: literal
+#: Itext.xml:2259
+#, no-c-format
+msgid "&lt;p:field&gt;"
+msgstr ""
+
+#. Tag: para
+#: Itext.xml:2266
+#, no-c-format
+msgid "Connects a field name to its value"
+msgstr ""
+
+#. Tag: para
+#: Itext.xml:2275
+#, no-c-format
+msgid "<literal>name</literal> &#8212; The name of the field"
+msgstr ""
+
+#. Tag: para
+#: Itext.xml:2281
+#, no-c-format
+msgid "<literal>value</literal> &#8212; The value of the field"
+msgstr ""
+
+#. Tag: para
+#: Itext.xml:2287
+#, no-c-format
+msgid ""
+"<literal>readOnly</literal> &#8212; Should the field be read-only? Defaults "
+"to true."
+msgstr ""
+
+#. Tag: programlisting
+#: Itext.xml:2299
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"                                <p:form\n"
+"                                       xmlns:p=\"http://jboss.com/products/"
+"seam/pdf\"\n"
+"                                       URL=\"http://localhost/Concept/form."
+"pdf\">\n"
+"                                    <p:field name=\"person.name\" value="
+"\"Me, myself and I\"/>\n"
+"                                </p:form>\n"
+"                        ]]>"
+msgstr ""
+
+#. Tag: title
+#: Itext.xml:2304
 #, no-c-format
 msgid "Rendering Swing/AWT components"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2186
+#: Itext.xml:2305
 #, no-c-format
 msgid ""
 "Seam now provides experimental support for rendering Swing components to "
@@ -2215,26 +2323,26 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Itext.xml:2200
+#: Itext.xml:2319
 #, no-c-format
 msgid "&lt;p:swing&gt;"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2208
+#: Itext.xml:2327
 #, no-c-format
 msgid "Renders a Swing component into a PDF document."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2216
+#: Itext.xml:2335
 #, no-c-format
 msgid ""
 "<literal>width</literal> &#8212; The width of the component to be rendered."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2220
+#: Itext.xml:2339
 #, no-c-format
 msgid ""
 "<literal>height</literal> &#8212; ..The height of the component to be "
@@ -2242,7 +2350,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2224
+#: Itext.xml:2343
 #, no-c-format
 msgid ""
 "<literal>component</literal> &#8212; An expression whose value is a Swing or "
@@ -2250,20 +2358,20 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Itext.xml:2232
+#: Itext.xml:2351
 #, no-c-format
 msgid ""
 "<![CDATA[<p:swing width=\"310\" height=\"120\" component=\"#{aButton}\" />]]>"
 msgstr ""
 
 #. Tag: title
-#: Itext.xml:2243
+#: Itext.xml:2362
 #, no-c-format
 msgid "Configuring iText"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2245
+#: Itext.xml:2364
 #, no-c-format
 msgid ""
 "Document generation works out of the box with no additional configuration "
@@ -2272,7 +2380,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2248
+#: Itext.xml:2367
 #, no-c-format
 msgid ""
 "The default implementation serves PDF documents from a generic URL, "
@@ -2284,7 +2392,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Itext.xml:2253
+#: Itext.xml:2372
 #, no-c-format
 msgid ""
 "<![CDATA[<servlet>\n"
@@ -2300,7 +2408,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2255
+#: Itext.xml:2374
 #, no-c-format
 msgid ""
 "The <literal>use-extensions</literal> option on the document store component "
@@ -2310,7 +2418,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Itext.xml:2259
+#: Itext.xml:2378
 #, no-c-format
 msgid ""
 "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/document\"\n"
@@ -2320,7 +2428,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2261
+#: Itext.xml:2380
 #, no-c-format
 msgid ""
 "The document store stores documents in conversation scope, and documents "
@@ -2331,7 +2439,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Itext.xml:2264
+#: Itext.xml:2383
 #, no-c-format
 msgid ""
 "<![CDATA[<document:document-store use-extensions=\"true\" error-page=\"/"
@@ -2339,25 +2447,25 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Itext.xml:2268
+#: Itext.xml:2387
 #, no-c-format
 msgid "Further documentation"
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2270
+#: Itext.xml:2389
 #, no-c-format
 msgid "For further information on iText, see:"
 msgstr ""
 
 #. Tag: ulink
-#: Itext.xml:2275
+#: Itext.xml:2394
 #, no-c-format
 msgid "iText Home Page"
 msgstr ""
 
 #. Tag: ulink
-#: Itext.xml:2280
+#: Itext.xml:2399
 #, no-c-format
 msgid "iText in Action"
 msgstr ""

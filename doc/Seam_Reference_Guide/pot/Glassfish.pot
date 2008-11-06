@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-10-14 13:15+0000\n"
+"POT-Creation-Date: 2008-11-06 00:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -130,33 +130,35 @@ msgstr ""
 #: Glassfish.xml:72
 #, no-c-format
 msgid ""
-"The web adminstration console is available at <literal>http://localhost:4848/"
-"</literal>. You can access the web admin console with the default username "
-"(<literal>admin</literal>) and password (<literal>adminadmin</literal>). "
-"Alternatively, you could copy EAR/WAR file to <literal>glassfish/domains/"
-"domain1/autodeploy</literal> to deploy it."
+"The web administration console is available at <literal>http://"
+"localhost:4848/</literal>. You can access the web admin console with the "
+"default username (<literal>admin</literal>) and password "
+"(<literal>adminadmin</literal>). We will be using the the admin console to "
+"deploy our examples. You can also copy EAR/WAR files to the "
+"<literal>glassfish/domains/domain1/autodeploy</literal> directory to deploy "
+"them, although we are not going to cover that."
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:81
+#: Glassfish.xml:82
 #, no-c-format
 msgid "You can stop the server and database using:"
 msgstr ""
 
 #. Tag: programlisting
-#: Glassfish.xml:85
+#: Glassfish.xml:86
 #, no-c-format
 msgid "$ bin/asadmin stop-domain domain1; bin/asadmin stop-database"
 msgstr ""
 
 #. Tag: title
-#: Glassfish.xml:90
+#: Glassfish.xml:91
 #, no-c-format
 msgid "The <literal>jee5/booking</literal> example"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:92
+#: Glassfish.xml:93
 #, no-c-format
 msgid ""
 "The <literal>jee5/booking</literal> example is based on the Hotel Booking "
@@ -166,13 +168,42 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Glassfish.xml:100
+#: Glassfish.xml:101
+#, no-c-format
+msgid "Building the <literal>jee5/booking</literal> example"
+msgstr ""
+
+#. Tag: para
+#: Glassfish.xml:103
+#, no-c-format
+msgid ""
+"To build the example, simply execute the default <literal>ant</literal> "
+"target:"
+msgstr ""
+
+#. Tag: programlisting
+#: Glassfish.xml:108
+#, no-c-format
+msgid "$ ant"
+msgstr ""
+
+#. Tag: para
+#: Glassfish.xml:110
+#, no-c-format
+msgid ""
+"in the <literal>examples/jee5/booking</literal> directory. This will create "
+"the <literal>dist</literal> and <literal>exploded-archives</literal> "
+"directories."
+msgstr ""
+
+#. Tag: title
+#: Glassfish.xml:117
 #, no-c-format
 msgid "Deploying the application to GlassFish"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:102
+#: Glassfish.xml:119
 #, no-c-format
 msgid ""
 "We will deploy the application on GlassFish using the GlassFish admin "
@@ -180,13 +211,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:109
+#: Glassfish.xml:126
 #, no-c-format
 msgid "Log in to the admin console at <literal>http://localhost:4848</literal>"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:114
+#: Glassfish.xml:131
 #, no-c-format
 msgid ""
 "Access the <literal>Enterprise Applications</literal> in the menu option "
@@ -194,7 +225,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:121
+#: Glassfish.xml:138
 #, no-c-format
 msgid ""
 "At the top of the <literal>Enterprise Application</literal> table select "
@@ -202,26 +233,26 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Glassfish.xml:129 Glassfish.xml:209
+#: Glassfish.xml:146 Glassfish.xml:227
 #, no-c-format
 msgid "Preparing for the application installation"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:133
+#: Glassfish.xml:150
 #, no-c-format
 msgid ""
 "Browse to <literal>examples/jee5/booking/dist/jboss-seam-jee5.ear</literal>."
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:138 Glassfish.xml:220
+#: Glassfish.xml:155 Glassfish.xml:238
 #, no-c-format
 msgid "Select the <literal>OK</literal> button."
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:147
+#: Glassfish.xml:164
 #, no-c-format
 msgid ""
 "You can now access the application at <literal>http://localhost:8081/seam-"
@@ -229,13 +260,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Glassfish.xml:157
+#: Glassfish.xml:174
 #, no-c-format
 msgid "The <literal>jpa</literal> booking example"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:159
+#: Glassfish.xml:176
 #, no-c-format
 msgid ""
 "This is the Hotel Booking example implemented in Seam POJOs and using "
@@ -244,7 +275,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:165
+#: Glassfish.xml:182
 #, no-c-format
 msgid ""
 "The example already has a break-out of configurations and build scripts for "
@@ -252,25 +283,25 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Glassfish.xml:171
+#: Glassfish.xml:188
 #, no-c-format
 msgid "Building the <literal>jpa</literal> example"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:173
+#: Glassfish.xml:190
 #, no-c-format
 msgid "To build the example, use the <literal>glassfish</literal> target:"
 msgstr ""
 
 #. Tag: programlisting
-#: Glassfish.xml:177
+#: Glassfish.xml:194
 #, no-c-format
 msgid "$ ant glassfish"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:179
+#: Glassfish.xml:196
 #, no-c-format
 msgid ""
 "This will create the container specific <literal>dist-glassfish</literal> "
@@ -278,33 +309,34 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Glassfish.xml:186
+#: Glassfish.xml:203
 #, no-c-format
 msgid "Deploying the <literal>jpa</literal> example"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:188
+#: Glassfish.xml:205
 #, no-c-format
 msgid ""
 "This is very similar to the <literal>jee5</literal> example at <xref linkend="
-"\"jee5-glassfish-deploy\"/>."
+"\"jee5-glassfish-deploy\"/> except that this is a <literal>war</literal> and "
+"not an <literal>ear</literal>."
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:195
+#: Glassfish.xml:213
 #, no-c-format
 msgid "Log in to the administration console:"
 msgstr ""
 
 #. Tag: programlisting
-#: Glassfish.xml:198
+#: Glassfish.xml:216
 #, no-c-format
 msgid "http://localhost:4848"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:201
+#: Glassfish.xml:219
 #, no-c-format
 msgid ""
 "Access the <literal>Web Applications</literal> in the menu option under the "
@@ -312,14 +344,14 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:215
+#: Glassfish.xml:233
 #, no-c-format
 msgid ""
 "Browse to <literal>examples/jpa/dist-glassfish/jboss-seam-jpa.war</literal>."
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:227
+#: Glassfish.xml:245
 #, no-c-format
 msgid ""
 "You can now access the application at <literal>http://localhost:8081/jboss-"
@@ -327,13 +359,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Glassfish.xml:237
+#: Glassfish.xml:255
 #, no-c-format
 msgid "Using Derby instead of Hypersonic SQL DB"
 msgstr ""
 
 #. Tag: note
-#: Glassfish.xml:237
+#: Glassfish.xml:255
 #, no-c-format
 msgid ""
 "In order for the app to work out of the box with GlassFish, we have used the "
@@ -345,19 +377,19 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Glassfish.xml:249
+#: Glassfish.xml:267
 #, no-c-format
 msgid "What's different for GlassFish v2 UR2"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:253
+#: Glassfish.xml:271
 #, no-c-format
 msgid "<para>Configuration file changes</para>"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:258
+#: Glassfish.xml:276
 #, no-c-format
 msgid ""
 "<literal>META-INF/persistence.xml</literal> — the main changes needed are "
@@ -367,7 +399,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:267
+#: Glassfish.xml:285
 #, no-c-format
 msgid ""
 "<literal>WEB-INF/classes/GlassFishDerbyDialect.class</literal> — this class "
@@ -376,7 +408,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:274
+#: Glassfish.xml:292
 #, no-c-format
 msgid ""
 "<literal>import.sql</literal> — either for the dialect or Derby DB the "
@@ -385,7 +417,7 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Glassfish.xml:287
+#: Glassfish.xml:305
 #, no-c-format
 msgid ""
 "Deploying an application generated by <literal>seam-gen</literal> on "
@@ -393,26 +425,24 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:289
+#: Glassfish.xml:307
 #, no-c-format
 msgid ""
 "<literal>seam-gen</literal> is a very useful tool for developers to quickly "
 "get an application up and running, and provides a foundation to add your own "
 "functionality. Out of box <literal>seam-gen</literal> will produce "
 "applications configured to run on JBoss AS. These instructions will show the "
-"steps needed to get it to run on GlassFish. As stated above in <xref linkend="
-"\"jee5-glassfish-section\"/> it's easy to deploy either an EJB3 or a Seam "
-"POJOs application on Glassfish."
+"steps needed to get it to run on GlassFish."
 msgstr ""
 
 #. Tag: title
-#: Glassfish.xml:300
+#: Glassfish.xml:316
 #, no-c-format
 msgid "Running <literal>seam-gen</literal> Setup"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:302
+#: Glassfish.xml:318
 #, no-c-format
 msgid ""
 "The first step is setting up <literal>seam-gen</literal> to construct the "
@@ -422,7 +452,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Glassfish.xml:309
+#: Glassfish.xml:325
 #, no-c-format
 msgid ""
 "<![CDATA[$ ./seam setup\n"
@@ -470,7 +500,7 @@ msgid ""
 "[org.hibernate.dialect.HSQLDialect]\n"
 "\n"
 "[input] Enter the filesystem path to the JDBC driver jar\n"
-"[../lib/hsqldb.jar] [../lib/hsqldb.jar]\n"
+"[/tmp/seam/lib/hsqldb.jar] [/tmp/seam/lib/hsqldb.jar]\n"
 "\n"
 "[input] Enter JDBC driver class for your database [org.hsqldb.jdbcDriver]\n"
 "[org.hsqldb.jdbcDriver]\n"
@@ -506,7 +536,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:311
+#: Glassfish.xml:327
 #, no-c-format
 msgid ""
 "Type <literal>$ ./seam new-project</literal> to create your project and then "
@@ -515,31 +545,31 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Glassfish.xml:319
+#: Glassfish.xml:335
 #, no-c-format
 msgid "Changes needed for deployment to GlassFish"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:321
+#: Glassfish.xml:337
 #, no-c-format
 msgid "We now need to make some changes to the generated project."
 msgstr ""
 
 #. Tag: title
-#: Glassfish.xml:326
+#: Glassfish.xml:342
 #, no-c-format
 msgid "<title>Configuration file changes</title>"
 msgstr ""
 
 #. Tag: literal
-#: Glassfish.xml:331
+#: Glassfish.xml:347
 #, no-c-format
 msgid "resources/META-INF/persistence-dev.xml"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:337
+#: Glassfish.xml:353
 #, no-c-format
 msgid ""
 "Alter the <literal>jta-data-source</literal> to be <literal>jdbc/__default</"
@@ -547,15 +577,15 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:344
+#: Glassfish.xml:360
 #, no-c-format
 msgid ""
-"Add or change the properties below. These are described in detail at <xref "
-"linkend=\"jee5-glassfish-section\"/>:"
+"Replace all of the properties with the following. The key differences are "
+"briefly described in <xref linkend=\"glassfish_jpa_diff\"/>:"
 msgstr ""
 
 #. Tag: programlisting
-#: Glassfish.xml:349
+#: Glassfish.xml:365
 #, no-c-format
 msgid ""
 "<![CDATA[<property name=\"hibernate.dialect\" value=\"GlassFishDerbyDialect"
@@ -570,7 +600,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:352
+#: Glassfish.xml:368
 #, no-c-format
 msgid ""
 "You'll need to alter <literal>persistence-prod.xml</literal> as well if you "
@@ -578,13 +608,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Glassfish.xml:364
+#: Glassfish.xml:380
 #, no-c-format
 msgid "resources/GlassFishDerbyDialect.class"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:367
+#: Glassfish.xml:383
 #, no-c-format
 msgid ""
 "As with other examples we need to include this class for DB support. It can "
@@ -593,7 +623,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Glassfish.xml:373
+#: Glassfish.xml:389
 #, no-c-format
 msgid ""
 "$ cp \\ \n"
@@ -603,13 +633,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Glassfish.xml:378
+#: Glassfish.xml:394
 #, no-c-format
 msgid "resources/META-INF/jboss-app.xml"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:381
+#: Glassfish.xml:397
 #, no-c-format
 msgid ""
 "You can delete this file as we aren't deploying to JBoss AS (<literal>jboss-"
@@ -617,13 +647,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Glassfish.xml:390
+#: Glassfish.xml:406
 #, no-c-format
 msgid "resources/*-ds.xml"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:393
+#: Glassfish.xml:409
 #, no-c-format
 msgid ""
 "You can delete these file as we aren't deploying to JBoss AS (these files "
@@ -632,13 +662,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Glassfish.xml:402
+#: Glassfish.xml:418
 #, no-c-format
 msgid "resources/WEB-INF/components.xml"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:407
+#: Glassfish.xml:423
 #, no-c-format
 msgid ""
 "Enable container managed transaction integration - add the <literal><![CDATA"
@@ -648,21 +678,21 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:415
+#: Glassfish.xml:431
 #, no-c-format
 msgid ""
 "Alter the <literal>jndi-pattern</literal> to <literal>java:comp/env/"
-"seamgen_example/#{ejbName}/local</literal>"
+"seamgen_example/#{ejbName}</literal>"
 msgstr ""
 
 #. Tag: literal
-#: Glassfish.xml:425
+#: Glassfish.xml:441
 #, no-c-format
 msgid "resources/WEB-INF/web.xml"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:428
+#: Glassfish.xml:444
 #, no-c-format
 msgid ""
 "As with the <literal>jee5/booking</literal> example we need to add EJB "
@@ -671,7 +701,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Glassfish.xml:435
+#: Glassfish.xml:451
 #, no-c-format
 msgid ""
 "<![CDATA[<ejb-local-ref>              \n"
@@ -691,13 +721,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Glassfish.xml:442
+#: Glassfish.xml:458
 #, no-c-format
 msgid "Creating the <literal>AuthenticatorAction</literal> EJB"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:444
+#: Glassfish.xml:460
 #, no-c-format
 msgid ""
 "We want to take the existing <literal>Authenticator</literal> Seam POJO "
@@ -705,13 +735,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:453
+#: Glassfish.xml:469
 #, no-c-format
 msgid "Rename the class to <literal>AuthenticatorAction</literal>"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:460
+#: Glassfish.xml:476
 #, no-c-format
 msgid ""
 "Add the <literal>@Stateless</literal> annotation to the new "
@@ -719,7 +749,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:467
+#: Glassfish.xml:483
 #, no-c-format
 msgid ""
 "Create an interface called <literal>Authenticator</literal> which "
@@ -731,7 +761,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Glassfish.xml:480
+#: Glassfish.xml:496
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"authenticator\") \n"
@@ -740,7 +770,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Glassfish.xml:482
+#: Glassfish.xml:498
 #, no-c-format
 msgid ""
 "<![CDATA[@Local\n"
@@ -751,7 +781,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:486
+#: Glassfish.xml:502
 #, no-c-format
 msgid ""
 "We've already added its reference to the <literal>web.xml</literal> file so "
@@ -759,14 +789,14 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Glassfish.xml:495
+#: Glassfish.xml:511
 #, no-c-format
 msgid ""
 "Extra jar dependencies and other changes to the <literal>build.xml</literal>"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:500
+#: Glassfish.xml:516
 #, no-c-format
 msgid ""
 "This application has similar requirements as the <literal>jee5/booking</"
@@ -774,7 +804,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:507
+#: Glassfish.xml:522
 #, no-c-format
 msgid ""
 "Change the default target to <literal>archive</literal> (we aren't going to "
@@ -782,7 +812,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Glassfish.xml:512
+#: Glassfish.xml:527
 #, no-c-format
 msgid ""
 "<![CDATA[<project name=\"seamgen_example\" default=\"archive\" basedir=\"."
@@ -790,40 +820,16 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:516
-#, no-c-format
-msgid ""
-"Websphere looks for the drools <literal>/security.drl</literal> file in the "
-"root of the <literal>war</literal> file instead of the root of the "
-"<literal>seamgen_example.jar</literal> so we need to have the <literal>build."
-"xml</literal> move it to the correct location at build time. The following "
-"must be added at the top of the <literal><![CDATA[<target name=\"war\" "
-"depends=\"compile\" description=\"Build the distribution .war file\">]]></"
-"literal> target."
-msgstr ""
-
-#. Tag: programlisting
-#: Glassfish.xml:526
-#, no-c-format
-msgid ""
-"<![CDATA[<copy todir=\"${war.dir}\">\n"
-"   <fileset dir=\"${basedir}/resources\">\n"
-"      <include name=\"*.drl\" />\n"
-"   </fileset> \n"
-"</copy>]]>"
-msgstr ""
-
-#. Tag: para
 #: Glassfish.xml:530
 #, no-c-format
 msgid ""
 "We need to get the <literal>GlassFishDerbyDialect.class</literal> into our "
-"application jar. To do that find the <literal>jar</literal> task and modify "
-"the top of it so that it looks like this:"
+"application jar. To do that find the <literal>jar</literal> task and add the "
+"<literal>GlassFishDerbyDialect.class</literal> line as shown below:"
 msgstr ""
 
 #. Tag: programlisting
-#: Glassfish.xml:536
+#: Glassfish.xml:537
 #, no-c-format
 msgid ""
 "<![CDATA[<target name=\"jar\" depends=\"compile,copyclasses\" description="
@@ -842,208 +848,93 @@ msgstr ""
 #: Glassfish.xml:540
 #, no-c-format
 msgid ""
-"Next we need to get the <literal>jboss-seam.jar</literal> into the base of "
-"the <literal>EAR</literal> file. For deployment GlassFish requires this jar "
-"to be in both the <literal>/lib</literal> directory and at the base of the "
-"<literal>EAR</literal>. You must add the following to the <literal>archive</"
-"literal> task:"
-msgstr ""
-
-#. Tag: programlisting
-#: Glassfish.xml:549
-#, no-c-format
-msgid ""
-"<![CDATA[<fileset dir=\"${lib.dir}\">\n"
-"   <include name=\"jboss-seam.jar\" >\n"
-"</fileset>]]>"
+"Now we need to get extra jars into the <literal>ear</literal> file. Look for "
+"the <literal><![CDATA[<copy todir=\"${ear.dir}/lib\">]]></literal> section "
+"of the <literal>ear</literal> target. Add the following to the child "
+"<literal><![CDATA[<fileset dir=\"${lib.dir}\">]]></literal> element."
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:551
-#, no-c-format
-msgid "So that the whole <literal>archive</literal> task looks like:"
-msgstr ""
-
-#. Tag: programlisting
-#: Glassfish.xml:556
-#, no-c-format
-msgid ""
-"<![CDATA[<target name=\"archive\" depends=\"jar,war,ear\" description="
-"\"Package the archives\">\n"
-"   <jar jarfile=\"${dist.dir}/${project.name}.jar\" basedir=\"${jar.dir}\"/"
-"> \n"
-"   <jar jarfile=\"${dist.dir}/${project.name}.war\" basedir=\"${war.dir}\"/"
-">\n"
-"   <jar jarfile=\"${dist.dir}/${project.name}.ear\">\n"
-"      <fileset dir=\"${ear.dir}\"/>\n"
-"      <fileset dir=\"${dist.dir}\">\n"
-"         <include name=\"${project.name}.jar\"/>\n"
-"         <include name=\"${project.name}.war\"/>\n"
-"      </fileset>\n"
-"      <fileset dir=\"${lib.dir}\">\n"
-"         <include name=\"jboss-seam.jar\" />\n"
-"      </fileset>\n"
-"   </jar>\n"
-"</target>]]>"
-msgstr ""
-
-#. Tag: para
-#: Glassfish.xml:559
-#, no-c-format
-msgid ""
-"Now we need to get extra jars into the <literal>build.xml</literal>. Look "
-"for the <literal><![CDATA[<fileset dir=\"${basedir}\">]]></literal> section "
-"of the task below. Add the new includes at the bottom of the fileset."
-msgstr ""
-
-#. Tag: programlisting
-#: Glassfish.xml:566
-#, no-c-format
-msgid ""
-"<![CDATA[<target name=\"ear\" description=\"Build the EAR\">\n"
-"   <copy todir=\"${ear.dir}\">\n"
-"      <fileset dir=\"${basedir}/resources\">\n"
-"         <include name=\"*jpdl.xml\" />\n"
-"         <include name=\"*hibernate.cfg.xml\" />\n"
-"         <include name=\"jbpm.cfg.xml\" /> \n"
-"      </fileset>\n"
-"      <fileset dir=\"${lib.dir}\">\n"
-"         <include name=\"jboss-seam.jar\" />\n"
-"      </fileset>\n"
-"      <fileset dir=\"${basedir}\">\n"
-"         <include name=\"lib/jbpm*.jar\" />\n"
-"         <include name=\"lib/jboss-el.jar\" />\n"
-"         <include name=\"lib/drools-*.jar\"/>\n"
-"         <include name=\"lib/core.jar\"/>\n"
-"         <include name=\"lib/janino*.jar\"/>\n"
-"         <include name=\"lib/antlr-*.jar\"/>\n"
-"         <include name=\"lib/mvel*.jar\"/> \n"
-"         <include name=\"lib/richfaces-api*.jar\" />\n"
-"      </fileset>\n"
-"   </copy>\n"
-"   <copy todir=\"${ear.dir}/META-INF\">\n"
-"      <fileset dir=\"${basedir}/resources/META-INF\">\n"
-"         <include name=\"application.xml\" />\n"
-"         <include name=\"jboss-app.xml\" />\n"
-"      </fileset>\n"
-"   </copy>\n"
-"</target>]]>"
-msgstr ""
-
-#. Tag: para
-#: Glassfish.xml:570
+#: Glassfish.xml:553
 #, no-c-format
 msgid "Add Hibernate dependencies"
 msgstr ""
 
 #. Tag: programlisting
-#: Glassfish.xml:572
+#: Glassfish.xml:554
 #, no-c-format
 msgid ""
 "<![CDATA[<!-- Hibernate and deps --> \n"
-"<include name=\"lib/hibernate.jar\"/>\n"
-"<include name=\"lib/hibernate-commons-annotations.jar\"/>\n"
-"<include name=\"lib/hibernate-annotations.jar\"/>\n"
-"<include name=\"lib/hibernate-entitymanager.jar\"/>\n"
-"<include name=\"lib/hibernate-validator.jar\"/>\n"
-"<include name=\"lib/jboss-common-core.jar\"/>]]>"
+"<include name=\"hibernate.jar\"/>\n"
+"<include name=\"hibernate-commons-annotations.jar\"/>\n"
+"<include name=\"hibernate-annotations.jar\"/>\n"
+"<include name=\"hibernate-entitymanager.jar\"/>\n"
+"<include name=\"hibernate-validator.jar\"/>\n"
+"<include name=\"jboss-common-core.jar\"/>]]>"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:576
-#, no-c-format
-msgid ""
-"Add JSF dependencies. You will need to copy the <literal>el-ri.jar</literal> "
-"from the <literal>$SEAM_DIST/lib</literal> directory."
-msgstr ""
-
-#. Tag: programlisting
-#: Glassfish.xml:582
-#, no-c-format
-msgid ""
-"<![CDATA[<!-- jsf libs --> \n"
-"<include name=\"lib/jsf-api.jar\" />\n"
-"<include name=\"lib/jsf-impl.jar\" />\n"
-"<include name=\"lib/el-api.jar\" />\n"
-"<include  name=\"lib/el-ri.jar\"/>]]>"
-msgstr ""
-
-#. Tag: para
-#: Glassfish.xml:586
+#: Glassfish.xml:557
 #, no-c-format
 msgid "Add third party dependencies."
 msgstr ""
 
 #. Tag: programlisting
-#: Glassfish.xml:588
+#: Glassfish.xml:558
 #, no-c-format
 msgid ""
 "<![CDATA[<!-- 3rd party and supporting jars -->\n"
-"<include name=\"lib/javassist.jar\"/>\n"
-"<include name=\"lib/dom4j.jar\"/> \n"
-"<include name=\"lib/concurrent.jar\" />\n"
-"<include name=\"lib/cglib.jar\"/>\n"
-"<include name=\"lib/asm.jar\"/>\n"
-"<include name=\"lib/antlr.jar\" />\n"
-"<include name=\"lib/commons-logging.jar\" />\n"
-"<include name=\"lib/commons-collections.jar\" />]]>"
+"<include name=\"javassist.jar\"/>\n"
+"<include name=\"dom4j.jar\"/> \n"
+"<include name=\"concurrent.jar\" />\n"
+"<include name=\"cglib.jar\"/>\n"
+"<include name=\"asm.jar\"/>\n"
+"<include name=\"antlr.jar\" />\n"
+"<include name=\"commons-logging.jar\" />\n"
+"<include name=\"commons-collections.jar\" />]]>"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:592
+#: Glassfish.xml:562
 #, no-c-format
 msgid "You should end up with something like:"
 msgstr ""
 
 #. Tag: programlisting
-#: Glassfish.xml:594
+#: Glassfish.xml:564
 #, no-c-format
 msgid ""
-"<![CDATA[<fileset dir=\"${basedir}\">\n"
-"   <include name=\"lib/jbpm*.jar\" />\n"
-"   <include name=\"lib/jboss-el.jar\" />\n"
-"   <include name=\"lib/drools-*.jar\"/>\n"
-"   <include name=\"lib/core.jar\"/>\n"
-"   <include name=\"lib/janino*.jar\"/>\n"
-"   <include name=\"lib/antlr-*.jar\"/>\n"
-"   <include name=\"lib/mvel*.jar\"/>\n"
-"   <include name=\"lib/richfaces-api*.jar\" />\n"
-"\n"
+"<![CDATA[<fileset dir=\"${lib.dir}\">\n"
+"   <includesfile name=\"deployed-jars-ear.list\" />\n"
+"   \n"
 "   <!-- Hibernate and deps -->\n"
-"   <include name=\"lib/hibernate.jar\"/>\n"
-"   <include name=\"lib/hibernate-commons-annotations.jar\"/>\n"
-"   <include name=\"lib/hibernate-annotations.jar\"/>\n"
-"   <include name=\"lib/hibernate-entitymanager.jar\"/>\n"
-"   <include name=\"lib/hibernate-validator.jar\"/>\n"
-"   <include name=\"lib/jboss-common-core.jar\" />\n"
-"\n"
-"   <!-- jsf libs -->\n"
-"   <include name=\"lib/jsf-api.jar\" />\n"
-"   <include name=\"lib/jsf-impl.jar\" />\n"
-"   <include name=\"lib/el-api.jar\" />\n"
-"   <include name=\"lib/el-ri.jar\"/>\n"
-"\n"
+"   <include name=\"hibernate.jar\"/>\n"
+"   <include name=\"hibernate-commons-annotations.jar\"/>\n"
+"   <include name=\"hibernate-annotations.jar\"/>\n"
+"   <include name=\"hibernate-entitymanager.jar\"/>\n"
+"   <include name=\"hibernate-validator.jar\"/>\n"
+"   <include name=\"jboss-common-core.jar\" />\n"
+"   \n"
 "   <!-- 3rd party and supporting jars -->\n"
-"   <include name=\"lib/javassist.jar\" />\n"
-"   <include name=\"lib/dom4j.jar\" />\n"
-"   <include name=\"lib/concurrent.jar\" />\n"
-"   <include name=\"lib/cglib.jar\" />\n"
-"   <include name=\"lib/asm.jar\" />\n"
-"   <include name=\"lib/antlr.jar\" />\n"
-"   <include name=\"lib/commons-logging.jar\" />\n"
-"   <include name=\"lib/commons-collections.jar\" />\n"
-"\n"
+"   <include name=\"javassist.jar\" />\n"
+"   <include name=\"dom4j.jar\" />\n"
+"   <include name=\"concurrent.jar\" />\n"
+"   <include name=\"cglib.jar\" />\n"
+"   <include name=\"asm.jar\" />\n"
+"   <include name=\"antlr.jar\" />\n"
+"   <include name=\"commons-logging.jar\" />\n"
+"   <include name=\"commons-collections.jar\" />\n"
 "</fileset>]]>"
 msgstr ""
 
 #. Tag: title
-#: Glassfish.xml:600
+#: Glassfish.xml:570
 #, no-c-format
 msgid "Building and deploying the seam-gen'd application to GlassFish"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:604
+#: Glassfish.xml:574
 #, no-c-format
 msgid ""
 "Build your application by calling <literal>ant</literal> in the base "
@@ -1053,7 +944,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:613
+#: Glassfish.xml:583
 #, no-c-format
 msgid ""
 "To deploy the application follow the instructions here <xref linkend=\"jee5-"
@@ -1062,7 +953,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:622
+#: Glassfish.xml:592
 #, no-c-format
 msgid ""
 "Checkout the app at <literal>http://localhost:8081/seamgen_example/</literal>"

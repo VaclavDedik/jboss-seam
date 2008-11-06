@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-10-14 13:15+0000\n"
+"POT-Creation-Date: 2008-11-06 00:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -977,19 +977,58 @@ msgstr ""
 #: Concepts.xml:523
 #, no-c-format
 msgid ""
-"All of the built-in Seam components have qualified names, but most of them "
-"are aliased to a simple name by the <literal>components.xml</literal> file "
-"included in the Seam jar."
+"All of the built-in Seam components have qualified names but can be accessed "
+"through their unqualified names due to the namespace import feature of Seam. "
+"The <literal>components.xml</literal> file included in the Seam JAR defines "
+"the following namespaces."
+msgstr ""
+
+#. Tag: programlisting
+#: Concepts.xml:530
+#, no-c-format
+msgid ""
+"&lt;components xmlns=&quot;http://jboss.com/products/seam/components&quot;"
+"&gt;\n"
+"    \n"
+"    &lt;import&gt;org.jboss.seam.core&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.cache&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.transaction&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.framework&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.web&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.faces&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.international&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.theme&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.pageflow&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.bpm&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.jms&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.mail&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.security&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.security.management&lt;/import&gt;  \n"
+"    &lt;import&gt;org.jboss.seam.security.permission&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.captcha&lt;/import&gt;\n"
+"    &lt;import&gt;org.jboss.seam.excel.exporter&lt;/import&gt;\n"
+"    &lt;!-- ... ---&gt;\n"
+"&lt;/components&gt;"
+msgstr ""
+
+#. Tag: para
+#: Concepts.xml:532
+#, no-c-format
+msgid ""
+"When attempting to resolve an unqualified name, Seam will check each of "
+"those namespaces, in order. You can include additional namespaces in your "
+"application's <literal>components.xml</literal> file for application-"
+"specific namespaces."
 msgstr ""
 
 #. Tag: title
-#: Concepts.xml:531
+#: Concepts.xml:540
 #, no-c-format
 msgid "Defining the component scope"
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:532
+#: Concepts.xml:541
 #, no-c-format
 msgid ""
 "We can override the default scope (context) of a component using the "
@@ -998,7 +1037,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Concepts.xml:538
+#: Concepts.xml:547
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"user\")\n"
@@ -1010,7 +1049,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:540
+#: Concepts.xml:549
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.ScopeType</literal> defines an enumeration of "
@@ -1018,13 +1057,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Concepts.xml:547
+#: Concepts.xml:556
 #, no-c-format
 msgid "Components with multiple roles"
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:548
+#: Concepts.xml:557
 #, no-c-format
 msgid ""
 "Some Seam component classes can fulfill more than one role in the system. "
@@ -1040,7 +1079,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Concepts.xml:558
+#: Concepts.xml:567
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"user\")\n"
@@ -1053,7 +1092,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:560
+#: Concepts.xml:569
 #, no-c-format
 msgid ""
 "The <literal>@Roles</literal> annotation lets us specify as many additional "
@@ -1061,7 +1100,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Concepts.xml:564
+#: Concepts.xml:573
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"user\")\n"
@@ -1075,13 +1114,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Concepts.xml:569
+#: Concepts.xml:578
 #, no-c-format
 msgid "Built-in components"
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:570
+#: Concepts.xml:579
 #, no-c-format
 msgid ""
 "Like many good frameworks, Seam eats its own dogfood and is implemented "
@@ -1094,7 +1133,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:577
+#: Concepts.xml:586
 #, no-c-format
 msgid ""
 "The built-in components may be injected, just like any Seam components, but "
@@ -1102,20 +1141,20 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Concepts.xml:581
+#: Concepts.xml:590
 #, no-c-format
 msgid ""
 "<![CDATA[FacesMessages.instance().add(\"Welcome back, #{user.name}!\");]]>"
 msgstr ""
 
 #. Tag: title
-#: Concepts.xml:587
+#: Concepts.xml:596
 #, no-c-format
 msgid "Bijection"
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:588
+#: Concepts.xml:597
 #, no-c-format
 msgid ""
 "<emphasis>Dependency injection</emphasis> or <emphasis>inversion of control</"
@@ -1134,7 +1173,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:602
+#: Concepts.xml:611
 #, no-c-format
 msgid ""
 "<emphasis>contextual</emphasis> - bijection is used to assemble stateful "
@@ -1143,7 +1182,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:609
+#: Concepts.xml:618
 #, no-c-format
 msgid ""
 "<emphasis>bidirectional</emphasis> - values are injected from context "
@@ -1154,7 +1193,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:617
+#: Concepts.xml:626
 #, no-c-format
 msgid ""
 "<emphasis>dynamic</emphasis> - since the value of contextual variables "
@@ -1163,7 +1202,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:624
+#: Concepts.xml:633
 #, no-c-format
 msgid ""
 "In essence, bijection lets you alias a context variable to a component "
@@ -1173,7 +1212,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:630
+#: Concepts.xml:639
 #, no-c-format
 msgid ""
 "The <literal>@In</literal> annotation specifies that a value should be "
@@ -1181,7 +1220,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Concepts.xml:635
+#: Concepts.xml:644
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"loginAction\")\n"
@@ -1193,13 +1232,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:637
+#: Concepts.xml:646
 #, no-c-format
 msgid "or into a setter method:"
 msgstr ""
 
 #. Tag: programlisting
-#: Concepts.xml:641
+#: Concepts.xml:650
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"loginAction\")\n"
@@ -1217,7 +1256,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:644
+#: Concepts.xml:653
 #, no-c-format
 msgid ""
 "By default, Seam will do a priority search of all contexts, using the name "
@@ -1227,7 +1266,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:650
+#: Concepts.xml:659
 #, no-c-format
 msgid ""
 "If you want Seam to create an instance of the component when there is no "
@@ -1237,7 +1276,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:656
+#: Concepts.xml:665
 #, no-c-format
 msgid ""
 "For some components, it can be repetitive to have to specify <literal>@In"
@@ -1248,13 +1287,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:662
+#: Concepts.xml:671
 #, no-c-format
 msgid "You can even inject the value of an expression:"
 msgstr ""
 
 #. Tag: programlisting
-#: Concepts.xml:666
+#: Concepts.xml:675
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"loginAction\")\n"
@@ -1266,7 +1305,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:668
+#: Concepts.xml:677
 #, no-c-format
 msgid ""
 "Injected values are disinjected (i.e, set to <literal>null</literal>) "
@@ -1274,7 +1313,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:673
+#: Concepts.xml:682
 #, no-c-format
 msgid ""
 "(There is much more information about component lifecycle and injection in "
@@ -1282,7 +1321,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:677
+#: Concepts.xml:686
 #, no-c-format
 msgid ""
 "The <literal>@Out</literal> annotation specifies that an attribute should be "
@@ -1290,7 +1329,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Concepts.xml:682
+#: Concepts.xml:691
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"loginAction\")\n"
@@ -1302,13 +1341,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:684
+#: Concepts.xml:693
 #, no-c-format
 msgid "or from a getter method:"
 msgstr ""
 
 #. Tag: programlisting
-#: Concepts.xml:688
+#: Concepts.xml:697
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"loginAction\")\n"
@@ -1326,13 +1365,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:690
+#: Concepts.xml:699
 #, no-c-format
 msgid "An attribute may be both injected and outjected:"
 msgstr ""
 
 #. Tag: programlisting
-#: Concepts.xml:694
+#: Concepts.xml:703
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"loginAction\")\n"
@@ -1344,13 +1383,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:696
+#: Concepts.xml:705
 #, no-c-format
 msgid "<para>or:</para>"
 msgstr ""
 
 #. Tag: programlisting
-#: Concepts.xml:700
+#: Concepts.xml:709
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"loginAction\")\n"
@@ -1373,13 +1412,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Concepts.xml:705
+#: Concepts.xml:714
 #, no-c-format
 msgid "Lifecycle methods"
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:707
+#: Concepts.xml:716
 #, no-c-format
 msgid ""
 "Session bean and entity bean Seam components support all the usual EJB 3.0 "
@@ -1392,7 +1431,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:715
+#: Concepts.xml:724
 #, no-c-format
 msgid ""
 "The <literal>@Create</literal> method is called after Seam instantiates a "
@@ -1400,7 +1439,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:720
+#: Concepts.xml:729
 #, no-c-format
 msgid ""
 "The <literal>@Destroy</literal> method is called when the context that the "
@@ -1409,7 +1448,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:725
+#: Concepts.xml:734
 #, no-c-format
 msgid ""
 "In addition, stateful session bean components <emphasis>must</emphasis> "
@@ -1418,7 +1457,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:730
+#: Concepts.xml:739
 #, no-c-format
 msgid ""
 "Finally, a related annotation is the <literal>@Startup</literal> annotation, "
@@ -1431,13 +1470,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Concepts.xml:741
+#: Concepts.xml:750
 #, no-c-format
 msgid "Conditional installation"
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:743
+#: Concepts.xml:752
 #, no-c-format
 msgid ""
 "The <literal>@Install</literal> annotation lets you control conditional "
@@ -1446,13 +1485,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:750
+#: Concepts.xml:759
 #, no-c-format
 msgid "You want to mock out some infrastructural component in tests."
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:755
+#: Concepts.xml:764
 #, no-c-format
 msgid ""
 "You want change the implementation of a component in certain deployment "
@@ -1460,7 +1499,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:761
+#: Concepts.xml:770
 #, no-c-format
 msgid ""
 "You want to install some components only if their dependencies are available "
@@ -1468,7 +1507,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:768
+#: Concepts.xml:777
 #, no-c-format
 msgid ""
 "<literal>@Install</literal> works by letting you specify "
@@ -1476,7 +1515,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:773
+#: Concepts.xml:782
 #, no-c-format
 msgid ""
 "The precedence of a component is a number that Seam uses to decide which "
@@ -1487,7 +1526,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:782
+#: Concepts.xml:791
 #, no-c-format
 msgid ""
 "<literal>BUILT_IN</literal> &#8212; the lowest precedece components are the "
@@ -1495,7 +1534,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:788
+#: Concepts.xml:797
 #, no-c-format
 msgid ""
 "<literal>FRAMEWORK</literal> &#8212; components defined by third-party "
@@ -1504,7 +1543,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:795
+#: Concepts.xml:804
 #, no-c-format
 msgid ""
 "<literal>APPLICATION</literal> &#8212; the default precedence. This is "
@@ -1512,7 +1551,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:801
+#: Concepts.xml:810
 #, no-c-format
 msgid ""
 "<literal>DEPLOYMENT</literal> &#8212; for application components which are "
@@ -1520,13 +1559,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:807
+#: Concepts.xml:816
 #, no-c-format
 msgid "<literal>MOCK</literal> &#8212; for mock objects used in testing."
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:813
+#: Concepts.xml:822
 #, no-c-format
 msgid ""
 "Suppose we have a component named <literal>messageSender</literal> that "
@@ -1534,7 +1573,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Concepts.xml:818
+#: Concepts.xml:827
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"messageSender\") \n"
@@ -1546,7 +1585,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:820
+#: Concepts.xml:829
 #, no-c-format
 msgid ""
 "In our unit tests, we don't have a JMS queue available, so we would like to "
@@ -1556,7 +1595,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Concepts.xml:827
+#: Concepts.xml:836
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"messageSender\") \n"
@@ -1569,7 +1608,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:829
+#: Concepts.xml:838
 #, no-c-format
 msgid ""
 "The <literal>precedence</literal> helps Seam decide which version to use "
@@ -1577,7 +1616,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:834
+#: Concepts.xml:843
 #, no-c-format
 msgid ""
 "This is nice if we are able to control exactly which classes are in the "
@@ -1592,19 +1631,19 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Concepts.xml:848
+#: Concepts.xml:857
 #, no-c-format
 msgid "Logging"
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:850
+#: Concepts.xml:859
 #, no-c-format
 msgid "Who is not totally fed up with seeing noisy code like this?"
 msgstr ""
 
 #. Tag: programlisting
-#: Concepts.xml:854
+#: Concepts.xml:863
 #, no-c-format
 msgid ""
 "<![CDATA[private static final Log log = LogFactory.getLog(CreateOrderAction."
@@ -1621,7 +1660,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:856
+#: Concepts.xml:865
 #, no-c-format
 msgid ""
 "It is difficult to imagine how the code for a simple log message could "
@@ -1631,13 +1670,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:862
+#: Concepts.xml:871
 #, no-c-format
 msgid "Seam provides a logging API that simplifies this code significantly:"
 msgstr ""
 
 #. Tag: programlisting
-#: Concepts.xml:866
+#: Concepts.xml:875
 #, no-c-format
 msgid ""
 "<![CDATA[@Logger private Log log;\n"
@@ -1650,7 +1689,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:868
+#: Concepts.xml:877
 #, no-c-format
 msgid ""
 "It doesn't matter if you declare the <literal>log</literal> variable static "
@@ -1659,7 +1698,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:874
+#: Concepts.xml:883
 #, no-c-format
 msgid ""
 "Note that we don't need the noisy <literal>if ( log.isDebugEnabled() )</"
@@ -1670,7 +1709,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:889
+#: Concepts.xml:898
 #, no-c-format
 msgid ""
 "If <literal>User</literal> and <literal>Product</literal> are Seam "
@@ -1678,7 +1717,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Concepts.xml:894
+#: Concepts.xml:903
 #, no-c-format
 msgid ""
 "<![CDATA[@Logger private Log log;\n"
@@ -1691,7 +1730,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:896
+#: Concepts.xml:905
 #, no-c-format
 msgid ""
 "Seam logging automagically chooses whether to send output to log4j or JDK "
@@ -1700,14 +1739,14 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Concepts.xml:904
+#: Concepts.xml:913
 #, no-c-format
 msgid ""
 "The <literal>Mutable</literal> interface and <literal>@ReadOnly</literal>"
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:905
+#: Concepts.xml:914
 #, no-c-format
 msgid ""
 "Many application servers feature an amazingly broken implementation of "
@@ -1721,7 +1760,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:914
+#: Concepts.xml:923
 #, no-c-format
 msgid ""
 "Of course, EJB stateful session beans must perform automatic dirty checking "
@@ -1734,7 +1773,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:922
+#: Concepts.xml:931
 #, no-c-format
 msgid ""
 "For session or conversation scoped JavaBean components, Seam automatically "
@@ -1748,7 +1787,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Concepts.xml:931
+#: Concepts.xml:940
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"account\")\n"
@@ -1773,7 +1812,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:933
+#: Concepts.xml:942
 #, no-c-format
 msgid ""
 "Or, you can use the <literal>@ReadOnly</literal> annotation to achieve a "
@@ -1781,7 +1820,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Concepts.xml:937
+#: Concepts.xml:946
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"account\")\n"
@@ -1806,7 +1845,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:939
+#: Concepts.xml:948
 #, no-c-format
 msgid ""
 "For session or conversation scoped entity bean components, Seam "
@@ -1820,7 +1859,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Concepts.xml:948
+#: Concepts.xml:957
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateful\n"
@@ -1830,7 +1869,7 @@ msgid ""
 "    private Account account; // an entity bean\n"
 "    \n"
 "    @Unwrap\n"
-"    public void getAccount()\n"
+"    public Account getAccount()\n"
 "    {\n"
 "        return account;\n"
 "    }\n"
@@ -1841,7 +1880,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:950
+#: Concepts.xml:959
 #, no-c-format
 msgid ""
 "Note that the <literal>EntityHome</literal> class in the Seam Application "
@@ -1850,13 +1889,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Concepts.xml:958
+#: Concepts.xml:967
 #, no-c-format
 msgid "Factory and manager components"
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:959
+#: Concepts.xml:968
 #, no-c-format
 msgid ""
 "We often need to work with objects that are not Seam components. But we "
@@ -1870,7 +1909,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:967
+#: Concepts.xml:976
 #, no-c-format
 msgid ""
 "The <emphasis>factory component pattern</emphasis> lets a Seam component act "
@@ -1884,7 +1923,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Concepts.xml:976
+#: Concepts.xml:985
 #, no-c-format
 msgid ""
 "<![CDATA[@Factory(scope=CONVERSATION)\n"
@@ -1894,7 +1933,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:978
+#: Concepts.xml:987
 #, no-c-format
 msgid ""
 "The second style is a method of type <literal>void</literal> which binds the "
@@ -1902,7 +1941,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Concepts.xml:983
+#: Concepts.xml:992
 #, no-c-format
 msgid ""
 "<![CDATA[@DataModel List<Customer> customerList;\n"
@@ -1914,7 +1953,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:985
+#: Concepts.xml:994
 #, no-c-format
 msgid ""
 "In both cases, the factory method is called when we reference the "
@@ -1927,7 +1966,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:993
+#: Concepts.xml:1002
 #, no-c-format
 msgid ""
 "A manager component is any component with an <literal>@Unwrap</literal> "
@@ -1936,7 +1975,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Concepts.xml:1001
+#: Concepts.xml:1010
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"customerList\")\n"
@@ -1953,7 +1992,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:1003
+#: Concepts.xml:1012
 #, no-c-format
 msgid ""
 "The manager component pattern is especially useful if we have an object "
@@ -1965,7 +2004,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Concepts.xml:1010
+#: Concepts.xml:1019
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"hens\")\n"
@@ -2003,7 +2042,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Concepts.xml:1012
+#: Concepts.xml:1021
 #, no-c-format
 msgid ""
 "Here the managed component observes many events which change the underlying "

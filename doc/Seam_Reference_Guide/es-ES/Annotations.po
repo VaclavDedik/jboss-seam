@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-04-04 01:24+0000\n"
+"POT-Creation-Date: 2008-11-06 00:22+0000\n"
 "PO-Revision-Date: 2008-04-04 01:24+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1104,7 +1104,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:720 Annotations.xml:800 Annotations.xml:847
+#: Annotations.xml:720 Annotations.xml:811 Annotations.xml:858
 #, no-c-format
 msgid ""
 "<literal>flushMode</literal> &#8212; set the flush mode of any Seam-managed "
@@ -1142,7 +1142,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:749 Annotations.xml:885
+#: Annotations.xml:749 Annotations.xml:896
 #, no-c-format
 msgid ""
 "<literal>beforeRedirect</literal> &#8212; by default, the conversation will "
@@ -1152,20 +1152,32 @@ msgid ""
 "will be processed in a new temporary conversation context."
 msgstr ""
 
+#. Tag: para
+#: Annotations.xml:760
+#, no-c-format
+msgid ""
+"<literal>root</literal> &#8212; by default, ending a nested conversation "
+"simply pops the conversation stack and resumes the outer conversation. "
+"Setting <literal>root=true</literal> specifies that the root conversation "
+"should be destroyed which effectively destroys the entire conversation "
+"stack. If the conversation is not nested, the current conversation is simply "
+"ended."
+msgstr ""
+
 #. Tag: literal
-#: Annotations.xml:764
+#: Annotations.xml:775
 #, no-c-format
 msgid "@StartTask"
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:767
+#: Annotations.xml:778
 #, no-c-format
 msgid "<![CDATA[@StartTask]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:768
+#: Annotations.xml:779
 #, no-c-format
 msgid ""
 "\"Starts\" a jBPM task. Specifies that a long-running conversation begins "
@@ -1177,7 +1189,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:779
+#: Annotations.xml:790
 #, no-c-format
 msgid ""
 "The jBPM <literal>TaskInstance</literal> will be available in a request "
@@ -1188,7 +1200,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:791 Annotations.xml:838
+#: Annotations.xml:802 Annotations.xml:849
 #, no-c-format
 msgid ""
 "<literal>taskIdParameter</literal> &#8212; the name of a request parameter "
@@ -1198,19 +1210,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:813
+#: Annotations.xml:824
 #, no-c-format
 msgid "@BeginTask"
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:816
+#: Annotations.xml:827
 #, no-c-format
 msgid "<![CDATA[@BeginTask]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:817
+#: Annotations.xml:828
 #, no-c-format
 msgid ""
 "Resumes work on an incomplete jBPM task. Specifies that a long-running "
@@ -1222,7 +1234,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:828
+#: Annotations.xml:839
 #, no-c-format
 msgid ""
 "The jBPM <literal>org.jbpm.taskmgmt.exe.TaskInstance</literal> will be "
@@ -1233,19 +1245,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:859
+#: Annotations.xml:870
 #, no-c-format
 msgid "@EndTask"
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:862
+#: Annotations.xml:873
 #, no-c-format
 msgid "<![CDATA[@EndTask]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:863
+#: Annotations.xml:874
 #, no-c-format
 msgid ""
 "\"Ends\" a jBPM task. Specifies that a long-running conversation ends when "
@@ -1257,19 +1269,19 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:872
+#: Annotations.xml:883
 #, no-c-format
 msgid "<![CDATA[@EndTask(transition=\"transitionName\")]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:873
+#: Annotations.xml:884
 #, no-c-format
 msgid "Triggers the given jBPM transition."
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:878
+#: Annotations.xml:889
 #, no-c-format
 msgid ""
 "<literal>transition</literal> &#8212; the name of the jBPM transition to be "
@@ -1277,19 +1289,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:900
+#: Annotations.xml:911
 #, no-c-format
 msgid "@CreateProcess"
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:903
+#: Annotations.xml:914
 #, no-c-format
 msgid "<![CDATA[@CreateProcess(definition=\"process definition name\")]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:904
+#: Annotations.xml:915
 #, no-c-format
 msgid ""
 "Creates a new jBPM process instance when the method returns a non-null "
@@ -1299,7 +1311,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:913
+#: Annotations.xml:924
 #, no-c-format
 msgid ""
 "<literal>definition</literal> &#8212; the name of the jBPM process "
@@ -1308,19 +1320,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:924
+#: Annotations.xml:935
 #, no-c-format
 msgid "@ResumeProcess"
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:927
+#: Annotations.xml:938
 #, no-c-format
 msgid "<![CDATA[@ResumeProcess(processIdParameter=\"processId\")]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:928
+#: Annotations.xml:939
 #, no-c-format
 msgid ""
 "Re-enters the scope of an existing jBPM process instance when the method "
@@ -1330,7 +1342,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:937
+#: Annotations.xml:948
 #, no-c-format
 msgid ""
 "<literal>processIdParameter</literal> &#8212; the name a request parameter "
@@ -1338,19 +1350,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:949
+#: Annotations.xml:960
 #, no-c-format
 msgid "@Transition"
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:952
+#: Annotations.xml:963
 #, no-c-format
 msgid "<![CDATA[@Transition(\"cancel\")]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:953
+#: Annotations.xml:964
 #, no-c-format
 msgid ""
 "Marks a method as signalling a transition in the current jBPM process "
@@ -1358,13 +1370,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Annotations.xml:964
+#: Annotations.xml:975
 #, no-c-format
 msgid "Annotations for use with Seam JavaBean components in a J2EE environment"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:965
+#: Annotations.xml:976
 #, no-c-format
 msgid ""
 "Seam provides an annotation that lets you force a rollback of the JTA "
@@ -1372,19 +1384,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:973
+#: Annotations.xml:984
 #, no-c-format
 msgid "@Transactional"
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:976
+#: Annotations.xml:987
 #, no-c-format
 msgid "<![CDATA[@Transactional]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:977
+#: Annotations.xml:988
 #, no-c-format
 msgid ""
 "Specifies that a JavaBean component should have a similar transactional "
@@ -1395,7 +1407,7 @@ msgid ""
 msgstr ""
 
 #. Tag: emphasis
-#: Annotations.xml:986
+#: Annotations.xml:997
 #, no-c-format
 msgid ""
 "Do not use this annotation on EJB 3.0 components, use "
@@ -1403,19 +1415,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:993
+#: Annotations.xml:1004
 #, no-c-format
 msgid "@ApplicationException"
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:996
+#: Annotations.xml:1007
 #, no-c-format
 msgid "<![CDATA[@ApplicationException]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:997
+#: Annotations.xml:1008
 #, no-c-format
 msgid ""
 "Synonym for javax.ejb.ApplicationException, for use in a pre Java EE 5 "
@@ -1424,7 +1436,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1003
+#: Annotations.xml:1014
 #, no-c-format
 msgid ""
 "<emphasis>Do not use this annotation on EJB 3.0 components, use "
@@ -1432,7 +1444,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1010
+#: Annotations.xml:1021
 #, no-c-format
 msgid ""
 "<literal>rollback</literal> &#8212; by default <literal>false</literal>, if "
@@ -1441,7 +1453,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1018
+#: Annotations.xml:1029
 #, no-c-format
 msgid ""
 "<literal>end</literal> &#8212; by default <literal>false</literal>, if "
@@ -1450,19 +1462,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:1030
+#: Annotations.xml:1041
 #, no-c-format
 msgid "@Interceptors"
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:1033
+#: Annotations.xml:1044
 #, no-c-format
 msgid "<![CDATA[@Interceptors({DVDInterceptor, CDInterceptor})]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1034
+#: Annotations.xml:1045
 #, no-c-format
 msgid ""
 "Synonym for javax.interceptors.Interceptors, for use in a pre Java EE 5 "
@@ -1471,7 +1483,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1040
+#: Annotations.xml:1051
 #, no-c-format
 msgid ""
 "<emphasis>Do not use this annotations on EJB 3.0 components, use "
@@ -1479,7 +1491,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1049
+#: Annotations.xml:1060
 #, no-c-format
 msgid ""
 "These annotations are mostly useful for JavaBean Seam components. If you use "
@@ -1487,13 +1499,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Annotations.xml:1057
+#: Annotations.xml:1068
 #, no-c-format
 msgid "Annotations for exceptions"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1059
+#: Annotations.xml:1070
 #, no-c-format
 msgid ""
 "These annotations let you specify how Seam should handle an exception that "
@@ -1501,19 +1513,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:1067
+#: Annotations.xml:1078
 #, no-c-format
 msgid "@Redirect"
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:1070
+#: Annotations.xml:1081
 #, no-c-format
 msgid "<![CDATA[@Redirect(viewId=\"error.jsp\")]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1071
+#: Annotations.xml:1082
 #, no-c-format
 msgid ""
 "Specifies that the annotated exception causes a browser redirect to a "
@@ -1521,7 +1533,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1077
+#: Annotations.xml:1088
 #, no-c-format
 msgid ""
 "<literal>viewId</literal> &#8212; specifies the JSF view id to redirect to. "
@@ -1529,7 +1541,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1083
+#: Annotations.xml:1094
 #, no-c-format
 msgid ""
 "<literal>message</literal> &#8212; a message to be displayed, default to the "
@@ -1537,7 +1549,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1089 Annotations.xml:1122
+#: Annotations.xml:1100 Annotations.xml:1133
 #, no-c-format
 msgid ""
 "<literal>end</literal> &#8212; specifies that the long-running conversation "
@@ -1545,25 +1557,25 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:1100
+#: Annotations.xml:1111
 #, no-c-format
 msgid "@HttpError"
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:1103
+#: Annotations.xml:1114
 #, no-c-format
 msgid "<![CDATA[@HttpError(errorCode=404)]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1104
+#: Annotations.xml:1115
 #, no-c-format
 msgid "Specifies that the annotated exception causes a HTTP error to be sent."
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1110
+#: Annotations.xml:1121
 #, no-c-format
 msgid ""
 "<literal>errorCode</literal> &#8212; the HTTP error code, default to "
@@ -1571,7 +1583,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1116
+#: Annotations.xml:1127
 #, no-c-format
 msgid ""
 "<literal>message</literal> &#8212; a message to be sent with the HTTP error, "
@@ -1579,13 +1591,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Annotations.xml:1135
+#: Annotations.xml:1146
 #, no-c-format
 msgid "Annotations for Seam Remoting"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1136
+#: Annotations.xml:1147
 #, no-c-format
 msgid ""
 "Seam Remoting requires that the local interface of a session bean be "
@@ -1593,19 +1605,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:1144
+#: Annotations.xml:1155
 #, no-c-format
 msgid "@WebRemote"
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:1147
+#: Annotations.xml:1158
 #, no-c-format
 msgid "<![CDATA[@WebRemote(exclude=\"path.to.exclude\")]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1148
+#: Annotations.xml:1159
 #, no-c-format
 msgid ""
 "Indicates that the annotated method may be called from client-side "
@@ -1615,19 +1627,19 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Annotations.xml:1162
+#: Annotations.xml:1173
 #, no-c-format
 msgid "Annotations for Seam interceptors"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1163
+#: Annotations.xml:1174
 #, no-c-format
 msgid "The following annotations appear on Seam interceptor classes."
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1166
+#: Annotations.xml:1177
 #, no-c-format
 msgid ""
 "Please refer to the documentation for the EJB 3.0 specification for "
@@ -1635,19 +1647,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:1174
+#: Annotations.xml:1185
 #, no-c-format
 msgid "@Interceptor"
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:1177
+#: Annotations.xml:1188
 #, no-c-format
 msgid "<![CDATA[@Interceptor(stateless=true)]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1178
+#: Annotations.xml:1189
 #, no-c-format
 msgid ""
 "Specifies that this interceptor is stateless and Seam may optimize "
@@ -1655,13 +1667,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:1182
+#: Annotations.xml:1193
 #, no-c-format
 msgid "<![CDATA[@Interceptor(type=CLIENT)]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1183
+#: Annotations.xml:1194
 #, no-c-format
 msgid ""
 "Specifies that this interceptor is a \"client-side\" interceptor that is "
@@ -1669,7 +1681,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:1187
+#: Annotations.xml:1198
 #, no-c-format
 msgid ""
 "<![CDATA[@Interceptor(around={SomeInterceptor.class, OtherInterceptor."
@@ -1677,7 +1689,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1188
+#: Annotations.xml:1199
 #, no-c-format
 msgid ""
 "Specifies that this interceptor is positioned higher in the stack than the "
@@ -1685,7 +1697,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:1192
+#: Annotations.xml:1203
 #, no-c-format
 msgid ""
 "<![CDATA[@Interceptor(within={SomeInterceptor.class, OtherInterceptor."
@@ -1693,7 +1705,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1193
+#: Annotations.xml:1204
 #, no-c-format
 msgid ""
 "Specifies that this interceptor is positioned deeper in the stack than the "
@@ -1701,13 +1713,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Annotations.xml:1204
+#: Annotations.xml:1215
 #, no-c-format
 msgid "Annotations for asynchronicity"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1205
+#: Annotations.xml:1216
 #, no-c-format
 msgid ""
 "The following annotations are used to declare an asynchronous method, for "
@@ -1715,7 +1727,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:1210
+#: Annotations.xml:1221
 #, no-c-format
 msgid ""
 "<![CDATA[@Asynchronous public void scheduleAlert(Alert alert, @Expiration "
@@ -1723,7 +1735,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:1211
+#: Annotations.xml:1222
 #, no-c-format
 msgid ""
 "<![CDATA[@Asynchronous public Timer scheduleAlerts(Alert alert, \n"
@@ -1732,37 +1744,37 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:1216
+#: Annotations.xml:1227
 #, no-c-format
 msgid "@Asynchronous"
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:1219
+#: Annotations.xml:1230
 #, no-c-format
 msgid "<![CDATA[@Asynchronous]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1220
+#: Annotations.xml:1231
 #, no-c-format
 msgid "Specifies that the method call is processed asynchronously."
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:1227
+#: Annotations.xml:1238
 #, no-c-format
 msgid "@Duration"
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:1230
+#: Annotations.xml:1241
 #, no-c-format
 msgid "<![CDATA[@Duration]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1231
+#: Annotations.xml:1242
 #, no-c-format
 msgid ""
 "Specifies that a parameter of the asynchronous call is the duration before "
@@ -1770,19 +1782,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:1240
+#: Annotations.xml:1251
 #, no-c-format
 msgid "@Expiration"
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:1243
+#: Annotations.xml:1254
 #, no-c-format
 msgid "<![CDATA[@Expiration]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1244
+#: Annotations.xml:1255
 #, no-c-format
 msgid ""
 "Specifies that a parameter of the asynchronous call is the datetime at which "
@@ -1790,19 +1802,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:1253
+#: Annotations.xml:1264
 #, no-c-format
 msgid "@IntervalDuration"
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:1256
+#: Annotations.xml:1267
 #, no-c-format
 msgid "<![CDATA[@IntervalDuration]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1257
+#: Annotations.xml:1268
 #, no-c-format
 msgid ""
 "Specifies that an asynchronous method call recurs, and that the annotationed "
@@ -1810,25 +1822,25 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Annotations.xml:1267
+#: Annotations.xml:1278
 #, no-c-format
 msgid "Annotations for use with JSF"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1268
+#: Annotations.xml:1279
 #, no-c-format
 msgid "The following annotations make working with JSF easier."
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:1275
+#: Annotations.xml:1286
 #, no-c-format
 msgid "@Converter"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1278
+#: Annotations.xml:1289
 #, no-c-format
 msgid ""
 "Allows a Seam component to act as a JSF converter. The annotated class must "
@@ -1837,7 +1849,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1285
+#: Annotations.xml:1296
 #, no-c-format
 msgid ""
 "<literal>id</literal> &#8212; the JSF converter id. Defaults to the "
@@ -1845,7 +1857,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1291
+#: Annotations.xml:1302
 #, no-c-format
 msgid ""
 "<literal>forClass</literal> &#8212; if specified, register this component as "
@@ -1853,13 +1865,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:1302
+#: Annotations.xml:1313
 #, no-c-format
 msgid "@Validator"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1305
+#: Annotations.xml:1316
 #, no-c-format
 msgid ""
 "Allows a Seam component to act as a JSF validator. The annotated class must "
@@ -1868,7 +1880,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1312
+#: Annotations.xml:1323
 #, no-c-format
 msgid ""
 "<literal>id</literal> &#8212; the JSF validator id. Defaults to the "
@@ -1876,13 +1888,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Annotations.xml:1323
+#: Annotations.xml:1334
 #, no-c-format
 msgid "Annotations for use with <literal>dataTable</literal>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1324
+#: Annotations.xml:1335
 #, no-c-format
 msgid ""
 "The following annotations make it easy to implement clickable lists backed "
@@ -1890,19 +1902,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:1333
+#: Annotations.xml:1344
 #, no-c-format
 msgid "@DataModel"
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:1336
+#: Annotations.xml:1347
 #, no-c-format
 msgid "<![CDATA[@DataModel(\"variableName\")]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1337
+#: Annotations.xml:1348
 #, no-c-format
 msgid ""
 "Outjects a property of type <literal>List</literal>, <literal>Map</literal>, "
@@ -1914,7 +1926,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1350
+#: Annotations.xml:1361
 #, no-c-format
 msgid ""
 "<literal>value</literal> &#8212; name of the conversation context variable. "
@@ -1922,7 +1934,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1357
+#: Annotations.xml:1368
 #, no-c-format
 msgid ""
 "<literal>scope</literal> &#8212; if <literal>scope=ScopeType.PAGE</literal> "
@@ -1931,19 +1943,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:1369
+#: Annotations.xml:1380
 #, no-c-format
 msgid "@DataModelSelection"
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:1372
+#: Annotations.xml:1383
 #, no-c-format
 msgid "<![CDATA[@DataModelSelection]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1373
+#: Annotations.xml:1384
 #, no-c-format
 msgid ""
 "Injects the selected value from the JSF <literal>DataModel</literal> (this "
@@ -1956,7 +1968,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1385
+#: Annotations.xml:1396
 #, no-c-format
 msgid ""
 "If <literal>PAGE</literal> scope is specified on the associated "
@@ -1968,7 +1980,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1397 Annotations.xml:1427
+#: Annotations.xml:1408 Annotations.xml:1438
 #, no-c-format
 msgid ""
 "<literal>value</literal> &#8212; name of the conversation context variable. "
@@ -1977,19 +1989,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:1409
+#: Annotations.xml:1420
 #, no-c-format
 msgid "@DataModelSelectionIndex"
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:1412
+#: Annotations.xml:1423
 #, no-c-format
 msgid "<![CDATA[@DataModelSelectionIndex]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1413
+#: Annotations.xml:1424
 #, no-c-format
 msgid ""
 "Exposes the selection index of the JSF <literal>DataModel</literal> as an "
@@ -2002,13 +2014,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Annotations.xml:1442
+#: Annotations.xml:1453
 #, no-c-format
 msgid "Meta-annotations for databinding"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1443
+#: Annotations.xml:1454
 #, no-c-format
 msgid ""
 "These meta-annotations make it possible to implement similar functionality "
@@ -2017,49 +2029,49 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:1453
+#: Annotations.xml:1464
 #, no-c-format
 msgid "@DataBinderClass"
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:1456
+#: Annotations.xml:1467
 #, no-c-format
 msgid "<![CDATA[@DataBinderClass(DataModelBinder.class)]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1457
+#: Annotations.xml:1468
 #, no-c-format
 msgid "Specifies that an annotation is a databinding annotation."
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:1464
+#: Annotations.xml:1475
 #, no-c-format
 msgid "@DataSelectorClass"
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:1467
+#: Annotations.xml:1478
 #, no-c-format
 msgid "<![CDATA[@DataSelectorClass(DataModelSelector.class)]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1468
+#: Annotations.xml:1479
 #, no-c-format
 msgid "Specifies that an annotation is a dataselection annotation."
 msgstr ""
 
 #. Tag: title
-#: Annotations.xml:1477
+#: Annotations.xml:1488
 #, no-c-format
 msgid "Annotations for packaging"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1478
+#: Annotations.xml:1489
 #, no-c-format
 msgid ""
 "This annotation provides a mechanism for declaring information about a set "
@@ -2068,13 +2080,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:1488
+#: Annotations.xml:1499
 #, no-c-format
 msgid "@Namespace"
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:1491
+#: Annotations.xml:1502
 #, no-c-format
 msgid ""
 "<![CDATA[@Namespace(value=\"http://jboss.com/products/seam/example/seampay"
@@ -2082,7 +2094,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1492
+#: Annotations.xml:1503
 #, no-c-format
 msgid ""
 "Specifies that components in the current package are associated with the "
@@ -2091,7 +2103,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:1498
+#: Annotations.xml:1509
 #, no-c-format
 msgid ""
 "<![CDATA[@Namespace(value=\"http://jboss.com/products/seam/core\", prefix="
@@ -2099,7 +2111,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1499
+#: Annotations.xml:1510
 #, no-c-format
 msgid ""
 "Specifies a namespace to associate with a given package. Additionally, it "
@@ -2110,13 +2122,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Annotations.xml:1514
+#: Annotations.xml:1525
 #, no-c-format
 msgid "Annotations for integrating with the servlet container"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1515
+#: Annotations.xml:1526
 #, no-c-format
 msgid ""
 "These annotations allow you to integrate your Seam components with the "
@@ -2124,13 +2136,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Annotations.xml:1524
+#: Annotations.xml:1535
 #, no-c-format
 msgid "@Filter"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1527
+#: Annotations.xml:1538
 #, no-c-format
 msgid ""
 "Use the Seam component (which implements <literal>javax.servlet.Filter</"
@@ -2139,13 +2151,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:1535
+#: Annotations.xml:1546
 #, no-c-format
 msgid "<![CDATA[@Filter(around={\"seamComponent\", \"otherSeamComponent\"})]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1536
+#: Annotations.xml:1547
 #, no-c-format
 msgid ""
 "Specifies that this filter is positioned higher in the stack than the given "
@@ -2153,13 +2165,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Annotations.xml:1542
+#: Annotations.xml:1553
 #, no-c-format
 msgid "<![CDATA[@Filter(within={\"seamComponent\", \"otherSeamComponent\"})]]>"
 msgstr ""
 
 #. Tag: para
-#: Annotations.xml:1543
+#: Annotations.xml:1554
 #, no-c-format
 msgid ""
 "Specifies that this filter is positioned deeper in the stack than the given "

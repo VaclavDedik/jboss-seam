@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seam_Reference_Guide \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-10-14 13:15+0000\n"
+"POT-Creation-Date: 2008-11-06 00:23+0000\n"
 "PO-Revision-Date: 2008-10-14 11:38+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -216,10 +216,10 @@ msgid "&lt;e:workbook&gt;"
 msgstr ""
 
 #. Tag: emphasis
-#: Excel.xml:113 Excel.xml:789 Excel.xml:900 Excel.xml:1023 Excel.xml:1145
-#: Excel.xml:1221 Excel.xml:1274 Excel.xml:1415 Excel.xml:1509 Excel.xml:1607
-#: Excel.xml:1670 Excel.xml:1920 Excel.xml:2008 Excel.xml:2073 Excel.xml:2149
-#: Excel.xml:2204 Excel.xml:2329
+#: Excel.xml:113 Excel.xml:789 Excel.xml:900 Excel.xml:998 Excel.xml:1120
+#: Excel.xml:1196 Excel.xml:1249 Excel.xml:1390 Excel.xml:1484 Excel.xml:1582
+#: Excel.xml:1645 Excel.xml:1895 Excel.xml:1983 Excel.xml:2048 Excel.xml:2124
+#: Excel.xml:2179 Excel.xml:2304
 #, no-c-format
 msgid "Attributes"
 msgstr ""
@@ -442,9 +442,9 @@ msgid ""
 msgstr ""
 
 #. Tag: emphasis
-#: Excel.xml:322 Excel.xml:705 Excel.xml:799 Excel.xml:951 Excel.xml:1103
-#: Excel.xml:1179 Excel.xml:1231 Excel.xml:1285 Excel.xml:1459 Excel.xml:1559
-#: Excel.xml:1617 Excel.xml:1680 Excel.xml:1957 Excel.xml:2340
+#: Excel.xml:322 Excel.xml:705 Excel.xml:799 Excel.xml:951 Excel.xml:1078
+#: Excel.xml:1154 Excel.xml:1206 Excel.xml:1260 Excel.xml:1434 Excel.xml:1534
+#: Excel.xml:1592 Excel.xml:1655 Excel.xml:1932 Excel.xml:2315
 #, no-c-format
 msgid "Child elemenents"
 msgstr ""
@@ -466,22 +466,22 @@ msgid ""
 msgstr ""
 
 #. Tag: emphasis
-#: Excel.xml:343 Excel.xml:742 Excel.xml:836 Excel.xml:988 Excel.xml:1113
-#: Excel.xml:1189 Excel.xml:1243 Excel.xml:1295 Excel.xml:1469 Excel.xml:1569
-#: Excel.xml:1627 Excel.xml:1690 Excel.xml:1967 Excel.xml:2046 Excel.xml:2111
-#: Excel.xml:2171 Excel.xml:2250 Excel.xml:2350
+#: Excel.xml:343 Excel.xml:742 Excel.xml:836 Excel.xml:963 Excel.xml:1088
+#: Excel.xml:1164 Excel.xml:1218 Excel.xml:1270 Excel.xml:1444 Excel.xml:1544
+#: Excel.xml:1602 Excel.xml:1665 Excel.xml:1942 Excel.xml:2021 Excel.xml:2086
+#: Excel.xml:2146 Excel.xml:2225 Excel.xml:2325
 #, no-c-format
 msgid "Facets"
 msgstr ""
 
 #. Tag: literal
-#: Excel.xml:348 Excel.xml:794 Excel.xml:993 Excel.xml:1108 Excel.xml:1118
-#: Excel.xml:1184 Excel.xml:1194 Excel.xml:1226 Excel.xml:1248 Excel.xml:1290
-#: Excel.xml:1300 Excel.xml:1464 Excel.xml:1474 Excel.xml:1564 Excel.xml:1574
-#: Excel.xml:1612 Excel.xml:1622 Excel.xml:1675 Excel.xml:1685 Excel.xml:1962
-#: Excel.xml:1972 Excel.xml:2041 Excel.xml:2051 Excel.xml:2106 Excel.xml:2116
-#: Excel.xml:2166 Excel.xml:2176 Excel.xml:2245 Excel.xml:2255 Excel.xml:2345
-#: Excel.xml:2355
+#: Excel.xml:348 Excel.xml:794 Excel.xml:968 Excel.xml:1083 Excel.xml:1093
+#: Excel.xml:1159 Excel.xml:1169 Excel.xml:1201 Excel.xml:1223 Excel.xml:1265
+#: Excel.xml:1275 Excel.xml:1439 Excel.xml:1449 Excel.xml:1539 Excel.xml:1549
+#: Excel.xml:1587 Excel.xml:1597 Excel.xml:1650 Excel.xml:1660 Excel.xml:1937
+#: Excel.xml:1947 Excel.xml:2016 Excel.xml:2026 Excel.xml:2081 Excel.xml:2091
+#: Excel.xml:2141 Excel.xml:2151 Excel.xml:2220 Excel.xml:2230 Excel.xml:2320
+#: Excel.xml:2330
 #, no-c-format
 msgid "none"
 msgstr ""
@@ -1040,7 +1040,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:874 Excel.xml:1003
+#: Excel.xml:874 Excel.xml:978
 #, no-c-format
 msgid "defines a column with a header and an iterated output"
 msgstr ""
@@ -1122,36 +1122,12 @@ msgstr ""
 #: Excel.xml:955
 #, no-c-format
 msgid ""
-"<literal>&lt;e:font/&gt;</literal> &#8212;Zero or more font definitions (see "
-"<xref linkend=\"excel.cells.fonts\"/> )."
-msgstr ""
-
-#. Tag: para
-#: Excel.xml:963
-#, no-c-format
-msgid ""
-"<literal>&lt;e:border/&gt;</literal> &#8212;Zero or more border definitions "
-"(see <xref linkend=\"excel.cells.borders\"/> )."
-msgstr ""
-
-#. Tag: para
-#: Excel.xml:971
-#, no-c-format
-msgid ""
-"<literal>&lt;e:background/&gt;</literal> &#8212;Zero or more background "
-"definitions (see <xref linkend=\"excel.cells.backgrounds\"/> )."
-msgstr ""
-
-#. Tag: para
-#: Excel.xml:979
-#, no-c-format
-msgid ""
 "Zero or more validation conditions (see <xref linkend=\"excel.cells."
 "validation\"/> )."
 msgstr ""
 
 #. Tag: programlisting
-#: Excel.xml:1002
+#: Excel.xml:977
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1169,13 +1145,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:1005
+#: Excel.xml:980
 #, no-c-format
 msgid "Validation"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1006
+#: Excel.xml:981
 #, no-c-format
 msgid ""
 "Validations are nested inside cells, formulas or cell templates. They add "
@@ -1183,13 +1159,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Excel.xml:1018
+#: Excel.xml:993
 #, no-c-format
 msgid "&lt;e:numericValidation&gt;"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1027
+#: Excel.xml:1002
 #, no-c-format
 msgid ""
 "<literal>value</literal> &#8212;The limit (or lower limit where applicable) "
@@ -1197,7 +1173,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1035
+#: Excel.xml:1010
 #, no-c-format
 msgid ""
 "<literal>value2</literal> &#8212;The upper limit (where applicable) of the "
@@ -1205,7 +1181,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1042
+#: Excel.xml:1017
 #, no-c-format
 msgid ""
 "<literal>condition</literal> &#8212;The validation condition. The value is a "
@@ -1213,7 +1189,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1048
+#: Excel.xml:1023
 #, no-c-format
 msgid ""
 "\"equal\" - requires the cell value to match the one defined in the value-"
@@ -1221,7 +1197,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1055
+#: Excel.xml:1030
 #, no-c-format
 msgid ""
 "\"greater_equal\" - requires the cell value to be greater than or equal to "
@@ -1229,7 +1205,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1063
+#: Excel.xml:1038
 #, no-c-format
 msgid ""
 "\"less_equal\" - requires the cell value to be less than or equal to the "
@@ -1237,7 +1213,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1070
+#: Excel.xml:1045
 #, no-c-format
 msgid ""
 "\"less_than\" - requires the cell value to be less than the value defined in "
@@ -1245,7 +1221,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1077
+#: Excel.xml:1052
 #, no-c-format
 msgid ""
 "\"not_equal\" - requires the cell value to not match the one defined in the "
@@ -1253,7 +1229,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1084
+#: Excel.xml:1059
 #, no-c-format
 msgid ""
 "\"between\" - requires the cell value to be between the values defined in "
@@ -1261,7 +1237,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1091
+#: Excel.xml:1066
 #, no-c-format
 msgid ""
 "\"not_between\" - requires the cell value not to be between the values "
@@ -1269,7 +1245,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Excel.xml:1127
+#: Excel.xml:1102
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1289,7 +1265,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1128
+#: Excel.xml:1103
 #, no-c-format
 msgid ""
 "adds numeric validation to a cell specifying that the value must be between "
@@ -1297,13 +1273,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Excel.xml:1140
+#: Excel.xml:1115
 #, no-c-format
 msgid "&lt;e:rangeValidation&gt;"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1149
+#: Excel.xml:1124
 #, no-c-format
 msgid ""
 "<literal>startColumn</literal> &#8212;The starting column of the range of "
@@ -1311,7 +1287,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1157
+#: Excel.xml:1132
 #, no-c-format
 msgid ""
 "<literal>startRow</literal> &#8212;The starting row of the range of values "
@@ -1319,7 +1295,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1164
+#: Excel.xml:1139
 #, no-c-format
 msgid ""
 "<literal>endColumn</literal> &#8212;The ending column of the range of values "
@@ -1327,7 +1303,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1171
+#: Excel.xml:1146
 #, no-c-format
 msgid ""
 "<literal>endRow</literal> &#8212;The ending row of the range of values to "
@@ -1335,7 +1311,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Excel.xml:1203
+#: Excel.xml:1178
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1355,7 +1331,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1204
+#: Excel.xml:1179
 #, no-c-format
 msgid ""
 "adds validation to a cell specifying that the value must be in the values "
@@ -1363,19 +1339,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Excel.xml:1216
+#: Excel.xml:1191
 #, no-c-format
 msgid "&lt;e:listValidation&gt;"
 msgstr ""
 
 #. Tag: literal
-#: Excel.xml:1236
+#: Excel.xml:1211
 #, no-c-format
 msgid "Zero or more list validation items."
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1257
+#: Excel.xml:1232
 #, no-c-format
 msgid ""
 "e:listValidation is a just a container for holding multiple e:"
@@ -1383,19 +1359,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Excel.xml:1269
+#: Excel.xml:1244
 #, no-c-format
 msgid "&lt;e:listValidationItem&gt;"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1278
+#: Excel.xml:1253
 #, no-c-format
 msgid "<literal>value</literal> &#8212;A values to validate against."
 msgstr ""
 
 #. Tag: programlisting
-#: Excel.xml:1309
+#: Excel.xml:1284
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1416,7 +1392,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1310
+#: Excel.xml:1285
 #, no-c-format
 msgid ""
 "adds validation to a cell specifying that the value must be \"manager\" or "
@@ -1424,13 +1400,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:1316
+#: Excel.xml:1291
 #, no-c-format
 msgid "Format masks"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1317
+#: Excel.xml:1292
 #, no-c-format
 msgid ""
 "Format masks are defined in the mask attribute in cell templates, cells or "
@@ -1442,13 +1418,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:1327
+#: Excel.xml:1302
 #, no-c-format
 msgid "Number masks"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1328
+#: Excel.xml:1303
 #, no-c-format
 msgid ""
 "When encountering a format mask, first it is checked if it is in internal "
@@ -1458,7 +1434,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1337
+#: Excel.xml:1312
 #, no-c-format
 msgid ""
 "if the mask is not in the list, it is treated as a custom mask (see <ulink "
@@ -1468,13 +1444,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:1348
+#: Excel.xml:1323
 #, no-c-format
 msgid "Date masks"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1349
+#: Excel.xml:1324
 #, no-c-format
 msgid ""
 "When encountering a format mask, first it is checked if it is in internal "
@@ -1484,7 +1460,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1358
+#: Excel.xml:1333
 #, no-c-format
 msgid ""
 "if the mask is not in the list, it is treated as a custom mask (see <ulink "
@@ -1494,13 +1470,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:1372
+#: Excel.xml:1347
 #, no-c-format
 msgid "Formulas"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1373
+#: Excel.xml:1348
 #, no-c-format
 msgid ""
 "Formulas are nested within columns (for iteration) or inside worksheets (for "
@@ -1512,7 +1488,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1382
+#: Excel.xml:1357
 #, no-c-format
 msgid ""
 "The formula of the cell in placed in the <literal>value</literal> -attribute "
@@ -1522,7 +1498,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Excel.xml:1388
+#: Excel.xml:1363
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1546,20 +1522,20 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1389
+#: Excel.xml:1364
 #, no-c-format
 msgid ""
 "defines an formula in B2 summing cells A1 in worksheets FooSheet and BarSheet"
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:1395
+#: Excel.xml:1370
 #, no-c-format
 msgid "Images"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1396
+#: Excel.xml:1371
 #, no-c-format
 msgid ""
 "Images are nested within columns (for iteration) or inside worksheets (for "
@@ -1569,13 +1545,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Excel.xml:1410
+#: Excel.xml:1385
 #, no-c-format
 msgid "&lt;e:image&gt;"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1419
+#: Excel.xml:1394
 #, no-c-format
 msgid ""
 "<literal>startColumn</literal> &#8212;The starting column of the image. The "
@@ -1584,7 +1560,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1427
+#: Excel.xml:1402
 #, no-c-format
 msgid ""
 "<literal>startRow</literal> &#8212;The starting row of the image. The "
@@ -1593,7 +1569,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1435
+#: Excel.xml:1410
 #, no-c-format
 msgid ""
 "<literal>columnSpan</literal> &#8212;The column span of the image. The "
@@ -1602,7 +1578,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1443
+#: Excel.xml:1418
 #, no-c-format
 msgid ""
 "<literal>rowSpan</literal> &#8212;The row span of the image. The default is "
@@ -1610,14 +1586,14 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1451
+#: Excel.xml:1426
 #, no-c-format
 msgid ""
 "<literal>URI</literal> &#8212;The URI to the image. The value is a string."
 msgstr ""
 
 #. Tag: programlisting
-#: Excel.xml:1483
+#: Excel.xml:1458
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1631,19 +1607,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1484
+#: Excel.xml:1459
 #, no-c-format
 msgid "defines an image in A1:E5 based on the given data"
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:1488
+#: Excel.xml:1463
 #, no-c-format
 msgid "Hyperlinks"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1489
+#: Excel.xml:1464
 #, no-c-format
 msgid ""
 "Hyperlinks are nested within columns (for iteration) or inside worksheets "
@@ -1653,13 +1629,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Excel.xml:1504
+#: Excel.xml:1479
 #, no-c-format
 msgid "&lt;e:hyperlink&gt;"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1513
+#: Excel.xml:1488
 #, no-c-format
 msgid ""
 "<literal>startColumn</literal> &#8212;The starting column of the hyperlink. "
@@ -1668,7 +1644,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1521
+#: Excel.xml:1496
 #, no-c-format
 msgid ""
 "<literal>startRow</literal> &#8212;The starting row of the hyperlink. The "
@@ -1677,7 +1653,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1529
+#: Excel.xml:1504
 #, no-c-format
 msgid ""
 "<literal>endColumn</literal> &#8212;The ending column of the hyperlink. The "
@@ -1686,7 +1662,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1537
+#: Excel.xml:1512
 #, no-c-format
 msgid ""
 "<literal>endRow</literal> &#8212;The ending row of the hyperlink. The "
@@ -1695,13 +1671,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1545
+#: Excel.xml:1520
 #, no-c-format
 msgid "<literal>URL</literal> &#8212;The URL to link. The value is a string."
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1551
+#: Excel.xml:1526
 #, no-c-format
 msgid ""
 "<literal>description</literal> &#8212;The description of the link. The value "
@@ -1709,7 +1685,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Excel.xml:1583
+#: Excel.xml:1558
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1725,19 +1701,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1584
+#: Excel.xml:1559
 #, no-c-format
 msgid "defines a described hyperlink pointing to SFWK in the area A1:E5"
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:1589
+#: Excel.xml:1564
 #, no-c-format
 msgid "Headers and footers"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1590
+#: Excel.xml:1565
 #, no-c-format
 msgid ""
 "Headers and footers are childrens of worksheets and contain facets which in "
@@ -1745,20 +1721,20 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Excel.xml:1602
+#: Excel.xml:1577
 #, no-c-format
 msgid "&lt;e:header&gt;"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1631 Excel.xml:1694
+#: Excel.xml:1606 Excel.xml:1669
 #, no-c-format
 msgid ""
 "<literal>left</literal> &#8212;The contents of the left header/footer part."
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1638 Excel.xml:1701
+#: Excel.xml:1613 Excel.xml:1676
 #, no-c-format
 msgid ""
 "<literal>center</literal> &#8212;The contents of the center header/footer "
@@ -1766,20 +1742,20 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1645 Excel.xml:1708
+#: Excel.xml:1620 Excel.xml:1683
 #, no-c-format
 msgid ""
 "<literal>right</literal> &#8212;The contents of the right header/footer part."
 msgstr ""
 
 #. Tag: literal
-#: Excel.xml:1665
+#: Excel.xml:1640
 #, no-c-format
 msgid "&lt;e:footer&gt;"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1720
+#: Excel.xml:1695
 #, no-c-format
 msgid ""
 "The content of the facets is a string that can contain various #-delimited "
@@ -1787,212 +1763,212 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1731
+#: Excel.xml:1706
 #, no-c-format
 msgid "#date#"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1734
+#: Excel.xml:1709
 #, no-c-format
 msgid "Inserts the current date"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1739
+#: Excel.xml:1714
 #, no-c-format
 msgid "#page_number#"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1742
+#: Excel.xml:1717
 #, no-c-format
 msgid "Inserts the current page number"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1747
+#: Excel.xml:1722
 #, no-c-format
 msgid "#time#"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1750
+#: Excel.xml:1725
 #, no-c-format
 msgid "Inserts the current time"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1755
+#: Excel.xml:1730
 #, no-c-format
 msgid "#total_pages#"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1758
+#: Excel.xml:1733
 #, no-c-format
 msgid "Inserts the total page count"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1763
+#: Excel.xml:1738
 #, no-c-format
 msgid "#worksheet_name#"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1766
+#: Excel.xml:1741
 #, no-c-format
 msgid "Inserts the worksheet name"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1771
+#: Excel.xml:1746
 #, no-c-format
 msgid "#workbook_name#"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1774
+#: Excel.xml:1749
 #, no-c-format
 msgid "Inserts the workbook name"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1779
+#: Excel.xml:1754
 #, no-c-format
 msgid "#bold#"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1782
+#: Excel.xml:1757
 #, no-c-format
 msgid "Toggles bold font, use another #bold# to turn it off"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1790
+#: Excel.xml:1765
 #, no-c-format
 msgid "#italics#"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1793
+#: Excel.xml:1768
 #, no-c-format
 msgid "Toggles italic font, use another #italic# to turn it off"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1801
+#: Excel.xml:1776
 #, no-c-format
 msgid "#underline#"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1804
+#: Excel.xml:1779
 #, no-c-format
 msgid "Toggles underlining, use another #underline# to turn it off"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1812
+#: Excel.xml:1787
 #, no-c-format
 msgid "#double_underline#"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1815
+#: Excel.xml:1790
 #, no-c-format
 msgid ""
 "Toggles double underlining, use another #double_underline# to turn it off"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1823
+#: Excel.xml:1798
 #, no-c-format
 msgid "#outline#"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1826
+#: Excel.xml:1801
 #, no-c-format
 msgid "Toggles outlined font, use another #outline# to turn it off"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1834
+#: Excel.xml:1809
 #, no-c-format
 msgid "#shadow#"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1837
+#: Excel.xml:1812
 #, no-c-format
 msgid "Toggles shadowed font, use another #shadow# to turn it off"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1845
+#: Excel.xml:1820
 #, no-c-format
 msgid "#strikethrough#"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1848
+#: Excel.xml:1823
 #, no-c-format
 msgid "Toggles strikethrough font, use another #strikethrough# to turn it off"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1856
+#: Excel.xml:1831
 #, no-c-format
 msgid "#subscript#"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1859
+#: Excel.xml:1834
 #, no-c-format
 msgid "Toggles subscripted font, use another #subscript# to turn it off"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1867
+#: Excel.xml:1842
 #, no-c-format
 msgid "#superscript#"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1870
+#: Excel.xml:1845
 #, no-c-format
 msgid "Toggles superscript font, use another #superscript# to turn it off"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1878
+#: Excel.xml:1853
 #, no-c-format
 msgid "#font_name#"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1881
+#: Excel.xml:1856
 #, no-c-format
 msgid "Sets font name, used like #font_name=Verdana\""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1888
+#: Excel.xml:1863
 #, no-c-format
 msgid "#font_size#"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1891
+#: Excel.xml:1866
 #, no-c-format
 msgid "Sets font size, use like #font_size=12#"
 msgstr ""
 
 #. Tag: programlisting
-#: Excel.xml:1899
+#: Excel.xml:1874
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -2013,13 +1989,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:1902
+#: Excel.xml:1877
 #, no-c-format
 msgid "Print areas and titles"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1903
+#: Excel.xml:1878
 #, no-c-format
 msgid ""
 "Print areas and titles childrens of worksheets and worksheet templates and "
@@ -2027,13 +2003,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Excel.xml:1915
+#: Excel.xml:1890
 #, no-c-format
 msgid "&lt;e:printArea&gt;"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1924
+#: Excel.xml:1899
 #, no-c-format
 msgid ""
 "<literal>firstColumn</literal> &#8212;The column of the top-left corner of "
@@ -2041,7 +2017,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1932
+#: Excel.xml:1907
 #, no-c-format
 msgid ""
 "<literal>firstRow</literal> &#8212;The row of the top-left corner of the "
@@ -2049,7 +2025,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1940
+#: Excel.xml:1915
 #, no-c-format
 msgid ""
 "<literal>lastColumn</literal> &#8212;The column of the bottom-right corner "
@@ -2057,7 +2033,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1948
+#: Excel.xml:1923
 #, no-c-format
 msgid ""
 "<literal>lastRow</literal> &#8212;The row of the bottom-right corner of the "
@@ -2065,7 +2041,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Excel.xml:1981
+#: Excel.xml:1956
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -2081,19 +2057,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1982
+#: Excel.xml:1957
 #, no-c-format
 msgid "defines a print title between A1:A10 and a print area between B2:J10."
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:1987
+#: Excel.xml:1962
 #, no-c-format
 msgid "Worksheet Commands"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1988
+#: Excel.xml:1963
 #, no-c-format
 msgid ""
 "Worksheet commands are children of workbooks and are usually executed only "
@@ -2101,25 +2077,25 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:1993
+#: Excel.xml:1968
 #, no-c-format
 msgid "Grouping"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:1994
+#: Excel.xml:1969
 #, no-c-format
 msgid "Provides grouping of columns and rows."
 msgstr ""
 
 #. Tag: literal
-#: Excel.xml:2003
+#: Excel.xml:1978
 #, no-c-format
 msgid "&lt;e:groupRows&gt;"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2012
+#: Excel.xml:1987
 #, no-c-format
 msgid ""
 "<literal>startRow</literal> &#8212;The row to start the grouping at. The "
@@ -2127,7 +2103,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2020
+#: Excel.xml:1995
 #, no-c-format
 msgid ""
 "<literal>endRow</literal> &#8212;The row to end the grouping at. The value "
@@ -2135,7 +2111,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2028 Excel.xml:2093
+#: Excel.xml:2003 Excel.xml:2068
 #, no-c-format
 msgid ""
 "<literal>collapse</literal> &#8212;Should the grouping be collapsed "
@@ -2143,19 +2119,19 @@ msgid ""
 msgstr ""
 
 #. Tag: emphasis
-#: Excel.xml:2036 Excel.xml:2101 Excel.xml:2161 Excel.xml:2240
+#: Excel.xml:2011 Excel.xml:2076 Excel.xml:2136 Excel.xml:2215
 #, no-c-format
 msgid "Child elements"
 msgstr ""
 
 #. Tag: literal
-#: Excel.xml:2068
+#: Excel.xml:2043
 #, no-c-format
 msgid "&lt;e:groupColumns&gt;"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2077
+#: Excel.xml:2052
 #, no-c-format
 msgid ""
 "<literal>startColumn</literal> &#8212;The column to start the grouping at. "
@@ -2163,7 +2139,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2085
+#: Excel.xml:2060
 #, no-c-format
 msgid ""
 "<literal>endColumn</literal> &#8212;The column to end the grouping at. The "
@@ -2171,7 +2147,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Excel.xml:2126
+#: Excel.xml:2101
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -2187,7 +2163,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2127
+#: Excel.xml:2102
 #, no-c-format
 msgid ""
 "groups rows 5 trough 10 and columns 5 through 10 so that the rows are "
@@ -2195,25 +2171,25 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:2134
+#: Excel.xml:2109
 #, no-c-format
 msgid "Page breaks"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2135
+#: Excel.xml:2110
 #, no-c-format
 msgid "Provides page breaks"
 msgstr ""
 
 #. Tag: literal
-#: Excel.xml:2144
+#: Excel.xml:2119
 #, no-c-format
 msgid "&lt;e:rowPageBreak&gt;"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2153
+#: Excel.xml:2128
 #, no-c-format
 msgid ""
 "<literal>row</literal> &#8212;The row to break at. The value is a number. "
@@ -2221,7 +2197,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Excel.xml:2185
+#: Excel.xml:2160
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -2234,31 +2210,31 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2186
+#: Excel.xml:2161
 #, no-c-format
 msgid "breaks page at row 5."
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:2189
+#: Excel.xml:2164
 #, no-c-format
 msgid "Merging"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2190
+#: Excel.xml:2165
 #, no-c-format
 msgid "Provides cell merging"
 msgstr ""
 
 #. Tag: literal
-#: Excel.xml:2199
+#: Excel.xml:2174
 #, no-c-format
 msgid "&lt;e:mergeCells&gt;"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2208
+#: Excel.xml:2183
 #, no-c-format
 msgid ""
 "<literal>startRow</literal> &#8212;The row to start the merging from. The "
@@ -2266,7 +2242,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2216
+#: Excel.xml:2191
 #, no-c-format
 msgid ""
 "<literal>startColumn</literal> &#8212;The column to start the merging from. "
@@ -2274,7 +2250,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2224
+#: Excel.xml:2199
 #, no-c-format
 msgid ""
 "<literal>endRow</literal> &#8212;The row to end the merging at. The value is "
@@ -2282,7 +2258,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2231
+#: Excel.xml:2206
 #, no-c-format
 msgid ""
 "<literal>endColumn</literal> &#8212;The column to end the merging at. The "
@@ -2290,7 +2266,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Excel.xml:2264
+#: Excel.xml:2239
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -2304,19 +2280,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2265
+#: Excel.xml:2240
 #, no-c-format
 msgid "merges the cells in the range A1:J10"
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:2269
+#: Excel.xml:2244
 #, no-c-format
 msgid "Datatable exporter"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2270
+#: Excel.xml:2245
 #, no-c-format
 msgid ""
 "If you prefer to export an existing JSF datatable instead of writing a "
@@ -2327,7 +2303,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Excel.xml:2277
+#: Excel.xml:2252
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -2342,7 +2318,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2278
+#: Excel.xml:2253
 #, no-c-format
 msgid ""
 "that you want to view as an <trademark class=\"registered\">Microsoft</"
@@ -2351,7 +2327,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Excel.xml:2284
+#: Excel.xml:2259
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -2363,7 +2339,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2285
+#: Excel.xml:2260
 #, no-c-format
 msgid ""
 "in the form and you're done. You can of course execute the exporter with a "
@@ -2373,19 +2349,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2291
+#: Excel.xml:2266
 #, no-c-format
 msgid "See <xref linkend=\"excel.fontsandlayout\"/> for formatting."
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:2296
+#: Excel.xml:2271
 #, no-c-format
 msgid "Fonts and layout"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2297
+#: Excel.xml:2272
 #, no-c-format
 msgid ""
 "Controlling how the output look is done with a combination of CSSish style "
@@ -2395,7 +2371,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2302
+#: Excel.xml:2277
 #, no-c-format
 msgid ""
 "The CSS attributes cascade down from parent to children and within one tag "
@@ -2407,13 +2383,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:2311
+#: Excel.xml:2286
 #, no-c-format
 msgid "Stylesheet links"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2312
+#: Excel.xml:2287
 #, no-c-format
 msgid ""
 "External stylesheets are references with the e:link tag. They are placed as "
@@ -2421,19 +2397,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Excel.xml:2324
+#: Excel.xml:2299
 #, no-c-format
 msgid "&lt;e:link&gt;"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2333
+#: Excel.xml:2308
 #, no-c-format
 msgid "<literal>URL</literal> &#8212;The URL to the stylesheet"
 msgstr ""
 
 #. Tag: programlisting
-#: Excel.xml:2364
+#: Excel.xml:2339
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -2444,31 +2420,31 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2365
+#: Excel.xml:2340
 #, no-c-format
 msgid "References a stylesheet that can be found at /css/excel.css"
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:2369
+#: Excel.xml:2344
 #, no-c-format
 msgid "Fonts"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2370
+#: Excel.xml:2345
 #, no-c-format
 msgid "This group of XLS-CSS attributes define a font and its attributes"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2380
+#: Excel.xml:2355
 #, no-c-format
 msgid "xls-font-family"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2383
+#: Excel.xml:2358
 #, no-c-format
 msgid ""
 "The name of the font. Make sure that it's one that is supported by your "
@@ -2476,25 +2452,25 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2391
+#: Excel.xml:2366
 #, no-c-format
 msgid "xls-font-size"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2394
+#: Excel.xml:2369
 #, no-c-format
 msgid "The font size. Use a plain number"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2399
+#: Excel.xml:2374
 #, no-c-format
 msgid "xls-font-color"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2402
+#: Excel.xml:2377
 #, no-c-format
 msgid ""
 "The color of the font (see <ulink url=\"http://jexcelapi.sourceforge.net/"
@@ -2503,37 +2479,37 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2414
+#: Excel.xml:2389
 #, no-c-format
 msgid "xls-font-bold"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2417
+#: Excel.xml:2392
 #, no-c-format
 msgid "Should the font be bold? Valid values are \"true\" and \"false\""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2425
+#: Excel.xml:2400
 #, no-c-format
 msgid "xls-font-italic"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2428
+#: Excel.xml:2403
 #, no-c-format
 msgid "Should the font be italic? Valid values are \"true\" and \"false\""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2436
+#: Excel.xml:2411
 #, no-c-format
 msgid "xls-font-script-style"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2439
+#: Excel.xml:2414
 #, no-c-format
 msgid ""
 "The script style of the font (see <ulink url=\"http://jexcelapi.sourceforge."
@@ -2542,13 +2518,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2451
+#: Excel.xml:2426
 #, no-c-format
 msgid "xls-font-underline-style"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2454
+#: Excel.xml:2429
 #, no-c-format
 msgid ""
 "The underline style of the font (see <ulink url=\"http://jexcelapi."
@@ -2557,25 +2533,25 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2466
+#: Excel.xml:2441
 #, no-c-format
 msgid "xls-font-struck-out"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2469
+#: Excel.xml:2444
 #, no-c-format
 msgid "Should the font be struck out? Valid values are \"true\" and \"false\""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2477
+#: Excel.xml:2452
 #, no-c-format
 msgid "xls-font"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2480
+#: Excel.xml:2455
 #, no-c-format
 msgid ""
 "A shorthand notation for setting all the values. Place the font name last "
@@ -2584,31 +2560,31 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2486
+#: Excel.xml:2461
 #, no-c-format
 msgid "Example style=\"xls-font: red bold italic 22 Verdana\""
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:2496
+#: Excel.xml:2471
 #, no-c-format
 msgid "Borders"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2497
+#: Excel.xml:2472
 #, no-c-format
 msgid "This group of XLS-CSS attributes define the borders of the cell"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2507
+#: Excel.xml:2482
 #, no-c-format
 msgid "xls-border-left-color"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2510
+#: Excel.xml:2485
 #, no-c-format
 msgid ""
 "The border color of the left edge of the cell (see <ulink url=\"http://"
@@ -2617,13 +2593,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2523
+#: Excel.xml:2498
 #, no-c-format
 msgid "xls-border-left-line-style"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2526
+#: Excel.xml:2501
 #, no-c-format
 msgid ""
 "The border line style of the left edge of the cell (see <ulink url=\"http://"
@@ -2632,27 +2608,27 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2538
+#: Excel.xml:2513
 #, no-c-format
 msgid "xls-border-left"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2541
+#: Excel.xml:2516
 #, no-c-format
 msgid ""
-"A shorthand for setting color and line style of the left edge of the cell, e."
-"g style=\"xls-border-left: red thick\""
+"A shorthand for setting line style and color of the left edge of the cell, e."
+"g style=\"xls-border-left: thick red\""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2549
+#: Excel.xml:2524
 #, no-c-format
 msgid "xls-border-top-color"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2552
+#: Excel.xml:2527
 #, no-c-format
 msgid ""
 "The border color of the top edge of the cell (see <ulink url=\"http://"
@@ -2661,13 +2637,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2565
+#: Excel.xml:2540
 #, no-c-format
 msgid "xls-border-top-line-style"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2568
+#: Excel.xml:2543
 #, no-c-format
 msgid ""
 "The border line style of the top edge of the cell (see <ulink url=\"http://"
@@ -2676,27 +2652,27 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2580
+#: Excel.xml:2555
 #, no-c-format
 msgid "xls-border-top"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2583
+#: Excel.xml:2558
 #, no-c-format
 msgid ""
-"A shorthand for setting color and line style of the top edge of the cell, e."
+"A shorthand for setting line style and color of the top edge of the cell, e."
 "g style=\"xls-border-left: red thick\""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2591
+#: Excel.xml:2566
 #, no-c-format
 msgid "xls-border-right-color"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2594
+#: Excel.xml:2569
 #, no-c-format
 msgid ""
 "The border color of the right edge of the cell (see <ulink url=\"http://"
@@ -2705,13 +2681,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2607
+#: Excel.xml:2582
 #, no-c-format
 msgid "xls-border-right-line-style"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2610
+#: Excel.xml:2585
 #, no-c-format
 msgid ""
 "The border line style of the right edge of the cell (see <ulink url=\"http://"
@@ -2720,27 +2696,27 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2622
+#: Excel.xml:2597
 #, no-c-format
 msgid "xls-border-right"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2625
+#: Excel.xml:2600
 #, no-c-format
 msgid ""
-"A shorthand for setting color and line style of the right edge of the cell, "
-"e.g style=\"xls-border-right: red thick\""
+"A shorthand for setting line style and color of the right edge of the cell, "
+"e.g style=\"xls-border-right: thick red\""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2633
+#: Excel.xml:2608
 #, no-c-format
 msgid "xls-border-bottom-color"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2636
+#: Excel.xml:2611
 #, no-c-format
 msgid ""
 "The border color of the bottom edge of the cell (see <ulink url=\"http://"
@@ -2749,13 +2725,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2649
+#: Excel.xml:2624
 #, no-c-format
 msgid "xls-border-bottom-line-style"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2652
+#: Excel.xml:2627
 #, no-c-format
 msgid ""
 "The border line style of the bottom edge of the cell (see <ulink url="
@@ -2764,53 +2740,53 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2664
+#: Excel.xml:2639
 #, no-c-format
 msgid "xls-border-bottom"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2667
+#: Excel.xml:2642
 #, no-c-format
 msgid ""
-"A shorthand for setting color and line style of the bottom edge of the cell, "
-"e.g style=\"xls-border-bottom: red thick\""
+"A shorthand for setting line style and color of the bottom edge of the cell, "
+"e.g style=\"xls-border-bottom: thick red\""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2675
+#: Excel.xml:2650
 #, no-c-format
 msgid "xls-border"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2678
+#: Excel.xml:2653
 #, no-c-format
 msgid ""
-"A shorthand for setting color and line style all edges of the cell, e.g "
-"style=\"xls-border: red thick\""
+"A shorthand for setting line style and color for all edges of the cell, e.g "
+"style=\"xls-border: thick red\""
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:2689
+#: Excel.xml:2664
 #, no-c-format
 msgid "Background"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2690
+#: Excel.xml:2665
 #, no-c-format
 msgid "This group of XLS-CSS attributes define the background of the cell"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2700
+#: Excel.xml:2675
 #, no-c-format
 msgid "xls-background-color"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2703
+#: Excel.xml:2678
 #, no-c-format
 msgid ""
 "The color of the background (see <ulink url=\"http://jexcelapi.sourceforge."
@@ -2819,13 +2795,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2715
+#: Excel.xml:2690
 #, no-c-format
 msgid "xls-background-pattern"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2718
+#: Excel.xml:2693
 #, no-c-format
 msgid ""
 "The pattern of the background (see <ulink url=\"http://jexcelapi.sourceforge."
@@ -2834,13 +2810,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2730
+#: Excel.xml:2705
 #, no-c-format
 msgid "xls-background"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2733
+#: Excel.xml:2708
 #, no-c-format
 msgid ""
 "A shorthand for setting the background color and pattern. See above for "
@@ -2848,25 +2824,25 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:2743
+#: Excel.xml:2718
 #, no-c-format
 msgid "Column settings"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2744
+#: Excel.xml:2719
 #, no-c-format
 msgid "This group of XLS-CSS attributes define the column widths etc."
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2754
+#: Excel.xml:2729
 #, no-c-format
 msgid "xls-column-width"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2757
+#: Excel.xml:2732
 #, no-c-format
 msgid ""
 "The width of the column. Use largeish values (~5000) to start with. Used by "
@@ -2874,13 +2850,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2765
+#: Excel.xml:2740
 #, no-c-format
 msgid "xls-column-widths"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2768
+#: Excel.xml:2743
 #, no-c-format
 msgid ""
 "The width of the column. Use largeish values (~5000) to start with. Used by "
@@ -2889,19 +2865,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2773
+#: Excel.xml:2748
 #, no-c-format
 msgid "Example style=\"xls-column-widths: 5000, 5000, *, 10000\""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2780
+#: Excel.xml:2755
 #, no-c-format
 msgid "xls-column-autosize"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2783
+#: Excel.xml:2758
 #, no-c-format
 msgid ""
 "Should an attempt be made to autosize the column? Valid values are \"true\" "
@@ -2909,37 +2885,37 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2791
+#: Excel.xml:2766
 #, no-c-format
 msgid "xls-column-hidden"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2794
+#: Excel.xml:2769
 #, no-c-format
 msgid "Should the column be hidden? Valid values are \"true\" and \"false\"."
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:2804
+#: Excel.xml:2779
 #, no-c-format
 msgid "Cell settings"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2805
+#: Excel.xml:2780
 #, no-c-format
 msgid "This group of XLS-CSS attributes define the cell properties"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2815
+#: Excel.xml:2790
 #, no-c-format
 msgid "xls-alignment"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2818
+#: Excel.xml:2793
 #, no-c-format
 msgid ""
 "The alignment of the cell value (see <ulink url=\"http://jexcelapi."
@@ -2948,13 +2924,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2830
+#: Excel.xml:2805
 #, no-c-format
 msgid "xls-force-type"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2833
+#: Excel.xml:2808
 #, no-c-format
 msgid ""
 "The forced type of the cell data. The value is a string that can be one of "
@@ -2963,37 +2939,37 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2842
+#: Excel.xml:2817
 #, no-c-format
 msgid "xls-format-mask"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2845
+#: Excel.xml:2820
 #, no-c-format
 msgid "The format mask of the cell, see"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2852
+#: Excel.xml:2827
 #, no-c-format
 msgid "xls-indentation"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2855
+#: Excel.xml:2830
 #, no-c-format
 msgid "The indentation of the cell value. The value is numeric."
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2862
+#: Excel.xml:2837
 #, no-c-format
 msgid "xls-locked"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2865
+#: Excel.xml:2840
 #, no-c-format
 msgid ""
 "Should the cell be locked. Use with workbook level locked. Valid values are "
@@ -3001,13 +2977,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2873
+#: Excel.xml:2848
 #, no-c-format
 msgid "xls-orientation"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2876
+#: Excel.xml:2851
 #, no-c-format
 msgid ""
 "The orientation of the cell value (see <ulink url=\"http://jexcelapi."
@@ -3016,13 +2992,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2888
+#: Excel.xml:2863
 #, no-c-format
 msgid "xls-vertical-alignment"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2891
+#: Excel.xml:2866
 #, no-c-format
 msgid ""
 "The vertical alignment of the cell value (see <ulink url=\"http://jexcelapi."
@@ -3031,13 +3007,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2903
+#: Excel.xml:2878
 #, no-c-format
 msgid "xls-shrink-to-fit"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2906
+#: Excel.xml:2881
 #, no-c-format
 msgid ""
 "Should the cell values shrink to fit? Valid values are \"true\" and \"false"
@@ -3045,26 +3021,26 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2914
+#: Excel.xml:2889
 #, no-c-format
 msgid "xls-wrap"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2917
+#: Excel.xml:2892
 #, no-c-format
 msgid ""
 "Should the cell wrap with newlines? Valid values are \"true\" and \"false\"."
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:2928
+#: Excel.xml:2903
 #, no-c-format
 msgid "The datatable exporter"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2929
+#: Excel.xml:2904
 #, no-c-format
 msgid ""
 "The datatable exporter uses the same xls-css attributes as the xhtml "
@@ -3074,32 +3050,32 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:2937
+#: Excel.xml:2912
 #, no-c-format
 msgid "Layout examples"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2938
+#: Excel.xml:2913
 #, no-c-format
 msgid "TODO"
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:2943
+#: Excel.xml:2918
 #, no-c-format
 msgid "Limitations"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2944
+#: Excel.xml:2919
 #, no-c-format
 msgid ""
 "In the current version there are some known limitations regarding CSS support"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2950
+#: Excel.xml:2925
 #, no-c-format
 msgid ""
 "When using .xhtml documents, stylesheets must be referenced through the "
@@ -3107,7 +3083,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2956
+#: Excel.xml:2931
 #, no-c-format
 msgid ""
 "When using the datatable exporter, CSS must be entered through style-"
@@ -3115,13 +3091,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:2965
+#: Excel.xml:2940
 #, no-c-format
 msgid "Links and further documentation"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2966
+#: Excel.xml:2941
 #, no-c-format
 msgid ""
 "The core of the &excel; functionality is based on the excellent JExcelAPI "
@@ -3130,7 +3106,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2972
+#: Excel.xml:2947
 #, no-c-format
 msgid ""
 "If you use the forum or mailing list, please remember that they don't know "

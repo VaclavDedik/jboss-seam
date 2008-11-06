@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-10-14 11:38+0000\n"
+"POT-Creation-Date: 2008-11-06 00:22+0000\n"
 "PO-Revision-Date: 2008-04-04 01:24+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -39,25 +39,14 @@ msgid ""
 "components on your own class using <literal>@Name</literal>."
 msgstr ""
 
-#. Tag: para
-#: Components.xml:21
-#, no-c-format
-msgid ""
-"Note also that even though all the built in components use a qualified name, "
-"most of them are aliased to unqualified names by default. These aliases "
-"specify <literal>auto-create=\"true\"</literal>, so you do not need to use "
-"<literal>create=true</literal> when injecting built-in components by their "
-"unqualified name."
-msgstr ""
-
 #. Tag: title
-#: Components.xml:30
+#: Components.xml:22
 #, no-c-format
 msgid "Context injection components"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:31
+#: Components.xml:23
 #, no-c-format
 msgid ""
 "The first set of built in components exist purely to support injection of "
@@ -66,19 +55,19 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Components.xml:38
+#: Components.xml:30
 #, no-c-format
 msgid "<![CDATA[@In private Context sessionContext;]]>"
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:42
+#: Components.xml:34
 #, no-c-format
 msgid "org.jboss.seam.core.contexts"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:44
+#: Components.xml:36
 #, no-c-format
 msgid ""
 "Component that provides access to Seam Context objects, for example "
@@ -86,13 +75,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:51
+#: Components.xml:43
 #, no-c-format
 msgid "org.jboss.seam.faces.facesContext"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:53
+#: Components.xml:45
 #, no-c-format
 msgid ""
 "Manager component for the <literal>FacesContext</literal> context object "
@@ -100,37 +89,37 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:61 Components.xml:275 Components.xml:485 Components.xml:637
+#: Components.xml:53 Components.xml:267 Components.xml:477 Components.xml:629
 #, no-c-format
 msgid "All of these components are always installed."
 msgstr ""
 
 #. Tag: title
-#: Components.xml:68
+#: Components.xml:60
 #, no-c-format
 msgid "Utility components"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:69
+#: Components.xml:61
 #, no-c-format
 msgid "These components are merely useful."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:75
+#: Components.xml:67
 #, no-c-format
 msgid "org.jboss.seam.faces.facesMessages"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:77
+#: Components.xml:69
 #, no-c-format
 msgid "Allows faces success messages to propagate across a browser redirect."
 msgstr ""
 
 #. Tag: para
-#: Components.xml:82
+#: Components.xml:74
 #, no-c-format
 msgid ""
 "<literal>add(FacesMessage facesMessage)</literal> &#8212; add a faces "
@@ -139,7 +128,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:89
+#: Components.xml:81
 #, no-c-format
 msgid ""
 "<literal>add(String messageTemplate)</literal> &#8212; add a faces message, "
@@ -147,7 +136,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:96
+#: Components.xml:88
 #, no-c-format
 msgid ""
 "<literal>add(Severity severity, String messageTemplate)</literal> &#8212; "
@@ -156,7 +145,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:103
+#: Components.xml:95
 #, no-c-format
 msgid ""
 "<literal>addFromResourceBundle(String key)</literal> &#8212; add a faces "
@@ -165,7 +154,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:110
+#: Components.xml:102
 #, no-c-format
 msgid ""
 "<literal>addFromResourceBundle(Severity severity, String key)</literal> "
@@ -174,19 +163,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:117
+#: Components.xml:109
 #, no-c-format
 msgid "<literal>clear()</literal> &#8212; clear all messages."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:125
+#: Components.xml:117
 #, no-c-format
 msgid "org.jboss.seam.faces.redirect"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:127
+#: Components.xml:119
 #, no-c-format
 msgid ""
 "A convenient API for performing redirects with parameters (this is "
@@ -194,14 +183,14 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:133
+#: Components.xml:125
 #, no-c-format
 msgid ""
 "<literal>redirect.viewId</literal> &#8212; the JSF view id to redirect to."
 msgstr ""
 
 #. Tag: para
-#: Components.xml:139
+#: Components.xml:131
 #, no-c-format
 msgid ""
 "<literal>redirect.conversationPropagationEnabled</literal> &#8212; "
@@ -209,7 +198,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:146
+#: Components.xml:138
 #, no-c-format
 msgid ""
 "<literal>redirect.parameters</literal> &#8212; a map of request parameter "
@@ -217,13 +206,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:153
+#: Components.xml:145
 #, no-c-format
 msgid "<literal>execute()</literal> &#8212; perform the redirect immediately."
 msgstr ""
 
 #. Tag: para
-#: Components.xml:159
+#: Components.xml:151
 #, no-c-format
 msgid ""
 "<literal>captureCurrentRequest()</literal> &#8212; stores the view id and "
@@ -232,25 +221,25 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:170
+#: Components.xml:162
 #, no-c-format
 msgid "org.jboss.seam.faces.httpError"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:172
+#: Components.xml:164
 #, no-c-format
 msgid "A convenient API for sending HTTP errors."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:178
+#: Components.xml:170
 #, no-c-format
 msgid "org.jboss.seam.core.events"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:180
+#: Components.xml:172
 #, no-c-format
 msgid ""
 "An API for raising events that can be observed via <literal>@Observer</"
@@ -258,7 +247,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:187
+#: Components.xml:179
 #, no-c-format
 msgid ""
 "<literal>raiseEvent(String type)</literal> &#8212; raise an event of a "
@@ -266,7 +255,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:194
+#: Components.xml:186
 #, no-c-format
 msgid ""
 "<literal>raiseAsynchronousEvent(String type)</literal> &#8212; raise an "
@@ -274,7 +263,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:201
+#: Components.xml:193
 #, no-c-format
 msgid ""
 "<literal>raiseTimedEvent(String type, ....)</literal> &#8212; schedule an "
@@ -282,7 +271,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:208
+#: Components.xml:200
 #, no-c-format
 msgid ""
 "<literal>addListener(String type, String methodBinding)</literal> &#8212; "
@@ -290,19 +279,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:217
+#: Components.xml:209
 #, no-c-format
 msgid "org.jboss.seam.core.interpolator"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:219
+#: Components.xml:211
 #, no-c-format
 msgid "An API for interpolating the values of JSF EL expressions in Strings."
 msgstr ""
 
 #. Tag: para
-#: Components.xml:225
+#: Components.xml:217
 #, no-c-format
 msgid ""
 "<literal>interpolate(String template)</literal> &#8212; scan the template "
@@ -311,19 +300,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:235
+#: Components.xml:227
 #, no-c-format
 msgid "org.jboss.seam.core.expressions"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:237
+#: Components.xml:229
 #, no-c-format
 msgid "An API for creating value and method bindings."
 msgstr ""
 
 #. Tag: para
-#: Components.xml:242
+#: Components.xml:234
 #, no-c-format
 msgid ""
 "<literal>createValueBinding(String expression)</literal> &#8212; create a "
@@ -331,7 +320,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:248
+#: Components.xml:240
 #, no-c-format
 msgid ""
 "<literal>createMethodBinding(String expression)</literal> &#8212; create a "
@@ -339,20 +328,20 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:257 Components.xml:1321
+#: Components.xml:249 Components.xml:1313
 #, no-c-format
 msgid "org.jboss.seam.core.pojoCache"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:259
+#: Components.xml:251
 #, no-c-format
 msgid ""
 "Manager component for a JBoss Cache <literal>PojoCache</literal> instance."
 msgstr ""
 
 #. Tag: para
-#: Components.xml:265
+#: Components.xml:257
 #, no-c-format
 msgid ""
 "<literal>pojoCache.cfgResourceName</literal> &#8212; the name of the "
@@ -360,13 +349,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Components.xml:281
+#: Components.xml:273
 #, no-c-format
 msgid "Components for internationalization and themes"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:282
+#: Components.xml:274
 #, no-c-format
 msgid ""
 "The next group of components make it easy to build internationalized user "
@@ -374,37 +363,37 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:289
+#: Components.xml:281
 #, no-c-format
 msgid "org.jboss.seam.core.locale"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:291
+#: Components.xml:283
 #, no-c-format
 msgid "The Seam locale."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:297
+#: Components.xml:289
 #, no-c-format
 msgid "org.jboss.seam.international.timezone"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:299
+#: Components.xml:291
 #, no-c-format
 msgid "The Seam timezone. The timezone is session scoped."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:305
+#: Components.xml:297
 #, no-c-format
 msgid "org.jboss.seam.core.resourceBundle"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:307
+#: Components.xml:299
 #, no-c-format
 msgid ""
 "The Seam resource bundle. The resource bundle is stateless. The Seam "
@@ -413,13 +402,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:315
+#: Components.xml:307
 #, no-c-format
 msgid "org.jboss.seam.core.resourceLoader"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:317
+#: Components.xml:309
 #, no-c-format
 msgid ""
 "The resource loader provides access to application resources and resource "
@@ -427,7 +416,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:322
+#: Components.xml:314
 #, no-c-format
 msgid ""
 "<literal>resourceLoader.bundleNames</literal> &#8212; the names of the Java "
@@ -436,13 +425,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:332
+#: Components.xml:324
 #, no-c-format
 msgid "org.jboss.seam.international.localeSelector"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:334
+#: Components.xml:326
 #, no-c-format
 msgid ""
 "Supports selection of the locale either at configuration time, or by the "
@@ -450,13 +439,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:340 Components.xml:399
+#: Components.xml:332 Components.xml:391
 #, no-c-format
 msgid "<literal>select()</literal> &#8212; select the specified locale."
 msgstr ""
 
 #. Tag: para
-#: Components.xml:345
+#: Components.xml:337
 #, no-c-format
 msgid ""
 "<literal>localeSelector.locale</literal> &#8212; the actual <literal>java."
@@ -464,7 +453,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:351
+#: Components.xml:343
 #, no-c-format
 msgid ""
 "<literal>localeSelector.localeString</literal> &#8212; the stringified "
@@ -472,7 +461,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:357
+#: Components.xml:349
 #, no-c-format
 msgid ""
 "<literal>localeSelector.language</literal> &#8212; the language for the "
@@ -480,7 +469,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:363
+#: Components.xml:355
 #, no-c-format
 msgid ""
 "<literal>localeSelector.country</literal> &#8212; the country for the "
@@ -488,7 +477,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:369
+#: Components.xml:361
 #, no-c-format
 msgid ""
 "<literal>localeSelector.variant</literal> &#8212; the variant for the "
@@ -496,7 +485,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:375
+#: Components.xml:367
 #, no-c-format
 msgid ""
 "<literal>localeSelector.supportedLocales</literal> &#8212; a list of "
@@ -505,7 +494,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:382
+#: Components.xml:374
 #, no-c-format
 msgid ""
 "<literal>localeSelector.cookieEnabled</literal> &#8212; specifies that the "
@@ -513,13 +502,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:391
+#: Components.xml:383
 #, no-c-format
 msgid "org.jboss.seam.international.timezoneSelector"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:393
+#: Components.xml:385
 #, no-c-format
 msgid ""
 "Supports selection of the timezone either at configuration time, or by the "
@@ -527,7 +516,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:404
+#: Components.xml:396
 #, no-c-format
 msgid ""
 "<literal>timezoneSelector.timezone</literal> &#8212; the actual "
@@ -535,7 +524,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:410
+#: Components.xml:402
 #, no-c-format
 msgid ""
 "<literal>timezoneSelector.timeZoneId</literal> &#8212; the stringified "
@@ -543,7 +532,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:416
+#: Components.xml:408
 #, no-c-format
 msgid ""
 "<literal>timezoneSelector.cookieEnabled</literal> &#8212; specifies that the "
@@ -551,13 +540,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:425
+#: Components.xml:417
 #, no-c-format
 msgid "org.jboss.seam.international.messages"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:427
+#: Components.xml:419
 #, no-c-format
 msgid ""
 "A map containing internationalized messages rendered from message templates "
@@ -565,13 +554,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:434
+#: Components.xml:426
 #, no-c-format
 msgid "org.jboss.seam.theme.themeSelector"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:436
+#: Components.xml:428
 #, no-c-format
 msgid ""
 "Supports selection of the theme either at configuration time, or by the user "
@@ -579,26 +568,26 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:442
+#: Components.xml:434
 #, no-c-format
 msgid "<literal>select()</literal> &#8212; select the specified theme."
 msgstr ""
 
 #. Tag: para
-#: Components.xml:447
+#: Components.xml:439
 #, no-c-format
 msgid ""
 "<literal>theme.availableThemes</literal> &#8212; the list of defined themes."
 msgstr ""
 
 #. Tag: para
-#: Components.xml:453
+#: Components.xml:445
 #, no-c-format
 msgid "<literal>themeSelector.theme</literal> &#8212; the selected theme."
 msgstr ""
 
 #. Tag: para
-#: Components.xml:459
+#: Components.xml:451
 #, no-c-format
 msgid ""
 "<literal>themeSelector.themes</literal> &#8212; a list of "
@@ -606,7 +595,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:466
+#: Components.xml:458
 #, no-c-format
 msgid ""
 "<literal>themeSelector.cookieEnabled</literal> &#8212; specifies that the "
@@ -614,25 +603,25 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:475
+#: Components.xml:467
 #, no-c-format
 msgid "org.jboss.seam.theme.theme"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:477
+#: Components.xml:469
 #, no-c-format
 msgid "A map containing theme entries."
 msgstr ""
 
 #. Tag: title
-#: Components.xml:491
+#: Components.xml:483
 #, no-c-format
 msgid "Components for controlling conversations"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:492
+#: Components.xml:484
 #, no-c-format
 msgid ""
 "The next group of components allow control of conversations by the "
@@ -640,26 +629,26 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:499
+#: Components.xml:491
 #, no-c-format
 msgid "org.jboss.seam.core.conversation"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:501
+#: Components.xml:493
 #, no-c-format
 msgid ""
 "API for application control of attributes of the current Seam conversation."
 msgstr ""
 
 #. Tag: para
-#: Components.xml:506 Components.xml:523
+#: Components.xml:498 Components.xml:515
 #, no-c-format
 msgid "<literal>getId()</literal> &#8212; returns the current conversation id"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:511
+#: Components.xml:503
 #, no-c-format
 msgid ""
 "<literal>isNested()</literal> &#8212; is the current conversation a nested "
@@ -667,7 +656,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:517
+#: Components.xml:509
 #, no-c-format
 msgid ""
 "<literal>isLongRunning()</literal> &#8212; is the current conversation a "
@@ -675,7 +664,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:528
+#: Components.xml:520
 #, no-c-format
 msgid ""
 "<literal>getParentId()</literal> &#8212; returns the conversation id of the "
@@ -683,7 +672,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:534
+#: Components.xml:526
 #, no-c-format
 msgid ""
 "<literal>getRootId()</literal> &#8212; returns the conversation id of the "
@@ -691,7 +680,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:540
+#: Components.xml:532
 #, no-c-format
 msgid ""
 "<literal>setTimeout(int timeout)</literal> &#8212; sets the timeout for the "
@@ -699,7 +688,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:546
+#: Components.xml:538
 #, no-c-format
 msgid ""
 "<literal>setViewId(String outcome)</literal> &#8212; sets the view id to be "
@@ -708,7 +697,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:553
+#: Components.xml:545
 #, no-c-format
 msgid ""
 "<literal>setDescription(String description)</literal> &#8212; sets the "
@@ -717,7 +706,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:560
+#: Components.xml:552
 #, no-c-format
 msgid ""
 "<literal>redirect()</literal> &#8212; redirect to the last well-defined view "
@@ -725,7 +714,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:566
+#: Components.xml:558
 #, no-c-format
 msgid ""
 "<literal>leave()</literal> &#8212; exit the scope of this conversation, "
@@ -733,7 +722,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:572
+#: Components.xml:564
 #, no-c-format
 msgid ""
 "<literal>begin()</literal> &#8212; begin a long-running conversation "
@@ -741,7 +730,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:578
+#: Components.xml:570
 #, no-c-format
 msgid ""
 "<literal>beginPageflow(String pageflowName)</literal> &#8212; begin a long-"
@@ -750,7 +739,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:585
+#: Components.xml:577
 #, no-c-format
 msgid ""
 "<literal>end()</literal> &#8212; end a long-running conversation (equivalent "
@@ -758,7 +747,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:591
+#: Components.xml:583
 #, no-c-format
 msgid ""
 "<literal>pop()</literal> &#8212; pop the conversation stack, returning to "
@@ -766,7 +755,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:597
+#: Components.xml:589
 #, no-c-format
 msgid ""
 "<literal>root()</literal> &#8212; return to the root conversation of the "
@@ -774,7 +763,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:603
+#: Components.xml:595
 #, no-c-format
 msgid ""
 "<literal>changeFlushMode(FlushModeType flushMode)</literal> &#8212; change "
@@ -782,67 +771,67 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:612
+#: Components.xml:604
 #, no-c-format
 msgid "org.jboss.seam.core.conversationList"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:614
+#: Components.xml:606
 #, no-c-format
 msgid "Manager component for the conversation list."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:620
+#: Components.xml:612
 #, no-c-format
 msgid "org.jboss.seam.core.conversationStack"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:622
+#: Components.xml:614
 #, no-c-format
 msgid "Manager component for the conversation stack (breadcrumbs)."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:628
+#: Components.xml:620
 #, no-c-format
 msgid "org.jboss.seam.faces.switcher"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:630
+#: Components.xml:622
 #, no-c-format
 msgid "The conversation switcher."
 msgstr ""
 
 #. Tag: title
-#: Components.xml:644
+#: Components.xml:636
 #, no-c-format
 msgid "jBPM-related components"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:645
+#: Components.xml:637
 #, no-c-format
 msgid "These components are for use with jBPM."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:651
+#: Components.xml:643
 #, no-c-format
 msgid "org.jboss.seam.pageflow.pageflow"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:653
+#: Components.xml:645
 #, no-c-format
 msgid "API control of Seam pageflows."
 msgstr ""
 
 #. Tag: para
-#: Components.xml:658
+#: Components.xml:650
 #, no-c-format
 msgid ""
 "<literal>isInProcess()</literal> &#8212; returns <literal>true</literal> if "
@@ -850,7 +839,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:664
+#: Components.xml:656
 #, no-c-format
 msgid ""
 "<literal>getProcessInstance()</literal> &#8212; returns jBPM "
@@ -858,7 +847,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:670
+#: Components.xml:662
 #, no-c-format
 msgid ""
 "<literal>begin(String pageflowName)</literal> &#8212; begin a pageflow in "
@@ -866,7 +855,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:676
+#: Components.xml:668
 #, no-c-format
 msgid ""
 "<literal>reposition(String nodeName)</literal> &#8212; reposition the "
@@ -874,13 +863,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:685
+#: Components.xml:677
 #, no-c-format
 msgid "org.jboss.seam.bpm.actor"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:687
+#: Components.xml:679
 #, no-c-format
 msgid ""
 "API for application control of attributes of the jBPM actor associated with "
@@ -888,7 +877,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:693
+#: Components.xml:685
 #, no-c-format
 msgid ""
 "<literal>setId(String actorId)</literal> &#8212; sets the jBPM actor id of "
@@ -896,7 +885,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:699
+#: Components.xml:691
 #, no-c-format
 msgid ""
 "<literal>getGroupActorIds()</literal> &#8212; returns a <literal>Set</"
@@ -904,20 +893,20 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:709
+#: Components.xml:701
 #, no-c-format
 msgid "org.jboss.seam.bpm.transition"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:711
+#: Components.xml:703
 #, no-c-format
 msgid ""
 "API for application control of the jBPM transition for the current task."
 msgstr ""
 
 #. Tag: para
-#: Components.xml:717
+#: Components.xml:709
 #, no-c-format
 msgid ""
 "<literal>setName(String transitionName)</literal> &#8212; sets the jBPM "
@@ -926,13 +915,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:727
+#: Components.xml:719
 #, no-c-format
 msgid "org.jboss.seam.bpm.businessProcess"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:729
+#: Components.xml:721
 #, no-c-format
 msgid ""
 "API for programmatic control of the association between the conversation and "
@@ -940,7 +929,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:735
+#: Components.xml:727
 #, no-c-format
 msgid ""
 "<literal>businessProcess.taskId</literal> &#8212; the id of the task "
@@ -948,7 +937,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:741
+#: Components.xml:733
 #, no-c-format
 msgid ""
 "<literal>businessProcess.processId</literal> &#8212; the id of the process "
@@ -956,7 +945,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:747
+#: Components.xml:739
 #, no-c-format
 msgid ""
 "<literal>businessProcess.hasCurrentTask()</literal> &#8212; is a task "
@@ -964,7 +953,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:753
+#: Components.xml:745
 #, no-c-format
 msgid ""
 "<literal>businessProcess.hasCurrentProcess()</literal> &#8212; is a process "
@@ -972,7 +961,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:759
+#: Components.xml:751
 #, no-c-format
 msgid ""
 "<literal>createProcess(String name)</literal> &#8212; create an instance of "
@@ -980,7 +969,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:766
+#: Components.xml:758
 #, no-c-format
 msgid ""
 "<literal>startTask()</literal> &#8212; start the task associated with the "
@@ -988,7 +977,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:772
+#: Components.xml:764
 #, no-c-format
 msgid ""
 "<literal>endTask(String transitionName)</literal> &#8212; end the task "
@@ -996,7 +985,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:778
+#: Components.xml:770
 #, no-c-format
 msgid ""
 "<literal>resumeTask(Long id)</literal> &#8212; associate the task with the "
@@ -1004,7 +993,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:784
+#: Components.xml:776
 #, no-c-format
 msgid ""
 "<literal>resumeProcess(Long id)</literal> &#8212; associate the process with "
@@ -1012,7 +1001,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:790
+#: Components.xml:782
 #, no-c-format
 msgid ""
 "<literal>transition(String transitionName)</literal> &#8212; trigger the "
@@ -1020,115 +1009,115 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:799
+#: Components.xml:791
 #, no-c-format
 msgid "org.jboss.seam.bpm.taskInstance"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:801
+#: Components.xml:793
 #, no-c-format
 msgid "Manager component for the jBPM <literal>TaskInstance</literal>."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:807
+#: Components.xml:799
 #, no-c-format
 msgid "org.jboss.seam.bpm.processInstance"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:809
+#: Components.xml:801
 #, no-c-format
 msgid "Manager component for the jBPM <literal>ProcessInstance</literal>."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:815
+#: Components.xml:807
 #, no-c-format
 msgid "org.jboss.seam.bpm.jbpmContext"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:817
+#: Components.xml:809
 #, no-c-format
 msgid "Manager component for an event-scoped <literal>JbpmContext</literal>."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:823
+#: Components.xml:815
 #, no-c-format
 msgid "org.jboss.seam.bpm.taskInstanceList"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:825
+#: Components.xml:817
 #, no-c-format
 msgid "Manager component for the jBPM task list."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:831
+#: Components.xml:823
 #, no-c-format
 msgid "org.jboss.seam.bpm.pooledTaskInstanceList"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:833
+#: Components.xml:825
 #, no-c-format
 msgid "Manager component for the jBPM pooled task list."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:839
+#: Components.xml:831
 #, no-c-format
 msgid "org.jboss.seam.bpm.taskInstanceListForType"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:841
+#: Components.xml:833
 #, no-c-format
 msgid "Manager component for the jBPM task lists."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:847
+#: Components.xml:839
 #, no-c-format
 msgid "org.jboss.seam.bpm.pooledTask"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:849
+#: Components.xml:841
 #, no-c-format
 msgid "Action handler for pooled task assignment."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:855
+#: Components.xml:847
 #, no-c-format
 msgid "org.jboss.seam.bpm.processInstanceFinder"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:857
+#: Components.xml:849
 #, no-c-format
 msgid "Manager for the process instance task list."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:863
+#: Components.xml:855
 #, no-c-format
 msgid "org.jboss.seam.bpm.processInstanceList"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:865
+#: Components.xml:857
 #, no-c-format
 msgid "The process instance task list."
 msgstr ""
 
 #. Tag: para
-#: Components.xml:872
+#: Components.xml:864
 #, no-c-format
 msgid ""
 "All of these components are installed whenever the component <literal>org."
@@ -1136,37 +1125,37 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Components.xml:880
+#: Components.xml:872
 #, no-c-format
 msgid "Security-related components"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:881
+#: Components.xml:873
 #, no-c-format
 msgid "These components relate to web-tier security."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:887
+#: Components.xml:879
 #, no-c-format
 msgid "org.jboss.seam.web.userPrincipal"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:889
+#: Components.xml:881
 #, no-c-format
 msgid "Manager component for the current user <literal>Principal</literal>."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:895
+#: Components.xml:887
 #, no-c-format
 msgid "org.jboss.seam.web.isUserInRole"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:897
+#: Components.xml:889
 #, no-c-format
 msgid ""
 "Allows JSF pages to choose to render a control, depending upon the roles "
@@ -1175,13 +1164,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Components.xml:908
+#: Components.xml:900
 #, no-c-format
 msgid "JMS-related components"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:909
+#: Components.xml:901
 #, no-c-format
 msgid ""
 "These components are for use with managed <literal>TopicPublisher</literal>s "
@@ -1189,49 +1178,49 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:916
+#: Components.xml:908
 #, no-c-format
 msgid "org.jboss.seam.jms.queueSession"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:918
+#: Components.xml:910
 #, no-c-format
 msgid "Manager component for a JMS <literal>QueueSession</literal> ."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:924
+#: Components.xml:916
 #, no-c-format
 msgid "org.jboss.seam.jms.topicSession"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:926
+#: Components.xml:918
 #, no-c-format
 msgid "Manager component for a JMS <literal>TopicSession</literal> ."
 msgstr ""
 
 #. Tag: title
-#: Components.xml:935
+#: Components.xml:927
 #, no-c-format
 msgid "Mail-related components"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:936
+#: Components.xml:928
 #, no-c-format
 msgid "These components are for use with Seam's Email support"
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:942
+#: Components.xml:934
 #, no-c-format
 msgid "org.jboss.seam.mail.mailSession"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:944
+#: Components.xml:936
 #, no-c-format
 msgid ""
 "Manager component for a JavaMail <literal>Session</literal>. The session can "
@@ -1241,7 +1230,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:953
+#: Components.xml:945
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.mail.mailSession.host</literal> &#8212; the hostname "
@@ -1249,7 +1238,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:958
+#: Components.xml:950
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.mail.mailSession.port</literal> &#8212; the port of "
@@ -1257,7 +1246,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:963
+#: Components.xml:955
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.mail.mailSession.username</literal> &#8212; the "
@@ -1265,7 +1254,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:968
+#: Components.xml:960
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.mail.mailSession.password</literal> &#8212; the "
@@ -1273,7 +1262,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:973
+#: Components.xml:965
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.mail.mailSession.debug</literal> &#8212; enable "
@@ -1281,7 +1270,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:978
+#: Components.xml:970
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.mail.mailSession.ssl</literal> &#8212; enable SSL "
@@ -1289,7 +1278,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:981
+#: Components.xml:973
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.mail.mailSession.tls</literal> &#8212; by default "
@@ -1297,7 +1286,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:986
+#: Components.xml:978
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.mail.mailSession.sessionJndiName</literal> &#8212; "
@@ -1306,13 +1295,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Components.xml:998
+#: Components.xml:990
 #, no-c-format
 msgid "Infrastructural components"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:999
+#: Components.xml:991
 #, no-c-format
 msgid ""
 "These components provide critical platform infrastructure. You can install a "
@@ -1321,19 +1310,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1007
+#: Components.xml:999
 #, no-c-format
 msgid "org.jboss.seam.core.init"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1009
+#: Components.xml:1001
 #, no-c-format
 msgid "Initialization settings for Seam. Always installed."
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1014
+#: Components.xml:1006
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.core.init.jndiPattern</literal> &#8212; the JNDI "
@@ -1341,7 +1330,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1020
+#: Components.xml:1012
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.core.init.debug</literal> &#8212; enable Seam debug "
@@ -1350,7 +1339,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1027
+#: Components.xml:1019
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.core.init.clientSideConversations</literal> &#8212; "
@@ -1359,7 +1348,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1034
+#: Components.xml:1026
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.core.init.userTransactionName</literal> &#8212; the "
@@ -1368,13 +1357,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1043
+#: Components.xml:1035
 #, no-c-format
 msgid "org.jboss.seam.core.manager"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1045
+#: Components.xml:1037
 #, no-c-format
 msgid ""
 "Internal component for Seam page and conversation context management. Always "
@@ -1382,7 +1371,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1051
+#: Components.xml:1043
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.core.manager.conversationTimeout</literal> &#8212; "
@@ -1390,7 +1379,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1057
+#: Components.xml:1049
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.core.manager.concurrentRequestTimeout</literal> "
@@ -1399,7 +1388,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1064
+#: Components.xml:1056
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.core.manager.conversationIdParameter</literal> "
@@ -1408,7 +1397,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1071
+#: Components.xml:1063
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.core.manager.conversationIsLongRunningParameter</"
@@ -1418,7 +1407,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1078
+#: Components.xml:1070
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.core.manager.defaultFlushMode</literal> &#8212; set "
@@ -1427,19 +1416,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1088
+#: Components.xml:1080
 #, no-c-format
 msgid "org.jboss.seam.navigation.pages"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1090
+#: Components.xml:1082
 #, no-c-format
 msgid "Internal component for Seam workspace management. Always installed."
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1095
+#: Components.xml:1087
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.navigation.pages.noConversationViewId</literal> "
@@ -1448,7 +1437,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1102
+#: Components.xml:1094
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.navigation.pages.loginViewId</literal> &#8212; "
@@ -1457,7 +1446,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1109
+#: Components.xml:1101
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.navigation.pages.httpPort</literal> &#8212; global "
@@ -1465,7 +1454,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1116
+#: Components.xml:1108
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.navigation.pages.httpsPort</literal> &#8212; global "
@@ -1473,7 +1462,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1123
+#: Components.xml:1115
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.navigation.pages.resources</literal> &#8212; a list "
@@ -1482,13 +1471,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1133
+#: Components.xml:1125
 #, no-c-format
 msgid "org.jboss.seam.bpm.jbpm"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1135
+#: Components.xml:1127
 #, no-c-format
 msgid ""
 "Bootstraps a <literal>JbpmConfiguration</literal>. Install as class "
@@ -1496,7 +1485,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1141
+#: Components.xml:1133
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.bpm.jbpm.processDefinitions</literal> &#8212; a list "
@@ -1505,7 +1494,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1148
+#: Components.xml:1140
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.bpm.jbpm.pageflowDefinitions</literal> &#8212; a "
@@ -1514,13 +1503,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1158
+#: Components.xml:1150
 #, no-c-format
 msgid "org.jboss.seam.core.conversationEntries"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1160
+#: Components.xml:1152
 #, no-c-format
 msgid ""
 "Internal session-scoped component recording the active long-running "
@@ -1528,13 +1517,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1167
+#: Components.xml:1159
 #, no-c-format
 msgid "org.jboss.seam.faces.facesPage"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1169
+#: Components.xml:1161
 #, no-c-format
 msgid ""
 "Internal page-scoped component recording the conversation context associated "
@@ -1542,13 +1531,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1176
+#: Components.xml:1168
 #, no-c-format
 msgid "org.jboss.seam.persistence.persistenceContexts"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1178
+#: Components.xml:1170
 #, no-c-format
 msgid ""
 "Internal component recording the persistence contexts which were used in the "
@@ -1556,13 +1545,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1185
+#: Components.xml:1177
 #, no-c-format
 msgid "org.jboss.seam.jms.queueConnection"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1187
+#: Components.xml:1179
 #, no-c-format
 msgid ""
 "Manages a JMS <literal>QueueConnection</literal>. Installed whenever managed "
@@ -1570,7 +1559,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1193
+#: Components.xml:1185
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.jms.queueConnection.queueConnectionFactoryJndiName</"
@@ -1579,13 +1568,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1203
+#: Components.xml:1195
 #, no-c-format
 msgid "org.jboss.seam.jms.topicConnection"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1205
+#: Components.xml:1197
 #, no-c-format
 msgid ""
 "Manages a JMS <literal>TopicConnection</literal>. Installed whenever managed "
@@ -1593,7 +1582,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1211
+#: Components.xml:1203
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.jms.topicConnection.topicConnectionFactoryJndiName</"
@@ -1602,38 +1591,38 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1221
+#: Components.xml:1213
 #, no-c-format
 msgid "org.jboss.seam.persistence.persistenceProvider"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1223
+#: Components.xml:1215
 #, no-c-format
 msgid "Abstraction layer for non-standardized features of JPA provider."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1229
+#: Components.xml:1221
 #, no-c-format
 msgid "org.jboss.seam.core.validators"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1231
+#: Components.xml:1223
 #, no-c-format
 msgid ""
 "Caches instances of Hibernate Validator <literal>ClassValidator</literal>."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1237
+#: Components.xml:1229
 #, no-c-format
 msgid "org.jboss.seam.faces.validation"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1239
+#: Components.xml:1231
 #, no-c-format
 msgid ""
 "Allows the application to determine whether validation failed or was "
@@ -1641,43 +1630,43 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1246
+#: Components.xml:1238
 #, no-c-format
 msgid "org.jboss.seam.debug.introspector"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1248 Components.xml:1256
+#: Components.xml:1240 Components.xml:1248
 #, no-c-format
 msgid "Support for the Seam Debug Page."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1254
+#: Components.xml:1246
 #, no-c-format
 msgid "org.jboss.seam.debug.contexts"
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1262
+#: Components.xml:1254
 #, no-c-format
 msgid "org.jboss.seam.exception.exceptions"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1264
+#: Components.xml:1256
 #, no-c-format
 msgid "Internal component for exception handling."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1270
+#: Components.xml:1262
 #, no-c-format
 msgid "org.jboss.seam.transaction.transaction"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1272
+#: Components.xml:1264
 #, no-c-format
 msgid ""
 "API for controlling transactions and abstracting the underlying transaction "
@@ -1685,13 +1674,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1280
+#: Components.xml:1272
 #, no-c-format
 msgid "org.jboss.seam.faces.safeActions"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1282
+#: Components.xml:1274
 #, no-c-format
 msgid ""
 "Decides if an action expression in an incoming URL is safe. This is done by "
@@ -1699,67 +1688,67 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Components.xml:1292
+#: Components.xml:1284
 #, no-c-format
 msgid "Miscellaneous components"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1293
+#: Components.xml:1285
 #, no-c-format
 msgid "These components don't fit into"
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1299
+#: Components.xml:1291
 #, no-c-format
 msgid "org.jboss.seam.async.dispatcher"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1301
+#: Components.xml:1293
 #, no-c-format
 msgid "Dispatcher stateless session bean for asynchronous methods."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1310
+#: Components.xml:1302
 #, no-c-format
 msgid "org.jboss.seam.core.image"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1312
+#: Components.xml:1304
 #, no-c-format
 msgid "Image manipulation and interrogation."
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1323
+#: Components.xml:1315
 #, no-c-format
 msgid "Manager component for a PojoCache instance."
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1332
+#: Components.xml:1324
 #, no-c-format
 msgid "org.jboss.seam.core.uiComponent"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1334
+#: Components.xml:1326
 #, no-c-format
 msgid "Manages a map of UIComponents keyed by component id."
 msgstr ""
 
 #. Tag: title
-#: Components.xml:1346
+#: Components.xml:1338
 #, no-c-format
 msgid "Special components"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1347
+#: Components.xml:1339
 #, no-c-format
 msgid ""
 "Certain special Seam component classes are installable multiple times under "
@@ -1769,7 +1758,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Components.xml:1353
+#: Components.xml:1345
 #, no-c-format
 msgid ""
 "<![CDATA[<component name=\"bookingDatabase\"\n"
@@ -1786,7 +1775,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1355
+#: Components.xml:1347
 #, no-c-format
 msgid ""
 "The Seam component names are <literal>bookingDatabase</literal> and "
@@ -1794,19 +1783,19 @@ msgid ""
 msgstr ""
 
 #. Tag: emphasis
-#: Components.xml:1362
+#: Components.xml:1354
 #, no-c-format
 msgid "&lt;entityManager&gt;"
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1363
+#: Components.xml:1355
 #, no-c-format
 msgid "org.jboss.seam.persistence.ManagedPersistenceContext"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1365
+#: Components.xml:1357
 #, no-c-format
 msgid ""
 "Manager component for a conversation scoped managed <literal>EntityManager</"
@@ -1814,7 +1803,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1371
+#: Components.xml:1363
 #, no-c-format
 msgid ""
 "<emphasis>&lt;entityManager&gt;</emphasis>.entityManagerFactory &#8212; a "
@@ -1823,7 +1812,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1376
+#: Components.xml:1368
 #, no-c-format
 msgid ""
 "<emphasis>&lt;entityManager&gt;</emphasis>.persistenceUnitJndiName &#8212; "
@@ -1832,19 +1821,19 @@ msgid ""
 msgstr ""
 
 #. Tag: emphasis
-#: Components.xml:1386
+#: Components.xml:1378
 #, no-c-format
 msgid "&lt;entityManagerFactory&gt;"
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1387
+#: Components.xml:1379
 #, no-c-format
 msgid "org.jboss.seam.persistence.EntityManagerFactory"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1389
+#: Components.xml:1381
 #, no-c-format
 msgid ""
 "Manages a JPA <literal>EntityManagerFactory</literal>. This is most useful "
@@ -1852,7 +1841,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1395
+#: Components.xml:1387
 #, no-c-format
 msgid ""
 "<literal>entityManagerFactory.persistenceUnitName</literal> &#8212; the name "
@@ -1860,25 +1849,25 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1401 Components.xml:1444
+#: Components.xml:1393 Components.xml:1436
 #, no-c-format
 msgid "See the API JavaDoc for further configuration properties."
 msgstr ""
 
 #. Tag: emphasis
-#: Components.xml:1407
+#: Components.xml:1399
 #, no-c-format
 msgid "&lt;session&gt;"
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1408
+#: Components.xml:1400
 #, no-c-format
 msgid "org.jboss.seam.persistence.ManagedSession"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1410
+#: Components.xml:1402
 #, no-c-format
 msgid ""
 "Manager component for a conversation scoped managed Hibernate "
@@ -1886,7 +1875,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1415
+#: Components.xml:1407
 #, no-c-format
 msgid ""
 "<emphasis>&lt;session&gt;</emphasis>.sessionFactory &#8212; a value binding "
@@ -1895,7 +1884,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1420
+#: Components.xml:1412
 #, no-c-format
 msgid ""
 "<emphasis>&lt;session&gt;</emphasis>.sessionFactoryJndiName &#8212; the JNDI "
@@ -1904,25 +1893,25 @@ msgid ""
 msgstr ""
 
 #. Tag: emphasis
-#: Components.xml:1430
+#: Components.xml:1422
 #, no-c-format
 msgid "&lt;sessionFactory&gt;"
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1431
+#: Components.xml:1423
 #, no-c-format
 msgid "org.jboss.seam.persistence.HibernateSessionFactory"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1433
+#: Components.xml:1425
 #, no-c-format
 msgid "Manages a Hibernate <literal>SessionFactory</literal>."
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1438
+#: Components.xml:1430
 #, no-c-format
 msgid ""
 "<literal>&lt;sessionFactory&gt;.cfgResourceName</literal> &#8212; the path "
@@ -1930,19 +1919,19 @@ msgid ""
 msgstr ""
 
 #. Tag: emphasis
-#: Components.xml:1450
+#: Components.xml:1442
 #, no-c-format
 msgid "&lt;managedQueueSender&gt;"
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1451
+#: Components.xml:1443
 #, no-c-format
 msgid "org.jboss.seam.jms.ManagedQueueSender"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1453
+#: Components.xml:1445
 #, no-c-format
 msgid ""
 "Manager component for an event scoped managed JMS <literal>QueueSender</"
@@ -1950,7 +1939,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1458
+#: Components.xml:1450
 #, no-c-format
 msgid ""
 "<emphasis>&lt;managedQueueSender&gt;</emphasis>.queueJndiName &#8212; the "
@@ -1958,19 +1947,19 @@ msgid ""
 msgstr ""
 
 #. Tag: emphasis
-#: Components.xml:1467
+#: Components.xml:1459
 #, no-c-format
 msgid "&lt;managedTopicPublisher&gt;"
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1468
+#: Components.xml:1460
 #, no-c-format
 msgid "org.jboss.seam.jms.ManagedTopicPublisher"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1470
+#: Components.xml:1462
 #, no-c-format
 msgid ""
 "Manager component for an event scoped managed JMS <literal>TopicPublisher</"
@@ -1978,7 +1967,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1475
+#: Components.xml:1467
 #, no-c-format
 msgid ""
 "<emphasis>&lt;managedTopicPublisher&gt;</emphasis>.topicJndiName &#8212; the "
@@ -1986,19 +1975,19 @@ msgid ""
 msgstr ""
 
 #. Tag: emphasis
-#: Components.xml:1484
+#: Components.xml:1476
 #, no-c-format
 msgid "&lt;managedWorkingMemory&gt;"
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1485
+#: Components.xml:1477
 #, no-c-format
 msgid "org.jboss.seam.drools.ManagedWorkingMemory"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1487
+#: Components.xml:1479
 #, no-c-format
 msgid ""
 "Manager component for a conversation scoped managed Drools "
@@ -2006,7 +1995,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1492
+#: Components.xml:1484
 #, no-c-format
 msgid ""
 "<emphasis>&lt;managedWorkingMemory&gt;</emphasis>.ruleBase &#8212; a value "
@@ -2014,19 +2003,19 @@ msgid ""
 msgstr ""
 
 #. Tag: emphasis
-#: Components.xml:1501
+#: Components.xml:1493
 #, no-c-format
 msgid "&lt;ruleBase&gt;"
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1502
+#: Components.xml:1494
 #, no-c-format
 msgid "org.jboss.seam.drools.RuleBase"
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1504
+#: Components.xml:1496
 #, no-c-format
 msgid ""
 "Manager component for an application scoped Drools <literal>RuleBase</"
@@ -2036,7 +2025,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1511
+#: Components.xml:1503
 #, no-c-format
 msgid ""
 "<emphasis>&lt;ruleBase&gt;</emphasis>.ruleFiles &#8212; a list of files "
@@ -2044,7 +2033,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Components.xml:1515
+#: Components.xml:1507
 #, no-c-format
 msgid ""
 "<emphasis>&lt;ruleBase&gt;</emphasis>.dslFile &#8212; a Drools DSL "
@@ -2052,49 +2041,49 @@ msgid ""
 msgstr ""
 
 #. Tag: emphasis
-#: Components.xml:1524
+#: Components.xml:1516
 #, no-c-format
 msgid "&lt;entityHome&gt;"
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1525
+#: Components.xml:1517
 #, no-c-format
 msgid "org.jboss.seam.framework.EntityHome"
 msgstr ""
 
 #. Tag: emphasis
-#: Components.xml:1532
+#: Components.xml:1524
 #, no-c-format
 msgid "&lt;hibernateEntityHome&gt;"
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1533
+#: Components.xml:1525
 #, no-c-format
 msgid "org.jboss.seam.framework.HibernateEntityHome"
 msgstr ""
 
 #. Tag: emphasis
-#: Components.xml:1540
+#: Components.xml:1532
 #, no-c-format
 msgid "&lt;entityQuery&gt;"
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1541
+#: Components.xml:1533
 #, no-c-format
 msgid "org.jboss.seam.framework.EntityQuery"
 msgstr ""
 
 #. Tag: emphasis
-#: Components.xml:1548
+#: Components.xml:1540
 #, no-c-format
 msgid "&lt;hibernateEntityQuery&gt;"
 msgstr ""
 
 #. Tag: literal
-#: Components.xml:1549
+#: Components.xml:1541
 #, no-c-format
 msgid "org.jboss.seam.framework.HibernateEntityQuery"
 msgstr ""

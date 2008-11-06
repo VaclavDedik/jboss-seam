@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-10-14 13:15+0000\n"
+"POT-Creation-Date: 2008-11-06 00:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -408,116 +408,28 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:173
+#: Configuration.xml:174
 #, no-c-format
-msgid "<![CDATA[<web:rewrite-filter />]]>"
+msgid "<![CDATA[<web:rewrite-filter view-mapping=\"*.seam\"/>]]>"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:175
+#: Configuration.xml:177
 #, no-c-format
 msgid ""
-"Rewriting occurs based on rewrite patterns found for views in <literal>pages."
-"xml</literal>. Seam URL rewriting does both incoming and outgoing URL "
-"rewriting based on the same pattern. Here's a simple pattern:"
-msgstr ""
-
-#. Tag: programlisting
-#: Configuration.xml:182
-#, no-c-format
-msgid ""
-"<![CDATA[\n"
-"<page view-id=\"/home.xhtml\">\n"
-"    <rewrite pattern=\"/home\" />\n"
-"</page>\n"
-"]]>"
-msgstr ""
-
-#. Tag: para
-#: Configuration.xml:184
-#, no-c-format
-msgid ""
-"In this case, any incoming request for <literal>/home</literal> will be sent "
-"to <literal>/home.xhtml</literal>. More interestingly, any link generated "
-"that would normally point to <literal>/home.seam</literal> will instead be "
-"rewritten as <literal>/home</literal>. Rewrite patterns only match the "
-"portion of the URL before the query parameters. So, <literal>/home.seam?"
-"conversationId=13</literal> and <literal>/home.seam?color=red</literal> will "
-"both be matched by this rewrite rule."
-msgstr ""
-
-#. Tag: para
-#: Configuration.xml:194
-#, no-c-format
-msgid ""
-"Rewrite rules can take these query paramters into consideration, as shown "
-"with the following rules."
-msgstr ""
-
-#. Tag: programlisting
-#: Configuration.xml:197
-#, no-c-format
-msgid ""
-"<![CDATA[\n"
-"<page view-id=\"/home.xhtml\">\n"
-"    <rewrite pattern=\"/home/{color}\" />\n"
-"    <rewrite pattern=\"/home\" />\n"
-"</page>\n"
-"]]>"
-msgstr ""
-
-#. Tag: para
-#: Configuration.xml:199
-#, no-c-format
-msgid ""
-"In this case, an incoming request for <literal>/home/red</literal> will be "
-"served as if it were a request for <literal>/home.seam?color=red</literal>. "
-"Similarly, if color is a page parameter an outgoing URL that would normally "
-"show as <literal>/home.seam?color=blue</literal> would instead be output as "
-"<literal>/home/blue</literal>. Rules are processed in order, so it is "
-"important to list more specific rules before more general rules."
-msgstr ""
-
-#. Tag: para
-#: Configuration.xml:209
-#, no-c-format
-msgid ""
-"Default Seam query parameters can also be mapped using URL rewriting, "
-"allowing for another option for hiding Seam's fingerprints. In the following "
-"example, <literal>/search.seam?conversationId=13</literal> would be written "
-"as <literal>/search-13</literal>."
-msgstr ""
-
-#. Tag: programlisting
-#: Configuration.xml:214
-#, no-c-format
-msgid ""
-"<![CDATA[\n"
-"<page view-id=\"/search.xhtml\">\n"
-"    <rewrite pattern=\"/search-{conversationId}\" />\n"
-"    <rewrite pattern=\"/search\" />\n"
-"</page>\n"
-"]]>"
-msgstr ""
-
-#. Tag: para
-#: Configuration.xml:216
-#, no-c-format
-msgid ""
-"Seam URL rewriting provides simple, bidirectional rewriting on a per-view "
-"basis. For more complex rewriting rules that cover non-seam components, Seam "
-"applications can continue to use the org.tuckey URLRewriteFilter or apply "
-"rewriting rules at the web server."
+"The <literal>view-mapping</literal> parameter must match the servlet mapping "
+"defined for the Faces Servlet in the <literal>web.xml</literal> file. If "
+"ommitted, the rewrite filter assumes the pattern <literal>*.seam</literal>."
 msgstr ""
 
 #. Tag: title
-#: Configuration.xml:226
+#: Configuration.xml:184
 #, no-c-format
 msgid "Multipart form submissions"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:227
+#: Configuration.xml:185
 #, no-c-format
 msgid ""
 "This feature is necessary when using the Seam file upload JSF control. It "
@@ -527,7 +439,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:231
+#: Configuration.xml:189
 #, no-c-format
 msgid ""
 "<![CDATA[<web:multipart-filter create-temp-files=\"true\" \n"
@@ -536,7 +448,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:235
+#: Configuration.xml:193
 #, no-c-format
 msgid ""
 "<literal>create-temp-files</literal> &#8212; If set to <literal>true</"
@@ -546,7 +458,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:242
+#: Configuration.xml:200
 #, no-c-format
 msgid ""
 "<literal>max-request-size</literal> &#8212; If the size of a file upload "
@@ -556,19 +468,19 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Configuration.xml:251
+#: Configuration.xml:209
 #, no-c-format
 msgid "Character encoding"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:252
+#: Configuration.xml:210
 #, no-c-format
 msgid "Sets the character encoding of submitted form data."
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:254 Configuration.xml:349
+#: Configuration.xml:212 Configuration.xml:307
 #, no-c-format
 msgid ""
 "This filter is not installed by default and requires an entry in "
@@ -576,7 +488,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:257
+#: Configuration.xml:215
 #, no-c-format
 msgid ""
 "<![CDATA[<web:character-encoding-filter encoding=\"UTF-16\" \n"
@@ -585,13 +497,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:261
+#: Configuration.xml:219
 #, no-c-format
 msgid "<literal>encoding</literal> &#8212; The encoding to use."
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:265
+#: Configuration.xml:223
 #, no-c-format
 msgid ""
 "<literal>override-client</literal> &#8212; If this is set to <literal>true</"
@@ -603,13 +515,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Configuration.xml:276
+#: Configuration.xml:234
 #, no-c-format
 msgid "RichFaces"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:278
+#: Configuration.xml:236
 #, no-c-format
 msgid ""
 "If RichFaces is used in your project, Seam will install the RichFaces Ajax "
@@ -619,7 +531,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:286
+#: Configuration.xml:244
 #, no-c-format
 msgid ""
 "The RichFaces Ajax filter is only installed if the RichFaces jars are "
@@ -627,7 +539,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:291
+#: Configuration.xml:249
 #, no-c-format
 msgid ""
 "To override the default settings, add the following entry to "
@@ -636,7 +548,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:294
+#: Configuration.xml:252
 #, no-c-format
 msgid ""
 "<![CDATA[<web:ajax4jsf-filter force-parser=\"true\" \n"
@@ -646,7 +558,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:297
+#: Configuration.xml:255
 #, no-c-format
 msgid ""
 "<literal>force-parser</literal> &#8212; forces all JSF pages to be validated "
@@ -657,7 +569,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:305
+#: Configuration.xml:263
 #, no-c-format
 msgid ""
 "<literal>enable-cache</literal> &#8212; enables caching of framework-"
@@ -667,7 +579,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:311
+#: Configuration.xml:269
 #, no-c-format
 msgid ""
 "<literal>log4j-init-file</literal> &#8212; is used to setup per-application "
@@ -676,13 +588,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Configuration.xml:321
+#: Configuration.xml:279
 #, no-c-format
 msgid "Identity Logging"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:323
+#: Configuration.xml:281
 #, no-c-format
 msgid ""
 "This filter adds the authenticated user name to the log4j mapped diagnostic "
@@ -691,7 +603,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:329
+#: Configuration.xml:287
 #, no-c-format
 msgid ""
 "By default, the logging filter will process all requests, however this "
@@ -701,7 +613,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:333
+#: Configuration.xml:291
 #, no-c-format
 msgid ""
 "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
@@ -711,13 +623,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Configuration.xml:338
+#: Configuration.xml:296
 #, no-c-format
 msgid "Context management for custom servlets"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:339
+#: Configuration.xml:297
 #, no-c-format
 msgid ""
 "Requests sent direct to some servlet other than the JSF servlet are not "
@@ -726,7 +638,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:343
+#: Configuration.xml:301
 #, no-c-format
 msgid ""
 "This filter allows custom servlets to interact with the Seam contexts. It "
@@ -738,13 +650,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:352
+#: Configuration.xml:310
 #, no-c-format
 msgid "<![CDATA[<web:context-filter url-pattern=\"/media/*\"/>]]>"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:354
+#: Configuration.xml:312
 #, no-c-format
 msgid ""
 "The context filter expects to find the conversation id of any conversation "
@@ -753,7 +665,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:358
+#: Configuration.xml:316
 #, no-c-format
 msgid ""
 "You are also responsible for ensuring propagation of any new conversation id "
@@ -762,13 +674,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Configuration.xml:366
+#: Configuration.xml:324
 #, no-c-format
 msgid "Adding custom filters"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:367
+#: Configuration.xml:325
 #, no-c-format
 msgid ""
 "Seam can install your filters for you, allowing you to specify "
@@ -780,7 +692,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:372
+#: Configuration.xml:330
 #, no-c-format
 msgid ""
 "<![CDATA[@Startup\n"
@@ -792,7 +704,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:374
+#: Configuration.xml:332
 #, no-c-format
 msgid ""
 "Adding the <literal>@Startup</literal> annotation means thar the component "
@@ -803,13 +715,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Configuration.xml:383
+#: Configuration.xml:341
 #, no-c-format
 msgid "Integrating Seam with your EJB container"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:385
+#: Configuration.xml:343
 #, no-c-format
 msgid ""
 "We need to apply the <literal>SeamInterceptor</literal> to our Seam "
@@ -819,7 +731,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:389
+#: Configuration.xml:347
 #, no-c-format
 msgid ""
 "<![CDATA[<interceptors>\n"
@@ -840,7 +752,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:391
+#: Configuration.xml:349
 #, no-c-format
 msgid ""
 "Seam needs to know where to go to find session beans in JNDI. One way to do "
@@ -853,19 +765,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:397
+#: Configuration.xml:355
 #, no-c-format
 msgid "For JBoss AS, the following pattern is correct:"
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:399
+#: Configuration.xml:357
 #, no-c-format
 msgid "<![CDATA[<core:init jndi-name=\"myEarName/#{ejbName}/local\" />]]>"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:401
+#: Configuration.xml:359
 #, no-c-format
 msgid ""
 "Where <literal>myEarName</literal> is the name of the EAR in which the bean "
@@ -873,7 +785,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:403
+#: Configuration.xml:361
 #, no-c-format
 msgid ""
 "Outside the context of an EAR (when using the JBoss Embeddable EJB3 "
@@ -881,13 +793,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:406
+#: Configuration.xml:364
 #, no-c-format
 msgid "<![CDATA[<core:init jndi-name=\"#{ejbName}/local\" />]]>"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:408
+#: Configuration.xml:366
 #, no-c-format
 msgid ""
 "You'll have to experiment to find the right setting for other application "
@@ -897,7 +809,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:412
+#: Configuration.xml:370
 #, no-c-format
 msgid ""
 "In an EJB3 environment, we recommend the use of a special built-in component "
@@ -909,19 +821,19 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:419
+#: Configuration.xml:377
 #, no-c-format
 msgid "<![CDATA[<transaction:ejb-transaction/>]]>"
 msgstr ""
 
 #. Tag: title
-#: Configuration.xml:424
+#: Configuration.xml:382
 #, no-c-format
 msgid "Don't forget!"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:426
+#: Configuration.xml:384
 #, no-c-format
 msgid ""
 "There is one final item you need to know about. You must place a "
@@ -933,7 +845,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:431
+#: Configuration.xml:389
 #, no-c-format
 msgid ""
 "In a web archive (WAR) file, you must place a <literal>seam.properties</"
@@ -942,7 +854,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:434
+#: Configuration.xml:392
 #, no-c-format
 msgid ""
 "That's why all the Seam examples have an empty <literal>seam.properties</"
@@ -951,7 +863,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:437
+#: Configuration.xml:395
 #, no-c-format
 msgid ""
 "You might think this is silly and what kind of idiot framework designers "
@@ -963,13 +875,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Configuration.xml:448
+#: Configuration.xml:406
 #, no-c-format
 msgid "Using Alternate JPA Providers"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:450
+#: Configuration.xml:408
 #, no-c-format
 msgid ""
 "Seam comes packaged and configured with Hibernate as the default JPA "
@@ -978,13 +890,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Configuration.xml:456
+#: Configuration.xml:414
 #, no-c-format
 msgid "This is a workaround"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:457
+#: Configuration.xml:415
 #, no-c-format
 msgid ""
 "Configuration of the JPA provider will be easier in the future and will not "
@@ -993,7 +905,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:464
+#: Configuration.xml:422
 #, no-c-format
 msgid ""
 "Telling seam about a different JPA provider can be be done in one of two "
@@ -1001,7 +913,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:465
+#: Configuration.xml:423
 #, no-c-format
 msgid ""
 "Update your application's <literal>components.xml</literal> so that the "
@@ -1010,7 +922,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:470
+#: Configuration.xml:428
 #, no-c-format
 msgid ""
 "<![CDATA[<component name=\"org.jboss.seam.persistence.persistenceProvider"
@@ -1021,7 +933,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:471
+#: Configuration.xml:429
 #, no-c-format
 msgid ""
 "If you want to take advantage of your JPA provider's non-standard features "
@@ -1033,7 +945,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:478
+#: Configuration.xml:436
 #, no-c-format
 msgid ""
 "<![CDATA[<component name=\"org.jboss.seam.persistence.persistenceProvider"
@@ -1043,7 +955,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:479
+#: Configuration.xml:437
 #, no-c-format
 msgid ""
 "All that is left is updating the <literal>persistence.xml</literal> file "
@@ -1053,13 +965,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Configuration.xml:487
+#: Configuration.xml:445
 #, no-c-format
 msgid "Configuring Seam in Java EE 5"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:498
+#: Configuration.xml:456
 #, no-c-format
 msgid ""
 "If you're running in a Java EE 5 environment, this is all the configuration "
@@ -1067,14 +979,14 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Configuration.xml:501 Configuration.xml:596 Configuration.xml:724
-#: Configuration.xml:757
+#: Configuration.xml:459 Configuration.xml:554 Configuration.xml:682
+#: Configuration.xml:715
 #, no-c-format
 msgid "Packaging"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:503
+#: Configuration.xml:461
 #, no-c-format
 msgid ""
 "Once you've packaged all this stuff together into an EAR, the archive "
@@ -1082,7 +994,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:506
+#: Configuration.xml:464
 #, no-c-format
 msgid ""
 "<![CDATA[my-application.ear/\n"
@@ -1122,7 +1034,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:508
+#: Configuration.xml:466
 #, no-c-format
 msgid ""
 "You should declare <literal>jboss-seam.jar</literal> as an ejb module in "
@@ -1131,7 +1043,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:513
+#: Configuration.xml:471
 #, no-c-format
 msgid ""
 "If you want to use jBPM or Drools, you must include the needed jars in the "
@@ -1139,7 +1051,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:515
+#: Configuration.xml:473
 #, no-c-format
 msgid ""
 "If you want to use facelets (our recommendation), you must include "
@@ -1148,7 +1060,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:518
+#: Configuration.xml:476
 #, no-c-format
 msgid ""
 "If you want to use the Seam tag library (most Seam applications do), you "
@@ -1159,7 +1071,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:523
+#: Configuration.xml:481
 #, no-c-format
 msgid ""
 "If you want to use the Seam debug page (only works for applications using "
@@ -1168,7 +1080,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:526
+#: Configuration.xml:484
 #, no-c-format
 msgid ""
 "Seam ships with several example applications that are deployable in any Java "
@@ -1176,7 +1088,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:529
+#: Configuration.xml:487
 #, no-c-format
 msgid ""
 "I really wish that was all there was to say on the topic of configuration "
@@ -1186,13 +1098,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Configuration.xml:538
+#: Configuration.xml:496
 #, no-c-format
 msgid "Configuring Seam in J2EE"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:540
+#: Configuration.xml:498
 #, no-c-format
 msgid ""
 "Seam is useful even if you're not yet ready to take the plunge into EJB 3.0. "
@@ -1204,7 +1116,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:555
+#: Configuration.xml:513
 #, no-c-format
 msgid ""
 "Seam JavaBean components do not provide declarative transaction demarcation "
@@ -1216,7 +1128,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:561
+#: Configuration.xml:519
 #, no-c-format
 msgid ""
 "The Seam distribution includes a version of the booking example application "
@@ -1226,13 +1138,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Configuration.xml:566
+#: Configuration.xml:524
 #, no-c-format
 msgid "Boostrapping Hibernate in Seam"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:568
+#: Configuration.xml:526
 #, no-c-format
 msgid ""
 "Seam will bootstrap a Hibernate <literal>SessionFactory</literal> from your "
@@ -1241,7 +1153,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:571
+#: Configuration.xml:529
 #, no-c-format
 msgid ""
 "<![CDATA[<persistence:hibernate-session-factory name="
@@ -1249,7 +1161,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:573
+#: Configuration.xml:531
 #, no-c-format
 msgid ""
 "You will also need to configure a <emphasis>managed session</emphasis> if "
@@ -1258,7 +1170,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:576
+#: Configuration.xml:534
 #, no-c-format
 msgid ""
 "<![CDATA[<persistence:managed-hibernate-session name=\"hibernateSession\"\n"
@@ -1267,13 +1179,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Configuration.xml:581
+#: Configuration.xml:539
 #, no-c-format
 msgid "Boostrapping JPA in Seam"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:583
+#: Configuration.xml:541
 #, no-c-format
 msgid ""
 "Seam will bootstrap a JPA <literal>EntityManagerFactory</literal> from your "
@@ -1282,7 +1194,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:586
+#: Configuration.xml:544
 #, no-c-format
 msgid ""
 "<![CDATA[<persistence:entity-manager-factory name=\"entityManagerFactory\"/"
@@ -1290,7 +1202,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:588
+#: Configuration.xml:546
 #, no-c-format
 msgid ""
 "You will also need to configure a <emphasis>managed persistence context</"
@@ -1299,7 +1211,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:591
+#: Configuration.xml:549
 #, no-c-format
 msgid ""
 "<![CDATA[<persistence:managed-persistence-context name=\"entityManager\"\n"
@@ -1308,13 +1220,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:598
+#: Configuration.xml:556
 #, no-c-format
 msgid "We can package our application as a WAR, in the following structure:"
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:600
+#: Configuration.xml:558
 #, no-c-format
 msgid ""
 "<![CDATA[my-application.war/\n"
@@ -1351,7 +1263,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:602
+#: Configuration.xml:560
 #, no-c-format
 msgid ""
 "If we want to deploy Hibernate in a non-EE environment like Tomcat or "
@@ -1359,13 +1271,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Configuration.xml:609
+#: Configuration.xml:567
 #, no-c-format
 msgid "Configuring Seam in Java SE, without JBoss Embedded"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:611
+#: Configuration.xml:569
 #, no-c-format
 msgid ""
 "It is possible to use Seam completely outside of an EE environment. In this "
@@ -1375,7 +1287,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:615
+#: Configuration.xml:573
 #, no-c-format
 msgid ""
 "<![CDATA[<transaction:entity-transaction entity-manager=\"#{entityManager}\"/"
@@ -1383,7 +1295,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:617
+#: Configuration.xml:575
 #, no-c-format
 msgid ""
 "If you're using Hibernate, you can tell Seam to use the Hibernate "
@@ -1391,32 +1303,32 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:619
+#: Configuration.xml:577
 #, no-c-format
 msgid "<![CDATA[<transaction:hibernate-transaction session=\"#{session}\"/>]]>"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:621
+#: Configuration.xml:579
 #, no-c-format
 msgid "Of course, you'll also need to define a datasource."
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:623
+#: Configuration.xml:581
 #, no-c-format
 msgid ""
 "A better alternative is to use JBoss Embedded to get access to the EE APIs."
 msgstr ""
 
 #. Tag: title
-#: Configuration.xml:628
+#: Configuration.xml:586
 #, no-c-format
 msgid "Configuring Seam in Java SE, with JBoss Embedded"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:630
+#: Configuration.xml:588
 #, no-c-format
 msgid ""
 "JBoss Embedded lets you run EJB3 components outside the context of the Java "
@@ -1425,7 +1337,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:633
+#: Configuration.xml:591
 #, no-c-format
 msgid ""
 "The Seam booking example application includes a TestNG integration test "
@@ -1433,19 +1345,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:645
+#: Configuration.xml:603
 #, no-c-format
 msgid "The booking example application may even be deployed to Tomcat."
 msgstr ""
 
 #. Tag: title
-#: Configuration.xml:657
+#: Configuration.xml:615
 #, no-c-format
 msgid "Installing Embedded JBoss"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:660
+#: Configuration.xml:618
 #, no-c-format
 msgid ""
 "Embedded JBoss must by installed into Tomcat for Seam applications to run "
@@ -1458,7 +1370,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:674
+#: Configuration.xml:632
 #, no-c-format
 msgid ""
 "Copy all files and directories under the Embedded JBoss <literal>bootstrap</"
@@ -1468,7 +1380,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:681
+#: Configuration.xml:639
 #, no-c-format
 msgid ""
 "Remove the <literal>annotations-api.jar</literal> file from the Tomcat "
@@ -1476,7 +1388,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:687
+#: Configuration.xml:645
 #, no-c-format
 msgid ""
 "Next, two configuration files need to be updated to add Embedded JBoss-"
@@ -1484,7 +1396,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:693
+#: Configuration.xml:651
 #, no-c-format
 msgid ""
 "Add the Embedded JBoss listener <literal>EmbeddedJBossBootstrapListener</"
@@ -1493,7 +1405,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:696
+#: Configuration.xml:654
 #, no-c-format
 msgid ""
 "<![CDATA[<Server port=\"8005\" shutdown=\"SHUTDOWN\">\n"
@@ -1511,7 +1423,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:697
+#: Configuration.xml:655
 #, no-c-format
 msgid ""
 "<![CDATA[<!-- Add this listener -->\n"
@@ -1520,7 +1432,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:701
+#: Configuration.xml:659
 #, no-c-format
 msgid ""
 "WAR file scanning should be enabled by adding the <literal>WebinfScanner</"
@@ -1528,7 +1440,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:704
+#: Configuration.xml:662
 #, no-c-format
 msgid ""
 "<![CDATA[<Context>\n"
@@ -1543,7 +1455,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:705
+#: Configuration.xml:663
 #, no-c-format
 msgid ""
 "<![CDATA[<!-- Add this listener -->\n"
@@ -1551,13 +1463,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:706
+#: Configuration.xml:664
 #, no-c-format
 msgid "<![CDATA[</Context>]]>"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:710
+#: Configuration.xml:668
 #, no-c-format
 msgid ""
 "If you are using JDK 6, you must set the Java option <literal>sun.lang."
@@ -1566,7 +1478,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:714
+#: Configuration.xml:672
 #, no-c-format
 msgid ""
 "<![CDATA[set JAVA_OPTS=%JAVA_OPTS% -Djava.util.logging.manager=org.apache."
@@ -1575,7 +1487,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:718
+#: Configuration.xml:676
 #, no-c-format
 msgid ""
 "For more configuration options, please see the Embedded JBoss Tomcat "
@@ -1584,7 +1496,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:726
+#: Configuration.xml:684
 #, no-c-format
 msgid ""
 "The archive structure of a WAR-based deployment on an servlet engine like "
@@ -1592,7 +1504,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:729
+#: Configuration.xml:687
 #, no-c-format
 msgid ""
 "<![CDATA[my-application.war/\n"
@@ -1630,7 +1542,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:731
+#: Configuration.xml:689
 #, no-c-format
 msgid ""
 "Most of the Seam example applications may be deployed to Tomcat by running "
@@ -1638,13 +1550,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Configuration.xml:739
+#: Configuration.xml:697
 #, no-c-format
 msgid "Configuring jBPM in Seam"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:740
+#: Configuration.xml:698
 #, no-c-format
 msgid ""
 "Seam's jBPM integration is not installed by default, so you'll need to "
@@ -1654,7 +1566,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:744
+#: Configuration.xml:702
 #, no-c-format
 msgid ""
 "<![CDATA[<bpm:jbpm>\n"
@@ -1670,7 +1582,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:746
+#: Configuration.xml:704
 #, no-c-format
 msgid ""
 "No further special configuration is needed if you only have pageflows. If "
@@ -1681,7 +1593,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:751
+#: Configuration.xml:709
 #, no-c-format
 msgid ""
 "<![CDATA[<jbpm-configuration>\n"
@@ -1711,7 +1623,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:753
+#: Configuration.xml:711
 #, no-c-format
 msgid ""
 "The most important thing to notice here is that jBPM transaction control is "
@@ -1719,7 +1631,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:759
+#: Configuration.xml:717
 #, no-c-format
 msgid ""
 "There is not yet any well-defined packaging format for jBPM configuration "
@@ -1730,7 +1642,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:764
+#: Configuration.xml:722
 #, no-c-format
 msgid ""
 "<![CDATA[my-application.ear/\n"
@@ -1777,13 +1689,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Configuration.xml:771
+#: Configuration.xml:729
 #, no-c-format
 msgid "Configuring SFSB and Session Timeouts in JBoss AS"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:773
+#: Configuration.xml:731
 #, no-c-format
 msgid ""
 "It is very important that the timeout for Stateful Session Beans is set "
@@ -1795,7 +1707,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:779
+#: Configuration.xml:737
 #, no-c-format
 msgid ""
 "The default SFSB timeout can be adjusted by modifying the value of "
@@ -1804,7 +1716,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:782
+#: Configuration.xml:740
 #, no-c-format
 msgid ""
 "<![CDATA[<container-cache-conf>\n"
@@ -1829,7 +1741,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:784
+#: Configuration.xml:742
 #, no-c-format
 msgid ""
 "The default HTTP session timeout can be modified in <literal>server/default/"
@@ -1840,7 +1752,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:789
+#: Configuration.xml:747
 #, no-c-format
 msgid ""
 "<![CDATA[<session-config>\n"
@@ -1850,7 +1762,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:791
+#: Configuration.xml:749
 #, no-c-format
 msgid ""
 "To override this value for your own application, simply include this entry "
@@ -1858,13 +1770,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Configuration.xml:797
+#: Configuration.xml:755
 #, no-c-format
 msgid "Running Seam in a Portlet"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:799
+#: Configuration.xml:757
 #, no-c-format
 msgid ""
 "If you want to run your Seam application in a portlet, take a look at the "
@@ -1875,13 +1787,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Configuration.xml:810
+#: Configuration.xml:768
 #, no-c-format
 msgid "Deploying custom resources"
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:812
+#: Configuration.xml:770
 #, no-c-format
 msgid ""
 "Seam scans all jars containing <literal>/seam.properties</literal>, "
@@ -1892,7 +1804,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:819
+#: Configuration.xml:777
 #, no-c-format
 msgid ""
 "You may also want Seam to handle custom resources. A common use case is to "
@@ -1902,7 +1814,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:826
+#: Configuration.xml:784
 #, no-c-format
 msgid ""
 "<![CDATA[# A colon-separated list of annotation types to handle\n"
@@ -1910,7 +1822,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:828
+#: Configuration.xml:786
 #, no-c-format
 msgid ""
 "Then, during application startup you can get hold of all classes annotated "
@@ -1918,7 +1830,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:833
+#: Configuration.xml:791
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"fooStartup\")\n"
@@ -1946,7 +1858,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:835
+#: Configuration.xml:793
 #, no-c-format
 msgid ""
 "You can also handle <emphasis>any</emphasis> resource. For example, you "
@@ -1955,7 +1867,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:841
+#: Configuration.xml:799
 #, no-c-format
 msgid ""
 "<![CDATA[public class FooDeploymentHandler implements DeploymentHandler {\n"
@@ -1979,7 +1891,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:843
+#: Configuration.xml:801
 #, no-c-format
 msgid ""
 "Here we are just building a list of any files with the suffix <literal>.foo."
@@ -1987,7 +1899,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:848
+#: Configuration.xml:806
 #, no-c-format
 msgid ""
 "Then, we need to register the deployment handler with Seam. In <literal>/"
@@ -1995,7 +1907,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:853
+#: Configuration.xml:811
 #, no-c-format
 msgid ""
 "<![CDATA[# For standard deployment\n"
@@ -2006,14 +1918,14 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:855
+#: Configuration.xml:813
 #, no-c-format
 msgid ""
 "You can register multiple deployment handler using a comma separated list."
 msgstr ""
 
 #. Tag: para
-#: Configuration.xml:860
+#: Configuration.xml:818
 #, no-c-format
 msgid ""
 "Seam uses deployment handlers internally to install components and "
@@ -2024,7 +1936,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Configuration.xml:868
+#: Configuration.xml:826
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"fooStartup\")\n"
