@@ -138,7 +138,7 @@ public class Manager
                   }
                   if (events != null)
                   {
-                     events.raiseEvent(EVENT_CONVERSATION_DESTROYED);
+                     events.raiseEvent(EVENT_CONVERSATION_DESTROYED, conversationEntry);
                   }
                   destroyConversation(conversationEntry.getId(), getSessionMap());
                } 
