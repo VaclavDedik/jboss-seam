@@ -99,7 +99,10 @@ public class Switcher implements Serializable
    
    public String select()
    {
-      boolean isOutcome = conversationIdOrOutcome==null || !Character.isDigit( conversationIdOrOutcome.charAt(0) );
+
+      boolean isOutcome = conversationIdOrOutcome==null || 
+                    (!Character.isDigit(conversationIdOrOutcome.charAt(0)) && conversationIdOrOutcome.indexOf(':') < 0);       
+      
       String actualOutcome;
       if (isOutcome)
       {
