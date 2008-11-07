@@ -12,13 +12,13 @@
   <body>
   
     <div class="menuButtons">
-      <s:link view="/search.xhtml" value="Search Contacts">
+      <s:link id="search" view="/search.xhtml" value="Search Contacts">
           <f:param name="firstName" />
           <f:param name="lastName" />
           <f:param name="firstResult" />
       </s:link>
 
-      <s:link view="/editContact.xhtml" value="Create New Contact">
+      <s:link id="create" view="/editContact.xhtml" value="Create New Contact">
         <f:param name="contactId"/> <!-- suppress propagation of contact id page parameter -->
       </s:link>
     </div>
@@ -27,22 +27,22 @@
         
       <h1>ContactList</h1>
       
-      <h:messages styleClass="message"/>
+      <h:messages id="messages" styleClass="message"/>
 
       <!-- search box -->
       <div class="dialog">
-        <h:form>
+        <h:form id="searchForm">
            <span class="prop">
              <span class="name">First Name:</span> 
-             <span class="value"><h:inputText value="#{exampleContact.firstName}"/></span>
+             <span class="value"><h:inputText id="firstName" value="#{exampleContact.firstName}"/></span>
            </span>
            <span class="prop">
              <span class="name">Last Name :</span>
-             <span class="value"><h:inputText value="#{exampleContact.lastName}"/></span>
+             <span class="value"><h:inputText id="lastName" value="#{exampleContact.lastName}"/></span>
            </span>
 
            
-           <h:commandButton value="Search" action="newsearch"/>
+           <h:commandButton id="submit" value="Search" action="newsearch"/>
         </h:form>
       </div>
       
@@ -58,20 +58,20 @@
           <th>Zip</th>
           <th>Country</th>
         </tr>
-        <ui:repeat value="#{contacts.resultList}" var="cont">
+        <ui:repeat id="searchResult" value="#{contacts.resultList}" var="cont">
           <tr>
             <td>
-              <s:link view="/viewContact.xhtml" value="#{cont.firstName} #{cont.lastName}">
+              <s:link id="link" view="/viewContact.xhtml" value="#{cont.firstName} #{cont.lastName}">
                 <f:param name="contactId" value="#{cont.id}"/>
               </s:link>
             </td>
-            <td>#{cont.cellPhone}</td>
-            <td>#{cont.homePhone}</td>
-            <td>#{cont.address}</td>
-            <td>#{cont.city}</td>
-            <td>#{cont.state}</td>
-            <td>#{cont.zip}</td>
-            <td>#{cont.country}</td>
+            <td><h:outputText id="cellPhone" value="#{cont.cellPhone}" /></td>
+            <td><h:outputText id="homePhone" value="#{cont.homePhone}" /></td>
+            <td><h:outputText id="address" value="#{cont.address}" /></td>
+            <td><h:outputText id="city" value="#{cont.city}" /></td>
+            <td><h:outputText id="state" value="#{cont.state}" /></td>
+            <td><h:outputText id="zip" value="#{cont.zip}" /></td>
+            <td><h:outputText id="country" value="#{cont.country}" /></td>
           </tr>
         </ui:repeat>
       </table>

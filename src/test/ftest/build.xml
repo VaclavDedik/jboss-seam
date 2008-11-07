@@ -49,6 +49,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
       <!-- Execute tests for all examples-->
       <testexample name="booking" />
       <testexample name="dvdstore" />
+      <testexample name="contactlist" />
       <testexample name="groovybooking" />
       <testexample name="hibernate" />
       <testexample name="icefaces" />
@@ -75,6 +76,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
    <target name="cleanall">
       <cleanexample name="booking" />
       <cleanexample name="dvdstore" />
+      <cleanexample name="contactlist" />
       <cleanexample name="groovybooking" />
       <cleanexample name="hibernate" />
       <cleanexample name="icefaces" />
@@ -87,6 +89,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
    <target name="undeployall">
       <undeployexample name="booking" />
       <undeployexample name="dvdstore" />
+      <undeployexample name="contactlist" />
       <undeployexample name="groovybooking" />
       <undeployexample name="hibernate" />
       <undeployexample name="icefaces" />

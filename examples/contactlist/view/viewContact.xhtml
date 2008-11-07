@@ -13,19 +13,19 @@
   <body>
   
     <div class="menuButtons">
-      <s:link view="/search.xhtml" value="Search Contacts"/>
-      <s:link view="/editContact.xhtml" value="Create New Contact">
+      <s:link id="search" view="/search.xhtml" value="Search Contacts"/>
+      <s:link id="create" view="/editContact.xhtml" value="Create New Contact">
         <f:param name="contactId"/> <!-- suppress propagation of contact id page parameter -->
       </s:link>
-      <s:link view="/viewContact.xhtml" value="View Contact"/>
-      <s:link view="/editContact.xhtml" value="Edit Contact"/>
+      <s:link id="view" view="/viewContact.xhtml" value="View Contact"/>
+      <s:link id="edit" view="/editContact.xhtml" value="Edit Contact"/>
     </div>
     
     <div class="body">
     
       <h1>View Contact</h1>
     
-      <h:messages styleClass="message"/>
+      <h:messages id="messages" styleClass="message"/>
     
       <!-- fields -->
       <div class="dialog">
@@ -71,8 +71,8 @@
       
       <!-- actions -->
       <div class="actionButtons">
-        <s:link view="/editContact.xhtml" value="Edit Contact"/>
-        <s:link action="#{contactHome.remove}" value="Delete Contact" rendered="#{contactHome.managed}"/>
+        <s:link id="editContact" view="/editContact.xhtml" value="Edit Contact"/>
+        <s:link id="deleteContact" action="#{contactHome.remove}" value="Delete Contact" rendered="#{contactHome.managed}"/>
       </div>
       
       <!-- associations -->
@@ -95,7 +95,7 @@
         </h:column>
       </h:dataTable>
       
-      <h:form>
+      <h:form id="commentForm">
       	  
   	  <!-- editable fields --> 
         <div class="dialog">
@@ -115,7 +115,7 @@
       
         <!-- actions -->
         <div class="actionButtons">
-          <h:commandLink action="#{commentHome.persist}" value="Create Comment"/>
+          <h:commandLink id="submit" action="#{commentHome.persist}" value="Create Comment"/>
         </div>
         
       </h:form>
