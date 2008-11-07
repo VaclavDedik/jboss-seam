@@ -202,10 +202,10 @@ public class RuleBasedPermissionResolver implements PermissionResolver, Serializ
    {
       Identity identity = Identity.instance();
       
-      getSecurityContext().insert(identity.getPrincipal());
-      
       if (getSecurityContext() != null)
       {
+         getSecurityContext().insert(identity.getPrincipal());
+         
          for ( Group sg : identity.getSubject().getPrincipals(Group.class) )      
          {
             if ( Identity.ROLES_GROUP.equals( sg.getName() ) )
