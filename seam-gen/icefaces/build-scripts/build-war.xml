@@ -162,6 +162,9 @@
                 <include name="seam.properties" />
                 <include name="*.drl" />
             </fileset>
+            <fileset dir="${src.model.dir}">
+                <include name="**/*.component.xml" />
+            </fileset>
         </copy>
 
         <copy tofile="${war.dir}/WEB-INF/classes/components.properties" 

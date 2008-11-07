@@ -145,6 +145,9 @@
                 <include name="seam.properties"/>
                 <include name="*.drl"/>
             </fileset>
+            <fileset dir="${src.model.dir}">
+                <include name="**/*.component.xml" />
+            </fileset>
         </copy>
         <copy todir="${jar.dir}/META-INF">
             <fileset dir="${basedir}/resources/META-INF">
