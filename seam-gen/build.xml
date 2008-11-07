@@ -41,12 +41,16 @@
             classname="org.jboss.seam.tool.PathFilenameTask"
             classpathref="seam-gen.lib.path"/>
 
-        <taskdef name="lowercaseProperty"
-            classname="org.jboss.seam.tool.LowercasePropertyTask"
-            classpathref="seam-gen.lib.path"/>
-
         <taskdef name="uppercaseProperty"
             classname="org.jboss.seam.tool.UppercasePropertyTask"
+            classpathref="seam-gen.lib.path"/>
+
+        <taskdef name="uncapitalizeProperty"
+            classname="org.jboss.seam.tool.UncapitalizePropertyTask"
+            classpathref="seam-gen.lib.path"/>
+
+        <taskdef name="capitalizeProperty"
+            classname="org.jboss.seam.tool.CapitalizePropertyTask"
             classpathref="seam-gen.lib.path"/>
 
         <taskdef name="print"
@@ -386,14 +390,21 @@
               defaultvalue="${old.hibernate.connection.password}"/>
 
         <property name="old.hibernate.default_schema" value=""/>
-        <condition property="hibernate.default_schema.new" value="">
+        <condition property="hibernate.default_schema.entered" value="">
             <equals arg1="${database.type.new}" arg2="mysql"/>
         </condition>
-        <input addproperty="hibernate.default_schema.new"
+        <input addproperty="hibernate.default_schema.entered"
                    message="Enter the database schema name (it is OK to leave this blank) [${old.hibernate.default_schema}]"
               defaultvalue="${old.hibernate.default_schema}"/>
+        <uppercaseProperty name="hibernate.default_schema.uppercase" value="${hibernate.default_schema.entered}"/>
+        <condition property="hibernate.default_schema.new" value="${hibernate.default_schema.uppercase}" else="${hibernate.default_schema.entered}">
+            <equals arg1="${database.type.new}" arg2="oracle"/>
+        </condition>
 
         <property name="old.hibernate.default_catalog" value=""/>
+        <condition property="hibernate.default_catalog.new" value="">
+            <equals arg1="${database.type.new}" arg2="oracle"/>
+        </condition>
         <input addproperty="hibernate.default_catalog.new"
                    message="Enter the database catalog name (it is OK to leave this blank) [${old.hibernate.default_catalog}]"
               defaultvalue="${old.hibernate.default_catalog}"/>
@@ -488,7 +499,7 @@
 
         <input addproperty="component.name" message="Enter the Seam component name"/>
 
-        <uppercaseProperty name="interface.name.default" value="${component.name}"/>
+        <capitalizeProperty name="interface.name.default" value="${component.name}"/>
         <condition property="interface.name.prompt" value="local interface">
             <isset property="project.ear"/>
         </condition>
@@ -499,7 +510,7 @@
            addproperty="interface.name"
           defaultvalue="${interface.name.default}"/>
 
-        <uppercaseProperty name="bean.name.default" value="${component.name}Bean"/>
+        <capitalizeProperty name="bean.name.default" value="${component.name}Bean"/>
         <condition property="bean.name" value="${interface.name}">
             <isset property="project.war"/>
         </condition>
@@ -507,12 +518,12 @@
             addproperty="bean.name"
           defaultvalue="${bean.name.default}"/>
 
-        <lowercaseProperty name="method.name.default" value="${component.name}"/>
+        <uncapitalizeProperty name="method.name.default" value="${component.name}"/>
         <input message="Enter the action method name [${method.name.default}]"
             addproperty="method.name"
           defaultvalue="${method.name.default}"/>
 
-        <lowercaseProperty name="page.name.default" value="${component.name}"/>
+        <uncapitalizeProperty name="page.name.default" value="${component.name}"/>
         <input message="Enter the page name [${page.name.default}]"
             addproperty="page.name"
           defaultvalue="${page.name.default}"/>
@@ -528,14 +539,14 @@
     <target name="entity-input" depends="init">
 
         <input addproperty="entity.name" message="Enter the entity class name"/>
-        <lowercaseProperty name="component.name" value="${entity.name}"/>
+        <uncapitalizeProperty name="component.name" value="${entity.name}"/>
 
-        <lowercaseProperty name="masterPage.name.default" value="${component.name}List"/>
+        <uncapitalizeProperty name="masterPage.name.default" value="${component.name}List"/>
         <input message="Enter the master page name [${masterPage.name.default}]"
             addproperty="masterPage.name"
           defaultvalue="${masterPage.name.default}"/>
 
-        <lowercaseProperty name="page.name.default" value="${component.name}"/>
+        <uncapitalizeProperty name="page.name.default" value="${component.name}"/>
         <input message="Enter the detail page name [${page.name.default}]"
             addproperty="page.name"
           defaultvalue="${page.name.default}"/>
@@ -561,12 +572,12 @@
         </fail>
 
 
-        <lowercaseProperty name="component.name.default" value="${entity.name}Query"/>
+        <uncapitalizeProperty name="component.name.default" value="${entity.name}Query"/>
         <input addproperty="component.name"
             message="Enter the Seam query component name [${component.name.default}]"
             defaultvalue="${component.name.default}"/>
 
-        <uppercaseProperty name="bean.name.default" value="${component.name}"/>
+        <capitalizeProperty name="bean.name.default" value="${component.name}"/>
         <input message="Enter the query class name [${bean.name.default}]"
             addproperty="bean.name"
             defaultvalue="${bean.name.default}"/>
@@ -577,7 +588,7 @@
             addproperty="query.text"
             defaultvalue="${query.default}"/>
 
-        <lowercaseProperty name="page.name.default" value="${component.name}"/>
+        <uncapitalizeProperty name="page.name.default" value="${component.name}"/>
         <input message="Enter the query resuls page name [${page.name.default}]"
             addproperty="page.name"
             defaultvalue="${page.name.default}"/>

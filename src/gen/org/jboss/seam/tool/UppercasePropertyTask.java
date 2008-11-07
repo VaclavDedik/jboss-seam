@@ -3,28 +3,34 @@ package org.jboss.seam.tool;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
+/**
+ * Defines a new property name with the value converted to uppercase.
+ * 
+ * @author Dan Allen
+ */
 public class UppercasePropertyTask extends Task
 {
-   private String value;
    private String name;
-   
+
+   private String value;
+
    @Override
    public void execute() throws BuildException
    {
-      if ( value!=null && !"".equals(value) )
+      if (value != null && !"".equals(value))
       {
-         getProject().setProperty( name, upper(value) );
+         getProject().setProperty(name, upper(value));
       }
    }
 
-   protected String upper(String name)
+   protected String upper(String value)
    {
-      return name.substring(0, 1).toUpperCase() + name.substring(1);
+      return value.toUpperCase();
    }
 
-   public void setValue(String packageName)
+   public void setValue(String value)
    {
-      this.value = packageName;
+      this.value = value;
    }
 
    public void setName(String propertyName)

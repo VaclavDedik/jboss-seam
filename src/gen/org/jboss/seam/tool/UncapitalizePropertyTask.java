@@ -3,7 +3,7 @@ package org.jboss.seam.tool;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
-public class LowercasePropertyTask extends Task
+public class UncapitalizePropertyTask extends Task
 {
    private String value;
    private String name;
@@ -13,11 +13,11 @@ public class LowercasePropertyTask extends Task
    {
       if ( value!=null && !"".equals(value) )
       {
-         getProject().setProperty( name, lower(value) );
+         getProject().setProperty( name, uncapitalize(value) );
       }
    }
 
-   protected String lower(String name)
+   protected String uncapitalize(String name)
    {
       return name.substring(0, 1).toLowerCase() + name.substring(1);
    }
