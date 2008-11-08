@@ -7,13 +7,13 @@
     <display-name>DVD Store</display-name>
     
     <module>
-        <ejb>jboss-seam-dvd.jar</ejb>
+        <ejb>jboss-seam-dvdstore.jar</ejb>
     </module>
     
     <module>
         <web>
-            <web-uri>jboss-seam-dvd.war</web-uri>
-            <context-root>/seam-dvd</context-root>
+            <web-uri>jboss-seam-dvdstore.war</web-uri>
+            <context-root>/seam-dvdstore</context-root>
         </web>
     </module>
     

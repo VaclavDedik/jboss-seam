@@ -24,6 +24,18 @@
 	<property name="example.ds" value="groovybooking-${profile}-ds.xml" />
 	
 	<import file="../build.xml" />
+
+    <target name="explode">
+        <fail>Please use the target jbosswar.explode to deploy this application.</fail>
+    </target>
+
+    <target name="restart">
+        <fail>Please use the target jbosswar.restart to restart this application.</fail>
+    </target>
+
+    <target name="unexplode">
+        <fail>Please use the target jbosswar.unexplode to undeploy this application.</fail>
+    </target>
 	
 	<property name="classes.model.dir" value="${war.dir}/WEB-INF/classes" />
 	<property name="classes.action.dir" value="${war.dir}/WEB-INF/dev" />

@@ -9,14 +9,15 @@ JBoss AS 4.2.0:
   * Install JBoss AS 4.2.0 GA
   * ant jboss
   * Start JBoss AS 
-  * Access the app at http://localhost:8080/jboss-seam-jpa/
+  * Access the app at http://localhost:8080/seam-jpa/
+  * ant jboss.undeploy
 
 JBoss AS 4.0.5 (with or without EJB3):
   * Install JBoss AS 4.0.5 with the default J2EE profile
   * ant jboss405
   * Deploy dist-jboss405/jboss-seam-jpa.war
   * Start JBoss AS 
-  * Access the app at http://localhost:8080/jboss-seam-jpa/
+  * Access the app at http://localhost:8080/seam-jpa/
 
 WebLogic 9.2:
   * Install WebLogic 9.2

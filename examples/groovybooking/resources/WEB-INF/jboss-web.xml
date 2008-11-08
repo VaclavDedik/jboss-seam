@@ -1,8 +1,9 @@
 <jboss-web>  
   <class-loading java2ClassLoadingCompliance="false">
     <loader-repository>
-      seam.jboss.org:loader=groovybooking
+      seam.jboss.org:loader=seam-groovybooking
       <loader-repository-config>java2ParentDelegation=false</loader-repository-config>
     </loader-repository>
   </class-loading>
+  <context-root>/seam-groovybooking</context-root>
 </jboss-web>

@@ -29,7 +29,7 @@
 
     <persistence:managed-persistence-context name="entityManager"
                                       auto-create="true"
-                       persistence-unit-jndi-name="java:/dvdEntityManagerFactory" />
+                       persistence-unit-jndi-name="java:/dvdstoreEntityManagerFactory" />
     
     <factory name="order" 
              value="#{orderHome.instance}" 

@@ -4,7 +4,7 @@
 
     <!-- Naming -->
     <property name="Name"                   value="Seam on JBoss Nested Booking Example"/>
-    <property name="example.name"           value="jboss-seam-nested-booking"/>
+    <property name="example.name"           value="jboss-seam-nestedbooking"/>
 	
     <!-- Libraries to include -->
     <property name="seam.ui.lib"    value="yes"/>
@@ -13,7 +13,7 @@
     <property name="richfaces.lib"   value="yes"/>
 	
 	<!-- Datasource -->
-    <property name="example.ds"             value="jboss-seam-nested-booking-ds.xml"/>
+    <property name="example.ds"             value="jboss-seam-nestedbooking-ds.xml"/>
     
     <import file="../build.xml"/>
 </project>

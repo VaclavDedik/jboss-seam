@@ -1,7 +1,9 @@
 SeamDiscs Example
 =================================
 
-This example runs on JBoss AS 4.2.2.GA or later and Tomcat with Embedded JBoss.
+This example runs on JBoss AS 4.2.2.GA or later as an EAR and Tomcat with
+Embedded JBoss as a WAR.
+
 Visit http://localhost:8080/seam-discs (on JBoss AS) or 
 http://localhost:8080/jboss-seam-discs (on Tomcat).
 

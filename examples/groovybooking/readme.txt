@@ -2,9 +2,12 @@ Seam GroovyBooking Example
 ==========================
 
 This is the Hotel Booking example implemented in Groovy Beans and Hibernate JPA.
-It runs on JBoss AS.
+This application runs on JBoss AS, but is deployed as a WAR rather than an EAR.
+Thus, you prefix all the typical targets (explode, restart, unexplode) with
+"jbosswar." (e.g., jbosswar.explode, jbosswar.restart, jbosswar.unexplode).
 
-When editing Groovy files from action, a simple ant jbosswar.explode is enough
-When editing Groovy files from model, ant explode jbosswar.restart is necessary
+When editing Groovy files from the src/action directory, you can run ant
+"jbosswar.explode" to see your changes take effect.  When editing Groovy files
+from src/model, you need to run "ant jbosswar.explode jbosswar.restart"
 
-Access it at http://localhost:8080/jboss-seam-groovy
+Access the application at http://localhost:8080/seam-groovybooking

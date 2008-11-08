@@ -8,7 +8,7 @@
   <session-factory>
 
     <property name="show_sql">false</property>
-    <property name="connection.datasource">java:/dvdDatasource</property>
+    <property name="connection.datasource">java:/dvdstoreDatasource</property>
     <property name="transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
     <property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
     <property name="cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>

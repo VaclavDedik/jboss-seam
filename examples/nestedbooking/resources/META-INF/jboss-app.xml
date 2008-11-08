@@ -1,5 +1,5 @@
 <jboss-app>
       <loader-repository> 
-      seam.jboss.org:loader=seam-nested-booking
+      seam.jboss.org:loader=seam-nestedbooking
       </loader-repository> 
 </jboss-app>

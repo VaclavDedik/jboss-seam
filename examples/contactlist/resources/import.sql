@@ -9,3 +9,4 @@ insert into Contact ( firstName, lastName, cellPhone, address, city, state, zip,
 insert into Contact ( firstName, lastName, cellPhone, address, city, state, zip, country, version ) values ( 'Emmanuel', 'Bernard', null, null, 'Atlanta', 'GA', null, 'USA', 1 )
 insert into Contact ( firstName, lastName, cellPhone, address, city, state, zip, country, version ) values ( 'Michael', 'Youngstrom', null, null, 'Salt Lake City', 'UT', null, 'USA', 1 )
 insert into Contact ( firstName, lastName, cellPhone, address, city, state, zip, country, version ) values ( 'Jacob', 'Hookom', null, null, 'Minneapolis', 'MN', null, 'USA', 1 )
+insert into Contact ( firstName, lastName, cellPhone, address, city, state, zip, country, version ) values ( 'Dan', 'Allen', null, null, 'Laurel', 'MD', 20724, 'USA', 1 )

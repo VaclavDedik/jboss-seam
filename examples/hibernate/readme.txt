@@ -9,14 +9,15 @@ JBoss AS 4.2.x:
   * Install JBoss AS with the default profile
   * ant jboss
   * Start JBoss AS 
-  * Access the app at http://localhost:8080/jboss-seam-hibernate/
+  * Access the app at http://localhost:8080/seam-hibernate/
+  * ant jboss.undeploy
 
 JBoss AS 4.0.5.GA:
   * Install JBoss AS with the default profile (with or without EJB3)
   * ant jboss405
   * Deploy dist-jboss/jboss-seam-hibernate.war
   * Start JBoss AS 
-  * Access the app at http://localhost:8080/jboss-seam-hibernate/
+  * Access the app at http://localhost:8080/seam-hibernate/
 
 WebLogic 9.2:
   * Install WebLogic 9.2
@@ -68,3 +69,4 @@ NOTES FOR GLASSFISH USERS:
   WEB/classes/GlassfishDerbyDialect.class is a special hack to get around 
   a Derby bug in Glassfish TM. You must use it as your Hibernate dialect
   if you are using Derby with Glassfish.
+

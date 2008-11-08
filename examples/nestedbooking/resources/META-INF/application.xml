@@ -8,13 +8,13 @@
 
     <module>
         <web>
-            <web-uri>jboss-seam-nested-booking.war</web-uri>
-            <context-root>/seam-nested-booking</context-root>
+            <web-uri>jboss-seam-nestedbooking.war</web-uri>
+            <context-root>/seam-nestedbooking</context-root>
         </web>
     </module>
     
     <module>
-        <ejb>jboss-seam-nested-booking.jar</ejb>
+        <ejb>jboss-seam-nestedbooking.jar</ejb>
     </module>
 
     <module>
