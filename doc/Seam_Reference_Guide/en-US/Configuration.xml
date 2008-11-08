@@ -49,23 +49,23 @@
     <param-value>client</param-value>
 </context-param>]]></programlisting>
 
-			<para>
-				There is a minor gray area in the JSF specification regarding the mutability of view state values. Since
-				Seam uses the JSF view state to back its PAGE scope this can become an issue in some cases. If you're
-				using server side state saving with the JSF-RI and you want a PAGE scoped bean to keep its exact value
-				for a given view of a page you will need to specify the following context-param. Otherwise if a user
-				uses the "back" button a PAGE scoped component will have the latest value if it has changed not the
-				value of the "back" page. (see
-				<ulink url="https://javaserverfaces-spec-public.dev.java.net/issues/show_bug.cgi?id=295">
-					Spec Issue
-				</ulink>
-				). This setting is not enabled by default because of the performance hit of serializing the JSF view
-				with every request.
-			</para>
+            <para>
+                There is a minor gray area in the JSF specification regarding the mutability of view state values. Since
+                Seam uses the JSF view state to back its PAGE scope this can become an issue in some cases. If you're
+                using server side state saving with the JSF-RI and you want a PAGE scoped bean to keep its exact value
+                for a given view of a page you will need to specify the following context-param. Otherwise if a user
+                uses the "back" button a PAGE scoped component will have the latest value if it has changed not the
+                value of the "back" page. (see
+                <ulink url="https://javaserverfaces-spec-public.dev.java.net/issues/show_bug.cgi?id=295">
+                    Spec Issue
+                </ulink>
+                ). This setting is not enabled by default because of the performance hit of serializing the JSF view
+                with every request.
+            </para>
 
-			<programlisting role="XML"><![CDATA[<context-param>
-	<param-name>com.sun.faces.serializeServerState</param-name>
-	<param-value>true</param-value>
+            <programlisting role="XML"><![CDATA[<context-param>
+    <param-name>com.sun.faces.serializeServerState</param-name>
+    <param-value>true</param-value>
 </context-param>]]></programlisting>
         </sect2>
 
@@ -798,9 +798,9 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
   <Listener className="org.apache.catalina.core.AprLifecycleListener" />
   <Listener className="org.apache.catalina.mbeans.ServerLifecycleListener" />
   <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
-  <Listener className="org.apache.catalina.storeconfig.StoreConfigLifecycleListener"/>]]></programlisting>
-                    <programlisting role="XML"><![CDATA[<!-- Add this listener -->
-  <Listener className="org.jboss.embedded.tomcat.EmbeddedJBossBootstrapListener"/>]]></programlisting>
+  <Listener className="org.apache.catalina.storeconfig.StoreConfigLifecycleListener" />]]></programlisting>
+                    <programlisting role="XML"><![CDATA[  <!-- Add this listener -->
+  <Listener className="org.jboss.embedded.tomcat.EmbeddedJBossBootstrapListener" />]]></programlisting>
                 </listitem>
 
                 <listitem>
@@ -810,22 +810,32 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
                     <programlisting role="XML"><![CDATA[<Context>
     <!-- Default set of monitored resources -->
     <WatchedResource>WEB-INF/web.xml</WatchedResource>
-	
+    
     <!-- Uncomment this to disable session persistence across Tomcat restarts -->
     <!--
     <Manager pathname="" />
     -->]]></programlisting>
-                    <programlisting role="XML"><![CDATA[<!-- Add this listener -->
-  <Listener className="org.jboss.embedded.tomcat.WebinfScanner"/>]]></programlisting>
+                    <programlisting role="XML"><![CDATA[  <!-- Add this listener -->
+  <Listener className="org.jboss.embedded.tomcat.WebinfScanner" />]]></programlisting>
                     <programlisting role="XML"><![CDATA[</Context>]]></programlisting>
                 </listitem>
                 
                 <listitem>
-                    <para>If you are using JDK 6, you must set the Java option <literal>sun.lang.ClassLoader.allowArraySyntax</literal> to
-                        <literal>true</literal> in Tomcat's startup script (either catalina.bat or catalina.sh):
-                    </para>
-                      
-                    <programlisting><![CDATA[set JAVA_OPTS=%JAVA_OPTS% -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djava.util.logging.config.file="%CATALINA_BASE%\conf\logging.properties" -Dsun.lang.ClassLoader.allowArraySyntax=true]]></programlisting>
+                    <para>If you are using Sun JDK 6, you need to set the Java option
+                        <literal>sun.lang.ClassLoader.allowArraySyntax</literal> to <literal>true</literal> in the
+                        JAVA_OPTS environment variable used by the Catalina startup script (catalina.bat on Windows or
+                        catalina.sh on Unix).</para>
+
+                    <para>Open the script appropriate for your operating system in a text editor. Add a new line
+                        immediately below the comments at the top of the file where you will define the JAVA_OPTS
+                        environment variable. On Windows, use the following syntax:</para>
+
+                    <programlisting><![CDATA[set JAVA_OPTS=%JAVA_OPTS% -Dsun.lang.ClassLoader.allowArraySyntax=true]]></programlisting>
+
+                    <para>On Unix, use this syntax instead:</para>
+
+                    <programlisting><![CDATA[JAVA_OPTS="$JAVA_OPTS -Dsun.lang.ClassLoader.allowArraySyntax=true"]]></programlisting>
+
                 </listitem>
             </itemizedlist>
 
