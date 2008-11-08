@@ -60,7 +60,7 @@
                 <literal>http://localhost:8080/seam-space/</literal></ulink>.</para>
                 
             <para>If, on the other hand, the example gets packaged as a WAR, then it deploys to a URL like
-                <literal>/jboss-seam-<replaceable>example</replaceable>. Most of the examples can be deployed as a WAR
+                <literal>/jboss-seam-<replaceable>example</replaceable></literal>. Most of the examples can be deployed as a WAR
                 to Tomcat with Embedded JBoss by typing <literal>ant tomcat.deploy</literal>. Several of the examples
                 can only be deployed as a WAR. Those examples are groovybooking, hibernate, jpa, and spring.
             </para>
