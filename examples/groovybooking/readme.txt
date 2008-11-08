@@ -10,4 +10,4 @@ When editing Groovy files from the src/action directory, you can run ant
 "jbosswar.explode" to see your changes take effect.  When editing Groovy files
 from src/model, you need to run "ant jbosswar.explode jbosswar.restart"
 
-Access the application at http://localhost:8080/seam-groovybooking
+Access the application at http://localhost:8080/jboss-seam-groovybooking

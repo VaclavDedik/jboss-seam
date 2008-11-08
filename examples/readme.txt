@@ -137,8 +137,14 @@ How to Build and Deploy an Example on JBoss AS
 
    Recall that ${example.name} is the name of the example folder unless the
    folder begins with seam, in which the prefix "seam" is omitted. The
-   context path is set in META-INF/application.xml for EAR deployments and
-   WEB-INF/jboss-web.xml for WAR deployments.
+   context path is set in META-INF/application.xml for EAR deployments.
+
+   However, WAR deployments use a different naming convention for the context
+   path. If you deploy a WAR example, point your web browser to:
+
+   http://localhost:8080/jboss-seam-${example.name}
+
+   The WAR examples are groovybooking, jpa, hibernate, and spring
 
 NOTE: The examples use the HSQL database embedded in JBoss AS
 

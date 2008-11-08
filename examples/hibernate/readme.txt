@@ -9,7 +9,7 @@ JBoss AS 4.2.x:
   * Install JBoss AS with the default profile
   * ant jboss
   * Start JBoss AS 
-  * Access the app at http://localhost:8080/seam-hibernate/
+  * Access the app at http://localhost:8080/jboss-seam-hibernate/
   * ant jboss.undeploy
 
 JBoss AS 4.0.5.GA:
@@ -17,7 +17,7 @@ JBoss AS 4.0.5.GA:
   * ant jboss405
   * Deploy dist-jboss/jboss-seam-hibernate.war
   * Start JBoss AS 
-  * Access the app at http://localhost:8080/seam-hibernate/
+  * Access the app at http://localhost:8080/jboss-seam-hibernate/
 
 WebLogic 9.2:
   * Install WebLogic 9.2

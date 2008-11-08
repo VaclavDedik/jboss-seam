@@ -1,9 +1,8 @@
 <jboss-web>  
   <class-loading java2ClassLoadingCompliance="false">
     <loader-repository>
-      seam.jboss.org:loader=seam-jpa
+      seam.jboss.org:loader=jboss-seam-jpa
       <loader-repository-config>java2ParentDelegation=false</loader-repository-config>
     </loader-repository>
   </class-loading>
-  <context-root>/seam-jpa</context-root>
 </jboss-web>
