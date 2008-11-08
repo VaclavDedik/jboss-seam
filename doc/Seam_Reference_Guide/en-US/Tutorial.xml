@@ -49,18 +49,20 @@
                 installation, to the location of your JBoss AS installation.</para>
 
             <para>Once you've set the location of JBoss AS and started the application server, you can build and deploy
-                any example by typing <literal>ant deploy</literal> in the the directory for that example. Any example
+                any example by typing <literal>ant explode</literal> in the the directory for that example. Any example
                 that is packaged as an EAR deploys to a URL like
                 <literal>/seam-<replaceable>example</replaceable></literal>, where <replaceable>example</replaceable> is
-                the name of the example folder. For the registration example, the URL would be <ulink
-                url="http://localhost:8080/seam-registration/">
-                <literal>http://localhost:8080/seam-registration/</literal></ulink>.</para>
+                the name of the example folder, with one exception. If the example folder begins with seam, the prefix
+                "seam" is ommitted. For instance, if JBoss AS is running on port 8080, the URL for the registration
+                example is <ulink url="http://localhost:8080/seam-registration/">
+                <literal>http://localhost:8080/seam-registration/</literal></ulink>, whereas the URL for the seamspace
+                example is <ulink url="http://localhost:8080/seam-space/">
+                <literal>http://localhost:8080/seam-space/</literal></ulink>.</para>
                 
-            <para>If, on the other hand, the example
-                gets packaged as a WAR, then it deploys to a URL like
+            <para>If, on the other hand, the example gets packaged as a WAR, then it deploys to a URL like
                 <literal>/jboss-seam-<replaceable>example</replaceable>. Most of the examples can be deployed as a WAR
-                to Tomcat with Embedded JBoss. Several of the examples only deploy as a WAR. Those examples are
-                groovybooking, hibernate, jpa, and spring.
+                to Tomcat with Embedded JBoss by typing <literal>ant tomcat.deploy</literal>. Several of the examples
+                can only be deployed as a WAR. Those examples are groovybooking, hibernate, jpa, and spring.
             </para>
 
         </section>
@@ -90,7 +92,6 @@
                 example the URL would be <ulink url="http://localhost:8080/jboss-seam-registration/">
                 <literal>http://localhost:8080/jboss-seam-registration/</literal></ulink>. The same is true
                 for examples that deploy as a WAR, as mentioned in the previous section.
-
             </para>
 
         </section>
@@ -98,10 +99,10 @@
         <section>
             <title>Running the example tests</title>
             <para> 
-                Most of the examples come with a suite of TestNG integration tests. The easiest way to 
-                run the tests
-                is to run <literal>ant test</literal>.  It is also possible
-                to run the tests inside your IDE using the TestNG plugin.
+                Most of the examples come with a suite of TestNG integration tests. The easiest way to run the tests is
+                to run <literal>ant test</literal>.  It is also possible to run the tests inside your IDE using the
+                TestNG plugin. Consult the readme.txt in the examples directory of the Seam distribution for more
+                information.
             </para>
         </section>
 
