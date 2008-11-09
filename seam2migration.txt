@@ -1,6 +1,6 @@
 Seam 2.0 Migration Guide
 ========================
-Before you get started with Seam2, you'll need to make a few changes to 
+Before you get started with Seam 2, you'll need to make a few changes to 
 your existing code and configuration. This process should not be too
 painful - if you get stuck, just refer back to the updated Seam examples.
 
@@ -8,7 +8,7 @@ Supported container environments
 --------------------------------
 Seam 2.0 has been tested on the following containers:
 
-* JBoss 4.2 (it is possible to run Seam2 on JBoss 4.0.5 by upgrading JSF)
+* JBoss 4.2 (it's possible to run Seam 2 on JBoss 4.0.5 by upgrading JSF to 1.2)
 * Tomcat 6.0 (Tomcat 5.5 is not compatible with JSF 1.2)
 * GlassFish V2
 * OC4J 11g Technology Preview
@@ -21,22 +21,48 @@ EE 5 application servers, including JBoss 4.2. To switch to the JSF RI,
 you'll need to make some changes to web.xml:
 
 * remove the MyFaces StartupServletContextListener
-* remove the Ajax4JSF filter and mappings
+* remove the Ajax4JSF filter, mappings, and
+             org.ajax4jsf.VIEW_HANDLERS context parameter
 * rename org.jboss.seam.web.SeamFilter to 
              org.jboss.seam.servlet.SeamFilter
-
-Also note that for the JSF RI, client-side state saving is not required.
-
-You'll also need to make some changes to faces-config.xml:
-
-* Remove the (Tranactional)SeamPhaseListener declaration
-* Remove the SeamELResolver declaration, if you have one
-* Change the declaration of SeamFaceletViewHandler to the standard 
-             com.sun.facelets.FaceletViewHandler
+* rename org.jboss.seam.servlet.ResourceServlet to 
+             org.jboss.seam.servlet.SeamResourceServlet
+* change the web-app version from 2.4 to 2.5
+             also change j2ee to javaee in namespace URL
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="
+    http://java.sun.com/xml/ns/javaee
+    http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" 
+  version="2.5">
+  ...
+</web-app>
 
 Since Seam 1.2, you didn't need any declarations of SeamExceptionFilter
 or SeamRedirectFilter in web.xml, just a single declaration of SeamFilter. 
 Make sure you've already made that change.
+
+Also note that for the JSF RI, client-side state saving, defined by
+the context param javax.faces.STATE_SAVING_METHOD, is not required
+and can be removed (server is the default).
+
+You'll also need to make some changes to faces-config.xml:
+
+* Remove the TranactionalSeamPhaseListener or SeamPhaseListener declaration,
+             whichever is currently in use
+* Remove the SeamELResolver declaration, if you have one
+* Change the declaration of SeamFaceletViewHandler to the standard 
+             com.sun.facelets.FaceletViewHandler (and make sure it's enabled)
+* Remove the DTD on the document and add the XML Schema declarations to the
+             root tag (<faces-config>)
+<faces-config version="1.2"
+  xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="
+    http://java.sun.com/xml/ns/javaee
+    http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
+  ...
+</faces-config>
 
 Code migration
 --------------
@@ -47,6 +73,7 @@ particular technologies like JSF into specific packages.
 * Persistence-related components moved to org.jboss.seam.persistence
 * jBPM related components moved to org.jboss.seam.bpm
 * JSF-related components moved org.jboss.seam.faces
+          most significantly org.jboss.seam.faces.FacesMessages
 * Servlet-related components have moved to org.jboss.seam.web
 * Components related to asynchronicity moved to org.jboss.seam.async
 * i18n-related components moved to org.jboss.seam.international
@@ -88,28 +115,41 @@ And the schema is:
 
 You'll need to update your components.xml file to reflect the new schemas 
 and namespaces. Take a look at the Seam examples if you're unsure of 
-exactly what you need to do.
+exactly what you need to do. Specifically, you are changing the namespace
+URLs to match the Seam version (i.e., 2.0 or 2.1).
 
-Finally, some declarations must be removed completely:
+Some declarations have moved or must be removed completely:
 
-* remove <conversation-is-long-running-parameter> from <core:init/>
+* replace <core:managed-persistence-context> and <core:entity-manager-factory> with
+	  <persistence:managed-persistence-context> and
+	  <persistence:entity-manager-factory>, respectively
+* remove conversation-is-long-running-parameter attribute from <core:manager/>
 * remove <core:ejb/>
 * remove <core:microcontainer/>
-* replace <core:transaction-listener/> with 
-          <transaction:ejb-transaction/>
+* replace <core:transaction-listener/> with <transaction:ejb-transaction/>
 * replace <core:resource-bundle/> with <core:resource-loader/>
           
-Note: Seam transaction management is now enabled by default. If you want
-      to disable use of Seam-managed transactions, use the following:
+Note: Seam transaction management is now enabled by default. It's now
+	  controlled in components.xml rather than by a JSF phase listener
+	  declaration in faces-config.xml. If you want to disable use of
+	  Seam-managed transactions, use the following:
       
-      <core:init transaction-management-enabled="false"/>
+	  <core:init transaction-management-enabled="false"/>
       
-Note: The expression attribute on event action's has been deprecated in favor of
-      execute e.g.:
+Note: The expression attribute on event action's has been deprecated in favor
+	  of execute, e.g.
 
-      <event type="org.jboss.seam.notLoggedIn">
+      <event type="org.jboss.seam.security.notLoggedIn">
           <action execute="#{redirect.captureCurrentView}"/>
       </event>
+      <event type="org.jboss.seam.loginSuccessful">
+          <action execute="#{redirect.returnToCapturedView}"/>
+      </event>
+
+In 2.1 the security events use the prefix org.jboss.seam.security instead of
+just org.jboss.seam (e.g. org.jboss.seam.security.notLoggedIn). Note that the
+event org.jboss.seam.security.loginSuccessful event should be used in place of
+org.jboss.seam.postAuthenticate for returning to the captured view.
 
 Migration to JBoss Embedded
 ---------------------------
@@ -117,10 +157,11 @@ Support for deployment to JBoss Embeddable EJB3 and JBoss Microcontainer
 has been removed. Instead, the new JBoss Embedded distribution gives you
 a full set of EE-compatible APIs with simplified deployment.
 
-For testing, you need the jars in Seam's lib/ directory, together with the 
-bootstrap/ directory in your classpath. SeamTest will automatically start 
-the container. Refer to the Seam examples, or seam-gen, if you have
-trouble.
+For testing, you need the jars in Seam's lib/ directory, together with the
+bootstrap/ directory in your classpath. SeamTest will automatically start
+the container. You can remove any references or artifacts related to the
+JBoss Embeddable EJB3 (e.g., embedded-ejb folder and jboss-beans.xml). Refer
+to the Seam examples or seam-gen if you have trouble.
 
 For Tomcat deployment, follow the instructions in the user guide. You no
 longer need any special configuration or packaging for Tomcat deployments.
@@ -137,12 +178,13 @@ to add the tx service to jbpm.cfg.xml:
 Migration to RichFaces 3.1
 --------------------------
 If you are using RichFaces or Ajax4jsf, a major reorganisation of the codebase
-has occurred.  ajax4jsf.jar and richfaces.jar have been replaced by 
+has occurred. The JARs ajax4jsf.jar and richfaces.jar have been replaced by 
 richfaces-api.jar (which should go in your ear lib/ directory) and 
 richfaces-impl.jar and richfaces-ui.jar (both of which go in WEB-INF/lib).
 
-s:selectDate has been deprecated in favor of rich:calendar.  No more 
-development will be done on s:selectDate.
+<s:selectDate> has been deprecated in favor of <rich:calendar>. No more 
+development will be done on <s:selectDate>. You can remove the styles related
+to the data picker from your stylesheet to save on unnecessary bandwidth use.
 
 You should check the RichFaces documentation for more information on parameter
 name changes and namespace changes.
@@ -156,9 +198,15 @@ which should be declared as an ejb module in application.xml
 Changes to Seam UI
 ------------------
 
-* s:decorate has become a naming container.  Therefore client ids have changed 
-  from fooForm:fooInput to fooForm:foo:fooInput (assuming your s:decorate has
-  foo as an id.
+* <s:decorate> has become a naming container. Therefore client ids have changed 
+  from fooForm:fooInput to fooForm:foo:fooInput, assuming the following declaration
+<h:form id="fooForm">
+  <s:decorate id="foo">
+    <h:inputText id="fooInput" value="#{bean.property}"/>
+  </s:decorate>
+</h:form>
+
+If you don't provide an id to <s:decorate>, one will be generated by JSF.
 
 Changes to seam-gen
 -------------------
@@ -181,7 +229,32 @@ New way:
 
 Home and Query objects are "action" components, not "model" components
 and are therefore placed in the action package. This change makes the
-convensions followed by generate-entities consistent with the convensions
+conventions followed by generate-entities consistent with the convensions
 used in the new-entity command.
 
 Remember, model classes are kept separate because they cannot be hot reloaded.
+
+Due to the change from JBoss Embeddable EJB3 to JBoss Embedded for testing,
+it is recommended that you generate a project using seam-gen from Seam 2
+and borrow the build.xml file from that project. If you have made
+significant changes to the build.xml in your project, you may want to focus
+on just migrating the test-related targets.
+
+In order for tests to work under JBoss Embedded, you need to change the
+value of the <datasource> element in resources/META-INF/persistence-test.xml
+(or persistence-test-war.xml) to java:/DefaultDS. The alternative is to
+deploy a -ds.xml file to the bootstrap/deploy folder and use the JNDI name
+defined by that file.
+
+If you use the build.xml from a Seam 2 seam-gen project, you will also need
+the deployed-*.list file(s). These files define which JAR files are packaged
+in the EAR or WAR. They were introduced to externalize this set of JARS from
+the build.xml file.
+
+To accomodate a change in the RichFaces panel, you need to add the following
+style to your stylesheet. Otherwise, you're search criteria block in pages
+created by generate-entities will bleed into the table of results.
+
+.rich-stglpanel-body {
+    overflow: auto;
+}
