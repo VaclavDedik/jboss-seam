@@ -159,7 +159,7 @@ public class Contexts
          Object result = getMethodContext().get(name);
          if (result!=null)
          {
-            log.debug("found in method context: " + name);
+             if ( log.isDebugEnabled() ) log.debug("found in method context: " + name);
             return result;
          }
       }
@@ -169,7 +169,7 @@ public class Contexts
          Object result = getEventContext().get(name);
          if (result!=null)
          {
-            log.debug("found in event context: " + name);
+             if ( log.isDebugEnabled() ) log.debug("found in event context: " + name);
             return result;
          }
       }
@@ -179,7 +179,7 @@ public class Contexts
          Object result = getPageContext().get(name);
          if (result!=null)
          {
-            log.debug("found in page context: " + name);
+             if ( log.isDebugEnabled() ) log.debug("found in page context: " + name);
             return result;
          }
       }
@@ -189,7 +189,7 @@ public class Contexts
          Object result = getConversationContext().get(name);
          if (result!=null)
          {
-            log.debug("found in conversation context: " + name);
+             if ( log.isDebugEnabled() ) log.debug("found in conversation context: " + name);
             return result;
          }
       }
@@ -199,7 +199,7 @@ public class Contexts
          Object result = getSessionContext().get(name);
          if (result!=null)
          {
-            log.debug("found in session context: " + name);
+             if ( log.isDebugEnabled() ) log.debug("found in session context: " + name);
             return result;
          }
       }
@@ -209,7 +209,7 @@ public class Contexts
          Object result = getBusinessProcessContext().get(name);
          if (result!=null)
          {
-            log.debug("found in business process context: " + name);
+             if ( log.isDebugEnabled() ) log.debug("found in business process context: " + name);
             return result;
          }
       }
@@ -219,7 +219,7 @@ public class Contexts
          Object result = getApplicationContext().get(name);
          if (result!=null)
          {
-            log.debug("found in application context: " + name);
+             if ( log.isDebugEnabled() ) log.debug("found in application context: " + name);
             return result;
          }
       }
