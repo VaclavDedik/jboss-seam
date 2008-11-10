@@ -89,6 +89,16 @@ public class Call
    {
       return result;
    }
+   
+   /**
+    * Required for unit tests
+    * 
+    * @param result
+    */
+   public void setResult(Object result)
+   {
+      this.result = result;
+   }
 
    /**
     * Returns the id of this call.
@@ -109,6 +119,16 @@ public class Call
    public List<String> getConstraints()
    {
       return constraints;
+   }
+   
+   /**
+    * Required for unit tests
+    * 
+    * @param constraints
+    */
+   public void setConstraints(List<String> constraints)
+   {
+      this.constraints = constraints;
    }
 
    /**

@@ -34,6 +34,7 @@ import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.mock.MockServletContext;
+import org.jboss.seam.remoting.Call;
 import org.jboss.seam.remoting.CallContext;
 import org.jboss.seam.remoting.MarshalUtils;
 import org.jboss.seam.remoting.client.ParserUtils;
@@ -738,11 +739,12 @@ public class RemotingTest
          result.setSecret("bar");
 
          ByteArrayOutputStream out = new ByteArrayOutputStream();
-
+         
          // Constrain a single field of the result
-         List<String> constraints = Arrays.asList(new String[] { "secret" });
-         MarshalUtils.marshalResult(null, new CallContext(), out, result,
-               constraints);
+         Call c = new Call(null, null, null);
+         c.setConstraints(Arrays.asList(new String[] { "secret" }));
+         c.setResult(result);
+         MarshalUtils.marshalResult(c, out);
 
          SAXReader xmlReader = new SAXReader();
          Document doc = xmlReader.read(new StringReader(new String(out
@@ -766,9 +768,8 @@ public class RemotingTest
          out.reset();
 
          // Now we're going to constrain result.child's secret field
-         constraints = Arrays.asList(new String[] { "child.secret" });
-         MarshalUtils.marshalResult(null, new CallContext(), out, result,
-               constraints);
+         c.setConstraints(Arrays.asList(new String[] { "child.secret" }));
+         MarshalUtils.marshalResult(c, out);
 
          doc = xmlReader.read(new StringReader(new String(out.toByteArray())));
          widget = (Widget) ParserUtils.unmarshalResult(doc.getRootElement());
@@ -789,10 +790,8 @@ public class RemotingTest
 
          // Constrain the "secret" field of the widgetMap map's values (sounds
          // confusing, I know...)
-         constraints = Arrays
-               .asList(new String[] { "widgetMap[value].secret" });
-         MarshalUtils.marshalResult(null, new CallContext(), out, result,
-               constraints);
+         c.setConstraints(Arrays.asList(new String[] { "widgetMap[value].secret" }));
+         MarshalUtils.marshalResult(c, out);
 
          doc = xmlReader.read(new StringReader(new String(out.toByteArray())));
          widget = (Widget) ParserUtils.unmarshalResult(doc.getRootElement());
@@ -812,9 +811,8 @@ public class RemotingTest
          result.getWidgetList().add(item);
 
          // Constraint the "secret" field of widgetList
-         constraints = Arrays.asList(new String[] { "widgetList.secret" });
-         MarshalUtils.marshalResult(null, new CallContext(), out, result,
-               constraints);
+         c.setConstraints(Arrays.asList(new String[] { "widgetList.secret" }));
+         MarshalUtils.marshalResult(c, out);
 
          doc = xmlReader.read(new StringReader(new String(out.toByteArray())));
          widget = (Widget) ParserUtils.unmarshalResult(doc.getRootElement());
@@ -827,10 +825,8 @@ public class RemotingTest
          out.reset();
 
          // Now constrain all secrets
-         constraints = Arrays
-               .asList(new String[] { "[" + Widget.class.getName() + "].secret" });
-         MarshalUtils.marshalResult(null, new CallContext(), out, result,
-               constraints);
+         c.setConstraints(Arrays.asList(new String[] { "[" + Widget.class.getName() + "].secret" }));
+         MarshalUtils.marshalResult(c, out);
 
          doc = xmlReader.read(new StringReader(new String(out.toByteArray())));
          widget = (Widget) ParserUtils.unmarshalResult(doc.getRootElement());
