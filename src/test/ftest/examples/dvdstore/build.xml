@@ -25,7 +25,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
    <property name="jboss.deploy.target" value="deploy" />
    <property name="jboss.undeploy.target" value="undeploy" />
    <property name="jboss.deploy.waittime" value="20" />
-   <property name="example.ready.check.url" value="seam-dvd/home.seam"/>
+   <property name="example.ready.check.url" value="seam-dvdstore/home.seam"/>
    
    <import file="../build.xml" />
 
