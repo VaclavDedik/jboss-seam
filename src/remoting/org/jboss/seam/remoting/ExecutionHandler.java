@@ -223,8 +223,7 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
 
     for (Call call : calls)
     {
-      MarshalUtils.marshalResult(call.getId(), call.getContext(), out,
-                                 call.getResult(), call.getConstraints());
+      MarshalUtils.marshalResult(call, out);
     }
 
     out.write(BODY_TAG_CLOSE);

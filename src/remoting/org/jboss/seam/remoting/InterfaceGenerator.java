@@ -361,7 +361,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
       }
 
       if (m.getGenericParameterTypes().length > 0) componentSrc.append(", ");
-      componentSrc.append("callback) {\n");
+      componentSrc.append("callback, exceptionHandler) {\n");
 
       componentSrc.append("    return Seam.Remoting.execute(this, \"");
       componentSrc.append(m.getName());
@@ -374,7 +374,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
         componentSrc.append(i);
       }
 
-      componentSrc.append("], callback);\n");
+      componentSrc.append("], callback, exceptionHandler);\n");
 
       componentSrc.append("  }\n");
     }

@@ -152,7 +152,8 @@ Seam.Remoting.createNamespace = function(namespace)
   }
 }
 
-Seam.Remoting.__Context = function() {
+Seam.Remoting.__Context = function()
+{
   this.conversationId = null;
 
   Seam.Remoting.__Context.prototype.setConversationId = function(conversationId)
@@ -163,6 +164,16 @@ Seam.Remoting.__Context = function() {
   Seam.Remoting.__Context.prototype.getConversationId = function()
   {
     return this.conversationId;
+  }
+}
+
+Seam.Remoting.Exception = function(msg) 
+{
+  this.message = msg;
+  
+  Seam.Remoting.Exception.prototype.getMessage = function()
+  {
+    return this.message;
   }
 }
 
@@ -466,7 +477,7 @@ Seam.Remoting.__callId = 0;
 //  call.asyncReq = Seam.Remoting.sendAjaxRequest(envelope, Seam.Remoting.PATH_EXECUTE, Seam.Remoting.processResponse, false);
 //}
 
-Seam.Remoting.createCall = function(component, methodName, params, callback)
+Seam.Remoting.createCall = function(component, methodName, params, callback, exceptionHandler)
 {
   var callId = "" + Seam.Remoting.__callId++;
   if (!callback)
@@ -506,7 +517,7 @@ Seam.Remoting.createCall = function(component, methodName, params, callback)
 
   data += "</call>";
 
-  return {data: data, id: callId, callback: callback};
+  return {data: data, id: callId, callback: callback, exceptionHandler: exceptionHandler};
 }
 
 Seam.Remoting.createHeader = function()
@@ -597,9 +608,9 @@ Seam.Remoting.cancelCall = function(callId)
   }
 }
 
-Seam.Remoting.execute = function(component, methodName, params, callback)
+Seam.Remoting.execute = function(component, methodName, params, callback, exceptionHandler)
 {
-  var call = Seam.Remoting.createCall(component, methodName, params, callback);
+  var call = Seam.Remoting.createCall(component, methodName, params, callback, exceptionHandler);
 
   if (Seam.Remoting.inBatch)
   {
@@ -765,10 +776,11 @@ Seam.Remoting.processResult = function(result, context)
   var call = Seam.Remoting.pendingCalls.get(callId);
   Seam.Remoting.pendingCalls.remove(callId);
 
-  if (call && call.callback)
+  if (call && (call.callback || call.exceptionHandler))
   {
     var valueNode = null;
     var refsNode = null;
+    var exceptionNode = null;
 
     var children = result.childNodes;
     for (var i = 0; i < children.length; i++)
@@ -778,15 +790,35 @@ Seam.Remoting.processResult = function(result, context)
         valueNode = children.item(i);
       else if (tag == "refs")
         refsNode = children.item(i);
+      else if (tag == "exception")
+        exceptionNode = children.item(i);
     }
 
-    var refs = new Array();
-    if (refsNode)
-      Seam.Remoting.unmarshalRefs(refsNode, refs);
-
-    var value = Seam.Remoting.unmarshalValue(valueNode.firstChild, refs);
-
-    call.callback(value, context, callId);
+    if (exceptionNode != null)
+    {
+      var msgNode = null;
+      var children = exceptionNode.childNodes;
+      for (var i = 0; i < children.length; i++)
+      {
+        var tag = children.item(i).tagName;
+        if (tag == "message")
+          msgNode = children.item(i); 
+      }
+      
+      var msg = Seam.Remoting.unmarshalValue(msgNode.firstChild);
+      var ex = new Seam.Remoting.Exception(msg);
+      call.exceptionHandler(ex); 
+    }
+    else
+    {
+      var refs = new Array();
+      if (refsNode)
+        Seam.Remoting.unmarshalRefs(refsNode, refs);
+  
+      var value = Seam.Remoting.unmarshalValue(valueNode.firstChild, refs);
+  
+      call.callback(value, context, callId);
+    }
   }
 }
 
