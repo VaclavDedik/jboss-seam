@@ -31,16 +31,16 @@
                 <th>Account Number</th>
                 <th>Balance</th>
             </tr>
-            <ui:repeat value="#{accounts.resultList}" var="account">
+            <ui:repeat id="accountTable" value="#{accounts.resultList}" var="account">
                 <tr>
                     <td>
-                        <s:link view="/search.xhtml" value="#{account.id}">
+                        <s:link id="link" view="/search.xhtml" value="#{account.id}">
                             <f:param name="accountId" value="#{account.id}"/>
                         </s:link>
                     </td>
                     <td>#{account.accountNumber}</td>
                     <td>
-                        <h:outputText value="#{account.balance}">
+                        <h:outputText id="balance" value="#{account.balance}">
                             <f:convertNumber type="currency" currencySymbol="$"/> 
                         </h:outputText>
                     </td>
@@ -52,52 +52,56 @@
 
         <f:subview id="accountView" rendered="#{accountHome.idDefined}">
             <h2>Payments from Account #{accountHome.instance.accountNumber}</h2>
-            <table class="results">
-                <tr>
-                    <th>Status</th>
-                    <th>Payee</th>
-                    <th>Payment Amount</th>
-                    <th>Created Date</th>
-                    <th>Scheduled Date</th>
-                    <th>Frequency</th>
-                    <th>Last Paid On</th>
-                </tr>
-                <ui:repeat value="#{accountHome.instance.payments}" var="payment">
-                    <tr>
-                        <td>
-                            <s:button action="#{paymentHome.cancel}" value="Cancel" rendered="#{payment.active}">
-                                <f:param name="paymentId" value="#{payment.id}"/>
-                            </s:button>
-                            <h:outputText value="not active" rendered="#{!payment.active}" />
-                        </td>                            
-                        <td>#{payment.payee}</td>
-                        <td>
-                            <h:outputText value="#{payment.amount}">
-                                <f:convertNumber type="currency" currencySymbol="$"/> 
-                            </h:outputText>
-                        </td>
-                        <td>
-                            <h:outputText value="#{payment.createdDate}">
-                                <f:convertDateTime type="date" dateStyle="medium" />
-                            </h:outputText>
-                        </td>
-                        <td>
-                            <h:outputText value="#{payment.paymentDate}">
-                                <f:convertDateTime type="date" dateStyle="medium" />
-                            </h:outputText>
-                        </td>
-                        <td>#{payment.paymentFrequency}</td>
-                        <td>
-                            <h:outputText value="#{payment.lastPaid}">
-                                <f:convertDateTime type="date" dateStyle="medium" />
-                            </h:outputText>
-                        </td>
-                    </tr>
-                </ui:repeat>
+            <table id="payments" class="results">
+                <thead>
+                	<tr>
+	                    <th>Status</th>
+	                    <th>Payee</th>
+	                    <th>Payment Amount</th>
+	                    <th>Created Date</th>
+	                    <th>Scheduled Date</th>
+	                    <th>Frequency</th>
+	                    <th>Last Paid On</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <ui:repeat value="#{accountHome.instance.payments}" var="payment">
+	                    <tr>
+	                        <td>
+	                            <s:button action="#{paymentHome.cancel}" value="Cancel" rendered="#{payment.active}">
+	                                <f:param name="paymentId" value="#{payment.id}"/>
+	                            </s:button>
+	                            <h:outputText value="not active" rendered="#{!payment.active}" />
+	                        </td>                            
+	                        <td>#{payment.payee}</td>
+	                        <td>
+	                            <h:outputText value="#{payment.amount}">
+	                                <f:convertNumber type="currency" currencySymbol="$"/> 
+	                            </h:outputText>
+	                        </td>
+	                        <td>
+	                            <h:outputText value="#{payment.createdDate}">
+	                                <f:convertDateTime type="date" dateStyle="medium" />
+	                            </h:outputText>
+	                        </td>
+	                        <td>
+	                            <h:outputText value="#{payment.paymentDate}">
+	                                <f:convertDateTime type="date" dateStyle="medium" />
+	                            </h:outputText>
+	                        </td>
+	                        <td>#{payment.paymentFrequency}</td>
+	                        <td>
+	                            <h:outputText value="#{payment.lastPaid}">
+	                                <f:convertDateTime type="date" dateStyle="medium" />
+	                            </h:outputText>
+	                        </td>
+	                    </tr>
+	                </ui:repeat>
+	        	</tbody>
             </table>
 
             <h2>Make a payment from account #{accountHome.instance.accountNumber}:</h2>
-            <h:form>
+            <h:form id="paymentForm">
                 <s:validateAll>
                     <table>
                         <tr>
@@ -129,11 +133,11 @@
                                                   layout="lineDirection"
                                                   value="#{newPayment.paymentFrequency}">
                                     <s:convertEnum />
-                                    <s:enumItem enumValue="ONCE"         label="Only Once" />
-                                    <s:enumItem enumValue="EVERY_MINUTE" label="Every Minute (testing)" />
-                                    <s:enumItem enumValue="HOURLY"       label="Every Hour (testing)" />
-                                    <s:enumItem enumValue="DAILY"        label="Every Day" />
-                                    <s:enumItem enumValue="WEEKLY"       label="Every Week" />
+                                    <s:enumItem id="once" enumValue="ONCE"         label="Only Once" />
+                                    <s:enumItem id="everyMinute" enumValue="EVERY_MINUTE" label="Every Minute (testing)" />
+                                    <s:enumItem id="hourly" enumValue="HOURLY"       label="Every Hour (testing)" />
+                                    <s:enumItem id="daily" enumValue="DAILY"        label="Every Day" />
+                                    <s:enumItem id="weekly" enumValue="WEEKLY"       label="Every Week" />
                                     <ui:remove>
                                         <f:selectItems value="#{newPayment.frequencies}" />
                                     </ui:remove>
@@ -143,7 +147,7 @@
                     </table>
                 </s:validateAll>
                 
-                <h:commandButton value="Schedule" 
+                <h:commandButton id="submit" value="Schedule" 
                                  action="#{paymentHome.saveAndSchedule}" />
             </h:form>
         </f:subview>

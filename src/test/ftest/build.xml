@@ -55,6 +55,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
       <testexample name="icefaces" />
       <testexample name="jpa" />
       <testexample name="nestedbooking" />
+      <testexample name="quartz" />
+      <testexample name="seampay" />
       <testexample name="spring" />
       <testexample name="wicket" />
 
@@ -82,6 +84,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
       <cleanexample name="icefaces" />
       <cleanexample name="jpa" />
       <cleanexample name="nestedbooking" />
+      <cleanexample name="quartz" />
+      <cleanexample name="seampay" />
       <cleanexample name="spring" />
       <cleanexample name="wicket" />
    </target>
@@ -95,6 +99,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
       <undeployexample name="icefaces" />
       <undeployexample name="jpa" />
       <undeployexample name="nestedbooking" />
+      <undeployexample name="quartz" />
+      <undeployexample name="seampay" />
       <undeployexample name="spring" />
       <undeployexample name="wicket" />
    </target>
