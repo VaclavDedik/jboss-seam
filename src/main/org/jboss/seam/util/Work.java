@@ -1,13 +1,11 @@
 package org.jboss.seam.util;
 
-import static org.jboss.seam.ComponentType.JAVA_BEAN;
 import static org.jboss.seam.util.EJB.APPLICATION_EXCEPTION;
 import static org.jboss.seam.util.EJB.rollback;
 
 import javax.transaction.Status;
 import javax.transaction.UserTransaction;
 
-import org.jboss.seam.Component;
 import org.jboss.seam.annotations.ApplicationException;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -31,10 +29,12 @@ public abstract class Work<T>
    
    public final T workInTransaction() throws Exception
    {      
-      boolean transactionActive = Transaction.instance().isActiveOrMarkedRollback()
-              || Transaction.instance().isRolledBack(); //TODO: temp workaround, what should we really do in this case??
+      org.jboss.seam.transaction.UserTransaction transaction = Transaction.instance();
+      
+      boolean transactionActive = transaction.isActiveOrMarkedRollback()
+              || transaction.isRolledBack(); //TODO: temp workaround, what should we really do in this case??
       boolean newTransactionRequired = isNewTransactionRequired(transactionActive);
-      UserTransaction userTransaction = newTransactionRequired ? Transaction.instance() : null;
+      UserTransaction userTransaction = newTransactionRequired ? transaction : null;
       
       if (newTransactionRequired) 
       {
@@ -47,7 +47,7 @@ public abstract class Work<T>
          T result = work();
          if (newTransactionRequired) 
          {
-            if (Transaction.instance().isMarkedRollback())
+            if (transaction.isMarkedRollback())
             {
                log.debug("rolling back transaction");
                userTransaction.rollback(); 
