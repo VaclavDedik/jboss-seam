@@ -93,19 +93,7 @@ public class FacesManager extends Manager
          }
          url = url.substring(0, loc);
       }
-      redirect(url, parameters, true);
-   }
-   
-   /**
-    * Redirect to the given view id, encoding the conversation id
-    * into the request URL.
-    * 
-    * @param viewId the JSF view id
-    */
-   @Override
-   public void redirect(String viewId)
-   {
-      redirect(viewId, null, true);
+      redirect(url, parameters, true, true);
    }
    
    @Override
@@ -144,6 +132,18 @@ public class FacesManager extends Manager
    }
    
    /**
+    * Redirect to the given view id, encoding the conversation id
+    * into the request URL.
+    * 
+    * @param viewId the JSF view id
+    */
+   @Override
+   public void redirect(String viewId)
+   {
+      redirect(viewId, null, true, true);
+   }   
+   
+   /**
     * Redirect to the given view id, after encoding parameters and conversation  
     * id into the request URL.
     * 
@@ -152,12 +152,8 @@ public class FacesManager extends Manager
     * @param includeConversationId determines if the conversation id is to be encoded
     */
    public void redirect(String viewId, Map<String, Object> parameters, 
-            boolean includeConversationId)
+            boolean includeConversationId, boolean includePageParams)
    {
-      /*if ( Lifecycle.getPhaseId()==PhaseId.RENDER_RESPONSE )
-      {
-         throw new IllegalStateException("attempted to redirect during RENDER_RESPONSE phase");
-      }*/
       if (viewId == null)
       {
          throw new RedirectException("cannot redirect to a null viewId");
@@ -168,12 +164,13 @@ public class FacesManager extends Manager
       {
          url = encodeParameters(url, parameters);
       }
-      url = Pages.instance().encodePageParameters( 
-               FacesContext.getCurrentInstance(), 
-               url, 
-               viewId, 
-               parameters==null ? Collections.EMPTY_SET : parameters.keySet() 
-            );
+      
+      if (includePageParams)
+      {
+         url = Pages.instance().encodePageParameters(FacesContext.getCurrentInstance(), 
+                  url, viewId, parameters==null ? Collections.EMPTY_SET : parameters.keySet());
+      }
+      
       if (includeConversationId)
       {
          beforeRedirect(viewId);

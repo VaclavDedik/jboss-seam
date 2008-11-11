@@ -23,9 +23,10 @@ public final class RedirectNavigationHandler extends NavigationHandler
    private final String message;
    private final Severity severity;
    private final String control;
+   private final boolean includePageParams;
 
-   public RedirectNavigationHandler(ValueExpression<String> viewId, ValueExpression<String> url,
-                                    List<Param> params, String message, Severity severity, String control)
+   public RedirectNavigationHandler(ValueExpression<String> viewId, ValueExpression<String> url, List<Param> params, 
+         String message, Severity severity, String control, boolean includePageParams)
    {
       this.viewId = viewId;
       this.url    = url;
@@ -33,6 +34,7 @@ public final class RedirectNavigationHandler extends NavigationHandler
       this.message = message;
       this.severity = severity;
       this.control = control;
+      this.includePageParams = includePageParams;
    }
 
    @Override
@@ -56,7 +58,7 @@ public final class RedirectNavigationHandler extends NavigationHandler
       if (url != null) {
           redirectExternal(url.getValue());
       } else {
-          redirect(viewId == null ? null : viewId.getValue(), parameters);
+          redirect(viewId == null ? null : viewId.getValue(), parameters, includePageParams);
       }
 
       return true;

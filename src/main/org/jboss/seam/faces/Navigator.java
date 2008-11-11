@@ -37,17 +37,22 @@ public abstract class Navigator
        FacesManager.instance().redirectToExternalURL(url);
    }
    
+   protected void redirect(String viewId, Map<String, Object> parameters)
+   {
+      redirect(viewId, parameters, true);
+   }
+   
    /**
     * Redirect to the view id.
     */
-   protected void redirect(String viewId, Map<String, Object> parameters)
+   protected void redirect(String viewId, Map<String, Object> parameters, boolean includePageParams)
    {
       if ( Strings.isEmpty(viewId) )
       {
          viewId = Pages.getCurrentViewId();
       }
       if ( log.isDebugEnabled() ) log.debug("redirecting to: " + viewId);
-      FacesManager.instance().redirect(viewId, parameters, true);
+      FacesManager.instance().redirect(viewId, parameters, true, includePageParams);
    }
    
    /**

@@ -1571,6 +1571,8 @@ public class Pages
          }
          final String viewId = redirect.attributeValue("view-id");
          final String url    = redirect.attributeValue("url");
+         final String includePageParamsAttr = redirect.attributeValue("include-page-params");
+         final boolean includePageParams = includePageParamsAttr == null ? true : Boolean.getBoolean(includePageParamsAttr);
 
          Element messageElement = redirect.element("message");
          String control = messageElement==null ? null : messageElement.attributeValue("for");
@@ -1580,8 +1582,7 @@ public class Pages
                   FacesMessage.SEVERITY_INFO : 
                   getFacesMessageValuesMap().get( severityName.toUpperCase() );
          rule.addNavigationHandler(new RedirectNavigationHandler(stringValueExpressionFor(viewId), 
-                                                                 stringValueExpressionFor(url),
-                                                                 params, message, severity, control) );
+               stringValueExpressionFor(url), params, message, severity, control, includePageParams) );
       }
       
       List<Element> childElements = element.elements("out");

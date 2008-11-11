@@ -146,7 +146,7 @@ public class Redirect extends AbstractMutable implements Serializable
     */
    public void execute()
    {
-      FacesManager.instance().redirect(viewId, parameters, conversationPropagationEnabled);
+      FacesManager.instance().redirect(viewId, parameters, conversationPropagationEnabled, true);
    }
    
    /**

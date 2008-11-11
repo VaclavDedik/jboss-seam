@@ -416,6 +416,7 @@
     <xs:attributeGroup name="attlist.redirect">
         <xs:attribute name="view-id" type="pages:view-id" />
         <xs:attribute name="url" type="pages:url" />
+        <xs:attribute name="include-page-params" type="pages:tf-boolean" />
     </xs:attributeGroup>
     
     <xs:element name="http-error">
