@@ -57,7 +57,7 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
          }
       }
 
-      if (viewId != null)
+      if (viewId != null && isIncludePageParams())
       {
          Map<String, Object> pageParameters = Pages.instance().getStringValuesFromModel(context, viewId, usedParameters);
          for (Map.Entry<String, Object> me : pageParameters.entrySet())
@@ -139,6 +139,10 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
    public abstract void setConversationName(String name);
    
    public abstract String getConversationName();
+   
+   public abstract void setIncludePageParams(boolean value);
+   
+   public abstract boolean isIncludePageParams();
 
    public UISelection getSelection()
    {
