@@ -523,6 +523,34 @@ public class paintAction implements paintLocal {
     <para> To turn off debugging, call <literal>setDebug(false)</literal>. If you want to write your own messages to the
       debug log, call <literal>Seam.Remoting.log(message)</literal>. </para>
   </section>
+  
+  <section>
+    <title>Handling Exceptions</title>
+    
+    <para>
+      When invoking a remote component method, it is possible to specify an exception handler which will process
+      the response in the event of an exception during component invocation.  To specify an exception handler function, 
+      include a reference to it after the callback parameter in your JavaScript:
+    </para>
+    
+    <programlisting><![CDATA[var callback = function(result) { alert(result); };
+var exceptionHandler = function(ex) { alert("An exception occurred: " + ex.getMessage()); };
+Seam.Component.getInstance("helloAction").sayHello(name, callback, exceptionHandler);]]></programlisting>
+    
+    <para>
+      If you do not have a callback handler defined, you must specify <literal>null</literal> in its place:
+    </para>
+    
+    <programlisting><![CDATA[var exceptionHandler = function(ex) { alert("An exception occurred: " + ex.getMessage()); };
+Seam.Component.getInstance("helloAction").sayHello(name, null, exceptionHandler);]]></programlisting>    
+    
+    <para>
+      The exception object that is passed to the exception handler exposes one method, <literal>getMessage()</literal>
+      that returns the exception message which is produced by the exception thrown by the <literal>@WebRemote</literal>
+      method.
+    </para>
+    
+  </section>
 
   <section>
     <title>The Loading Message</title>
