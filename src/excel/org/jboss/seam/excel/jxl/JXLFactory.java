@@ -646,7 +646,7 @@ public class JXLFactory
          log.trace("Processing header/footer #0", uiHeaderFooter);
       }
       processHeaderFooterFacet(headerFooter.getLeft(), uiHeaderFooter.getFacet("left"));
-      processHeaderFooterFacet(headerFooter.getCentre(), uiHeaderFooter.getFacet("middle"));
+      processHeaderFooterFacet(headerFooter.getCentre(), uiHeaderFooter.getFacet("center"));
       processHeaderFooterFacet(headerFooter.getRight(), uiHeaderFooter.getFacet("right"));
       return headerFooter;
    }
