@@ -143,6 +143,12 @@ public class FacesManager extends Manager
       redirect(viewId, null, true, true);
    }   
    
+   public void redirect(String viewId, Map<String, Object> parameters, 
+         boolean includeConversationId)
+   {
+      redirect(viewId, parameters, includeConversationId, true);
+   }
+   
    /**
     * Redirect to the given view id, after encoding parameters and conversation  
     * id into the request URL.
