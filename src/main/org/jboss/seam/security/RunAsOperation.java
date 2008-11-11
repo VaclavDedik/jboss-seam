@@ -2,8 +2,6 @@ package org.jboss.seam.security;
 
 import java.security.Principal;
 import java.security.acl.Group;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.security.auth.Subject;
 
@@ -18,15 +16,12 @@ public abstract class RunAsOperation
    private Principal principal;
    private Subject subject;
    
-   private Set<String> roles;
-   
    private boolean systemOp = false;
-   
+      
    public RunAsOperation()
    {
       principal = new SimplePrincipal(null);  
       subject = new Subject();
-      roles = new HashSet<String>();
    }
    
    /**
@@ -54,7 +49,19 @@ public abstract class RunAsOperation
    
    public RunAsOperation addRole(String role)
    {
-      roles.add(role);      
+      for ( Group sg : getSubject().getPrincipals(Group.class) )      
+      {
+         if ( Identity.ROLES_GROUP.equals( sg.getName() ) )
+         {
+            sg.addMember(new SimplePrincipal(role));
+            break;
+         }
+      }
+               
+      SimpleGroup roleGroup = new SimpleGroup(Identity.ROLES_GROUP);
+      roleGroup.addMember(new SimplePrincipal(role));
+      getSubject().getPrincipals().add(roleGroup); 
+      
       return this;
    }
    
@@ -65,22 +72,6 @@ public abstract class RunAsOperation
    
    public void run()
    {      
-      for (String role : roles)
-      {
-         for ( Group sg : getSubject().getPrincipals(Group.class) )      
-         {
-            if ( Identity.ROLES_GROUP.equals( sg.getName() ) )
-            {
-               sg.addMember(new SimplePrincipal(role));
-               break;
-            }
-         }
-                  
-         SimpleGroup roleGroup = new SimpleGroup(Identity.ROLES_GROUP);
-         roleGroup.addMember(new SimplePrincipal(role));
-         getSubject().getPrincipals().add(roleGroup);
-      }      
-      
       Identity.instance().runAs(this);
    }
 }
