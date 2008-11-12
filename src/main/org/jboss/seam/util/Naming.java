@@ -16,13 +16,13 @@ import org.jboss.seam.log.Logging;
 
 public final class Naming 
 {
-   
     private static final LogProvider log = Logging.getLogProvider(Naming.class);
     private static Hashtable initialContextProperties;
+    
+    private static InitialContext initialContext;
 
     public static InitialContext getInitialContext(Hashtable<String, String> props) throws NamingException 
     {
-       
         if (props==null)
         {
             throw new IllegalStateException("JNDI properties not initialized, Seam was not started correctly");
@@ -47,7 +47,17 @@ public final class Naming
     
     public static InitialContext getInitialContext() throws NamingException 
     {
-       return getInitialContext(initialContextProperties);
+       if (initialContext == null) initInitialContext(); 
+          
+       return initialContext;
+    }
+    
+    private static synchronized void initInitialContext() throws NamingException
+    {
+       if (initialContext == null)
+       {
+          initialContext = getInitialContext(initialContextProperties);
+       }
     }
 
     private Naming() {}
@@ -55,12 +65,12 @@ public final class Naming
     public static void setInitialContextProperties(Hashtable initialContextProperties) 
     {
        Naming.initialContextProperties = initialContextProperties;
+       initialContext = null;
     }
 
     public static Hashtable getInitialContextProperties() 
     {
        return initialContextProperties;
     }
-
 }
 
