@@ -63,7 +63,7 @@ public abstract class AbstractPageTest
       Lifecycle.unmockApplication();
    }
    
-   private void installComponents(Context appContext)
+   protected void installComponents(Context appContext)
    {
       Init init = new Init();
       init.setTransactionManagementEnabled(false);
@@ -72,13 +72,10 @@ public abstract class AbstractPageTest
       appContext.set(Component.PROPERTIES, properties);
       properties.put(Seam.getComponentName(Pages.class) + ".resources", new Conversions.FlatPropertyValue(TEST_PAGES_DOT_XML));
 
-      installComponent(appContext, NoRedirectFacesManager.class);
       installComponent(appContext, ResourceLoader.class);
       installComponent(appContext, Expressions.class);
       installComponent(appContext, Pages.class);
       installComponent(appContext, Interpolator.class);
-
-      installComponent(appContext, TestActions.class);
    }
 
    /**

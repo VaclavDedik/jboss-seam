@@ -5,6 +5,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.mock.MockHttpServletRequest;
@@ -24,6 +25,14 @@ import java.util.Map;
  */
 public class PageActionsTest extends AbstractPageTest
 {
+   @Override
+   protected void installComponents(Context appContext)
+   {
+      super.installComponents(appContext);
+      installComponent(appContext, NoRedirectFacesManager.class);
+      installComponent(appContext, TestActions.class);
+   }
+
    /**
     * This test verifies that a non-null outcome will short-circuit the page
     * actions. It tests two difference variations. The first variation includes
@@ -205,7 +214,7 @@ public class PageActionsTest extends AbstractPageTest
    public static class NoRedirectFacesManager extends FacesManager {
 
       @Override
-      public void redirect(String viewId, Map<String, Object> parameters, boolean includeConversationId)
+      public void redirect(String viewId, Map<String, Object> parameters, boolean includeConversationId, boolean includePageParams)
       {
          Contexts.getEventContext().set("lastRedirectViewId", viewId);
          // a lot of shit happens we don't need; the important part is that the
