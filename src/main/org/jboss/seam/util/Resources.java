@@ -43,6 +43,11 @@ public class Resources
 
    public static URL getResource(String resource, ServletContext servletContext) 
    {
+      if (!resource.startsWith("/"))
+      {
+         resource = "/" + resource;
+      }
+      
       String stripped = resource.startsWith("/") ? 
             resource.substring(1) : resource;
    

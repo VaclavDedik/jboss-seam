@@ -2,6 +2,9 @@ package org.jboss.seam.deployment;
 
 import java.net.URL;
 
+import org.jboss.seam.contexts.ServletLifecycle;
+import org.jboss.seam.util.Resources;
+
 public class FileDescriptor
 {
    
@@ -21,7 +24,7 @@ public class FileDescriptor
       {
          throw new NullPointerException("Name cannot be null, loading from " + classLoader);
       }
-      this.url = classLoader.getResource(name);
+      this.url = Resources.getResource(name, ServletLifecycle.getServletContext());
       if (this.url == null)
       {
          throw new NullPointerException("Cannot find URL from classLoader for " + name + ", loading from " + classLoader);
