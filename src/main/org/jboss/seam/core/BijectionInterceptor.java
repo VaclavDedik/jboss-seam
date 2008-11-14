@@ -27,7 +27,7 @@ public class BijectionInterceptor extends AbstractInterceptor
    
    private boolean injecting;
    
-   private int counter = 0;
+   private int clients = 0;
    
    private ReentrantLock lock = new ReentrantLock();
    
@@ -67,7 +67,7 @@ public class BijectionInterceptor extends AbstractInterceptor
                injected = true;
             }
             
-            counter++;
+            clients++;
          }
          finally
          {
@@ -79,9 +79,7 @@ public class BijectionInterceptor extends AbstractInterceptor
          lock.lock();
          try
          {
-            counter--;
-            
-            if (counter == 0)
+            if (clients == 1)
             {
                try
                {                     
@@ -93,6 +91,7 @@ public class BijectionInterceptor extends AbstractInterceptor
                   if (injected)
                   {
                      injected = false;
+                     clients--;
                      component.disinject( invocation.getTarget() );
                   }
                }   
@@ -126,9 +125,9 @@ public class BijectionInterceptor extends AbstractInterceptor
             lock.lock();
             try
             {
-               counter--;
+               clients--;
                
-               if (counter == 0)
+               if (clients == 0)
                {
                   injected = false;
                   component.disinject( invocation.getTarget() );     

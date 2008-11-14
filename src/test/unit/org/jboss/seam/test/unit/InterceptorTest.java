@@ -2,7 +2,8 @@
 package org.jboss.seam.test.unit;
 
 import java.lang.reflect.Method;
-import java.util.concurrent.CountDownLatch;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.event.PhaseId;
@@ -33,6 +34,8 @@ import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockFacesContext;
 import org.jboss.seam.mock.MockServletContext;
 import org.jboss.seam.persistence.PersistenceContexts;
+import org.jboss.seam.util.Reflections;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class InterceptorTest
@@ -275,27 +278,38 @@ public class InterceptorTest
       final BijectionInterceptor bi = new BijectionInterceptor();
       bi.setComponent( new Component(FooBar.class, appContext) );
       
-      final Method m = FooBar.class.getMethod("delayedGetFoo", CountDownLatch.class);
+      final Method m = FooBar.class.getMethod("delayedGetFoo", InvocationControl.class);
       
-      final CountDownLatch latchA = new CountDownLatch(1);
-      final CountDownLatch latchB = new CountDownLatch(1);
-      final CountDownLatch latchC = new CountDownLatch(1);
-      final CountDownLatch latchD = new CountDownLatch(1);
+      final InvocationControl invocationAControl = new InvocationControl("A");
+      final InvocationControl invocationBControl = new InvocationControl("B");
+      final InvocationControl invocationCControl = new InvocationControl("C");
+      
+      final Map<String, Foo> invocationResults = new HashMap<String, Foo>();
       
       final InvocationContext invocationA = new MockInvocationContext() {
          @Override public Object getTarget() { return fooBar; }         
          @Override public Method getMethod() { return m; }
-         @Override public Object[] getParameters() { return new Object[] { latchA }; }
+         @Override public Object[] getParameters() { return new Object[] { invocationAControl }; }
+         @Override public Object proceed() throws Exception { return Reflections.invoke(getMethod(), getTarget(), getParameters()); }
       };
 
       final InvocationContext invocationB = new MockInvocationContext() {
          @Override public Object getTarget() { return fooBar; }         
          @Override public Method getMethod() { return m; }
-         @Override public Object[] getParameters() { return new Object[] { latchB }; }
-      };            
+         @Override public Object[] getParameters() { return new Object[] { invocationBControl }; }
+         @Override public Object proceed() throws Exception { return Reflections.invoke(getMethod(), getTarget(), getParameters()); }
+      };
+      
+      final InvocationContext invocationC = new MockInvocationContext() {
+         @Override public Object getTarget() { return fooBar; }         
+         @Override public Method getMethod() { return m; }
+         @Override public Object[] getParameters() { return new Object[] { invocationCControl }; }
+         @Override public Object proceed() throws Exception { return Reflections.invoke(getMethod(), getTarget(), getParameters()); }
+      };
       
       final WrappedException thread1Exception = new WrappedException();
       final WrappedException thread2Exception = new WrappedException();
+      final WrappedException thread3Exception = new WrappedException();
                   
       new Thread(new Runnable() {
          public void run() {
@@ -306,10 +320,9 @@ public class InterceptorTest
                FacesLifecycle.resumeConversation(externalContext);
                FacesLifecycle.setPhaseId(PhaseId.RENDER_RESPONSE);
 
-               Contexts.getSessionContext().set("foo", foo);               
-               
+               Contexts.getSessionContext().set("foo", foo);
                Foo result = (Foo) bi.aroundInvoke( invocationA );
-               assert result == foo;               
+               invocationResults.put("A", result);
             }
             catch (Exception ex) 
             { 
@@ -317,7 +330,7 @@ public class InterceptorTest
             }
             finally
             {
-               latchC.countDown();
+               invocationAControl.markFinished();
             }
          }     
       }).start();    
@@ -334,7 +347,7 @@ public class InterceptorTest
                Contexts.getSessionContext().set("foo", foo);               
                
                Foo result = (Foo) bi.aroundInvoke( invocationB );
-               assert result == foo;
+               invocationResults.put("B", result);
             }
             catch (Exception ex) 
             { 
@@ -342,25 +355,51 @@ public class InterceptorTest
             }
             finally
             {
-               latchD.countDown();
+               invocationBControl.markFinished();
             }
          }     
-      }).start();       
+      }).start();
       
-      // Allow invocationA to complete
-      latchA.countDown();      
+      new Thread(new Runnable() {
+         public void run() {
+            try
+            {
+               FacesLifecycle.beginRequest(externalContext);
+               Manager.instance().setCurrentConversationId("1");
+               FacesLifecycle.resumeConversation(externalContext);
+               FacesLifecycle.setPhaseId(PhaseId.RENDER_RESPONSE);
+               
+               Contexts.getSessionContext().set("foo", foo);               
+               
+               Foo result = (Foo) bi.aroundInvoke( invocationC );
+               invocationResults.put("C", result);
+            }
+            catch (Exception ex) 
+            { 
+               thread3Exception.exception = ex;
+            }
+            finally
+            {
+               invocationCControl.markFinished();
+            }
+         }     
+      }).start();
       
-      // Wait for invocationA to finalise
-      latchC.await();
+      invocationAControl.start();
+      invocationBControl.start();
+      invocationCControl.start();
       
-      // Allow invocationB to proceed
-      latchB.countDown();
-      
-      // Wait for invocationB
-      latchD.await();
+      invocationAControl.finish();
+      invocationBControl.finish();
+      invocationCControl.finish();
       
       if (thread1Exception.exception != null) throw thread1Exception.exception;
       if (thread2Exception.exception != null) throw thread2Exception.exception;
+      if (thread3Exception.exception != null) throw thread3Exception.exception;
+
+      Assert.assertEquals(invocationResults.get("A"), foo, "Injected value not accurate at end of method invocation A.");
+      Assert.assertEquals(invocationResults.get("B"), foo, "Injected value not accurate at end of method invocation B.");
+      Assert.assertEquals(invocationResults.get("C"), foo, "Injected value not accurate at end of method invocation C.");
    }
    
    @Test

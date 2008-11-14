@@ -1,7 +1,5 @@
 package org.jboss.seam.test.unit;
 
-import java.util.concurrent.CountDownLatch;
-
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -13,14 +11,12 @@ public class FooBar
 {
    @In Foo foo;
    
-   public Foo delayedGetFoo(CountDownLatch latch)
+   public Foo delayedGetFoo(InvocationControl invocationControl)
    {
-      try
-      {
-         latch.await();
-      }
-      catch (InterruptedException ex) {}
-      
+      //System.out.println("enter: " + invocationControl.getName() + " " + foo);
+      invocationControl.init();
+      invocationControl.markStarted();
+      //System.out.println("exit: " + invocationControl.getName() + " " + foo);
       return foo;
    }
 }
