@@ -301,8 +301,8 @@ public class Component extends Model
    {
       boolean hasAnnotation = getBeanClass().isAnnotationPresent(Synchronized.class); 
       
-      synchronize = ( scope==SESSION /*&& ! beanClass.isAnnotationPresent(ReadOnly.class)*/ ) ||
-            hasAnnotation;
+      // Technically, we don't need to synchronize page-scoped components if StateManager#isSavingStateInClient(FacesContext) is true 
+      synchronize = ( scope==SESSION || scope==PAGE || hasAnnotation );
             
       if (synchronize)
       {
