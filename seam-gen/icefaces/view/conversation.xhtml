@@ -31,11 +31,11 @@
     
         <div class="actionButtons">
             <h:commandButton id="begin" value="Begin" 
-                action="#{@componentName@.begin}"/>     			  
-            <h:commandButton id="inc" value="Increment" 
-                action="#{@componentName@.increment}"/>     			  
-            <h:commandButton id="end" value="End" 
-                action="#{@componentName@.end}"/>     			  
+                action="#{@componentName@.begin}" rendered="#{not conversation.longRunning}"/>
+            <h:commandButton id="inc" value="Increment"
+                action="#{@componentName@.increment}" rendered="#{conversation.longRunning}"/>
+            <h:commandButton id="end" value="End"
+                action="#{@componentName@.end}" rendered="#{conversation.longRunning}"/>
         </div>
  </ice:form>
     

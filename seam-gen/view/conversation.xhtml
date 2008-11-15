@@ -27,11 +27,11 @@
     <h:form id="@componentName@">
         <div class="actionButtons">
             <h:commandButton id="begin" value="Begin"
-                action="#{@componentName@.begin}"/>
+                action="#{@componentName@.begin}" rendered="#{not conversation.longRunning}"/>
             <h:commandButton id="inc" value="Increment"
-                action="#{@componentName@.increment}"/>
+                action="#{@componentName@.increment}" rendered="#{conversation.longRunning}"/>
             <h:commandButton id="end" value="End"
-                action="#{@componentName@.end}"/>
+                action="#{@componentName@.end}" rendered="#{conversation.longRunning}"/>
         </div>
     </h:form>
 
