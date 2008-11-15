@@ -20,5 +20,10 @@ args tab in the TestNG launch configuration for your suite.
 
 -Dsun.lang.ClassLoader.allowArraySyntax=true 
 
+Please be sure to use JDK 6 Update 4 or better (>= 1.6.0_04) if you are using
+JDK 6. The Update 4 release upgraded to JAXB 2.1 which removes a problem with
+earlier versions of Sun's JDK 6 which required overriding the JAXB libraries
+using the endorsed directory. 
+
 To add tests to your project create a TestNG xml descriptor called *Test.xml
 (e.g. FooTest.xml) next to your test classes and run ant test.
