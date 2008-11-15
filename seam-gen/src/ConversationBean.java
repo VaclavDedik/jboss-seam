@@ -1,5 +1,6 @@
 package @actionPackage@;
 
+import java.io.Serializable;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import org.jboss.seam.annotations.Name;
@@ -11,7 +12,7 @@ import org.jboss.seam.log.Log;
 
 @Stateful
 @Name("@componentName@")
-public class @beanName@ implements @interfaceName@ {
+public class @beanName@ implements @interfaceName@, Serializable {
 
     @Logger private Log log;
 

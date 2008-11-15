@@ -2,6 +2,7 @@ package @actionPackage@;
 
 import static org.jboss.seam.ScopeType.CONVERSATION;
 
+import java.io.Serializable;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.End;
@@ -11,7 +12,7 @@ import org.jboss.seam.log.Log;
 
 @Scope(CONVERSATION)
 @Name("@componentName@")
-public class @interfaceName@ {
+public class @interfaceName@ implements Serializable {
 
     @Logger private Log log;
 
