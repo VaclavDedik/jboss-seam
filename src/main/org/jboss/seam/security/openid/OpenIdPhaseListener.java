@@ -1,0 +1,75 @@
+package org.jboss.seam.security.openid;
+
+
+import javax.faces.context.*;
+import javax.faces.event.*;
+import javax.servlet.http.*;
+import java.io.*;
+
+import org.jboss.seam.Component;
+import org.jboss.seam.navigation.Pages;
+
+@SuppressWarnings("serial")
+public class OpenIdPhaseListener 
+    implements PhaseListener
+{
+
+    @SuppressWarnings("unchecked")
+    public void beforePhase(PhaseEvent event)
+    {
+        String viewId = Pages.getCurrentViewId();
+
+        if (viewId==null || !viewId.startsWith("/openid.")) {
+            return;
+        }
+        
+        OpenId open = (OpenId) Component.getInstance(OpenId.class);
+        if (open.getId() == null) {
+            try {
+                sendXRDS();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return;
+        }
+
+        OpenId openid = (OpenId) Component.getInstance(OpenId.class);
+        
+        openid.verify();
+        
+        Pages.handleOutcome(event.getFacesContext(), null, "/openid.xhtml");
+    }
+
+
+
+    public void sendXRDS()
+        throws IOException
+    {
+        FacesContext        context    = FacesContext.getCurrentInstance();
+        ExternalContext     extContext = context.getExternalContext();
+        HttpServletResponse response   = (HttpServletResponse) extContext.getResponse();
+
+        response.setContentType("application/xrds+xml");
+        PrintWriter out = response.getWriter();
+
+        // XXX ENCODE THE URL!
+        OpenId open = (OpenId) Component.getInstance(OpenId.class);
+
+        out.println("<XRDS xmlns=\"xri://$xrd*($v*2.0)\"><XRD><Service>" +
+                    "<Type>http://specs.openid.net/auth/2.0/return_to</Type><URI>" +
+                    open.returnToUrl() + "</URI></Service></XRD></XRDS>");
+
+        context.responseComplete();
+    }
+
+
+    public void afterPhase(PhaseEvent event) {
+    }
+
+    public PhaseId getPhaseId() 
+    {
+        return PhaseId.RENDER_RESPONSE;
+    }
+}
+

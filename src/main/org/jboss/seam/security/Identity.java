@@ -178,6 +178,12 @@ public class Identity implements Serializable
       return attemptLogin ? tryLogin() : isLoggedIn();
    }
 
+
+    public void acceptExternallyAuthenticatedPrincipal(Principal principal) {
+        getSubject().getPrincipals().add(principal);
+        this.principal = principal;
+    }
+
    public Principal getPrincipal()
    {
       return principal;
@@ -309,6 +315,8 @@ public class Identity implements Serializable
       }
    }
    
+
+
    /**
     * 
     * @throws LoginException
@@ -325,6 +333,7 @@ public class Identity implements Serializable
       }      
    }
 
+    
    protected void authenticate(LoginContext loginContext) 
       throws LoginException
    {
