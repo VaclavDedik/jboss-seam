@@ -66,7 +66,7 @@ The alternative is to override the getPersistenceContextName() method on any
 persistence controller in the Seam Application Framework:
 
 public String getPersistenceContextName() {
-	"session";
+   "session";
 }
 
 Security
@@ -96,7 +96,7 @@ application:
 
   <event type="org.jboss.seam.security.notLoggedIn">
     <action execute="#{redirect.captureCurrentView}"/>
-    <action execute="#{identity.tryLogin()}"/>
+    <action execute="#{identity.tryLogin}"/>
   </event>
   <event type="org.jboss.seam.security.loginSuccessful">
     <action execute="#{redirect.returnToCapturedView}"/>
@@ -114,9 +114,9 @@ you should now use org.jboss.seam.document.DocumentStoreServlet.
 Clustering
 ----------
 
-Seam's ManagedEntityIdentityInterceptor is now disabled by default. If you need
-the ManagedEntityIdentityInterceptor for clustered failover of conversations, 
-you can enable it components.xml:
+Seam's ManagedEntityInterceptor (formally ManagedEntityIdentityInterceptor) is now disabled by
+default. If you need the ManagedEntityInterceptor for clustered failover of conversations, you can
+enable it components.xml:
 
 <core:init>
    <core:interceptors>
@@ -135,7 +135,7 @@ you can enable it components.xml:
       <value>org.jboss.seam.transaction.TransactionInterceptor</value>
       <value>org.jboss.seam.webservice.WSSecurityInterceptor</value>
       <value>org.jboss.seam.security.SecurityInterceptor</value>
-      <value>org.jboss.seam.persistence.ManagedEntityIdentityInterceptor</value>
+      <value>org.jboss.seam.persistence.ManagedEntityInterceptor</value>
    </core:interceptors>
 </core:init>
 
@@ -143,7 +143,7 @@ you can enable it components.xml:
 Asynchronous Exception Handling
 ----------------------
 
-All asynchronous  are now wrapped in exception handling. By default, any
+All asynchronous invocations are now wrapped in exception handling. By default, any
 exceptions which propagate out of the asynchronous call are caught and logged at
 error level. The reference manual describes how to customize this behaviour. 
 
@@ -193,4 +193,7 @@ and entityQuery.restrictions); if you are using components.xml to configure your
 objects, you don't need to make any changes. If you are extending the objects in
 Java, you just need to create a value expression; for example:
 
-public ValueExpression getCreatedMessage() { return createValueExpression("New person #{person.firstName} #{person.lastName} created"); }
+public ValueExpression getCreatedMessage() {
+   return createValueExpression("New person #{person.firstName} #{person.lastName} created");
+}
+
