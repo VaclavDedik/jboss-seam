@@ -338,6 +338,12 @@
       <artifactId>jboss-common-core</artifactId>
       <optional>true</optional>
     </dependency>
+
+    <dependency>
+        <groupId>org.openid4java</groupId>
+        <artifactId>openid4java</artifactId>
+        <optional>true</optional>
+    </dependency>
     
   </dependencies>
 
