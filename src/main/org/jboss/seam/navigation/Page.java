@@ -73,6 +73,10 @@ public final class Page
       this.viewId = viewId;
       if (viewId!=null)
       {
+         if (viewId.equals("/debug.xhtml")) 
+         {
+             switchEnabled = false;
+         }
          int loc = viewId.lastIndexOf('.');
          if ( loc>0 && viewId.startsWith("/") )
          {

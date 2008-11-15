@@ -5,12 +5,25 @@ import org.jboss.seam.navigation.Pages;
 import org.testng.annotations.Test;
 
 /**
- * This test verifies that the descriptions returned by the Pages component are based on the matching
- * Page definition as well as any matching wild-card pages in the page stack.
- *
+ * This test verifies that the page descriptor is parsed correctly and that the
+ * Page instance returned by the Pages component are based on the matching Page
+ * definition as well as any matching wild-card pages in the page stack.
  */
-public class PageDescriptionsTest extends AbstractPageTest
+public class PageDescriptorTest extends AbstractPageTest
 {
+   /**
+    * Verify that the switch enabled flag is true by default, but false
+    * for the debug page.
+    */
+   @Test(enabled = true)
+   public void testSwitchEnabledFlag()
+   {
+      Pages pages = Pages.instance();
+      
+      assert pages.getPage("/action-test01a.xhtml").isSwitchEnabled();
+      assert !pages.getPage("/debug.xhtml").isSwitchEnabled();
+   }
+   
    /**
     * Verify that the Pages component determines when a description exists in the Page stack and when
     * it does not.
