@@ -114,8 +114,10 @@ public class Reflections
    
    public static void setAndWrap(Field field, Object target, Object value)
    {
+      boolean accessible = field.isAccessible();
       try
       {
+         field.setAccessible(true);
          set(field, target, value);
       }
       catch (Exception e)
@@ -128,6 +130,10 @@ public class Reflections
          {
             throw new IllegalArgumentException("exception setting: " + field.getName(), e);
          }
+      }
+      finally
+      {
+         field.setAccessible(accessible);
       }
    }
    
