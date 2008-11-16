@@ -24,7 +24,11 @@ public class FileDescriptor
       {
          throw new NullPointerException("Name cannot be null, loading from " + classLoader);
       }
-      this.url = Resources.getResource(name, ServletLifecycle.getServletContext());
+      this.url = classLoader.getResource(name);
+      if (url == null)
+      {
+         this.url = Resources.getResource(name, ServletLifecycle.getServletContext());
+      }
       if (this.url == null)
       {
          throw new NullPointerException("Cannot find URL from classLoader for " + name + ", loading from " + classLoader);
