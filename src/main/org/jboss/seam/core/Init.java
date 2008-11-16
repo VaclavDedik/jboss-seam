@@ -101,6 +101,7 @@ public class Init
    private Map<Class, String> convertersByClass = new HashMap<Class, String>();
    
    private long timestamp;
+   private long warTimestamp;
    private File[] hotDeployPaths;
    
    public static Init instance()
@@ -549,6 +550,16 @@ public class Init
    public void setTimestamp(long timestamp)
    {
       this.timestamp = timestamp;
+   }
+   
+   public long getWarTimestamp()
+   {
+      return warTimestamp;
+   }
+   
+   public void setWarTimestamp(long warTimestamp)
+   {
+      this.warTimestamp = warTimestamp;
    }
 
    public boolean isTransactionManagementEnabled()

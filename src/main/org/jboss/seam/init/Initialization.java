@@ -778,12 +778,17 @@ public class Initialization
                
                WarRootDeploymentStrategy warRootDeploymentStrategy = new WarRootDeploymentStrategy(Thread.currentThread().getContextClassLoader(), warRoot);
                warRootDeploymentStrategy.scan();
-               Pages pages = (Pages) ServletLifecycle.getServletContext().getAttribute(Seam.getComponentName(Pages.class));
-               if (pages!= null) {
-                   pages.initialize(warRootDeploymentStrategy.getDotPageDotXmlFileNames());
+               if (init.getWarTimestamp() < warRootDeploymentStrategy.getTimestamp())
+               {
+                  Pages pages = (Pages) ServletLifecycle.getServletContext().getAttribute(Seam.getComponentName(Pages.class));
+                  if (pages!= null) {
+                      pages.initialize(warRootDeploymentStrategy.getDotPageDotXmlFileNames());
+                  }
+                  ServletLifecycle.getServletContext().removeAttribute( Seam.getComponentName(Exceptions.class) );
+                  init.setWarTimestamp(warRootDeploymentStrategy.getTimestamp());
                }
             
-               ServletLifecycle.getServletContext().removeAttribute( Seam.getComponentName(Exceptions.class) );                 
+                                
             }
          }
          finally
