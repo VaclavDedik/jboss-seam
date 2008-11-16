@@ -2506,9 +2506,13 @@
             functionality by instructing the document store to generate URLs with the correct filename extension for
             the document type being generated. </para>
         
-        <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/document"
-            xmlns:pdf="http://jboss.com/products/seam/document">
-    <document:document-store use-extensions="true" />
+        <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+    xmlns:document="http://jboss.com/products/seam/document"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://jboss.com/products/seam/document http://jboss.com/products/seam/document-2.1.xsd
+        http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
+    <document:document-store use-extensions="true"/>
 </components>]]></programlisting>
         
         <para> The document store stores documents in conversation scope, and documents will expire when the conversation ends. At
