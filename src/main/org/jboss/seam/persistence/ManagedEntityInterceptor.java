@@ -2,23 +2,14 @@ package org.jboss.seam.persistence;
 
 import static org.jboss.seam.ScopeType.CONVERSATION;
 
-import java.io.Serializable;
-
-import org.jboss.seam.Component;
-import org.jboss.seam.ComponentType;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
-import org.jboss.seam.annotations.intercept.PostActivate;
-import org.jboss.seam.annotations.intercept.PrePassivate;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.BijectionInterceptor;
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.intercept.AbstractInterceptor;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.transaction.Transaction;
-import org.jboss.seam.web.Session;
 
 /**
  * Swizzles entity references around each invocation, maintaining referential
@@ -68,8 +59,6 @@ public class ManagedEntityInterceptor extends AbstractInterceptor
          }
       }
    }
-
-
 
    public boolean isInterceptorEnabled()
    {

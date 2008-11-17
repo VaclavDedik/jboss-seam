@@ -6,14 +6,16 @@ import static org.jboss.seam.util.JSF.setWrappedData;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.List;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
+import java.util.Map.Entry;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Manager;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Reflections;
@@ -22,7 +24,7 @@ import org.jboss.seam.util.Reflections;
  * @author Gavin King
  * @author Pete Muir
  * @author Norman Richards
- *
+ * @author Dan Allen
  */
 public class ManagedEntityWrapper
 {
@@ -31,98 +33,129 @@ public class ManagedEntityWrapper
    
    public void wrap(Object target, Component component) throws Exception
    {
-      if ( touchedContextsExist() )
+      if ( !touchedContextsExist() )
       {
-         Class beanClass = target.getClass();
-         for (; beanClass!=Object.class; beanClass=beanClass.getSuperclass())
+         log.trace("No touched persistence contexts. Therefore, there are no entities in this conversation whose identities need to be preserved.");
+         return;
+      }
+      
+      String oldCid = switchToConversationContextOfComponent(component);
+      Class beanClass = target.getClass();
+      for (; beanClass!=Object.class; beanClass=beanClass.getSuperclass())
+      {
+         log.trace("Examining fields on " + beanClass);
+         for ( Field field: beanClass.getDeclaredFields() )
          {
-            log.trace("Examining fields on " + beanClass);
-            for ( Field field: beanClass.getDeclaredFields() )
+            if ( !ignore(field) )
             {
-               if ( !ignore(field) )
+               Object value = getFieldValue(target, field);
+               if (value!=null)
                {
-                  Object value = getFieldValue(target, field);
-                  if (value!=null)
+                  Object dataModel = null;
+                  if ( DATA_MODEL.isInstance(value) )
                   {
-                     Object dataModel = null;
-                     if ( DATA_MODEL.isInstance(value) )
-                     {
-                        dataModel = value;
-                        value = getWrappedData(dataModel);
-                     }
-                     if ( isRef(value) )
-                     {
-                        log.trace("Attempting to save wrapper for " + field + " (" + value + ")");
-                        saveWrapper(target, component, field, dataModel, value);
-                     }
-                     else
-                     {
-                        log.trace("Clearing wrapper for " + field + " (" + value + ") as it isn't a entity reference");
-                        clearWrapper(component, field);
-                     }
+                     dataModel = value;
+                     value = getWrappedData(dataModel);
+                  }
+                  if ( containsReferenceToEntityInstance(value) )
+                  {
+                     log.trace("Attempting to save wrapper for " + field + " (" + value + ")");
+                     saveWrapper(target, component, field, dataModel, value);
                   }
                   else
                   {
-                     log.trace("Clearing wrapper for " + field + " as it is null");
+                     log.trace("Clearing wrapper for " + field + " (" + value + ") as it isn't a entity reference");
                      clearWrapper(component, field);
                   }
                }
                else
                {
-                  log.trace("Ignoring field " + field + " as it is static, transient or annotated with @In");
+                  log.trace("Clearing wrapper for " + field + " as it is null");
+                  clearWrapper(component, field);
                }
+            }
+            else
+            {
+               log.trace("Ignoring field " + field + " as it is static, transient or annotated with @In");
             }
          }
       }
-      else
-      {
-         log.trace("No touched persistence contexts");
-      }
+      restorePreviousConversationContextIfNecessary(oldCid);
    }
 
    public void deserialize(Object controllerBean, Component component) throws Exception
-   {      
-      if ( touchedContextsExist() )
+   {
+      if ( !touchedContextsExist() )
       {
-         Class beanClass = controllerBean.getClass();
-         for (; beanClass!=Object.class; beanClass=beanClass.getSuperclass())
+         log.trace("No touched persistence contexts. Therefore, there are no entities in this conversation whose identities need to be restored.");
+         return;
+      }
+      
+      Class beanClass = controllerBean.getClass();
+      for (; beanClass!=Object.class; beanClass=beanClass.getSuperclass())
+      {
+         log.trace("Examining fields on " + beanClass);
+         for ( Field field: beanClass.getDeclaredFields() )
          {
-            log.trace("Examining fields on " + beanClass);
-            for ( Field field: beanClass.getDeclaredFields() )
+            if ( !ignore(field) )
             {
-               if ( !ignore(field) )
+               Object value = getFieldValue(controllerBean, field);
+               Object dataModel = null;
+               if (value!=null && DATA_MODEL.isInstance(value) )
                {
-                  Object value = getFieldValue(controllerBean, field);
-                  Object dataModel = null;
-                  if (value!=null && DATA_MODEL.isInstance(value) )
-                  {
-                     dataModel = value;
-                  }
-                  log.trace("Attempting to restore wrapper for " + field + " (" + value + ")");
-                  //TODO: be more selective
-                  getFromWrapper(controllerBean, component, field, dataModel);
+                  dataModel = value;
                }
-               else
-               {
-                  log.trace("Ignoring field " + field + " as it is static, transient or annotated with @In");
-               }
+               log.trace("Attempting to restore wrapper for " + field + " (" + value + ")");
+               //TODO: be more selective
+               getFromWrapper(controllerBean, component, field, dataModel);
+            }
+            else
+            {
+               log.trace("Ignoring field " + field + " as it is static, transient or annotated with @In");
             }
          }
       }
-      else
-      {
-         log.trace("No touched persistence contexts");
-      }
    }
 
-   private boolean isRef(Object value)
+   private boolean containsReferenceToEntityInstance(Object value)
    {
-      //TODO: could do better by checking if the
-      //      collection really contains an entity
-      return value instanceof List || 
-            value instanceof Map || 
-            value instanceof Set || 
-            Seam.getEntityClass(value.getClass()) != null;
+      if (value == null)
+      {
+         return false;
+      }
+      else if (value instanceof Collection)
+      {
+         // Do a lazy man's generic check by scanning the collection until an entity is found (nested objects not considered).
+         for (Iterator iter = ((Collection) value).iterator(); iter.hasNext();)
+         {
+            Object v = iter.next();
+            if (v != null && Seam.getEntityClass(v.getClass()) != null)
+            {
+               return true;
+            }
+         }
+         return false;
+      }
+      else if (value instanceof Map)
+      {
+         // Do a lazy man's generic check by scanning the collection until an entity is found (nested objects not considered).
+         for (Iterator iter = ((Map) value).entrySet().iterator(); iter.hasNext();)
+         {
+            Entry e = (Entry) iter.next();
+            if ((e.getKey() != null && Seam.getEntityClass(e.getKey().getClass()) != null) ||
+                  (e.getValue() != null && Seam.getEntityClass(e.getValue().getClass()) != null))
+            {
+               return true;
+            }
+         }
+         return false;
+      }
+      else if (Seam.getEntityClass(value.getClass()) != null)
+      {
+         return true;
+      }
+      
+      return false;
    }
 
    private Object getFieldValue(Object bean, Field field) throws Exception
@@ -183,6 +216,37 @@ public class ManagedEntityWrapper
          }
       }
    }
-
+   
+   /**
+    * Changes the thread's current conversation context to the one that holds a reference to this
+    * component. This is necessary if a nested conversation is making a call to a component in
+    * a parent conversation.
+    */
+   private String switchToConversationContextOfComponent(Component component)
+   {
+      Manager manager = Manager.instance();
+      if (manager.isNestedConversation())
+      {
+         String currentCid = manager.getCurrentConversationId();
+         String residentCid = manager.getCurrentConversationEntry().findPositionInConversationStack(component);
+         if (residentCid != currentCid)
+         {
+            Contexts.getConversationContext().flush();
+            Manager.instance().switchConversation(residentCid);
+            return currentCid;
+         }
+      }
+      
+      return null;
+   }
+   
+   private void restorePreviousConversationContextIfNecessary(String oldCid)
+   {
+      if (oldCid != null)
+      {
+         Contexts.getConversationContext().flush();
+         Manager.instance().switchConversation(oldCid);
+      }
+   }
    
 }

@@ -6,6 +6,11 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.contexts.Context;
+import org.jboss.seam.contexts.Contexts;
+
 /**
  * Metadata about an active conversation. Also used
  * by the conversation list and breadcrumbs.
@@ -245,6 +250,43 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    {
       return conversationIdStack.size()>1;
    }
+   
+   /**
+    * Determines which conversation in the stack is holding the instance of this
+    * component. A nested conversation can see context variables in all ancestor
+    * conversations. In this case, we are interesting in knowing where that
+    * instance was found. We are assuming that if the reference is not in an
+    * ancestor conversation, then it must be in the current conversation. The
+    * goal here is not to locate the instance, but rather to determine which
+    * conversation is contributing the instance that we already know exists.
+    * 
+    * The low-level interaction with the session context should be refactored
+    * out. The problem is that it is defined in private areas of
+    * ServerConversationContext and cannot be reused. Actually, what we really
+    * need is a general purpose utility for analyzing the contents of each
+    * conversation in the stack (at least the keys).
+    */
+   public String findPositionInConversationStack(Component component)
+   {
+      if (component.isPerNestedConversation()) {
+         return id;
+      }
+      
+      String name = component.getName();
+      Context session = Contexts.getSessionContext();
+      String location = id;
+      for (int i = 1, len = conversationIdStack.size(); i < len; i++) {
+         String cid = conversationIdStack.get(i);
+         String key = ScopeType.CONVERSATION.getPrefix() + '#' + cid + '$' + name;
+         if (session.get(key) != null) {
+            location = cid;
+            break;
+         }
+      }
+      
+      return location;
+   }
+   
    @Override
    public String toString()
    {
