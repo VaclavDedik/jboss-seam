@@ -618,9 +618,6 @@
             <fileset file="${driver.jar}"/>
         </copy>
 
-        <!-- we must use an endorsed jars directory containing JAXB 2.1 for running SeamTest under Java 6 -->
-        <copy todir="${project.home}/lib/endorsed" file="${seam.dir}/lib/gen/jaxb-api.jar" overwrite="true"/>
-
         <echo message="Copying JBoss Embedded configuration to the ${project.home}/bootstrap directory..."/>
         <copy todir="${project.home}/bootstrap" overwrite="true">
             <fileset dir="${seam.dir}/bootstrap"/>
