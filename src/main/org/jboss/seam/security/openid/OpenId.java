@@ -1,6 +1,6 @@
 package org.jboss.seam.security.openid;
 
-
+import java.io.Serializable;
 
 import org.openid4java.*;
 import org.openid4java.consumer.*;
@@ -25,7 +25,7 @@ import javax.faces.context.FacesContext;
 @Name("openid")
 @Install(precedence=Install.BUILT_IN, classDependencies="org.openid4java.consumer.ConsumerManager")
 @Scope(ScopeType.SESSION)
-public class OpenId
+public class OpenId implements Serializable
 {
     String id;
     String validatedId;
