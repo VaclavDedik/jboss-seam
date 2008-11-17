@@ -11,7 +11,7 @@
     <classpathentry kind="lib" path="lib/hibernate-commons-annotations.jar"/>
     <classpathentry kind="lib" path="lib/hibernate-entitymanager.jar"/>
     <classpathentry kind="lib" path="lib/jboss-seam.jar" sourcepath="lib/src/jboss-seam-sources.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-ui.jar" sourcepath="lib/src/jboss-seam-ui-sources.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-seam-ui.jar" sourcepath="lib/src/jboss-seam-ui-sources.jar"/>
     <classpathentry kind="lib" path="lib/jboss-seam-debug.jar"/>
     <classpathentry kind="lib" path="lib/jboss-cache.jar"/>
     <classpathentry kind="lib" path="lib/jbpm-jpdl.jar"/>
