@@ -23,7 +23,7 @@ package org.jboss.seam.example.contactlist.test.selenium;
 
 public interface ContactlistConstants {
 
-    public static String START_PAGE = "/seam-contactlist";
+    public static String START_PAGE = "/";
     public static String SEARCH_CONTACT_PAGE = "id=search";
     public static String SEARCH_FIRST_NAME_FIELD = "id=searchForm:firstName";
     public static String SEARCH_LAST_NAME_FIELD = "id=searchForm:lastName";

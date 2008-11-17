@@ -10,6 +10,10 @@
       <ant antfile="build-jboss-embedded.xml"/>
    </target>
 	
+   <target name="jboss-embedded.undeploy" description="Undeploy from JBoss Embedded in Tomcat">
+      <ant antfile="build-jboss-embedded.xml" target="tomcat.undeploy"/>
+   </target>
+	
    <target name="jboss.undeploy" description="Build the Hibernate Booking example artifacts, and deploy to JBoss 4.2.0.GA">
         <ant antfile="build-jboss.xml" target="jbosswar.undeploy"/>
    </target>
@@ -37,6 +41,14 @@
    <target name="tomcat6" description="Build the Hibernate Booking example artifacts, suitable for deployment to Tomcat 6">
      	<ant antfile="build-tomcat6.xml"/>
    </target>
+	
+	<target name="tomcat6.deploy" depends="tomcat6" description="Deploy to Tomcat 6.0">
+		<ant antfile="build-tomcat6.xml" target="tomcat.deploy"/>
+	</target>
+	
+	<target name="tomcat6.undeploy" description="Undeploy from Tomcat 6.0">
+		<ant antfile="build-tomcat6.xml" target="tomcat.undeploy"/>
+	</target>
 
    <target name="clean" description="Clean up the example">
      	<ant antfile="build-jboss.xml" target="clean" />

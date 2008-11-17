@@ -46,7 +46,7 @@ public class PaymentTest extends SeamSeleniumTest
    public void setUp()
    {
       super.setUp();
-      browser.open(getProperty("MAIN_PAGE"));
+      browser.open(CONTEXT_PATH + getProperty("MAIN_PAGE"));
       browser.waitForPageToLoad(TIMEOUT);
    }
 

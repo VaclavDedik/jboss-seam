@@ -27,13 +27,13 @@ import java.util.Properties;
 import static org.testng.AssertJUnit.*;
 
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
 import com.thoughtworks.selenium.DefaultSelenium;
 import com.thoughtworks.selenium.Selenium;
-import com.thoughtworks.selenium.Wait;
 
 /**
  * Base class for all Seam based selenium tests.
@@ -49,17 +49,18 @@ public abstract class SeamSeleniumTest {
     private static String SPEED;
     public static String TIMEOUT;
     private static String PROPERTY_FILE;
+    protected String CONTEXT_PATH = "";
     private static Properties properties = new Properties();
     private static boolean propertiesLoaded = false;
 
     protected Selenium browser;
 
-    @BeforeTest
+    @BeforeClass
     @Parameters( { "selenium.host", "selenium.server.port", "selenium.browser",
             "selenium.browser.url", "selenium.speed", "selenium.timeout",
-            "PROPERTY_FILE" })
+            "PROPERTY_FILE", "CONTEXT_PATH" })
     public void setParameters(String host, String port, String browser,
-            String browserUrl, String speed, String timeout, String propertyFile) {
+            String browserUrl, String speed, String timeout, String propertyFile, @Optional String contextPath) {
         HOST = host;
         PORT = Integer.parseInt(port);
         BROWSER = browser;
@@ -67,6 +68,7 @@ public abstract class SeamSeleniumTest {
         SPEED = speed;
         TIMEOUT = timeout;
         PROPERTY_FILE = propertyFile;
+        CONTEXT_PATH = contextPath;
     }
 
     @BeforeMethod

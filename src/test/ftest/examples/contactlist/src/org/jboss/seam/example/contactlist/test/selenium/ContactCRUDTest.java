@@ -39,7 +39,7 @@ public class ContactCRUDTest extends SeleniumContactlistTest {
 
     @Test
     public void testCreateContact() {
-        browser.open(START_PAGE);
+        browser.open(CONTEXT_PATH + START_PAGE);
         new Wait() {
             @Override
             public boolean until() {
@@ -64,7 +64,7 @@ public class ContactCRUDTest extends SeleniumContactlistTest {
 
     @Test
     public void testCreationCanceling() {
-        browser.open(START_PAGE);
+        browser.open(CONTEXT_PATH + START_PAGE);
         new Wait() {
             @Override
             public boolean until() {
@@ -95,7 +95,7 @@ public class ContactCRUDTest extends SeleniumContactlistTest {
         String firstName = "Shane";
         String lastName = "Bryzak";
         // find contact
-        browser.open(START_PAGE);
+        browser.open(CONTEXT_PATH + START_PAGE);
         new Wait() {
             @Override
             public boolean until() {
@@ -130,7 +130,7 @@ public class ContactCRUDTest extends SeleniumContactlistTest {
         String firstName = "Norman";
         String lastName = "Richards";
         // find contact
-        browser.open(START_PAGE);
+        browser.open(CONTEXT_PATH + START_PAGE);
         new Wait() {
             @Override
             public boolean until() {

@@ -23,9 +23,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 <project name="icefaces.ftest.build" basedir="." default="build">
    <property name="example.name" value="icefaces"/>
    <property name="jboss.deploy.target" value="deploy"/>
-   <property name="jboss.deploy.waittime" value="10"/>
    <property name="jboss.undeploy.target" value="undeploy"/>
-   <property name="example.ready.check.url" value="seam-icefaces/home.seam"/>
+   <property name="jboss.example.ready.check.url" value="seam-icefaces/home.seam"/>
    
    <import file="../build.xml" />
 </project>

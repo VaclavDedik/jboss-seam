@@ -48,7 +48,7 @@ public abstract class SeleniumDvdTest extends SeamSeleniumTest {
     }
 
     public boolean login(String username, String password) {
-        browser.open(getProperty("HOME_PAGE"));
+        browser.open(CONTEXT_PATH + getProperty("HOME_PAGE"));
         new Wait() {
             public boolean until() {
                 return browser.isElementPresent(getProperty("LOGIN_SUBMIT"));

@@ -63,7 +63,7 @@ public class SeleniumBookingTest extends SeamSeleniumTest {
         if (isLoggedIn()) {
             fail("User already logged in.");
         }
-        browser.open(getProperty("HOME_PAGE"));
+        browser.open(CONTEXT_PATH + getProperty("HOME_PAGE"));
         browser.waitForPageToLoad(TIMEOUT);
         if (!browser.getTitle().equals(getProperty("PAGE_TITLE"))) {
             return false;

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
 <!--
 JBoss, Home of Professional Open Source
 Copyright 2008, Red Hat Middleware LLC, and individual contributors
@@ -20,11 +19,13 @@ License along with this software; if not, write to the Free
 Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 --> 
-<project name="wicket" basedir="." default="build">
-   <property name="example.name" value="wicket"/>
-   <property name="jboss.deploy.target" value="deploy"/>
-   <property name="jboss.undeploy.target" value="undeploy"/>
-   <property name="jboss.example.ready.check.url" value="seam-wicket/home.seam"/>
-   
-   <import file="../build.xml" />
-</project>
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+<suite name="Seampay example" verbose="2" parallel="false">
+   <test name="seampay_jboss">
+      <parameter name="PROPERTY_FILE" value="/org/jboss/seam/example/seampay/test/selenium/seampay.properties" />
+      <parameter name="CONTEXT_PATH" value="/seam-pay" />
+      	<classes>
+		<class name="org.jboss.seam.example.common.test.seampay.selenium.PaymentTest" />
+      </classes>
+   </test>
+</suite>

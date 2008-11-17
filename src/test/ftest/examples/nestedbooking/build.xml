@@ -23,9 +23,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 <project name="nestedbooking.ftest.build" basedir="." default="build">
    <property name="example.name" value="nestedbooking"/>
    <property name="jboss.deploy.target" value="deploy"/>
-   <property name="jboss.deploy.waittime" value="10"/>
    <property name="jboss.undeploy.target" value="undeploy"/>
-   <property name="example.ready.check.url" value="seam-nestedbooking/home.seam"/>
+   <property name="jboss.example.ready.check.url" value="seam-nestedbooking/home.seam"/>
    
    <import file="../build.xml" />
 </project>

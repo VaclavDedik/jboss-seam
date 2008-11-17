@@ -45,8 +45,8 @@ public class ConversationTest extends SeleniumBookingTest {
     @Test
     public void testConversations() {
         // Start booking in window 1
-        browser.openWindow(getProperty("MAIN_PAGE"), "1");
-        browser.openWindow(getProperty("MAIN_PAGE"), "2");
+        browser.openWindow(CONTEXT_PATH + getProperty("MAIN_PAGE"), "1");
+        browser.openWindow(CONTEXT_PATH + getProperty("MAIN_PAGE"), "2");
         browser.selectWindow("1");
         browser.refresh();
         browser.waitForPageToLoad(TIMEOUT);

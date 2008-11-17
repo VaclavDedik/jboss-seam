@@ -34,7 +34,7 @@ public class CommentTest extends SeleniumContactlistTest {
 		String lastName = "King";
 		String message = "founder of the Hibernate open source object/relational mapping project";
 		// find contact
-		browser.open(START_PAGE);
+		browser.open(CONTEXT_PATH + START_PAGE);
 		new Wait() {
             @Override
             public boolean until() {

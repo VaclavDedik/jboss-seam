@@ -135,15 +135,13 @@ public class SimpleBookingTest extends SeleniumBookingTest {
         if (!isLoggedIn())
             fail();
         if (!browser.isElementPresent(getProperty("SEARCH_SUBMIT"))) {
-            browser.open(getProperty("MAIN_PAGE"));
+            browser.open(CONTEXT_PATH + getProperty("MAIN_PAGE"));
             browser.waitForPageToLoad(TIMEOUT);
         }
         enterSearchQuery(hotelName);
         browser.click(getProperty("SEARCH_RESULT_TABLE_FIRST_ROW_LINK"));
         browser.waitForPageToLoad(TIMEOUT);
         // booking page
-        // assertEquals("Booking failed.", get("PAGE_TITLE"),
-        // browser.getTitle());
         browser.click(getProperty("BOOKING_BOOK"));
         browser.waitForPageToLoad(TIMEOUT);
         // hotel page

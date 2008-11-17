@@ -20,16 +20,24 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 --> 
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
-<suite name="Nested booking example" verbose="2" parallel="false">
-  <test name="Nested booking example">
-     <parameter name="PROPERTY_FILE" value="/org/jboss/seam/example/nestedbooking/test/selenium/nestedbooking.properties" />
+<suite name="Icefaces example" verbose="2" parallel="false">
+  <test name="icefaces_jboss">
+     <parameter name="PROPERTY_FILE" value="/org/jboss/seam/example/icefaces/test/selenium/icefaces.properties" />
+     <parameter name="CONTEXT_PATH" value="/seam-icefaces" />
      <classes>
         <class
            name="org.jboss.seam.example.common.test.booking.selenium.RegistrationTest" />
         <class
            name="org.jboss.seam.example.common.test.booking.selenium.ChangePasswordTest" />
-        <class name="org.jboss.seam.example.common.test.booking.selenium.BackButtonTest" />
-        <class name="org.jboss.seam.example.nestedbooking.test.selenium.NestedSimpleBookingTest"></class>
+        <class name="org.jboss.seam.example.common.test.booking.selenium.BackButtonTest">
+           <methods>
+              <include name="backbuttoningAfterLogoutTest"></include>
+           </methods>
+        </class>
+        <class
+           name="org.jboss.seam.example.common.test.booking.selenium.SimpleBookingTest" />
+        <class
+           name="org.jboss.seam.example.common.test.booking.selenium.ConversationTest" />
      </classes>
   </test>
 </suite>

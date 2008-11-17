@@ -20,11 +20,21 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 --> 
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
-<suite name="Seampay example" verbose="2" parallel="false">
-   <test name="Seampay example">
-      <parameter name="PROPERTY_FILE" value="/org/jboss/seam/example/seampay/test/selenium/seampay.properties" />
-      	<classes>
-		<class name="org.jboss.seam.example.common.test.seampay.selenium.PaymentTest" />
+<suite name="Booking example" verbose="2" parallel="false">
+   <test name="booking_jboss">
+      <parameter name="PROPERTY_FILE" value="/org/jboss/seam/example/booking/test/selenium/booking.properties" />
+      <parameter name="CONTEXT_PATH" value="/seam-booking" />
+      <classes>
+         <class
+            name="org.jboss.seam.example.common.test.booking.selenium.RegistrationTest" />
+         <class
+            name="org.jboss.seam.example.common.test.booking.selenium.ChangePasswordTest" />
+         <class
+            name="org.jboss.seam.example.common.test.booking.selenium.BackButtonTest" />
+         <class
+            name="org.jboss.seam.example.common.test.booking.selenium.SimpleBookingTest" />
+         <class
+            name="org.jboss.seam.example.common.test.booking.selenium.ConversationTest" />
       </classes>
    </test>
 </suite>

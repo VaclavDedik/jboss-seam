@@ -20,19 +20,22 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 --> 
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
-<suite name="Spring example" verbose="2" parallel="false">
-  <test name="Spring example">
-     <parameter name="PROPERTY_FILE" value="/org/jboss/seam/example/spring/test/selenium/spring.properties" />
-     <classes>
-        <class
-           name="org.jboss.seam.example.common.test.booking.selenium.RegistrationTest" />
-        <class
-           name="org.jboss.seam.example.spring.test.selenium.SpringChangePasswordTest" />
-        <class name="org.jboss.seam.example.common.test.booking.selenium.BackButtonTest" />
-        <class
-           name="org.jboss.seam.example.common.test.booking.selenium.SimpleBookingTest" />
-        <class
-           name="org.jboss.seam.example.common.test.booking.selenium.ConversationTest" />
-     </classes>
-  </test>
+<suite name="Hibernate example" verbose="2" parallel="false">
+   <test name="hibernate_jboss-embedded">
+      <parameter name="PROPERTY_FILE"
+         value="/org/jboss/seam/example/hibernate/test/selenium/hibernate.properties" />
+      <parameter name="CONTEXT_PATH" value="/jboss-seam-hibernate" />
+      <classes>
+         <class
+            name="org.jboss.seam.example.common.test.booking.selenium.RegistrationTest" />
+         <class
+            name="org.jboss.seam.example.common.test.booking.selenium.ChangePasswordTest" />
+         <class
+            name="org.jboss.seam.example.common.test.booking.selenium.BackButtonTest" />
+         <class
+            name="org.jboss.seam.example.common.test.booking.selenium.SimpleBookingTest" />
+         <class
+            name="org.jboss.seam.example.common.test.booking.selenium.ConversationTest" />
+      </classes>
+   </test>
 </suite>

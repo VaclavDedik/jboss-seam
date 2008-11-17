@@ -20,17 +20,22 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 --> 
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
-<suite name="Wicket example" verbose="2" parallel="false">
-   <test name="Wicket example">
-      <parameter name="PROPERTY_FILE" value="/org/jboss/seam/example/wicket/test/selenium/wicket.properties" />
+<suite name="Groovybooking example" verbose="2" parallel="false">
+   <test name="groovybooking_jboss">
+      <parameter name="PROPERTY_FILE"
+         value="/org/jboss/seam/example/groovybooking/test/selenium/groovybooking.properties" />
+      <parameter name="CONTEXT_PATH" value="/jboss-seam-groovy" />
       <classes>
          <class
             name="org.jboss.seam.example.common.test.booking.selenium.RegistrationTest" />
          <class
             name="org.jboss.seam.example.common.test.booking.selenium.ChangePasswordTest" />
          <class
-            name="org.jboss.seam.example.wicket.test.selenium.WicketSimpleBookingTest">
-         </class>
+            name="org.jboss.seam.example.common.test.booking.selenium.BackButtonTest" />
+         <class
+            name="org.jboss.seam.example.common.test.booking.selenium.SimpleBookingTest" />
+         <class
+            name="org.jboss.seam.example.common.test.booking.selenium.ConversationTest" />
       </classes>
    </test>
 </suite>

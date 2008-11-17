@@ -41,12 +41,15 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
          <include name="selenium-server-standalone.jar" />
       </fileset>
    </path>
-
+	
    <target name="testall">
-      <antcall target="start.selenium.server">
-      </antcall>
+      <antcall target="testall.jboss"/>
+   </target>
 
-      <!-- Execute tests for all examples-->
+   <target name="testall.jboss">
+   	  <property name="container" value="jboss" />
+      <antcall target="start.selenium.server"/>
+      <!-- Execute tests for all examples jboss-->
       <testexample name="booking" />
       <testexample name="dvdstore" />
       <testexample name="contactlist" />
@@ -59,20 +62,58 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
       <testexample name="seampay" />
       <testexample name="spring" />
       <testexample name="wicket" />
-
-      <antcall target="stop.selenium.server">
-      </antcall>
+      <antcall target="stop.selenium.server"/>
    </target>
+	
+   <target name="testall.jboss-embedded">
+    <property name="container" value="jboss-embedded" />
+    <antcall target="start.selenium.server"/>
+   	<!-- Execute tests for all examples on jboss-embedded -->
+    <testexample name="dvdstore" />
+    <testexample name="seampay" />
+    <testexample name="booking" />
+    <testexample name="jpa" />
+    <testexample name="hibernate" />
+    <antcall target="stop.selenium.server"/>
+   </target>
+	
+   <target name="testall.tomcat6">
+	   	
+      <property name="container" value="tomcat6" />
+      <antcall target="start.selenium.server"/>
 
-   <target name="test">
-      <antcall target="start.selenium.server">
-      </antcall>
+	  <testexample name="jpa" />
+      <testexample name="hibernate" />
+	
+      <antcall target="stop.selenium.server"/>
+ </target>
+
+	<target name="test">
+			<antcall target="test.jboss"/>	
+	</target>
+	
+	<target name="test.jboss">
+		<property name="container" value="jboss" />
+		<antcall target="test.single.example"/>	
+	</target>
+	
+	<target name="test.tomcat6">
+		<property name="container" value="tomcat6" />
+		<antcall target="test.single.example"/>	
+	</target>
+	
+	<target name="test.jboss-embedded">
+		<property name="container" value="jboss-embedded" />
+		<antcall target="test.single.example"/>	
+	</target>
+	
+   <target name="test.single.example">
+      <antcall target="start.selenium.server"/>
 
       <!-- Execute tests for a specific example-->
       <testexample name="${test}" />
 
-      <antcall target="stop.selenium.server">
-      </antcall>
+      <antcall target="stop.selenium.server"/>
    </target>
 
    <target name="cleanall">
@@ -163,7 +204,9 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
       <attribute name="path" />
       <attribute name="target" />
       <sequential>
-         <ant dir="@{path}" target="@{target}" inheritall="false" />
+         <ant dir="@{path}" target="@{target}" inheritall="false" >
+         	<property name="container" value="${container}"></property>
+         </ant>
       </sequential>
    </macrodef>
 </project>

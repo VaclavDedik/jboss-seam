@@ -28,15 +28,22 @@ How To:
 ----------
 * Follow specific instructions for your OS
 * Set jboss.home in $SEAM_HOME/build.properties
+* Set tomcat.home in $SEAM_HOME/build.properties to be able to run tests on Tomcat (with JBoss Embedded)
 * Change to the $SEAM_HOME/src/test/ftest directory
-  * execute "ant testall" to run all of the functional tests
-  * execute "ant test -Dtest=booking" to only run the functional tests for the booking example
-
+  To run all the functional tests run:
+  * "ant testall" for JBoss AS
+  * "ant testall.jboss-embedded" for Tomcat + JBoss Embedded
+  * "ant testall.tomcat6" for plain Tomcat6
+  To run functional tests for single example run:
+  * "ant test -Dtest=example_name" for JBoss AS
+  * "ant test.jboss-embedded -Dtest=example_name" for Tomcat + JBoss Embedded
+  * "ant test.tomcat6 -Dtest=example_name" for Tomcat6
+  
 Known Limitations:
 ---------------------
 * Only tested on Linux with Firefox
 * jboss.home must be set in $SEAM_HOME/build.properties
-* JBoss AS must be started (preferably with nothing deployed)
+* Container must be started (preferably with nothing deployed)
 
 Windows Setup
 --------------

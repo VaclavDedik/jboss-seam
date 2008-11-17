@@ -116,7 +116,7 @@ public class RegistrationTest extends SeleniumBookingTest {
 
     private void register(String username, String name, String password,
             String verify) {
-        browser.open(getProperty("HOME_PAGE"));
+        browser.open(CONTEXT_PATH + getProperty("HOME_PAGE"));
         browser.waitForPageToLoad(TIMEOUT);
         assertEquals("Unable to load home page.", getProperty("PAGE_TITLE"), browser
                 .getTitle());

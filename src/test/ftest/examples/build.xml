@@ -80,22 +80,13 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
       </copy>
    </target>
 
-   <target name="test" depends="build" description="Run Tests">
-
-      <!-- test examples on jboss server -->
-      <antcall target="test.jboss" />
-
-      <!-- add other containers as we add support -->
-
-   </target>
-
    <target name="selenium.test" depends="build" description="Run Tests">
       <taskdef resource="testngtasks" classpathref="classpath.test" />
       <mkdir dir="${test.output.dir}" />
 
       <!-- execute testng tests -->
       <testng haltonfailure="false" outputdir="${test.output.dir}" classpathref="classpath.test">
-         <xmlfileset file="testng.xml" />
+         <xmlfileset file="${container}.xml" />
          <sysproperty key="selenium.server.port" value="${selenium.server.port}" />
          <sysproperty key="selenium.host" value="${selenium.host}" />
          <sysproperty key="selenium.browser" value="${selenium.browser}" />
@@ -105,20 +96,22 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
       </testng>
    </target>
 
-   <target name="test.jboss" depends="build" description="Run Tests">
+   <target name="test" depends="build" description="Run Tests">
       <!-- TODO all of these jboss commands must be optional with checks -->
       <!-- TODO  go get JBoss and extract -->
 
       <!-- TODO start JBoss -->
-
+	  <!-- clean example -->
+   	  <ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="clean" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
+   	
       <!-- deploy the example-->
-      <antcall target="deploy.example.jboss" />
+      <antcall target="deploy.example.${container}" />
 
       <!-- execute testng tests -->
       <antcall target="selenium.test" />
 
       <!-- undeploy the example -->
-      <antcall target="undeploy.example.jboss" />
+      <antcall target="undeploy.example.${container}" />
 
       <!-- TODO stop jboss -->
 
@@ -147,7 +140,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
       <waitfor maxwait="${jboss.deploy.waittime}" maxwaitunit="second">
          <and>
             <!-- wait for the application to not throw 404 -->
-            <http url="${selenium.browser.url}/${example.ready.check.url}" errorsBeginAt="404" />
+            <http url="${selenium.browser.url}/${jboss.example.ready.check.url}" errorsBeginAt="404" />
          </and>
       </waitfor>
    </target>
@@ -157,14 +150,40 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
       <ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${jboss.undeploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
    </target>
 
-   <target name="deploy.example.tomcat">
+   <target name="deploy.example.tomcat6">
       <echo>Deploying Tomcat Example - ${example.name}</echo>
-      <ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${jboss.deploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
+      <ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${tomcat6.deploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
+   	<!-- wait for the application to be active -->
+    <!-- TODO is there a better way? -->
+    <waitfor maxwait="${tomcat6.deploy.waittime}" maxwaitunit="second">
+       <and>
+          <!-- wait for the application to not throw 404 -->
+          <http url="${selenium.browser.url}/${tomcat6.example.ready.check.url}" errorsBeginAt="404" />
+       </and>
+    </waitfor>
    </target>
 
-   <target name="undeploy.example.tomcat">
+   <target name="undeploy.example.tomcat6">
       <echo>Undeploying Tomcat Example - ${example.name}</echo>
-      <ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${jboss.undeploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
+      <ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${tomcat6.undeploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
    </target>
+	
+    <target name="deploy.example.jboss-embedded">
+       <echo>Deploying Tomcat Example - ${example.name}</echo>
+       <ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${jboss-embedded.deploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
+    	<!-- wait for the application to be active -->
+    	<!-- TODO is there a better way? -->
+    	<waitfor maxwait="${jboss-embedded.deploy.waittime}" maxwaitunit="second">
+    	   <and>
+    	   <!-- wait for the application to not throw 404 -->
+    	      <http url="${selenium.browser.url}/${jboss-embedded.example.ready.check.url}" errorsBeginAt="404" />
+    	   </and>
+    	</waitfor>
+    </target>
+
+    <target name="undeploy.example.jboss-embedded">
+       <echo>Undeploying Tomcat Example - ${example.name}</echo>
+       <ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${jboss-embedded.undeploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
+    </target>
 
 </project>

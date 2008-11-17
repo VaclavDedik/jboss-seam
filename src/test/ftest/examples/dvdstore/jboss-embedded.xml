@@ -21,9 +21,10 @@
 -->
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
 <suite name="DVD example" verbose="2" parallel="false">
-   <test name="DVD example">
+   <test name="dvdstore_jboss-embedded">
       <parameter name="PROPERTY_FILE"
          value="/org/jboss/seam/example/dvd/test/selenium/dvd.properties" />
+      <parameter name="CONTEXT_PATH" value="/jboss-seam-dvdstore" />
       <classes>
          <class
             name="org.jboss.seam.example.dvd.test.selenium.LoginTest" />

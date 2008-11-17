@@ -43,7 +43,7 @@ public class NestedSimpleBookingTest extends SimpleBookingTest {
         }
 
         if (!browser.isElementPresent(getProperty("SEARCH_SUBMIT"))) {
-            browser.open(getProperty("MAIN_PAGE"));
+            browser.open(CONTEXT_PATH + getProperty("MAIN_PAGE"));
             browser.waitForPageToLoad(TIMEOUT);
         }
 

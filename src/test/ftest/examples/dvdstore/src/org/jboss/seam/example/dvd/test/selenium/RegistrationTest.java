@@ -46,7 +46,7 @@ public class RegistrationTest extends SeleniumDvdTest {
     @BeforeMethod
     public void setUp() {
         startBrowser();
-        browser.open(getProperty("HOME_PAGE"));
+        browser.open(CONTEXT_PATH + getProperty("HOME_PAGE"));
         new Wait() {
             public boolean until() {
                 return browser.isElementPresent(getProperty("REGISTRATION"));
