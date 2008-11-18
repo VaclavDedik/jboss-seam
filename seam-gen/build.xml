@@ -933,6 +933,17 @@
         <echo message="IDEA Users: Open the project using File > Open project... and select the file ${project.home}/${project.name}.ipr"/>
     </target>
 
+    <target name="update-seam" depends="validate-project,copyseam">
+        <echo message="Copying Seam to the ${project.home}/lib directory..." />
+        <copy todir="${project.home}/lib" overwrite="true">
+            <fileset dir="../lib">
+                <include name="jboss-seam.jar"/>
+                <include name="jboss-seam-*.jar"/>
+                <include name="src/jboss-seam-*.jar"/>
+            </fileset>
+        </copy>
+    </target>
+
     <target name="update-project" depends="validate-project,copy-lib"
         description="Update project dependencies">
         <echo message="Updated project '${project.name}' with the latest Seam jars"/>
