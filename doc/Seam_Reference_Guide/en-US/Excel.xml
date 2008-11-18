@@ -415,7 +415,10 @@
                            <para>
                               <literal>value</literal>
                               &#8212;An EL-expression to the backing data. The
-                              value is a string.
+                              value is a string. The target of this expression is
+                              examined for an Iterable. Note that if the target is a Map,
+                              the iteration is done over the Map.Entry entrySet(), so you
+                              should use a .key or .value to target in your references. 
                            </para>
                         </listitem>
                         <listitem>

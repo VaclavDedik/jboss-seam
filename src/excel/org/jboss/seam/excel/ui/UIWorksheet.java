@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.model.DataModel;
 
@@ -555,6 +556,9 @@ public class UIWorksheet extends ExcelComponent
       else if (value instanceof DataModel && ((DataModel) value).getWrappedData() instanceof Iterable)
       {
          return ((Iterable) ((DataModel) value).getWrappedData()).iterator();
+      }
+      else if (value instanceof Map) {
+          return ((Map) value).entrySet().iterator();
       }
       else if (value instanceof Query)
       {
