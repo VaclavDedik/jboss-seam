@@ -80,8 +80,10 @@ public abstract class AbstractScanner implements Scanner
          boolean handled = false;
          for (Entry<String, DeploymentHandler> entry: deploymentHandlers)
          {
-            // can handle() and if handle() returns false, take previous value of handled
-            handled = (handle(entry.getValue()) || handled);
+            if (handle(entry.getValue()))
+            {
+               handled = true;
+            }
          }
          return handled;
       }
