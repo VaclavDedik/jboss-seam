@@ -17,6 +17,10 @@
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
 
    <core:init debug="@debug@" jndi-pattern="@jndiPattern@"/>
+
+   <component name="org.jboss.seam.debug.hotDeployFilter">
+      <property name="urlPattern">*.seam</property>
+   </component>
      
    <core:manager concurrent-request-timeout="500" 
                  conversation-timeout="120000" 

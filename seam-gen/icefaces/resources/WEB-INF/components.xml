@@ -22,6 +22,10 @@
                  conversation-timeout="120000" 
                  conversation-id-parameter="cid"
                  parent-conversation-id-parameter="pid"/>
+
+   <component name="org.jboss.seam.debug.hotDeployFilter">
+      <property name="urlPattern">*.seam</property>
+   </component>
     
    <persistence:managed-persistence-context name="entityManager"
                                      auto-create="true"
