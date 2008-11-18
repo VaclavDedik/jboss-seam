@@ -78,7 +78,7 @@ public abstract class SeamSeleniumTest {
 
     @AfterMethod
     public void tearDown() {
-        stopBrowser(browser);
+        stopBrowser();
     }
 
     public void startBrowser() {
@@ -88,7 +88,7 @@ public abstract class SeamSeleniumTest {
         browser.setSpeed(SPEED);
     }
     
-    public void stopBrowser(Selenium browser) {
+    public void stopBrowser() {
         browser.stop();
     }
 

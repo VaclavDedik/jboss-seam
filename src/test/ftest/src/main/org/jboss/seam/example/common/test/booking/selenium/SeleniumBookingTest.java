@@ -52,7 +52,7 @@ public class SeleniumBookingTest extends SeamSeleniumTest {
     @AfterMethod
     public void tearDown() {
         logout();
-        browser.stop();
+        stopBrowser();
     }
 
     public boolean login() {

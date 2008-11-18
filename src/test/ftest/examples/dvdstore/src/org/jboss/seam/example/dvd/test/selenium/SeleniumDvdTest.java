@@ -67,7 +67,7 @@ public abstract class SeleniumDvdTest extends SeamSeleniumTest {
     @AfterMethod
     public void tearDown() {
         logout(browser);
-        stopBrowser(browser);
+        stopBrowser();
     }
 
     public void logout(Selenium browser) {

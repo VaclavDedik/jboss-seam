@@ -58,7 +58,7 @@ public class RegistrationTest extends SeleniumBookingTest {
     @Override
     @AfterMethod
     public void tearDown() {
-        browser.stop();
+        stopBrowser();
     }
 
     @Test
