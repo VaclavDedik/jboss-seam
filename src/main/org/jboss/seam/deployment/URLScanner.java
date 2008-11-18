@@ -37,9 +37,14 @@ public class URLScanner extends AbstractScanner
    
    public void scanDirectories(File[] directories)
    {
+      scanDirectories(directories, new File[0]);
+   }
+   
+   public void scanDirectories(File[] directories, File[] excludedDirectories)
+   {
       for (File directory : directories)
       {
-         handleDirectory(directory, null);
+         handleDirectory(directory, null, excludedDirectories);
       }
    }
    
@@ -131,18 +136,35 @@ public class URLScanner extends AbstractScanner
 
    private void handleDirectory(File file, String path)
    {
-      log.trace("directory: " + file);
+      handleDirectory(file, path, new File[0]);
+   }
+   
+   private void handleDirectory(File file, String path, File[] excludedDirectories)
+   {
+      for (File excludedDirectory : excludedDirectories)
+      {
+         if (file.equals(excludedDirectory))
+         {
+            log.trace("skipping excluded directory: " + file);
+            return;
+         }
+      } 
+      
+      log.trace("handling directory: " + file);
       for ( File child: file.listFiles() )
       {
          String newPath = path==null ? child.getName() : path + '/' + child.getName();
          if ( child.isDirectory() )
          {
-            handleDirectory(child, newPath);
+            handleDirectory(child, newPath, excludedDirectories);
          }
          else
          {
-            touchTimestamp(child);
-            handleItem(newPath);
+            if (handleItem(newPath))
+            {
+               // only try to update the timestamp on this scanner if the file was actually handled
+               touchTimestamp(child);
+            }
          }
       }
    }

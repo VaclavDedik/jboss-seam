@@ -72,7 +72,6 @@ public class HotDeploymentStrategy extends DeploymentStrategy
             annotationDeploymentHandler = new AnnotationDeploymentHandler(new SeamDeploymentProperties(classLoader).getPropertyValues(AnnotationDeploymentHandler.ANNOTATIONS_KEY), classLoader);
             getDeploymentHandlers().put(AnnotationDeploymentHandler.NAME, annotationDeploymentHandler);
          }
-         getDeploymentHandlers().put(DotPageDotXmlDeploymentHandler.NAME, new DotPageDotXmlDeploymentHandler());
       }
    }
    
@@ -89,6 +88,15 @@ public class HotDeploymentStrategy extends DeploymentStrategy
       {
          throw new RuntimeException(mue);
       }
+   }
+   
+   /**
+    * It is both enabled and the classpath was detected. Admittedly,
+    * this seems like a redundant confirmation.
+    */
+   public boolean available()
+   {
+      return isEnabled() && isHotDeployClassLoaderEnabled();
    }
    
    public boolean isEnabled()

@@ -22,6 +22,8 @@ public class WarRootDeploymentStrategy extends DeploymentStrategy
    
    private File[] warRoot;
    
+   private File[] excludedDirectories;
+   
    public static final String HANDLERS_KEY = "org.jboss.seam.deployment.deploymentHandlers";
    
    public static final String NAME = "warRootDeploymentStrategy";
@@ -30,11 +32,18 @@ public class WarRootDeploymentStrategy extends DeploymentStrategy
    
    public WarRootDeploymentStrategy(ClassLoader classLoader, File warRoot)
    {
+      this(classLoader, warRoot, new File[0]);
+   }
+   
+   public WarRootDeploymentStrategy(ClassLoader classLoader, File warRoot, File[] excludedDirectories)
+   {
       this.classLoader = classLoader;
       this.warRoot = new File[1];
+      this.excludedDirectories = excludedDirectories;
       if (warRoot != null)
       {
          this.warRoot[0] = warRoot;
+         getFiles().add(warRoot);
       }
       else
       {
@@ -60,8 +69,13 @@ public class WarRootDeploymentStrategy extends DeploymentStrategy
    @Override
    public void scan()
    {
-      getScanner().scanDirectories(warRoot);
+      getScanner().scanDirectories(warRoot, excludedDirectories);
       postScan();
+   }
+   
+   public File[] getExcludedDirectories()
+   {
+      return excludedDirectories;
    }
    
    public Set<FileDescriptor> getDotPageDotXmlFileNames()

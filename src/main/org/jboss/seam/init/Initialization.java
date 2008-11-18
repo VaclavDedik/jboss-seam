@@ -51,9 +51,11 @@ import org.jboss.seam.core.Init;
 import org.jboss.seam.deployment.ClassDescriptor;
 import org.jboss.seam.deployment.FileDescriptor;
 import org.jboss.seam.deployment.HotDeploymentStrategy;
+import org.jboss.seam.deployment.HotDeploymentTimestampCheckStrategy;
 import org.jboss.seam.deployment.SeamDeploymentProperties;
 import org.jboss.seam.deployment.StandardDeploymentStrategy;
 import org.jboss.seam.deployment.WarRootDeploymentStrategy;
+import org.jboss.seam.deployment.WarRootTimestampCheckStrategy;
 import org.jboss.seam.exception.Exceptions;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -95,6 +97,8 @@ public class Initialization
    private HotDeploymentStrategy hotDeploymentStrategy;
    private WarRootDeploymentStrategy warRootDeploymentStrategy;
    
+   private File warClassesDirectory;
+   private File warLibDirectory;
    private File hotDeployDirectory;
    private File warRoot;
    
@@ -116,6 +120,8 @@ public class Initialization
    {
       this.servletContext = servletContext;
       this.warRoot = getRealFile(servletContext, "/");
+      this.warClassesDirectory = getRealFile(servletContext, "/WEB-INF/classes");
+      this.warLibDirectory = getRealFile(servletContext, "/WEB-INF/lib");
       this.hotDeployDirectory = getRealFile(servletContext, HotDeploymentStrategy.DEFAULT_HOT_DEPLOYMENT_DIRECTORY_PATH);
    }
    
@@ -686,38 +692,36 @@ public class Initialization
       }
       ServletLifecycle.beginInitialization();
       Contexts.getApplicationContext().set(Component.PROPERTIES, properties);
-      hotDeploymentStrategy = createHotDeployment(Thread.currentThread().getContextClassLoader());
-      scanForComponents();
       addComponent( new ComponentDescriptor(Init.class), Contexts.getApplicationContext());
       Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION);
-      init.setHotDeployPaths( hotDeploymentStrategy.getHotDeploymentPaths() );
+      // Make the deployment strategies available in the contexts. This gives
+      // access to custom deployment handlers for processing custom annotations
+      Contexts.getEventContext().set(StandardDeploymentStrategy.NAME, standardDeploymentStrategy);
+      scanForComponents();
       ComponentDescriptor desc = findDescriptor(Jbpm.class);
       if (desc != null && desc.isInstalled())
       {
          init.setJbpmInstalled(true);
       }
       init.checkDefaultInterceptors();
-      init.setTimestamp( System.currentTimeMillis() );
+      init.setTimestamp(System.currentTimeMillis());
       addSpecialComponents(init);
       
       // Add the war root deployment
-      warRootDeploymentStrategy = new WarRootDeploymentStrategy(Thread.currentThread().getContextClassLoader(), warRoot);
-      warRootDeploymentStrategy.scan();
-      
-      // Make the deployment strategies available in the contexts. This gives 
-      // access to custom deployment handlers for processing custom annotations
-      // etc.
-      Contexts.getEventContext().set(StandardDeploymentStrategy.NAME, standardDeploymentStrategy);
-      Contexts.getEventContext().set(HotDeploymentStrategy.NAME, hotDeploymentStrategy);
+      warRootDeploymentStrategy = new WarRootDeploymentStrategy(
+            Thread.currentThread().getContextClassLoader(), warRoot, new File[] { warClassesDirectory, warLibDirectory, hotDeployDirectory });
       Contexts.getEventContext().set(WarRootDeploymentStrategy.NAME, warRootDeploymentStrategy);
+      warRootDeploymentStrategy.scan();
+      init.setWarTimestamp(System.currentTimeMillis());
       
-      if (hotDeploymentStrategy.isEnabled())
+      hotDeploymentStrategy = createHotDeployment(Thread.currentThread().getContextClassLoader(), isHotDeployEnabled(init));
+      Contexts.getEventContext().set(HotDeploymentStrategy.NAME, hotDeploymentStrategy);
+      init.setHotDeployPaths( hotDeploymentStrategy.getHotDeploymentPaths() );
+      
+      if (hotDeploymentStrategy.available())
       {
          hotDeploymentStrategy.scan();
-         if (hotDeploymentStrategy.isHotDeployClassLoaderEnabled())
-         {
-            installHotDeployableComponents();
-         }
+         installHotDeployableComponents();
       }
       
       installComponents(init);
@@ -734,21 +738,33 @@ public class Initialization
 
    public void redeploy(HttpServletRequest request) throws InterruptedException
    {
+      redeploy(request, (Init) ServletLifecycle.getServletContext().getAttribute( Seam.getComponentName(Init.class) ));
+   }
+   
+   public void redeploy(HttpServletRequest request, Init init) throws InterruptedException
+   {
+      // It's possible to have the HotDeployFilter installed but disabled
+      if (!isHotDeployEnabled(init))
+      {
+         return;
+      }
+      
       ReentrantLock lock = new ReentrantLock();
       if (lock.tryLock(500, TimeUnit.MILLISECONDS))
       {
          try
          {
-            hotDeploymentStrategy = createHotDeployment(Thread.currentThread().getContextClassLoader());
-            if (hotDeploymentStrategy.isEnabled())
+            hotDeploymentStrategy = createHotDeployment(Thread.currentThread().getContextClassLoader(), isHotDeployEnabled(init));
+            
+            if (hotDeploymentStrategy.available() && new HotDeploymentTimestampCheckStrategy(hotDeploymentStrategy).changedSince(init.getTimestamp()))
             {
+               ServletLifecycle.beginReinitialization(request);
+               Contexts.getEventContext().set(HotDeploymentStrategy.NAME, hotDeploymentStrategy);
                hotDeploymentStrategy.scan();
-               Init init = (Init) ServletLifecycle.getServletContext().getAttribute( Seam.getComponentName(Init.class) );
                
-               if (init.getTimestamp() < hotDeploymentStrategy.getTimestamp())
+               if (hotDeploymentStrategy.getTimestamp() > init.getTimestamp())
                {
-                  log.info("redeploying");
-                  ServletLifecycle.beginReinitialization(request);
+                  log.info("redeploying components");
                   Seam.clearComponentNameCache();
                   for ( String name: init.getHotDeployableComponents() )
                   {
@@ -765,30 +781,33 @@ public class Initialization
                      Contexts.getApplicationContext().remove(name + COMPONENT_SUFFIX);
                   }
                
-                  if (hotDeploymentStrategy.isHotDeployClassLoaderEnabled())
-                  {
-                     installHotDeployableComponents();
-                  }
-                  Contexts.getEventContext().set(HotDeploymentStrategy.NAME, hotDeploymentStrategy);
-                  init.setTimestamp( System.currentTimeMillis() );
+                  init.getHotDeployableComponents().clear();
+                  installHotDeployableComponents();
                   installComponents(init);
-                  ServletLifecycle.endReinitialization();
-                  log.info("done redeploying");
+                  log.info("done redeploying components");
                }
+               // update the timestamp outside of the second timestamp check to be sure we don't cause an unnecessary scan
+               // the second scan checks annotations (the slow part) which might happen to exclude the most recent file
+               init.setTimestamp(System.currentTimeMillis());
+               ServletLifecycle.endReinitialization();
+            }
                
-               WarRootDeploymentStrategy warRootDeploymentStrategy = new WarRootDeploymentStrategy(Thread.currentThread().getContextClassLoader(), warRoot);
+            WarRootDeploymentStrategy warRootDeploymentStrategy = new WarRootDeploymentStrategy(
+                  Thread.currentThread().getContextClassLoader(), warRoot, new File[] { warClassesDirectory, warLibDirectory, hotDeployDirectory });
+            if (new WarRootTimestampCheckStrategy(warRootDeploymentStrategy).changedSince(init.getWarTimestamp()))
+            {
                warRootDeploymentStrategy.scan();
-               if (init.getWarTimestamp() < warRootDeploymentStrategy.getTimestamp())
+               if (warRootDeploymentStrategy.getTimestamp() > init.getWarTimestamp())
                {
+                  log.info("redeploying page descriptors...");
                   Pages pages = (Pages) ServletLifecycle.getServletContext().getAttribute(Seam.getComponentName(Pages.class));
-                  if (pages!= null) {
+                  if (pages != null) {
                       pages.initialize(warRootDeploymentStrategy.getDotPageDotXmlFileNames());
                   }
-                  ServletLifecycle.getServletContext().removeAttribute( Seam.getComponentName(Exceptions.class) );
+                  ServletLifecycle.getServletContext().removeAttribute(Seam.getComponentName(Exceptions.class));
                   init.setWarTimestamp(warRootDeploymentStrategy.getTimestamp());
+                  log.info("done redeploying page descriptors");
                }
-            
-                                
             }
          }
          finally
@@ -807,26 +826,27 @@ public class Initialization
       }
    }
    
-   private HotDeploymentStrategy createHotDeployment(ClassLoader classLoader)
+   private HotDeploymentStrategy createHotDeployment(ClassLoader classLoader, boolean hotDeployEnabled)
    {
       if (isGroovyPresent())
       {
          log.debug("Using Java + Groovy hot deploy");
-         return HotDeploymentStrategy.createInstance("org.jboss.seam.deployment.GroovyHotDeploymentStrategy", classLoader, hotDeployDirectory, isDebugEnabled());
+         return HotDeploymentStrategy.createInstance("org.jboss.seam.deployment.GroovyHotDeploymentStrategy", classLoader, hotDeployDirectory, hotDeployEnabled);
       }
       else 
       {
          log.debug("Using Java hot deploy");
-         return new HotDeploymentStrategy(classLoader, hotDeployDirectory, isDebugEnabled());
+         return new HotDeploymentStrategy(classLoader, hotDeployDirectory, hotDeployEnabled);
       }
    }
    
-   private static boolean isDebugEnabled()
+   private boolean isHotDeployEnabled(Init init)
    {
       return Resources.getResource("META-INF/debug.xhtml", null) != null;
+      //return init.isDebug();
    }
    
-   private static boolean isGroovyPresent()
+   private boolean isGroovyPresent()
    {
       try 
       {
@@ -1033,7 +1053,8 @@ public class Initialization
    }
 
    private void addSpecialComponents(Init init)
-   {}
+   {
+   }
 
    private void installComponents(Init init)
    {
@@ -1126,7 +1147,7 @@ public class Initialization
                descriptor.getJndiName()
             );
          context.set(componentName, component);
-         if ( hotDeploymentStrategy.isEnabled() && hotDeploymentStrategy.isFromHotDeployClassLoader( descriptor.getComponentClass() ) )
+         if ( hotDeploymentStrategy != null && hotDeploymentStrategy.isEnabled() && hotDeploymentStrategy.isFromHotDeployClassLoader( descriptor.getComponentClass() ) )
          {
             Init.instance().addHotDeployableComponent( component.getName() );
          }

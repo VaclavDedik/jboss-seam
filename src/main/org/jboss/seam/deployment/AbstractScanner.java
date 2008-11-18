@@ -41,8 +41,12 @@ public abstract class AbstractScanner implements Scanner
          this.classLoader = classLoader;
       }
       
-      protected void handle(DeploymentHandler deploymentHandler)
+      /**
+       * Return true if the file was handled (false if it was ignored)
+       */
+      protected boolean handle(DeploymentHandler deploymentHandler)
       {
+         boolean handled = false;
          if (deploymentHandler instanceof ClassDeploymentHandler) 
          {
             if (name.endsWith(".class"))
@@ -54,6 +58,7 @@ public abstract class AbstractScanner implements Scanner
                   if (getClassDescriptor().getClazz() != null)
                   {
                      classDeploymentHandler.getClasses().add(getClassDescriptor());
+                     handled = true;
                   }
                }
             }
@@ -63,17 +68,22 @@ public abstract class AbstractScanner implements Scanner
             if (name.endsWith(deploymentHandler.getMetadata().getFileNameSuffix()))
             {
                deploymentHandler.getResources().add(getFileDescriptor());
+               handled = true;
             }
          }
+         return handled;
       }
       
-      protected void handle()
+      protected boolean handle()
       {
          log.trace("found " + name);
+         boolean handled = false;
          for (Entry<String, DeploymentHandler> entry: deploymentHandlers)
          {
-            handle(entry.getValue());
+            // can handle() and if handle() returns false, take previous value of handled
+            handled = (handle(entry.getValue()) || handled);
          }
+         return handled;
       }
       
       private ClassFile getClassFile()
@@ -177,9 +187,9 @@ public abstract class AbstractScanner implements Scanner
       return Long.MAX_VALUE;
    }
    
-   protected void handleItem(String name)
+   protected boolean handleItem(String name)
    {
-      new Handler(name, deploymentStrategy.getDeploymentHandlers().entrySet(), deploymentStrategy.getClassLoader()).handle();
+      return new Handler(name, deploymentStrategy.getDeploymentHandlers().entrySet(), deploymentStrategy.getClassLoader()).handle();
    }
 
 }

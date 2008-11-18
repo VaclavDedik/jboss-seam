@@ -36,16 +36,19 @@ public class HotDeployFilter extends AbstractFilter
    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException
    {
-      Init init = (Init) getServletContext().getAttribute( Seam.getComponentName(Init.class) );
-      if ( init!=null)
+      if (request instanceof HttpServletRequest)
       {
-         try
+         Init init = (Init) getServletContext().getAttribute(Seam.getComponentName(Init.class));
+         if (init != null)
          {
-            new Initialization( getServletContext() ).redeploy( (HttpServletRequest) request );
-         }
-         catch (InterruptedException e)
-         {
-            log.warn("Unable to redeploy, please try again");
+            try
+            {
+               new Initialization(getServletContext()).redeploy((HttpServletRequest) request, init);
+            }
+            catch (InterruptedException e)
+            {
+               log.warn("Unable to redeploy, please try again");
+            }
          }
       }
       chain.doFilter(request, response);
