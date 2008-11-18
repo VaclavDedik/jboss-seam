@@ -1,6 +1,85 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - Seam - Version 2.1.1.CR1
+
+** Bug
+    * [JBSEAM-1738] - seam-gen should uppercase Oracle schema names
+    * [JBSEAM-2209] - Fix passivation/activation of entities loaded using an SMPC
+    * [JBSEAM-2881] - Conversation Switcher doesn't work with natural conversations
+    * [JBSEAM-2933] - Seam 2.1-snapshot, gwt1.5m2, array issues
+    * [JBSEAM-3386] - Building with ant 1.7.1 causes NPE in testing/deployed apps
+    * [JBSEAM-3472] - itext example - NPE on swing component
+    * [JBSEAM-3519] - Excessive JNDI lookups for "java:comp/UserTransation"
+    * [JBSEAM-3544] - Problem sending email in Glassfish v2 in a cluster application
+    * [JBSEAM-3552] - User/role manager in seamspace needs to be QA'ed for stability
+    * [JBSEAM-3575] - Excessive logging from Initialization class for every ajax request
+    * [JBSEAM-3576] - readme.txt in examples dir states old version of jboss
+    * [JBSEAM-3580] - AbstractSeamTest unnecessary cast prevents subclassing
+    * [JBSEAM-3589] - seamspace example shows no users/roles/permissions when attempting to adjust them.
+    * [JBSEAM-3590] - itext example shows 404 not found when accessed
+    * [JBSEAM-3593] - itext example throws a ResourceNotFoundException when you first navigate to the page 
+    * [JBSEAM-3594] - Wicket instrumentation fails on inherited components
+    * [JBSEAM-3604] - outjection interferes with page parameters
+    * [JBSEAM-3609] - Performance problem: when using <s:link> or <s:button> with page.xml
+    * [JBSEAM-3613] - NPE in FileDescriptor::hashCode
+    * [JBSEAM-3618] - CNFE javax.ejb.PostActivate with non-ejb3 seam app in websphere v6.1.0.17
+    * [JBSEAM-3619] - JpaPermissionStore fails using diffent properties for PermissionRole and PermissionUser on the same entity
+    * [JBSEAM-3622] - SFSB not removed from session when temporary conversation ends
+    * [JBSEAM-3626] - generated default datasource references dtd that errors and causes JBOSS AS5.0.0CR2 to not load datasource 
+    * [JBSEAM-3627] - Wrong code example in reference 
+    * [JBSEAM-3646] - Declare log transient in AsynchronousInvocation
+    * [JBSEAM-3650] - Quartz-asynchronous throws NotSerializableException (from AsynchronousInvocation.log)
+    * [JBSEAM-3652] - Major reentrancy problem with "Page Scope" components and injection/disinjection
+    * [JBSEAM-3653] - Remove String concat in ScopeType
+    * [JBSEAM-3654] - Reduce number of checks to see if Jbpm is installed in BusinessProcessContext
+    * [JBSEAM-3655] - Caching in ServerConversationContext 
+    * [JBSEAM-3656] - Eliminate unnecessary String concat in PageContext
+    * [JBSEAM-3658] - Wicket components with children that don't implement virtual methods fail to instrument
+    * [JBSEAM-3665] - Updates to WEB-INF/dev classes don't trigger a redeploy
+    * [JBSEAM-3673] - horizontalAlignment="right" broken in PDF cells (regression)
+    * [JBSEAM-3681] - WTF code in RuleBasedPermissionResolver
+    * [JBSEAM-3691] - Seam Excel header for center facet does not work
+    * [JBSEAM-3699] - Slow hot deployment - Seam scans and builds component tree each time to check for hot deploy changes
+    * [JBSEAM-3700] - Exclude xhtml files from those that trigger a redeploy
+    * [JBSEAM-3701] - Timestamp check war changes
+
+** Feature Request
+    * [JBSEAM-164] - Kill all conversations
+    * [JBSEAM-633] - remoting extension in handling exceptions on client side
+    * [JBSEAM-681] - PDF form support
+    * [JBSEAM-2093] - Optimize getting Id in Seam code for better performance
+    * [JBSEAM-2154] - Ability to raise multiple events in pages.xml
+    * [JBSEAM-2310] - Need an option to remove URL parameters from a URL
+    * [JBSEAM-2402] - Validate that @Converter and @Validator components are declared @BypassInterceptors
+    * [JBSEAM-2463] - add legendOutlinePaint to line and bar chart
+    * [JBSEAM-2655] - Support for OpenID
+    * [JBSEAM-3214] - Improve Excel unit/integration tests
+    * [JBSEAM-3276] - Alter Seam deployment SPI to allow delegating metadata discovery to runtime
+    * [JBSEAM-3483] - conditional PARAM tag in .page.xml
+    * [JBSEAM-3486] - Identity Management API allowing inheritance of entity annotations
+    * [JBSEAM-3505] - Support instrumentation of wicket classes at build time
+    * [JBSEAM-3582] - Use a pool for stateless components
+    * [JBSEAM-3596] - Add @SelectItems for exporting a list or hash to a List<SelectItem> context variable
+    * [JBSEAM-3616] - have seam-gen prepare project files for IntelliJ IDEA
+    * [JBSEAM-3642] - Enforce use of JDK >= 1.6.0_04 when using Java 6 for tests in seam-gen or examples
+    * [JBSEAM-3705] - debug.xhtml should have switch disabled by default
+
+** Patch
+    * [JBSEAM-3268] - Calling AuctionService webservice gives marshalling error
+    * [JBSEAM-3621] - Support hot-deployment of instrumented wicket components
+    * [JBSEAM-3638] - SeamTest causing NPE when run in multi-module Maven project on Linux
+    * [JBSEAM-3662] - Document wicket build-time instrumentation
+
+** Task
+    * [JBSEAM-2704] - Document patterns which improve performance
+    * [JBSEAM-3485] - Optimize how the InitialContext is created in org.jboss.seam.util.Naming
+    * [JBSEAM-3553] - context path of demos needs to be predictable
+    * [JBSEAM-3558] - Document conversation-required attribute in pages.xml
+    * [JBSEAM-3687] - Use log.isDebugEnabled() in Contexts.lookupInStatefulContexts
+
+
+
 Release Notes - Seam - Version 2.1.0.GA
 
 ** Bug
