@@ -26,15 +26,15 @@
 	<import file="../build.xml" />
 
     <target name="explode">
-        <fail>Please use the target jbosswar.explode to deploy this application.</fail>
+        <antcall target="jbosswar.explode" />
     </target>
 
     <target name="restart">
-        <fail>Please use the target jbosswar.restart to restart this application.</fail>
+        <antcall target="jbosswar.restart" />
     </target>
 
     <target name="unexplode">
-        <fail>Please use the target jbosswar.unexplode to undeploy this application.</fail>
+        <antcall target="jbosswar.unexplode" />
     </target>
 	
 	<property name="classes.model.dir" value="${war.dir}/WEB-INF/classes" />
