@@ -7,15 +7,11 @@ package org.jboss.seam.deployment;
  * 
  * @author Dan Allen
  */
-public class TimestampURLScanner extends URLScanner
+public abstract class TimestampScanner extends ForwardingAbstractScanner
 {
-   public TimestampURLScanner(DeploymentStrategy deploymentStrategy)
-   {
-      super(deploymentStrategy);
-   }
 
    @Override
-   protected boolean handleItem(String name)
+   protected boolean handle(String name)
    {
       for (DeploymentHandler handler : getDeploymentStrategy().getDeploymentHandlers().values())
       {

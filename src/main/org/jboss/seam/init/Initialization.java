@@ -49,13 +49,13 @@ import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.deployment.ClassDescriptor;
+import org.jboss.seam.deployment.DeploymentStrategy;
 import org.jboss.seam.deployment.FileDescriptor;
 import org.jboss.seam.deployment.HotDeploymentStrategy;
-import org.jboss.seam.deployment.HotDeploymentTimestampCheckStrategy;
 import org.jboss.seam.deployment.SeamDeploymentProperties;
 import org.jboss.seam.deployment.StandardDeploymentStrategy;
+import org.jboss.seam.deployment.TimestampCheckForwardingDeploymentStrategy;
 import org.jboss.seam.deployment.WarRootDeploymentStrategy;
-import org.jboss.seam.deployment.WarRootTimestampCheckStrategy;
 import org.jboss.seam.exception.Exceptions;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -756,7 +756,18 @@ public class Initialization
          {
             hotDeploymentStrategy = createHotDeployment(Thread.currentThread().getContextClassLoader(), isHotDeployEnabled(init));
             
-            if (hotDeploymentStrategy.available() && new HotDeploymentTimestampCheckStrategy(hotDeploymentStrategy).changedSince(init.getTimestamp()))
+            boolean changed = new TimestampCheckForwardingDeploymentStrategy()
+            {
+               
+               @Override
+               protected DeploymentStrategy delegate()
+               {
+                  return hotDeploymentStrategy;
+               }
+               
+            }.changedSince(init.getTimestamp());
+            
+            if (hotDeploymentStrategy.available() && changed)
             {
                ServletLifecycle.beginReinitialization(request);
                Contexts.getEventContext().set(HotDeploymentStrategy.NAME, hotDeploymentStrategy);
@@ -792,9 +803,18 @@ public class Initialization
                ServletLifecycle.endReinitialization();
             }
                
-            WarRootDeploymentStrategy warRootDeploymentStrategy = new WarRootDeploymentStrategy(
-                  Thread.currentThread().getContextClassLoader(), warRoot, new File[] { warClassesDirectory, warLibDirectory, hotDeployDirectory });
-            if (new WarRootTimestampCheckStrategy(warRootDeploymentStrategy).changedSince(init.getWarTimestamp()))
+            final WarRootDeploymentStrategy warRootDeploymentStrategy = new WarRootDeploymentStrategy(Thread.currentThread().getContextClassLoader(), warRoot, new File[] { warClassesDirectory, warLibDirectory, hotDeployDirectory });
+            changed = new TimestampCheckForwardingDeploymentStrategy()
+            {
+               
+               @Override
+               protected DeploymentStrategy delegate()
+               {
+                  return warRootDeploymentStrategy;
+               }
+               
+            }.changedSince(init.getWarTimestamp());
+            if (changed)
             {
                warRootDeploymentStrategy.scan();
                if (warRootDeploymentStrategy.getTimestamp() > init.getWarTimestamp())

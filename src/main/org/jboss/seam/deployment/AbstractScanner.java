@@ -1,7 +1,6 @@
 package org.jboss.seam.deployment;
 
 import java.io.DataInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
@@ -16,6 +15,8 @@ import org.jboss.seam.log.Logging;
 
 /**
  * Abstract base class for {@link Scanner} providing common functionality
+ * 
+ * This class provides file-system orientated scanning
  * 
  * @author Pete Muir
  *
@@ -134,6 +135,11 @@ public abstract class AbstractScanner implements Scanner
       ClassFile.class.getPackage(); //to force loading of javassist, throwing an exception if it is missing
    }
    
+   protected AbstractScanner()
+   {
+      
+   }
+   
    protected static boolean hasAnnotations(ClassFile classFile, Set<Class<? extends Annotation>> annotationTypes)
    {
       if (annotationTypes.size() > 0)
@@ -190,17 +196,15 @@ public abstract class AbstractScanner implements Scanner
       return Long.MAX_VALUE;
    }
    
-   protected boolean handleItem(String name)
+   protected void handleItem(String name)
    {
-      return new Handler(name, deploymentStrategy.getDeploymentHandlers().entrySet(), deploymentStrategy.getClassLoader()).handle();
+      handle(name);
    }
    
-   /**
-    * Default impl of scanDirectories with exclusions for backwards compatibility
-    */
-   public void scanDirectories(File[] directories, File[] excludedDirectories)
+   
+   protected boolean handle(String name)
    {
-      scanDirectories(directories);
+      return new Handler(name, deploymentStrategy.getDeploymentHandlers().entrySet(), deploymentStrategy.getClassLoader()).handle();
    }
 
 }

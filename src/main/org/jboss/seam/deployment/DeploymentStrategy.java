@@ -90,7 +90,7 @@ public abstract class DeploymentStrategy
 
    protected abstract String getDeploymentHandlersKey();
       
-   private void initScanner()
+   protected void initScanner()
    {
       List<String> scanners = new SeamDeploymentProperties(getClassLoader()).getPropertyValues(SCANNERS_KEY);
       for ( String className : scanners )

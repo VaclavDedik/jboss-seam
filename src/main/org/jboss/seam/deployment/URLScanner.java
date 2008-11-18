@@ -40,8 +40,7 @@ public class URLScanner extends AbstractScanner
       scanDirectories(directories, new File[0]);
    }
    
-   @Override
-   public void scanDirectories(File[] directories, File[] excludedDirectories)
+   public void scanDirectories(File[] directories, File... excludedDirectories)
    {
       for (File directory : directories)
       {
@@ -126,7 +125,7 @@ public class URLScanner extends AbstractScanner
          {
             ZipEntry entry = entries.nextElement();
             String name = entry.getName();
-            handleItem(name);
+            handle(name);
          }
       }
       catch (ZipException e)
@@ -161,7 +160,7 @@ public class URLScanner extends AbstractScanner
          }
          else
          {
-            if (handleItem(newPath))
+            if (handle(newPath))
             {
                // only try to update the timestamp on this scanner if the file was actually handled
                touchTimestamp(child);
