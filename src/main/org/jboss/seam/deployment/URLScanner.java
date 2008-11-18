@@ -40,6 +40,7 @@ public class URLScanner extends AbstractScanner
       scanDirectories(directories, new File[0]);
    }
    
+   @Override
    public void scanDirectories(File[] directories, File[] excludedDirectories)
    {
       for (File directory : directories)

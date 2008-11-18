@@ -1,6 +1,7 @@
 package org.jboss.seam.deployment;
 
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
@@ -192,6 +193,14 @@ public abstract class AbstractScanner implements Scanner
    protected boolean handleItem(String name)
    {
       return new Handler(name, deploymentStrategy.getDeploymentHandlers().entrySet(), deploymentStrategy.getClassLoader()).handle();
+   }
+   
+   /**
+    * Default impl of scanDirectories with exclusions for backwards compatibility
+    */
+   public void scanDirectories(File[] directories, File[] excludedDirectories)
+   {
+      scanDirectories(directories);
    }
 
 }
