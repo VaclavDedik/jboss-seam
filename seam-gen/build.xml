@@ -696,9 +696,7 @@
                 file="${templates.dir}/build-scripts/build.xml">
             <filterset refid="project"/>
         </copy>
-        <copy todir="${project.home}" overwrite="true">
-            <fileset file="${seam.dir}/validate.xml"/>
-        </copy>
+        <copy file="${seam.dir}/build/validate.xml" todir="${project.home}" overwrite="true"/>
         <copy todir="${project.home}/resources">
             <fileset dir="${templates.dir}/resources/">
                 <include name="META-INF/application.xml"/>
