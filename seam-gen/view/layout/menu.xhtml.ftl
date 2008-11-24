@@ -12,9 +12,8 @@
 <#foreach entity in c2j.getPOJOIterator(cfg.classMappings)>
     <s:link view="/${entity.shortName}List.xhtml"
            value="${entity.shortName} List"
-     propagation="none">
-       <f:param name="from"/>
-    </s:link>
+includePageParams="false"
+     propagation="none"/>
 </#foreach>
     <!-- @newMenuItem@ -->
     <rich:toolBarGroup location="right">

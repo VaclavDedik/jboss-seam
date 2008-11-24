@@ -52,11 +52,7 @@
 
         <div class="actionButtons">
             <h:commandButton id="search" value="Search" action="/${listPageName}.xhtml"/>
-            <s:button id="reset" value="Reset">
-<#list searchParamNames as paramName>
-                <f:param name="${paramName}"/>
-</#list>
-            </s:button>
+            <s:button id="reset" value="Reset" includePageParams="false"/>
         </div>
 
     </h:form>
