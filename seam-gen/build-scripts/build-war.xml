@@ -212,6 +212,11 @@
             <fileset dir="${basedir}/resources"> 
                 <include name="**/*.xcss"/>
             </fileset>
+            <!-- move XCSS into classpath for now
+                 loading from web context only works in JBoss AS 4 -->
+            <fileset dir="${basedir}/view"> 
+                <include name="**/*.xcss"/>
+            </fileset>
         </copy>
         
         <copy todir="${war.dir}/WEB-INF/classes">
