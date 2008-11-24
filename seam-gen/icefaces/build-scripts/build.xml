@@ -20,7 +20,8 @@
     <property name="war.dir" value="exploded-archives/${project.name}.war"/>
     <property name="test.dir" value="test-build"/>
     <property name="bootstrap.dir" value="${basedir}/bootstrap"/>
-    <property name="deploy.dir" value="${jboss.home}/server/default/deploy"/>
+    <property name="jboss.domain" value="default"/>
+    <property name="deploy.dir" value="${jboss.home}/server/${jboss.domain}/deploy"/>
     <property name="ear.deploy.dir" value="${deploy.dir}/${project.name}.ear"/>
     <property name="jar.deploy.dir" value="${ear.deploy.dir}/${project.name}.jar"/>
     <property name="war.deploy.dir" value="${ear.deploy.dir}/${project.name}.war"/>
