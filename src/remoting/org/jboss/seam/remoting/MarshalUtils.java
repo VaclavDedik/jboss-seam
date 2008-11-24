@@ -1,10 +1,10 @@
 package org.jboss.seam.remoting;
 
-import java.io.OutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+
 import org.jboss.seam.remoting.wrapper.BeanWrapper;
 import org.jboss.seam.remoting.wrapper.Wrapper;
-import java.util.List;
 
 /**
  *

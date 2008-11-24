@@ -337,10 +337,6 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
     {
       if (m.getAnnotation(WebRemote.class) == null) continue;
 
-      WebRemote webRemote = m.getAnnotation(WebRemote.class);
-      
-      String[] excludes = webRemote.exclude();
-
       // Append the return type to the source block
       appendTypeSource(out, m.getGenericReturnType(), types);
 
