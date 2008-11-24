@@ -41,3 +41,7 @@ select {
 .subheader {
 	font-size: 14px;
 }
+
+.plain {
+	font-size: 12px;
+}
