@@ -1193,9 +1193,10 @@
             <jpaconfiguration persistenceunit="${project.name}"/>
             <classpath>
                 <dirset dir="${project.home}/exploded-archives">
-                    <include name="*.war/WEB-INF/classes" if="project.war"/>
-                    <include name="*.war/WEB-INF/dev" if="project.war"/>
-                    <include name="*.jar" if="project.ear"/>
+                    <!-- eek! in one case we are nested...is this okay to use this pattern? how about throw in project name? -->
+                    <include name="**/*.war/WEB-INF/classes" if="project.war"/>
+                    <include name="**/*.war/WEB-INF/dev" if="project.war"/>
+                    <include name="**/*.jar" if="project.ear"/>
                 </dirset>
             </classpath>
             <property key="hibernatetool.util.toolclass" value="org.jboss.seam.tool.Util"/>

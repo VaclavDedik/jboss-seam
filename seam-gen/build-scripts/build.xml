@@ -16,11 +16,12 @@
     <property name="lib.dir" value="lib"/>
     <property name="endorsed.dir" value="${lib.dir}/endorsed"/>
     <property name="ear.dir" value="exploded-archives/${project.name}.ear"/>
-    <property name="jar.dir" value="exploded-archives/${project.name}.jar"/>
-    <property name="war.dir" value="exploded-archives/${project.name}.war"/>
+    <property name="jar.dir" value="${ear.dir}/${project.name}.jar"/>
+    <property name="war.dir" value="${ear.dir}/${project.name}.war"/>
     <property name="test.dir" value="test-build"/>
     <property name="bootstrap.dir" value="${basedir}/bootstrap"/>
-    <property name="deploy.dir" value="${jboss.home}/server/default/deploy"/>
+    <property name="jboss.domain" value="default"/>
+    <property name="deploy.dir" value="${jboss.home}/server/${jboss.domain}/deploy"/>
     <property name="ear.deploy.dir" value="${deploy.dir}/${project.name}.ear"/>
     <property name="jar.deploy.dir" value="${ear.deploy.dir}/${project.name}.jar"/>
     <property name="war.deploy.dir" value="${ear.deploy.dir}/${project.name}.war"/>
@@ -28,13 +29,13 @@
     <property name="javac.debug" value="true"/>
     <property name="javac.deprecation" value="false"/>
     <property name="debug" value="false"/>
-	
+
     <!--Properties for validating configuration files -->
     <property name="validate.resources.dir" value="${basedir}/exploded-archives"/>
     <property name="schema.dir" value="${basedir}/exploded-archives/schemas"/>
     <property name="src.schema.dir" value="${schema.dir}/org/jboss/seam"/>
     <property name="schema.version" value="@schemaVersion@"/>
-	
+
     <fileset id="lib" dir="${lib.dir}">
         <include name="*.jar"/>
     </fileset>
@@ -228,12 +229,17 @@
         </copy>
     </target>
 
-    <target name="archive" depends="jar,war,ear"
+    <target name="stage" depends="jar,war,ear"/>
+
+    <target name="archive" depends="stage"
         description="Package the archives">
         <jar jarfile="${dist.dir}/${project.name}.jar" basedir="${jar.dir}"/>
         <jar jarfile="${dist.dir}/${project.name}.war" basedir="${war.dir}"/>
         <jar jarfile="${dist.dir}/${project.name}.ear">
-            <fileset dir="${ear.dir}"/>
+            <fileset dir="${ear.dir}">
+                <exclude name="${project.name}.jar/**"/>
+                <exclude name="${project.name}.war/**"/>
+            </fileset>
             <fileset dir="${dist.dir}">
                 <include name="${project.name}.jar"/>
                 <include name="${project.name}.war"/>
@@ -250,19 +256,10 @@
         </copy>
     </target>
 
-    <target name="explode" depends="jar,war,ear,datasource"
+    <target name="explode" depends="stage,datasource"
         description="Deploy the exploded archive">
         <fail unless="jboss.home">jboss.home not set</fail>
 
-        <mkdir dir="${jar.deploy.dir}"/>
-        <mkdir dir="${war.deploy.dir}"/>
-
-        <copy todir="${jar.deploy.dir}">
-            <fileset dir="${jar.dir}"/>
-        </copy>
-        <copy todir="${war.deploy.dir}">
-            <fileset dir="${war.dir}"/>
-        </copy>
         <copy todir="${ear.deploy.dir}">
             <fileset dir="${ear.dir}"/>
         </copy>
@@ -431,7 +428,7 @@
         </javadoc>
     </target>
 
-    <target name="validateConfiguration" depends="war,ear,jar" description="Validate the xml configuration files">
+    <target name="validateConfiguration" depends="stage" description="Validate the xml configuration files">
         <mkdir dir="${schema.dir}"/>
         <unjar src="${lib.dir}/jboss-seam.jar" dest="${schema.dir}">
             <patternset>
