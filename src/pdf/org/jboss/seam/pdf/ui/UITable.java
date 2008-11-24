@@ -1,13 +1,14 @@
 package org.jboss.seam.pdf.ui;
 
-import java.awt.Color;
-
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.pdf.ITextUtils;
 
-import com.lowagie.text.*;
-import com.lowagie.text.pdf.*;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Image;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
 
 public class UITable extends ITextComponent
 {
