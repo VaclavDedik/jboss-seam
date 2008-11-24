@@ -4,15 +4,15 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.log.Log;
-import org.jboss.seam.faces.FacesMessages;
+import org.jboss.seam.international.StatusMessages;
 import org.hibernate.validator.Length;
 
 @Name("@componentName@")
-public class @interfaceName@ {
-
+public class @interfaceName@
+{
     @Logger private Log log;
 
-    @In FacesMessages facesMessages;
+    @In StatusMessages statusMessages;
 
     private String value;
 
@@ -20,7 +20,7 @@ public class @interfaceName@ {
     {
         // implement your business logic here
         log.info("@componentName@.@methodName@() action called with: #{@componentName@.value}");
-        facesMessages.add("@methodName@ #{@componentName@.value}");
+        statusMessages.add("@methodName@ #{@componentName@.value}");
     }
 
     // add additional action methods

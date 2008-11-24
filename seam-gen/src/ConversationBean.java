@@ -12,8 +12,8 @@ import org.jboss.seam.log.Log;
 
 @Stateful
 @Name("@componentName@")
-public class @beanName@ implements @interfaceName@, Serializable {
-
+public class @beanName@ implements @interfaceName@, Serializable
+{
     @Logger private Log log;
 
     private int value;

@@ -3,9 +3,8 @@ package @actionPackage@;
 import javax.ejb.Local;
 
 @Local
-public interface @interfaceName@ {
-
-    // seam-gen methods
+public interface @interfaceName@
+{
     public String begin();
     public String increment();
     public String end();

@@ -12,8 +12,8 @@ import org.jboss.seam.log.Log;
 
 @Scope(CONVERSATION)
 @Name("@componentName@")
-public class @interfaceName@ implements Serializable {
-
+public class @interfaceName@ implements Serializable
+{
     @Logger private Log log;
 
     private int value;

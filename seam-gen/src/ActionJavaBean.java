@@ -4,20 +4,20 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.log.Log;
-import org.jboss.seam.faces.FacesMessages;
+import org.jboss.seam.international.StatusMessages;
 
 @Name("@componentName@")
-public class @interfaceName@ {
-
+public class @interfaceName@
+{
     @Logger private Log log;
 
-    @In FacesMessages facesMessages;
+    @In StatusMessages statusMessages;
 
     public void @methodName@()
     {
         // implement your business logic here
         log.info("@componentName@.@methodName@() action called");
-        facesMessages.add("@methodName@");
+        statusMessages.add("@methodName@");
     }
 
     // add additional action methods

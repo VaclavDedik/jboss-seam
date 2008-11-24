@@ -10,7 +10,7 @@ import org.jboss.seam.security.Identity;
 @Name("authenticator")
 public class Authenticator
 {
-    @Logger Log log;
+    @Logger private Log log;
 
     @In Identity identity;
     @In Credentials credentials;

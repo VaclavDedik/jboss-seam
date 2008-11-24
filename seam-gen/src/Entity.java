@@ -8,8 +8,8 @@ import javax.persistence.Version;
 import org.hibernate.validator.Length;
 
 @Entity
-public class @entityName@ implements Serializable {
-
+public class @entityName@ implements Serializable
+{
     // seam-gen attributes (you should probably edit these)
     private Long id;
     private Integer version;
@@ -45,4 +45,5 @@ public class @entityName@ implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
 }

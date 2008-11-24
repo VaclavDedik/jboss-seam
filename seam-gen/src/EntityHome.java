@@ -10,8 +10,7 @@ import @modelPackage@.@entityName@;
 @Name("@homeName@")
 public class @entityName@Home extends EntityHome<@entityName@>
 {
-    @RequestParameter
-    Long @componentName@Id;
+    @RequestParameter Long @componentName@Id;
 
     @Override
     public Object getId()
