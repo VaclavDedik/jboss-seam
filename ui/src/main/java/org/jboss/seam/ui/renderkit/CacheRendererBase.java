@@ -1,18 +1,17 @@
 package org.jboss.seam.ui.renderkit;
 
-import org.jboss.seam.cache.CacheProvider;
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
-import org.jboss.seam.ui.component.UICache;
-import org.jboss.seam.ui.util.cdk.RendererBase;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.Calendar;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
+import org.jboss.seam.ui.component.UICache;
+import org.jboss.seam.ui.util.cdk.RendererBase;
 
 public class CacheRendererBase extends RendererBase {
 
