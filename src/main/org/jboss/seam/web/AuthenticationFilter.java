@@ -33,7 +33,6 @@ import org.jboss.seam.security.digest.DigestValidationException;
 import org.jboss.seam.servlet.ContextualHttpServletRequest;
 import org.jboss.seam.servlet.ServletRequestSessionMap;
 import org.jboss.seam.util.Base64;
-import org.jboss.seam.util.Strings;
 
 /**
  * Seam Servlet Filter supporting HTTP Basic and Digest authentication. Some code

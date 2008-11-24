@@ -1,6 +1,7 @@
 package org.jboss.seam.drools;
 
 import java.util.List;
+
 import org.drools.WorkingMemory;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.node.DecisionHandler;

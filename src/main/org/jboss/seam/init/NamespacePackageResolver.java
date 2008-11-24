@@ -6,11 +6,9 @@
 package org.jboss.seam.init;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.testng.Assert;
 
 /**
  * <p>Converts an <a href="http://www.w3.org/TR/xml-names/">XML namespace</a> to a Java package name.</p>

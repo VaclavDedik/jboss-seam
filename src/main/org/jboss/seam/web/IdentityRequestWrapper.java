@@ -1,8 +1,10 @@
 package org.jboss.seam.web;
 
 import java.security.Principal;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+
 import org.jboss.seam.Seam;
 import org.jboss.seam.security.Identity;
 

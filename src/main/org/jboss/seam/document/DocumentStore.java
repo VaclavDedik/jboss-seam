@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.faces.FacesException;
 import javax.faces.application.ViewHandler;
 import javax.faces.context.FacesContext;
 

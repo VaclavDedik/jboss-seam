@@ -8,7 +8,6 @@ import javax.faces.application.ViewHandler;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
-import org.jboss.seam.util.Faces;
 import org.jboss.seam.util.Strings;
 
 public class MockViewHandler extends ViewHandler {

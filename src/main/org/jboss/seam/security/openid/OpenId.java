@@ -1,26 +1,33 @@
 package org.jboss.seam.security.openid;
 
-import java.io.Serializable;
-
-import org.openid4java.*;
-import org.openid4java.consumer.*;
-import org.openid4java.discovery.*;
-import org.openid4java.message.*;
-import org.openid4java.message.ax.*;
-
-import java.util.List;
 import java.io.IOException;
-
-import javax.servlet.http.*;
-
-import org.jboss.seam.annotations.*;
-import org.jboss.seam.*;
-import org.jboss.seam.faces.*;
-import org.jboss.seam.core.*;
-import org.jboss.seam.security.*;
+import java.io.Serializable;
+import java.util.List;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Install;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.faces.FacesManager;
+import org.jboss.seam.faces.Redirect;
+import org.jboss.seam.security.Identity;
+import org.openid4java.OpenIDException;
+import org.openid4java.consumer.ConsumerException;
+import org.openid4java.consumer.ConsumerManager;
+import org.openid4java.consumer.VerificationResult;
+import org.openid4java.discovery.DiscoveryInformation;
+import org.openid4java.discovery.Identifier;
+import org.openid4java.message.AuthRequest;
+import org.openid4java.message.AuthSuccess;
+import org.openid4java.message.ParameterList;
+import org.openid4java.message.ax.AxMessage;
+import org.openid4java.message.ax.FetchRequest;
+import org.openid4java.message.ax.FetchResponse;
 
 @Name("openid")
 @Install(precedence=Install.BUILT_IN, classDependencies="org.openid4java.consumer.ConsumerManager")

@@ -51,7 +51,6 @@ import org.jboss.seam.core.Validators;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.init.Initialization;
-import org.jboss.seam.jsf.SeamApplication;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.mail.MailSession;
 import org.jboss.seam.pageflow.Pageflow;

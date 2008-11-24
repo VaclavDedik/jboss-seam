@@ -11,7 +11,6 @@ import java.util.Map;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
-import javax.servlet.ServletRequest;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.log.LogProvider;
