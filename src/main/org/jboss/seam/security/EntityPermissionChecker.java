@@ -74,7 +74,7 @@ public class EntityPermissionChecker
       
       Identity identity = Identity.instance();
       
-      identity.isLoggedIn(true);
+      identity.tryLogin();
       
       PersistenceProvider provider = PersistenceProvider.instance(); 
       Class beanClass = provider.getBeanClass(entity);
