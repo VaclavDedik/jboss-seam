@@ -22,7 +22,7 @@ public class SeamCharacterEncodingFilter extends CharacterEncodingFilter
    {
       super.init(config);
       setEncoding( config.getInitParameter("encoding") );
-      setOverrideClient( "true".equals( config.getInitParameter("overrideClient") ) );
+      setOverrideClient( Boolean.parseBoolean( config.getInitParameter("overrideClient") ) );
    }
    
 

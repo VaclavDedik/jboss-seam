@@ -61,7 +61,7 @@ public class Page extends Node implements Parsable
       if ( endConversationElement!=null )
       {
          isConversationEnd = true;
-         isConversationEndBeforeRedirect = "true".equals( endConversationElement.attributeValue("before-redirect") );
+         isConversationEndBeforeRedirect = Boolean.parseBoolean( endConversationElement.attributeValue("before-redirect") );
          processToCreate = endConversationElement.attributeValue("create-process");
       }
       Element endTaskElement = pageElement.element("end-task");
@@ -70,7 +70,7 @@ public class Page extends Node implements Parsable
          isTaskEnd = true;
          transition = endTaskElement.attributeValue("transition");
       }
-      redirect = "true".equals( pageElement.attributeValue("redirect") );
+      redirect = Boolean.parseBoolean( pageElement.attributeValue("redirect") );
       if ( pageElement.element("redirect")!=null )
       {
          redirect = true;

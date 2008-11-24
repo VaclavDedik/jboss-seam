@@ -1199,8 +1199,8 @@ public class Pages
       {
          page.setNoConversationViewId(Expressions.instance().createValueExpression(noConversationViewIdString, String.class));
       }
-      page.setConversationRequired("true".equals(element.attributeValue("conversation-required")));
-      page.setLoginRequired("true".equals(element.attributeValue("login-required")));
+      page.setConversationRequired(Boolean.parseBoolean(element.attributeValue("conversation-required")));
+      page.setLoginRequired(Boolean.parseBoolean(element.attributeValue("login-required")));
       page.setScheme(element.attributeValue("scheme"));
       
       String expiresValue = element.attributeValue("expires");
@@ -1290,8 +1290,8 @@ public class Pages
       if ( endConversation!=null )
       {
          control.setEndConversation(true);
-         control.setEndConversationBeforeRedirect( "true".equals( endConversation.attributeValue("before-redirect") ) );
-         control.setEndRootConversation( "true".equals( endConversation.attributeValue("root") ) );
+         control.setEndConversationBeforeRedirect( Boolean.parseBoolean( endConversation.attributeValue("before-redirect") ) );
+         control.setEndRootConversation( Boolean.parseBoolean( endConversation.attributeValue("root") ) );
          String expression = endConversation.attributeValue("if");
          if (expression!=null)
          {
@@ -1305,8 +1305,8 @@ public class Pages
       if ( beginConversation!=null )
       {
          control.setBeginConversation(true);
-         control.setJoin( "true".equals( beginConversation.attributeValue("join") ) );
-         control.setNested( "true".equals( beginConversation.attributeValue("nested") ) );
+         control.setJoin( Boolean.parseBoolean( beginConversation.attributeValue("join") ) );
+         control.setNested( Boolean.parseBoolean( beginConversation.attributeValue("nested") ) );
          control.setPageflow( beginConversation.attributeValue("pageflow") );
          control.setConversationName( beginConversation.attributeValue("conversation") );
          String flushMode = beginConversation.attributeValue("flush-mode");
@@ -1500,7 +1500,7 @@ public class Pages
       {
          param.setValidatorValueExpression(Expressions.instance().createValueExpression(validatorExpression));
       }
-      param.setRequired( "true".equals( element.attributeValue("required") ) );
+      param.setRequired( Boolean.parseBoolean( element.attributeValue("required") ) );
       return param;
    }
    

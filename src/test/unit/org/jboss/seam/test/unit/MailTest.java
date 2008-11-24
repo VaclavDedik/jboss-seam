@@ -162,7 +162,7 @@ public class MailTest
          // JNDI
       }
 
-      assert "true".equals(session.getProperty("mail.smtp.auth"));
+      assert Boolean.parseBoolean(session.getProperty("mail.smtp.auth"));
 
       // TODO Check authentication
 
@@ -337,7 +337,7 @@ public class MailTest
          // JNDI
       }
 
-      assert "true".equals(session.getProperty("mail.smtps.auth"));
+      assert Boolean.parseBoolean(session.getProperty("mail.smtps.auth"));
       assert session.getProperty("mail.smtp.auth") == null;
 
       // TODO Check authentication

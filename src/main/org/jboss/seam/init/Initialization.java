@@ -438,7 +438,7 @@ public class Initialization
       }
       ScopeType scope = scopeName == null ? ScopeType.UNSPECIFIED : ScopeType.valueOf(scopeName
                .toUpperCase());
-      boolean autoCreate = "true".equals(factory.attributeValue("auto-create"));
+      boolean autoCreate = Boolean.parseBoolean(factory.attributeValue("auto-create"));
       factoryDescriptors.add(new FactoryDescriptor(name, scope, method, value, autoCreate));
    }
 
@@ -457,7 +457,7 @@ public class Initialization
    {  
       String installText = component.attributeValue("installed");
       boolean installed = false;
-      if (installText == null || "true".equals(replace(installText, replacements)))
+      if (installText == null || Boolean.parseBoolean(replace(installText, replacements)))
       {
          installed = true;
       }
@@ -468,9 +468,9 @@ public class Initialization
       int precedence = precedenceString==null ? Install.APPLICATION : Integer.valueOf(precedenceString);
       ScopeType scope = scopeName == null ? null : ScopeType.valueOf(scopeName.toUpperCase());
       String autocreateAttribute = component.attributeValue("auto-create");
-      Boolean autoCreate = autocreateAttribute==null ? null : "true".equals(autocreateAttribute);
+      Boolean autoCreate = autocreateAttribute==null ? null : Boolean.parseBoolean(autocreateAttribute);
       String startupAttribute = component.attributeValue("startup");
-      Boolean startup = startupAttribute==null ? null : "true".equals(startupAttribute);
+      Boolean startup = startupAttribute==null ? null : Boolean.parseBoolean(startupAttribute);
       String startupDependsAttribute = component.attributeValue("startupDepends");
       String[] startupDepends = startupDependsAttribute==null ? new String[0] : startupDependsAttribute.split(" ");
 
