@@ -624,8 +624,7 @@ public class JXLHelper
     * @param data The contents of the cell
     * @param cellFormat The cell format settings of the cell
     * @return The prepared cell representation
-    * @see <a * href="http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/write/WritableCell.html"
-    *      >WritableCell< /a>
+    * @see <a href="http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/write/WritableCell.html">WritableCell</a>
     */
    public static WritableCell createCell(int column, int row, CellType type, Object data, WritableCellFormat cellFormat)
    {
