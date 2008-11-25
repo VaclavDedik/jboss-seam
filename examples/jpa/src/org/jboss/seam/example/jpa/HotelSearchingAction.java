@@ -1,6 +1,8 @@
 //$Id$
 package org.jboss.seam.example.jpa;
 
+import java.io.Serializable;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -14,7 +16,7 @@ import org.jboss.seam.annotations.datamodel.DataModel;
 
 @Name("hotelSearch")
 @Scope(ScopeType.SESSION)
-public class HotelSearchingAction
+public class HotelSearchingAction implements Serializable
 {
    
    @In
