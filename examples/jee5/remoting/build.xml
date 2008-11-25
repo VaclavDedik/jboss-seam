@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 
-<project name="Java EE 5 Remoting Test" default="archive" basedir=".">
+<project name="Java EE 5 Remoting Example" default="archive" basedir=".">
 
     <!-- Naming -->
-    <property name="Name"                   value="The Java EE 5 Example for GlassFish"/>
-    <property name="example.name"           value="jboss-seam-remoting"/>
+    <property name="Name"                   value="Java EE 5 Remoting Example (GlassFish V2/JBoss AS 5)"/>
+    <property name="example.name"           value="jboss-seam-jee5-remoting"/>
 
     <!-- resources -->
     <property name="resources.dir" value="resources" />
