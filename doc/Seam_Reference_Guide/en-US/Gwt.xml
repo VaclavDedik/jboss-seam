@@ -75,9 +75,12 @@ public class ServiceImpl implements MyService {
    }
 }]]></programlisting>
 
-    <para>
-      The methods that should be made accessible via GWT need to be annotated with the 
-      <literal>@WebRemote</literal> annotation, which is required for all web-remoteable methods.
+    <para>     
+      The name of the seam component <emphasis>must</emphasis> match the fully
+      qualified name of the GWT client interface (as shown), or the seam
+      resource servlet will not be able to find it when a client makes a GWT
+      call. The methods that are to be made accessible via GWT also need to be
+      annotated with the <literal>@WebRemote</literal> annotation.      
     </para>
   </section>
   
