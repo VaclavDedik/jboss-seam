@@ -24,7 +24,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
    <property name="example.name" value="groovybooking" />
    <property name="jboss.deploy.target" value="jbosswar.deploy" />
    <property name="jboss.undeploy.target" value="undeploy" />
-   <property name="jbosss.example.ready.check.url" value="jboss-seam-groovy/home.seam"/>
+   <property name="jbosss.example.ready.check.url" value="jboss-seam-groovybooking/home.seam"/>
 
    <import file="../build.xml" />
 
