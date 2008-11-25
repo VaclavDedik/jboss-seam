@@ -19,6 +19,5 @@
                   conversation-id-parameter="cid"/>
                   
     <security:identity authenticate-method="#{authenticator.authenticate}"/> 
-    <!-- <security:identity authenticate-method="#{test.authenticate}"/> -->
     
 </components>
