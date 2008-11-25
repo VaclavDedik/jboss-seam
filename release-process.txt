@@ -167,7 +167,7 @@ Building and Checking Dist
             - <TODO: A tool is needed to do this effectively/>
         
     ** Testsuite execution **
-        - "ant -Dvalidate.xml=true cleanall testall testreport 
+        - "ant cleanall validateall testall testreport 
                    > ../releaselogs/x.x.x.XX.testallreport.txt"
         - check report/junit-noframes.html
             - There should be no failures or errors.

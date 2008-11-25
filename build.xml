@@ -509,15 +509,33 @@
 	</target>
 	<target name="validateall" description="Validate all example XML Configuration Files">
 		<ant dir="examples/booking" target="validateConfiguration" inheritall="false" />
-		<ant dir="examples/dvdstore" target="validateConfiguration" inheritall="false" />
-		<ant dir="examples/messages" target="validateConfiguration" inheritall="false" />
-		<ant dir="examples/numberguess" target="validateConfiguration" inheritall="false" />
-		<ant dir="examples/contactlist" target="validateConfiguration" inheritall="false" />
-		<ant dir="examples/registration" target="validateConfiguration" inheritall="false" />
-		<ant dir="examples/todo" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/blog" target="validateConfiguration" inheritall="false" />
-		<!--<ant dir="examples/seamdiscs" target="validateConfiguration" inheritall="false" />-->
-		<!--<ant dir="examples/portal" target="validateConfiguration" inheritall="false" />-->
+		<ant dir="examples/contactlist" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/dvdstore" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/drools" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/excel" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/groovybooking" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/icefaces" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/itext" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/mail" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/messages" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/nestedbooking" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/numberguess" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/quartz" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/registration" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/remoting/chatroom" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/remoting/gwt" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/remoting/helloworld" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/remoting/progressbar" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/rss" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/seambay" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/seamdiscs" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/seampay" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/seamspace" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/todo" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/ui" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/wicket" target="validateConfiguration" inheritall="false" />		
+		
 	</target>
 
 
