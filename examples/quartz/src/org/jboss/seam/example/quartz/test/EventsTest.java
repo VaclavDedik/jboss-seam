@@ -225,14 +225,14 @@ public class EventsTest extends DBUnitSeamTest
                     System.out.println("running renderResponse");
                     assert ((Boolean)getValue("#{accountHome.idDefined}"));                
                     Account account = (Account) getValue("#{selectedAccount}");                
-                    assert account !=null;
+                    assert account != null;
                     assert account.getId() == 1;
                     assert account.getPayments().size() == 1;
                     Payment payment = account.getPayments().get(0);
-                    assert new BigDecimal("120.00").equals(payment.getAmount());
+                    assert new BigDecimal("120.00").equals(payment.getAmount()) : "Invalid payment amount: " + payment.getAmount();
                     //assert !payment.getActive();
                     //assert payment.getLastPaid() != null;
-                    assert new BigDecimal("881.46").equals(account.getBalance());
+                    assert new BigDecimal("881.46").equals(account.getBalance()) : "Invalid account balance: " + account.getBalance();
                 }
                 
             }.run();
