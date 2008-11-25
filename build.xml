@@ -407,10 +407,9 @@
 		<copy file="${ui.dir}/target/jboss-seam-ui-sources.jar" tofile="${basedir}/lib/src/${name}-ui-sources.jar" />
 	</target>
 
+	<!-- ######################## 'EXAMPLE' TARGETS ########################-->
 
-	<!-- ########################## 'ALL' TARGETS ##########################-->
-
-	<target name="cleanall" depends="clean,cleandist" description="Cleans up everything">
+	<target name="cleanexamples" description="Cleans up examples">
 		<cleanexample name="booking" />
 		<cleanexample name="blog" />
 		<cleanexample name="dvdstore" />
@@ -447,7 +446,7 @@
 		<cleanexample name="wicket" />
 	</target>
 
-	<target name="undeployall" description="Undeploy all examples">
+	<target name="undeployexamples" description="Undeploy all examples">
 		<!-- Undeploy from JBoss -->
 		<undeployexample name="booking" />
 		<undeployexample name="blog" />
@@ -480,7 +479,7 @@
 		<undeployexample name="wicket" />
 	</target>
 
-	<target name="testall" depends="test,build, copylib" description="Run the core unit tests and all example tests">
+	<target name="testexamples" description="Run the example tests">
 		<testexample name="booking" />
 		<testexample name="nestedbooking" />
 		<testexample name="dvdstore" />
@@ -507,6 +506,15 @@
 		</ant>
 		<!--<ant dir="examples/portal" target="test" inheritall="false" />-->
 	</target>
+
+	<!-- ########################## 'ALL' TARGETS ##########################-->
+
+	<target name="cleanall" depends="clean,cleandist,cleanexamples" description="Cleans up everything"/>
+
+	<target name="undeployall" depends="undeployexamples" description="Undeploy all examples"/>
+
+	<target name="testall" depends="test,build,copylib,testexamples" description="Run the core unit tests and all example tests"/>
+
 	<target name="validateall" description="Validate all example XML Configuration Files">
 		<ant dir="examples/booking" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/blog" target="validateConfiguration" inheritall="false" />
