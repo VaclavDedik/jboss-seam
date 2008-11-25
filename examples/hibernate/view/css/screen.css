@@ -267,6 +267,6 @@ input[type="submit"], input[type="button"] {
 #pgHome #content {
 	margin-top: 183px;
 }
-#pgHome input[type="submit"] {
+#pgHome #sidebar input[type="submit"] {
 	height: 30px;
 }
