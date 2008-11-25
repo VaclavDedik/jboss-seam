@@ -19,7 +19,13 @@
         
     </page>
 
-    <page view-id="/home.xhtml">
+    <page view-id="/home.xhtml" action="#{identity.isLoggedIn}">
+
+        <navigation from-action="#{identity.isLoggedIn}">
+            <rule if-outcome="true">
+                <redirect view-id="/main.xhtml"/>
+            </rule>
+        </navigation>
     
         <navigation>
             <rule if="#{identity.loggedIn}">
