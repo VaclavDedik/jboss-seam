@@ -2,7 +2,7 @@ Seam Hibernate Example
 =======================
 
 This is the Hotel Booking example implemented in Seam and Hibernate POJOs.
-It can be deployed in JBoss AS 4.x, WebLogic, Glassfish and Tomcat without
+It can be deployed in JBoss AS 4.x, WebLogic, GlassFish and Tomcat without
 the EJB3 container.
 
 JBoss AS 4.2.x:
@@ -53,20 +53,29 @@ Tomcat with embeddable JBoss:
   * Start Tomcat
   * Access the app at http://localhost:8080/jboss-seam-hibernate/
 
-Glassfish
-  * Install Glassfish V1 or V2
+GlassFish
+  * Install GlassFish V1 or V2
   * ant glassfish
-  * Start GlassFish
+  * Start GlassFish and the Embedded Derby Database
   * Load the admin console http://localhost:4848/
   * Deploy dist-glassfish/jboss-seam-hibernate.war as Web App
   * Access the app at http://localhost:8080/jboss-seam-hibernate/
 
-NOTES FOR GLASSFISH USERS:
-  In order for the app to work out of the box with Glassfish, we have
-  used the Derby (i.e. Java DB) database in Glassfish. However,
-  we strongly recommend you to use a non-Derby data source (e.g., HSQL
-  is a much better embedded DB) if possible. The 
-  WEB/classes/GlassfishDerbyDialect.class is a special hack to get around 
-  a Derby bug in Glassfish TM. You must use it as your Hibernate dialect
-  if you are using Derby with Glassfish.
+GlassFish:
+  * Install GlassFish V1 or V2
+  * ant glassfish
+  * Start GlassFish and the Embedded Derby Database
+  * Load the admin console http://localhost:4848/
+  * Deploy dist-glassfish/jboss-seam-hibernate.war in the Admin Console (Applications > Web Applications)
+    or using the command $GLASSFISH_HOME/bin/asadmin deploy dist-glassfish/jboss-seam-hibernate.war
+  * Access the app at http://localhost:8080/jboss-seam-hibernate/
 
+NOTES FOR GLASSFISH USERS:
+  In order for the app to work out of the box with GlassFish, we have
+  used the Derby (i.e., Java DB) database in GlassFish. The included
+  WEB-INF/classes/GlassfishDerbyDialect.class is a special hack to get
+  around a Derby bug in GlassFish V2. You must use it as your Hibernate
+  dialect if you use Derby with GlassFish.
+  
+  However, we strongly recommend you to use a non-Derby data source if
+  possible (for example, HSQL is a much better embedded DB).

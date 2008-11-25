@@ -21,6 +21,9 @@
 
 	<!-- ###################### PROPERTY DEFINITIONS ###################### -->
 
+    <!-- Settings -->
+    <property name="loadPersistenceUnits" value="true"/>
+
 	<!-- Source directories -->
 	<property name="src.java.dir" value="src" />
 	<property name="src.test.dir" value="src" />
@@ -645,6 +648,7 @@
 				<filter token="debug" value="${debug}" />
 				<filter token="jndiPattern" value="${example.name}/#{ejbName}/local" />
 				<filter token="embeddedEjb" value="false" />
+				<filter token="loadPersistenceUnits" value="${loadPersistenceUnits}" />
 			</filterset>
 		</copy>
 	</target>
@@ -903,6 +907,7 @@
 				<filter token="debug" value="${debug}" />
 				<filter token="jndiPattern" value="#{ejbName}/local" />
 				<filter token="embeddedEjb" value="false" />
+				<filter token="loadPersistenceUnits" value="${loadPersistenceUnits}" />
 			</filterset>
 		</copy>
 	</target>

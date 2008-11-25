@@ -3,7 +3,7 @@
 <project name="Java EE 5 Booking" default="archive" basedir=".">
 
     <!-- Naming -->
-    <property name="Name"                   value="The Java EE 5 Example for Glassfish"/>
+    <property name="Name"                   value="The Java EE 5 Example for GlassFish"/>
     <property name="example.name"           value="jboss-seam-jee5"/>
 
     <!-- resources -->

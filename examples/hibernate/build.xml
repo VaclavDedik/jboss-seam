@@ -22,7 +22,7 @@
      	<ant antfile="build-jboss405.xml"/>
    </target>
 
-   <target name="glassfish" description="Build the Hibernate Booking example artifacts, suitable for deployment to Glassfish V2">
+   <target name="glassfish" description="Build the Hibernate Booking example artifacts, suitable for deployment to GlassFish V2">
      	<ant antfile="build-glassfish.xml"/>
    </target>
 

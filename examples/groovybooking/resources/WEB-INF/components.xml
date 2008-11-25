@@ -20,12 +20,14 @@
                  conversation-timeout="120000" 
                  conversation-id-parameter="cid"/>
     
-   <persistence:managed-persistence-context name="em"
-                              auto-create="true"
-                   entity-manager-factory="#{groovyEntityManagerFactory}"/>
+   <persistence:entity-manager-factory name="groovyEntityManagerFactory"
+      persistence-unit-name="groovy" installed="@loadPersistenceUnits@"/>
 
-   <persistence:entity-manager-factory name="groovyEntityManagerFactory" 
-               persistence-unit-name="groovy"/>
+   <!-- If Seam loads the persistence unit (JBoss 4.x), the EntityManagerFactory will be resolved from #{groovyEntityManagerFactory}.
+        On JBoss AS 5, the EntityManagerFactory is retrieved from JNDI (the binding occurs during application deployment). -->
+   <persistence:managed-persistence-context name="em" auto-create="true"
+      entity-manager-factory="#{groovyEntityManagerFactory}"
+      persistence-unit-jndi-name="java:/groovyEntityManagerFactory"/>
                
    <security:identity authenticate-method="#{authenticator.authenticate}"
                       remember-me="true"/>

@@ -4,36 +4,36 @@ Seam JEE5 Examples
 The examples in this directory showcases how to build Java EE 5 compliant Seam 
 applications. The application should run on all Java EE 5 compliant 
 application servers with minimal changes in code and configuration files. The 
-default build script builds a deployable EAR for Glassfish.  See Seam reference
+default build script builds a deployable EAR for GlassFish. See Seam reference
 guide for instructions for other containers.
 
-Glassfish v2 
+GlassFish V2 
 ------------
 
 1.  Build the demo app by running ANT. The build target is 
     "dist/jboss-seam-jee5.ear"
 
-2.  Download Glassfish V2 Final Build
+2.  Download GlassFish V2 Final Build
 
 3.  Install it: java -Xmx256m -jar glassfish-installer-xxx.jar
 
 4.  Setup glassfish: cd glassfish; ant -f setup.xml;
 
-5.  Start the Glassfish server: bin/asadmin start-domain domain1
+5.  Start the GlassFish server: $GLASSFISH_HOME/bin/asadmin start-domain domain1
 
-6.  Start the embedded JavaDB: bin/asadmin start-database
+6.  Start the embedded JavaDB: $GLASSFISH_HOME/bin/asadmin start-database
 
 7.  Load the admin console: http://localhost:4848/
 
 8.  Login using username/password: admin / adminadmin
 
-9.  Deploy the "enterprise application" in the admin console: 
-    The app is located at SEAM_HOME/examples/jee5/booking/dist/jboss-seam-jee5.ear
+9.  Deploy the "Enterprise Application" in the admin console
+    or using the command $GLASSFISH_HOME/bin/asadmin deploy dist/jboss-seam-jee5.ear
 
 10. Checkout the app at: http://localhost:8080/seam-jee5/
 
 11. Stop the server and database: 
-    bin/asadmin stop-domain domain1; bin/asadmin stop-database
+    $GLASSFISH_HOME/bin/asadmin stop-domain domain1; $GLASSFISH_HOME/bin/asadmin stop-database
 
 
 OC4J 11g Technology Preview
@@ -42,7 +42,7 @@ OC4J 11g Technology Preview
 1.  Modify the following files in the project.
   
     * build.xml: Un-comment the OC4J-related libraries
-    * resources/META-INF/persistence.xml: Comment out the Glassfish properties 
+    * resources/META-INF/persistence.xml: Comment out the GlassFish properties 
       and un-comment the OC4J properties
 
 2.  Build the demo app by running ANT. The build target is 

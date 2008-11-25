@@ -18,11 +18,15 @@
 	    <ant antfile="build-jboss.xml" target="jbosswar.undeploy"/>
    </target>
 
+   <target name="jboss5" description="Build the JPA artifacts, suitable for deployment to JBoss 5.0.0.GA">
+     	<ant antfile="build-jboss5.xml"/>
+   </target>
+
    <target name="jboss405" description="Build the JPA artifacts, suitable for deployment to JBoss 4.0.5.GA">
      	<ant antfile="build-jboss405.xml"/>
    </target>
 
-   <target name="glassfish" description="Build the JPA artifacts, suitable for deployment to Glassfish V2">
+   <target name="glassfish" description="Build the JPA artifacts, suitable for deployment to GlassFish V2">
      	<ant antfile="build-glassfish.xml"/>
    </target>
 

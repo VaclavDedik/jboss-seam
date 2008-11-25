@@ -4,7 +4,10 @@
 
 	<!-- Example name -->
 	<property name="Name" value="Seam Groovy Example" />
-	<property name="example.name" value="jboss-seam-groovy" />
+	<property name="example.name" value="jboss-seam-groovybooking" />
+
+    <!-- Give user a chance to override without editing this file or typing -D -->
+    <property file="${basedir}/build.properties" />
 
 	<!-- Libraries -->
 	<property name="seam.ui.lib" value="yes" />

@@ -3,7 +3,7 @@
 <project name="Hibernate Booking" default="noejb.archive" basedir=".">
 
     <!-- Naming -->
-    <property name="Name"                   value="The Hibernate Example for Glassfish"/>
+    <property name="Name"                   value="The Hibernate Example for GlassFish"/>
     <property name="example.name"           value="jboss-seam-hibernate"/>
 
     <!-- resources -->

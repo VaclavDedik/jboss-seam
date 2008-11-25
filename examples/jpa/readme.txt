@@ -2,7 +2,7 @@ Seam JPA Example
 ================
 
 This is the Hotel Booking example implemented in Seam POJO and Hibernate JPA.
-It can be deployed in JBoss AS 4.x, WebLogic, Glassfish, Tomcat (both with and 
+It can be deployed in JBoss AS 4.x, WebLogic, GlassFish, Tomcat (both with and 
 without the EJB3 container).
 
 JBoss AS 4.2.0:
@@ -65,20 +65,21 @@ Tomcat (5.5 or 6) without JBoss Embedded:
   * Start Tomcat
   * Access the app at http://localhost:8080/jboss-seam-jpa/
 
-Glassfish:
-  * Install Glassfish V2
+GlassFish:
+  * Install GlassFish V2
   * ant glassfish
-  * Start GlassFish
+  * Start GlassFish and the Embedded Derby Database
   * Load the admin console http://localhost:4848/
-  * Deploy dist-glassfish/jboss-seam-jpa.war as Web App
+  * Deploy dist-glassfish/jboss-seam-jpa.war in the admin console (Applications > Web Applications)
+    or using the command $GLASSFISH_HOME/bin/asadmin deploy dist-glassfish/jboss-seam-jpa.war
   * Access the app at http://localhost:8080/jboss-seam-jpa/
 
 NOTES FOR GLASSFISH USERS:
-  In order for the app to work out of the box with Glassfish, we have
-  used the Derby (i.e., Java DB) database in Glassfish. However,
-  we strongly recommend you to use a non-Derby data source (e.g., HSQL
-  is a much better embeded DB) if possible. The
-  WEB/classes/GlassfishDerbyDialect.class is a special hack to get around
-  a Derby bug in Glassfish TM. You must use it as your Hibernate dialect
-  if you use Derby with Glassfish.
-
+  In order for the app to work out of the box with GlassFish, we have
+  used the Derby (i.e., Java DB) database in GlassFish. The included
+  WEB-INF/classes/GlassfishDerbyDialect.class is a special hack to get
+  around a Derby bug in GlassFish V2. You must use it as your Hibernate
+  dialect if you use Derby with GlassFish.
+  
+  However, we strongly recommend you to use a non-Derby data source if
+  possible (for example, HSQL is a much better embedded DB).

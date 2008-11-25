@@ -3,7 +3,7 @@
 <project name="JPA Booking" default="noejb.archive" basedir=".">
 
     <!-- Naming -->
-    <property name="Name"                   value="The JPA Example for Glassfish"/>
+    <property name="Name"                   value="The JPA Example for GlassFish"/>
     <property name="example.name"           value="jboss-seam-jpa"/>
 
     <!-- resources -->

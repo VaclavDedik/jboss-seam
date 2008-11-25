@@ -16,13 +16,12 @@
                   concurrent-request-timeout="500"
                   conversation-id-parameter="cid"/>
                   
-                  
-    <persistence:entity-manager-factory name="bookingDatabase"/>
-    
-    <persistence:managed-persistence-context name="em"
-                               auto-create="true" 
-                    entity-manager-factory="#{bookingDatabase}"/>
+    <!-- You can choose to have Seam load the persistence unit using <persistence:entity-manager-factory>,
+	     but we are leveraging the functionality baked into Java EE -->
                     
+    <!-- The JNDI name where the EntityManagerFactory is stored is defined by the <persistence-unit-ref-name> element in web.xml -->
+    <persistence:managed-persistence-context name="em" auto-create="true" persistence-unit-jndi-name="java:comp/env/bookingEntityManagerFactory"/>
+
     <security:identity authenticate-method="#{authenticator.authenticate}"/>  
     
 </components>

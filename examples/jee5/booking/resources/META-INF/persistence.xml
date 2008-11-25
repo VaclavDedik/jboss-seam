@@ -7,7 +7,7 @@
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
       <jta-data-source>jdbc/__default</jta-data-source>
       <properties>
-         <!-- The following two properties are for Glassfish -->
+         <!-- The following two properties are for GlassFish -->
          <property name="hibernate.dialect" 
               value="org.hibernate.dialect.DerbyDialect"/>
          <property name="hibernate.transaction.manager_lookup_class" 

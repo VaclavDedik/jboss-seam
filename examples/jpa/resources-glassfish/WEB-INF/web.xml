@@ -55,5 +55,10 @@
       <param-value>true</param-value>    
     </context-param>
     
+    <!-- Forces the container to load the persistence unit when the application is deployed -->
+    <persistence-unit-ref>
+      <persistence-unit-ref-name>bookingEntityManagerFactory</persistence-unit-ref-name>
+      <persistence-unit-name>bookingDatabase</persistence-unit-name>
+    </persistence-unit-ref>
      
 </web-app>
