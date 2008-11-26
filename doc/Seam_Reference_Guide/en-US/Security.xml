@@ -3199,8 +3199,8 @@ public @interface User {
                   </entry>
                   <entry>
                     <para>
-                      This method should remove any objects from the specified set, that would otherwise
-                      return <literal>false</literal> if passed to the <literal>hasPermission()</literal> method with the 
+                      This method should remove any objects from the specified set, that would 
+                      return <literal>true</literal> if passed to the <literal>hasPermission()</literal> method with the 
                       same <literal>action</literal> parameter value.
                     </para>
                   </entry>
