@@ -5,8 +5,8 @@
     <title>Configuring Seam and packaging Seam applications</title>
     <para> Configuration is a very boring topic and an extremely tedious pastime. Unfortunately, several lines of XML
         are required to integrate Seam into your JSF implementation and servlet container. There's no need to be too put
-        off by the following sections; you'll never need to type any of this stuff yourself, since you can just copy and
-        paste from the example applications! </para>
+        off by the following sections; you'll never need to type any of this stuff yourself, since you can just use 
+        seam-gen to start your application or you can copy and paste from the example applications! </para>
 
     <sect1>
         <title>Basic Seam configuration</title>
@@ -70,9 +70,9 @@
         </sect2>
 
         <sect2>
-            <title>Using facelets</title>
+            <title>Using Facelets</title>
 
-            <para> If you want follow our advice and use facelets instead of JSP, add the following lines to
+            <para> If you want follow our advice and use Facelets instead of JSP, add the following lines to
                     <literal>faces-config.xml</literal>: </para>
 
             <programlisting role="XML"><![CDATA[<application>
@@ -87,12 +87,14 @@
 </context-param>]]></programlisting>
 
             <para>
-               If you are using facelets in JBoss AS, you'll find that facelets
-               logging is broken. Seam provides a bridge to fix this, to use it
-               copy <literal>lib/interop/jboss-seam-jul.jar</literal> to
-               <literal>$JBOSS_HOME/server/default/deploy/jboss-web.deployer/jsf-libs/</literal>
-               and include the <literal>jboss-seam-ui.jar</literal> in the 
-               <literal>WEB-INF/lib</literal> of your application.
+               If you are using facelets in JBoss AS, you'll find that Facelets logging is broken (the log messages
+               don't make it to the server log). Seam provides a bridge to fix this, to use it copy
+               <literal>lib/interop/jboss-seam-jul.jar</literal> to
+               <literal>$JBOSS_HOME/server/default/deploy/jboss-web.deployer/jsf-libs/</literal> and include the
+               <literal>jboss-seam-ui.jar</literal> in the <literal>WEB-INF/lib</literal> of your application.  The
+               Facelets logging catagories are itemized in the <ulink
+               url="https://facelets.dev.java.net/nonav/docs/dev/docbook.html#config-logging">Facelets Developer
+               Documentation</ulink>.
             </para>
 
         </sect2>
@@ -398,9 +400,15 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
         <sect2>
             <title>Integrating Seam with your EJB container</title>
 
-            <para> We need to apply the <literal>SeamInterceptor</literal> to our Seam components. The simplest way to
-                do this across an entire application is to add the following interceptor configuration in
-                    <literal>ejb-jar.xml</literal>: </para>
+            <para> In a Seam application, EJB components have a certain duality, as they are managed by both the EJB
+                container and Seam. Actually, it's more that Seam resolves EJB component references, manages the
+                lifetime of stateful session bean components, and also participates in each method call via
+                interceptors. Let's start with the configuration of the Seam interceptor chain.</para>
+
+            <para> We need to apply the <literal>SeamInterceptor</literal> to our Seam EJB components. This interceptor
+                delegates to a set of built-in server-side interceptors that handle such concerns as bijection,
+                conversation demarcation, and business process signals. The simplest way to do this across an entire
+                application is to add the following interceptor configuration in <literal>ejb-jar.xml</literal>: </para>
 
             <programlisting role="XML"><![CDATA[<interceptors>
     <interceptor>
@@ -420,29 +428,157 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
                     <literal>@JndiName</literal> annotation on every session bean Seam component. However, this is quite
                 tedious. A better approach is to specify a pattern that Seam can use to calculate the JNDI name from the
                 EJB name. Unfortunately, there is no standard mapping to global JNDI defined in the EJB3 specification,
-                so this mapping is vendor-specific. We usually specify this option in <literal>components.xml</literal>. </para>
+                so this mapping is vendor-specific (and may depend on your own naming conventions as well). We usually
+                specify this option in <literal>components.xml</literal>. </para>
 
             <para> For JBoss AS, the following pattern is correct: </para>
 
-            <programlisting role="XML"><![CDATA[<core:init jndi-name="myEarName/#{ejbName}/local" />]]></programlisting>
+            <programlisting role="XML"><![CDATA[<core:init jndi-name="earName/#{ejbName}/local" />]]></programlisting>
 
-            <para> Where <literal>myEarName</literal> is the name of the EAR in which the bean is deployed. </para>
+            <para> In this case, <literal>earName</literal> is the name of the EAR in which the bean is deployed, Seam
+                replaces <literal>#{ejbName}</literal> with the name of the EJB, and the final segment represents the
+                type of interface (local or remote). </para>
 
-            <para> Outside the context of an EAR (when using the JBoss Embeddable EJB3 container), the following pattern
-                is the one to use: </para>
+            <para> Outside the context of an EAR (when using the JBoss Embeddable EJB3 container), the first segment is
+                dropped since there is no EAR, leaving us with the following pattern: </para>
 
             <programlisting role="XML"><![CDATA[<core:init jndi-name="#{ejbName}/local" />]]></programlisting>
 
-            <para> You'll have to experiment to find the right setting for other application servers. Note that some
-                servers (such as GlassFish) require you to specify JNDI names for all EJB components explicitly (and
-                tediously). In this case, you can pick your own pattern ;-) </para>
-                
+            <para> How these JNDI names are resolved and somehow locate an EJB component might appear a bit like black
+                magic at this point, so let's dig into the details. First, let's talk about how the EJB components get
+                into JNDI.</para>
+
+            <para> The folks at JBoss don't care much for XML, if you can't tell. So when they designed JBoss AS, they
+                decided that EJB components would get assigned a global JNDI name automatically, using the pattern
+                just described (i.e., EAR name/EJB name/interface type). The EJB name is the first non-empty value
+                from the following list: </para>
+            <itemizedlist>
+                <listitem>
+                    <para>The value of the <literal>&lt;ejb-name&gt;</literal> element in ejb-jar.xml</para>
+                </listitem>
+                <listitem>
+                    <para>The value of the <literal>name</literal> attribute in the @Stateless or @Stateful annotation</para>
+                </listitem>
+                <listitem>
+                    <para>The simple name of the bean class</para>
+                </listitem>
+            </itemizedlist>
+
+            <para> Let's look at an example. Assume that you have the following EJB bean and interface defined. </para>
+
+            <programlisting role="JAVA"><![CDATA[package com.example.myapp;
+
+import javax.ejb.Local;
+
+@Local
+public class Authenticator
+{
+    boolean authenticate();
+}
+
+package com.example.myapp;
+
+import javax.ejb.Stateless;
+
+@Stateless
+@Name("authenticator")
+public class AuthenticatorBean implements Authenticator
+{ 
+    public boolean authenticate() { ... }
+}
+]]></programlisting>
+
+            <para> Assuming your EJB bean class is deployed in an EAR named myapp, the global JNDI name 
+                myapp/AuthenticatorBean/local will be assigned to it. As you learned, you can reference this EJB
+                component as a Seam component with the name <literal>authenticator</literal> and Seam will take care of
+                finding it in JNDI according to the JNDI pattern (or <literal>@JndiName</literal> annotation). </para>
+
+            <para> So what about the rest of the application servers? Well, according to the Java EE spec, which most
+                vendors try to adhere to religiously, you have to declare an EJB reference for your EJB in order for it
+                to be assigned a JNDI name. That requires some XML. It also means that it is up to you to establish a
+                JNDI naming convention so that you can leverage the Seam JNDI pattern. You might find the JBoss
+                convention a good one to follow.</para>
+
+            <para> There are two places you have to define the EJB reference. If you are going to be looking up the
+                Seam EJB component through JSF (in a JSF view or as a JSF action listener) or a Seam JavaBean component,
+                then you must declare the EJB reference in web.xml. Here is the EJB reference for the example component
+                just shown: </para>
+
+            <programlisting role="XML"><![CDATA[<ejb-local-ref>
+    <ejb-ref-name>myapp/AuthenticatorBean/local</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>org.example.vehicles.action.Authenticator</local>
+</ejb-local-ref>
+]]></programlisting>
+
+            <para> This reference will cover most uses of the component in a Seam application. However, if you want to
+                be able to inject a Seam EJB component into another Seam EJB component using <literal>@In</literal>, you
+                need to define this EJB reference in another location. This time, it must be defined in ejb-jar.xml, and
+                it's a bit tricker. </para>
+
+            <para> Within the context of an EJB method call, you have to deal with a somewhat sheltered JNDI context.
+                When Seam attempts to find another Seam EJB component to satisfy an injection point defined using
+                <literal>@In</literal>, it isn't going to be successful looking up the component in JNDI. You cannot
+                simply resolve JNDI names as you please. You have to define those references explicitly. Unlike with the
+                web context, however, you cannot declare EJB references globally for all EJB components. Instead, you
+                have to specify the JNDI resources for a given EJB component one-by-one.</para>
+
+            <para> Let's assume that we have an EJB named RegisterAction (the name is resolved using the three steps
+                mentioned previously). That EJB has the following Seam injection:</para>
+
+            <programlisting role="JAVA"><![CDATA[@In(create = true)
+Authenticator authenticator;
+]]></programlisting>
+
+            <para> In order for this injection to work, the link must be established in the ejb-jar.xml file as follows: </para>
+
+            <programlisting role="XML"><![CDATA[<ejb-jar>
+    <enterprise-beans>
+        <session>
+            <ejb-name>RegisterAction</ejb-name>
+            <ejb-local-ref>
+                <ejb-ref-name>myapp/AuthenticatorAction/local</ejb-ref-name>
+                <ejb-ref-type>Session</ejb-ref-type>
+                <local>com.example.myapp.Authenticator</local>
+            </ejb-local-ref>
+        </session>
+    </enterprise-beans>
+
+    ...
+    
+</ejb-jar>
+]]></programlisting>
+
+            <para> Notice that the contents of the <literal>&lt;ejb-local-ref&gt;</literal> are identical to what we
+                defined in web.xml. What we are doing is bringing the reference into the EJB context where it can be
+                used by the RegisterAction bean. You will need to add one of these references for any injection of a
+                Seam EJB compoenent into another Seam EJB component using <literal>@In</literal>. (You can see an
+                example of this setup in the jee5/booking example).</para>
+
+            <para> But what about <literal>@EJB</literal>? It's true that you can inject one EJB into another using
+                <literal>@EJB</literal>. However, by doing so, you are injecting the actual EJB reference rather than the
+                Seam EJB component instance. In this case, some Seam features will work, while others won't. That's
+                because Seam's interceptor is invoked on any method call to an EJB component. But that only invokes
+                Seam's server-side interceptor chain. What you lose is Seam's state management and Seam's client-side
+                interceptor chain. Client-side interceptors handle concerns such as security and concurrency. Also, when
+                injecting a SFSB, there is no guarantee that you will get the SFSB bound to the active session or
+                conversation, whatever the case may be. Thus, you definitely want to inject the Seam EJB component using
+                <literal>@In</literal>.</para>
+
+            <para> That covers how JNDI names are defined and used. The lesson is that with some application servers,
+                such as GlassFish, you are going to have to specify JNDI names for all EJB components explicitly, and
+                sometimes twice! And even if you are following the same naming convention as JBoss AS, the JNDI pattern
+                in Seam may need to be altered. For instance, the global JNDI names are automatically prefixed with
+                java:comp/env on GlassFish, so you need to define the JNDI pattern as follows:</para>
+
+            <programlisting role="XML"><![CDATA[<core:init jndi-name="java:comp/env/earName/#{ejbName}/local" />]]></programlisting>
+
             <para>
-                In an EJB3 environment, we recommend the use of a special built-in component for transaction management,
-                that is fully aware of container transactions, and can correctly process transaction success events
-                registered with the <literal>Events</literal> component. If you don't add this line to your 
-                <literal>components.xml</literal> file, Seam won't know when container-managed transactions end:
-            </para>
+                Finally, let's talk about transactions. In an EJB3 environment, we recommend the use of a special
+                built-in component for transaction management, that is fully aware of container transactions, and can
+                correctly process transaction success events registered with the <literal>Events</literal> component. If
+                you don't add this line to your <literal>components.xml</literal> file, Seam won't know when
+                container-managed transactions end: </para>
             
             <programlisting role="XML"><![CDATA[<transaction:ejb-transaction/>]]></programlisting>
 
