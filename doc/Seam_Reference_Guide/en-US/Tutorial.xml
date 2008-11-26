@@ -273,8 +273,7 @@ public class User implements Serializable
                         entity bean domain model. </para>
                     <para> However, entity beans shouldn't do transaction management or database access. So we can't use
                         this component as a JSF action listener. For that we need a session bean. </para>
-	
-	
+
             </section>
 
             <section>
@@ -306,7 +305,6 @@ public class User implements Serializable
 @Name("register")
 public class RegisterAction implements Register
 {
-
    @In
    private User user;
    
@@ -319,7 +317,7 @@ public class RegisterAction implements Register
    public String register()
    {
       List existing = em.createQuery(
-         "select username from User where username=#{user.username}")
+         "select username from User where username = #{user.username}")
          .getResultList();
          
       if (existing.size()==0)
@@ -370,7 +368,8 @@ public class RegisterAction implements Register
                                     the standard JPA <literal>Query</literal> object. Nice, huh? </para>
                             </callout>
                             <callout arearefs="registration-log">
-                                <para> The <literal>Log</literal> API lets us easily display templated log messages.
+                                <para> The <literal>Log</literal> API lets us easily display templated log messages which
+                                can also make use of JSF EL expressions.
                                 </para>
                             </callout>
                             <callout arearefs="registration-outcome">
@@ -388,8 +387,10 @@ public class RegisterAction implements Register
                             <callout arearefs="registration-builtin">
                                 <para> Seam provides a number of <emphasis>built-in components</emphasis> to help solve
                                     common problems. The <literal>FacesMessages</literal> component makes it easy to
-                                    display templated error or success messages. Built-in Seam components may be
-                                    obtained by injection, or by calling an <literal>instance()</literal> method.
+                                    display templated error or success messages. (As of Seam 2.1, you can use
+                                    <literal>StatusMessages</literal> instead to remove the semantic dependency on JSF).
+                                    Built-in Seam components may be obtained by injection, or by calling the
+                                    <literal>instance()</literal> method on the class of the built-in component.
                                 </para>
                             </callout>
                         </calloutlist>
@@ -411,7 +412,7 @@ public class RegisterAction implements Register
                         used the Seam application framework controllers, we would have eliminated all of our 
                         application code.  However, then we wouldn't have had much of an application to explain.
                     </para>
-	
+
             </section>
 
             <section>
@@ -441,11 +442,11 @@ public interface Register
                 <title>register.xhtml</title>
                     <programlisting role="XHTML"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:s="http://jboss.com/products/seam/taglib"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core">
 
    <head>
       <title>Register New User</title>
@@ -477,26 +478,25 @@ public interface Register
                   <title>registered.xhtml</title>
                     <programlisting role="XHTML"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core">
+    xmlns:f="http://java.sun.com/jsf/core">
 
-   <head>
-      <title>Successfully Registered New User</title>
-   </head>
-   <body>
-      <f:view>
-         Welcome, #{user.name}, you are successfully registered as #{user.username}.
-      </f:view>
-   </body>
+    <head>
+        <title>Successfully Registered New User</title>
+    </head>
+    <body>
+        <f:view>
+            Welcome, #{user.name}, you are successfully registered as #{user.username}.
+        </f:view>
+    </body>
 
 </html>
 ]]></programlisting>
                 </example>
 
 
-                <para> This is a simple Facelets page using some embedded EL. There is nothing specific to Seam
-                    here. </para>
+                <para> This is a simple Facelets page using some inline EL. There's nothing specific to Seam here. </para>
 
             </section>
             
@@ -526,16 +526,23 @@ public interface Register
                  <title>components.xml</title>
                 <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <components xmlns="http://jboss.com/products/seam/components"
-            xmlns:core="http://jboss.com/products/seam/core"
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    xmlns:core="http://jboss.com/products/seam/core"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://jboss.com/products/seam/core
+        http://jboss.com/products/seam/core-2.1.xsd 
+        http://jboss.com/products/seam/components
+        http://jboss.com/products/seam/components-2.1.xsd">
             
-     <core:init jndi-pattern="@jndiPattern@"/>
+    <core:init jndi-pattern="@jndiPattern@"/>
      
 </components>]]></programlisting></example>
 
                 <para> This code configures a property named <literal>jndiPattern</literal> of a built-in Seam component
                     named <literal>org.jboss.seam.core.init</literal>. The funny <literal>@</literal> symbols are
-                    there because our Ant build script puts the correct JNDI pattern in when we deploy the application.</para>
+                    there because our Ant build script puts the correct JNDI pattern in when we deploy the application,
+                    which it reads from the components.properties file. You learn more about how this process works in
+                    <xref linkend="xml.descriptor"/>.</para>
 
             </section>
 
@@ -547,22 +554,15 @@ public interface Register
                 <example>
                     <title>web.xml</title>
                     <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.5"
-    xmlns="http://java.sun.com/xml/ns/javaee"
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
-                        http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-
-    <!-- Seam -->
+    xsi:schemaLocation="
+        http://java.sun.com/xml/ns/javaee
+        http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+    version="2.5">
 
     <listener>
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
-    </listener>
-
-    <!-- JSF -->
-              
-    <listener>
-        <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
     </listener>
     
     <context-param>
@@ -603,12 +603,13 @@ public interface Register
                 <example>
                 <title>faces-config.xml</title>
                     <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<faces-config version="1.2"
-              xmlns="http://java.sun.com/xml/ns/javaee"
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://java.sun.com/xml/ns/javaee
+        http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"
+    version="1.2">
 
-    <!-- Facelets support -->
     <application>
         <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
     </application>
@@ -619,11 +620,12 @@ public interface Register
 
                 <para> Note that we don't need
                     any JSF managed bean declarations! Our managed beans are annotated Seam components. In Seam applications,
-                    the <literal>faces-config.xml</literal> is used much less often than in plain JSF. </para>
+                    the <literal>faces-config.xml</literal> is used much less often than in plain JSF. Here, we are simply
+                    using it to enable Facelets as the view handler instead of JSP.</para>
 
                 <para> In fact, once you have all the basic descriptors set up, the <emphasis>only</emphasis> XML you
                     need to write as you add new functionality to a Seam application is orchestration: navigation rules 
-                    or jBPM process definitions. Seam takes the view that <emphasis>process flow</emphasis> and
+                    or jBPM process definitions. Seam's stand is that <emphasis>process flow</emphasis> and
                         <emphasis>configuration data</emphasis> are the only things that truly belong in XML. </para>
 
                 <para> In this simple example, we don't even need a navigation rule, since we decided to embed the view
@@ -637,24 +639,26 @@ public interface Register
                 <para> The <literal>ejb-jar.xml</literal> file integrates Seam with EJB3, by attaching the
                         <literal>SeamInterceptor</literal> to all session beans in the archive. </para>
 
-                <programlisting role="XML"><![CDATA[<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
-                             http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
-         version="3.0">
+                <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="
+        http://java.sun.com/xml/ns/javaee
+        http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
+    version="3.0">
          
-   <interceptors>
-      <interceptor>
-         <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
-      </interceptor>
-   </interceptors>
+    <interceptors>
+        <interceptor>
+            <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
+        </interceptor>
+    </interceptors>
    
-   <assembly-descriptor>
-      <interceptor-binding>
-         <ejb-name>*</ejb-name>
-         <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
-      </interceptor-binding>
-   </assembly-descriptor>
+    <assembly-descriptor>
+        <interceptor-binding>
+            <ejb-name>*</ejb-name>
+            <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
+        </interceptor-binding>
+    </assembly-descriptor>
    
 </ejb-jar>]]></programlisting>
 
@@ -669,17 +673,18 @@ public interface Register
 
                 <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" 
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
-                                 http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" 
-             version="1.0">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://java.sun.com/xml/ns/persistence
+        http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" 
+    version="1.0">
 
-   <persistence-unit name="userDatabase">
-      <provider>org.hibernate.ejb.HibernatePersistence</provider>
-      <jta-data-source>java:/DefaultDS</jta-data-source>
-      <properties>
-         <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
-      </properties>
+    <persistence-unit name="userDatabase">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <jta-data-source>java:/DefaultDS</jta-data-source>
+        <properties>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+        </properties>
     </persistence-unit>
     
 </persistence>]]></programlisting>
@@ -694,10 +699,11 @@ public interface Register
                 <example id="registration-application-xml"><title>registration application</title>
                   <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <application xmlns="http://java.sun.com/xml/ns/javaee" 
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
-                                 http://java.sun.com/xml/ns/javaee/application_5.xsd"
-             version="5">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://java.sun.com/xml/ns/javaee
+        http://java.sun.com/xml/ns/javaee/application_5.xsd"
+    version="5">
              
     <display-name>Seam Registration</display-name>
 
@@ -738,11 +744,12 @@ public interface Register
             <para> The form input values are now validated against the Hibernate Validator constraints specified on the
                     <literal>User</literal> entity. If the constraints are violated, JSF redisplays the page. Otherwise,
                 JSF binds the form input values to properties of the <literal>User</literal> entity bean. </para>
-            <para> Next, JSF asks Seam to resolve the variable named <literal>register</literal>. Seam finds the
-                    <literal>RegisterAction</literal> stateless session bean in the stateless context and returns it.
-                JSF invokes the <literal>register()</literal> action listener method. </para>
-            <para> Seam intercepts the method call and injects the <literal>User</literal> entity from the Seam session
-                context, before continuing the invocation. </para>
+            <para> Next, JSF asks Seam to resolve the variable named <literal>register</literal>. Seam uses the JNDI
+                pattern mentioned earlier to locate the stateless session bean, wraps it as a Seam component, and
+                returns it. Seam then presents this component to JSF and JSF invokes the <literal>register()</literal>
+                action listener method.</para>
+            <para> But Seam is not done yet. Seam intercepts the method call and injects the <literal>User</literal>
+                entity from the Seam session context, before allowing the invocation to continue. </para>
             <para> The <literal>register()</literal> method checks if a user with the entered username already exists.
                 If so, an error message is queued with the <literal>FacesMessages</literal> component, and a null
                 outcome is returned, causing a page redisplay. The <literal>FacesMessages</literal> component
@@ -799,43 +806,53 @@ public class Message implements Serializable
    private Date datetime;
    
    @Id @GeneratedValue
-   public Long getId() {
+   public Long getId()
+   {
       return id;
    }
-   public void setId(Long id) {
+   public void setId(Long id)
+   {
       this.id = id;
    }
    
    @NotNull @Length(max=100)
-   public String getTitle() {
+   public String getTitle()
+   {
       return title;
    }
-   public void setTitle(String title) {
+   public void setTitle(String title)
+   {
       this.title = title;
    }
    
    @NotNull @Lob
-   public String getText() {
+   public String getText()
+   {
       return text;
    }
-   public void setText(String text) {
+   public void setText(String text)
+   {
       this.text = text;
    }
    
    @NotNull
-   public boolean isRead() {
+   public boolean isRead()
+   {
       return read;
    }
-   public void setRead(boolean read) {
+   public void setRead(boolean read)
+   {
       this.read = read;
    }
    
    @NotNull 
    @Basic @Temporal(TemporalType.TIMESTAMP)
-   public Date getDatetime() {
+   public Date getDatetime()
+   {
       return datetime;
    }
-   public void setDatetime(Date datetime) {
+   public void setDatetime(Date datetime)
+   {
       this.datetime = datetime;
    }
    
@@ -879,7 +896,6 @@ public class Message implements Serializable
 @Name("messageManager")
 public class MessageManagerBean implements Serializable, MessageManager
 {
-
    @DataModel
    private List<Message> messageList;
    
@@ -1190,18 +1206,20 @@ public interface MessageManager
             <example>
                <title>Login.java</title>
                <programlisting role="JAVA"><![CDATA[@Name("login")
-public class Login {
-   
+public class Login
+{
    @In
    private Actor actor;
    
    private String user;
 
-   public String getUser() {
+   public String getUser()
+   {
       return user;
    }
 
-   public void setUser(String user) {
+   public void setUser(String user)
+   {
       this.user = user;
    }
    
@@ -1254,8 +1272,8 @@ public class Login {
                        <area id="todo-task-annotations" coords="18"/>
                  </areaspec>
                  <programlisting><![CDATA[@Name("todoList")
-public class TodoList {
-   
+public class TodoList
+{
    private String description;
    
    public String getDescription()
@@ -1263,7 +1281,8 @@ public class TodoList {
       return description;
    }
 
-   public void setDescription(String description) {
+   public void setDescription(String description)
+   {
       this.description = description;
    }
    
@@ -1642,17 +1661,17 @@ public class TodoList {
   <body>
     <h1>Guess a number...</h1>
     <f:view>
-	  <h:form styleClass="niceform">
-	    
-	    <div>
-	    <h:messages globalOnly="true"/>
-	    <h:outputText value="Higher!" 
-	           rendered="#{numberGuess.randomNumber gt numberGuess.currentGuess}"/>
-	    <h:outputText value="Lower!" 
-	           rendered="#{numberGuess.randomNumber lt numberGuess.currentGuess}"/>
-		</div>
-		
-		<div>
+      <h:form styleClass="niceform">
+        
+        <div>
+        <h:messages globalOnly="true"/>
+        <h:outputText value="Higher!" 
+               rendered="#{numberGuess.randomNumber gt numberGuess.currentGuess}"/>
+        <h:outputText value="Lower!" 
+               rendered="#{numberGuess.randomNumber lt numberGuess.currentGuess}"/>
+        </div>
+        
+        <div>
         I'm thinking of a number between 
         <h:outputText value="#{numberGuess.smallest}"/> and 
         <h:outputText value="#{numberGuess.biggest}"/>. You have 
@@ -1678,16 +1697,16 @@ public class TodoList {
                           rendered="#{(numberGuess.biggest-numberGuess.smallest) le 4}">
           <s:selectItems value="#{numberGuess.possibilities}" var="i" label="#{i}"/>
         </h:selectOneRadio>
-		<h:commandButton value="Guess" action="guess"/>
+        <h:commandButton value="Guess" action="guess"/>
         <s:button value="Cheat" view="/confirm.jspx"/>
         <s:button value="Give up" action="giveup"/>
-		</div>
-		
-		<div>
+        </div>
+        
+        <div>
         <h:message for="inputGuess" style="color: red"/>
         </div>
         
-	  </h:form>
+      </h:form>
     </f:view>
   </body>
   </html>
@@ -2259,15 +2278,15 @@ public class HotelSearchingAction implements HotelSearching
     
     <h1>Search Hotels</h1>
 
-	<h:form id="searchCriteria">
-	<fieldset> 
-	   <h:inputText id="searchString" value="#{hotelSearch.searchString}" 
+    <h:form id="searchCriteria">
+    <fieldset> 
+       <h:inputText id="searchString" value="#{hotelSearch.searchString}" 
                     style="width: 165px;">
          <a:support event="onkeyup" actionListener="#{hotelSearch.find}" 
                     reRender="searchResults" />
        </h:inputText>
        &#160;
-	   <a:commandButton id="findHotels" value="Find Hotels" action="#{hotelSearch.find}" 
+       <a:commandButton id="findHotels" value="Find Hotels" action="#{hotelSearch.find}" 
                         reRender="searchResults"/>
        &#160;
        <a:status>
@@ -2275,7 +2294,7 @@ public class HotelSearchingAction implements HotelSearching
              <h:graphicImage value="/img/spinner.gif"/>
           </f:facet>
        </a:status>
-	   <br/>
+       <br/>
        <h:outputLabel for="pageSize">Maximum results:</h:outputLabel>&#160;
        <h:selectOneMenu value="#{hotelSearch.pageSize}" id="pageSize">
           <f:selectItem itemLabel="5" itemValue="5"/>
@@ -2542,63 +2561,63 @@ public class HotelBookingAction implements HotelBooking
 
     </section>
 
-	<section id="nestedbooking">
-		<title>Nested conversations:  extending the Hotel Booking example</title>
-		
-		<section>
-			<title>Introduction</title>
-			
-			<para>Long-running conversations make it simple to maintain consistency of state in an application
+    <section id="nestedbooking">
+        <title>Nested conversations: extending the Hotel Booking example</title>
+        
+        <section>
+            <title>Introduction</title>
+            
+            <para>Long-running conversations make it simple to maintain consistency of state in an application
 even in the face of multi-window operation and back-buttoning. Unfortunately, simply beginning and ending a 
 long-running conversation is not always enough. Depending on the requirements of the application, inconsistencies 
 between what the user's expectations and the reality of the application’s state can still result.</para>
 
-			<para>The nested booking application extends the features of the hotel booking application to incorporate 
+            <para>The nested booking application extends the features of the hotel booking application to incorporate 
 the selection of rooms.  Each hotel has available rooms with descriptions for a user to select from.  This requires
 the addition of a room selection page in the hotel reservation flow.</para>
-		
-			<mediaobject>
-	            <imageobject role="fo">
-	                <imagedata fileref="images/nested-booking.png" align="center" scalefit="1"/>
-	            </imageobject>
-	            <imageobject role="html">
-	                <imagedata fileref="images/nested-booking.png" align="center"/>
-	            </imageobject>
-	        </mediaobject>
         
-        	<para>The user now has the option to select any available room to be included in the booking.  As with the
+            <mediaobject>
+                <imageobject role="fo">
+                    <imagedata fileref="images/nested-booking.png" align="center" scalefit="1"/>
+                </imageobject>
+                <imageobject role="html">
+                    <imagedata fileref="images/nested-booking.png" align="center"/>
+                </imageobject>
+            </mediaobject>
+        
+            <para>The user now has the option to select any available room to be included in the booking.  As with the
 hotel booking application we saw previously, this can lead to issues with state consistency.  As with storing state
 in the <varname>HTTPSession</varname>, if a conversation variable changes it affects all windows operating within
 the same conversation context.</para>
 
-			<para>To demonstrate this, let’s suppose the user clones the room selection screen in a new window.  The 
+            <para>To demonstrate this, let’s suppose the user clones the room selection screen in a new window.  The 
 user then selects the <emphasis>Wonderful Room</emphasis> and proceeds to the confirmation screen. To see just how much
 it would cost to live the high-life, the user returns to the original window, selects the <emphasis>Fantastic 
 Suite</emphasis> for booking, and again proceeds to confirmation. After reviewing the total cost, the user decides
 that practicality wins out and returns to the window showing <emphasis>Wonderful Room</emphasis> to confirm.</para>
 
-			<para>In this scenario, if we simply store all state in the conversation, we are not protected from 
+            <para>In this scenario, if we simply store all state in the conversation, we are not protected from 
 multi-window operation within the same conversation.  Nested conversations allow us to achieve correct behavior even 
 when context can vary within the same conversation.</para>
-		</section>
-		
-		<section>
-			<title>Understanding Nested Conversations</title>
-		
-			<para>Now let's see how the nested booking example extends the behavior of the hotel booking application through
+        </section>
+        
+        <section>
+            <title>Understanding Nested Conversations</title>
+        
+            <para>Now let's see how the nested booking example extends the behavior of the hotel booking application through
 use of nested conversations.  Again, we can read the class from top to bottom, as if it were a story.</para>
 
-			<example>
-	          <title>RoomPreferenceAction.java</title>
-	          <!-- Can't use code hightlighting with callouts -->
-	          <programlistingco>
-	            <areaspec>
-	                <area id="nested-booking-load-rooms" coords="25"/>
-	                <area id="nested-booking-nested-conversation" coords="38"/>
-	                <area id="nested-booking-select-preference" coords="43"/>
-	                <area id="nested-booking-end-annotation" coords="58"/>
-	            </areaspec>
-            	<programlisting><![CDATA[@Stateful
+            <example>
+              <title>RoomPreferenceAction.java</title>
+              <!-- Can't use code hightlighting with callouts -->
+              <programlistingco>
+                <areaspec>
+                    <area id="nested-booking-load-rooms" coords="25"/>
+                    <area id="nested-booking-nested-conversation" coords="38"/>
+                    <area id="nested-booking-select-preference" coords="43"/>
+                    <area id="nested-booking-end-annotation" coords="58"/>
+                </areaspec>
+                <programlisting><![CDATA[@Stateful
 @Name("roomPreference")
 @Restrict("#{identity.loggedIn}")
 public class RoomPreferenceAction implements RoomPreference 
@@ -2663,142 +2682,142 @@ public class RoomPreferenceAction implements RoomPreference
    }
 
    @Destroy @Remove                                                                      
-   public void destroy() {}	
+   public void destroy() {}    
 }
 ]]></programlisting>
-	                    <calloutlist>
-	                        <callout arearefs="nested-booking-load-rooms">
-	                            <para> The <varname>hotel</varname> instance is injected from the conversation context.  The hotel 
-	                            	is loaded through an <emphasis>extended persistence context</emphasis> so that the entity 
-	                            	remains managed throughout the conversation.  This allows us to lazily load the 
-	                            	<varname>availableRooms</varname> through an <varname>@Factory</varname> method by
-	                            	simply walking the assocation.
-	                            </para>
-	                        </callout>
-	                        <callout arearefs="nested-booking-nested-conversation">
-	                            <para> When <link linkend="begin-annotation">
-	                                    <literal>@Begin(nested=true)</literal>
-	                                </link> is encountered, a nested conversation is pushed onto the conversation stack.  When 
-	                                executing within a nested conversation, components still have access to all outer conversation 
-	                                state, but setting any values in the nested conversation’s state container does not affect 
-	                                the outer conversation. In addition, nested conversations can exist concurrently stacked on the 
-	                                same outer conversation, allowing independent state for each.</para>
-	                        </callout>
-	                        <callout arearefs="nested-booking-select-preference">
-	                            <para>The <varname>roomSelection</varname> is outjected to the conversation based on the 
-	                            	<varname>@DataModelSelection</varname>.  Note that because the nested conversation has an
-	                            	independent context, the <varname>roomSelection</varname> is only set into the new nested
-	                            	conversation.  Should the user select a different preference in another window or tab a new 
-	                            	nested conversation would be started.</para>
-	                        </callout>
-	                        <callout arearefs="nested-booking-end-annotation">
-	                            <para> The <link linkend="end-annotation">
-	                                    <literal>@End</literal>
-	                                </link> annotation pops the conversation stack and resumes the outer conversation.  The
-	                                <varname>roomSelection</varname> is destroyed along with the conversation context.</para>
-	                        </callout>
-	                    </calloutlist>
-	                </programlistingco>
-	            </example>
+                        <calloutlist>
+                            <callout arearefs="nested-booking-load-rooms">
+                                <para> The <varname>hotel</varname> instance is injected from the conversation context.  The hotel 
+                                    is loaded through an <emphasis>extended persistence context</emphasis> so that the entity 
+                                    remains managed throughout the conversation.  This allows us to lazily load the 
+                                    <varname>availableRooms</varname> through an <varname>@Factory</varname> method by
+                                    simply walking the assocation.
+                                </para>
+                            </callout>
+                            <callout arearefs="nested-booking-nested-conversation">
+                                <para> When <link linkend="begin-annotation">
+                                        <literal>@Begin(nested=true)</literal>
+                                    </link> is encountered, a nested conversation is pushed onto the conversation stack.  When 
+                                    executing within a nested conversation, components still have access to all outer conversation 
+                                    state, but setting any values in the nested conversation’s state container does not affect 
+                                    the outer conversation. In addition, nested conversations can exist concurrently stacked on the 
+                                    same outer conversation, allowing independent state for each.</para>
+                            </callout>
+                            <callout arearefs="nested-booking-select-preference">
+                                <para>The <varname>roomSelection</varname> is outjected to the conversation based on the 
+                                    <varname>@DataModelSelection</varname>.  Note that because the nested conversation has an
+                                    independent context, the <varname>roomSelection</varname> is only set into the new nested
+                                    conversation.  Should the user select a different preference in another window or tab a new 
+                                    nested conversation would be started.</para>
+                            </callout>
+                            <callout arearefs="nested-booking-end-annotation">
+                                <para> The <link linkend="end-annotation">
+                                        <literal>@End</literal>
+                                    </link> annotation pops the conversation stack and resumes the outer conversation.  The
+                                    <varname>roomSelection</varname> is destroyed along with the conversation context.</para>
+                            </callout>
+                        </calloutlist>
+                    </programlistingco>
+                </example>
             
-            	<para>When we being a nested conversation it is pushed onto the conversation stack. In the <varname>nestedbooking</varname> 
+                <para>When we being a nested conversation it is pushed onto the conversation stack. In the <varname>nestedbooking</varname> 
 example, the conversation stack consists of the outer long-running conversation (the booking) and each of the nested conversations (room 
 selections).</para>
 
-				<example>
-		          <title>rooms.xhtml</title>
-		          <!-- Can't use code hightlighting with callouts -->
-		          <programlistingco>
-		            <areaspec>
-		                <area id="nested-booking-available-rooms" coords="19"/>
-		                <area id="nested-booking-selection-action" coords="36"/>
-		                <area id="nested-booking-cancel-action" coords="45"/>
-		            </areaspec>
-		            <programlisting><![CDATA[<div class="section">
-	<h1>Room Preference</h1>
+                <example>
+                  <title>rooms.xhtml</title>
+                  <!-- Can't use code hightlighting with callouts -->
+                  <programlistingco>
+                    <areaspec>
+                        <area id="nested-booking-available-rooms" coords="19"/>
+                        <area id="nested-booking-selection-action" coords="36"/>
+                        <area id="nested-booking-cancel-action" coords="45"/>
+                    </areaspec>
+                    <programlisting><![CDATA[<div class="section">
+    <h1>Room Preference</h1>
 </div>
 
 <div class="section">
-	<h:form id="room_selections_form">
-		<div class="section">
-			<h:outputText styleClass="output" 
-				value="No rooms available for the dates selected: " 
-				rendered="#{availableRooms != null and availableRooms.rowCount == 0}"/>
-			<h:outputText styleClass="output" 
-				value="Rooms available for the dates selected: " 
-				rendered="#{availableRooms != null and availableRooms.rowCount > 0}"/>
-				
-			<h:outputText styleClass="output" value="#{booking.checkinDate}"/> -
-			<h:outputText styleClass="output" value="#{booking.checkoutDate}"/>
-			
-			<br/><br/>
-			
-			<h:dataTable value="#{availableRooms}" var="room" 
-					rendered="#{availableRooms.rowCount > 0}">
-				<h:column>
-					<f:facet name="header">Name</f:facet>
-					#{room.name}
-				</h:column>
-				<h:column>
-					<f:facet name="header">Description</f:facet>
-					#{room.description}
-				</h:column>
-				<h:column>
-					<f:facet name="header">Per Night</f:facet>
-					<h:outputText value="#{room.price}">
-						<f:convertNumber type="currency" currencySymbol="$"/>
-					</h:outputText>
-				</h:column>
-				<h:column>
-					<f:facet name="header">Action</f:facet>
-					<h:commandLink id="selectRoomPreference" 
-						action="#{roomPreference.selectPreference}">Select</h:commandLink>
-				</h:column>
-			</h:dataTable>
-		</div>
-		<div class="entry">
-			<div class="label">&#160;</div>
-			<div class="input">
-				<s:button id="cancel" value="Revise Dates" view="/book.xhtml"/>
-			</div>
-		</div>	
-	</h:form>
+    <h:form id="room_selections_form">
+        <div class="section">
+            <h:outputText styleClass="output" 
+                value="No rooms available for the dates selected: " 
+                rendered="#{availableRooms != null and availableRooms.rowCount == 0}"/>
+            <h:outputText styleClass="output" 
+                value="Rooms available for the dates selected: " 
+                rendered="#{availableRooms != null and availableRooms.rowCount > 0}"/>
+                
+            <h:outputText styleClass="output" value="#{booking.checkinDate}"/> -
+            <h:outputText styleClass="output" value="#{booking.checkoutDate}"/>
+            
+            <br/><br/>
+            
+            <h:dataTable value="#{availableRooms}" var="room" 
+                    rendered="#{availableRooms.rowCount > 0}">
+                <h:column>
+                    <f:facet name="header">Name</f:facet>
+                    #{room.name}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Description</f:facet>
+                    #{room.description}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Per Night</f:facet>
+                    <h:outputText value="#{room.price}">
+                        <f:convertNumber type="currency" currencySymbol="$"/>
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Action</f:facet>
+                    <h:commandLink id="selectRoomPreference" 
+                        action="#{roomPreference.selectPreference}">Select</h:commandLink>
+                </h:column>
+            </h:dataTable>
+        </div>
+        <div class="entry">
+            <div class="label">&#160;</div>
+            <div class="input">
+                <s:button id="cancel" value="Revise Dates" view="/book.xhtml"/>
+            </div>
+        </div>    
+    </h:form>
 </div>
 ]]></programlisting>
-	                    <calloutlist>
-	                        <callout arearefs="nested-booking-available-rooms">
-	                            <para>When requested from EL, the <varname>#{availableRooms}</varname> are loaded by the <varname>@Factory</varname>
+                        <calloutlist>
+                            <callout arearefs="nested-booking-available-rooms">
+                                <para>When requested from EL, the <varname>#{availableRooms}</varname> are loaded by the <varname>@Factory</varname>
 method defined in <varname>RoomPreferenceAction</varname>.  The <varname>@Factory</varname> method will only be executed once to load the values
 into the current context as a <link linkend="datamodel-annotation">
   <varname>@DataModel</varname>
 </link> instance.</para>
-	                        </callout>
-	                        <callout arearefs="nested-booking-selection-action">
-	                            <para>Invoking the <varname>#{roomPreference.selectPreference}</varname> action results in the row being selected
+                            </callout>
+                            <callout arearefs="nested-booking-selection-action">
+                                <para>Invoking the <varname>#{roomPreference.selectPreference}</varname> action results in the row being selected
 and set into the <varname>@DataModelSelection</varname>.  This value is then outjected to the nested conversation context.</para>
-	                        </callout>
-	                        <callout arearefs="nested-booking-cancel-action">
-	                            <para>Revising the dates simply returns to the <varname>/book.xhtml</varname>.  Note that we have not yet nested 
+                            </callout>
+                            <callout arearefs="nested-booking-cancel-action">
+                                <para>Revising the dates simply returns to the <varname>/book.xhtml</varname>.  Note that we have not yet nested 
 a conversation (no room preference has been selected), so the current conversation can simply be resumed.  The <varname>&lt;s:button></varname>
 component simply propagates the current conversation when displaying the <varname>/book.xhtml</varname> view.</para>
-	                        </callout>
-	                    </calloutlist>
-	                </programlistingco>
-	            </example>
+                            </callout>
+                        </calloutlist>
+                    </programlistingco>
+                </example>
 
-				<para>Now that we have seen how to nest a conversation, let's see how we can confirm the booking once a room has been selected.  This 
+                <para>Now that we have seen how to nest a conversation, let's see how we can confirm the booking once a room has been selected.  This 
 can be achieved by simply extending the behavior of the <varname>HotelBookingAction</varname>.</para>
-				
-				<example>
-		          <title>HotelBookingAction.java</title>
-		          <!-- Can't use code hightlighting with callouts -->
-		          <programlistingco>
-		            <areaspec>
-		                <area id="nested-booking-end-root" coords="77"/>
-		                <area id="nested-booking-confirm" coords="82"/>
-		                <area id="nested-booking-cancel" coords="89" />
-		            </areaspec>
-		            <programlisting><![CDATA[@Stateful
+                
+                <example>
+                  <title>HotelBookingAction.java</title>
+                  <!-- Can't use code hightlighting with callouts -->
+                  <programlistingco>
+                    <areaspec>
+                        <area id="nested-booking-end-root" coords="77"/>
+                        <area id="nested-booking-confirm" coords="82"/>
+                        <area id="nested-booking-cancel" coords="89" />
+                    </areaspec>
+                    <programlisting><![CDATA[@Stateful
 @Name("hotelBooking")
 @Restrict("#{identity.loggedIn}")
 public class HotelBookingAction implements HotelBooking
@@ -2896,7 +2915,7 @@ public class HotelBookingAction implements HotelBooking
                     <calloutlist>
                         <callout arearefs="nested-booking-end-root">
                             <para>Annotating an action with  <link linkend="end-annotation">
-                            	<varname>@End(root=true)</varname> 
+                                <varname>@End(root=true)</varname> 
                             </link> ends the root conversation which effectively destroys the entire conversation stack.  
                             When any conversation is ended, it's nested conversations are ended as well.  As the root is 
                             the conversation that started it all, this is a simple way to destroy and release all state 
@@ -2911,7 +2930,7 @@ public class HotelBookingAction implements HotelBooking
                         </callout>
                         <callout arearefs="nested-booking-cancel">
                             <para>By simply annotating the cancellation action with  <link linkend="end-annotation">
-                            	<varname>@End(root=true, beforeRedirect=true)</varname> 
+                                <varname>@End(root=true, beforeRedirect=true)</varname> 
                             </link>
                             we can easily destroy and release all state associated with the 
                             workspace prior to redirecting the user back to the hotel selection view.</para>
@@ -2923,9 +2942,9 @@ public class HotelBookingAction implements HotelBooking
             <para>Feel free to deploy the application, open many windows or tabs and attempt combinations of various hotels with
 various room preferences.  Confirming a booking always results in the correct hotel and room preference thanks to the nested 
 conversation model.</para>
-		</section>
-	</section>
-	
+        </section>
+    </section>
+    
     <section id="dvdstore">
         <title>A complete application featuring Seam and jBPM: the DVD Store example</title>
 
@@ -3110,7 +3129,7 @@ public class BlogService
                 automatically redirects to the view id when the form is submitted. Alternatively, we could have defined
                 a navigation rule like this: </para>
                 
-	<programlisting role="XML"><![CDATA[<navigation-rule>
+    <programlisting role="XML"><![CDATA[<navigation-rule>
    <navigation-case>
       <from-outcome>searchResults</from-outcome>
       <to-view-id>/search.xhtml</to-view-id>
@@ -3121,7 +3140,7 @@ public class BlogService
 
             <para> Then the form would have looked like this: </para>
             
-	    <programlisting role="XHTML"><![CDATA[<div id="search">
+        <programlisting role="XHTML"><![CDATA[<div id="search">
    <h:form>
       <h:inputText value="#{searchAction.searchPattern}"/>
       <h:commandButton value="Search" action="searchResults"/>
@@ -3138,7 +3157,7 @@ public class BlogService
                 Both are defined in <literal>WEB-INF/pages.xml</literal>: </para>
             <example>
             <title></title>
-		    <programlisting role="XML"><![CDATA[<pages>
+            <programlisting role="XML"><![CDATA[<pages>
    <page view-id="/search.xhtml">
       <rewrite pattern="/search/{searchPattern}"/> 
       <rewrite pattern="/search"/>
@@ -3179,7 +3198,7 @@ public class BlogService
 
             <para> The redirect takes us to the <literal>search.xhtml</literal> page: </para>
             
-		    <programlisting role="XHTML"><![CDATA[<h:dataTable value="#{searchResults}" var="blogEntry">
+            <programlisting role="XHTML"><![CDATA[<h:dataTable value="#{searchResults}" var="blogEntry">
   <h:column>
      <div>
         <s:link view="/entry.xhtml" propagation="none" value="#{blogEntry.title}">
@@ -3197,7 +3216,7 @@ public class BlogService
             <para> Which again uses "pull"-style MVC to retrieve the actual search results using 
             Hibernate Search.</para>
 
-		    <programlisting role="JAVA"><![CDATA[@Name("searchService")
+            <programlisting role="JAVA"><![CDATA[@Name("searchService")
 public class SearchService 
 {
    
@@ -3264,7 +3283,7 @@ public class SearchService
             <para> The <literal>entryAction</literal> component works much like an action class in a traditional
                 push-MVC action-oriented framework like Struts: </para>
 
-		    <programlisting role="JAVA"><![CDATA[@Name("entryAction")
+            <programlisting role="JAVA"><![CDATA[@Name("entryAction")
 @Scope(STATELESS)
 public class EntryAction
 {
@@ -3283,7 +3302,7 @@ public class EntryAction
 
             <para> Page actions are also declared in <literal>pages.xml</literal>: </para>
 
-		    <programlisting role="XML"><![CDATA[<pages>
+            <programlisting role="XML"><![CDATA[<pages>
    ...
 
     <page view-id="/entry.xhtml"> 
@@ -3346,7 +3365,7 @@ public class EntryAction
             <para> If the blog entry is not found in the database, the <literal>EntryNotFoundException</literal>
                 exception is thrown. We want this exception to result in a 404 error, not a 505, so we annotate the
                 exception class: </para>
-		
+        
             <programlisting role="JAVA"><![CDATA[@ApplicationException(rollback=true)
 @HttpError(errorCode=HttpServletResponse.SC_NOT_FOUND)
 public class EntryNotFoundException extends Exception

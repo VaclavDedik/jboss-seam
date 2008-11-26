@@ -1,3 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
 <chapter id="xml">
 
         <title>Configuring Seam components</title>
@@ -11,7 +14,7 @@
             properties file or in <literal>web.xml</literal>, and configuration via <literal>components.xml</literal>. 
         </para>
 
-        <sect1>
+        <section>
             <title>Configuring components via property settings</title>
             <para> 
                 Seam components may be provided with configuration properties either via servlet context parameters,
@@ -32,9 +35,9 @@
                 component named <literal>org.jboss.seam.core.manager</literal> with a setter method named
                 <literal>setConversationTimeout()</literal>.) 
             </para>
-        </sect1>
+        </section>
 
-        <sect1>
+        <section id="xml.descriptor">
             <title>Configuring components via <literal>components.xml</literal></title>
             
             <para> 
@@ -241,9 +244,9 @@
                 (at development time). You'll see this approach used in the Seam examples. 
             </para>
 
-        </sect1>
+        </section>
 
-        <sect1>
+        <section>
             <title>Fine-grained configuration files</title>
             <para> 
                 If you have a large number of components that need to be configured in XML, it makes much more sense
@@ -282,9 +285,9 @@
                 Alternatively, you may put configuration for all classes in the <literal>com.helloworld</literal>
                 package in <literal>com/helloworld/components.xml</literal>. 
             </para>
-        </sect1>
+        </section>
 
-        <sect1>
+        <section>
             <title>Configurable property types</title>
             <para> 
                 Properties of string, primitive or primitive wrapper type may be configured just as you would expect: 
@@ -397,9 +400,9 @@
 				entire initial value must be a single EL expression.
             </para>
 
-        </sect1>
+        </section>
 
-        <sect1>
+        <section>
             <title>Using XML Namespaces</title>
             <para> 
                 Throughout the examples, there have been two competing ways of declaring components: with and without
@@ -586,7 +589,7 @@ public class Payment
                 
             </itemizedlist>
             
-        </sect1>
+        </section>
 
 
 </chapter>
