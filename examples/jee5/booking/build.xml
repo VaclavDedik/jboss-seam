@@ -45,7 +45,6 @@
       <include name="lib/antlr.jar" />
       <include name="lib/commons-logging.jar" />
       <include name="lib/commons-collections.jar" />
-      <include name="lib/log4j.jar" />
     </fileset>
        
 </project>
