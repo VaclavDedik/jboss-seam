@@ -29,10 +29,11 @@ import org.openid4java.message.ax.AxMessage;
 import org.openid4java.message.ax.FetchRequest;
 import org.openid4java.message.ax.FetchResponse;
 
-@Name("openid")
+@Name("org.jboss.seam.security.openid.openid")
 @Install(precedence=Install.BUILT_IN, classDependencies="org.openid4java.consumer.ConsumerManager")
 @Scope(ScopeType.SESSION)
-public class OpenId implements Serializable
+public class OpenId 
+    implements Serializable
 {
     String id;
     String validatedId;
@@ -45,6 +46,9 @@ public class OpenId implements Serializable
         throws ConsumerException
     {
         manager = new ConsumerManager();
+        discovered = null;
+        id = null;
+        validatedId = null;
     }
 
 
@@ -68,13 +72,10 @@ public class OpenId implements Serializable
         throws IOException
     {
         validatedId = null;
-
         String returnToUrl = returnToUrl();
 
-        System.out.println("return to " + returnToUrl);
         String url = authRequest(id, returnToUrl);
-        System.out.println("auth to --> " + url);
-
+        
         Redirect redirect = Redirect.instance();
         redirect.captureCurrentView();
         
@@ -111,7 +112,6 @@ public class OpenId implements Serializable
             authReq.addExtension(fetch);
 
             return authReq.getDestinationUrl(true);
-            // httpResp.sendRedirect(authReq.getDestinationUrl(true));
         } catch (OpenIDException e)  {
             e.printStackTrace();
         }
@@ -129,7 +129,6 @@ public class OpenId implements Serializable
 
 
     public boolean loginImmediately() {
-        System.out.println("* LOGIN IMMEDIATELY! " + validatedId);
         if (validatedId !=null) {
             Identity.instance().acceptExternallyAuthenticatedPrincipal((new OpenIdPrincipal(validatedId)));
             return true;
@@ -139,11 +138,10 @@ public class OpenId implements Serializable
     }
 
     public boolean isValid() {
-        System.out.println("is valid?" + validatedId);
         return validatedId != null;
     }
 
-    public String validatedId() {
+    public String getValidatedId() {
         return validatedId;
     }
 
@@ -155,10 +153,7 @@ public class OpenId implements Serializable
             // (which comes in as a HTTP request from the OpenID provider)
             ParameterList response =
                 new ParameterList(httpReq.getParameterMap());
-            
-
-            System.out.println("DISCOVERED IS " + discovered);
-
+          
             // extract the receiving URL from the HTTP request
             StringBuffer receivingURL = httpReq.getRequestURL();
             String queryString = httpReq.getQueryString();
@@ -177,6 +172,7 @@ public class OpenId implements Serializable
                 AuthSuccess authSuccess =
                     (AuthSuccess) verification.getAuthResponse();
                 
+                System.out.println("*** EXT: " + authSuccess.getExtensions());
                 if (authSuccess.hasExtension(AxMessage.OPENID_NS_AX)) {
                     FetchResponse fetchResp = (FetchResponse) authSuccess
                         .getExtension(AxMessage.OPENID_NS_AX);
@@ -195,4 +191,9 @@ public class OpenId implements Serializable
         return null;
     }
 
+    public void logout() 
+        throws ConsumerException
+    {
+        init();
+    }
 }
