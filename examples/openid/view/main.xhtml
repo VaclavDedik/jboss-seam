@@ -1,0 +1,98 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:rich="http://richfaces.org/rich"
+    xmlns:s="http://jboss.com/products/seam/taglib" xmlns:a="http://richfaces.org/a4j">
+
+<html>
+    <head>
+        <title>OpenID Wall</title>
+        <style type="text/css">
+.openid_input {
+    background: #fff url("login-bg.gif") no-repeat;
+    border: 1px solid #666;
+    width: 232px;
+    padding-left: 18px;
+}
+        </style>
+
+
+    </head>
+    <body>
+        
+        <div id="top">
+
+
+
+            <rich:toolBar height="34" itemSeparator="line">
+                <rich:toolBarGroup>
+                    <h:outputLabel value="OpenId Wall Demo"  />
+                </rich:toolBarGroup>
+
+                <rich:toolBarGroup location="right">
+                    <s:div rendered="#{!identity.loggedIn}">
+                        <h:form>
+                            <h:inputText value="#{openid.id}" styleClass="openid_input"/>
+                            <h:commandButton action="#{openid.login}" value="OpenID Login"/>
+                        </h:form>
+                    </s:div>
+                    <s:div rendered="#{identity.loggedIn}">
+                        <h:form>
+                            <h:outputLabel value="#{openid.validatedId}" />
+                            <h:commandButton action="#{identity.logout}" value="Logout"/>
+                        </h:form>
+                    </s:div>
+                </rich:toolBarGroup>
+            </rich:toolBar>
+        </div>
+
+        <rich:panel>
+            <f:facet name="header">About the Demo</f:facet>
+            <rich:modalPanel id="panel" width="350" height="100">
+                <f:facet name="header">
+                    <h:panelGroup>OpenID</h:panelGroup>
+                </f:facet>
+                <f:facet name="controls">
+                    <h:panelGroup>
+                        <h:graphicImage value="/images/modal/close.png" style="cursor:pointer" id="hidelink"/>
+                        <rich:componentControl for="panel" attachTo="hidelink" operation="hide" event="onclick"/>
+                    </h:panelGroup>
+                </f:facet>
+                
+                OpenID is cool...
+            </rich:modalPanel>
+            
+            
+            
+            <rich:messages />
+            
+            <h:outputLink value="#" id="link">
+                Learn more about OpenID
+                <rich:componentControl for="panel" attachTo="link" operation="show" event="onclick"/>
+            </h:outputLink>
+        </rich:panel>
+        
+
+
+        <rich:panel rendered="#{identity.loggedIn}">
+            <f:facet name="header">New Post</f:facet>
+
+            <h:form>
+                <h:inputText value="#{postHome.instance.message}" required="true" />
+                <h:commandButton value="Post" action="#{postHome.persist}" />
+            </h:form>
+        </rich:panel>
+
+        
+        <rich:panel>
+            <f:facet name="header">Wall Posts</f:facet>
+            <ui:repeat value="#{posts.resultList}" var="post">
+                <rich:panel>
+                    #{post.message}
+                    <br />
+                    #{post.creator} -- #{post.createDate}
+                </rich:panel>
+            </ui:repeat>
+        </rich:panel>
+    </body>
+</html>
+</ui:composition>
