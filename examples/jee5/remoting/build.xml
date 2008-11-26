@@ -25,8 +25,6 @@
 
     <fileset id="ear.lib.extras" dir="${seam.dir}">
         <include name="lib/common*.jar"/>
-        <include name="lib/thirdparty-all.jar"/>
-        <include name="hibernate/lib/*.jar"/>
 
         <!-- add this for oc4j
         <include name="lib/antlr-*.jar"/>
