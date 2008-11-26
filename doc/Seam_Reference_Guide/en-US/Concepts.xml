@@ -27,7 +27,7 @@
                 <para> Stateless context </para>
             </listitem>
             <listitem>
-                <para> Event (or request) context </para>
+                <para> Event (i.e., request) context </para>
             </listitem>
             <listitem>
                 <para> Page context </para>
@@ -64,9 +64,10 @@
         <sect2>
             <title>Stateless context</title>
             <para>
-                Components which are truly stateless (stateless session beans, primarily) always live in the
-                stateless context (this is really a non-context). Stateless components are not very interesting, and are
-                arguably not very object-oriented. Nevertheless, they are important and often useful.
+                Components which are truly stateless (stateless session beans, primarily) always live in the stateless
+                context (which is basically the absense of a context since the instance Seam resolves is not stored).
+                Stateless components are not very interesting, and are arguably not very object-oriented. Nevertheless,
+                they do get developed and used and are thus an important part of any Seam application.
             </para>
         </sect2>
 
@@ -302,13 +303,16 @@
                 <para> EJB 3.0 stateful session beans </para>
             </listitem>
             <listitem>
-                <para> EJB 3.0 entity beans </para>
+                <para> EJB 3.0 entity beans (i.e., JPA entity classes)</para>
             </listitem>
             <listitem>
                 <para> JavaBeans </para>
             </listitem>
             <listitem>
                 <para> EJB 3.0 message-driven beans </para>
+            </listitem>
+            <listitem>
+                <para> Spring beans (see <xref linkend="spring"/>)</para>
             </listitem>
         </itemizedlist>
 
@@ -508,20 +512,19 @@ public class LoginAction implements Login {
             </para>
 
             <para> 
-                Just like in JSF, a seam component instance is usually bound to a context variable with the same name
-                as the component name. So, for example, we would access the <literal>LoginAction</literal> using
-                <literal>Contexts.getStatelessContext().get("loginAction")</literal>. In particular, whenever Seam
-                itself instantiates a component, it binds the new instance to a variable with the component name.
-                However, again like JSF, it is possible for the application to bind a component to some other context
-                variable by programmatic API call. This is only useful if a particular component serves more than one
-                role in the system. For example, the currently logged in <literal>User</literal> might be bound to the
-                <literal>currentUser</literal> session context variable, while a <literal>User</literal> that is the
-                subject of some administration functionality might be bound to the <literal>user</literal> conversation
-                context variable. 
-            </para>
-
+                Whenever Seam instantiates a component, it binds the new instance to a variable in the scope configured
+                for the component that matches the component name. This behavior is identical to how JSF managed beans
+                work, except that Seam allows you to configure this mapping using annotations rather than XML. You can
+                also programmatically bind a component to a context variable. This is useful if a particular component
+                serves more than one role in the system. For example, the currently logged in <literal>User</literal>
+                might be bound to the <literal>currentUser</literal> session context variable, while a
+                <literal>User</literal> that is the subject of some administration functionality might be bound to the
+                <literal>user</literal> conversation context variable. Be careful, though, because through a
+                programmatic assignment, it's possible to overwrite a context variable that has a reference to a Seam
+                component, potentially confusing matters.  </para>
             <para> 
-                For very large applications, and for built-in seam components, qualified names are often used. 
+                For very large applications, and for built-in seam components, qualified component names are often used
+                to avoid naming conflicts. 
             </para>
 
             <programlisting role="JAVA"><![CDATA[@Name("com.jboss.myapp.loginAction")
@@ -759,7 +762,7 @@ public class LoginAction implements Login {
 }]]></programlisting>
 
         <para>
-            Injected values are disinjected (i.e, set to <literal>null</literal>) immediately after method 
+            Injected values are disinjected (i.e., set to <literal>null</literal>) immediately after method 
             completion and outjection.
         </para>
         
@@ -1237,32 +1240,37 @@ public class CustomerListManager
         
         <programlisting role="JAVA"><![CDATA[@Name("hens")
 @Scope(APPLICATION) 
-public class HenHouse {
-    
+public class HenHouse
+{
     Set<Hen> hens;
     
     @In(required=false) Hen hen;
     
     @Unwrap
-    public List<Hen> getHens() {
-        if (hens == null) {
+    public List<Hen> getHens()
+    {
+        if (hens == null)
+        {
             // Setup our hens
         }
         return hens;
     }
     
     @Observer({"chickBorn", "chickenBoughtAtMarket"})
-    public addHen() {
+    public addHen()
+    {
         hens.add(hen);
     }
     
     @Observer("chickenSoldAtMarket")
-    public removeHen() {
+    public removeHen()
+    {
         hens.remove(hen);
     }
     
     @Observer("foxGetsIn")
-    public removeAllHens() {
+    public removeAllHens()
+    {
         hens.clear();
     }
     ...
