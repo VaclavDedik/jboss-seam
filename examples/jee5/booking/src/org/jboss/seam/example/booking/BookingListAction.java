@@ -22,13 +22,14 @@ import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
+import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.log.Log;
 
 @Stateful
 @Scope(SESSION)
 @Name("bookingList")
-// @LoggedIn
+@Restrict("#{identity.loggedIn}")
 @TransactionAttribute(REQUIRES_NEW)
 public class BookingListAction implements BookingList, Serializable
 {

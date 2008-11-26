@@ -20,13 +20,14 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.log.Log;
 
 @Stateful
 @Name("hotelBooking")
-// @LoggedIn
+@Restrict("#{identity.loggedIn}")
 public class HotelBookingAction implements HotelBooking, Serializable
 {
    
@@ -60,7 +61,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
    @Begin
    public void selectHotel(Hotel selectedHotel)
    {
-      hotel = em.merge(selectedHotel);
+      hotel = em.find(Hotel.class, selectedHotel.getId());
    }
    
    public void bookHotel()

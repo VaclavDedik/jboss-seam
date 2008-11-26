@@ -20,7 +20,6 @@ import org.jboss.seam.annotations.Factory;
 @Stateful
 @Name("hotelSearch")
 @Scope(ScopeType.SESSION)
-// @LoggedIn
 public class HotelSearchingAction implements HotelSearching, Serializable
 {
    
@@ -48,10 +47,6 @@ public class HotelSearchingAction implements HotelSearching, Serializable
       
    private void queryHotels()
    {
-      // String searchPattern = searchString==null ? "%" : '%' + searchString.toLowerCase().replace('*', '%') + '%';
-      // hotels = em.createQuery("select h from Hotel h where lower(h.name) like :search or lower(h.city) like :search or lower(h.zip) like :search or lower(h.address) like :search")
-      //       .setParameter("search", searchPattern)
-
        hotels = em.createQuery("select h from Hotel h where lower(h.name) like #{pattern} or lower(h.city) like #{pattern} or lower(h.zip) like #{pattern} or lower(h.address) like #{pattern}")
             .setMaxResults(pageSize)
             .setFirstResult( page * pageSize )

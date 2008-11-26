@@ -55,27 +55,12 @@
     <url-pattern>*.seam</url-pattern>    
   </servlet-mapping>
   
-  <!-- MyFaces -->    
-  <!--    
-  <listener>        
-    <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>    
-  </listener>    
-  -->        
-  
-  <!-- JSF RI -->
-  
-  <listener>        
-    <listener-class>com.sun.faces.config.ConfigureListener</listener-class>    
-  </listener>        
-  
   <!-- JEE5 EJB3 names -->
   
   <ejb-local-ref>              
     <ejb-ref-name>jboss-seam-remoting/HelloAction/local</ejb-ref-name>
     <ejb-ref-type>Session</ejb-ref-type>
-    <local-home/>
     <local>org.jboss.seam.example.remoting.HelloLocal</local>               
-    <ejb-link>HelloAction</ejb-link>        
   </ejb-local-ref>	  
   
   <session-config>

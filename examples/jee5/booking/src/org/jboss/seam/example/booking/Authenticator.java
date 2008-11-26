@@ -6,4 +6,5 @@ import javax.ejb.Local;
 public interface Authenticator
 {
    public boolean authenticate();
+   public boolean isUsernameAvailable();
 }

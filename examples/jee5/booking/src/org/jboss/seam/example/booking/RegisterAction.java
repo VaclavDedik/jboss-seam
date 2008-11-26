@@ -25,9 +25,14 @@ public class RegisterAction implements Register, Serializable
 
    @In
    private User user;
-   
+
    @PersistenceContext
    private EntityManager em;
+   
+   // if use @EJB, you don't need the ejb-local-ref defined in ejb-jar.xml,
+   // but you also lose state management and client-side interceptors
+   @In(create = true)
+   private Authenticator authenticator;
    
    @In
    private FacesMessages facesMessages;
@@ -40,15 +45,10 @@ public class RegisterAction implements Register, Serializable
    {
       if ( user.getPassword().equals(verify) )
       {
-         // List existing = em.createQuery("select u.username from User u where u.username=:username")
-         //   .setParameter("username", user.getUsername())
-         List existing = em.createQuery("select u.username from User u where u.username=#{user.username}")
-            .getResultList();
-         if (existing.size()==0)
+         if ( authenticator.isUsernameAvailable() )
          {
             em.persist(user);
-            // facesMessages.add("Successfully registered as #{user.username}");
-            facesMessages.addToControl("username", "Username #{user.username} already exists");
+            facesMessages.add("Successfully registered as #{user.username}");
             registered = true;
          }
          else
