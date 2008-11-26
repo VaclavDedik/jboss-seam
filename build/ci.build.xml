@@ -104,6 +104,9 @@
 		<element name="properties" optional="true" />
 		<sequential>
 			<ant antfile="${seam.dir}/build.xml" target="@{target}" inheritall="false" inheritrefs="false" dir="../">
+				<propertyset>
+					<propertyref name="ant.version"/>
+				</propertyset>
 				<property name="dist.location" value="${dist.location}" />
 				<property name="qualifier" value="-SNAPSHOT" />
 				<property name="quietclean" value="true" />
