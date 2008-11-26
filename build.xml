@@ -1,6 +1,13 @@
 <?xml version="1.0"?>
 <project name="Seam" default="build" basedir="." xmlns:artifact="urn:maven-artifact-ant">
 
+	<!-- Check that we are using Ant 1.7.0. Not using <antversion> as it wasn't available until 1.7.0. -->
+	<condition property="compatible.ant">
+		<contains string="${ant.version}" substring="1.7.0"/>
+	</condition>
+
+	<fail unless="compatible.ant">You must use Ant 1.7.0 to build Seam. Ant 1.7.1 has known bugs.</fail>
+
 	<!-- Name of project and version, used to create filenames -->
 	<property name="Name" value="JBoss Seam" />
 	<property name="name" value="jboss-seam" />
