@@ -69,13 +69,15 @@
         <packageDirectory property="test.dir" package="test/${test.package}"/>
         <pathFilename property="driver.file" path="${driver.jar}"/>
 
+        <!-- we don't want create because that will destroy their database on the next deploy -->
         <condition property="hibernate.hbm2ddl.auto" value="update">
             <and>
                 <equals arg1="${database.exists}" arg2="n"/>
                 <equals arg1="${database.drop}" arg2="n"/>
             </and>
         </condition>
-        <condition property="hibernate.hbm2ddl.auto" value="none">
+        <!-- note that update causes duplicate foreign keys to be created because of a Hibernate bug -->
+        <condition property="hibernate.hbm2ddl.auto" value="update">
             <and>
                 <equals arg1="${database.exists}" arg2="y"/>
                 <equals arg1="${database.drop}" arg2="n"/>
@@ -193,7 +195,7 @@
 
         <property name="old.jboss.home" value="C:/Program Files/jboss-4.2.3.GA"/>
         <input addproperty="jboss.home.new"
-                   message="Enter your JBoss home directory [${old.jboss.home}]"
+                   message="Enter your JBoss AS home directory [${old.jboss.home}]"
               defaultvalue="${old.jboss.home}"/>
         <pathFixer property="jboss.home.new"/>
 
@@ -462,7 +464,7 @@
             <entry key="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider"/> <!-- yuck! -->
         </propertyfile>
 
-        <echo message="Installing JDBC driver jar to JBoss server"/>
+        <echo message="Installing JDBC driver jar to JBoss AS"/>
         <copy file="${driver.jar.new}" todir="${jboss.home.new}/server/default/lib"/>
 
         <echo message="Type '${seam.cmd} create-project' to create the new project"/>
@@ -608,7 +610,7 @@
                 <exclude name="ajax4jsf*.jar" if="icefaces.property"/>
                 <exclude name="richfaces*.jar" if="icefaces.property"/>
                 <exclude name="jboss-container.jar"/>
-                <exclude name="jboss-seam-wicket.jar"/>
+                <exclude name="jboss-seam-wicket*.jar"/>
                 <exclude name="jboss-seam-resteasy.jar"/>
                 <exclude name="test/jboss-deplyers.jar"/>
                 <exclude name="test/jboss-embedded-api.jar"/>
@@ -937,7 +939,11 @@
             <fileset dir="../lib">
                 <include name="jboss-seam.jar"/>
                 <include name="jboss-seam-*.jar"/>
+                <exclude name="jboss-seam-resteasy.jar"/>
+                <exclude name="jboss-seam-wicket*.jar"/>
                 <include name="src/jboss-seam-*.jar"/>
+                <exclude name="src/jboss-seam-resteasy-sources.jar"/>
+                <exclude name="src/jboss-seam-wicket-sources.jar"/>
             </fileset>
         </copy>
     </target>
@@ -1260,7 +1266,7 @@
     </target>
 
     <target name="deploy" depends="validate-project" description="Deploy the EAR or WAR">
-        <echo message="Deploying project '${project.name}' to JBoss"/>
+        <echo message="Deploying project '${project.name}' to JBoss AS"/>
         <ant antfile="${project.home}/build.xml" target="deploy" inheritall="false"/>
     </target>
 
@@ -1272,8 +1278,14 @@
 
     <target name="explode" depends="validate-project"
         description="Deploy the project as an exploded directory">
-        <echo message="Deploying project '${project.name}' to JBoss as an exploded directory"/>
+        <echo message="Deploying project '${project.name}' to JBoss AS as an exploded directory"/>
         <ant antfile="${project.home}/build.xml" target="explode" inheritall="false"/>
+    </target>
+
+    <target name="reexplode" depends="validate-project"
+        description="Clean, undeploy and deploy the project as an exploded directory">
+        <echo message="Cleaning, undeploying and deploying project '${project.name}' to JBoss AS as an exploded directory"/>
+        <ant antfile="${project.home}/build.xml" target="reexplode" inheritall="false"/>
     </target>
 
     <target name="restart" depends="validate-project" description="Restart the exploded directory">
@@ -1304,7 +1316,7 @@
     <target name="settings" depends="validate-project"
         description="Print the settings">
         <echo message="Java project workspace: ${workspace.home}"/>
-        <echo message="JBoss home: ${jboss.home}"/>
+        <echo message="JBoss AS home: ${jboss.home}"/>
         <echo message="IceFaces: ${icefaces}"/>
         <echo message="Project name: ${project.name}"/>
         <echo message="Project type: ${project.type}"/>
