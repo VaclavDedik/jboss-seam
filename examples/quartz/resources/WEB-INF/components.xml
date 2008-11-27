@@ -1,4 +1,6 @@
-<components xmlns:pay="http://jboss.com/products/seam/examples/quartz"
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:pay="http://jboss.com/products/seam/examples/quartz"
             xmlns:core="http://jboss.com/products/seam/core"
             xmlns:async="http://jboss.com/products/seam/async"
             xmlns:framework="http://jboss.com/products/seam/framework"
@@ -8,7 +10,8 @@
                 "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd
                  http://jboss.com/products/seam/async http://jboss.com/products/seam/async-2.1.xsd
                  http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.1.xsd
-                 http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.1.xsd">
+                 http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.1.xsd
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
 
     <pay:payment-home name="paymentHome" 
                       new-instance="#{newPayment}" 
