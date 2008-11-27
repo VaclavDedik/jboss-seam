@@ -61,6 +61,7 @@
    <test name="Seam Unit Tests: Filters">
      <classes>
         <class name="org.jboss.seam.test.unit.web.MultipartRequestTest" />
+        <class name="org.jboss.seam.test.unit.web.IdentityRequestWrapperTest" />
      </classes>
    </test>
    

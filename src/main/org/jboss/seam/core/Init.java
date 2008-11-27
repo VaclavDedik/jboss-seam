@@ -33,6 +33,7 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.persistence.EntityManagerProxyInterceptor;
 import org.jboss.seam.persistence.HibernateSessionProxyInterceptor;
+import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.SecurityInterceptor;
 import org.jboss.seam.transaction.RollbackInterceptor;
 import org.jboss.seam.transaction.TransactionInterceptor;
@@ -570,6 +571,16 @@ public class Init
    public void setTransactionManagementEnabled(boolean transactionManagementEnabled)
    {
       this.transactionManagementEnabled = transactionManagementEnabled;
+   }
+
+   public boolean isSecurityEnabled()
+   {
+      return Identity.isSecurityEnabled();
+   }
+
+   public void setSecurityEnabled(boolean securityEnabled)
+   {
+      Identity.setSecurityEnabled(securityEnabled);
    }
 
    public Collection<Namespace> getGlobalImports()

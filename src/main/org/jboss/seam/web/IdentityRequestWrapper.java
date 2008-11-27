@@ -14,7 +14,7 @@ import org.jboss.seam.security.Identity;
  *
  * @author Dan Allen
  */
-class IdentityRequestWrapper extends HttpServletRequestWrapper {
+public class IdentityRequestWrapper extends HttpServletRequestWrapper {
 
    private Identity identity;
 
@@ -32,11 +32,16 @@ class IdentityRequestWrapper extends HttpServletRequestWrapper {
    @Override
    public Principal getUserPrincipal() 
    {
-      return Identity.isSecurityEnabled() && identity != null ? identity.getPrincipal() : null;
+      return seamSecurityIsActive() ? identity.getPrincipal() : super.getUserPrincipal();
    }
 
    @Override
    public boolean isUserInRole(String role) {
-      return getUserPrincipal() != null && identity != null ? identity.hasRole(role) : false;
+      return seamSecurityIsActive() ? identity.hasRole(role) : super.isUserInRole(role);
+   }
+   
+   private boolean seamSecurityIsActive()
+   {
+      return Identity.isSecurityEnabled() && identity != null;
    }
 }

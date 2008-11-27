@@ -29,6 +29,8 @@ public class MockHttpSession implements HttpSession
    private boolean isInvalid;
    private ServletContext servletContext;
    
+   public MockHttpSession() {}
+   
    public MockHttpSession(ServletContext servletContext) 
    {
       this.servletContext = servletContext;

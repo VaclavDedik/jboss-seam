@@ -143,8 +143,7 @@ public class MockHttpServletRequest implements HttpServletRequest
 
    public String getRemoteUser()
    {
-      //TODO
-      return null;
+      return principalName;
    }
 
    public boolean isUserInRole(String role)

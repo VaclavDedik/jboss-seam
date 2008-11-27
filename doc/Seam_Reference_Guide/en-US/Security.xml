@@ -57,9 +57,11 @@
     <title>Disabling Security</title>
 
     <para>
-      In some situations it may be necessary to disable Seam Security, for example during unit tests.  This can be done by
-      calling the static method <literal>Identity.setSecurityEnabled(false)</literal> to disable security checks.  Doing this
-      prevents any security checks being performed for the following:
+      In some situations it may be necessary to disable Seam Security, for instances during unit tests or because you
+      are using a different approach to security, such as native JAAS. Simply call the static method
+      <literal>Identity.setSecurityEnabled(false)</literal> to disable the security infrastructure. Of course, it's not
+      very convenient to have to call a static method when you want to configure the application, so as an alternative
+      you can control this setting in components.xml:
     </para>
 
     <itemizedlist>
@@ -75,7 +77,18 @@
       <listitem>
         <para>Page restrictions</para>
       </listitem>
+      <listitem>
+        <para>Servlet API security integration</para>
+      </listitem>
     </itemizedlist>
+
+    <para>
+      Assuming you are planning to take advantage of what Seam Security has to offer, the rest of this chapter documents
+      the plethora of options you have for giving your user an identity in the eyes of the security model
+      (authentication) and locking down the application by establishing constraints (authorization). Let's begin with
+      the task of authentication since that's the foundation of any security model.
+    </para>
+
   </sect1>
   
   <sect1>
