@@ -91,8 +91,10 @@
       <title>Configuring an Authenticator component</title>
 
       <note>
-        If you use Seam's Identity Management features (discussed later in this chapter) then it is not necessary to create
-        an authenticator component (and you can skip this section).
+        <para>
+          If you use Seam's Identity Management features (discussed later in this chapter) then it is not necessary to create
+          an authenticator component (and you can skip this section).
+        </para>
       </note>
 
       <para>
@@ -3220,7 +3222,6 @@ public @interface User {
           A <literal>ResolverChain</literal> contains an ordered list of <literal>PermissionResolver</literal>s, for the
           purpose of resolving object permissions for a particular object class or permission target.
         </para>
-      </sect3>
       
       <para>
         The following sequence diagram shows the interaction between the components of the permission framework during a
@@ -3274,6 +3275,7 @@ public @interface User {
           </para>
         </listitem>      
       </itemizedlist>
+      </sect3>
       
     </sect2>
 
@@ -4994,9 +4996,11 @@ public class CustomIdentity extends Identity
 }]]></programlisting>
 
     <warning>
-      Note that an <literal>Identity</literal> component must be marked <literal>@Startup</literal>, so
-      that it is available immediately after the <literal>SESSION</literal> context begins.
-      Failing to do this may render certain Seam functionality inoperable in your application.
+      <para>
+        Note that an <literal>Identity</literal> component must be marked <literal>@Startup</literal>, so that it is
+        available immediately after the <literal>SESSION</literal> context begins.  Failing to do this may render
+        certain Seam functionality inoperable in your application.
+      </para>
     </warning>
 
 
