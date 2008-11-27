@@ -476,7 +476,7 @@
 
     <xs:simpleType name="outcome">
         <xs:restriction base="xs:string">
-            <xs:pattern value="[^\#\{\}]+"/>
+            <xs:pattern value="[^#\{\}]+"/>
         </xs:restriction>
     </xs:simpleType>
     
