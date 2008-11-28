@@ -87,7 +87,13 @@ public class ServerConversationContext implements Context
    {
       if (!cache.containsKey(name))
       {
-         cache.put(name, resolveValue(name));
+          Object value = resolveValue(name);
+          //Don't cache the value of components that have @PerNestedConverstion
+          if(isPerNestedConversation(name))
+          {
+              return value;
+          }
+          cache.put(name, value);
       }
       return cache.get(name);
    }
