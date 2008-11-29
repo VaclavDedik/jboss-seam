@@ -48,12 +48,21 @@
 		<build target="dist" />
 		
 		<ant target="deploySeamSnapshot" antfile="${ant.file}" inheritall="false" inheritrefs="false" dir=".">
+			<propertyset>
+				<propertyref name="ant.version"/>
+			</propertyset>
 			<property name="qualifier" value="-SNAPSHOT" />
 		</ant>
 		<ant target="deployExamplesSnapshot" antfile="${ant.file}" inheritall="false" inheritrefs="false" dir=".">
+			<propertyset>
+				<propertyref name="ant.version"/>
+			</propertyset>
 			<property name="qualifier" value="-SNAPSHOT" />
 		</ant>
 		<ant target="tests" antfile="${ant.file}" inheritall="false" inheritrefs="false" dir=".">
+			<propertyset>
+				<propertyref name="ant.version"/>
+			</propertyset>
 			<property name="qualifier" value="-SNAPSHOT" />
 		</ant>
 	</target>
@@ -63,10 +72,16 @@
 		<build target="dist" />
       
       <ant target="deploySeamSnapshot" antfile="${ant.file}" inheritall="false" inheritrefs="false" dir=".">
-         <property name="qualifier" value="-SNAPSHOT" />
+			<propertyset>
+				<propertyref name="ant.version"/>
+			</propertyset>
+			<property name="qualifier" value="-SNAPSHOT" />
       </ant>
 		<ant target="deployExamplesSnapshot" antfile="${ant.file}" inheritall="false" inheritrefs="false" dir=".">
-         <property name="qualifier" value="-SNAPSHOT" />
+			<propertyset>
+				<propertyref name="ant.version"/>
+			</propertyset>
+			<property name="qualifier" value="-SNAPSHOT" />
       </ant>
    </target>
 	
@@ -78,7 +93,10 @@
          </properties>
       </build>
 		<ant target="deployDocumentation" antfile="${ant.file}" inheritall="false" inheritrefs="false" dir=".">
-         <property name="qualifier" value="-SNAPSHOT" />
+			<propertyset>
+				<propertyref name="ant.version"/>
+			</propertyset>
+			<property name="qualifier" value="-SNAPSHOT" />
       </ant>
 	</target>
 	
@@ -110,7 +128,7 @@
 				<property name="dist.location" value="${dist.location}" />
 				<property name="qualifier" value="-SNAPSHOT" />
 				<property name="quietclean" value="true" />
-            <property name="testng.jvmargs" value="@{testngjvmargs}" />
+            	<property name="testng.jvmargs" value="@{testngjvmargs}" />
 				<property name="maven.settings.xml" value="${maven.settings.xml}" />
 				<properties />
 			</ant>
