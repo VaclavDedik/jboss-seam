@@ -21,5 +21,9 @@ public abstract class UIEqualityValidator extends UIComponentBase
    public abstract String getMessageId();
 
    public abstract void setMessageId(String messageId);
+   
+   public abstract void setOperator(String operator);
+   
+   public abstract String getOperator();
 
 }

@@ -481,7 +481,7 @@
             <para><emphasis>Description</emphasis></para>
             <para>
 				Tag to nest inside an input control to validate that its parent's
-				value is the same as the referenced control's value.
+				value is equal (or not equal!) to the referenced control's value.
             </para>
             
             <para><emphasis>Attributes</emphasis></para>
@@ -501,6 +501,44 @@
                      <literal>messageId</literal> &#8212; Message id to show on failure.
                   </para>
                </listitem>
+               <listitem>
+                  <para>
+                     <literal>operator</literal> &#8212; What operator to use when comparing the values
+					 Valid operators are:
+					 <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>equal</literal> &#8212; Validates that value.equals(forValue)
+						   </para>
+						 </listitem>
+                        <listitem>
+                           <para>
+                              <literal>not_equal</literal> &#8212; Validates that !value.equals(forValue)
+						   </para>
+						 </listitem>
+                        <listitem>
+                           <para>
+                              <literal>greater</literal> &#8212; <![CDATA[Validates that ((Comparable)value).compareTo(forValue) > 0]]>
+						   </para>
+						 </listitem>
+                        <listitem>
+                           <para>
+                              <literal>greater_or_equal</literal> &#8212; <![CDATA[Validates that ((Comparable)value).compareTo(forValue) >= 0]]>
+						   </para>
+						 </listitem>
+                        <listitem>
+                           <para>
+                              <literal>less</literal> &#8212; <![CDATA[Validates that ((Comparable)value).compareTo(forValue) < 0]]>
+						   </para>
+						 </listitem>
+                        <listitem>
+                           <para>
+                              <literal>less_or_equal</literal> &#8212; <![CDATA[Validates that ((Comparable)value).compareTo(forValue) <= 0]]>
+						   </para>
+						 </listitem>
+					 </itemizedlist>
+                  </para>
+               </listitem>			   
             </itemizedlist>
             
             <para><emphasis>Usage</emphasis></para>

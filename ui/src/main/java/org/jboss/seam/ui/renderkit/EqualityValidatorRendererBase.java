@@ -42,7 +42,7 @@ public class EqualityValidatorRendererBase extends RendererBase
 
       if (!hasEqualityValidator(evh))
       {
-         evh.addValidator(new EqualityValidator(ev.getFor(), ev.getMessage(), ev.getMessageId()));
+         evh.addValidator(new EqualityValidator(ev.getFor(), ev.getMessage(), ev.getMessageId(), ev.getOperator()));
          evh.setRequired(true);
       }
 

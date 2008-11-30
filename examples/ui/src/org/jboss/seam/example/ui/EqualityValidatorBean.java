@@ -20,6 +20,8 @@ public class EqualityValidatorBean
 
    private String name;
 
+   private Long age;
+
    private Date date;
 
    public void check()
@@ -28,32 +30,34 @@ public class EqualityValidatorBean
       {
          statusMessages.addToControl("name", Severity.WARN, "Enter a name!");
       }
-      else {
+      else
+      {
          statusMessages.addToControl("name", Severity.INFO, "OK!");
       }
    }
-   
+
    public void checkDate()
    {
-      if (date==null)
+      if (date == null)
       {
          statusMessages.addToControl("date", Severity.WARN, "Enter a date!");
       }
-      else {
+      else
+      {
          statusMessages.addToControl("date", Severity.INFO, "OK!");
       }
-   }   
-   
+   }
+
    public Date getDate()
    {
       return date;
    }
-   
+
    public void setDate(Date date)
    {
       this.date = date;
    }
-   
+
    public String getName()
    {
       return name;
@@ -62,6 +66,16 @@ public class EqualityValidatorBean
    public void setName(String name)
    {
       this.name = name;
+   }
+
+   public Long getAge()
+   {
+      return age;
+   }
+
+   public void setAge(Long age)
+   {
+      this.age = age;
    }
 
 }

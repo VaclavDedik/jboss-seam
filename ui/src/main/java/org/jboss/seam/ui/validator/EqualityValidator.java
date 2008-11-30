@@ -4,6 +4,7 @@ import javax.el.ELException;
 import javax.el.ValueExpression;
 import javax.faces.FacesException;
 import javax.faces.application.Application;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.StateHolder;
 import javax.faces.component.UIComponent;
@@ -34,9 +35,15 @@ public class EqualityValidator implements Validator, StateHolder
 
    public static final String VALIDATOR_ID = "org.jboss.seam.ui.validator.Equality";
 
+   private enum ValidOperation
+   {
+      EQUAL, NOT_EQUAL, GREATER, GREATER_OR_EQUAL, LESS, LESS_OR_EQUAL;
+   }
+
    private String forId;
    private String message;
    private String messageId;
+   private ValidOperation operator = ValidOperation.EQUAL; // Default
 
    public EqualityValidator()
    {
@@ -50,7 +57,7 @@ public class EqualityValidator implements Validator, StateHolder
       setFor(forId);
    }
 
-   public EqualityValidator(String forId, String message, String messageId)
+   public EqualityValidator(String forId, String message, String messageId, String operator)
    {
       this(forId);
       if (message != null)
@@ -61,6 +68,24 @@ public class EqualityValidator implements Validator, StateHolder
       {
          setMessageId(messageId);
       }
+      if (operator != null && !"".equals(operator))
+      {
+         if (ValidOperation.valueOf(operator.toUpperCase()) != null)
+            setOperator(ValidOperation.valueOf(operator.toUpperCase()));
+         else
+            throw new IllegalStateException("Illegal operator. " + "Supported are: " + validOperatorsAsString());
+      }
+
+   }
+
+   private String validOperatorsAsString()
+   {
+      StringBuffer buff = new StringBuffer();
+      for (ValidOperation op : ValidOperation.values())
+      {
+         buff.append(op.name()).append(" ");
+      }
+      return buff.toString();
    }
 
    public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException
@@ -78,12 +103,65 @@ public class EqualityValidator implements Validator, StateHolder
       }
       else if (value != null)
       {
-         if (!value.equals(other))
+         switch (operator)
          {
-            String otherComponentId = otherComponent.getId();
-            throw new ValidatorException(FacesMessages.createFacesMessage(javax.faces.application.FacesMessage.SEVERITY_ERROR, getMessageId(), getMessage(), otherComponentId, value, other));
+         case EQUAL:
+            if (!value.equals(other))
+            {
+               throwValidationException(value, otherComponent, other);
+            }
+            break;
+         case NOT_EQUAL:
+            if (value.equals(other))
+            {
+               throwValidationException(value, otherComponent, other);
+            }
+            break;
+         case GREATER:
+            if (!(compare(value, other) > 0))
+            {
+               throwValidationException(value, otherComponent, other);
+            }
+            break;
+         case GREATER_OR_EQUAL:
+            if (!(compare(value, other) >= 0))
+            {
+               throwValidationException(value, otherComponent, other);
+            }
+            break;
+         case LESS:
+            if (!(compare(value, other) < 0))
+            {
+               throwValidationException(value, otherComponent, other);
+            }
+            break;
+         case LESS_OR_EQUAL:
+            if (!(compare(value, other) <= 0))
+            {
+               throwValidationException(value, otherComponent, other);
+            }
+            break;
          }
       }
+   }
+
+   private int compare(Object value, Object other) throws IllegalArgumentException
+   {
+      try
+      {
+         Comparable c1 = (Comparable) value;
+         return c1.compareTo(other);
+      }
+      catch (Exception e)
+      {
+         throw new IllegalArgumentException("Values are not comparable", e);
+      }
+
+   }
+
+   private void throwValidationException(Object value, UIComponent otherComponent, Object other)
+   {
+      throw new ValidatorException(FacesMessages.createFacesMessage(FacesMessage.SEVERITY_ERROR, getMessageId(), getMessage(), otherComponent.getId(), value, other));
    }
 
    public String getFor()
@@ -127,14 +205,16 @@ public class EqualityValidator implements Validator, StateHolder
       forId = (String) fields[0];
       message = (String) fields[1];
       messageId = (String) fields[2];
+      operator = ValidOperation.valueOf((String) fields[3]);
    }
 
    public Object saveState(FacesContext context)
    {
-      Object[] state = new Object[3];
+      Object[] state = new Object[4];
       state[0] = forId;
       state[1] = message;
       state[2] = messageId;
+      state[3] = operator.toString();
       return state;
    }
 
@@ -252,7 +332,8 @@ public class EqualityValidator implements Validator, StateHolder
          }
          else if (newSubmittedValue instanceof String)
          {
-            // If there's no Renderer, and we've got a String, run it through
+            // If there's no Renderer, and we've got a String, run it
+            // through
             // the Converter (if any)
             if (converter != null)
             {
@@ -304,5 +385,15 @@ public class EqualityValidator implements Validator, StateHolder
          return newValue;
       }
 
+   }
+
+   public ValidOperation getOperator()
+   {
+      return operator;
+   }
+
+   public void setOperator(ValidOperation operator)
+   {
+      this.operator = operator;
    }
 }

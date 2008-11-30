@@ -36,6 +36,11 @@
 			<classname>java.lang.String</classname>
 			<description>Message id to use on failure</description>
 		</property>
+		<property>
+			<name>operator</name>
+			<classname>java.lang.String</classname>
+			<description>Operation to use.</description>
+		</property>		
 
 	</component>
 
