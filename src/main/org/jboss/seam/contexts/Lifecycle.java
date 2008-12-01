@@ -49,8 +49,8 @@ public class Lifecycle
    
    public static void endApplication()
    {
-      log.debug("Undeploying, destroying application context");
-
+      log.debug("Shutting down application and destroying contexts");
+      
       Context tempApplicationContext = new ApplicationContext( getApplication() );
       Contexts.applicationContext.set(tempApplicationContext);
       Contexts.destroy(tempApplicationContext);
