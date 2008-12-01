@@ -30,7 +30,20 @@ public class Strings
    
    public static boolean isEmpty(String string)
    {
-      return string == null || string.trim().length() == 0; 
+      int len;
+      if (string == null || (len = string.length()) == 0)
+      {
+         return true;
+      }
+      
+      for (int i = 0; i < len; i++)
+      {
+         if ((Character.isWhitespace(string.charAt(i)) == false))
+         {
+            return false;
+         }
+      }
+      return true;
    }
    
    public static String nullIfEmpty(String string)
@@ -52,7 +65,7 @@ public class Strings
          for (PropertyDescriptor descriptor : props)
          {
             builder.append( descriptor.getName() )
-               .append("=")
+               .append('=')
                .append( descriptor.getReadMethod().invoke(component) )
                .append("; ");
          }
@@ -95,7 +108,7 @@ public class Strings
       {
          builder.append(sep).append(object);
       }
-      return builder.substring(2);
+      return builder.substring(sep.length());
    }
    
    public static String toClassNameString(String sep, Object... objects)
@@ -114,7 +127,7 @@ public class Strings
             builder.append( object.getClass().getName() );
          }
       }
-      return builder.substring(2);
+      return builder.substring(sep.length());
    }
    
    public static String toString(String sep, Class... classes)
@@ -129,8 +142,8 @@ public class Strings
    }
    
    public static String toString(InputStream in) throws IOException {
-      StringBuffer out = new StringBuffer();
-      byte[] b = new byte[4096];
+      final StringBuilder out = new StringBuilder();
+      final byte[] b = new byte[4096];
       for ( int n; (n = in.read(b)) != -1; ) 
       {
          out.append(new String(b, 0, n));
