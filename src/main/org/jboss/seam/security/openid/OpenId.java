@@ -68,20 +68,20 @@ public class OpenId
             context.getApplication().getViewHandler().getActionURL(context, "/openid.xhtml");
         return returnToUrl;
     }
-    public void login() 
-        throws IOException
-    {
+    
+    public void login() throws IOException {
         validatedId = null;
         String returnToUrl = returnToUrl();
 
         String url = authRequest(id, returnToUrl);
-        
-        Redirect redirect = Redirect.instance();
-        redirect.captureCurrentView();
-        
-        FacesManager.instance().redirectToExternalURL(url);
-    }
 
+        if (url != null) {
+            Redirect redirect = Redirect.instance();
+            redirect.captureCurrentView();
+
+            FacesManager.instance().redirectToExternalURL(url);
+        }
+    }
 
     // --- placing the authentication request ---
     @SuppressWarnings("unchecked")
