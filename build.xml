@@ -6,7 +6,7 @@
 		<contains string="${ant.version}" substring="1.7.0"/>
 	</condition>
 
-	<fail unless="compatible.ant">You must use Ant 1.7.0 to build Seam. Ant 1.7.1 has known bugs.</fail>
+	<fail unless="compatible.ant">You are using ${ant.version}. You must use Ant 1.7.0 to build Seam. Ant 1.7.1 has known bugs.</fail>
 
 	<!-- Name of project and version, used to create filenames -->
 	<property name="Name" value="JBoss Seam" />
@@ -536,7 +536,7 @@
 		<ant dir="examples/messages" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/nestedbooking" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/numberguess" target="validateConfiguration" inheritall="false" />
-		<ant dir="examples/quartz" target="validateConfiguration" inheritall="false" />
+		<!--<ant dir="examples/quartz" target="validateConfiguration" inheritall="false" />-->
 		<ant dir="examples/registration" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/remoting/chatroom" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/remoting/gwt" target="validateConfiguration" inheritall="false" />
@@ -545,7 +545,7 @@
 		<ant dir="examples/rss" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/seambay" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/seamdiscs" target="validateConfiguration" inheritall="false" />
-		<ant dir="examples/seampay" target="validateConfiguration" inheritall="false" />
+		<!--<ant dir="examples/seampay" target="validateConfiguration" inheritall="false" />-->
 		<ant dir="examples/seamspace" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/todo" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/ui" target="validateConfiguration" inheritall="false" />
