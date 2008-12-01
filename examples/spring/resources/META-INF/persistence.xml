@@ -11,11 +11,15 @@
             <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/><!--
+            <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+            
+            <!-- Enable these vendor-specific properties to setup JDBC connection here rather than in Spring configuration -->
+            <!--
             <property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/>
             <property name="hibernate.connection.username" value="sa"/>
             <property name="hibernate.connection.password" value=""/>
             <property name="hibernate.connection.url" value="jdbc:hsqldb:mem:defaultDB"/>
-        --></properties>
+            -->
+            </properties>
     </persistence-unit>
 </persistence>
