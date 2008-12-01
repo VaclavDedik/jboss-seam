@@ -28,6 +28,12 @@
     <property name="javac.debug" value="true" />
     <property name="javac.deprecation" value="false" />
     <property name="debug" value="false" />
+
+    <!--Properties for validating configuration files -->
+    <property name="validate.resources.dir" value="${basedir}/exploded-archives"/>
+    <property name="schema.dir" value="${basedir}/exploded-archives/schemas"/>
+    <property name="src.schema.dir" value="${schema.dir}/org/jboss/seam"/>
+    <property name="schema.version" value="@schemaVersion@"/>
     
     <fileset id="lib" dir="${lib.dir}">
         <include name="*.jar" />
@@ -237,8 +243,10 @@
         </copy>
         
     </target>
+
+    <target name="stage" depends="war"/>
     
-    <target name="archive" depends="war" 
+    <target name="archive" depends="stage" 
             description="Package the WAR archive">
         <jar jarfile="${dist.dir}/${project.name}.war" basedir="${war.dir}"/>
     </target>
@@ -252,7 +260,7 @@
         </copy>
     </target>
     
-    <target name="explode" depends="war,datasource" 
+    <target name="explode" depends="stage,datasource" 
             description="Deploy the exploded archive">
         <fail unless="jboss.home">jboss.home not set</fail>
         
@@ -425,6 +433,17 @@
             </packageset>
 
         </javadoc>
+    </target>
+
+    <target name="validate" depends="stage" description="Validate the XML configuration files">
+        <mkdir dir="${schema.dir}"/>
+        <unjar src="${lib.dir}/jboss-seam.jar" dest="${schema.dir}">
+            <patternset>
+                <include name="org/jboss/seam/*.xsd"/>
+                <include name="org/jboss/seam/*.dtd"/>
+            </patternset>
+        </unjar>
+        <ant antfile="validate.xml" target="validateConfiguration"/>
     </target>
     
 </project>

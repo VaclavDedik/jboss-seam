@@ -107,9 +107,9 @@
 
     <target name="groovy.copy" if="groovy.dynamic">
         <copy todir="${jar.dir}">
-        <fileset dir="${src.action.dir}">
-            <include name="**/*.groovy"/>
-        </fileset>
+            <fileset dir="${src.action.dir}">
+                <include name="**/*.groovy"/>
+            </fileset>
         </copy>
     </target>
 
@@ -433,7 +433,10 @@
         </javadoc>
     </target>
 
-    <target name="validateConfiguration" depends="stage" description="Validate the xml configuration files">
+    <!-- deprecated -->
+    <target name="validateConfiguration" depends="validate"/>
+
+    <target name="validate" depends="stage" description="Validate the XML configuration files">
         <mkdir dir="${schema.dir}"/>
         <unjar src="${lib.dir}/jboss-seam.jar" dest="${schema.dir}">
             <patternset>
