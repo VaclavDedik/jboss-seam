@@ -86,19 +86,19 @@ public class Expressions implements Serializable
          {
             if ( isFacesContextActive() )
             {
-               if (seamValueExpression==null)
-               {
-                  seamValueExpression = createExpression();
-               }
-               return seamValueExpression;
-            }
-            else
-            {
                if (facesValueExpression==null)
                {
                   facesValueExpression = createExpression();
                }
                return facesValueExpression;
+            }
+            else
+            {
+               if (seamValueExpression==null)
+               {
+                  seamValueExpression = createExpression();
+               }
+               return seamValueExpression;
             }
          }
          
@@ -124,6 +124,7 @@ public class Expressions implements Serializable
          
          public Class<T> getType()
          {
+            // QUESTION shouldn't we use the type provided in the constructor?
             return (Class<T>) toUnifiedValueExpression().getType( getELContext() );
          }
          
@@ -148,19 +149,19 @@ public class Expressions implements Serializable
          {
             if ( isFacesContextActive() )
             {
-               if (seamMethodExpression==null)
-               {
-                  seamMethodExpression = createExpression();
-               }
-               return seamMethodExpression;
-            }
-            else
-            {
                if (facesMethodExpression==null)
                {
                   facesMethodExpression = createExpression();
                }
                return facesMethodExpression;
+            }
+            else
+            {
+               if (seamMethodExpression==null)
+               {
+                  seamMethodExpression = createExpression();
+               }
+               return seamMethodExpression;
             }
          }
          
