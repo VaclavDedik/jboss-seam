@@ -245,7 +245,7 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.rule">
-        <xs:attribute name="if-outcome" type="pages:value-expression" />
+        <xs:attribute name="if-outcome" type="pages:outcome-expression" />
         <xs:attribute name="if" type="pages:boolean-value-expression" />
     </xs:attributeGroup>
     
@@ -488,6 +488,10 @@
     
     <xs:simpleType name="view-id-expression">
         <xs:union memberTypes="pages:view-id pages:value-expression"></xs:union>
+    </xs:simpleType>
+
+    <xs:simpleType name="outcome-expression">
+        <xs:union memberTypes="pages:outcome pages:value-expression"></xs:union>
     </xs:simpleType>
 
     <xs:simpleType name="from-action-expression">
