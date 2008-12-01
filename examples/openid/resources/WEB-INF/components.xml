@@ -3,6 +3,7 @@
     xmlns:persistence="http://jboss.com/products/seam/persistence"
     xmlns:security="http://jboss.com/products/seam/security" xmlns:framework="http://jboss.com/products/seam/framework"
     xmlns:transaction="http://jboss.com/products/seam/transaction"
+    xmlns:web="http://jboss.com/products/seam/web"
     xmlns:international="http://jboss.com/products/seam/international"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://jboss.com/products/seam/core /Users/orb/proj/jboss/seam/trunk/src/main/org/jboss/seam/core-2.1.xsd
@@ -15,6 +16,8 @@
     <core:init jndi-pattern="@jndiPattern@" debug="true"/>
 
     <core:manager conversation-timeout="1200000" concurrent-request-timeout="50000" conversation-id-parameter="cid"/>
+
+    <web:rewrite-filter />
 
     <transaction:ejb-transaction/>
 

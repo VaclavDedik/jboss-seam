@@ -7,26 +7,29 @@
         <navigation evaluate="#{openid.loginImmediately()}">
             <rule if-outcome="true">
                 <redirect view-id="/main.xhtml">
-                    <message>Welcome #{openid.validatedId}</message>
+                    <message>OpenID login successful...</message>
                 </redirect>
             </rule>
             <rule if-outcome="false">
                 <redirect view-id="/main.xhtml">
-                    <message>OpenID login failed...</message>
+                    <message>OpenID login rejected...</message>
                 </redirect>
             </rule>
         </navigation>
     </page>
 
     <page view-id="/main.xhtml">
+        <rewrite pattern="/" />
+
         <navigation from-action="#{postHome.persist}" evaluate="#{postHome.clearInstance()}">
-            <redirect />
+            <redirect view-id="/main.xhtml" />
         </navigation>
     </page>
 
-    <exception class="org.jboss.seam.security.NotLoggedInException">
-        <redirect view-id="/home.xhtml">
-            <message severity="warn">You must be logged in to use this feature</message>
+
+    <exception class="javax.faces.application.ViewExpiredException">
+        <redirect view-id="/main.xhtml">
+            <message severity="warn">Your session expired.  Please try again.</message>
         </redirect>
     </exception>
 
