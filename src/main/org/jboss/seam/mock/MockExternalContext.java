@@ -80,6 +80,11 @@ public class MockExternalContext extends ExternalContext
       this.request = request;
       this.response = response;
    }
+   
+   public MockExternalContext(HttpServletRequest request)
+   {
+      this.request = request;
+   }
 
    @Override
    public void dispatch(String url) throws IOException

@@ -45,6 +45,7 @@ import org.jboss.seam.annotations.Roles;
 import org.jboss.seam.bpm.Jbpm;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
@@ -758,7 +759,6 @@ public class Initialization
             
             boolean changed = new TimestampCheckForwardingDeploymentStrategy()
             {
-               
                @Override
                protected DeploymentStrategy delegate()
                {
@@ -806,7 +806,6 @@ public class Initialization
             final WarRootDeploymentStrategy warRootDeploymentStrategy = new WarRootDeploymentStrategy(Thread.currentThread().getContextClassLoader(), warRoot, new File[] { warClassesDirectory, warLibDirectory, hotDeployDirectory });
             changed = new TimestampCheckForwardingDeploymentStrategy()
             {
-               
                @Override
                protected DeploymentStrategy delegate()
                {
@@ -822,7 +821,10 @@ public class Initialization
                   log.info("redeploying page descriptors...");
                   Pages pages = (Pages) ServletLifecycle.getServletContext().getAttribute(Seam.getComponentName(Pages.class));
                   if (pages != null) {
-                      pages.initialize(warRootDeploymentStrategy.getDotPageDotXmlFileNames());
+                     // application context is needed for creating expressions
+                     Lifecycle.mockApplication();
+                     pages.initialize(warRootDeploymentStrategy.getDotPageDotXmlFileNames());
+                     Lifecycle.unmockApplication();
                   }
                   ServletLifecycle.getServletContext().removeAttribute(Seam.getComponentName(Exceptions.class));
                   init.setWarTimestamp(warRootDeploymentStrategy.getTimestamp());

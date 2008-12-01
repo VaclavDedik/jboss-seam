@@ -33,15 +33,13 @@ public class FacesExpressions extends Expressions
    @Override
    public ELContext getELContext()
    {
-      FacesContext facesContext = FacesContext.getCurrentInstance();
-      return facesContext == null || FacesLifecycle.getPhaseId() == null
-         ? super.getELContext() : facesContext.getELContext();
+      return isFacesContextActive() ? FacesContext.getCurrentInstance().getELContext() : super.getELContext();
    }
    
    @Override
    protected boolean isFacesContextActive()
    { 
-      return FacesContext.getCurrentInstance()==null; 
+      return FacesContext.getCurrentInstance() != null && FacesLifecycle.getPhaseId() != null;
    }
    
 }

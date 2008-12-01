@@ -63,6 +63,10 @@ public final class Param
       else
       {
          Class<?> type = valueExpression.getType();
+         if (type==null)
+         {
+            return null;
+         }
          return FacesContext.getCurrentInstance().getApplication().createConverter(type);           
       }
    }
