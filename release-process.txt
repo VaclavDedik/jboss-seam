@@ -1,8 +1,6 @@
 Seam Release Process
 ====================
 
-<TODO: update for 2.1.X releases during 2.1.0.B1 release/>
-
 Notify branch is closed
 ------------------------
 * Send an email to seam-dev@lists.jboss.org.
@@ -300,6 +298,7 @@ CREATE TABLE `Vehicle` (
   - run "seam new-action new-form restart"
       - test both generated pages 
   - run seam test 
+  - run "ant validate" in seam-gen project directory
 * seam-gen IceFaces EAR test 
   - run seam  with setup create-project and explode
       - during setup choose to use icefaces
@@ -308,6 +307,7 @@ CREATE TABLE `Vehicle` (
    - run seam generate-entities restart    
       - test the basic functionality of the app (CRUD on each table)
    - run seam test
+   - run "ant validate" in seam-gen project directory
 * seam-gen WAR 
   - run seam with setup create-project and explode
       - during setup choose a WAR project
@@ -317,6 +317,7 @@ CREATE TABLE `Vehicle` (
   - run "seam new-action new-form restart"
       - test both generated pages
   - run seam test
+  - run "ant validate" in seam-gen project directory
 * JBDS - import the EAR seam-gen generated project into JBDS.
   - Enable Seam support in project properties
   - Check that EL code completion works for Seam components 
