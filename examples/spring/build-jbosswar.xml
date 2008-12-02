@@ -20,7 +20,13 @@
 	<!-- needed because jboss must include hibernate search -->
 	<property name="search.lib"   value="true"/>
 	<property name="richfaces.lib" value="true"/>
+	<property name="cglib.lib" value="true"/>
 
     <import file="../build.xml"/>
+
+	<fileset id="noejb.jar.extras" dir="${resources.dir}">
+		<include name="META-INF/persistence-spring.xml"/>
+	</fileset>
+
 </project>
 

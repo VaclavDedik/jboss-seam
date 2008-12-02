@@ -303,6 +303,12 @@
 		<include name="drools-compiler.jar" if="drools.lib" />
 	</fileset>
 
+	<!-- Dependencies for using Spring with Cglib -->
+	<fileset id="cglib.jar" dir="${lib.dir}">
+		<include name="asm.jar" if="cglib.lib"/>
+		<include name="cglib.jar" if="cglib.lib"/>
+	</fileset>
+
 	<!-- Dependencies for using Seam with JCaptcha -->
 	<fileset id="jcaptcha.jar" dir="${lib.dir}">
 		<include name="jcaptcha-all*.jar" if="jcaptcha.lib" />
@@ -665,6 +671,7 @@
 			<fileset refid="richfaces-api.jar" />
 			<fileset refid="ear.lib.extras" />
 			<fileset refid="jboss-el.jar" />
+			<fileset refid="cglib.jar" />
 			<fileset refid="drools.jar" />
 			<fileset refid="jbpm.jar" />
 			<fileset refid="cache.jar" />
@@ -816,6 +823,7 @@
 		<copy todir="${war.dir}/WEB-INF/lib">
 			<fileset refid="seam.jar" />
 			<fileset refid="tomcat.war.extras" />
+			<fileset refid="cglib.jar" />
 			<fileset refid="drools.jar" />
 			<fileset refid="cache.jar" />
 			<fileset refid="jbpm.jar" />
@@ -881,6 +889,7 @@
 		<copy todir="${war.dir}/WEB-INF/lib">
 			<fileset refid="seam.jar" />
 			<fileset refid="noejb.war.lib.extras" />
+			<fileset refid="cglib.jar" />
 			<fileset refid="drools.jar" />
 			<fileset refid="cache.jar" />
 			<fileset refid="jbpm.jar" />

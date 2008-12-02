@@ -10,6 +10,8 @@
      	<ant antfile="build-jbosswar.xml" target="jbosswar.undeploy"/>
    </target>
 
+   <target name="jbosswar.redeploy" description="Rebuild and redeploy the Spring example from JBoss AS" depends="jbosswar.undeploy,clean,jbosswar"/>
+
    <target name="clean" description="Clean up the example">
      	<ant antfile="build-jbosswar.xml" target="clean" />
    </target>
