@@ -670,6 +670,7 @@
                 file="${templates.dir}/build-scripts/build-war.xml">
             <filterset refid="project"/>
         </copy>
+        <copy file="${seam.dir}/build/validate.xml" todir="${project.home}" overwrite="true"/>
         <copy todir="${project.home}/resources">
             <fileset dir="${templates.dir}/resources/">
                 <include name="META-INF/orm.xml"/>
