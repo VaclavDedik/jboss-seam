@@ -9,6 +9,7 @@
        <class name="org.jboss.seam.test.unit.ComponentTest"/>
        <class name="org.jboss.seam.test.unit.ContextTest"/>
        <class name="org.jboss.seam.test.unit.DependencyTest"/>
+       <class name="org.jboss.seam.test.unit.ExpressionsTest"/>
      </classes>
    </test>
    
