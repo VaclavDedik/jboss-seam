@@ -598,6 +598,12 @@
 				<include name="**/*.jar" />
 			</fileset>
 		</copy>
+			
+		<copy todir="${dist.src.test.dir}">
+         <fileset dir="${src.test.dir}">
+            <include name="**/*.jar" />
+         </fileset>
+      </copy>			
 
 	</target>
 
