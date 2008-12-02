@@ -2,6 +2,7 @@ package org.jboss.seam.persistence;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
@@ -136,8 +137,10 @@ public class PersistenceProvider
    /**
     * Wrap the entityManager before returning it to the application
     */
-   public EntityManager proxyEntityManager(EntityManager entityManager) {
-      return new EntityManagerProxy(entityManager);
+   public EntityManager proxyEntityManager(EntityManager entityManager) {      
+      return (EntityManager) Proxy.newProxyInstance(EntityManager.class.getClassLoader(), 
+            new Class[] {EntityManager.class}, 
+            new EntityManagerProxy(entityManager));        
    }
    
    /**

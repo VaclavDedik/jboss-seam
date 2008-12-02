@@ -4,6 +4,7 @@ import static org.jboss.seam.annotations.Install.FRAMEWORK;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.Collection;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.StaleStateException;
 import org.hibernate.TransientObjectException;
+import org.hibernate.engine.SessionImplementor;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.type.VersionType;
@@ -93,7 +95,9 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    {
       if (FULL_TEXT_SESSION_PROXY_CONSTRUCTOR==null)
       {
-         return new HibernateSessionProxy(session);
+         return (Session) Proxy.newProxyInstance(Session.class.getClassLoader(), 
+               new Class[] {Session.class, SessionImplementor.class}, 
+               new HibernateSessionProxy(session));
       }
       else
       {
@@ -102,7 +106,9 @@ public class HibernatePersistenceProvider extends PersistenceProvider
          }
          catch(Exception e) {
             log.warn("Unable to wrap into a FullTextSessionProxy, regular SessionProxy returned", e);
-            return new HibernateSessionProxy(session);
+            return (Session) Proxy.newProxyInstance(Session.class.getClassLoader(), 
+                  new Class[] {Session.class, SessionImplementor.class}, 
+                  new HibernateSessionProxy(session));
          }
       }
    }
