@@ -427,6 +427,7 @@
 		<cleanexample name="ui" />
 		<cleanexample name="spring" />
 		<cleanexample name="itext" />
+		<cleanexample name="openid" />
 		<cleanexample name="excel" />
 		<cleanexample name="rss" />
 		<cleanexample name="messages" />
@@ -462,6 +463,7 @@
 		<undeployexample name="seampay" />
 		<undeployexample name="seamspace" />
 		<undeployexample name="itext" />
+		<undeployexample name="openid" />
 		<undeployexample name="excel" />
 		<undeployexample name="rss" />
 		<undeployexample name="mail" />
@@ -503,6 +505,7 @@
 		<testexample name="mail" />
 		<testexample name="seampay" />
 		<testexample name="itext" />
+		<testexample name="openid" />
 		<testexample name="excel" />
 		<testexample name="rss" />
 		<testexample name="hibernate" />
@@ -532,6 +535,7 @@
 		<ant dir="examples/groovybooking" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/icefaces" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/itext" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/openid" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/mail" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/messages" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/nestedbooking" target="validateConfiguration" inheritall="false" />
@@ -631,6 +635,7 @@
 				<include name="registration/**/*" />
 				<include name="dvdstore/**/*" />
 				<include name="itext/**/*" />
+				<include name="openid/**/*" />
 				<include name="excel/**/*" />
 				<include name="rss/**/*" />
 				<include name="seambay/**/*" />
