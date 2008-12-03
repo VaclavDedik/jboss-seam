@@ -5018,5 +5018,154 @@ public class CustomIdentity extends Identity
 
 
   </sect1>
+    
+    
+    <sect1>
+        <title>OpenID</title>
+        
+        <para>
+            OpenID is a community standard for external web-based authentication. The basic
+            idea is that any web application can supplement (or replace) its local handling of
+            authentication by delegating responsibility to an external OpenID server of the user's
+            chosing.  This benefits the user, who no longer has to remember a name and password for 
+            every web application he uses, and the developer, who is relieved of some of the burden of 
+            maintaining a complex authentication system.  
+        </para>
+        
+        <para>When using OpenID, the user selects an OpenID provider, and the provider assigns the user
+            an OpenID.  The id will take the form of a URL, for example <literal>http://maximoburrito.myopenid.com</literal> however,
+            it's acceptable to leave off the <literal>http://</literal> part of the identifier when logging into a site.  The web application
+            (known as a relying party in OpenID-speak) determines which OpenID server to contact and redirects the user to the remote
+            site for authentication.   Upon successful authentication the user is given
+            the (cryptographically secure) token proving his identity and is redirected back to the original web application.The 
+            local web application can then be sure the user accessing the application controls the OpenID he presented.
+        </para>
+        
+        <para>
+            It's important to realize at this
+            point that authentication does not imply authorization.  The web application still needs to make a determination of how to 
+            use that information.  The web application could treat the user as instantly logged in and give full access to the system or
+            it could try and map the presented OpenID to a local user account, prompting the user to register if he hasn't already.
+            The choice of how to handle the OpenID is left as a design decision for the local application.  
+        </para>
 
+    
+        <sect2>
+            <title>Configuring OpenID</title>
+            <para>
+                Seam uses the openid4java package and requires four additional JARs to make use of the Seam integration.  These 
+                are: <literal>htmlparser.jar</literal>, <literal>openid4java.jar</literal>, <literal>openxri-client.jar</literal> 
+                and <literal>openxri-syntax.jar</literal>.
+            </para>
+            
+            <para>
+                OpenID processing requires the use of the <literal>OpenIdPhaseListener</literal>, which should be added to your 
+                <literal>faces-config.xml</literal> file.  The phase listener processes the callback from the OpenID provider, allowing
+                re-entry into the local application.
+            </para>
+            
+            <programlisting role="XML">&lt;lifecycle&gt;
+    &lt;phase-listener&gt;org.jboss.seam.security.openid.OpenIdPhaseListener&lt;/phase-listener&gt;
+&lt;/lifecycle&gt;</programlisting>
+
+        
+            <para>
+                With this configuration, OpenID support is available to your application.
+                The OpenID support component, <literal>org.jboss.seam.security.openid.openid</literal>, is installed automatically if the openid4java
+                classes are on the classpath.
+            </para>
+        </sect2>
+        
+        <sect2>
+            <title>Presenting an OpenIdDLogin form</title>
+            
+            <para>
+                 To initiate an OpenID login, you can present a simply form to the user asking for the user's OpenID.  The <literal>#{openid.id}</literal> 
+                  value 
+                 accepts the user's OpenID and the <literal>#{openid.login}</literal> action initiates an authentication request.
+            </para>
+ <programlisting role="XML">&lt;h:form&gt;
+    &lt;h:inputText value=&quot;#{openid.id}&quot; /&gt;
+    &lt;h:commandButton action=&quot;#{openid.login}&quot; value=&quot;OpenID Login&quot;/&gt;
+&lt;/h:form&gt;</programlisting>          
+            
+            <para>
+                When the user submits the login form, he will be redirected to his OpenID provider. The user will eventually 
+                return to your application through the Seam pseudo-view <literal>/openid.xhtml</literal>, which is
+                provided by the <literal>OpenIdPhaseListener</literal>. Your application can handle the OpenID response by means 
+                of a <literal>pages.xml</literal> navigation from that view, just as if the user had never left your application.
+            </para>
+        </sect2>
+            
+            <sect2>
+                <title>Logging in immediately</title>
+    
+    <para> The simplest strategy is to simply login the user immediately.  The following navigation rule shows how to handle this using
+        the <literal>#{openid.loginImmediately()}</literal> action.
+    </para>
+        
+        <programlisting role="XML">&lt;page view-id=&quot;/openid.xhtml&quot;&gt;
+    &lt;navigation evaluate=&quot;#{openid.loginImmediately()}&quot;&gt;
+        &lt;rule if-outcome=&quot;true&quot;&gt;
+            &lt;redirect view-id=&quot;/main.xhtml&quot;&gt;
+                &lt;message&gt;OpenID login successful...&lt;/message&gt;
+            &lt;/redirect&gt;
+        &lt;/rule&gt;
+        &lt;rule if-outcome=&quot;false&quot;&gt;
+            &lt;redirect view-id=&quot;/main.xhtml&quot;&gt;
+                &lt;message&gt;OpenID login rejected...&lt;/message&gt;
+            &lt;/redirect&gt;
+        &lt;/rule&gt;
+    &lt;/navigation&gt;
+&lt;/page&gt;</programlisting>            
+    
+        <para>Thie <literal>loginImmediately()</literal> action checks to see if the OpenID is valid.  If it is valid, it adds an
+            OpenIDPrincipal to the identity component, marks the user as logged in (i.e. <literal>#{identity.loggedIn}</literal> will be true)
+            and returns true.  If the OpenID was not validated, the method returns false, and the user re-enters the application un-authenticated.
+            If the user's OpenID is valid, it will be accessible using the expression <literal>#{openid.validatedId}</literal> and 
+            <literal>#{openid.valid}</literal> will be true.
+        </para>
+
+
+        </sect2>
+   
+        <sect2>
+            <title>Deferring login</title>
+            
+            <para>
+                You may not want the user to be immediately logged in to your application.  In that case, your navigation
+                should check the <literal>#{openid.valid}</literal> property and redirect the user to a local registration or processing
+                page.  Actions you might take would be asking for more information and creating a local user account or presenting a captcha 
+                to avoid programmatic registrations.  When you are done processing, if you want to log the user in, you can call
+                the <literal>loginImmediately</literal> method, either through EL as shown previously or by directly interaction with the 
+                <literal>org.jboss.seam.security.openid.OpenId</literal> component.  Of course, nothing prevents you from writing custom 
+                code to interact with the Seam identity component on your own for even more customized behaviour.
+            </para>
+            
+        </sect2>
+        
+        
+        <sect2>
+            <title>Logging out</title>
+            
+            <para>
+                Logging out (forgetting an OpenID association) is done by calling <literal>#{openid.logout}</literal>.  If you
+                are not using Seam security, you can call this method directly.  If you are using Seam security, you should
+                continue to use <literal>#{identity.logout}</literal> and install an event handler to capture the logout event, calling 
+                the OpenID logout method.
+                
+            </para>
+             <programlisting role="XML">&lt;event type=&quot;org.jboss.seam.security.loggedOut&quot;&gt;
+    &lt;action execute=&quot;#{openid.logout}&quot; /&gt;
+&lt;/event&gt; </programlisting>
+            
+            <para>It's important that you do not leave this out or the user will not be able to login again in the same session.</para>
+        </sect2>
+
+
+        
+        
+    </sect1>
+    
+    
 </chapter>
