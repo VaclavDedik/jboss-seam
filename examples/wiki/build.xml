@@ -519,7 +519,7 @@
         </delete>
         <java classname="org.hsqldb.Server"
               fork="yes"
-              classpath="${seam.dir}/seam-gen/lib/hsqldb.jar"
+              classpath="${seam.dir}/lib/hsqldb.jar"
               failonerror="true">
             <arg value="-database.0"/>
             <arg value="file:${database.dir}/db"/>

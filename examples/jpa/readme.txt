@@ -59,7 +59,7 @@ Tomcat with JBoss Embedded:
   
 Tomcat (5.5 or 6) without JBoss Embedded:
   * Install Tomcat
-  * Copy the seam-gen/lib/hsqldb.jar into $TOMCAT_HOME/common/lib (Tomcat 5.5) or $TOMCAT_HOME/lib (Tomcat 6)
+  * Copy lib/hsqldb.jar from this distribution into $TOMCAT_HOME/common/lib (Tomcat 5.5) or $TOMCAT_HOME/lib (Tomcat 6)
   * ant tomcat55 or ant tomcat6
   * Deploy dist-jboss/jboss-seam-jpa.war
   * Start Tomcat

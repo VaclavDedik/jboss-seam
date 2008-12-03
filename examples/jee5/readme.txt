@@ -96,7 +96,7 @@ OC4J 11g Technology Preview
       />
 
 9.  Copy hsqldb.jar to OC4J: 
-    cp ../../seam-gen/lib/hsqldb.jar $ORACLE_HOME/j2ee/home/applib/
+    cp ../../lib/hsqldb.jar $ORACLE_HOME/j2ee/home/applib/
 
 10. Copy the application to OC4J: 
     cp build/jboss-seam-jee5.ear $ORACLE_HOME/j2ee/home/applications/
