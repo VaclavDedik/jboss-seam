@@ -36,6 +36,7 @@
 	<!-- Deployment directories -->
 	<property name="deploy.dir" value="${jboss.home}/server/default/deploy" />
 	<property name="tomcat.deploy.dir" value="${tomcat.home}/webapps" />
+	<property name="farm.deploy.dir" value="${jboss.home}/server/all/farm" />
 	<property name="conf.dir" value="${jboss.home}/server/default/conf" />
 
 	<!-- Library directories -->
@@ -594,10 +595,15 @@
 		<copy todir="${jar.dir}">
 			<fileset refid="jar.resources" />
 			<fileset refid="jar.extras" />
+			<filterset>
+				<filter token="distributable" value="${distributable}" />
+			</filterset>
 		</copy>
 	</target>
 	
-	<target name="init.war" />
+	<target name="init.war">
+		<property name="distributable" value="false"/>
+	</target>
 
 	<!-- Build the exploded war -->
 	<target name="war" depends="compile, init.war">
@@ -652,19 +658,26 @@
 			<fileset refid="war.resources" />
 			<filterset>
 				<filter token="debug" value="${debug}" />
+				<filter token="distributable" value="${distributable}" />
 				<filter token="jndiPattern" value="${example.name}/#{ejbName}/local" />
-				<filter token="embeddedEjb" value="false" />
 				<filter token="loadPersistenceUnits" value="${loadPersistenceUnits}" />
 			</filterset>
 		</copy>
+	</target>
+
+	<target name="distributable.war" if="use.session.replication">
+		<replace file="${war.dir}/WEB-INF/web.xml">
+			<replacetoken><![CDATA[<!-- <distributable/> -->]]></replacetoken>
+			<replacevalue><![CDATA[<distributable/>]]></replacevalue>
+		</replace>
 	</target>
 
 	<!-- Build the exploded ear -->
 	<target name="ear">
 		<copy todir="${ear.dir}">
 			<fileset refid="seam.jar" />		
-			<fileset refid="ear.extras" />
 			<fileset refid="ear.resources" />
+			<fileset refid="ear.extras" />
 		</copy>
 		<mkdir dir="${ear.dir}/lib" />
 		<copy todir="${ear.dir}/lib">
@@ -695,7 +708,7 @@
 		</copy>
 	</target>
 
-	<target name="archive" depends="jar,jboss.war,ear" description="Package the archives">
+	<target name="archive" depends="jar,jboss.war,distributable.war,ear" description="Package the archives">
 		<jar jarfile="${dist.dir}/${example.name}.jar" basedir="${jar.dir}" />
 		<jar jarfile="${dist.dir}/${example.name}.war" basedir="${war.dir}" />
 		<jar jarfile="${dist.dir}/${example.name}.ear">
@@ -763,6 +776,41 @@
 				<include name="${example.service}" />
 			</fileset>
 		</copy>
+	</target>
+
+	<target name="init.distributable">
+		<property name="distributable" value="true"/>
+		<condition property="use.session.replication">
+			<or>
+				<not><isset property="session.replication"/></not>
+				<equals arg1="${session.replication}" arg2="true"/>
+			</or>
+		</condition>
+	</target>
+
+	<target name="farm-archive" depends="init.distributable,archive"/>
+
+	<!-- FIXME Set the deploy.dir dynamically to avoid the duplicate targets for farming -->
+
+	<target name="farm-datasource" description="Deploy the datasource to a JBoss AS cluster">
+		<fail unless="jboss.home">jboss.home not set</fail>
+		<copy todir="${farm.deploy.dir}">
+			<fileset dir="${resources.dir}">
+				<include name="${example.ds}" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="farm" depends="farm-archive,farm-datasource" description="Deploy the example to a JBoss AS cluster">
+		<fail unless="jboss.home">
+			jboss.home not set, update build.properties
+		</fail>
+		<copy file="${dist.dir}/${example.name}.ear" todir="${farm.deploy.dir}" />
+	</target>
+
+	<target name="unfarm" description="Undeploy the example from a JBoss AS cluster">
+		<delete file="${farm.deploy.dir}/${example.name}.ear" />
+		<delete file="${farm.deploy.dir}/${example.ds}" />
 	</target>
 
 	<target name="explode" depends="jar,jboss.war,ear,datasource, meldware" description="Deploy the exploded archive">
@@ -842,8 +890,8 @@
 			<fileset refid="war.resources" />
 			<filterset>
 				<filter token="debug" value="${debug}" />
+				<filter token="distributable" value="${distributable}" />
 				<filter token="jndiPattern" value="#{ejbName}/local" />
-				<filter token="embeddedEjb" value="false" />
 			</filterset>
 		</copy>
 	</target>
@@ -914,14 +962,14 @@
 			<fileset refid="war.resources" />
 			<filterset>
 				<filter token="debug" value="${debug}" />
+				<filter token="distributable" value="${distributable}" />
 				<filter token="jndiPattern" value="#{ejbName}/local" />
-				<filter token="embeddedEjb" value="false" />
 				<filter token="loadPersistenceUnits" value="${loadPersistenceUnits}" />
 			</filterset>
 		</copy>
 	</target>
 
-	<target name="noejb.archive" depends="noejb.jar,noejb.war" description="Package the archives for non-ejb war">
+	<target name="noejb.archive" depends="noejb.jar,noejb.war,distributable.war" description="Package the archives for non-ejb war">
 		<jar jarfile="${dist.dir}/${example.name}.war">
 			<fileset dir="${war.dir}" />
 			<zipfileset dir="${dist.dir}" prefix="WEB-INF/lib">
@@ -941,6 +989,21 @@
 
 	<target name="jbosswar.undeploy" description="Undeploy the example from JBoss">
 		<delete file="${deploy.dir}/${example.name}.war" />
+	</target>
+
+	<target name="noejb.farm-archive" depends="init.distributable,noejb.archive"/>
+
+	<!-- FIXME Set the deploy.dir dynamically to avoid the duplicate targets for farming -->
+
+	<target name="jbosswar.farm" depends="noejb.farm-archive,farm-datasource" description="Deploy the example to a JBoss AS cluster">
+		<fail unless="jboss.home">
+			jboss.home not set, update build.properties
+		</fail>
+		<copy file="${dist.dir}/${example.name}.war" todir="${farm.deploy.dir}" />
+	</target>
+
+	<target name="jbosswar.unfarm" description="Undeploy the example from a JBoss AS cluster">
+		<delete file="${farm.deploy.dir}/${example.name}.war" />
 	</target>
 	
 	<target name="jbosswar.explode" depends="noejb.jar, noejb.war, datasource" description="Deploy the example (exploded) to JBoss AS">
