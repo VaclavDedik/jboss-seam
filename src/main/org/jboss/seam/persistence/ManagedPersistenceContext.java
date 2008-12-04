@@ -47,7 +47,7 @@ public class ManagedPersistenceContext
    private static final long serialVersionUID = -4972387440275848126L;
    private static final LogProvider log = Logging.getLogProvider(ManagedPersistenceContext.class);
    
-   private EntityManager entityManager;
+   private transient EntityManager entityManager;
    private String persistenceUnitJndiName;
    private String componentName;
    private ValueExpression<EntityManagerFactory> entityManagerFactory;
@@ -132,7 +132,19 @@ public class ManagedPersistenceContext
       }
    }
    
-   //we can't use @PrePassivate because it is intercept NEVER
+   /**
+    * If a transaction is active, fail the passivation. The field holding the
+    * managed EntityManager is marked as transient so that it is not serialized
+    * (it can't be). The transient keyword was choosen because we don't want to
+    * forcefully close and nullify the EntityManager on every request because
+    * then we have to keep hitting the database to load the entities back into
+    * the persistence context. The only downside is that we cannot clean up
+    * on the old node before the session hops, but it turns out not to matter.
+    * 
+    * Note that we must use the method on the
+    * {@link HttpSessionActivationListener} interface rather than
+    * <code>@PrePassivate</code> since interceptors are disabled on this component.
+    */
    public void sessionWillPassivate(HttpSessionEvent event)
    {
       if (synchronizationRegistered)
@@ -141,10 +153,12 @@ public class ManagedPersistenceContext
       }
    }
    
-   //we can't use @PostActivate because it is intercept NEVER
-   public void sessionDidActivate(HttpSessionEvent event) {
-       entityManager = null;
-   }
+   /**
+    * Note that we must use the method on the {@link HttpSessionActivationListener}
+    * interface rather than @PostActivate since interceptors are disabled
+    * on this component.
+    */
+   public void sessionDidActivate(HttpSessionEvent event) {}
    
    @Destroy
    public void destroy()
