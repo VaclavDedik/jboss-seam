@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import javassist.util.proxy.MethodHandler;
 import javassist.util.proxy.ProxyObject;
 
+import javax.servlet.http.HttpSessionActivationListener;
 import javax.servlet.http.HttpSessionEvent;
 
 import org.jboss.seam.Component;
@@ -70,12 +71,12 @@ public class JavaBeanInterceptor extends RootInterceptor
             if ( "sessionDidActivate".equals(methodName) )
             {
                callPostActivate();
-               return null;
+               return (bean instanceof HttpSessionActivationListener) ? method.invoke(bean, params) : null;
             }
             else if ( "sessionWillPassivate".equals(methodName) )
             {
                callPrePassivate();
-               return null;
+               return (bean instanceof HttpSessionActivationListener) ? method.invoke(bean, params) : null;
             }
          }
       }
@@ -118,12 +119,18 @@ public class JavaBeanInterceptor extends RootInterceptor
 
    private void callPostConstruct()
    {
-      InvocationContext context = new RootInvocationContext( bean, getComponent().getPostConstructMethod(), new Object[0] )
+      final Component component = getComponent();
+      if (!component.hasPostConstructMethod())
+      {
+         return;
+      }
+      
+      InvocationContext context = new RootInvocationContext( bean, component.getPostConstructMethod(), new Object[0] )
       {
          @Override
          public Object proceed() throws Exception
          {
-            getComponent().callPostConstructMethod(bean);
+            component.callPostConstructMethod(bean);
             return null;
          }
          
@@ -133,12 +140,18 @@ public class JavaBeanInterceptor extends RootInterceptor
 
    private void callPrePassivate()
    {
-      InvocationContext context = new RootInvocationContext( bean, getComponent().getPrePassivateMethod(), new Object[0] )
+      final Component component = getComponent();
+      if (!component.hasPrePassivateMethod())
+      {
+         return;
+      }
+      
+      InvocationContext context = new RootInvocationContext( bean, component.getPrePassivateMethod(), new Object[0] )
       {
          @Override
          public Object proceed() throws Exception
          {
-            getComponent().callPrePassivateMethod(bean);
+            component.callPrePassivateMethod(bean);
             return null;
          }
          
@@ -148,12 +161,18 @@ public class JavaBeanInterceptor extends RootInterceptor
 
    private void callPostActivate()
    {
-      RootInvocationContext context = new RootInvocationContext(bean, getComponent().getPostActivateMethod(), new Object[0])
+      final Component component = getComponent();
+      if (!component.hasPostActivateMethod())
+      {
+         return;
+      }
+      
+      RootInvocationContext context = new RootInvocationContext(bean, component.getPostActivateMethod(), new Object[0])
       {
          @Override
          public Object proceed() throws Exception
          {
-            getComponent().callPostActivateMethod(bean);
+            component.callPostActivateMethod(bean);
             return null;
          }
          
