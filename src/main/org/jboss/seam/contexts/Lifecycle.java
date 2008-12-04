@@ -109,6 +109,7 @@ public class Lifecycle
    /**
     * @deprecated Use {@link Lifecycle#setupApplication()}
     */
+   @Deprecated
    public static void mockApplication()
    {
       setupApplication();
@@ -117,6 +118,7 @@ public class Lifecycle
    /**
     * @deprecated Use {@link Lifecycle#cleanupApplication()}
     */
+   @Deprecated
    public static void unmockApplication()
    {
       cleanupApplication();
