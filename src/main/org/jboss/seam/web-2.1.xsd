@@ -4,6 +4,16 @@
     xmlns:components="http://jboss.com/products/seam/components" attributeFormDefault="unqualified">
     <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-2.1.xsd"/>
 
+    <xs:element name="hot-deploy-filter">
+        <xs:annotation>
+            <xs:documentation>This filter triggers a scan for hot deployable components and descriptor files on each request. The URL pattern should be set to the same pattern as used by the Faces Servlet. Note that this filter is automatically disabled when Seam debug mode is disabled.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="web:attlist.filter"/>
+        </xs:complexType>
+    </xs:element>
+
     <xs:element name="identity-filter">
         <xs:annotation>
             <xs:documentation>This filter provides integration between Servlet Security and the identity component.</xs:documentation>

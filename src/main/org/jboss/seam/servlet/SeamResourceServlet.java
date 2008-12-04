@@ -44,7 +44,7 @@ public class SeamResourceServlet extends HttpServlet
    {
       try
       {
-         Lifecycle.mockApplication();
+         Lifecycle.setupApplication();
 
          for (String name : Init.instance().getResourceProviders())
          {         
@@ -58,7 +58,7 @@ public class SeamResourceServlet extends HttpServlet
       }
       finally
       {
-         Lifecycle.unmockApplication();
+         Lifecycle.cleanupApplication();
       }
    }
 

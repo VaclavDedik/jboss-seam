@@ -295,14 +295,14 @@ public class Seam
       }
       else
       {
-         Lifecycle.mockApplication();
+         Lifecycle.setupApplication();
          try
          {
             return Component.forName(name);
          }
          finally
          {
-            Lifecycle.unmockApplication();
+            Lifecycle.cleanupApplication();
          }
       }
    }

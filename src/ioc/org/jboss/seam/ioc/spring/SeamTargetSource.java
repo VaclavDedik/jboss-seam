@@ -162,7 +162,7 @@ public class SeamTargetSource implements TargetSource, Serializable
          boolean unmockApplication = false;
          if (!Contexts.isApplicationContextActive())
          {
-            Lifecycle.mockApplication();
+            Lifecycle.setupApplication();
             unmockApplication = true;
          }
          try
@@ -179,7 +179,7 @@ public class SeamTargetSource implements TargetSource, Serializable
          {
             if (unmockApplication)
             {
-               Lifecycle.unmockApplication();
+               Lifecycle.cleanupApplication();
             }
          }
       }

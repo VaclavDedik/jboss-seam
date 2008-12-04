@@ -51,14 +51,14 @@ public abstract class AbstractPageTest
       Pages.instance();
 
       // mark the application as started
-      Lifecycle.mockApplication();
+      Lifecycle.setupApplication();
    }
 
    @AfterMethod
    public void tearDown()
    {
       Lifecycle.endApplication();
-      Lifecycle.unmockApplication();
+      Lifecycle.cleanupApplication();
    }
    
    protected void installComponents(Context appContext)

@@ -65,7 +65,7 @@ public class SpringComponent extends IoCComponent
         boolean unmockApplication = false;
         if (!Contexts.isApplicationContextActive())
         {
-            Lifecycle.mockApplication();
+            Lifecycle.setupApplication();
             unmockApplication = true;
         }
         try
@@ -93,7 +93,7 @@ public class SpringComponent extends IoCComponent
         {
             if (unmockApplication)
             {
-                Lifecycle.unmockApplication();
+                Lifecycle.cleanupApplication();
             }
         }
     }
@@ -121,7 +121,7 @@ public class SpringComponent extends IoCComponent
         boolean unmockApplication = false;
         if (!Contexts.isApplicationContextActive())
         {
-            Lifecycle.mockApplication();
+            Lifecycle.setupApplication();
             unmockApplication = true;
         }
         try
@@ -132,7 +132,7 @@ public class SpringComponent extends IoCComponent
         {
             if (unmockApplication)
             {
-                Lifecycle.unmockApplication();
+                Lifecycle.cleanupApplication();
             }
         }
     }

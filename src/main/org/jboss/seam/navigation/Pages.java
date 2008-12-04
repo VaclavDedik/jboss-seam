@@ -1696,12 +1696,12 @@ public class Pages
    
    private static boolean isDebugPage(String viewId)
    {
-      return Init.instance().isDebug() && viewId.startsWith("/debug.");
+      return Init.instance().isDebugPageAvailable() && viewId.startsWith("/debug.");
    }
    
    public static boolean isDebugPage()
    {
-      return Init.instance().isDebug() &&
+      return Init.instance().isDebugPageAvailable() &&
             getCurrentViewId() != null &&
             getCurrentViewId().startsWith("/debug.");
    }

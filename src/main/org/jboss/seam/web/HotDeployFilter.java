@@ -1,4 +1,4 @@
-package org.jboss.seam.debug.hot;
+package org.jboss.seam.web;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
@@ -21,9 +21,8 @@ import org.jboss.seam.core.Init;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.web.AbstractFilter;
 
-@Name("org.jboss.seam.debug.hotDeployFilter")
+@Name("org.jboss.seam.web.hotDeployFilter")
 @Install(debug=true, precedence=BUILT_IN)
 @BypassInterceptors
 @Scope(APPLICATION)

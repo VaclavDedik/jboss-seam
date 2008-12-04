@@ -822,9 +822,9 @@ public class Initialization
                   Pages pages = (Pages) ServletLifecycle.getServletContext().getAttribute(Seam.getComponentName(Pages.class));
                   if (pages != null) {
                      // application context is needed for creating expressions
-                     Lifecycle.mockApplication();
+                     Lifecycle.setupApplication();
                      pages.initialize(warRootDeploymentStrategy.getDotPageDotXmlFileNames());
-                     Lifecycle.unmockApplication();
+                     Lifecycle.cleanupApplication();
                   }
                   ServletLifecycle.getServletContext().removeAttribute(Seam.getComponentName(Exceptions.class));
                   init.setWarTimestamp(warRootDeploymentStrategy.getTimestamp());
@@ -864,8 +864,7 @@ public class Initialization
    
    private boolean isHotDeployEnabled(Init init)
    {
-      return Resources.getResource("META-INF/debug.xhtml", null) != null;
-      //return init.isDebug();
+      return init.isDebug();
    }
    
    private boolean isGroovyPresent()

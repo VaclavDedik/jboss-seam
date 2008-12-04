@@ -126,7 +126,7 @@ public class Exceptions
       addHandler(new AnnotationRedirectHandler());
       addHandler(new AnnotationErrorHandler());
       
-      if (Init.instance().isDebug()) 
+      if (Init.instance().isDebugPageAvailable()) 
       {
          addHandler(new DebugPageHandler());
       }

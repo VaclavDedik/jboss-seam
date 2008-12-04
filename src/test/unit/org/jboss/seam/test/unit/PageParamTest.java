@@ -48,7 +48,7 @@ public class PageParamTest
       Param param = new Param("param");
       param.setValueExpression(Expressions.instance().createValueExpression("#{variable}"));
       Lifecycle.beginApplication(new HashMap<String, Object>());
-      Lifecycle.mockApplication();
+      Lifecycle.setupApplication();
       assert param.getConverter() == null;
       Lifecycle.endApplication();
    }

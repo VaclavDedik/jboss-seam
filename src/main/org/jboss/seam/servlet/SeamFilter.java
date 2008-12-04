@@ -87,7 +87,7 @@ public class SeamFilter implements Filter
 
    public void init(FilterConfig filterConfig) throws ServletException 
    {
-      Lifecycle.mockApplication();
+      Lifecycle.setupApplication();
       try
       {
          filters = getSortedFilters();
@@ -99,7 +99,7 @@ public class SeamFilter implements Filter
       }
       finally
       {
-         Lifecycle.unmockApplication();
+         Lifecycle.cleanupApplication();
       }
    }
 

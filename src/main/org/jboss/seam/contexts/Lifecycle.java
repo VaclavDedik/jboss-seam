@@ -106,12 +106,28 @@ public class Lifecycle
       }
    }
 
+   /**
+    * @deprecated Use {@link Lifecycle#setupApplication()}
+    */
    public static void mockApplication()
+   {
+      setupApplication();
+   }
+   
+   /**
+    * @deprecated Use {@link Lifecycle#cleanupApplication()}
+    */
+   public static void unmockApplication()
+   {
+      cleanupApplication();
+   }
+   
+   public static void setupApplication()
    {
       Contexts.applicationContext.set( new ApplicationContext(getApplication()) );
    }
 
-   public static void unmockApplication()
+   public static void cleanupApplication()
    {
       Contexts.applicationContext.set(null);
    }

@@ -33,10 +33,12 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.persistence.EntityManagerProxyInterceptor;
 import org.jboss.seam.persistence.HibernateSessionProxyInterceptor;
+import org.jboss.seam.persistence.ManagedEntityInterceptor;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.SecurityInterceptor;
 import org.jboss.seam.transaction.RollbackInterceptor;
 import org.jboss.seam.transaction.TransactionInterceptor;
+import org.jboss.seam.util.Resources;
 import org.jboss.seam.webservice.WSSecurityInterceptor;
 
 /**
@@ -81,6 +83,7 @@ public class Init
    private boolean debug;
    private boolean myFacesLifecycleBug;
    private boolean transactionManagementEnabled = true;
+   private boolean distributable = false;
    
    private List<String> interceptors = new ArrayList<String>(DEFAULT_INTERCEPTORS);
    
@@ -432,6 +435,16 @@ public class Init
       this.debug = debug;
    }
    
+   /**
+    * The debug page is considered available if debug JAR is on the classpath
+    * and Seam is running in debug mode (to prevent it from being enabling in
+    * the event the JAR is inadvertently packaged).
+    */
+   public boolean isDebugPageAvailable()
+   {
+      return debug && Resources.getResource("META-INF/debug.xhtml", null) != null;   
+   }
+   
    public boolean isMyFacesLifecycleBug()
    {
       return myFacesLifecycleBug;
@@ -597,7 +610,17 @@ public class Init
    {
       this.interceptors = interceptors;
    }
-   
+      
+   public boolean isDistributable()
+   {
+      return distributable;
+   }
+
+   public void setDistributable(boolean distributable)
+   {
+      this.distributable = distributable;
+   }
+
    /**
     * Sanity check to warn users if they have disabled core interceptors
     */
@@ -609,6 +632,11 @@ public class Init
          {
             log.warn("The built-in interceptor " + defaultInterceptor + " is missing. This application may not function as expected");
          }
+      }
+      
+      if (distributable && !interceptors.contains(ManagedEntityInterceptor.class.getName()))
+      {
+         interceptors.add(ManagedEntityInterceptor.class.getName());
       }
    }
    

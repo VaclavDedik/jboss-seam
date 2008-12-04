@@ -71,7 +71,7 @@ public class SeamScopePostProcessor
         boolean unmockApplication = false;
         if (!Contexts.isApplicationContextActive())
         {
-            Lifecycle.mockApplication();
+            Lifecycle.setupApplication();
             unmockApplication = true;
         }
         try
@@ -125,7 +125,7 @@ public class SeamScopePostProcessor
         {
             if (unmockApplication)
             {
-                Lifecycle.unmockApplication();
+                Lifecycle.cleanupApplication();
             }
         }
     }

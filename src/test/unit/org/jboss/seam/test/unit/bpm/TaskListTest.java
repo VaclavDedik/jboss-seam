@@ -26,7 +26,7 @@ public class TaskListTest
    {
       Lifecycle.beginApplication(new HashMap<String, Object>());
       new Initialization(new MockServletContext()).create().init();
-      Lifecycle.mockApplication();
+      Lifecycle.setupApplication();
       installComponent(Contexts.getApplicationContext(), Actor.class);
       installComponent(Contexts.getApplicationContext(), PooledTaskInstanceList.class);
       installComponent(Contexts.getApplicationContext(), MockRolledBackTransaction.class);
