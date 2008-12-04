@@ -253,11 +253,9 @@
     
     <target name="datasource">
         <fail unless="jboss.home">jboss.home not set</fail>
-        <copy todir="${deploy.dir}">
-            <fileset dir="${basedir}/resources">
-                <include name="${project.name}-${profile}-ds.xml" />
-            </fileset>
-        </copy>
+        <copy file="${basedir}/resources/${project.name}-${profile}-ds.xml"
+            tofile="${deploy.dir}/${project.name}-ds.xml"
+            overwrite="true"/>
     </target>
     
     <target name="explode" depends="stage,datasource" 
@@ -276,7 +274,7 @@
                 <exclude name="**/*.jar"/>
             </fileset>
         </delete>
-        <delete file="${deploy.dir}/${project.name}-${profile}-ds.xml" failonerror="no"/>
+        <delete file="${deploy.dir}/${project.name}-ds.xml" failonerror="no"/>
         <delete dir="${war.deploy.dir}" failonerror="no"/>
     </target>
 
@@ -308,8 +306,7 @@
     
     <target name="undeploy" description="Undeploy the packaged archive">
         <delete file="${deploy.dir}/${project.name}.war" />
-        <delete file="${deploy.dir}/${project.name}-dev-ds.xml" />
-        <delete file="${deploy.dir}/${project.name}-prod-ds.xml" />
+        <delete file="${deploy.dir}/${project.name}-ds.xml" />
     </target>
 
     <target name="redeploy" depends="undeploy,clean,deploy"
