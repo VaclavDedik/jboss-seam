@@ -152,7 +152,7 @@ public class JpaPermissionStore implements PermissionStore, Serializable
       }
       else if (!discriminatorProperty.isSet())
       {
-         throw new RuntimeException("Invalid userPermissionClass " + rolePermissionClass.getName() +
+         throw new RuntimeException("Invalid userPermissionClass " + userPermissionClass.getName() +
                " - no rolePermissionClass set and @PermissionDiscriminator annotation not found on " +
                "any Field or Method");
       }
