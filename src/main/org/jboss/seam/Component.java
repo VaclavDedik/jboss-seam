@@ -753,6 +753,7 @@ public class Component extends Model
          parameterSetters.add( new BijectedMethod(name, method, rp) );
       }
       
+      // TODO: verify that these life-cycle methods have no arguments!
       if ( method.isAnnotationPresent(PRE_PASSIVATE) )
       {
          prePassivateMethod = method;
