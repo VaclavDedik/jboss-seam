@@ -2369,7 +2369,9 @@ public class Component extends Model
 
    public static Class<ProxyObject> createProxyFactory(ComponentType type, final Class beanClass, Collection<Class> businessInterfaces)
    {
-      Set<Class> interfaces = new HashSet<Class>();
+      Set<Class> interfaces = new LinkedHashSet<Class>();
+      interfaces.add(Instance.class);
+      interfaces.add(Proxy.class);
       if ( type.isSessionBean() )
       {
           interfaces.addAll(businessInterfaces);
@@ -2379,17 +2381,7 @@ public class Component extends Model
          interfaces.add(HttpSessionActivationListener.class);
          interfaces.add(Mutable.class);
       }
-      interfaces.add(Instance.class);
-      interfaces.add(Proxy.class);
-
-      ProxyFactory factory = new ProxyFactory()
-      {
-         @Override
-         protected ClassLoader getClassLoader()
-         {
-            return beanClass.getClassLoader();
-         }
-      };
+      ProxyFactory factory = new ProxyFactory();
       factory.setSuperclass( type==JAVA_BEAN ? beanClass : Object.class );
       factory.setInterfaces( interfaces.toArray( new Class[0] ) );
       factory.setFilter(FINALIZE_FILTER);
