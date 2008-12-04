@@ -39,11 +39,23 @@ With that out of the way, it's time to get started.
 3. Add <distributable/> as the first child element in WEB-INF/web.xml
 4. Set the distributable property on org.jboss.seam.core.init to true to enabled the ManagedEntityInterceptor
   (i.e., <core:init distributable="true"/> in WEB-INF/components.xml)
-5. Bind a new IP address to the NIC 
+5. Have two IP addresses available (two computers, two network cards, or two IP addresses bound to the same interface).
+
+On *nix, you can bind a new IP address to a network interface using the following command:
 
   /sbin/ifconfig eth1:2 192.168.1.3
 
-replace eth1 with your interface name and make the IP address conform to your network
+Replace eth1 with your interface name and make the IP address conform to your network.
+
+If you're on Windows, follow these steps:
+
+  - Open your network adapter
+  - Click Properties
+  - Select Internet Protocol (TCP/IP) then click Properties
+  - Click Advanced...
+  - Select the IP settings tab and click Add...
+  - Type in an IP address, click Add
+  - Click OK on all open windows
 
 6. Start the master JBoss AS instance on the first IP:
 
