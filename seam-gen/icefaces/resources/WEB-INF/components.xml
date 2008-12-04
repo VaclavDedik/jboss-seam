@@ -5,6 +5,7 @@
             xmlns:drools="http://jboss.com/products/seam/drools"
             xmlns:bpm="http://jboss.com/products/seam/bpm"
             xmlns:security="http://jboss.com/products/seam/security"
+            xmlns:web="http://jboss.com/products/seam/web"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation=
                 "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd
@@ -12,6 +13,7 @@
                  http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.1.xsd
                  http://jboss.com/products/seam/bpm http://jboss.com/products/seam/bpm-2.1.xsd
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.1.xsd
+                 http://jboss.com/products/seam/web http://jboss.com/products/seam/web-2.1.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
 
    <core:init debug="@debug@" jndi-pattern="@jndiPattern@"/>
@@ -23,9 +25,7 @@
                  conversation-id-parameter="cid"
                  parent-conversation-id-parameter="pid"/>
 
-   <component name="org.jboss.seam.debug.hotDeployFilter">
-      <property name="urlPattern">*.seam</property>
-   </component>
+   <web:hot-deploy-filter url-pattern="*.seam"/>
 
    <persistence:managed-persistence-context name="entityManager"
                                      auto-create="true"
