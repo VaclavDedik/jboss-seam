@@ -30,7 +30,11 @@ public class SecurityInterceptor extends AbstractInterceptor implements Serializ
 {
    private static final long serialVersionUID = -6567750187000766925L;
    
-   private transient Map<Method,Restriction> restrictions = new HashMap<Method,Restriction>();
+   /**
+    * You may encounter a JVM bug where the field initializer is not evaluated for a transient field after deserialization.
+    * @see http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6252102
+    */
+   private transient volatile Map<Method,Restriction> restrictions = new HashMap<Method,Restriction>();
    
    private class Restriction
    {
@@ -159,10 +163,20 @@ public class SecurityInterceptor extends AbstractInterceptor implements Serializ
 
    private Restriction getRestriction(Method interfaceMethod) throws Exception
    {
+      // see field declaration as to why this is done
+      if (restrictions == null)
+      {
+         synchronized(this)
+         {
+            restrictions = new HashMap<Method, Restriction>();
+         }
+      }
+      
       if (!restrictions.containsKey(interfaceMethod))
       {
          synchronized(restrictions)
          {
+            // FIXME this logic should be abstracted rather than sitting in the middle of this interceptor
             if (!restrictions.containsKey(interfaceMethod))
             {  
                Restriction restriction = null;
