@@ -221,7 +221,7 @@ public class ConverterChain implements Converter, StateHolder
    public boolean containsConverterType(Converter converter) {
       // TODO Improve this
       for (Converter c : converters) {
-         if (c.getClass().equals(converter)) {
+         if (c.getClass().equals(converter.getClass())) {
             return true;
          }
       }
