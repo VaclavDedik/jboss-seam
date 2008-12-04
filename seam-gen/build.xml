@@ -951,7 +951,7 @@
 
     <target name="update-project" depends="validate-project,copy-lib"
         description="Update project dependencies">
-        <echo message="Updated project '${project.name}' with the latest Seam jars"/>
+        <echo message="Updated project '${project.name}' with the latest Seam libraries and dependencies"/>
         <echo message="Type '${seam.cmd} restart' to update the exploded deployment"/>
     </target>
 
