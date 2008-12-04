@@ -1,6 +1,60 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - Seam - Version 2.1.1.CR2
+
+** Bug
+    * [JBSEAM-3034] - EJB Session Bean Injection using @In Glassfish server 
+    * [JBSEAM-3121] - EJB Session Bean Injection using @In weblogic server
+    * [JBSEAM-3172] - Shutting down cluster node gracefully, causes NoSuchEJBException on next request
+    * [JBSEAM-3568] - Jee5 example doesn't work on WAS 6.1 without workaround
+    * [JBSEAM-3579] - AS5 deploys PUs from /WEB-INF/classes/META-INF/persistence.xml
+    * [JBSEAM-3586] - blog example on AS 5 CR2 throws NoCachingEnabledException during deployment
+    * [JBSEAM-3587] - Spring example on AS 5 throwns a non-jta-data-source error while deploying
+    * [JBSEAM-3588] - seamspace example needs to use @Begin(join=true) for some actions
+    * [JBSEAM-3629] - Since Seam v2.1.0, httpServletRequest.getUserPrincipal() is always returning null when using plain J2EE security
+    * [JBSEAM-3655] - Caching in ServerConversationContext 
+    * [JBSEAM-3674] - Custom parameter value in <redirect> is not being propagated (regression)
+    * [JBSEAM-3726] - Methods with an "InvocationContext" parameter annotated with "javax.ejb.PostActivate" cause a validation exception in WebSphere v7.0
+    * [JBSEAM-3728] - not clearing EntityManager in ManagedPersistenceContext#sessionWillPassivate breaks session replication
+    * [JBSEAM-3734] - gwt example - index.html missing
+    * [JBSEAM-3741] - It is now invalid to write an an EL expression inside view-id!
+    * [JBSEAM-3742] - pages.xsd cannot use static navigation
+    * [JBSEAM-3754] - PermissionResolver description - opposite behaviour of filterSetByAction
+    * [JBSEAM-3756] - Seam examples have invalid xml configuration files.
+    * [JBSEAM-3757] - TypeNotPresentException: Type javax.ejb.Stateful not present in POJO mode (ie non ejb3..)
+    * [JBSEAM-3758] - NoClassDefFoundError: org/jboss/seam/intercept/Proxy when Seam Component is an EJB in another module
+    * [JBSEAM-3782] - allow callbacks to components that implement HttpSessionActivationListener interface
+
+
+** Feature Request
+    * [JBSEAM-3393] - Italian translation for default messases.properties
+    * [JBSEAM-3397] - Make Booking example run in a cluster
+    * [JBSEAM-3457] - Use dynamic proxies to implement delegation in persistence
+    * [JBSEAM-3612] - examples should demonstrate obtaining entity manager factory from JNDI via persistence unit reference
+    * [JBSEAM-3708] - Only enable ManagedEntityInterceptor when needed
+    * [JBSEAM-3720] - Extending functionality of Equality Validator with Operation (<, <=, ==, >=, >)
+    * [JBSEAM-3722] - Find a way to break out of scan on hot-deploy on JBoss5
+    * [JBSEAM-3729] - Recognize HotDeployFilter as a configurable filter in web.xsd
+    * [JBSEAM-3749] - login-required should support EL
+    * [JBSEAM-3764] - Update ICEfaces jars to 1.7.2.SP1 release on maven repository
+
+** Patch
+    * [JBSEAM-3736] - Documentation improvement for GWT docs
+    * [JBSEAM-3745] - org.jboss.seam.util.Strings improvements
+    * [JBSEAM-3746] - Clean up imports
+    * [JBSEAM-3747] - Boolean tests during Initialization consistent with JDK
+
+** Task
+    * [JBSEAM-3713] - Drop the OC4J chapter from the Reference Guide
+    * [JBSEAM-3725] - Functional test related jar files need to be included in the distribution
+    * [JBSEAM-3735] - Excel example needs a description on the page for the inline and repeat links
+    * [JBSEAM-3773] - Upgrade to RichFaces 3.2.2.SR1
+
+** Sub-task
+    * [JBSEAM-3711] - openid docs and example
+
+
 Release Notes - Seam - Version 2.1.1.CR1
 
 ** Bug
