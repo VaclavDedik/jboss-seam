@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-11-06 00:23+0000\n"
+"POT-Creation-Date: 2008-12-04 00:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -15,13 +15,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #. Tag: title
-#: Events.xml:6
+#: Events.xml:5
 #, no-c-format
 msgid "Events, interceptors and exception handling"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:8
+#: Events.xml:7
 #, no-c-format
 msgid ""
 "Complementing the contextual component model, there are two further basic "
@@ -33,13 +33,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:18
+#: Events.xml:17
 #, no-c-format
 msgid "Seam events"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:19
+#: Events.xml:18
 #, no-c-format
 msgid ""
 "The Seam component model was developed for use with <emphasis>event-driven "
@@ -49,37 +49,37 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:28
+#: Events.xml:27
 #, no-c-format
 msgid "JSF events"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:31
+#: Events.xml:30
 #, no-c-format
 msgid "jBPM transition events"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:34
+#: Events.xml:33
 #, no-c-format
 msgid "Seam page actions"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:37
+#: Events.xml:36
 #, no-c-format
 msgid "Seam component-driven events"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:40
+#: Events.xml:39
 #, no-c-format
 msgid "Seam contextual events"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:44
+#: Events.xml:43
 #, no-c-format
 msgid ""
 "All of these various kinds of events are mapped to Seam components via JSF "
@@ -88,7 +88,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:49
+#: Events.xml:48
 #, no-c-format
 msgid ""
 "<![CDATA[<h:commandButton value=\"Click me!\" action=\"#{helloWorld.sayHello}"
@@ -96,7 +96,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:53
+#: Events.xml:52
 #, no-c-format
 msgid ""
 "For a jBPM transition event, it is specified in the jBPM process definition "
@@ -104,7 +104,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:58
+#: Events.xml:57
 #, no-c-format
 msgid ""
 "<![CDATA[<start-page name=\"hello\" view-id=\"/hello.jsp\">\n"
@@ -115,7 +115,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:60
+#: Events.xml:59
 #, no-c-format
 msgid ""
 "You can find out more information about JSF events and jBPM events "
@@ -124,13 +124,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:67
+#: Events.xml:66
 #, no-c-format
 msgid "Page actions"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:69
+#: Events.xml:68
 #, no-c-format
 msgid ""
 "A Seam page action is an event that occurs just before we render a page. We "
@@ -139,7 +139,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:75
+#: Events.xml:74
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -148,7 +148,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:77
+#: Events.xml:76
 #, no-c-format
 msgid ""
 "Or we can use a <literal>*</literal> wildcard as a suffix to the "
@@ -157,7 +157,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:83
+#: Events.xml:82
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -166,7 +166,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:85
+#: Events.xml:84
 #, no-c-format
 msgid ""
 "If multiple wildcarded page actions match the current view-id, Seam will "
@@ -174,7 +174,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:90
+#: Events.xml:89
 #, no-c-format
 msgid ""
 "The page action method can return a JSF outcome. If the outcome is non-null, "
@@ -182,7 +182,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:95
+#: Events.xml:94
 #, no-c-format
 msgid ""
 "Furthermore, the view id mentioned in the <literal>&lt;page&gt;</literal> "
@@ -192,13 +192,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:102
+#: Events.xml:101
 #, no-c-format
 msgid "<![CDATA[TODO: translate struts action into page action]]>"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:105
+#: Events.xml:104
 #, no-c-format
 msgid ""
 "This is quite useful if you want to do complex things in response to non-"
@@ -206,7 +206,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:110
+#: Events.xml:109
 #, no-c-format
 msgid ""
 "Multiple or conditional page actions my be specified using the <literal>&lt;"
@@ -214,7 +214,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:115
+#: Events.xml:114
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -227,13 +227,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:121
+#: Events.xml:120
 #, no-c-format
 msgid "Page parameters"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:123
+#: Events.xml:122
 #, no-c-format
 msgid ""
 "A JSF faces request (a form submission) encapsulates both an \"action\" (a "
@@ -242,7 +242,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:129
+#: Events.xml:128
 #, no-c-format
 msgid ""
 "Since GET requests are bookmarkable, page parameters are passed as human-"
@@ -251,19 +251,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:135
+#: Events.xml:134
 #, no-c-format
 msgid "You can use page parameters with or without an action method."
 msgstr ""
 
 #. Tag: title
-#: Events.xml:140
+#: Events.xml:139
 #, no-c-format
 msgid "Mapping request parameters to the model"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:142
+#: Events.xml:141
 #, no-c-format
 msgid ""
 "Seam lets us provide a value binding that maps a named request parameter to "
@@ -271,7 +271,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:147
+#: Events.xml:146
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -283,7 +283,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:149
+#: Events.xml:148
 #, no-c-format
 msgid ""
 "The <literal>&lt;param&gt;</literal> declaration is bidirectional, just like "
@@ -291,7 +291,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:156
+#: Events.xml:155
 #, no-c-format
 msgid ""
 "When a non-faces (GET) request for the view id occurs, Seam sets the value "
@@ -300,7 +300,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:163
+#: Events.xml:162
 #, no-c-format
 msgid ""
 "Any <literal>&lt;s:link&gt;</literal> or <literal>&lt;s:button&gt;</literal> "
@@ -310,7 +310,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:171
+#: Events.xml:170
 #, no-c-format
 msgid ""
 "Any navigation rule with a <literal>&lt;redirect/&gt;</literal> to the view "
@@ -320,7 +320,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:179
+#: Events.xml:178
 #, no-c-format
 msgid ""
 "The value is transparently propagated with any JSF form submission for the "
@@ -329,7 +329,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:188
+#: Events.xml:187
 #, no-c-format
 msgid ""
 "The essential idea behind all this is that <emphasis>however</emphasis> we "
@@ -340,13 +340,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:201
+#: Events.xml:200
 #, no-c-format
 msgid "Propagating request parameters"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:203
+#: Events.xml:202
 #, no-c-format
 msgid ""
 "If just the <literal>name</literal> attribute is specified then the request "
@@ -355,7 +355,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:209
+#: Events.xml:208
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -367,7 +367,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:212
+#: Events.xml:211
 #, no-c-format
 msgid ""
 "Propagation of page parameters is especially useful if you want to build "
@@ -377,7 +377,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:219
+#: Events.xml:218
 #, no-c-format
 msgid ""
 "Any <literal>&lt;s:link&gt;</literal> or <literal>&lt;s:button&gt;</literal> "
@@ -386,7 +386,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:226
+#: Events.xml:225
 #, no-c-format
 msgid ""
 "The value is transparently propagated with any JSF form submission for the "
@@ -395,7 +395,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:235
+#: Events.xml:234
 #, no-c-format
 msgid ""
 "This all sounds pretty complex, and you're probably wondering if such an "
@@ -410,13 +410,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:251
+#: Events.xml:250
 #, no-c-format
 msgid "URL rewriting with page parameters"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:252
+#: Events.xml:251
 #, no-c-format
 msgid ""
 "Rewriting occurs based on rewrite patterns found for views in <literal>pages."
@@ -425,7 +425,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:259
+#: Events.xml:258
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -436,7 +436,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:261
+#: Events.xml:260
 #, no-c-format
 msgid ""
 "In this case, any incoming request for <literal>/home</literal> will be sent "
@@ -449,7 +449,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:271
+#: Events.xml:270
 #, no-c-format
 msgid ""
 "Rewrite rules can take these query paramters into consideration, as shown "
@@ -457,7 +457,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:274
+#: Events.xml:273
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -469,7 +469,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:276
+#: Events.xml:275
 #, no-c-format
 msgid ""
 "In this case, an incoming request for <literal>/home/red</literal> will be "
@@ -481,7 +481,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:286
+#: Events.xml:285
 #, no-c-format
 msgid ""
 "Default Seam query parameters can also be mapped using URL rewriting, "
@@ -491,7 +491,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:291
+#: Events.xml:290
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -503,7 +503,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:293
+#: Events.xml:292
 #, no-c-format
 msgid ""
 "Seam URL rewriting provides simple, bidirectional rewriting on a per-view "
@@ -513,7 +513,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:299
+#: Events.xml:298
 #, no-c-format
 msgid ""
 "URL rewriting requires the Seam rewrite filter to be enable. Rewrite filter "
@@ -522,19 +522,19 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:307
+#: Events.xml:306
 #, no-c-format
 msgid "Conversion and Validation"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:309
+#: Events.xml:308
 #, no-c-format
 msgid "You can specify a JSF converter for complex model propreties:"
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:313
+#: Events.xml:312
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -548,13 +548,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:315 Events.xml:328
+#: Events.xml:314 Events.xml:327
 #, no-c-format
 msgid "Alternatively:"
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:319
+#: Events.xml:318
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -568,14 +568,14 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:322
+#: Events.xml:321
 #, no-c-format
 msgid ""
 "JSF validators, and <literal>required=\"true\"</literal> may also be used:"
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:326
+#: Events.xml:325
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -589,7 +589,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:332
+#: Events.xml:331
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -603,7 +603,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:334
+#: Events.xml:333
 #, no-c-format
 msgid ""
 "Even better, model-based Hibernate validator annotations are automatically "
@@ -611,7 +611,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:339
+#: Events.xml:338
 #, no-c-format
 msgid ""
 "When type conversion or validation fails, a global <literal>FacesMessage</"
@@ -619,13 +619,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:347
+#: Events.xml:346
 #, no-c-format
 msgid "Navigation"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:349
+#: Events.xml:348
 #, no-c-format
 msgid ""
 "You can use standard JSF navigation rules defined in <literal>faces-config."
@@ -634,20 +634,20 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:357
+#: Events.xml:356
 #, no-c-format
 msgid ""
 "It is not possible to specify request parameters to be used when redirecting."
 msgstr ""
 
 #. Tag: para
-#: Events.xml:362
+#: Events.xml:361
 #, no-c-format
 msgid "It is not possible to begin or end conversations from a rule."
 msgstr ""
 
 #. Tag: para
-#: Events.xml:367
+#: Events.xml:366
 #, no-c-format
 msgid ""
 "Rules work by evaluating the return value of the action method; it is not "
@@ -655,7 +655,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:374
+#: Events.xml:373
 #, no-c-format
 msgid ""
 "A further problem is that \"orchestration\" logic gets scattered between "
@@ -664,13 +664,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:379
+#: Events.xml:378
 #, no-c-format
 msgid "This JSF navigation rule:"
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:383
+#: Events.xml:382
 #, no-c-format
 msgid ""
 "<![CDATA[<navigation-rule>\n"
@@ -687,13 +687,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:385
+#: Events.xml:384
 #, no-c-format
 msgid "Can be rewritten as follows:"
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:389
+#: Events.xml:388
 #, no-c-format
 msgid ""
 "<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
@@ -708,7 +708,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:391
+#: Events.xml:390
 #, no-c-format
 msgid ""
 "But it would be even nicer if we didn't have to pollute our "
@@ -717,7 +717,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:396
+#: Events.xml:395
 #, no-c-format
 msgid ""
 "<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
@@ -733,13 +733,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:398
+#: Events.xml:397
 #, no-c-format
 msgid "Or even:"
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:402
+#: Events.xml:401
 #, no-c-format
 msgid ""
 "<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
@@ -754,7 +754,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:404
+#: Events.xml:403
 #, no-c-format
 msgid ""
 "The first form evaluates a value binding to determine the outcome value to "
@@ -763,7 +763,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:411
+#: Events.xml:410
 #, no-c-format
 msgid ""
 "Of course, when an update succeeds, we probably want to end the current "
@@ -771,7 +771,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:416
+#: Events.xml:415
 #, no-c-format
 msgid ""
 "<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
@@ -787,7 +787,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:418
+#: Events.xml:417
 #, no-c-format
 msgid ""
 "As we've ended conversation any subsequent requests won't know which "
@@ -796,7 +796,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:424
+#: Events.xml:423
 #, no-c-format
 msgid ""
 "<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
@@ -815,7 +815,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:426
+#: Events.xml:425
 #, no-c-format
 msgid ""
 "Null outcomes are a special case in JSF. The null outcome is interpreted to "
@@ -824,7 +824,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:432
+#: Events.xml:431
 #, no-c-format
 msgid ""
 "<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
@@ -839,7 +839,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:434
+#: Events.xml:433
 #, no-c-format
 msgid ""
 "If you want to perform navigation when a null outcome occurs, use the "
@@ -847,7 +847,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:439
+#: Events.xml:438
 #, no-c-format
 msgid ""
 "<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
@@ -860,13 +860,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:441
+#: Events.xml:440
 #, no-c-format
 msgid "The view-id may be given as a JSF EL expression:"
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:445
+#: Events.xml:444
 #, no-c-format
 msgid ""
 "<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
@@ -881,14 +881,14 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:450
+#: Events.xml:449
 #, no-c-format
 msgid ""
 "Fine-grained files for definition of navigation, page actions and parameters"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:452
+#: Events.xml:451
 #, no-c-format
 msgid ""
 "If you have a lot of different page actions and page parameters, or even "
@@ -901,7 +901,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:463
+#: Events.xml:462
 #, no-c-format
 msgid ""
 "<![CDATA[<page action=\"#{calculator.calculate}\">\n"
@@ -913,13 +913,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:470
+#: Events.xml:469
 #, no-c-format
 msgid "Component-driven events"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:472
+#: Events.xml:471
 #, no-c-format
 msgid ""
 "Seam components can interact by simply calling each others methods. Stateful "
@@ -930,14 +930,14 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:480
+#: Events.xml:479
 #, no-c-format
 msgid ""
 "We specify event listeners (observers) in <literal>components.xml</literal>."
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:484
+#: Events.xml:483
 #, no-c-format
 msgid ""
 "<![CDATA[<components>\n"
@@ -949,13 +949,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:486
+#: Events.xml:485
 #, no-c-format
 msgid "Where the <emphasis>event type</emphasis> is just an arbitrary string."
 msgstr ""
 
 #. Tag: para
-#: Events.xml:490
+#: Events.xml:489
 #, no-c-format
 msgid ""
 "When an event occurs, the actions registered for that event will be called "
@@ -964,7 +964,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:496
+#: Events.xml:495
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"helloWorld\")\n"
@@ -977,13 +977,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:498
+#: Events.xml:497
 #, no-c-format
 msgid "Or you can use an annotation."
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:502
+#: Events.xml:501
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"helloWorld\")\n"
@@ -996,7 +996,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:504
+#: Events.xml:503
 #, no-c-format
 msgid ""
 "Notice that this event producer has no dependency upon event consumers. The "
@@ -1005,7 +1005,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:510
+#: Events.xml:509
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"helloListener\")\n"
@@ -1017,7 +1017,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:512
+#: Events.xml:511
 #, no-c-format
 msgid ""
 "The method binding defined in <literal>components.xml</literal> above takes "
@@ -1027,7 +1027,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:519
+#: Events.xml:518
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"helloListener\")\n"
@@ -1040,7 +1040,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:521
+#: Events.xml:520
 #, no-c-format
 msgid ""
 "You might wonder why I've not mentioned anything about event objects in this "
@@ -1051,7 +1051,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:529
+#: Events.xml:528
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"helloWorld\")\n"
@@ -1066,7 +1066,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:531
+#: Events.xml:530
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"helloListener\")\n"
@@ -1079,13 +1079,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:536
+#: Events.xml:535
 #, no-c-format
 msgid "Contextual events"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:537
+#: Events.xml:536
 #, no-c-format
 msgid ""
 "Seam defines a number of built-in events that the application can use to "
@@ -1093,7 +1093,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:543
+#: Events.xml:542
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.validationFailed</literal> &#8212; called when JSF "
@@ -1101,7 +1101,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:544
+#: Events.xml:543
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.noConversation</literal> &#8212; called when there "
@@ -1109,7 +1109,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:545
+#: Events.xml:544
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.preSetVariable.&lt;name&gt;</literal> &#8212; called "
@@ -1117,7 +1117,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:546
+#: Events.xml:545
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.postSetVariable.&lt;name&gt;</literal> &#8212; "
@@ -1125,7 +1125,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:547
+#: Events.xml:546
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.preRemoveVariable.&lt;name&gt;</literal> &#8212; "
@@ -1133,7 +1133,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:548
+#: Events.xml:547
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.postRemoveVariable.&lt;name&gt;</literal> &#8212; "
@@ -1141,7 +1141,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:549
+#: Events.xml:548
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.preDestroyContext.&lt;SCOPE&gt;</literal> &#8212; "
@@ -1149,7 +1149,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:550
+#: Events.xml:549
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.postDestroyContext.&lt;SCOPE&gt;</literal> &#8212; "
@@ -1157,7 +1157,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:551
+#: Events.xml:550
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.beginConversation </literal>&#8212; called whenever "
@@ -1165,7 +1165,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:552
+#: Events.xml:551
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.endConversation </literal>&#8212; called whenever a "
@@ -1173,7 +1173,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:553
+#: Events.xml:552
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.conversationTimeout</literal>&#8212; called when a "
@@ -1181,7 +1181,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:554
+#: Events.xml:553
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.beginPageflow </literal>&#8212; called when a "
@@ -1189,7 +1189,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:555
+#: Events.xml:554
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.beginPageflow.&lt;name&gt; </literal>&#8212; called "
@@ -1197,7 +1197,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:556
+#: Events.xml:555
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.endPageflow </literal>&#8212; called when a pageflow "
@@ -1205,7 +1205,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:557
+#: Events.xml:556
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.endPageflow.&lt;name&gt; </literal>&#8212; called "
@@ -1213,7 +1213,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:558
+#: Events.xml:557
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.createProcess.&lt;name&gt; </literal>&#8212; called "
@@ -1221,7 +1221,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:559
+#: Events.xml:558
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.endProcess.&lt;name&gt; </literal>&#8212; called "
@@ -1229,7 +1229,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:560
+#: Events.xml:559
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.initProcess.&lt;name&gt; </literal>&#8212; called "
@@ -1237,7 +1237,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:561
+#: Events.xml:560
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.initTask.&lt;name&gt; </literal>&#8212; called when "
@@ -1245,7 +1245,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:562
+#: Events.xml:561
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.startTask.&lt;name&gt; </literal>&#8212; called when "
@@ -1253,7 +1253,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:563
+#: Events.xml:562
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.endTask.&lt;name&gt; </literal>&#8212; called when "
@@ -1261,7 +1261,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:564
+#: Events.xml:563
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.postCreate.&lt;name&gt; </literal>&#8212; called "
@@ -1269,7 +1269,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:565
+#: Events.xml:564
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.preDestroy.&lt;name&gt; </literal>&#8212; called "
@@ -1277,7 +1277,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:566
+#: Events.xml:565
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.beforePhase </literal>&#8212; called before the "
@@ -1285,7 +1285,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:567
+#: Events.xml:566
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.afterPhase </literal>&#8212; called after the end of "
@@ -1293,7 +1293,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:568
+#: Events.xml:567
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.postInitialization </literal>&#8212; called when "
@@ -1301,7 +1301,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:569
+#: Events.xml:568
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.postReInitialization </literal>&#8212; called when "
@@ -1309,7 +1309,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:570
+#: Events.xml:569
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.postAuthenticate.&lt;name&gt; </literal>&#8212; "
@@ -1317,7 +1317,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:571
+#: Events.xml:570
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.preAuthenticate.&lt;name&gt; </literal>&#8212; "
@@ -1325,7 +1325,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:572
+#: Events.xml:571
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.notLoggedIn</literal> &#8212; called there is no "
@@ -1333,7 +1333,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:573
+#: Events.xml:572
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.rememberMe</literal> &#8212; occurs when Seam "
@@ -1341,7 +1341,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:574
+#: Events.xml:573
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.exceptionHandled.&lt;type&gt;</literal> &#8212; "
@@ -1349,7 +1349,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:575
+#: Events.xml:574
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.exceptionHandled</literal> &#8212; called when an "
@@ -1357,7 +1357,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:576
+#: Events.xml:575
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.exceptionNotHandled</literal> &#8212; called when "
@@ -1365,7 +1365,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:577
+#: Events.xml:576
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.afterTransactionSuccess</literal> &#8212; called "
@@ -1373,7 +1373,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:578
+#: Events.xml:577
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> "
@@ -1382,7 +1382,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:581
+#: Events.xml:580
 #, no-c-format
 msgid ""
 "Seam components may observe any of these events in just the same way they "
@@ -1390,13 +1390,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:590
+#: Events.xml:589
 #, no-c-format
 msgid "Seam interceptors"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:592
+#: Events.xml:591
 #, no-c-format
 msgid ""
 "EJB 3.0 introduced a standard interceptor model for session bean components. "
@@ -1408,7 +1408,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:601
+#: Events.xml:600
 #, no-c-format
 msgid ""
 "<![CDATA[public class LoggedInInterceptor {\n"
@@ -1433,7 +1433,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:603
+#: Events.xml:602
 #, no-c-format
 msgid ""
 "To apply this interceptor to a session bean which acts as an action "
@@ -1447,7 +1447,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:612
+#: Events.xml:611
 #, no-c-format
 msgid ""
 "<![CDATA[@Target(TYPE)\n"
@@ -1457,7 +1457,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:614
+#: Events.xml:613
 #, no-c-format
 msgid ""
 "We can now simply annotate our action listener bean with <literal>@LoggedIn</"
@@ -1465,7 +1465,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:619
+#: Events.xml:618
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateless\n"
@@ -1482,7 +1482,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:621
+#: Events.xml:620
 #, no-c-format
 msgid ""
 "If interceptor ordering is important (it usually is), you can add "
@@ -1491,7 +1491,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:627
+#: Events.xml:626
 #, no-c-format
 msgid ""
 "<![CDATA[@Interceptor(around={BijectionInterceptor.class,\n"
@@ -1505,7 +1505,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:629
+#: Events.xml:628
 #, no-c-format
 msgid ""
 "You can even have a \"client-side\" interceptor, that runs around any of the "
@@ -1513,7 +1513,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:634
+#: Events.xml:633
 #, no-c-format
 msgid ""
 "<![CDATA[@Interceptor(type=CLIENT)\n"
@@ -1524,7 +1524,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:636
+#: Events.xml:635
 #, no-c-format
 msgid ""
 "EJB interceptors are stateful, with a lifecycle that is the same as the "
@@ -1534,7 +1534,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:643
+#: Events.xml:642
 #, no-c-format
 msgid ""
 "Much of the functionality of Seam is implemented as a set of built-in Seam "
@@ -1544,7 +1544,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:650
+#: Events.xml:649
 #, no-c-format
 msgid ""
 "You can even use Seam interceptors with JavaBean components, not just EJB3 "
@@ -1552,7 +1552,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:654
+#: Events.xml:653
 #, no-c-format
 msgid ""
 "EJB defines interception not only for business methods (using "
@@ -1566,13 +1566,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:666
+#: Events.xml:665
 #, no-c-format
 msgid "Managing exceptions"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:668
+#: Events.xml:667
 #, no-c-format
 msgid ""
 "JSF is surprisingly limited when it comes to exception handling. As a "
@@ -1585,13 +1585,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:678
+#: Events.xml:677
 #, no-c-format
 msgid "Exceptions and transactions"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:680
+#: Events.xml:679
 #, no-c-format
 msgid ""
 "EJB specifies well-defined rules that let us control whether an exception "
@@ -1607,7 +1607,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:693
+#: Events.xml:692
 #, no-c-format
 msgid ""
 "Note that there is a difference between marking a transaction for rollback, "
@@ -1617,7 +1617,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:700
+#: Events.xml:699
 #, no-c-format
 msgid ""
 "Seam applies the EJB 3.0 exception rollback rules also to Seam JavaBean "
@@ -1625,7 +1625,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:705
+#: Events.xml:704
 #, no-c-format
 msgid ""
 "But these rules only apply in the Seam component layer. What about an "
@@ -1636,13 +1636,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:715
+#: Events.xml:714
 #, no-c-format
 msgid "Enabling Seam exception handling"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:717
+#: Events.xml:716
 #, no-c-format
 msgid ""
 "To enable Seam's exception handling, we need to make sure we have the master "
@@ -1650,7 +1650,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:722
+#: Events.xml:721
 #, no-c-format
 msgid ""
 "<![CDATA[<filter>\n"
@@ -1665,7 +1665,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:724
+#: Events.xml:723
 #, no-c-format
 msgid ""
 "You need to disable Facelets development mode in <literal>web.xml</literal> "
@@ -1674,13 +1674,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:733
+#: Events.xml:732
 #, no-c-format
 msgid "Using annotations for exception handling"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:735
+#: Events.xml:734
 #, no-c-format
 msgid ""
 "The following exception results in a HTTP 404 error whenever it propagates "
@@ -1690,7 +1690,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:742
+#: Events.xml:741
 #, no-c-format
 msgid ""
 "<![CDATA[@HttpError(errorCode=404)\n"
@@ -1698,7 +1698,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:744
+#: Events.xml:743
 #, no-c-format
 msgid ""
 "This exception results in a browser redirect whenever it propagates out of "
@@ -1707,7 +1707,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:750
+#: Events.xml:749
 #, no-c-format
 msgid ""
 "<![CDATA[@Redirect(viewId=\"/failure.xhtml\", end=true)\n"
@@ -1717,7 +1717,7 @@ msgid ""
 msgstr ""
 
 #. Tag: note
-#: Events.xml:752
+#: Events.xml:751
 #, no-c-format
 msgid ""
 "It is important to note that Seam cannot handle exceptions that occur during "
@@ -1726,14 +1726,14 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:758
+#: Events.xml:757
 #, no-c-format
 msgid ""
 "You can also use EL to specify the <literal>viewId</literal> to redirect to."
 msgstr ""
 
 #. Tag: para
-#: Events.xml:762
+#: Events.xml:761
 #, no-c-format
 msgid ""
 "This exception results in a redirect, along with a message to the user, when "
@@ -1742,7 +1742,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:768
+#: Events.xml:767
 #, no-c-format
 msgid ""
 "<![CDATA[@Redirect(viewId=\"/error.xhtml\", message=\"Unexpected error\")\n"
@@ -1750,13 +1750,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:773
+#: Events.xml:772
 #, no-c-format
 msgid "Using XML for exception handling"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:775
+#: Events.xml:774
 #, no-c-format
 msgid ""
 "Since we can't add annotations to all the exception classes we are "
@@ -1765,7 +1765,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:780
+#: Events.xml:779
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -1792,7 +1792,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:782
+#: Events.xml:781
 #, no-c-format
 msgid ""
 "The last <literal>&lt;exception&gt;</literal> declaration does not specify a "
@@ -1801,14 +1801,14 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:788
+#: Events.xml:787
 #, no-c-format
 msgid ""
 "You can also use EL to specify the <literal>view-id</literal> to redirect to."
 msgstr ""
 
 #. Tag: para
-#: Events.xml:792
+#: Events.xml:791
 #, no-c-format
 msgid ""
 "You can also access the handled exception instance through EL, Seam places "
@@ -1816,7 +1816,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:797
+#: Events.xml:796
 #, no-c-format
 msgid ""
 "<![CDATA[...\n"
@@ -1836,7 +1836,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:799
+#: Events.xml:798
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.handledException</literal> holds the nested "
@@ -1846,13 +1846,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:806
+#: Events.xml:805
 #, no-c-format
 msgid "Suppressing exception logging"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:808
+#: Events.xml:807
 #, no-c-format
 msgid ""
 "For the exception handlers defined in <literal>pages.xml</literal>, it is "
@@ -1865,7 +1865,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:817
+#: Events.xml:816
 #, no-c-format
 msgid ""
 "<![CDATA[    <exception class=\"org.jboss.seam.security.NotLoggedInException"
@@ -1878,7 +1878,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:819
+#: Events.xml:818
 #, no-c-format
 msgid ""
 "If the <literal>log</literal> attribute is not specified, then it defaults "
@@ -1888,7 +1888,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:825
+#: Events.xml:824
 #, no-c-format
 msgid ""
 "<![CDATA[    <exception class=\"org.jboss.seam.security.NotLoggedInException"
@@ -1901,7 +1901,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:827
+#: Events.xml:826
 #, no-c-format
 msgid ""
 "The acceptable values for <literal>logLevel</literal> are: <literal>fatal, "
@@ -1911,19 +1911,19 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Events.xml:838
+#: Events.xml:837
 #, no-c-format
 msgid "Some common exceptions"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:840
+#: Events.xml:839
 #, no-c-format
 msgid "If you are using JPA:"
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:844
+#: Events.xml:843
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"javax.persistence.EntityNotFoundException\">\n"
@@ -1942,13 +1942,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:846
+#: Events.xml:845
 #, no-c-format
 msgid "If you are using the Seam Application Framework:"
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:850
+#: Events.xml:849
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"org.jboss.seam.framework.EntityNotFoundException"
@@ -1960,13 +1960,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:852
+#: Events.xml:851
 #, no-c-format
 msgid "If you are using Seam Security:"
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:856
+#: Events.xml:855
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"org.jboss.seam.security.AuthorizationException"
@@ -1984,13 +1984,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:858
+#: Events.xml:857
 #, no-c-format
 msgid "And, for JSF:"
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:862
+#: Events.xml:861
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"javax.faces.application.ViewExpiredException\">\n"
@@ -2001,11 +2001,37 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Events.xml:864
+#: Events.xml:863
 #, no-c-format
 msgid ""
 "A <literal>ViewExpiredException</literal> occurs if the user posts back to a "
 "page once their session has expired. <literal>no-conversation-view-id</"
 "literal> and <literal>conversation-required</literal> give you finer grained "
 "control over session expiration if you are inside a conversation."
+msgstr ""
+
+#. Tag: title
+#: Events.xml:873
+#, no-c-format
+msgid "conversation-required"
+msgstr ""
+
+#. Tag: para
+#: Events.xml:875
+#, no-c-format
+msgid ""
+"When specified as the attribute of a <literal>page</literal> element in "
+"<literal>pages.xml</literal>, this setting controls whether a page requires "
+"an active long-running or nested conversation before being rendered. If "
+"there is not an active long-running or nested conversation when trying to "
+"access the page, you will be redirected to the <literal>no-conversation-view-"
+"id</literal> view (which is specified in the root <literal>pages</literal> "
+"element) instead."
+msgstr ""
+
+#. Tag: programlisting
+#: Events.xml:883
+#, no-c-format
+msgid ""
+"<![CDATA[  <page view-id=\"/foo.xhtml\" conversation-required=\"true\"/>]]>"
 msgstr ""

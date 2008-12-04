@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-10-14 11:38+0000\n"
+"POT-Creation-Date: 2008-12-04 00:58+0000\n"
 "PO-Revision-Date: 2008-04-04 01:24+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -74,11 +74,11 @@ msgstr ""
 #: Controls.xml:34 Controls.xml:110 Controls.xml:127 Controls.xml:143
 #: Controls.xml:216 Controls.xml:251 Controls.xml:285 Controls.xml:299
 #: Controls.xml:364 Controls.xml:380 Controls.xml:397 Controls.xml:414
-#: Controls.xml:433 Controls.xml:469 Controls.xml:487 Controls.xml:511
-#: Controls.xml:543 Controls.xml:560 Controls.xml:584 Controls.xml:603
-#: Controls.xml:631 Controls.xml:654 Controls.xml:668 Controls.xml:708
-#: Controls.xml:736 Controls.xml:808 Controls.xml:848 Controls.xml:949
-#: Controls.xml:1081
+#: Controls.xml:433 Controls.xml:507 Controls.xml:525 Controls.xml:549
+#: Controls.xml:581 Controls.xml:598 Controls.xml:622 Controls.xml:641
+#: Controls.xml:669 Controls.xml:692 Controls.xml:706 Controls.xml:746
+#: Controls.xml:774 Controls.xml:846 Controls.xml:886 Controls.xml:987
+#: Controls.xml:1119
 #, no-c-format
 msgid "Description"
 msgstr ""
@@ -95,11 +95,11 @@ msgstr ""
 #: Controls.xml:41 Controls.xml:118 Controls.xml:133 Controls.xml:155
 #: Controls.xml:222 Controls.xml:269 Controls.xml:288 Controls.xml:312
 #: Controls.xml:370 Controls.xml:386 Controls.xml:403 Controls.xml:420
-#: Controls.xml:439 Controls.xml:475 Controls.xml:493 Controls.xml:517
-#: Controls.xml:548 Controls.xml:565 Controls.xml:590 Controls.xml:610
-#: Controls.xml:636 Controls.xml:659 Controls.xml:675 Controls.xml:713
-#: Controls.xml:741 Controls.xml:815 Controls.xml:893 Controls.xml:960
-#: Controls.xml:1086
+#: Controls.xml:439 Controls.xml:513 Controls.xml:531 Controls.xml:555
+#: Controls.xml:586 Controls.xml:603 Controls.xml:628 Controls.xml:648
+#: Controls.xml:674 Controls.xml:697 Controls.xml:713 Controls.xml:751
+#: Controls.xml:779 Controls.xml:853 Controls.xml:931 Controls.xml:998
+#: Controls.xml:1124
 #, no-c-format
 msgid "Attributes"
 msgstr ""
@@ -157,11 +157,11 @@ msgstr ""
 #. Tag: emphasis
 #: Controls.xml:90 Controls.xml:202 Controls.xml:241 Controls.xml:273
 #: Controls.xml:291 Controls.xml:357 Controls.xml:373 Controls.xml:391
-#: Controls.xml:408 Controls.xml:425 Controls.xml:458 Controls.xml:480
-#: Controls.xml:498 Controls.xml:535 Controls.xml:553 Controls.xml:576
-#: Controls.xml:595 Controls.xml:624 Controls.xml:641 Controls.xml:685
-#: Controls.xml:729 Controls.xml:796 Controls.xml:839 Controls.xml:941
-#: Controls.xml:1074 Controls.xml:1098
+#: Controls.xml:408 Controls.xml:425 Controls.xml:496 Controls.xml:518
+#: Controls.xml:536 Controls.xml:573 Controls.xml:591 Controls.xml:614
+#: Controls.xml:633 Controls.xml:662 Controls.xml:679 Controls.xml:723
+#: Controls.xml:767 Controls.xml:834 Controls.xml:877 Controls.xml:979
+#: Controls.xml:1112 Controls.xml:1136
 #, no-c-format
 msgid "Usage"
 msgstr ""
@@ -229,8 +229,8 @@ msgstr ""
 #. Tag: para
 #: Controls.xml:134 Controls.xml:271 Controls.xml:289 Controls.xml:313
 #: Controls.xml:371 Controls.xml:387 Controls.xml:404 Controls.xml:421
-#: Controls.xml:476 Controls.xml:494 Controls.xml:549 Controls.xml:591
-#: Controls.xml:637 Controls.xml:660
+#: Controls.xml:514 Controls.xml:532 Controls.xml:587 Controls.xml:629
+#: Controls.xml:675 Controls.xml:698
 #, no-c-format
 msgid "None."
 msgstr ""
@@ -398,7 +398,7 @@ msgid ""
 msgstr ""
 
 #. Tag: emphasis
-#: Controls.xml:315 Controls.xml:864
+#: Controls.xml:315 Controls.xml:902
 #, no-c-format
 msgid "Configuration"
 msgstr ""
@@ -625,7 +625,7 @@ msgstr ""
 #, no-c-format
 msgid ""
 "Tag to nest inside an input control to validate that its parent's value is "
-"the same as the referenced control's value."
+"equal (or not equal!) to the referenced control's value."
 msgstr ""
 
 #. Tag: para
@@ -646,8 +646,61 @@ msgstr ""
 msgid "<literal>messageId</literal> &#8212; Message id to show on failure."
 msgstr ""
 
+#. Tag: para
+#: Controls.xml:457
+#, no-c-format
+msgid ""
+"<literal>operator</literal> &#8212; What operator to use when comparing the "
+"values Valid operators are:"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:462
+#, no-c-format
+msgid "<literal>equal</literal> &#8212; Validates that value.equals(forValue)"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:467
+#, no-c-format
+msgid ""
+"<literal>not_equal</literal> &#8212; Validates that !value.equals(forValue)"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:472
+#, no-c-format
+msgid ""
+"<literal>greater</literal> &#8212; <![CDATA[Validates that ((Comparable)"
+"value).compareTo(forValue)> 0]]>"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:477
+#, no-c-format
+msgid ""
+"<literal>greater_or_equal</literal> &#8212; <![CDATA[Validates that "
+"((Comparable)value).compareTo(forValue)>= 0]]>"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:482
+#, no-c-format
+msgid ""
+"<literal>less</literal> &#8212; <![CDATA[Validates that ((Comparable)value)."
+"compareTo(forValue) <0]]>"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:487
+#, no-c-format
+msgid ""
+"<literal>less_or_equal</literal> &#8212; <![CDATA[Validates that "
+"((Comparable)value).compareTo(forValue) <= 0]]>"
+msgstr ""
+
 #. Tag: programlisting
-#: Controls.xml:459
+#: Controls.xml:497
 #, no-c-format
 msgid ""
 "<![CDATA[<h:inputText id=\"name\" value=\"#{bean.name}\"/>\n"
@@ -657,13 +710,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:467
+#: Controls.xml:505
 #, no-c-format
 msgid "&lt;s:validate&gt;"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:470
+#: Controls.xml:508
 #, no-c-format
 msgid ""
 "A non-visual control, validates a JSF input field against the bound property "
@@ -671,7 +724,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:481
+#: Controls.xml:519
 #, no-c-format
 msgid ""
 "<![CDATA[<h:inputText id=\"userName\" required=\"true\" \n"
@@ -682,13 +735,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:485
+#: Controls.xml:523
 #, no-c-format
 msgid "&lt;s:validateAll&gt;"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:488
+#: Controls.xml:526
 #, no-c-format
 msgid ""
 "A non-visual control, validates all child JSF input fields against their "
@@ -696,7 +749,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:499
+#: Controls.xml:537
 #, no-c-format
 msgid ""
 "<![CDATA[<s:validateAll>\n"
@@ -722,19 +775,19 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Controls.xml:506
+#: Controls.xml:544
 #, no-c-format
 msgid "Formatting"
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:509
+#: Controls.xml:547
 #, no-c-format
 msgid "&lt;s:decorate&gt;"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:512
+#: Controls.xml:550
 #, no-c-format
 msgid ""
 "\"Decorate\" a JSF input field when validation fails or when "
@@ -742,7 +795,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:520
+#: Controls.xml:558
 #, no-c-format
 msgid ""
 "<literal>template</literal> &#8212; the facelets template to use to decorate "
@@ -750,7 +803,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:526
+#: Controls.xml:564
 #, no-c-format
 msgid ""
 "<literal>#{invalid}</literal> and <literal>#{required}</literal> are "
@@ -761,7 +814,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:536
+#: Controls.xml:574
 #, no-c-format
 msgid ""
 "<![CDATA[<s:decorate template=\"edit.xhtml\">\n"
@@ -771,7 +824,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:537
+#: Controls.xml:575
 #, no-c-format
 msgid ""
 "<![CDATA[<ui:composition xmlns=\"http://www.w3.org/1999/xhtml\"\n"
@@ -802,19 +855,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:541
+#: Controls.xml:579
 #, no-c-format
 msgid "&lt;s:div&gt;"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:544
+#: Controls.xml:582
 #, no-c-format
 msgid "Render a HTML <literal>&lt;div&gt;</literal>."
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:554
+#: Controls.xml:592
 #, no-c-format
 msgid ""
 "<![CDATA[<s:div rendered=\"#{selectedMember == null}\">\n"
@@ -823,25 +876,25 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:558
+#: Controls.xml:596
 #, no-c-format
 msgid "&lt;s:span&gt;"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:561
+#: Controls.xml:599
 #, no-c-format
 msgid "Render a HTML <literal>&lt;span&gt;</literal>."
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:569
+#: Controls.xml:607
 #, no-c-format
 msgid "<literal>title</literal> &#8212; Title for a span."
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:577
+#: Controls.xml:615
 #, no-c-format
 msgid ""
 "<![CDATA[<s:span styleClass=\"required\" rendered=\"#{required}\" title="
@@ -849,13 +902,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:582
+#: Controls.xml:620
 #, no-c-format
 msgid "&lt;s:fragment&gt;"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:585
+#: Controls.xml:623
 #, no-c-format
 msgid ""
 "A non-rendering component useful for enabling/disabling rendering of it's "
@@ -863,7 +916,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:596
+#: Controls.xml:634
 #, no-c-format
 msgid ""
 "<![CDATA[<s:fragment rendered=\"#{auction.highBidder ne null}\">\n"
@@ -872,13 +925,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:601
+#: Controls.xml:639
 #, no-c-format
 msgid "&lt;s:label&gt;"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:604
+#: Controls.xml:642
 #, no-c-format
 msgid ""
 "\"Decorate\" a JSF input field with the label. The label is placed inside "
@@ -888,19 +941,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:613 Controls.xml:930
+#: Controls.xml:651 Controls.xml:968
 #, no-c-format
 msgid "<literal>style</literal> &#8212; The control's style"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:618 Controls.xml:935
+#: Controls.xml:656 Controls.xml:973
 #, no-c-format
 msgid "<literal>styleClass</literal> &#8212; The control's style class"
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:625
+#: Controls.xml:663
 #, no-c-format
 msgid ""
 "<![CDATA[<s:label styleClass=\"label\">\n"
@@ -910,19 +963,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:629
+#: Controls.xml:667
 #, no-c-format
 msgid "&lt;s:message&gt;"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:632
+#: Controls.xml:670
 #, no-c-format
 msgid "\"Decorate\" a JSF input field with the validation error message."
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:642
+#: Controls.xml:680
 #, no-c-format
 msgid ""
 "<![CDATA[<f:facet name=\"afterInvalidField\">\n"
@@ -934,31 +987,31 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Controls.xml:649
+#: Controls.xml:687
 #, no-c-format
 msgid "Seam Text"
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:652
+#: Controls.xml:690
 #, no-c-format
 msgid "&lt;s:validateFormattedText&gt;"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:655
+#: Controls.xml:693
 #, no-c-format
 msgid "Checks that the submitted value is valid Seam Text"
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:666
+#: Controls.xml:704
 #, no-c-format
 msgid "&lt;s:formattedText&gt;"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:669
+#: Controls.xml:707
 #, no-c-format
 msgid ""
 "Outputs <emphasis>Seam Text</emphasis>, a rich text markup useful for blogs, "
@@ -967,7 +1020,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:678
+#: Controls.xml:716
 #, no-c-format
 msgid ""
 "<literal>value</literal> &#8212; an EL expression specifying the rich text "
@@ -975,37 +1028,37 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:686
+#: Controls.xml:724
 #, no-c-format
 msgid "<![CDATA[<s:formattedText value=\"#{blog.text}\"/>]]>"
 msgstr ""
 
 #. Tag: emphasis
-#: Controls.xml:688
+#: Controls.xml:726
 #, no-c-format
 msgid "Example"
 msgstr ""
 
 #. Tag: title
-#: Controls.xml:703
+#: Controls.xml:741
 #, no-c-format
 msgid "Dropdowns"
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:706
+#: Controls.xml:744
 #, no-c-format
 msgid "&lt;s:enumItem&gt;"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:709
+#: Controls.xml:747
 #, no-c-format
 msgid "Creates a <literal>SelectItem</literal> from an enum value."
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:716
+#: Controls.xml:754
 #, no-c-format
 msgid ""
 "<literal>enumValue</literal> &#8212; the string representation of the enum "
@@ -1013,7 +1066,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:722
+#: Controls.xml:760
 #, no-c-format
 msgid ""
 "<literal>label</literal> &#8212; the label to be used when rendering the "
@@ -1021,7 +1074,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:730
+#: Controls.xml:768
 #, no-c-format
 msgid ""
 "<![CDATA[<h:selectOneRadio id=\"radioList\"\n"
@@ -1037,13 +1090,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:734
+#: Controls.xml:772
 #, no-c-format
 msgid "&lt;s:selectItems&gt;"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:737
+#: Controls.xml:775
 #, no-c-format
 msgid ""
 "Creates a <literal>List&lt;SelectItem&gt;</literal> from a List, Set, "
@@ -1051,7 +1104,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:744
+#: Controls.xml:782
 #, no-c-format
 msgid ""
 "<literal>value</literal> &#8212; an EL expression specifying the data that "
@@ -1059,7 +1112,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:751
+#: Controls.xml:789
 #, no-c-format
 msgid ""
 "<literal>var</literal>&#8212; defines the name of the local variable that "
@@ -1067,7 +1120,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:757
+#: Controls.xml:795
 #, no-c-format
 msgid ""
 "<literal>label</literal> &#8212; the label to be used when rendering the "
@@ -1076,7 +1129,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:764
+#: Controls.xml:802
 #, no-c-format
 msgid ""
 "<literal>itemValue</literal> &#8212; Value to return to the server if this "
@@ -1085,7 +1138,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:773
+#: Controls.xml:811
 #, no-c-format
 msgid ""
 "<literal>disabled</literal> &#8212; if true the <literal>SelectItem</"
@@ -1094,7 +1147,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:781
+#: Controls.xml:819
 #, no-c-format
 msgid ""
 "<literal>noSelectionLabel</literal> &#8212; specifies the (optional) label "
@@ -1103,7 +1156,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:789
+#: Controls.xml:827
 #, no-c-format
 msgid ""
 "<literal>hideNoSelectionLabel</literal> &#8212; if true, the "
@@ -1111,7 +1164,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:797
+#: Controls.xml:835
 #, no-c-format
 msgid ""
 "<![CDATA[<h:selectOneMenu value=\"#{person.age}\" \n"
@@ -1121,19 +1174,19 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Controls.xml:803
+#: Controls.xml:841
 #, no-c-format
 msgid "Other"
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:806
+#: Controls.xml:844
 #, no-c-format
 msgid "&lt;s:cache&gt;"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:809
+#: Controls.xml:847
 #, no-c-format
 msgid ""
 "Cache the rendered page fragment using JBoss Cache. Note that <literal>&lt;s:"
@@ -1142,7 +1195,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:818
+#: Controls.xml:856
 #, no-c-format
 msgid ""
 "<literal>key</literal> &#8212; the key to cache rendered content, often a "
@@ -1152,7 +1205,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:826
+#: Controls.xml:864
 #, no-c-format
 msgid ""
 "<literal>enabled</literal> &#8212; a value expression that determines if the "
@@ -1160,7 +1213,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:832
+#: Controls.xml:870
 #, no-c-format
 msgid ""
 "<literal>region</literal> &#8212; a JBoss Cache node to use (different nodes "
@@ -1168,7 +1221,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:840
+#: Controls.xml:878
 #, no-c-format
 msgid ""
 "<![CDATA[<s:cache key=\"entry-#{blogEntry.id}\" region=\"pageFragments\">\n"
@@ -1190,13 +1243,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:846
+#: Controls.xml:884
 #, no-c-format
 msgid "&lt;s:fileUpload&gt;"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:849
+#: Controls.xml:887
 #, no-c-format
 msgid ""
 "Renders a file upload control. This control must be used within a form with "
@@ -1204,13 +1257,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:855
+#: Controls.xml:893
 #, no-c-format
 msgid "<![CDATA[<h:form enctype=\"multipart/form-data\">]]>"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:857
+#: Controls.xml:895
 #, no-c-format
 msgid ""
 "For multipart requests, the Seam Multipart servlet filter must also be "
@@ -1218,7 +1271,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:862
+#: Controls.xml:900
 #, no-c-format
 msgid ""
 "<![CDATA[<filter>\n"
@@ -1233,7 +1286,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:866
+#: Controls.xml:904
 #, no-c-format
 msgid ""
 "The following configuration options for multipart requests may be configured "
@@ -1241,7 +1294,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:873
+#: Controls.xml:911
 #, no-c-format
 msgid ""
 "<literal>createTempFiles</literal> &#8212; if this option is set to true, "
@@ -1249,7 +1302,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:880
+#: Controls.xml:918
 #, no-c-format
 msgid ""
 "<literal>maxRequestSize</literal> &#8212; the maximum size of a file upload "
@@ -1257,13 +1310,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:887
+#: Controls.xml:925
 #, no-c-format
 msgid "Here's an example:"
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:891
+#: Controls.xml:929
 #, no-c-format
 msgid ""
 "<![CDATA[<component class=\"org.jboss.seam.web.MultipartFilter\">\n"
@@ -1273,7 +1326,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:896
+#: Controls.xml:934
 #, no-c-format
 msgid ""
 "<literal>data</literal> &#8212; this value binding receives the binary file "
@@ -1282,7 +1335,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:904
+#: Controls.xml:942
 #, no-c-format
 msgid ""
 "<literal>contentType</literal> &#8212; this value binding receives the "
@@ -1290,7 +1343,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:910
+#: Controls.xml:948
 #, no-c-format
 msgid ""
 "<literal>fileName</literal> &#8212; this value binding receives the filename "
@@ -1298,7 +1351,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:916
+#: Controls.xml:954
 #, no-c-format
 msgid ""
 "<literal>fileSize</literal> &#8212; this value binding receives the file "
@@ -1306,7 +1359,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:922
+#: Controls.xml:960
 #, no-c-format
 msgid ""
 "<literal>accept</literal> &#8212; a comma-separated list of content types to "
@@ -1315,7 +1368,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:942
+#: Controls.xml:980
 #, no-c-format
 msgid ""
 "<![CDATA[<s:fileUpload id=\"picture\" data=\"#{register.picture}\" \n"
@@ -1324,13 +1377,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:947
+#: Controls.xml:985
 #, no-c-format
 msgid "&lt;s:graphicImage&gt;"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:950
+#: Controls.xml:988
 #, no-c-format
 msgid ""
 "An extended <literal>&lt;h:graphicImage&gt;</literal> that allows the image "
@@ -1339,7 +1392,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:955
+#: Controls.xml:993
 #, no-c-format
 msgid ""
 "All attributes for <literal>&lt;h:graphicImage&gt;</literal> are supported, "
@@ -1347,7 +1400,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:963
+#: Controls.xml:1001
 #, no-c-format
 msgid ""
 "<literal>value</literal> &#8212; image to display. Can be a path "
@@ -1359,7 +1412,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:976
+#: Controls.xml:1014
 #, no-c-format
 msgid ""
 "<literal>fileName</literal> &#8212; if not specified the served image will "
@@ -1368,13 +1421,13 @@ msgid ""
 msgstr ""
 
 #. Tag: emphasis
-#: Controls.xml:985
+#: Controls.xml:1023
 #, no-c-format
 msgid "Transformations"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:986
+#: Controls.xml:1024
 #, no-c-format
 msgid ""
 "To apply a transform to the image, you would nest a tag specifying the "
@@ -1382,25 +1435,25 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:994
+#: Controls.xml:1032
 #, no-c-format
 msgid "&lt;s:transformImageSize&gt;"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:999
+#: Controls.xml:1037
 #, no-c-format
 msgid "<literal>width</literal> &#8212; new width of the image"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1005
+#: Controls.xml:1043
 #, no-c-format
 msgid "<literal>height</literal> &#8212; new height of the image"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1011
+#: Controls.xml:1049
 #, no-c-format
 msgid ""
 "<literal>maintainRatio</literal> &#8212; if <literal>true</literal>, and "
@@ -1410,19 +1463,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1022
+#: Controls.xml:1060
 #, no-c-format
 msgid "<literal>factor</literal> &#8212; scale the image by the given factor"
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:1032
+#: Controls.xml:1070
 #, no-c-format
 msgid "&lt;s:transformImageBlur&gt;"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1037
+#: Controls.xml:1075
 #, no-c-format
 msgid ""
 "<literal>radius</literal> &#8212; perform a convolution blur with the given "
@@ -1430,13 +1483,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:1047
+#: Controls.xml:1085
 #, no-c-format
 msgid "&lt;s:transformImageType&gt;"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1052
+#: Controls.xml:1090
 #, no-c-format
 msgid ""
 "<literal>contentType</literal> &#8212; alter the type of the image to either "
@@ -1444,7 +1497,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1064
+#: Controls.xml:1102
 #, no-c-format
 msgid ""
 "It's easy to create your own transform - create a <literal>UIComponent</"
@@ -1456,7 +1509,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:1075
+#: Controls.xml:1113
 #, no-c-format
 msgid ""
 "<![CDATA[<s:graphicImage rendered=\"#{auction.image ne null}\"\n"
@@ -1466,19 +1519,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:1079
+#: Controls.xml:1117
 #, no-c-format
 msgid "&lt;s:remote&gt;"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1082
+#: Controls.xml:1120
 #, no-c-format
 msgid "Generates the Javascript stubs required to use Seam Remoting."
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1089
+#: Controls.xml:1127
 #, no-c-format
 msgid ""
 "<literal>include</literal> &#8212; a comma-separated list of the component "
@@ -1487,7 +1540,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:1099
+#: Controls.xml:1137
 #, no-c-format
 msgid ""
 "<![CDATA[<s:remote include=\"customerAction,accountAction,com.acme.MyBean\"/"
@@ -1495,13 +1548,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Controls.xml:1106
+#: Controls.xml:1144
 #, no-c-format
 msgid "Annotations"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1108
+#: Controls.xml:1146
 #, no-c-format
 msgid ""
 "Seam also provides annotations to allow you to use Seam components as JSF "
@@ -1509,13 +1562,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:1116
+#: Controls.xml:1154
 #, no-c-format
 msgid "@Converter"
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:1119
+#: Controls.xml:1157
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"itemConverter\") \n"
@@ -1541,7 +1594,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:1121
+#: Controls.xml:1159
 #, no-c-format
 msgid ""
 "<![CDATA[<h:inputText value=\"#{shop.item}\" converter=\"itemConverter\" />]]"
@@ -1549,7 +1602,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1123
+#: Controls.xml:1161
 #, no-c-format
 msgid ""
 "Registers the Seam component as a JSF converter. Shown here is a converter "
@@ -1558,13 +1611,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:1133
+#: Controls.xml:1171
 #, no-c-format
 msgid "@Validator"
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:1136
+#: Controls.xml:1174
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"itemValidator\") \n"
@@ -1586,7 +1639,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:1138
+#: Controls.xml:1176
 #, no-c-format
 msgid ""
 "<![CDATA[<h:inputText value=\"#{shop.item}\" validator=\"itemValidator\" />]]"
@@ -1594,7 +1647,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1139
+#: Controls.xml:1177
 #, no-c-format
 msgid ""
 "Registers the Seam component as a JSF validator. Shown here is a validator "

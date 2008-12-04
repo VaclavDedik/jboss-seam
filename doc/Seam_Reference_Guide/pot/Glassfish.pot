@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-11-06 00:23+0000\n"
+"POT-Creation-Date: 2008-12-04 00:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -695,39 +695,69 @@ msgstr ""
 #: Glassfish.xml:444
 #, no-c-format
 msgid ""
-"As with the <literal>jee5/booking</literal> example we need to add EJB "
-"references to the web.xml. These references require the empty <literal>local-"
-"home</literal> to flag them for GlassFish to perform the proper binding."
+"As with the <literal>jee5/booking</literal> example, we need to add EJB "
+"references to web.xml. Technically, the reference type is not required, but "
+"we add it here for good measure. Note that these references require the "
+"presence of an empty <literal>local-home</literal> element to retain "
+"compatibility with a JBoss AS 4.x deployment."
 msgstr ""
 
 #. Tag: programlisting
-#: Glassfish.xml:451
+#: Glassfish.xml:453
 #, no-c-format
 msgid ""
 "<![CDATA[<ejb-local-ref>              \n"
 "    <ejb-ref-name>seamgen_example/AuthenticatorAction</ejb-ref-"
 "name>                \n"
 "    <ejb-ref-type>Session</ejb-ref-type>     \n"
-"    <local-home></local-home>\n"
+"    <local-home/>\n"
 "    <local>org.jboss.seam.tutorial.glassfish.action.Authenticator</local>  \n"
 "  </ejb-local-ref>\n"
 "   \n"
 "  <ejb-local-ref>\n"
 "    <ejb-ref-name>seamgen_example/EjbSynchronizations</ejb-ref-name>  \n"
 "    <ejb-ref-type>Session</ejb-ref-type>\n"
-"    <local-home></local-home>\n"
+"    <local-home/>\n"
 "    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>\n"
 "  </ejb-local-ref>]]>"
 msgstr ""
 
+#. Tag: para
+#: Glassfish.xml:454
+#, no-c-format
+msgid ""
+"Keep in mind that if you are deploying to JBoss AS 4.x, and have defined the "
+"EJB references shown above in your web.xml, you will need to also define "
+"local JNDI names for each of them in jboss-web.xml, as shown below. This "
+"step is not required when deploying to GlassFish, but it's mentioned here in "
+"case you are also deploying the application to JBoss AS 4.x (not required "
+"for JBoss AS 5)."
+msgstr ""
+
+#. Tag: programlisting
+#: Glassfish.xml:463
+#, no-c-format
+msgid ""
+"<![CDATA[<ejb-local-ref>              \n"
+"    <ejb-ref-name>seamgen_example/AuthenticatorAction</ejb-ref-"
+"name>                \n"
+"    <local-jndi-name>AuthenticatorAction</local-jndi-name>  \n"
+"  </ejb-local-ref>\n"
+"   \n"
+"  <ejb-local-ref>\n"
+"    <ejb-ref-name>seamgen_example/EjbSynchronizations</ejb-ref-name>  \n"
+"    <local-jndi-name>EjbSynchronizations</local-jndi-name>\n"
+"  </ejb-local-ref>]]>"
+msgstr ""
+
 #. Tag: title
-#: Glassfish.xml:458
+#: Glassfish.xml:470
 #, no-c-format
 msgid "Creating the <literal>AuthenticatorAction</literal> EJB"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:460
+#: Glassfish.xml:472
 #, no-c-format
 msgid ""
 "We want to take the existing <literal>Authenticator</literal> Seam POJO "
@@ -735,13 +765,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:469
+#: Glassfish.xml:481
 #, no-c-format
 msgid "Rename the class to <literal>AuthenticatorAction</literal>"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:476
+#: Glassfish.xml:488
 #, no-c-format
 msgid ""
 "Add the <literal>@Stateless</literal> annotation to the new "
@@ -749,7 +779,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:483
+#: Glassfish.xml:495
 #, no-c-format
 msgid ""
 "Create an interface called <literal>Authenticator</literal> which "
@@ -761,7 +791,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Glassfish.xml:496
+#: Glassfish.xml:508
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"authenticator\") \n"
@@ -770,7 +800,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Glassfish.xml:498
+#: Glassfish.xml:510
 #, no-c-format
 msgid ""
 "<![CDATA[@Local\n"
@@ -781,7 +811,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:502
+#: Glassfish.xml:514
 #, no-c-format
 msgid ""
 "We've already added its reference to the <literal>web.xml</literal> file so "
@@ -789,14 +819,14 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Glassfish.xml:511
+#: Glassfish.xml:523
 #, no-c-format
 msgid ""
 "Extra jar dependencies and other changes to the <literal>build.xml</literal>"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:516
+#: Glassfish.xml:528
 #, no-c-format
 msgid ""
 "This application has similar requirements as the <literal>jee5/booking</"
@@ -804,7 +834,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:522
+#: Glassfish.xml:534
 #, no-c-format
 msgid ""
 "Change the default target to <literal>archive</literal> (we aren't going to "
@@ -812,7 +842,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Glassfish.xml:527
+#: Glassfish.xml:539
 #, no-c-format
 msgid ""
 "<![CDATA[<project name=\"seamgen_example\" default=\"archive\" basedir=\"."
@@ -820,7 +850,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:530
+#: Glassfish.xml:542
 #, no-c-format
 msgid ""
 "We need to get the <literal>GlassFishDerbyDialect.class</literal> into our "
@@ -829,7 +859,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Glassfish.xml:537
+#: Glassfish.xml:549
 #, no-c-format
 msgid ""
 "<![CDATA[<target name=\"jar\" depends=\"compile,copyclasses\" description="
@@ -845,7 +875,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:540
+#: Glassfish.xml:552
 #, no-c-format
 msgid ""
 "Now we need to get extra jars into the <literal>ear</literal> file. Look for "
@@ -855,13 +885,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:553
+#: Glassfish.xml:565
 #, no-c-format
 msgid "Add Hibernate dependencies"
 msgstr ""
 
 #. Tag: programlisting
-#: Glassfish.xml:554
+#: Glassfish.xml:566
 #, no-c-format
 msgid ""
 "<![CDATA[<!-- Hibernate and deps --> \n"
@@ -874,13 +904,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:557
+#: Glassfish.xml:569
 #, no-c-format
 msgid "Add third party dependencies."
 msgstr ""
 
 #. Tag: programlisting
-#: Glassfish.xml:558
+#: Glassfish.xml:570
 #, no-c-format
 msgid ""
 "<![CDATA[<!-- 3rd party and supporting jars -->\n"
@@ -895,13 +925,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:562
+#: Glassfish.xml:574
 #, no-c-format
 msgid "You should end up with something like:"
 msgstr ""
 
 #. Tag: programlisting
-#: Glassfish.xml:564
+#: Glassfish.xml:576
 #, no-c-format
 msgid ""
 "<![CDATA[<fileset dir=\"${lib.dir}\">\n"
@@ -928,13 +958,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Glassfish.xml:570
+#: Glassfish.xml:582
 #, no-c-format
 msgid "Building and deploying the seam-gen'd application to GlassFish"
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:574
+#: Glassfish.xml:586
 #, no-c-format
 msgid ""
 "Build your application by calling <literal>ant</literal> in the base "
@@ -944,7 +974,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:583
+#: Glassfish.xml:595
 #, no-c-format
 msgid ""
 "To deploy the application follow the instructions here <xref linkend=\"jee5-"
@@ -953,7 +983,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Glassfish.xml:592
+#: Glassfish.xml:604
 #, no-c-format
 msgid ""
 "Checkout the app at <literal>http://localhost:8081/seamgen_example/</literal>"

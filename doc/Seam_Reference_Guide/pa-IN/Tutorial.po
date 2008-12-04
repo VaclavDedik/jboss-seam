@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-11-06 00:24+0000\n"
+"POT-Creation-Date: 2008-12-04 00:59+0000\n"
 "PO-Revision-Date: 2008-04-04 01:24+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -90,30 +90,47 @@ msgid ""
 "The examples are configured for use on JBoss 4.2. You'll need to set "
 "<literal>jboss.home</literal>, in the shared <literal>build.properties</"
 "literal> file in the root folder of your Seam installation, to the location "
-"of your JBoss AS installation ."
+"of your JBoss AS installation."
 msgstr ""
 
 #. Tag: para
 #: Tutorial.xml:51
 #, no-c-format
 msgid ""
-"Once you've done that and started the application server, you can build and "
-"deploy any example by typing <literal>ant deploy</literal> in the the "
-"directory for that example. The examples all deploy to a URL like <literal>/"
-"seam-<replaceable>example</replaceable></literal>. For the registration "
-"example, the URL would be <ulink url=\"http://localhost:8080/seam-"
-"registration/\"> <literal>http://localhost:8080/seam-registration/</"
-"literal></ulink>."
+"Once you've set the location of JBoss AS and started the application server, "
+"you can build and deploy any example by typing <literal>ant explode</"
+"literal> in the the directory for that example. Any example that is packaged "
+"as an EAR deploys to a URL like <literal>/seam-<replaceable>example</"
+"replaceable></literal>, where <replaceable>example</replaceable> is the name "
+"of the example folder, with one exception. If the example folder begins with "
+"seam, the prefix \"seam\" is ommitted. For instance, if JBoss AS is running "
+"on port 8080, the URL for the registration example is <ulink url=\"http://"
+"localhost:8080/seam-registration/\"> <literal>http://localhost:8080/seam-"
+"registration/</literal></ulink>, whereas the URL for the seamspace example "
+"is <ulink url=\"http://localhost:8080/seam-space/\"> <literal>http://"
+"localhost:8080/seam-space/</literal></ulink>."
+msgstr ""
+
+#. Tag: para
+#: Tutorial.xml:62
+#, no-c-format
+msgid ""
+"If, on the other hand, the example gets packaged as a WAR, then it deploys "
+"to a URL like <literal>/jboss-seam-<replaceable>example</replaceable></"
+"literal>. Most of the examples can be deployed as a WAR to Tomcat with "
+"Embedded JBoss by typing <literal>ant tomcat.deploy</literal>. Several of "
+"the examples can only be deployed as a WAR. Those examples are "
+"groovybooking, hibernate, jpa, and spring."
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:61
+#: Tutorial.xml:71
 #, no-c-format
 msgid "Running the examples on Tomcat"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:63
+#: Tutorial.xml:73
 #, no-c-format
 msgid ""
 "The examples are also configured for use on Tomcat 6.0. You will need to "
@@ -125,7 +142,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:69
+#: Tutorial.xml:79
 #, no-c-format
 msgid ""
 "You'll need to set <literal>tomcat.home</literal>, in the shared "
@@ -135,7 +152,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:75
+#: Tutorial.xml:85
 #, no-c-format
 msgid ""
 "You'll need to use a different Ant target when using Tomcat. Use "
@@ -144,39 +161,42 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:80
+#: Tutorial.xml:90
 #, no-c-format
 msgid ""
 "On Tomcat, the examples deploy to URLs like <literal>/jboss-seam-"
 "<replaceable>example</replaceable></literal>, so for the registration "
 "example the URL would be <ulink url=\"http://localhost:8080/jboss-seam-"
 "registration/\"> <literal>http://localhost:8080/jboss-seam-registration/</"
-"literal></ulink>."
+"literal></ulink>. The same is true for examples that deploy as a WAR, as "
+"mentioned in the previous section."
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:89
+#: Tutorial.xml:100
 #, no-c-format
 msgid "Running the example tests"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:90
+#: Tutorial.xml:101
 #, no-c-format
 msgid ""
 "Most of the examples come with a suite of TestNG integration tests. The "
 "easiest way to run the tests is to run <literal>ant test</literal>. It is "
-"also possible to run the tests inside your IDE using the TestNG plugin."
+"also possible to run the tests inside your IDE using the TestNG plugin. "
+"Consult the readme.txt in the examples directory of the Seam distribution "
+"for more information."
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:101
+#: Tutorial.xml:112
 #, no-c-format
 msgid "Your first Seam application: the registration example"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:103
+#: Tutorial.xml:114
 #, no-c-format
 msgid ""
 "The registration example is a simple application that lets a new user store "
@@ -187,14 +207,14 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:108
+#: Tutorial.xml:119
 #, no-c-format
 msgid ""
 "We'll go slowly, since we realize you might not yet be familiar with EJB 3.0."
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:110
+#: Tutorial.xml:121
 #, no-c-format
 msgid ""
 "The start page displays a very basic form with three input fields. Try "
@@ -203,13 +223,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:123 Tutorial.xml:517 Tutorial.xml:706 Tutorial.xml:939
+#: Tutorial.xml:134 Tutorial.xml:533 Tutorial.xml:722 Tutorial.xml:955
 #, no-c-format
 msgid "Understanding the code"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:125
+#: Tutorial.xml:136
 #, no-c-format
 msgid ""
 "The example is implemented with two Facelets templates, one entity bean and "
@@ -218,13 +238,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:130
+#: Tutorial.xml:141
 #, no-c-format
 msgid "The entity bean: <literal>User.java</literal>"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:132
+#: Tutorial.xml:143
 #, no-c-format
 msgid ""
 "We need an EJB entity bean for user data. This class defines "
@@ -234,13 +254,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:137
+#: Tutorial.xml:148
 #, no-c-format
 msgid "User.java"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:149
+#: Tutorial.xml:160
 #, no-c-format
 msgid ""
 "<![CDATA[@Entity\n"
@@ -301,7 +321,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:152
+#: Tutorial.xml:163
 #, no-c-format
 msgid ""
 "The EJB3 standard <literal>@Entity</literal> annotation indicates that the "
@@ -309,7 +329,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:156
+#: Tutorial.xml:167
 #, no-c-format
 msgid ""
 "A Seam component needs a <emphasis>component name</emphasis> specified by "
@@ -324,7 +344,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:167
+#: Tutorial.xml:178
 #, no-c-format
 msgid ""
 "Whenever Seam instantiates a component, it binds the new instance to a "
@@ -335,7 +355,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:175
+#: Tutorial.xml:186
 #, no-c-format
 msgid ""
 "The EJB standard <literal>@Table</literal> annotation indicates that the "
@@ -344,7 +364,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:180
+#: Tutorial.xml:191
 #, no-c-format
 msgid ""
 "<literal>name</literal>, <literal>password</literal> and <literal>username</"
@@ -355,7 +375,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:187
+#: Tutorial.xml:198
 #, no-c-format
 msgid ""
 "An empty constructor is both required by both the EJB specification and by "
@@ -363,7 +383,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:191
+#: Tutorial.xml:202
 #, no-c-format
 msgid ""
 "The <literal>@NotNull</literal> and <literal>@Length</literal> annotations "
@@ -373,7 +393,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:197
+#: Tutorial.xml:208
 #, no-c-format
 msgid ""
 "The EJB standard <literal>@Id</literal> annotation indicates the primary key "
@@ -381,7 +401,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:203
+#: Tutorial.xml:214
 #, no-c-format
 msgid ""
 "The most important things to notice in this example are the <literal>@Name</"
@@ -390,7 +410,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:205
+#: Tutorial.xml:216
 #, no-c-format
 msgid ""
 "We'll see below that the properties of our <literal>User</literal> class are "
@@ -400,7 +420,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:209
+#: Tutorial.xml:220
 #, no-c-format
 msgid ""
 "However, entity beans shouldn't do transaction management or database "
@@ -409,14 +429,14 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:216
+#: Tutorial.xml:226
 #, no-c-format
 msgid ""
 "The stateless session bean class: <literal>RegisterAction.java</literal>"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:218
+#: Tutorial.xml:228
 #, no-c-format
 msgid ""
 "Most Seam application use session beans as JSF action listeners (you can use "
@@ -424,7 +444,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:220
+#: Tutorial.xml:230
 #, no-c-format
 msgid ""
 "We have exactly one JSF action in our application, and one session bean "
@@ -434,26 +454,25 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:224
+#: Tutorial.xml:234
 #, no-c-format
 msgid "This is the only really interesting code in the example!"
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:227
+#: Tutorial.xml:237
 #, no-c-format
 msgid "RegisterAction.java"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:240
+#: Tutorial.xml:250
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateless\n"
 "@Name(\"register\")\n"
 "public class RegisterAction implements Register\n"
 "{\n"
-"\n"
 "   @In\n"
 "   private User user;\n"
 "   \n"
@@ -466,7 +485,7 @@ msgid ""
 "   public String register()\n"
 "   {\n"
 "      List existing = em.createQuery(\n"
-"         \"select username from User where username=#{user.username}\")\n"
+"         \"select username from User where username = #{user.username}\")\n"
 "         .getResultList();\n"
 "         \n"
 "      if (existing.size()==0)\n"
@@ -487,7 +506,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:244
+#: Tutorial.xml:254
 #, no-c-format
 msgid ""
 "The EJB <literal>@Stateless</literal> annotation marks this class as a "
@@ -495,7 +514,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:248
+#: Tutorial.xml:258
 #, no-c-format
 msgid ""
 "The <link linkend=\"in-annotation\"> <literal>@In</literal> </link> "
@@ -505,7 +524,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:255
+#: Tutorial.xml:265
 #, no-c-format
 msgid ""
 "The EJB standard <literal>@PersistenceContext</literal> annotation is used "
@@ -513,7 +532,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:259
+#: Tutorial.xml:269
 #, no-c-format
 msgid ""
 "The Seam <literal>@Logger</literal> annotation is used to inject the "
@@ -521,7 +540,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:263
+#: Tutorial.xml:273
 #, no-c-format
 msgid ""
 "The action listener method uses the standard EJB3 <literal>EntityManager</"
@@ -532,7 +551,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:270
+#: Tutorial.xml:280
 #, no-c-format
 msgid ""
 "Notice that Seam lets you use a JSF EL expression inside EJB-QL. Under the "
@@ -541,14 +560,15 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:275
+#: Tutorial.xml:285
 #, no-c-format
 msgid ""
-"The <literal>Log</literal> API lets us easily display templated log messages."
+"The <literal>Log</literal> API lets us easily display templated log messages "
+"which can also make use of JSF EL expressions."
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:279
+#: Tutorial.xml:290
 #, no-c-format
 msgid ""
 "JSF action listener methods return a string-valued outcome that determines "
@@ -563,18 +583,20 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:291
+#: Tutorial.xml:302
 #, no-c-format
 msgid ""
 "Seam provides a number of <emphasis>built-in components</emphasis> to help "
 "solve common problems. The <literal>FacesMessages</literal> component makes "
-"it easy to display templated error or success messages. Built-in Seam "
-"components may be obtained by injection, or by calling an <literal>instance()"
-"</literal> method."
+"it easy to display templated error or success messages. (As of Seam 2.1, you "
+"can use <literal>StatusMessages</literal> instead to remove the semantic "
+"dependency on JSF). Built-in Seam components may be obtained by injection, "
+"or by calling the <literal>instance()</literal> method on the class of the "
+"built-in component."
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:301
+#: Tutorial.xml:314
 #, no-c-format
 msgid ""
 "Note that we did not explicitly specify a <literal>@Scope</literal> this "
@@ -584,7 +606,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:305
+#: Tutorial.xml:318
 #, no-c-format
 msgid ""
 "Our session bean action listener performs the business and persistence logic "
@@ -596,7 +618,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:311
+#: Tutorial.xml:324
 #, no-c-format
 msgid ""
 "Note that in this simple application, we've actually made it far more "
@@ -606,25 +628,25 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:320
+#: Tutorial.xml:333
 #, no-c-format
 msgid "The session bean local interface: <literal>Register.java</literal>"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:322
+#: Tutorial.xml:335
 #, no-c-format
 msgid "Naturally, our session bean needs a local interface."
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:324
+#: Tutorial.xml:337
 #, no-c-format
 msgid "Register.java"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:325
+#: Tutorial.xml:338
 #, no-c-format
 msgid ""
 "<![CDATA[@Local\n"
@@ -635,13 +657,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:328
+#: Tutorial.xml:341
 #, no-c-format
 msgid "That's the end of the Java code. Now we'll look at the view."
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:333
+#: Tutorial.xml:346
 #, no-c-format
 msgid ""
 "The view: <literal>register.xhtml</literal> and <literal>registered.xhtml</"
@@ -649,7 +671,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:335
+#: Tutorial.xml:348
 #, no-c-format
 msgid ""
 "The view pages for a Seam application could be implemented using any "
@@ -658,23 +680,22 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:339
+#: Tutorial.xml:352
 #, no-c-format
 msgid "register.xhtml"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:340
+#: Tutorial.xml:353
 #, no-c-format
 msgid ""
 "<![CDATA[<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
 "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \n"
-"                      \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional."
-"dtd\">\n"
+"    \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"
 "<html xmlns=\"http://www.w3.org/1999/xhtml\"\n"
-"      xmlns:s=\"http://jboss.com/products/seam/taglib\"\n"
-"      xmlns:h=\"http://java.sun.com/jsf/html\"\n"
-"      xmlns:f=\"http://java.sun.com/jsf/core\">\n"
+"    xmlns:s=\"http://jboss.com/products/seam/taglib\"\n"
+"    xmlns:h=\"http://java.sun.com/jsf/html\"\n"
+"    xmlns:f=\"http://java.sun.com/jsf/core\">\n"
 "\n"
 "   <head>\n"
 "      <title>Register New User</title>\n"
@@ -703,7 +724,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:343
+#: Tutorial.xml:356
 #, no-c-format
 msgid ""
 "The only thing here that is specific to Seam is the <literal>&lt;s:"
@@ -713,53 +734,52 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:348
+#: Tutorial.xml:361
 #, no-c-format
 msgid "registered.xhtml"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:349
+#: Tutorial.xml:362
 #, no-c-format
 msgid ""
 "<![CDATA[<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
 "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \n"
-"                      \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional."
-"dtd\">\n"
+"    \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"
 "<html xmlns=\"http://www.w3.org/1999/xhtml\"\n"
-"      xmlns:f=\"http://java.sun.com/jsf/core\">\n"
+"    xmlns:f=\"http://java.sun.com/jsf/core\">\n"
 "\n"
-"   <head>\n"
-"      <title>Successfully Registered New User</title>\n"
-"   </head>\n"
-"   <body>\n"
-"      <f:view>\n"
-"         Welcome, #{user.name}, you are successfully registered as #{user."
+"    <head>\n"
+"        <title>Successfully Registered New User</title>\n"
+"    </head>\n"
+"    <body>\n"
+"        <f:view>\n"
+"            Welcome, #{user.name}, you are successfully registered as #{user."
 "username}.\n"
-"      </f:view>\n"
-"   </body>\n"
+"        </f:view>\n"
+"    </body>\n"
 "\n"
 "</html>\n"
 "]]>"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:353
+#: Tutorial.xml:366
 #, no-c-format
 msgid ""
-"This is a simple Facelets page using some embedded EL. There is nothing "
+"This is a simple Facelets page using some inline EL. There's nothing "
 "specific to Seam here."
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:359
+#: Tutorial.xml:371
 #, no-c-format
 msgid ""
 "The Seam component deployment descriptor: <literal>components.xml</literal>"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:361
+#: Tutorial.xml:373
 #, no-c-format
 msgid ""
 "Since this is the first Seam app we've seen, we'll take a look at the "
@@ -771,7 +791,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:368
+#: Tutorial.xml:380
 #, no-c-format
 msgid ""
 "If you've used many Java frameworks before, you'll be used to having to "
@@ -783,7 +803,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:374
+#: Tutorial.xml:386
 #, no-c-format
 msgid ""
 "Nevertheless, it is often useful to be able to provide for <emphasis>some</"
@@ -796,43 +816,50 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:381
+#: Tutorial.xml:393
 #, no-c-format
 msgid "components.xml"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:382
+#: Tutorial.xml:394
 #, no-c-format
 msgid ""
 "<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 "<components xmlns=\"http://jboss.com/products/seam/components\"\n"
-"            xmlns:core=\"http://jboss.com/products/seam/core\"\n"
-"            xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n"
+"    xmlns:core=\"http://jboss.com/products/seam/core\"\n"
+"    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"    xsi:schemaLocation=\"\n"
+"        http://jboss.com/products/seam/core\n"
+"        http://jboss.com/products/seam/core-2.1.xsd \n"
+"        http://jboss.com/products/seam/components\n"
+"        http://jboss.com/products/seam/components-2.1.xsd\">\n"
 "            \n"
-"     <core:init jndi-pattern=\"@jndiPattern@\"/>\n"
+"    <core:init jndi-pattern=\"@jndiPattern@\"/>\n"
 "     \n"
 "</components>]]>"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:384
+#: Tutorial.xml:396
 #, no-c-format
 msgid ""
 "This code configures a property named <literal>jndiPattern</literal> of a "
 "built-in Seam component named <literal>org.jboss.seam.core.init</literal>. "
 "The funny <literal>@</literal> symbols are there because our Ant build "
-"script puts the correct JNDI pattern in when we deploy the application."
+"script puts the correct JNDI pattern in when we deploy the application, "
+"which it reads from the components.properties file. You learn more about how "
+"this process works in <xref linkend=\"xml.descriptor\"/>."
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:391
+#: Tutorial.xml:405
 #, no-c-format
 msgid "The web deployment description: <literal>web.xml</literal>"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:393
+#: Tutorial.xml:407
 #, no-c-format
 msgid ""
 "The presentation layer for our mini-application will be deployed in a WAR. "
@@ -840,34 +867,25 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:396
+#: Tutorial.xml:410
 #, no-c-format
 msgid "web.xml"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:397
+#: Tutorial.xml:411
 #, no-c-format
 msgid ""
 "<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-"<web-app version=\"2.5\"\n"
-"    xmlns=\"http://java.sun.com/xml/ns/javaee\"\n"
+"<web-app xmlns=\"http://java.sun.com/xml/ns/javaee\"\n"
 "    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
-"    xsi:schemaLocation=\"http://java.sun.com/xml/ns/javaee \n"
-"                        http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-"\">\n"
-"\n"
-"    <!-- Seam -->\n"
+"    xsi:schemaLocation=\"\n"
+"        http://java.sun.com/xml/ns/javaee\n"
+"        http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd\"\n"
+"    version=\"2.5\">\n"
 "\n"
 "    <listener>\n"
 "        <listener-class>org.jboss.seam.servlet.SeamListener</listener-"
-"class>\n"
-"    </listener>\n"
-"\n"
-"    <!-- JSF -->\n"
-"              \n"
-"    <listener>\n"
-"        <listener-class>com.sun.faces.config.ConfigureListener</listener-"
 "class>\n"
 "    </listener>\n"
 "    \n"
@@ -895,7 +913,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:400
+#: Tutorial.xml:414
 #, no-c-format
 msgid ""
 "This <literal>web.xml</literal> file configures Seam and JSF. The "
@@ -903,13 +921,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:406
+#: Tutorial.xml:420
 #, no-c-format
 msgid "The JSF configration: <literal>faces-config.xml</literal>"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:408
+#: Tutorial.xml:422
 #, no-c-format
 msgid ""
 "Most Seam applications use JSF views as the presentation layer. So usually "
@@ -919,23 +937,23 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:413
+#: Tutorial.xml:427
 #, no-c-format
 msgid "faces-config.xml"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:414
+#: Tutorial.xml:428
 #, no-c-format
 msgid ""
 "<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-"<faces-config version=\"1.2\"\n"
-"              xmlns=\"http://java.sun.com/xml/ns/javaee\"\n"
-"              xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
-"              xsi:schemaLocation=\"http://java.sun.com/xml/ns/javaee http://"
-"java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd\">\n"
+"<faces-config xmlns=\"http://java.sun.com/xml/ns/javaee\"\n"
+"    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"    xsi:schemaLocation=\"\n"
+"        http://java.sun.com/xml/ns/javaee\n"
+"        http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd\"\n"
+"    version=\"1.2\">\n"
 "\n"
-"    <!-- Facelets support -->\n"
 "    <application>\n"
 "        <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>\n"
 "    </application>\n"
@@ -944,28 +962,29 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:418
+#: Tutorial.xml:432
 #, no-c-format
 msgid ""
 "Note that we don't need any JSF managed bean declarations! Our managed beans "
 "are annotated Seam components. In Seam applications, the <literal>faces-"
-"config.xml</literal> is used much less often than in plain JSF."
+"config.xml</literal> is used much less often than in plain JSF. Here, we are "
+"simply using it to enable Facelets as the view handler instead of JSP."
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:422
+#: Tutorial.xml:437
 #, no-c-format
 msgid ""
 "In fact, once you have all the basic descriptors set up, the <emphasis>only</"
 "emphasis> XML you need to write as you add new functionality to a Seam "
 "application is orchestration: navigation rules or jBPM process definitions. "
-"Seam takes the view that <emphasis>process flow</emphasis> and "
+"Seam's stand is that <emphasis>process flow</emphasis> and "
 "<emphasis>configuration data</emphasis> are the only things that truly "
 "belong in XML."
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:427
+#: Tutorial.xml:442
 #, no-c-format
 msgid ""
 "In this simple example, we don't even need a navigation rule, since we "
@@ -973,13 +992,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:433
+#: Tutorial.xml:448
 #, no-c-format
 msgid "The EJB deployment descriptor: <literal>ejb-jar.xml</literal>"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:435
+#: Tutorial.xml:450
 #, no-c-format
 msgid ""
 "The <literal>ejb-jar.xml</literal> file integrates Seam with EJB3, by "
@@ -988,43 +1007,44 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:438
+#: Tutorial.xml:453
 #, no-c-format
 msgid ""
-"<![CDATA[<ejb-jar xmlns=\"http://java.sun.com/xml/ns/javaee\" \n"
-"         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" \n"
-"         xsi:schemaLocation=\"http://java.sun.com/xml/ns/javaee \n"
-"                             http://java.sun.com/xml/ns/javaee/ejb-jar_3_0."
-"xsd\"\n"
-"         version=\"3.0\">\n"
+"<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<ejb-jar xmlns=\"http://java.sun.com/xml/ns/javaee\" \n"
+"    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" \n"
+"    xsi:schemaLocation=\"\n"
+"        http://java.sun.com/xml/ns/javaee\n"
+"        http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd\"\n"
+"    version=\"3.0\">\n"
 "         \n"
-"   <interceptors>\n"
-"      <interceptor>\n"
-"         <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-"
-"class>\n"
-"      </interceptor>\n"
-"   </interceptors>\n"
+"    <interceptors>\n"
+"        <interceptor>\n"
+"            <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</"
+"interceptor-class>\n"
+"        </interceptor>\n"
+"    </interceptors>\n"
 "   \n"
-"   <assembly-descriptor>\n"
-"      <interceptor-binding>\n"
-"         <ejb-name>*</ejb-name>\n"
-"         <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-"
-"class>\n"
-"      </interceptor-binding>\n"
-"   </assembly-descriptor>\n"
+"    <assembly-descriptor>\n"
+"        <interceptor-binding>\n"
+"            <ejb-name>*</ejb-name>\n"
+"            <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</"
+"interceptor-class>\n"
+"        </interceptor-binding>\n"
+"    </assembly-descriptor>\n"
 "   \n"
 "</ejb-jar>]]>"
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:443
+#: Tutorial.xml:458
 #, no-c-format
 msgid ""
 "The EJB persistence deployment descriptor: <literal>persistence.xml</literal>"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:445
+#: Tutorial.xml:460
 #, no-c-format
 msgid ""
 "The <literal>persistence.xml</literal> file tells the EJB persistence "
@@ -1033,36 +1053,37 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:449
+#: Tutorial.xml:464
 #, no-c-format
 msgid ""
 "<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 "<persistence xmlns=\"http://java.sun.com/xml/ns/persistence\" \n"
-"             xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
-"             xsi:schemaLocation=\"http://java.sun.com/xml/ns/persistence \n"
-"                                 http://java.sun.com/xml/ns/persistence/"
-"persistence_1_0.xsd\" \n"
-"             version=\"1.0\">\n"
+"    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"    xsi:schemaLocation=\"\n"
+"        http://java.sun.com/xml/ns/persistence\n"
+"        http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd\" \n"
+"    version=\"1.0\">\n"
 "\n"
-"   <persistence-unit name=\"userDatabase\">\n"
-"      <provider>org.hibernate.ejb.HibernatePersistence</provider>\n"
-"      <jta-data-source>java:/DefaultDS</jta-data-source>\n"
-"      <properties>\n"
-"         <property name=\"hibernate.hbm2ddl.auto\" value=\"create-drop\"/>\n"
-"      </properties>\n"
+"    <persistence-unit name=\"userDatabase\">\n"
+"        <provider>org.hibernate.ejb.HibernatePersistence</provider>\n"
+"        <jta-data-source>java:/DefaultDS</jta-data-source>\n"
+"        <properties>\n"
+"            <property name=\"hibernate.hbm2ddl.auto\" value=\"create-drop\"/"
+">\n"
+"        </properties>\n"
 "    </persistence-unit>\n"
 "    \n"
 "</persistence>]]>"
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:454
+#: Tutorial.xml:469
 #, no-c-format
 msgid "The EAR deployment descriptor: <literal>application.xml</literal>"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:456
+#: Tutorial.xml:471
 #, no-c-format
 msgid ""
 "Finally, since our application is deployed as an EAR, we need a deployment "
@@ -1070,22 +1091,22 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:458
+#: Tutorial.xml:473
 #, no-c-format
 msgid "registration application"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:459
+#: Tutorial.xml:474
 #, no-c-format
 msgid ""
 "<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 "<application xmlns=\"http://java.sun.com/xml/ns/javaee\" \n"
-"             xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
-"             xsi:schemaLocation=\"http://java.sun.com/xml/ns/javaee \n"
-"                                 http://java.sun.com/xml/ns/javaee/"
-"application_5.xsd\"\n"
-"             version=\"5\">\n"
+"    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"    xsi:schemaLocation=\"\n"
+"        http://java.sun.com/xml/ns/javaee\n"
+"        http://java.sun.com/xml/ns/javaee/application_5.xsd\"\n"
+"    version=\"5\">\n"
 "             \n"
 "    <display-name>Seam Registration</display-name>\n"
 "\n"
@@ -1109,7 +1130,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:462
+#: Tutorial.xml:477
 #, no-c-format
 msgid ""
 "This deployment descriptor links modules in the enterprise archive and binds "
@@ -1118,20 +1139,20 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:465
+#: Tutorial.xml:480
 #, no-c-format
 msgid ""
 "We've now seen <emphasis>all</emphasis> the files in the entire application!"
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:471 Tutorial.xml:657 Tutorial.xml:871 Tutorial.xml:1054
+#: Tutorial.xml:486 Tutorial.xml:673 Tutorial.xml:887 Tutorial.xml:1070
 #, no-c-format
 msgid "How it works"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:473
+#: Tutorial.xml:488
 #, no-c-format
 msgid ""
 "When the form is submitted, JSF asks Seam to resolve the variable named "
@@ -1142,7 +1163,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:477
+#: Tutorial.xml:492
 #, no-c-format
 msgid ""
 "The form input values are now validated against the Hibernate Validator "
@@ -1152,25 +1173,27 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:480
+#: Tutorial.xml:495
 #, no-c-format
 msgid ""
 "Next, JSF asks Seam to resolve the variable named <literal>register</"
-"literal>. Seam finds the <literal>RegisterAction</literal> stateless session "
-"bean in the stateless context and returns it. JSF invokes the "
-"<literal>register()</literal> action listener method."
+"literal>. Seam uses the JNDI pattern mentioned earlier to locate the "
+"stateless session bean, wraps it as a Seam component, and returns it. Seam "
+"then presents this component to JSF and JSF invokes the <literal>register()</"
+"literal> action listener method."
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:483
+#: Tutorial.xml:499
 #, no-c-format
 msgid ""
-"Seam intercepts the method call and injects the <literal>User</literal> "
-"entity from the Seam session context, before continuing the invocation."
+"But Seam is not done yet. Seam intercepts the method call and injects the "
+"<literal>User</literal> entity from the Seam session context, before "
+"allowing the invocation to continue."
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:485
+#: Tutorial.xml:501
 #, no-c-format
 msgid ""
 "The <literal>register()</literal> method checks if a user with the entered "
@@ -1182,7 +1205,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:490
+#: Tutorial.xml:506
 #, no-c-format
 msgid ""
 "If no user with that username exists, the <literal>\"/registered.xhtml\"</"
@@ -1193,13 +1216,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:500
+#: Tutorial.xml:516
 #, no-c-format
 msgid "Clickable lists in Seam: the messages example"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:502
+#: Tutorial.xml:518
 #, no-c-format
 msgid ""
 "Clickable lists of database search results are such an important part of any "
@@ -1210,7 +1233,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:518
+#: Tutorial.xml:534
 #, no-c-format
 msgid ""
 "The message list example has one entity bean, <literal>Message</literal>, "
@@ -1218,13 +1241,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:522
+#: Tutorial.xml:538
 #, no-c-format
 msgid "The entity bean: <literal>Message.java</literal>"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:524
+#: Tutorial.xml:540
 #, no-c-format
 msgid ""
 "The <literal>Message</literal> entity defines the title, text, date and time "
@@ -1232,13 +1255,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:528
+#: Tutorial.xml:544
 #, no-c-format
 msgid "Message.java"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:529
+#: Tutorial.xml:545
 #, no-c-format
 msgid ""
 "<![CDATA[@Entity\n"
@@ -1253,43 +1276,53 @@ msgid ""
 "   private Date datetime;\n"
 "   \n"
 "   @Id @GeneratedValue\n"
-"   public Long getId() {\n"
+"   public Long getId()\n"
+"   {\n"
 "      return id;\n"
 "   }\n"
-"   public void setId(Long id) {\n"
+"   public void setId(Long id)\n"
+"   {\n"
 "      this.id = id;\n"
 "   }\n"
 "   \n"
 "   @NotNull @Length(max=100)\n"
-"   public String getTitle() {\n"
+"   public String getTitle()\n"
+"   {\n"
 "      return title;\n"
 "   }\n"
-"   public void setTitle(String title) {\n"
+"   public void setTitle(String title)\n"
+"   {\n"
 "      this.title = title;\n"
 "   }\n"
 "   \n"
 "   @NotNull @Lob\n"
-"   public String getText() {\n"
+"   public String getText()\n"
+"   {\n"
 "      return text;\n"
 "   }\n"
-"   public void setText(String text) {\n"
+"   public void setText(String text)\n"
+"   {\n"
 "      this.text = text;\n"
 "   }\n"
 "   \n"
 "   @NotNull\n"
-"   public boolean isRead() {\n"
+"   public boolean isRead()\n"
+"   {\n"
 "      return read;\n"
 "   }\n"
-"   public void setRead(boolean read) {\n"
+"   public void setRead(boolean read)\n"
+"   {\n"
 "      this.read = read;\n"
 "   }\n"
 "   \n"
 "   @NotNull \n"
 "   @Basic @Temporal(TemporalType.TIMESTAMP)\n"
-"   public Date getDatetime() {\n"
+"   public Date getDatetime()\n"
+"   {\n"
 "      return datetime;\n"
 "   }\n"
-"   public void setDatetime(Date datetime) {\n"
+"   public void setDatetime(Date datetime)\n"
+"   {\n"
 "      this.datetime = datetime;\n"
 "   }\n"
 "   \n"
@@ -1297,13 +1330,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:535
+#: Tutorial.xml:551
 #, no-c-format
 msgid "The stateful session bean: <literal>MessageManagerBean.java</literal>"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:537
+#: Tutorial.xml:553
 #, no-c-format
 msgid ""
 "Just like in the previous example, we have a session bean, "
@@ -1314,7 +1347,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:542
+#: Tutorial.xml:558
 #, no-c-format
 msgid ""
 "But <literal>MessageManagerBean</literal> is also responsible for fetching "
@@ -1327,7 +1360,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:548
+#: Tutorial.xml:564
 #, no-c-format
 msgid ""
 "We want to cache the list of messages in memory between server requests, so "
@@ -1335,13 +1368,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:552
+#: Tutorial.xml:568
 #, no-c-format
 msgid "MessageManagerBean.java"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:564
+#: Tutorial.xml:580
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateful\n"
@@ -1349,7 +1382,6 @@ msgid ""
 "@Name(\"messageManager\")\n"
 "public class MessageManagerBean implements Serializable, MessageManager\n"
 "{\n"
-"\n"
 "   @DataModel\n"
 "   private List<Message> messageList;\n"
 "   \n"
@@ -1387,7 +1419,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:567
+#: Tutorial.xml:583
 #, no-c-format
 msgid ""
 "The <literal>@DataModel</literal> annotation exposes an attibute of type "
@@ -1399,7 +1431,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:575
+#: Tutorial.xml:591
 #, no-c-format
 msgid ""
 "The <literal>@DataModelSelection</literal> annotation tells Seam to inject "
@@ -1407,7 +1439,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:579
+#: Tutorial.xml:595
 #, no-c-format
 msgid ""
 "The <literal>@Out</literal> annotation then exposes the selected value "
@@ -1418,7 +1450,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:586
+#: Tutorial.xml:602
 #, no-c-format
 msgid ""
 "This stateful bean has an EJB3 <emphasis>extended persistence context</"
@@ -1429,7 +1461,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:592
+#: Tutorial.xml:608
 #, no-c-format
 msgid ""
 "The first time we navigate to the JSP page, there will be no value in the "
@@ -1442,7 +1474,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:600
+#: Tutorial.xml:616
 #, no-c-format
 msgid ""
 "The <literal>select()</literal> action listener method marks the selected "
@@ -1450,7 +1482,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:604
+#: Tutorial.xml:620
 #, no-c-format
 msgid ""
 "The <literal>delete()</literal> action listener method removes the selected "
@@ -1458,7 +1490,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:608
+#: Tutorial.xml:624
 #, no-c-format
 msgid ""
 "All stateful session bean Seam components <emphasis>must</emphasis> have a "
@@ -1468,7 +1500,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:617
+#: Tutorial.xml:633
 #, no-c-format
 msgid ""
 "Note that this is a session-scoped Seam component. It is associated with the "
@@ -1478,26 +1510,26 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:624
+#: Tutorial.xml:640
 #, no-c-format
 msgid ""
 "The session bean local interface: <literal>MessageManager.java</literal>"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:626
+#: Tutorial.xml:642
 #, no-c-format
 msgid "All session beans have a business interface, of course."
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:628
+#: Tutorial.xml:644
 #, no-c-format
 msgid "MessageManager.java"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:630
+#: Tutorial.xml:646
 #, no-c-format
 msgid ""
 "<![CDATA[@Local\n"
@@ -1511,13 +1543,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:632
+#: Tutorial.xml:648
 #, no-c-format
 msgid "From now on, we won't show local interfaces in our code examples."
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:634
+#: Tutorial.xml:650
 #, no-c-format
 msgid ""
 "Let's skip over <literal>components.xml</literal>, <literal>persistence.xml</"
@@ -1528,13 +1560,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:642
+#: Tutorial.xml:658
 #, no-c-format
 msgid "The view: <literal>messages.jsp</literal>"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:644
+#: Tutorial.xml:660
 #, no-c-format
 msgid ""
 "The JSP page is a straightforward use of the JSF <literal>&lt;h:dataTable&gt;"
@@ -1542,13 +1574,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:647
+#: Tutorial.xml:663
 #, no-c-format
 msgid "messages.jsp"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:648
+#: Tutorial.xml:664
 #, no-c-format
 msgid ""
 "<![CDATA[<%@ taglib uri=\"http://java.sun.com/jsf/html\" prefix=\"h\" %>\n"
@@ -1602,7 +1634,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:659
+#: Tutorial.xml:675
 #, no-c-format
 msgid ""
 "The first time we navigate to the <literal>messages.jsp</literal> page, the "
@@ -1615,7 +1647,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:666
+#: Tutorial.xml:682
 #, no-c-format
 msgid ""
 "When the user clicks the <literal>&lt;h:commandLink&gt;</literal>, JSF calls "
@@ -1631,7 +1663,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:675
+#: Tutorial.xml:691
 #, no-c-format
 msgid ""
 "If the user clicks the <literal>&lt;h:commandButton&gt;</literal>, JSF calls "
@@ -1648,13 +1680,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:690
+#: Tutorial.xml:706
 #, no-c-format
 msgid "Seam and jBPM: the todo list example"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:692
+#: Tutorial.xml:708
 #, no-c-format
 msgid ""
 "jBPM provides sophisticated functionality for workflow and task management. "
@@ -1664,7 +1696,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:707
+#: Tutorial.xml:723
 #, no-c-format
 msgid ""
 "The center of this example is the jBPM process definition. There are also "
@@ -1674,13 +1706,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:712
+#: Tutorial.xml:728
 #, no-c-format
 msgid "todo.jpdl.xml"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:721
+#: Tutorial.xml:737
 #, no-c-format
 msgid ""
 "<![CDATA[<process-definition name=\"todo\">\n"
@@ -1702,7 +1734,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:724
+#: Tutorial.xml:740
 #, no-c-format
 msgid ""
 "The <literal>&lt;start-state&gt;</literal> node represents the logical start "
@@ -1711,7 +1743,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:729
+#: Tutorial.xml:745
 #, no-c-format
 msgid ""
 "The <literal>&lt;task-node&gt;</literal> node represents a <emphasis>wait "
@@ -1720,7 +1752,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:734
+#: Tutorial.xml:750
 #, no-c-format
 msgid ""
 "The <literal>&lt;task&gt;</literal> element defines a task to be performed "
@@ -1731,7 +1763,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:740
+#: Tutorial.xml:756
 #, no-c-format
 msgid ""
 "Tasks need to be assigned to a user or group of users when they are created. "
@@ -1741,7 +1773,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:746
+#: Tutorial.xml:762
 #, no-c-format
 msgid ""
 "The <literal>&lt;end-state&gt;</literal> node defines the logical end of the "
@@ -1750,7 +1782,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:755
+#: Tutorial.xml:771
 #, no-c-format
 msgid ""
 "If we view this process definition using the process definition editor "
@@ -1758,7 +1790,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:767
+#: Tutorial.xml:783
 #, no-c-format
 msgid ""
 "This document defines our <emphasis>business process</emphasis> as a graph "
@@ -1768,7 +1800,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:771
+#: Tutorial.xml:787
 #, no-c-format
 msgid ""
 "The first JavaBean handles the login screen <literal>login.jsp</literal>. "
@@ -1778,28 +1810,30 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:775
+#: Tutorial.xml:791
 #, no-c-format
 msgid "Login.java"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:776
+#: Tutorial.xml:792
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"login\")\n"
-"public class Login {\n"
-"   \n"
+"public class Login\n"
+"{\n"
 "   @In\n"
 "   private Actor actor;\n"
 "   \n"
 "   private String user;\n"
 "\n"
-"   public String getUser() {\n"
+"   public String getUser()\n"
+"   {\n"
 "      return user;\n"
 "   }\n"
 "\n"
-"   public void setUser(String user) {\n"
+"   public void setUser(String user)\n"
+"   {\n"
 "      this.user = user;\n"
 "   }\n"
 "   \n"
@@ -1812,7 +1846,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:780
+#: Tutorial.xml:796
 #, no-c-format
 msgid ""
 "Here we see the use of <literal>@In</literal> to inject the built-in "
@@ -1820,19 +1854,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:783
+#: Tutorial.xml:799
 #, no-c-format
 msgid "The JSP itself is trivial:"
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:786
+#: Tutorial.xml:802
 #, no-c-format
 msgid "login.jsp"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:787
+#: Tutorial.xml:803
 #, no-c-format
 msgid ""
 "<![CDATA[<%@ taglib uri=\"http://java.sun.com/jsf/html\" prefix=\"h\"%>\n"
@@ -1856,7 +1890,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:791
+#: Tutorial.xml:807
 #, no-c-format
 msgid ""
 "The second JavaBean is responsible for starting business process instances, "
@@ -1864,18 +1898,18 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:795
+#: Tutorial.xml:811
 #, no-c-format
 msgid "TodoList.java"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:802
+#: Tutorial.xml:818
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"todoList\")\n"
-"public class TodoList {\n"
-"   \n"
+"public class TodoList\n"
+"{\n"
 "   private String description;\n"
 "   \n"
 "   public String getDescription()\n"
@@ -1883,7 +1917,8 @@ msgid ""
 "      return description;\n"
 "   }\n"
 "\n"
-"   public void setDescription(String description) {\n"
+"   public void setDescription(String description)\n"
+"   {\n"
 "      this.description = description;\n"
 "   }\n"
 "   \n"
@@ -1897,7 +1932,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:805
+#: Tutorial.xml:821
 #, no-c-format
 msgid ""
 "The description property accepts user input form the JSP page, and exposes "
@@ -1905,7 +1940,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:809
+#: Tutorial.xml:825
 #, no-c-format
 msgid ""
 "The Seam <literal>@CreateProcess</literal> annotation creates a new jBPM "
@@ -1913,7 +1948,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:813
+#: Tutorial.xml:829
 #, no-c-format
 msgid ""
 "The Seam <literal>@StartTask</literal> annotation starts work on a task. The "
@@ -1922,7 +1957,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:822
+#: Tutorial.xml:838
 #, no-c-format
 msgid ""
 "In a more realistic example, <literal>@StartTask</literal> and "
@@ -1932,19 +1967,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:826
+#: Tutorial.xml:842
 #, no-c-format
 msgid "Finally, the core of the application is in <literal>todo.jsp</literal>:"
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:828 Tutorial.xml:838
+#: Tutorial.xml:844 Tutorial.xml:854
 #, no-c-format
 msgid "todo.jsp"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:829
+#: Tutorial.xml:845
 #, no-c-format
 msgid ""
 "<![CDATA[<%@ taglib uri=\"http://java.sun.com/jsf/html\" prefix=\"h\" %>\n"
@@ -2020,13 +2055,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:833
+#: Tutorial.xml:849
 #, no-c-format
 msgid "Let's take this one piece at a time."
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:835
+#: Tutorial.xml:851
 #, no-c-format
 msgid ""
 "The page renders a list of tasks, which it gets from a built-in Seam "
@@ -2035,7 +2070,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:839
+#: Tutorial.xml:855
 #, no-c-format
 msgid ""
 "<![CDATA[<h:form id=\"list\">\n"
@@ -2051,7 +2086,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:842
+#: Tutorial.xml:858
 #, no-c-format
 msgid ""
 "Each element of the list is an instance of the jBPM class "
@@ -2062,7 +2097,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:846
+#: Tutorial.xml:862
 #, no-c-format
 msgid ""
 "<![CDATA[<h:column>\n"
@@ -2096,7 +2131,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:849
+#: Tutorial.xml:865
 #, no-c-format
 msgid ""
 "This button ends the task by calling the action method annotated "
@@ -2105,7 +2140,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:852
+#: Tutorial.xml:868
 #, no-c-format
 msgid ""
 "<![CDATA[<h:column>\n"
@@ -2115,7 +2150,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:854
+#: Tutorial.xml:870
 #, no-c-format
 msgid ""
 "Note that this is using a Seam <literal>&lt;s:button&gt;</literal> JSF "
@@ -2126,13 +2161,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:859
+#: Tutorial.xml:875
 #, no-c-format
 msgid "<![CDATA[<h:commandButton value=\"Update Items\" action=\"update\"/>]]>"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:861
+#: Tutorial.xml:877
 #, no-c-format
 msgid ""
 "A second form on the page is used to create new items, by calling the action "
@@ -2140,7 +2175,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:864
+#: Tutorial.xml:880
 #, no-c-format
 msgid ""
 "<![CDATA[<h:form id=\"new\">\n"
@@ -2153,7 +2188,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:872
+#: Tutorial.xml:888
 #, no-c-format
 msgid ""
 "After logging in, todo.jsp uses the <literal>taskInstanceList</literal> "
@@ -2165,7 +2200,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:878
+#: Tutorial.xml:894
 #, no-c-format
 msgid ""
 "The process instance is created, starting in the start state and immediately "
@@ -2179,7 +2214,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:889
+#: Tutorial.xml:905
 #, no-c-format
 msgid ""
 "When <literal>todo.jsp</literal> is redisplayed, <literal>taskInstanceList</"
@@ -2191,7 +2226,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:899
+#: Tutorial.xml:915
 #, no-c-format
 msgid ""
 "Each todo item also has \"Done\" button, which calls <literal>#{todoList."
@@ -2206,7 +2241,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:910
+#: Tutorial.xml:926
 #, no-c-format
 msgid ""
 "When <literal>todo.jsp</literal> is displayed again, the now-completed task "
@@ -2215,13 +2250,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:918
+#: Tutorial.xml:934
 #, no-c-format
 msgid "Seam pageflow: the numberguess example"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:920
+#: Tutorial.xml:936
 #, no-c-format
 msgid ""
 "For Seam applications with relatively freeform (ad hoc) navigation, JSF/Seam "
@@ -2234,7 +2269,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:926
+#: Tutorial.xml:942
 #, no-c-format
 msgid ""
 "Seam allows you to use a jPDL process definition to define pageflow. The "
@@ -2242,7 +2277,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:940
+#: Tutorial.xml:956
 #, no-c-format
 msgid ""
 "The example is implemented using one JavaBean, three JSP pages and a jPDL "
@@ -2250,13 +2285,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:944
+#: Tutorial.xml:960
 #, no-c-format
 msgid "pageflow.jpdl.xml"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:952
+#: Tutorial.xml:968
 #, no-c-format
 msgid ""
 "<![CDATA[<pageflow-definition \n"
@@ -2313,7 +2348,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:955
+#: Tutorial.xml:971
 #, no-c-format
 msgid ""
 "The <literal>&lt;page&gt;</literal> element defines a wait state where the "
@@ -2325,7 +2360,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:962
+#: Tutorial.xml:978
 #, no-c-format
 msgid ""
 "The <literal>&lt;transition&gt;</literal> element names a JSF outcome. The "
@@ -2335,7 +2370,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:968
+#: Tutorial.xml:984
 #, no-c-format
 msgid ""
 "A transition <literal>&lt;action&gt;</literal> is just like a JSF action, "
@@ -2344,7 +2379,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:973
+#: Tutorial.xml:989
 #, no-c-format
 msgid ""
 "A <literal>&lt;decision&gt;</literal> node branches the pageflow, and "
@@ -2352,7 +2387,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:981
+#: Tutorial.xml:997
 #, no-c-format
 msgid ""
 "Here is what the pageflow looks like in the JBoss Developer Studio pageflow "
@@ -2360,7 +2395,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:992
+#: Tutorial.xml:1008
 #, no-c-format
 msgid ""
 "Now that we have seen the pageflow, it is very, very easy to understand the "
@@ -2368,7 +2403,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:994
+#: Tutorial.xml:1010
 #, no-c-format
 msgid ""
 "Here is the main page of the application, <literal>numberGuess.jspx</"
@@ -2376,13 +2411,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:997
+#: Tutorial.xml:1013
 #, no-c-format
 msgid "numberGuess.jspx"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:998
+#: Tutorial.xml:1014
 #, no-c-format
 msgid ""
 "<![CDATA[<<?xml version=\"1.0\"?>\n"
@@ -2407,19 +2442,19 @@ msgid ""
 "  <body>\n"
 "    <h1>Guess a number...</h1>\n"
 "    <f:view>\n"
-"          <h:form styleClass=\"niceform\">\n"
-"            \n"
-"            <div>\n"
-"            <h:messages globalOnly=\"true\"/>\n"
-"            <h:outputText value=\"Higher!\" \n"
-"                   rendered=\"#{numberGuess.randomNumber gt numberGuess."
+"      <h:form styleClass=\"niceform\">\n"
+"        \n"
+"        <div>\n"
+"        <h:messages globalOnly=\"true\"/>\n"
+"        <h:outputText value=\"Higher!\" \n"
+"               rendered=\"#{numberGuess.randomNumber gt numberGuess."
 "currentGuess}\"/>\n"
-"            <h:outputText value=\"Lower!\" \n"
-"                   rendered=\"#{numberGuess.randomNumber lt numberGuess."
+"        <h:outputText value=\"Lower!\" \n"
+"               rendered=\"#{numberGuess.randomNumber lt numberGuess."
 "currentGuess}\"/>\n"
-"                </div>\n"
-"                \n"
-"                <div>\n"
+"        </div>\n"
+"        \n"
+"        <div>\n"
 "        I'm thinking of a number between \n"
 "        <h:outputText value=\"#{numberGuess.smallest}\"/> and \n"
 "        <h:outputText value=\"#{numberGuess.biggest}\"/>. You have \n"
@@ -2453,16 +2488,16 @@ msgid ""
 "          <s:selectItems value=\"#{numberGuess.possibilities}\" var=\"i\" "
 "label=\"#{i}\"/>\n"
 "        </h:selectOneRadio>\n"
-"                <h:commandButton value=\"Guess\" action=\"guess\"/>\n"
+"        <h:commandButton value=\"Guess\" action=\"guess\"/>\n"
 "        <s:button value=\"Cheat\" view=\"/confirm.jspx\"/>\n"
 "        <s:button value=\"Give up\" action=\"giveup\"/>\n"
-"                </div>\n"
-"                \n"
-"                <div>\n"
+"        </div>\n"
+"        \n"
+"        <div>\n"
 "        <h:message for=\"inputGuess\" style=\"color: red\"/>\n"
 "        </div>\n"
 "        \n"
-"          </h:form>\n"
+"      </h:form>\n"
 "    </f:view>\n"
 "  </body>\n"
 "  </html>\n"
@@ -2470,7 +2505,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1002
+#: Tutorial.xml:1018
 #, no-c-format
 msgid ""
 "Notice how the command button names the <literal>guess</literal> transition "
@@ -2478,19 +2513,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1005
+#: Tutorial.xml:1021
 #, no-c-format
 msgid "The <literal>win.jspx</literal> page is predictable:"
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1007
+#: Tutorial.xml:1023
 #, no-c-format
 msgid "win.jspx"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1008
+#: Tutorial.xml:1024
 #, no-c-format
 msgid ""
 "<![CDATA[<jsp:root xmlns:jsp=\"http://java.sun.com/JSP/Page\" \n"
@@ -2526,7 +2561,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1012
+#: Tutorial.xml:1028
 #, no-c-format
 msgid ""
 "The <literal>lose.jspx</literal> looks roughly the same, so we'll skip over "
@@ -2534,19 +2569,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1014
+#: Tutorial.xml:1030
 #, no-c-format
 msgid "Finally, we'll look at the actual application code:"
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1017
+#: Tutorial.xml:1033
 #, no-c-format
 msgid "NumberGuess.java"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1022
+#: Tutorial.xml:1038
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"numberGuess\")\n"
@@ -2655,7 +2690,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1025
+#: Tutorial.xml:1041
 #, no-c-format
 msgid ""
 "The first time a JSP page asks for a <literal>numberGuess</literal> "
@@ -2664,7 +2699,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1035
+#: Tutorial.xml:1051
 #, no-c-format
 msgid ""
 "The <literal>pages.xml</literal> file starts a Seam <emphasis>conversation</"
@@ -2673,13 +2708,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1041
+#: Tutorial.xml:1057
 #, no-c-format
 msgid "pages.xml"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1044
+#: Tutorial.xml:1060
 #, no-c-format
 msgid ""
 "<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -2697,7 +2732,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1048
+#: Tutorial.xml:1064
 #, no-c-format
 msgid ""
 "As you can see, this Seam component is pure business logic! It doesn't need "
@@ -2706,7 +2741,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1055
+#: Tutorial.xml:1071
 #, no-c-format
 msgid ""
 "We'll step through basic flow of the application. The game starts with the "
@@ -2719,7 +2754,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1063
+#: Tutorial.xml:1079
 #, no-c-format
 msgid ""
 "The view references the <literal>numberGuess</literal> component, causing a "
@@ -2730,7 +2765,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1069
+#: Tutorial.xml:1085
 #, no-c-format
 msgid ""
 "The \"Guess\" button triggers the <literal>guess</literal> action. Seam "
@@ -2742,7 +2777,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1075
+#: Tutorial.xml:1091
 #, no-c-format
 msgid ""
 "The <literal>evaluateGuess</literal> state checks the value of <literal>#"
@@ -2761,7 +2796,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1087
+#: Tutorial.xml:1103
 #, no-c-format
 msgid ""
 "We won't follow the state any more except to note that if on a future "
@@ -2773,7 +2808,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1097
+#: Tutorial.xml:1113
 #, no-c-format
 msgid ""
 "The numberguess example also contains Giveup and Cheat buttons. You should "
@@ -2785,19 +2820,19 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1109
+#: Tutorial.xml:1125
 #, no-c-format
 msgid "A complete Seam application: the Hotel Booking example"
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1112 Tutorial.xml:1490
+#: Tutorial.xml:1128 Tutorial.xml:1506
 #, no-c-format
 msgid "Introduction"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1114
+#: Tutorial.xml:1130
 #, no-c-format
 msgid ""
 "The booking application is a complete hotel room reservation system "
@@ -2805,67 +2840,67 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1119
+#: Tutorial.xml:1135
 #, no-c-format
 msgid "User registration"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1122
+#: Tutorial.xml:1138
 #, no-c-format
 msgid "Login"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1125
+#: Tutorial.xml:1141
 #, no-c-format
 msgid "Logout"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1128
+#: Tutorial.xml:1144
 #, no-c-format
 msgid "Set password"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1131
+#: Tutorial.xml:1147
 #, no-c-format
 msgid "Hotel search"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1134
+#: Tutorial.xml:1150
 #, no-c-format
 msgid "Hotel selection"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1137
+#: Tutorial.xml:1153
 #, no-c-format
 msgid "Room reservation"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1140
+#: Tutorial.xml:1156
 #, no-c-format
 msgid "Reservation confirmation"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1143
+#: Tutorial.xml:1159
 #, no-c-format
 msgid "Existing reservation list"
 msgstr ""
 
 #. Tag: screeninfo
-#: Tutorial.xml:1148
+#: Tutorial.xml:1164
 #, no-c-format
 msgid "Booking example"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1159
+#: Tutorial.xml:1175
 #, no-c-format
 msgid ""
 "The booking application uses JSF, EJB 3.0 and Seam, together with Facelets "
@@ -2874,7 +2909,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1162
+#: Tutorial.xml:1178
 #, no-c-format
 msgid ""
 "One of the things you'll notice if you play with this application for long "
@@ -2889,7 +2924,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1169
+#: Tutorial.xml:1185
 #, no-c-format
 msgid ""
 "As you browse the sourcecode of the example application, and learn how the "
@@ -2898,13 +2933,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1175
+#: Tutorial.xml:1191
 #, no-c-format
 msgid "Overview of the booking example"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1177
+#: Tutorial.xml:1193
 #, no-c-format
 msgid ""
 "The project structure is identical to the previous one, to install and "
@@ -2915,7 +2950,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1184
+#: Tutorial.xml:1200
 #, no-c-format
 msgid ""
 "The application uses six session beans for to implement the business logic "
@@ -2923,7 +2958,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1188
+#: Tutorial.xml:1204
 #, no-c-format
 msgid ""
 "<literal>AuthenticatorAction</literal> provides the login authentication "
@@ -2931,7 +2966,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1191
+#: Tutorial.xml:1207
 #, no-c-format
 msgid ""
 "<literal>BookingListAction</literal> retrieves existing bookings for the "
@@ -2939,7 +2974,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1194
+#: Tutorial.xml:1210
 #, no-c-format
 msgid ""
 "<literal>ChangePasswordAction</literal> updates the password of the "
@@ -2947,7 +2982,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1197
+#: Tutorial.xml:1213
 #, no-c-format
 msgid ""
 "<literal>HotelBookingAction</literal> implements booking and confirmation "
@@ -2957,7 +2992,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1202
+#: Tutorial.xml:1218
 #, no-c-format
 msgid ""
 "<literal>HotelSearchingAction</literal> implements the hotel search "
@@ -2965,25 +3000,25 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1205
+#: Tutorial.xml:1221
 #, no-c-format
 msgid "<literal>RegisterAction</literal> registers a new system user."
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1209
+#: Tutorial.xml:1225
 #, no-c-format
 msgid "Three entity beans implement the application's persistent domain model."
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1213
+#: Tutorial.xml:1229
 #, no-c-format
 msgid "<literal>Hotel</literal> is an entity bean that represent a hotel"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1215
+#: Tutorial.xml:1231
 #, no-c-format
 msgid ""
 "<literal>Booking</literal> is an entity bean that represents an existing "
@@ -2991,7 +3026,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1217
+#: Tutorial.xml:1233
 #, no-c-format
 msgid ""
 "<literal>User</literal> is an entity bean to represents a user who can make "
@@ -2999,13 +3034,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1224
+#: Tutorial.xml:1240
 #, no-c-format
 msgid "Understanding Seam conversations"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1225
+#: Tutorial.xml:1241
 #, no-c-format
 msgid ""
 "We encourage you browse the sourcecode at your pleasure. In this tutorial "
@@ -3018,7 +3053,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1231
+#: Tutorial.xml:1247
 #, no-c-format
 msgid ""
 "Most web application architectures have no first class construct to "
@@ -3031,7 +3066,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1237
+#: Tutorial.xml:1253
 #, no-c-format
 msgid ""
 "Since the database is the least scalable tier, this often results in an "
@@ -3047,7 +3082,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1245
+#: Tutorial.xml:1261
 #, no-c-format
 msgid ""
 "Now consider the state held in the <literal>HttpSession</literal>. The "
@@ -3065,7 +3100,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1258
+#: Tutorial.xml:1274
 #, no-c-format
 msgid ""
 "Seam introduces the <emphasis>conversation context</emphasis> as a first "
@@ -3077,7 +3112,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1263
+#: Tutorial.xml:1279
 #, no-c-format
 msgid ""
 "In this application, we'll use the conversation context to store stateful "
@@ -3099,7 +3134,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1281
+#: Tutorial.xml:1297
 #, no-c-format
 msgid ""
 "The booking example application shows how stateful components with different "
@@ -3111,7 +3146,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1287
+#: Tutorial.xml:1303
 #, no-c-format
 msgid ""
 "The booking example also demonstrates the use of RichFaces Ajax to implement "
@@ -3119,7 +3154,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1290
+#: Tutorial.xml:1306
 #, no-c-format
 msgid ""
 "The search functionality is implemented using a session-scope stateful "
@@ -3127,13 +3162,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1294
+#: Tutorial.xml:1310
 #, no-c-format
 msgid "HotelSearchingAction.java"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1303
+#: Tutorial.xml:1319
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateful\n"
@@ -3214,7 +3249,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1306
+#: Tutorial.xml:1322
 #, no-c-format
 msgid ""
 "The EJB standard <literal>@Stateful</literal> annotation identifies this "
@@ -3223,7 +3258,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1311
+#: Tutorial.xml:1327
 #, no-c-format
 msgid ""
 "The <literal>@Restrict</literal> annotation applies a security restriction "
@@ -3232,7 +3267,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1316
+#: Tutorial.xml:1332
 #, no-c-format
 msgid ""
 "The <link linkend=\"datamodel-annotation\"> <literal>@DataModel</literal> </"
@@ -3244,7 +3279,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1325
+#: Tutorial.xml:1341
 #, no-c-format
 msgid ""
 "The EJB standard <literal>@Remove</literal> annotation specifies that a "
@@ -3255,7 +3290,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1336
+#: Tutorial.xml:1352
 #, no-c-format
 msgid ""
 "The main page of the application is a Facelets page. Let's look at the "
@@ -3263,13 +3298,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1339
+#: Tutorial.xml:1355
 #, no-c-format
 msgid "main.xhtml"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1348
+#: Tutorial.xml:1364
 #, no-c-format
 msgid ""
 "<![CDATA[<div class=\"section\">\n"
@@ -3280,18 +3315,18 @@ msgid ""
 "    \n"
 "    <h1>Search Hotels</h1>\n"
 "\n"
-"        <h:form id=\"searchCriteria\">\n"
-"        <fieldset> \n"
-"           <h:inputText id=\"searchString\" value=\"#{hotelSearch."
-"searchString}\" \n"
+"    <h:form id=\"searchCriteria\">\n"
+"    <fieldset> \n"
+"       <h:inputText id=\"searchString\" value=\"#{hotelSearch.searchString}"
+"\" \n"
 "                    style=\"width: 165px;\">\n"
 "         <a:support event=\"onkeyup\" actionListener=\"#{hotelSearch.find}"
 "\" \n"
 "                    reRender=\"searchResults\" />\n"
 "       </h:inputText>\n"
 "       &#160;\n"
-"           <a:commandButton id=\"findHotels\" value=\"Find Hotels\" action="
-"\"#{hotelSearch.find}\" \n"
+"       <a:commandButton id=\"findHotels\" value=\"Find Hotels\" action=\"#"
+"{hotelSearch.find}\" \n"
 "                        reRender=\"searchResults\"/>\n"
 "       &#160;\n"
 "       <a:status>\n"
@@ -3299,7 +3334,7 @@ msgid ""
 "             <h:graphicImage value=\"/img/spinner.gif\"/>\n"
 "          </f:facet>\n"
 "       </a:status>\n"
-"           <br/>\n"
+"       <br/>\n"
 "       <h:outputLabel for=\"pageSize\">Maximum results:</h:"
 "outputLabel>&#160;\n"
 "       <h:selectOneMenu value=\"#{hotelSearch.pageSize}\" id=\"pageSize\">\n"
@@ -3347,7 +3382,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1351
+#: Tutorial.xml:1367
 #, no-c-format
 msgid ""
 "The RichFaces Ajax <literal>&lt;a:support&gt;</literal> tag allows a JSF "
@@ -3359,7 +3394,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1358
+#: Tutorial.xml:1374
 #, no-c-format
 msgid ""
 "The RichFaces Ajax <literal>&lt;a:status&gt;</literal> tag lets us display "
@@ -3367,7 +3402,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1362
+#: Tutorial.xml:1378
 #, no-c-format
 msgid ""
 "The RichFaces Ajax <literal>&lt;a:outputPanel&gt;</literal> tag defines a "
@@ -3375,7 +3410,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1366
+#: Tutorial.xml:1382
 #, no-c-format
 msgid ""
 "The Seam <literal>&lt;s:link&gt;</literal> tag lets us attach a JSF action "
@@ -3389,7 +3424,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1373
+#: Tutorial.xml:1389
 #, no-c-format
 msgid ""
 "If you're wondering how navigation occurs, you can find all the rules in "
@@ -3398,7 +3433,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1382
+#: Tutorial.xml:1398
 #, no-c-format
 msgid ""
 "This page displays the search results dynamically as we type, and lets us "
@@ -3408,7 +3443,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1387
+#: Tutorial.xml:1403
 #, no-c-format
 msgid ""
 "Now let's see how the booking example application uses a conversation-scoped "
@@ -3420,13 +3455,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1392 Tutorial.xml:1617
+#: Tutorial.xml:1408 Tutorial.xml:1633
 #, no-c-format
 msgid "HotelBookingAction.java"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1402
+#: Tutorial.xml:1418
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateful\n"
@@ -3523,7 +3558,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1405
+#: Tutorial.xml:1421
 #, no-c-format
 msgid ""
 "This bean uses an EJB3 <emphasis>extended persistence context</emphasis>, so "
@@ -3532,7 +3567,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1410
+#: Tutorial.xml:1426
 #, no-c-format
 msgid ""
 "The <link linkend=\"out-annotation\"> <literal>@Out</literal> </link> "
@@ -3544,7 +3579,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1418
+#: Tutorial.xml:1434
 #, no-c-format
 msgid ""
 "The <link linkend=\"begin-annotation\"> <literal>@Begin</literal> </link> "
@@ -3557,7 +3592,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1427
+#: Tutorial.xml:1443
 #, no-c-format
 msgid ""
 "The <link linkend=\"end-annotation\"> <literal>@End</literal> </link> "
@@ -3567,7 +3602,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1434
+#: Tutorial.xml:1450
 #, no-c-format
 msgid ""
 "This EJB remove method will be called when Seam destroys the conversation "
@@ -3575,7 +3610,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1442
+#: Tutorial.xml:1458
 #, no-c-format
 msgid ""
 "<literal>HotelBookingAction</literal> contains all the action listener "
@@ -3586,7 +3621,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1448
+#: Tutorial.xml:1464
 #, no-c-format
 msgid ""
 "Even better, a user can have multiple isolated conversations per login "
@@ -3600,13 +3635,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1458
+#: Tutorial.xml:1474
 #, no-c-format
 msgid "The Seam Debug Page"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1460
+#: Tutorial.xml:1476
 #, no-c-format
 msgid ""
 "The WAR also includes <literal>seam-debug.jar</literal>. The Seam debug page "
@@ -3616,13 +3651,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1465
+#: Tutorial.xml:1481
 #, no-c-format
 msgid "<![CDATA[<core:init jndi-pattern=\"@jndiPattern@\" debug=\"true\"/>]]>"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1467
+#: Tutorial.xml:1483
 #, no-c-format
 msgid ""
 "This page lets you browse and inspect the Seam components in any of the Seam "
@@ -3632,13 +3667,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1487
+#: Tutorial.xml:1503
 #, no-c-format
 msgid "Nested conversations: extending the Hotel Booking example"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1492
+#: Tutorial.xml:1508
 #, no-c-format
 msgid ""
 "Long-running conversations make it simple to maintain consistency of state "
@@ -3650,7 +3685,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1497
+#: Tutorial.xml:1513
 #, no-c-format
 msgid ""
 "The nested booking application extends the features of the hotel booking "
@@ -3660,7 +3695,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1510
+#: Tutorial.xml:1526
 #, no-c-format
 msgid ""
 "The user now has the option to select any available room to be included in "
@@ -3671,7 +3706,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1515
+#: Tutorial.xml:1531
 #, no-c-format
 msgid ""
 "To demonstrate this, let’s suppose the user clones the room selection screen "
@@ -3685,7 +3720,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1521
+#: Tutorial.xml:1537
 #, no-c-format
 msgid ""
 "In this scenario, if we simply store all state in the conversation, we are "
@@ -3695,13 +3730,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1527
+#: Tutorial.xml:1543
 #, no-c-format
 msgid "Understanding Nested Conversations"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1529
+#: Tutorial.xml:1545
 #, no-c-format
 msgid ""
 "Now let's see how the nested booking example extends the behavior of the "
@@ -3710,13 +3745,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1533
+#: Tutorial.xml:1549
 #, no-c-format
 msgid "RoomPreferenceAction.java"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1542
+#: Tutorial.xml:1558
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateful\n"
@@ -3787,13 +3822,13 @@ msgid ""
 "\n"
 "   @Destroy "
 "@Remove                                                                      \n"
-"   public void destroy() {}        \n"
+"   public void destroy() {}    \n"
 "}\n"
 "]]>"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1545
+#: Tutorial.xml:1561
 #, no-c-format
 msgid ""
 "The <varname>hotel</varname> instance is injected from the conversation "
@@ -3805,7 +3840,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1553
+#: Tutorial.xml:1569
 #, no-c-format
 msgid ""
 "When <link linkend=\"begin-annotation\"> <literal>@Begin(nested=true)</"
@@ -3818,7 +3853,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1562
+#: Tutorial.xml:1578
 #, no-c-format
 msgid ""
 "The <varname>roomSelection</varname> is outjected to the conversation based "
@@ -3830,7 +3865,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1569
+#: Tutorial.xml:1585
 #, no-c-format
 msgid ""
 "The <link linkend=\"end-annotation\"> <literal>@End</literal> </link> "
@@ -3840,7 +3875,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1578
+#: Tutorial.xml:1594
 #, no-c-format
 msgid ""
 "When we being a nested conversation it is pushed onto the conversation "
@@ -3850,87 +3885,77 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1583
+#: Tutorial.xml:1599
 #, no-c-format
 msgid "rooms.xhtml"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1591
+#: Tutorial.xml:1607
 #, no-c-format
 msgid ""
 "<![CDATA[<div class=\"section\">\n"
-"        <h1>Room Preference</h1>\n"
+"    <h1>Room Preference</h1>\n"
 "</div>\n"
 "\n"
 "<div class=\"section\">\n"
-"        <h:form id=\"room_selections_form\">\n"
-"                <div class=\"section\">\n"
-"                        <h:outputText styleClass=\"output\" \n"
-"                                value=\"No rooms available for the dates "
-"selected: \" \n"
-"                                rendered=\"#{availableRooms != null and "
-"availableRooms.rowCount == 0}\"/>\n"
-"                        <h:outputText styleClass=\"output\" \n"
-"                                value=\"Rooms available for the dates "
-"selected: \" \n"
-"                                rendered=\"#{availableRooms != null and "
-"availableRooms.rowCount > 0}\"/>\n"
-"                                \n"
-"                        <h:outputText styleClass=\"output\" value=\"#"
-"{booking.checkinDate}\"/> -\n"
-"                        <h:outputText styleClass=\"output\" value=\"#"
-"{booking.checkoutDate}\"/>\n"
-"                        \n"
-"                        <br/><br/>\n"
-"                        \n"
-"                        <h:dataTable value=\"#{availableRooms}\" var=\"room"
-"\" \n"
-"                                        rendered=\"#{availableRooms.rowCount "
-"> 0}\">\n"
-"                                <h:column>\n"
-"                                        <f:facet name=\"header\">Name</f:"
-"facet>\n"
-"                                        #{room.name}\n"
-"                                </h:column>\n"
-"                                <h:column>\n"
-"                                        <f:facet name=\"header"
-"\">Description</f:facet>\n"
-"                                        #{room.description}\n"
-"                                </h:column>\n"
-"                                <h:column>\n"
-"                                        <f:facet name=\"header\">Per Night</"
-"f:facet>\n"
-"                                        <h:outputText value=\"#{room.price}"
-"\">\n"
-"                                                <f:convertNumber type="
-"\"currency\" currencySymbol=\"$\"/>\n"
-"                                        </h:outputText>\n"
-"                                </h:column>\n"
-"                                <h:column>\n"
-"                                        <f:facet name=\"header\">Action</f:"
-"facet>\n"
-"                                        <h:commandLink id="
-"\"selectRoomPreference\" \n"
-"                                                action=\"#{roomPreference."
-"selectPreference}\">Select</h:commandLink>\n"
-"                                </h:column>\n"
-"                        </h:dataTable>\n"
-"                </div>\n"
-"                <div class=\"entry\">\n"
-"                        <div class=\"label\">&#160;</div>\n"
-"                        <div class=\"input\">\n"
-"                                <s:button id=\"cancel\" value=\"Revise Dates"
-"\" view=\"/book.xhtml\"/>\n"
-"                        </div>\n"
-"                </div>        \n"
-"        </h:form>\n"
+"    <h:form id=\"room_selections_form\">\n"
+"        <div class=\"section\">\n"
+"            <h:outputText styleClass=\"output\" \n"
+"                value=\"No rooms available for the dates selected: \" \n"
+"                rendered=\"#{availableRooms != null and availableRooms."
+"rowCount == 0}\"/>\n"
+"            <h:outputText styleClass=\"output\" \n"
+"                value=\"Rooms available for the dates selected: \" \n"
+"                rendered=\"#{availableRooms != null and availableRooms."
+"rowCount > 0}\"/>\n"
+"                \n"
+"            <h:outputText styleClass=\"output\" value=\"#{booking."
+"checkinDate}\"/> -\n"
+"            <h:outputText styleClass=\"output\" value=\"#{booking."
+"checkoutDate}\"/>\n"
+"            \n"
+"            <br/><br/>\n"
+"            \n"
+"            <h:dataTable value=\"#{availableRooms}\" var=\"room\" \n"
+"                    rendered=\"#{availableRooms.rowCount > 0}\">\n"
+"                <h:column>\n"
+"                    <f:facet name=\"header\">Name</f:facet>\n"
+"                    #{room.name}\n"
+"                </h:column>\n"
+"                <h:column>\n"
+"                    <f:facet name=\"header\">Description</f:facet>\n"
+"                    #{room.description}\n"
+"                </h:column>\n"
+"                <h:column>\n"
+"                    <f:facet name=\"header\">Per Night</f:facet>\n"
+"                    <h:outputText value=\"#{room.price}\">\n"
+"                        <f:convertNumber type=\"currency\" currencySymbol=\"$"
+"\"/>\n"
+"                    </h:outputText>\n"
+"                </h:column>\n"
+"                <h:column>\n"
+"                    <f:facet name=\"header\">Action</f:facet>\n"
+"                    <h:commandLink id=\"selectRoomPreference\" \n"
+"                        action=\"#{roomPreference.selectPreference}"
+"\">Select</h:commandLink>\n"
+"                </h:column>\n"
+"            </h:dataTable>\n"
+"        </div>\n"
+"        <div class=\"entry\">\n"
+"            <div class=\"label\">&#160;</div>\n"
+"            <div class=\"input\">\n"
+"                <s:button id=\"cancel\" value=\"Revise Dates\" view=\"/book."
+"xhtml\"/>\n"
+"            </div>\n"
+"        </div>    \n"
+"    </h:form>\n"
 "</div>\n"
 "]]>"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1594
+#: Tutorial.xml:1610
 #, no-c-format
 msgid ""
 "When requested from EL, the <varname>#{availableRooms}</varname> are loaded "
@@ -3942,7 +3967,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1601
+#: Tutorial.xml:1617
 #, no-c-format
 msgid ""
 "Invoking the <varname>#{roomPreference.selectPreference}</varname> action "
@@ -3952,7 +3977,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1605
+#: Tutorial.xml:1621
 #, no-c-format
 msgid ""
 "Revising the dates simply returns to the <varname>/book.xhtml</varname>. "
@@ -3963,7 +3988,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1613
+#: Tutorial.xml:1629
 #, no-c-format
 msgid ""
 "Now that we have seen how to nest a conversation, let's see how we can "
@@ -3972,7 +3997,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1625
+#: Tutorial.xml:1641
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateful\n"
@@ -4081,7 +4106,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1628
+#: Tutorial.xml:1644
 #, no-c-format
 msgid ""
 "Annotating an action with <link linkend=\"end-annotation\"> <varname>@End"
@@ -4093,7 +4118,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1636
+#: Tutorial.xml:1652
 #, no-c-format
 msgid ""
 "The <varname>roomSelection</varname> is only associated with the "
@@ -4105,7 +4130,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1643
+#: Tutorial.xml:1659
 #, no-c-format
 msgid ""
 "By simply annotating the cancellation action with <link linkend=\"end-"
@@ -4115,7 +4140,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1653
+#: Tutorial.xml:1669
 #, no-c-format
 msgid ""
 "Feel free to deploy the application, open many windows or tabs and attempt "
@@ -4125,13 +4150,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1660
+#: Tutorial.xml:1676
 #, no-c-format
 msgid "A complete application featuring Seam and jBPM: the DVD Store example"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1662
+#: Tutorial.xml:1678
 #, no-c-format
 msgid ""
 "The DVD Store demo application shows the practical usage of jBPM for both "
@@ -4139,7 +4164,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1664
+#: Tutorial.xml:1680
 #, no-c-format
 msgid ""
 "The user screens take advantage of a jPDL pageflow to implement searching "
@@ -4147,13 +4172,13 @@ msgid ""
 msgstr ""
 
 #. Tag: screeninfo
-#: Tutorial.xml:1668 Tutorial.xml:1683
+#: Tutorial.xml:1684 Tutorial.xml:1699
 #, no-c-format
 msgid "DVD Store example"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1679
+#: Tutorial.xml:1695
 #, no-c-format
 msgid ""
 "The administration screens take use jBPM to manage the approval and shipping "
@@ -4162,7 +4187,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1695
+#: Tutorial.xml:1711
 #, no-c-format
 msgid ""
 "The Seam DVD Store demo can be run from <literal>dvdstore</literal> "
@@ -4170,13 +4195,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1702
+#: Tutorial.xml:1718
 #, no-c-format
 msgid "Bookmarkable URLs with the Blog example"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1704
+#: Tutorial.xml:1720
 #, no-c-format
 msgid ""
 "Seam makes it very easy to implement applications which keep state on the "
@@ -4191,13 +4216,13 @@ msgid ""
 msgstr ""
 
 #. Tag: screeninfo
-#: Tutorial.xml:1717
+#: Tutorial.xml:1733
 #, no-c-format
 msgid "Blog example"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1728
+#: Tutorial.xml:1744
 #, no-c-format
 msgid ""
 "The Blog example demonstrates the use of \"pull\"-style MVC, where instead "
@@ -4206,13 +4231,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1733
+#: Tutorial.xml:1749
 #, no-c-format
 msgid "Using \"pull\"-style MVC"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1735
+#: Tutorial.xml:1751
 #, no-c-format
 msgid ""
 "This snippet from the <literal>index.xhtml</literal> facelets page displays "
@@ -4220,7 +4245,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1739
+#: Tutorial.xml:1755
 #, no-c-format
 msgid ""
 "<![CDATA[<h:dataTable value=\"#{blog.recentBlogEntries}\" var=\"blogEntry\" "
@@ -4257,7 +4282,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1743
+#: Tutorial.xml:1759
 #, no-c-format
 msgid ""
 "If we navigate to this page from a bookmark, how does the <literal>#{blog."
@@ -4269,7 +4294,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1756
+#: Tutorial.xml:1772
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"blog\")\n"
@@ -4293,7 +4318,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1759
+#: Tutorial.xml:1775
 #, no-c-format
 msgid ""
 "This component uses a <emphasis>seam-managed persistence context</emphasis>. "
@@ -4304,7 +4329,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1766
+#: Tutorial.xml:1782
 #, no-c-format
 msgid ""
 "The <literal>@Unwrap</literal> annotation tells Seam to provide the return "
@@ -4314,7 +4339,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1776
+#: Tutorial.xml:1792
 #, no-c-format
 msgid ""
 "This is good so far, but what about bookmarking the result of form "
@@ -4322,13 +4347,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1782
+#: Tutorial.xml:1798
 #, no-c-format
 msgid "Bookmarkable search results page"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1784
+#: Tutorial.xml:1800
 #, no-c-format
 msgid ""
 "The blog example has a tiny form in the top right of each page that allows "
@@ -4338,7 +4363,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1789
+#: Tutorial.xml:1805
 #, no-c-format
 msgid ""
 "<![CDATA[<div id=\"search\">\n"
@@ -4350,7 +4375,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1792
+#: Tutorial.xml:1808
 #, no-c-format
 msgid ""
 "To implement a bookmarkable search results page, we need to perform a "
@@ -4361,7 +4386,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1797
+#: Tutorial.xml:1813
 #, no-c-format
 msgid ""
 "<![CDATA[<navigation-rule>\n"
@@ -4374,13 +4399,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1800
+#: Tutorial.xml:1816
 #, no-c-format
 msgid "Then the form would have looked like this:"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1802
+#: Tutorial.xml:1818
 #, no-c-format
 msgid ""
 "<![CDATA[<div id=\"search\">\n"
@@ -4392,7 +4417,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1805
+#: Tutorial.xml:1821
 #, no-c-format
 msgid ""
 "But when we redirect, we need to include the values submitted with the form "
@@ -4404,7 +4429,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1814
+#: Tutorial.xml:1830
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -4421,7 +4446,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1817
+#: Tutorial.xml:1833
 #, no-c-format
 msgid ""
 "The page parameter instructs Seam to link the request parameter named "
@@ -4433,7 +4458,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1824
+#: Tutorial.xml:1840
 #, no-c-format
 msgid ""
 "Without URL rewriting, the URL for a search on the term <literal>book</"
@@ -4449,7 +4474,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1834
+#: Tutorial.xml:1850
 #, no-c-format
 msgid ""
 "Just like with page parameters, URL rewriting is bi-directional. That means "
@@ -4461,19 +4486,19 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1842
+#: Tutorial.xml:1858
 #, no-c-format
 msgid "&lt;web:rewrite-filter view-mapping=&quot;/seam/*&quot; /&gt;"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1844
+#: Tutorial.xml:1860
 #, no-c-format
 msgid "The redirect takes us to the <literal>search.xhtml</literal> page:"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1846
+#: Tutorial.xml:1862
 #, no-c-format
 msgid ""
 "<![CDATA[<h:dataTable value=\"#{searchResults}\" var=\"blogEntry\">\n"
@@ -4494,7 +4519,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1849
+#: Tutorial.xml:1865
 #, no-c-format
 msgid ""
 "Which again uses \"pull\"-style MVC to retrieve the actual search results "
@@ -4502,7 +4527,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1852
+#: Tutorial.xml:1868
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"searchService\")\n"
@@ -4563,13 +4588,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1858
+#: Tutorial.xml:1874
 #, no-c-format
 msgid "Using \"push\"-style MVC in a RESTful application"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1860
+#: Tutorial.xml:1876
 #, no-c-format
 msgid ""
 "Very occasionally, it makes more sense to use push-style MVC for processing "
@@ -4580,7 +4605,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1865
+#: Tutorial.xml:1881
 #, no-c-format
 msgid ""
 "The <literal>entryAction</literal> component works much like an action class "
@@ -4588,7 +4613,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1868
+#: Tutorial.xml:1884
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"entryAction\")\n"
@@ -4609,13 +4634,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1871
+#: Tutorial.xml:1887
 #, no-c-format
 msgid "Page actions are also declared in <literal>pages.xml</literal>:"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1873
+#: Tutorial.xml:1889
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -4653,7 +4678,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1876
+#: Tutorial.xml:1892
 #, no-c-format
 msgid ""
 "Notice that the example is using page actions for post validation and the "
@@ -4663,7 +4688,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1881
+#: Tutorial.xml:1897
 #, no-c-format
 msgid ""
 "When the <literal>entry.xhtml</literal> page is requested, Seam first binds "
@@ -4675,7 +4700,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1888
+#: Tutorial.xml:1904
 #, no-c-format
 msgid ""
 "<![CDATA[<div class=\"blogEntry\">\n"
@@ -4694,7 +4719,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1891
+#: Tutorial.xml:1907
 #, no-c-format
 msgid ""
 "If the blog entry is not found in the database, the "
@@ -4704,7 +4729,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1895
+#: Tutorial.xml:1911
 #, no-c-format
 msgid ""
 "<![CDATA[@ApplicationException(rollback=true)\n"
@@ -4719,7 +4744,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1898
+#: Tutorial.xml:1914
 #, no-c-format
 msgid ""
 "An alternative implementation of the example does not use the parameter in "
@@ -4727,7 +4752,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1900
+#: Tutorial.xml:1916
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"entryAction\")\n"
@@ -4749,7 +4774,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1902
+#: Tutorial.xml:1918
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -4764,13 +4789,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1905
+#: Tutorial.xml:1921
 #, no-c-format
 msgid "It is a matter of taste which implementation you prefer."
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1908
+#: Tutorial.xml:1924
 #, no-c-format
 msgid ""
 "The blog demo also demonstrates very simple password authentication, posting "

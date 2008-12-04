@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-04-04 01:24+0000\n"
+"POT-Creation-Date: 2008-12-04 00:58+0000\n"
 "PO-Revision-Date: 2008-04-04 01:24+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -142,19 +142,21 @@ msgstr ""
 #: Gwt.xml:57
 #, no-c-format
 msgid ""
-"The methods that should be made accessible via GWT need to be annotated with "
-"the <literal>@WebRemote</literal> annotation, which is required for all web-"
-"remoteable methods."
+"The name of the seam component <emphasis>must</emphasis> match the fully "
+"qualified name of the GWT client interface (as shown), or the seam resource "
+"servlet will not be able to find it when a client makes a GWT call. The "
+"methods that are to be made accessible via GWT also need to be annotated "
+"with the <literal>@WebRemote</literal> annotation."
 msgstr ""
 
 #. Tag: title
-#: Gwt.xml:64
+#: Gwt.xml:67
 #, no-c-format
 msgid "Hooking up a GWT widget to the Seam component"
 msgstr ""
 
 #. Tag: para
-#: Gwt.xml:66
+#: Gwt.xml:69
 #, no-c-format
 msgid ""
 "The next step, is to write a method that returns the asynchronous interface "
@@ -164,7 +166,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Gwt.xml:72
+#: Gwt.xml:75
 #, no-c-format
 msgid ""
 "<![CDATA[private MyServiceAsync getService() {       \n"
@@ -178,7 +180,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gwt.xml:74
+#: Gwt.xml:77
 #, no-c-format
 msgid ""
 "The final step is to write the widget code that invokes the method on the "
@@ -187,7 +189,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Gwt.xml:79
+#: Gwt.xml:82
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -232,7 +234,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gwt.xml:82
+#: Gwt.xml:85
 #, no-c-format
 msgid ""
 "When clicked, the button invokes the <literal>askServer()</literal> method "
@@ -245,7 +247,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gwt.xml:99
+#: Gwt.xml:102
 #, no-c-format
 msgid ""
 "The complete code for this example can be found in the Seam distribution in "
@@ -253,13 +255,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Gwt.xml:106
+#: Gwt.xml:109
 #, no-c-format
 msgid "GWT Ant Targets"
 msgstr ""
 
 #. Tag: para
-#: Gwt.xml:108
+#: Gwt.xml:111
 #, no-c-format
 msgid ""
 "For deployment of GWT apps, there is a compile-to-Javascript step (which "
@@ -270,13 +272,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gwt.xml:114
+#: Gwt.xml:117
 #, no-c-format
 msgid "Then, in your ant file, place (near the top of your ant file):"
 msgstr ""
 
 #. Tag: programlisting
-#: Gwt.xml:118
+#: Gwt.xml:121
 #, no-c-format
 msgid ""
 "<![CDATA[<taskdef uri=\"antlib:de.samaflost.gwttasks\"\n"
@@ -287,20 +289,20 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gwt.xml:120
+#: Gwt.xml:123
 #, no-c-format
 msgid ""
 "Create a <literal>build.properties</literal> file, which has the contents:"
 msgstr ""
 
 #. Tag: programlisting
-#: Gwt.xml:124
+#: Gwt.xml:127
 #, no-c-format
 msgid "<![CDATA[gwt.home=/gwt_home_dir]]>"
 msgstr ""
 
 #. Tag: para
-#: Gwt.xml:126
+#: Gwt.xml:129
 #, no-c-format
 msgid ""
 "This of course should point to the directory where GWT is installed. Then to "
@@ -308,7 +310,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Gwt.xml:130
+#: Gwt.xml:133
 #, no-c-format
 msgid ""
 "<![CDATA[<!-- the following are are handy utilities for doing GWT "
@@ -333,7 +335,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gwt.xml:132
+#: Gwt.xml:135
 #, no-c-format
 msgid ""
 "This target when called will compile the GWT application, and copy it to the "
@@ -344,7 +346,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Gwt.xml:139
+#: Gwt.xml:142
 #, no-c-format
 msgid ""
 "Remember that GWT comes with a hosted mode browser - you should be using "

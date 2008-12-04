@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-04-04 01:24+0000\n"
+"POT-Creation-Date: 2008-12-04 00:58+0000\n"
 "PO-Revision-Date: 2008-04-04 01:24+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -33,7 +33,7 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Remoting.xml:13 Remoting.xml:562
+#: Remoting.xml:13 Remoting.xml:587
 #, no-c-format
 msgid "Configuration"
 msgstr ""
@@ -1089,11 +1089,67 @@ msgstr ""
 #. Tag: title
 #: Remoting.xml:437
 #, no-c-format
-msgid "The Loading Message"
+msgid "Handling Exceptions"
 msgstr ""
 
 #. Tag: para
 #: Remoting.xml:439
+#, no-c-format
+msgid ""
+"When invoking a remote component method, it is possible to specify an "
+"exception handler which will process the response in the event of an "
+"exception during component invocation. To specify an exception handler "
+"function, include a reference to it after the callback parameter in your "
+"JavaScript:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:445
+#, no-c-format
+msgid ""
+"<![CDATA[var callback = function(result) { alert(result); };\n"
+"var exceptionHandler = function(ex) { alert(\"An exception occurred: \" + ex."
+"getMessage()); };\n"
+"Seam.Component.getInstance(\"helloAction\").sayHello(name, callback, "
+"exceptionHandler);]]>"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:447
+#, no-c-format
+msgid ""
+"If you do not have a callback handler defined, you must specify "
+"<literal>null</literal> in its place:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:451
+#, no-c-format
+msgid ""
+"<![CDATA[var exceptionHandler = function(ex) { alert(\"An exception "
+"occurred: \" + ex.getMessage()); };\n"
+"Seam.Component.getInstance(\"helloAction\").sayHello(name, null, "
+"exceptionHandler);]]>"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:453
+#, no-c-format
+msgid ""
+"The exception object that is passed to the exception handler exposes one "
+"method, <literal>getMessage()</literal> that returns the exception message "
+"which is produced by the exception thrown by the <literal>@WebRemote</"
+"literal> method."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:462
+#, no-c-format
+msgid "The Loading Message"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:464
 #, no-c-format
 msgid ""
 "The default loading message that appears in the top right corner of the "
@@ -1102,13 +1158,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Remoting.xml:443
+#: Remoting.xml:468
 #, no-c-format
 msgid "Changing the message"
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:445
+#: Remoting.xml:470
 #, no-c-format
 msgid ""
 "To change the message from the default \"Please Wait...\" to something "
@@ -1116,19 +1172,19 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Remoting.xml:448
+#: Remoting.xml:473
 #, no-c-format
 msgid "Seam.Remoting.loadingMessage = \"Loading...\";"
 msgstr ""
 
 #. Tag: title
-#: Remoting.xml:452
+#: Remoting.xml:477
 #, no-c-format
 msgid "Hiding the loading message"
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:454
+#: Remoting.xml:479
 #, no-c-format
 msgid ""
 "To completely suppress the display of the loading message, override the "
@@ -1138,7 +1194,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Remoting.xml:458
+#: Remoting.xml:483
 #, no-c-format
 msgid ""
 "// don't display the loading indicator\n"
@@ -1147,13 +1203,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Remoting.xml:462
+#: Remoting.xml:487
 #, no-c-format
 msgid "A Custom Loading Indicator"
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:464
+#: Remoting.xml:489
 #, no-c-format
 msgid ""
 "It is also possible to override the loading indicator to display an animated "
@@ -1163,7 +1219,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Remoting.xml:468
+#: Remoting.xml:493
 #, no-c-format
 msgid ""
 "Seam.Remoting.displayLoadingMessage = function() {\n"
@@ -1176,13 +1232,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Remoting.xml:473
+#: Remoting.xml:498
 #, no-c-format
 msgid "Controlling what data is returned"
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:475
+#: Remoting.xml:500
 #, no-c-format
 msgid ""
 "When a remote method is executed, the result is serialized into an XML "
@@ -1198,7 +1254,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:483
+#: Remoting.xml:508
 #, no-c-format
 msgid ""
 "Seam Remoting provides a simple means to \"constrain\" the object graph, by "
@@ -1210,7 +1266,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:488
+#: Remoting.xml:513
 #, no-c-format
 msgid ""
 "For all our examples, we'll use the following <literal>Widget</literal> "
@@ -1218,7 +1274,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Remoting.xml:490
+#: Remoting.xml:515
 #, no-c-format
 msgid ""
 "@Name(\"widget\")\n"
@@ -1235,13 +1291,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Remoting.xml:493
+#: Remoting.xml:518
 #, no-c-format
 msgid "Constraining normal fields"
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:495
+#: Remoting.xml:520
 #, no-c-format
 msgid ""
 "If your remote method returns an instance of <literal>Widget</literal>, but "
@@ -1250,7 +1306,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Remoting.xml:498
+#: Remoting.xml:523
 #, no-c-format
 msgid ""
 "@WebRemote(exclude = {\"secret\"})\n"
@@ -1258,7 +1314,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:500
+#: Remoting.xml:525
 #, no-c-format
 msgid ""
 "The value \"secret\" refers to the <literal>secret</literal> field of the "
@@ -1272,7 +1328,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Remoting.xml:507
+#: Remoting.xml:532
 #, no-c-format
 msgid ""
 "@WebRemote(exclude = {\"child.secret\"})\n"
@@ -1280,13 +1336,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Remoting.xml:512
+#: Remoting.xml:537
 #, no-c-format
 msgid "Constraining Maps and Collections"
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:514
+#: Remoting.xml:539
 #, no-c-format
 msgid ""
 "The other place that objects can exist within an object graph are within a "
@@ -1300,7 +1356,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Remoting.xml:521
+#: Remoting.xml:546
 #, no-c-format
 msgid ""
 "@WebRemote(exclude = {\"widgetList.secret\"})\n"
@@ -1308,7 +1364,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:523
+#: Remoting.xml:548
 #, no-c-format
 msgid ""
 "To constrain a <literal>Map</literal>'s key or value, the notation is "
@@ -1321,7 +1377,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Remoting.xml:529
+#: Remoting.xml:554
 #, no-c-format
 msgid ""
 "@WebRemote(exclude = {\"widgetMap[value].secret\"})\n"
@@ -1329,13 +1385,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Remoting.xml:533
+#: Remoting.xml:558
 #, no-c-format
 msgid "Constraining objects of a specific type"
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:535
+#: Remoting.xml:560
 #, no-c-format
 msgid ""
 "There is one last notation that can be used to constrain the fields of a "
@@ -1346,7 +1402,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Remoting.xml:540
+#: Remoting.xml:565
 #, no-c-format
 msgid ""
 "@WebRemote(exclude = {\"[widget].secret\"})\n"
@@ -1354,13 +1410,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Remoting.xml:545
+#: Remoting.xml:570
 #, no-c-format
 msgid "Combining Constraints"
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:547
+#: Remoting.xml:572
 #, no-c-format
 msgid ""
 "Constraints can also be combined, to filter objects from multiple paths "
@@ -1368,7 +1424,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Remoting.xml:549
+#: Remoting.xml:574
 #, no-c-format
 msgid ""
 "@WebRemote(exclude = {\"widgetList.secret\", \"widgetMap[value].secret\"})\n"
@@ -1376,13 +1432,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Remoting.xml:555
+#: Remoting.xml:580
 #, no-c-format
 msgid "JMS Messaging"
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:557
+#: Remoting.xml:582
 #, no-c-format
 msgid ""
 "Seam Remoting provides experimental support for JMS Messaging. This section "
@@ -1392,7 +1448,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:564
+#: Remoting.xml:589
 #, no-c-format
 msgid ""
 "Before you can subscribe to a JMS topic, you must first configure a list of "
@@ -1403,25 +1459,25 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Remoting.xml:569 Remoting.xml:624
+#: Remoting.xml:594 Remoting.xml:649
 #, no-c-format
 msgid "<![CDATA[<remoting:remoting poll-timeout=\"5\" poll-interval=\"1\"/>]]>"
 msgstr ""
 
 #. Tag: title
-#: Remoting.xml:574
+#: Remoting.xml:599
 #, no-c-format
 msgid "Subscribing to a JMS Topic"
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:576
+#: Remoting.xml:601
 #, no-c-format
 msgid "The following example demonstrates how to subscribe to a JMS Topic:"
 msgstr ""
 
 #. Tag: programlisting
-#: Remoting.xml:578
+#: Remoting.xml:603
 #, no-c-format
 msgid ""
 "function subscriptionCallback(message)\n"
@@ -1434,7 +1490,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:580
+#: Remoting.xml:605
 #, no-c-format
 msgid ""
 "The <literal>Seam.Remoting.subscribe()</literal> method accepts two "
@@ -1443,7 +1499,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:583
+#: Remoting.xml:608
 #, no-c-format
 msgid ""
 "There are two types of messages supported, Text messages and Object "
@@ -1459,13 +1515,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Remoting.xml:593
+#: Remoting.xml:618
 #, no-c-format
 msgid "Unsubscribing from a Topic"
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:595
+#: Remoting.xml:620
 #, no-c-format
 msgid ""
 "To unsubscribe from a topic, call <literal>Seam.Remoting.unsubscribe()</"
@@ -1473,19 +1529,19 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Remoting.xml:598
+#: Remoting.xml:623
 #, no-c-format
 msgid "Seam.Remoting.unsubscribe(\"topicName\");"
 msgstr ""
 
 #. Tag: title
-#: Remoting.xml:602
+#: Remoting.xml:627
 #, no-c-format
 msgid "Tuning the Polling Process"
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:604
+#: Remoting.xml:629
 #, no-c-format
 msgid ""
 "There are two parameters which you can modify to control how polling occurs. "
@@ -1495,7 +1551,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:608
+#: Remoting.xml:633
 #, no-c-format
 msgid ""
 "The second parameter is <literal>Seam.Remoting.pollTimeout</literal>, and is "
@@ -1507,7 +1563,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:613
+#: Remoting.xml:638
 #, no-c-format
 msgid ""
 "Caution should be used when setting a high <literal>pollTimeout</literal> "
@@ -1518,7 +1574,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:618
+#: Remoting.xml:643
 #, no-c-format
 msgid ""
 "It is recommended that you set these options via components.xml, however "
@@ -1528,19 +1584,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:622
+#: Remoting.xml:647
 #, no-c-format
 msgid "Via components.xml:"
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:626
+#: Remoting.xml:651
 #, no-c-format
 msgid "Via JavaScript:"
 msgstr ""
 
 #. Tag: programlisting
-#: Remoting.xml:628
+#: Remoting.xml:653
 #, no-c-format
 msgid ""
 "// Only wait 1 second between receiving a poll response and sending the next "
