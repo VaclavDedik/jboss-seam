@@ -22,6 +22,15 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 
+/**
+ * The purpose of this component is to detect a clustered environment and
+ * to inform the HttpSessionListener whether the origin of a session destroyed
+ * event is the failover of a session from one node to the next. If a node
+ * is failing over, we don't want the SFSBs referenced by the session to be
+ * destroyed.
+ * 
+ * @author Dan Allen
+ */
 @Name("org.jboss.seam.jmx.jbossClusterMonitor")
 @BypassInterceptors
 @Scope(APPLICATION)
