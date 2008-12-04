@@ -26,6 +26,9 @@ public class ClassDescriptor extends FileDescriptor
       try 
       {
          clazz = classLoader.loadClass(classname);
+         // IBM JVM will throw a TypeNotPresentException if any annotation on the class is not on
+         // the classpath, rendering the class virtually unusable (given Seam's heavy use of annotations)
+         clazz.getAnnotations();
       }
       catch (ClassNotFoundException cnfe) 
       {
@@ -34,13 +37,6 @@ public class ClassDescriptor extends FileDescriptor
       catch (NoClassDefFoundError ncdfe) 
       {
          log.debug("could not load class (missing dependency): " + classname, ncdfe);
-      }
-      
-      try
-      {
-         // IBM JVM will fail if an annotation used on the type is not on the classpath
-         // rendering the class virtually unusable (given Seam's heavy use of annotations)
-         clazz.getAnnotations();
       }
       catch (TypeNotPresentException tnpe)
       {
