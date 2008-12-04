@@ -229,7 +229,7 @@ public class ManagedEntityWrapper
       {
          String currentCid = manager.getCurrentConversationId();
          String residentCid = manager.getCurrentConversationEntry().findPositionInConversationStack(component);
-         if (residentCid != currentCid)
+         if (!currentCid.equals(residentCid))
          {
             Contexts.getConversationContext().flush();
             Manager.instance().switchConversation(residentCid);
