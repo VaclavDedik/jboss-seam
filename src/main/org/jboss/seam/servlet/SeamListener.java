@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSessionListener;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.init.Initialization;
+import org.jboss.seam.jmx.JBossClusterMonitor;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
@@ -46,7 +47,16 @@ public class SeamListener implements ServletContextListener, HttpSessionListener
    
    public void sessionDestroyed(HttpSessionEvent event) 
    {
-      ServletLifecycle.endSession( event.getSession() );
+      JBossClusterMonitor monitor = JBossClusterMonitor.getInstance(event.getSession().getServletContext());
+      if (monitor != null && monitor.failover())
+      {
+         // If application is unfarmed or all nodes shutdown simultaneously, cluster cache may still fail to retrieve SFSBs to destroy
+         log.info("Detected fail-over, not destroying session context");
+      }
+      else
+      {
+         ServletLifecycle.endSession( event.getSession() );
+      }
    }
    
 }
