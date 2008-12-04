@@ -137,6 +137,44 @@ Now switch over to the slave instance and invoke the same method in the JMX cons
 So you can see that at least both servers claim to have identical sessions. Now, time to test that the data is
 serializing and unserializing properly.
 
+Here are the steps I follow when I test the booking example:
+
+1. Remove all cookies in your browser (or at least the JSESSIONID cookie for the domain 192.168.1.2)
+
+2. Open the booking example on the master instance:
+
+  http://192.168.1.2/seam-booking
+
+3. Sign in using gavin/foobar, then click on the Find Hotels button
+
+4. Get a booking started:
+
+  a. Choose one of the hotels and click its View Hotel link
+  b. Click on the Book Hotel button
+
+5. Build a URL to access the application on the slave instance
+
+  a. Copy the URL in the workspace list at the bottom of the page
+  b. Change 192.168.1.2 to 192.168.1.3
+  c. Get the value of the JSESSIONID cookie from the current page
+  d. Insert ;jsessionid= plus the value of the JSESSIONID cookie before the ? in the URL
+
+6. Visit the URL in a browser that has cookies disabled (the easiest way to ensure the session id in the URL is used)
+
+  links "http://192.168.1.3/seam-booking/book.seam;jsessionid=****?cid=4
+
+7. Complete the booking form and click the Proceed button
+
+8. Now return to the first browser and change the URL to match the confirm page, keeping the cid request parameter
+
+  http://192.168.1.2/seam-booking/confirm.seam?cid=4
+
+9. (optional) Verify you can continue w/o the slave instance running. Go into the JMX console and execute the shutdown() method on jboss.system:type=Server
+
+10. Confirm the booking.
+
+Here's another approach that I wrote before I did the step-by-step:
+
 Sign in using using the URL of the master instance. Then, construct a URL for the second instance by putting the
 ;jsessionid=XXXX immediately after the servlet path and changing the IP address. You should see that the session has
 carried over to the other instance. Now kill the master instance and see that you can continue to use the application
