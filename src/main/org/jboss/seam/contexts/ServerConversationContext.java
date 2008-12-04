@@ -36,7 +36,6 @@ public class ServerConversationContext implements Context
    private final Set<String> removals = new HashSet<String>();
    private final String id;
    private final List<String> idStack;
-   private final Map<String, Object> cache = new HashMap<String, Object>();
    
    private List<String> getIdStack()
    {
@@ -82,24 +81,9 @@ public class ServerConversationContext implements Context
       this.idStack = new LinkedList<String>();
       idStack.add(id);
    }
-
-   public Object get(String name)
-   {
-      if (!cache.containsKey(name))
-      {
-          Object value = resolveValue(name);
-          //Don't cache the value of components that have @PerNestedConverstion
-          if(isPerNestedConversation(name))
-          {
-              return value;
-          }
-          cache.put(name, value);
-      }
-      return cache.get(name);
-   }
-
-   protected Object resolveValue(String name)
-   {
+      
+    public Object get(String name) 
+    {
       Object result = additions.get(name);
       if (result!=null)
       {
@@ -164,7 +148,6 @@ public class ServerConversationContext implements Context
    public void set(String name, Object value) 
    {
       if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.preSetVariable." + name);
-      cache.remove(name);
       if (value==null)
       {
          //yes, we need this
@@ -202,7 +185,6 @@ public class ServerConversationContext implements Context
 	public void remove(String name) 
    {
       if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.preRemoveVariable." + name);
-      cache.remove(name);
       additions.remove(name);
       removals.add(name);
       if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postRemoveVariable." + name);
@@ -263,7 +245,6 @@ public class ServerConversationContext implements Context
    
    public void clear()
    {
-      cache.clear();
       additions.clear();
       removals.addAll( getNamesFromSession() );
    }
