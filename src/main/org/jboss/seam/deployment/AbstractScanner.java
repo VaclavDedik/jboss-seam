@@ -57,11 +57,15 @@ public abstract class AbstractScanner implements Scanner
                ClassDeploymentHandler classDeploymentHandler = (ClassDeploymentHandler) deploymentHandler;
                if (hasAnnotations(getClassFile(), classDeploymentHandler.getMetadata().getClassAnnotatedWith()))
                {
-                  log.trace("adding class to deployable list " + name + " for deployment handler " + deploymentHandler.getName());
                   if (getClassDescriptor().getClazz() != null)
                   {
+                     log.trace("adding class to deployable list " + name + " for deployment handler " + deploymentHandler.getName());
                      classDeploymentHandler.getClasses().add(getClassDescriptor());
                      handled = true;
+                  }
+                  else
+                  {
+                     log.info("skipping class " + name + " because it cannot be loaded (may reference a type which is not available on the classpath)");
                   }
                }
             }
