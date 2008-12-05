@@ -290,7 +290,7 @@ td {
 	font-weight: bold;
 	text-align: left;
 	width: 155px;
-	float: left;
+/*	float: left; */
 }
 .prop .value {
 	text-align: left;		
