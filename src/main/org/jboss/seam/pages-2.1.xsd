@@ -183,7 +183,7 @@
         <xs:attribute name="execute" use="required" type="pages:method-expression" />
     </xs:attributeGroup>
     
-    <xs:element name="restrict" type="pages:boolean-value-expression">
+    <xs:element name="restrict" type="pages:boolean-value-expression" default="true">
         <xs:annotation>
             <xs:documentation>Security restrictions</xs:documentation>
         </xs:annotation>
