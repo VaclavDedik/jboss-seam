@@ -944,7 +944,7 @@ public class MessageManagerBean implements Serializable, MessageManager
                             </callout>
                             <callout arearefs="messages-out">
                                 <para> The <literal>@Out</literal> annotation then exposes the selected value directly
-                                    to the page. So ever time a row of the clickable list is selected, the
+                                    to the page. So every time a row of the clickable list is selected, the
                                         <literal>Message</literal> is injected to the attribute of the stateful bean,
                                     and the subsequently <emphasis>outjected</emphasis> to the event context variable
                                     named <literal>message</literal>. </para>
