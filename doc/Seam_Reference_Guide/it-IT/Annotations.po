@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:22+0000\n"
-"PO-Revision-Date: 2008-12-07 22:50+0100\n"
+"PO-Revision-Date: 2008-12-12 00:02+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -59,7 +59,7 @@ msgstr "<![CDATA[@Name(\"componentName\")]]>"
 #: Annotations.xml:35
 #, no-c-format
 msgid "Defines the Seam component name for a class. This annotation is required for all Seam components."
-msgstr ""
+msgstr "Definisce il nome del componente Seam per una classe. Quest'annotazione è richiesta per tutti i componenti Seam."
 
 #. Tag: literal
 #: Annotations.xml:43
@@ -107,7 +107,7 @@ msgstr ""
 #: Annotations.xml:76
 #, no-c-format
 msgid "<literal>name</literal> &#8212; the context variable name."
-msgstr ""
+msgstr "<literal>nome</literal> &#8212; il nome della variabile di contesto."
 
 #. Tag: para
 #: Annotations.xml:82
