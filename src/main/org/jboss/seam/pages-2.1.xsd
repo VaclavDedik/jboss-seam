@@ -56,7 +56,7 @@
     <xs:attributeGroup name="attlist.exception">
         <xs:attribute name="class" type="xs:token"/>
         <xs:attribute name="log" type="pages:tf-boolean"/>
-        <xs:attribute name="logLevel" type="pages:loglevel-values"/>
+        <xs:attribute name="log-level" type="pages:loglevel-values"/>
     </xs:attributeGroup>
     
     <xs:element name="conversation">
