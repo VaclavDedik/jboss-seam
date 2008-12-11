@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2008-12-07 22:40+0100\n"
+"PO-Revision-Date: 2008-12-12 00:17+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 #: Jbpm.xml:2
 #, no-c-format
 msgid "Pageflows and business processes"
-msgstr ""
+msgstr "Pageflows e processi di business"
 
 #. Tag: para
 #: Jbpm.xml:4
@@ -59,7 +59,7 @@ msgstr ""
 #: Jbpm.xml:60
 #, no-c-format
 msgid "Pageflow in Seam"
-msgstr ""
+msgstr "Pageflow in Seam"
 
 #. Tag: para
 #: Jbpm.xml:61
@@ -789,7 +789,7 @@ msgstr ""
 #: Jbpm.xml:439
 #, no-c-format
 msgid "Pageflow composition"
-msgstr ""
+msgstr "Composizione dei pageflow"
 
 #. Tag: para
 #: Jbpm.xml:440
