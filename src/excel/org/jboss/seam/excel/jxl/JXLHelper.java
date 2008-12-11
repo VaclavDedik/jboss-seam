@@ -638,9 +638,17 @@ public class JXLHelper
       case text:
          return new Label(column, row, data.toString(), cellFormat);
       case number:
-         return new jxl.write.Number(column, row, Double.parseDouble(data.toString()), cellFormat);
+          try {
+              return new jxl.write.Number(column, row, Double.parseDouble(data.toString()), cellFormat);
+          } catch (NumberFormatException e) {
+              return new Label(column, row, "#not a number#", cellFormat);
+          }
       case date:
-         return new DateTime(column, row, (Date) data, cellFormat);
+          try {
+              return new DateTime(column, row, (Date) data, cellFormat);
+          } catch (ClassCastException e) {
+              return new Label(column, row, "#not a date#", cellFormat);
+          }
       case formula:
          return new Formula(column, row, data.toString(), cellFormat);
       case bool:
