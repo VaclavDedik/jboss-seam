@@ -251,17 +251,6 @@ public class JXLExcelWorkbook implements ExcelWorkbook {
                     "Can't add cells before creating worksheet");
         }
 
-        Object value = uiCell.getValue();
-        // If value is null, just increment row counter (not for explicitly
-        // placed
-        // single cells) and return;
-        if (value == null) {
-            if (uiCell.getColumn() == null && uiCell.getRow() == null) {
-                nextRow();
-            }
-            return;
-        }
-
         // Determine where to really place the cell
         int useRow = uiCell.getRow() != null ? uiCell.getRow()
                 : currentRowIndex;
@@ -503,6 +492,12 @@ public class JXLExcelWorkbook implements ExcelWorkbook {
      */
     public void addItem(WorksheetItem item) {
         if (!((UIComponent) item).isRendered()) {
+            return;
+        }
+        if (item.getValue() == null) {
+            if (item.getColumn() == null && item.getRow() == null) {
+                nextRow();
+            }
             return;
         }
         switch (item.getItemType()) {

@@ -84,4 +84,16 @@ public class UIHyperlink extends UICellBase implements WorksheetItem
       return ItemType.hyperlink;
    }
 
+    public Integer getColumn() {
+        return getStartColumn();
+    }
+
+    public Integer getRow() {
+        return getStartRow();
+    }
+
+    public Object getValue() {
+        return getURL();
+    }
+
 }

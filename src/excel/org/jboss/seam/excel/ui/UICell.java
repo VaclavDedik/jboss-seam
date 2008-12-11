@@ -109,4 +109,5 @@ public class UICell extends UICellBase implements WorksheetItem
       return ItemType.cell;
    }
 
+
 }

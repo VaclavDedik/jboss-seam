@@ -9,5 +9,11 @@ public interface WorksheetItem
    }
 
    public abstract ItemType getItemType();
+   
+   public abstract Object getValue();
+   
+   public Integer getColumn();
+   
+   public Integer getRow();
 
 }

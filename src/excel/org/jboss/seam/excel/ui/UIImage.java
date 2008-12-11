@@ -73,4 +73,16 @@ public class UIImage extends ExcelComponent implements WorksheetItem
       return ItemType.image;
    }
 
+   public Integer getColumn() {
+       return getStartColumn();
+   }
+
+   public Integer getRow() {
+       return getStartRow();
+   }
+
+   public Object getValue() {
+       return getURI();
+   }
+
 }
