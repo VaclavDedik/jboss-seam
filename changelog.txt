@@ -1,6 +1,17 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - Seam - Version 2.1.1.GA
+
+** Bug
+    * [JBSEAM-3682] - empty data for date type throws exception in JXLHelper.createCell
+    * [JBSEAM-3802] - Seamspace example - pages.xml is not a valid xml document
+    * [JBSEAM-3803] - Openid example - typo in faces-config.xml
+    * [JBSEAM-3817] - logLevel is not the correct name for the attribute, log-level is
+    * [JBSEAM-3819] - grammar in http://docs.jboss.com/seam/latest/reference/en-US/html/tutorial.html
+    * [JBSEAM-3830] - e:cell doesn't support null values
+    * [JBSEAM-3834] - ClassCastException in Cell Column With Empty Date
+
 Release Notes - Seam - Version 2.1.1.CR2
 
 ** Bug
