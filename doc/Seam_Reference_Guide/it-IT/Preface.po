@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-04-04 01:24+0000\n"
-"PO-Revision-Date: 2008-12-12 14:48+0100\n"
+"PO-Revision-Date: 2008-12-12 15:33+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -212,7 +212,7 @@ msgstr "I test d'integrazione sono facili"
 #: Preface.xml:219
 #, no-c-format
 msgid "Seam components, being plain Java classes, are by nature unit testable. But for complex applications, unit testing alone is insufficient. Integration testing has traditionally been a messy and difficult task for Java web applications. Therefore, Seam provides for testability of Seam applications as a core feature of the framework. You can easily write JUnit or TestNG tests that reproduce a whole interaction with a user, exercising all components of the system apart from the view (the JSP or Facelets page). You can run these tests directly inside your IDE, where Seam will automatically deploy EJB components using JBoss Embedded."
-msgstr "I componenti Seam, essendo semplici classi Java, sono per natura unità testabili. Ma per le applicazioni complesse, il test dell'unità (testing unit) da solo è insufficiente. Il test d'integrazione (integration testing) è tradizionalmente stato complicato e difficile per le applicazioni web Java. Seam fornisce la testabilità delle applicazioni come caratteristica essenziale del framework. Potrai facilmente scrivere test JUnit o TestNG che riproducano tutta l'interazione con l'utente, provando tutti i componenti del sistema separati dalla vista (pagina JSP o Facelet). Potrai eseguire questi test direttamente dentro il tu IDE, dove Seam automaticamente eseguirà il deploy dei componenti EJB usando JBoss Embedded."
+msgstr "I componenti Seam, essendo semplici classi Java, sono per natura unità testabili. Ma per le applicazioni complesse, il test dell'unità (testing unit) da solo è insufficiente. Il test d'integrazione (integration testing) è tradizionalmente stato complicato e difficile per le applicazioni web Java. Seam fornisce la testabilità delle applicazioni come caratteristica essenziale del framework. Potrai facilmente scrivere test JUnit o TestNG che riproducano tutta l'interazione con l'utente, provando tutti i componenti del sistema separati dalla vista (pagina JSP o Facelet). Potrai eseguire questi test direttamente dentro il tuo IDE, dove Seam automaticamente eseguirà il deploy dei componenti EJB usando JBoss Embedded."
 
 #. Tag: emphasis
 #: Preface.xml:232
