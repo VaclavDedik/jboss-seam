@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-04-04 01:24+0000\n"
-"PO-Revision-Date: 2008-12-12 15:33+0100\n"
+"PO-Revision-Date: 2008-12-12 19:46+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -134,12 +134,11 @@ msgstr "JSF fornisce un ricco ed incredibile modello a eventi per il livello di 
 msgid "Declarative state management"
 msgstr "Gestione dichiarativa dello stato"
 
-# memory leaks ???
 #. Tag: para
 #: Preface.xml:123
 #, no-c-format
 msgid "We're all used to the concept of declarative transaction management and declarative security from the early days of EJB. EJB 3.0 even introduces declarative persistence context management. These are three examples of a broader problem of managing state that is associated with a particular <emphasis>context</emphasis>, while ensuring that all needed cleanup occurs when the context ends. Seam takes the concept of declarative state management much further and applies it to <emphasis>application state</emphasis>. Traditionally, J2EE applications implement state management manually, by getting and setting servlet session and request attributes. This approach to state management is the source of many bugs and memory leaks when applications fail to clean up session attributes, or when session data associated with different workflows collides in a multi-window application. Seam has the potential to almost entirely eliminate this class of bugs."
-msgstr "Siamo tutti abituati al concetto di gestione dichiarativa delle transazioni e sicurezza dichiarativa fin dai primi giorni di EJB. EJB3 introduce anche la gestione dichiarativa del contesto di persistenza. Ci sono tre esempi di un ampio problema di gestione dello stato che è associato ad un particolare <emphasis>contesto</emphasis>, mentre tutte i dovuti cleanup avvengono quando il contesto termina. Seam porta oltre il concetto di gestione dichiarativa dello stato e lo applica allo <emphasis>stato dell'applicazione</emphasis>. Tradizionalmente le applicazioni J2EE implementano manualmente la gestione dello stato con il get e set della sessione servlet e degli attributi di richiesta. Questo approccio alla gestione dello stato è l'origine di molti bug e memory leak quando l'applicazione non riesce a pulire gli attributi di sessione, o quando i dati di sessione associati a diversi workflow collidono all'interno di un'applicazione multi-finestra. Seam ha il potenziale per eliminare quasi interamente questa classe di bug."
+msgstr "Siamo tutti abituati al concetto di gestione dichiarativa delle transazioni e sicurezza dichiarativa fin dai primi giorni di EJB. EJB3 introduce anche la gestione dichiarativa del contesto di persistenza. Ci sono tre esempi di un ampio problema di gestione dello stato che è associato ad un particolare <emphasis>contesto</emphasis>, mentre tutte i dovuti cleanup avvengono quando il contesto termina. Seam porta oltre il concetto di gestione dichiarativa dello stato e lo applica allo <emphasis>stato dell'applicazione</emphasis>. Tradizionalmente le applicazioni J2EE implementano manualmente la gestione dello stato con il get e set della sessione servlet e degli attributi di richiesta. Questo approccio alla gestione dello stato è l'origine di molti bug e problemi di memoria (memory leak) quando l'applicazione non riesce a pulire gli attributi di sessione, o quando i dati di sessione associati a diversi workflow collidono all'interno di un'applicazione multi-finestra. Seam ha il potenziale per eliminare quasi interamente questa classe di bug."
 
 #. Tag: para
 #: Preface.xml:136

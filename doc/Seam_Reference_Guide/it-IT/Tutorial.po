@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-04 00:59+0000\n"
-"PO-Revision-Date: 2008-12-09 21:08+0100\n"
+"PO-Revision-Date: 2008-12-12 20:16+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -23,13 +23,13 @@ msgstr "Tutorial di Seam"
 #: Tutorial.xml:7
 #, no-c-format
 msgid "Using the Seam examples"
-msgstr ""
+msgstr "Utilizzo degli esempi di Seam"
 
 #. Tag: para
 #: Tutorial.xml:9
 #, no-c-format
 msgid "Seam provides a number of example applications demonstrating how to use the various features of Seam. This tutorial will guide you through a few of those examples to help you get started learning Seam. The Seam examples are located in the <filename>examples</filename> subdirectory of the Seam distribution. The registration example, which will be the first example we look at, is in the <filename>examples/registration</filename> directory."
-msgstr ""
+msgstr "Seam fornisce un ampio numeri di applicazioni d'esempio che dimostrano l'uso delle varie funzionalità di Seam. Questo tutorial ti guiderà attraverso alcuni di questi esempi per aiutarti nell'apprendimento di Seam. Gli esempi di Seam sono posizionati nella sottodirectory <filename>examples</filename> della distribuzione Seam. L'esempio di registrazione, che è il primo esempio che vediamo, si trova nella directoyry <filename>examples/registration</filename>."
 
 #. Tag: para
 #: Tutorial.xml:15
@@ -158,7 +158,7 @@ msgstr ""
 #: Tutorial.xml:955
 #, no-c-format
 msgid "Understanding the code"
-msgstr ""
+msgstr "Capire il codice"
 
 #. Tag: para
 #: Tutorial.xml:136
@@ -182,7 +182,7 @@ msgstr ""
 #: Tutorial.xml:148
 #, no-c-format
 msgid "User.java"
-msgstr ""
+msgstr "User.java"
 
 #. Tag: programlisting
 #: Tutorial.xml:160
@@ -394,7 +394,7 @@ msgstr ""
 #: Tutorial.xml:237
 #, no-c-format
 msgid "RegisterAction.java"
-msgstr ""
+msgstr "RegisterAction.java"
 
 #. Tag: programlisting
 #: Tutorial.xml:250
@@ -556,7 +556,7 @@ msgstr ""
 #: Tutorial.xml:337
 #, no-c-format
 msgid "Register.java"
-msgstr ""
+msgstr "Register.java"
 
 #. Tag: programlisting
 #: Tutorial.xml:338
@@ -596,7 +596,7 @@ msgstr ""
 #: Tutorial.xml:352
 #, no-c-format
 msgid "register.xhtml"
-msgstr ""
+msgstr "register.xhtml"
 
 #. Tag: programlisting
 #: Tutorial.xml:353
@@ -670,7 +670,7 @@ msgstr ""
 #: Tutorial.xml:361
 #, no-c-format
 msgid "registered.xhtml"
-msgstr ""
+msgstr "registered.xhtml"
 
 #. Tag: programlisting
 #: Tutorial.xml:362
@@ -746,7 +746,7 @@ msgstr ""
 #: Tutorial.xml:393
 #, no-c-format
 msgid "components.xml"
-msgstr ""
+msgstr "components.xml"
 
 #. Tag: programlisting
 #: Tutorial.xml:394
@@ -802,7 +802,7 @@ msgstr ""
 #: Tutorial.xml:410
 #, no-c-format
 msgid "web.xml"
-msgstr ""
+msgstr "web.xml"
 
 #. Tag: programlisting
 #: Tutorial.xml:411
@@ -898,7 +898,7 @@ msgstr ""
 #: Tutorial.xml:427
 #, no-c-format
 msgid "faces-config.xml"
-msgstr ""
+msgstr "faces-config.xml"
 
 #. Tag: programlisting
 #: Tutorial.xml:428
@@ -1161,7 +1161,7 @@ msgstr ""
 #: Tutorial.xml:1070
 #, no-c-format
 msgid "How it works"
-msgstr ""
+msgstr "Come funziona"
 
 #. Tag: para
 #: Tutorial.xml:488
@@ -1233,7 +1233,7 @@ msgstr ""
 #: Tutorial.xml:544
 #, no-c-format
 msgid "Message.java"
-msgstr ""
+msgstr "Message.java"
 
 #. Tag: programlisting
 #: Tutorial.xml:545
@@ -1395,7 +1395,7 @@ msgstr ""
 #: Tutorial.xml:568
 #, no-c-format
 msgid "MessageManagerBean.java"
-msgstr ""
+msgstr "MessageManagerBean.java"
 
 #. Tag: programlisting
 #: Tutorial.xml:580
@@ -1549,7 +1549,7 @@ msgstr ""
 #: Tutorial.xml:644
 #, no-c-format
 msgid "MessageManager.java"
-msgstr ""
+msgstr "MessageManager.java"
 
 #. Tag: programlisting
 #: Tutorial.xml:646
@@ -1601,7 +1601,7 @@ msgstr ""
 #: Tutorial.xml:663
 #, no-c-format
 msgid "messages.jsp"
-msgstr ""
+msgstr "messages.jsp"
 
 #. Tag: programlisting
 #: Tutorial.xml:664
@@ -1737,7 +1737,7 @@ msgstr ""
 #: Tutorial.xml:728
 #, no-c-format
 msgid "todo.jpdl.xml"
-msgstr ""
+msgstr "todo.jpdl.xml"
 
 #. Tag: programlisting
 #: Tutorial.xml:737
@@ -3351,7 +3351,7 @@ msgstr ""
 #: Tutorial.xml:1310
 #, no-c-format
 msgid "HotelSearchingAction.java"
-msgstr ""
+msgstr "HotelSearchingAction.java"
 
 #. Tag: programlisting
 #: Tutorial.xml:1319
@@ -3431,6 +3431,79 @@ msgid ""
 "   public void destroy() {}\n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Stateful\n"
+"@Name(\"hotelSearch\")\n"
+"@Scope(ScopeType.SESSION)\n"
+"@Restrict(\"#{identity.loggedIn}\")\n"
+"public class HotelSearchingAction implements HotelSearching\n"
+"{\n"
+"   \n"
+"   @PersistenceContext\n"
+"   private EntityManager em;\n"
+"   \n"
+"   private String searchString;\n"
+"   private int pageSize = 10;\n"
+"   private int page;\n"
+"   \n"
+"   @DataModel\n"
+"   private List<Hotel> hotels;\n"
+"   \n"
+"   public void find()\n"
+"   {\n"
+"      page = 0;\n"
+"      queryHotels();\n"
+"   }\n"
+"   public void nextPage()\n"
+"   {\n"
+"      page++;\n"
+"      queryHotels();\n"
+"   }\n"
+"      \n"
+"   private void queryHotels()\n"
+"   {\n"
+"      hotels = \n"
+"          em.createQuery(\"select h from Hotel h where lower(h.name) like #{pattern} \" + \n"
+"                         \"or lower(h.city) like #{pattern} \" + \n"
+"                         \"or lower(h.zip) like #{pattern} \" +\n"
+"                         \"or lower(h.address) like #{pattern}\")\n"
+"            .setMaxResults(pageSize)\n"
+"            .setFirstResult( page * pageSize )\n"
+"            .getResultList();\n"
+"   }\n"
+"   \n"
+"   public boolean isNextPageAvailable()\n"
+"   {\n"
+"      return hotels!=null && hotels.size()==pageSize;\n"
+"   }\n"
+"   \n"
+"   public int getPageSize() {\n"
+"      return pageSize;\n"
+"   }\n"
+"   \n"
+"   public void setPageSize(int pageSize) {\n"
+"      this.pageSize = pageSize;\n"
+"   }\n"
+"   \n"
+"   @Factory(value=\"pattern\", scope=ScopeType.EVENT)\n"
+"   public String getSearchPattern()\n"
+"   {\n"
+"      return searchString==null ? \n"
+"            \"%\" : '%' + searchString.toLowerCase().replace('*', '%') + '%';\n"
+"   }\n"
+"   \n"
+"   public String getSearchString()\n"
+"   {\n"
+"      return searchString;\n"
+"   }\n"
+"   \n"
+"   public void setSearchString(String searchString)\n"
+"   {\n"
+"      this.searchString = searchString;\n"
+"   }\n"
+"   \n"
+"   @Remove\n"
+"   public void destroy() {}\n"
+"}]]>"
 
 #. Tag: para
 #: Tutorial.xml:1322
@@ -3466,7 +3539,7 @@ msgstr ""
 #: Tutorial.xml:1355
 #, no-c-format
 msgid "main.xhtml"
-msgstr ""
+msgstr "main.xhtml"
 
 #. Tag: programlisting
 #: Tutorial.xml:1364
@@ -3657,7 +3730,7 @@ msgstr ""
 #: Tutorial.xml:1633
 #, no-c-format
 msgid "HotelBookingAction.java"
-msgstr ""
+msgstr "HotelBookingAction.java"
 
 #. Tag: programlisting
 #: Tutorial.xml:1418
@@ -3957,7 +4030,7 @@ msgstr ""
 #: Tutorial.xml:1549
 #, no-c-format
 msgid "RoomPreferenceAction.java"
-msgstr ""
+msgstr "RoomPreferenceAction.java"
 
 #. Tag: programlisting
 #: Tutorial.xml:1558
@@ -4135,7 +4208,7 @@ msgstr ""
 #: Tutorial.xml:1599
 #, no-c-format
 msgid "rooms.xhtml"
-msgstr ""
+msgstr "rooms.xhtml"
 
 #. Tag: programlisting
 #: Tutorial.xml:1607
@@ -4512,7 +4585,7 @@ msgstr ""
 #: Tutorial.xml:1699
 #, no-c-format
 msgid "DVD Store example"
-msgstr ""
+msgstr "Esempio di Negozio DVD"
 
 #. Tag: para
 #: Tutorial.xml:1695
@@ -4542,7 +4615,7 @@ msgstr ""
 #: Tutorial.xml:1733
 #, no-c-format
 msgid "Blog example"
-msgstr ""
+msgstr "Esempio di Blog"
 
 #. Tag: para
 #: Tutorial.xml:1744
