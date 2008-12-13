@@ -345,20 +345,19 @@ public class Parser
       String[] styles = trimArray(styleString.split(STYLES_SEPARATOR));
       for (String style : styles)
       {
-         String[] styleParts = style.split(STYLE_NAME_VALUE_SEPARATOR);
-         if (styleParts.length != 2)
-         {
-            log.warn("Style component #0 should be of form <key>#1<value>", style, STYLE_NAME_VALUE_SEPARATOR);
-            continue;
+         int breakpoint = style.indexOf(STYLE_NAME_VALUE_SEPARATOR);
+         if (breakpoint < 0) {
+             log.warn("Style component #0 should be of form <key>#1<value>", style, STYLE_NAME_VALUE_SEPARATOR);
+             continue;
          }
-         String styleName = styleParts[0].toLowerCase().trim();
+         String styleName = style.substring(0, breakpoint).toLowerCase().trim();
          if (!propertyBuilders.containsKey(styleName))
          {
             log.warn("No property builder (unknown style) for property #0", styleName);
             continue;
          }
          PropertyBuilder propertyBuilder = propertyBuilders.get(styleName);
-         String styleValue = styleParts[1];
+         String styleValue = style.substring(breakpoint + 1);
          String[] styleValues = trimArray(styleValue.trim().split(STYLE_SHORTHAND_SEPARATOR));
          styleMap.putAll(propertyBuilder.parseProperty(styleName, styleValues));
       }

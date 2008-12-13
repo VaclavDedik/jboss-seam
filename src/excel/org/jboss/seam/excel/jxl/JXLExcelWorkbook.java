@@ -494,7 +494,7 @@ public class JXLExcelWorkbook implements ExcelWorkbook {
         if (!((UIComponent) item).isRendered()) {
             return;
         }
-        if (item.getValue() == null) {
+        if (item.getValue() == null || "".equals(item.getValue())) {
             if (item.getColumn() == null && item.getRow() == null) {
                 nextRow();
             }

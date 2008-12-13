@@ -404,7 +404,7 @@ public class PropertyBuilders
    {
    }
 
-   public static class FormatMask extends StringPropertyBuilder
+   public static class FormatMask extends MergingStringPropertyBuilder
    {
    }
 
