@@ -66,6 +66,7 @@
                <masterTranslation>en-US</masterTranslation>
                <translations>
                   <translation>fr-FR</translation>
+                  <translation>it-IT</translation>
                </translations>
                <imageResource>
                   <directory>${pom.basedir}/en-US</directory>

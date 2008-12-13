@@ -35,7 +35,7 @@ msgstr "Il designer ed il visualizzatore jBPM ti consente di progettare e vedere
 #: Tools.xml:13
 #, no-c-format
 msgid "<title>Business process designer</title>"
-msgstr "\"<title>Designer del processo di business</title>\""
+msgstr "<title>Designer del processo di business</title>"
 
 #. Tag: para
 #: Tools.xml:15
