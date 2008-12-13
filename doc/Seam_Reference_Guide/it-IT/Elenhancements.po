@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-04-04 01:24+0000\n"
-"PO-Revision-Date: 2008-12-13 14:10+0100\n"
+"PO-Revision-Date: 2008-12-13 23:54+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -121,7 +121,7 @@ msgstr "E' importante capire bene come funziona quest'estensione a EL. Quando la
 #: Elenhancements.xml:60
 #, no-c-format
 msgid "You must ensure that the parameters are available not only when the page is rendered, but also when it is submittedIf the arguments can not be resolved when the page is submitted the action method will be called with <literal>null</literal> arguments!"
-msgstr "Devi assicurarti che i paramentri siano disponibili non solo quando la pagina viene generata, ma anche quando ne viene fatto il submit. Se gli argomenti non possono essere risolti quando la pagina viene inviata, il metodo d'azione verrà chiamato con argomenti <literal>null</literal>!"
+msgstr "Devi assicurarti che i parametri siano disponibili non solo quando la pagina viene generata, ma anche quando ne viene fatto il submit. Se gli argomenti non possono essere risolti quando la pagina viene inviata, il metodo d'azione verrà chiamato con argomenti <literal>null</literal>!"
 
 #. Tag: para
 #: Elenhancements.xml:67
@@ -206,7 +206,7 @@ msgstr "<emphasis>Incompatibilità con JSP 2.1</emphasis> &#8212; JBoss EL non p
 #: Elenhancements.xml:127
 #, no-c-format
 msgid "<emphasis>Use inside iterative components</emphasis> &#8212; Components like <literal>&lt;c:forEach /&gt;</literal> and <literal>&lt;ui:repeat /&gt;</literal>iterate over a List or array, exposing each item in the list to nested components. This works great if you are selecting a row using a <literal>&lt;h:commandButton /&gt;</literal> or <literal>&lt;h:commandLink /&gt;</literal>:"
-msgstr "<emphasis>Utilizzo all'interno di componenti iterativi</emphasis> &#8212; Componenti quali <literal>&lt;c:forEach /&gt;</literal> e <literal>&lt;ui:repeat /&gt;</literal>iterano su una lista o un array, esponendo ogni item della lista ai componenti innestati. Questo funziona bene se si sta selezionando unriga con <literal>&lt;h:commandButton /&gt;</literal> o <literal>&lt;h:commandLink /&gt;</literal>:"
+msgstr "<emphasis>Utilizzo all'interno di componenti iterativi</emphasis> &#8212; Componenti quali <literal>&lt;c:forEach /&gt;</literal> e <literal>&lt;ui:repeat /&gt;</literal>iterano su una lista o un array, esponendo ogni item della lista ai componenti innestati. Questo funziona bene selezionando una riga con <literal>&lt;h:commandButton /&gt;</literal> o <literal>&lt;h:commandLink /&gt;</literal>:"
 
 #. Tag: programlisting
 #: Elenhancements.xml:136
@@ -242,7 +242,7 @@ msgstr ""
 #: Elenhancements.xml:138
 #, no-c-format
 msgid "However if you want to use <literal>&lt;s:link /&gt;</literal> or <literal>&lt;s:button /&gt;</literal> you <emphasis>must</emphasis> expose the items as a <literal>DataModel</literal>, and use a <literal>&lt;dataTable /&gt;</literal> (or equivalent from a component set like <literal>&lt;rich:dataTable /&gt;</literal> ). Neither <literal>&lt;s:link /&gt;</literal> or <literal>&lt;s:button /&gt;</literal> submit the form (and therefore produce a bookmarkable link) so a \"magic\" parameter is needed to recreate the item when the action method is called. This magic parameter can only be added when a data table backed by a <literal>DataModel</literal> is used."
-msgstr "Comunque si voglia usare <literal>&lt;s:link /&gt;</literal> o <literal>&lt;s:button /&gt;</literal> si <emphasis>deve</emphasis> esporre gli item come  <literal>DataModel</literal> e usare <literal>&lt;dataTable /&gt;</literal> (o equivalente da componente impostato come <literal>&lt;rich:dataTable /&gt;</literal> ). Né <literal>&lt;s:link /&gt;</literal> né <literal>&lt;s:button /&gt;</literal> eseguono il submit della form (e quindi producono un bookmarkable link) quindi un parametro \"magico\" serve per ricreare l'item quando l'action method viene chiamato. Questo parametro magico può essere aggiunto soltanto quando viene usata una data table con dietro un <literal>DataModel</literal>."
+msgstr "Comunque si voglia usare <literal>&lt;s:link/&gt;</literal> o <literal>&lt;s:button/&gt;</literal> si <emphasis>deve</emphasis> esporre gli item come  <literal>DataModel</literal> e usare <literal>&lt;dataTable /&gt;</literal> (o equivalente da componente impostato come <literal>&lt;rich:dataTable /&gt;</literal> ). Né <literal>&lt;s:link /&gt;</literal> né <literal>&lt;s:button /&gt;</literal> eseguono il submit della form (e quindi producono un bookmarkable link) quindi serve un parametro \"magico\" per ricreare l'item quando viene chiamato l'action method. Questo parametro magico può essere aggiunto soltanto quando viene usata una data table con dietro un <literal>DataModel</literal>."
 
 #. Tag: para
 #: Elenhancements.xml:154
@@ -260,13 +260,13 @@ msgstr "Quando viene invocato un <literal>MethodExpression</literal> nel codice 
 #: Elenhancements.xml:175
 #, no-c-format
 msgid "Ordinarily, it is safe to call <literal>methodExpression.getMethodInfo().getParamTypes()</literal> at any time. For an expression with parameters, you must first invoke the <literal>MethodExpression</literal> before calling <literal>getParamTypes()</literal>."
-msgstr "Solitamente è sicuro chiamare in ogni momento <literal>methodExpression.getMethodInfo().getParamTypes()</literal>. Per un'espressione con parametri occorre prima invocare il <literal>MethodExpression</literal> prima di chiamare <literal>getParamTypes()</literal>."
+msgstr "Solitamente è sicuro chiamare in ogni momento <literal>methodExpression.getMethodInfo().getParamTypes()</literal>. Per un'espressione con parametri occorre invocare il <literal>MethodExpression</literal> prima di chiamare <literal>getParamTypes()</literal>."
 
 #. Tag: para
 #: Elenhancements.xml:185
 #, no-c-format
 msgid "Both of these cases are exceedingly rare and only apply when you want to invoke the <literal>MethodExpression</literal> by hand in Java code."
-msgstr "Entrambi questi casi sono estremamente rari e si applicano solo quando vuoi invocare <literal>MethodExpression</literal> manualmente nel codice Java."
+msgstr "Entrambi questi casi sono estremamente rari e si applicano solo quando vuoi invocare manualmente <literal>MethodExpression</literal> nel codice Java."
 
 #. Tag: title
 #: Elenhancements.xml:196
@@ -290,7 +290,7 @@ msgstr "#{company.departments}"
 #: Elenhancements.xml:206
 #, no-c-format
 msgid "might return a list of departments. If you only need a list of department names, your only option is to iterate over the list to retrieve the values. JBoss EL allows this with a projection expression:"
-msgstr "potrebbe restituire una lista di dipartimenti. Se tu avessi bisogno di una lista di nommi di dipartimento, la tua unica opzione è quella di iterare sulla lista per recuperare i valori. JBoss EL permette questo con l'espressione di proiezione:"
+msgstr "potrebbe restituire una lista di dipartimenti. Se tu avessi bisogno di una lista di nomi di dipartimento, l'unica opzione è quella di iterare sulla lista per recuperare i valori. JBoss EL permette questo con l'espressione di proiezione:"
 
 #. Tag: programlisting
 #: Elenhancements.xml:212
@@ -356,5 +356,5 @@ msgstr "#{company.departments.{d|d.employees.{e|e}}}"
 #: Elenhancements.xml:252
 #, no-c-format
 msgid "It is important to note that this syntax cannot be parsed by Facelets or JSP and thus cannot be used in xhtml or JSP files. We anticipate that the projection syntax will change in future versions of JBoss EL."
-msgstr "E' importante notare che questa sintassi non può essere analizzata da Facelet o JSP e quindi non può essere usata in file xhtml o jsp. Anticipiamo che la sintassi di proiezione cambierà nelle future versioni di JBoss EL."
+msgstr "E' importante notare che questa sintassi non può essere analizzata da Facelets o JSP e quindi non può essere usata in file xhtml o jsp. Anticipiamo che la sintassi di proiezione cambierà nelle future versioni di JBoss EL."
 

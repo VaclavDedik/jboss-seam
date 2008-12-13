@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-04-04 01:24+0000\n"
-"PO-Revision-Date: 2008-12-13 22:11+0100\n"
+"PO-Revision-Date: 2008-12-14 00:24+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -71,7 +71,7 @@ msgstr "Seam unifica i modelli a componenti di JSF e EJB3, eliminando il codice 
 #: Preface.xml:61
 #, no-c-format
 msgid "It is possible to write Seam applications where \"everything\" is an EJB. This may come as a surprise if you're used to thinking of EJBs as coarse-grained, so-called \"heavyweight\" objects. However, version 3.0 has completely changed the nature of EJB from the point of view of the developer. An EJB is a fine-grained object&#8212;nothing more complex than an annotated JavaBean. Seam even encourages you to use session beans as JSF action listeners!"
-msgstr "E' possibile scrivere applicazioni Seam dove \"qualsiasi cosa\" sia un EJB. Questo potrebbe essere per te sorprendente, se sei abituato a pensare agli EJB come ad oggetti cosiddetti a grana-grossa, \"di peso massimo\". Comunque la versione 3.0 ha completamente cambiato la natura di EJB dal puntodivista dello sviluppatore. Un EJB è un oggetto a grana-fine&#8212; non più complesso di un JavaBean  con annotazioni. Seam ti incoraggia ad usare session bean come action listeners JSF! "
+msgstr "E' possibile scrivere applicazioni Seam dove \"qualsiasi cosa\" sia un EJB. Questo potrebbe essere per te sorprendente, se sei abituato a pensare agli EJB come ad oggetti cosiddetti a grana-grossa, \"di peso massimo\". Comunque la versione 3.0 ha completamente cambiato la natura di EJB dal punto di vista dello sviluppatore. Un EJB è un oggetto a grana-fine&#8212; non più complesso di un JavaBean  con annotazioni. Seam ti incoraggia ad usare i session bean come action listener JSF! "
 
 #. Tag: para
 #: Preface.xml:69
@@ -101,7 +101,7 @@ msgstr "In alternativa Seam fornisce al suo interno uno strato remoto di JavaScr
 #: Preface.xml:92
 #, no-c-format
 msgid "Neither of these approaches would work well, were it not for Seam's built-in concurrency and state management, which ensures that many concurrent fine-grained, asynchronous AJAX requests are handled safely and efficiently on the server side."
-msgstr "Nessuno di questi approcci funzionerebbe bene, se non fosse per la gestione interna a grana-fine di Seam della concorrenza e dello stato, la quale assicura che molte richieste (fine-grained) AJAX concorrenti e asincrone vengano gestite in modo sicuro ed efficiente lato server."
+msgstr "Nessuno di questi approcci funzionerebbe bene, se non fosse per la gestione interna di Seam della concorrenza e dello stato, la quale assicura che molte richieste AJAX a grana fine (fine-grained) concorrenti e asincrone vengano gestite in modo sicuro ed efficiente lato server."
 
 # da rivedere FIRST CLASS CONSTRUCT
 #. Tag: emphasis
@@ -259,5 +259,5 @@ msgstr "Seam funziona in qualsiasi application server Java EE, e perfino in Tomc
 #: Preface.xml:286
 #, no-c-format
 msgid "It turns out that the combination of Seam, JSF and EJB3 is <emphasis>the</emphasis> simplest way to write a complex web application in Java. You won't believe how little code is required!"
-msgstr "Risulta che la combinazione di Seam, JSF e EJB3 è <emphasis>il</emphasis> modo più semplice per scrivere un'applicazione web complessa in Java. Non ci crederai quanto poco codice viene richiesto!"
+msgstr "Risulta che la combinazione di Seam, JSF e EJB3 è <emphasis>il</emphasis> modo più semplice per scrivere un'applicazione web complessa in Java. Ti stupirai di quanto poco codice viene richiesto!"
 
