@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-04-04 01:24+0000\n"
-"PO-Revision-Date: 2008-12-13 20:10+0100\n"
+"PO-Revision-Date: 2008-12-13 22:11+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -89,7 +89,7 @@ msgstr "AJAX integrato"
 #: Preface.xml:81
 #, no-c-format
 msgid "Seam supports the best open source JSF-based AJAX solutions: JBoss RichFaces and ICEfaces. These solutions let you add AJAX capability to your user interface without the need to write any JavaScript code."
-msgstr "Seam supporta le migliori soluzioni open source AJAX basate su JSF: JBoss RichFaces a ICEFaces. Queste soluzioni ti permettono di aggiungere funzionalità AJAX alla tua interfaccia utente senza il bisogno di scrivere codice JavaScript."
+msgstr "Seam supporta le migliori soluzioni open source AJAX basate su JSF: JBoss RichFaces e ICEFaces. Queste soluzioni ti permettono di aggiungere funzionalità AJAX all'interfaccia utente senza il bisogno di scrivere codice JavaScript."
 
 #. Tag: para
 #: Preface.xml:86
@@ -114,7 +114,7 @@ msgstr "Processo di business come primo costrutto di classe"
 #: Preface.xml:103
 #, no-c-format
 msgid "Optionally, Seam provides transparent business process management via jBPM. You won't believe how easy it is to implement complex workflows, collaboration and and task management using jBPM and Seam."
-msgstr "Opzionalmente Seam può fornire una gestione trasparente di processo di business tramire jBPM. Non ci crederai quanto è facile implementare workflow complessi, collaborazioni e gestione dei compiti utilizzando jBPM e Seam."
+msgstr "Opzionalmente Seam può fornire una gestione trasparente del processo di business tramite jBPM. Non ci crederai quanto è facile implementare dei workflow complessi, delle collaborazioni ed una gestione dei compiti utilizzando jBPM e Seam."
 
 #. Tag: para
 #: Preface.xml:108
@@ -162,13 +162,13 @@ msgstr "Bijection"
 #: Preface.xml:160
 #, no-c-format
 msgid "The notion of <emphasis>Inversion of Control</emphasis> or <emphasis>dependency injection</emphasis> exists in both JSF and EJB3, as well as in numerous so-called \"lightweight containers\". Most of these containers emphasize injection of components that implement <emphasis>stateless services</emphasis>. Even when injection of stateful components is supported (such as in JSF), it is virtually useless for handling application state because the scope of the stateful component cannot be defined with sufficient flexibility, and because components belonging to wider scopes may not be injected into components belonging to narrower scopes."
-msgstr "La nozione di <emphasis>Inversione del Controllo</emphasis> o <emphasis>dependency injection</emphasis> esiste in entrambi JSF e EJB3, così come in numerosi così chiamati \"contenitori a peso leggero\" (lightweight containers). La maggior parte di questi contenitori predilige l'injection di componenti che implementano <emphasis>servizi stateless</emphasis>.  Anche quando l'injection di componenti stateful è supportata (come in JSF), è virtualmente inutile per la gestione dello stato dell'applicazione poiché lo scope del componente stateful non può essere definita con sufficiente flessibilità e poiché i componenti appartenenti a scope più ampi potrebbero non essere iniettati nei componenti appartenenti a scope più ristretti."
+msgstr "La nozione di <emphasis>Inversione del Controllo</emphasis> o <emphasis>dependency injection</emphasis> esiste in entrambi JSF e EJB3, così come in numerosi così chiamati lightweight container. La maggior parte di questi container predilige l'injection di componenti che implementano <emphasis>servizi stateless</emphasis>.  Anche quando l'injection di componenti stateful è supportata (come in JSF), è virtualmente inutile per la gestione dello stato dell'applicazione poiché lo scope del componente stateful non può essere definita con sufficiente flessibilità e poiché i componenti appartenenti a scope più ampi potrebbero non essere iniettati nei componenti appartenenti a scope più ristretti."
 
 #. Tag: para
 #: Preface.xml:169
 #, no-c-format
 msgid "<emphasis>Bijection</emphasis> differs from IoC in that it is <emphasis>dynamic</emphasis>, <emphasis>contextual</emphasis>, and <emphasis>bidirectional</emphasis>. You can think of it as a mechanism for aliasing contextual variables (names in the various contexts bound to the current thread) to attributes of the component. Bijection allows auto-assembly of stateful components by the container. It even allows a component to safely and easily manipulate the value of a context variable, just by assigning it to an attribute of the component."
-msgstr "La <emphasis>Bijection</emphasis> differisce da IoC poiché è <emphasis>dinamiac</emphasis>, <emphasis>contestuale</emphasis>, e <emphasis>bidirezionale</emphasis>. Puoi pensare ad essa come un meccanismo per la denominazione di variabili contestuali (nomi in vari contesti legati all thread attuale) in attributi dei componenti. La bijection consente l'autoassemblamento dei componenti da parte del container. Permette pure che un componente possa in tutta sicurezza e semplicità manipolare il valore di una variabile di contesto, solamente assegnandola ad un attributo del componente. "
+msgstr "La <emphasis>Bijection</emphasis> differisce da IoC poiché è <emphasis>dinamica</emphasis>, <emphasis>contestuale</emphasis>, e <emphasis>bidirezionale</emphasis>. Puoi pensare ad essa come un meccanismo per la denominazione di variabili contestuali (nomi in vari contesti legati all thread attuale) in attributi dei componenti. La bijection consente l'autoassemblamento dei componenti da parte del container. Permette pure che un componente possa in tutta sicurezza e semplicità manipolare il valore di una variabile di contesto, solamente assegnandola ad un attributo del componente. "
 
 #. Tag: emphasis
 #: Preface.xml:181
@@ -180,7 +180,7 @@ msgstr "Gestione del workspace e navigazione multi-finestra"
 #: Preface.xml:183
 #, no-c-format
 msgid "Seam applications let the user freely switch between multiple browser tabs, each associated with a different, safely isolated, conversation. Applications may even take advantage of <emphasis>workspace management</emphasis>, allowing the user to switch between conversations (workspaces) in a single browser tab. Seam provides not only correct multi-window operation, but also multi-window-like operation in a single window!"
-msgstr "Le applicazioni Seam consentono all'utente di passare liberamente a più tab del browser, ciascuno associato ad una differente ed isolata conversazione. Le applicazioni possono addirittura avvantaggiarsi della <emphasis>gestione del workspace</emphasis>, consentendo all'utente di spostarsi fra le varie conversazioni (workspace) all'interno del singolo tab del browser. Seam fornisce non solo una corretta funzionalità multi-finestra, ma anche funzionalità multi-finestra in una singola finestra!"
+msgstr "Le applicazioni Seam consentono all'utente di passare liberamente a più tab del browser, ciascuno associato ad una conversazione differente ed isolata. Le applicazioni possono addirittura avvantaggiarsi della <emphasis>gestione del workspace</emphasis>, consentendo all'utente di spostarsi fra le varie conversazioni (workspace) all'interno del singolo tab del browser. Seam fornisce non solo una corretta funzionalità multi-finestra, ma anche funzionalità multi-finestra in una singola finestra!"
 
 #. Tag: emphasis
 #: Preface.xml:194
@@ -193,13 +193,13 @@ msgstr "Preferenza delle annotazioni all'XML"
 #: Preface.xml:196
 #, no-c-format
 msgid "Traditionally, the Java community has been in a state of deep confusion about precisely what kinds of meta-information counts as configuration. J2EE and popular \"lightweight\" containers have provided XML-based deployment descriptors both for things which are truly configurable between different deployments of the system, and for any other kinds or declaration which can not easily be expressed in Java. Java 5 annotations changed all this."
-msgstr "Tradizionalmente la comunità Java è restata in uno stato di profonda confusione su quali tipologie di meta-informazione debbano essere considerate configurazione. J2EE ed i più noti contenitori \"a peso leggero\" (lightweight container) hanno entrambi fornito descrittori per il deploy basati su XML per cose che sono configurabili tra differenti deploy del sistema e per altri tipi di cose o dichiarazioni che non sono facilmente esprimibili in Java. Le annotazioni Java 5 hanno cambiato tutto questo."
+msgstr "Tradizionalmente la comunità Java è restata in uno stato di profonda confusione su quali tipologie di meta-informazione debbano essere considerate configurazione. J2EE ed i più noti lightweight container hanno entrambi fornito descrittori per il deploy basati su XML per cose che sono configurabili tra differenti deploy del sistema e per altri tipi di cose o dichiarazioni che non sono facilmente esprimibili in Java. Le annotazioni Java 5 hanno cambiato tutto questo."
 
 #. Tag: para
 #: Preface.xml:204
 #, no-c-format
 msgid "EJB 3.0 embraces annotations and \"configuration by exception\" as the easiest way to provide information to the container in a declarative form. Unfortunately, JSF is still heavily dependent on verbose XML configuration files. Seam extends the annotations provided by EJB 3.0 with a set of annotations for declarative state management and declarative context demarcation. This lets you eliminate the noisy JSF managed bean declarations and reduce the required XML to just that information which truly belongs in XML (the JSF navigation rules)."
-msgstr "EJB 3.0 sceglie le annotazioni e la \"configurazione tramite eccezione\" come il miglior modo per fornire informazioni al contenitore in una forma dichiarativa. Sfortunatamente JSF è fortemente dipendente da file XML di configurazione molto lunghi. Seam estende le annotazioni fornite da EJB 3.0 con un set di annotazioni per la gestione dichiarativa dello stato e la demarcazione dichiarativa del contesto. Questo consente di eliminare le noiose dichiarazioni JSF dei bean gestiti e riduce l'XML richiesto alla sola informazione che veramente appartiene a XML (le regole di navigazione JSF)."
+msgstr "EJB 3.0 sceglie le annotazioni e la \"configurazione tramite eccezione\" come il miglior modo per fornire informazioni al container in una forma dichiarativa. Sfortunatamente JSF è fortemente dipendente da file XML di configurazione molto lunghi. Seam estende le annotazioni fornite da EJB 3.0 con un set di annotazioni per la gestione dichiarativa dello stato e la demarcazione dichiarativa del contesto. Questo consente di eliminare le noiose dichiarazioni JSF dei bean gestiti e riduce l'XML richiesto alla sola informazione che veramente appartiene a XML (le regole di navigazione JSF)."
 
 #. Tag: emphasis
 #: Preface.xml:217
