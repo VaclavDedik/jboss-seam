@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-04-04 01:24+0000\n"
-"PO-Revision-Date: 2008-12-12 20:10+0100\n"
+"PO-Revision-Date: 2008-12-13 14:10+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -79,7 +79,7 @@ msgstr "Utilizzo"
 #: Elenhancements.xml:33
 #, no-c-format
 msgid "Just as in calls to method from Java, parameters are surrounded by parentheses, and separated by commas:"
-msgstr ""
+msgstr "Come nelle chiamate ai metodi in Java, i parametri sono racchiusi tra parentesi e separati da virgole:"
 
 #. Tag: programlisting
 #: Elenhancements.xml:38
@@ -91,7 +91,7 @@ msgstr "<![CDATA[<h:commandButton action=\"#{hotelBooking.bookHotel(hotel, user)
 #: Elenhancements.xml:40
 #, no-c-format
 msgid "The parameters <literal>hotel</literal> and <literal>user</literal> will be evaluated as value expressions and passed to the <literal>bookHotel()</literal> method of the component."
-msgstr ""
+msgstr "I parametri <literal>hotel</literal> e <literal>user</literal> verranno valutati come espressioni di valore e passati al metodo <literal>bookHotel()</literal> del componente."
 
 #. Tag: para
 #: Elenhancements.xml:45
@@ -115,7 +115,7 @@ msgstr ""
 #: Elenhancements.xml:51
 #, no-c-format
 msgid "It's important to fully understand how this extension to EL works. When the page is rendered, the parameter <emphasis>names</emphasis> are stored (for example, <literal>hotel.id</literal> and <literal>user.username</literal>), and evaluated (as value expressions) when the page is submitted. You can't pass objects as parameters!"
-msgstr ""
+msgstr "E' importante capire bene come funziona quest'estensione a EL. Quando la pagine viene generata, i <emphasis>nomi</emphasis> dei parametri vengono memorizzati (per esempio <literal>hotel.id</literal> e <literal>user.username</literal>) e valutati (come espressioni di valore) quando la pagina viene inviata. Non si possono passare oggetti come parametri!"
 
 #. Tag: para
 #: Elenhancements.xml:60
@@ -135,11 +135,12 @@ msgstr "Puoi anche passare stringe letterali usando virgolette singole:"
 msgid "<![CDATA[<h:commandLink action=\"#{printer.println('Hello world!')}\" value=\"Hello\"/>]]>"
 msgstr "<![CDATA[<h:commandLink action=\"#{printer.println('Hello world!')}\" value=\"Hello\"/>]]>"
 
+# backing bean = ?  per ora metto BEAN e basta.
 #. Tag: para
 #: Elenhancements.xml:73
 #, no-c-format
 msgid "Unified EL also supports value expressions, used to bind a field to a backing bean. Value expressions use JavaBean naming conventions and expect a getter/setter pair. Often JSF expects a value expression where only retrieval (get) is needed (e.g. the <literal>rendered</literal> attribute). Many objects, however, don't have appropriately named property accessors or require parameters."
-msgstr ""
+msgstr "EL unificato supporta anche le espressioni di valore, usate per associare un campo ad un bean. Le espressioni di valore utilizzano le convenzioni dei nomi di JavaBean e richiedono get e set. Spesso JSP si attende un'espressione di valore dove solo un recupero (get) è richiesto (es. l'attributo <literal>rendered</literal>). Molti oggetti, comunque, non hanno nominato in modo appropriato i metodi accessor alle proprietà o i parametri richiesti."
 
 #. Tag: para
 #: Elenhancements.xml:82
@@ -157,7 +158,7 @@ msgstr "<![CDATA[<h:outputText value=\"#{person.name}\" rendered=\"#{person.name
 #: Elenhancements.xml:89
 #, no-c-format
 msgid "You can access the size of a collection in a similar manner:"
-msgstr "Puoi accedere alla dimensione di una collezioni in maniera analoga:"
+msgstr "Puoi accedere alla dimensione di una collezione in maniera analoga:"
 
 #. Tag: programlisting
 #: Elenhancements.xml:93
@@ -199,13 +200,13 @@ msgstr "Nell'uso di JBoss EL dovresti tenere presente i seguenti punti:"
 #: Elenhancements.xml:118
 #, no-c-format
 msgid "<emphasis>Incompatibility with JSP 2.1</emphasis> &#8212; JBoss EL can't currently be used with JSP 2.1 as the compiler rejects expressions with parameters in. So, if you want to use this extension with JSF 1.2, you will need to use Facelets. The extension works correctly with JSP 2.0."
-msgstr ""
+msgstr "<emphasis>Incompatibilità con JSP 2.1</emphasis> &#8212; JBoss EL non può attualmente essere utilizzato con JSP 2.1 poiché il compilatore rifiuta espressioni con paramentri al suo interno. Quindi per usare quest'estensione con JSF 1.2, si dovranno utilizzare Facelets. Quest'estensione funziona correttamente con JSP 2.0."
 
 #. Tag: para
 #: Elenhancements.xml:127
 #, no-c-format
 msgid "<emphasis>Use inside iterative components</emphasis> &#8212; Components like <literal>&lt;c:forEach /&gt;</literal> and <literal>&lt;ui:repeat /&gt;</literal>iterate over a List or array, exposing each item in the list to nested components. This works great if you are selecting a row using a <literal>&lt;h:commandButton /&gt;</literal> or <literal>&lt;h:commandLink /&gt;</literal>:"
-msgstr ""
+msgstr "<emphasis>Utilizzo all'interno di componenti iterativi</emphasis> &#8212; Componenti quali <literal>&lt;c:forEach /&gt;</literal> e <literal>&lt;ui:repeat /&gt;</literal>iterano su una lista o un array, esponendo ogni item della lista ai componenti innestati. Questo funziona bene se si sta selezionando unriga con <literal>&lt;h:commandButton /&gt;</literal> o <literal>&lt;h:commandLink /&gt;</literal>:"
 
 #. Tag: programlisting
 #: Elenhancements.xml:136
@@ -241,13 +242,13 @@ msgstr ""
 #: Elenhancements.xml:138
 #, no-c-format
 msgid "However if you want to use <literal>&lt;s:link /&gt;</literal> or <literal>&lt;s:button /&gt;</literal> you <emphasis>must</emphasis> expose the items as a <literal>DataModel</literal>, and use a <literal>&lt;dataTable /&gt;</literal> (or equivalent from a component set like <literal>&lt;rich:dataTable /&gt;</literal> ). Neither <literal>&lt;s:link /&gt;</literal> or <literal>&lt;s:button /&gt;</literal> submit the form (and therefore produce a bookmarkable link) so a \"magic\" parameter is needed to recreate the item when the action method is called. This magic parameter can only be added when a data table backed by a <literal>DataModel</literal> is used."
-msgstr ""
+msgstr "Comunque si voglia usare <literal>&lt;s:link /&gt;</literal> o <literal>&lt;s:button /&gt;</literal> si <emphasis>deve</emphasis> esporre gli item come  <literal>DataModel</literal> e usare <literal>&lt;dataTable /&gt;</literal> (o equivalente da componente impostato come <literal>&lt;rich:dataTable /&gt;</literal> ). Né <literal>&lt;s:link /&gt;</literal> né <literal>&lt;s:button /&gt;</literal> eseguono il submit della form (e quindi producono un bookmarkable link) quindi un parametro \"magico\" serve per ricreare l'item quando l'action method viene chiamato. Questo parametro magico può essere aggiunto soltanto quando viene usata una data table con dietro un <literal>DataModel</literal>."
 
 #. Tag: para
 #: Elenhancements.xml:154
 #, no-c-format
 msgid "<emphasis>Calling a <literal>MethodExpression</literal> from Java code</emphasis> &#8212; Normally, when a <literal>MethodExpression</literal> is created, the parameter types are passed in by JSF. In the case of a method binding, JSF assumes that there are no parameters to pass. With this extension, we can't know the parameter types until after the expression has been evaluated. This has two minor consequences:"
-msgstr ""
+msgstr "<emphasis>Chiamata di un <literal>MethodExpression</literal> da codice Java</emphasis> &#8212; normalmente quando una <literal>MethodExpression</literal> viene creata, i tipi di parametro sono passati tramite JSF. Nel caso di un binding di metodo, JSF presume che non ci siano parametri da passare. Con quest'estensione non è possibile sapere il tipo di parametro prima che l'espressione venga valutata. Ciò ha due conseguenze:"
 
 #. Tag: para
 #: Elenhancements.xml:167
@@ -259,13 +260,13 @@ msgstr "Quando viene invocato un <literal>MethodExpression</literal> nel codice 
 #: Elenhancements.xml:175
 #, no-c-format
 msgid "Ordinarily, it is safe to call <literal>methodExpression.getMethodInfo().getParamTypes()</literal> at any time. For an expression with parameters, you must first invoke the <literal>MethodExpression</literal> before calling <literal>getParamTypes()</literal>."
-msgstr ""
+msgstr "Solitamente è sicuro chiamare in ogni momento <literal>methodExpression.getMethodInfo().getParamTypes()</literal>. Per un'espressione con parametri occorre prima invocare il <literal>MethodExpression</literal> prima di chiamare <literal>getParamTypes()</literal>."
 
 #. Tag: para
 #: Elenhancements.xml:185
 #, no-c-format
 msgid "Both of these cases are exceedingly rare and only apply when you want to invoke the <literal>MethodExpression</literal> by hand in Java code."
-msgstr ""
+msgstr "Entrambi questi casi sono estremamente rari e si applicano solo quando vuoi invocare <literal>MethodExpression</literal> manualmente nel codice Java."
 
 #. Tag: title
 #: Elenhancements.xml:196
@@ -301,13 +302,13 @@ msgstr "#{company.departments.{d|d.name}}"
 #: Elenhancements.xml:214
 #, no-c-format
 msgid "The subexpression is enclosed in braces. In this example, the expression <literal>d.name</literal> is evaluated for each department, using <literal>d</literal> as an alias to the department object. The result of this expression will be a list of String values."
-msgstr ""
+msgstr "La sotto-espressione è racchiusa da parentesi. In quest'esempio l'espressione <literal>d.name</literal> viene valutata per ogni dipartimento, usando <literal>d</literal> come alias per l'oggetto dipartimento. Il risultato di quest'espressione sarà una lista di valori Stringa."
 
 #. Tag: para
 #: Elenhancements.xml:221
 #, no-c-format
 msgid "Any valid expression can be used in an expression, so it would be perfectly valid to write the following, assuming you had a use for the lengths of all the department names in a company:"
-msgstr ""
+msgstr "Qualsiasi espressione valida può essere usata in un'espressione, e quindi sarebbe perfettamente valido scrivere la seguente, assumendo che venga usata per le lunghezze di tutti i nomi di dipartimento in un'azienda:"
 
 #. Tag: programlisting
 #: Elenhancements.xml:227

@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-04 00:59+0000\n"
-"PO-Revision-Date: 2008-12-12 20:16+0100\n"
+"PO-Revision-Date: 2008-12-13 14:25+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -35,25 +35,25 @@ msgstr "Seam fornisce un ampio numeri di applicazioni d'esempio che dimostrano l
 #: Tutorial.xml:15
 #, no-c-format
 msgid "Each example has the same directory structure:"
-msgstr ""
+msgstr "Ciascun esempi ha la stessa struttura di directory:"
 
 #. Tag: para
 #: Tutorial.xml:19
 #, no-c-format
 msgid "The <filename>view</filename> directory contains view-related files such as web page templates, images and stylesheets."
-msgstr ""
+msgstr "La directory <filename>view</filename> contiene i file relativi alla vista come template di pagine web, immagini e fogli di stile."
 
 #. Tag: para
 #: Tutorial.xml:25
 #, no-c-format
 msgid "The <filename>resources</filename> directory contains deployment descriptors and other configuration files."
-msgstr ""
+msgstr "La directory <filename>resources</filename> contiene i descrittori per il deploy ed altri file di configurazione."
 
 #. Tag: para
 #: Tutorial.xml:30
 #, no-c-format
 msgid "The <filename>src</filename> directory contains the application source code."
-msgstr ""
+msgstr "La directory <filename>src</filename> contiene il codice sorgente dell'applicazione."
 
 #. Tag: para
 #: Tutorial.xml:35
@@ -65,7 +65,7 @@ msgstr ""
 #: Tutorial.xml:45
 #, no-c-format
 msgid "Running the examples on JBoss AS"
-msgstr ""
+msgstr "Eseguire gli esempi in JBoss AS"
 
 #. Tag: para
 #: Tutorial.xml:47
@@ -89,7 +89,7 @@ msgstr ""
 #: Tutorial.xml:71
 #, no-c-format
 msgid "Running the examples on Tomcat"
-msgstr ""
+msgstr "Eseguire gli esempi in Tomcat"
 
 #. Tag: para
 #: Tutorial.xml:73
@@ -119,7 +119,7 @@ msgstr ""
 #: Tutorial.xml:100
 #, no-c-format
 msgid "Running the example tests"
-msgstr ""
+msgstr "Eseguire i test degli esempi"
 
 #. Tag: para
 #: Tutorial.xml:101
@@ -3171,25 +3171,25 @@ msgstr "Scelta hotel"
 #: Tutorial.xml:1153
 #, no-c-format
 msgid "Room reservation"
-msgstr ""
+msgstr "Prenotazione stanza"
 
 #. Tag: para
 #: Tutorial.xml:1156
 #, no-c-format
 msgid "Reservation confirmation"
-msgstr ""
+msgstr "Conferma prenotazione"
 
 #. Tag: para
 #: Tutorial.xml:1159
 #, no-c-format
 msgid "Existing reservation list"
-msgstr ""
+msgstr "Lista di prenotazioni esistenti"
 
 #. Tag: screeninfo
 #: Tutorial.xml:1164
 #, no-c-format
 msgid "Booking example"
-msgstr ""
+msgstr "Esempio di prenotazione"
 
 #. Tag: para
 #: Tutorial.xml:1175
@@ -3213,7 +3213,7 @@ msgstr ""
 #: Tutorial.xml:1191
 #, no-c-format
 msgid "Overview of the booking example"
-msgstr ""
+msgstr "Panoramica sull'esempio di prenotazione"
 
 #. Tag: para
 #: Tutorial.xml:1193
@@ -3261,7 +3261,7 @@ msgstr ""
 #: Tutorial.xml:1221
 #, no-c-format
 msgid "<literal>RegisterAction</literal> registers a new system user."
-msgstr ""
+msgstr "<literal>RegisterAction</literal> registra un nuovo utente di sistema."
 
 #. Tag: para
 #: Tutorial.xml:1225
@@ -3273,7 +3273,7 @@ msgstr ""
 #: Tutorial.xml:1229
 #, no-c-format
 msgid "<literal>Hotel</literal> is an entity bean that represent a hotel"
-msgstr ""
+msgstr "<literal>Hotel</literal> è un entity bean che rappresenta un hotel"
 
 #. Tag: para
 #: Tutorial.xml:1231
@@ -3291,7 +3291,7 @@ msgstr ""
 #: Tutorial.xml:1240
 #, no-c-format
 msgid "Understanding Seam conversations"
-msgstr ""
+msgstr "Capire le conversazioni in Seam"
 
 #. Tag: para
 #: Tutorial.xml:1241
@@ -3958,7 +3958,7 @@ msgstr ""
 #: Tutorial.xml:1474
 #, no-c-format
 msgid "The Seam Debug Page"
-msgstr ""
+msgstr "La pagina di debug di Seam"
 
 #. Tag: para
 #: Tutorial.xml:1476
@@ -3982,7 +3982,7 @@ msgstr ""
 #: Tutorial.xml:1503
 #, no-c-format
 msgid "Nested conversations: extending the Hotel Booking example"
-msgstr ""
+msgstr "Conversazioni Annidate: estendere l'esempio di Prenotazione Hotel"
 
 #. Tag: para
 #: Tutorial.xml:1508
@@ -4018,7 +4018,7 @@ msgstr ""
 #: Tutorial.xml:1543
 #, no-c-format
 msgid "Understanding Nested Conversations"
-msgstr ""
+msgstr "Capire le Conversazioni Annidate"
 
 #. Tag: para
 #: Tutorial.xml:1545
@@ -4627,7 +4627,7 @@ msgstr ""
 #: Tutorial.xml:1749
 #, no-c-format
 msgid "Using \"pull\"-style MVC"
-msgstr ""
+msgstr "Utilizzo di MVC \"pull\"-style"
 
 #. Tag: para
 #: Tutorial.xml:1751
@@ -5323,9 +5323,10 @@ msgstr ""
 msgid "It is a matter of taste which implementation you prefer."
 msgstr "E' una questione di gusti su quale implementazione tu preferisca."
 
+# fragment caching = ?
 #. Tag: para
 #: Tutorial.xml:1924
 #, no-c-format
 msgid "The blog demo also demonstrates very simple password authentication, posting to the blog, page fragment caching and atom feed generation."
-msgstr ""
+msgstr "La demo del blog mostra anche una semplice autenticazione di password, un invio di un post al blog, un esempio di caching frammentato della pagina e la generazione di atom feed."
 
