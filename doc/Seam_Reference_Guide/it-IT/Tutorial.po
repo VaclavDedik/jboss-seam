@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-04 00:59+0000\n"
-"PO-Revision-Date: 2008-12-13 14:25+0100\n"
+"PO-Revision-Date: 2008-12-13 15:49+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgstr "Seam fornisce un ampio numeri di applicazioni d'esempio che dimostrano l
 #: Tutorial.xml:15
 #, no-c-format
 msgid "Each example has the same directory structure:"
-msgstr "Ciascun esempi ha la stessa struttura di directory:"
+msgstr "Ciascun esempio ha la medesima struttura di directory:"
 
 #. Tag: para
 #: Tutorial.xml:19
@@ -334,7 +334,7 @@ msgstr ""
 #: Tutorial.xml:198
 #, no-c-format
 msgid "An empty constructor is both required by both the EJB specification and by Seam."
-msgstr ""
+msgstr "Un costruttore vuoto è richiesto sia dalla specifica EJB sia da Seam."
 
 #. Tag: para
 #: Tutorial.xml:202
@@ -370,7 +370,7 @@ msgstr ""
 #: Tutorial.xml:226
 #, no-c-format
 msgid "The stateless session bean class: <literal>RegisterAction.java</literal>"
-msgstr ""
+msgstr "Classe del bean di sessione stateless: <literal>RegisterAction.java</literal>"
 
 #. Tag: para
 #: Tutorial.xml:228
@@ -1895,7 +1895,7 @@ msgstr ""
 #: Tutorial.xml:799
 #, no-c-format
 msgid "The JSP itself is trivial:"
-msgstr ""
+msgstr "Lo stesso JSP è banale:"
 
 #. Tag: title
 #: Tutorial.xml:802
@@ -1949,7 +1949,7 @@ msgstr ""
 #: Tutorial.xml:807
 #, no-c-format
 msgid "The second JavaBean is responsible for starting business process instances, and ending tasks."
-msgstr ""
+msgstr "Il secondo JavaBean è responsabile per l'avvio delle istanze del processo di business e della fine dei task."
 
 #. Tag: title
 #: Tutorial.xml:811
@@ -2804,7 +2804,7 @@ msgstr ""
 #: Tutorial.xml:1030
 #, no-c-format
 msgid "Finally, we'll look at the actual application code:"
-msgstr ""
+msgstr "Infine diamo un'occhiata al codice dell'applicazione:"
 
 #. Tag: title
 #: Tutorial.xml:1033
@@ -4817,7 +4817,7 @@ msgstr ""
 #: Tutorial.xml:1816
 #, no-c-format
 msgid "Then the form would have looked like this:"
-msgstr ""
+msgstr "Quindi la form avrebbe dovuto essere così:"
 
 #. Tag: programlisting
 #: Tutorial.xml:1818
