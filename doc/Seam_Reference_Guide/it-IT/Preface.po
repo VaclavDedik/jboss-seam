@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-04-04 01:24+0000\n"
-"PO-Revision-Date: 2008-12-12 19:46+0100\n"
+"PO-Revision-Date: 2008-12-13 20:10+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgstr "Unico tipo di \"cosa\""
 #: Preface.xml:18
 #, no-c-format
 msgid "Seam defines a uniform component model for all business logic in your application. A Seam component may be stateful, with the state associated with any one of several well-defined contexts, including the long-running, persistent, <emphasis>business process context</emphasis> and the <emphasis>conversation context</emphasis>, which is preserved across multiple web requests in a user interaction."
-msgstr "Seam definisce un modello uniforme a componenti per tutte le business logic nella tua applicazione. Un componente Seam può essere stateful, con uno stato associato ad uno dei tanti contesti ben-definiti, che includono long-running, persistenza, <emphasis>contesto processo di business</emphasis> e il <emphasis>contesto conversazionale</emphasis>, che viene preservato lungo le richieste web multiple nell'interazione con l'utente."
+msgstr "Seam definisce un modello uniforme a componenti per tutte le business logic dell'applicazione. Un componente Seam può essere stateful, con uno stato associato ad uno dei tanti contesti ben-definiti, che includono long-running, persistenza, <emphasis>contesto del processo di business</emphasis> e il <emphasis>contesto conversazionale</emphasis>, che viene preservato lungo le diverse richieste web durante l'interazione dell'utente."
 
 #. Tag: para
 #: Preface.xml:25
@@ -47,7 +47,7 @@ msgstr "Non c'è alcuna distinzione in Seam tra i componenti del livello present
 #: Preface.xml:32
 #, no-c-format
 msgid "Unlike plain Java EE or J2EE components, Seam components may <emphasis>simultaneously</emphasis> access state associated with the web request and state held in transactional resources (without the need to propagate web request state manually via method parameters). You might object that the application layering imposed upon you by the old J2EE platform was a Good Thing. Well, nothing stops you creating an equivalent layered architecture using Seam&#8212;the difference is that <emphasis>you</emphasis> get to architect your own application and decide what the layers are and how they work together."
-msgstr "A differenza dei componenti J2EE o del semplice Java EE, i componenti Seam possono <emphasis>simultaneamente</emphasis> accedere allo stato associato allarichiesta web e allo stato mantenuto nelle risorse transazionali (senza il bisogno di propagare manualmente lo stato della richiesta web attraverso i parametri). Si potrebbe obbiettare che la stratificazione dell'applicazione impostadalla vecchia piattaforma J2EE fosse una Cosa Buona. Bene, niente ti vieta di creare un'architettura a strati equivalente usando Seam&#8212; la differenza è che <emphasis>tu</emphasis> decidi l'architettura della tua applicazione e decidi quali sono i layer e come lavorano assieme"
+msgstr "A differenza dei componenti J2EE o del semplice Java EE, i componenti Seam possono <emphasis>simultaneamente</emphasis> accedere allo stato associato alla richiesta web e allo stato mantenuto nelle risorse transazionali (senza il bisogno di propagare manualmente lo stato della richiesta web attraverso i parametri). Si potrebbe obbiettare che la stratificazione dell'applicazione impostadalla vecchia piattaforma J2EE fosse una Cosa Buona. Bene, niente ti vieta di creare un'architettura a strati equivalente usando Seam&#8212; la differenza è che <emphasis>tu</emphasis> decidi l'architettura della tua applicazione e decidi quali sono i layer e come lavorano assieme"
 
 #. Tag: emphasis
 #: Preface.xml:45

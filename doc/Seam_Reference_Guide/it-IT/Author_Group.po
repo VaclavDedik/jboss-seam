@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: seam 2_0\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-13 17:58+0000\n"
-"PO-Revision-Date: 2008-11-23 17:06+0100\n"
+"PO-Revision-Date: 2008-12-13 16:40+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -141,19 +141,19 @@ msgstr "<firstname>Mark</firstname> <surname>Newton</surname>"
 #: Author_Group.xml:88
 #, no-c-format
 msgid "<firstname>Steve</firstname> <surname>Ebersole</surname>"
-msgstr ""
+msgstr "<firstname>Steve</firstname> <surname>Ebersole</surname>"
 
 #. Tag: othercredit
 #: Author_Group.xml:92
 #, no-c-format
 msgid "<firstname>Michael</firstname> <surname>Courcy</surname>"
-msgstr ""
+msgstr "<firstname>Michael</firstname> <surname>Courcy</surname>"
 
 #. Tag: shortaffil
 #: Author_Group.xml:96
 #, no-c-format
 msgid "French Translation"
-msgstr ""
+msgstr "Traduzione in francese"
 
 #. Tag: editor
 #: Author_Group.xml:99

@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:39+0000\n"
-"PO-Revision-Date: 2008-12-13 16:30+0100\n"
+"PO-Revision-Date: 2008-12-13 20:44+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -123,7 +123,7 @@ msgstr ""
 #: Validation.xml:24
 #, no-c-format
 msgid "Well, that's a decent first cut, but in practice it might be more elegant to use custom constraints instead of the ones built into Hibernate Validator:"
-msgstr ""
+msgstr "Bene, questo è una buona riduzione, ma in pratica puoi essere più elegante se utilizzi dei vincoli personalizzati invece di quelli interni a Hibernate Validator:"
 
 #. Tag: programlisting
 #: Validation.xml:30
@@ -163,7 +163,7 @@ msgstr ""
 #: Validation.xml:32
 #, no-c-format
 msgid "Whichever route we take, we no longer need to specify the type of validation to be used in the JSF page. Instead, we can use <literal>&lt;s:validate&gt;</literal> to validate against the constraint defined on the model object."
-msgstr ""
+msgstr "Qualsiasi strada prendiamo non dobbiamo più specificare il tipo di validazione da usare nelle pagine JSF. Invece possiamo usare <literal>&lt;s:validate&gt;</literal> per validare il vincolo definito nell'oggetto modello."
 
 #. Tag: programlisting
 #: Validation.xml:39
@@ -215,13 +215,13 @@ msgstr ""
 #: Validation.xml:41
 #, no-c-format
 msgid "<emphasis>Note:</emphasis> specifying <literal>@NotNull</literal> on the model does <emphasis>not</emphasis> eliminate the requirement for <literal>required=\"true\"</literal> to appear on the control! This is due to a limitation of the JSF validation architecture."
-msgstr ""
+msgstr "<emphasis>Nota:</emphasis> specificare <literal>@NotNull</literal> nel modello <emphasis>non</emphasis> elimina la necessità di <literal>required=\"true\"</literal> per farlo apparire nel controllo! Questo è dovuto ad una limitazione nell'architettura di validazione in JSF."
 
 #. Tag: para
 #: Validation.xml:48
 #, no-c-format
 msgid "This approach <emphasis>defines</emphasis> constraints on the model, and <emphasis>presents</emphasis> constraint violations in the view&#8212;a significantly better design."
-msgstr ""
+msgstr "Quest'approccio <emphasis>definisce</emphasis> i vincoli sul modello e <emphasis>presenta</emphasis> le violazioni al vincolo nella vista&#8212;di gran lunga un miglior design."
 
 #. Tag: para
 #: Validation.xml:54
@@ -287,7 +287,7 @@ msgstr "Questo tag semplicemente aggiunge un <literal>&lt;s:validate&gt;</litera
 #: Validation.xml:67
 #, no-c-format
 msgid "Now we need to do something about displaying feedback to the user when validation fails. Currently we are displaying all messages at the top of the form. In order for the user to correlate the message with an input, you need to define a label using the standard <literal>label</literal> attribute on the input component."
-msgstr ""
+msgstr "Adesso occorre fare qualcosa per mostrare all'utente un messaggio quando la validazione fallisce. Ora vengono mostrati tutti i messaggi in cima alla form. Per consentire all'utente di associare il messaggio al singolo input, occorre definire un'etichetta e usare l'attributo standard <literal>label</literal> sul componente d'input."
 
 #. Tag: programlisting
 #: Validation.xml:73
@@ -305,7 +305,7 @@ msgstr ""
 #: Validation.xml:75
 #, no-c-format
 msgid "You can then inject this value into the message string using the placeholder {0} (the first and only parameter passed to a JSF message for a Hiberate Validator restriction). See the internationalization section for more information regarding where to define these messages."
-msgstr ""
+msgstr "Puoi iniettare questo valore nella stringa del messaggio usando il placeholder {0} (il primo ed unico parametro passato al messaggio JSF a causa di una restrizione in Hibernate Validator). Vedere la sezione Internazionalizzazione per ulteriori informazioni sulla definizione dei messaggi."
 
 #. Tag: programlisting
 #: Validation.xml:83
@@ -317,13 +317,13 @@ msgstr "validator.length={0} la lunghezza deve essere tra {min} e {max}"
 #: Validation.xml:85
 #, no-c-format
 msgid "What we would really like to do, though, is display the message next to the field with the error (this is possible in plain JSF), highlight the field and label (this is not possible) and, for good measure, display some image next to the field (also not possible). We also want to display a little colored asterisk next to the label for each required form field. Using this approach, the identifying label is not necessary."
-msgstr ""
+msgstr "Ciò che vorremmo fare, tuttavia, è mostrare il messaggio vicino al campo con l'errore (questo è possibile nel semplice JSF), ed evidenziare il campo e l'etichetta (questo non è possibile) ed, eventualmente, mostrare un'immagine vicino al campo (anche questo non è possibile). Vogliamo anche mostrare un piccolo asterisco colorato vicino all'etichetta per ciascun campo richiesto. Utilizzando quest'approccio non è più necessario identificare l'etichetta."
 
 #. Tag: para
 #: Validation.xml:95
 #, no-c-format
 msgid "That's quite a lot of functionality we need for each field of our form. We wouldn't want to have to specify higlighting and the layout of the image, message and input field for every field on the form. So, instead, we'll specify the common layout in a facelets template:"
-msgstr ""
+msgstr "Abbiamo quindi bisogno di parecchia funzionalità per ogni singolo campo della form. Ma non vogliamo essere costretti a specificare per ogni campo della form come evidenziare, come disporre l'immagine, quale messaggio scrivere e quale è il campo d'input da associare."
 
 #. Tag: programlisting
 #: Validation.xml:103
@@ -385,7 +385,7 @@ msgstr ""
 #: Validation.xml:105
 #, no-c-format
 msgid "We can include this template for each of our form fields using <literal>&lt;s:decorate&gt;</literal>."
-msgstr ""
+msgstr "Possiamo includere questo template per ciascuna campo della form utilizzando <literal>&lt;s:decorate&gt;</literal>."
 
 #. Tag: programlisting
 #: Validation.xml:110
@@ -485,7 +485,7 @@ msgstr ""
 #: Validation.xml:119
 #, no-c-format
 msgid "It's better style to define explicit ids for important controls on the page, especially if you want to do automated testing for the UI, using some toolkit like Selenium. If you don't provide explicit ids, JSF will generate them, but the generated values will change if you change anything on the page."
-msgstr ""
+msgstr "E' uno stile migliore definire esplicitamente gli id per i controlli importanti all'interno della pagina, specialmente in caso di test automatico della UI, utilizzando dei toolkit quale Selenium. Se non vengono forniti gli id in modo esplicito, JSF li genererà, mai valori generati cambieranno se si cambia qualcosa nella pagina."
 
 #. Tag: programlisting
 #: Validation.xml:128
@@ -535,11 +535,12 @@ msgstr ""
 "\n"
 "</h:form>]]>"
 
+# message bundle = ?
 #. Tag: para
 #: Validation.xml:130
 #, no-c-format
 msgid "And what if you want to specify a different message to be displayed when validation fails? You can use the Seam message bundle (and all it's goodies like el expressions inside the message, and per-view message bundles) with the Hibernate Validator:"
-msgstr ""
+msgstr "E se vuoi specificare un messaggio diverso quando la validazione fallisce? Puoi utilizzare il message bundle di Seam con Hibernate Validator (e tutte le altre finezze come le espressioni EL dentro il messaggio ed i message bundle per ogni singola vista)."
 
 #. Tag: programlisting
 #: Validation.xml:137
