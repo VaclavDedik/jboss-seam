@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2008-12-12 00:17+0100\n"
+"PO-Revision-Date: 2008-12-14 22:11+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr "Pageflows e processi di business"
 #: Jbpm.xml:4
 #, no-c-format
 msgid "JBoss jBPM is a business process management engine for any Java SE or EE environment. jBPM lets you represent a business process or user interaction as a graph of nodes representing wait states, decisions, tasks, web pages, etc. The graph is defined using a simple, very readable, XML dialect called jPDL, and may be edited and visualised graphically using an eclipse plugin. jPDL is an extensible language, and is suitable for a range of problems, from defining web application page flow, to traditional workflow management, all the way up to orchestration of services in a SOA environment."
-msgstr ""
+msgstr "JBoss jBPM è un motore di gestione dei processi di business per ambiente Java SE o EE. jBPM ti consente di rappresentare un processo di business o un'interazione utente come un grafo di nodi, raffiguranti stati d'attesa, decisioni, compiti (task), pagine web, ecc. Il grafo viene definito usando un dialetto XML semplice, molto leggibile, chiamato jPDL, che può essere editato e visualizzato graficamente usando un plugin di eclipse. jPDL è un linguaggio estendibile ed è adatto per un range di problemi, dalla definizione di un flusso di pagine dell'applicazione web alla gestione tradizionale del workflow, fino all'orchestrazione di servizi in un ambiente SOA."
 
 #. Tag: para
 #: Jbpm.xml:16
@@ -71,7 +71,7 @@ msgstr ""
 #: Jbpm.xml:67
 #, no-c-format
 msgid "Using JSF or Seam navigation rules - the <emphasis>stateless navigation model</emphasis>"
-msgstr ""
+msgstr "Uso di JSF o delle regole di navigazione di Seam - il <emphasis>modello di navigazione stateless</emphasis>"
 
 #. Tag: para
 #: Jbpm.xml:73
@@ -89,7 +89,7 @@ msgstr ""
 #: Jbpm.xml:86
 #, no-c-format
 msgid "The two navigation models"
-msgstr ""
+msgstr "I due modelli di navigazione"
 
 #. Tag: para
 #: Jbpm.xml:88

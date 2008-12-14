@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-04-04 01:24+0000\n"
-"PO-Revision-Date: 2008-12-14 00:24+0100\n"
+"PO-Revision-Date: 2008-12-14 21:05+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -223,7 +223,7 @@ msgstr "Le specifiche non sono perfette"
 #: Preface.xml:234
 #, no-c-format
 msgid "We think the latest incarnation of Java EE is great. But we know it's never going to be perfect. Where there are holes in the specifications (for example, limitations in the JSF lifecycle for GET requests), Seam fixes them. And the authors of Seam are working with the JCP expert groups to make sure those fixes make their way back into the next revision of the standards."
-msgstr "Pensiamo che l'ultima incarnazione di Java EE sia ottima. Ma sappiamo che non sarà mai perfetta. Dove ci sono dei buchi nella specifica) per esempio, limitazioni nel ciclo di vita JSF per le richieste GET), Seam li risolve. E gli autori di Seam stanno lavorando con i gruppi esperti JCP per assicurare che queste soluzioni siano incorporate nelle prossime revisioni degli standard."
+msgstr "Pensiamo che l'ultima incarnazione di Java EE sia ottima. Ma sappiamo che non sarà mai perfetta. Dove ci sono dei buchi nella specifica (per esempio limitazioni nel ciclo di vita JSF per le richieste GET), Seam li risolve. E gli autori di Seam stanno lavorando con i gruppi esperti JCP per assicurare che queste soluzioni siano incorporate nelle prossime revisioni degli standard."
 
 #. Tag: emphasis
 #: Preface.xml:245
@@ -253,11 +253,11 @@ msgstr "Inizia ora!"
 #: Preface.xml:270
 #, no-c-format
 msgid "Seam works in any Java EE application server, and even works in Tomcat. If your environment supports EJB 3.0, great! If it doesn't, no problem, you can use Seam's built-in transaction management with JPA or Hibernate3 for persistence. Or, you can deploy JBoss Embedded in Tomcat, and get full support for EJB 3.0."
-msgstr "Seam funziona in qualsiasi application server Java EE, e perfino in Tomcat. Se il tuo ambiente supporta EJB 3.0, benissimo! Altrimenti, nessun problema, puoi utilizzare la gestione delle transazioni interna di Seam con JPA o Hibernate3 per la persistenza. Oppure puoi fare il deploy di JBoss Embedded in Tomcat, ed ottenere pieno supporto per EJB 3.0."
+msgstr "Seam funziona in qualsiasi application server Java EE, e perfino in Tomcat. Se il tuo ambiente supporta EJB 3.0, benissimo! Altrimenti, nessun problema, puoi utilizzare la gestione delle transazioni interna a Seam con JPA o Hibernate3 per la persistenza. Oppure puoi fare il deploy di JBoss Embedded in Tomcat, ed ottenere pieno supporto per EJB 3.0."
 
 #. Tag: para
 #: Preface.xml:286
 #, no-c-format
 msgid "It turns out that the combination of Seam, JSF and EJB3 is <emphasis>the</emphasis> simplest way to write a complex web application in Java. You won't believe how little code is required!"
-msgstr "Risulta che la combinazione di Seam, JSF e EJB3 è <emphasis>il</emphasis> modo più semplice per scrivere un'applicazione web complessa in Java. Ti stupirai di quanto poco codice viene richiesto!"
+msgstr "La combinazione di Seam, JSF e EJB3 è <emphasis>il</emphasis> modo più semplice per scrivere una complessa applicazione web in Java. Ti stupirai di quanto poco codice viene richiesto!"
 

@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-13 17:58+0000\n"
-"PO-Revision-Date: 2008-12-14 00:06+0100\n"
+"PO-Revision-Date: 2008-12-14 21:19+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -95,7 +95,7 @@ msgstr "Eseguire gli esempi in Tomcat"
 #: Tutorial.xml:73
 #, no-c-format
 msgid "The examples are also configured for use on Tomcat 6.0. You will need to follow the instructions in <xref linkend=\"config.install.embedded\"/> for installing JBoss Embedded on Tomcat 6.0. JBoss Embedded is only required to run the Seam demos that use EJB3 components on Tomcat. There are also examples of non-EJB3 applications that can be run on Tomcat without the use of JBoss Embedded."
-msgstr ""
+msgstr "Questi esempi sono configurati anche per essere usati in Tomcat 6.0. Occorreràseguire le istruzioni in <xref linkend=\"config.install.embedded\"/> per installare JBoss Embedded in Tomcat 6.0. JBoss Embedded è richiesto per eseguire le demo di Seam che usano componenti EJB3 in Tomcat. Ci sono anche esempio di applicazioni non-EJB3 che possono funzionare in Tomcat senza JBoss Embedded."
 
 #. Tag: para
 #: Tutorial.xml:79
@@ -107,7 +107,7 @@ msgstr ""
 #: Tutorial.xml:85
 #, no-c-format
 msgid "You'll need to use a different Ant target when using Tomcat. Use <literal>ant tomcat.deploy</literal> in example subdirectory to build and deploy any example for Tomcat."
-msgstr ""
+msgstr "Dovrai usare un diverso target Ant per utilizzare Tomcat. Usa <literal>ant tomcat.deploy</literal> nella sotto-directory d'esempio per il build ed il deploy in Tomcat."
 
 #. Tag: para
 #: Tutorial.xml:90
@@ -143,7 +143,7 @@ msgstr "L'esempio di registrazione è una semplice applicazione per consentire a
 #: Tutorial.xml:119
 #, no-c-format
 msgid "We'll go slowly, since we realize you might not yet be familiar with EJB 3.0."
-msgstr ""
+msgstr "Andiamo piano, poiché ci rendiamo conto che EJB 3.0 potrebbe non esserti familiare."
 
 #. Tag: para
 #: Tutorial.xml:121
@@ -4560,13 +4560,13 @@ msgstr ""
 #: Tutorial.xml:1669
 #, no-c-format
 msgid "Feel free to deploy the application, open many windows or tabs and attempt combinations of various hotels with various room preferences. Confirming a booking always results in the correct hotel and room preference thanks to the nested conversation model."
-msgstr ""
+msgstr "Prova il deploy dell'applicazione, apri più finestre o tab e prova combinzioni di vari hotel con varie opzioni di camera. La conferma risulterà sempre nel giusto hotel e con la corretta opzione grazie al modello di conversazioni innestate."
 
 #. Tag: title
 #: Tutorial.xml:1676
 #, no-c-format
 msgid "A complete application featuring Seam and jBPM: the DVD Store example"
-msgstr ""
+msgstr "Un'applicazione completa di Seam e jBPM: esempio di Negozio DVD"
 
 #. Tag: para
 #: Tutorial.xml:1678
@@ -4761,7 +4761,7 @@ msgstr ""
 #: Tutorial.xml:1798
 #, no-c-format
 msgid "Bookmarkable search results page"
-msgstr ""
+msgstr "Pagina bookmarkable dei risultati di ricerca"
 
 #. Tag: para
 #: Tutorial.xml:1800
@@ -4897,7 +4897,7 @@ msgstr "&lt;web:rewrite-filter view-mapping=&quot;/seam/*&quot; /&gt;"
 #: Tutorial.xml:1860
 #, no-c-format
 msgid "The redirect takes us to the <literal>search.xhtml</literal> page:"
-msgstr ""
+msgstr "Il redirect di porta alla pagina <literal>search.xhtml</literal>:"
 
 #. Tag: programlisting
 #: Tutorial.xml:1862
@@ -5051,7 +5051,7 @@ msgstr ""
 #: Tutorial.xml:1874
 #, no-c-format
 msgid "Using \"push\"-style MVC in a RESTful application"
-msgstr ""
+msgstr "Uso di MVC push in un'applicazione RESTful"
 
 #. Tag: para
 #: Tutorial.xml:1876
@@ -5063,7 +5063,7 @@ msgstr ""
 #: Tutorial.xml:1881
 #, no-c-format
 msgid "The <literal>entryAction</literal> component works much like an action class in a traditional push-MVC action-oriented framework like Struts:"
-msgstr ""
+msgstr "Il componente <literal>entryAction</literal> funziona come una action class in un framework tradizionale orientato alle azioni e push-MVC come Struts:"
 
 #. Tag: programlisting
 #: Tutorial.xml:1884
