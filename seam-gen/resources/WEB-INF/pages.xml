@@ -57,7 +57,7 @@
         </redirect>
     </exception>
     
-    <exception class="org.jboss.seam.ConcurrentRequestTimeoutException" logLevel="trace">
+    <exception class="org.jboss.seam.ConcurrentRequestTimeoutException" log-level="trace">
       <http-error error-code="503" />
     </exception>
      
