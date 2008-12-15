@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2008-12-15 06:47+0100\n"
+"PO-Revision-Date: 2008-12-15 18:16+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -343,7 +343,7 @@ msgstr "In aggiunta il modello stateful è più <emphasis>vincolato</emphasis>. 
 #: Jbpm.xml:178
 #, no-c-format
 msgid "The stateful/stateless navigation distinction is quite similar to the traditional view of modal/modeless interaction. Now, Seam applications are not usually modal in the simple sense of the word - indeed, avoiding application modal behavior is one of the main reasons for having conversations! However, Seam applications can be, and often are, modal at the level of a particular conversation. It is well-known that modal behavior is something to avoid as much as possible; it is very difficult to predict the order in which your users are going to want to do things! However, there is no doubt that the stateful model has its place."
-msgstr ""
+msgstr "La distinzione di navigazione stateful/stateless è abbastanza simile alla tradizionale vista di interazione modale/senza modello. Ora le applicazioni Seam non sono solitamente modali nel semplice senso della parola - infatti, evitare il comportamento modale dell'applicazione è uno delle principali ragioni per usare le conversazioni! Comunque le applicazioni Seam possono essere, e spesso lo sono, modali a livello di una particolare conversazione. E' noto che il comportamento modale è qualcosa da evitare il più possibile; è molto difficile predire l'ordine in cui gli utenti vogliono fare le cose! Comunque non c'è dubbio che il modello stateful ha un suo utilizzo."
 
 #. Tag: para
 #: Jbpm.xml:191
@@ -361,7 +361,7 @@ msgstr "Seam ed il pulsante indietro"
 #: Jbpm.xml:201
 #, no-c-format
 msgid "When JSF or Seam navigation rules are used, Seam lets the user freely navigate via the back, forward and refresh buttons. It is the responsibility of the application to ensure that conversational state remains internally consistent when this occurs. Experience with the combination of web application frameworks like Struts or WebWork - that do not support a conversational model - and stateless component models like EJB stateless session beans or the Spring framework has taught many developers that this is close to impossible to do! However, our experience is that in the context of Seam, where there is a well-defined conversational model, backed by stateful session beans, it is actually quite straightforward. Usually it is as simple as combining the use of <literal>no-conversation-view-id</literal> with null checks at the beginning of action listener methods. We consider support for freeform navigation to be almost always desirable."
-msgstr ""
+msgstr "Quando le regole di navigazione di JSF o Seam vendono impiegate, Seam consente all'utente di navigare liberamente avanti ed indietro e di usare il pulsante aggiorna. E' responsabilità dell'applicazione assicurare che lo stato conversazionale rimanga internamente consistente quando questo avviene. L'esperienza con la combinazione di framework web come Struts o WebWork - che non supportano un modello conversazionale - e modelli a componenti stateless come session bean EJB stateless o il framework Spring ha insegnato a molti sviluppatori che questo è quasi praticamente impossibile da realizzare! Comunqur la nostra esperienza è che il contesto di Seam, dove c'è un modello conversazionale ben definito, agganciato a session bean stateful, è in verità abbastanza semplice. E' tanto semplice quanto combinare l'uso di <literal>no-conversation-view-id</literal> con controlli nulli all'inizio di metodi action listener. Riteniamo che il supporto alla navigazione libera sia quasi sempre desiderabile."
 
 #. Tag: para
 #: Jbpm.xml:219
@@ -517,7 +517,7 @@ msgstr ""
 #: Jbpm.xml:308
 #, no-c-format
 msgid "Alternatively we can start a pageflow using pages.xml:"
-msgstr ""
+msgstr "In alternativa possiamo iniziare un pageflow usando pages.xml:"
 
 #. Tag: programlisting
 #: Jbpm.xml:310
@@ -966,7 +966,7 @@ msgstr "Iniziare un processo di business"
 #: Jbpm.xml:549
 #, no-c-format
 msgid "To initiate a business process instance, we use the <literal>@CreateProcess</literal> annotation:"
-msgstr ""
+msgstr "Per iniziare un'istanza di processo di business, usiamo l'annotazione <literal>@CreateProcess</literal>:"
 
 #. Tag: programlisting
 #: Jbpm.xml:554
@@ -982,7 +982,7 @@ msgstr ""
 #: Jbpm.xml:556
 #, no-c-format
 msgid "Alternatively we can initiate a business process using pages.xml:"
-msgstr ""
+msgstr "In alternativa possiamo iniziare un processo di business usando pages.xml:"
 
 #. Tag: programlisting
 #: Jbpm.xml:558
@@ -1154,7 +1154,7 @@ msgstr ""
 #: Jbpm.xml:624
 #, no-c-format
 msgid "Alternatively we can begin work on a task using pages.xml:"
-msgstr ""
+msgstr "In alternativa possiamo iniziare a lavorare su un task usando pages.xml:"
 
 #. Tag: programlisting
 #: Jbpm.xml:626
