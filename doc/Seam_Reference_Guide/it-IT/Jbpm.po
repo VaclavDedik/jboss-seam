@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2008-12-14 22:11+0100\n"
+"PO-Revision-Date: 2008-12-15 06:47+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -29,31 +29,31 @@ msgstr "JBoss jBPM è un motore di gestione dei processi di business per ambient
 #: Jbpm.xml:16
 #, no-c-format
 msgid "Seam applications use jBPM for two different problems:"
-msgstr ""
+msgstr "Le applicazioni Seam utilizzano jBPM per due tipi di problemi:"
 
 #. Tag: para
 #: Jbpm.xml:22
 #, no-c-format
 msgid "Defining the pageflow involved in complex user interactions. A jPDL process definition defines the page flow for a single conversation. A Seam conversation is considered to be a relatively short-running interaction with a single user."
-msgstr ""
+msgstr "Complesse interazioni da parte dell'utente comportano la definizione un pageflow (flusso di pagina). Una definizione di un processo con jPDL stabilisce il flusso delle pagine per una singola conversazione. Una conversazione in Seam è considerata un'interazione di breve durata con un singolo utente."
 
 #. Tag: para
 #: Jbpm.xml:30
 #, no-c-format
 msgid "Defining the overarching business process. The business process may span multiple conversations with multiple users. Its state is persistent in the jBPM database, so it is considered long-running. Coordination of the activities of multiple users is a much more complex problem than scripting an interaction with a single user, so jBPM offers sophisticated facilities for task management and dealing with multiple concurrent paths of execution."
-msgstr ""
+msgstr "Definizione del processo di business sottostante. Il processo di business può comportare una serie di conversazioni con più utenti. Il suo stato viene persistito nel database jBPM, divenendo così di lunga durata. Il coordinamento delle attività di più utenti è un problema molto più complesso che descrivere l'interazione di un singolo utente, cosicché jBPM offre dei modi sofisticati per la gestione dei compiti (task) e per la gestione di più percorsi concorrenti di esecuzione ."
 
 #. Tag: para
 #: Jbpm.xml:42
 #, no-c-format
 msgid "Don't get these two things confused! They operate at very different levels or granularity. <emphasis>Pageflow</emphasis>, <emphasis>conversation</emphasis> and <emphasis>task</emphasis> all refer to a single interaction with a single user. A business process spans many tasks. Futhermore, the two applications of jBPM are totally orthogonal. You can use them together or independently or not at all."
-msgstr ""
+msgstr "Non confondere le due cose! Queste operano a livelli molto diversi e con diverso grado di granularità. <emphasis>Pageflow</emphasis>, <emphasis>conversazione</emphasis> e <emphasis>task</emphasis> si riferiscono tutti alla singola interazione con il singolo utente. Un processo di business comporta più task. Quindi le due applicazione di jBPM sono totalmente ortogonali. Puoi usarle assieme, in modo indipendente, o puoi non usarle affatto."
 
 #. Tag: para
 #: Jbpm.xml:51
 #, no-c-format
 msgid "You don't have to know jDPL to use Seam. If you're perfectly happy defining pageflow using JSF or Seam navigation rules, and if your application is more data-driven that process-driven, you probably don't need jBPM. But we're finding that thinking of user interaction in terms of a well-defined graphical representation is helping us build more robust applications."
-msgstr ""
+msgstr "Non serve che tu conosca jPDL per usare Seam. Se ti trovi bene nel definire un pageflow con JSF o con le regole di navigazione di Seam, e se l'applicazione è guida più dai dati che dal processo, probabilmente non ti serve usare jBPM. Ma noi pensiamo che strutturare l'interazione dell'utente in termini di rappresentazione grafical ben definita aiuti a costruire applicazioni più robuste."
 
 #. Tag: title
 #: Jbpm.xml:60
@@ -65,7 +65,7 @@ msgstr "Pageflow in Seam"
 #: Jbpm.xml:61
 #, no-c-format
 msgid "There are two ways to define pageflow in Seam:"
-msgstr ""
+msgstr "Ci sono due modi per definire il pageflow in Seam:"
 
 #. Tag: para
 #: Jbpm.xml:67
@@ -77,13 +77,13 @@ msgstr "Uso di JSF o delle regole di navigazione di Seam - il <emphasis>modello 
 #: Jbpm.xml:73
 #, no-c-format
 msgid "Using jPDL - the <emphasis>stateful navigation model</emphasis>"
-msgstr ""
+msgstr "Utilizzo di jPDL - il <emphasis>modello di navigazione stateful</emphasis>"
 
 #. Tag: para
 #: Jbpm.xml:79
 #, no-c-format
 msgid "Very simple applications will only need the stateless navigation model. Very complex applications will use both models in different places. Each model has its strengths and weaknesses!"
-msgstr ""
+msgstr "Applicazioni molto semplici richiedono soltanto un modello di navigazione stateless. Invece applicazioni molto complesse impiegano entrambi i modelli in differenti punti. Ciascun modello ha i suoi punti di forza e le sue debolezze!"
 
 #. Tag: title
 #: Jbpm.xml:86
@@ -91,17 +91,18 @@ msgstr ""
 msgid "The two navigation models"
 msgstr "I due modelli di navigazione"
 
+# rivedere la frase
 #. Tag: para
 #: Jbpm.xml:88
 #, no-c-format
 msgid "The stateless model defines a mapping from a set of named, logical outcomes of an event directly to the resulting page of the view. The navigation rules are entirely oblivious to any state held by the application other than what page was the source of the event. This means that your action listener methods must sometimes make decisions about the page flow, since only they have access to the current state of the application."
-msgstr ""
+msgstr "Il modello stateless definisce una mappatura tra un set di esiti di un evento e la pagina della vista. Le regole di navigazione sono interamente senza memoria rispetto alla stato mantenuto dall'applicazione oltre che alla pagina origine dell'evento. Questo significa che i metodi dell'action listener devono di tanto in tanto prendere decisioni sul pageflow, poiché solo loro hanno accesso allo stato corrente dell'applicazione."
 
 #. Tag: para
 #: Jbpm.xml:98
 #, no-c-format
 msgid "Here is an example page flow definition using JSF navigation rules:"
-msgstr ""
+msgstr "Ecco ora un esempio di definizione di pageflow usando le regole di navigazione JSF:"
 
 #. Tag: programlisting
 #: Jbpm.xml:103
@@ -157,7 +158,7 @@ msgstr ""
 #: Jbpm.xml:105
 #, no-c-format
 msgid "Here is the same example page flow definition using Seam navigation rules:"
-msgstr ""
+msgstr "Ecco lo stesso esempio di definizione di pageflow usando le regole di navigazione di Seam:"
 
 #. Tag: programlisting
 #: Jbpm.xml:110
@@ -199,7 +200,7 @@ msgstr ""
 #: Jbpm.xml:112
 #, no-c-format
 msgid "If you find navigation rules overly verbose, you can return view ids directly from your action listener methods:"
-msgstr ""
+msgstr "Se ritieni che le regole di navigazione siano troppo lunghe, puoi restituire l'id della vista direttamente dai metodi dell'action listener:"
 
 #. Tag: programlisting
 #: Jbpm.xml:117
@@ -221,7 +222,7 @@ msgstr ""
 #: Jbpm.xml:119
 #, no-c-format
 msgid "Note that this results in a redirect. You can even specify parameters to be used in the redirect:"
-msgstr ""
+msgstr "Si noti che questo comporta un redirect. Puoi persino specificare i parametri da usare nel redirect:"
 
 #. Tag: programlisting
 #: Jbpm.xml:124
@@ -235,17 +236,18 @@ msgstr ""
 "    return \"/searchResults.jsp?searchPattern=#{searchAction.searchPattern}\";\n"
 "}]]>"
 
+# rivedere la frase.
 #. Tag: para
 #: Jbpm.xml:126
 #, no-c-format
 msgid "The stateful model defines a set of transitions between a set of named, logical application states. In this model, it is possible to express the flow of any user interaction entirely in the jPDL pageflow definition, and write action listener methods that are completely unaware of the flow of the interaction."
-msgstr ""
+msgstr "Il modello stateful definisce un set di transizioni tra gli stati dell'applicazione. In questo modello è possibile esprimere il flusso di qualsiasi interazione utente interamente nella definizione jPDL di pageflow, e scrivere i metodi action listener completamente slegati dal flusso dell'interazione."
 
 #. Tag: para
 #: Jbpm.xml:134
 #, no-c-format
 msgid "Here is an example page flow definition using jPDL:"
-msgstr ""
+msgstr "Ecco ora un esempio di definizione di pageflow usando jPDL:"
 
 #. Tag: programlisting
 #: Jbpm.xml:138
@@ -317,25 +319,25 @@ msgstr ""
 #: Jbpm.xml:149
 #, no-c-format
 msgid "There are two things we notice immediately here:"
-msgstr ""
+msgstr "Ci sono due cose da notare immediatamente:"
 
 #. Tag: para
 #: Jbpm.xml:155
 #, no-c-format
 msgid "The JSF/Seam navigation rules are <emphasis>much</emphasis> simpler. (However, this obscures the fact that the underlying Java code is more complex.)"
-msgstr ""
+msgstr "Le regole di navigazione JSF/Seam sono <emphasis>molto</emphasis> più semplici. (Comunque questo nasconde il fatto che il codice Java sottostante è molto complesso.)"
 
 #. Tag: para
 #: Jbpm.xml:162
 #, no-c-format
 msgid "The jPDL makes the user interaction immediately understandable, without us needing to even look at the JSP or Java code."
-msgstr ""
+msgstr "jPDL rende l'interazione utente immediatamente comprensibile senza dover guardare il codice JSP o Java."
 
 #. Tag: para
 #: Jbpm.xml:169
 #, no-c-format
 msgid "In addition, the stateful model is more <emphasis>constrained</emphasis>. For each logical state (each step in the page flow), there are a constrained set of possible transitions to other states. The stateless model is an <emphasis>ad hoc</emphasis> model which is suitable to relatively unconstrained, freeform navigation where the user decides where he/she wants to go next, not the application."
-msgstr ""
+msgstr "In aggiunta il modello stateful è più <emphasis>vincolato</emphasis>. Per ogni stato logico (ogni passo del pageflow) c'è un set vincolato di possibili transizioni verso altri stati. Il modello stateless è un modello <emphasis>ad hoc</emphasis> adatto ad una navigazione libera e senza vincoli in cui l'utente decide dove andare, non l'applicazione."
 
 #. Tag: para
 #: Jbpm.xml:178
@@ -347,13 +349,13 @@ msgstr ""
 #: Jbpm.xml:191
 #, no-c-format
 msgid "The biggest contrast between the two models is the back-button behavior."
-msgstr ""
+msgstr "Il maggior contrasto fra i due modelli è nel comportamento col pulsante indietro."
 
 #. Tag: title
 #: Jbpm.xml:199
 #, no-c-format
 msgid "Seam and the back button"
-msgstr ""
+msgstr "Seam ed il pulsante indietro"
 
 #. Tag: para
 #: Jbpm.xml:201
@@ -441,19 +443,19 @@ msgstr ""
 #: Jbpm.xml:264
 #, no-c-format
 msgid "In practice, both navigation models have their place, and you'll quickly learn to recognize when to prefer one model over the other."
-msgstr ""
+msgstr "In pratica entrambi i modelli di navigazione hanno la loro utilità ed imparerai presto a riconoscere quando impiegare uno o l'altro."
 
 #. Tag: title
 #: Jbpm.xml:273
 #, no-c-format
 msgid "Using jPDL pageflows"
-msgstr ""
+msgstr "Utilizzo dei pageflow jPDL"
 
 #. Tag: title
 #: Jbpm.xml:276
 #, no-c-format
 msgid "Installing pageflows"
-msgstr ""
+msgstr "Installazione dei pageflow"
 
 #. Tag: para
 #: Jbpm.xml:278
@@ -493,7 +495,7 @@ msgstr ""
 #: Jbpm.xml:297
 #, no-c-format
 msgid "Starting pageflows"
-msgstr ""
+msgstr "Avvio dei pageflow"
 
 #. Tag: para
 #: Jbpm.xml:299
@@ -589,7 +591,7 @@ msgstr ""
 #: Jbpm.xml:333
 #, no-c-format
 msgid "Page nodes and transitions"
-msgstr ""
+msgstr "Nodi e transizioni di pagina"
 
 #. Tag: para
 #: Jbpm.xml:335
@@ -651,11 +653,12 @@ msgstr ""
 msgid "<![CDATA[<h:commandButton type=\"submit\" value=\"Guess\"/>]]>"
 msgstr "<![CDATA[<h:commandButton type=\"submit\" value=\"Guess\"/>]]>"
 
+# vedere la frase nel contesto
 #. Tag: para
 #: Jbpm.xml:378
 #, no-c-format
 msgid "Would fire the following un-named transition:"
-msgstr ""
+msgstr "Esegue la seguente transizione senza nome:"
 
 #. Tag: programlisting
 #: Jbpm.xml:382
@@ -711,7 +714,7 @@ msgstr ""
 #: Jbpm.xml:402
 #, no-c-format
 msgid "Controlling the flow"
-msgstr ""
+msgstr "Controllo del flusso"
 
 #. Tag: para
 #: Jbpm.xml:404
@@ -743,7 +746,7 @@ msgstr ""
 #: Jbpm.xml:418
 #, no-c-format
 msgid "Ending the flow"
-msgstr ""
+msgstr "Fine del flusso"
 
 #. Tag: para
 #: Jbpm.xml:420
@@ -821,7 +824,7 @@ msgstr ""
 #: Jbpm.xml:462
 #, no-c-format
 msgid "Business process management in Seam"
-msgstr ""
+msgstr "La gestione del processo di business in Seam"
 
 #. Tag: para
 #: Jbpm.xml:463
@@ -883,7 +886,7 @@ msgstr ""
 #: Jbpm.xml:507
 #, no-c-format
 msgid "Using jPDL business process definitions"
-msgstr ""
+msgstr "Uso di jPDL nella definizione del processo di business"
 
 #. Tag: title
 #: Jbpm.xml:510
@@ -895,7 +898,7 @@ msgstr "Installazione delle definizioni di processo"
 #: Jbpm.xml:512
 #, no-c-format
 msgid "We need to install jBPM, and tell it where to find the business process definitions:"
-msgstr ""
+msgstr "Occorre installare jBPM ed indicare dove si trovano le definizioni dei processi di business:"
 
 #. Tag: programlisting
 #: Jbpm.xml:517
@@ -923,7 +926,7 @@ msgstr ""
 #: Jbpm.xml:532
 #, no-c-format
 msgid "Initializing actor ids"
-msgstr ""
+msgstr "Inizializzazione degli actor id"
 
 #. Tag: para
 #: Jbpm.xml:534
@@ -957,7 +960,7 @@ msgstr ""
 #: Jbpm.xml:547
 #, no-c-format
 msgid "Initiating a business process"
-msgstr ""
+msgstr "Iniziare un processo di business"
 
 #. Tag: para
 #: Jbpm.xml:549
@@ -1169,13 +1172,13 @@ msgstr ""
 #: Jbpm.xml:628
 #, no-c-format
 msgid "These annotations begin a special kind of conversation that has significance in terms of the overarching business process. Work done by this conversation has access to state held in the business process context."
-msgstr ""
+msgstr "Queste annotazioni iniziano uno speciale tipo di conversazione che ha significato in termini di processo di business. Il lavoro fatto da questa conversazione ha accesso allo stato mantenuto nel contesto di business process. "
 
 #. Tag: para
 #: Jbpm.xml:635
 #, no-c-format
 msgid "If we end the conversation using <literal>@EndTask</literal>, Seam will signal the completion of the task:"
-msgstr ""
+msgstr "Se terminiamo un conversazione usando <literal>@EndTask</literal>, Seam segnalerà il completamento del task:"
 
 #. Tag: programlisting
 #: Jbpm.xml:640
@@ -1191,7 +1194,7 @@ msgstr ""
 #: Jbpm.xml:642
 #, no-c-format
 msgid "Alternatively we can use pages.xml:"
-msgstr ""
+msgstr "In alternativa usiamo pages.xml:"
 
 #. Tag: programlisting
 #: Jbpm.xml:644
@@ -1209,17 +1212,17 @@ msgstr ""
 #: Jbpm.xml:646
 #, no-c-format
 msgid "You can also use EL to specify the transition in pages.xml."
-msgstr ""
+msgstr "Puoi anche usare EL per specificare la transizione in pages.xml."
 
 #. Tag: para
 #: Jbpm.xml:650
 #, no-c-format
 msgid "At this point, jBPM takes over and continues executing the business process definition. (In more complex processes, several tasks might need to be completed before process execution can resume.)"
-msgstr ""
+msgstr "A questo punto jBPM assume il controllo e continua l'esecuzione della definizione del processo di business. (In processi più complessi, parecchi task potrebbero aver bisogno di essere completati prima che l'esecuzione del processo possa riprendere.)"
 
 #. Tag: para
 #: Jbpm.xml:656
 #, no-c-format
 msgid "Please refer to the jBPM documentation for a more thorough overview of the sophisticated features that jBPM provides for managing complex business processes."
-msgstr ""
+msgstr "Fare riferimento alla documentazione jBPM per una panoramica delle funzionalità che jBPM fornisce per la gestione di processi complessi di business."
 
