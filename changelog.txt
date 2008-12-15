@@ -11,6 +11,7 @@ Release Notes - Seam - Version 2.1.1.GA
     * [JBSEAM-3819] - grammar in http://docs.jboss.com/seam/latest/reference/en-US/html/tutorial.html
     * [JBSEAM-3830] - e:cell doesn't support null values
     * [JBSEAM-3834] - ClassCastException in Cell Column With Empty Date
+    * [JBSEAM-3843] - Seamspace example - pages.xml uses logLevel attribute
 
 Release Notes - Seam - Version 2.1.1.CR2
 
