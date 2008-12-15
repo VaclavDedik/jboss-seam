@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2008-12-15 18:16+0100\n"
+"PO-Revision-Date: 2008-12-15 23:17+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -367,7 +367,7 @@ msgstr "Quando le regole di navigazione di JSF o Seam vendono impiegate, Seam co
 #: Jbpm.xml:219
 #, no-c-format
 msgid "In this case, the <literal>no-conversation-view-id</literal> declaration goes in <literal>pages.xml</literal>. It tells Seam to redirect to a different page if a request originates from a page rendered during a conversation, and that conversation no longer exists:"
-msgstr ""
+msgstr "In questo casola dichiarazione <literal>no-conversation-view-id</literal> va in <literal>pages.xml</literal>. Questa dice a Seam di reindirizzare ad una pagina differente se la richiesta proviene da una pagina generata durante una conversazione, e questa conversazione non esiste più:"
 
 #. Tag: programlisting
 #: Jbpm.xml:227
@@ -383,7 +383,7 @@ msgstr ""
 #: Jbpm.xml:229
 #, no-c-format
 msgid "On the other hand, in the stateful model, backbuttoning is interpreted as an undefined transition back to a previous state. Since the stateful model enforces a defined set of transitions from the current state, back buttoning is by default disallowed in the stateful model! Seam transparently detects the use of the back button, and blocks any attempt to perform an action from a previous, \"stale\" page, and simply redirects the user to the \"current\" page (and displays a faces message). Whether you consider this a feature or a limitation of the stateful model depends upon your point of view: as an application developer, it is a feature; as a user, it might be frustrating! You can enable backbutton navigation from a particular page node by setting <literal>back=\"enabled\"</literal>."
-msgstr ""
+msgstr "Dall'altro lato, nel modello stateful, il pulsante indietro viene interpretato come una transizione indietro ad un precedente stato. Poiché il modello stateful costringe ad un set di transizioni dallo stato corrente, il pulsante indietro viene di default disabilitato nel modello stateful! Seam rileva in modo trasparente l'uso del pulsante indietro e blocca qualsiasi tentativo di eseguire un'azione da una pagina precedente \"in stallo\", e reindirizza l'utente alla pagina \"corrente\" (mostrando un messagio faces). Se consideri questa una funzionalità oppure una limitazione del modello stateful dipende dal tuo punto di vista: come sviluppatore è una funzionalità; come utente può essere frustrante! Puoi abilitare da un particolare nodo di pagina la navigazione con il pulsante indietro impostando <literal>back=\"enabled\"</literal>."
 
 #. Tag: programlisting
 #: Jbpm.xml:245
@@ -409,7 +409,7 @@ msgstr ""
 #: Jbpm.xml:247
 #, no-c-format
 msgid "This allows backbuttoning <emphasis>from</emphasis> the <literal>checkout</literal> state to <emphasis>any previous state!</emphasis>"
-msgstr ""
+msgstr "Questo permette l'uso del pulsante indietro <emphasis>dallo</emphasis> stato <literal>checkout</literal> a <emphasis>qualsiasi altro stato!</emphasis>"
 
 #. Tag: para
 #: Jbpm.xml:253
@@ -1006,7 +1006,7 @@ msgstr "Assegnazione task"
 #: Jbpm.xml:565
 #, no-c-format
 msgid "When a process reaches a task node, task instances are created. These must be assigned to users or user groups. We can either hardcode our actor ids, or delegate to a Seam component:"
-msgstr ""
+msgstr "Quando un processo raggiunge un task node, vengono create istante di compiti. Queste devono essere assegnate a utenti o gruppi di utenti. Possiamo codificare gli id degli attori (actor id) o delegare ad un componente Seam:"
 
 #. Tag: programlisting
 #: Jbpm.xml:571
@@ -1020,11 +1020,12 @@ msgstr ""
 "    <assignment actor-id=\"#{actor.id}\"/>\n"
 "</task>]]>"
 
+# va bene pool = gruppo ?
 #. Tag: para
 #: Jbpm.xml:573
 #, no-c-format
 msgid "In this case, we have simply assigned the task to the current user. We can also assign tasks to a pool:"
-msgstr ""
+msgstr "In questo caso abbiamo semplicemente assegnato il task all'utente corrente. Possiamo anche assegnare compiti ad un pool (gruppo):"
 
 #. Tag: programlisting
 #: Jbpm.xml:578
@@ -1044,11 +1045,12 @@ msgstr ""
 msgid "Task lists"
 msgstr "Liste di task"
 
+# pooled task =?
 #. Tag: para
 #: Jbpm.xml:585
 #, no-c-format
 msgid "Several built-in Seam components make it easy to display task lists. The <literal>pooledTaskInstanceList</literal> is a list of pooled tasks that users may assign to themselves:"
-msgstr ""
+msgstr "Parecchi componenti incorporati in Seam consentono facilmente di visualizzare liste di compiti. <literal>pooledTaskInstanceList</literal> è una lista di compiti che gli utenti possono assegnare a se stessi:"
 
 #. Tag: programlisting
 #: Jbpm.xml:591
@@ -1078,7 +1080,7 @@ msgstr ""
 #: Jbpm.xml:593
 #, no-c-format
 msgid "Note that instead of <literal>&lt;s:link&gt;</literal> we could have used a plain JSF <literal>&lt;h:commandLink&gt;</literal>:"
-msgstr ""
+msgstr "Notare che invece di <literal>&lt;s:link&gt;</literal> avremmo potuto usare un semplice JSF<literal>&lt;h:commandLink&gt;</literal>:"
 
 #. Tag: programlisting
 #: Jbpm.xml:598
@@ -1096,13 +1098,13 @@ msgstr ""
 #: Jbpm.xml:600
 #, no-c-format
 msgid "The <literal>pooledTask</literal> component is a built-in component that simply assigns the task to the current user."
-msgstr ""
+msgstr "Il componente <literal>pooledTask</literal> è un componente incorporato che semplicemente  assegna il task all'utente corrente."
 
 #. Tag: para
 #: Jbpm.xml:605
 #, no-c-format
 msgid "The <literal>taskInstanceListForType</literal> component includes tasks of a particular type that are assigned to the current user:"
-msgstr ""
+msgstr "Il componente <literal>taskInstanceListForType</literal> include i task di un particolare tipo che sono stati assegnati all'utente corrente:"
 
 #. Tag: programlisting
 #: Jbpm.xml:610
@@ -1138,7 +1140,7 @@ msgstr "Esecuzione di un task"
 #: Jbpm.xml:617
 #, no-c-format
 msgid "To begin work on a task, we use either <literal>@StartTask</literal> or <literal>@BeginTask</literal> on the listener method:"
-msgstr ""
+msgstr "Per iniziare a lavorare ad un compito, si può usare o <literal>@StartTask</literal> o <literal>@BeginTask</literal> sul metodo listener."
 
 #. Tag: programlisting
 #: Jbpm.xml:622
