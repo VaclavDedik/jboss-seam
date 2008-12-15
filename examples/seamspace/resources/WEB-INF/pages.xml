@@ -124,7 +124,7 @@
         </navigation>
     </page>
     
-    <exception class="org.jboss.seam.security.NotLoggedInException" log="true" logLevel="info">
+    <exception class="org.jboss.seam.security.NotLoggedInException" log="true" log-level="info">
         <redirect view-id="/register.xhtml">
             <message severity="warn">You must be a member to use this feature</message>
         </redirect>
