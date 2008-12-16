@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-13 17:58+0000\n"
-"PO-Revision-Date: 2008-12-14 21:19+0100\n"
+"PO-Revision-Date: 2008-12-16 23:54+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -59,7 +59,7 @@ msgstr "La directory <filename>src</filename> contiene il codice sorgente dell'a
 #: Tutorial.xml:35
 #, no-c-format
 msgid "The example applications run both on JBoss AS and Tomcat with no additional configuration. The following sections will explain the procedure in both cases. Note that all the examples are built and run from the Ant <filename>build.xml</filename>, so you'll need a recent version of Ant installed before you get started."
-msgstr ""
+msgstr "Le applicazioni d'esempio girano sia su JBoss AS sia su Tomcat senza configurazioni aggiuntive. Le sezioni seguenti spiegano la procedura in entrambi i casi. Nota che tutti gli esempi sono costruiti ed eseguiti da <filename>build.xml</filename> di Ant, e quindi ti servirà installata una versione recente di Ant prima di iniziare."
 
 #. Tag: title
 #: Tutorial.xml:45
@@ -71,13 +71,13 @@ msgstr "Eseguire gli esempi in JBoss AS"
 #: Tutorial.xml:47
 #, no-c-format
 msgid "The examples are configured for use on JBoss 4.2. You'll need to set <literal>jboss.home</literal>, in the shared <literal>build.properties</literal> file in the root folder of your Seam installation, to the location of your JBoss AS installation."
-msgstr ""
+msgstr "Gli esempi sono configurati per usare JBoss 4.2. Dovrai impostare la variabile <literal>jboss.home</literal> affinché punti alla locazione dell'installazione di JBoss AS. Questa variabile si trova nel file condiviso  <literal>build.properties</literal> nella cartella radice dell'installazione di Seam."
 
 #. Tag: para
 #: Tutorial.xml:51
 #, no-c-format
 msgid "Once you've set the location of JBoss AS and started the application server, you can build and deploy any example by typing <literal>ant explode</literal> in the the directory for that example. Any example that is packaged as an EAR deploys to a URL like <literal>/seam-<replaceable>example</replaceable></literal>, where <replaceable>example</replaceable> is the name of the example folder, with one exception. If the example folder begins with seam, the prefix \"seam\" is ommitted. For instance, if JBoss AS is running on port 8080, the URL for the registration example is <ulink url=\"http://localhost:8080/seam-registration/\"> <literal>http://localhost:8080/seam-registration/</literal></ulink>, whereas the URL for the seamspace example is <ulink url=\"http://localhost:8080/seam-space/\"> <literal>http://localhost:8080/seam-space/</literal></ulink>."
-msgstr ""
+msgstr "Una volta impostata la locazione di JBoss AS ed avviato il server, puoi eseguire il build ed il deploy degli esempi semplicemente scrivendo <literal>ant explode</literal> nella directory dell'esempio. Ogni esempio che viene impacchettato come EAR viene messo in un URL del tipo <literal>/seam-<replaceable>example</replaceable></literal>, dove <replaceable>example</replaceable> è il nome della cartella dell'esempio, con una eccezione. Se la cartella d'esempio inizia con seam, il prefisso \"seam\" viene omesso. Per esempio, se JBoss AS gira sulla porta 8080, l'URL per l'esempio registrazione è <ulink url=\"http://localhost:8080/seam-registration/\"> <literal>http://localhost:8080/seam-registration/</literal></ulink>, mentre l'URL per l'esempio seamspace è <ulink url=\"http://localhost:8080/seam-space/\"> <literal>http://localhost:8080/seam-space/</literal></ulink>."
 
 #. Tag: para
 #: Tutorial.xml:62
@@ -304,7 +304,7 @@ msgstr ""
 #: Tutorial.xml:163
 #, no-c-format
 msgid "The EJB3 standard <literal>@Entity</literal> annotation indicates that the <literal>User</literal> class is an entity bean."
-msgstr ""
+msgstr "L'annotazione EJB3 standard <literal>@Entity</literal> indica che la classe <literal>User</literal> è un entity bean."
 
 #. Tag: para
 #: Tutorial.xml:167
@@ -322,7 +322,7 @@ msgstr ""
 #: Tutorial.xml:186
 #, no-c-format
 msgid "The EJB standard <literal>@Table</literal> annotation indicates that the <literal>User</literal> class is mapped to the <literal>users</literal> table."
-msgstr ""
+msgstr "L'annotazione standard EJB <literal>@Table</literal> indica che la classe <literal>User</literal> è mappata sulla tabella <literal>users</literal>."
 
 #. Tag: para
 #: Tutorial.xml:191
@@ -376,7 +376,7 @@ msgstr "Classe del bean di sessione stateless: <literal>RegisterAction.java</lit
 #: Tutorial.xml:228
 #, no-c-format
 msgid "Most Seam application use session beans as JSF action listeners (you can use JavaBeans instead if you like)."
-msgstr ""
+msgstr "La maggior parte delle applicazioni Seam utilizzano session bean come action listener JSF (si possono utilizzare JavaBean se si vuole)."
 
 #. Tag: para
 #: Tutorial.xml:230
@@ -2035,7 +2035,7 @@ msgstr ""
 #: Tutorial.xml:842
 #, no-c-format
 msgid "Finally, the core of the application is in <literal>todo.jsp</literal>:"
-msgstr ""
+msgstr "Infine, il cuore dell'applicazione è in <literal>todo.jsp</literal>:"
 
 #. Tag: title
 #: Tutorial.xml:844
@@ -2190,7 +2190,7 @@ msgstr ""
 #: Tutorial.xml:851
 #, no-c-format
 msgid "The page renders a list of tasks, which it gets from a built-in Seam component named <literal>taskInstanceList</literal>. The list is defined inside a JSF form."
-msgstr ""
+msgstr "La pagina renderizza una lista di task prelevati da un componente di Seam chiamato <literal>taskInstanceList</literal>. La lista è definita dentro una form JSF."
 
 #. Tag: programlisting
 #: Tutorial.xml:855
@@ -3116,7 +3116,7 @@ msgstr ""
 #: Tutorial.xml:1125
 #, no-c-format
 msgid "A complete Seam application: the Hotel Booking example"
-msgstr ""
+msgstr "Un'applicazione Seam completa: esempio di Prenotazione Hotel"
 
 #. Tag: title
 #: Tutorial.xml:1128
