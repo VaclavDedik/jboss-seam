@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:22+0000\n"
-"PO-Revision-Date: 2008-12-12 00:02+0100\n"
+"PO-Revision-Date: 2008-12-16 11:25+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -409,7 +409,7 @@ msgstr ""
 #: Annotations.xml:303
 #, no-c-format
 msgid "Annotations for bijection"
-msgstr ""
+msgstr "Annotazioni per la bijection"
 
 #. Tag: para
 #: Annotations.xml:304
@@ -632,7 +632,7 @@ msgstr ""
 #: Annotations.xml:478
 #, no-c-format
 msgid "<![CDATA[@Factory(\"processInstance\", scope=CONVERSATION) public ProcessInstance createProcessInstance() { ... }]]>"
-msgstr ""
+msgstr "<![CDATA[@Factory(\"processInstance\", scope=CONVERSATION) public ProcessInstance createProcessInstance() { ... }]]>"
 
 #. Tag: para
 #: Annotations.xml:479
@@ -722,7 +722,7 @@ msgstr ""
 #: Annotations.xml:579
 #, no-c-format
 msgid "Annotations for component lifecycle methods"
-msgstr ""
+msgstr "Annotazioni per i metodi del ciclo di vita dei componenti"
 
 #. Tag: para
 #: Annotations.xml:580
@@ -806,7 +806,7 @@ msgstr ""
 #: Annotations.xml:645
 #, no-c-format
 msgid "Annotations for context demarcation"
-msgstr ""
+msgstr "Annotazioni per la demarcazione del contesto"
 
 #. Tag: para
 #: Annotations.xml:646
@@ -916,13 +916,13 @@ msgstr ""
 #: Annotations.xml:739
 #, no-c-format
 msgid "@End"
-msgstr ""
+msgstr "@End"
 
 #. Tag: programlisting
 #: Annotations.xml:742
 #, no-c-format
 msgid "<![CDATA[@End]]>"
-msgstr ""
+msgstr "<![CDATA[@End]]>"
 
 #. Tag: para
 #: Annotations.xml:743
@@ -947,13 +947,13 @@ msgstr ""
 #: Annotations.xml:775
 #, no-c-format
 msgid "@StartTask"
-msgstr ""
+msgstr "@StartTask"
 
 #. Tag: programlisting
 #: Annotations.xml:778
 #, no-c-format
 msgid "<![CDATA[@StartTask]]>"
-msgstr ""
+msgstr "<![CDATA[@StartTask]]>"
 
 #. Tag: para
 #: Annotations.xml:779
@@ -978,13 +978,13 @@ msgstr ""
 #: Annotations.xml:824
 #, no-c-format
 msgid "@BeginTask"
-msgstr ""
+msgstr "@BeginTask"
 
 #. Tag: programlisting
 #: Annotations.xml:827
 #, no-c-format
 msgid "<![CDATA[@BeginTask]]>"
-msgstr ""
+msgstr "<![CDATA[@BeginTask]]>"
 
 #. Tag: para
 #: Annotations.xml:828
@@ -1002,13 +1002,13 @@ msgstr ""
 #: Annotations.xml:870
 #, no-c-format
 msgid "@EndTask"
-msgstr ""
+msgstr "@EndTask"
 
 #. Tag: programlisting
 #: Annotations.xml:873
 #, no-c-format
 msgid "<![CDATA[@EndTask]]>"
-msgstr ""
+msgstr "<![CDATA[@EndTask]]>"
 
 #. Tag: para
 #: Annotations.xml:874
@@ -1020,7 +1020,7 @@ msgstr ""
 #: Annotations.xml:883
 #, no-c-format
 msgid "<![CDATA[@EndTask(transition=\"transitionName\")]]>"
-msgstr ""
+msgstr "<![CDATA[@EndTask(transition=\"transitionName\")]]>"
 
 #. Tag: para
 #: Annotations.xml:884
@@ -1038,13 +1038,13 @@ msgstr ""
 #: Annotations.xml:911
 #, no-c-format
 msgid "@CreateProcess"
-msgstr ""
+msgstr "@CreateProcess"
 
 #. Tag: programlisting
 #: Annotations.xml:914
 #, no-c-format
 msgid "<![CDATA[@CreateProcess(definition=\"process definition name\")]]>"
-msgstr ""
+msgstr "<![CDATA[@CreateProcess(definition=\"process definition name\")]]>"
 
 #. Tag: para
 #: Annotations.xml:915
@@ -1062,13 +1062,13 @@ msgstr ""
 #: Annotations.xml:935
 #, no-c-format
 msgid "@ResumeProcess"
-msgstr ""
+msgstr "@ResumeProcess"
 
 #. Tag: programlisting
 #: Annotations.xml:938
 #, no-c-format
 msgid "<![CDATA[@ResumeProcess(processIdParameter=\"processId\")]]>"
-msgstr ""
+msgstr "<![CDATA[@ResumeProcess(processIdParameter=\"processId\")]]>"
 
 #. Tag: para
 #: Annotations.xml:939
@@ -1086,13 +1086,13 @@ msgstr ""
 #: Annotations.xml:960
 #, no-c-format
 msgid "@Transition"
-msgstr ""
+msgstr "@Transition"
 
 #. Tag: programlisting
 #: Annotations.xml:963
 #, no-c-format
 msgid "<![CDATA[@Transition(\"cancel\")]]>"
-msgstr ""
+msgstr "<![CDATA[@Transition(\"cancel\")]]>"
 
 #. Tag: para
 #: Annotations.xml:964
@@ -1116,13 +1116,13 @@ msgstr ""
 #: Annotations.xml:984
 #, no-c-format
 msgid "@Transactional"
-msgstr ""
+msgstr "@Transactional"
 
 #. Tag: programlisting
 #: Annotations.xml:987
 #, no-c-format
 msgid "<![CDATA[@Transactional]]>"
-msgstr ""
+msgstr "<![CDATA[@Transactional]]>"
 
 #. Tag: para
 #: Annotations.xml:988
@@ -1140,13 +1140,13 @@ msgstr ""
 #: Annotations.xml:1004
 #, no-c-format
 msgid "@ApplicationException"
-msgstr ""
+msgstr "@ApplicationException"
 
 #. Tag: programlisting
 #: Annotations.xml:1007
 #, no-c-format
 msgid "<![CDATA[@ApplicationException]]>"
-msgstr ""
+msgstr "<![CDATA[@ApplicationException]]>"
 
 #. Tag: para
 #: Annotations.xml:1008
@@ -1176,13 +1176,13 @@ msgstr ""
 #: Annotations.xml:1041
 #, no-c-format
 msgid "@Interceptors"
-msgstr ""
+msgstr "@Interceptors"
 
 #. Tag: programlisting
 #: Annotations.xml:1044
 #, no-c-format
 msgid "<![CDATA[@Interceptors({DVDInterceptor, CDInterceptor})]]>"
-msgstr ""
+msgstr "<![CDATA[@Interceptors({DVDInterceptor, CDInterceptor})]]>"
 
 #. Tag: para
 #: Annotations.xml:1045
@@ -1206,7 +1206,7 @@ msgstr ""
 #: Annotations.xml:1068
 #, no-c-format
 msgid "Annotations for exceptions"
-msgstr ""
+msgstr "Annotazioni per le eccezioni"
 
 #. Tag: para
 #: Annotations.xml:1070
@@ -1285,7 +1285,7 @@ msgstr ""
 #: Annotations.xml:1146
 #, no-c-format
 msgid "Annotations for Seam Remoting"
-msgstr ""
+msgstr "Annotazioni per Seam Remoting"
 
 #. Tag: para
 #: Annotations.xml:1147
@@ -1315,7 +1315,7 @@ msgstr ""
 #: Annotations.xml:1173
 #, no-c-format
 msgid "Annotations for Seam interceptors"
-msgstr ""
+msgstr "Annotazioni per gli interceptor di Seam"
 
 #. Tag: para
 #: Annotations.xml:1174
@@ -1333,7 +1333,7 @@ msgstr ""
 #: Annotations.xml:1185
 #, no-c-format
 msgid "@Interceptor"
-msgstr ""
+msgstr "@Interceptor"
 
 #. Tag: programlisting
 #: Annotations.xml:1188
@@ -1387,7 +1387,7 @@ msgstr ""
 #: Annotations.xml:1215
 #, no-c-format
 msgid "Annotations for asynchronicity"
-msgstr ""
+msgstr "Annotazioni per l'asincronicità"
 
 #. Tag: para
 #: Annotations.xml:1216
@@ -1489,7 +1489,7 @@ msgstr ""
 #: Annotations.xml:1278
 #, no-c-format
 msgid "Annotations for use with JSF"
-msgstr ""
+msgstr "Annotazioni per l'uso di JSF"
 
 #. Tag: para
 #: Annotations.xml:1279
@@ -1736,7 +1736,7 @@ msgstr ""
 #: Annotations.xml:1535
 #, no-c-format
 msgid "@Filter"
-msgstr ""
+msgstr "@Filter"
 
 #. Tag: para
 #: Annotations.xml:1538

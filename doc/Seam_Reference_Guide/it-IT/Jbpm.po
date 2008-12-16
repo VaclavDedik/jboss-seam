@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2008-12-15 23:17+0100\n"
+"PO-Revision-Date: 2008-12-16 11:18+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -415,7 +415,7 @@ msgstr "Questo permette l'uso del pulsante indietro <emphasis>dallo</emphasis> s
 #: Jbpm.xml:253
 #, no-c-format
 msgid "Of course, we still need to define what happens if a request originates from a page rendered during a pageflow, and the conversation with the pageflow no longer exists. In this case, the <literal>no-conversation-view-id</literal> declaration goes into the pageflow definition:"
-msgstr ""
+msgstr "Occorre ancora definire cosa succede se una richiesta ha origine da una pagina generata durante un pageflow mentre la conversazione con il pageflow non esiste più. In questo caso la dichiarazione <literal>no-conversation-view-id</literal> va dentro la definizione del pageflow:"
 
 #. Tag: programlisting
 #: Jbpm.xml:261
@@ -461,7 +461,7 @@ msgstr "Installazione dei pageflow"
 #: Jbpm.xml:278
 #, no-c-format
 msgid "We need to install the Seam jBPM-related components, and place the pageflow definitions (using the standard <literal>.jpdl.xml</literal> extension) inside a Seam archive (an archive which contains a <literal>seam.properties</literal> file):"
-msgstr ""
+msgstr "Vanno installati i componenti di Seam relativi a jBPM e vanno collocate le definizione dei pageflow (usando l'estensione standard <literal>.jpdl.xml</literal>) dentro l'archivio Seam (un archivio che contiene un file <literal>seam.properties</literal>):"
 
 #. Tag: programlisting
 #: Jbpm.xml:285
@@ -473,7 +473,7 @@ msgstr "<![CDATA[<bpm:jbpm />]]>"
 #: Jbpm.xml:287
 #, no-c-format
 msgid "We can also explicitly tell Seam where to find our pageflow definition. We specify this in <literal>components.xml</literal>:"
-msgstr ""
+msgstr "Possiamo anche comunicare esplicitamente a Seam dove trovare le definizioni dei pageflow. Questo viene specificato dentro <literal>components.xml</literal>:"
 
 #. Tag: programlisting
 #: Jbpm.xml:292
@@ -597,7 +597,7 @@ msgstr "Nodi e transizioni di pagina"
 #: Jbpm.xml:335
 #, no-c-format
 msgid "Each <literal>&lt;page&gt;</literal> node represents a state where the system is waiting for user input:"
-msgstr ""
+msgstr "Ogni nodo <literal>&lt;page&gt;</literal> rappresenta uno stato in cui il sistema aspetta input da parte dell'utente:"
 
 #. Tag: programlisting
 #: Jbpm.xml:340
@@ -627,7 +627,7 @@ msgstr ""
 #: Jbpm.xml:351
 #, no-c-format
 msgid "The transition name is the name of a JSF outcome triggered by clicking a command button or command link in <literal>numberGuess.jsp</literal>."
-msgstr ""
+msgstr "Il nome della transizione è il nome dell'esito JSF lanciato cliccando un command button od un command link in <literal>numberGuess.jsp</literal>."
 
 #. Tag: programlisting
 #: Jbpm.xml:356
@@ -682,7 +682,7 @@ msgstr ""
 #: Jbpm.xml:384
 #, no-c-format
 msgid "It is even possible to have the button call an action method, in which case the action outcome will determine the transition to be taken:"
-msgstr ""
+msgstr "E' anche possibile che il pulsante chiami un action method, nel qual caso l'esito dell'azione determinerà la transizione da prendere:"
 
 #. Tag: programlisting
 #: Jbpm.xml:389
@@ -740,7 +740,7 @@ msgstr ""
 #: Jbpm.xml:411
 #, no-c-format
 msgid "A decision is made by evaluating a JSF EL expression in the Seam contexts."
-msgstr ""
+msgstr "Una decisione viene presa valutando un'espressione EL JSF nei contesti di Seam."
 
 #. Tag: title
 #: Jbpm.xml:418
@@ -772,7 +772,7 @@ msgstr ""
 #: Jbpm.xml:428
 #, no-c-format
 msgid "Optionally, we can end a task, specify a jBPM <literal>transition</literal> name. In this case, Seam will signal the end of the current task in the overarching business process."
-msgstr ""
+msgstr "Opzionalmente possiamo terminare un task specificando un nome alla <literal>transition</literal> jBPM. In questo modo Seam segnalerà la fine del task corrente al processo di business sottostante."
 
 #. Tag: programlisting
 #: Jbpm.xml:434
@@ -932,7 +932,7 @@ msgstr "Inizializzazione degli actor id"
 #: Jbpm.xml:534
 #, no-c-format
 msgid "We always need to know what user is currently logged in. jBPM \"knows\" users by their <emphasis>actor id</emphasis> and <emphasis>group actor ids</emphasis>. We specify the current actor ids using the built in Seam component named <literal>actor</literal>:"
-msgstr ""
+msgstr "Bisogna sempre sapere quale utente è attualmente loggato. jBPM \"riconosce\" gli utenti dal loro <emphasis>actor id</emphasis> e dai <emphasis>group actor id</emphasis>. Specificheremo gli attuali actor id usando il componente interno di Seam chiamato <literal>actor</literal>:"
 
 #. Tag: programlisting
 #: Jbpm.xml:542
