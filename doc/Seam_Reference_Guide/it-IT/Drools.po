@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2008-12-16 12:18+0100\n"
+"PO-Revision-Date: 2008-12-16 12:44+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr "Seam e JBoss Rules"
 #: Drools.xml:7
 #, no-c-format
 msgid "Seam makes it easy to call JBoss Rules (Drools) rulebases from Seam components or jBPM process definitions."
-msgstr "Seam agevola le chiamate alle regole di JBoss Rules (Drools) dai componenti Seam o dalle definizioni di processo jBPM."
+msgstr "Seam facilita le chiamate alle regole di JBoss Rules (Drools) dai componenti Seam o dalle definizioni di processo jBPM."
 
 #. Tag: title
 #: Drools.xml:13
@@ -35,7 +35,7 @@ msgstr "Installazione delle regole"
 #: Drools.xml:15
 #, no-c-format
 msgid "The first step is to make an instance of <literal>org.drools.RuleBase</literal> available in a Seam context variable. For testing purposes, Seam provides a built-in component that compiles a static set of rules from the classpath. You can install this component via <literal>components.xml</literal>:"
-msgstr "Il primo passo è creare un'istanza di <literal>org.drools.RuleBase</literal> disponibile in una variabile del contesto di Seam. Per testare Seam fornisce un componente interno che compila un set statico di regole dal classpath. Puoi installare questo componente tramite <literal>components.xml</literal>:"
+msgstr "Il primo passo è creare un'istanza di <literal>org.drools.RuleBase</literal> disponibile in una variabile del contesto di Seam. Per i test Seam fornisce un componente interno che compila un set statico di regole dal classpath. Puoi installare questo componente tramite <literal>components.xml</literal>:"
 
 #. Tag: programlisting
 #: Drools.xml:22

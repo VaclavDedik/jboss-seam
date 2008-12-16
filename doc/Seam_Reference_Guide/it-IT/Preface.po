@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-04-04 01:24+0000\n"
-"PO-Revision-Date: 2008-12-14 21:05+0100\n"
+"PO-Revision-Date: 2008-12-16 13:21+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr "Introduzione a JBoss Seam"
 #: Preface.xml:9
 #, no-c-format
 msgid "Seam is an application framework for Enterprise Java. It is inspired by the following principles:"
-msgstr "Seam è un'application framework per Java Enterprise. E' ispirato dai seguenti principi:"
+msgstr "Seam è un'application framework per Java Enterprise. Si ispira ai seguenti principi:"
 
 #. Tag: emphasis
 #: Preface.xml:16
@@ -114,7 +114,7 @@ msgstr "Processo di business come primo costrutto di classe"
 #: Preface.xml:103
 #, no-c-format
 msgid "Optionally, Seam provides transparent business process management via jBPM. You won't believe how easy it is to implement complex workflows, collaboration and and task management using jBPM and Seam."
-msgstr "Opzionalmente Seam può fornire una gestione trasparente del processo di business tramite jBPM. Non ci crederai quanto è facile implementare dei workflow complessi, delle collaborazioni ed una gestione dei compiti utilizzando jBPM e Seam."
+msgstr "Opzionalmente Seam può fornire una gestione trasparente del processo di business tramite jBPM. Non ci crederai quanto è facile implementare workflow complessi, collaborazioni ed una gestione dei compiti utilizzando jBPM e Seam."
 
 #. Tag: para
 #: Preface.xml:108
