@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:39+0000\n"
-"PO-Revision-Date: 2008-12-14 21:53+0100\n"
+"PO-Revision-Date: 2008-12-17 09:09+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr "Test delle applicazioni Seam"
 #: Testing.xml:3
 #, no-c-format
 msgid "Most Seam applications will need at least two kinds of automated tests: <emphasis>unit tests</emphasis>, which test a particular Seam component in isolation, and scripted <emphasis>integration tests</emphasis> which exercise all Java layers of the application (that is, everything except the view pages)."
-msgstr "La maggior parte delle applicazioni Seam hanno bisogno di almeno due tipi di test automatici: <emphasis>test di unità</emphasis> per testare un particolare componente Seam in isolamento, e <emphasis>test d'integrazione</emphasis> per provare tutti i layer java dell'applicazione (cioè tutto, tranne le pagine di vista)."
+msgstr "La maggior parte delle applicazioni Seam ha bisogno di almeno due tipi di test automatici: <emphasis>test di unità</emphasis> per testare un particolare componente Seam in isolamento, e <emphasis>test d'integrazione</emphasis> per provare tutti i layer java dell'applicazione (cioè tutto, tranne le pagine di vista)."
 
 #. Tag: para
 #: Testing.xml:10
@@ -247,7 +247,7 @@ msgstr ""
 #: Testing.xml:73
 #, no-c-format
 msgid "Using mocks in integration tests"
-msgstr ""
+msgstr "Uso dei mock nei test d'intergrazione"
 
 #. Tag: para
 #: Testing.xml:75
@@ -543,7 +543,7 @@ msgstr "Artifact Id"
 #: Testing.xml:188
 #, no-c-format
 msgid "Location in Seam"
-msgstr ""
+msgstr "Locazione in Seam"
 
 #. Tag: literal
 #: Testing.xml:196

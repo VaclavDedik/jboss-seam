@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-04-04 01:24+0000\n"
-"PO-Revision-Date: 2008-12-16 12:55+0100\n"
+"PO-Revision-Date: 2008-12-17 09:11+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr "Visualizzatore e designer jBPM"
 #: Tools.xml:7
 #, no-c-format
 msgid "The jBPM designer and viewer will let you design and view in a nice way your business processes and your pageflows. This convenient tool is part of JBoss Eclipse IDE and more details can be found in the jBPM's documentation (http://docs.jboss.com/jbpm/v3/gpd/)"
-msgstr "Il designer ed il visualizzatore jBPM ti consentono di progettare e vedere i processi di business ed i pageflow. Quest'ottimo strumento è parte di JBoss Eclipse IDE ed ulteriori dettagli sono disponibili nella documentazione di jBPM (http://docs.jboss.com/jbpm/v3/gpd/)"
+msgstr "Il designer ed il visualizzatore jBPM consentono di progettare e vedere i processi di business ed i pageflow. Quest'ottimo strumento è parte di JBoss Eclipse IDE ed ulteriori dettagli sono disponibili nella documentazione di jBPM (http://docs.jboss.com/jbpm/v3/gpd/)"
 
 #. Tag: title
 #: Tools.xml:13
@@ -41,7 +41,7 @@ msgstr "<title>Designer del processo di business</title>"
 #: Tools.xml:15
 #, no-c-format
 msgid "This tool lets you design your own business process in a graphical way."
-msgstr "Questo strumento ti permette di progettare il tuo processo di business in modo grafico."
+msgstr "Questo strumento permette di progettare il processo di business in modo grafico."
 
 #. Tag: screeninfo
 #: Tools.xml:20
@@ -61,5 +61,5 @@ msgstr "Visualizzatore Pageflow"
 #: Tools.xml:36
 #, no-c-format
 msgid "This tool let you design to some extend your pageflows and let you build graphical views of them so you can easily share and compare ideas on how it should be designed."
-msgstr "Questo strumento ti permette di progettare i pageflow e di costruire viste grafiche per condividere e scambiare facilmente le idee su quale sia la migliore progettazione."
+msgstr "Questo strumento permette di progettare i pageflow e di costruire viste grafiche per condividere e scambiare facilmente le idee su quale sia la migliore progettazione."
 
