@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:23+0000\n"
-"PO-Revision-Date: 2008-12-16 11:29+0100\n"
+"PO-Revision-Date: 2008-12-17 21:34+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -17,19 +17,19 @@ msgstr ""
 #: Conversations.xml:6
 #, no-c-format
 msgid "Conversations and workspace management"
-msgstr ""
+msgstr "Conversazioni e gestione del workspace"
 
 #. Tag: para
 #: Conversations.xml:8
 #, no-c-format
 msgid "It's time to understand Seam's conversation model in more detail."
-msgstr ""
+msgstr "E' ora di capire il modello di conversazione di Seam con maggior dettaglio."
 
 #. Tag: para
 #: Conversations.xml:12
 #, no-c-format
 msgid "Historically, the notion of a Seam \"conversation\" came about as a merger of three different ideas:"
-msgstr ""
+msgstr "Storicamente la nozione di \"conversazione\" Seam si presenta come unificatrice di tre differenti idee:"
 
 #. Tag: para
 #: Conversations.xml:19
@@ -280,7 +280,7 @@ msgstr ""
 #: Conversations.xml:211
 #, no-c-format
 msgid "Nested conversations"
-msgstr ""
+msgstr "Conversazioni innestate"
 
 #. Tag: para
 #: Conversations.xml:213
@@ -1544,7 +1544,7 @@ msgstr ""
 #: Conversations.xml:1044
 #, no-c-format
 msgid "RichFaces Ajax"
-msgstr ""
+msgstr "RichFaces Ajax"
 
 #. Tag: para
 #: Conversations.xml:1046

@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:22+0000\n"
-"PO-Revision-Date: 2008-12-16 11:25+0100\n"
+"PO-Revision-Date: 2008-12-17 21:31+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -23,13 +23,13 @@ msgstr "Annotazioni di Seam"
 #: Annotations.xml:7
 #, no-c-format
 msgid "When you write a Seam application, you'll use a lot of annotations. Seam lets you use annotations to achieve a declarative style of programming. Most of the annotations you'll use are defined by the EJB 3.0 specification. The annotations for data validation are defined by the Hibernate Validator package. Finally, Seam defines its own set of annotations, which we'll describe in this chapter."
-msgstr ""
+msgstr "Quando si scrive un'applicazione Seam vengono impiegate molte annotazioni. Seam ti consente di usare annotazioni per ottenere uno stile dichiarativo di programmazione. La maggior parte delle annotazioni che si useranno sono definite dalla specifica EJB3.0. Le annotazioni per la validazione dei dati sono definite dal pacchetto Hibernate Validator. Infine Seam definisce un suo set di annotazioni che verranno descritte in questo capitolo."
 
 #. Tag: para
 #: Annotations.xml:16
 #, no-c-format
 msgid "All of these annotations are defined in the package <literal>org.jboss.seam.annotations</literal>."
-msgstr ""
+msgstr "Tutte queste annotazioni sono definite nel pacchetto <literal>org.jboss.seam.annotations</literal>."
 
 #. Tag: title
 #: Annotations.xml:22
@@ -41,7 +41,7 @@ msgstr "Annotazioni per la definizione di un componente"
 #: Annotations.xml:23
 #, no-c-format
 msgid "The first group of annotations lets you define a Seam component. These annotations appear on the component class."
-msgstr ""
+msgstr "Il primo gruppo di annotazioni consente di definire un componente Seam. Queste annotazioni appaiono sulla classe del componente."
 
 #. Tag: literal
 #: Annotations.xml:31
@@ -77,13 +77,13 @@ msgstr "<![CDATA[@Scope(ScopeType.CONVERSATION)]]>"
 #: Annotations.xml:47
 #, no-c-format
 msgid "Defines the default context of the component. The possible values are defined by the <literal>ScopeType</literal> enumeration: <literal>EVENT, PAGE, CONVERSATION, SESSION, BUSINESS_PROCESS, APPLICATION, STATELESS</literal>."
-msgstr ""
+msgstr "Definisce il contesto di default del componente. I possibili valori sono definiti dalla enumeration <literal>ScopeType</literal>: <literal>EVENT, PAGE, CONVERSATION, SESSION, BUSINESS_PROCESS, APPLICATION, STATELESS</literal>."
 
 #. Tag: para
 #: Annotations.xml:52
 #, no-c-format
 msgid "When no scope is explicitly specified, the default depends upon the component type. For stateless session beans, the default is <literal>STATELESS</literal>. For entity beans and stateful session beans, the default is <literal>CONVERSATION</literal>. For JavaBeans, the default is <literal>EVENT</literal>."
-msgstr ""
+msgstr "Quando non viene specificato nessuno scope, quello di default dipende dal tipo di componente. Per session bean stateless, il default è <literal>STATELESS</literal>. Per gli entity bean ed i session bean stateful, il default è <literal>CONVERSATION</literal>. Per i JavaBean, il default è <literal>EVENT</literal>."
 
 #. Tag: literal
 #: Annotations.xml:64
@@ -247,7 +247,7 @@ msgstr "<![CDATA[@Scope(SESSION) @Startup]]>"
 #: Annotations.xml:174
 #, no-c-format
 msgid "Specifies that a session scope component is started immediately at session creation time."
-msgstr ""
+msgstr "Specifica che un componente con scope di sessione viene avviato immediatamente alla creazione della sessione."
 
 #. Tag: para
 #: Annotations.xml:180
@@ -1634,7 +1634,7 @@ msgstr ""
 #: Annotations.xml:1453
 #, no-c-format
 msgid "Meta-annotations for databinding"
-msgstr ""
+msgstr "Meta-annotationi per il databinding"
 
 #. Tag: para
 #: Annotations.xml:1454
@@ -1682,7 +1682,7 @@ msgstr ""
 #: Annotations.xml:1488
 #, no-c-format
 msgid "Annotations for packaging"
-msgstr ""
+msgstr "Annotazioni per i pacchetti"
 
 #. Tag: para
 #: Annotations.xml:1489

@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-13 17:58+0000\n"
-"PO-Revision-Date: 2008-12-16 23:54+0100\n"
+"PO-Revision-Date: 2008-12-17 21:11+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -83,7 +83,7 @@ msgstr "Una volta impostata la locazione di JBoss AS ed avviato il server, puoi 
 #: Tutorial.xml:62
 #, no-c-format
 msgid "If, on the other hand, the example gets packaged as a WAR, then it deploys to a URL like <literal>/jboss-seam-<replaceable>example</replaceable></literal>. Most of the examples can be deployed as a WAR to Tomcat with Embedded JBoss by typing <literal>ant tomcat.deploy</literal>. Several of the examples can only be deployed as a WAR. Those examples are groovybooking, hibernate, jpa, and spring."
-msgstr ""
+msgstr "Se, dall'altro lato, l'esempio viene impacchettato come WAR, allora viene messo in un URL del tipo <literal>/jboss-seam-<replaceable>example</replaceable></literal>. La maggior parte degli esempi può essere messa come WAR in Tomcat con JBoss Embedded digitando <literal>ant tomcat.deploy</literal>. Diversi esempi possono venire deployati solo come WAR. Questi esempi sono groovybooking, hibernate, jpa, and spring."
 
 #. Tag: title
 #: Tutorial.xml:71
@@ -101,7 +101,7 @@ msgstr "Questi esempi sono configurati anche per essere usati in Tomcat 6.0. Occ
 #: Tutorial.xml:79
 #, no-c-format
 msgid "You'll need to set <literal>tomcat.home</literal>, in the shared <literal>build.properties</literal> file in the root folder of your Seam installation, to the location of your Tomcat installation. make sure you set the location of your Tomcat."
-msgstr ""
+msgstr "Occorrerà impostare al percorso di Tomcat la variabile <literal>tomcat.home</literal>, la quale si trova nel file condiviso <literal>build.properties</literal> della cartella padre nell'installazione di Seam."
 
 #. Tag: para
 #: Tutorial.xml:85
@@ -113,7 +113,7 @@ msgstr "Dovrai usare un diverso target Ant per utilizzare Tomcat. Usa <literal>a
 #: Tutorial.xml:90
 #, no-c-format
 msgid "On Tomcat, the examples deploy to URLs like <literal>/jboss-seam-<replaceable>example</replaceable></literal>, so for the registration example the URL would be <ulink url=\"http://localhost:8080/jboss-seam-registration/\"> <literal>http://localhost:8080/jboss-seam-registration/</literal></ulink>. The same is true for examples that deploy as a WAR, as mentioned in the previous section."
-msgstr ""
+msgstr "Con Tomcat gli esempi vengono deployati con URL del tipo <literal>/jboss-seam-<replaceable>example</replaceable></literal>, così per l'esempio di registrazione, l'URL sarebbe <ulink url=\"http://localhost:8080/jboss-seam-registration/\"> <literal>http://localhost:8080/jboss-seam-registration/</literal></ulink>. Lo stesso vale per gli esempi che vengono deployati come WAR, come già detto nella precedente sezione."
 
 #. Tag: title
 #: Tutorial.xml:100
@@ -125,7 +125,7 @@ msgstr "Eseguire i test degli esempi"
 #: Tutorial.xml:101
 #, no-c-format
 msgid "Most of the examples come with a suite of TestNG integration tests. The easiest way to run the tests is to run <literal>ant test</literal>. It is also possible to run the tests inside your IDE using the TestNG plugin. Consult the readme.txt in the examples directory of the Seam distribution for more information."
-msgstr ""
+msgstr "La maggior parte degli esempi è fornita di una suite di test d'integrazione TestNG. Il modo più semplice per eseguire i test è <literal>ant test</literal>. E' anche possibile eseguire i test all'interno del proprio IDE usandi il plugin di TestNG. Per ulteriori informazioni consultare il file readme.txt nella directory degli esempi nella distribuzione di Seam."
 
 #. Tag: title
 #: Tutorial.xml:112
@@ -149,7 +149,7 @@ msgstr "Andiamo piano, poiché ci rendiamo conto che EJB 3.0 potrebbe non essert
 #: Tutorial.xml:121
 #, no-c-format
 msgid "The start page displays a very basic form with three input fields. Try filling them in and then submitting the form. This will save a user object in the database."
-msgstr ""
+msgstr "La pagina iniziale mostra una form molto semplice con tre campi d'input. Prova a riempirli e ad inviare la form. Verrà salvato nel database un oggetto user."
 
 #. Tag: title
 #: Tutorial.xml:134
@@ -164,7 +164,7 @@ msgstr "Capire il codice"
 #: Tutorial.xml:136
 #, no-c-format
 msgid "The example is implemented with two Facelets templates, one entity bean and one stateless session bean. Let's take a look at the code, starting from the \"bottom\"."
-msgstr ""
+msgstr "Questo esempio è implementato con due template Facelets, un entity bean e un session bean stateless. Guardiamo ora il codice, partendo dal \"basso\"."
 
 #. Tag: title
 #: Tutorial.xml:141
@@ -176,7 +176,7 @@ msgstr "Entity bean: <literal>User.java</literal>"
 #: Tutorial.xml:143
 #, no-c-format
 msgid "We need an EJB entity bean for user data. This class defines <emphasis>persistence</emphasis> and <emphasis>validation</emphasis> declaratively, via annotations. It also needs some extra annotations that define the class as a Seam component."
-msgstr ""
+msgstr "Occorre un entity bean EJB per i dati utente. Questa classe definisce <emphasis>persistenza</emphasis> e <emphasis>validazione</emphasis> in modo dichiarativo tramite le annotazioni. Ha bisogno anche di altre annotazioni per definire la classe come componente Seam."
 
 #. Tag: title
 #: Tutorial.xml:148
@@ -472,7 +472,7 @@ msgstr ""
 #: Tutorial.xml:254
 #, no-c-format
 msgid "The EJB <literal>@Stateless</literal> annotation marks this class as a stateless session bean."
-msgstr ""
+msgstr "L'annotazione EJB <literal>@Stateless</literal> marca questa classe come session bean stateless."
 
 #. Tag: para
 #: Tutorial.xml:258
@@ -484,13 +484,13 @@ msgstr ""
 #: Tutorial.xml:265
 #, no-c-format
 msgid "The EJB standard <literal>@PersistenceContext</literal> annotation is used to inject the EJB3 entity manager."
-msgstr ""
+msgstr "L'annotazione EJB standard <literal>@PersistenceContext</literal> è usata per iniettare l'entity manager EJB3."
 
 #. Tag: para
 #: Tutorial.xml:269
 #, no-c-format
 msgid "The Seam <literal>@Logger</literal> annotation is used to inject the component's <literal>Log</literal> instance."
-msgstr ""
+msgstr "L'annotazione <literal>@Logger</literal> di Seam è usata per iniettare l'istanza <literal>Log</literal> del componente."
 
 #. Tag: para
 #: Tutorial.xml:273
@@ -722,7 +722,7 @@ msgstr ""
 #: Tutorial.xml:371
 #, no-c-format
 msgid "The Seam component deployment descriptor: <literal>components.xml</literal>"
-msgstr ""
+msgstr "Il descrittore di deploy dei componenti Seam: <literal>components.xml</literal>"
 
 #. Tag: para
 #: Tutorial.xml:373
@@ -790,7 +790,7 @@ msgstr ""
 #: Tutorial.xml:405
 #, no-c-format
 msgid "The web deployment description: <literal>web.xml</literal>"
-msgstr ""
+msgstr "La descrizione del deploy web: <literal>web.xml</literal>"
 
 #. Tag: para
 #: Tutorial.xml:407
