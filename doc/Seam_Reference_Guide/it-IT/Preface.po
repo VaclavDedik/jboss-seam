@@ -41,7 +41,7 @@ msgstr "Seam definisce un modello uniforme a componenti per tutte le business lo
 #: Preface.xml:25
 #, no-c-format
 msgid "There is no distinction between presentation tier components and business logic components in Seam. You can layer your application according to whatever architecture you devise, rather than being forced to shoehorn your application logic into an unnatural layering scheme forced upon you by whatever combination of stovepipe frameworks you're using today."
-msgstr "Non c'è alcuna distinzione in Seam tra i componenti del livello presentazione ed i componenti di business logic. Puoi stratificare la tua applicazione secondo una qualsiasi architettura a tuo piacimento, piuttosto che essere forzato a modellare la logica dell'applicazione in uno schema innaturale con una qualsiasi combinazione di framework aggrovigliati che stai usando oggi."
+msgstr "Non c'è alcuna distinzione in Seam tra i componenti del livello presentazione ed i componenti di business logic. Si può stratificare l'applicazione secondo una qualsiasi architettura a proprio piacimento, piuttosto che essere forzato a modellare la logica dell'applicazione in uno schema innaturale con una qualsiasi combinazione di framework aggrovigliati che stai usando oggi."
 
 #. Tag: para
 #: Preface.xml:32
@@ -77,7 +77,7 @@ msgstr "E' possibile scrivere applicazioni Seam dove \"qualsiasi cosa\" sia un E
 #: Preface.xml:69
 #, no-c-format
 msgid "On the other hand, if you prefer not to adopt EJB 3.0 at this time, you don't have to. Virtually any Java class may be a Seam component, and Seam provides all the functionality that you expect from a \"lightweight\" container, and more, for any component, EJB or otherwise."
-msgstr "Dall'altro lato, se preferisci non adottare EJB 3.0 adesso, puoi non farlo. Virtualmente ogni classe java può essere un componente Seam, e Seam fornisce tutte le funzionalità che ci si attende da un \"lightweight\" container, ed in più, per ogni componente, EJB o altro."
+msgstr "Dall'altro lato, se si preferisce non adottare EJB 3.0 adesso, è possibile non farlo. Virtualmente ogni classe java può essere un componente Seam, e Seam fornisce tutte le funzionalità che ci si attende da un \"lightweight\" container, ed in più, per ogni componente, EJB o altro."
 
 #. Tag: emphasis
 #: Preface.xml:79
@@ -95,7 +95,7 @@ msgstr "Seam supporta le migliori soluzioni open source AJAX basate su JSF: JBos
 #: Preface.xml:86
 #, no-c-format
 msgid "Alternatively, Seam provides a built-in JavaScript remoting layer that lets you call components asynchronously from client-side JavaScript without the need for an intermediate action layer. You can even subscribe to server-side JMS topics and receive messages via AJAX push."
-msgstr "In alternativa Seam fornisce al suo interno uno strato remoto di JavaScript che ti consente di chiamare i componenti in modo asincrono da JavaScript lato client senza il bisogno di uno strato di azione intermedio. Puoi anche sottoscrivere topic JMS lato server e ricevere messaggi tramite push AJAX."
+msgstr "In alternativa Seam fornisce al suo interno uno strato remoto di JavaScript che ti consente di chiamare i componenti in modo asincrono da JavaScript lato client senza il bisogno di uno strato di azione intermedio. Si può anche sottoscrivere topic JMS lato server e ricevere messaggi tramite push AJAX."
 
 #. Tag: para
 #: Preface.xml:92
@@ -168,7 +168,7 @@ msgstr "La nozione di <emphasis>Inversione del Controllo</emphasis> o <emphasis>
 #: Preface.xml:169
 #, no-c-format
 msgid "<emphasis>Bijection</emphasis> differs from IoC in that it is <emphasis>dynamic</emphasis>, <emphasis>contextual</emphasis>, and <emphasis>bidirectional</emphasis>. You can think of it as a mechanism for aliasing contextual variables (names in the various contexts bound to the current thread) to attributes of the component. Bijection allows auto-assembly of stateful components by the container. It even allows a component to safely and easily manipulate the value of a context variable, just by assigning it to an attribute of the component."
-msgstr "La <emphasis>Bijection</emphasis> differisce da IoC poiché è <emphasis>dinamica</emphasis>, <emphasis>contestuale</emphasis>, e <emphasis>bidirezionale</emphasis>. Puoi pensare ad essa come un meccanismo per la denominazione di variabili contestuali (nomi in vari contesti legati all thread attuale) in attributi dei componenti. La bijection consente l'autoassemblamento dei componenti da parte del container. Permette pure che un componente possa in tutta sicurezza e semplicità manipolare il valore di una variabile di contesto, solamente assegnandola ad un attributo del componente. "
+msgstr "La <emphasis>Bijection</emphasis> differisce da IoC poiché è <emphasis>dinamica</emphasis>, <emphasis>contestuale</emphasis>, e <emphasis>bidirezionale</emphasis>. E' possibile pensare ad essa come un meccanismo per la denominazione di variabili contestuali (nomi in vari contesti legati all thread attuale) in attributi dei componenti. La bijection consente l'autoassemblamento dei componenti da parte del container. Permette pure che un componente possa in tutta sicurezza e semplicità manipolare il valore di una variabile di contesto, solamente assegnandola ad un attributo del componente. "
 
 #. Tag: emphasis
 #: Preface.xml:181
@@ -211,7 +211,7 @@ msgstr "I test d'integrazione sono facili"
 #: Preface.xml:219
 #, no-c-format
 msgid "Seam components, being plain Java classes, are by nature unit testable. But for complex applications, unit testing alone is insufficient. Integration testing has traditionally been a messy and difficult task for Java web applications. Therefore, Seam provides for testability of Seam applications as a core feature of the framework. You can easily write JUnit or TestNG tests that reproduce a whole interaction with a user, exercising all components of the system apart from the view (the JSP or Facelets page). You can run these tests directly inside your IDE, where Seam will automatically deploy EJB components using JBoss Embedded."
-msgstr "I componenti Seam, essendo semplici classi Java, sono per natura unità testabili. Ma per le applicazioni complesse, il test dell'unità (testing unit) da solo è insufficiente. Il test d'integrazione (integration testing) è tradizionalmente stato complicato e difficile per le applicazioni web Java. Seam fornisce la testabilità delle applicazioni come caratteristica essenziale del framework. Potrai facilmente scrivere test JUnit o TestNG che riproducano tutta l'interazione con l'utente, provando tutti i componenti del sistema separati dalla vista (pagina JSP o Facelet). Potrai eseguire questi test direttamente dentro il tuo IDE, dove Seam automaticamente eseguirà il deploy dei componenti EJB usando JBoss Embedded."
+msgstr "I componenti Seam, essendo semplici classi Java, sono per natura unità testabili. Ma per le applicazioni complesse, il test dell'unità (testing unit) da solo è insufficiente. Il test d'integrazione (integration testing) è tradizionalmente stato complicato e difficile per le applicazioni web Java. Seam fornisce la testabilità delle applicazioni come caratteristica essenziale del framework. Si potranno facilmente scrivere test JUnit o TestNG che riproducano tutta l'interazione con l'utente, provando tutti i componenti del sistema separati dalla vista (pagina JSP o Facelet). Si potranno eseguire questi test direttamente dentro il proprio IDE, dove Seam automaticamente eseguirà il deploy dei componenti EJB usando JBoss Embedded."
 
 #. Tag: emphasis
 #: Preface.xml:232
@@ -235,7 +235,7 @@ msgstr "Una web application non genera soltanto pagine html ma fa molto di più"
 #: Preface.xml:247
 #, no-c-format
 msgid "Today's web frameworks think too small. They let you get user input off a form and into your Java objects. And then they leave you hanging. A truly complete web application framework should address problems like persistence, concurrency, asynchronicity, state management, security, email, messaging, PDF and chart generation, workflow, wikitext rendering, webservices, caching and more. Once you scratch the surface of Seam, you'll be amazed at how many problems become simpler..."
-msgstr "I web framework di oggi pensano troppo poco. Ti consentono di estrarre gli input dell'utente da una form e di metterlo in un oggetto Java. E poi ti abbandonano. Un vero web framework dovrebbe indirizzarsi verso problemi come la persistenza, la concorrenza, l'asincronicità, la gestione dello stato, la sicurezza, le email, la messaggistica, la generazione di PDF e grafici, il workflow, il rendering di wikitext, i web service, il caching e altro ancora. Dopo aver provato Seam, sarai stupito di come questi problemi vengano semplificati..."
+msgstr "I web framework di oggi pensano troppo poco. Ti consentono di estrarre gli input dell'utente da una form e di metterlo in un oggetto Java. E poi ti abbandonano. Un vero web framework dovrebbe indirizzarsi verso problemi come la persistenza, la concorrenza, l'asincronicità, la gestione dello stato, la sicurezza, le email, la messaggistica, la generazione di PDF e grafici, il workflow, il rendering di wikitext, i web service, il caching e altro ancora. Dopo aver provato Seam, si resterà stupiti di come questi problemi vengano semplificati..."
 
 #. Tag: para
 #: Preface.xml:255
@@ -253,11 +253,11 @@ msgstr "Inizia ora!"
 #: Preface.xml:270
 #, no-c-format
 msgid "Seam works in any Java EE application server, and even works in Tomcat. If your environment supports EJB 3.0, great! If it doesn't, no problem, you can use Seam's built-in transaction management with JPA or Hibernate3 for persistence. Or, you can deploy JBoss Embedded in Tomcat, and get full support for EJB 3.0."
-msgstr "Seam funziona in qualsiasi application server Java EE, e perfino in Tomcat. Se il tuo ambiente supporta EJB 3.0, benissimo! Altrimenti, nessun problema, puoi utilizzare la gestione delle transazioni interna a Seam con JPA o Hibernate3 per la persistenza. Oppure puoi fare il deploy di JBoss Embedded in Tomcat, ed ottenere pieno supporto per EJB 3.0."
+msgstr "Seam funziona in qualsiasi application server Java EE, e perfino in Tomcat. Se il proprio ambiente supporta EJB 3.0, benissimo! Altrimenti, nessun problema, si può utilizzare la gestione delle transazioni interna a Seam con JPA o Hibernate3 per la persistenza. Oppure si può fare il deploy di JBoss Embedded in Tomcat, ed ottenere pieno supporto per EJB 3.0."
 
 #. Tag: para
 #: Preface.xml:286
 #, no-c-format
 msgid "It turns out that the combination of Seam, JSF and EJB3 is <emphasis>the</emphasis> simplest way to write a complex web application in Java. You won't believe how little code is required!"
-msgstr "La combinazione di Seam, JSF e EJB3 è <emphasis>il</emphasis> modo più semplice per scrivere una complessa applicazione web in Java. Ti stupirai di quanto poco codice viene richiesto!"
+msgstr "La combinazione di Seam, JSF e EJB3 è <emphasis>il</emphasis> modo più semplice per scrivere una complessa applicazione web in Java. Ci si stupirà di quanto poco codice viene richiesto!"
 

@@ -411,7 +411,7 @@ msgid ""
 "customer.lastName = \"Smith\";"
 msgstr ""
 "customer.setFirstName(\"John\");\n"
-"// Oppure puoi impostare direttamente i campi\n"
+"// Oppure si può impostare direttamente i campi\n"
 "customer.lastName = \"Smith\";"
 
 #. Tag: title

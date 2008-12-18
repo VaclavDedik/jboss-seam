@@ -163,7 +163,7 @@ msgstr ""
 #: Testing.xml:44
 #, no-c-format
 msgid "However, if you want to test the entire application, read on."
-msgstr "Comunque se vuoi testare l'intera applicazione, continua nella lettura."
+msgstr "Comunque se si vuole testare l'intera applicazione, si consiglia di continuare nella lettura."
 
 #. Tag: title
 #: Testing.xml:51

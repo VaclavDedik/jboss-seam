@@ -127,7 +127,7 @@ msgstr "Devi assicurarti che i parametri siano disponibili non solo quando la pa
 #: Elenhancements.xml:67
 #, no-c-format
 msgid "You can also pass literal strings using single quotes:"
-msgstr "Puoi anche passare stringe letterali usando virgolette singole:"
+msgstr "Si può passare stringe letterali usando virgolette singole:"
 
 #. Tag: programlisting
 #: Elenhancements.xml:71
@@ -158,7 +158,7 @@ msgstr "<![CDATA[<h:outputText value=\"#{person.name}\" rendered=\"#{person.name
 #: Elenhancements.xml:89
 #, no-c-format
 msgid "You can access the size of a collection in a similar manner:"
-msgstr "Puoi accedere alla dimensione di una collezione in maniera analoga:"
+msgstr "Si può accedere alla dimensione di una collezione in maniera analoga:"
 
 #. Tag: programlisting
 #: Elenhancements.xml:93
@@ -266,7 +266,7 @@ msgstr "Solitamente è sicuro chiamare in ogni momento <literal>methodExpression
 #: Elenhancements.xml:185
 #, no-c-format
 msgid "Both of these cases are exceedingly rare and only apply when you want to invoke the <literal>MethodExpression</literal> by hand in Java code."
-msgstr "Entrambi questi casi sono estremamente rari e si applicano solo quando vuoi invocare manualmente <literal>MethodExpression</literal> nel codice Java."
+msgstr "Entrambi questi casi sono estremamente rari e si applicano solo quando si vuole invocare manualmente <literal>MethodExpression</literal> nel codice Java."
 
 #. Tag: title
 #: Elenhancements.xml:196

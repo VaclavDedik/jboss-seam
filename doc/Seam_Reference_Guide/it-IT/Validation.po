@@ -123,7 +123,7 @@ msgstr ""
 #: Validation.xml:24
 #, no-c-format
 msgid "Well, that's a decent first cut, but in practice it might be more elegant to use custom constraints instead of the ones built into Hibernate Validator:"
-msgstr "Bene, questo è una buona riduzione, ma in pratica puoi essere più elegante se utilizzi dei vincoli personalizzati invece di quelli interni a Hibernate Validator:"
+msgstr "Bene, questo è una buona riduzione, ma in pratica è possibile essere più elegante utilizzando dei vincoli personalizzati invece di quelli interni a Hibernate Validator:"
 
 #. Tag: programlisting
 #: Validation.xml:30
@@ -305,7 +305,7 @@ msgstr ""
 #: Validation.xml:75
 #, no-c-format
 msgid "You can then inject this value into the message string using the placeholder {0} (the first and only parameter passed to a JSF message for a Hiberate Validator restriction). See the internationalization section for more information regarding where to define these messages."
-msgstr "Puoi iniettare questo valore nella stringa del messaggio usando il placeholder {0} (il primo ed unico parametro passato al messaggio JSF a causa di una restrizione in Hibernate Validator). Vedere la sezione Internazionalizzazione per ulteriori informazioni sulla definizione dei messaggi."
+msgstr "Si può iniettare questo valore nella stringa del messaggio usando il placeholder {0} (il primo ed unico parametro passato al messaggio JSF a causa di una restrizione in Hibernate Validator). Vedere la sezione Internazionalizzazione per ulteriori informazioni sulla definizione dei messaggi."
 
 #. Tag: programlisting
 #: Validation.xml:83
@@ -540,7 +540,7 @@ msgstr ""
 #: Validation.xml:130
 #, no-c-format
 msgid "And what if you want to specify a different message to be displayed when validation fails? You can use the Seam message bundle (and all it's goodies like el expressions inside the message, and per-view message bundles) with the Hibernate Validator:"
-msgstr "E se vuoi specificare un messaggio diverso quando la validazione fallisce? Puoi utilizzare il message bundle di Seam con Hibernate Validator (e tutte le altre finezze come le espressioni EL dentro il messaggio ed i message bundle per ogni singola vista)."
+msgstr "E se si vuole specificare un messaggio diverso quando la validazione fallisce? Si può utilizzare il message bundle di Seam con Hibernate Validator (e tutte le altre finezze come le espressioni EL dentro il messaggio ed i message bundle per ogni singola vista)."
 
 #. Tag: programlisting
 #: Validation.xml:137
