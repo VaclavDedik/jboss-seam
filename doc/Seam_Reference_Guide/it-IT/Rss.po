@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Seam_Reference_Guide\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 13:15+0000\n"
-"PO-Revision-Date: 2008-12-17 22:03+0100\n"
+"PO-Revision-Date: 2008-12-18 10:14+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr "Supporto RSS"
 #: Rss.xml:6
 #, no-c-format
 msgid "It is now easy to integrate RSS feeds in Seam through the <ulink url=\"http://yarfraw.sourceforge.net/\">YARFRAW</ulink> library. The RSS support is currently in the state of \"tech preview\" in the current release."
-msgstr "E' semplice gestire i feed RSS con Seam tramite la libreria <ulink url=\"http://yarfraw.sourceforge.net/\">YARFRAW</ulink>. Il supporto RSS in questa versione è da considerarsi nello stato di anteprima."
+msgstr "Con Seam è semplice gestire i feed RSS tramite la libreria <ulink url=\"http://yarfraw.sourceforge.net/\">YARFRAW</ulink>. Il supporto RSS in questa versione è da considerarsi nello stato di anteprima."
 
 #. Tag: title
 #: Rss.xml:14
@@ -43,7 +43,7 @@ msgstr "Per abilitare il supporto RSS includere <literal>jboss-seam-rss.jar</lit
 #: Rss.xml:22
 #, no-c-format
 msgid "The Seam RSS support requires the use of Facelets as the view technology."
-msgstr "Per il supporto RSS in Seam richiede di utilizzare Facelets."
+msgstr "Il supporto RSS in Seam richiede di utilizzare Facelets."
 
 #. Tag: title
 #: Rss.xml:28
