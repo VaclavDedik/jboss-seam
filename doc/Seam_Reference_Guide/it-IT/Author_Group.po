@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: seam 2_0\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-18 11:56+0000\n"
-"PO-Revision-Date: 2008-12-13 16:40+0100\n"
+"PO-Revision-Date: 2008-12-18 14:12+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -70,12 +70,8 @@ msgstr "<firstname>Dan</firstname> <surname>Allen</surname>"
 #. Tag: author
 #: Author_Group.xml:41
 #, no-c-format
-msgid ""
-"<firstname>Max</firstname> <othername>Rydahl</othername> <surname>Andersen</"
-"surname>"
-msgstr ""
-"<firstname>Max</firstname> <othername>Rydahl</othername> <surname>Andersen</"
-"surname>"
+msgid "<firstname>Max</firstname> <othername>Rydahl</othername> <surname>Andersen</surname>"
+msgstr "<firstname>Max</firstname> <othername>Rydahl</othername> <surname>Andersen</surname>"
 
 #. Tag: author
 #: Author_Group.xml:46
@@ -120,7 +116,8 @@ msgid "<firstname>James</firstname> <surname>Cobb</surname>"
 msgstr "<firstname>James</firstname> <surname>Cobb</surname>"
 
 #. Tag: shortaffil
-#: Author_Group.xml:74 Author_Group.xml:81
+#: Author_Group.xml:74
+#: Author_Group.xml:81
 #, no-c-format
 msgid "Graphic Design"
 msgstr "Design Grafico"
@@ -157,21 +154,22 @@ msgstr "Traduzione in francese"
 
 #. Tag: othercredit
 #: Author_Group.xml:99
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "<firstname>Nicola</firstname> <surname>Benaglia</surname>"
-msgstr "<firstname>Jay</firstname> <surname>Balunas</surname>"
+msgstr "<firstname>Nicola</firstname> <surname>Benaglia</surname>"
 
 #. Tag: shortaffil
-#: Author_Group.xml:103 Author_Group.xml:110
-#, fuzzy, no-c-format
+#: Author_Group.xml:103
+#: Author_Group.xml:110
+#, no-c-format
 msgid "Italian Translation"
-msgstr "Traduzione in francese"
+msgstr "Traduzione in italiano"
 
 #. Tag: othercredit
 #: Author_Group.xml:106
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "<firstname>Stefano</firstname> <surname>Travelli</surname>"
-msgstr "<firstname>Dan</firstname> <surname>Allen</surname>"
+msgstr "<firstname>Stefano</firstname> <surname>Travelli</surname>"
 
 #. Tag: editor
 #: Author_Group.xml:113
@@ -181,3 +179,4 @@ msgstr "<firstname>Samson</firstname> <surname>Kittoli</surname>"
 
 #~ msgid "Project Lead"
 #~ msgstr "Capo progetto"
+
