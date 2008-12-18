@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-12-13 18:12+0000\n"
+"POT-Creation-Date: 2008-12-18 11:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -154,8 +154,26 @@ msgstr ""
 msgid "French Translation"
 msgstr ""
 
-#. Tag: editor
+#. Tag: othercredit
 #: Author_Group.xml:99
+#, no-c-format
+msgid "<firstname>Nicola</firstname> <surname>Benaglia</surname>"
+msgstr ""
+
+#. Tag: shortaffil
+#: Author_Group.xml:103 Author_Group.xml:110
+#, no-c-format
+msgid "Italian Translation"
+msgstr ""
+
+#. Tag: othercredit
+#: Author_Group.xml:106
+#, no-c-format
+msgid "<firstname>Stefano</firstname> <surname>Travelli</surname>"
+msgstr ""
+
+#. Tag: editor
+#: Author_Group.xml:113
 #, no-c-format
 msgid "<firstname>Samson</firstname> <surname>Kittoli</surname>"
 msgstr ""
