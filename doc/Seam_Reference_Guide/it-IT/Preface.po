@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-04-04 01:24+0000\n"
-"PO-Revision-Date: 2008-12-16 13:21+0100\n"
+"PO-Revision-Date: 2008-12-18 12:10+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,7 @@ msgstr "Non c'è alcuna distinzione in Seam tra i componenti del livello present
 #: Preface.xml:32
 #, no-c-format
 msgid "Unlike plain Java EE or J2EE components, Seam components may <emphasis>simultaneously</emphasis> access state associated with the web request and state held in transactional resources (without the need to propagate web request state manually via method parameters). You might object that the application layering imposed upon you by the old J2EE platform was a Good Thing. Well, nothing stops you creating an equivalent layered architecture using Seam&#8212;the difference is that <emphasis>you</emphasis> get to architect your own application and decide what the layers are and how they work together."
-msgstr "A differenza dei componenti J2EE o del semplice Java EE, i componenti Seam possono <emphasis>simultaneamente</emphasis> accedere allo stato associato alla richiesta web e allo stato mantenuto nelle risorse transazionali (senza il bisogno di propagare manualmente lo stato della richiesta web attraverso i parametri). Si potrebbe obbiettare che la stratificazione dell'applicazione impostadalla vecchia piattaforma J2EE fosse una Cosa Buona. Bene, niente ti vieta di creare un'architettura a strati equivalente usando Seam&#8212; la differenza è che <emphasis>tu</emphasis> decidi l'architettura della tua applicazione e decidi quali sono i layer e come lavorano assieme"
+msgstr "A differenza dei componenti J2EE o del semplice Java EE, i componenti Seam possono <emphasis>simultaneamente</emphasis> accedere allo stato associato alla richiesta web e allo stato mantenuto nelle risorse transazionali (senza il bisogno di propagare manualmente lo stato della richiesta web attraverso i parametri). Si potrebbe obbiettare che la stratificazione dell'applicazione imposta dalla vecchia piattaforma J2EE fosse una Cosa Buona. Bene, niente vieta di creare un'architettura a strati equivalente usando Seam&#8212; la differenza è che <emphasis>tu</emphasis> decidi l'architettura dell'applicazione e decidi quali sono i layer e come lavorano assieme"
 
 #. Tag: emphasis
 #: Preface.xml:45
@@ -71,7 +71,7 @@ msgstr "Seam unifica i modelli a componenti di JSF e EJB3, eliminando il codice 
 #: Preface.xml:61
 #, no-c-format
 msgid "It is possible to write Seam applications where \"everything\" is an EJB. This may come as a surprise if you're used to thinking of EJBs as coarse-grained, so-called \"heavyweight\" objects. However, version 3.0 has completely changed the nature of EJB from the point of view of the developer. An EJB is a fine-grained object&#8212;nothing more complex than an annotated JavaBean. Seam even encourages you to use session beans as JSF action listeners!"
-msgstr "E' possibile scrivere applicazioni Seam dove \"qualsiasi cosa\" sia un EJB. Questo potrebbe essere per te sorprendente, se sei abituato a pensare agli EJB come ad oggetti cosiddetti a grana-grossa, \"di peso massimo\". Comunque la versione 3.0 ha completamente cambiato la natura di EJB dal punto di vista dello sviluppatore. Un EJB è un oggetto a grana-fine&#8212; non più complesso di un JavaBean  con annotazioni. Seam ti incoraggia ad usare i session bean come action listener JSF! "
+msgstr "E' possibile scrivere applicazioni Seam dove \"qualsiasi cosa\" sia un EJB. Questo potrebbe essere sorprendente, se si è abituati a pensare agli EJB come ad oggetti cosiddetti a grana-grossa, \"di peso massimo\". Comunque la versione 3.0 ha completamente cambiato la natura di EJB dal punto di vista dello sviluppatore. Un EJB è un oggetto a grana-fine&#8212; non più complesso di un JavaBean con annotazioni. Seam incoraggia ad usare i session bean come action listener JSF! "
 
 #. Tag: para
 #: Preface.xml:69
