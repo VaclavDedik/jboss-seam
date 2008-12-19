@@ -307,7 +307,10 @@ public class MultipartRequestImpl extends HttpServletRequestWrapper implements M
          
          Param p = null;
          
-         while (read != -1)
+         // This is a fail-safe to prevent infinite loops from occurring in some environments
+         int loopCounter = 20;
+         
+         while (read > 0 && loopCounter > 0)
          {
             for (int i = 0; i < read; i++)
             {
@@ -419,6 +422,13 @@ public class MultipartRequestImpl extends HttpServletRequestWrapper implements M
                int bytesNotRead = read - pos;
                System.arraycopy(buffer, pos, buffer, 0, bytesNotRead);               
                read = input.read(buffer, bytesNotRead, buffer.length - bytesNotRead);
+               
+               // Decrement loopCounter if no data was readable
+               if (read == 0)
+               {
+                  loopCounter--;
+               }
+               
                read += bytesNotRead;
             }
             else
