@@ -15,7 +15,18 @@ import org.jboss.seam.example.seamspace.MemberBlog;
 import org.jboss.seam.example.seamspace.MemberFriend;
 import org.jboss.seam.example.seamspace.MemberImage;
 
-# This rule allows members to grant permissions on their images to other users/roles
+# These rules allow members to manage permissions on their own images
+
+rule ManageImagePermissions
+  no-loop
+  activation-group "permissions"
+when
+  acct: MemberAccount()
+  image: MemberImage(mbr : member -> (mbr.memberId.equals(acct.member.memberId)))
+  check: PermissionCheck(target == image, action == "seam.read-permissions", granted == false)
+then
+  check.grant();
+end
 
 rule GrantImagePermissions
   no-loop
@@ -24,6 +35,18 @@ when
   acct: MemberAccount()
   image: MemberImage(mbr : member -> (mbr.memberId.equals(acct.member.memberId)))
   check: PermissionCheck(target == image, action == "seam.grant-permission", granted == false)
+then
+  check.grant();
+end
+
+# Allow all users to read the available roles
+
+rule ReadRoles
+  no-loop
+  activation-group "permissions"
+when
+  check: PermissionCheck(target == "seam.role", action == "read", granted == false)
+  Role(name == "user")
 then
   check.grant();
 end
@@ -150,17 +173,6 @@ when
   mbr: Member()
   acct: MemberAccount(member.memberId == mbr.memberId)
   check: PermissionCheck(target.memberId == mbr.memberId, action == "uploadImage", granted == false)
-then
-  check.grant();
-end
-
-rule ManageImagePermissions
-  no-loop
-  activation-group "permissions"
-when
-  img: MemberImage()
-  check: PermissionCheck(target == img, action == "seam.read-permissions", granted == false)
-  Role(name == "admin")
 then
   check.grant();
 end

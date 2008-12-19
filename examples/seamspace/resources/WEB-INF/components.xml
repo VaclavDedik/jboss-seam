@@ -53,7 +53,7 @@
     </drools:rule-base>
     
     <web:multipart-filter create-temp-files="true" 
-                          max-request-size="1000000" 
+                          max-request-size="5000000" 
                           url-pattern="*.seam"/>   
                           
     <web:context-filter url-pattern="/content/*"/>
