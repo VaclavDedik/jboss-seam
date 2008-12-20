@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-13 17:58+0000\n"
-"PO-Revision-Date: 2008-12-17 21:11+0100\n"
+"PO-Revision-Date: 2008-12-20 12:18+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -143,13 +143,13 @@ msgstr "L'esempio di registrazione è una semplice applicazione per consentire a
 #: Tutorial.xml:119
 #, no-c-format
 msgid "We'll go slowly, since we realize you might not yet be familiar with EJB 3.0."
-msgstr "Andiamo piano, poiché ci rendiamo conto che EJB 3.0 potrebbe non esserti familiare."
+msgstr "Andiamo piano, poiché ci rendiamo conto che EJB 3.0 potrebbe non essere familiare."
 
 #. Tag: para
 #: Tutorial.xml:121
 #, no-c-format
 msgid "The start page displays a very basic form with three input fields. Try filling them in and then submitting the form. This will save a user object in the database."
-msgstr "La pagina iniziale mostra una form molto semplice con tre campi d'input. Prova a riempirli e ad inviare la form. Verrà salvato nel database un oggetto user."
+msgstr "La pagina iniziale mostra una form molto semplice con tre campi d'input. Si provi a riempirli e ad inviare la form. Verrà salvato nel database un oggetto user."
 
 #. Tag: title
 #: Tutorial.xml:134

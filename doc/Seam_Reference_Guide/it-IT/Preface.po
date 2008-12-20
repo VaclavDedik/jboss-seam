@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-04-04 01:24+0000\n"
-"PO-Revision-Date: 2008-12-18 12:10+0100\n"
+"PO-Revision-Date: 2008-12-20 12:14+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -168,7 +168,7 @@ msgstr "La nozione di <emphasis>Inversione del Controllo</emphasis> o <emphasis>
 #: Preface.xml:169
 #, no-c-format
 msgid "<emphasis>Bijection</emphasis> differs from IoC in that it is <emphasis>dynamic</emphasis>, <emphasis>contextual</emphasis>, and <emphasis>bidirectional</emphasis>. You can think of it as a mechanism for aliasing contextual variables (names in the various contexts bound to the current thread) to attributes of the component. Bijection allows auto-assembly of stateful components by the container. It even allows a component to safely and easily manipulate the value of a context variable, just by assigning it to an attribute of the component."
-msgstr "La <emphasis>Bijection</emphasis> differisce da IoC poiché è <emphasis>dinamica</emphasis>, <emphasis>contestuale</emphasis>, e <emphasis>bidirezionale</emphasis>. E' possibile pensare ad essa come un meccanismo per la denominazione di variabili contestuali (nomi in vari contesti legati all thread attuale) in attributi dei componenti. La bijection consente l'autoassemblamento dei componenti da parte del container. Permette pure che un componente possa in tutta sicurezza e semplicità manipolare il valore di una variabile di contesto, solamente assegnandola ad un attributo del componente. "
+msgstr "La <emphasis>Bijection</emphasis> differisce da IoC poiché è <emphasis>dinamica</emphasis>, <emphasis>contestuale</emphasis>, e <emphasis>bidirezionale</emphasis>. E' possibile pensare ad essa come un meccanismo per la denominazione di variabili contestuali (nomi in vari contesti legati al thread corrente) in attributi dei componenti. La bijection consente l'autoassemblamento dei componenti da parte del container. Permette pure che un componente possa in tutta sicurezza e semplicità manipolare il valore di una variabile di contesto, solamente assegnandola ad un attributo del componente. "
 
 #. Tag: emphasis
 #: Preface.xml:181
@@ -193,7 +193,7 @@ msgstr "Preferenza delle annotazioni all'XML"
 #: Preface.xml:196
 #, no-c-format
 msgid "Traditionally, the Java community has been in a state of deep confusion about precisely what kinds of meta-information counts as configuration. J2EE and popular \"lightweight\" containers have provided XML-based deployment descriptors both for things which are truly configurable between different deployments of the system, and for any other kinds or declaration which can not easily be expressed in Java. Java 5 annotations changed all this."
-msgstr "Tradizionalmente la comunità Java è restata in uno stato di profonda confusione su quali tipologie di meta-informazione debbano essere considerate configurazione. J2EE ed i più noti lightweight container hanno entrambi fornito descrittori per il deploy basati su XML per cose che sono configurabili tra differenti deploy del sistema e per altri tipi di cose o dichiarazioni che non sono facilmente esprimibili in Java. Le annotazioni Java 5 hanno cambiato tutto questo."
+msgstr "Tradizionalmente la comunità Java è sempre stata in uno stato di profonda confusione su quali tipologie di meta-informazione debbano essere considerate configurazione. J2EE ed i più noti lightweight container hanno entrambi fornito descrittori per il deploy basati su XML per cose che sono configurabili tra differenti deploy del sistema e per altri tipi di cose o dichiarazioni che non sono facilmente esprimibili in Java. Le annotazioni Java 5 hanno cambiato tutto questo."
 
 #. Tag: para
 #: Preface.xml:204
