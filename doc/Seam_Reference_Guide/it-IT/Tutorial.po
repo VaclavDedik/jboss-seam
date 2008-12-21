@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-13 17:58+0000\n"
-"PO-Revision-Date: 2008-12-20 12:18+0100\n"
+"PO-Revision-Date: 2008-12-21 14:58+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -310,13 +310,13 @@ msgstr "L'annotazione EJB3 standard <literal>@Entity</literal> indica che la cla
 #: Tutorial.xml:167
 #, no-c-format
 msgid "A Seam component needs a <emphasis>component name</emphasis> specified by the <link linkend=\"name-annotation\"> <literal>@Name</literal> </link> annotation. This name must be unique within the Seam application. When JSF asks Seam to resolve a context variable with a name that is the same as a Seam component name, and the context variable is currently undefined (null), Seam will instantiate that component, and bind the new instance to the context variable. In this case, Seam will instantiate a <literal>User</literal> the first time JSF encounters a variable named <literal>user</literal>."
-msgstr ""
+msgstr "Un componente Seam ha bisogno di un <emphasis>nome componente</emphasis> specificato dall'annotazione <link linkend=\"name-annotation\"> <literal>@Name</literal> </link>. Questo nome deve essere unico all'interno dell'applicazione Seam. Quando JSF chiede a Seam di risolvere una variabile di contesto son un nome che corrisponde ad un componente Seam, e la variabile di contesto è indefinita (null), Seam istanzia quel componente e lo associa la nuova istanza alla variabile di contesto. In questo caso Seam istanzierà uno <literal>User</literal> la prima volta che JSF incontrarerà una variabile chiamata <literal>user</literal>."
 
 #. Tag: para
 #: Tutorial.xml:178
 #, no-c-format
 msgid "Whenever Seam instantiates a component, it binds the new instance to a context variable in the component's <emphasis>default context</emphasis>. The default context is specified using the <link linkend=\"scope-annotation\"> <literal>@Scope</literal> </link> annotation. The <literal>User</literal> bean is a session scoped component."
-msgstr ""
+msgstr "Quando Seam istanzia un componente, associa la nuova istanza alla variabile di contesto nel <emphasis>contesto di default</emphasis> del componente. Il contesto di default viene specificato usando l'annotazione <link linkend=\"scope-annotation\"> <literal>@Scope</literal> </link>. Il bean <literal>User</literal> è un componente con scope di sessione."
 
 #. Tag: para
 #: Tutorial.xml:186
@@ -328,7 +328,7 @@ msgstr "L'annotazione standard EJB <literal>@Table</literal> indica che la class
 #: Tutorial.xml:191
 #, no-c-format
 msgid "<literal>name</literal>, <literal>password</literal> and <literal>username</literal> are the persistent attributes of the entity bean. All of our persistent attributes define accessor methods. These are needed when this component is used by JSF in the render response and update model values phases."
-msgstr ""
+msgstr "<literal>name</literal>, <literal>password</literal> e <literal>username</literal> sono gli attributi di persistenza dell'entity bean. Tutti gli attributi di persistenza definiscono i metodi d'accesso. Questi sono necessari quando il componente viene usato da JSF nelle fasi di generazione risposta (render response) e aggiornamento dei valori del modello (update model values)."
 
 #. Tag: para
 #: Tutorial.xml:198
@@ -388,7 +388,7 @@ msgstr ""
 #: Tutorial.xml:234
 #, no-c-format
 msgid "This is the only really interesting code in the example!"
-msgstr ""
+msgstr "Questo è l'unico codice veramente interessante nell'esempio!"
 
 #. Tag: title
 #: Tutorial.xml:237
@@ -664,7 +664,7 @@ msgstr ""
 #: Tutorial.xml:356
 #, no-c-format
 msgid "The only thing here that is specific to Seam is the <literal>&lt;s:validateAll&gt;</literal> tag. This JSF component tells JSF to validate all the contained input fields against the Hibernate Validator annotations specified on the entity bean."
-msgstr ""
+msgstr "L'unica cosa che qua è specifica di Seam è il tag <literal>&lt;s:validateAll&gt;</literal>. Questo componente JSF dice a JSFdi validare tutti i campi d'input contenuti con le annotazioni di Hibernate Validator specificate nell'entity bean."
 
 #. Tag: title
 #: Tutorial.xml:361
@@ -880,7 +880,7 @@ msgstr ""
 #: Tutorial.xml:414
 #, no-c-format
 msgid "This <literal>web.xml</literal> file configures Seam and JSF. The configuration you see here is pretty much identical in all Seam applications."
-msgstr ""
+msgstr "Il file <literal>web.xml</literal> configura Seam e JSF. La configurazione vista qua è più o meno la stessa in tutte le applicazioni Seam."
 
 #. Tag: title
 #: Tutorial.xml:420
@@ -892,7 +892,7 @@ msgstr "Configurazione JSF: <literal>faces-config.xml</literal>"
 #: Tutorial.xml:422
 #, no-c-format
 msgid "Most Seam applications use JSF views as the presentation layer. So usually we'll need <literal>faces-config.xml</literal>. In our case, we are going to use Facelets for defining our views, so we need to tell JSF to use Facelets as its templating engine."
-msgstr ""
+msgstr "La maggior parte delle applicazioni Seam utilizza le viste JSF come layer di presentazione. Così solitamente si avrà bisogno di <literal>faces-config.xml</literal>. In ogni caso noi utilizzeremo Facelets per definire le nostre viste, così avremo bisogno di dire a JSF di usare Facelets come suo motore di template"
 
 #. Tag: title
 #: Tutorial.xml:427
@@ -2726,7 +2726,7 @@ msgstr ""
 #: Tutorial.xml:1021
 #, no-c-format
 msgid "The <literal>win.jspx</literal> page is predictable:"
-msgstr ""
+msgstr "La pagina <literal>win.jspx</literal> è prevedibile:"
 
 #. Tag: title
 #: Tutorial.xml:1023
@@ -2798,7 +2798,7 @@ msgstr ""
 #: Tutorial.xml:1028
 #, no-c-format
 msgid "The <literal>lose.jspx</literal> looks roughly the same, so we'll skip over it."
-msgstr ""
+msgstr "<literal>lose.jspx</literal> è più o meno uguale, quindi si passa oltre."
 
 #. Tag: para
 #: Tutorial.xml:1030
