@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import javax.faces.context.FacesContext;
 
+import org.jboss.seam.log.*;
+
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.renderer.AbstractRenderer;
@@ -13,6 +15,8 @@ import org.jfree.data.general.Dataset;
 
 public class UIChartSeries extends ITextComponent
 {
+   private static Log log = Logging.getLog(UIChartSeries.class);
+
    private String key;
    private String seriesPaint;
    private String seriesFillPaint;
@@ -159,7 +163,7 @@ public class UIChartSeries extends ITextComponent
             }
             else
             {
-               System.out.println("render is not AbtractRenderer" + renderer);
+               log.error("render is not AbtractRenderer" + renderer);
             }
          }
       }

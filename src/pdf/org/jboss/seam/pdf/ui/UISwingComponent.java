@@ -29,14 +29,11 @@ public class UISwingComponent extends UIGraphics2D
          throw new RuntimeException("Component was null");
       }
 
-      System.out.println("component is " + component + " " + component.getWidth() + "x" + component.getHeight());
       // setSize() is very important. The default size
       // for this component is zero, which means it will not display
       // unless the size is set
       component.setSize(getWidth(), getHeight());
 
-      System.out.println("component is " + component + " " + component.getWidth() + "x" + component.getHeight());
       component.paint(g2);
-      System.out.println("g2=" + g2);
    }
 }

@@ -2,6 +2,8 @@ package org.jboss.seam.pdf.ui;
 
 import javax.faces.context.FacesContext;
 
+import org.jboss.seam.log.*;
+
 import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.Plot;
@@ -11,6 +13,8 @@ import org.jfree.chart.title.TextTitle;
 
 public abstract class UICategoryChartBase extends UIChart
 {
+   private static Log log = Logging.getLog(UICategoryChartBase.class);
+
    private String orientation;
 
    private boolean legend;
@@ -290,7 +294,7 @@ public abstract class UICategoryChartBase extends UIChart
       }
       else
       {
-         System.out.println("UICATEGORYCHART --- unknown plot " + plot);
+	  log.error("UICATEGORYCHART --- unknown plot " + plot);
       }
    }
 
