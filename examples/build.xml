@@ -177,6 +177,8 @@
 		<include name="openxri-client.jar" if="openid.lib" />
 		<include name="openxri-syntax.jar" if="openid.lib" />
 		<include name="htmlparser.jar" if="openid.lib" />
+		<include name="commons-codec.jar" if="openid.lib" />
+		<include name="commons-httpclient.jar" if="openid.lib" />
 	</fileset>
  
 	<!-- Seam rss, and dependencies -->
