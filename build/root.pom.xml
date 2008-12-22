@@ -302,7 +302,7 @@
          <artifactId>resteasy-jaxrs</artifactId>
          <version>1.0-beta-5</version>
          <exclusions>
-            <exclusion>
+             <exclusion>
                <groupId>commons-codec</groupId>
                <artifactId>commons-codec</artifactId>
             </exclusion>
@@ -553,7 +553,7 @@
              <artifactId>commons-codec</artifactId>
            </exclusion>		   
          </exclusions>
-		 </dependency>		
+                </dependency>		
       
       <dependency>
         <groupId>javassist</groupId>
@@ -991,16 +991,18 @@
                   <artifactId>xmlsec</artifactId>
               </exclusion>
 
+              <!--
               <exclusion>              
                   <groupId>commons-codec</groupId>
                   <artifactId>commons-codec</artifactId>
               </exclusion>
-
+              -->
+              <!--
               <exclusion>
                   <groupId>commons-httpclient</groupId>
                   <artifactId>commons-httpclient</artifactId>
               </exclusion>
-
+              -->
               <exclusion>
                   <groupId>log4j</groupId>
                   <artifactId>log4j</artifactId>
