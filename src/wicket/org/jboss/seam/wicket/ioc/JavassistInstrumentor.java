@@ -12,6 +12,7 @@ import javassist.Modifier;
 import javassist.NotFoundException;
 import javassist.CtField.Initializer;
 
+import org.jboss.seam.annotations.Name;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.wicket.WicketComponent;
@@ -146,7 +147,26 @@ public class JavassistInstrumentor
    private static boolean isInstrumentable(CtClass clazz)
    {
       int modifiers = clazz.getModifiers();
-      return !(Modifier.isInterface(modifiers) || Modifier.isEnum(modifiers));
+      if (Modifier.isInterface(modifiers) || Modifier.isEnum(modifiers))
+      {
+         return false;
+      }
+      
+      try 
+      { 
+	      for (Object a : clazz.getAnnotations())
+	      {
+	         if (a instanceof Name)
+	         {
+	            return false;
+	         }
+	      }
+      }
+      catch (ClassNotFoundException e)
+      {
+         throw new RuntimeException(e);
+      }
+      return true;
    }
    
 }
