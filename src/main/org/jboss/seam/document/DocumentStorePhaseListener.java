@@ -8,6 +8,7 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jboss.seam.log.*;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.web.Parameters;
 
@@ -16,6 +17,8 @@ public class DocumentStorePhaseListener
     implements PhaseListener 
 {
     private static final long serialVersionUID = 7308251684939658978L;
+
+    private static final LogProvider log = Logging.getLogProvider(DocumentStorePhaseListener.class);
 
     public PhaseId getPhaseId() 
     {
@@ -59,7 +62,7 @@ public class DocumentStorePhaseListener
                 context.responseComplete();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e);
         }
     }
 
