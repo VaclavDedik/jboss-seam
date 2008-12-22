@@ -1,5 +1,7 @@
 package org.jboss.seam.wicket;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.wicket.IRedirectListener;
 import org.apache.wicket.Request;
 import org.apache.wicket.RequestCycle;
@@ -10,15 +12,27 @@ import org.apache.wicket.markup.html.form.IFormSubmitListener;
 import org.apache.wicket.markup.html.form.IOnChangeListener;
 import org.apache.wicket.markup.html.link.ILinkListener;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.protocol.http.WebRequest;
+import org.apache.wicket.protocol.http.WebRequestCycle;
 import org.apache.wicket.protocol.http.WebRequestCycleProcessor;
+import org.apache.wicket.protocol.http.WebResponse;
 import org.apache.wicket.protocol.http.WebSession;
 import org.apache.wicket.protocol.http.request.WebRequestCodingStrategy;
 import org.apache.wicket.request.IRequestCodingStrategy;
 import org.apache.wicket.request.IRequestCycleProcessor;
 import org.apache.wicket.request.target.component.IBookmarkablePageRequestTarget;
 import org.apache.wicket.request.target.component.listener.IListenerInterfaceRequestTarget;
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.core.Conversation;
+import org.jboss.seam.core.ConversationPropagation;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
+import org.jboss.seam.servlet.ServletRequestSessionMap;
+import org.jboss.seam.web.ServletContexts;
 import org.jboss.seam.wicket.international.SeamStatusMessagesListener;
 
 /**
@@ -30,6 +44,25 @@ import org.jboss.seam.wicket.international.SeamStatusMessagesListener;
 public abstract class SeamWebApplication extends WebApplication
 {
    
+   private static final LogProvider log = Logging.getLogProvider(SeamWebApplication.class);
+
+   /**
+    * When operating in tests, it is sometimes useful to leave the contexts extant
+    * after a request, and destroy them upon the next request, so that models that use injections
+    * can be queried post-request to determine their values. 
+    */
+   protected boolean destroyContextsLazily = false;
+
+   public boolean isDestroyContextsLazily()
+   {
+      return destroyContextsLazily;
+   }
+
+   public void setDestroyContextsLazily(boolean destroyContextsLazily)
+   {
+      this.destroyContextsLazily = destroyContextsLazily;
+   }
+
    /**
     * Custom session with invalidation override. We can't just let Wicket
     * invalidate the session as Seam might have to do some cleaning up to do.
@@ -135,5 +168,92 @@ public abstract class SeamWebApplication extends WebApplication
    }
 
    protected abstract Class getLoginPage();
+
+   /*
+    * Override to provide a seam-specific RequestCycle, which sets up seam contexts.  
+    */
+   @Override
+   public RequestCycle newRequestCycle(final Request request, final Response response)
+   {
+      return new SeamWebRequestCycle(this, (WebRequest)request, (WebResponse)response);
+   }
+   
+   
+   /**
+    * A WebRequestCycle that sets up seam requests.  Essentially this
+    * is similiar to the work of ContextualHttpServletRequest, but using the wicket API
+    * @author cpopetz
+    *
+    */
+   protected static class SeamWebRequestCycle extends WebRequestCycle { 
+      
+      public SeamWebRequestCycle(WebApplication application, WebRequest request, Response response)
+      {
+         super(application, request, response);
+      }
+
+      @Override
+      protected void onBeginRequest() 
+      {
+         HttpServletRequest httpRequest = ((WebRequest)request).getHttpServletRequest();
+
+         if (Contexts.getEventContext() != null && ((SeamWebApplication)getApplication()).isDestroyContextsLazily() && ServletContexts.instance().getRequest() != httpRequest)
+         { 
+            destroyContexts();
+         }
+
+         if (Contexts.getEventContext() == null)
+         {
+            ServletLifecycle.beginRequest(httpRequest);
+            ServletContexts.instance().setRequest(httpRequest);
+            ConversationPropagation.instance().restoreConversationId( request.getParameterMap() );
+            Manager.instance().restoreConversation();
+            ServletLifecycle.resumeConversation(httpRequest);
+            Manager.instance().handleConversationPropagation( request.getParameterMap() );
+
+            // Force creation of the session
+            if (httpRequest.getSession(false) == null)
+            {
+               httpRequest.getSession(true);
+            }
+         }
+         super.onBeginRequest();
+         Events.instance().raiseEvent("org.jboss.seam.wicket.beforeRequest");
+      }  
+
+      @Override
+      protected void onEndRequest() 
+      {
+         // TODO Auto-generated method stub
+         try 
+         { 
+            super.onEndRequest();
+            Events.instance().raiseEvent("org.jboss.seam.wicket.afterRequest");
+         }
+         finally 
+         {
+            if (Contexts.getEventContext() != null && !((SeamWebApplication)getApplication()).isDestroyContextsLazily())
+            {
+               destroyContexts();
+            }
+         }
+      }
+
+      private void destroyContexts() 
+      {
+         try { 
+            HttpServletRequest httpRequest = ((WebRequest)request).getHttpServletRequest();
+            Manager.instance().endRequest( new ServletRequestSessionMap(httpRequest)  );
+            ServletLifecycle.endRequest(httpRequest);
+         }
+	      catch (Exception e)
+	      {
+	         /* Make sure we always clear out the thread locals */
+	         Lifecycle.endRequest();
+	         log.warn("ended request due to exception", e);
+	         throw new RuntimeException(e);
+	      }
+      }
+   }
 
 }

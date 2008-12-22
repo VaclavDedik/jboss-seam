@@ -13,19 +13,19 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.deployment.HotDeploymentStrategy;
-import org.jboss.seam.servlet.ContextualHttpServletRequest;
 
 @Scope(APPLICATION)
 @Name("org.jboss.seam.web.wicketFilter")
@@ -49,6 +49,9 @@ public class WicketFilter extends AbstractFilter
    
    private ClassLoader hotDeployClassLoader;
    
+   /*
+    * Upon initialization and re-initialization, lookup the hot deployment strategy and grab its classloader, if it exists.
+    */
    @Observer(value= { "org.jboss.seam.postInitialization","org.jboss.seam.postReInitialization"} )
    public void postReInitialization() 
    { 
@@ -65,23 +68,20 @@ public class WicketFilter extends AbstractFilter
    
    public void doFilter(final ServletRequest servletRequest, final ServletResponse servletResponse, final FilterChain chain) throws IOException, ServletException
    {
+      /* If there is no delegate, we are a no-op filter */
       if (delegate==null)
       {
          chain.doFilter(servletRequest, servletResponse);
       }
       else
       {
-         new ContextualHttpServletRequest((HttpServletRequest) servletRequest)
-         {
-            @Override
-            public void process() throws Exception 
-            {
+           Init init = (Init) ServletLifecycle.getServletContext().getAttribute( Seam.getComponentName(Init.class) );
                /*
                 * We initialize the delegate on the first actual request and any time the
                 * init timestamp changes, so that the WicketFilter gets reinitialized whenever the
                 * hot deployment classloader detects changes, enabling wicket components to be hot deployed.
                 */
-               if (lastInitTime != Init.instance().getTimestamp())
+           if (init != null && lastInitTime != init.getTimestamp())
                {
                   delegate.destroy();
       
@@ -98,6 +98,10 @@ public class WicketFilter extends AbstractFilter
                  {
                     parameters.put("filterMappingUrlPattern", "/*");
                  }
+                  
+                  /* Let the seam debug flag control the wicket configuration flag (deployment vs. development) */
+                  parameters.put("configuration",init.isDebug() ? "development" : "deployment");
+                  
                  if (getApplicationFactoryClass() != null)
                  {
                     parameters.put("applicationFactoryClassName", getApplicationFactoryClass());
@@ -123,22 +127,24 @@ public class WicketFilter extends AbstractFilter
 			            if (hotDeployClassLoader != null)
 			               Thread.currentThread().setContextClassLoader(previousClassLoader);
 			         }
-                  lastInitTime = Init.instance().getTimestamp();
+              lastInitTime = init.getTimestamp();
                }
                delegate.doFilter(servletRequest, servletResponse, chain);
             }
-            
-         }.run();
       }
-   }
    
    @Override
    public void init(FilterConfig filterConfig) throws ServletException
    {  
       super.init(filterConfig);
-      
-      delegate = (javax.servlet.Filter) Component.getInstance("org.jboss.seam.wicket.web.wicketFilterInstantiator", ScopeType.STATELESS);
-      savedConfig = filterConfig;
+      /* Save the configuration so that we can use it to re-initialize the wicket filter at request time, as 
+       * we may need to do it again if changes are hot deployed.  Also, look up the delegate now, as the presence
+       * of the delegate component implies the presence of the wicket classes themselves.
+       */
+      if (delegate == null) {
+         delegate = (javax.servlet.Filter) Component.getInstance("org.jboss.seam.wicket.web.wicketFilterInstantiator", ScopeType.STATELESS);
+         savedConfig = filterConfig;
+      }
    }
    
    public String getApplicationClass()
