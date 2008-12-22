@@ -158,7 +158,6 @@ public class UICell extends UIRectangle {
         if (horizontalAlignment != null) {
             cell.setHorizontalAlignment(ITextUtils
                     .alignmentValue(horizontalAlignment));
-            System.out.println("!!! " + cell.getHorizontalAlignment());
         }
 
         verticalAlignment = (String) valueBinding(context, "verticalAlignment",
