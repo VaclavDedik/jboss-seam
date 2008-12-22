@@ -321,6 +321,7 @@ public class WicketComponent<T>
    private void add(Constructor<T> constructor)
    {
       if ( constructor.isAnnotationPresent(Begin.class) || 
+            constructor.isAnnotationPresent(org.jboss.seam.wicket.annotations.Begin.class) || 
             constructor.isAnnotationPresent(End.class) || 
             constructor.isAnnotationPresent(StartTask.class) ||
             constructor.isAnnotationPresent(BeginTask.class) ||
@@ -362,6 +363,7 @@ public class WicketComponent<T>
       }
       
       if ( method.isAnnotationPresent(Begin.class) || 
+            method.isAnnotationPresent(org.jboss.seam.wicket.annotations.Begin.class) || 
             method.isAnnotationPresent(End.class) || 
             method.isAnnotationPresent(StartTask.class) ||
             method.isAnnotationPresent(BeginTask.class) ||

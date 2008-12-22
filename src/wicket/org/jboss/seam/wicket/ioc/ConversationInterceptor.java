@@ -125,6 +125,11 @@ public class ConversationInterceptor<T> implements StatelessInterceptor<T>
                   !invocationContext.getAccessibleObject().getAnnotation(Begin.class).join() && 
                   !invocationContext.getAccessibleObject().getAnnotation(Begin.class).nested() 
             ) ||
+            ( 
+                  invocationContext.getAccessibleObject().isAnnotationPresent(org.jboss.seam.wicket.annotations.Begin.class) && 
+                  !invocationContext.getAccessibleObject().getAnnotation(org.jboss.seam.wicket.annotations.Begin.class).join() && 
+                  !invocationContext.getAccessibleObject().getAnnotation(org.jboss.seam.wicket.annotations.Begin.class).nested() 
+            ) ||
             invocationContext.getAccessibleObject().isAnnotationPresent(BeginTask.class) ||
             invocationContext.getAccessibleObject().isAnnotationPresent(StartTask.class) 
          );
@@ -137,6 +142,7 @@ public class ConversationInterceptor<T> implements StatelessInterceptor<T>
       boolean simpleBegin = 
             invocationContext.getAccessibleObject().isAnnotationPresent(StartTask.class) || 
             invocationContext.getAccessibleObject().isAnnotationPresent(BeginTask.class) ||
+            invocationContext.getAccessibleObject().isAnnotationPresent(org.jboss.seam.wicket.annotations.Begin.class) ||
             ( invocationContext.getAccessibleObject().isAnnotationPresent(Begin.class) && invocationContext.getAccessibleObject().getAnnotation(Begin.class).ifOutcome().length==0 );
       if ( simpleBegin )
       {
@@ -146,6 +152,10 @@ public class ConversationInterceptor<T> implements StatelessInterceptor<T>
             if ( invocationContext.getAccessibleObject().isAnnotationPresent(Begin.class) )
             {
                nested = invocationContext.getAccessibleObject().getAnnotation(Begin.class).nested();
+            }
+            else if ( invocationContext.getAccessibleObject().isAnnotationPresent(org.jboss.seam.wicket.annotations.Begin.class) )
+            {
+               nested = invocationContext.getAccessibleObject().getAnnotation(org.jboss.seam.wicket.annotations.Begin.class).nested();
             }
             beginConversation( nested, getProcessDefinitionName(invocationContext) );
             setFlushMode(invocationContext); //TODO: what if conversation already exists? Or a nested conversation?
@@ -172,6 +182,10 @@ public class ConversationInterceptor<T> implements StatelessInterceptor<T>
       if (invocationContext.getAccessibleObject().isAnnotationPresent(Begin.class))
       {
          flushMode = invocationContext.getAccessibleObject().getAnnotation(Begin.class).flushMode();
+      }
+      else if (invocationContext.getAccessibleObject().isAnnotationPresent(org.jboss.seam.wicket.annotations.Begin.class))
+      {
+         flushMode = invocationContext.getAccessibleObject().getAnnotation(org.jboss.seam.wicket.annotations.Begin.class).flushMode();
       }
       else if (invocationContext.getAccessibleObject().isAnnotationPresent(BeginTask.class))
       {
