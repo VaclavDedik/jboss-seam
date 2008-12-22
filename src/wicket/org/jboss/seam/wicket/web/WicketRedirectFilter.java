@@ -2,7 +2,6 @@ package org.jboss.seam.wicket.web;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.FRAMEWORK;
-import static org.jboss.seam.core.Manager.REDIRECT_FROM_MANAGER;
 
 import java.io.IOException;
 
@@ -13,6 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
+import org.apache.wicket.Application;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -29,7 +29,7 @@ import org.jboss.seam.wicket.WicketManager;
  * @author 
  */
 @Scope(APPLICATION)
-@Name("org.jboss.seam.web.redirectFilter")
+@Name("org.jboss.seam.wicket.web.redirectFilter")
 @Install(precedence = FRAMEWORK, classDependencies="org.apache.wicket.Application")
 @BypassInterceptors
 @Filter
@@ -49,7 +49,7 @@ public class WicketRedirectFilter extends AbstractFilter
          @Override
          public void sendRedirect(String url) throws IOException
          {
-            if ( Contexts.isEventContextActive() && !Contexts.getEventContext().isSet(REDIRECT_FROM_MANAGER) )
+            if ( Application.exists() && Contexts.isEventContextActive()) 
             {
                if ( Contexts.isConversationContextActive() )
                {
