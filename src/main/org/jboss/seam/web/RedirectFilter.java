@@ -52,7 +52,9 @@ public class RedirectFilter extends AbstractFilter
          @Override
          public void sendRedirect(String url) throws IOException
          {
-            if ( Contexts.isEventContextActive() && !Contexts.getEventContext().isSet(REDIRECT_FROM_MANAGER) )
+            if ( FacesContext.getCurrentInstance() != null 
+                  && Contexts.isEventContextActive() 
+                  && !Contexts.getEventContext().isSet(REDIRECT_FROM_MANAGER) )
             {
                if ( !url.startsWith("http:") && !url.startsWith("https:") ) //yew!
                {
