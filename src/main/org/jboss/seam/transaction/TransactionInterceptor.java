@@ -104,9 +104,9 @@ public class TransactionInterceptor extends AbstractInterceptor
          private boolean isNewTransactionRequired(Method method, Class beanClass, boolean transactionActive)
          {
             TransactionMetadata metadata = lookupTransactionMetadata(method);
-            if (metadata.isNewTransactionRequired(transactionActive))
+            if (metadata.isAnnotationPresent())
             {
-               return true;
+               return metadata.isNewTransactionRequired(transactionActive);
             }
             else
             {
