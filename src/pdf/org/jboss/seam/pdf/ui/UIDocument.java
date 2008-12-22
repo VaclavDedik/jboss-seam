@@ -275,24 +275,17 @@ public class UIDocument extends ITextComponent
 
    protected void processHeaders()
    {
-      Object facet = getFacet("header");
+       UIComponent facet = getFacet("header");
 
-      if (facet == null)
-      {
-         return;
-      }
+       if (facet == null) {
+           return;
+       }
 
-      if (facet instanceof UIComponent)
-      {
-         try
-         {
-            encode(FacesContext.getCurrentInstance(), (UIComponent) facet);
-         }
-         catch (Exception e)
-         {
-            throw new RuntimeException(e);
-         }
-      }
+       try {
+           encode(FacesContext.getCurrentInstance(), facet);
+       } catch (Exception e) {
+           throw new RuntimeException(e);
+       }
    }
 
    protected String baseNameForViewId(String viewId)
