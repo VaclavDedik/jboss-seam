@@ -349,7 +349,7 @@ public class Initialization
 			   }
 			   catch (Exception e) 
 			   {
-               throw new RuntimeException("Error loading element " + elemName + " with component name " + name + " and component class " + className);
+               throw new RuntimeException("Error loading element " + elemName + " with component name " + name + " and component class " + className,e);
             }
 
 			   //finally, if we could not get the name from the XML name attribute,
