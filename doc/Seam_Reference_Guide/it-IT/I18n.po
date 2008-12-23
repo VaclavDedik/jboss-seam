@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: I18n\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2008-12-23 00:41+0100\n"
+"PO-Revision-Date: 2008-12-23 16:08+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: Italian <stefano.travelli@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -97,7 +97,7 @@ msgstr "I resource bundles devono essere creati in ASCII, oppure devono utilizza
 #: I18n.xml:73
 #, no-c-format
 msgid "You can write your translation of labels (<xlink linkend=\"labels\">Labels</xlink>) to your messages resource bundle in the native encoding and then convert the content of the file into the escaped format through the tool <literal>native2ascii</literal> provided in the JDK. This tool will convert a file written in your native encoding to one that represents non-ASCII characters as Unicode escape sequences."
-msgstr "E' possibile scrivere la traduzione delle etichette (<xlink linked=\"labels\">Etichette</xlink>) nei resource bundles in corrispondenza della codifica originale e poi convertire il contenuto del file nel formato con le notazioni Unicode attraverso lo strumento <literal>native2ascii</literal> fornito con JDK. Questo strumento converte un file scritto nella codifica originale in uno dove i caratteri non-ASCII sono rappresentati come sequenze di notazioni Unicode."
+msgstr "E' possibile scrivere la traduzione delle etichette (<xlink linked=\"labels\">Etichette</xlink>) nei resource bundles con la codifica del proprio sistema e poi convertire il contenuto del file nel formato con le notazioni Unicode attraverso lo strumento <literal>native2ascii</literal> fornito con JDK. Questo strumento converte un file scritto nella codifica originale in uno dove i caratteri non-ASCII sono rappresentati come sequenze di notazioni Unicode."
 
 #. Tag: para
 #: I18n.xml:83
