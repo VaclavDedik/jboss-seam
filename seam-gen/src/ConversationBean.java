@@ -6,7 +6,6 @@ import javax.ejb.Stateful;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.End;
-import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.log.Log;
 
@@ -48,7 +47,7 @@ public class @beanName@ implements @interfaceName@, Serializable
         return value;
     }
   
-    @Destroy @Remove
+    @Remove
     public void destroy() {}
 
 }

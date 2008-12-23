@@ -4,7 +4,6 @@ import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.international.StatusMessages;
@@ -40,7 +39,7 @@ public class @beanName@ implements @interfaceName@
         this.value = value;
     }
 
-    @Destroy @Remove
+    @Remove
     public void destroy() {}
 
 }
