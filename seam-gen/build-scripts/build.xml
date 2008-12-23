@@ -255,8 +255,7 @@
     <target name="datasource">
         <fail unless="jboss.home">jboss.home not set</fail>
         <copy file="${basedir}/resources/${project.name}-${profile}-ds.xml"
-            tofile="${deploy.dir}/${project.name}-ds.xml"
-            overwrite="true"/>
+            tofile="${deploy.dir}/${project.name}-ds.xml"/>
     </target>
 
     <target name="explode" depends="stage,datasource"
