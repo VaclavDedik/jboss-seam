@@ -17,6 +17,7 @@ import org.jboss.seam.document.DocumentData.DocumentType;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;
+import org.jboss.seam.core.ResourceLoader;
 
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.AcroFields;
@@ -47,13 +48,12 @@ public class UIForm extends FormComponent {
 
     @Override
     public void encodeBegin(FacesContext facesContext) throws IOException {
+        log.info("Loading template #0", getURL());
         if (getURL().indexOf("://") < 0) {
-            reader = new PdfReader(getClass().getClassLoader()
-                    .getResourceAsStream(getURL()));
+            reader = new PdfReader(ResourceLoader.instance().getResourceAsStream(getURL()));
         } else {
             reader = new PdfReader(new URL(getURL()));
         }
-        log.debug("Loading template #0", getURL());
         buffer = new ByteArrayOutputStream();
         try {
             stamper = new PdfStamper(reader, buffer);

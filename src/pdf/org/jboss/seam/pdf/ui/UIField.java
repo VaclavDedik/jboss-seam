@@ -42,7 +42,12 @@ public class UIField extends FormComponent
          if (theValue instanceof String) {
              success = fields.setField(theName, (String) theValue);
          } else if (theValue instanceof String[]){
-             success = fields.setField(theName, ((String[])theValue)[0]);
+	     String[] stringValue = (String[])theValue;
+	     if (stringValue.length>0) {
+                 success = fields.setField(theName, stringValue[0]);
+	     } else {
+		 success = true;
+	     }
          } else {
              String message = Interpolator.instance().interpolate("Field #0 expected String or String[] but got #0", getName(), theValue.getClass().getName());
              throw new IllegalArgumentException(message);
