@@ -257,7 +257,7 @@
             In order for the app to work out of the box with GlassFish, we have
             used the Derby (aka JavaDB) database in GlassFish. However, we
             strongly recommend that you use another database (e.g. HSQL). 
-            <literal>examples/jpa/resources-glassfish/WEB-INF/classes/GlassFishDerbyDialect.class</literal>
+            <literal>examples/jpa/resources-glassfish/WEB-INF/classes/GlassfishDerbyDialect.class</literal>
             is a hack to get around a Derby bug in GlassFish server. You must 
             use it as your Hibernate dialect if you use Derby with GlassFish.
          </note>
@@ -278,14 +278,14 @@
                         changes needed are the datasource JNDI, switching to the
                         GlassFish transaction manager lookup class, and 
                         changing the hibernate dialect to be
-                        <literal>GlassFishDerbyDialect</literal>.
+                        <literal>GlassfishDerbyDialect</literal>.
                      </para>
                   </listitem>
                   <listitem>
                      <para>
-                        <literal>WEB-INF/classes/GlassFishDerbyDialect.class</literal>
+                        <literal>WEB-INF/classes/GlassfishDerbyDialect.class</literal>
                         — this class is needed for the Hibernate dialect change 
-                        to <literal>GlassFishDerbyDialect</literal>
+                        to <literal>GlassfishDerbyDialect</literal>
                      </para>
                   </listitem>
                   <listitem>
@@ -439,7 +439,7 @@ Total time: 4 minutes 5 seconds]]></programlisting>
                               The key differences are briefly described in 
                               <xref linkend="glassfish_jpa_diff" />:
                            </para>
-                           <programlisting role="XML"><![CDATA[<property name="hibernate.dialect" value="GlassFishDerbyDialect"/>
+                           <programlisting role="XML"><![CDATA[<property name="hibernate.dialect" value="GlassfishDerbyDialect"/>
 <property name="hibernate.hbm2ddl.auto" value="update"/>
 <property name="hibernate.show_sql" value="true"/>
 <property name="hibernate.format_sql" value="true"/>
@@ -459,7 +459,7 @@ Total time: 4 minutes 5 seconds]]></programlisting>
                </varlistentry>
                <varlistentry>
                   <term>
-                     <literal>resources/GlassFishDerbyDialect.class</literal>
+                     <literal>resources/GlassfishDerbyDialect.class</literal>
                   </term>
                   <listitem>
                      <para>
@@ -469,7 +469,7 @@ Total time: 4 minutes 5 seconds]]></programlisting>
                         <literal>seamgen_example/resources</literal> directory.
                      </para>
                      <programlisting>$ cp \ 
-$SEAM_DIST/examples/jpa/resources-glassfish/WEB-INF/classes/GlassFishDerbyDialect.class \ 
+$SEAM_DIST/examples/jpa/resources-glassfish/WEB-INF/classes/GlassfishDerbyDialect.class \ 
 ./resources
                      </programlisting>
                   </listitem>
@@ -651,9 +651,9 @@ public interface Authenticator {
                </listitem>
                <listitem>
                   <para>
-                     We need to get the <literal>GlassFishDerbyDialect.class</literal>
+                     We need to get the <literal>GlassfishDerbyDialect.class</literal>
                      into our application jar. To do that find the <literal>jar</literal>
-                     task and add the <literal>GlassFishDerbyDialect.class</literal>
+                     task and add the <literal>GlassfishDerbyDialect.class</literal>
                      line as shown below:
                   </para>
 
@@ -662,7 +662,7 @@ public interface Authenticator {
       <fileset dir="${basedir}/resources">
          <include name="seam.properties" />
          <include name="*.drl" />
-         <include name="GlassFishDerbyDialect.class" />
+         <include name="GlassfishDerbyDialect.class" />
       </fileset> 
    </copy>
    ...]]></programlisting>
