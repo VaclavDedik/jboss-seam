@@ -13,11 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.navigation.Pages;
+import org.jboss.seam.log.*;
 
 @SuppressWarnings("serial")
 public class OpenIdPhaseListener 
     implements PhaseListener
 {
+    private transient LogProvider log = Logging.getLogProvider(OpenIdPhaseListener.class);
 
     @SuppressWarnings("unchecked")
     public void beforePhase(PhaseEvent event)
@@ -33,8 +35,7 @@ public class OpenIdPhaseListener
             try {
                 sendXRDS();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+		log.error(e);
             }
             return;
         }

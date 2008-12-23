@@ -8,6 +8,8 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.jboss.seam.log.*;
+
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
@@ -35,6 +37,8 @@ import org.openid4java.message.ax.FetchResponse;
 public class OpenId 
     implements Serializable
 {
+    private transient LogProvider log = Logging.getLogProvider(OpenId.class);
+
     String id;
     String validatedId;
 
@@ -113,7 +117,7 @@ public class OpenId
 
             return authReq.getDestinationUrl(true);
         } catch (OpenIDException e)  {
-            e.printStackTrace();
+	    log.error(e);
         }
         
         return null;
@@ -172,14 +176,12 @@ public class OpenId
                 AuthSuccess authSuccess =
                     (AuthSuccess) verification.getAuthResponse();
                 
-                System.out.println("*** EXT: " + authSuccess.getExtensions());
                 if (authSuccess.hasExtension(AxMessage.OPENID_NS_AX)) {
                     FetchResponse fetchResp = (FetchResponse) authSuccess
                         .getExtension(AxMessage.OPENID_NS_AX);
                     
                     List emails = fetchResp.getAttributeValues("email");
                     String email = (String) emails.get(0);
-                    System.out.println("XXX email is " + email);
                 }
                 
                 return verified.getIdentifier();
