@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: I18n\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2008-12-23 16:08+0100\n"
+"PO-Revision-Date: 2008-12-24 09:28+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: Italian <stefano.travelli@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -181,7 +181,7 @@ msgstr "Altrimenti viene usata la lingua di default del server."
 #: I18n.xml:153
 #, no-c-format
 msgid "It is <emphasis>possible</emphasis> to set the locale manually via the Seam configuration properties <literal> org.jboss.seam.international.localeSelector.language</literal>, <literal> org.jboss.seam.international.localeSelector.country</literal> and <literal> org.jboss.seam.international.localeSelector.variant</literal>, but we can't think of any good reason to ever do this."
-msgstr "E' <emphasis>possibile</emphasis> impostare la lingua manualmente tramite le proprietà di configurazione di Seam <litera>org.jboss.seam.international.localeSelector.language</literal>, <literal>org.jboss.seam.international.localeSelector.country</literal> e <literal>org.jboss.seam.internationale.localeSelector.variant</literal>, ma non c'è una vera buona ragione per farlo."
+msgstr "E' <emphasis>possibile</emphasis> impostare la lingua manualmente tramite le proprietà di configurazione di Seam <literal>org.jboss.seam.international.localeSelector.language</literal>, <literal>org.jboss.seam.international.localeSelector.country</literal> e <literal>org.jboss.seam.internationale.localeSelector.variant</literal>, ma non c'è una vera buona ragione per farlo."
 
 #. Tag: para
 #: I18n.xml:160
@@ -214,7 +214,7 @@ msgstr ""
 #: I18n.xml:168
 #, no-c-format
 msgid "Or, if you want a list of all supported locales from <literal> faces-config.xml</literal>, just use:"
-msgstr "Oppure, se si vuole mostrare una lista delle lingue gestite da <litera>faces-config.xml</literal>, si può usare:"
+msgstr "Oppure, se si vuole mostrare una lista delle lingue gestite da <literal>faces-config.xml</literal>, si può usare:"
 
 #. Tag: programlisting
 #: I18n.xml:171
@@ -458,7 +458,7 @@ msgstr ""
 #: I18n.xml:290
 #, no-c-format
 msgid "This will display <literal>Hello, Gavin King</literal> or <literal>G'day, Gavin</literal>, depending upon the user's locale."
-msgstr "Questo mostrerà <literal>Hello, Gavin King</litera> oppure <literal>G'day, Gavin</literal>, a seconda della lingua dell'utente."
+msgstr "Questo mostrerà <literal>Hello, Gavin King</literal> oppure <literal>G'day, Gavin</literal>, a seconda della lingua dell'utente."
 
 #. Tag: title
 #: I18n.xml:297

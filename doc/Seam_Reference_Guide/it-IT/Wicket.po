@@ -1,113 +1,91 @@
 # Language it-IT translations for Seam_Reference_Guide package.
-# Automatically generated, 2008.
 #
+# Automatically generated, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: Seam_Reference_Guide \n"
+"Project-Id-Version: Seam_Reference_Guide\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:24+0000\n"
-"PO-Revision-Date: 2008-10-14 11:39+0000\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2008-12-24 09:35+0100\n"
+"Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
+"Language-Team: Italian <stefano.travelli@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 0.2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Tag: title
 #: Wicket.xml:6
 #, no-c-format
 msgid "Writing your presentation layer using Apache Wicket"
-msgstr ""
+msgstr "Scrivere la parte di presentazione usando Apache Wicket"
 
 #. Tag: para
 #: Wicket.xml:8
 #, no-c-format
-msgid ""
-"Seam supports Wicket as an alternative presentation layer to JSF. Take a "
-"look at the <code>wicket</code> example in Seam which shows the Booking "
-"Example ported to Wicket."
-msgstr ""
+msgid "Seam supports Wicket as an alternative presentation layer to JSF. Take a look at the <code>wicket</code> example in Seam which shows the Booking Example ported to Wicket."
+msgstr "Seam supporta Wicket come uno strato di presentazione alternativo a JSF. Si guardi l'esempio <code>wicket</code> in Seam che illustra l'esempio Booking riscritto per Wicket."
 
 #. Tag: para
 #: Wicket.xml:15
 #, no-c-format
-msgid ""
-"Wicket support is new to Seam, so some features which are available in JSF "
-"are not yet available when you use Wicket (e.g. pageflow). You'll also "
-"notice that the documentation is very JSF-centric and needs reorganization "
-"to reflect the first class support for Wicket."
-msgstr ""
+msgid "Wicket support is new to Seam, so some features which are available in JSF are not yet available when you use Wicket (e.g. pageflow). You'll also notice that the documentation is very JSF-centric and needs reorganization to reflect the first class support for Wicket."
+msgstr "Il supporto Wicket è nuovo in Seam, perciò alcune caratteristiche che sono disponibili in JSF non sono ancora disponibili quando viene usato Wicket (ad esempio il pageflow). Si potrà notare inoltre che la documentazione è molto centrata su JSF e necessita di una riorganizzazione per riflettere il supporto di prima categoria per Wicket."
 
 #. Tag: title
 #: Wicket.xml:25
 #, no-c-format
 msgid "Adding Seam to your wicket application"
-msgstr ""
+msgstr "Aggiungere Seam ad un'applicazione Wicket"
 
 #. Tag: para
 #: Wicket.xml:27
 #, no-c-format
-msgid ""
-"The features added to your Wicket application can be split into two "
-"categories: bijection and orchestration; these are discussed in detail below."
-msgstr ""
+msgid "The features added to your Wicket application can be split into two categories: bijection and orchestration; these are discussed in detail below."
+msgstr "Le caratteristiche aggiunte ad un'applicazione Wicket possono essere divise in due categorie: la bijection e l'orchestrazione. Esse vengono discusse in dettaglio di seguito."
 
 #. Tag: para
 #: Wicket.xml:33
 #, no-c-format
-msgid ""
-"Extensive use of inner classes is common when building Wicket applications, "
-"with the component tree being built in the constructor. Seam fully supports "
-"the use of annotation based control in inner classes and constructors "
-"(unlike regular Seam components)."
-msgstr ""
+msgid "Extensive use of inner classes is common when building Wicket applications, with the component tree being built in the constructor. Seam fully supports the use of annotation based control in inner classes and constructors (unlike regular Seam components)."
+msgstr "E' comune un uso intensivo di classi interne (inner class) quando si costruisce un'applicazione Wicket, in cui l'albero dei componenti viene generato nel costruttore. Seam gestisce pienamente l'uso di annotazioni di controllo nelle inner class e nei costruttori (a differenza che nei componenti Seam normali)."
 
 #. Tag: para
 #: Wicket.xml:40
 #, no-c-format
-msgid ""
-"Annotations are processed <emphasis>after</emphasis> any call to a "
-"superclass. This mean's that any injected attributes cannot be passed as an "
-"argument in a call to <code>this()</code> or <code>super()</code>."
-msgstr ""
+msgid "Annotations are processed <emphasis>after</emphasis> any call to a superclass. This mean's that any injected attributes cannot be passed as an argument in a call to <code>this()</code> or <code>super()</code>."
+msgstr "Le annotazioni sono elaborate <emphasis>dopo</emphasis> ogni chiamata alla superclasse. Ciò significa che qualsiasi attributo iniettato non può essere passato come argomento in una chiamata a <code>this()</code> o <code>super()</code>."
 
 #. Tag: para
 #: Wicket.xml:48
 #, no-c-format
 msgid "We are working to improve this."
-msgstr ""
+msgstr "Stiamo lavorando per migliorare questo aspetto."
 
 #. Tag: para
 #: Wicket.xml:53
 #, no-c-format
-msgid ""
-"When a method is called in an inner class, bijection occurs for any class "
-"which encloses it. This allows you to place your bijected variables in the "
-"outer class, and refer to them in any inner class."
-msgstr ""
+msgid "When a method is called in an inner class, bijection occurs for any class which encloses it. This allows you to place your bijected variables in the outer class, and refer to them in any inner class."
+msgstr "Quando un metodo è chiamato in una inner class, la bijection avviene per ogni classe che la contiene. Ciò consente di posizionare le variabili bi-iniettabili nella classe esterna e riferirsi ad esse in qualsiasi inner class."
 
 #. Tag: title
 #: Wicket.xml:60
 #, no-c-format
 msgid "Bijection"
-msgstr ""
+msgstr "Bijection"
 
 #. Tag: para
 #: Wicket.xml:62
 #, no-c-format
-msgid ""
-"A Seam enabled Wicket application has full access to the all the standard "
-"Seam contexts (<code>EVENT</code>, <code>CONVERSATION</code>, <code>SESSION</"
-"code>, <code>APPLICATION</code> and <code>BUSINESS_PROCESS</code>)."
-msgstr ""
+msgid "A Seam enabled Wicket application has full access to the all the standard Seam contexts (<code>EVENT</code>, <code>CONVERSATION</code>, <code>SESSION</code>, <code>APPLICATION</code> and <code>BUSINESS_PROCESS</code>)."
+msgstr "Un'applicazione Wicket abilitata per Seam ha accesso completo a tutti i contesti Seam standard (<code>EVENT</code>, <code>CONVERSATION</code>, <code>SESSION</code>, <code>APPLICATION</code> e <code>BUSINESS_PROCESS</code>)."
 
 #. Tag: para
 #: Wicket.xml:69
 #, no-c-format
-msgid ""
-"To access Seam component's from Wicket, you just need to inject it using "
-"<code>@In</code>:"
-msgstr ""
+msgid "To access Seam component's from Wicket, you just need to inject it using <code>@In</code>:"
+msgstr "Per accedere ai componenti Seam da Wicket basta iniettarli usando <code>@In</code>:"
 
 #. Tag: programlisting
 #: Wicket.xml:74
@@ -116,22 +94,20 @@ msgid ""
 "<![CDATA[@In(create=true)\n"
 "private HotelBooking hotelBooking;]]>"
 msgstr ""
+"<![CDATA[@In(create=true)\n"
+"private HotelBooking hotelBooking;]]>"
 
 #. Tag: para
 #: Wicket.xml:77
 #, no-c-format
-msgid ""
-"As your Wicket class isn't a full Seam component, there is no need to "
-"annotate it <code>@Name</code>."
-msgstr ""
+msgid "As your Wicket class isn't a full Seam component, there is no need to annotate it <code>@Name</code>."
+msgstr "Poiché la classe Wicket non è un componente Seam completo, non c'è bisogno di annotarla con <code>@Name</code>."
 
 #. Tag: para
 #: Wicket.xml:83
 #, no-c-format
-msgid ""
-"You can also outject an object into the Seam contexts from a Wicket "
-"component:"
-msgstr ""
+msgid "You can also outject an object into the Seam contexts from a Wicket component:"
+msgstr "E' anche possibile fare l'outject di un oggetto da un componente Wicket nei contesti Seam:"
 
 #. Tag: programlisting
 #: Wicket.xml:88
@@ -140,36 +116,34 @@ msgid ""
 "<![CDATA[@Out(scope=ScopeType.EVENT, required=false)\n"
 "private String verify;]]>"
 msgstr ""
+"<![CDATA[@Out(scope=ScopeType.EVENT, required=false)\n"
+"private String verify;]]>"
 
 #. Tag: para
 #: Wicket.xml:90
 #, no-c-format
 msgid "TODO Make this more use case driven"
-msgstr ""
+msgstr "TODO Rendere questa parte più orientata allo use case"
 
 #. Tag: title
 #: Wicket.xml:97
 #, no-c-format
 msgid "Orchestration"
-msgstr ""
+msgstr "Orchestrazione"
 
 #. Tag: para
 #: Wicket.xml:99
 #, no-c-format
-msgid ""
-"You can secure a Wicket component by using the <code>@Restrict</code> "
-"annotation. This can be placed on the outer component or any inner "
-"components. If <code>@Restrict</code> is specified, the component will "
-"automatically be restricted to logged in users. You can optionally use an EL "
-"expression in the <code>value</code> attribute to specify a restriction to "
-"be applied. For more refer to the <xref linkend=\"security\"/>."
-msgstr ""
+msgid "You can secure a Wicket component by using the <code>@Restrict</code> annotation. This can be placed on the outer component or any inner components. If <code>@Restrict</code> is specified, the component will automatically be restricted to logged in users. You can optionally use an EL expression in the <code>value</code> attribute to specify a restriction to be applied. For more refer to the <xref linkend=\"security\"/>."
+msgstr "E' possibile abilitare la sicurezza di un componente Wicket usando l'annotazione <code>@Restrict</code>. Questa può essere messa nel componente più esterno o in qualsiasi componente interno. Se viene indicato <code>@Restrict</code>, l'accesso al componente verrà automaticamente limitato agli utenti registrati. Facoltativamente è possibile usare un'espressione EL nell'attributo <code>value</code> per specificare la restrizione da applicare. Per maggiori dettagli vedi <xref linkend=\"security\"/>."
 
 #. Tag: para
-#: Wicket.xml:109 Wicket.xml:136 Wicket.xml:211
+#: Wicket.xml:109
+#: Wicket.xml:136
+#: Wicket.xml:211
 #, no-c-format
 msgid "For example:"
-msgstr ""
+msgstr "Ad esempio:"
 
 #. Tag: programlisting
 #: Wicket.xml:113
@@ -180,28 +154,28 @@ msgid ""
 "\n"
 "   ...]]>"
 msgstr ""
+"<![CDATA[@Restrict\n"
+"public class Main extends WebPage {\n"
+"\n"
+"   ...]]>"
 
 #. Tag: para
 #: Wicket.xml:116
 #, no-c-format
 msgid "Seam will automatically apply the restriction to any nested classes."
-msgstr ""
+msgstr "Seam applicherà automaticamente la restrizione ad ogni classe interna."
 
 #. Tag: para
 #: Wicket.xml:122
 #, no-c-format
-msgid ""
-"You can demarcate conversations from within a Wicket component through the "
-"use of <code>@Begin</code> and <code>@End</code>. The semantics for these "
-"annotations are the same as when used in a Seam component. You can place "
-"<code>@Begin</code> and <code>@End</code> on any method."
-msgstr ""
+msgid "You can demarcate conversations from within a Wicket component through the use of <code>@Begin</code> and <code>@End</code>. The semantics for these annotations are the same as when used in a Seam component. You can place <code>@Begin</code> and <code>@End</code> on any method."
+msgstr "E' possibile demarcare le conversazioni da un componente Wicket attraverso l'uso di <code>@Begin</code> e <code>@End</code>. La semantica di queste annotazioni è la stessa di quando sono usate nei componenti Seam. E' possibile mettere <code>@Begin</code> e <code>@End</code> in qualsiasi metodo."
 
 #. Tag: para
 #: Wicket.xml:131
 #, no-c-format
 msgid "The deprecated <code>ifOutcome</code> attribute is not supported."
-msgstr ""
+msgstr "L'attributo deprecato <code>ifOutcome</code> non è gestito."
 
 #. Tag: programlisting
 #: Wicket.xml:140
@@ -217,15 +191,21 @@ msgid ""
 "   }\n"
 "};]]>"
 msgstr ""
+"<![CDATA[item.add(new Link(\"viewHotel\") {\n"
+"\n"
+"   @Override\n"
+"   @Begin\n"
+"   public void onClick() {\n"
+"      hotelBooking.selectHotel(hotel);\n"
+"      setResponsePage(org.jboss.seam.example.wicket.Hotel.class);\n"
+"   }\n"
+"};]]>"
 
 #. Tag: para
 #: Wicket.xml:142
 #, no-c-format
-msgid ""
-"You may have pages in your application which can only be accessed when the "
-"user has a long-running conversation active. To enforce this you can use the "
-"<code>@NoConversationPage</code> annotation:"
-msgstr ""
+msgid "You may have pages in your application which can only be accessed when the user has a long-running conversation active. To enforce this you can use the <code>@NoConversationPage</code> annotation:"
+msgstr "E' possibile che l'applicazione abbia delle pagine che possono essere visitate solo quando l'utente ha una conversazione lunga (long-running conversation) attiva. Per imporre questo criterio è possibile usare l'annotazione <code>@NoConversationPage</code>:"
 
 #. Tag: programlisting
 #: Wicket.xml:148
@@ -235,53 +215,39 @@ msgid ""
 "@NoConversationPage(Main.class)\n"
 "public class Hotel extends WebPage {]]>"
 msgstr ""
+"<![CDATA[@Restrict\n"
+"@NoConversationPage(Main.class)\n"
+"public class Hotel extends WebPage {]]>"
 
 #. Tag: para
 #: Wicket.xml:150
 #, no-c-format
-msgid ""
-"If you want to further decouple your application classes, you can use Seam "
-"events. Of course, you can raise an event using <code>Events.instance()."
-"raiseEvent(\"foo\")</code>. Alternatively, you can annotate a method "
-"<code>@RaiseEvent(\"foo\")</code>; if the method returns a non-null outcome "
-"without exception, the event will be raised."
-msgstr ""
+msgid "If you want to further decouple your application classes, you can use Seam events. Of course, you can raise an event using <code>Events.instance().raiseEvent(\"foo\")</code>. Alternatively, you can annotate a method <code>@RaiseEvent(\"foo\")</code>; if the method returns a non-null outcome without exception, the event will be raised."
+msgstr "Se si vogliono ulteriormente disaccoppiare le classi dell'applicazione è possibile usare gli eventi Seam. Naturalmente è possibile lanciare un evento usando <code>Events.instance().raiseEvent(\"pippo\")</code>. In alternativa è possibile annotare un metodo con <code>@RaiseEvent(\"pippo\")</code>; se il metodo restituisce un valore non nullo senza eccezioni, l'evento verrà lanciato."
 
 #. Tag: para
 #: Wicket.xml:159
 #, no-c-format
-msgid ""
-"You can also control tasks and processes in Wicket classes through the use "
-"of <code>@CreateProcess</code>, <code>@ResumeTask</code>, <code>@BeginTask</"
-"code>, <code>@EndTask</code>, <code>@StartTask</code> and <code>@Transition</"
-"code>."
-msgstr ""
+msgid "You can also control tasks and processes in Wicket classes through the use of <code>@CreateProcess</code>, <code>@ResumeTask</code>, <code>@BeginTask</code>, <code>@EndTask</code>, <code>@StartTask</code> and <code>@Transition</code>."
+msgstr "E' anche possibile controllare task e processi nelle classi Wicket attraverso l'uso di <code>@CreateProcess</code>, <code>@ResumeTask</code>, <code>@BeginTask</code>, <code>@EndTask</code>, <code>@StartTask</code> e <code>@Transition</code>."
 
 #. Tag: para
 #: Wicket.xml:166
 #, no-c-format
 msgid "TODO - Implement BPM control - JBSEAM-3194"
-msgstr ""
+msgstr "TODO - Realizzare il controllo BPM - JBSEAM-3194"
 
 #. Tag: title
 #: Wicket.xml:174
 #, no-c-format
 msgid "Setting up your project"
-msgstr ""
+msgstr "Impostare il progetto"
 
 #. Tag: para
 #: Wicket.xml:176
 #, no-c-format
-msgid ""
-"Seam needs to instrument the bytecode of your Wicket classes to be able to "
-"intercept the annotations you use. Seam provides two ways to do this.The "
-"first is to place your classes in <code>WEB-INF/wicket</code>. Seam will "
-"look for classes placed in this directory at startup and instrument them. An "
-"alternative approach, which can be used alongside the first, is to use an "
-"ant task for instrumention. Seam provides such a task; it is packaged in "
-"<literal>jboss-seam-wicket-ant.jar </literal>, and can be used in the "
-"following manner:"
-msgstr ""
+msgid "Seam needs to instrument the bytecode of your Wicket classes to be able to intercept the annotations you use. Seam provides two ways to do this.The first is to place your classes in <code>WEB-INF/wicket</code>. Seam will look for classes placed in this directory at startup and instrument them. An alternative approach, which can be used alongside the first, is to use an ant task for instrumention. Seam provides such a task; it is packaged in <literal>jboss-seam-wicket-ant.jar </literal>, and can be used in the following manner:"
+msgstr "Seam ha bisogno di intervenire sul bytecode delle classi Wicket in modo da poter intercettare le annotazioni usate. Seam fornisce due modi per fare questo. Il primo è di mettere le classi in <code>WEB-INF/wicket</code>. Seam cercherà le classi messe in questa cartella durante l'avvio e interverrà sul loro bytecode. Un approccio alternativo, che può essere utilizzato insieme al primo, è di usare un task ant per modificare il bytecode. Seam fornisce questo task: è contenuto in <literal>jboss-seam-wicket-ant.jar</literal> e può essere usato nel seguento modo: "
 
 #. Tag: programlisting
 #: Wicket.xml:186
@@ -302,55 +268,50 @@ msgid ""
 "  <fileset dir=\"${build.classes}\" includes=\"**/*.class\"/>\n"
 "</instrumentWicket>]]>"
 msgstr ""
+"<![CDATA[<taskdef name=\"instrumentWicket\" \n"
+"   classname=\"org.jboss.seam.wicket.ioc.WicketInstrumentationTask\">\n"
+"  <classpath>\n"
+"    <pathelement location=\"lib/jboss-seam-wicket-ant.jar\"/>\n"
+"    <pathelement location=\"web/WEB-INF/lib/jboss-seam-wicket.jar\"/>\n"
+"    <pathelement location=\"lib/javassist.jar\"/>\n"
+"    <pathelement location=\"lib/jboss-seam.jar\"/>\n"
+"  </classpath>\n"
+"</taskdef>\n"
+"\n"
+"<instrumentWicket outputDirectory=\"${build.instrumented}\">\n"
+"  <classpath refid=\"build.classpath\"/>\n"
+"  <fileset dir=\"${build.classes}\" includes=\"**/*.class\"/>\n"
+"</instrumentWicket>]]>"
 
 #. Tag: para
 #: Wicket.xml:187
 #, no-c-format
-msgid ""
-"Then have ant copy the instrumented classes in <literal>${build.instrumented}"
-"</literal> into <literal>WEB-INF/classes</literal>. If you want to hot "
-"deploy the Wicket components, you can copy the instrumented classes to "
-"<literal>WEB-INF/dev</literal>; if you use hot deploy, make sure that your "
-"<literal>WicketApplication</literal> class is also hot-deployed. Upon a "
-"reload of hot-deployed classes, the entire WicketApplication instance has to "
-"be re-initialized, in order to pick up new references to the classes of "
-"mounted pages."
-msgstr ""
+msgid "Then have ant copy the instrumented classes in <literal>${build.instrumented}</literal> into <literal>WEB-INF/classes</literal>. If you want to hot deploy the Wicket components, you can copy the instrumented classes to <literal>WEB-INF/dev</literal>; if you use hot deploy, make sure that your <literal>WicketApplication</literal> class is also hot-deployed. Upon a reload of hot-deployed classes, the entire WicketApplication instance has to be re-initialized, in order to pick up new references to the classes of mounted pages."
+msgstr "Dopo bisogna fare in modo che Ant copi le classi alterate da <literal>${build.instrumented}</literal> a <literal>WEB-INF/classes</literal>. Se si vuole attivare l'esecuzione a caldo dei componenti Wicket è possibile copiare le classi alterate in <literal>WEB-INF/hot</literal>. Se si usa l'esecuzione a caldo, accertarsi che anche la classe <literal>WicketApplication</literal> sia eseguita nello stesso modo. Dopo che le classi eseguite a caldo vengono ricaricate, l'intera istanza di WicketApplication deve essere reinizializzata allo scopo di recuperare tutti i nuovi riferimenti alle classi delle pagine montate."
 
 #. Tag: title
 #: Wicket.xml:202
 #, no-c-format
 msgid "Defining the Application"
-msgstr ""
+msgstr "Definire l'applicazione"
 
 #. Tag: para
 #: Wicket.xml:204
 #, no-c-format
-msgid ""
-"A Wicket web application which uses Seam should use "
-"<code>SeamWebApplication</code> as the base class; this creates hooks into "
-"the Wicket lifecycle allowing Seam to automagically propagate the "
-"conversation as needed. It also adds status messages to the page."
-msgstr ""
+msgid "A Wicket web application which uses Seam should use <code>SeamWebApplication</code> as the base class; this creates hooks into the Wicket lifecycle allowing Seam to automagically propagate the conversation as needed. It also adds status messages to the page."
+msgstr "Un'applicazione web Wicket che usa Seam deve usare <code>SeamWebApplication</code> come classe base. Questa crea gli agganci nel ciclo Wicket che consentono a Seam di propagare auto-magicamente la conversazione quando necessario. Aggiunge pure i messaggi di stato alla pagina."
 
 #. Tag: para
 #: Wicket.xml:215
 #, no-c-format
-msgid ""
-"The <code>SeamAuthorizationStrategy</code> delegates authorization to Seam "
-"Security, allowing the use of <code>@Restrict</code> on Wicket components. "
-"<code>SeamWebApplication</code> installs the authorization strategy for you. "
-"You can specify the login page by implementing the <code>getLoginPage()</"
-"code> method."
-msgstr ""
+msgid "The <code>SeamAuthorizationStrategy</code> delegates authorization to Seam Security, allowing the use of <code>@Restrict</code> on Wicket components. <code>SeamWebApplication</code> installs the authorization strategy for you. You can specify the login page by implementing the <code>getLoginPage()</code> method."
+msgstr "La <code>SeamAuthorizationStrategy</code> delega le autorizzazioni a Seam Security, consentendo l'uso di <code>@Restrict</code> nei componenti Wicket. <code>SeamWebApplication</code> provvede ad installare la strategia di autorizzazioni. E' possibile specificare una pagina di login implementando il metodo <code>getLoginPage()</code>."
 
 #. Tag: para
 #: Wicket.xml:223
 #, no-c-format
-msgid ""
-"You'll also need to set the home page of the application by implementing the "
-"<code>getHomePage()</code> method."
-msgstr ""
+msgid "You'll also need to set the home page of the application by implementing the <code>getHomePage()</code> method."
+msgstr "C'è poi bisogno di impostare la home page dell'applicazione implementando il metodo <code>getHomePage()</code>."
 
 #. Tag: programlisting
 #: Wicket.xml:228
@@ -371,15 +332,26 @@ msgid ""
 "}\n"
 "]]>"
 msgstr ""
+"<![CDATA[public class WicketBookingApplication extends SeamWebApplication {\n"
+"\n"
+"   @Override\n"
+"   public Class getHomePage() {\n"
+"      return Home.class;\n"
+"   }\n"
+"\n"
+"   @Override\n"
+"   protected Class getLoginPage() {\n"
+"      return Home.class;\n"
+"   }\n"
+"   \n"
+"}\n"
+"]]>"
 
 #. Tag: para
 #: Wicket.xml:230
 #, no-c-format
-msgid ""
-"Seam automatically installs the Wicket filter for you (ensuring that it is "
-"inserted in the correct place for you). But you still need to tell Wicket "
-"which <code>WebApplication</code> class to use:"
-msgstr ""
+msgid "Seam automatically installs the Wicket filter for you (ensuring that it is inserted in the correct place for you). But you still need to tell Wicket which <code>WebApplication</code> class to use:"
+msgstr "Seam installa automaticamente il filtro Wicket (assicurando che sia inserito nella posizione corretta), ma è ancora necessario dire a Wicket quale classe <code>WebApplication</code> usare:"
 
 #. Tag: programlisting
 #: Wicket.xml:236
@@ -388,15 +360,18 @@ msgid ""
 "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
 "   xmlns:wicket=\"http://jboss.com/products/seam/wicket\">\n"
 "         \n"
-"   <wicket:web-application application-class=\"org.jboss.seam.example.wicket."
-"WicketBookingApplication\" />\n"
+"   <wicket:web-application application-class=\"org.jboss.seam.example.wicket.WicketBookingApplication\" />\n"
 "</components]]>"
 msgstr ""
+"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
+"   xmlns:wicket=\"http://jboss.com/products/seam/wicket\">\n"
+"         \n"
+"   <wicket:web-application application-class=\"org.jboss.seam.example.wicket.WicketBookingApplication\" />\n"
+"</components]]>"
 
 #. Tag: para
 #: Wicket.xml:239
 #, no-c-format
-msgid ""
-"Take a look at the Wicket documentation for more on authorization strategies "
-"and other methods you can override on the <code>Application</code> class."
-msgstr ""
+msgid "Take a look at the Wicket documentation for more on authorization strategies and other methods you can override on the <code>Application</code> class."
+msgstr "Per maggiori informazioni sulle strategie di autorizzazione e gli altri metodi che possono essere implementati sulla classe <code>Application</code> fare riferimento alla documentazione Wicket."
+
