@@ -32,6 +32,7 @@
         <transition name="shipped" to="complete">
             <action expression="#{afterShipping.log}"/>
         </transition>
+        <transition name="cancel" to="cancelled"/>
     </task-node>
     
     <end-state name="complete"/>
