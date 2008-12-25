@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2008-12-16 11:18+0100\n"
+"PO-Revision-Date: 2008-12-25 15:16+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -53,7 +53,7 @@ msgstr "Non confondere le due cose! Queste operano a livelli molto diversi e con
 #: Jbpm.xml:51
 #, no-c-format
 msgid "You don't have to know jDPL to use Seam. If you're perfectly happy defining pageflow using JSF or Seam navigation rules, and if your application is more data-driven that process-driven, you probably don't need jBPM. But we're finding that thinking of user interaction in terms of a well-defined graphical representation is helping us build more robust applications."
-msgstr "Non serve che tu conosca jPDL per usare Seam. Se ti trovi bene nel definire un pageflow con JSF o con le regole di navigazione di Seam, e se l'applicazione è guida più dai dati che dal processo, probabilmente non ti serve usare jBPM. Ma noi pensiamo che strutturare l'interazione dell'utente in termini di rappresentazione grafical ben definita aiuti a costruire applicazioni più robuste."
+msgstr "Non serve conoscere jPDL per usare Seam. Se ci si trova bene nel definire un pageflow con JSF o con le regole di navigazione di Seam, e se l'applicazione è guida più dai dati che dal processo, probabilmente non serve usare jBPM. Ma noi pensiamo che strutturare l'interazione dell'utente in termini di rappresentazione grafical ben definita aiuti a costruire applicazioni più robuste."
 
 #. Tag: title
 #: Jbpm.xml:60
@@ -473,7 +473,7 @@ msgstr "<![CDATA[<bpm:jbpm />]]>"
 #: Jbpm.xml:287
 #, no-c-format
 msgid "We can also explicitly tell Seam where to find our pageflow definition. We specify this in <literal>components.xml</literal>:"
-msgstr "Possiamo anche comunicare esplicitamente a Seam dove trovare le definizioni dei pageflow. Questo viene specificato dentro <literal>components.xml</literal>:"
+msgstr "Si può anche comunicare esplicitamente a Seam dove trovare le definizioni dei pageflow. Questo viene specificato dentro <literal>components.xml</literal>:"
 
 #. Tag: programlisting
 #: Jbpm.xml:292
@@ -501,7 +501,7 @@ msgstr "Avvio dei pageflow"
 #: Jbpm.xml:299
 #, no-c-format
 msgid "We \"start\" a jPDL-based pageflow by specifying the name of the process definition using a <literal>@Begin</literal>, <literal>@BeginTask</literal> or <literal>@StartTask</literal> annotation:"
-msgstr ""
+msgstr "Si \"inizia\" un pageflow basato su jPDLspecificando il nome della definizione del processo usando un'annotazione <literal>@Begin</literal>, <literal>@BeginTask</literal> oppure <literal>@StartTask</literal>:"
 
 #. Tag: programlisting
 #: Jbpm.xml:306
@@ -517,7 +517,7 @@ msgstr ""
 #: Jbpm.xml:308
 #, no-c-format
 msgid "Alternatively we can start a pageflow using pages.xml:"
-msgstr "In alternativa possiamo iniziare un pageflow usando pages.xml:"
+msgstr "In alternativa si può iniziare un pageflow usando pages.xml:"
 
 #. Tag: programlisting
 #: Jbpm.xml:310
@@ -535,13 +535,13 @@ msgstr ""
 #: Jbpm.xml:312
 #, no-c-format
 msgid "If we are beginning the pageflow during the <literal>RENDER_RESPONSE</literal> phase&#8212;during a <literal>@Factory</literal> or <literal>@Create</literal> method, for example&#8212;we consider ourselves to be already at the page being rendered, and use a <literal>&lt;start-page&gt;</literal> node as the first node in the pageflow, as in the example above."
-msgstr ""
+msgstr "Se il pageflow viene iniziato durante la fase <literal>RENDER_RESPONSE</literal>&#8212;durante un metodo <literal>@Factory</literal> o <literal>@Create</literal>, per esempio&#8212;si presume di essere già nella pagina da generare, e si usa un nodo <literal>&lt;start-page&gt;</literal> come primo nodo nel pageflow, come nell'esempio sopra."
 
 #. Tag: para
 #: Jbpm.xml:320
 #, no-c-format
 msgid "But if the pageflow is begun as the result of an action listener invocation, the outcome of the action listener determines which is the first page to be rendered. In this case, we use a <literal>&lt;start-state&gt;</literal> as the first node in the pageflow, and declare a transition for each possible outcome:"
-msgstr ""
+msgstr "Ma se il pageflow viene iniziato come risultato di un'invocazione di un action listener, l'esito dell'action listener determina quale è la prima pagina da generare. In questo caso si usa un <literal>&lt;start-state&gt;</literal> come primo nodo del pageflow, e si dichiara una transizione per ogni possibile esito:"
 
 #. Tag: programlisting
 #: Jbpm.xml:328
@@ -772,7 +772,7 @@ msgstr ""
 #: Jbpm.xml:428
 #, no-c-format
 msgid "Optionally, we can end a task, specify a jBPM <literal>transition</literal> name. In this case, Seam will signal the end of the current task in the overarching business process."
-msgstr "Opzionalmente possiamo terminare un task specificando un nome alla <literal>transition</literal> jBPM. In questo modo Seam segnalerà la fine del task corrente al processo di business sottostante."
+msgstr "Opzionalmente è possibile terminare un task specificando un nome alla <literal>transition</literal> jBPM. In questo modo Seam segnalerà la fine del task corrente al processo di business sottostante."
 
 #. Tag: programlisting
 #: Jbpm.xml:434
@@ -966,7 +966,7 @@ msgstr "Iniziare un processo di business"
 #: Jbpm.xml:549
 #, no-c-format
 msgid "To initiate a business process instance, we use the <literal>@CreateProcess</literal> annotation:"
-msgstr "Per iniziare un'istanza di processo di business, usiamo l'annotazione <literal>@CreateProcess</literal>:"
+msgstr "Per iniziare un'istanza di processo di business, si usa l'annotazione <literal>@CreateProcess</literal>:"
 
 #. Tag: programlisting
 #: Jbpm.xml:554
@@ -982,7 +982,7 @@ msgstr ""
 #: Jbpm.xml:556
 #, no-c-format
 msgid "Alternatively we can initiate a business process using pages.xml:"
-msgstr "In alternativa possiamo iniziare un processo di business usando pages.xml:"
+msgstr "In alternativa è possibile iniziare un processo di business usando pages.xml:"
 
 #. Tag: programlisting
 #: Jbpm.xml:558
@@ -1006,7 +1006,7 @@ msgstr "Assegnazione task"
 #: Jbpm.xml:565
 #, no-c-format
 msgid "When a process reaches a task node, task instances are created. These must be assigned to users or user groups. We can either hardcode our actor ids, or delegate to a Seam component:"
-msgstr "Quando un processo raggiunge un task node, vengono create istante di compiti. Queste devono essere assegnate a utenti o gruppi di utenti. Possiamo codificare gli id degli attori (actor id) o delegare ad un componente Seam:"
+msgstr "Quando un processo raggiunge un task node, vengono create istante di compiti. Queste devono essere assegnate a utenti o gruppi di utenti. Si può codificare gli id degli attori (actor id) o delegare ad un componente Seam:"
 
 #. Tag: programlisting
 #: Jbpm.xml:571
@@ -1025,7 +1025,7 @@ msgstr ""
 #: Jbpm.xml:573
 #, no-c-format
 msgid "In this case, we have simply assigned the task to the current user. We can also assign tasks to a pool:"
-msgstr "In questo caso abbiamo semplicemente assegnato il task all'utente corrente. Possiamo anche assegnare compiti ad un pool (gruppo):"
+msgstr "In questo caso si è semplicemente assegnato il task all'utente corrente. Possiamo anche assegnare compiti ad un pool (gruppo):"
 
 #. Tag: programlisting
 #: Jbpm.xml:578
@@ -1156,7 +1156,7 @@ msgstr ""
 #: Jbpm.xml:624
 #, no-c-format
 msgid "Alternatively we can begin work on a task using pages.xml:"
-msgstr "In alternativa possiamo iniziare a lavorare su un task usando pages.xml:"
+msgstr "In alternativa si può iniziare a lavorare su un task usando pages.xml:"
 
 #. Tag: programlisting
 #: Jbpm.xml:626
@@ -1180,7 +1180,7 @@ msgstr "Queste annotazioni iniziano uno speciale tipo di conversazione che ha si
 #: Jbpm.xml:635
 #, no-c-format
 msgid "If we end the conversation using <literal>@EndTask</literal>, Seam will signal the completion of the task:"
-msgstr "Se terminiamo un conversazione usando <literal>@EndTask</literal>, Seam segnalerà il completamento del task:"
+msgstr "Se si termina una conversazione usando <literal>@EndTask</literal>, Seam segnalerà il completamento del task:"
 
 #. Tag: programlisting
 #: Jbpm.xml:640
@@ -1196,7 +1196,7 @@ msgstr ""
 #: Jbpm.xml:642
 #, no-c-format
 msgid "Alternatively we can use pages.xml:"
-msgstr "In alternativa usiamo pages.xml:"
+msgstr "In alternativa si usa pages.xml:"
 
 #. Tag: programlisting
 #: Jbpm.xml:644

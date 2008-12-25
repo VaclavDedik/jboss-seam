@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:39+0000\n"
-"PO-Revision-Date: 2008-12-13 20:44+0100\n"
+"PO-Revision-Date: 2008-12-25 14:52+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -81,7 +81,7 @@ msgstr "In pratica quest'approccio di norma viola il principio DRY (Don't Repeat
 #: Validation.xml:17
 #, no-c-format
 msgid "Let's start by defining our constraints, on our <literal>Location</literal> class:"
-msgstr "Iniziamo definendo i vincoli sulla classe <literal>Location</literal>: "
+msgstr "Si cominci col definire i vincoli sulla classe <literal>Location</literal>: "
 
 #. Tag: programlisting
 #: Validation.xml:22
@@ -123,7 +123,7 @@ msgstr ""
 #: Validation.xml:24
 #, no-c-format
 msgid "Well, that's a decent first cut, but in practice it might be more elegant to use custom constraints instead of the ones built into Hibernate Validator:"
-msgstr "Bene, questo è una buona riduzione, ma in pratica è possibile essere più elegante utilizzando dei vincoli personalizzati invece di quelli interni a Hibernate Validator:"
+msgstr "Bene, questa è una prima buona riduzione, ma in pratica è possibile essere più eleganti utilizzando dei vincoli personalizzati invece di quelli interni a Hibernate Validator:"
 
 #. Tag: programlisting
 #: Validation.xml:30
@@ -163,7 +163,7 @@ msgstr ""
 #: Validation.xml:32
 #, no-c-format
 msgid "Whichever route we take, we no longer need to specify the type of validation to be used in the JSF page. Instead, we can use <literal>&lt;s:validate&gt;</literal> to validate against the constraint defined on the model object."
-msgstr "Qualsiasi strada prendiamo non dobbiamo più specificare il tipo di validazione da usare nelle pagine JSF. Invece possiamo usare <literal>&lt;s:validate&gt;</literal> per validare il vincolo definito nell'oggetto modello."
+msgstr "Qualsiasi strada si prenda non occorre più specificare il tipo di validazione da usare nelle pagine JSF. Invece è possibile usare <literal>&lt;s:validate&gt;</literal> per validare il vincolo definito nell'oggetto modello."
 
 #. Tag: programlisting
 #: Validation.xml:39
@@ -317,13 +317,13 @@ msgstr "validator.length={0} la lunghezza deve essere tra {min} e {max}"
 #: Validation.xml:85
 #, no-c-format
 msgid "What we would really like to do, though, is display the message next to the field with the error (this is possible in plain JSF), highlight the field and label (this is not possible) and, for good measure, display some image next to the field (also not possible). We also want to display a little colored asterisk next to the label for each required form field. Using this approach, the identifying label is not necessary."
-msgstr "Ciò che vorremmo fare, tuttavia, è mostrare il messaggio vicino al campo con l'errore (questo è possibile nel semplice JSF), ed evidenziare il campo e l'etichetta (questo non è possibile) ed, eventualmente, mostrare un'immagine vicino al campo (anche questo non è possibile). Vogliamo anche mostrare un piccolo asterisco colorato vicino all'etichetta per ciascun campo richiesto. Utilizzando quest'approccio non è più necessario identificare l'etichetta."
+msgstr "Ciò che si vuole fare, tuttavia, è mostrare il messaggio vicino al campo con l'errore (questo è possibile nel semplice JSF), ed evidenziare il campo e l'etichetta (questo non è possibile) ed, eventualmente, mostrare un'immagine vicino al campo (anche questo non è possibile). Si vuole anche mostrare un piccolo asterisco colorato vicino all'etichetta per ciascun campo richiesto. Utilizzando quest'approccio non è più necessario identificare l'etichetta."
 
 #. Tag: para
 #: Validation.xml:95
 #, no-c-format
 msgid "That's quite a lot of functionality we need for each field of our form. We wouldn't want to have to specify higlighting and the layout of the image, message and input field for every field on the form. So, instead, we'll specify the common layout in a facelets template:"
-msgstr "Abbiamo quindi bisogno di parecchia funzionalità per ogni singolo campo della form. Ma non vogliamo essere costretti a specificare per ogni campo della form come evidenziare, come disporre l'immagine, quale messaggio scrivere e quale è il campo d'input da associare."
+msgstr "Si ha quindi bisogno di parecchia funzionalità per ogni singolo campo della form. Ma non si vuole essere costretti a specificare per ogni campo della form come evidenziare, come disporre l'immagine, quale messaggio scrivere e quale è il campo d'input da associare."
 
 #. Tag: programlisting
 #: Validation.xml:103
@@ -385,7 +385,7 @@ msgstr ""
 #: Validation.xml:105
 #, no-c-format
 msgid "We can include this template for each of our form fields using <literal>&lt;s:decorate&gt;</literal>."
-msgstr "Possiamo includere questo template per ciascuna campo della form utilizzando <literal>&lt;s:decorate&gt;</literal>."
+msgstr "Si può includere questo template per ciascuna campo della form utilizzando <literal>&lt;s:decorate&gt;</literal>."
 
 #. Tag: programlisting
 #: Validation.xml:110

@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-13 17:58+0000\n"
-"PO-Revision-Date: 2008-12-21 14:58+0100\n"
+"PO-Revision-Date: 2008-12-25 14:54+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -164,7 +164,7 @@ msgstr "Capire il codice"
 #: Tutorial.xml:136
 #, no-c-format
 msgid "The example is implemented with two Facelets templates, one entity bean and one stateless session bean. Let's take a look at the code, starting from the \"bottom\"."
-msgstr "Questo esempio è implementato con due template Facelets, un entity bean e un session bean stateless. Guardiamo ora il codice, partendo dal \"basso\"."
+msgstr "Questo esempio è implementato con due template Facelets, un entity bean e un session bean stateless. Si guardi ora il codice, partendo dal \"basso\"."
 
 #. Tag: title
 #: Tutorial.xml:141
@@ -5223,7 +5223,7 @@ msgstr ""
 #: Tutorial.xml:1907
 #, no-c-format
 msgid "If the blog entry is not found in the database, the <literal>EntryNotFoundException</literal> exception is thrown. We want this exception to result in a 404 error, not a 505, so we annotate the exception class:"
-msgstr "Se l'entry del blog non viene trovata nel database, viene lanciata l'eccezione <literal>EntryNotFoundException</literal>. Vogliamo che quest'eccezione venga evidenziata come errore 404, non 505, e quindi annotiamo la classe dell'eccezione:"
+msgstr "Se l'entry del blog non viene trovata nel database, viene lanciata l'eccezione <literal>EntryNotFoundException</literal>. Si vuole che quest'eccezione venga evidenziata come errore 404, non 505, e quindi viene annotata la classe dell'eccezione:"
 
 #. Tag: programlisting
 #: Tutorial.xml:1911

@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2008-12-16 12:44+0100\n"
+"PO-Revision-Date: 2008-12-25 15:04+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -157,7 +157,7 @@ msgstr "<![CDATA[<drools:managed-working-memory name=\"policyPricingWorkingMemor
 #: Drools.xml:67
 #, no-c-format
 msgid "Notice that we gave the <literal>policyPricingWorkingMemory</literal> a reference back to our rule base via the <literal>ruleBase</literal> configuration property."
-msgstr "Notare che abbiamo dato a <literal>policyPricingWorkingMemory</literal> un riferimento alla base di regole tramite la proprietà di configurazione <literal>ruleBase</literal>."
+msgstr "Notare che è stato dato a <literal>policyPricingWorkingMemory</literal> un riferimento alla base di regole tramite la proprietà di configurazione <literal>ruleBase</literal>."
 
 #. Tag: title
 #: Drools.xml:76
@@ -169,7 +169,7 @@ msgstr "Utilizzo delle regole da un componente SEAM"
 #: Drools.xml:78
 #, no-c-format
 msgid "We can now inject our <literal>WorkingMemory</literal> into any Seam component, assert facts, and fire rules:"
-msgstr "Ora possiamo iniettare la <literal>WorkingMemory</literal> in un qualsiasi componente di Seam, asserire i fatti e lanciare le regole:"
+msgstr "Ora è possibile iniettare la <literal>WorkingMemory</literal> in un qualsiasi componente di Seam, asserire i fatti e lanciare le regole:"
 
 #. Tag: programlisting
 #: Drools.xml:83
