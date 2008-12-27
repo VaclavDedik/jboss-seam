@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-12-18 11:56+0000\n"
+"POT-Creation-Date: 2008-12-27 11:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -371,7 +371,7 @@ msgid ""
 "In order for the app to work out of the box with GlassFish, we have used the "
 "Derby (aka JavaDB) database in GlassFish. However, we strongly recommend "
 "that you use another database (e.g. HSQL). <literal>examples/jpa/resources-"
-"glassfish/WEB-INF/classes/GlassFishDerbyDialect.class</literal> is a hack to "
+"glassfish/WEB-INF/classes/GlassfishDerbyDialect.class</literal> is a hack to "
 "get around a Derby bug in GlassFish server. You must use it as your "
 "Hibernate dialect if you use Derby with GlassFish."
 msgstr ""
@@ -395,16 +395,16 @@ msgid ""
 "<literal>META-INF/persistence.xml</literal> — the main changes needed are "
 "the datasource JNDI, switching to the GlassFish transaction manager lookup "
 "class, and changing the hibernate dialect to be "
-"<literal>GlassFishDerbyDialect</literal>."
+"<literal>GlassfishDerbyDialect</literal>."
 msgstr ""
 
 #. Tag: para
 #: Glassfish.xml:285
 #, no-c-format
 msgid ""
-"<literal>WEB-INF/classes/GlassFishDerbyDialect.class</literal> — this class "
+"<literal>WEB-INF/classes/GlassfishDerbyDialect.class</literal> — this class "
 "is needed for the Hibernate dialect change to "
-"<literal>GlassFishDerbyDialect</literal>"
+"<literal>GlassfishDerbyDialect</literal>"
 msgstr ""
 
 #. Tag: para
@@ -588,7 +588,7 @@ msgstr ""
 #: Glassfish.xml:365
 #, no-c-format
 msgid ""
-"<![CDATA[<property name=\"hibernate.dialect\" value=\"GlassFishDerbyDialect"
+"<![CDATA[<property name=\"hibernate.dialect\" value=\"GlassfishDerbyDialect"
 "\"/>\n"
 "<property name=\"hibernate.hbm2ddl.auto\" value=\"update\"/>\n"
 "<property name=\"hibernate.show_sql\" value=\"true\"/>\n"
@@ -610,7 +610,7 @@ msgstr ""
 #. Tag: literal
 #: Glassfish.xml:380
 #, no-c-format
-msgid "resources/GlassFishDerbyDialect.class"
+msgid "resources/GlassfishDerbyDialect.class"
 msgstr ""
 
 #. Tag: para
@@ -628,7 +628,7 @@ msgstr ""
 msgid ""
 "$ cp \\ \n"
 "$SEAM_DIST/examples/jpa/resources-glassfish/WEB-INF/classes/"
-"GlassFishDerbyDialect.class \\ \n"
+"GlassfishDerbyDialect.class \\ \n"
 "./resources"
 msgstr ""
 
@@ -853,9 +853,9 @@ msgstr ""
 #: Glassfish.xml:542
 #, no-c-format
 msgid ""
-"We need to get the <literal>GlassFishDerbyDialect.class</literal> into our "
+"We need to get the <literal>GlassfishDerbyDialect.class</literal> into our "
 "application jar. To do that find the <literal>jar</literal> task and add the "
-"<literal>GlassFishDerbyDialect.class</literal> line as shown below:"
+"<literal>GlassfishDerbyDialect.class</literal> line as shown below:"
 msgstr ""
 
 #. Tag: programlisting
@@ -868,7 +868,7 @@ msgid ""
 "      <fileset dir=\"${basedir}/resources\">\n"
 "         <include name=\"seam.properties\" />\n"
 "         <include name=\"*.drl\" />\n"
-"         <include name=\"GlassFishDerbyDialect.class\" />\n"
+"         <include name=\"GlassfishDerbyDialect.class\" />\n"
 "      </fileset> \n"
 "   </copy>\n"
 "   ...]]>"
