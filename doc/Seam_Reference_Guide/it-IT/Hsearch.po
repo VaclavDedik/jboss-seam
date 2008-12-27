@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2008-12-27 03:08+0100\n"
+"PO-Revision-Date: 2008-12-27 11:05+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -93,11 +93,12 @@ msgstr ""
 "   </properties>\n"
 "</persistence-unit>]]>"
 
+# to target = ?
 #. Tag: para
 #: Hsearch.xml:45
 #, no-c-format
 msgid "If you plan to target Hibernate Annotations or EntityManager 3.2.x (embedded into JBoss AS 4.2.GA), you also need to configure the appropriate event listeners."
-msgstr ""
+msgstr "Se si pensa di usare Hibernate Annotation o EntityManager 3.2.x (incorporato in JBoss AS 4.2.GA), occorre configurare anche gli opportuni event listener."
 
 #. Tag: programlisting
 #: Hsearch.xml:49
@@ -155,7 +156,7 @@ msgstr "Questo passo non è più necessario se vengono utilizzati Hibernate Anno
 #: Hsearch.xml:56
 #, no-c-format
 msgid "In addition to the configuration file, the following jars have to be deployed:"
-msgstr ""
+msgstr "In aggiunta al file di configurazione, devono essere deployati i seguenti jar:"
 
 #. Tag: para
 #: Hsearch.xml:61
@@ -179,7 +180,7 @@ msgstr "lucene-core.jar"
 #: Hsearch.xml:74
 #, no-c-format
 msgid "If you deploy those in a EAR, don't forget to update <filename>application.xml</filename>"
-msgstr ""
+msgstr "Se vengono messi in un EAR, non si dimentichi di aggiornare <filename>application.xml</filename>"
 
 #. Tag: title
 #: Hsearch.xml:80
@@ -191,19 +192,19 @@ msgstr "Utilizzo"
 #: Hsearch.xml:82
 #, no-c-format
 msgid "Hibernate Search uses annotations to map entities to a Lucene index, check the <ulink url=\"http://www.hibernate.org/hib_docs/search/reference/en/html_single/\">reference documentation</ulink> for more informations."
-msgstr ""
+msgstr "Hibernate Search impiega annotazioni per mappare le entità ad un indice di Lucene, per maggiori informazioni si guardi alla <ulink url=\"http://www.hibernate.org/hib_docs/search/reference/en/html_single/\">documentazione di riferimento</ulink>."
 
 #. Tag: para
 #: Hsearch.xml:87
 #, no-c-format
 msgid "Hibernate Search is fully integrated with the API and semantic of JPA / Hibernate. Switching from a HQL or Criteria based query requires just a few lines of code. The main API the application interacts with is the <classname>FullTextSession</classname> API (subclass of Hibernate's <classname>Session</classname>)."
-msgstr ""
+msgstr "Hibernate Search è pienamente integrato con la API e la semantica di JPA/Hibernate. Passare da una query basata su HQL o Criteria richiede solo poche linee di codice. La principale API con cui l'applicazione interagisce è l'API <classname>FullTextSession</classname> (sottoclasse della <classname>Session</classname> di Hibernate)."
 
 #. Tag: para
 #: Hsearch.xml:93
 #, no-c-format
 msgid "When Hibernate Search is present, JBoss Seam injects a <classname>FullTextSession</classname>."
-msgstr ""
+msgstr "Quando Hibernate Search è presente, JBoss Seam inietta una <classname>FullTextSession</classname>."
 
 #. Tag: programlisting
 #: Hsearch.xml:96
@@ -247,13 +248,13 @@ msgstr ""
 #: Hsearch.xml:99
 #, no-c-format
 msgid "<classname>FullTextSession</classname> extends <classname>org.hibernate.Session</classname> so that it can be used as a regular Hibernate Session"
-msgstr ""
+msgstr "<classname>FullTextSession</classname> estende <classname>org.hibernate.Session</classname> così che può essere usata come una regolare Hibernate Session."
 
 #. Tag: para
 #: Hsearch.xml:104
 #, no-c-format
 msgid "If the Java Persistence API is used, a smoother integration is proposed."
-msgstr ""
+msgstr "Se viene usata la Java Persistence API, è proposta un'integrazione più lieve."
 
 #. Tag: programlisting
 #: Hsearch.xml:107
@@ -297,13 +298,13 @@ msgstr ""
 #: Hsearch.xml:109
 #, no-c-format
 msgid "When Hibernate Search is present, a <classname>FulltextEntityManager</classname> is injected. <classname>FullTextEntityManager</classname> extends <classname>EntityManager</classname> with search specific methods, the same way <classname>FullTextSession</classname> extends <classname>Session</classname>."
-msgstr ""
+msgstr "Quando Hibernate Search è presente, viene iniettato un <classname>FulltextEntityManager</classname>. <classname>FullTextEntityManager</classname> estende <classname>EntityManager</classname> con metodi specifici di ricerca, allo stesso modo <classname>FullTextSession</classname> estende <classname>Session</classname>."
 
 #. Tag: para
 #: Hsearch.xml:116
 #, no-c-format
 msgid "When an EJB 3.0 Session or Message Driven Bean injection is used (i.e. via the @PersistenceContext annotation), it is not possible to replace the <classname>EntityManager</classname> interface by the <classname>FullTextEntityManager</classname> interface in the declaration statement. However, the implementation injected will be a <classname>FullTextEntityManager</classname> implementation: downcasting is then possible."
-msgstr ""
+msgstr "Quando viene impiegata l'iniezione di un session bean EJB3.0 o message driven (cioè tramite l'annotazione @PersistenceContext), non è possibile rimpiazzare l'interfaccia <classname>EntityManager</classname> con l'interfaccia <classname>FullTextEntityManager</classname> nella dichiarazione. Comunque l'implementazione iniettata sarà <classname>FullTextEntityManager</classname>: è quindi possibile il downcasting."
 
 #. Tag: programlisting
 #: Hsearch.xml:124
