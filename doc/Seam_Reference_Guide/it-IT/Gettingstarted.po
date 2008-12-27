@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:23+0000\n"
-"PO-Revision-Date: 2008-12-14 19:09+0100\n"
+"PO-Revision-Date: 2008-12-27 12:51+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -71,7 +71,7 @@ msgstr ""
 #: Gettingstarted.xml:39
 #, no-c-format
 msgid "-Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m"
-msgstr ""
+msgstr "-Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m"
 
 #. Tag: para
 #: Gettingstarted.xml:41
@@ -83,7 +83,7 @@ msgstr ""
 #: Gettingstarted.xml:43
 #, no-c-format
 msgid "-Xms256m -Xmx512m -XX:PermSize=128m -XX:MaxPermSize=256m"
-msgstr ""
+msgstr "-Xms256m -Xmx512m -XX:PermSize=128m -XX:MaxPermSize=256m"
 
 #. Tag: para
 #: Gettingstarted.xml:45
@@ -116,6 +116,8 @@ msgid ""
 "cd jboss-seam-2.0.x\n"
 "seam setup"
 msgstr ""
+"cd jboss-seam-2.0.x\n"
+"seam setup"
 
 #. Tag: para
 #: Gettingstarted.xml:60
@@ -182,6 +184,60 @@ msgid ""
 "Total time: 1 minute 32 seconds\n"
 "~/workspace/jboss-seam $"
 msgstr ""
+"~/workspace/jboss-seam$ ./seam setup\n"
+"Buildfile: build.xml\n"
+"\n"
+"init:\n"
+"\n"
+"setup:\n"
+"     [echo] Welcome to seam-gen :-)\n"
+"    [input] Enter your Java project workspace (the directory that contains your Seam projects) [C:/Projects] [C:/Projects]\n"
+"/Users/pmuir/workspace\n"
+"    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.2.GA] [C:/Program Files/jboss-4.2.2.GA]\n"
+"/Applications/jboss-4.2.2.GA\n"
+"    [input] Enter the project name [myproject] [myproject]\n"
+"helloworld\n"
+"     [echo] Accepted project name as: helloworld\n"
+"    [input] Select a RichFaces skin (not applicable if using ICEFaces) [blueSky] ([blueSky], classic, ruby, wine, deepMarine, emeraldTown, sakura, DEFAULT)\n"
+"\n"
+"    [input] Is this project deployed as an EAR (with EJB components) or a WAR (with no EJB support) [ear]  ([ear], war, )\n"
+"\n"
+"    [input] Enter the Java package name for your session beans [com.mydomain.helloworld] [com.mydomain.helloworld]\n"
+"org.jboss.helloworld\n"
+"    [input] Enter the Java package name for your entity beans [org.jboss.helloworld] [org.jboss.helloworld]\n"
+"\n"
+"    [input] Enter the Java package name for your test cases [org.jboss.helloworld.test] [org.jboss.helloworld.test]\n"
+"\n"
+"    [input] What kind of database are you using? [hsql]  ([hsql], mysql, oracle, postgres, mssql, db2, sybase, enterprisedb, h2)\n"
+"mysql\n"
+"    [input] Enter the Hibernate dialect for your database [org.hibernate.dialect.MySQLDialect] [org.hibernate.dialect.MySQLDialect]\n"
+"\n"
+"    [input] Enter the filesystem path to the JDBC driver jar [lib/hsqldb.jar] [lib/hsqldb.jar]\n"
+"/Users/pmuir/java/mysql.jar\n"
+"    [input] Enter JDBC driver class for your database [com.mysql.jdbc.Driver] [com.mysql.jdbc.Driver]\n"
+"\n"
+"    [input] Enter the JDBC URL for your database [jdbc:mysql:///test] [jdbc:mysql:///test]\n"
+"jdbc:mysql:///helloworld\n"
+"    [input] Enter database username [sa] [sa]\n"
+"pmuir\n"
+"    [input] Enter database password [] []\n"
+"\n"
+"    [input] skipping input as property hibernate.default_schema.new has already been set.\n"
+"    [input] Enter the database catalog name (it is OK to leave this blank) [] []\n"
+"\n"
+"    [input] Are you working with tables that already exist in the database? [n]  (y, [n], )\n"
+"y\n"
+"    [input] Do you want to drop and recreate the database tables and data in import.sql each time you deploy? [n]  (y, [n], )\n"
+"n\n"
+"    [input] Enter your ICEfaces home directory (leave blank to omit ICEfaces) [] []\n"
+"\n"
+"[propertyfile] Creating new property file: /Users/pmuir/workspace/jboss-seam/seam-gen/build.properties\n"
+"     [echo] Installing JDBC driver jar to JBoss server\n"
+"     [echo] Type 'seam create-project' to create the new project\n"
+"\n"
+"BUILD SUCCESSFUL\n"
+"Total time: 1 minute 32 seconds\n"
+"~/workspace/jboss-seam $"
 
 #. Tag: para
 #: Gettingstarted.xml:64
@@ -217,7 +273,7 @@ msgstr ""
 #: Gettingstarted.xml:81
 #, no-c-format
 msgid "seam new-project"
-msgstr ""
+msgstr "seam new-project"
 
 #. Tag: programlisting
 #: Gettingstarted.xml:83
@@ -238,6 +294,20 @@ msgid ""
 "Total time: 7 seconds\n"
 "C:\\Projects\\jboss-seam&gt;"
 msgstr ""
+"C:\\Projects\\jboss-seam&gt;seam new-project\n"
+"Buildfile: build.xml\n"
+"\n"
+"...\n"
+"\n"
+"new-project:\n"
+"     [echo] A new Seam project named 'helloworld' was created in the C:\\Projects directory\n"
+"     [echo] Type 'seam explode' and go to http://localhost:8080/helloworld\n"
+"     [echo] Eclipse Users: Add the project into Eclipse using File &gt; New &gt; Project and select General &gt; Project (not Java Project)\n"
+"     [echo] NetBeans Users: Open the project in NetBeans\n"
+"\n"
+"BUILD SUCCESSFUL\n"
+"Total time: 7 seconds\n"
+"C:\\Projects\\jboss-seam&gt;"
 
 #. Tag: para
 #: Gettingstarted.xml:85
@@ -291,7 +361,7 @@ msgstr ""
 #: Gettingstarted.xml:126
 #, no-c-format
 msgid "seam new-action"
-msgstr ""
+msgstr "seam new-action"
 
 #. Tag: para
 #: Gettingstarted.xml:128
@@ -337,6 +407,39 @@ msgid ""
 "Total time: 13 seconds\n"
 "C:\\Projects\\jboss-seam&gt;"
 msgstr ""
+"C:\\Projects\\jboss-seam&gt;seam new-action\n"
+"Buildfile: build.xml\n"
+"\n"
+"validate-workspace:\n"
+"\n"
+"validate-project:\n"
+"\n"
+"action-input:\n"
+"    [input] Enter the Seam component name\n"
+"ping\n"
+"    [input] Enter the local interface name [Ping]\n"
+"\n"
+"    [input] Enter the bean class name [PingBean]\n"
+"\n"
+"    [input] Enter the action method name [ping]\n"
+"\n"
+"    [input] Enter the page name [ping]\n"
+"\n"
+"\n"
+"setup-filters:\n"
+"\n"
+"new-action:\n"
+"     [echo] Creating a new stateless session bean component with an action method\n"
+"     [copy] Copying 1 file to C:\\Projects\\helloworld\\src\\hot\\org\\jboss\\helloworld\n"
+"     [copy] Copying 1 file to C:\\Projects\\helloworld\\src\\hot\\org\\jboss\\helloworld\n"
+"     [copy] Copying 1 file to C:\\Projects\\helloworld\\src\\hot\\org\\jboss\\helloworld\\test\n"
+"     [copy] Copying 1 file to C:\\Projects\\helloworld\\src\\hot\\org\\jboss\\helloworld\\test\n"
+"     [copy] Copying 1 file to C:\\Projects\\helloworld\\view\n"
+"     [echo] Type 'seam restart' and go to http://localhost:8080/helloworld/ping.seam\n"
+"\n"
+"BUILD SUCCESSFUL\n"
+"Total time: 13 seconds\n"
+"C:\\Projects\\jboss-seam&gt;"
 
 #. Tag: para
 #: Gettingstarted.xml:133
@@ -372,7 +475,7 @@ msgstr ""
 #: Gettingstarted.xml:153
 #, no-c-format
 msgid "seam new-form"
-msgstr ""
+msgstr "seam new-form"
 
 #. Tag: programlisting
 #: Gettingstarted.xml:155
@@ -412,6 +515,39 @@ msgid ""
 "Total time: 5 seconds\n"
 "C:\\Projects\\jboss-seam&gt;"
 msgstr ""
+"C:\\Projects\\jboss-seam&gt;seam new-form\n"
+"Buildfile: C:\\Projects\\jboss-seam\\seam-gen\\build.xml\n"
+"\n"
+"validate-workspace:\n"
+"\n"
+"validate-project:\n"
+"\n"
+"action-input:\n"
+"    [input] Enter the Seam component name\n"
+"hello\n"
+"    [input] Enter the local interface name [Hello]\n"
+"\n"
+"    [input] Enter the bean class name [HelloBean]\n"
+"\n"
+"    [input] Enter the action method name [hello]\n"
+"\n"
+"    [input] Enter the page name [hello]\n"
+"\n"
+"\n"
+"setup-filters:\n"
+"\n"
+"new-form:\n"
+"     [echo] Creating a new stateful session bean component with an action method\n"
+"     [copy] Copying 1 file to C:\\Projects\\hello\\src\\hot\\com\\hello\n"
+"     [copy] Copying 1 file to C:\\Projects\\hello\\src\\hot\\com\\hello\n"
+"     [copy] Copying 1 file to C:\\Projects\\hello\\src\\hot\\com\\hello\\test\n"
+"     [copy] Copying 1 file to C:\\Projects\\hello\\view\n"
+"     [copy] Copying 1 file to C:\\Projects\\hello\\src\\hot\\com\\hello\\test\n"
+"     [echo] Type 'seam restart' and go to http://localhost:8080/hello/hello.seam\n"
+"\n"
+"BUILD SUCCESSFUL\n"
+"Total time: 5 seconds\n"
+"C:\\Projects\\jboss-seam&gt;"
 
 #. Tag: para
 #: Gettingstarted.xml:157
@@ -435,7 +571,7 @@ msgstr ""
 #: Gettingstarted.xml:168
 #, no-c-format
 msgid "seam generate-entities"
-msgstr ""
+msgstr "seam generate-entities"
 
 #. Tag: para
 #: Gettingstarted.xml:170
@@ -459,7 +595,7 @@ msgstr ""
 #: Gettingstarted.xml:181
 #, no-c-format
 msgid "seam generate-ui"
-msgstr ""
+msgstr "seam generate-ui"
 
 #. Tag: para
 #: Gettingstarted.xml:183
@@ -489,7 +625,7 @@ msgstr ""
 #: Gettingstarted.xml:200
 #, no-c-format
 msgid "seam -Dprofile=prod deploy"
-msgstr ""
+msgstr "seam -Dprofile=prod deploy"
 
 #. Tag: para
 #: Gettingstarted.xml:202
@@ -513,7 +649,7 @@ msgstr ""
 #: Gettingstarted.xml:215
 #, no-c-format
 msgid "<![CDATA[<core:init debug=\"true\">]]>"
-msgstr ""
+msgstr "<![CDATA[<core:init debug=\"true\">]]>"
 
 #. Tag: para
 #: Gettingstarted.xml:217

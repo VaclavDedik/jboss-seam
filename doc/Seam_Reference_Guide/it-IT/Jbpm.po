@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2008-12-25 15:16+0100\n"
+"PO-Revision-Date: 2008-12-27 14:28+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -621,7 +621,7 @@ msgstr ""
 #: Jbpm.xml:342
 #, no-c-format
 msgid "The <literal>view-id</literal> is the JSF view id. The <literal>&lt;redirect/&gt;</literal> element has the same effect as <literal>&lt;redirect/&gt;</literal> in a JSF navigation rule: namely, a post-then-redirect behavior, to overcome problems with the browser's refresh button. (Note that Seam propagates conversation contexts over these browser redirects. So there is no need for a Ruby on Rails style \"flash\" construct in Seam!)"
-msgstr ""
+msgstr "<literal>view-id</literal> è l'id della vista JSF. L'elemento <literal>&lt;redirect/&gt;</literal> ha lo stesso effetto di <literal>&lt;redirect/&gt;</literal> in una regola di navigazione JSF: cioè un comportamento post-then-redirect per superare i problemi del pulsante aggiorna del browser. (Si noti che Seam propaga i contesti di conversazioni assieme a questi redirect. Quindi in Seam non serve alcun construtto \"flash\" dello stile di Ruby on Rails!)"
 
 #. Tag: para
 #: Jbpm.xml:351
@@ -639,13 +639,13 @@ msgstr "<![CDATA[<h:commandButton type=\"submit\" value=\"Guess\" action=\"guess
 #: Jbpm.xml:358
 #, no-c-format
 msgid "When the transition is triggered by clicking this button, jBPM will activate the transition action by calling the <literal>guess()</literal> method of the <literal>numberGuess</literal> component. Notice that the syntax used for specifying actions in the jPDL is just a familiar JSF EL expression, and that the transition action handler is just a method of a Seam component in the current Seam contexts. So we have exactly the same event model for jBPM events that we already have for JSF events! (The <emphasis>One Kind of Stuff</emphasis> principle.)"
-msgstr ""
+msgstr "Quando cliccando il pulsante verrà invocata la transizione, jBPM attiverà l'azione della transizione chiamando il metodo <literal>guess()</literal> del componente <literal>numberGuess</literal>. Si noti che la sintassi usata per specificare le azioni in jPDL non è che un'espressione JSF EL già familiare, e che l'action handler della transizione è solo un metodo di un componente Seam negli attuali contesti. Così per gli eventi jBPM si ha esattamente lo stesso modello ad eventi visto per gli eventi JSF! (Il principio <emphasis>Unico tipo di \"cosa\"</emphasis>.)"
 
 #. Tag: para
 #: Jbpm.xml:369
 #, no-c-format
 msgid "In the case of a null outcome (for example, a command button with no <literal>action</literal> defined), Seam will signal the transition with no name if one exists, or else simply redisplay the page if all transitions have names. So we could slightly simplify our example pageflow and this button:"
-msgstr ""
+msgstr "Nel caso di esito nullo (per esempio un pulsante di comando senza la definizione di <literal>action</literal>), Seam segnalerà la transizione senza nome se ne esiste una, oppure rivisualizzerà la pagina se tutte le transizioni hanno un nome. Così è possibile semplificare leggermente l'esempio del pageflow e questo pulsante:"
 
 #. Tag: programlisting
 #: Jbpm.xml:376
@@ -708,7 +708,7 @@ msgstr ""
 #: Jbpm.xml:393
 #, no-c-format
 msgid "However, this is considered an inferior style, since it moves responsibility for controlling the flow out of the pageflow definition and back into the other components. It is much better to centralize this concern in the pageflow itself."
-msgstr ""
+msgstr "Comunque questo è considerato uno stile inferiore, poiché sposta la responsabilità del controllo del flusso fuori dalla definizione del pageflow e la mette negli altri componenti. E' molto meglio centralizzare questo concern nel pageflow stesso."
 
 #. Tag: title
 #: Jbpm.xml:402
@@ -720,7 +720,7 @@ msgstr "Controllo del flusso"
 #: Jbpm.xml:404
 #, no-c-format
 msgid "Usually, we don't need the more powerful features of jPDL when defining pageflows. We do need the <literal>&lt;decision&gt;</literal> node, however:"
-msgstr ""
+msgstr "Di solito non occorrono le funzionalità più potenti di jPDL nella definizione dei pageflow. Serve comunque il nodo <literal>&lt;decision&gt;</literal>:"
 
 #. Tag: programlisting
 #: Jbpm.xml:409
@@ -752,7 +752,7 @@ msgstr "Fine del flusso"
 #: Jbpm.xml:420
 #, no-c-format
 msgid "We end the conversation using <literal>&lt;end-conversation&gt;</literal> or <literal>@End</literal>. (In fact, for readability, use of <emphasis>both</emphasis> is encouraged.)"
-msgstr ""
+msgstr "Si termina una conversazione usando <literal>&lt;end-conversation&gt;</literal> oppure <literal>@End</literal>. (Infatti per chiarezza si consiglia l'uso di <emphasis>entrambi</emphasis>.)\""
 
 #. Tag: programlisting
 #: Jbpm.xml:426
@@ -798,7 +798,7 @@ msgstr "Composizione dei pageflow"
 #: Jbpm.xml:440
 #, no-c-format
 msgid "It is possible to compose pageflows and have one pageflow pause pause while another pageflow executes. The <literal>&lt;process-state&gt;</literal> node pauses the outer pageflow, and begins execution of a named pageflow:"
-msgstr ""
+msgstr "E' possibile comporre pageflow ed avere una pausa in un pageflow mentre viene eseguito un altro pageflow. Il nodo <literal>&lt;process-state&gt;</literal> effettua una pausa nel pageflow più esterno e comincia l'esecuzione di un pageflow con nome:"
 
 #. Tag: programlisting
 #: Jbpm.xml:447
@@ -818,7 +818,7 @@ msgstr ""
 #: Jbpm.xml:449
 #, no-c-format
 msgid "The inner flow begins executing at a <literal>&lt;start-state&gt;</literal> node. When it reaches an <literal>&lt;end-state&gt;</literal> node, execution of the inner flow ends, and execution of the outer flow resumes with the transition defined by the <literal>&lt;process-state&gt;</literal> element."
-msgstr ""
+msgstr "Il flusso più interno comincia l'esecuzione al nodo <literal>&lt;start-state&gt;</literal>. Quando raggiunge un nodo <literal>&lt;end-state&gt;</literal>, l'esecuzione del flusso più interno termina, e riprende quella del flusso più esterno con la transizione definita dall'elemento <literal>&lt;process-state&gt;</literal>."
 
 #. Tag: title
 #: Jbpm.xml:462
@@ -830,13 +830,13 @@ msgstr "La gestione del processo di business in Seam"
 #: Jbpm.xml:463
 #, no-c-format
 msgid "A business process is a well-defined set of tasks that must be performed by users or software systems according to well-defined rules about <emphasis>who</emphasis> can perform a task, and <emphasis>when</emphasis> it should be performed. Seam's jBPM integration makes it easy to display lists of tasks to users and let them manage their tasks. Seam also lets the application store state associated with the business process in the <literal>BUSINESS_PROCESS</literal> context, and have that state made persistent via jBPM variables."
-msgstr ""
+msgstr "Un processo di business è un set di task ben-definiti che deve essere eseguito dagli utenti o dai sistemi software secondo regole ben-definite riguardo <emphasis>chi</emphasis> può eseguire un task, e <emphasis>quando</emphasis>deve essere eseguito. L'integrazione jBPM di Seam facilita la visione della lista di task agli utenti e consente loro di gestire questi task. Seam consente anche all'applicazione di memorizzare lo stato associato al processo di business nel contesto <literal>BUSINESS_PROCESS</literal>, ed rendere questo stato persistente tramite variabili jBPM."
 
 #. Tag: para
 #: Jbpm.xml:475
 #, no-c-format
 msgid "A simple business process definition looks much the same as a page flow definition (<emphasis>One Kind of Stuff</emphasis>), except that instead of <literal>&lt;page&gt;</literal> nodes, we have <literal>&lt;task-node&gt;</literal> nodes. In a long-running business process, the wait states are where the system is waiting for some user to log in and perform a task."
-msgstr ""
+msgstr "Una semplice definizione di processo di business appare più o meno come una definizione di pageflow (<emphasis>Unico tipo di cosa</emphasis>), tranne che invece dei nodi <literal>&lt;page&gt;</literal>, si hanno i nodi <literal>&lt;task-node&gt;</literal>. In un processo di business long-running, gli stati di attesa si verificano quando il sistema aspetta che un qualche utente entri ed esegua un task."
 
 #. Tag: programlisting
 #: Jbpm.xml:484
@@ -880,7 +880,7 @@ msgstr ""
 #: Jbpm.xml:496
 #, no-c-format
 msgid "It is perfectly possible that we might have both jPDL business process definitions and jPDL pageflow definitions in the same project. If so, the relationship between the two is that a single <literal>&lt;task&gt;</literal> in a business process corresponds to a whole pageflow <literal>&lt;pageflow-definition&gt;</literal>"
-msgstr ""
+msgstr "E' perfettamente possibile avere entrambi le definizioni di processo di business jPDL e le definizioni di pageflow jPDL nello stesso progetto. Se questo è il caso, la relazione tra i due è che un singolo <literal>&lt;task&gt;</literal> in un processo di business corrisponde ad un intero pageflow <literal>&lt;pageflow-definition&gt;</literal>"
 
 #. Tag: title
 #: Jbpm.xml:507
@@ -920,7 +920,7 @@ msgstr ""
 #: Jbpm.xml:519
 #, no-c-format
 msgid "As jBPM processes are persistent across application restarts, when using Seam in a production environment you won't want to install the process definition every time the application starts. Therefore, in a production environment, you'll need to deploy the process to jBPM outside of Seam. In other words, only install process definitions from <literal>components.xml</literal> when developing your application."
-msgstr ""
+msgstr "Poichéi processi jBPM sono persistenti nel corso dei riavvii dell'applicazione, quando si usa Seam in ambiente di produzione non si vorrà sicuramente installare ogni volta le definizioni dei processi adogni riavvio. Quindi, in ambiente di produzione, occorre fare il deploy del processo in jBPM fuori da Seam. In altre parole, si installano le definizioni dei processi dal file <literal>components.xml</literal> durante lo sviluppo dell'applicazione."
 
 #. Tag: title
 #: Jbpm.xml:532
