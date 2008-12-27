@@ -1157,8 +1157,10 @@
   </para> 
 
    <para>
-     Released versions of Seam are available in http://repository.jboss.org/maven2
-     and nightly snapshots are available in http://snapshots.jboss.org/maven2.
+     Released versions of Seam are available in <ulink url="http://repository.jboss.org/maven2">
+     http://repository.jboss.org/maven2</ulink>     
+     and nightly snapshots are available in <ulink url="http://snapshots.jboss.org/maven2">
+     http://snapshots.jboss.org/maven2</ulink>.
    </para>
 
    <para>
