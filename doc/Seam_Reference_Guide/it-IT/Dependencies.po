@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2008-12-27 12:25+0100\n"
+"PO-Revision-Date: 2008-12-27 14:53+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -907,7 +907,7 @@ msgstr "Qui non si discute l'uso di Maven, ma soltanto un utilizzo base del POM.
 #: Dependencies.xml:1159
 #, no-c-format
 msgid "Released versions of Seam are available in http://repository.jboss.org/maven2 and nightly snapshots are available in http://snapshots.jboss.org/maven2."
-msgstr "Le versioni rilasciate di Seam sono disponibili in http://repository.jboss.org/maven2 e gli snapshot notturni sono disponibili in in http://snapshots.jboss.org/maven2."
+msgstr "Le versioni rilasciate di Seam sono disponibili all'indirizzo http://repository.jboss.org/maven2 e gli snapshot notturni sono disponibili all'indirizzo http://snapshots.jboss.org/maven2."
 
 #. Tag: para
 #: Dependencies.xml:1164

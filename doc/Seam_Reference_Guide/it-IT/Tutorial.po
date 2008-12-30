@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-13 17:58+0000\n"
-"PO-Revision-Date: 2008-12-30 12:00+0100\n"
+"PO-Revision-Date: 2008-12-30 23:41+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1023,7 +1023,7 @@ msgstr "Descrittore di deploy per la persistenza EJB: <literal>persistence.xml</
 #: Tutorial.xml:460
 #, no-c-format
 msgid "The <literal>persistence.xml</literal> file tells the EJB persistence provider where to find the datasource, and contains some vendor-specific settings. In this case, enables automatic schema export at startup time."
-msgstr ""
+msgstr "Il file <literal>persistence.xml</literal> dice all'EJB persistence provider dove trovare il datasource, e contiene alcune impostazioni vendor-specific. In questo caso abilita automaticamente l'esportazione dello schema all'avvio."
 
 #. Tag: programlisting
 #: Tutorial.xml:464
@@ -1075,7 +1075,7 @@ msgstr "Descrittore di deploy EAR: <literal>application.xml</literal>"
 #: Tutorial.xml:471
 #, no-c-format
 msgid "Finally, since our application is deployed as an EAR, we need a deployment descriptor there, too."
-msgstr ""
+msgstr "Infine poiché l'applicazione viene deployata come EAR, occorre anche un descrittore di deploy."
 
 #. Tag: title
 #: Tutorial.xml:473
@@ -1147,13 +1147,13 @@ msgstr ""
 #: Tutorial.xml:477
 #, no-c-format
 msgid "This deployment descriptor links modules in the enterprise archive and binds the web application to the context root <literal>/seam-registration</literal>."
-msgstr ""
+msgstr "Questo descrittore di deploy punta a moduli nell'archivio enterprise ed associa l'applicazione web al contesto radice <literal>/seam-registration</literal>."
 
 #. Tag: para
 #: Tutorial.xml:480
 #, no-c-format
 msgid "We've now seen <emphasis>all</emphasis> the files in the entire application!"
-msgstr ""
+msgstr "Adesso sono stati analizzati tutti i file dell'intera applicazione!"
 
 #. Tag: title
 #: Tutorial.xml:486
@@ -1168,31 +1168,31 @@ msgstr "Come funziona"
 #: Tutorial.xml:488
 #, no-c-format
 msgid "When the form is submitted, JSF asks Seam to resolve the variable named <literal>user</literal>. Since there is no value already bound to that name (in any Seam context), Seam instantiates the <literal>user</literal> component, and returns the resulting <literal>User</literal> entity bean instance to JSF after storing it in the Seam session context."
-msgstr ""
+msgstr "Quando la form viene inviata, JSF chiede a Seam di risolvere la variabile chiamata <literal>user</literal>. Poiché non c'è alcun valore associato a questo nome (in un qualsiasi contesto Seam), Seam istanzia il componente <literal>user</literal> e restituisce a JSF un'istanza dell'entity bean <literal>User</literal> dopo averla memorizzata nel contesto Seam di sessione. "
 
 #. Tag: para
 #: Tutorial.xml:492
 #, no-c-format
 msgid "The form input values are now validated against the Hibernate Validator constraints specified on the <literal>User</literal> entity. If the constraints are violated, JSF redisplays the page. Otherwise, JSF binds the form input values to properties of the <literal>User</literal> entity bean."
-msgstr ""
+msgstr "I valori di input della form vengono ora validati dai vincoli di Hibernate Validator specificati nell'entity <literal>User</literal>. Se i vincoli vengono violati, JSF rivisualizza la pagina, Altrimenti, JSF associa i valori di input alle proprietò dell'entity bean <literal>User</literal>."
 
 #. Tag: para
 #: Tutorial.xml:495
 #, no-c-format
 msgid "Next, JSF asks Seam to resolve the variable named <literal>register</literal>. Seam uses the JNDI pattern mentioned earlier to locate the stateless session bean, wraps it as a Seam component, and returns it. Seam then presents this component to JSF and JSF invokes the <literal>register()</literal> action listener method."
-msgstr ""
+msgstr "Successivamente JSF chiede a Seam di risolvere la variabile chiamata <literal>register</literal>. Seam utilizza il pattern JNDI menzionato in precedenza per localizzare il session bean stateless, lo impiega come componente Seam tramite il wrap e lo restituisce. Seam quindi presenta questo componente a JSF e JSF invoca il metodo action listener <literal>register()</literal>."
 
 #. Tag: para
 #: Tutorial.xml:499
 #, no-c-format
 msgid "But Seam is not done yet. Seam intercepts the method call and injects the <literal>User</literal> entity from the Seam session context, before allowing the invocation to continue."
-msgstr ""
+msgstr "Ma Seam non ha ancora terminato. Seam intercetta la chiamata al metodo e inietta l'entity <literal>User</literal> dal contestosessione di Seam, prima di consentire all'invocazione di continuare."
 
 #. Tag: para
 #: Tutorial.xml:501
 #, no-c-format
 msgid "The <literal>register()</literal> method checks if a user with the entered username already exists. If so, an error message is queued with the <literal>FacesMessages</literal> component, and a null outcome is returned, causing a page redisplay. The <literal>FacesMessages</literal> component interpolates the JSF expression embedded in the message string and adds a JSF <literal>FacesMessage</literal> to the view."
-msgstr ""
+msgstr "Il metodo <literal>register()</literal> controlla se esiste già un utente lo username inserito. Se è così, viene accodato un errore al componente <literal>FacesMessages</literal>, e viene restituito un esito null, causando la rivisualizzazione della pagina. Il componente <literal>FacesMessages</literal> interpola l'espressione JSF incorporata nella stringadi messaggio e aggiunge un <literal>FacesMessage</literal> JSF alla vista."
 
 #. Tag: para
 #: Tutorial.xml:506
@@ -1372,7 +1372,7 @@ msgstr ""
 #: Tutorial.xml:551
 #, no-c-format
 msgid "The stateful session bean: <literal>MessageManagerBean.java</literal>"
-msgstr ""
+msgstr "Il bean di sessione stateful: <literal>MessageManagerBean.java</literal>"
 
 #. Tag: para
 #: Tutorial.xml:553
@@ -1538,13 +1538,13 @@ msgstr ""
 #: Tutorial.xml:640
 #, no-c-format
 msgid "The session bean local interface: <literal>MessageManager.java</literal>"
-msgstr ""
+msgstr "L'interfaccia locale del session bean local: <literal>MessageManager.java</literal>"
 
 #. Tag: para
 #: Tutorial.xml:642
 #, no-c-format
 msgid "All session beans have a business interface, of course."
-msgstr ""
+msgstr "Tutti i session bean hanno un'interfaccia di business, naturalmente."
 
 #. Tag: title
 #: Tutorial.xml:644
@@ -1578,7 +1578,7 @@ msgstr ""
 #: Tutorial.xml:648
 #, no-c-format
 msgid "From now on, we won't show local interfaces in our code examples."
-msgstr ""
+msgstr "D'ora in poi non verranno mostrate interfacce locali nei codici d'esempio."
 
 #. Tag: para
 #: Tutorial.xml:650

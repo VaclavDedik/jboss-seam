@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2008-12-15 18:23+0100\n"
+"PO-Revision-Date: 2008-12-31 00:05+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,7 @@ msgstr ""
 #: Mail.xml:25
 #, no-c-format
 msgid "Creating a message"
-msgstr ""
+msgstr "Creare un messaggio"
 
 #. Tag: para
 #: Mail.xml:27
@@ -165,7 +165,7 @@ msgstr ""
 #: Mail.xml:69
 #, no-c-format
 msgid "If you wanted to email the <literal>jboss-seam-mail.jar</literal>:"
-msgstr ""
+msgstr "Si si vuole spedire email <literal>jboss-seam-mail.jar</literal>:"
 
 #. Tag: programlisting
 #: Mail.xml:73
@@ -189,7 +189,7 @@ msgstr "<![CDATA[<m:attachment value=\"/WEB-INF/lib/jboss-seam-mail.jar\" fileNa
 #: Mail.xml:83
 #, no-c-format
 msgid "You could also attach a <literal>java.io.File</literal>, a <literal>java.net.URL</literal>:"
-msgstr ""
+msgstr "Si può anche allegare un <literal>java.io.File</literal>, un <literal>java.net.URL</literal>:"
 
 #. Tag: programlisting
 #: Mail.xml:87
@@ -201,7 +201,7 @@ msgstr "<![CDATA[<m:attachment value=\"#{numbers}\"/>]]>"
 #: Mail.xml:89
 #, no-c-format
 msgid "Or a <literal>byte[]</literal> or a <literal>java.io.InputStream</literal>:"
-msgstr ""
+msgstr "Oppure un <literal>byte[]</literal> o un <literal>java.io.InputStream</literal>:"
 
 #. Tag: programlisting
 #: Mail.xml:93
@@ -297,7 +297,7 @@ msgstr ""
 #: Mail.xml:136
 #, no-c-format
 msgid "HTML/Text alternative part"
-msgstr ""
+msgstr "HTML/Text alternative part"
 
 #. Tag: para
 #: Mail.xml:138
@@ -379,7 +379,7 @@ msgstr ""
 #: Mail.xml:174
 #, no-c-format
 msgid "Templating"
-msgstr ""
+msgstr "Comporre template"
 
 #. Tag: para
 #: Mail.xml:176
@@ -391,7 +391,7 @@ msgstr ""
 #: Mail.xml:181
 #, no-c-format
 msgid "Our <literal>template.xhtml</literal> contains:"
-msgstr ""
+msgstr "<literal>template.xhtml</literal> contiene:"
 
 #. Tag: programlisting
 #: Mail.xml:185
@@ -427,7 +427,7 @@ msgstr ""
 #: Mail.xml:187
 #, no-c-format
 msgid "Our <literal>templating.xhtml</literal> contains:"
-msgstr ""
+msgstr "<literal>templating.xhtml</literal> contiene:"
 
 #. Tag: programlisting
 #: Mail.xml:191
@@ -1000,7 +1000,7 @@ msgstr "&lt;m:subject&gt;"
 #: Mail.xml:667
 #, no-c-format
 msgid "Set's the subject for the email."
-msgstr ""
+msgstr "Impostiamo l'oggetto della mail."
 
 #. Tag: term
 #: Mail.xml:673
