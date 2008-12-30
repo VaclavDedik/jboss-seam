@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-13 17:58+0000\n"
-"PO-Revision-Date: 2008-12-25 14:54+0100\n"
+"PO-Revision-Date: 2008-12-30 12:00+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -340,31 +340,31 @@ msgstr "Un costruttore vuoto è richiesto sia dalla specifica EJB sia da Seam."
 #: Tutorial.xml:202
 #, no-c-format
 msgid "The <literal>@NotNull</literal> and <literal>@Length</literal> annotations are part of the Hibernate Validator framework. Seam integrates Hibernate Validator and lets you use it for data validation (even if you are not using Hibernate for persistence)."
-msgstr ""
+msgstr "Le annotazioni <literal>@NotNull</literal> e <literal>@Length</literal> sono parte del framework Hibernate Validator. Seam integra Hibernate Validator e consente di usarlo per la validazione dei dati (anche se non viene usato Hibernate per la persistenza)."
 
 #. Tag: para
 #: Tutorial.xml:208
 #, no-c-format
 msgid "The EJB standard <literal>@Id</literal> annotation indicates the primary key attribute of the entity bean."
-msgstr ""
+msgstr "L'annotazione standard EJB <literal>@Id</literal> indica l'attributo di chiave primaria di un entity bean."
 
 #. Tag: para
 #: Tutorial.xml:214
 #, no-c-format
 msgid "The most important things to notice in this example are the <literal>@Name</literal> and <literal>@Scope</literal> annotations. These annotations establish that this class is a Seam component."
-msgstr ""
+msgstr "Le cose più importanti da notare in quest'esempio sono le annotazioni <literal>@Name</literal> e <literal>@Scope</literal>. Queste annotazioni stabiliscono che questa classe è un componente Seam."
 
 #. Tag: para
 #: Tutorial.xml:216
 #, no-c-format
 msgid "We'll see below that the properties of our <literal>User</literal> class are bound directly to JSF components and are populated by JSF during the update model values phase. We don't need any tedious glue code to copy data back and forth between the JSP pages and the entity bean domain model."
-msgstr ""
+msgstr "Si vedrà sotto che le proprietà della classe <literal>User</literal> sono legate direttamente ai componenti JSF e sono popolati da JSF durante la fase di aggiornamento dei valori del modello (\"update model values\"). Non occorre nessun codice colla per copiare i dati avanti ed indietro tra le pagine JSP ed il modello di dominio degli entity bean."
 
 #. Tag: para
 #: Tutorial.xml:220
 #, no-c-format
 msgid "However, entity beans shouldn't do transaction management or database access. So we can't use this component as a JSF action listener. For that we need a session bean."
-msgstr ""
+msgstr "Comunque, gli entity bean non dovrebbero occuparsi della gestione delle transazioni o dell'accesso al database. Quindi non si può usare questo componente come action listener JSF. Per questo occorre un session bean."
 
 #. Tag: title
 #: Tutorial.xml:226
@@ -382,7 +382,7 @@ msgstr "La maggior parte delle applicazioni Seam utilizzano session bean come ac
 #: Tutorial.xml:230
 #, no-c-format
 msgid "We have exactly one JSF action in our application, and one session bean method attached to it. In this case, we'll use a stateless session bean, since all the state associated with our action is held by the <literal>User</literal> bean."
-msgstr ""
+msgstr "C'è esattamente una azione JSF nell'applicazione ed un metodo di session bean attaccato ad essa. In questo caso si utilizzerà un bean di sessione stateless, poiché tutto lo stato associato all'azione è mantenuto dal bean <literal>User</literal>."
 
 #. Tag: para
 #: Tutorial.xml:234
@@ -478,7 +478,7 @@ msgstr "L'annotazione EJB <literal>@Stateless</literal> marca questa classe come
 #: Tutorial.xml:258
 #, no-c-format
 msgid "The <link linkend=\"in-annotation\"> <literal>@In</literal> </link> annotation marks an attribute of the bean as injected by Seam. In this case, the attribute is injected from a context variable named <literal>user</literal> (the instance variable name)."
-msgstr ""
+msgstr "L'annotazione <link linkend=\"in-annotation\"> <literal>@In</literal> </link> marca un attributo del bean come iniettato da Seam. In questo caso, l'attributo viene iniettato da una variabile di contesto chiamata <literal>user</literal> (il nome della variabile istanza)."
 
 #. Tag: para
 #: Tutorial.xml:265
@@ -496,49 +496,50 @@ msgstr "L'annotazione <literal>@Logger</literal> di Seam è usata per iniettare 
 #: Tutorial.xml:273
 #, no-c-format
 msgid "The action listener method uses the standard EJB3 <literal>EntityManager</literal> API to interact with the database, and returns the JSF outcome. Note that, since this is a session bean, a transaction is automatically begun when the <literal>register()</literal> method is called, and committed when it completes."
-msgstr ""
+msgstr "Il metodo action listener utilizza l'API EJB3 standard <literal>EntityManager</literal> per interagire con il database, e restituisce l'esito JSF. Notare che, poiché questo è un session bean, si inizia automaticamente una transazione quando viene chiamato il metodo <literal>register()</literal>, e viene eseguito il commit quando questo completa."
 
 #. Tag: para
 #: Tutorial.xml:280
 #, no-c-format
 msgid "Notice that Seam lets you use a JSF EL expression inside EJB-QL. Under the covers, this results in an ordinary JPA <literal>setParameter()</literal> call on the standard JPA <literal>Query</literal> object. Nice, huh?"
-msgstr ""
+msgstr "Si noti che Seam consente di utilizzare espressioni JSF EL dentro EJB-QL. Sotto il coperchio, questo proviene da un'ordinaria chiamata JPA <literal>setParameter()</literal> sull'oggetto standard <literal>Query</literal>. Interessante, vero?"
 
 #. Tag: para
 #: Tutorial.xml:285
 #, no-c-format
 msgid "The <literal>Log</literal> API lets us easily display templated log messages which can also make use of JSF EL expressions."
-msgstr ""
+msgstr "L'API <literal>Log</literal> consente facilmente di mostrare i messaggi di log, i quali possono anche impiegare espressioni JSF EL."
 
+# indirection = azione indiretta ?
 #. Tag: para
 #: Tutorial.xml:290
 #, no-c-format
 msgid "JSF action listener methods return a string-valued outcome that determines what page will be displayed next. A null outcome (or a void action listener method) redisplays the previous page. In plain JSF, it is normal to always use a JSF <emphasis>navigation rule</emphasis> to determine the JSF view id from the outcome. For complex application this indirection is useful and a good practice. However, for very simple examples like this one, Seam lets you use the JSF view id as the outcome, eliminating the requirement for a navigation rule. <emphasis>Note that when you use a view id as an outcome, Seam always performs a browser redirect.</emphasis>"
-msgstr ""
+msgstr "I metodi JSF action listener restituiscono un esito di tipo stringa, che determina quale pagina verrà mostrata come successiva. Un estio null (o un metodo action listener di tipo void) regenera la pagina precedente. Nel semplice JSF, è normale impiegare sempre una <emphasis>regola di navigazione</emphasis> JSF per determinare l'id della vista JSF dall'esito. Per applicazioni complesse quest'azione indiretta (indirection) è sia utile sia una buona pratica. Comunque, per ogni esempio semplice come questo, Seam consente di usare l'id della vista JSF come esito, eliminando l'uso della regola di navigazione. <emphasis>Si noti che quando viene usato l'id della vista come esito, Seam esegue sempre un redirect del browser.</emphasis>"
 
 #. Tag: para
 #: Tutorial.xml:302
 #, no-c-format
 msgid "Seam provides a number of <emphasis>built-in components</emphasis> to help solve common problems. The <literal>FacesMessages</literal> component makes it easy to display templated error or success messages. (As of Seam 2.1, you can use <literal>StatusMessages</literal> instead to remove the semantic dependency on JSF). Built-in Seam components may be obtained by injection, or by calling the <literal>instance()</literal> method on the class of the built-in component."
-msgstr ""
+msgstr "Seam fornisce un numero di <emphasis>componenti predefiniti</emphasis> per aiutare a risolvere problemi comuni. Il componente <literal>FacesMessages</literal> agevola la visualizzazione di messaggi template di errore o di successo. (Da Seam 2.1, si puà impiegare <literal>StatusMessages</literal> invece di rimuovere la dipendenza semantica di JSF.) I componenti Seam predefiniti possono essere ottenuti tramite iniezione, o chiamando il metodo <literal>instance()</literal> sulla classe del componente predefinito."
 
 #. Tag: para
 #: Tutorial.xml:314
 #, no-c-format
 msgid "Note that we did not explicitly specify a <literal>@Scope</literal> this time. Each Seam component type has a default scope if not explicitly specified. For stateless session beans, the default scope is the stateless context, which is the only sensible value."
-msgstr ""
+msgstr "Si noti che questa volta non si è esplicitamente specificato uno <literal>@Scope</literal>. Ciascun tipo di componente Seam ha uno scope di default se non esplicitamente specificato. Per bean di sessione stateless, lo scope di default è nel contesto stateless, che è l'unico valore sensato."
 
 #. Tag: para
 #: Tutorial.xml:318
 #, no-c-format
 msgid "Our session bean action listener performs the business and persistence logic for our mini-application. In more complex applications, we might need require a separate service layer. This is easy to achieve with Seam, but it's overkill for most web applications. Seam does not force you into any particular strategy for application layering, allowing your application to be as simple, or as complex, as you want."
-msgstr ""
+msgstr "L'action listenere del bean di sessioni esegue la logica di persistenza e di business per quest'applicazione. In applicazioni più complesse, può essere opportuno separare il layer di servizio. Questo è facile da farsi in Seam, ma è critico per la maggior parte delle applicazioni web. Seam non forza nell'impiego di una particolare strategia per il layering dell'applicazione, consentendo di rimanere semplici o complessi a proprio piacimento."
 
 #. Tag: para
 #: Tutorial.xml:324
 #, no-c-format
 msgid "Note that in this simple application, we've actually made it far more complex than it needs to be. If we had used the Seam application framework controllers, we would have eliminated all of our application code. However, then we wouldn't have had much of an application to explain."
-msgstr ""
+msgstr "Si noti che in questa semplice applicazione, abbiamo reso le cose di gran lunga più complicate di quanto necessario. Se si fossero impiegati i controllori di Seam, si sarebbe eliminato molto codice dell'applicazione. Comunque non avremmo avuto molto da spiegare."
 
 #. Tag: title
 #: Tutorial.xml:333
@@ -590,7 +591,7 @@ msgstr "La vista: <literal>register.xhtml</literal> e <literal>registered.xhtml<
 #: Tutorial.xml:348
 #, no-c-format
 msgid "The view pages for a Seam application could be implemented using any technology that supports JSF. In this example we use Facelets, because we think it's better than JSP."
-msgstr ""
+msgstr "Le pagine di vista di per un'applicazione Seam possono essere implementate usando qualsiasi tecnologia supporti JSF. In quest'esempio si usa Facelets, poiché noi pensiamo sia migliore di JSP."
 
 #. Tag: title
 #: Tutorial.xml:352
@@ -716,7 +717,7 @@ msgstr ""
 #: Tutorial.xml:366
 #, no-c-format
 msgid "This is a simple Facelets page using some inline EL. There's nothing specific to Seam here."
-msgstr ""
+msgstr "Questa è una semplice pagina JSF che utilizza EL. Qua non c'è niente di specifico di Seam."
 
 #. Tag: title
 #: Tutorial.xml:371
@@ -728,19 +729,19 @@ msgstr "Il descrittore di deploy dei componenti Seam: <literal>components.xml</l
 #: Tutorial.xml:373
 #, no-c-format
 msgid "Since this is the first Seam app we've seen, we'll take a look at the deployment descriptors. Before we get into them, it is worth noting that Seam strongly values minimal configuration. These configuration files will be created for you when you create a Seam application. You'll never need to touch most of these files. We're presenting them now only to help you understand what all the pieces in the example are doing."
-msgstr ""
+msgstr "\"Poiché questa è la prima applicazione vista, si prenderanno in esame i descrittori di deploy. Ma prima di iniziare, vale la pena di notare che Seam apprezza molto una configurazione minimale. Questi file di configurazione verranno creati al momento della creazione di un'applicazione Seam. Non sarà mai necessario metter mano alla maggior parte di questi file. Qua vengono presentati solo per aiutare a capire tutti pezzi dell'esempio preso in considerazione."
 
 #. Tag: para
 #: Tutorial.xml:380
 #, no-c-format
 msgid "If you've used many Java frameworks before, you'll be used to having to declare all your component classes in some kind of XML file that gradually grows more and more unmanageable as your project matures. You'll be relieved to know that Seam does not require that application components be accompanied by XML. Most Seam applications require a very small amount of XML that does not grow very much as the project gets bigger."
-msgstr ""
+msgstr "Se si sono utilizzati altri framework Java in precedenza, si è abituati a dichiarare le classi componenti in un qualche file XML che gradualmente cresce sempre più e diventa sempre più ingestibile man man che il progetto evolve. Si resterà sollevati dal sapere che Seam non richiede che i componenti dell'applicazione siano accompagnati da file XML. La maggior parte delle applicazioni Seam richiede una quantità molto piccola di XML che non aumenta man mano che il progetto cresce."
 
 #. Tag: para
 #: Tutorial.xml:386
 #, no-c-format
 msgid "Nevertheless, it is often useful to be able to provide for <emphasis>some</emphasis> external configuration of <emphasis>some</emphasis> components (particularly the components built in to Seam). You have a couple of options here, but the most flexible option is to provide this configuration in a file called <literal>components.xml</literal>, located in the <literal>WEB-INF</literal> directory. We'll use the <literal>components.xml</literal> file to tell Seam how to find our EJB components in JNDI:"
-msgstr ""
+msgstr "Tuttavia è spesso utile fornire una <emphasis>qualche</emphasis> configurazione esterna per <emphasis>qualche</emphasis> componente (particolarmente per i componenti predefiniti di Seam). Ci sono due opzioni, ma l'opzione più flessibile è fornire questa configurazione in un file chiamato <literal>components.xml</literal>, collocato nella directory <literal>WEB-INF</literal>. Si userà il file <literal>components.xml</literal> per dire a Seam dove trovare i componenti EJB in JNDI:"
 
 #. Tag: title
 #: Tutorial.xml:393
@@ -784,7 +785,7 @@ msgstr ""
 #: Tutorial.xml:396
 #, no-c-format
 msgid "This code configures a property named <literal>jndiPattern</literal> of a built-in Seam component named <literal>org.jboss.seam.core.init</literal>. The funny <literal>@</literal> symbols are there because our Ant build script puts the correct JNDI pattern in when we deploy the application, which it reads from the components.properties file. You learn more about how this process works in <xref linkend=\"xml.descriptor\"/>."
-msgstr ""
+msgstr "Questo codice configura una proprietà chiamata <literal>jndiPattern</literal> di un componente Seam  predefinito chiamato <literal>org.jboss.seam.core.init</literal>. Il divertente simbolo <literal>@</literal> viene impiegato poiché lo script di build Ant vi mette al suo posto il corretto JDNI pattern al momento del deploy dell'applicazione, ricavato dal file components.properties. Maggiori informazioni su questo processo in <xref linkend=\"xml.descriptor\"/>."
 
 #. Tag: title
 #: Tutorial.xml:405
@@ -796,7 +797,7 @@ msgstr "La descrizione del deploy web: <literal>web.xml</literal>"
 #: Tutorial.xml:407
 #, no-c-format
 msgid "The presentation layer for our mini-application will be deployed in a WAR. So we'll need a web deployment descriptor."
-msgstr ""
+msgstr "Il layer di presentazione dell'applicazione verrà deployato in un WAR. Quindi sarà necessario un descrittore di deploy web."
 
 #. Tag: title
 #: Tutorial.xml:410
@@ -936,19 +937,19 @@ msgstr ""
 #: Tutorial.xml:432
 #, no-c-format
 msgid "Note that we don't need any JSF managed bean declarations! Our managed beans are annotated Seam components. In Seam applications, the <literal>faces-config.xml</literal> is used much less often than in plain JSF. Here, we are simply using it to enable Facelets as the view handler instead of JSP."
-msgstr ""
+msgstr "Si noti che non occorre alcuna dichiarazione di managed bean JSF! I managed bean sono componenti Seam annotati. Nelle applicazioni Seam, <literal>faces-config.xml</literal> è usato meno spesso che nel semplice JSF. Qua, viene usato per abilitare Faceltes come gestore di viste al posto di JSP."
 
 #. Tag: para
 #: Tutorial.xml:437
 #, no-c-format
 msgid "In fact, once you have all the basic descriptors set up, the <emphasis>only</emphasis> XML you need to write as you add new functionality to a Seam application is orchestration: navigation rules or jBPM process definitions. Seam's stand is that <emphasis>process flow</emphasis> and <emphasis>configuration data</emphasis> are the only things that truly belong in XML."
-msgstr ""
+msgstr "Infatti una volta configurati tutti i descrittori base, l'<emphasis>unico</emphasis> XML necessario da scrivere per aggiungere nuove funzionalità ad un'applicazione Seam è quello per l'orchestrazione (orchestration): regole di navigazione o definizione di processi jBPM. Un punto fermo di Seam è che <emphasis>flusso di processo</emphasis> e <emphasis>configurazione dei dati</emphasis> siano le uniche cose che veramente appartengano alla sfera dell'XML."
 
 #. Tag: para
 #: Tutorial.xml:442
 #, no-c-format
 msgid "In this simple example, we don't even need a navigation rule, since we decided to embed the view id in our action code."
-msgstr ""
+msgstr "Questo semplice esempio non è neppure stato necessario usare una regola di navigazione, poiché si è deciso di incorporare l'id della vista nel codice dell'azione."
 
 #. Tag: title
 #: Tutorial.xml:448
@@ -960,7 +961,7 @@ msgstr "Descrittore di deploy EJB: <literal>ejb-jar.xml</literal>"
 #: Tutorial.xml:450
 #, no-c-format
 msgid "The <literal>ejb-jar.xml</literal> file integrates Seam with EJB3, by attaching the <literal>SeamInterceptor</literal> to all session beans in the archive."
-msgstr ""
+msgstr "Il file <literal>ejb-jar.xml</literal> integra Seam con EJB3, attaccando <literal>SeamInterceptor</literal> a tutti i bean di sessione nell'archivio."
 
 #. Tag: programlisting
 #: Tutorial.xml:453
@@ -1016,7 +1017,7 @@ msgstr ""
 #: Tutorial.xml:458
 #, no-c-format
 msgid "The EJB persistence deployment descriptor: <literal>persistence.xml</literal>"
-msgstr ""
+msgstr "Descrittore di deploy per la persistenza EJB: <literal>persistence.xml</literal>"
 
 #. Tag: para
 #: Tutorial.xml:460
@@ -1889,7 +1890,7 @@ msgstr ""
 #: Tutorial.xml:796
 #, no-c-format
 msgid "Here we see the use of <literal>@In</literal> to inject the built-in <literal>Actor</literal> component."
-msgstr ""
+msgstr "Qua si vede l'uso di <literal>@In</literal> per iniettare il componente predefinito <literal>Actor</literal>."
 
 #. Tag: para
 #: Tutorial.xml:799
@@ -5057,7 +5058,7 @@ msgstr "Uso di MVC push in un'applicazione RESTful"
 #: Tutorial.xml:1876
 #, no-c-format
 msgid "Very occasionally, it makes more sense to use push-style MVC for processing RESTful pages, and so Seam provides the notion of a <emphasis>page action</emphasis>. The Blog example uses a page action for the blog entry page, <literal>entry.xhtml</literal>. Note that this is a little bit contrived, it would have been easier to use pull-style MVC here as well."
-msgstr ""
+msgstr "Alcune volte ha pià senso usare MVC push-style per processare pagine RESTful, e quindi Seam fornisce la nozione di <emphasis>azione di pagina</emphasis>. L'esempio di Blog utilizza l'azione di pagina per pagina di entry del blog, <literal>entry.xhtml</literal>. Notare che questo è un pò forzato, sarebbe stato pià facile usare anche qua lo stile MVC pull-style."
 
 #. Tag: para
 #: Tutorial.xml:1881
@@ -5181,13 +5182,13 @@ msgstr ""
 #: Tutorial.xml:1892
 #, no-c-format
 msgid "Notice that the example is using page actions for post validation and the pageview counter. Also notice the use of a parameter in the page action method binding. This is not a standard feature of JSF EL, but Seam lets you use it, not just for page actions but also in JSF method bindings."
-msgstr ""
+msgstr "Notare che l'esempio utilizza azioni di pagina per la validazione e per il conteggio delle pagine visitate. Si noti anche l'uso di un parametro nel binding di metodo all'interno della azione di pagina. Questa non è una caratteristiva standard di JSF EL, ma Seam consente di usarla, non solo per le azioni di pagina, ma anche nei binding di metodo JSF."
 
 #. Tag: para
 #: Tutorial.xml:1897
 #, no-c-format
 msgid "When the <literal>entry.xhtml</literal> page is requested, Seam first binds the page parameter <literal>blogEntryId</literal> to the model. Keep in mind that because of the URL rewriting, the blogEntryId parameter name won't show up in the URL. Seam then runs the page action, which retrieves the needed data&#8212;the <literal>blogEntry</literal>&#8212;and places it in the Seam event context. Finally, the following is rendered:"
-msgstr ""
+msgstr "Quando la pagina <literal>entry.xhtml</literal> viene richiesta, Seam innanzitutto lega il parametro della pagina <literal>blogEntryId</literal> al modello. Si tenga presente che a causa della riscrittura dell'URL, il nome del parametro blogEntryId non verrà mostrato nell'URL. Seam quindi esegue l'azione, che recupera i dati necessari&#8212;<literal>blogEntry</literal>&#8212;e li colloca nel contesto di evento di Seam. Infine, viene generato il seguente:"
 
 #. Tag: programlisting
 #: Tutorial.xml:1904
