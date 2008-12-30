@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2008-12-17 10:55+0100\n"
+"PO-Revision-Date: 2008-12-30 12:24+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 #: Persistence.xml:2
 #, no-c-format
 msgid "Seam and Object/Relational Mapping"
-msgstr ""
+msgstr "Seam e Object/Relational Mapping"
 
 #. Tag: para
 #: Persistence.xml:4
@@ -71,7 +71,7 @@ msgstr ""
 #: Persistence.xml:80
 #, no-c-format
 msgid "Seam managed transactions"
-msgstr ""
+msgstr "Transazioni gestite da Seam"
 
 #. Tag: para
 #: Persistence.xml:81
@@ -149,7 +149,7 @@ msgstr ""
 #: Persistence.xml:173
 #, no-c-format
 msgid "Disabling Seam-managed transactions"
-msgstr ""
+msgstr "Disabilitare le transazioni gestite da Seam"
 
 #. Tag: para
 #: Persistence.xml:175
@@ -263,7 +263,7 @@ msgstr ""
 #: Persistence.xml:267
 #, no-c-format
 msgid "Transaction synchronization"
-msgstr ""
+msgstr "Sincronizzazione delle transazioni"
 
 #. Tag: para
 #: Persistence.xml:269
@@ -557,7 +557,7 @@ msgstr ""
 #: Persistence.xml:460
 #, no-c-format
 msgid "Using the JPA \"delegate\""
-msgstr ""
+msgstr "Usare il JPA \"delegate\""
 
 #. Tag: para
 #: Persistence.xml:462
@@ -659,7 +659,7 @@ msgstr ""
 #: Persistence.xml:508
 #, no-c-format
 msgid "is equivalent to:"
-msgstr ""
+msgstr "è equivalente a:"
 
 #. Tag: programlisting
 #: Persistence.xml:510

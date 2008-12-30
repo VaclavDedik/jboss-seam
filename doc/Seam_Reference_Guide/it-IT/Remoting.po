@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-04 00:58+0000\n"
-"PO-Revision-Date: 2008-12-17 11:02+0100\n"
+"PO-Revision-Date: 2008-12-30 12:34+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -788,13 +788,13 @@ msgstr ""
 #: Remoting.xml:361
 #, no-c-format
 msgid "Dates and Times"
-msgstr ""
+msgstr "Date e orari"
 
 #. Tag: para
 #: Remoting.xml:363
 #, no-c-format
 msgid "Date values are serialized into a String representation that is accurate to the millisecond. On the client side, use a Javascript Date object to work with date values. On the server side, use any <literal>java.util.Date</literal> (or descendent, such as <literal>java.sql.Date</literal> or <literal>java.sql.Timestamp</literal> class."
-msgstr ""
+msgstr "I valori delle date sono serializzati in una rappresentazione di Strina che è accurata al millisecondo. Lato client, si usi un oggetto Date Javascript per lavorare con i valori delle date. Late server, si usi <literal>java.util.Date</literal> (o discendenti, come le classi <literal>java.sql.Date</literal> o <literal>java.sql.Timestamp</literal>)."
 
 #. Tag: title
 #: Remoting.xml:370
@@ -1256,7 +1256,7 @@ msgstr "<![CDATA[<remoting:remoting poll-timeout=\"5\" poll-interval=\"1\"/>]]>"
 #: Remoting.xml:599
 #, no-c-format
 msgid "Subscribing to a JMS Topic"
-msgstr ""
+msgstr "Iscriversi ad un Topic JMS"
 
 #. Tag: para
 #: Remoting.xml:601
@@ -1300,7 +1300,7 @@ msgstr ""
 #: Remoting.xml:618
 #, no-c-format
 msgid "Unsubscribing from a Topic"
-msgstr ""
+msgstr "Disiscriversi da un Topic"
 
 #. Tag: para
 #: Remoting.xml:620
