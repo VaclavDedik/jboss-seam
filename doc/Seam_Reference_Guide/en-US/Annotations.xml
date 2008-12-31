@@ -240,7 +240,7 @@
                   </listitem>
                   <listitem>
                      <para>
-                        <literal>APPLICATION</literal> &#8212; Predence of 
+                        <literal>APPLICATION</literal> &#8212; Precedence of 
                         application components (the default precedence)
                      </para>
                   </listitem>
