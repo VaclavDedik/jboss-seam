@@ -80,7 +80,7 @@ public class StatementOfAccount {
             data to the database; nor are we testing any functionality 
             provided by Seam. We are just testing the logic of our POJOs. Seam
             components don't usually depend directly upon container infrastructure,
-            so most unit testing as as easy as that!
+            so most unit testing are as easy as that!
        </para>
        <para>    
             However, if you want to test the entire application, read on.
