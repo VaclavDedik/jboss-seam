@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Seam_Reference_Guide\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-04 00:58+0000\n"
-"PO-Revision-Date: 2008-12-17 21:45+0100\n"
+"PO-Revision-Date: 2008-12-31 16:02+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr ""
 #: Excel.xml:21
 #, no-c-format
 msgid "&Excel; support"
-msgstr ""
+msgstr "Supporto &Excel;"
 
 #. Tag: para
 #: Excel.xml:22
@@ -413,7 +413,7 @@ msgstr ""
 #: Excel.xml:2328
 #, no-c-format
 msgid "Facets"
-msgstr ""
+msgstr "Facets"
 
 #. Tag: literal
 #: Excel.xml:348
@@ -481,7 +481,7 @@ msgstr ""
 #: Excel.xml:362
 #, no-c-format
 msgid "Worksheets"
-msgstr ""
+msgstr "Worksheets"
 
 #. Tag: para
 #: Excel.xml:363
@@ -1380,7 +1380,7 @@ msgstr ""
 #: Excel.xml:1388
 #, no-c-format
 msgid "&lt;e:image&gt;"
-msgstr ""
+msgstr "&lt;e:image&gt;"
 
 #. Tag: para
 #: Excel.xml:1397
@@ -1444,7 +1444,7 @@ msgstr ""
 #: Excel.xml:1466
 #, no-c-format
 msgid "Hyperlinks"
-msgstr ""
+msgstr "Hyperlinks"
 
 #. Tag: para
 #: Excel.xml:1467
@@ -1540,7 +1540,7 @@ msgstr ""
 #: Excel.xml:1580
 #, no-c-format
 msgid "&lt;e:header&gt;"
-msgstr ""
+msgstr "&lt;e:header&gt;"
 
 #. Tag: para
 #: Excel.xml:1609
@@ -1567,7 +1567,7 @@ msgstr ""
 #: Excel.xml:1643
 #, no-c-format
 msgid "&lt;e:footer&gt;"
-msgstr ""
+msgstr "&lt;e:footer&gt;"
 
 #. Tag: para
 #: Excel.xml:1698
@@ -2222,7 +2222,7 @@ msgstr ""
 #: Excel.xml:2302
 #, no-c-format
 msgid "&lt;e:link&gt;"
-msgstr ""
+msgstr "&lt;e:link&gt;"
 
 #. Tag: para
 #: Excel.xml:2311
@@ -2514,7 +2514,7 @@ msgstr ""
 #: Excel.xml:2627
 #, no-c-format
 msgid "xls-border-bottom-line-style"
-msgstr ""
+msgstr "xls-border-bottom-line-style"
 
 #. Tag: para
 #: Excel.xml:2630
@@ -2526,7 +2526,7 @@ msgstr ""
 #: Excel.xml:2642
 #, no-c-format
 msgid "xls-border-bottom"
-msgstr ""
+msgstr "xls-border-bottom"
 
 #. Tag: para
 #: Excel.xml:2645
@@ -2538,7 +2538,7 @@ msgstr ""
 #: Excel.xml:2653
 #, no-c-format
 msgid "xls-border"
-msgstr ""
+msgstr "xls-border"
 
 #. Tag: para
 #: Excel.xml:2656
@@ -2562,7 +2562,7 @@ msgstr ""
 #: Excel.xml:2678
 #, no-c-format
 msgid "xls-background-color"
-msgstr ""
+msgstr "xls-background-color"
 
 #. Tag: para
 #: Excel.xml:2681
@@ -2574,7 +2574,7 @@ msgstr ""
 #: Excel.xml:2693
 #, no-c-format
 msgid "xls-background-pattern"
-msgstr ""
+msgstr "xls-background-pattern"
 
 #. Tag: para
 #: Excel.xml:2696
@@ -2586,7 +2586,7 @@ msgstr ""
 #: Excel.xml:2708
 #, no-c-format
 msgid "xls-background"
-msgstr ""
+msgstr "xls-background"
 
 #. Tag: para
 #: Excel.xml:2711
@@ -2610,7 +2610,7 @@ msgstr ""
 #: Excel.xml:2732
 #, no-c-format
 msgid "xls-column-width"
-msgstr ""
+msgstr "xls-column-width"
 
 #. Tag: para
 #: Excel.xml:2735
@@ -2622,7 +2622,7 @@ msgstr ""
 #: Excel.xml:2743
 #, no-c-format
 msgid "xls-column-widths"
-msgstr ""
+msgstr "xls-column-widths"
 
 #. Tag: para
 #: Excel.xml:2746
@@ -2640,7 +2640,7 @@ msgstr ""
 #: Excel.xml:2758
 #, no-c-format
 msgid "xls-column-autosize"
-msgstr ""
+msgstr "xls-column-autosize"
 
 #. Tag: para
 #: Excel.xml:2761
@@ -2652,7 +2652,7 @@ msgstr ""
 #: Excel.xml:2769
 #, no-c-format
 msgid "xls-column-hidden"
-msgstr ""
+msgstr "xls-column-hidden"
 
 #. Tag: para
 #: Excel.xml:2772
@@ -2676,7 +2676,7 @@ msgstr ""
 #: Excel.xml:2793
 #, no-c-format
 msgid "xls-alignment"
-msgstr ""
+msgstr "xls-alignment"
 
 #. Tag: para
 #: Excel.xml:2796
@@ -2688,7 +2688,7 @@ msgstr ""
 #: Excel.xml:2808
 #, no-c-format
 msgid "xls-force-type"
-msgstr ""
+msgstr "xls-force-type"
 
 #. Tag: para
 #: Excel.xml:2811
@@ -2700,7 +2700,7 @@ msgstr ""
 #: Excel.xml:2820
 #, no-c-format
 msgid "xls-format-mask"
-msgstr ""
+msgstr "xls-format-mask"
 
 #. Tag: para
 #: Excel.xml:2823
@@ -2712,7 +2712,7 @@ msgstr ""
 #: Excel.xml:2830
 #, no-c-format
 msgid "xls-indentation"
-msgstr ""
+msgstr "xls-indentation"
 
 #. Tag: para
 #: Excel.xml:2833
@@ -2724,7 +2724,7 @@ msgstr ""
 #: Excel.xml:2840
 #, no-c-format
 msgid "xls-locked"
-msgstr ""
+msgstr "xls-locked"
 
 #. Tag: para
 #: Excel.xml:2843
@@ -2736,7 +2736,7 @@ msgstr ""
 #: Excel.xml:2851
 #, no-c-format
 msgid "xls-orientation"
-msgstr ""
+msgstr "xls-orientation"
 
 #. Tag: para
 #: Excel.xml:2854
@@ -2748,7 +2748,7 @@ msgstr ""
 #: Excel.xml:2866
 #, no-c-format
 msgid "xls-vertical-alignment"
-msgstr ""
+msgstr "xls-vertical-alignment"
 
 #. Tag: para
 #: Excel.xml:2869
@@ -2760,7 +2760,7 @@ msgstr ""
 #: Excel.xml:2881
 #, no-c-format
 msgid "xls-shrink-to-fit"
-msgstr ""
+msgstr "xls-shrink-to-fit"
 
 #. Tag: para
 #: Excel.xml:2884
@@ -2772,7 +2772,7 @@ msgstr ""
 #: Excel.xml:2892
 #, no-c-format
 msgid "xls-wrap"
-msgstr ""
+msgstr "xls-wrap"
 
 #. Tag: para
 #: Excel.xml:2895
@@ -2796,7 +2796,7 @@ msgstr ""
 #: Excel.xml:2915
 #, no-c-format
 msgid "Layout examples"
-msgstr ""
+msgstr "Esempi di layout"
 
 #. Tag: para
 #: Excel.xml:2916
@@ -2808,7 +2808,7 @@ msgstr "TODO"
 #: Excel.xml:2921
 #, no-c-format
 msgid "Limitations"
-msgstr ""
+msgstr "Limitazioni"
 
 #. Tag: para
 #: Excel.xml:2922

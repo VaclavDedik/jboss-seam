@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:22+0000\n"
-"PO-Revision-Date: 2008-12-17 21:31+0100\n"
+"PO-Revision-Date: 2008-12-31 16:49+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -325,31 +325,31 @@ msgstr ""
 #: Annotations.xml:227
 #, no-c-format
 msgid "<literal>BUILT_IN</literal> &#8212; Precedence of all built-in Seam components"
-msgstr ""
+msgstr "<literal>BUILT_IN</literal> &#8212; Precedenza su tutti i componenti Seam predefiniti"
 
 #. Tag: para
 #: Annotations.xml:233
 #, no-c-format
 msgid "<literal>FRAMEWORK</literal> &#8212; Precedence to use for components of frameworks which extend Seam"
-msgstr ""
+msgstr "<literal>FRAMEWORK</literal> &#8212; Precedenza per l'uso di componenti di framework che estendono Seam"
 
 #. Tag: para
 #: Annotations.xml:239
 #, no-c-format
 msgid "<literal>APPLICATION</literal> &#8212; Predence of application components (the default precedence)"
-msgstr ""
+msgstr "<literal>APPLICATION</literal> &#8212; Precedenza ai componenti di applicazione (precedenza di default)"
 
 #. Tag: para
 #: Annotations.xml:245
 #, no-c-format
 msgid "<literal>DEPLOYMENT</literal> &#8212; Precedence to use for components which override application components in a particular deployment"
-msgstr ""
+msgstr "<literal>DEPLOYMENT</literal> &#8212; Precedenza all'uso di componenti che fanno override dei componenti di applicazione in un particolare deploy"
 
 #. Tag: para
 #: Annotations.xml:252
 #, no-c-format
 msgid "<literal>MOCK</literal> &#8212; Precedence for mock objects used in testing"
-msgstr ""
+msgstr "<literal>MOCK</literal> &#8212; Precedenza per oggetti mock usati nei test"
 
 #. Tag: literal
 #: Annotations.xml:263
@@ -1658,7 +1658,7 @@ msgstr "<![CDATA[@DataBinderClass(DataModelBinder.class)]]>"
 #: Annotations.xml:1468
 #, no-c-format
 msgid "Specifies that an annotation is a databinding annotation."
-msgstr ""
+msgstr "Specifica che è un'annotazione di databinding."
 
 #. Tag: literal
 #: Annotations.xml:1475
@@ -1676,7 +1676,7 @@ msgstr "<![CDATA[@DataSelectorClass(DataModelSelector.class)]]>"
 #: Annotations.xml:1479
 #, no-c-format
 msgid "Specifies that an annotation is a dataselection annotation."
-msgstr ""
+msgstr "Specifica che è un'annotazione di dataselection."
 
 #. Tag: title
 #: Annotations.xml:1488
@@ -1754,7 +1754,7 @@ msgstr "<![CDATA[@Filter(around={\"seamComponent\", \"otherSeamComponent\"})]]>"
 #: Annotations.xml:1547
 #, no-c-format
 msgid "Specifies that this filter is positioned higher in the stack than the given filters."
-msgstr ""
+msgstr "Specifica che questo filtro è posizionato più in alto nello stack rispetto agli altri filtri."
 
 #. Tag: programlisting
 #: Annotations.xml:1553
@@ -1766,5 +1766,5 @@ msgstr "<![CDATA[@Filter(within={\"seamComponent\", \"otherSeamComponent\"})]]>"
 #: Annotations.xml:1554
 #, no-c-format
 msgid "Specifies that this filter is positioned deeper in the stack than the given filters."
-msgstr ""
+msgstr "Specifica che questo filtro è posizionato più in basso nello stack rispetto agli altri filtri."
 

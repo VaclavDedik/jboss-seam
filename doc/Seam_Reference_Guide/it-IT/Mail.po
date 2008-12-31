@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2008-12-31 00:05+0100\n"
+"PO-Revision-Date: 2008-12-31 00:20+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -165,7 +165,7 @@ msgstr ""
 #: Mail.xml:69
 #, no-c-format
 msgid "If you wanted to email the <literal>jboss-seam-mail.jar</literal>:"
-msgstr "Si si vuole spedire email <literal>jboss-seam-mail.jar</literal>:"
+msgstr "Se si vuole spedire le email <literal>jboss-seam-mail.jar</literal>:"
 
 #. Tag: programlisting
 #: Mail.xml:73
