@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-13 17:58+0000\n"
-"PO-Revision-Date: 2008-12-30 23:41+0100\n"
+"PO-Revision-Date: 2009-01-01 17:51+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1198,7 +1198,7 @@ msgstr "Il metodo <literal>register()</literal> controlla se esiste già un uten
 #: Tutorial.xml:506
 #, no-c-format
 msgid "If no user with that username exists, the <literal>\"/registered.xhtml\"</literal> outcome triggers a browser redirect to the <literal>registered.xhtml</literal> page. When JSF comes to render the page, it asks Seam to resolve the variable named <literal>user</literal> and uses property values of the returned <literal>User</literal> entity from Seam's session scope."
-msgstr ""
+msgstr "Se non esiste nessun utente con tale username, l'esito di <literal>\"/registered.xhtml\"</literal> causa un redirect del browser verso la pagina <literal>registered.xhtml</literal>. Quando JSF arriva a generare la pagina, chiede a Seam di risolvere la variabile chiamata <literal>user</literal> ed utilizza il valori di proprietà dell'entity <literal>User</literal> restituito dallo scope di sessione di Seam."
 
 #. Tag: title
 #: Tutorial.xml:516
@@ -1210,13 +1210,13 @@ msgstr "Liste cliccabili in Seam: esempio di messaggi"
 #: Tutorial.xml:518
 #, no-c-format
 msgid "Clickable lists of database search results are such an important part of any online application that Seam provides special functionality on top of JSF to make it easier to query data using EJB-QL or HQL and display it as a clickable list using a JSF <literal>&lt;h:dataTable&gt;</literal>. The messages example demonstrates this functionality."
-msgstr ""
+msgstr "Le liste cliccabili dei risultati di ricerca del database sono una parte così importante di qualsiasi applicazione online che Seam fornisce una funzionalità speciale in cima a JSF per rendere più facile l'interrogazione dei dati usando EJB-QL o HQL e la mostra comelista cliccabile usando il JSF <literal>&lt;h:dataTable&gt;</literal>. I messaggi d'esempio mostrano questa funzionalità."
 
 #. Tag: para
 #: Tutorial.xml:534
 #, no-c-format
 msgid "The message list example has one entity bean, <literal>Message</literal>, one session bean, <literal>MessageListBean</literal> and one JSP."
-msgstr ""
+msgstr "L'esempio di lista messaggi ha un entity bean, <literal>Message</literal>, un session bean, <literal>MessageListBean</literal> ed una JSP."
 
 #. Tag: title
 #: Tutorial.xml:538
@@ -1228,7 +1228,7 @@ msgstr "Entity bean: <literal>Message.java</literal>"
 #: Tutorial.xml:540
 #, no-c-format
 msgid "The <literal>Message</literal> entity defines the title, text, date and time of a message, and a flag indicating whether the message has been read:"
-msgstr ""
+msgstr "L'entity <literal>Message</literal> definisce il titolo, iltesto, ladata e l'orario del messaggio e un flag indica se il messaggio è stato letto:"
 
 #. Tag: title
 #: Tutorial.xml:544
@@ -1378,19 +1378,19 @@ msgstr "Il bean di sessione stateful: <literal>MessageManagerBean.java</literal>
 #: Tutorial.xml:553
 #, no-c-format
 msgid "Just like in the previous example, we have a session bean, <literal>MessageManagerBean</literal>, which defines the action listener methods for the two buttons on our form. One of the buttons selects a message from the list, and displays that message. The other button deletes a message. So far, this is not so different to the previous example."
-msgstr ""
+msgstr "Come nel precedente esempio, esiste un session bean, <literal>MessageManagerBean</literal>, che definisce i metodi di action listener per i due bottoni della form. Uno di questi seleziona un messaggio dalla lista, e mostra tale messaggio. L'altro cancella il messaggio. Finora non è molto diverso dal precedente esempio."
 
 #. Tag: para
 #: Tutorial.xml:558
 #, no-c-format
 msgid "But <literal>MessageManagerBean</literal> is also responsible for fetching the list of messages the first time we navigate to the message list page. There are various ways the user could navigate to the page, and not all of them are preceded by a JSF action&#8212;the user might have bookmarked the page, for example. So the job of fetching the message list takes place in a Seam <emphasis>factory method</emphasis>, instead of in an action listener method."
-msgstr ""
+msgstr "Ma <literal>MessageManagerBean</literal> è anche responsabile per il recupero della lista dei messaggi la prima volta che si naviga nella pagina della lista messaggi. Ci sono vari modi in cui l'utente può navigare nella pagina, e non tutti sono preceduti da un'azione JSF&#8212;l'utente può avere un memorizzato la pagina, per esempio. Quindi il compito di recuperare la lista messaggi avviene in un <emphasis>metodo factory</emphasis> di Seam, invece che in un metodo action listener."
 
 #. Tag: para
 #: Tutorial.xml:564
 #, no-c-format
 msgid "We want to cache the list of messages in memory between server requests, so we will make this a stateful session bean."
-msgstr ""
+msgstr "Si vuole memorizzare la lista dei messaggi tra le varie richieste server, e quindi questo session bean diventerà stateful."
 
 #. Tag: title
 #: Tutorial.xml:568
@@ -1484,19 +1484,19 @@ msgstr ""
 #: Tutorial.xml:583
 #, no-c-format
 msgid "The <literal>@DataModel</literal> annotation exposes an attibute of type <literal>java.util.List</literal> to the JSF page as an instance of <literal>javax.faces.model.DataModel</literal>. This allows us to use the list in a JSF <literal>&lt;h:dataTable&gt;</literal> with clickable links for each row. In this case, the <literal>DataModel</literal> is made available in a session context variable named <literal>messageList</literal>."
-msgstr ""
+msgstr "L'annotazione <literal>@DataModel</literal> espone alla pagina JSF un attributo di tipo <literal>java.util.List</literal> come istanza di <literal>javax.faces.model.DataModel</literal>. Questo permette di usare la lista in un <literal>&lt;h:dataTable&gt;</literal> di JSF con link cliccabili per ogni riga. In questo caso il <literal>DataModel</literal> è reso disponibile in una variabile con contesto sessione chiamata <literal>messageList</literal>."
 
 #. Tag: para
 #: Tutorial.xml:591
 #, no-c-format
 msgid "The <literal>@DataModelSelection</literal> annotation tells Seam to inject the <literal>List</literal> element that corresponded to the clicked link."
-msgstr ""
+msgstr "L'annotazione <literal>@DataModelSelection</literal> dice a Seam di iniettare l'elemento <literal>List</literal> che corrisponde al link cliccato."
 
 #. Tag: para
 #: Tutorial.xml:595
 #, no-c-format
 msgid "The <literal>@Out</literal> annotation then exposes the selected value directly to the page. So every time a row of the clickable list is selected, the <literal>Message</literal> is injected to the attribute of the stateful bean, and the subsequently <emphasis>outjected</emphasis> to the event context variable named <literal>message</literal>."
-msgstr ""
+msgstr "L'annotazione <literal>@Out</literal> espone direttamente alla pagina il valore selezionato. Ogni volta che una riga della lista viene selezionata, il <literal>Message</literal> viene iniettato nell'attributo del bean stateful, e in seguito viene fatta <emphasis>l'outjection</emphasis> nella variabile con contesto evento chiamata <literal>message</literal>."
 
 #. Tag: para
 #: Tutorial.xml:602
@@ -1596,7 +1596,7 @@ msgstr "La vista: <literal>messages.jsp</literal>"
 #: Tutorial.xml:660
 #, no-c-format
 msgid "The JSP page is a straightforward use of the JSF <literal>&lt;h:dataTable&gt;</literal> component. Again, nothing specific to Seam."
-msgstr ""
+msgstr "La pagina JSP è un semplice utilizzo del componente JSF  <literal>&lt;h:dataTable&gt;</literal>. Ancora nulla di specifico di Seam."
 
 #. Tag: title
 #: Tutorial.xml:663
