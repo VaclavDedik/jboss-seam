@@ -11,6 +11,7 @@ public class ByteArrayDocumentData extends DocumentData
    public ByteArrayDocumentData(String baseName, DocumentType documentType, byte[] data)
    {
       super(baseName, documentType);
+      this.data = data;
    }
 
    @Override

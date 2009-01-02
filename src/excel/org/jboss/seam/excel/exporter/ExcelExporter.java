@@ -153,7 +153,7 @@ public class ExcelExporter
    private void redirectExport()
    {
       String viewId = Pages.getViewId(FacesContext.getCurrentInstance());
-      String baseName = UIWorkbook.baseNameForViewId(viewId);
+      String baseName = Pages.getCurrentBaseName();
       DocumentData documentData = new ByteArrayDocumentData(baseName, excelWorkbook.getDocumentType(), excelWorkbook.getBytes());
       String id = DocumentStore.instance().newId();
       String url = DocumentStore.instance().preferredUrlForContent(baseName, excelWorkbook.getDocumentType().getExtension(), id);

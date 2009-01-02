@@ -293,23 +293,6 @@ public class UIDocument extends ITextComponent
       }
    }
 
-   protected String baseNameForViewId(String viewId)
-   {
-      int pos = viewId.lastIndexOf("/");
-      if (pos != -1)
-      {
-         viewId = viewId.substring(pos + 1);
-      }
-
-      pos = viewId.lastIndexOf(".");
-      if (pos != -1)
-      {
-         viewId = viewId.substring(0, pos);
-      }
-
-      return viewId;
-   }
-
    @Override
    public void encodeEnd(FacesContext context) throws IOException
    {
@@ -323,7 +306,7 @@ public class UIDocument extends ITextComponent
       }
 
       String viewId = Pages.getViewId(context);
-      String baseName = baseNameForViewId(viewId);
+      String baseName = Pages.getCurrentBaseName();
 
       DocumentData documentData = new ByteArrayDocumentData(baseName, documentType, bytes);
       String dispositionValue = (String) valueBinding(context, "disposition", disposition);

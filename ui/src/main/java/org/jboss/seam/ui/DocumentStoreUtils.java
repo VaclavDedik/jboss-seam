@@ -20,7 +20,7 @@ public class DocumentStoreUtils
 
    public static String addResourceToDataStore(FacesContext ctx, UIResource resource)
    {
-      String baseName = baseNameForViewId(Pages.getCurrentViewId());
+      String baseName = Pages.getCurrentBaseName();
       String viewId = Pages.getViewId(ctx);
 
       DocumentStore store = DocumentStore.instance();
@@ -75,28 +75,6 @@ public class DocumentStoreUtils
          }
       }
 
-   }
-
-   /**
-    * TODO: This part should be refactored in to Pages.java Used (at least)
-    * here, in pdf module and excel
-    * 
-    */
-   public static String baseNameForViewId(String viewId)
-   {
-      int pos = viewId.lastIndexOf("/");
-      if (pos != -1)
-      {
-         viewId = viewId.substring(pos + 1);
-      }
-
-      pos = viewId.lastIndexOf(".");
-      if (pos != -1)
-      {
-         viewId = viewId.substring(0, pos);
-      }
-
-      return viewId;
    }
 
 }

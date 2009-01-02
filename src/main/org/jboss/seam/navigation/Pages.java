@@ -1654,6 +1654,25 @@ public class Pages
       return getViewId( FacesContext.getCurrentInstance() );
    }
    
+   public static String getCurrentBaseName()
+   {
+      String viewId = getViewId(FacesContext.getCurrentInstance());
+
+      int pos = viewId.lastIndexOf("/");
+      if (pos != -1)
+      {
+         viewId = viewId.substring(pos + 1);
+      }
+
+      pos = viewId.lastIndexOf(".");
+      if (pos != -1)
+      {
+         viewId = viewId.substring(0, pos);
+      }
+
+      return viewId;      
+   }   
+   
    public static String getViewId(FacesContext facesContext)
    {
       if (facesContext!=null)

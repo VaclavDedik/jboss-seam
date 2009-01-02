@@ -6,10 +6,10 @@ import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.seam.contexts.Contexts;
-import javax.faces.context.FacesContext;
 
 import yarfraw.core.datamodel.ChannelFeed;
 import yarfraw.core.datamodel.FeedFormat;
@@ -18,23 +18,23 @@ import yarfraw.io.FeedWriter;
 
 /*
  * atomFeed =
-   element atom:feed {
-      atomCommonAttributes,
-      (atomAuthor*
-       & atomCategory*
-       & atomContributor*
-       & atomGenerator?
-       & atomIcon?
-       & atomId
-       & atomLink*
-       & atomLogo?
-       & atomRights?
-       & atomSubtitle?
-       & atomTitle
-       & atomUpdated
-       & extensionElement*),
-      atomEntry*
-   }
+ element atom:feed {
+ atomCommonAttributes,
+ (atomAuthor*
+ & atomCategory*
+ & atomContributor*
+ & atomGenerator?
+ & atomIcon?
+ & atomId
+ & atomLink*
+ & atomLogo?
+ & atomRights?
+ & atomSubtitle?
+ & atomTitle
+ & atomUpdated
+ & extensionElement*),
+ atomEntry*
+ }
  */
 
 public class UIFeed extends SyndicationComponent
@@ -52,7 +52,6 @@ public class UIFeed extends SyndicationComponent
    private String link;
    private FeedFormat feedFormat = FeedFormat.ATOM10;
 
-
    @SuppressWarnings("unchecked")
    @Override
    public void encodeBegin(FacesContext facesContext) throws IOException
@@ -61,7 +60,8 @@ public class UIFeed extends SyndicationComponent
       channelFeed.setUid(getUid());
       channelFeed.setTitle(getTitle());
       channelFeed.setDescriptionOrSubtitle(getSubtitle());
-      if (getUpdated() != null) {
+      if (getUpdated() != null)
+      {
          channelFeed.setPubDate(getUpdated(), new SimpleDateFormat(ATOM_DATE_FORMAT));
       }
       channelFeed.addLink(getLink());
@@ -73,39 +73,25 @@ public class UIFeed extends SyndicationComponent
    {
       ChannelFeed channelFeed = (ChannelFeed) Contexts.getEventContext().get(FEED_IMPL_KEY);
       ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-      try {
+      try
+      {
          FeedWriter.writeChannel(feedFormat, channelFeed, byteStream);
-      } catch (YarfrawException e) {
+      }
+      catch (YarfrawException e)
+      {
          /**
           * Was IOException, but 1.5 does not have this constructor
           * http://java.sun.com/j2se/1.5.0/docs/api/java/io/IOException.html
           */
          throw new RuntimeException("Could not create feed", e);
       }
-      Writer responseWriter = ((HttpServletResponse)facesContext.getExternalContext().getResponse()).getWriter();
-      HttpServletResponse response = (HttpServletResponse)facesContext.getExternalContext().getResponse();
+      Writer responseWriter = ((HttpServletResponse) facesContext.getExternalContext().getResponse()).getWriter();
+      HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
       response.setContentType(MIMETYPE);
       response.setContentLength(byteStream.size());
       responseWriter.write(byteStream.toString());
       response.flushBuffer();
       facesContext.responseComplete();
-   }
-
-   public static String baseNameForViewId(String viewId)
-   {
-      int pos = viewId.lastIndexOf("/");
-      if (pos != -1)
-      {
-         viewId = viewId.substring(pos + 1);
-      }
-
-      pos = viewId.lastIndexOf(".");
-      if (pos != -1)
-      {
-         viewId = viewId.substring(0, pos);
-      }
-
-      return viewId;
    }
 
    public boolean isSendRedirect()
@@ -183,6 +169,5 @@ public class UIFeed extends SyndicationComponent
    {
       this.uid = uid;
    }
-
 
 }

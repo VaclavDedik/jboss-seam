@@ -102,7 +102,7 @@ public class UIForm extends FormComponent
       }
 
       String viewId = Pages.getViewId(facesContext);
-      String baseName = baseNameForViewId(viewId);
+      String baseName = Pages.getCurrentBaseName();
 
       DocumentStore store = DocumentStore.instance();
       DocumentType documentType = new DocumentData.DocumentType("pdf", "application/pdf");
@@ -122,23 +122,6 @@ public class UIForm extends FormComponent
       store.saveData(id, documentData);
       log.debug("Redirecting to #0 for PDF view", url);
       facesContext.getExternalContext().redirect(url);
-   }
-
-   public static String baseNameForViewId(String viewId)
-   {
-      int pos = viewId.lastIndexOf("/");
-      if (pos != -1)
-      {
-         viewId = viewId.substring(pos + 1);
-      }
-
-      pos = viewId.lastIndexOf(".");
-      if (pos != -1)
-      {
-         viewId = viewId.substring(0, pos);
-      }
-
-      return viewId;
    }
 
    @Override
