@@ -8,6 +8,7 @@ import jxl.Sheet;
 import jxl.Workbook;
 
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.document.ByteArrayDocumentData;
 import org.jboss.seam.document.DocumentData;
 import org.jboss.seam.excel.ExcelTest.Person;
 import org.jboss.seam.faces.Renderer;
@@ -38,7 +39,7 @@ public class RenderTest extends SeamTest {
                 Renderer.instance().render("/simple.xhtml");
 
                 DocumentData data = (DocumentData) Contexts.getEventContext().get("testExport");
-                Workbook workbook = Workbook.getWorkbook(new ByteArrayInputStream(data.getData()));
+                Workbook workbook = Workbook.getWorkbook(new ByteArrayInputStream(((ByteArrayDocumentData)data).getData()));
                 Sheet sheet = workbook.getSheet("Developers");
                 
                 assert sheet != null;

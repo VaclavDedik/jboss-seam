@@ -18,6 +18,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.document.ByteArrayDocumentData;
 import org.jboss.seam.document.DocumentData;
 import org.jboss.seam.document.DocumentStore;
 import org.jboss.seam.excel.ExcelFactory;
@@ -153,7 +154,7 @@ public class ExcelExporter
    {
       String viewId = Pages.getViewId(FacesContext.getCurrentInstance());
       String baseName = UIWorkbook.baseNameForViewId(viewId);
-      DocumentData documentData = new DocumentData(baseName, excelWorkbook.getDocumentType(), excelWorkbook.getBytes());
+      DocumentData documentData = new ByteArrayDocumentData(baseName, excelWorkbook.getDocumentType(), excelWorkbook.getBytes());
       String id = DocumentStore.instance().newId();
       String url = DocumentStore.instance().preferredUrlForContent(baseName, excelWorkbook.getDocumentType().getExtension(), id);
       url = Manager.instance().encodeConversationId(url, viewId);

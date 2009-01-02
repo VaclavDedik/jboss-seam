@@ -16,6 +16,7 @@ import javax.mail.internet.MimeMultipart;
 
 import org.jboss.seam.mail.ui.UIAttachment;
 import org.jboss.seam.mail.ui.UIMessage;
+import org.jboss.seam.document.ByteArrayDocumentData;
 import org.jboss.seam.document.DocumentData;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.example.mail.Person;
@@ -220,7 +221,7 @@ public class MailTest extends SeamTest
              UIMessage message = new UIMessage();
              attachment.setParent(message);
              message.setMailSession(MailSession.instance());
-             DocumentData doc = new DocumentData("filename", new DocumentData.DocumentType("pdf", "application/pdf"), new byte[] {});
+             DocumentData doc = new ByteArrayDocumentData("filename", new DocumentData.DocumentType("pdf", "application/pdf"), new byte[] {});
              attachment.setValue(doc);
              attachment.encodeEnd(FacesContext.getCurrentInstance());
              

@@ -9,10 +9,11 @@ import javax.faces.component.ValueHolder;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.navigation.Pages;
+import org.jboss.seam.document.ByteArrayDocumentData;
 import org.jboss.seam.document.DocumentData;
 import org.jboss.seam.document.DocumentStore;
 import org.jboss.seam.document.DocumentData.DocumentType;
+import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.pdf.ITextUtils;
 
 import com.lowagie.text.DocWriter;
@@ -275,17 +276,21 @@ public class UIDocument extends ITextComponent
 
    protected void processHeaders()
    {
-       UIComponent facet = getFacet("header");
+      UIComponent facet = getFacet("header");
 
-       if (facet == null) {
-           return;
-       }
+      if (facet == null)
+      {
+         return;
+      }
 
-       try {
-           encode(FacesContext.getCurrentInstance(), facet);
-       } catch (Exception e) {
-           throw new RuntimeException(e);
-       }
+      try
+      {
+         encode(FacesContext.getCurrentInstance(), facet);
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException(e);
+      }
    }
 
    protected String baseNameForViewId(String viewId)
@@ -320,7 +325,7 @@ public class UIDocument extends ITextComponent
       String viewId = Pages.getViewId(context);
       String baseName = baseNameForViewId(viewId);
 
-      DocumentData documentData = new DocumentData(baseName, documentType, bytes);
+      DocumentData documentData = new ByteArrayDocumentData(baseName, documentType, bytes);
       String dispositionValue = (String) valueBinding(context, "disposition", disposition);
       if (dispositionValue != null)
       {

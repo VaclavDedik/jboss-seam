@@ -1,73 +1,83 @@
 package org.jboss.seam.document;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
 
-public class DocumentData 
-    implements Serializable
+public abstract class DocumentData implements Serializable
 {
-    byte[] data;
-    DocumentType documentType;
-    String baseName;
+   DocumentType documentType;
+   String baseName;
 
-    String disposition = "inline";
-    String fileName;
-    
-    public DocumentData(String baseName, DocumentType documentType, byte[] data) {
-        super();
-        this.data = data;
-        this.documentType = documentType;
-        this.baseName = baseName;
-    }
+   String disposition = "inline";
+   String fileName;
 
-    public byte[] getData() {
-        return data;
-    }
-    public DocumentType getDocumentType() {
-        return documentType;
-    }
-    public String getBaseName() {
-        return baseName;
-    }
+   public DocumentData(String baseName, DocumentType documentType)
+   {
+      super();
+      this.documentType = documentType;
+      this.baseName = baseName;
+   }
 
-    
-    public void setFilename(String fileName) {
-        this.fileName = fileName;
-    }
-    
-    public String getFileName() {
-        if (fileName == null) {
-            return getBaseName() + "." + getDocumentType().getExtension();
-        } else {
-           return fileName;
-        }
-    }
+   public abstract void writeDataToStream(OutputStream stream) throws IOException;
 
-    public void setDisposition(String disposition) {
-        this.disposition = disposition;
-    }
+   public DocumentType getDocumentType()
+   {
+      return documentType;
+   }
 
-    public String getDisposition() {
-        return disposition;
-    }
+   public String getBaseName()
+   {
+      return baseName;
+   }
 
-    static public class DocumentType 
-        implements Serializable
-    {
-        private String mimeType;
-        private String extension;
+   public void setFilename(String fileName)
+   {
+      this.fileName = fileName;
+   }
 
-        public DocumentType(String extension, String mimeType) {
-            this.extension = extension;
-            this.mimeType = mimeType;
-        }
+   public String getFileName()
+   {
+      if (fileName == null)
+      {
+         return getBaseName() + "." + getDocumentType().getExtension();
+      }
+      else
+      {
+         return fileName;
+      }
+   }
 
-        public String getMimeType() {
-            return mimeType;
-        }
+   public void setDisposition(String disposition)
+   {
+      this.disposition = disposition;
+   }
 
-        public String getExtension(){
-            return extension;
-        }
+   public String getDisposition()
+   {
+      return disposition;
+   }
 
-    }    
+   static public class DocumentType implements Serializable
+   {
+      private String mimeType;
+      private String extension;
+
+      public DocumentType(String extension, String mimeType)
+      {
+         this.extension = extension;
+         this.mimeType = mimeType;
+      }
+
+      public String getMimeType()
+      {
+         return mimeType;
+      }
+
+      public String getExtension()
+      {
+         return extension;
+      }
+
+   }
 }

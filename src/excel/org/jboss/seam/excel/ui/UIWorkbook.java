@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.document.ByteArrayDocumentData;
 import org.jboss.seam.document.DocumentData;
 import org.jboss.seam.document.DocumentStore;
 import org.jboss.seam.document.DocumentData.DocumentType;
@@ -310,7 +311,7 @@ public class UIWorkbook extends ExcelComponent
 
       // Create a new workbook
       excelWorkbook.createWorkbook(this);
-      
+
       List<UILink> stylesheets = getChildrenOfType(getChildren(), UILink.class);
       excelWorkbook.setStylesheets(stylesheets);
    }
@@ -327,14 +328,15 @@ public class UIWorkbook extends ExcelComponent
       String viewId = Pages.getViewId(context);
       String baseName = baseNameForViewId(viewId);
 
-      DocumentData documentData = new DocumentData(baseName, type, bytes);
+      DocumentData documentData = new ByteArrayDocumentData(baseName, type, bytes);
       documentData.setFilename(getFilename());
 
-      if (getExportKey() != null) {
+      if (getExportKey() != null)
+      {
          Contexts.getEventContext().set(getExportKey(), documentData);
          return;
       }
-      
+
       if (sendRedirect)
       {
          DocumentStore store = DocumentStore.instance();

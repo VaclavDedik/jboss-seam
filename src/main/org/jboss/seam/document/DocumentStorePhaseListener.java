@@ -8,62 +8,61 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.seam.log.*;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.web.Parameters;
 
-
-public class DocumentStorePhaseListener 
-    implements PhaseListener 
+public class DocumentStorePhaseListener implements PhaseListener
 {
-    private static final long serialVersionUID = 7308251684939658978L;
+   private static final long serialVersionUID = 7308251684939658978L;
 
-    private static final LogProvider log = Logging.getLogProvider(DocumentStorePhaseListener.class);
+   private static final LogProvider log = Logging.getLogProvider(DocumentStorePhaseListener.class);
 
-    public PhaseId getPhaseId() 
-    {
-        return PhaseId.RENDER_RESPONSE;
-    }
+   public PhaseId getPhaseId()
+   {
+      return PhaseId.RENDER_RESPONSE;
+   }
 
-    public void afterPhase(PhaseEvent phaseEvent) {
-        // ...
-    }
+   public void afterPhase(PhaseEvent phaseEvent)
+   {
+      // ...
+   }
 
-    public void beforePhase(PhaseEvent phaseEvent) 
-    {
-        String rootId = Pages.getViewId( phaseEvent.getFacesContext() );
-        
-        Parameters params = Parameters.instance();
-        String id = (String) params.convertMultiValueRequestParameter(params.getRequestParameters(), "docId", String.class);              
-        if (rootId.contains(DocumentStore.DOCSTORE_BASE_URL)) {
-            sendContent(phaseEvent.getFacesContext(), id);
-        }
-    }
+   public void beforePhase(PhaseEvent phaseEvent)
+   {
+      String rootId = Pages.getViewId(phaseEvent.getFacesContext());
 
-    public void sendContent(FacesContext context, String contentId) 
-    {
-        try 
-        {            
-            DocumentData documentData = DocumentStore.instance().getDocumentData(contentId);
-            
-            if (documentData != null) {
-                byte[] data = documentData.getData();
+      Parameters params = Parameters.instance();
+      String id = (String) params.convertMultiValueRequestParameter(params.getRequestParameters(), "docId", String.class);
+      if (rootId.contains(DocumentStore.DOCSTORE_BASE_URL))
+      {
+         sendContent(phaseEvent.getFacesContext(), id);
+      }
+   }
 
-                HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-                response.setContentType( documentData.getDocumentType().getMimeType() );
+   public void sendContent(FacesContext context, String contentId)
+   {
+      try
+      {
+         DocumentData documentData = DocumentStore.instance().getDocumentData(contentId);
 
-                response.setHeader("Content-Disposition", 
-                        documentData.getDisposition() + 
-                        "; filename=\"" + documentData.getFileName() + "\"");
+         if (documentData != null)
+         {
 
-                if (data != null) {
-                    response.getOutputStream().write(data);
-                }
-                context.responseComplete();
-            }
-        } catch (IOException e) {
-            log.error(e);
-        }
-    }
+            HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+            response.setContentType(documentData.getDocumentType().getMimeType());
+
+            response.setHeader("Content-Disposition", documentData.getDisposition() + "; filename=\"" + documentData.getFileName() + "\"");
+
+            documentData.writeDataToStream(response.getOutputStream());
+            context.responseComplete();
+         }
+      }
+      catch (IOException e)
+      {
+         log.error(e);
+      }
+   }
 
 }
