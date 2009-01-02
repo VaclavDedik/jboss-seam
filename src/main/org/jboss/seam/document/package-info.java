@@ -2,3 +2,4 @@
 package org.jboss.seam.document;
 
 import org.jboss.seam.annotations.Namespace;
+

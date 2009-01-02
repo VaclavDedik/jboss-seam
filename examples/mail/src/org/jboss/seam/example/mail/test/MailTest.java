@@ -4,7 +4,6 @@ import static javax.mail.Message.RecipientType.BCC;
 import static javax.mail.Message.RecipientType.CC;
 
 import java.io.InputStream;
-import java.util.Enumeration;
 
 import javax.faces.FacesException;
 import javax.faces.context.FacesContext;
@@ -14,13 +13,13 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import org.jboss.seam.mail.ui.UIAttachment;
-import org.jboss.seam.mail.ui.UIMessage;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.document.ByteArrayDocumentData;
 import org.jboss.seam.document.DocumentData;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.example.mail.Person;
 import org.jboss.seam.mail.MailSession;
+import org.jboss.seam.mail.ui.UIAttachment;
+import org.jboss.seam.mail.ui.UIMessage;
 import org.jboss.seam.mock.MockTransport;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
