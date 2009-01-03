@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2008-12-27 14:28+0100\n"
+"PO-Revision-Date: 2009-01-03 12:17+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgstr "Complesse interazioni da parte dell'utente comportano la definizione un 
 #: Jbpm.xml:30
 #, no-c-format
 msgid "Defining the overarching business process. The business process may span multiple conversations with multiple users. Its state is persistent in the jBPM database, so it is considered long-running. Coordination of the activities of multiple users is a much more complex problem than scripting an interaction with a single user, so jBPM offers sophisticated facilities for task management and dealing with multiple concurrent paths of execution."
-msgstr "Definizione del processo di business sottostante. Il processo di business può comportare una serie di conversazioni con più utenti. Il suo stato viene persistito nel database jBPM, divenendo così di lunga durata. Il coordinamento delle attività di più utenti è un problema molto più complesso che descrivere l'interazione di un singolo utente, cosicché jBPM offre dei modi sofisticati per la gestione dei compiti (task) e per la gestione di più percorsi concorrenti di esecuzione ."
+msgstr "Definizione del processo di business sottostante. Il processo di business può comportare una serie di conversazioni con più utenti. Il suo stato viene persistito nel database jBPM, divenendo così di lunga durata. Il coordinamento delle attività di più utenti è un problema molto più complesso che descrivere l'interazione di un singolo utente, cosicché jBPM offre dei modi sofisticati per la gestione dei compiti (task) e per la gestione di più percorsi concorrenti di esecuzione."
 
 #. Tag: para
 #: Jbpm.xml:42
@@ -222,7 +222,7 @@ msgstr ""
 #: Jbpm.xml:119
 #, no-c-format
 msgid "Note that this results in a redirect. You can even specify parameters to be used in the redirect:"
-msgstr "Si noti che questo comporta un redirect. Si può persino specificare i parametri da usare nel redirect:"
+msgstr "Si noti che questo comporta un redirect. Si possono persino specificare i parametri da usare nel redirect:"
 
 #. Tag: programlisting
 #: Jbpm.xml:124

@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-13 17:58+0000\n"
-"PO-Revision-Date: 2009-01-01 17:51+0100\n"
+"PO-Revision-Date: 2009-01-03 13:20+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1502,37 +1502,37 @@ msgstr "L'annotazione <literal>@Out</literal> espone direttamente alla pagina il
 #: Tutorial.xml:602
 #, no-c-format
 msgid "This stateful bean has an EJB3 <emphasis>extended persistence context</emphasis>. The messages retrieved in the query remain in the managed state as long as the bean exists, so any subsequent method calls to the stateful bean can update them without needing to make any explicit call to the <literal>EntityManager</literal>."
-msgstr ""
+msgstr "Questo bean stateful ha un <emphasis>contesto di persistenza EJB3 esteso</emphasis>. I messaggi recuperati nella query rimangono nello stato gestito finché esiste il bean, quindi ogni chiamata di metodo conseguente al bean può aggiornarli senza il bisogno di chiamare esplicitamente l'<literal>EntityManager</literal>."
 
 #. Tag: para
 #: Tutorial.xml:608
 #, no-c-format
 msgid "The first time we navigate to the JSP page, there will be no value in the <literal>messageList</literal> context variable. The <literal>@Factory</literal> annotation tells Seam to create an instance of <literal>MessageManagerBean</literal> and invoke the <literal>findMessages()</literal> method to initialize the value. We call <literal>findMessages()</literal> a <emphasis>factory method</emphasis> for <literal>messages</literal>."
-msgstr ""
+msgstr "La prima volta che si naviga in un pagina JSP, non c'è alcun valore nella variabile di contesto <literal>messageList</literal>. L'annotazione <literal>@Factory</literal> dice a Seam di creare un'istanza di  <literal>MessageManagerBean</literal> e di invocare il metodo <literal>findMessages()</literal> per inizializzare il valore. <literal>findMessages()</literal> viene chiamato <emphasis>metodo factory</emphasis> di <literal>messages</literal>."
 
 #. Tag: para
 #: Tutorial.xml:616
 #, no-c-format
 msgid "The <literal>select()</literal> action listener method marks the selected <literal>Message</literal> as read, and updates it in the database."
-msgstr ""
+msgstr "Il metodo action listener <literal>select()</literal> marca il <literal>Message</literal> selezionato come letto e lo aggiorna nel database."
 
 #. Tag: para
 #: Tutorial.xml:620
 #, no-c-format
 msgid "The <literal>delete()</literal> action listener method removes the selected <literal>Message</literal> from the database."
-msgstr ""
+msgstr "Il metodo action listener <literal>delete()</literal> rimuove il <literal>Message</literal> dal database."
 
 #. Tag: para
 #: Tutorial.xml:624
 #, no-c-format
 msgid "All stateful session bean Seam components <emphasis>must</emphasis> have a method with no parameters marked <literal>@Remove</literal> that Seam uses to remove the stateful bean when the Seam context ends, and clean up any server-side state."
-msgstr ""
+msgstr "Tutti i componenti Seam bean di sessione stateful <emphasis>devono</emphasis> avere un metodo senza parametri marcato <literal>@Remove</literal> che Seam utilizza per rimuovere il bean stateful quando termina il contesto di Seam, e viene pulito tutto lo stato lato server."
 
 #. Tag: para
 #: Tutorial.xml:633
 #, no-c-format
 msgid "Note that this is a session-scoped Seam component. It is associated with the user login session, and all requests from a login session share the same instance of the component. (In Seam applications, we usually use session-scoped components sparingly.)"
-msgstr ""
+msgstr "Si noti che questo è un componente Seam di sessione. E' associato alla sessione di login dell'utente e tutte le richieste da una login di sessione condividono la stessa istanza del componente. (Nelle applicazioni Seam, solitamente si usano componenti con scope di sessione in maniera contenuta.)"
 
 #. Tag: title
 #: Tutorial.xml:640
@@ -1584,7 +1584,7 @@ msgstr "D'ora in poi non verranno mostrate interfacce locali nei codici d'esempi
 #: Tutorial.xml:650
 #, no-c-format
 msgid "Let's skip over <literal>components.xml</literal>, <literal>persistence.xml</literal>, <literal>web.xml</literal>, <literal>ejb-jar.xml</literal>, <literal>faces-config.xml</literal> and <literal>application.xml</literal> since they are much the same as the previous example, and go straight to the JSP."
-msgstr ""
+msgstr "Saltiamo i file <literal>components.xml</literal>, <literal>persistence.xml</literal>, <literal>web.xml</literal>, <literal>ejb-jar.xml</literal>, <literal>faces-config.xml</literal> e <literal>application.xml</literal> poiché sono praticamente uguali all'esempio precedente e andiamo dritti alla pagina JSP."
 
 #. Tag: title
 #: Tutorial.xml:658
@@ -1702,19 +1702,19 @@ msgstr ""
 #: Tutorial.xml:675
 #, no-c-format
 msgid "The first time we navigate to the <literal>messages.jsp</literal> page, the page will try to resolve the <literal>messageList</literal> context variable. Since this context variable is not initialized, Seam will call the factory method <literal>findMessages()</literal>, which performs a query against the database and results in a <literal>DataModel</literal> being outjected. This <literal>DataModel</literal> provides the row data needed for rendering the <literal>&lt;h:dataTable&gt;</literal>."
-msgstr ""
+msgstr "La prima volta che si naviga nella pagina <literal>messages.jsp</literal>, la pagina proverà a risolvere la variabile di contesto <literal>messageList</literal>. Poiché questa variabile non è inizializzata, Seam chiamerà il metodo factory <literal>findMessages()</literal>, che esegue la query del database ed mette i risultati in un <literal>DataModel</literal> di cui verrà fatta l'outjection. Questo <literal>DataModel</literal> fornisce i dati di riga necessari per generare la <literal>&lt;h:dataTable&gt;</literal>."
 
 #. Tag: para
 #: Tutorial.xml:682
 #, no-c-format
 msgid "When the user clicks the <literal>&lt;h:commandLink&gt;</literal>, JSF calls the <literal>select()</literal> action listener. Seam intercepts this call and injects the selected row data into the <literal>message</literal> attribute of the <literal>messageManager</literal> component. The action listener fires, marking the selected <literal>Message</literal> as read. At the end of the call, Seam outjects the selected <literal>Message</literal> to the context variable named <literal>message</literal>. Next, the EJB container commits the transaction, and the change to the <literal>Message</literal> is flushed to the database. Finally, the page is re-rendered, redisplaying the message list, and displaying the selected message below it."
-msgstr ""
+msgstr "Quando l'utente clicca il <literal>&lt;h:commandLink&gt;</literal>, JSF chiama l'action listener <literal>select()</literal>. Seam intercetta questa chiamata ed inietta i dati di riga selezionati nell'attributo del componente <literal>messageManager</literal>. L'action listener viene eseguito, marcando come letto il <literal>Message</literal> selezionato. Alla fine della chiamata, Seam esegue l'outjection del <literal>Message</literal> selezionato nella variabile di contesto chiamata <literal>message</literal>. Poi il container EJB committa la transazione ed i cambiamenti a <literal>message</literal> vengono comunicati al database. Infine la pagina vienere rigenerata, rimostrando la lista dei messaggi e mostrando sotto il messaggio selezionato."
 
 #. Tag: para
 #: Tutorial.xml:691
 #, no-c-format
 msgid "If the user clicks the <literal>&lt;h:commandButton&gt;</literal>, JSF calls the <literal>delete()</literal> action listener. Seam intercepts this call and injects the selected row data into the <literal>message</literal> attribute of the <literal>messageList</literal> component. The action listener fires, removing the selected <literal>Message</literal> from the list, and also calling <literal>remove()</literal> on the <literal>EntityManager</literal>. At the end of the call, Seam refreshes the <literal>messageList</literal> context variable and clears the context variable named <literal>message</literal>. The EJB container commits the transaction, and deletes the <literal>Message</literal> from the database. Finally, the page is re-rendered, redisplaying the message list."
-msgstr ""
+msgstr "Se l'utente clicca <literal>&lt;h:commandButton&gt;</literal>, JSF chiama l'action listener <literal>delete()</literal>. Seam intercetta questa chiamata ed inietta i dati selezionati nell'attributo <literal>message</literal> del componente <literal>messageList</literal>. L'action listener viene eseguito, rimuovendo dalla lista il <literal>Message</literal>, e chiamando anche il metodo <literal>remove()</literal> dell'<literal>EntityManager</literal>. Alla fine della chiamata, Seam aggiorna la variabile di contesto <literal>messageList</literal> e pulisce la variabiledicontesto chiamata <literal>message</literal>. Il container EJB committa latransazione ecancella <literal>Message</literal> dal database. Infine la pagina viene rigenerata, rimostrando la lista dei messaggi."
 
 #. Tag: title
 #: Tutorial.xml:706
@@ -1726,13 +1726,13 @@ msgstr "Seam e jBPM: esempio di lista todo"
 #: Tutorial.xml:708
 #, no-c-format
 msgid "jBPM provides sophisticated functionality for workflow and task management. To get a small taste of how jBPM integrates with Seam, we'll show you a simple \"todo list\" application. Since managing lists of tasks is such core functionality for jBPM, there is hardly any Java code at all in this example."
-msgstr ""
+msgstr "jBPM fornisce una funzionalità sofisticata per il workflow e la gestione dei task. Per provare come jBPM si integra con Seam, viene mostrata l'applicazione \"todo list\". Poiché gestire liste di task è la funzione base di jBPM, non c'è praticamente alcun codice Java in quest'esempio."
 
 #. Tag: para
 #: Tutorial.xml:723
 #, no-c-format
 msgid "The center of this example is the jBPM process definition. There are also two JSPs and two trivial JavaBeans (There was no reason to use session beans, since they do not access the database, or have any other transactional behavior). Let's start with the process definition:"
-msgstr ""
+msgstr "La parte centrale dell'esempio è la definizione del processo jBPM. Ci sono anche due pagine JSP e due banalissimi JavaBean (Non c'è alcuna ragione per usare session bean, poiché questi non accedono al database, e non hanno un comportamento transazionale). Cominciamo con la definizione del processo:"
 
 #. Tag: title
 #: Tutorial.xml:728
@@ -1782,49 +1782,49 @@ msgstr ""
 #: Tutorial.xml:740
 #, no-c-format
 msgid "The <literal>&lt;start-state&gt;</literal> node represents the logical start of the process. When the process starts, it immediately transitions to the <literal>todo</literal> node."
-msgstr ""
+msgstr "Il nodo <literal>&lt;start-state&gt;</literal> rappresenta l'inizio logico del processo. Quando il processo inizia, transita subito nel nodo <literal>todo</literal>."
 
 #. Tag: para
 #: Tutorial.xml:745
 #, no-c-format
 msgid "The <literal>&lt;task-node&gt;</literal> node represents a <emphasis>wait state</emphasis>, where business process execution pauses, waiting for one or more tasks to be performed."
-msgstr ""
+msgstr "Il nodo <literal>&lt;task-node&gt;</literal> rappresenta uno <emphasis>stato di attesa</emphasis>, dove l'esecuzione del processo di business va in pausa, ed aspetta che uno o pià task vengano eseguiti."
 
 #. Tag: para
 #: Tutorial.xml:750
 #, no-c-format
 msgid "The <literal>&lt;task&gt;</literal> element defines a task to be performed by a user. Since there is only one task defined on this node, when it is complete, execution resumes, and we transition to the end state. The task gets its description from a Seam component named <literal>todoList</literal> (one of the JavaBeans)."
-msgstr ""
+msgstr "L'elemento <literal>&lt;task&gt;</literal> definisce un task che deve essere eseguito da un utente. Poiché c'è solo un task definito su questo nodo, quando completa, l'esecuzione riprende e si transita verso lo stato finale. Il task recupera la sua descrizione da un componente Seam chiamato <literal>todoList</literal> (uno dei JavaBean)."
 
 #. Tag: para
 #: Tutorial.xml:756
 #, no-c-format
 msgid "Tasks need to be assigned to a user or group of users when they are created. In this case, the task is assigned to the current user, which we get from a built-in Seam component named <literal>actor</literal>. Any Seam component may be used to perform task assignment."
-msgstr ""
+msgstr "I task devono essere assegnati ad un utente od un gruppo di utenti quando vengono creati. In questo caso il task viene assegnato all'utente corrente che viene recuperato dal componente Seam predefinito chiamato <literal>actor</literal>. Ogni componente Seam può essegre impiegato per assegnare un task."
 
 #. Tag: para
 #: Tutorial.xml:762
 #, no-c-format
 msgid "The <literal>&lt;end-state&gt;</literal> node defines the logical end of the business process. When execution reaches this node, the process instance is destroyed."
-msgstr ""
+msgstr "Il nodo <literal>&lt;end-state&gt;</literal> definisce la fine logica del processo di business. Quando l'esecuzione raggiunge questo nodo, l'istanza di processo viene distrutta."
 
 #. Tag: para
 #: Tutorial.xml:771
 #, no-c-format
 msgid "If we view this process definition using the process definition editor provided by JBossIDE, this is what it looks like:"
-msgstr ""
+msgstr "Se viene impiegato l'editor per le definizioni di processo fornito da JBossIDE, questa apparirà così:"
 
 #. Tag: para
 #: Tutorial.xml:783
 #, no-c-format
 msgid "This document defines our <emphasis>business process</emphasis> as a graph of nodes. This is the most trivial possible business process: there is one <emphasis>task</emphasis> to be performed, and when that task is complete, the business process ends."
-msgstr ""
+msgstr "Questo documento definisce il <emphasis>processo di business</emphasis> come un grafo di nodi. Questo è un processo di business molto banale: c'è un <emphasis>task</emphasis> da eseguire e quando questo viene completato, il processo termina."
 
 #. Tag: para
 #: Tutorial.xml:787
 #, no-c-format
 msgid "The first JavaBean handles the login screen <literal>login.jsp</literal>. Its job is just to initialize the jBPM actor id using the <literal>actor</literal> component. In a real application, it would also need to authenticate the user."
-msgstr ""
+msgstr "Il primo javaBean gestisce la pagina <literal>login.jsp</literal>. Il suo compito è quello di inizializzare l'id actor jBPM usando il componente <literal>actor</literal>. Nelle applicazioni occorrerà autenticare l'utente."
 
 #. Tag: title
 #: Tutorial.xml:791
@@ -2185,7 +2185,7 @@ msgstr ""
 #: Tutorial.xml:849
 #, no-c-format
 msgid "Let's take this one piece at a time."
-msgstr ""
+msgstr "Si prenda un pezzo alla volta."
 
 #. Tag: para
 #: Tutorial.xml:851
