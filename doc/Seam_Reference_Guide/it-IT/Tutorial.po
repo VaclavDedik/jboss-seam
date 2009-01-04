@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-13 17:58+0000\n"
-"PO-Revision-Date: 2009-01-03 13:20+0100\n"
+"PO-Revision-Date: 2009-01-04 20:51+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -2012,25 +2012,25 @@ msgstr ""
 #: Tutorial.xml:821
 #, no-c-format
 msgid "The description property accepts user input form the JSP page, and exposes it to the process definition, allowing the task description to be set."
-msgstr ""
+msgstr "La proprietà descrizione accetta un'input utente dalla pagina JSP e lo espone alla definizione del processo, consentendo che venga impostata la descrizione del task."
 
 #. Tag: para
 #: Tutorial.xml:825
 #, no-c-format
 msgid "The Seam <literal>@CreateProcess</literal> annotation creates a new jBPM process instance for the named process definition."
-msgstr ""
+msgstr "L'annotazione Seam <literal>@CreateProcess</literal> crea una nuova istanza di processo jBPM dalla definizione del processo."
 
 #. Tag: para
 #: Tutorial.xml:829
 #, no-c-format
 msgid "The Seam <literal>@StartTask</literal> annotation starts work on a task. The <literal>@EndTask</literal> ends the task, and allows the business process execution to resume."
-msgstr ""
+msgstr "L'annotazione Seam <literal>@StartTask</literal> avvia un task. <literal>@EndTask</literal> termina il task, e consente di ripristinare l'esecuzione del processo di business."
 
 #. Tag: para
 #: Tutorial.xml:838
 #, no-c-format
 msgid "In a more realistic example, <literal>@StartTask</literal> and <literal>@EndTask</literal> would not appear on the same method, because there is usually work to be done using the application in order to complete the task."
-msgstr ""
+msgstr "In un esempio più realistico <literal>@StartTask</literal> e <literal>@EndTask</literal> non apparirebbero nello stesso metodo, poiché solitamente c'è del lavoro da fare in un'applicazione prima che il task venga terminato."
 
 #. Tag: para
 #: Tutorial.xml:842
@@ -2221,7 +2221,7 @@ msgstr ""
 #: Tutorial.xml:858
 #, no-c-format
 msgid "Each element of the list is an instance of the jBPM class <literal>TaskInstance</literal>. The following code simply displays the interesting properties of each task in the list. For the description, priority and due date, we use input controls, to allow the user to update these values."
-msgstr ""
+msgstr "Ciascun elemento della lista è un'istanza della classe jBPM <literal>TaskInstance</literal>. Il codice seguente mostra semplicemente le proprietà di interesse per ogni task della lista. Per consentire all'utente di aggiornare i valori di descrizione, priorità e data di ultimazione, si usano i controlli d'input.."
 
 #. Tag: programlisting
 #: Tutorial.xml:862
