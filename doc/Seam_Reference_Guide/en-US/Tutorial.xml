@@ -1295,7 +1295,7 @@ public class TodoList
 }]]></programlisting>
                     <calloutlist>
                         <callout arearefs="todo-description">
-                            <para> The description property accepts user input form the JSP page, and exposes it to the
+                            <para> The description property accepts user input from the JSP page, and exposes it to the
                                 process definition, allowing the task description to be set. </para>
                         </callout>
                         <callout arearefs="todo-createprocess-annotation">
