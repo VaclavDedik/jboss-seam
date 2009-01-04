@@ -1133,6 +1133,93 @@
          </section>
 
          <section>
+            <title><literal>&lt;s:resource&gt;</literal></title>
+ 
+            <para><emphasis>Description</emphasis></para>
+            <para>
+			A tag that acts a file download provider. It must be alone in the JSF page.
+			To be able to use this contol, web.xml must be set up as follows.
+            </para>
+
+            <para><emphasis>Configuration</emphasis></para>
+			
+            <programlisting role="XML"><![CDATA[<servlet>
+   <servlet-name>Document Store Servlet</servlet-name>
+   <servlet-class>org.jboss.seam.document.DocumentStoreServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+   <servlet-name>Document Store Servlet</servlet-name>
+   <url-pattern>/seam/docstore/*</url-pattern>
+</servlet-mapping>
+]]></programlisting>
+				
+
+            <para><emphasis>Attributes</emphasis></para>
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>data</literal> &#8212; Data that should be downloaded.
+					 May be a java.util.File, an InputStream or a byte array.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>fileName</literal> &#8212; Filename of the file to be served
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>contentType</literal> &#8212; content type of the file to be downloaded
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>disposition</literal> &#8212; disposition to use. Default is inline
+                  </para>
+               </listitem>			   
+            </itemizedlist>			
+
+            <para><emphasis>Usage</emphasis></para>
+			<para>Here is an example on how to use the tag:</para>
+            <programlisting role="XHTML"><![CDATA[<s:resource xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	data="#{resources.data}"
+	contentType="#{resources.contentType}"
+	fileName="#{resources.fileName}" />
+]]></programlisting>		
+		    
+			<para>The bean named <literal>resources</literal> is some backing bean that given
+			some request parameters servers a specific file, see <literal>s:download</literal>.</para>			
+			</section>
+		 
+		 <section>
+		    <title><literal>&lt;s:download&gt;</literal></title>
+            <para><emphasis>Description</emphasis></para>
+            <para>Builds a RESTful link to a <literal>&lt;s:resource&gt;</literal>.
+				Nested <literal>f:param</literal> build up the url.
+			</para>
+
+
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>src</literal> &#8212; Resource file serving files.
+                  </para>
+               </listitem>
+			</itemizedlist>		
+		 
+            <para><emphasis>Attributes</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<s:download src="/resources.xhtml">
+    <f:param name="fileId" value="#{someBean.downloadableFileId}"/>
+</s:download>]]></programlisting>			
+
+			<para>
+				Will produce something like: 
+				<literal><![CDATA[http://localhost/resources.seam?fileId=1]]></literal>
+			</para>		 
+		 </section>
+		 
+         <section>
             <title><literal>&lt;s:graphicImage&gt;</literal></title>
  
             <para><emphasis>Description</emphasis></para>
