@@ -6,6 +6,7 @@ import javax.faces.FacesException;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.EditableValueHolder;
+import javax.faces.component.NamingContainer;
 import javax.faces.component.StateHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -18,6 +19,7 @@ import javax.faces.validator.ValidatorException;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.ui.component.UIDecorate;
 
 /**
  * Validate two fields are equal
@@ -90,12 +92,12 @@ public class EqualityValidator implements Validator, StateHolder
 
    public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException
    {
-      String forId = getFor();
-      if (forId == null)
+      if (getFor() == null)
       {
          throw new FacesException("Must specify a component to validate equality against");
       }
-      UIComponent otherComponent = component.findComponent(forId);
+      UIComponent otherComponent = findOtherComponent(component);
+
       Object other = new OtherComponent(context, otherComponent).getValue();
       if (value == null && other == null)
       {
@@ -143,6 +145,49 @@ public class EqualityValidator implements Validator, StateHolder
             break;
          }
       }
+   }
+
+   private UIComponent findOtherComponent(UIComponent component)
+   {
+      UIComponent otherComponent = component.findComponent(getFor());
+
+      /**
+       * If s:decorate is used, otherComponent will be null We have to look it
+       * up ourselves
+       */
+      if (otherComponent == null)
+      {
+         UIComponent decorateParent = null;
+         UIComponent parent = component.getParent();
+         while (decorateParent == null && parent != null)
+         {
+            if (parent instanceof NamingContainer && !(parent instanceof UIDecorate))
+            {
+               decorateParent = parent;
+            }
+            parent = parent.getParent();
+         }
+         if (decorateParent != null)
+            otherComponent = findChildComponent(decorateParent);
+
+      }
+      return otherComponent;
+   }
+
+   private UIComponent findChildComponent(UIComponent parent)
+   {
+      UIComponent ret = null;
+      for (UIComponent child : parent.getChildren())
+      {
+         if (child.getId().equals(getFor()))
+            ret = child;
+         else
+            ret = findChildComponent(child);
+         if (ret != null)
+            break;
+      }
+      return ret;
+
    }
 
    private int compare(Object value, Object other) throws IllegalArgumentException
