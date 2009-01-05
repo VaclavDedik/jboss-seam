@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seam_-_Contextual_Components VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-12-13 17:58+0000\n"
+"POT-Creation-Date: 2009-01-05 00:19+0000\n"
 "PO-Revision-Date: 2008-11-06 00:10+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1935,7 +1935,7 @@ msgstr ""
 #: Tutorial.xml:821
 #, no-c-format
 msgid ""
-"The description property accepts user input form the JSP page, and exposes "
+"The description property accepts user input from the JSP page, and exposes "
 "it to the process definition, allowing the task description to be set."
 msgstr ""
 

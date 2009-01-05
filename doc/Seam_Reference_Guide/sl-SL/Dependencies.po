@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-10-14 11:38+0000\n"
+"POT-Creation-Date: 2009-01-05 00:19+0000\n"
 "PO-Revision-Date: 2008-04-21 00:37+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -872,19 +872,20 @@ msgstr ""
 #: Dependencies.xml:1159
 #, no-c-format
 msgid ""
-"Released versions of Seam are available in http://repository.jboss.org/"
-"maven2 and nightly snapshots are available in http://snapshots.jboss.org/"
-"maven2."
+"Released versions of Seam are available in <ulink url=\"http://repository."
+"jboss.org/maven2\"> http://repository.jboss.org/maven2</ulink> and nightly "
+"snapshots are available in <ulink url=\"http://snapshots.jboss.org/maven2\"> "
+"http://snapshots.jboss.org/maven2</ulink>."
 msgstr ""
 
 #. Tag: para
-#: Dependencies.xml:1164
+#: Dependencies.xml:1166
 #, no-c-format
 msgid "All the Seam artifacts are available in Maven:"
 msgstr ""
 
 #. Tag: programlisting
-#: Dependencies.xml:1168
+#: Dependencies.xml:1170
 #, no-c-format
 msgid ""
 "<![CDATA[<dependency>\n"
@@ -894,7 +895,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Dependencies.xml:1170
+#: Dependencies.xml:1172
 #, no-c-format
 msgid ""
 "<![CDATA[<dependency>\n"
@@ -904,7 +905,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Dependencies.xml:1172
+#: Dependencies.xml:1174
 #, no-c-format
 msgid ""
 "<![CDATA[<dependency>\n"
@@ -914,7 +915,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Dependencies.xml:1174
+#: Dependencies.xml:1176
 #, no-c-format
 msgid ""
 "<![CDATA[<dependency>\n"
@@ -924,7 +925,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Dependencies.xml:1176 Dependencies.xml:1178
+#: Dependencies.xml:1178 Dependencies.xml:1180
 #, no-c-format
 msgid ""
 "<![CDATA[<dependency>\n"
@@ -934,7 +935,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Dependencies.xml:1180
+#: Dependencies.xml:1182
 #, no-c-format
 msgid ""
 "This sample POM will give you Seam, JPA (provided by Hibernate) and "
@@ -942,7 +943,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Dependencies.xml:1185
+#: Dependencies.xml:1187
 #, no-c-format
 msgid ""
 "<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"

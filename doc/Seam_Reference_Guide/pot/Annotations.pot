@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-12-27 11:29+0000\n"
+"POT-Creation-Date: 2009-01-05 00:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -401,7 +401,7 @@ msgstr ""
 #: Annotations.xml:239
 #, no-c-format
 msgid ""
-"<literal>APPLICATION</literal> &#8212; Predence of application components "
+"<literal>APPLICATION</literal> &#8212; Precedence of application components "
 "(the default precedence)"
 msgstr ""
 

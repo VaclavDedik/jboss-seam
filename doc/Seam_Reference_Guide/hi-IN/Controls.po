@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-12-04 00:58+0000\n"
+"POT-Creation-Date: 2009-01-05 00:19+0000\n"
 "PO-Revision-Date: 2008-04-04 01:24+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -78,7 +78,7 @@ msgstr ""
 #: Controls.xml:581 Controls.xml:598 Controls.xml:622 Controls.xml:641
 #: Controls.xml:669 Controls.xml:692 Controls.xml:706 Controls.xml:746
 #: Controls.xml:774 Controls.xml:846 Controls.xml:886 Controls.xml:987
-#: Controls.xml:1119
+#: Controls.xml:1033 Controls.xml:1059 Controls.xml:1191
 #, no-c-format
 msgid "Description"
 msgstr ""
@@ -99,7 +99,7 @@ msgstr ""
 #: Controls.xml:586 Controls.xml:603 Controls.xml:628 Controls.xml:648
 #: Controls.xml:674 Controls.xml:697 Controls.xml:713 Controls.xml:751
 #: Controls.xml:779 Controls.xml:853 Controls.xml:931 Controls.xml:998
-#: Controls.xml:1124
+#: Controls.xml:1047 Controls.xml:1070 Controls.xml:1196
 #, no-c-format
 msgid "Attributes"
 msgstr ""
@@ -161,7 +161,7 @@ msgstr ""
 #: Controls.xml:536 Controls.xml:573 Controls.xml:591 Controls.xml:614
 #: Controls.xml:633 Controls.xml:662 Controls.xml:679 Controls.xml:723
 #: Controls.xml:767 Controls.xml:834 Controls.xml:877 Controls.xml:979
-#: Controls.xml:1112 Controls.xml:1136
+#: Controls.xml:1023 Controls.xml:1184 Controls.xml:1208
 #, no-c-format
 msgid "Usage"
 msgstr ""
@@ -398,7 +398,7 @@ msgid ""
 msgstr ""
 
 #. Tag: emphasis
-#: Controls.xml:315 Controls.xml:902
+#: Controls.xml:315 Controls.xml:902 Controls.xml:993
 #, no-c-format
 msgid "Configuration"
 msgstr ""
@@ -1379,11 +1379,134 @@ msgstr ""
 #. Tag: literal
 #: Controls.xml:985
 #, no-c-format
-msgid "&lt;s:graphicImage&gt;"
+msgid "&lt;s:resource&gt;"
 msgstr ""
 
 #. Tag: para
 #: Controls.xml:988
+#, no-c-format
+msgid ""
+"A tag that acts a file download provider. It must be alone in the JSF page. "
+"To be able to use this contol, web.xml must be set up as follows."
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:995
+#, no-c-format
+msgid ""
+"<![CDATA[<servlet>\n"
+"   <servlet-name>Document Store Servlet</servlet-name>\n"
+"   <servlet-class>org.jboss.seam.document.DocumentStoreServlet</servlet-"
+"class>\n"
+"</servlet>\n"
+"<servlet-mapping>\n"
+"   <servlet-name>Document Store Servlet</servlet-name>\n"
+"   <url-pattern>/seam/docstore/*</url-pattern>\n"
+"</servlet-mapping>\n"
+"]]>"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:1001
+#, no-c-format
+msgid ""
+"<literal>data</literal> &#8212; Data that should be downloaded. May be a "
+"java.util.File, an InputStream or a byte array."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:1007
+#, no-c-format
+msgid "<literal>fileName</literal> &#8212; Filename of the file to be served"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:1012
+#, no-c-format
+msgid ""
+"<literal>contentType</literal> &#8212; content type of the file to be "
+"downloaded"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:1017
+#, no-c-format
+msgid ""
+"<literal>disposition</literal> &#8212; disposition to use. Default is inline"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:1024
+#, no-c-format
+msgid "Here is an example on how to use the tag:"
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:1025
+#, no-c-format
+msgid ""
+"<![CDATA[<s:resource xmlns=\"http://www.w3.org/1999/xhtml\"\n"
+"        xmlns:s=\"http://jboss.com/products/seam/taglib\"\n"
+"        data=\"#{resources.data}\"\n"
+"        contentType=\"#{resources.contentType}\"\n"
+"        fileName=\"#{resources.fileName}\" />\n"
+"]]>"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:1027
+#, no-c-format
+msgid ""
+"The bean named <literal>resources</literal> is some backing bean that given "
+"some request parameters servers a specific file, see <literal>s:download</"
+"literal>."
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:1032
+#, no-c-format
+msgid "&lt;s:download&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:1034
+#, no-c-format
+msgid ""
+"Builds a RESTful link to a <literal>&lt;s:resource&gt;</literal>. Nested "
+"<literal>f:param</literal> build up the url."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:1041
+#, no-c-format
+msgid "<literal>src</literal> &#8212; Resource file serving files."
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:1048
+#, no-c-format
+msgid ""
+"<![CDATA[<s:download src=\"/resources.xhtml\">\n"
+"    <f:param name=\"fileId\" value=\"#{someBean.downloadableFileId}\"/>\n"
+"</s:download>]]>"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:1050
+#, no-c-format
+msgid ""
+"Will produce something like: <literal><![CDATA[http://localhost/resources."
+"seam?fileId=1]]></literal>"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:1057
+#, no-c-format
+msgid "&lt;s:graphicImage&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:1060
 #, no-c-format
 msgid ""
 "An extended <literal>&lt;h:graphicImage&gt;</literal> that allows the image "
@@ -1392,7 +1515,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:993
+#: Controls.xml:1065
 #, no-c-format
 msgid ""
 "All attributes for <literal>&lt;h:graphicImage&gt;</literal> are supported, "
@@ -1400,7 +1523,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1001
+#: Controls.xml:1073
 #, no-c-format
 msgid ""
 "<literal>value</literal> &#8212; image to display. Can be a path "
@@ -1412,7 +1535,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1014
+#: Controls.xml:1086
 #, no-c-format
 msgid ""
 "<literal>fileName</literal> &#8212; if not specified the served image will "
@@ -1421,13 +1544,13 @@ msgid ""
 msgstr ""
 
 #. Tag: emphasis
-#: Controls.xml:1023
+#: Controls.xml:1095
 #, no-c-format
 msgid "Transformations"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1024
+#: Controls.xml:1096
 #, no-c-format
 msgid ""
 "To apply a transform to the image, you would nest a tag specifying the "
@@ -1435,25 +1558,25 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:1032
+#: Controls.xml:1104
 #, no-c-format
 msgid "&lt;s:transformImageSize&gt;"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1037
+#: Controls.xml:1109
 #, no-c-format
 msgid "<literal>width</literal> &#8212; new width of the image"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1043
+#: Controls.xml:1115
 #, no-c-format
 msgid "<literal>height</literal> &#8212; new height of the image"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1049
+#: Controls.xml:1121
 #, no-c-format
 msgid ""
 "<literal>maintainRatio</literal> &#8212; if <literal>true</literal>, and "
@@ -1463,19 +1586,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1060
+#: Controls.xml:1132
 #, no-c-format
 msgid "<literal>factor</literal> &#8212; scale the image by the given factor"
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:1070
+#: Controls.xml:1142
 #, no-c-format
 msgid "&lt;s:transformImageBlur&gt;"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1075
+#: Controls.xml:1147
 #, no-c-format
 msgid ""
 "<literal>radius</literal> &#8212; perform a convolution blur with the given "
@@ -1483,13 +1606,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:1085
+#: Controls.xml:1157
 #, no-c-format
 msgid "&lt;s:transformImageType&gt;"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1090
+#: Controls.xml:1162
 #, no-c-format
 msgid ""
 "<literal>contentType</literal> &#8212; alter the type of the image to either "
@@ -1497,7 +1620,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1102
+#: Controls.xml:1174
 #, no-c-format
 msgid ""
 "It's easy to create your own transform - create a <literal>UIComponent</"
@@ -1509,7 +1632,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:1113
+#: Controls.xml:1185
 #, no-c-format
 msgid ""
 "<![CDATA[<s:graphicImage rendered=\"#{auction.image ne null}\"\n"
@@ -1519,19 +1642,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:1117
+#: Controls.xml:1189
 #, no-c-format
 msgid "&lt;s:remote&gt;"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1120
+#: Controls.xml:1192
 #, no-c-format
 msgid "Generates the Javascript stubs required to use Seam Remoting."
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1127
+#: Controls.xml:1199
 #, no-c-format
 msgid ""
 "<literal>include</literal> &#8212; a comma-separated list of the component "
@@ -1540,7 +1663,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:1137
+#: Controls.xml:1209
 #, no-c-format
 msgid ""
 "<![CDATA[<s:remote include=\"customerAction,accountAction,com.acme.MyBean\"/"
@@ -1548,13 +1671,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Controls.xml:1144
+#: Controls.xml:1216
 #, no-c-format
 msgid "Annotations"
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1146
+#: Controls.xml:1218
 #, no-c-format
 msgid ""
 "Seam also provides annotations to allow you to use Seam components as JSF "
@@ -1562,13 +1685,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:1154
+#: Controls.xml:1226
 #, no-c-format
 msgid "@Converter"
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:1157
+#: Controls.xml:1229
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"itemConverter\") \n"
@@ -1594,7 +1717,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:1159
+#: Controls.xml:1231
 #, no-c-format
 msgid ""
 "<![CDATA[<h:inputText value=\"#{shop.item}\" converter=\"itemConverter\" />]]"
@@ -1602,7 +1725,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1161
+#: Controls.xml:1233
 #, no-c-format
 msgid ""
 "Registers the Seam component as a JSF converter. Shown here is a converter "
@@ -1611,13 +1734,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Controls.xml:1171
+#: Controls.xml:1243
 #, no-c-format
 msgid "@Validator"
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:1174
+#: Controls.xml:1246
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"itemValidator\") \n"
@@ -1639,7 +1762,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Controls.xml:1176
+#: Controls.xml:1248
 #, no-c-format
 msgid ""
 "<![CDATA[<h:inputText value=\"#{shop.item}\" validator=\"itemValidator\" />]]"
@@ -1647,7 +1770,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Controls.xml:1177
+#: Controls.xml:1249
 #, no-c-format
 msgid ""
 "Registers the Seam component as a JSF validator. Shown here is a validator "
