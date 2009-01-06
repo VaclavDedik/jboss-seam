@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:19+0000\n"
-"PO-Revision-Date: 2009-01-05 01:50+0100\n"
+"PO-Revision-Date: 2009-01-06 14:00+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -2343,13 +2343,13 @@ msgstr ""
 #: Tutorial.xml:888
 #, no-c-format
 msgid "After logging in, todo.jsp uses the <literal>taskInstanceList</literal> component to display a table of outstanding todo items for a the current user. Initially there are none. It also presents a form to enter a new entry. When the user types the todo item and hits the \"Create New Item\" button, <literal>#{todoList.createTodo}</literal> is called. This starts the todo process, as defined in <literal>todo.jpdl.xml</literal>."
-msgstr ""
+msgstr "Dopo la login, todo.jsp utilizza il componente <literal>taskInstanceList</literal> per mostrare un tabella con i compiti da eseguire da parte dell'utente corrente. Inizialmente non ce ne sono. Viene presentata anche una form per l'inserimento di una nuova voce. Quando l'utente digita il compito da eseguire e preme il pulsante \"Create New Item\", viene chiamato <literal>#{todoList.createTodo}</literal>. Questo inizia il processo todo, così come definito in <literal>todo.jpdl.xml</literal>."
 
 #. Tag: para
 #: Tutorial.xml:894
 #, no-c-format
 msgid "The process instance is created, starting in the start state and immediately transition to the <literal>todo</literal> state, where a new task is created. The task description is set based on the user's input, which was saved to <literal>#{todoList.description}</literal>. Then, the task is assigned to the current user, which was stored in the seam actor component. Note that in this example, the process has no extra process state. All the state in this example is stored in the task definition. The process and task information is stored in the database at the end of the request."
-msgstr ""
+msgstr "L'istanza di processo viene creata a partire dallo stato di start ed immediatamente  viene eseguita una transizione allo stato <literal>todo</literal>, doce viene creato un nuovo task. La descrizione del task viene impostata in base all'input dell'utente, che  è stato memorizzato in <literal>#{todoList.description}</literal>. Poi il task viene assegnato all'utente corrente, memorizzato nel componente Seam chiamato actor. Si noti che in quest'esempio il processo non ha ulteriori stati di processo. Tutti gli stati sono memorizzati nella definizione del task. Il processo e le informazioni sul task sono memorizzati nel database alla fine della richiesta."
 
 #. Tag: para
 #: Tutorial.xml:905
