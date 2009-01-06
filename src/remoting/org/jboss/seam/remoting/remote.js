@@ -656,7 +656,7 @@ Seam.Remoting.sendAjaxRequest = function(envelope, path, callback, silent)
       if (inScope) Seam.Remoting.hideLoadingMessage();
       
       window.setTimeout(function() {
-        req.onreadystatechange = function() {};
+        asyncReq.onreadystatechange = function() {};
       }, 0);
   
       if (asyncReq.status == 200)
@@ -692,7 +692,7 @@ Seam.Remoting.sendAjaxRequest = function(envelope, path, callback, silent)
         }
       }
       else
-        alert("There was an error processing your request.  Error code: " + req.status);
+        alert("There was an error processing your request.  Error code: " + asyncReq.status);
     }
     
   }
