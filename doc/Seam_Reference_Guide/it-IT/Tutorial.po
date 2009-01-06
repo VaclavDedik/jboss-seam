@@ -1228,7 +1228,7 @@ msgstr "Entity bean: <literal>Message.java</literal>"
 #: Tutorial.xml:540
 #, no-c-format
 msgid "The <literal>Message</literal> entity defines the title, text, date and time of a message, and a flag indicating whether the message has been read:"
-msgstr "L'entity <literal>Message</literal> definisce il titolo, iltesto, ladata e l'orario del messaggio e un flag indica se il messaggio è stato letto:"
+msgstr "L'entity <literal>Message</literal> definisce il titolo, il testo, la data e l'orario del messaggio e un flag indica se il messaggio è stato letto:"
 
 #. Tag: title
 #: Tutorial.xml:544
