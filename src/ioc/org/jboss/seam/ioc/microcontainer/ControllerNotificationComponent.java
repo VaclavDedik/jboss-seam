@@ -60,7 +60,7 @@ public abstract class ControllerNotificationComponent implements Serializable
         }
         catch (Throwable t)
         {
-            throw new IllegalArgumentException("Exception installing ControllerNotificationComponent: " + t);
+            throw new IllegalArgumentException("Exception installing ControllerNotificationComponent: " + t, t);
         }
     }
 
