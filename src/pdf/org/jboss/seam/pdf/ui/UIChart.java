@@ -27,6 +27,7 @@ import com.lowagie.text.pdf.DefaultFontMapper;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
+import com.lowagie.text.pdf.AsianFontMapper;
 
 public abstract class UIChart extends ITextComponent
 {
@@ -274,28 +275,34 @@ public abstract class UIChart extends ITextComponent
       try
       {
          UIDocument doc = (UIDocument) findITextParent(getParent(), UIDocument.class);
-         if (doc != null)
-         {
+         if (doc != null) {
             PdfWriter writer = (PdfWriter) doc.getWriter();
             PdfContentByte cb = writer.getDirectContent();
             PdfTemplate tp = cb.createTemplate(getWidth(), getHeight());
-            Graphics2D g2 = tp.createGraphics(getWidth(), getHeight(), new DefaultFontMapper());
+
+
+	    UIFont font = (UIFont) findITextParent(this, UIFont.class);
+
+	    DefaultFontMapper fontMapper;
+	    if (font == null) { 
+		fontMapper = new DefaultFontMapper();
+	    } else {
+		fontMapper = new AsianFontMapper(font.getName(), font.getEncoding());
+	    }
+
+	    Graphics2D g2 = tp.createGraphics(getWidth(), getHeight(), fontMapper);
             chart.draw(g2, new Rectangle2D.Double(0, 0, getWidth(), getHeight()));
             g2.dispose();
 
             image = new ImgTemplate(tp);
-         }
-         else
-         {
+         } else {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             ChartUtilities.writeChartAsJPEG(stream, chart, getWidth(), getHeight());
 
             imageData = stream.toByteArray();
             stream.close();
          }
-      }
-      catch (Exception e)
-      {
+      } catch (Exception e) {
          throw new RuntimeException(e);
       }
    }
