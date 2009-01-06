@@ -168,6 +168,7 @@ public class Exceptions
                logLevel = exception.attributeValue("log-level") != null ?
                      LogLevel.valueOf(exception.attributeValue("log-level").toLowerCase()) : null;
                      
+               // The logLevel attribute is deprecated! Use log-level instead
                if (logLevel == null && exception.attributeValue("logLevel") != null)
                {
                   logLevel = LogLevel.valueOf(exception.attributeValue("logLevel").toLowerCase());
