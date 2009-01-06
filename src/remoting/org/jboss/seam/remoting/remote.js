@@ -621,7 +621,7 @@ Seam.Remoting.execute = function(component, methodName, params, callback, except
     // Marshal the request
     var envelope = Seam.Remoting.createEnvelope(Seam.Remoting.createHeader(), call.data);
     Seam.Remoting.pendingCalls.put(call.id, call);
-    call.asyncReq = Seam.Remoting.sendAjaxRequest(envelope, Seam.Remoting.PATH_EXECUTE, Seam.Remoting.processResponse, false);
+    Seam.Remoting.sendAjaxRequest(envelope, Seam.Remoting.PATH_EXECUTE, Seam.Remoting.processResponse, false);
   }
 
   return call;
@@ -633,7 +633,7 @@ Seam.Remoting.sendAjaxRequest = function(envelope, path, callback, silent)
 
   if (!silent)
     Seam.Remoting.displayLoadingMessage();
-
+    
   var asyncReq;
 
   if (window.XMLHttpRequest)
@@ -643,15 +643,59 @@ Seam.Remoting.sendAjaxRequest = function(envelope, path, callback, silent)
       asyncReq.overrideMimeType('text/xml');
   }
   else
+  {
     asyncReq = new ActiveXObject("Microsoft.XMLHTTP");
+  }
 
-  var rcb = Seam.Remoting.requestCallback;
+  asyncReq.onreadystatechange = function() 
+  {
+    if (asyncReq.readyState == 4)
+    {
+      var inScope = typeof(Seam) == "undefined" ? false : true;
+      
+      if (inScope) Seam.Remoting.hideLoadingMessage();
+      
+      window.setTimeout(function() {
+        req.onreadystatechange = function() {};
+      }, 0);
   
-  window.setTimeout(function() {
-    asyncReq.onreadystatechange = function() {
-    if (rcb) rcb(asyncReq, callback);     
+      if (asyncReq.status == 200)
+      {
+        if (inScope) Seam.Remoting.log("Response packet:\n" + asyncReq.responseText);
+  
+        if (callback)
+        {
+          // The following code deals with a Firefox security issue.  It reparses the XML
+          // response if accessing the documentElement throws an exception
+          try
+          {         
+            asyncReq.responseXML.documentElement;
+            Seam.Remoting.processResponse(asyncReq.responseXML);
+          }
+          catch (ex)
+          {
+             try
+             {
+               // Try it the IE way first...
+               var doc = new ActiveXObject("Microsoft.XMLDOM");
+               doc.async = "false";
+               doc.loadXML(asyncReq.responseText);
+               callback(doc);
+             }
+             catch (e)
+             {
+               // If that fails, use standards
+               var parser = new DOMParser();
+               Seam.Remoting.processResponse(parser.parseFromString(asyncReq.responseText, "text/xml"));
+             }
+          } 
+        }
+      }
+      else
+        alert("There was an error processing your request.  Error code: " + req.status);
     }
-  }, 0);
+    
+  }
 
   if (Seam.Remoting.encodedSessionId)
   {
@@ -660,61 +704,11 @@ Seam.Remoting.sendAjaxRequest = function(envelope, path, callback, silent)
     
   asyncReq.open("POST", Seam.Remoting.resourcePath + path, true);
   asyncReq.send(envelope);
-  return asyncReq;
 }
 
 Seam.Remoting.setCallback = function(component, methodName, callback)
 {
   component.__callback[methodName] = callback;
-}
-
-Seam.Remoting.requestCallback = function(req, callback)
-{
-  if (req.readyState == 4)
-  {
-    var inScope = typeof(Seam) == "undefined" ? false : true;
-    
-    if (inScope) Seam.Remoting.hideLoadingMessage();
-    
-    window.setTimeout(function() {
-      req.onreadystatechange = function() {};
-    }, 0);
-
-    if (req.status == 200)
-    {
-      if (inScope) Seam.Remoting.log("Response packet:\n" + req.responseText);
-
-      if (callback)
-      {
-        // The following code deals with a Firefox security issue.  It reparses the XML
-        // response if accessing the documentElement throws an exception
-        try
-        {         
-          req.responseXML.documentElement;
-          callback(req.responseXML);
-        }
-        catch (ex)
-        {
-           try
-           {
-             // Try it the IE way first...
-             var doc = new ActiveXObject("Microsoft.XMLDOM");
-             doc.async = "false";
-             doc.loadXML(req.responseText);
-             callback(doc);
-           }
-           catch (e)
-           {
-             // If that fails, use standards
-             var parser = new DOMParser();
-             callback(parser.parseFromString(req.responseText, "text/xml"));
-           }
-        }
-      }
-    }
-    else
-      alert("There was an error processing your request.  Error code: " + req.status);
-  }
 }
 
 Seam.Remoting.processResponse = function(doc)
