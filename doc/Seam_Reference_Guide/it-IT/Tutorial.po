@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:19+0000\n"
-"PO-Revision-Date: 2009-01-07 13:51+0100\n"
+"PO-Revision-Date: 2009-01-07 18:38+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -2533,37 +2533,37 @@ msgstr "L'elemento <literal>&lt;page&gt;</literal> definisce uno stato di attesa
 #: Tutorial.xml:978
 #, no-c-format
 msgid "The <literal>&lt;transition&gt;</literal> element names a JSF outcome. The transition is triggered when a JSF action results in that outcome. Execution will then proceed to the next node of the pageflow graph, after invocation of any jBPM transition actions."
-msgstr ""
+msgstr "L'elemento <literal>&lt;transition&gt;</literal> chiama un esito JSF. La transizione è lanciata quando un'azione JSF ha tale esito. L'esecuzione quindi procederà verso il successivo nodo del grafo pageflow, dopo l'invocazione di una qualsiasi azione di transizione jBPM."
 
 #. Tag: para
 #: Tutorial.xml:984
 #, no-c-format
 msgid "A transition <literal>&lt;action&gt;</literal> is just like a JSF action, except that it occurs when a jBPM transition occurs. The transition action can invoke any Seam component."
-msgstr ""
+msgstr "Una transizione <literal>&lt;action&gt;</literal> è come un'azione JSF, tranne che avviene quando si verifica una transizione jBPM. L'azione di transizione può invocare qualsiasi componente Seam."
 
 #. Tag: para
 #: Tutorial.xml:989
 #, no-c-format
 msgid "A <literal>&lt;decision&gt;</literal> node branches the pageflow, and determines the next node to execute by evaluating a JSF EL expression."
-msgstr ""
+msgstr "Un nodo <literal>&lt;decision&gt;</literal> divide il pageflow e determina il successivo nodo da eseguire valutando un'espressione JSF EL."
 
 #. Tag: para
 #: Tutorial.xml:997
 #, no-c-format
 msgid "Here is what the pageflow looks like in the JBoss Developer Studio pageflow editor:"
-msgstr ""
+msgstr "Ecco come appare il pageflow nell'editor di pageflow di JBoss Developer Studio:"
 
 #. Tag: para
 #: Tutorial.xml:1008
 #, no-c-format
 msgid "Now that we have seen the pageflow, it is very, very easy to understand the rest of the application!"
-msgstr ""
+msgstr "Ora che abbiamo visto il pageflow, è molto facile capire il resto dell'applicazione."
 
 #. Tag: para
 #: Tutorial.xml:1010
 #, no-c-format
 msgid "Here is the main page of the application, <literal>numberGuess.jspx</literal>:"
-msgstr ""
+msgstr "Ecco la pagina principale dell'applicazione, <literal>numberGuess.jspx</literal>:"
 
 #. Tag: title
 #: Tutorial.xml:1013
@@ -3029,13 +3029,13 @@ msgstr ""
 #: Tutorial.xml:1041
 #, no-c-format
 msgid "The first time a JSP page asks for a <literal>numberGuess</literal> component, Seam will create a new one for it, and the <literal>@Create</literal> method will be invoked, allowing the component to initialize itself."
-msgstr ""
+msgstr "La prima volta che una pagina JSP richiede un componente <literal>numberGuess</literal>, Seam ne crea uno nuovo, ed il metodo <literal>@Create</literal> viene invocato, consentendo che il componente si inizializzi."
 
 #. Tag: para
 #: Tutorial.xml:1051
 #, no-c-format
 msgid "The <literal>pages.xml</literal> file starts a Seam <emphasis>conversation</emphasis> (much more about that later), and specifies the pageflow definition to use for the conversation's page flow."
-msgstr ""
+msgstr "Il file <literal>pages.xml</literal> inizia una <emphasis>conversazione</emphasis> Seam (maggiori informazioni più avanti), e specifica la definizione pageflow da usare per il flusso delle pagine della conversazione."
 
 #. Tag: title
 #: Tutorial.xml:1057
@@ -3075,7 +3075,7 @@ msgstr ""
 #: Tutorial.xml:1064
 #, no-c-format
 msgid "As you can see, this Seam component is pure business logic! It doesn't need to know anything at all about the user interaction flow. This makes the component potentially more reuseable."
-msgstr ""
+msgstr "Come si può vedere, questo componente Seam è pura logica di business! Non ha bisogno di sapere niente riguardo il flusso delle interazioni utente. Questo rende il componente potenzialmente più riutilizzabile."
 
 #. Tag: para
 #: Tutorial.xml:1071
