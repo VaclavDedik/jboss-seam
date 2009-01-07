@@ -371,8 +371,6 @@ public abstract class UIChart extends ITextComponent
          response.writeAttribute("width", getWidth(), null);
 
          response.endElement("img");
-
-         Manager.instance().beforeRedirect();
       }
 
       super.encodeEnd(context);
