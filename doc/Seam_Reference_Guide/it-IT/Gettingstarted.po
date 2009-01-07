@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:23+0000\n"
-"PO-Revision-Date: 2008-12-27 12:51+0100\n"
+"PO-Revision-Date: 2009-01-07 23:06+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr "Iniziare con Seam usando seam-gen"
 #: Gettingstarted.xml:7
 #, no-c-format
 msgid "The Seam distribution includes a command line utility that makes it really easy to set up an Eclipse project, generate some simple Seam skeleton code, and reverse engineer an application from a preexisting database."
-msgstr ""
+msgstr "La distribuzione Seam comprende una utility da linea di comando che facilita la configurazione di un progetto eclipse, la generazione di un semplice codice skeleton Seam, ed il reverse engineer di un'applicazione da un database esistente."
 
 #. Tag: para
 #: Gettingstarted.xml:10
@@ -35,19 +35,19 @@ msgstr "Questo è il modo più semplice di sporcarti le mani con Seam e di prepa
 #: Gettingstarted.xml:14
 #, no-c-format
 msgid "In this release, seam-gen works best for people with JBoss AS. You can use the generated project with other J2EE or Java EE 5 application servers by making a few manual changes to the project configuration."
-msgstr ""
+msgstr "In questa relase, seam-gen funziona meglio per coloro che hanno JBoss AS. Si può usare il progetto generato con altri server J2EE o Java EE 5 facendo alcuni cambiamenti alla configurazione del progetto."
 
 #. Tag: para
 #: Gettingstarted.xml:17
 #, no-c-format
 msgid "You <emphasis>can</emphasis> use seam-gen without Eclipse, but in this tutorial, we want to show you how to use it in conjunction with Eclipse for debugging and integration testing. If you don't want to install Eclipse, you can still follow along with this tutorial—all steps can be performed from the command line."
-msgstr ""
+msgstr "Si <emphasis>può</emphasis> usare seam-gen senza Eclipse, ma in questo tutorial, si vuole mostrare l'uso assieme ad Eclipse per il debugging ed i test. Se non si vuole installare Eclipse, si può seguire comunque questo tutorial - tutti i passi possono essere eseguiti da linea di comando."
 
 #. Tag: para
 #: Gettingstarted.xml:21
 #, no-c-format
 msgid "Seam-gen is basically just a big ugly Ant script wrapped around Hibernate Tools, together with some templates. That makes it easy to customize if you need to."
-msgstr ""
+msgstr "Seam-gen è essenzialmente uno script Ant avvolto aattorno a Hibernate Tools, assieme a qualche template. Questo facilita la sua personalizzazione nel caso ce ne sia bisogno."
 
 #. Tag: title
 #: Gettingstarted.xml:25
@@ -101,7 +101,7 @@ msgstr ""
 #: Gettingstarted.xml:53
 #, no-c-format
 msgid "Setting up a new Eclipse project"
-msgstr ""
+msgstr "Comfigurare un nuovo progetto Eclipse"
 
 #. Tag: para
 #: Gettingstarted.xml:55
@@ -349,7 +349,7 @@ msgstr ""
 #: Gettingstarted.xml:121
 #, no-c-format
 msgid "Creating a new action"
-msgstr ""
+msgstr "Creazione di una nuova azione"
 
 #. Tag: para
 #: Gettingstarted.xml:123
@@ -463,13 +463,13 @@ msgstr ""
 #: Gettingstarted.xml:149
 #, no-c-format
 msgid "Creating a form with an action"
-msgstr ""
+msgstr "Creazione di una form con un'azione"
 
 #. Tag: para
 #: Gettingstarted.xml:151
 #, no-c-format
 msgid "The next step is to create a form. Type:"
-msgstr ""
+msgstr "Il prossimo passo è creare una form. Si digiti:"
 
 #. Tag: programlisting
 #: Gettingstarted.xml:153
@@ -607,7 +607,7 @@ msgstr ""
 #: Gettingstarted.xml:187
 #, no-c-format
 msgid "Deploying the application as an EAR"
-msgstr ""
+msgstr "Eseguire il deploy dell'applicazione come EAR"
 
 #. Tag: para
 #: Gettingstarted.xml:189
@@ -739,7 +739,7 @@ msgstr ""
 #: Gettingstarted.xml:280
 #, no-c-format
 msgid "Using Seam with JBoss 4.0"
-msgstr ""
+msgstr "Uso di Seam con JBoss 4.0"
 
 #. Tag: para
 #: Gettingstarted.xml:282
@@ -751,7 +751,7 @@ msgstr ""
 #: Gettingstarted.xml:289
 #, no-c-format
 msgid "Install JBoss 4.0"
-msgstr ""
+msgstr "Install JBoss 4.0"
 
 #. Tag: para
 #: Gettingstarted.xml:290
