@@ -10,8 +10,8 @@
 <ui:define name="content">
    <s:cache key="entry-#{blogEntry.id}" region="pageFragments">
       <div class="blogEntry">
-         <h3>#{blogEntry.title}</h3>
-         <div>
+         <h3 id="title">#{blogEntry.title}</h3>
+         <div id="body">
             <s:formattedText value="#{blogEntry.body}"/>
          </div>
          <p>

@@ -9,15 +9,15 @@
 
 <ui:define name="content">
    <s:cache key="index" region="pageFragments">
-      <h:dataTable value="#{blog.recentBlogEntries}" var="blogEntry" rows="3">
+      <h:dataTable id="entryTable" value="#{blog.recentBlogEntries}" var="blogEntry" rows="3">
          <h:column>
             <div class="blogEntry">
-               <h3>#{blogEntry.title}</h3>
+               <h3><h:outputText id="title" value="#{blogEntry.title}" /></h3>
                <div>
-                  <s:formattedText value="#{blogEntry.excerpt==null ? blogEntry.body : blogEntry.excerpt}"/>
+                  <s:formattedText id="excerpt" value="#{blogEntry.excerpt==null ? blogEntry.body : blogEntry.excerpt}"/>
                </div>
                <p>
-                  <s:link view="/entry.xhtml" rendered="#{blogEntry.excerpt!=null}" propagation="none"
+                  <s:link id="link" view="/entry.xhtml" rendered="#{blogEntry.excerpt!=null}" propagation="none"
                       value="Read more...">
                      <f:param name="blogEntryId" value="#{blogEntry.id}"/>
                   </s:link>

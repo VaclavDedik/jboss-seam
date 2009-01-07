@@ -8,7 +8,7 @@
 
 <ui:define name="content">
    <div class="blogEntry">
-      <h:form>
+      <h:form id="login">
          <div>
             <h:outputLabel for="password">Password:</h:outputLabel>
          </div>
@@ -17,7 +17,7 @@
                         value="#{identity.password}" 
                          size="15" 
                     maxlength="15"/>
-            <h:commandButton value="Login"/>
+            <h:commandButton id="login" value="Login"/>
             <span class="errors"><h:message for="password"/></span>
             <span class="errors"><h:messages globalOnly="true"/></span>
          </div>

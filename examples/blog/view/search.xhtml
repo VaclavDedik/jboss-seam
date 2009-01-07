@@ -8,10 +8,10 @@
                 template="#{theme.template}">
 
 <ui:define name="content">
-   <h:dataTable value="#{searchResults}" var="blogEntry">
+   <h:dataTable id="searchResultTable" value="#{searchResults}" var="blogEntry">
       <h:column>
          <div>
-            <s:link view="/entry.xhtml" propagation="none" value="#{blogEntry.title}">
+            <s:link id="link" view="/entry.xhtml" propagation="none" value="#{blogEntry.title}">
                <f:param name="blogEntryId" value="#{blogEntry.id}"/>
             </s:link>
             posted on 
