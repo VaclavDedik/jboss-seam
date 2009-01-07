@@ -144,30 +144,26 @@ public class UIChartSeries extends ITextComponent
    public void encodeEnd(FacesContext context) throws IOException
    {
       UIChart chart = (UIChart) findITextParent(getParent(), UIChart.class);
-      Dataset dataset = chart.getDataset();
-      if (chart != null)
-      {
-         Plot p = chart.getChart().getPlot();
-         if (p instanceof CategoryPlot)
-         {
-            CategoryPlot plot = (CategoryPlot) p;
 
-            int seriesIndex = ((CategoryDataset) dataset).getRowIndex(getKey());
+      if (chart != null) {
+	  Dataset dataset = chart.getDataset();
+	  Plot p = chart.getChart().getPlot();
 
-            CategoryItemRenderer renderer = plot.getRenderer();
-
-            // CategoryRenderer
-            if (renderer instanceof AbstractRenderer)
-            {
-               configureSeries((AbstractRenderer) renderer, seriesIndex);
-            }
-            else
-            {
-               log.error("render is not AbtractRenderer" + renderer);
-            }
-         }
+	  if (p instanceof CategoryPlot) {
+	      CategoryPlot plot = (CategoryPlot) p;
+	      
+	      int seriesIndex = ((CategoryDataset) dataset).getRowIndex(getKey());
+	      
+	      CategoryItemRenderer renderer = plot.getRenderer();
+	      
+	      // CategoryRenderer
+	      if (renderer instanceof AbstractRenderer) {
+		  configureSeries((AbstractRenderer) renderer, seriesIndex);
+	      } else {
+		  log.error("render is not AbtractRenderer" + renderer);
+	      }
+	  }
       }
-
    }
 
    private void configureSeries(AbstractRenderer renderer, int seriesIndex)
