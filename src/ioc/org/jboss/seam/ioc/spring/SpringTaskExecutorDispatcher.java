@@ -60,9 +60,8 @@ public class SpringTaskExecutorDispatcher<T, S extends Schedule> extends Abstrac
 
    protected Dispatcher<T, S> getScheduleDispatcher()
    {
-      Dispatcher<T, S> dispatcher = scheduleDispatcher.getValue();
-      if (scheduleDispatcher == null || scheduleDispatcher.getValue() == null)
-      {
+      Dispatcher<T, S> dispatcher = (scheduleDispatcher==null) ? null : scheduleDispatcher.getValue();
+      if (dispatcher == null) {
          throw new IllegalStateException(
                   "SpringTaskExecutorDispatcher does not support scheduled Events.  Provide a fallback scheduleDispatcher for timed events.");
       }
