@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:19+0000\n"
-"PO-Revision-Date: 2009-01-06 14:00+0100\n"
+"PO-Revision-Date: 2009-01-07 13:51+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -2355,19 +2355,19 @@ msgstr "L'istanza di processo viene creata a partire dallo stato di start ed imm
 #: Tutorial.xml:905
 #, no-c-format
 msgid "When <literal>todo.jsp</literal> is redisplayed, <literal>taskInstanceList</literal> now finds the task that was just created. The task is shown in an <literal>h:dataTable</literal>. The internal state of the task is displayed in each column: <literal>#{task.description}</literal>, <literal>#{task.priority}</literal>, <literal>#{task.dueDate}</literal>, etc... These fields can all be edited and saved back to the database."
-msgstr ""
+msgstr "Quando <literal>todo.jsp</literal> viene rivisualizzata, <literal>taskInstanceList</literal> trova il task appena creato. Il task viene mostrato in un  <literal>h:dataTable</literal>. Lo stato interno del task è mostrato in ciascuna colonna: <literal>#{task.description}</literal>, <literal>#{task.priority}</literal>, <literal>#{task.dueDate}</literal>, ecc... Questi campi possono essere tutti editati e salvati nel database."
 
 #. Tag: para
 #: Tutorial.xml:915
 #, no-c-format
 msgid "Each todo item also has \"Done\" button, which calls <literal>#{todoList.done}</literal>. The <literal>todoList</literal> component knows which task the button is for because each s:button specificies <literal>taskInstance=\"#{task}\"</literal>, referring to the task for that particular line of of the table. The <literal>@StartTast</literal> and <literal>@EndTask</literal> annotations cause seam to make the task active and immediately complete the task. The original process then transitions into the <literal>done</literal> state, according to the process definition, where it ends. The state of the task and process are both updated in the database."
-msgstr ""
+msgstr "Ogni elemento todo ha anche un pulsante \"Done\", che chiama <literal>#{todoList.done}</literal>. Il componente <literal>todoList</literal> sa a quale task si riferisce il pulsante, poiché ogni s:button specifica <literal>taskInstance=\"#{task}\"</literal>, che si riferisce al task per quella particolare linea della tabella. Le annotazioni <literal>@StartTast</literal> e <literal>@EndTask</literal> obbligano seam a rendere attivo il task e a completarlo. Il processo originale quindi transita verso lo stato <literal>done</literal>, secondo la definizione del processo, dove poi termina. Lo stato del task e del processo sono entrambi aggiornati nel database."
 
 #. Tag: para
 #: Tutorial.xml:926
 #, no-c-format
 msgid "When <literal>todo.jsp</literal> is displayed again, the now-completed task is no longer displayed in the <literal>taskInstanceList</literal>, since that component only display active tasks for the user."
-msgstr ""
+msgstr "Quando <literal>todo.jsp</literal> viene di nuovo visualizzata, il task adesso completato non viene più mostrato in <literal>taskInstanceList</literal>, poiché questo componente mostra solo i task attivi per l'utente."
 
 #. Tag: title
 #: Tutorial.xml:934
@@ -2379,19 +2379,19 @@ msgstr "Seam pageflow: esempio di indovina-numero"
 #: Tutorial.xml:936
 #, no-c-format
 msgid "For Seam applications with relatively freeform (ad hoc) navigation, JSF/Seam navigation rules are a perfectly good way to define the page flow. For applications with a more constrained style of navigation, especially for user interfaces which are more stateful, navigation rules make it difficult to really understand the flow of the system. To understand the flow, you need to piece it together from the view pages, the actions and the navigation rules."
-msgstr ""
+msgstr "Per le applicazioni Seam con una navigazione relativamente libera, le regole di navigazione JSF/Seam sono un modo perfetto per definire il flusso di pagine. Per applicazioni con uno stile di navigazione pià vincolato, specialmente per interfacce utente più stateful, le regole di navigazione rendono difficile capire il flusso del sistema. Per capire il flusso occorre mettere assieme le pagine, le azioni e le regole di navigazione."
 
 #. Tag: para
 #: Tutorial.xml:942
 #, no-c-format
 msgid "Seam allows you to use a jPDL process definition to define pageflow. The simple number guessing example shows how this is done."
-msgstr ""
+msgstr "Seam consente di usare la definizione di processo con jPDL per definire il flusso di pagine. L'esempio indovina-numero mostra come fare."
 
 #. Tag: para
 #: Tutorial.xml:956
 #, no-c-format
 msgid "The example is implemented using one JavaBean, three JSP pages and a jPDL pageflow definition. Let's begin with the pageflow:"
-msgstr ""
+msgstr "Quest'esempio è implementato usando un JavaBean, tre pagine JSP ed una definizione di pageflow jPDL. Iniziamo con il pageflow:"
 
 #. Tag: title
 #: Tutorial.xml:960
@@ -2527,7 +2527,7 @@ msgstr ""
 #: Tutorial.xml:971
 #, no-c-format
 msgid "The <literal>&lt;page&gt;</literal> element defines a wait state where the system displays a particular JSF view and waits for user input. The <literal>view-id</literal> is the same JSF view id used in plain JSF navigation rules. The <literal>redirect</literal> attribute tells Seam to use post-then-redirect when navigating to the page. (This results in friendly browser URLs.)"
-msgstr ""
+msgstr "L'elemento <literal>&lt;page&gt;</literal> definisce uno stato di attesa dove il sistema mostra una particolare vista JSF ed attende input da parte dell'utente. <literal>view-id</literal> è lo stesso id view usato nelle regole di navigazione nel pure JSF. L'attributo <literal>redirect</literal> dice a Seam di usare il post-then-redirect quando si passa ad un'altra pagina. (Questo capita con gli URL dei browser.)"
 
 #. Tag: para
 #: Tutorial.xml:978
@@ -2721,7 +2721,7 @@ msgstr ""
 #: Tutorial.xml:1018
 #, no-c-format
 msgid "Notice how the command button names the <literal>guess</literal> transition instead of calling an action directly."
-msgstr ""
+msgstr "Si noti come il pulsante di comando chiama la transizione <literal>guess</literal> invece di chiamare direttamente un'azione."
 
 #. Tag: para
 #: Tutorial.xml:1021
