@@ -1949,7 +1949,7 @@ public class NumberGuess implements Serializable {
             
             <para>The numberguess example also contains Giveup and Cheat buttons.  You should be able to 
                 trace the pageflow state for both actions relatively easily.  Pay particular attention
-                to the <literal>cheat</literal> transtition, which loads a sub-process to handle that flow.  
+                to the <literal>cheat</literal> transition, which loads a sub-process to handle that flow.  
                 Although it's 
                 overkill for this application, it does demonstrate how complex pageflows can be broken down into
                 smaller parts to make them easier to understand. 
