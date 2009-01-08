@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:19+0000\n"
-"PO-Revision-Date: 2009-01-08 12:42+0100\n"
+"PO-Revision-Date: 2009-01-08 14:58+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -3919,43 +3919,43 @@ msgstr ""
 #: Tutorial.xml:1421
 #, no-c-format
 msgid "This bean uses an EJB3 <emphasis>extended persistence context</emphasis>, so that any entity instances remain managed for the whole lifecycle of the stateful session bean."
-msgstr ""
+msgstr "Questo bean utilizza un <emphasis>contesto di persistenza esteso</emphasis> EJB3, e quindi ogni istanza di entity rimane gestita per l'intero ciclo di vita del session bean stateful."
 
 #. Tag: para
 #: Tutorial.xml:1426
 #, no-c-format
 msgid "The <link linkend=\"out-annotation\"> <literal>@Out</literal> </link> annotation declares that an attribute value is <emphasis>outjected</emphasis> to a context variable after method invocations. In this case, the context variable named <literal>hotel</literal> will be set to the value of the <literal>hotel</literal> instance variable after every action listener invocation completes."
-msgstr ""
+msgstr "L'annotazione <link linkend=\"out-annotation\"> <literal>@Out</literal> </link> dichiara che il valore dell'attributo viene <emphasis>outjected</emphasis> in una variablie di contesto dopo le invocazioni del metodo. In questo caso, la variabile di contesto chiamata <literal>hotel</literal> verrà impostata al valore della variabile d'istanza <literal>hotel</literal> dopo che viene completata ciascuna invocazione dell'action listener."
 
 #. Tag: para
 #: Tutorial.xml:1434
 #, no-c-format
 msgid "The <link linkend=\"begin-annotation\"> <literal>@Begin</literal> </link> annotation specifies that the annotated method begins a <emphasis>long-running conversation</emphasis>, so the current conversation context will not be destroyed at the end of the request. Instead, it will be reassociated with every request from the current window, and destroyed either by timeout due to conversation inactivity or invocation of a matching <literal>@End</literal> method."
-msgstr ""
+msgstr "L'annotazione <link linkend=\"begin-annotation\"> <literal>@Begin</literal> </link> specifica che il metodo annotato inizi una <emphasis>conversazione long-running</emphasis>, e quindi l'attuale contesto della conversazione non verrà distrutto alla fine della richiesta. Invece verrà riassociato ad ogni richiesta dalla finestra attuale e distrutto o dopo un timeout dovuto all'inattività della conversazione o dopo l'invocazione di un metodo annotato con <literal>@End</literal>."
 
 #. Tag: para
 #: Tutorial.xml:1443
 #, no-c-format
 msgid "The <link linkend=\"end-annotation\"> <literal>@End</literal> </link> annotation specifies that the annotated method ends the current long-running conversation, so the current conversation context will be destroyed at the end of the request."
-msgstr ""
+msgstr "L'annotazione <link linkend=\"end-annotation\"> <literal>@End</literal> </link> specifica che il metodo annotato finisca l'attuale conversazione long-running, e quindi il contesto della conversazione attuale verrà distrutto alla fine della richiesta."
 
 #. Tag: para
 #: Tutorial.xml:1450
 #, no-c-format
 msgid "This EJB remove method will be called when Seam destroys the conversation context. Don't forget to define this method!"
-msgstr ""
+msgstr "Questo metoto EJB di rimozione verrà chiamato quando Seam distruggerà il contesto della conversazione. Non si dimentichi di definire questo metodo!"
 
 #. Tag: para
 #: Tutorial.xml:1458
 #, no-c-format
 msgid "<literal>HotelBookingAction</literal> contains all the action listener methods that implement selection, booking and booking confirmation, and holds state related to this work in its instance variables. We think you'll agree that this code is much cleaner and simpler than getting and setting <literal>HttpSession</literal> attributes."
-msgstr ""
+msgstr "<literal>HotelBookingAction</literal> contiene tutti i metodi action listenet che implementano, selezione, prenotazione e conferma, e mantiene lo stato relativo a questo lavoro nelle variabili di istanza. Pensiamo che questo codice sia molto più pulito e semplice degli attributi get e set in <literal>HttpSession</literal>."
 
 #. Tag: para
 #: Tutorial.xml:1464
 #, no-c-format
 msgid "Even better, a user can have multiple isolated conversations per login session. Try it! Log in, run a search, and navigate to different hotel pages in multiple browser tabs. You'll be able to work on creating two different hotel reservations at the same time. If you leave any one conversation inactive for long enough, Seam will eventually time out that conversation and destroy its state. If, after ending a conversation, you backbutton to a page of that conversation and try to perform an action, Seam will detect that the conversation was already ended, and redirect you to the search page."
-msgstr ""
+msgstr "Ancor meglio, un utente può avere conversazioni multiple isolate per ogni sessione di login. Si provi! Loggarsi, eseguire una ricerca e navigare in diverse pagine d'hotel in diverse schede del browser. Si sarà in grado di lavorare e creare due differenti prenotazioni contemporaneamente. Se una conversazione viene lasciata a lungo inattiva, Seam andrà in timeout e distruggerà lo stato di quella conversazione. Se, dopo la chiusura di una conversazione, si premerà il pulsante indietro per tornare alla pagina precedente e si eseguirà un'azione, Seam si accorgerà che la conversazione è già terminata, e rimanderà l'utente alla pagina di ricerca."
 
 #. Tag: title
 #: Tutorial.xml:1474
@@ -3967,7 +3967,7 @@ msgstr "La pagina di debug di Seam"
 #: Tutorial.xml:1476
 #, no-c-format
 msgid "The WAR also includes <literal>seam-debug.jar</literal>. The Seam debug page will be available if this jar is deployed in <literal>WEB-INF/lib</literal>, along with the Facelets, and if you set the debug property of the <literal>init</literal> component:"
-msgstr ""
+msgstr "Il WAR include anche <literal>seam-debug.jar</literal>. La pagina di debug di Seam sarà disponibile se questo jar è deployato in <literal>WEB-INF/lib</literal>, assieme a Facelets e se è stata impostata la proprietà di debug nel componente <literal>init</literal>:"
 
 #. Tag: programlisting
 #: Tutorial.xml:1481
@@ -3979,7 +3979,7 @@ msgstr "<![CDATA[<core:init jndi-pattern=\"@jndiPattern@\" debug=\"true\"/>]]>"
 #: Tutorial.xml:1483
 #, no-c-format
 msgid "This page lets you browse and inspect the Seam components in any of the Seam contexts associated with your current login session. Just point your browser at <ulink url=\"http://localhost:8080/seam-booking/debug.seam\"> <literal>http://localhost:8080/seam-booking/debug.seam</literal> </ulink>."
-msgstr ""
+msgstr "Questa pagina consentirà di sfogliare ed ispezionare i componenti Seam in ogni contesto Seam associato alla sessione di login corrente. Si punti il browser su <ulink url=\"http://localhost:8080/seam-booking/debug.seam\"> <literal>http://localhost:8080/seam-booking/debug.seam</literal> </ulink>."
 
 #. Tag: title
 #: Tutorial.xml:1503
@@ -3991,13 +3991,13 @@ msgstr "Conversazioni Annidate: estendere l'esempio di Prenotazione Hotel"
 #: Tutorial.xml:1508
 #, no-c-format
 msgid "Long-running conversations make it simple to maintain consistency of state in an application even in the face of multi-window operation and back-buttoning. Unfortunately, simply beginning and ending a long-running conversation is not always enough. Depending on the requirements of the application, inconsistencies between what the user's expectations and the reality of the application’s state can still result."
-msgstr ""
+msgstr "Le conversazioni long-running rendono semplice mantenere la consistenza dello stato in un'applicazione anche in presenza di operazioni con finestre multiple o con il pulsante indietro. Sfrotunatamente, iniziare e finire una conversazione long-running non è sempre sufficiente. A seconda dei requisiti dell'applicazione, le inconsistenze tra le aspettative dell'utente ed il reale stato dell'applicazione possono comunque sussistere."
 
 #. Tag: para
 #: Tutorial.xml:1513
 #, no-c-format
 msgid "The nested booking application extends the features of the hotel booking application to incorporate the selection of rooms. Each hotel has available rooms with descriptions for a user to select from. This requires the addition of a room selection page in the hotel reservation flow."
-msgstr ""
+msgstr "L'applicazione prenotazione annidata estende le caratteristiche dell'applicazione prenotazione hotel aggiungendo la selezione della stanza. Ogni hotel ha camere disponibili con delle descrizioni che l'utente può scegliere. Questo richiede l'aggiunta di una pagina di selezione camera nel flusso di prenotazione hotel."
 
 #. Tag: para
 #: Tutorial.xml:1526
