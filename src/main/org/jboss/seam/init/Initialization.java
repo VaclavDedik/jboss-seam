@@ -137,6 +137,7 @@ public class Initialization
       initPropertiesFromServletContext();
       initPropertiesFromResource();
       initJndiProperties();
+      initPropertiesFromSystem();
       return this;
    }
 
@@ -1010,15 +1011,34 @@ public class Initialization
       }
    }
 
+   private void initPropertiesFromSystem()
+   {
+      Properties filtered = new Properties();
+      String prefix = Component.PROPERTIES + ".";
+      for (Map.Entry me : System.getProperties().entrySet())
+      {
+         if (((String)me.getKey()).startsWith(prefix))
+         {
+            filtered.put(((String)me.getKey()).substring(prefix.length()),me.getValue());
+         }
+      }
+      initPropertiesFromMap(filtered);
+   }
+      
    private void initPropertiesFromResource()
    {
-      Properties props = loadFromResource("/seam.properties");
+      initPropertiesFromMap(loadFromResource("/seam.properties"));
+   }
+   
+   private void initPropertiesFromMap(Properties props)
+   {
       for (Map.Entry me : props.entrySet())
       {
          properties.put((String) me.getKey(), new Conversions.FlatPropertyValue((String) me
                   .getValue()));
       }
    }
+   
 
    private void initJndiProperties()
    {
