@@ -17,23 +17,25 @@
         <section>
             <title>Configuring components via property settings</title>
             <para> 
-                Seam components may be provided with configuration properties either via servlet context parameters,
-                or via a properties file named <literal>seam.properties</literal> in the root of the classpath. 
+                Seam components may be provided with configuration properties either via servlet context parameters, via 
+                system properties, or via a properties file named <literal>seam.properties</literal> in the root of the classpath. 
             </para>
             <para> 
                 The configurable Seam component must expose JavaBeans-style property setter methods for the
                 configurable attributes. If a Seam component named <literal>com.jboss.myapp.settings</literal> has a
                 setter method named <literal>setLocale()</literal>, we can provide a property named
-                <literal>com.jboss.myapp.settings.locale</literal> in the <literal>seam.properties</literal> file or
+                <literal>com.jboss.myapp.settings.locale</literal> in the <literal>seam.properties</literal> file, a system 
+                property named <literal>org.jboss.seam.properties.com.jboss.myapp.settings.locale</literal> via -D at startup, or
                 as a servlet context parameter, and Seam will set the value of the <literal>locale</literal> attribute
                 whenever it instantiates the component. 
             </para>
             <para> 
                 The same mechanism is used to configure Seam itself. For example, to set the conversation timeout, we
                 provide a value for <literal>org.jboss.seam.core.manager.conversationTimeout</literal> in
-                <literal>web.xml</literal> or <literal>seam.properties</literal>. (There is a built-in Seam
+                <literal>web.xml</literal>, <literal>seam.properties</literal>, or via a system property prefixed with
+                <literal>org.jboss.seam.properties</literal>. (There is a built-in Seam
                 component named <literal>org.jboss.seam.core.manager</literal> with a setter method named
-                <literal>setConversationTimeout()</literal>.) 
+                <literal>setConversationTimeout()</literal>.)  
             </para>
         </section>
 
