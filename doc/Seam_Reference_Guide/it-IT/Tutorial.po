@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:19+0000\n"
-"PO-Revision-Date: 2009-01-08 14:58+0100\n"
+"PO-Revision-Date: 2009-01-08 18:31+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -4003,19 +4003,19 @@ msgstr "L'applicazione prenotazione annidata estende le caratteristiche dell'app
 #: Tutorial.xml:1526
 #, no-c-format
 msgid "The user now has the option to select any available room to be included in the booking. As with the hotel booking application we saw previously, this can lead to issues with state consistency. As with storing state in the <varname>HTTPSession</varname>, if a conversation variable changes it affects all windows operating within the same conversation context."
-msgstr ""
+msgstr "L'utente adesso ha l'opzione di selezionare una camera disponibile da aggiungere alla prenotazione. Come per l'applicazione precedentemente vista, questo porta a problemi di consistenza dello stato. Come per la memorizzazione dello stato in <varname>HTTPSession</varname>, se una variabile di conversazione cambia, questo influenza tutte le finestre che operano dentro lo stesso contesto di conversazione."
 
 #. Tag: para
 #: Tutorial.xml:1531
 #, no-c-format
 msgid "To demonstrate this, let’s suppose the user clones the room selection screen in a new window. The user then selects the <emphasis>Wonderful Room</emphasis> and proceeds to the confirmation screen. To see just how much it would cost to live the high-life, the user returns to the original window, selects the <emphasis>Fantastic Suite</emphasis> for booking, and again proceeds to confirmation. After reviewing the total cost, the user decides that practicality wins out and returns to the window showing <emphasis>Wonderful Room</emphasis> to confirm."
-msgstr ""
+msgstr "Per dimostrare questo si supponga che l'utente cloni la schermata di selezione delle camera in una nuova finestra. L'utente quindi seleziona la <emphasis>Wonderful Room</emphasis> e procede alla schermata di conferma. Per vedere solamente quando costa vivere alla grande, l'utente ritorna alla finestra originale, seleziona la <emphasis>Fantastic Suite</emphasis> ed  procede quindi alla conferma. Dopo aver visto il costo totale, l'utente decide che la praticità vince e ritorna alla finestra della <emphasis>Wonderful Room</emphasis> per procedere alla conferma."
 
 #. Tag: para
 #: Tutorial.xml:1537
 #, no-c-format
 msgid "In this scenario, if we simply store all state in the conversation, we are not protected from multi-window operation within the same conversation. Nested conversations allow us to achieve correct behavior even when context can vary within the same conversation."
-msgstr ""
+msgstr "In questo scenario, se semplicemente si memorizza lo stato nella conversazione non si è protetti da operazioni a finestre multiple all'interno della stessa conversazione. Le conversazioni innestate consentono di ottenere un comportamento corretto quando il contesto può variare all'interno della stessa conversazione."
 
 #. Tag: title
 #: Tutorial.xml:1543
@@ -4027,7 +4027,7 @@ msgstr "Capire le Conversazioni Annidate"
 #: Tutorial.xml:1545
 #, no-c-format
 msgid "Now let's see how the nested booking example extends the behavior of the hotel booking application through use of nested conversations. Again, we can read the class from top to bottom, as if it were a story."
-msgstr ""
+msgstr "Si veda ora come l'esempio di prenotazione innestata estenda il comportamento dell'applicazione di prenotazione hotel tramite l'utilizzo di conversazioni innestate. Ancora, si può leggere la classe dalla cima verso il fondo, come un racconto."
 
 #. Tag: title
 #: Tutorial.xml:1549
@@ -4181,13 +4181,13 @@ msgstr ""
 #: Tutorial.xml:1561
 #, no-c-format
 msgid "The <varname>hotel</varname> instance is injected from the conversation context. The hotel is loaded through an <emphasis>extended persistence context</emphasis> so that the entity remains managed throughout the conversation. This allows us to lazily load the <varname>availableRooms</varname> through an <varname>@Factory</varname> method by simply walking the assocation."
-msgstr ""
+msgstr "L'istanza <varname>hotel</varname> viene iniettata dal contesto conversazione. L'hotel viene caricato tramite un <emphasis>contesto di persistenza esteso</emphasis> cosicché l'entity rimanga gestito lungo la conversazione. Questo consente di caricare in modo lazy la <varname>availableRooms</varname> tramite il metodo <varname>@Factory</varname> semplicemente seguendo l'associazione."
 
 #. Tag: para
 #: Tutorial.xml:1569
 #, no-c-format
 msgid "When <link linkend=\"begin-annotation\"> <literal>@Begin(nested=true)</literal> </link> is encountered, a nested conversation is pushed onto the conversation stack. When executing within a nested conversation, components still have access to all outer conversation state, but setting any values in the nested conversation’s state container does not affect the outer conversation. In addition, nested conversations can exist concurrently stacked on the same outer conversation, allowing independent state for each."
-msgstr ""
+msgstr "Quando si incontra <link linkend=\"begin-annotation\"> <literal>@Begin(nested=true)</literal> </link>, viene aggiunta una conversazione innestata allo stask delle conversazioni. Dentro una conversazione innestata, i componenti hanno accesso a tutto lo stato della conversazione più esterna, ma il settaggio di valori nel container dello stato delle conversazione innestata non influenza la conversazione più esterna. In aggiunta, le conversazioni esterne possono esistere in modo concorrente sopra la stessa conversazione più esterna, consentendo per ciascuna uno stato indipendente."
 
 #. Tag: para
 #: Tutorial.xml:1578
