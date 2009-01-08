@@ -2691,7 +2691,7 @@ public class RoomPreferenceAction implements RoomPreference
                                     is loaded through an <emphasis>extended persistence context</emphasis> so that the entity 
                                     remains managed throughout the conversation.  This allows us to lazily load the 
                                     <varname>availableRooms</varname> through an <varname>@Factory</varname> method by
-                                    simply walking the assocation.
+                                    simply walking the association.
                                 </para>
                             </callout>
                             <callout arearefs="nested-booking-nested-conversation">
