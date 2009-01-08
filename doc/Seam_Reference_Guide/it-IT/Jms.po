@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2008-12-15 18:19+0100\n"
+"PO-Revision-Date: 2009-01-08 12:45+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgstr ""
 #: Jms.xml:18
 #, no-c-format
 msgid "<literal>java.util.concurrent.ScheduledThreadPoolExecutor</literal> (by default)"
-msgstr ""
+msgstr "<literal>java.util.concurrent.ScheduledThreadPoolExecutor</literal> (di default)"
 
 #. Tag: para
 #: Jms.xml:23
@@ -95,7 +95,7 @@ msgstr ""
 #: Jms.xml:75
 #, no-c-format
 msgid "Asynchronous methods"
-msgstr ""
+msgstr "Metodi asincroni"
 
 #. Tag: para
 #: Jms.xml:77
@@ -137,7 +137,7 @@ msgstr ""
 #: Jms.xml:96
 #, no-c-format
 msgid "The use of asynchronicity is transparent to the bean class:"
-msgstr ""
+msgstr "L'uso dell'asincronicità è trasparente alla classe bean:"
 
 #. Tag: programlisting
 #: Jms.xml:100
@@ -167,7 +167,7 @@ msgstr ""
 #: Jms.xml:102
 #, no-c-format
 msgid "And also transparent to the client:"
-msgstr ""
+msgstr "E è anche trasparente al client:"
 
 #. Tag: programlisting
 #: Jms.xml:106
@@ -389,7 +389,7 @@ msgstr ""
 #: Jms.xml:142
 #, no-c-format
 msgid "Asynchronous methods with the Quartz Dispatcher"
-msgstr ""
+msgstr "Metodi asincroni con il Quartz Dispatcher"
 
 #. Tag: para
 #: Jms.xml:144
@@ -885,7 +885,7 @@ msgstr ""
 #: Jms.xml:283
 #, no-c-format
 msgid "Receiving messages using a message-driven bean"
-msgstr ""
+msgstr "Ricezione dei messaggi usando un bean message-driven"
 
 #. Tag: para
 #: Jms.xml:284
@@ -897,7 +897,7 @@ msgstr ""
 #: Jms.xml:292
 #, no-c-format
 msgid "Receiving messages in the client"
-msgstr ""
+msgstr "Ricezione dei messaggi nel client"
 
 #. Tag: para
 #: Jms.xml:293

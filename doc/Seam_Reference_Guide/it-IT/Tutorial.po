@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:19+0000\n"
-"PO-Revision-Date: 2009-01-07 22:18+0100\n"
+"PO-Revision-Date: 2009-01-08 12:42+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -3312,41 +3312,43 @@ msgstr "La maggior parte delle architetture delle applicazioni non ha alcun cost
 msgid "Since the database is the least scalable tier, this often results in an utterly unacceptable lack of scalability. Added latency is also a problem, due to the extra traffic to and from the database on every request. To reduce this redundant traffic, Java applications often introduce a data (second-level) cache that keeps commonly accessed data between requests. This cache is necessarily inefficient, because invalidation is based upon an LRU policy instead of being based upon when the user has finished working with the data. Furthermore, because the cache is shared between many concurrent transactions, we've introduced a whole raft of problem's associated with keeping the cached state consistent with the database."
 msgstr "Poiché il database è il livello meno scalabile, questo risulta essere spesso ad un livello inaccettabile di scalabilità. La latenza è un ulteriore problema, dovuto al traffico extra verso e dal database ad ogni richiesta. Per ridurre questo traffico ridondante, le applicazioni Java spesso introducono una cache di dati (di secondo livello) che mantiene i dati comunemente acceduti tra le varie richieste. Questa cache è necessariamente inefficiente, poiché l'invalidazione è basato su una policy LRU invece di essere basata su quando l'utente termina di lavorare con i dati. Inoltre, poiché la cache è condivisa da diverse transazioni concorrenti, si è introdotta una schiera di problemi associati al fatto di mantenere lo stato della cache consistente con il database."
 
+# difficult to cluster = ?  "Difficile da tenere assieme" ?
 #. Tag: para
 #: Tutorial.xml:1261
 #, no-c-format
 msgid "Now consider the state held in the <literal>HttpSession</literal>. The HttpSession is great place for true session data, data that is common to all requests that the user has with the application. However, it's a bad place to store data related to individual series of requests. Using the session of conversational quickly breaks down when dealing with the back button and multiple windows. On top of that, without careful programming, data in the HTTP Session can grow quite large, making the HTTP session difficult to cluster. Developing mechanisms to isolate session state associated with different concurrent conversations, and incorporating failsafes to ensure that conversation state is destroyed when the user aborts one of the conversations by closing a browser window or tab is not for the faint hearted. Fortunately, with Seam, you don't have to worry about that."
-msgstr ""
+msgstr "Ora si consideri lo stato mantenuto nella <literal>HttpSession</literal>. HttpSession è un ottimo posto per i veri dati di sessione, cioè dati che sono comuni a tutte le richieste che l'utente fa con l'applicazione. Comunque, non è un posto dove vanno memorizzati i dati riguardanti serie individuali di richieste. L'uso della sessione si complica velocemente quando si ha a che fare con il pulsante indietro e con le finestre multiple. In cima a questo, senza una programmazione attenta, i dati nella sessione HTTP posso crescere parecchio, rendendo la sessione HTTP difficile da tenere assieme. Lo sviluppo di meccanismi per isolare lo stato della session associata a differenti conversazioni concorrenti, e l'aggiunta di meccanismi di sicurezza per assicurare che lo stato della conversazione venga distrutto quando l'utente interrompe una delle conversazioni chiudendo una finestra del browser non è una questione per gente poco coraggiosa. Fortunatamente con Seam non occorre preoccuparsi di queste problematiche."
 
+# first class construct = ?
 #. Tag: para
 #: Tutorial.xml:1274
 #, no-c-format
 msgid "Seam introduces the <emphasis>conversation context</emphasis> as a first class construct. You can safely keep conversational state in this context, and be assured that it will have a well-defined lifecycle. Even better, you won't need to be continually pushing data back and forth between the application server and the database, since the conversation context is a natural cache of data that the user is currently working with."
-msgstr ""
+msgstr "Seam introduce il <emphasis>contesto conversazionale</emphasis> come first class construct. Si può mantenere in modo sicuro lo stato conversazionale in questo contesto ed essere certi che avrà un ciclo di vita ben definito. Ancor meglio non servirà mandare continuamente avanti ed indietro i dati tra server e database, poiché il contesto di conversazione è una cache naturale di dati su cui l'utente sta lavorando."
 
 #. Tag: para
 #: Tutorial.xml:1279
 #, no-c-format
 msgid "In this application, we'll use the conversation context to store stateful session beans. There is an ancient canard in the Java community that stateful session beans are a scalability killer. This may have been true in the early days of enterprise Java, but it is no longer true today. Modern application servers have extremely sophisticated mechanisms for stateful session bean state replication. JBoss AS, for example, performs fine-grained replication, replicating only those bean attribute values which actually changed. Note that all the traditional technical arguments for why stateful beans are inefficient apply equally to the <literal>HttpSession</literal>, so the practice of shifting state from business tier stateful session bean components to the web session to try and improve performance is unbelievably misguided. It is certainly possible to write unscalable applications using stateful session beans, by using stateful beans incorrectly, or by using them for the wrong thing. But that doesn't mean you should <emphasis>never</emphasis> use them. If you remain unconvinced, Seam allows the use of POJOs instead of stateful session beans. With Seam, the choice is yours."
-msgstr ""
+msgstr "In quest'applicazione si userà il contesto di conversazione per memorizzare i session bean stateful. C'è un'antica credenza nella comunità Java che ritiene che i session bean stateful siano nocivi alla scalabilità. Questo poteva essere vero nei primissimi giorni di Java Enterprise, ma oggi non è più vero. I moderni application server hanno meccanismi estremamente sofisticati per la replicazione dello stato dei session bean stateful. JBoss AS, per esempio, esegue una replicazione a grana fine, replicando solo quei valori degli attributi bean che sono cambiati. Si noti che tutti gli argomenti tecnici tradizionali per cui i bean stateful sono inefficienti si applicano allo stesso modo alla <literal>HttpSession</literal>, e quindi risulta fuorviante la pratica di cambiare stato dai componenti (session bean stateful) del business tier alla sessione web per cercare di migliorare le performance. E' certamente possibile scrivere applicazioni non scalabili usando session bean stateful non in modo corretto, o usandoli per la cosa sbagliata. Ma questo non significa che non si debba <emphasis>mai</emphasis>. Se non si è convinti, Seam consente di usare POJO invece dei session bean statefull. Con Seam la scelta è vostra."
 
 #. Tag: para
 #: Tutorial.xml:1297
 #, no-c-format
 msgid "The booking example application shows how stateful components with different scopes can collaborate together to achieve complex behaviors. The main page of the booking application allows the user to search for hotels. The search results are kept in the Seam session scope. When the user navigates to one of these hotels, a conversation begins, and a conversation scoped component calls back to the session scoped component to retrieve the selected hotel."
-msgstr ""
+msgstr "L'applicazione di esempio prenotazione mostra come i componenti stateful con differenti scope possano collaborare assieme per ottenere comportamenti complessi. La pagina principale dell'applicazione consente all'utente di cercare gli hotel. I risultati di ricerca vengono mantenuti nello scope di sessione di Seam. Quando l'utente naviga in uno di questi hotel, inizia una conversazione ed il componente con scope conversazione chiama il componente con scope sessione per recuperare l'hotel selezionato."
 
 #. Tag: para
 #: Tutorial.xml:1303
 #, no-c-format
 msgid "The booking example also demonstrates the use of RichFaces Ajax to implement rich client behavior without the use of handwritten JavaScript."
-msgstr ""
+msgstr "L'esempio di prenotazione mostra anche l'uso di RichFaces Ajax per implementare un comportamento rich client senza usare Javascript scritto a mano."
 
 #. Tag: para
 #: Tutorial.xml:1306
 #, no-c-format
 msgid "The search functionality is implemented using a session-scope stateful session bean, similar to the one we saw in the message list example."
-msgstr ""
+msgstr "La funzionalità di ricerca è implementata usando un session bean statefull con scope di sessione, simile a quello usato nell'esempio di lista messaggi."
 
 #. Tag: title
 #: Tutorial.xml:1310
@@ -3510,31 +3512,31 @@ msgstr ""
 #: Tutorial.xml:1322
 #, no-c-format
 msgid "The EJB standard <literal>@Stateful</literal> annotation identifies this class as a stateful session bean. Stateful session beans are scoped to the conversation context by default."
-msgstr ""
+msgstr "L'annotazione EJB standard <literal>@Stateful</literal> identifica questa classe come un bean di sessione stateful. Bean di sessione stateful hanno di default uno scope legato al contesto di conversazione."
 
 #. Tag: para
 #: Tutorial.xml:1327
 #, no-c-format
 msgid "The <literal>@Restrict</literal> annotation applies a security restriction to the component. It restricts access to the component allowing only logged-in users. The security chapter explains more about security in Seam."
-msgstr ""
+msgstr "L'annotazione <literal>@Restrict</literal> applica al componente una restrizione di sicurezza. Restringe l'accesso al componente consentendolo solo agli utenti loggati. Il capitolo sicurezza spiega con maggior dettaglio la sicurezza in Seam."
 
 #. Tag: para
 #: Tutorial.xml:1332
 #, no-c-format
 msgid "The <link linkend=\"datamodel-annotation\"> <literal>@DataModel</literal> </link> annotation exposes a <literal>List</literal> as a JSF <literal>ListDataModel</literal>. This makes it easy to implement clickable lists for search screens. In this case, the list of hotels is exposed to the page as a <literal>ListDataModel</literal> in the conversation variable named <literal>hotels</literal>."
-msgstr ""
+msgstr "L'annotazione <link linkend=\"datamodel-annotation\"> <literal>@DataModel</literal> </link> espone una <literal>List</literal> come <literal>ListDataModel</literal> JSF. Questo facilita l'implementazione di liste cliccabili per schermate di ricerca. In questo caso, la lista degli hotel è esposta nella pagina come <literal>ListDataModel</literal> all'interno della variabile di conversazione chiamata <literal>hotels</literal>."
 
 #. Tag: para
 #: Tutorial.xml:1341
 #, no-c-format
 msgid "The EJB standard <literal>@Remove</literal> annotation specifies that a stateful session bean should be removed and its state destroyed after invocation of the annotated method. In Seam, all stateful session beans must define a method with no parameters marked <literal>@Remove</literal>. This method will be called when Seam destroys the session context."
-msgstr ""
+msgstr "L'annotazione standard EJB <literal>@Remove</literal> specifica che un bean di session stateful deve essere rimosso ed il suo stato distrutto dopo l'invocazione del metodo annotato. In Seam tutti i bean di sessione stateful devono definire un metodo senza parametri marcato con <literal>@Remove</literal>. Questo metodo verrà chiamato quando Seam distrugge il contesto di sessione."
 
 #. Tag: para
 #: Tutorial.xml:1352
 #, no-c-format
 msgid "The main page of the application is a Facelets page. Let's look at the fragment which relates to searching for hotels:"
-msgstr ""
+msgstr "La pagina principale dell'applicazione è una pagina Facelets. Guardiamo al frammento relativo alla ricerca hotel:"
 
 #. Tag: title
 #: Tutorial.xml:1355
@@ -3688,43 +3690,43 @@ msgstr ""
 #: Tutorial.xml:1367
 #, no-c-format
 msgid "The RichFaces Ajax <literal>&lt;a:support&gt;</literal> tag allows a JSF action event listener to be called by asynchronous <literal>XMLHttpRequest</literal> when a JavaScript event like <literal>onkeyup</literal> occurs. Even better, the <literal>reRender</literal> attribute lets us render a fragment of the JSF page and perform a partial page update when the asynchronous response is received."
-msgstr ""
+msgstr "Il tag RichFaces Ajax <literal>&lt;a:support&gt;</literal> consente ad un event action listener JSF di essere chiamato da <literal>XMLHttpRequest</literal> asincrono quando avviene un evento JavaScript <literal>onkeyup</literal>. Ancor meglio, l'attributo <literal>reRender</literal> consente di rigenerare un frammento di pagina JSF e di eseguire un aggiornamento parziale quando si riceve una risposta asincrona."
 
 #. Tag: para
 #: Tutorial.xml:1374
 #, no-c-format
 msgid "The RichFaces Ajax <literal>&lt;a:status&gt;</literal> tag lets us display an animated image while we wait for asynchronous requests to return."
-msgstr ""
+msgstr "Il tag RichFaces Ajax <literal>&lt;a:status&gt;</literal> consente di mostrare un'immagine animata mentre si attende la restituzione di richieste asincrone."
 
 #. Tag: para
 #: Tutorial.xml:1378
 #, no-c-format
 msgid "The RichFaces Ajax <literal>&lt;a:outputPanel&gt;</literal> tag defines a region of the page which can be re-rendered by an asynchronous request."
-msgstr ""
+msgstr "Il tag RichFaces Ajax <literal>&lt;a:outputPanel&gt;</literal> definisce una regione della pagina che può essere rigenerata da una richiesta asincrona."
 
 #. Tag: para
 #: Tutorial.xml:1382
 #, no-c-format
 msgid "The Seam <literal>&lt;s:link&gt;</literal> tag lets us attach a JSF action listener to an ordinary (non-JavaScript) HTML link. The advantage of this over the standard JSF <literal>&lt;h:commandLink&gt;</literal> is that it preserves the operation of \"open in new window\" and \"open in new tab\". Also notice that we use a method binding with a parameter: <literal>#{hotelBooking.selectHotel(hot)}</literal>. This is not possible in the standard Unified EL, but Seam provides an extension to the EL that lets you use parameters on any method binding expression."
-msgstr ""
+msgstr "Il tag Seam <literal>&lt;s:link&gt;</literal> consente di attaccare un action listener JSF ad un link HTML ordinario (non-JavaScript). Il vantaggio rispetto al JSF <literal>&lt;h:commandLink&gt;</literal> è che mantiene le operazioni \"Apri in nuova finestra\" and \"Apri in nuova scheda\". Si noti inoltre che è stato usato un method binding con un parametro: <literal>#{hotelBooking.selectHotel(hot)}</literal>. Questo non è possibile con lo standard Unified EL, ma Seam fornisce un'estensione a EL che consente l'uso dei parametri sul qualsiasi espressione di method binding."
 
 #. Tag: para
 #: Tutorial.xml:1389
 #, no-c-format
 msgid "If you're wondering how navigation occurs, you can find all the rules in <literal>WEB-INF/pages.xml</literal>; this is discussed in <xref linkend=\"events.pageaction.navigation\"/>."
-msgstr ""
+msgstr "Se ci si chiede come avvenga la navigazione, si possono trovare tutte le regole in <literal>WEB-INF/pages.xml</literal>; questo viene discusso in <xref linkend=\"events.pageaction.navigation\"/>."
 
 #. Tag: para
 #: Tutorial.xml:1398
 #, no-c-format
 msgid "This page displays the search results dynamically as we type, and lets us choose a hotel and pass it to the <literal>selectHotel()</literal> method of the <literal>HotelBookingAction</literal>, which is where the <emphasis>really</emphasis> interesting stuff is going to happen."
-msgstr ""
+msgstr "Questa pagina mostra i risultati di ricerca in modo dinamico man mano si digita, e consente di scegliere un hotel e passarlo al metodo <literal>selectHotel()</literal> di <literal>HotelBookingAction</literal>, che è il posto in cui <emphasis>veramente</emphasis> succede qualsosa di interessante."
 
 #. Tag: para
 #: Tutorial.xml:1403
 #, no-c-format
 msgid "Now let's see how the booking example application uses a conversation-scoped stateful session bean to achieve a natural cache of persistent data related to the conversation. The following code example is pretty long. But if you think of it as a list of scripted actions that implement the various steps of the conversation, it's understandable. Read the class from top to bottom, as if it were a story."
-msgstr ""
+msgstr "Vediamo ora come l'applicazione d'esempio usa un bean di sessione stateful con scope di conversazione per ottenere una naturale cache di dati persistenti relativi alla conversazione. Il seguente codice d'esempio è abbastanza lungo. Ma se si pensa a questo come una lista di azioni che implementano vari passi della conversazione, risulta comprensibile. Si legga la classe dalla cima verso il fondo, come se fosse un racconto."
 
 #. Tag: title
 #: Tutorial.xml:1408
