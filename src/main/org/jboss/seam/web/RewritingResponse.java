@@ -2,6 +2,8 @@ package org.jboss.seam.web;
 
 import java.util.Collection;
 
+import java.net.*;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
@@ -52,23 +54,43 @@ public class RewritingResponse
         return encodeURL(url);
     }
     
-    
-    public String encode(String originalUrl) {
-        String url = originalUrl;
+
+    public String rewritePath(String path) {
         String contextPath = request.getContextPath();
                 
-        if (url.startsWith(contextPath)) {
-            url = url.substring(contextPath.length());
+        if (path.startsWith(contextPath)) {
+            path = path.substring(contextPath.length());
         }
 
         for (Pattern pattern: patterns) {
-            Rewrite rewrite = pattern.matchOutgoing(url);
+            Rewrite rewrite = pattern.matchOutgoing(path);
             if (rewrite != null) {
                 return request.getContextPath() + rewrite.rewrite();
             }
         }
         
-        return originalUrl;
+        return path;
+    }
+
+    public boolean isLocalURL(URL url) {
+	return url.getHost().equals(request.getServerName());
+    }
+
+    public String encode(String originalUrl) {
+	if (originalUrl.startsWith("http://") || originalUrl.startsWith("https://")) {
+	    try {
+		URL url = new URL(originalUrl);
+	
+		if (isLocalURL(url)) {
+		    URL newUrl = new URL(url, rewritePath(url.getFile()));
+		    return newUrl.toExternalForm(); 
+		}
+	    } catch (MalformedURLException e) {
+		// ignore - we simply don't care.  we could log this at info/debug level.
+	    }
+	}
+
+	return rewritePath(originalUrl);
     }
 
 }
