@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:19+0000\n"
-"PO-Revision-Date: 2009-01-09 07:52+0100\n"
+"PO-Revision-Date: 2009-01-09 11:48+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -4575,7 +4575,7 @@ msgstr "Un'applicazione completa di Seam e jBPM: esempio di Negozio DVD"
 #: Tutorial.xml:1678
 #, no-c-format
 msgid "The DVD Store demo application shows the practical usage of jBPM for both task management and pageflow."
-msgstr "L'applicazione demo Negozio DVD mostra un utilizzo pratico dei jBPM sia per la gestione task sia per il pageflow."
+msgstr "L'applicazione demo Negozio DVD mostra un utilizzo pratico di jBPM sia per la gestione task sia per il pageflow."
 
 #. Tag: para
 #: Tutorial.xml:1680

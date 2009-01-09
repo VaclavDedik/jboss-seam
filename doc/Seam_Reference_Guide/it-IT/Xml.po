@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-04 00:59+0000\n"
-"PO-Revision-Date: 2008-12-25 15:03+0100\n"
+"PO-Revision-Date: 2009-01-09 12:57+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -35,49 +35,49 @@ msgstr "Configurare i componenti tramire impostazioni di proprietà"
 #: Xml.xml:19
 #, no-c-format
 msgid "Seam components may be provided with configuration properties either via servlet context parameters, or via a properties file named <literal>seam.properties</literal> in the root of the classpath."
-msgstr ""
+msgstr "I componenti Seam possono essere accompagnati da proprietà di configurazioni o via parametri di contesto servlet oppure tramite un file di proprietà chiamato <literal>seam.properties</literal> collocato nella radice del classpath."
 
 #. Tag: para
 #: Xml.xml:23
 #, no-c-format
 msgid "The configurable Seam component must expose JavaBeans-style property setter methods for the configurable attributes. If a Seam component named <literal>com.jboss.myapp.settings</literal> has a setter method named <literal>setLocale()</literal>, we can provide a property named <literal>com.jboss.myapp.settings.locale</literal> in the <literal>seam.properties</literal> file or as a servlet context parameter, and Seam will set the value of the <literal>locale</literal> attribute whenever it instantiates the component."
-msgstr ""
+msgstr "Il componente Seam configurabile deve esporre metodi setter di stile JavaBeans per gli attributi configurabili. Se un componente Seam chiamato <literal>com.jboss.myapp.settings</literal> ha un metodo setter chiamato <literal>setLocale()</literal>, si può scrivere una proprietà chiamata <literal>com.jboss.myapp.settings.locale</literal> nel file <literal>seam.properties</literal> o come parametro di contesto servlet, e Seam imposterà il valore dell'attributo <literal>locale</literal> quando istanzia il componente."
 
 #. Tag: para
 #: Xml.xml:31
 #, no-c-format
 msgid "The same mechanism is used to configure Seam itself. For example, to set the conversation timeout, we provide a value for <literal>org.jboss.seam.core.manager.conversationTimeout</literal> in <literal>web.xml</literal> or <literal>seam.properties</literal>. (There is a built-in Seam component named <literal>org.jboss.seam.core.manager</literal> with a setter method named <literal>setConversationTimeout()</literal>.)"
-msgstr ""
+msgstr "Lo stesso meccanismo viene usato per configurare lo stesso Seam. Per esempio, per impostare il timeout della conversazione, si fornisce un valore a <literal>org.jboss.seam.core.manager.conversationTimeout</literal> in <literal>web.xml</literal> oppure in <literal>seam.properties</literal>. (C'è un componente Seam predefinito chiamato <literal>org.jboss.seam.core.manager</literal> con metodo setter chiamato <literal>setConversationTimeout()</literal>.)"
 
 #. Tag: title
 #: Xml.xml:41
 #, no-c-format
 msgid "Configuring components via <literal>components.xml</literal>"
-msgstr ""
+msgstr "Configurazione dei componenti tramite <literal>components.xml</literal>"
 
 #. Tag: para
 #: Xml.xml:43
 #, no-c-format
 msgid "The <literal>components.xml</literal> file is a bit more powerful than property settings. It lets you:"
-msgstr ""
+msgstr "Il file <literal>components.xml</literal> è un poco più potente delle impostazioni di proprietà. Esso consente di:"
 
 #. Tag: para
 #: Xml.xml:50
 #, no-c-format
 msgid "Configure components that have been installed automatically&#8212;including both built-in components, and application components that have been annotated with the <literal>@Name</literal> annotation and picked up by Seam's deployment scanner."
-msgstr ""
+msgstr "Configurare i componenti installati automaticamente&#8212;inclusi entrambi i componenti predefiniti ed i componenti di applicazione che sono stati annotati con l'annotazione <literal>@Name</literal> e rilevati dallo scanner di deploy di Seam."
 
 #. Tag: para
 #: Xml.xml:55
 #, no-c-format
 msgid "Install classes with no <literal>@Name</literal> annotation as Seam components&#8212;this is most useful for certain kinds of infrastructural components which can be installed multiple times different names (for example Seam-managed persistence contexts)."
-msgstr ""
+msgstr "Installare le classi senza annotazione <literal>@Name</literal> come componenti Seam&#8212;questo è ancora pià utile per alcuni tipi di componenti infrastrutturali che possono essere installati diverse volte con diversi nomi (per esempio i contesti di persistenza gestiti da Seam)."
 
 #. Tag: para
 #: Xml.xml:60
 #, no-c-format
 msgid "Install components that <emphasis>do</emphasis> have a <literal>@Name</literal> annotation but are not installed by default because of an <literal>@Install</literal> annotation that indicates the component should not be installed."
-msgstr ""
+msgstr "Installare componenti che <emphasis>hanno</emphasis> un'annotazione <literal>@Name</literal>, ma non vengono installati di default poiché una annotazione <literal>@Install</literal> indica che non devono essere installati."
 
 #. Tag: para
 #: Xml.xml:65
@@ -89,37 +89,37 @@ msgstr "Override dello scope di un componente"
 #: Xml.xml:69
 #, no-c-format
 msgid "A <literal>components.xml</literal> file may appear in one of three different places:"
-msgstr ""
+msgstr "Un file <literal>components.xml</literal> può apparire in una delle tre seguenti posizioni:"
 
 #. Tag: para
 #: Xml.xml:75
 #, no-c-format
 msgid "The <literal>WEB-INF</literal> directory of a <literal>war</literal>."
-msgstr ""
+msgstr "Nella directory <literal>WEB-INF</literal> di un file <literal>war</literal>."
 
 #. Tag: para
 #: Xml.xml:78
 #, no-c-format
 msgid "The <literal>META-INF</literal> directory of a <literal>jar</literal>."
-msgstr ""
+msgstr "Nella directory <literal>META-INF</literal> di un file <literal>jar</literal>."
 
 #. Tag: para
 #: Xml.xml:81
 #, no-c-format
 msgid "Any directory of a <literal>jar</literal> that contains classes with an <literal>@Name</literal> annotation."
-msgstr ""
+msgstr "In una qualsiasi directory di un file <literal>jar</literal> che contenga classi con annotazione <literal>@Name</literal>."
 
 #. Tag: para
 #: Xml.xml:88
 #, no-c-format
 msgid "Usually, Seam components are installed when the deployment scanner discovers a class with a <literal>@Name</literal> annotation sitting in an archive with a <literal>seam.properties</literal> file or a <literal>META-INF/components.xml</literal> file. (Unless the component has an <literal>@Install</literal> annotation indicating it should not be installed by default.) The <literal>components.xml</literal> file lets us handle special cases where we need to override the annotations."
-msgstr ""
+msgstr "Solitamente i componenti Seam vengono installati quando lo scanner di deploy scopre una classe con una annotazione <literal>@Name</literal> collocata in un archivio con un file <literal>seam.properties</literal> o un file <literal>META-INF/components.xml</literal>. (Amenoché il componente abbia una annotazione <literal>@Install</literal> che indichi che non debba essere installato di default). Il file <literal>components.xml</literal> consente di gestire i casi speciali in cui occorra fare override delle annotazioni."
 
 #. Tag: para
 #: Xml.xml:97
 #, no-c-format
 msgid "For example, the following <literal>components.xml</literal> file installs jBPM:"
-msgstr ""
+msgstr "Per esempio, il seguente file <literal>components.xml</literal> installa jBPM:"
 
 #. Tag: programlisting
 #: Xml.xml:101
@@ -141,7 +141,7 @@ msgstr ""
 #: Xml.xml:103
 #, no-c-format
 msgid "This example does the same thing:"
-msgstr ""
+msgstr "Questo esempio fa la stessa cosa:"
 
 #. Tag: programlisting
 #: Xml.xml:107
@@ -159,7 +159,7 @@ msgstr ""
 #: Xml.xml:109
 #, no-c-format
 msgid "This one installs and configures two different Seam-managed persistence contexts:"
-msgstr ""
+msgstr "Questo installa e configura due differenti contesti di persistenza gestiti da Seam:"
 
 #. Tag: programlisting
 #: Xml.xml:113
@@ -191,7 +191,7 @@ msgstr ""
 #: Xml.xml:115
 #, no-c-format
 msgid "As does this one:"
-msgstr ""
+msgstr "Ed anche questo fa lo stesso:"
 
 #. Tag: programlisting
 #: Xml.xml:119
@@ -225,7 +225,7 @@ msgstr ""
 #: Xml.xml:121
 #, no-c-format
 msgid "This example creates a session-scoped Seam-managed persistence context (this is not recommended in practice):"
-msgstr ""
+msgstr "Questo esempio crea un contesto di persistenza gestito da Seam con scope di sessione (questa non è una pratica raccomandata):"
 
 #. Tag: programlisting
 #: Xml.xml:126
@@ -277,7 +277,7 @@ msgstr ""
 #: Xml.xml:130
 #, no-c-format
 msgid "It is common to use the <literal>auto-create</literal> option for infrastructural objects like persistence contexts, which saves you from having to explicitly specify <literal>create=true</literal> when you use the <literal>@In</literal> annotation."
-msgstr ""
+msgstr "E' comune utilizzare l'opzione <literal>auto-create</literal> per gli oggetti infrastrutturali quali i contesti di persistenza, che risparmia dal dovere specificare esplicitamente <literal>create=true</literal> quando si usa l'annotazione <literal>@In</literal>."
 
 #. Tag: programlisting
 #: Xml.xml:137
@@ -329,7 +329,7 @@ msgstr ""
 #: Xml.xml:141
 #, no-c-format
 msgid "The <literal>&lt;factory&gt;</literal> declaration lets you specify a value or method binding expression that will be evaluated to initialize the value of a context variable when it is first referenced."
-msgstr ""
+msgstr "La dichiarazione <literal>&lt;factory&gt;</literal> consente di specificare un valore o un'espressione di method binding che verrà valutata per inizializzare il valore di una variabile di contesto quando viene referenziata la prima volta."
 
 #. Tag: programlisting
 #: Xml.xml:147
@@ -351,7 +351,7 @@ msgstr ""
 #: Xml.xml:149
 #, no-c-format
 msgid "You can create an \"alias\" (a second name) for a Seam component like so:"
-msgstr ""
+msgstr "Si può creare un \"alias\" (un secondo nome) per un componente Seam in questo modo:"
 
 #. Tag: programlisting
 #: Xml.xml:153
@@ -373,7 +373,7 @@ msgstr ""
 #: Xml.xml:155
 #, no-c-format
 msgid "You can even create an \"alias\" for a commonly used expression:"
-msgstr ""
+msgstr "Si può anche creare un \"alias\" per un'espressione comunemente usata:"
 
 #. Tag: programlisting
 #: Xml.xml:159
@@ -395,7 +395,7 @@ msgstr ""
 #: Xml.xml:161
 #, no-c-format
 msgid "It is especially common to see the use of <literal>auto-create=\"true\"</literal> with the <literal>&lt;factory&gt;</literal> declaration:"
-msgstr ""
+msgstr "E' comune vedere usato <literal>auto-create=\"true\"</literal> con la dichiarazione <literal>&lt;factory&gt;</literal>:"
 
 #. Tag: programlisting
 #: Xml.xml:166
@@ -417,13 +417,13 @@ msgstr ""
 #: Xml.xml:168
 #, no-c-format
 msgid "Sometimes we want to reuse the same <literal>components.xml</literal> file with minor changes during both deployment and testing. Seam lets you place wildcards of the form <literal>@wildcard@</literal> in the <literal>components.xml</literal> file which can be replaced either by your Ant build script (at deployment time) or by providing a file named <literal>components.properties</literal> in the classpath (at development time). You'll see this approach used in the Seam examples."
-msgstr ""
+msgstr "A volte si vuole riutilizzare lo stesso file <literal>components.xml</literal> con piccoli cambiamenti durante il deploy ed il testing. Seam consente di mettere dei wildcard della forma <literal>@wildcard@</literal> nel file <literal>components.xml</literal> che può essere rimpiazzato o dallo script Ant (a deployment time) o fornendo un file chiamato <literal>components.properties</literal> nel classpath (a development time). Si vedrà usato quest'ultimo approccio negli esempi di Seam."
 
 #. Tag: title
 #: Xml.xml:179
 #, no-c-format
 msgid "Fine-grained configuration files"
-msgstr ""
+msgstr "File di configurazione a grana fine"
 
 #. Tag: para
 #: Xml.xml:180
@@ -751,7 +751,7 @@ msgstr ""
 #: Xml.xml:308
 #, no-c-format
 msgid "The namespaced version looks like this:"
-msgstr ""
+msgstr "La versione con namespace appare come:"
 
 #. Tag: programlisting
 #: Xml.xml:310
