@@ -56,7 +56,7 @@
                 <listitem>
                     <para> Install classes with no <literal>@Name</literal> annotation as Seam components&#8212;this
                         is most useful for certain kinds of infrastructural components which can be installed multiple
-                        times different names (for example Seam-managed persistence contexts). </para>
+                        times with different names (for example Seam-managed persistence contexts). </para>
                 </listitem>
                 <listitem>
                     <para> Install components that <emphasis>do</emphasis> have a <literal>@Name</literal> annotation
