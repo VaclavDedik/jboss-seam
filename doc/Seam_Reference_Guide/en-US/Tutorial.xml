@@ -3149,8 +3149,7 @@ public class BlogService
             
 
             <para> But when we redirect, we need to include the values submitted with the form
-                in the URL
-                get a bookmarkable URL like
+                in the URL to get a bookmarkable URL like
                 <literal>http://localhost:8080/seam-blog/search/</literal>. JSF does not provide
                 an easy way to do this, but Seam does. We use two Seam features
                 to accomplish this: <emphasis>page parameters</emphasis> and <emphasis>URL rewriting</emphasis>.
