@@ -2917,7 +2917,7 @@ public class HotelBookingAction implements HotelBooking
                             <para>Annotating an action with  <link linkend="end-annotation">
                                 <varname>@End(root=true)</varname> 
                             </link> ends the root conversation which effectively destroys the entire conversation stack.  
-                            When any conversation is ended, it's nested conversations are ended as well.  As the root is 
+                            When any conversation is ended, its nested conversations are ended as well.  As the root is 
                             the conversation that started it all, this is a simple way to destroy and release all state 
                             associated with a workspace once the booking is confirmed.</para>
                         </callout>
@@ -3180,7 +3180,7 @@ public class BlogService
                 would be <literal>http://localhost:8080/seam-blog/seam/search.xhtml?searchPattern=book</literal>.
                 This is nice, but Seam can make the URL even simpler using a rewrite rule.  The first
                 rewrite rule, for the pattern <literal>/search/{searchPattern}</literal>, says that 
-                any time we have have a URL for search.xhtml with a searchPattern request parameter, we can 
+                any time we have a URL for search.xhtml with a searchPattern request parameter, we can 
                 fold that URL into the simpler URL.  So,the URL we saw earlier, 
                 <literal>http://localhost:8080/seam-blog/seam/search.xhtml?searchPattern=book</literal> 
                 can be written instead as <literal>http://localhost:8080/seam-blog/search/book</literal>.
