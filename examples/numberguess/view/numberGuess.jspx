@@ -31,7 +31,7 @@
 		</div>
 		
 		<div>
-        I'm thinking of a number between <h:outputText id="Smalles" value="#{numberGuess.smallest}"/> and 
+        I'm thinking of a number between <h:outputText id="Smallest" value="#{numberGuess.smallest}"/> and 
         <h:outputText id="Biggest" value="#{numberGuess.biggest}"/>. You have 
         <h:outputText id="RemainingGuesses" value="#{numberGuess.remainingGuesses}"/> guesses.
         </div>
