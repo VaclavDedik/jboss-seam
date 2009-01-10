@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-04 00:59+0000\n"
-"PO-Revision-Date: 2009-01-09 18:51+0100\n"
+"PO-Revision-Date: 2009-01-10 21:46+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -635,7 +635,7 @@ msgstr ""
 #: Xml.xml:252
 #, no-c-format
 msgid "Finally, you may wire together components using a value-binding expression. Note that this is quite different to injection using <literal>@In</literal>, since it happens at component instantiation time instead of invocation time. It is therefore much more similar to the dependency injection facilities offered by traditional IoC containers like JSF or Spring."
-msgstr ""
+msgstr "Infine si può unire assieme i componenti usando un'espressione value-binding. Si noti che è diverso dall'usare l'iniezione con <literal>@In</literal>, poiché avviene al momento dell'istanziamento del componente invece che al momento dell'invocazione. E' quindi molto più simile alle strutture con dependency injection offerte dai tradizionali IoC container come JSF o Spring."
 
 #. Tag: programlisting
 #: Xml.xml:260
@@ -683,7 +683,7 @@ msgstr ""
 #: Xml.xml:271
 #, no-c-format
 msgid "However, there is one important exception. If the type of the property to which the initial value is being assigned is either a Seam <literal>ValueExpression</literal> or <literal>MethodExpression</literal>, then the evaluation of the EL is deferred. Instead, the appropriate expression wrapper is created and assigned to the property. The message templates on the Home component from the Seam Application Framework serve as an example."
-msgstr ""
+msgstr "C'è un'importante eccezione. Se un tipo di proprietà a cui il valore iniziale assegnato è o una <literal>ValueExpression</literal> di Seam o una <literal>MethodExpression</literal>, allora la valutazione di EL è rimandata. Invece il wrapper dell'espressione appropriata viene creato e assegnato alla proprietà. I modelli di messaggi nel componente Home dell'Applicazione Framework di Seam servono da esempio."
 
 #. Tag: programlisting
 #: Xml.xml:279
@@ -701,7 +701,7 @@ msgstr ""
 #: Xml.xml:281
 #, no-c-format
 msgid "Inside the component, you can access the expression string by calling <literal>getExpressionString()</literal> on the <literal>ValueExpression</literal> or <literal>MethodExpression</literal>. If the property is a <literal>ValueExpression</literal>, you can resolve the value using <literal>getValue()</literal> and if the property is a <literal>MethodExpression</literal>, you can invoke the method using <literal>invoke(Object args...)</literal>. Obviously, to assign a value to a <literal>MethodExpression</literal> property, the entire initial value must be a single EL expression."
-msgstr ""
+msgstr "Dentro il componente sipuò accedere all'espressione di stringa chiamando <literal>getExpressionString()</literal> sulla <literal>ValueExpression</literal> o <literal>MethodExpression</literal>. Se la proprietà è una <literal>ValueExpression</literal>, si può risolvere il valore usando <literal>getValue()</literal> e se la proprietà è un <literal>MethodExpression</literal>, si può invocare il metodo usando <literal>invoke(Object args...)</literal>. Ovviamente per assegnare un valore alla proprietà <literal>MethodExpression</literal>, l'intero valore iniziale deve essere una singola espressione EL."
 
 #. Tag: title
 #: Xml.xml:294
@@ -713,7 +713,7 @@ msgstr "Uso dei namespace XML"
 #: Xml.xml:295
 #, no-c-format
 msgid "Throughout the examples, there have been two competing ways of declaring components: with and without the use of XML namespaces. The following shows a typical <literal>components.xml</literal> file without namespaces:"
-msgstr ""
+msgstr "Attraverso gli esempi ci sono stati due modi per dichiarare i componenti: con e senza l'uso di namespace XML. Il seguente mostra un tipico file <literal>components.xml</literal> senza namespace:"
 
 #. Tag: programlisting
 #: Xml.xml:301
@@ -785,7 +785,7 @@ msgstr ""
 #: Xml.xml:312
 #, no-c-format
 msgid "Even though the schema declarations are verbose, the actual XML content is lean and easy to understand. The schemas provide detailed information about each component and the attributes available, allowing XML editors to offer intelligent autocomplete. The use of namespaced elements makes generating and maintaining correct <literal>components.xml</literal> files much simpler."
-msgstr ""
+msgstr "Anche se le dichiarazioni di schema sono lunghe, il contenuto vero di XML è piatto e facile da capire. Gli schemi forniscono informazioni dettagliate su ogni componente e sugli attributi disponibili, consentendo agli editor XML di offrire un autocompletamento intelligente. L'uso di elementi con namespace semplifica molto la generazione ed il mantenimento in uno stato corretto dei file <literal>components.xml</literal>."
 
 #. Tag: para
 #: Xml.xml:319
