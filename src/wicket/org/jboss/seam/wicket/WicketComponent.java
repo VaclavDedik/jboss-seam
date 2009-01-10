@@ -424,8 +424,9 @@ public class WicketComponent<T>
       }
    }
    
-   private static Object getValue(BijectedAttribute<In> in, Object bean)
+   private Object getValue(BijectedAttribute<In> in, Object bean)
    {
+      Object result;
       String name = in.getContextVariableName();
       if ( name.startsWith("#") )
       {
@@ -433,7 +434,7 @@ public class WicketComponent<T>
          {
             log.trace("trying to inject with EL expression: " + name);
          }
-         return Expressions.instance().createValueExpression(name).getValue();
+         result = Expressions.instance().createValueExpression(name).getValue();
       }
       else if ( in.getAnnotation().scope()==UNSPECIFIED )
       {
@@ -441,7 +442,8 @@ public class WicketComponent<T>
          {
             log.trace("trying to inject with hierarchical context search: " + name);
          }
-         return getInstanceInAllNamespaces(name, in.getAnnotation().create());
+         boolean create = in.getAnnotation().create() && !org.jboss.seam.contexts.Lifecycle.isDestroying();
+         result = getInstanceInAllNamespaces(name, create);
       }
       else
       {
@@ -460,15 +462,25 @@ public class WicketComponent<T>
                );
          }
          
-         
          log.trace("trying to inject from specified context: " + name);
          
          if ( in.getAnnotation().scope().isContextActive() )
          {
-            return in.getAnnotation().scope().getContext().get(name);
+            result = in.getAnnotation().scope().getContext().get(name);
+         }
+         else 
+         {
+            result = null;
          }
       }
-      return null;
+      if ( result==null && in.getAnnotation().required() )
+      {
+         throw new RequiredException( "@In attribute requires non-null value: " + type + '.' + name );
+      }
+      else
+      {
+         return result;
+      }
    }
    
    private static Object getInstanceInAllNamespaces(String name, boolean create)
