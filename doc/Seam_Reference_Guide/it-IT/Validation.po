@@ -385,7 +385,7 @@ msgstr ""
 #: Validation.xml:105
 #, no-c-format
 msgid "We can include this template for each of our form fields using <literal>&lt;s:decorate&gt;</literal>."
-msgstr "Si può includere questo template per ciascuna campo della form utilizzando <literal>&lt;s:decorate&gt;</literal>."
+msgstr "Si può includere questo template per ciascun campo della form utilizzando <literal>&lt;s:decorate&gt;</literal>."
 
 #. Tag: programlisting
 #: Validation.xml:110
@@ -485,7 +485,7 @@ msgstr ""
 #: Validation.xml:119
 #, no-c-format
 msgid "It's better style to define explicit ids for important controls on the page, especially if you want to do automated testing for the UI, using some toolkit like Selenium. If you don't provide explicit ids, JSF will generate them, but the generated values will change if you change anything on the page."
-msgstr "E' uno stile migliore definire esplicitamente gli id per i controlli importanti all'interno della pagina, specialmente in caso di test automatico della UI, utilizzando dei toolkit quale Selenium. Se non vengono forniti gli id in modo esplicito, JSF li genererà, mai valori generati cambieranno se si cambia qualcosa nella pagina."
+msgstr "E' meglio definire esplicitamente gli id per i controlli importanti all'interno di una pagina, specialmente in caso di un test automatico della UI, utilizzando dei toolkit quale Selenium. Se non vengono forniti gli id in modo esplicito, JSF li genererà, ma i valori generati cambieranno se si cambia qualcosa nella pagina."
 
 #. Tag: programlisting
 #: Validation.xml:128

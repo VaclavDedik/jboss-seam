@@ -441,7 +441,7 @@ msgid ""
 "either)."
 msgstr ""
 "JBoss Seam supporta l'esecuzione diretta di file <literal>.groovy</literal> "
-"(cioè senza compilazione) nella modalità hotdeployment incrementale (solo "
+"(cioè senza compilazione) nella modalità di hot deployment incrementale (solo "
 "per lo sviluppo). Ciò consente un ciclo di modifica/test molto rapido. Per "
 "impostare l'esecuzione dei file .groovy, seguire la configurazione indicata "
 "in <xref linkend=\"gettingstarted-hotdeployment\"/> ed eseguire il codice "
@@ -458,7 +458,7 @@ msgid ""
 "limitations as the regular Seam hotdeployment:"
 msgstr ""
 "Fare attenzione al fatto che l'esecuzione diretta dei file .groovy soffre "
-"delle stesse limitazioni del normale hotdeployment di Seam:"
+"delle stesse limitazioni del normale hot deployment di Seam:"
 
 #. Tag: para
 #: Groovy.xml:125
@@ -473,7 +473,7 @@ msgstr ""
 #: Groovy.xml:129
 #, no-c-format
 msgid "Entities cannot be hotdeployed"
-msgstr "Le entità non possono essere eseguite in modalità hotdeploy."
+msgstr "Le entità non possono essere eseguite in modalità hot deploy."
 
 #. Tag: para
 #: Groovy.xml:133
@@ -507,7 +507,7 @@ msgstr ""
 "/filename> durante lo sviluppo (senza compilazione). Creando un progetto "
 "seam-gen di tipo WAR, le classi Java e Groovy posizionate in <filename>"
 "src/hot</filename> saranno automaticamente candidate per l'esecuzione "
-"incrementale in modalità hotdeploy. In modalità di produzione, i file Groovy "
+"incrementale in modalità hot deploy. In modalità di produzione, i file Groovy "
 "saranno semplicemente compilati prima dell'esecuzione."
 
 #. Tag: para
@@ -520,5 +520,5 @@ msgid ""
 msgstr ""
 "In <filename>examples/groovybooking</filename> è possibile trovare un "
 "esempio della demo Booking scritto completamente in Groovy con il supporto "
-"per l'esecuzione incrementale in modalità hotdeploy"
+"per l'esecuzione incrementale in modalità hot deploy"
 
