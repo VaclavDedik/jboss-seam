@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:18+0000\n"
-"PO-Revision-Date: 2009-01-05 01:39+0100\n"
+"PO-Revision-Date: 2009-01-11 16:08+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -101,7 +101,7 @@ msgstr "<![CDATA[@Role(name=\"roleName\", scope=ScopeType.SESSION)]]>"
 #: Annotations.xml:68
 #, no-c-format
 msgid "Allows a Seam component to be bound to multiple contexts variables. The <literal>@Name</literal>/<literal>@Scope</literal> annotations define a \"default role\". Each <literal>@Role</literal> annotation defines an additional role."
-msgstr ""
+msgstr "Consente ad un componente Seam di venir associato a variabili di contesto multiple. Le annotazioni <literal>@Name</literal>/<literal>@Scope</literal> definiscono un \"ruolo di default\". Ciascuna annotazione <literal>@Role</literal> definisce un ruolo addizionale."
 
 #. Tag: para
 #: Annotations.xml:76
@@ -113,7 +113,7 @@ msgstr "<literal>nome</literal> &#8212; il nome della variabile di contesto."
 #: Annotations.xml:82
 #, no-c-format
 msgid "<literal>scope</literal> &#8212; the context variable scope. When no scope is explicitly specified, the default depends upon the component type, as above."
-msgstr ""
+msgstr "<literal>scope</literal> &#8212; lo scope della variabile di contesto. Quando non viene specificato esplicitamente alcuno scope, il default dipende dal tipo di componente, come sopra."
 
 #. Tag: literal
 #: Annotations.xml:93
@@ -175,7 +175,7 @@ msgstr "<![CDATA[@JndiName(\"my/jndi/name\")]]>"
 #: Annotations.xml:120
 #, no-c-format
 msgid "Specifies the JNDI name that Seam will use to look up the EJB component. If no JNDI name is explicitly specified, Seam will use the JNDI pattern specified by <literal>org.jboss.seam.core.init.jndiPattern</literal>."
-msgstr ""
+msgstr "Specifica il nome JNDI che Seam userà per la ricerca del componente EJB. Se non è stato specificato esplicitamente alcun nome, Seam userà il pattern JNDI specificato da <literal>org.jboss.seam.core.init.jndiPattern</literal>."
 
 #. Tag: literal
 #: Annotations.xml:130
@@ -193,7 +193,7 @@ msgstr "<![CDATA[@Conversational]]>"
 #: Annotations.xml:134
 #, no-c-format
 msgid "Specifies that a conversation scope component is conversational, meaning that no method of the component may be called unless a long-running conversation is active."
-msgstr ""
+msgstr "Specifica che il componente con scope conversazione è conversazionale, il che significa che nessun metodo del componente potrà essere chiamato amenoché sia attiva una conversazione long-running."
 
 #. Tag: literal
 #: Annotations.xml:143
@@ -1724,13 +1724,13 @@ msgstr ""
 #: Annotations.xml:1525
 #, no-c-format
 msgid "Annotations for integrating with the servlet container"
-msgstr ""
+msgstr "Annotazioni per l'integrazione con un servlet container"
 
 #. Tag: para
 #: Annotations.xml:1526
 #, no-c-format
 msgid "These annotations allow you to integrate your Seam components with the servlet container."
-msgstr ""
+msgstr "Queste annotazioni consentono di integrare i componenti Seam con un servlet container."
 
 #. Tag: literal
 #: Annotations.xml:1535
@@ -1742,7 +1742,7 @@ msgstr "@Filter"
 #: Annotations.xml:1538
 #, no-c-format
 msgid "Use the Seam component (which implements <literal>javax.servlet.Filter</literal>) annotated with <literal>@Filter</literal> as a servlet filter. It will be executed by Seam's master filter."
-msgstr ""
+msgstr "Si usi come filtro servlet il componente Seam (che implementa <literal>javax.servlet.Filter</literal>) annotato con <literal>@Filter</literal>. Esso verrà eseguito come filtro master di Seam."
 
 #. Tag: programlisting
 #: Annotations.xml:1546

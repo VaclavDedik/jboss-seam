@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-04 00:59+0000\n"
-"PO-Revision-Date: 2009-01-10 21:46+0100\n"
+"PO-Revision-Date: 2009-01-11 12:45+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -791,13 +791,13 @@ msgstr "Anche se le dichiarazioni di schema sono lunghe, il contenuto vero di XM
 #: Xml.xml:319
 #, no-c-format
 msgid "Now, this works great for the built-in Seam components, but what about user components? There are two options. First, Seam supports mixing the two models, allowing the use of the generic <literal>&lt;component&gt;</literal> declarations for user components, along with namespaced declarations for built-in components. But even better, Seam allows you to quickly declare namespaces for your own components."
-msgstr ""
+msgstr "Questo funziona bene per i componenti predefiniti di Seam, ma per i componenti creati dall'utente? Ci sono due opzioni. La prima, Seam supporta un misto dei due modelli, consentendo l'uso delle dichiarazioni generiche <literal>&lt;component&gt;</literal> for i componenti utente, assieme alle dichiarazioni con namespace dei componenti predefiniti. Ma ancor meglio, Seam consente di dichiarare in modo veloce i namespace per i propri componenti."
 
 #. Tag: para
 #: Xml.xml:326
 #, no-c-format
 msgid "Any Java package can be associated with an XML namespace by annotating the package with the <literal>@Namespace</literal> annotation. (Package-level annotations are declared in a file named <literal>package-info.java</literal> in the package directory.) Here is an example from the seampay demo:"
-msgstr ""
+msgstr "Qualsiasi pacchetto Java può essere associato ad un namespace XML annotando il pacchetto con l'annotazione <literal>@Namespace</literal>. (Le annotazioni a livello pacchetto vengono dichiarate in un file chiamato <literal>package-info.java</literal> nella directory del pacchetto.) Ecco un esempio tratto dalla demo seampay:"
 
 #. Tag: programlisting
 #: Xml.xml:332
@@ -903,7 +903,7 @@ msgstr ""
 #: Xml.xml:345
 #, no-c-format
 msgid "These examples illustrate the two usage models of a namespaced element. In the first declaration, the <literal>&lt;pay:payment-home&gt;</literal> references the <literal>paymentHome</literal> component:"
-msgstr ""
+msgstr "Questi esempi illustrano i due usi modi d'uso di un elemento con namespace. Nella prima dichiarazione, <literal>&lt;pay:payment-home&gt;</literal> referenzia il componente <literal>paymentHome</literal>:"
 
 #. Tag: programlisting
 #: Xml.xml:351
@@ -938,7 +938,7 @@ msgstr "Il nome dell'elemento è una forma con trattino d'unione del nome del co
 #: Xml.xml:358
 #, no-c-format
 msgid "In the second declaration, the <literal>&lt;pay:payment&gt;</literal> element refers to the <literal>Payment</literal> class in the <literal>org.jboss.seam.example.seampay</literal> package. In this case <literal>Payment</literal> is an entity that is being declared as a Seam component:"
-msgstr ""
+msgstr "Nella seconda dichiarazione, l'elemento <literal>&lt;pay:payment&gt;</literal> fa riferimento alla classe <literal>Payment</literal> nel pacchetto <literal>org.jboss.seam.example.seampay</literal>. In questo caso <literal>Payment</literal> è un entity dichiarato come componente Seam:"
 
 #. Tag: programlisting
 #: Xml.xml:364
@@ -966,7 +966,7 @@ msgstr ""
 #: Xml.xml:366
 #, no-c-format
 msgid "If we want validation and autocompletion to work for user-defined components, we will need a schema. Seam does not yet provide a mechanism to automatically generate a schema for a set of components, so it is necessary to generate one manually. The schema definitions for the standard Seam packages can be used for guidance."
-msgstr ""
+msgstr "Se si vuole far funzionare la validazione e l'autocompletamento per i componenti definiti dall'utente, occorre uno schema. Seam non fornisce ancora un meccanismo per generare automaticamente uno schema per un set di componenti, così è necessario generarne uno manualmente. Come guida d'esempio si possono usare le definizioni di schema dei pacchetti standard di Seam."
 
 #. Tag: para
 #: Xml.xml:373

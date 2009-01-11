@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2009-01-08 12:45+0100\n"
+"PO-Revision-Date: 2009-01-11 18:45+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -23,13 +23,14 @@ msgstr "Asincronicità e messaggistica"
 #: Jms.xml:3
 #, no-c-format
 msgid "Seam makes it very easy to perform work asynchronously from a web request. When most people think of asynchronicity in Java EE, they think of using JMS. This is certainly one way to approach the problem in Seam, and is the right way when you have strict and well-defined quality of service requirements. Seam makes it easy to send and recieve JMS messages using Seam components."
-msgstr ""
+msgstr "Seam semplifica molto l'esecuzione di lavori asincroni da richiesta web. Quando la maggior parte delle persone pensa all'asincronicità in Java EE, pensano all'uso di JMS. Questo è certamente un modo per approcciare il problema in Seam, ed è quello giusto quando si hanno dei requisiti di qualità di servizio molto stringenti e ben definiti. Seam semplifica l'invio e la ricezione di messaggi JMS usando i componenti Seam."
 
+# rivedere la frase.
 #. Tag: para
 #: Jms.xml:11
 #, no-c-format
 msgid "But for many usecases, JMS is overkill. Seam layers a simple asynchronous method and event facility over your choice of <emphasis>dispatchers</emphasis>:"
-msgstr ""
+msgstr "Ma per molti casi d'uso, JMS è eccessivo. Seam aggiunge come nuovo layer un semplice metodo asincrono ed un meccanismo d'eventi sulla scelta del <emphasis>dispatcher</emphasis>:"
 
 #. Tag: para
 #: Jms.xml:18
@@ -59,7 +60,7 @@ msgstr "Asincronicità"
 #: Jms.xml:37
 #, no-c-format
 msgid "Asynchronous events and method calls have the same quality of service expectations as the underlying dispatcher mechanism. The default dispatcher, based upon a <literal>ScheduledThreadPoolExecutor</literal> performs efficiently but provides no support for persistent asynchronous tasks, and hence no guarantee that a task will ever actually be executed. If you're working in an environment that supports EJB 3.0, and add the following line to <literal>components.xml</literal>:"
-msgstr ""
+msgstr "Eventi asincroni e chiamate a metodi hanno le stesse aspettative di qualità di servizio del meccanismo sottostante di dispatcher. Il dispatcher di default, basato su <literal>ScheduledThreadPoolExecutor</literal> opera efficientemente ma non fornisce alcun supporto ai task asincroni di persistenza, e quindi non garantisce che un task verrà effettivamente eseguito. Se si lavora in un ambiente che supporta EJB 3.0 e si aggiunge la seguente linea a <literal>components.xml</literal>:"
 
 #. Tag: programlisting
 #: Jms.xml:46
@@ -71,13 +72,13 @@ msgstr "<![CDATA[<async:timer-service-dispatcher/>]]>"
 #: Jms.xml:48
 #, no-c-format
 msgid "then your asynchronous tasks will be processed by the container's EJB timer service. If you're not familiar with the Timer service, don't worry, you don't need to interact with it directly if you want to use asynchronous methods in Seam. The important thing to know is that any good EJB 3.0 implementation will have the option of using persistent timers, which gives some guarantee that the tasks will eventually be processed."
-msgstr ""
+msgstr "allora i task asincroni verranno processati dal servizio EJB timer del container. Se non si è familiari come il servizio Timer, nessuna paura, non si deve interagire direttamente con esso per usare i metodi asincroni in Seam. La cosa importante da sapere è che qualsiasi buona implementazione di EJB 3.0 avrà l'opzione di usare i timer di persistenza, che danno garanzia che i task verranno processati."
 
 #. Tag: para
 #: Jms.xml:56
 #, no-c-format
 msgid "Another alternative is to use the open source Quartz library to manage asynchronous method. You need to bundle the Quartz library JAR (found in the <literal>lib</literal> directory) in your EAR and declare it as a Java module in <literal>application.xml</literal>. The Quartz dispatcher may be configured by adding a Quartz property file to the classpath. It must be named <literal>seam.quartz.properties</literal>. In addition, you need to add the following line to <literal>components.xml</literal> to install the Quartz dispatcher."
-msgstr ""
+msgstr "Un'altra alternativa è quella di usare la libreria open source Quartz per gestire il metodo asincrono. Occorre incorporare il JAR della libreria Quartz (che si trova nella directory <literal>lib</literal>) nell'EAR e dichiararla come modulo Java in <literal>application.xml</literal>. Il dispatcher Quartz può essere configurato aggiungendo un file di proprietà Quartz al classpath. Deve essere nominato <literal>seam.quartz.properties</literal>. Inoltre occorre aggiungere la seguente linea a <literal>components.xml</literal> per installare il dispatcher Quartz. "
 
 #. Tag: programlisting
 #: Jms.xml:66
@@ -89,7 +90,7 @@ msgstr "<![CDATA[<async:quartz-dispatcher/>]]>"
 #: Jms.xml:68
 #, no-c-format
 msgid "The Seam API for the default <literal>ScheduledThreadPoolExecutor</literal>, the EJB3 <literal>Timer</literal>, and the Quartz <literal>Scheduler</literal> are largely the same. They can just \"plug and play\" by adding a line to <literal>components.xml</literal>."
-msgstr ""
+msgstr "L'API di Seam per il <literal>ScheduledThreadPoolExecutor</literal> di default, il <literal>Timer</literal> EJB3, e lo <literal>Scheduler</literal> Quartz sono più o meno la stessa cosa. Vengono azionati come \"plug and play\" aggiungendo una linea a <literal>components.xml</literal>."
 
 #. Tag: title
 #: Jms.xml:75
@@ -101,13 +102,13 @@ msgstr "Metodi asincroni"
 #: Jms.xml:77
 #, no-c-format
 msgid "In simplest form, an asynchronous call just lets a method call be processed asynchronously (in a different thread) from the caller. We usually use an asynchronous call when we want to return an immediate response to the client, and let some expensive work be processed in the background. This pattern works very well in applications which use AJAX, where the client can automatically poll the server for the result of the work."
-msgstr ""
+msgstr "Nella forma più semplice, una chiamata asincrona consente che una chiamata di metodo venga processata asincronicamente (in un thread differente) dal chiamante. Solitamente si usa una chiamata asincrona quando si vuole ritornare una risposta immediata al client, e si lascia in background il lavoro dispendioso da processare. Questo pattern funziona molto bene nelle applicazioni che usano AJAX, dove il client può automaticamente interrogare il server per ottenere il risultato del lavoro."
 
 #. Tag: para
 #: Jms.xml:85
 #, no-c-format
 msgid "For EJB components, we annotate the local interface to specify that a method is processed asynchronously."
-msgstr ""
+msgstr "Per i componenti EJB si annota l'interfaccia locale per specificare che un metodo viene processato asincronicamente."
 
 #. Tag: programlisting
 #: Jms.xml:90
@@ -131,7 +132,7 @@ msgstr ""
 #: Jms.xml:92
 #, no-c-format
 msgid "(For JavaBean components we can annotate the component implementation class if we like.)"
-msgstr ""
+msgstr "(Per i componenti JavaBean, se si vuole, si può annotare la classe d'implementazione del componente.)"
 
 #. Tag: para
 #: Jms.xml:96
@@ -205,13 +206,13 @@ msgstr ""
 #: Jms.xml:108
 #, no-c-format
 msgid "The asynchronous method is processed in a completely new event context and does not have access to the session or conversation context state of the caller. However, the business process context <emphasis>is</emphasis> propagated."
-msgstr ""
+msgstr "Il metodo asincrono viene processato in un contesto eventi completamente nuovo e non ha accesso allo stato del contesto sessione o conversazione del chiamante. Comunque, il contesto di processo di business <emphasis>viene</emphasis> propagato."
 
 #. Tag: para
 #: Jms.xml:114
 #, no-c-format
 msgid "Asynchronous method calls may be scheduled for later execution using the <literal>@Duration</literal>, <literal>@Expiration</literal> and <literal>@IntervalDuration</literal> annotations."
-msgstr ""
+msgstr "Le chiamate del metodo asincrono possono essere schedulate per un'esecuzione successiva usando le annotazioni <literal>@Duration</literal>, <literal>@Expiration</literal> e <literal>@IntervalDuration</literal>."
 
 #. Tag: programlisting
 #: Jms.xml:120
@@ -291,7 +292,7 @@ msgstr ""
 #: Jms.xml:124
 #, no-c-format
 msgid "Both client and server may access the <literal>Timer</literal> object associated with the invocation. The <literal>Timer</literal> object shown below is the EJB3 timer when you use the EJB3 dispatcher. For the default <literal>ScheduledThreadPoolExecutor</literal>, the returned object is <literal>Future</literal> from the JDK. For the Quartz dispatcher, it returns <literal>QuartzTriggerHandle</literal>, which we will discuss in the next section."
-msgstr ""
+msgstr "Entrambi il server ed il client possono accedere all'oggetto <literal>Timer</literal> associato all'invocazione. L'oggetto <literal>Timer</literal> mostrato sotto è il timer EJB3 quando viene usato il dispatcher EJB3. Per il <literal>ScheduledThreadPoolExecutor</literal> di default, l'oggetto restituito è <literal>Future</literal> di JDK. Per il dispatcher Quartz, viene ritornato <literal>QuartzTriggerHandle</literal>, che verrà discusso nella prossima sessione."
 
 #. Tag: programlisting
 #: Jms.xml:129
@@ -383,7 +384,7 @@ msgstr ""
 #: Jms.xml:135
 #, no-c-format
 msgid "Asynchronous methods cannot return any other value to the caller."
-msgstr ""
+msgstr "I metodi asincroni non possono ritornare al chiamante alcun altro valore."
 
 #. Tag: title
 #: Jms.xml:142
@@ -395,13 +396,13 @@ msgstr "Metodi asincroni con il Quartz Dispatcher"
 #: Jms.xml:144
 #, no-c-format
 msgid "The Quartz dispatcher (see earlier on how to install it) allows you to use the <literal>@Asynchronous</literal>, <literal>@Duration</literal>, <literal>@Expiration</literal>, and <literal>@IntervalDuration</literal> annotations as above. But it has some powerful additional features. The Quartz dispatcher supports three new annotations."
-msgstr ""
+msgstr "Il dispatcher Quartz (vedere indietro come viene installato) consente di usare le annotazioni <literal>@Asynchronous</literal>, <literal>@Duration</literal>, <literal>@Expiration</literal>, e <literal>@IntervalDuration</literal> come sopra. Ma possiede anche altre potenti caratteristiche. Il dispatcher Quartz supporta tre nuove annotazioni."
 
 #. Tag: para
 #: Jms.xml:148
 #, no-c-format
 msgid "The <literal>@FinalExpiration</literal> annotation specifies an end date for the recurring task. Note that you can inject the <code>QuartzTriggerHandle</code>."
-msgstr ""
+msgstr "L'annotazione <literal>@FinalExpiration</literal> specifica una data finale per il task ricorrente. Si noti che si può iniettare il <code>QuartzTriggerHandle</code>."
 
 #. Tag: programlisting
 #: Jms.xml:150
@@ -455,7 +456,7 @@ msgstr ""
 #: Jms.xml:152
 #, no-c-format
 msgid "Note that the method returns the <literal>QuartzTriggerHandle</literal> object, which you can use later to stop, pause, and resume the scheduler. The <literal>QuartzTriggerHandle</literal> object is serializable, so you can save it into the database if you need to keep it around for extended period of time."
-msgstr ""
+msgstr "Si noti che il metodo restituisce l'oggetto <literal>QuartzTriggerHandle</literal>, che si può usare per arrestare, mettere in pausa e ripristinare lo scheduler. L'oggetto <literal>QuartzTriggerHandle</literal> è serializzabile, e quindi puoi salvarlo nel database se deve essere presente per un periodo di tempo esteso."
 
 #. Tag: programlisting
 #: Jms.xml:154
@@ -493,7 +494,7 @@ msgstr ""
 #: Jms.xml:156
 #, no-c-format
 msgid "The <literal>@IntervalCron</literal> annotation supports Unix cron job syntax for task scheduling. For instance, the following asynchronous method runs at 2:10pm and at 2:44pm every Wednesday in the month of March."
-msgstr ""
+msgstr "L'annotazione <literal>@IntervalCron</literal> supporta la sintassi Unix del cron job per la schedulazione dei task. Per esempio, il seguente metodo asincrono gira alle 2:10pm e alle 2:44pm ogni Mercoledì del mese di Marzo."
 
 #. Tag: programlisting
 #: Jms.xml:159
@@ -537,7 +538,7 @@ msgstr ""
 #: Jms.xml:161
 #, no-c-format
 msgid "The <literal>@IntervalBusinessDay</literal> annotation supports invocation on the \"nth Business Day\" scenario. For instance, the following asynchronous method runs at 14:00 on the 2nd business day of each month. By default, it excludes all weekends and US federal holidays until 2010 from the business days."
-msgstr ""
+msgstr "L'annotazione <literal>@IntervalBusinessDay</literal> supporta l'invocazione sullo scenario di \"Giorno Lavorativo ennesimo\". Per esempio il seguente metodo asincrono gira alle ore 14.00 del secondo giorno lavorativo di ogni mese. Di default esclude tutti i weekend e le festività federali americane fino al 2010 dai giorni lavorativi."
 
 #. Tag: programlisting
 #: Jms.xml:164
@@ -583,7 +584,7 @@ msgstr ""
 #: Jms.xml:166
 #, no-c-format
 msgid "The <literal>NthBusinessDay</literal> object contains the configuration of the invocation trigger. You can specify more holidays (e.g., company holidays, non-US holidays etc.) via the <literal>additionalHolidays</literal> property."
-msgstr ""
+msgstr "L'oggetto <literal>NthBusinessDay</literal> contiene la configurazione del trigger d'invocazione. Si possono specificare più vacanze (esempio, vacanze aziendali, festività non-US, ecc.) attraverso la proprietà <literal>additionalHolidays</literal>."
 
 #. Tag: programlisting
 #: Jms.xml:168
@@ -643,7 +644,7 @@ msgstr ""
 #: Jms.xml:170
 #, no-c-format
 msgid "The <literal>@IntervalDuration</literal>, <literal>@IntervalCron</literal>, and <literal>@IntervalNthBusinessDay</literal> annotations are mutually exclusive. If they are used in the same method, a <literal>RuntimeException</literal> will be thrown."
-msgstr ""
+msgstr "Le annotazioni <literal>@IntervalDuration</literal>, <literal>@IntervalCron</literal>, e <literal>@IntervalNthBusinessDay</literal> sono mutualmente esclusive. Se usate nello stesso metodo, verrà lanciata una <literal>RuntimeException</literal>."
 
 #. Tag: title
 #: Jms.xml:175
@@ -655,25 +656,25 @@ msgstr "Eventi asincroni"
 #: Jms.xml:176
 #, no-c-format
 msgid "Component-driven events may also be asynchronous. To raise an event for asynchronous processing, simply call the <literal>raiseAsynchronousEvent()</literal> method of the <literal>Events</literal> class. To schedule a timed event, call the <literal>raiseTimedEvent()</literal> method, passing a <emphasis>schedule</emphasis> object (for the default dispatcher or timer service dispatcher, use <literal>TimerSchedule</literal>). Components may observe asynchronous events in the usual way, but remember that only the business process context is propagated to the asynchronous thread."
-msgstr ""
+msgstr "Eventi guidati dai componenti possono essere asincroni. Per sollevare un evento da processare in modo asincrono, occorre semplicemente chiamare il metodo <literal>raiseAsynchronousEvent()</literal> della classe <literal>Events</literal>. Per schedulare un evento a tempo, chiamare il metodo <literal>raiseTimedEvent()</literal> passando un oggetto <emphasis>schedule</emphasis> (per il dispatcher di default o il dispatcher delservizio timer, usare <literal>TimerSchedule</literal>). I componenti possono osservare eventi asincroni nel solito modo, ma si tenga presente che solo il contesto business process viene propagato nel thread asincrono."
 
 #. Tag: title
 #: Jms.xml:188
 #, no-c-format
 msgid "Handling exceptions from asynchronous calls"
-msgstr ""
+msgstr "Gestione delle eccezione da chiamate asincrone"
 
 #. Tag: para
 #: Jms.xml:190
 #, no-c-format
 msgid "Each asynchronous dispatcher behaves differently when an exception propagates through it. For example, the <literal>java.util.concurrent</literal> dispatcher will suspend further executions of a call which repeats, and the EJB3 timer service will swallow the exception. Seam therefore catches any exception which propagates out of the asynchronous call before it reaches the dispatcher."
-msgstr ""
+msgstr "Ogni dispatcher asincrono si comporta in modo differente quando attraverso di esso viene propagata un'eccezione. Per esempio, il dispatcher <literal>java.util.concurrent</literal> sospenderà ogni altra esecuzione di una chiamata che si ripete, ed il servizio timer EJB3 inghiottirà quest'eccezione. Quindi Seam cattura ogni eccezione che si propaga fuori da una chiamata asincrona prima che questa raggiunga il dispatcher."
 
 #. Tag: para
 #: Jms.xml:200
 #, no-c-format
 msgid "By default, any exception which propagates out from an asynchronous execution will be caught and logged at error level. You can customize this behavior globally by overriding the <literal>org.jboss.seam.async.asynchronousExceptionHandler</literal> component:"
-msgstr ""
+msgstr "Di default ogni eccezione che si propaga fuori da un'esecuzione asincrona verrà catturata e loggata come errore. Si può personalizzare questo comportamento facendo override del componente <literal>org.jboss.seam.async.asynchronousExceptionHandler</literal>."
 
 #. Tag: programlisting
 #: Jms.xml:208
@@ -715,13 +716,13 @@ msgstr ""
 #: Jms.xml:210
 #, no-c-format
 msgid "Here, for example, using <literal>java.util.concurrent</literal> dispatcher, we inject it's control object and cancel all future invocations when an exception is encountered"
-msgstr ""
+msgstr "Per esempio, usando il dispatcher <literal>java.util.concurrent</literal>, viene iniettato il suo oggetto di controllo e vengono cancellate tutte le future invocazioni quando si incontra un'eccezione "
 
 #. Tag: para
 #: Jms.xml:216
 #, no-c-format
 msgid "You can also alter this behavior for an individual component by implementing the method <literal>public void handleAsynchronousException(Exception exception);</literal> on the component. For example:"
-msgstr ""
+msgstr "Si può alterare questo comportamento per un componente individuale, implementando sul componente il metodo <literal>public void handleAsynchronousException(Exception exception);</literal>. Per esempio:"
 
 #. Tag: programlisting
 #: Jms.xml:223
@@ -745,7 +746,7 @@ msgstr "Messaggistica in Seam"
 #: Jms.xml:232
 #, no-c-format
 msgid "Seam makes it easy to send and receive JMS messages to and from Seam components."
-msgstr ""
+msgstr "Seam facilita l'invio e la ricezione di messaggi JMS da e verso componenti Seam."
 
 #. Tag: title
 #: Jms.xml:238
@@ -757,19 +758,19 @@ msgstr "Configurazione"
 #: Jms.xml:239
 #, no-c-format
 msgid "To configure Seam's infrastructure for sending JMS messages, you need to tell Seam about any topics and queues you want to send messages to, and also tell Seam where to find the <literal>QueueConnectionFactory</literal> and/or <literal>TopicConnectionFactory</literal>."
-msgstr ""
+msgstr "Per configurare l'infrastruttura di Seam alla spedizione di messaggi JMS, occorre dire a Seam a quali topic e code si vuole spedire i messaggi, ed inoltre serve dire dove trovare <literal>QueueConnectionFactory</literal> e/o <literal>TopicConnectionFactory</literal>."
 
 #. Tag: para
 #: Jms.xml:247
 #, no-c-format
 msgid "Seam defaults to using <literal>UIL2ConnectionFactory</literal> which is the usual connection factory for use with JBossMQ. If you are using some other JMS provider, you need to set one or both of <literal>queueConnection.queueConnectionFactoryJndiName</literal> and <literal>topicConnection.topicConnectionFactoryJndiName</literal> in <literal>seam.properties</literal>, <literal>web.xml</literal> or <literal>components.xml</literal>."
-msgstr ""
+msgstr "Di default Seam usa <literal>UIL2ConnectionFactory</literal> che è la connection factory consueta per l'uso con JBossMQ. Se si impiegano altri provider JSM, occorre impostare uno o entrambi i <literal>queueConnection.queueConnectionFactoryJndiName</literal> e <literal>topicConnection.topicConnectionFactoryJndiName</literal> in <literal>seam.properties</literal>, <literal>web.xml</literal> o <literal>components.xml</literal>."
 
 #. Tag: para
 #: Jms.xml:257
 #, no-c-format
 msgid "You also need to list topics and queues in <literal>components.xml</literal> to install Seam managed <literal>TopicPublisher</literal>s and <literal>QueueSender</literal>s:"
-msgstr ""
+msgstr "Inoltre in <literal>components.xml</literal> occorre elencare i topic e le code per installare i <literal>TopicPublisher</literal> ed i <literal>QueueSender</literal> gestiti da Seam:"
 
 #. Tag: programlisting
 #: Jms.xml:263
@@ -801,7 +802,7 @@ msgstr "Spedire messaggi"
 #: Jms.xml:269
 #, no-c-format
 msgid "Now, you can inject a JMS <literal>TopicPublisher</literal> and <literal>TopicSession</literal> into any component:"
-msgstr ""
+msgstr "Ora è possibile iniettare in qualsiasi componente un <literal>TopicPublisher</literal> e un <literal>TopicSession</literal> JMS:"
 
 #. Tag: programlisting
 #: Jms.xml:274
@@ -843,7 +844,7 @@ msgstr ""
 #: Jms.xml:276
 #, no-c-format
 msgid "Or, for working with a queue:"
-msgstr ""
+msgstr "O lavorando con una coda:"
 
 #. Tag: programlisting
 #: Jms.xml:278
@@ -891,7 +892,7 @@ msgstr "Ricezione dei messaggi usando un bean message-driven"
 #: Jms.xml:284
 #, no-c-format
 msgid "You can process messages using any EJB3 message driven bean. Message-driven beans may even be Seam components, in which case it is possible to inject other event and application scoped Seam components."
-msgstr ""
+msgstr "I messaggi possono essere processati usando un qualsiasi bean message driven EJB3. I bean message-drive possono essere anche componenti Seam, in qual caso è possibile iniettare altri componenti Seam aventi scope evento e applicazione."
 
 #. Tag: title
 #: Jms.xml:292
@@ -903,5 +904,5 @@ msgstr "Ricezione dei messaggi nel client"
 #: Jms.xml:293
 #, no-c-format
 msgid "Seam Remoting lets you subscribe to a JMS topic from client-side JavaScript. This is described in <xref linkend=\"remoting\"/>."
-msgstr ""
+msgstr "Seam Remoting consente di sottoscrivere un topic JMS lato client JavaScript. Questo viene descritto in <xref linkend=\"remoting\"/>."
 
