@@ -71,7 +71,7 @@ msgstr "Configurare i componenti installati automaticamente&#8212;inclusi entram
 #: Xml.xml:55
 #, no-c-format
 msgid "Install classes with no <literal>@Name</literal> annotation as Seam components&#8212;this is most useful for certain kinds of infrastructural components which can be installed multiple times different names (for example Seam-managed persistence contexts)."
-msgstr "Installare le classi senza annotazione <literal>@Name</literal> come componenti Seam&#8212;questo è ancora pià utile per alcuni tipi di componenti infrastrutturali che possono essere installati diverse volte con diversi nomi (per esempio i contesti di persistenza gestiti da Seam)."
+msgstr "Installare le classi senza annotazione <literal>@Name</literal> come componenti Seam&#8212;questo è ancora più utile per alcuni tipi di componenti infrastrutturali che possono essere installati diverse volte con diversi nomi (per esempio i contesti di persistenza gestiti da Seam)."
 
 #. Tag: para
 #: Xml.xml:60
@@ -429,7 +429,7 @@ msgstr "File di configurazione a grana fine"
 #: Xml.xml:180
 #, no-c-format
 msgid "If you have a large number of components that need to be configured in XML, it makes much more sense to split up the information in <literal>components.xml</literal> into many small files. Seam lets you put configuration for a class named, for example, <literal>com.helloworld.Hello</literal> in a resource named <literal>com/helloworld/Hello.component.xml</literal>. (You might be familiar with this pattern, since it is the same one we use in Hibernate.) The root element of the file may be either a <literal>&lt;components&gt;</literal> or <literal>&lt;component&gt;</literal> element."
-msgstr "Qualora si abbia un grande numero di componenti che devono essere configurati in XML, è pià sensato suddividere l'informazione di <literal>components.xml</literal> in numerosi piccoli file. Seam consente di mettere la configurazione per una classe non anonima, per esempio, <literal>com.helloworld.Hello</literal> in una risorsa chiamata <literal>com/helloworld/Hello.component.xml</literal>. (Potresti essere familiare a questo pattern, poiché è lo stesso usato da Hibernate.) L'elemento radice del file può essere o un elemento <literal>&lt;components&gt;</literal> oppure <literal>&lt;component&gt;</literal>."
+msgstr "Qualora si abbia un grande numero di componenti che devono essere configurati in XML, è più sensato suddividere l'informazione di <literal>components.xml</literal> in numerosi piccoli file. Seam consente di mettere la configurazione per una classe non anonima, per esempio, <literal>com.helloworld.Hello</literal> in una risorsa chiamata <literal>com/helloworld/Hello.component.xml</literal>. (Potresti essere familiare a questo pattern, poiché è lo stesso usato da Hibernate.) L'elemento radice del file può essere o un elemento <literal>&lt;components&gt;</literal> oppure <literal>&lt;component&gt;</literal>."
 
 #. Tag: para
 #: Xml.xml:189

@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:19+0000\n"
-"PO-Revision-Date: 2009-01-09 11:48+0100\n"
+"PO-Revision-Date: 2009-01-11 20:26+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1702,7 +1702,7 @@ msgstr ""
 #: Tutorial.xml:675
 #, no-c-format
 msgid "The first time we navigate to the <literal>messages.jsp</literal> page, the page will try to resolve the <literal>messageList</literal> context variable. Since this context variable is not initialized, Seam will call the factory method <literal>findMessages()</literal>, which performs a query against the database and results in a <literal>DataModel</literal> being outjected. This <literal>DataModel</literal> provides the row data needed for rendering the <literal>&lt;h:dataTable&gt;</literal>."
-msgstr "La prima volta che si naviga nella pagina <literal>messages.jsp</literal>, la pagina proverà a risolvere la variabile di contesto <literal>messageList</literal>. Poiché questa variabile non è inizializzata, Seam chiamerà il metodo factory <literal>findMessages()</literal>, che esegue la query del database ed mette i risultati in un <literal>DataModel</literal> di cui verrà fatta l'outjection. Questo <literal>DataModel</literal> fornisce i dati di riga necessari per generare la <literal>&lt;h:dataTable&gt;</literal>."
+msgstr "La prima volta che si naviga nella pagina <literal>messages.jsp</literal>, la pagina proverà a risolvere la variabile di contesto <literal>messageList</literal>. Poiché questa variabile non è inizializzata, Seam chiamerà il metodo factory <literal>findMessages()</literal>, che esegue la query del database e mette i risultati in un <literal>DataModel</literal> di cui verrà fatta l'outjection. Questo <literal>DataModel</literal> fornisce i dati di riga necessari per generare la <literal>&lt;h:dataTable&gt;</literal>."
 
 #. Tag: para
 #: Tutorial.xml:682
@@ -1714,7 +1714,7 @@ msgstr "Quando l'utente clicca il <literal>&lt;h:commandLink&gt;</literal>, JSF 
 #: Tutorial.xml:691
 #, no-c-format
 msgid "If the user clicks the <literal>&lt;h:commandButton&gt;</literal>, JSF calls the <literal>delete()</literal> action listener. Seam intercepts this call and injects the selected row data into the <literal>message</literal> attribute of the <literal>messageList</literal> component. The action listener fires, removing the selected <literal>Message</literal> from the list, and also calling <literal>remove()</literal> on the <literal>EntityManager</literal>. At the end of the call, Seam refreshes the <literal>messageList</literal> context variable and clears the context variable named <literal>message</literal>. The EJB container commits the transaction, and deletes the <literal>Message</literal> from the database. Finally, the page is re-rendered, redisplaying the message list."
-msgstr "Se l'utente clicca <literal>&lt;h:commandButton&gt;</literal>, JSF chiama l'action listener <literal>delete()</literal>. Seam intercetta questa chiamata ed inietta i dati selezionati nell'attributo <literal>message</literal> del componente <literal>messageList</literal>. L'action listener viene eseguito, rimuovendo dalla lista il <literal>Message</literal>, e chiamando anche il metodo <literal>remove()</literal> dell'<literal>EntityManager</literal>. Alla fine della chiamata, Seam aggiorna la variabile di contesto <literal>messageList</literal> e pulisce la variabiledicontesto chiamata <literal>message</literal>. Il container EJB committa latransazione ecancella <literal>Message</literal> dal database. Infine la pagina viene rigenerata, rimostrando la lista dei messaggi."
+msgstr "Se l'utente clicca <literal>&lt;h:commandButton&gt;</literal>, JSF chiama l'action listener <literal>delete()</literal>. Seam intercetta questa chiamata ed inietta i dati selezionati nell'attributo <literal>message</literal> del componente <literal>messageList</literal>. L'action listener viene eseguito, rimuovendo dalla lista il <literal>Message</literal>, e chiamando anche il metodo <literal>remove()</literal> dell'<literal>EntityManager</literal>. Alla fine della chiamata, Seam aggiorna la variabile di contesto <literal>messageList</literal> e pulisce la variabile di contesto chiamata <literal>message</literal>. Il container EJB committa la transazione e cancella <literal>Message</literal> dal database. Infine la pagina viene rigenerata, rimostrando la lista dei messaggi."
 
 #. Tag: title
 #: Tutorial.xml:706
@@ -1788,7 +1788,7 @@ msgstr "Il nodo <literal>&lt;start-state&gt;</literal> rappresenta l'inizio logi
 #: Tutorial.xml:745
 #, no-c-format
 msgid "The <literal>&lt;task-node&gt;</literal> node represents a <emphasis>wait state</emphasis>, where business process execution pauses, waiting for one or more tasks to be performed."
-msgstr "Il nodo <literal>&lt;task-node&gt;</literal> rappresenta uno <emphasis>stato di attesa</emphasis>, dove l'esecuzione del processo di business va in pausa, ed aspetta che uno o pià task vengano eseguiti."
+msgstr "Il nodo <literal>&lt;task-node&gt;</literal> rappresenta uno <emphasis>stato di attesa</emphasis>, dove l'esecuzione del processo di business va in pausa, ed aspetta che uno o più task vengano eseguiti."
 
 #. Tag: para
 #: Tutorial.xml:750
@@ -1800,7 +1800,7 @@ msgstr "L'elemento <literal>&lt;task&gt;</literal> definisce un task che deve es
 #: Tutorial.xml:756
 #, no-c-format
 msgid "Tasks need to be assigned to a user or group of users when they are created. In this case, the task is assigned to the current user, which we get from a built-in Seam component named <literal>actor</literal>. Any Seam component may be used to perform task assignment."
-msgstr "I task devono essere assegnati ad un utente od un gruppo di utenti quando vengono creati. In questo caso il task viene assegnato all'utente corrente che viene recuperato dal componente Seam predefinito chiamato <literal>actor</literal>. Ogni componente Seam può essegre impiegato per assegnare un task."
+msgstr "I task devono essere assegnati ad un utente od un gruppo di utenti quando vengono creati. In questo caso il task viene assegnato all'utente corrente che viene recuperato dal componente Seam predefinito chiamato <literal>actor</literal>. Ogni componente Seam può essere impiegato per assegnare un task."
 
 #. Tag: para
 #: Tutorial.xml:762
@@ -2221,7 +2221,7 @@ msgstr ""
 #: Tutorial.xml:858
 #, no-c-format
 msgid "Each element of the list is an instance of the jBPM class <literal>TaskInstance</literal>. The following code simply displays the interesting properties of each task in the list. For the description, priority and due date, we use input controls, to allow the user to update these values."
-msgstr "Ciascun elemento della lista è un'istanza della classe jBPM <literal>TaskInstance</literal>. Il codice seguente mostra semplicemente le proprietà di interesse per ogni task della lista. Per consentire all'utente di aggiornare i valori di descrizione, priorità e data di ultimazione, si usano i controlli d'input.."
+msgstr "Ciascun elemento della lista è un'istanza della classe jBPM <literal>TaskInstance</literal>. Il codice seguente mostra semplicemente le proprietà di interesse per ogni task della lista. Per consentire all'utente di aggiornare i valori di descrizione, priorità e data di ultimazione, si usano i controlli d'input."
 
 #. Tag: programlisting
 #: Tutorial.xml:862
@@ -2349,7 +2349,7 @@ msgstr "Dopo la login, todo.jsp utilizza il componente <literal>taskInstanceList
 #: Tutorial.xml:894
 #, no-c-format
 msgid "The process instance is created, starting in the start state and immediately transition to the <literal>todo</literal> state, where a new task is created. The task description is set based on the user's input, which was saved to <literal>#{todoList.description}</literal>. Then, the task is assigned to the current user, which was stored in the seam actor component. Note that in this example, the process has no extra process state. All the state in this example is stored in the task definition. The process and task information is stored in the database at the end of the request."
-msgstr "L'istanza di processo viene creata a partire dallo stato di start ed immediatamente  viene eseguita una transizione allo stato <literal>todo</literal>, doce viene creato un nuovo task. La descrizione del task viene impostata in base all'input dell'utente, che  è stato memorizzato in <literal>#{todoList.description}</literal>. Poi il task viene assegnato all'utente corrente, memorizzato nel componente Seam chiamato actor. Si noti che in quest'esempio il processo non ha ulteriori stati di processo. Tutti gli stati sono memorizzati nella definizione del task. Il processo e le informazioni sul task sono memorizzati nel database alla fine della richiesta."
+msgstr "L'istanza di processo viene creata a partire dallo stato di start ed immediatamente  viene eseguita una transizione allo stato <literal>todo</literal>, dove viene creato un nuovo task. La descrizione del task viene impostata in base all'input dell'utente, che  è stato memorizzato in <literal>#{todoList.description}</literal>. Poi il task viene assegnato all'utente corrente, memorizzato nel componente Seam chiamato actor. Si noti che in quest'esempio il processo non ha ulteriori stati di processo. Tutti gli stati sono memorizzati nella definizione del task. Il processo e le informazioni sul task sono memorizzati nel database alla fine della richiesta."
 
 #. Tag: para
 #: Tutorial.xml:905
@@ -2379,7 +2379,7 @@ msgstr "Seam pageflow: esempio di indovina-numero"
 #: Tutorial.xml:936
 #, no-c-format
 msgid "For Seam applications with relatively freeform (ad hoc) navigation, JSF/Seam navigation rules are a perfectly good way to define the page flow. For applications with a more constrained style of navigation, especially for user interfaces which are more stateful, navigation rules make it difficult to really understand the flow of the system. To understand the flow, you need to piece it together from the view pages, the actions and the navigation rules."
-msgstr "Per le applicazioni Seam con una navigazione relativamente libera, le regole di navigazione JSF/Seam sono un modo perfetto per definire il flusso di pagine. Per applicazioni con uno stile di navigazione pià vincolato, specialmente per interfacce utente più stateful, le regole di navigazione rendono difficile capire il flusso del sistema. Per capire il flusso occorre mettere assieme le pagine, le azioni e le regole di navigazione."
+msgstr "Per le applicazioni Seam con una navigazione relativamente libera, le regole di navigazione JSF/Seam sono un modo perfetto per definire il flusso di pagine. Per applicazioni con uno stile di navigazione più vincolato, specialmente per interfacce utente più stateful, le regole di navigazione rendono difficile capire il flusso del sistema. Per capire il flusso occorre mettere assieme le pagine, le azioni e le regole di navigazione."
 
 #. Tag: para
 #: Tutorial.xml:942
@@ -4199,7 +4199,7 @@ msgstr "<varname>roomSelection</varname> viene messa in outjection nella convers
 #: Tutorial.xml:1585
 #, no-c-format
 msgid "The <link linkend=\"end-annotation\"> <literal>@End</literal> </link> annotation pops the conversation stack and resumes the outer conversation. The <varname>roomSelection</varname> is destroyed along with the conversation context."
-msgstr "L'annotazione <link linkend=\"end-annotation\"> <literal>@End</literal> </link> rimuove la conversazione dallo stack (pop) e ripristina la conversazione pià esterna. <varname>roomSelection</varname> viene distrutta assieme al contesto della conversazione."
+msgstr "L'annotazione <link linkend=\"end-annotation\"> <literal>@End</literal> </link> rimuove la conversazione dallo stack (pop) e ripristina la conversazione più esterna. <varname>roomSelection</varname> viene distrutta assieme al contesto della conversazione."
 
 #. Tag: para
 #: Tutorial.xml:1594
@@ -4551,7 +4551,7 @@ msgstr "Annotare un'azione con <link linkend=\"end-annotation\"> <varname>@End(r
 #: Tutorial.xml:1652
 #, no-c-format
 msgid "The <varname>roomSelection</varname> is only associated with the <varname>booking</varname> on user confirmation. While outjecting values to the nested conversation context will not impact the outer conversation, any objects injected from the outer conversation are injected by reference. This means that any changing to these objects will be reflected in the parent conversation as well as other concurrent nested conversations."
-msgstr "<varname>roomSelection</varname> è associata solamente a <varname>booking</varname> su conferma dell'utente. Mentre l'outjection dei valori nel contesto della conversazione innestata non impatta sulla conversazione pià esterna, qualsiasi oggetto iniettato dalla conversazione più esterna viene iniettato per referimento. Questo significa che qualsiasi cambiamento degli oggetti si rifletterà nella conversazione padre così come in ogni altra conversazione innestata."
+msgstr "<varname>roomSelection</varname> è associata solamente a <varname>booking</varname> su conferma dell'utente. Mentre l'outjection dei valori nel contesto della conversazione innestata non impatta sulla conversazione più esterna, qualsiasi oggetto iniettato dalla conversazione più esterna viene iniettato per referimento. Questo significa che qualsiasi cambiamento degli oggetti si rifletterà nella conversazione padre così come in ogni altra conversazione innestata."
 
 #. Tag: para
 #: Tutorial.xml:1659
@@ -4890,7 +4890,7 @@ msgstr "Senza riscrittura, l'URL di una ricerca di un termine <literal>book</lit
 #: Tutorial.xml:1850
 #, no-c-format
 msgid "Just like with page parameters, URL rewriting is bi-directional. That means that Seam forwards requests for the simpler URL to the the right view, and it also automatically generates the simpler view for you. You never need to worry about constructing URLs. It's all handled transparently behind the scenes. The only requirement is that to use URL rewriting, the rewrite filter needs to be enabled in <literal>components.xml</literal>."
-msgstr "Come per i parametri di pagina, la riscrittura dell'URL è bidirezionale. Questo significa che Sean inoltra le richieste di URL pià semplici alla giusta vista e genera automaticamente la vista più semplice per voi. Non serve preoccuparsi della costruzione dell'URL. Viene tutto gestito in modo trasparente dietro. L'unico requisito è che per usare la riscrittura dell'URL, occorre abilitare il filtro di riscrittura in <literal>components.xml</literal>."
+msgstr "Come per i parametri di pagina, la riscrittura dell'URL è bidirezionale. Questo significa che Sean inoltra le richieste di URL più semplici alla giusta vista e genera automaticamente la vista più semplice per voi. Non serve preoccuparsi della costruzione dell'URL. Viene tutto gestito in modo trasparente dietro. L'unico requisito è che per usare la riscrittura dell'URL, occorre abilitare il filtro di riscrittura in <literal>components.xml</literal>."
 
 #. Tag: programlisting
 #: Tutorial.xml:1858
@@ -5062,7 +5062,7 @@ msgstr "Uso di MVC push in un'applicazione RESTful"
 #: Tutorial.xml:1876
 #, no-c-format
 msgid "Very occasionally, it makes more sense to use push-style MVC for processing RESTful pages, and so Seam provides the notion of a <emphasis>page action</emphasis>. The Blog example uses a page action for the blog entry page, <literal>entry.xhtml</literal>. Note that this is a little bit contrived, it would have been easier to use pull-style MVC here as well."
-msgstr "Alcune volte ha pià senso usare MVC push-style per processare pagine RESTful, e quindi Seam fornisce la nozione di <emphasis>azione di pagina</emphasis>. L'esempio di Blog utilizza l'azione di pagina per pagina di entry del blog, <literal>entry.xhtml</literal>. Notare che questo è un pò forzato, sarebbe stato pià facile usare anche qua lo stile MVC pull-style."
+msgstr "Alcune volte ha più senso usare MVC push-style per processare pagine RESTful, e quindi Seam fornisce la nozione di <emphasis>azione di pagina</emphasis>. L'esempio di Blog utilizza l'azione di pagina per pagina di entry del blog, <literal>entry.xhtml</literal>. Notare che questo è un pò forzato, sarebbe stato più facile usare anche qua lo stile MVC pull-style."
 
 #. Tag: para
 #: Tutorial.xml:1881
