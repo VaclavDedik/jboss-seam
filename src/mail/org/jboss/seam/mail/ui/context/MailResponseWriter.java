@@ -240,14 +240,7 @@ public class MailResponseWriter extends ResponseWriter
    @Override
    public void write(String str) throws IOException
    {
-      if (TEXT_PLAIN_CONTENT_TYPE.equals(getContentType()))
-      {
-         delegate.write(str);
-      }
-      else
-      {
-         delegate.write(str);
-      }
+      delegate.write(str);
    }
 
    @Override
