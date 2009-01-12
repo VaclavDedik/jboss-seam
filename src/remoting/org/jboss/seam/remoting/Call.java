@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.remoting.WebRemote;
@@ -271,12 +272,11 @@ public class Call
       Method bestMethod = null;
       int bestScore = 0;
 
-      for (Method m : candidates.keySet())
+      for (Entry<Method,Integer> entry : candidates.entrySet())
       {
-         int thisScore = candidates.get(m).intValue();
-         if (bestMethod == null || thisScore > bestScore)
-         {
-            bestMethod = m;
+         int thisScore = entry.getValue();
+         if (bestMethod == null || thisScore > bestScore) {
+            bestMethod = entry.getKey();
             bestScore = thisScore;
          }
       }
