@@ -2,6 +2,7 @@ package org.jboss.seam.util;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -87,12 +88,13 @@ public class DelegatingInvocationHandler<T> implements InvocationHandler
       if (target == null)
       {
          throw new IllegalStateException("Proxied session does not implement method " + method.getName() +
-               " with args [" + args + "]");
+               " with args [" + (args == null ? null : Arrays.asList(args)) + "]");
       }
       
       if (log.isTraceEnabled())
       {
-         log.trace("Delegating method " + method.getName() + " with args " + args);
+         log.trace("Delegating method " + method.getName() + " with args " + 
+                 (args == null ? null : Arrays.asList(args)));
       }
       
       return target.method.invoke(target.target, args);      
