@@ -26,9 +26,9 @@ public class SeamComponentPostProcessor implements BeanPostProcessor, Ordered
 	public Object postProcessAfterInitialization(final Object bean, String beanName) throws BeansException 
     {
         // Check to see if this bean is a component.
-		Component component = SpringComponent.forSpringBeanName(beanName);
+		SpringComponent component = SpringComponent.forSpringBeanName(beanName);
 		// Not a spring component skip.
-		if (component == null || !(component instanceof SpringComponent)) 
+		if (component == null) 
         {
 			return bean;
 		}
