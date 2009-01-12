@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:18+0000\n"
-"PO-Revision-Date: 2009-01-11 16:08+0100\n"
+"PO-Revision-Date: 2009-01-12 21:06+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -211,13 +211,13 @@ msgstr "<![CDATA[@PerNestedConversation]]>"
 #: Annotations.xml:147
 #, no-c-format
 msgid "Limits the scope of a CONVERSATION-scoped component to just the parent conversation in which it was instantiated. The component instance will not be visible to nested child conversations, which will get their own instance."
-msgstr ""
+msgstr "Limita lo scope di un componente con scope conversazione alla sola conversazione padre in cui è stato istanziato. L'istanza del componente non sarà visibile alle conversazioni figlie innestate, che otterranno la propria istanza."
 
 #. Tag: para
 #: Annotations.xml:153
 #, no-c-format
 msgid "Warning: this is ill-defined, since it implies that a component will be visible for some part of a request cycle, and invisible after that. It is not recommended that applications use this feature!"
-msgstr ""
+msgstr "Attenzione: questo è mal definito, poiché implica che un componente sarà visibile per alcune parti del ciclo di richiesta, ed invisibile dopo questo. Non è raccomandato che un'applicazioni usi questa caratteristica!"
 
 #. Tag: literal
 #: Annotations.xml:163
@@ -235,7 +235,7 @@ msgstr "<![CDATA[@Scope(APPLICATION) @Startup(depends=\"org.jboss.seam.bpm.jbpm\
 #: Annotations.xml:167
 #, no-c-format
 msgid "Specifies that an application scope component is started immediately at initialization time. This is mainly used for certain built-in components that bootstrap critical infrastructure such as JNDI, datasources, etc."
-msgstr ""
+msgstr "Specifica che un componente con scope applicazione venga avviato immediatamente in fase di inizializzazione. E' usato principalmente per certi componenti predefiniti che avviano un'infrastruttura critica, quali JNDI, datasource, ecc."
 
 #. Tag: programlisting
 #: Annotations.xml:173
@@ -253,7 +253,7 @@ msgstr "Specifica che un componente con scope di sessione viene avviato immediat
 #: Annotations.xml:180
 #, no-c-format
 msgid "<literal>depends</literal> &#8212; specifies that the named components must be started first, if they are installed."
-msgstr ""
+msgstr "<literal>depends</literal> &#8212; specifica che i componenti con nome vengano avviati per primi, se sono installati."
 
 #. Tag: literal
 #: Annotations.xml:191
@@ -271,7 +271,7 @@ msgstr "<![CDATA[@Install(false)]]>"
 #: Annotations.xml:195
 #, no-c-format
 msgid "Specifies whether or not a component should be installed by default. The lack of an <literal>@Install</literal> annotation indicates a component should be installed."
-msgstr ""
+msgstr "Specifica se oppure no, un componente debba essere installato di default. La mancanza dell'annotazione <literal>@Install</literal> indica che un componente viene installato."
 
 #. Tag: programlisting
 #: Annotations.xml:200
@@ -283,7 +283,7 @@ msgstr "<![CDATA[@Install(dependencies=\"org.jboss.seam.bpm.jbpm\")]]>"
 #: Annotations.xml:201
 #, no-c-format
 msgid "Specifies that a component should only be stalled if the components listed as dependencies are also installed."
-msgstr ""
+msgstr "Specifica che un componente debba essere installato solo se i componenti elencati come dipendenze sono pure installati."
 
 #. Tag: programlisting
 #: Annotations.xml:205
@@ -295,7 +295,7 @@ msgstr "<![CDATA[@Install(genericDependencies=ManagedQueueSender.class)]]>"
 #: Annotations.xml:206
 #, no-c-format
 msgid "Specifies that a component should only be installed if a component that is implemented by a certain class is installed. This is useful when the dependency doesn't have a single well-known name."
-msgstr ""
+msgstr "Specifica che un componente debba essere installato solo se un componente che è implementato da una certa classe è installato. Questo è utile quando la dipendenza non ha un singolo nome ben noto."
 
 #. Tag: programlisting
 #: Annotations.xml:212
@@ -307,7 +307,7 @@ msgstr "<![CDATA[@Install(classDependencies=\"org.hibernate.Session\")]]>"
 #: Annotations.xml:213
 #, no-c-format
 msgid "Specifies that a component should only be installed if the named class is in the classpath."
-msgstr ""
+msgstr "Specifica che un componente debba essere installato solo se la classe (con nome) è nel classpath."
 
 #. Tag: programlisting
 #: Annotations.xml:217
@@ -319,7 +319,7 @@ msgstr "<![CDATA[@Install(precedence=BUILT_IN)]]>"
 #: Annotations.xml:218
 #, no-c-format
 msgid "Specifies the precedence of the component. If multiple components with the same name exist, the one with the higher precedence will be installed. The defined precendence values are (in ascending order):"
-msgstr ""
+msgstr "Specifica la precedenza del componente. Se esistono più componenti con lo stesso nome, verrà installato quello con precedenza più alta. I valori definiti di precedenza sono (in ordine ascendente):"
 
 #. Tag: para
 #: Annotations.xml:227
@@ -367,7 +367,7 @@ msgstr "<![CDATA[@Synchronized(timeout=1000)]]>"
 #: Annotations.xml:267
 #, no-c-format
 msgid "Specifies that a component is accessed concurrently by multiple clients, and that Seam should serialize requests. If a request is not able to obtain its lock on the component in the given timeout period, an exception will be raised."
-msgstr ""
+msgstr "Specifica che un componente venga acceduto in modo concorrente da più client, e che Seam serializzi le richieste. Se una richiesta non è in grado di ottenere il lock sul componente in un determinato periodo di timeout, viene sollevata un'eccezione."
 
 #. Tag: literal
 #: Annotations.xml:277
@@ -385,7 +385,7 @@ msgstr "<![CDATA[@ReadOnly]]>"
 #: Annotations.xml:281
 #, no-c-format
 msgid "Specifies that a JavaBean component or component method does not require state replication at the end of the invocation."
-msgstr ""
+msgstr "Specifica che un componente JavaBean o metodo di componente non richieda la replicazione dello stato alla fine dell'invocazione."
 
 #. Tag: literal
 #: Annotations.xml:289
@@ -403,7 +403,7 @@ msgstr "<![CDATA[@AutoCreate]]>"
 #: Annotations.xml:293
 #, no-c-format
 msgid "Specifies that a component will be automatically created, even if the client does not specify <literal>create=true</literal>."
-msgstr ""
+msgstr "Specifica che un componente verrà automaticamente creato, anche se il client non specifica <literal>create=true</literal>."
 
 #. Tag: title
 #: Annotations.xml:303
@@ -415,7 +415,7 @@ msgstr "Annotazioni per la bijection"
 #: Annotations.xml:304
 #, no-c-format
 msgid "The next two annotations control bijection. These attributes occur on component instance variables or property accessor methods."
-msgstr ""
+msgstr "Le prossime due annotazioni controllano la bijection. Questi attributi vengono impiegati nelle variabili d'istanza di un componente o nei metodi di accesso alle proprietà."
 
 #. Tag: literal
 #: Annotations.xml:312
@@ -433,7 +433,7 @@ msgstr "<![CDATA[@In]]>"
 #: Annotations.xml:316
 #, no-c-format
 msgid "Specifies that a component attribute is to be injected from a context variable at the beginning of each component invocation. If the context variable is null, an exception will be thrown."
-msgstr ""
+msgstr "Specifica che un attributo di componente debba essere iniettato da una variabile di contesto all'inizio di ogni invocazione del componente. Se la variabile di contesto è null, viene lanciata un'eccezione."
 
 #. Tag: programlisting
 #: Annotations.xml:322
@@ -445,7 +445,7 @@ msgstr "<![CDATA[@In(required=false)]]>"
 #: Annotations.xml:323
 #, no-c-format
 msgid "Specifies that a component attribute is to be injected from a context variable at the beginning of each component invocation. The context variable may be null."
-msgstr ""
+msgstr "Specifica che un attributo di componente debba essere iniettato da una variabile di contesto all'inizio di ogni invocazione del componente. La variabile di contesto può essere null."
 
 #. Tag: programlisting
 #: Annotations.xml:328
@@ -457,7 +457,7 @@ msgstr "<![CDATA[@In(create=true)]]>"
 #: Annotations.xml:329
 #, no-c-format
 msgid "Specifies that a component attribute is to be injected from a context variable at the beginning of each component invocation. If the context variable is null, an instance of the component is instantiated by Seam."
-msgstr ""
+msgstr "Specifica che un attributo di componente debba essere iniettato da una variabile di contesto all'inizio di ogni invocazione del componente. Se la variabile di contesto è null, viene istanziata da Seam un'istanza del componente."
 
 #. Tag: programlisting
 #: Annotations.xml:335
@@ -470,7 +470,7 @@ msgstr "<![CDATA[@In(value=\"contextVariableName\")]]>"
 #: Annotations.xml:403
 #, no-c-format
 msgid "Specifies the name of the context variable explicitly, instead of using the annotated instance variable name."
-msgstr ""
+msgstr "Specifica il nome della variabile di contesto in modo esplicito, invece di usare il nome annotato della variabile d'istanza."
 
 #. Tag: programlisting
 #: Annotations.xml:340
@@ -482,25 +482,25 @@ msgstr "<![CDATA[@In(value=\"#{customer.addresses['shipping']}\")]]>"
 #: Annotations.xml:341
 #, no-c-format
 msgid "Specifies that a component attribute is to be injected by evaluating a JSF EL expression at the beginning of each component invocation."
-msgstr ""
+msgstr "Specifica che un attributo di componente debba essere iniettato valutando un'espressione JSF EL all'inizio di ogni invocazione del componente."
 
 #. Tag: para
 #: Annotations.xml:348
 #, no-c-format
 msgid "<literal>value</literal> &#8212; specifies the name of the context variable. Default to the name of the component attribute. Alternatively, specifies a JSF EL expression, surrounded by <literal>#{...}</literal>."
-msgstr ""
+msgstr "<literal>value</literal> &#8212; specifica il nome di una variabile di contesto. Di default è il nome dell'attributo del componente. In alternativa, specifica un'espressione JSF EL, racchiusa da <literal>#{...}</literal>."
 
 #. Tag: para
 #: Annotations.xml:356
 #, no-c-format
 msgid "<literal>create</literal> &#8212; specifies that Seam should instantiate the component with the same name as the context variable if the context variable is undefined (null) in all contexts. Default to false."
-msgstr ""
+msgstr "<literal>create</literal> &#8212; specifica che Seam debba istanziare il componente con lo stesso nome della variabile di contesto se questa è indefinita (null) in tutti i contesti. Di default è false."
 
 #. Tag: para
 #: Annotations.xml:364
 #, no-c-format
 msgid "<literal>required</literal> &#8212; specifies Seam should throw an exception if the context variable is undefined in all contexts."
-msgstr ""
+msgstr "<literal>required</literal> &#8212; specifica che Seam lanci un'eccezione se la variabile di contesto è indefinita in tutti i contesti."
 
 #. Tag: literal
 #: Annotations.xml:375
@@ -518,7 +518,7 @@ msgstr "<![CDATA[@Out]]>"
 #: Annotations.xml:379
 #, no-c-format
 msgid "Specifies that a component attribute that is a Seam component is to be outjected to its context variable at the end of the invocation. If the attribute is null, an exception is thrown."
-msgstr ""
+msgstr "Specifica che un attributo di componente (di Seam) venga messo in outjection nella sua variabile di contesto alla fine dell'invocazione. Se l'attributo è null, viene lanciata un'eccezione."
 
 #. Tag: programlisting
 #: Annotations.xml:384
@@ -530,7 +530,7 @@ msgstr "<![CDATA[@Out(required=false)]]>"
 #: Annotations.xml:385
 #, no-c-format
 msgid "Specifies that a component attribute that is a Seam component is to be outjected to its context variable at the end of the invocation. The attribute may be null."
-msgstr ""
+msgstr "Specifica che un attributo di componente (di Seam) venga messo in outjection nella sua variabile di contesto alla fine dell'invocazione. L'attributo può essere null."
 
 #. Tag: programlisting
 #: Annotations.xml:390
@@ -542,13 +542,13 @@ msgstr "<![CDATA[@Out(scope=ScopeType.SESSION)]]>"
 #: Annotations.xml:391
 #, no-c-format
 msgid "Specifies that a component attribute that is <emphasis>not</emphasis> a Seam component type is to be outjected to a specific scope at the end of the invocation."
-msgstr ""
+msgstr "Specifica che un attributo di componente che <emphasis>non</emphasis> è un tipo di componente di Seam venga messo in outjection in uno specifico scope alla fine dell'invocazione."
 
 #. Tag: para
 #: Annotations.xml:396
 #, no-c-format
 msgid "Alternatively, if no scope is explicitly specified, the scope of the component with the <literal>@Out</literal> attribute is used (or the <literal>EVENT</literal> scope if the component is stateless)."
-msgstr ""
+msgstr "In alternativa, se non è specificato alcuno scope in modo esplicito, viene usato lo scope del componente con l'attributo <literal>@Out</literal> (o lo scope <literal>EVENT</literal> se il componente è stateless)."
 
 #. Tag: programlisting
 #: Annotations.xml:402
@@ -560,19 +560,19 @@ msgstr "<![CDATA[@Out(value=\"contextVariableName\")]]>"
 #: Annotations.xml:409
 #, no-c-format
 msgid "<literal>value</literal> &#8212; specifies the name of the context variable. Default to the name of the component attribute."
-msgstr ""
+msgstr "<literal>value</literal> &#8212; specifica il nome della variabile di contesto. Di default è il nome dell'attributo del componente."
 
 #. Tag: para
 #: Annotations.xml:416
 #, no-c-format
 msgid "<literal>required</literal> &#8212; specifies Seam should throw an exception if the component attribute is null during outjection."
-msgstr ""
+msgstr "<literal>required</literal> &#8212; specifica che Seam debba lanciare un'eccezione se l'attributo del componente è null durante l'outjection."
 
 #. Tag: para
 #: Annotations.xml:427
 #, no-c-format
 msgid "Note that it is quite common for these annotations to occur together, for example:"
-msgstr ""
+msgstr "Si noti che è piuttosto comune l'uso di queste annotazioni assieme, per esempio:"
 
 #. Tag: programlisting
 #: Annotations.xml:432
@@ -584,7 +584,7 @@ msgstr "<![CDATA[@In(create=true) @Out private User currentUser;]]>"
 #: Annotations.xml:434
 #, no-c-format
 msgid "The next annotation supports the <emphasis>manager component</emphasis> pattern, where a Seam component that manages the lifecycle of an instance of some other class that is to be injected. It appears on a component getter method."
-msgstr ""
+msgstr "La prossima annotazione supporta il pattern <emphasis>manager component</emphasis>, dove un componente Seam che gestisce il ciclo di vita di un'istanza di qualche altra classe deve essere iniettata. Appare sul metodo getter del componente."
 
 #. Tag: literal
 #: Annotations.xml:444
@@ -602,13 +602,13 @@ msgstr "<![CDATA[@Unwrap]]>"
 #: Annotations.xml:448
 #, no-c-format
 msgid "Specifies that the object returned by the annotated getter method is the thing that is injected instead of the component instance itself."
-msgstr ""
+msgstr "Specifica che l'oggetto ritornato dal metodo getter annotato è la cosa che viene iniettata invece dell'istanza stessa del componente."
 
 #. Tag: para
 #: Annotations.xml:457
 #, no-c-format
 msgid "The next annotation supports the <emphasis>factory component</emphasis> pattern, where a Seam component is responsible for initializing the value of a context variable. This is especially useful for initializing any state needed for rendering the response to a non-faces request. It appears on a component method."
-msgstr ""
+msgstr "La prossima annotazione supporta il pattern <emphasis>factory component</emphasis> dove un componente Seam è responsabile dell'inizializzazione del valore di una variabile di contesto. Questo è utile in particolare per inizializzare qualsiasi stato occorrente per il rendering della risposta in una richiesta non-faces. Appare su un metodo di componente."
 
 #. Tag: literal
 #: Annotations.xml:468
@@ -1026,7 +1026,7 @@ msgstr "<![CDATA[@EndTask(transition=\"transitionName\")]]>"
 #: Annotations.xml:884
 #, no-c-format
 msgid "Triggers the given jBPM transition."
-msgstr ""
+msgstr "Lancia la transizione jBPM data."
 
 #. Tag: para
 #: Annotations.xml:889
