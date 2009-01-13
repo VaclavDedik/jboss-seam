@@ -793,7 +793,7 @@
 	                <para>
                         The jBPM <literal>TaskInstance</literal> will be 
                         available in a request context variable named 
-                        <literal>taskInstance</literal>. The jPBM 
+                        <literal>taskInstance</literal>. The jBPM 
                         <literal>ProcessInstance</literal> will be available 
                         in a request context variable named 
                         <literal>processInstance</literal>. (Of course, these 
