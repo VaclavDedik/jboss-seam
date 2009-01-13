@@ -436,7 +436,7 @@
 
       <para> 
          The next annotation supports the <emphasis>manager component</emphasis> 
-         pattern, where a Seam component that manages the lifecycle of an 
+         pattern; a Seam component manages the lifecycle of an 
          instance of some other class that is to be injected. It appears on a
          component getter method. 
       </para>
@@ -459,7 +459,7 @@
 
       <para>
          The next annotation supports the <emphasis>factory component</emphasis> 
-         pattern, where a Seam component is responsible for initializing the 
+         pattern; a Seam component is responsible for initializing the 
          value of a context variable. This is especially useful for initializing 
          any state needed for rendering the response to a non-faces request. It 
          appears on a component method. 
