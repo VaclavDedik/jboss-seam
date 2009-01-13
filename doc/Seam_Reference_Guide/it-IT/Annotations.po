@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:18+0000\n"
-"PO-Revision-Date: 2009-01-12 21:06+0100\n"
+"PO-Revision-Date: 2009-01-13 15:51+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -626,7 +626,7 @@ msgstr "<![CDATA[@Factory(\"processInstance\") public void createProcessInstance
 #: Annotations.xml:472
 #, no-c-format
 msgid "Specifies that the method of the component is used to initialize the value of the named context variable, when the context variable has no value. This style is used with methods that return <literal>void</literal>."
-msgstr ""
+msgstr "Specifica che il metodo del componente viene usato per inizializzare il valore della variabile di contesto con nome, quando la variabile di contesto non ha valore. Questo stile viene usato con metodi che ritornano <literal>void</literal>."
 
 #. Tag: programlisting
 #: Annotations.xml:478
@@ -638,31 +638,31 @@ msgstr "<![CDATA[@Factory(\"processInstance\", scope=CONVERSATION) public Proces
 #: Annotations.xml:479
 #, no-c-format
 msgid "Specifies that the method returns a value that Seam should use to initialize the value of the named context variable, when the context variable has no value. This style is used with methods that return a value. If no scope is explicitly specified, the scope of the component with the <literal>@Factory</literal> method is used (unless the component is stateless, in which case the <literal>EVENT</literal> context is used)."
-msgstr ""
+msgstr "Specifica che il metodo restituisce un valore che Seam dovrebbe usare per inizializzare il valore della variabile di contesto con nome, quando la variabile di contesto non ha valore. Questo stile è usato con metodi che restituiscono un valore. Se non viene specificato esplicitamente alcuno scope, viene usato lo scope del componente con il metodo <literal>@Factory</literal> (amenoché il componente sia stateless, nel qual caso viene usato il contesto <literal>EVENT</literal>)."
 
 #. Tag: para
 #: Annotations.xml:491
 #, no-c-format
 msgid "<literal>value</literal> &#8212; specifies the name of the context variable. If the method is a getter method, default to the JavaBeans property name."
-msgstr ""
+msgstr "<literal>value</literal> &#8212; specifica il nome della variabile di contesto. Se il metodo è un getter, di default è il nome della proprietà del JavaBean."
 
 #. Tag: para
 #: Annotations.xml:498
 #, no-c-format
 msgid "<literal>scope</literal> &#8212; specifies the scope that Seam should bind the returned value to. Only meaningful for factory methods which return a value."
-msgstr ""
+msgstr "<literal>scope</literal> &#8212; specifica lo scope che Seam dovrebbe associare al valore restituito. E' significativo solo per i metodi factory che restituiscono un valore."
 
 #. Tag: para
 #: Annotations.xml:505
 #, no-c-format
 msgid "<literal>autoCreate</literal> &#8212; specifies that this factory method should be automatically called whenever the variable is asked for, even if <literal>@In</literal> does not specify <literal>create=true</literal>."
-msgstr ""
+msgstr "<literal>autoCreate</literal> &#8212; specifica che questo metodo factory dovrebbe automaticamente essere chiamato quando si chiama la variabile, anche se <literal>@In</literal> non specifica <literal>create=true</literal>."
 
 #. Tag: para
 #: Annotations.xml:518
 #, no-c-format
 msgid "This annotation lets you inject a <literal>Log</literal>:"
-msgstr ""
+msgstr "Questa annotazione consente di iniettare un <literal>Log</literal>:"
 
 #. Tag: literal
 #: Annotations.xml:525
@@ -680,19 +680,19 @@ msgstr "<![CDATA[@Logger(\"categoryName\")]]>"
 #: Annotations.xml:529
 #, no-c-format
 msgid "Specifies that a component field is to be injected with an instance of <literal>org.jboss.seam.log.Log</literal>. For entity beans, the field must be declared as static."
-msgstr ""
+msgstr "Specifica che un campo del componente deve essere iniettato con un istanza di <literal>org.jboss.seam.log.Log</literal>. Per gli entity bean, il campo deve essere dichiarato statico."
 
 #. Tag: para
 #: Annotations.xml:536
 #, no-c-format
 msgid "<literal>value</literal> &#8212; specifies the name of the log category. Default to the name of the component class."
-msgstr ""
+msgstr "<literal>value</literal> &#8212; specifica il nome della categoria di log. Di default è il nome della classe del componente."
 
 #. Tag: para
 #: Annotations.xml:547
 #, no-c-format
 msgid "The last annotation lets you inject a request parameter value:"
-msgstr ""
+msgstr "L'ultima annotazione consente di iniettare un valore di un parametro di richiesta:"
 
 #. Tag: literal
 #: Annotations.xml:554
@@ -710,13 +710,13 @@ msgstr "<![CDATA[@RequestParameter(\"parameterName\")]]>"
 #: Annotations.xml:558
 #, no-c-format
 msgid "Specifies that a component attribute is to be injected with the value of a request parameter. Basic type conversions are performed automatically."
-msgstr ""
+msgstr "Specifica che un attributo di componente deve essere iniettato con il valore di un parametro di richiesta. Le conversioni del tipo base sono eseguite automaticamente."
 
 #. Tag: para
 #: Annotations.xml:565
 #, no-c-format
 msgid "<literal>value</literal> &#8212; specifies the name of the request parameter. Default to the name of the component attribute."
-msgstr ""
+msgstr "<literal>value</literal> &#8212; specifica il nome del parametro di richiesta. Di default è il nome dell'attributo del componente."
 
 #. Tag: title
 #: Annotations.xml:579
@@ -728,7 +728,7 @@ msgstr "Annotazioni per i metodi del ciclo di vita dei componenti"
 #: Annotations.xml:580
 #, no-c-format
 msgid "These annotations allow a component to react to its own lifecycle events. They occur on methods of the component. There may be only one of each per component class."
-msgstr ""
+msgstr "Queste annotazioni consentono al componente di reagire agli eventi del proprio ciclo di vita. Accadono sul metodo del componente. Possono essere solo una per ogni classe di componente."
 
 #. Tag: literal
 #: Annotations.xml:589
@@ -746,7 +746,7 @@ msgstr "<![CDATA[@Create]]>"
 #: Annotations.xml:593
 #, no-c-format
 msgid "Specifies that the method should be called when an instance of the component is instantiated by Seam. Note that create methods are only supported for JavaBeans and stateful session beans."
-msgstr ""
+msgstr "Specifica che il metodo venga chiamato quando viene istanziata da Seam un'istanza del componente. Si noti che i metodi di creazioni sono supportati solo per JavaBeans e bean di sessione stateful."
 
 #. Tag: literal
 #: Annotations.xml:603
@@ -764,13 +764,13 @@ msgstr "<![CDATA[@Destroy]]>"
 #: Annotations.xml:607
 #, no-c-format
 msgid "Specifies that the method should be called when the context ends and its context variables are destroyed. Note that destroy methods are only supported for JavaBeans and stateful session beans."
-msgstr ""
+msgstr "Specifica che il metodo deve essere chiamato quando il contesto termina e le sue variabili vengono distrutte. Si noti che i metodi distruttori sono supportati solo per JavaBeans e bean di sessione stateful."
 
 #. Tag: para
 #: Annotations.xml:613
 #, no-c-format
 msgid "Destroy methods should be used only for cleanup. <emphasis>Seam catches, logs and swallows any exception that propagates out of a destroy method.</emphasis>"
-msgstr ""
+msgstr "I metodi distruttori devono essere usati solo per la pulizia. <emphasis>Seam cattura, logga ed ignora (swallow) ogni eccezione che si propaga da un metodo distruttore.</emphasis>"
 
 #. Tag: literal
 #: Annotations.xml:622
@@ -788,7 +788,7 @@ msgstr "<![CDATA[@Observer(\"somethingChanged\")]]>"
 #: Annotations.xml:626
 #, no-c-format
 msgid "Specifies that the method should be called when a component-driven event of the specified type occurs."
-msgstr ""
+msgstr "Specifica che il metodo deve essere chiamato quando avviene un evento component-driven del tipo specificato."
 
 #. Tag: programlisting
 #: Annotations.xml:630
@@ -800,7 +800,7 @@ msgstr "<![CDATA[@Observer(value=\"somethingChanged\",create=false)]]>"
 #: Annotations.xml:631
 #, no-c-format
 msgid "Specifies that the method should be called when an event of the specified type occurs but that an instance should not be created if one doesn't exist. If an instance does not exist and create is false, the event will not be observed. The default value for create is true."
-msgstr ""
+msgstr "Specifica che il metodo venga chiamato quando accade un evento del tipo specificato, ma che non venga creata un'istanza se non esiste. Se un'istanza non esiste e create è false, l'evento non verrà osservato. Di default il valore di create è true."
 
 #. Tag: title
 #: Annotations.xml:645
@@ -812,13 +812,13 @@ msgstr "Annotazioni per la demarcazione del contesto"
 #: Annotations.xml:646
 #, no-c-format
 msgid "These annotations provide declarative conversation demarcation. They appear on methods of Seam components, usually action listener methods."
-msgstr ""
+msgstr "Queste annotazioni forniscono una demarcazione dichiarativa della conversazione. Appaiono sui metodi dei componenti Seam, solitamente metodi action listener."
 
 #. Tag: para
 #: Annotations.xml:651
 #, no-c-format
 msgid "Every web request has a conversation context associated with it. Most of these conversations end at the end of the request. If you want a conversation that span multiple requests, you must \"promote\" the current conversation to a <emphasis>long-running conversation</emphasis> by calling a method marked with <literal>@Begin</literal>."
-msgstr ""
+msgstr "Ogni richiesta web ha un contesto di conversazione associato ad essa. La maggior parte di queste conversazioni finisce alla fine della richesta. Se si vuole che una conversazione si espanda lungo richieste multiple, si deve \"promuovere\" la conversazione corrente a <emphasis>conversazione long-running</emphasis> chiamando un metodo marcato con <literal>@Begin</literal>."
 
 #. Tag: literal
 #: Annotations.xml:662
@@ -836,7 +836,7 @@ msgstr "<![CDATA[@Begin]]>"
 #: Annotations.xml:666
 #, no-c-format
 msgid "Specifies that a long-running conversation begins when this method returns a non-null outcome without exception."
-msgstr ""
+msgstr "Specifica che la conversazione long-running inizia quando questo metodo restuisce un esito non-null senza eccezioni."
 
 #. Tag: programlisting
 #: Annotations.xml:670
@@ -848,7 +848,7 @@ msgstr "<![CDATA[@Begin(join=true)]]>"
 #: Annotations.xml:671
 #, no-c-format
 msgid "Specifies that if a long-running conversation is already in progress, the conversation context is simply propagated."
-msgstr ""
+msgstr "Specifica che se una conversazione ong-running è già in esecuzione, il contesto della conversazione viene semplicemente propagato."
 
 #. Tag: programlisting
 #: Annotations.xml:675
@@ -860,7 +860,7 @@ msgstr "<![CDATA[@Begin(nested=true)]]>"
 #: Annotations.xml:676
 #, no-c-format
 msgid "Specifies that if a long-running conversation is already in progress, a new <emphasis>nested</emphasis> conversation context begins. The nested conversation will end when the next <literal>@End</literal> is encountered, and the outer conversation will resume. It is perfectly legal for multiple nested conversations to exist concurrently in the same outer conversation."
-msgstr ""
+msgstr "Specifica che se una conversazione ong-running è già in esecuzione, inizia un nuovo contesto di conversazione <emphasis>innestata</emphasis>. La conversazione innestata terminerà quando viene incontrato il successivo <literal>@End</literal>, e verrà ripristinata la conversazione più esterna. E' perfettamente legale che esistano conversazioni innestate concorrenti nella stessa conversazione più esterna."
 
 #. Tag: programlisting
 #: Annotations.xml:685
@@ -872,7 +872,7 @@ msgstr "<![CDATA[@Begin(pageflow=\"process definition name\")]]>"
 #: Annotations.xml:686
 #, no-c-format
 msgid "Specifies a jBPM process definition name that defines the pageflow for this conversation."
-msgstr ""
+msgstr "Specifica il nome della definizione di processo jBPM che definisce il pageflow per questa conversazione."
 
 #. Tag: programlisting
 #: Annotations.xml:690
@@ -884,7 +884,7 @@ msgstr "<![CDATA[@Begin(flushMode=FlushModeType.MANUAL)]]>"
 #: Annotations.xml:691
 #, no-c-format
 msgid "Specify the flush mode of any Seam-managed persistence contexts. <literal>flushMode=FlushModeType.MANUAL</literal> supports the use of <emphasis>atomic conversations</emphasis> where all write operations are queued in the conversation context until an explicit call to <literal>flush()</literal> (which usually occurs at the end of the conversation)."
-msgstr ""
+msgstr "Specifica la modalità di flush di un qualsiasi contesto di persistenza gestito da Seam. <literal>flushMode=FlushModeType.MANUAL</literal> supporta l'uso di <emphasis>conversazioni atomiche</emphasis> dove tutte le operazioni di scrittura vengono accodate nel contesto di conversazione fino ad una chiamata esplicita al metodo <literal>flush()</literal> (che solitamente avviene alla fine della conversazione)."
 
 #. Tag: para
 #: Annotations.xml:702
@@ -996,7 +996,7 @@ msgstr ""
 #: Annotations.xml:839
 #, no-c-format
 msgid "The jBPM <literal>org.jbpm.taskmgmt.exe.TaskInstance</literal> will be available in a request context variable named <literal>taskInstance</literal>. The jPBM <literal>org.jbpm.graph.exe.ProcessInstance</literal> will be available in a request context variable named <literal>processInstance</literal>."
-msgstr ""
+msgstr "La <literal>org.jbpm.taskmgmt.exe.TaskInstance</literal> jBPM sarà disponibile in una variabile di contesto richiesta chiamata <literal>taskInstance</literal>. La <literal>org.jbpm.graph.exe.ProcessInstance</literal> jBPM sarà disponibile in una variabile di contesto richiesta chiamata <literal>processInstance</literal>."
 
 #. Tag: literal
 #: Annotations.xml:870
@@ -1014,7 +1014,7 @@ msgstr "<![CDATA[@EndTask]]>"
 #: Annotations.xml:874
 #, no-c-format
 msgid "\"Ends\" a jBPM task. Specifies that a long-running conversation ends when this method returns a non-null outcome, and that the current task is complete. Triggers a jBPM transition. The actual transition triggered will be the default transition unless the application has called <literal>Transition.setName()</literal> on the built-in component named <literal>transition</literal>."
-msgstr ""
+msgstr "\"Termina\" un task jBPM. Specifica che una conversazione long-running termina quando il metodo ritorna un esito non-null, e che il task corrente è completo. Lancia una transizione jBPM. La transizione lanciata sarà la transizione di default amenoché l'applicazione chiami <literal>Transition.setName()</literal> sul componente predefinito chiamato <literal>transition</literal>."
 
 #. Tag: programlisting
 #: Annotations.xml:883
@@ -1640,7 +1640,7 @@ msgstr "Meta-annotationi per il databinding"
 #: Annotations.xml:1454
 #, no-c-format
 msgid "These meta-annotations make it possible to implement similar functionality to <literal>@DataModel</literal> and <literal>@DataModelSelection</literal> for other datastructures apart from lists."
-msgstr ""
+msgstr "Queste meta-annotazioni rendono possibile implementare una funzionalità simile in <literal>@DataModel</literal> e <literal>@DataModelSelection</literal> per altre strutture di dati oltre alla lista."
 
 #. Tag: literal
 #: Annotations.xml:1464
@@ -1688,7 +1688,7 @@ msgstr "Annotazioni per i pacchetti"
 #: Annotations.xml:1489
 #, no-c-format
 msgid "This annotation provides a mechanism for declaring information about a set of components that are packaged together. It can be applied to any Java package."
-msgstr ""
+msgstr "Questa annotazione fornisce un meccaniscmo per dichiarare informazioni riguardanti un set di componente impacchettati assieme. Può essere applicata a qualsiasi pacchetto Java."
 
 #. Tag: literal
 #: Annotations.xml:1499
@@ -1706,7 +1706,7 @@ msgstr "<![CDATA[@Namespace(value=\"http://jboss.com/products/seam/example/seamp
 #: Annotations.xml:1503
 #, no-c-format
 msgid "Specifies that components in the current package are associated with the given namespace. The declared namespace can be used as an XML namespace in a <literal>components.xml</literal> file to simplify application configuration."
-msgstr ""
+msgstr "Specifica che i componenti nel pacchetto corrente sono associati al namespace dato. Il namespace dichiarato deve essere usato come namespace XML in un file <literal>components.xml</literal> per semplificare la configurazione dell'applicazione."
 
 #. Tag: programlisting
 #: Annotations.xml:1509
@@ -1718,7 +1718,7 @@ msgstr "<![CDATA[@Namespace(value=\"http://jboss.com/products/seam/core\", prefi
 #: Annotations.xml:1510
 #, no-c-format
 msgid "Specifies a namespace to associate with a given package. Additionally, it specifies a component name prefix to be applied to component names specified in the XML file. For example, an XML element named <literal>init</literal> that is associated with this namespace would be understood to actually refer to a component named <literal>org.jboss.seam.core.init</literal>."
-msgstr ""
+msgstr "Specifica un namespace da associare al pacchetto dato. In aggiunta, specifica un prefisso al nome del componente da applicare ai nomi componenti specificati nel file XML. Per esempio, un elemento XML chiamato <literal>init</literal>, associato a questo namespace, dovrebbe fare riferimento al componente chiamato <literal>org.jboss.seam.core.init</literal>."
 
 #. Tag: title
 #: Annotations.xml:1525
