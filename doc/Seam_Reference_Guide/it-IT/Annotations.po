@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:18+0000\n"
-"PO-Revision-Date: 2009-01-13 15:51+0100\n"
+"PO-Revision-Date: 2009-01-13 18:58+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -890,13 +890,13 @@ msgstr "Specifica la modalità di flush di un qualsiasi contesto di persistenza 
 #: Annotations.xml:702
 #, no-c-format
 msgid "<literal>join</literal> &#8212; determines the behavior when a long-running conversation is already in progress. If <literal>true</literal>, the context is propagated. If <literal>false</literal>, an exception is thrown. Default to <literal>false</literal>. This setting is ignored when <literal>nested=true</literal> is specified."
-msgstr ""
+msgstr "<literal>join</literal> &#8212; determina il comportamento quando una conversazione long-running è già attiva. Se <literal>true</literal>, il contesto viene propagato. Se <literal>false</literal>, viene lanciata un'eccezione. Di default è <literal>falseliteral>. Quest'impostazione è ignorata quando è specificato <literal>nested=true</literal>."
 
 #. Tag: para
 #: Annotations.xml:713
 #, no-c-format
 msgid "<literal>nested</literal> &#8212; specifies that a nested conversation should be started if a long-running conversation is already in progress."
-msgstr ""
+msgstr "<literal>nested</literal> &#8212; specifica che una conversazione innestata sia avviata se è già presente una conversazione long-running."
 
 #. Tag: para
 #: Annotations.xml:720
@@ -904,13 +904,13 @@ msgstr ""
 #: Annotations.xml:858
 #, no-c-format
 msgid "<literal>flushMode</literal> &#8212; set the flush mode of any Seam-managed Hibernate sessions or JPA persistence contexts that are created during this conversation."
-msgstr ""
+msgstr "<literal>flushMode</literal> &#8212; imposta la modalità flush di ogni sessione Hibernate gestita da Seam o contesto di persistenza JPA che vengono creati durante la conversazione."
 
 #. Tag: para
 #: Annotations.xml:728
 #, no-c-format
 msgid "<literal>pageflow</literal> &#8212; a process definition name of a jBPM process definition deployed via <literal>org.jboss.seam.bpm.jbpm.pageflowDefinitions.</literal>"
-msgstr ""
+msgstr "<literal>pageflow</literal> &#8212; un nome di definizione di processo jBPM deployato via <literal>org.jboss.seam.bpm.jbpm.pageflowDefinitions.</literal"
 
 #. Tag: literal
 #: Annotations.xml:739
@@ -928,7 +928,7 @@ msgstr "<![CDATA[@End]]>"
 #: Annotations.xml:743
 #, no-c-format
 msgid "Specifies that a long-running conversation ends when this method returns a non-null outcome without exception."
-msgstr ""
+msgstr "Specifica che una conversazione long-running termina quando questo metodo restituisce un esito non-null senza eccezioni."
 
 #. Tag: para
 #: Annotations.xml:749
@@ -1610,7 +1610,7 @@ msgstr ""
 #: Annotations.xml:1438
 #, no-c-format
 msgid "<literal>value</literal> &#8212; name of the conversation context variable. Not needed if there is exactly one <literal>@DataModel</literal> in the component."
-msgstr ""
+msgstr "<literal>value</literal> &#8212; nome della variabile di contesto della conversazione. Non occorre se c'è esattamente un <literal>@DataModel</literal> nel componente."
 
 #. Tag: literal
 #: Annotations.xml:1420
