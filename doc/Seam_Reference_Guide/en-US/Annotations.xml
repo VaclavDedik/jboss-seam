@@ -842,7 +842,7 @@
                      <para>
                         The jBPM <literal>org.jbpm.taskmgmt.exe.TaskInstance</literal>
                         will be available in a request context variable named 
-                        <literal>taskInstance</literal>. The jPBM 
+                        <literal>taskInstance</literal>. The jBPM 
                         <literal>org.jbpm.graph.exe.ProcessInstance</literal> 
                         will be available in a request context variable named 
                         <literal>processInstance</literal>.
