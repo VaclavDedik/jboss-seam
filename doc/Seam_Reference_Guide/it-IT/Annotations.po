@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:18+0000\n"
-"PO-Revision-Date: 2009-01-13 18:58+0100\n"
+"PO-Revision-Date: 2009-01-13 22:36+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -935,13 +935,13 @@ msgstr "Specifica che una conversazione long-running termina quando questo metod
 #: Annotations.xml:896
 #, no-c-format
 msgid "<literal>beforeRedirect</literal> &#8212; by default, the conversation will not actually be destroyed until after any redirect has occurred. Setting <literal>beforeRedirect=true</literal> specifies that the conversation should be destroyed at the end of the current request, and that the redirect will be processed in a new temporary conversation context."
-msgstr ""
+msgstr "<literal>beforeRedirect</literal> &#8212; di default la conversazione non verrà effettivamente distrutta prima che avvenga un redirect. Impostando <literal>beforeRedirect=true</literal> viene specificato che la conversazione debba essere distrutta alla fine della richiesta corrente, e che il redirect venga processato in un contesto di conversazione temporanea."
 
 #. Tag: para
 #: Annotations.xml:760
 #, no-c-format
 msgid "<literal>root</literal> &#8212; by default, ending a nested conversation simply pops the conversation stack and resumes the outer conversation. Setting <literal>root=true</literal> specifies that the root conversation should be destroyed which effectively destroys the entire conversation stack. If the conversation is not nested, the current conversation is simply ended."
-msgstr ""
+msgstr "<literal>root</literal> &#8212; di default terminare una conversazione innestata implica che venga tolta la conversazione dallo stack delle conversazioni e venga ripristinata la conversazione più esterna. <literal>root=true</literal> specifica che la conversazione radice debba essere distrutta, e ciò distrugge effettivamente l'intero stack delle conversazioni. Se la conversazione non è innestata, la conversazione semplicemente finisce."
 
 #. Tag: literal
 #: Annotations.xml:775
@@ -959,20 +959,20 @@ msgstr "<![CDATA[@StartTask]]>"
 #: Annotations.xml:779
 #, no-c-format
 msgid "\"Starts\" a jBPM task. Specifies that a long-running conversation begins when this method returns a non-null outcome without exception. This conversation is associated with the jBPM task specified in the named request parameter. Within the context of this conversation, a business process context is also defined, for the business process instance of the task instance."
-msgstr ""
+msgstr "\"Inizia\" un task jBPM. Specifica che una conversazione long-running inizi quando questo metodo restituisce un esito non-null senza eccezione. Questa conversazione è associata ad un task jBPM specificato nel parametro della richiesta. Dentro il contesto di questa conversazione è definito anche il contesto del processo di business per l'istanza del processo di business dell'istanza task."
 
 #. Tag: para
 #: Annotations.xml:790
 #, no-c-format
 msgid "The jBPM <literal>TaskInstance</literal> will be available in a request context variable named <literal>taskInstance</literal>. The jPBM <literal>ProcessInstance</literal> will be available in a request context variable named <literal>processInstance</literal>. (Of course, these objects are available for injection via <literal>@In</literal>.)"
-msgstr ""
+msgstr "La <literal>TaskInstance</literal> di jBPM sarà disponibile in una variabile di contesto di richiesta chiamato <literal>taskInstance</literal>. La <literal>ProcessInstance</literal> di jBPM sarà disponibile in una variabile di contesto di richiesta chiamata <literal>processInstance</literal>. (Sicuramente questo oggetti sono disponibili per l'iniezione via <literal>@In</literal>.)"
 
 #. Tag: para
 #: Annotations.xml:802
 #: Annotations.xml:849
 #, no-c-format
 msgid "<literal>taskIdParameter</literal> &#8212; the name of a request parameter which holds the id of the task. Default to <literal>\"taskId\"</literal>, which is also the default used by the Seam <literal>taskList</literal> JSF component."
-msgstr ""
+msgstr "<literal>taskIdParameter</literal> &#8212; il nome del parametro di richiesta che mantiene l'id del task. Di default è <literal>\"taskId\"</literal>, che è anche il default usato dal componente Seam JSF <literal>taskList</literal>."
 
 #. Tag: literal
 #: Annotations.xml:824
@@ -990,7 +990,7 @@ msgstr "<![CDATA[@BeginTask]]>"
 #: Annotations.xml:828
 #, no-c-format
 msgid "Resumes work on an incomplete jBPM task. Specifies that a long-running conversation begins when this method returns a non-null outcome without exception. This conversation is associated with the jBPM task specified in the named request parameter. Within the context of this conversation, a business process context is also defined, for the business process instance of the task instance."
-msgstr ""
+msgstr "Ripristina il lavoro su un task jBPM incompleto. Specifica che la conversazione long-running inizi quando questo metoto restituisce un esito non-null senza eccezioni. Questa conversazione è associata al task jBPM specificata nel parametro di richiesta. Dentro il contesto di questa conversazione, è definito anche un contesto di business process per l'istanza del processo di business dell'istanza task."
 
 #. Tag: para
 #: Annotations.xml:839
@@ -1032,7 +1032,7 @@ msgstr "Lancia la transizione jBPM data."
 #: Annotations.xml:889
 #, no-c-format
 msgid "<literal>transition</literal> &#8212; the name of the jBPM transition to be triggered when ending the task. Defaults to the default transition."
-msgstr ""
+msgstr "<literal>transition</literal> &#8212; il nome della transizione jBPM da lanciare come trigger quando termina il task. Il default è la transizione di default."
 
 #. Tag: literal
 #: Annotations.xml:911
@@ -1050,13 +1050,13 @@ msgstr "<![CDATA[@CreateProcess(definition=\"process definition name\")]]>"
 #: Annotations.xml:915
 #, no-c-format
 msgid "Creates a new jBPM process instance when the method returns a non-null outcome without exception. The <literal>ProcessInstance</literal> object will be available in a context variable named <literal>processInstance</literal>."
-msgstr ""
+msgstr "Crea una nuova istanza di processo jBPM quando il metodo restituisce un esito non-null senza eccezione. L'oggetto <literal>ProcessInstance</literal> sarà disponibile in una variabile di contesto chiamata <literal>processInstance</literal>."
 
 #. Tag: para
 #: Annotations.xml:924
 #, no-c-format
 msgid "<literal>definition</literal> &#8212; the name of the jBPM process definition deployed via <literal>org.jboss.seam.bpm.jbpm.processDefinitions</literal>."
-msgstr ""
+msgstr "<literal>definition</literal> &#8212; il nome di una definizione di processo jBPM deployata via <literal>org.jboss.seam.bpm.jbpm.processDefinitions</literal>."
 
 #. Tag: literal
 #: Annotations.xml:935
@@ -1074,13 +1074,13 @@ msgstr "<![CDATA[@ResumeProcess(processIdParameter=\"processId\")]]>"
 #: Annotations.xml:939
 #, no-c-format
 msgid "Re-enters the scope of an existing jBPM process instance when the method returns a non-null outcome without exception. The <literal>ProcessInstance</literal> object will be available in a context variable named <literal>processInstance</literal>."
-msgstr ""
+msgstr "Reinserisce lo scope di un'istanza esistente di processo jBPM quando il metodo ritorna un esisto non-null senza eccezione. L'oggetto <literal>ProcessInstance</literal> sarà disponibile in una variabile di contesto chiamata <literal>processInstance</literal>."
 
 #. Tag: para
 #: Annotations.xml:948
 #, no-c-format
 msgid "<literal>processIdParameter</literal> &#8212; the name a request parameter holding the process id. Default to <literal>\"processId\"</literal>."
-msgstr ""
+msgstr "<literal>processIdParameter</literal> &#8212; il nome del parametro di richiesta che che mantiene l'id di processo. Di default è <literal>\"processId\"</literal>."
 
 #. Tag: literal
 #: Annotations.xml:960
@@ -1098,19 +1098,19 @@ msgstr "<![CDATA[@Transition(\"cancel\")]]>"
 #: Annotations.xml:964
 #, no-c-format
 msgid "Marks a method as signalling a transition in the current jBPM process instance whenever the method returns a non-null result."
-msgstr ""
+msgstr "Marca un metodo come segnalante una transizione nell'istanza del processo jBPM corrente quando il metodo restituisce un risultato non-null."
 
 #. Tag: title
 #: Annotations.xml:975
 #, no-c-format
 msgid "Annotations for use with Seam JavaBean components in a J2EE environment"
-msgstr ""
+msgstr "Annotazioni per l'uso con i componenti JavaBean di Seam in ambiente J2EE"
 
 #. Tag: para
 #: Annotations.xml:976
 #, no-c-format
 msgid "Seam provides an annotation that lets you force a rollback of the JTA transaction for certain action listener outcomes."
-msgstr ""
+msgstr "Seam fornisce un'annotazione che consente di forza un rollback di una transazione JTA per certi esiti action listener."
 
 #. Tag: literal
 #: Annotations.xml:984
@@ -1128,13 +1128,13 @@ msgstr "<![CDATA[@Transactional]]>"
 #: Annotations.xml:988
 #, no-c-format
 msgid "Specifies that a JavaBean component should have a similar transactional behavior to the default behavior of a session bean component. ie. method invocations should take place in a transaction, and if no transaction exists when the method is called, a transaction will be started just for that method. This annotation may be applied at either class or method level."
-msgstr ""
+msgstr "Specifica che un componente JavaBean debba avere un comportamento transazionale simile al comportamenteo di default di un componente session bean, cioèle invocazioni di metodo deve avere luogo in una transazione, e se non esiste alcuna transazione quando viene chiamato il metodo, verrà iniziata una transazione solo per quel metodo. Quest'annotazione può essere applicata o a livello di classe o di metodo."
 
 #. Tag: emphasis
 #: Annotations.xml:997
 #, no-c-format
 msgid "Do not use this annotation on EJB 3.0 components, use <literal>@TransactionAttribute</literal>!"
-msgstr ""
+msgstr "Non usare quest'annotazione in componenti EJB 3.0, usare <literal>@TransactionAttribute</literal>!"
 
 #. Tag: literal
 #: Annotations.xml:1004
@@ -1152,25 +1152,25 @@ msgstr "<![CDATA[@ApplicationException]]>"
 #: Annotations.xml:1008
 #, no-c-format
 msgid "Synonym for javax.ejb.ApplicationException, for use in a pre Java EE 5 environment. Applied to an exception to denote that it is an application exception and should be reported to the client directly(i.e., unwrapped)."
-msgstr ""
+msgstr "Sinonimo di javax.ejb.ApplicationException, per l'uso in un ambiente per Java EE 5. Si applica ad un'eccezione per denotare che è un'eccezione di applicazione e deve essere riportata direttamente al client (cioè, unwrapped)."
 
 #. Tag: para
 #: Annotations.xml:1014
 #, no-c-format
 msgid "<emphasis>Do not use this annotation on EJB 3.0 components, use <literal>@javax.ejb.ApplicationException</literal> instead</emphasis>."
-msgstr ""
+msgstr "<emphasis>Non usare quest'annotazione in componenti EJB 3.0, usare invece <literal>@javax.ejb.ApplicationException</literal></emphasis>."
 
 #. Tag: para
 #: Annotations.xml:1021
 #, no-c-format
 msgid "<literal>rollback</literal> &#8212; by default <literal>false</literal>, if <literal>true</literal> this exception should set the transaction to rollback only"
-msgstr ""
+msgstr "<literal>rollback</literal> &#8212; di default <literal>false</literal>, se <literal>true</literal> quest'eccezione deve impostare la transazione al solo roolback."
 
 #. Tag: para
 #: Annotations.xml:1029
 #, no-c-format
 msgid "<literal>end</literal> &#8212; by default <literal>false</literal>, if <literal>true</literal> this exception should end the current long-running conversation"
-msgstr ""
+msgstr "<literal>end</literal> &#8212; di default <literal>false</literal>, se <literal>true</literal> quest'eccezione deve terminare la conversazione long-running corrente."
 
 #. Tag: literal
 #: Annotations.xml:1041
@@ -1188,19 +1188,19 @@ msgstr "<![CDATA[@Interceptors({DVDInterceptor, CDInterceptor})]]>"
 #: Annotations.xml:1045
 #, no-c-format
 msgid "Synonym for javax.interceptors.Interceptors, for use in a pre Java EE 5 environment. Note that this may only be used as a meta-annotation. Declares an ordered list of interceptors for a class or method."
-msgstr ""
+msgstr "Sinonimo di javax.interceptors.Interceptors, per l'uso in ambiente pre Java EE 5.Si noti che può essere usato solo come meta-annotazione. Dichiara una lista ordinata di interceptor per una classe o un metodo."
 
 #. Tag: para
 #: Annotations.xml:1051
 #, no-c-format
 msgid "<emphasis>Do not use this annotations on EJB 3.0 components, use <literal>@javax.interceptor.Interceptors</literal> instead</emphasis>."
-msgstr ""
+msgstr "<emphasis>Do not use this annotations on EJB 3.0 components, use <literal>@javax.interceptor.Interceptors</literal> instead</emphasis>."
 
 #. Tag: para
 #: Annotations.xml:1060
 #, no-c-format
 msgid "These annotations are mostly useful for JavaBean Seam components. If you use EJB 3.0 components, you should use the standard Java EE5 annotation."
-msgstr ""
+msgstr "Queste annotazioni sono utili per i componenti Seam JavaBean. Se si usano i componenti EJB 3.0, occorre usare l'annotazione standard Java EE 5."
 
 #. Tag: title
 #: Annotations.xml:1068
@@ -1212,7 +1212,7 @@ msgstr "Annotazioni per le eccezioni"
 #: Annotations.xml:1070
 #, no-c-format
 msgid "These annotations let you specify how Seam should handle an exception that propagates out of a Seam component."
-msgstr ""
+msgstr "Queste annotazioni consentono di specificare come Seam debba gestire un'eccezione che si propaga fuori da un componente Seam."
 
 #. Tag: literal
 #: Annotations.xml:1078
@@ -1230,26 +1230,26 @@ msgstr "<![CDATA[@Redirect(viewId=\"error.jsp\")]]>"
 #: Annotations.xml:1082
 #, no-c-format
 msgid "Specifies that the annotated exception causes a browser redirect to a specified view id."
-msgstr ""
+msgstr "Specifica che un'eccezione annotata causi un redirect del browser verso uno specifico id di vista."
 
 #. Tag: para
 #: Annotations.xml:1088
 #, no-c-format
 msgid "<literal>viewId</literal> &#8212; specifies the JSF view id to redirect to. You can use EL here."
-msgstr ""
+msgstr "<literal>viewId</literal> &#8212; specifica che l'di della vista JSF a cui fare il redirect. Si può usare EL."
 
 #. Tag: para
 #: Annotations.xml:1094
 #, no-c-format
 msgid "<literal>message</literal> &#8212; a message to be displayed, default to the exception message."
-msgstr ""
+msgstr "<literal>message</literal> &#8212; un messaggio da mostrare, di default è il messaggio d'eccezione."
 
 #. Tag: para
 #: Annotations.xml:1100
 #: Annotations.xml:1133
 #, no-c-format
 msgid "<literal>end</literal> &#8212; specifies that the long-running conversation should end, default to <literal>false</literal>."
-msgstr ""
+msgstr "<literal>end</literal> &#8212; specifica che la conversazione long-runninf debba terminare, di default è <literal>false</literal>."
 
 #. Tag: literal
 #: Annotations.xml:1111
@@ -1267,19 +1267,19 @@ msgstr "<![CDATA[@HttpError(errorCode=404)]]>"
 #: Annotations.xml:1115
 #, no-c-format
 msgid "Specifies that the annotated exception causes a HTTP error to be sent."
-msgstr ""
+msgstr "Specifica che l'eccezione annotata debba causare l'invio di un errore HTTP."
 
 #. Tag: para
 #: Annotations.xml:1121
 #, no-c-format
 msgid "<literal>errorCode</literal> &#8212; the HTTP error code, default to <literal>500</literal>."
-msgstr ""
+msgstr "<literal>errorCode</literal> &#8212; il codice d'errore HTTP, di default è <literal>500</literal>."
 
 #. Tag: para
 #: Annotations.xml:1127
 #, no-c-format
 msgid "<literal>message</literal> &#8212; a message to be sent with the HTTP error, default to the exception message."
-msgstr ""
+msgstr "<literal>message</literal> &#8212; un messaggio deve essere inviato come errore HTTP, di default è il messaggio d'eccezione."
 
 #. Tag: title
 #: Annotations.xml:1146
@@ -1291,7 +1291,7 @@ msgstr "Annotazioni per Seam Remoting"
 #: Annotations.xml:1147
 #, no-c-format
 msgid "Seam Remoting requires that the local interface of a session bean be annotated with the following annotation:"
-msgstr ""
+msgstr "Seam Remoting richiede che l'interfaccia locale di un session bean sia annotato con la seguente annotazione:"
 
 #. Tag: literal
 #: Annotations.xml:1155
@@ -1309,7 +1309,7 @@ msgstr "<![CDATA[@WebRemote(exclude=\"path.to.exclude\")]]>"
 #: Annotations.xml:1159
 #, no-c-format
 msgid "Indicates that the annotated method may be called from client-side JavaScript. The <literal>exclude</literal> property is optional and allows objects to be excluded from the result's object graph (see the Remoting chapter for more details)."
-msgstr ""
+msgstr "Indica che il metodo annotato può essere chiamato da JavaScript lato client. La proprietà <literal>exclude</literal>è opzionale e consente agli oggetti di essere esclusi dal grafo dell'oggetto dei risultati (vedere il capitolo Remoting per maggiori dettagli)."
 
 #. Tag: title
 #: Annotations.xml:1173
@@ -1321,13 +1321,13 @@ msgstr "Annotazioni per gli interceptor di Seam"
 #: Annotations.xml:1174
 #, no-c-format
 msgid "The following annotations appear on Seam interceptor classes."
-msgstr ""
+msgstr "Le seguenti annotazioni appaiono nelle classi interceptor di Seam."
 
 #. Tag: para
 #: Annotations.xml:1177
 #, no-c-format
 msgid "Please refer to the documentation for the EJB 3.0 specification for information about the annotations required for EJB interceptor definition."
-msgstr ""
+msgstr "Si prega di fare riferimento alla documentazione per la specifica EJB 3.0 per informazioni sulle annotazioni richieste per la definizione di interceptor EJB."
 
 #. Tag: literal
 #: Annotations.xml:1185
@@ -1345,7 +1345,7 @@ msgstr "<![CDATA[@Interceptor(stateless=true)]]>"
 #: Annotations.xml:1189
 #, no-c-format
 msgid "Specifies that this interceptor is stateless and Seam may optimize replication."
-msgstr ""
+msgstr "Specifica che quest'interceptor è stateless e Seam può ottimizzare la replicazione."
 
 #. Tag: programlisting
 #: Annotations.xml:1193
@@ -1357,7 +1357,7 @@ msgstr "<![CDATA[@Interceptor(type=CLIENT)]]>"
 #: Annotations.xml:1194
 #, no-c-format
 msgid "Specifies that this interceptor is a \"client-side\" interceptor that is called before the EJB container."
-msgstr ""
+msgstr "Specifica che quest'interceptor è un interceptor \"lato client\" che viene chiamato prima del container EJB."
 
 #. Tag: programlisting
 #: Annotations.xml:1198
@@ -1369,7 +1369,7 @@ msgstr "<![CDATA[@Interceptor(around={SomeInterceptor.class, OtherInterceptor.cl
 #: Annotations.xml:1199
 #, no-c-format
 msgid "Specifies that this interceptor is positioned higher in the stack than the given interceptors."
-msgstr ""
+msgstr "Specifica che quest'interceptor è posizionato più in alto nello stack rispetto agli interceptor dati."
 
 #. Tag: programlisting
 #: Annotations.xml:1203
@@ -1381,7 +1381,7 @@ msgstr "<![CDATA[@Interceptor(within={SomeInterceptor.class, OtherInterceptor.cl
 #: Annotations.xml:1204
 #, no-c-format
 msgid "Specifies that this interceptor is positioned deeper in the stack than the given interceptors."
-msgstr ""
+msgstr "Specifica che quest'interceptor è posizionato più in profondità nello stack rispetto agli interceptor dati."
 
 #. Tag: title
 #: Annotations.xml:1215
@@ -1393,7 +1393,7 @@ msgstr "Annotazioni per l'asincronicità"
 #: Annotations.xml:1216
 #, no-c-format
 msgid "The following annotations are used to declare an asynchronous method, for example:"
-msgstr ""
+msgstr "Le seguenti annotazioni vengono usate per dichiarare un metodo asincrono, per esempio:"
 
 #. Tag: programlisting
 #: Annotations.xml:1221
@@ -1429,7 +1429,7 @@ msgstr "<![CDATA[@Asynchronous]]>"
 #: Annotations.xml:1231
 #, no-c-format
 msgid "Specifies that the method call is processed asynchronously."
-msgstr ""
+msgstr "Specifica che la chiamata al metodo viene processata asicronicamente."
 
 #. Tag: literal
 #: Annotations.xml:1238
@@ -1447,7 +1447,7 @@ msgstr "<![CDATA[@Duration]]>"
 #: Annotations.xml:1242
 #, no-c-format
 msgid "Specifies that a parameter of the asynchronous call is the duration before the call is processed (or first processed for recurring calls)."
-msgstr ""
+msgstr "Specifica che un parametro della chiamata asincrona è la durata prima che la chiamata venga processata (o la prima processata per le chiamate ricorrenti)."
 
 #. Tag: literal
 #: Annotations.xml:1251
@@ -1465,7 +1465,7 @@ msgstr "<![CDATA[@Expiration]]>"
 #: Annotations.xml:1255
 #, no-c-format
 msgid "Specifies that a parameter of the asynchronous call is the datetime at which the call is processed (or first processed for recurring calls)."
-msgstr ""
+msgstr "Specifica che un parametro della chiamata asincrona è la dataora prima che la chiamata venga processata (o la prima processata per le chiamate ricorrenti)."
 
 #. Tag: literal
 #: Annotations.xml:1264
@@ -1483,7 +1483,7 @@ msgstr "<![CDATA[@IntervalDuration]]>"
 #: Annotations.xml:1268
 #, no-c-format
 msgid "Specifies that an asynchronous method call recurs, and that the annotationed parameter is duration between recurrences."
-msgstr ""
+msgstr "Specifica che una chiamata di un metodo asincrono si ripete ed il parametro annotato è la durata tra le ricorrenze."
 
 #. Tag: title
 #: Annotations.xml:1278
@@ -1495,7 +1495,7 @@ msgstr "Annotazioni per l'uso di JSF"
 #: Annotations.xml:1279
 #, no-c-format
 msgid "The following annotations make working with JSF easier."
-msgstr ""
+msgstr "Queste annotazioni rendono più facile lavorare con JSF."
 
 #. Tag: literal
 #: Annotations.xml:1286
@@ -1507,19 +1507,19 @@ msgstr "@Converter"
 #: Annotations.xml:1289
 #, no-c-format
 msgid "Allows a Seam component to act as a JSF converter. The annotated class must be a Seam component, and must implement <literal>javax.faces.convert.Converter</literal>."
-msgstr ""
+msgstr "Consente al componente Seam di agire come convertitore JSF. La classe annotata deve essere un componente Seam e deve implementare <literal>javax.faces.convert.Converter</literal>."
 
 #. Tag: para
 #: Annotations.xml:1296
 #, no-c-format
 msgid "<literal>id</literal> &#8212; the JSF converter id. Defaults to the component name."
-msgstr ""
+msgstr "<literal>id</literal> &#8212; l'id del convertitore JSF. Di default è il nome del componente."
 
 #. Tag: para
 #: Annotations.xml:1302
 #, no-c-format
 msgid "<literal>forClass</literal> &#8212; if specified, register this component as the default converter for a type."
-msgstr ""
+msgstr "<literal>forClass</literal> &#8212; se specificato, registra questo componente come convertitore di default per un tipo."
 
 #. Tag: literal
 #: Annotations.xml:1313
@@ -1531,25 +1531,25 @@ msgstr "@Validator"
 #: Annotations.xml:1316
 #, no-c-format
 msgid "Allows a Seam component to act as a JSF validator. The annotated class must be a Seam component, and must implement <literal>javax.faces.validator.Validator</literal>."
-msgstr ""
+msgstr "Consente ad un componente Seam di agire come validatore JSF. La classe annotata deve essere un componente Seam, e deve implementare <literal>javax.faces.validator.Validator</literal>."
 
 #. Tag: para
 #: Annotations.xml:1323
 #, no-c-format
 msgid "<literal>id</literal> &#8212; the JSF validator id. Defaults to the component name."
-msgstr ""
+msgstr "<literal>id</literal> &#8212; l'id del validatore JSF. Di default è il nome del componente."
 
 #. Tag: title
 #: Annotations.xml:1334
 #, no-c-format
 msgid "Annotations for use with <literal>dataTable</literal>"
-msgstr ""
+msgstr "Annotazioni per l'uso con <literal>dataTable</literal>"
 
 #. Tag: para
 #: Annotations.xml:1335
 #, no-c-format
 msgid "The following annotations make it easy to implement clickable lists backed by a stateful session bean. They appear on attributes."
-msgstr ""
+msgstr "Le seguenti annotazioni facilitano l'implementazione di liste cliccabili con dietro un bean di sessione stateful. Appaiono sugli attributi."
 
 #. Tag: literal
 #: Annotations.xml:1344
@@ -1567,19 +1567,19 @@ msgstr "<![CDATA[@DataModel(\"variableName\")]]>"
 #: Annotations.xml:1348
 #, no-c-format
 msgid "Outjects a property of type <literal>List</literal>, <literal>Map</literal>, <literal>Set</literal> or <literal>Object[]</literal> as a JSF <literal>DataModel</literal> into the scope of the owning component (or the <literal>EVENT</literal> scope if the owning component is <literal>STATELESS</literal>). In the case of <literal>Map</literal>, each row of the <literal>DataModel</literal> is a <literal>Map.Entry</literal>."
-msgstr ""
+msgstr "Fa l'outjection di una proprietà di tipo <literal>List</literal>, <literal>Map</literal>, <literal>Set</literal> o <literal>Object[]</literal> come un <literal>DataModel</literal> JSF nello scope del componente proprietario (o nello scope <literal>EVENT</literal> se il componente proprietario è <literal>STATELESS</literal>). In caso di <literal>Map</literal>, ogni riga di <literal>DataModel</literal> è una <literal>Map.Entry</literal>."
 
 #. Tag: para
 #: Annotations.xml:1361
 #, no-c-format
 msgid "<literal>value</literal> &#8212; name of the conversation context variable. Default to the attribute name."
-msgstr ""
+msgstr "<literal>value</literal> &#8212; nome della variabile di contesto della conversazione. Di default è il nome dell'attributo."
 
 #. Tag: para
 #: Annotations.xml:1368
 #, no-c-format
 msgid "<literal>scope</literal> &#8212; if <literal>scope=ScopeType.PAGE</literal> is explicitly specified, the <literal>DataModel</literal> will be kept in the <literal>PAGE</literal> context."
-msgstr ""
+msgstr "<literal>scope</literal> &#8212; se <literal>scope=ScopeType.PAGE</literal> è specificato esplicitamente, il <literal>DataModel</literal> verrà mantenuto nel contesto <literal>PAGE</literal>."
 
 #. Tag: literal
 #: Annotations.xml:1380
@@ -1597,13 +1597,13 @@ msgstr "<![CDATA[@DataModelSelection]]>"
 #: Annotations.xml:1384
 #, no-c-format
 msgid "Injects the selected value from the JSF <literal>DataModel</literal> (this is the element of the underlying collection, or the map value). If only one <literal>@DataModel</literal> attribute is defined for a component, the selected value from that <literal>DataModel</literal> will be injected. Otherwise, the component name of each <literal>@DataModel</literal> must be specified in the value attribute for each <literal>@DataModelSelection</literal>."
-msgstr ""
+msgstr "Inietta il valore selezionato dal <literal>DataModel</literal> JSF (questo è l'elemento della collezione sottostante, o valore di mappa). Se è definito solo un attributo <literal>@DataModel</literal> per un componente, verrà iniettato il valore selezionato da quel <literal>DataModel</literal>. Altrimenti, il nome del componente di ciascun <literal>DataModel</literal> dovrà essere specificato nell'attributo di valore per ogni <literal>@DataModelSelection</literal>."
 
 #. Tag: para
 #: Annotations.xml:1396
 #, no-c-format
 msgid "If <literal>PAGE</literal> scope is specified on the associated <literal>@DataModel</literal>, then, in addition to the DataModel Selection being injected, the associated DataModel will also be injected. In this case, if the property annotated with <literal>@DataModel</literal> is a getter method, then a setter method for the property must also be part of the Business API of the containing Seam Component."
-msgstr ""
+msgstr "Se sul  <literal>@DataModel</literal> associato è specificato lo scope <literal>PAGE</literal>, allora in aggiunta alla DataModel Selection iniettata, verrà iniettato anche il DataModel associato. In questo caso, se la proprietà annotata con <literal>@DataModel</literal> è un metodo getter, allora il metodo setter per la proprietà deve essere parte della Business API del componente Seam che lo contiene."
 
 #. Tag: para
 #: Annotations.xml:1408
@@ -1628,7 +1628,7 @@ msgstr "<![CDATA[@DataModelSelectionIndex]]>"
 #: Annotations.xml:1424
 #, no-c-format
 msgid "Exposes the selection index of the JSF <literal>DataModel</literal> as an attribute of the component (this is the row number of the underlying collection, or the map key). If only one <literal>@DataModel</literal> attribute is defined for a component, the selected value from that <literal>DataModel</literal> will be injected. Otherwise, the component name of each <literal>@DataModel</literal> must be specified in the value attribute for each <literal>@DataModelSelectionIndex</literal>."
-msgstr ""
+msgstr "Espone l'indice della selezione del <literal>DataModel</literal> JSF come un attributo del componente (questo è il numero riga della collezione sottostante, o la chiave della mappa). Se per un componente è definito solo un attributo <literal>@DataModel</literal>, verrà iniettato il valore selezionato da quel <literal>DataModel</literal>. Altrimenti il nome del componente di ciascun <literal>@DataModel</literal> deve essere specificato nell'attributo valore per ogni <literal>@DataModelSelectionIndex</literal>."
 
 #. Tag: title
 #: Annotations.xml:1453
