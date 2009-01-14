@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:23+0000\n"
-"PO-Revision-Date: 2008-12-17 21:34+0100\n"
+"PO-Revision-Date: 2009-01-14 22:11+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -35,25 +35,26 @@ msgstr "Storicamente la nozione di \"conversazione\" Seam si presenta come unifi
 #: Conversations.xml:19
 #, no-c-format
 msgid "The idea of a <emphasis>workspace</emphasis>, which I encountered in a project for the Victorian government in 2002. In this project I was forced to implement workspace management on top of Struts, an experience I pray never to repeat."
-msgstr ""
+msgstr "L'idea di uno <emphasis>spazio di lavoro (workspace)</emphasis>, che ho incontrato in un progetto per il governo Vittoriano nel 2002. In questo progetto fui obbligato ad implementare la gestione del workspace sopra Struts, un'esperienza che prego di non ripetere mai più."
 
+# copping the blame =?
 #. Tag: para
 #: Conversations.xml:28
 #, no-c-format
 msgid "The idea of an <emphasis>application transaction</emphasis> with optimistic semantics, and the realization that existing frameworks based around a stateless architecture could not provide effective management of extended persistence contexts. (The Hibernate team is truly fed up with copping the blame for <literal>LazyInitializationException</literal>s, which are not really Hibernate's fault, but rather the fault of the extremely limiting persistence context model supported by stateless architectures such as the Spring framework or the traditional <emphasis>stateless session facade</emphasis> (anti)pattern in J2EE.)"
-msgstr ""
+msgstr "L'idea di una <emphasis>transazione per l'applicazione</emphasis> con semantica ottimista, e il convincimento che i framework esistenti basati su un'architettura stateless non potessero fornire una gestione efficiente dei contesti di persistenza estesa. (La squadra di Hibernate è veramente stanca di sentire lamentele per le <literal>LazyInitializationException</literal>, che non è in verità colpa di Hibernate, ma piuttosto colpa di un modello di contesto di persistenza estremamente limitato delle architetture stateless come il framework Spring o il tradizionale (anti)pattern <emphasis>stateless session facade</emphasis> in J2EE.)"
 
 #. Tag: para
 #: Conversations.xml:43
 #, no-c-format
 msgid "The idea of a workflow <emphasis>task</emphasis>."
-msgstr ""
+msgstr "L'idea di un <emphasis>task</emphasis> a workflow."
 
 #. Tag: para
 #: Conversations.xml:49
 #, no-c-format
 msgid "By unifying these ideas and providing deep support in the framework, we have a powerful construct that lets us build richer and more efficient applications with less code than before."
-msgstr ""
+msgstr "Unificando queste idee e fornendo un supporto profondo nel framework, si ha un costrutto potente che consente di creare applicazioni più ricche e più efficienti con meno codice di prima."
 
 #. Tag: title
 #: Conversations.xml:56
@@ -65,43 +66,44 @@ msgstr "Il modello di conversazioni di Seam"
 #: Conversations.xml:58
 #, no-c-format
 msgid "The examples we have seen so far make use of a very simple conversation model that follows these rules:"
-msgstr ""
+msgstr "Gli esempi visti finora usano un modello di conversazione molto semplice che segue queste regole:"
 
 #. Tag: para
 #: Conversations.xml:65
 #, no-c-format
 msgid "There is always a conversation context active during the apply request values, process validations, update model values, invoke application and render response phases of the JSF request lifecycle."
-msgstr ""
+msgstr "C'è sempre un contesto di conversazione attivo durante le fasi di apply request values, process validations, update model values, invoke application e render response del ciclo di vita della richiesta JSF."
 
+# any previous = un qualsiasi oppure ogni ???
 #. Tag: para
 #: Conversations.xml:73
 #, no-c-format
 msgid "At the end of the restore view phase of the JSF request lifecycle, Seam attempts to restore any previous long-running conversation context. If none exists, Seam creates a new temporary conversation context."
-msgstr ""
+msgstr "Alla fine della fase restore view del ciclo di vita della richiesta JSF, Seam tenta di ripristinare ogni precedente contesto di conversazione long-running. Se non ne esiste nessuno, Seam crea un nuovo contesto di conversazione temporanea."
 
 #. Tag: para
 #: Conversations.xml:81
 #, no-c-format
 msgid "When an <literal>@Begin</literal> method is encountered, the temporary conversation context is promoted to a long running conversation."
-msgstr ""
+msgstr "Quando viene incontrato un metodo <literal>@Begin</literal>, il contesto della conversazione temporanea è promosso a conversazione long-running."
 
 #. Tag: para
 #: Conversations.xml:88
 #, no-c-format
 msgid "When an <literal>@End</literal> method is encountered, any long-running conversation context is demoted to a temporary conversation."
-msgstr ""
+msgstr "Quando viene incontrato un metodo <literal>@End</literal>, il contesto della conversazione long-running è ridotto a conversazione temporanea."
 
 #. Tag: para
 #: Conversations.xml:95
 #, no-c-format
 msgid "At the end of the render response phase of the JSF request lifecycle, Seam stores the contents of a long running conversation context or destroys the contents of a temporary conversation context."
-msgstr ""
+msgstr "Alla fine della fase di render response del ciclo di vita della richiesta JSF, Seam memorizza i contenuti del contesto di conversazione long-running o distrugge i contenuti del contesto di conversazione temporanea."
 
 #. Tag: para
 #: Conversations.xml:103
 #, no-c-format
 msgid "Any faces request (a JSF postback) will propagate the conversation context. By default, non-faces requests (GET requests, for example) do not propagate the conversation context, but see below for more information on this."
-msgstr ""
+msgstr "Qualsiasi richiesta faces (un postback JSF) si propagherà nel contesto della conversazione. Di default le richieste non-faces (richieste GET, per esempio) non si propagano nel contesto di conversazione, si veda sotto per maggiori informazioni."
 
 #. Tag: para
 #: Conversations.xml:111
@@ -340,7 +342,7 @@ msgstr ""
 #: Conversations.xml:295
 #, no-c-format
 msgid "Starting conversations with GET requests"
-msgstr ""
+msgstr "Avvio di conversazioni con richieste GET"
 
 #. Tag: para
 #: Conversations.xml:296
@@ -440,7 +442,7 @@ msgstr ""
 #: Conversations.xml:356
 #, no-c-format
 msgid "There is also an <literal>&lt;end-conversation&gt;</literal> element."
-msgstr ""
+msgstr "C'è anche un elemento <literal>&lt;end-conversation&gt;</literal>."
 
 #. Tag: programlisting
 #: Conversations.xml:361
@@ -464,43 +466,43 @@ msgstr ""
 #: Conversations.xml:363
 #, no-c-format
 msgid "To solve the first problem, we now have five options:"
-msgstr ""
+msgstr "Per risolvere il primo problema, si hanno cinque opzioni:"
 
 #. Tag: para
 #: Conversations.xml:369
 #, no-c-format
 msgid "Annotate the <literal>@Create</literal> method with <literal>@Begin</literal>"
-msgstr ""
+msgstr "Annotare il metodo <literal>@Create</literal> con <literal>@Begin</literal>"
 
 #. Tag: para
 #: Conversations.xml:375
 #, no-c-format
 msgid "Annotate the <literal>@Factory</literal> method with <literal>@Begin</literal>"
-msgstr ""
+msgstr "Annotare il metodo <literal>@Factory</literal> con <literal>@Begin</literal>"
 
 #. Tag: para
 #: Conversations.xml:381
 #, no-c-format
 msgid "Annotate the Seam page action method with <literal>@Begin</literal>"
-msgstr ""
+msgstr "Annotare il metodo d'azione della pagina  Seam con <literal>@Begin</literal>"
 
 #. Tag: para
 #: Conversations.xml:387
 #, no-c-format
 msgid "Use <literal>&lt;begin-conversation&gt;</literal> in <literal>pages.xml</literal>."
-msgstr ""
+msgstr "Usare <literal>&lt;begin-conversation&gt;</literal> in <literal>pages.xml</literal>."
 
 #. Tag: para
 #: Conversations.xml:393
 #, no-c-format
 msgid "Use <literal>#{conversation.begin}</literal> as the Seam page action method"
-msgstr ""
+msgstr "Usare <literal>#{conversation.begin}</literal> come metodo d'azione della pagina Seam"
 
 #. Tag: title
 #: Conversations.xml:403
 #, no-c-format
 msgid "Using <literal>&lt;s:link&gt;</literal> and <literal>&lt;s:button&gt;</literal>"
-msgstr ""
+msgstr "Usando <literal>&lt;s:link&gt;</literal> e <literal>&lt;s:button&gt;</literal>"
 
 #. Tag: para
 #: Conversations.xml:405
@@ -654,7 +656,7 @@ msgstr "<![CDATA[<s:button action=\"#{login.logout}\" value=\"Logout\"/>]]>"
 #: Conversations.xml:512
 #, no-c-format
 msgid "Success messages"
-msgstr ""
+msgstr "Messaggi di successo"
 
 #. Tag: para
 #: Conversations.xml:513
@@ -786,7 +788,7 @@ msgstr "Molto meglio!"
 #: Conversations.xml:612
 #, no-c-format
 msgid "Creating a natural conversation"
-msgstr ""
+msgstr "Creazione di una conversazione naturale"
 
 #. Tag: para
 #: Conversations.xml:613
@@ -858,7 +860,7 @@ msgstr ""
 #: Conversations.xml:654
 #, no-c-format
 msgid "Redirecting to a natural conversation"
-msgstr ""
+msgstr "Redirezione alla conversazione naturale"
 
 #. Tag: para
 #: Conversations.xml:656
@@ -936,7 +938,7 @@ msgstr "<![CDATA[  <s:link value=\"Place Bid\" action=\"#{bidAction.placeBid}\" 
 #: Conversations.xml:697
 #, no-c-format
 msgid "Workspace management"
-msgstr ""
+msgstr "Gestione del workspace"
 
 #. Tag: para
 #: Conversations.xml:699
@@ -1076,7 +1078,7 @@ msgstr ""
 #: Conversations.xml:764
 #, no-c-format
 msgid "The conversation switcher"
-msgstr ""
+msgstr "Lo switcher delle conversazioni"
 
 #. Tag: para
 #: Conversations.xml:766
@@ -1118,13 +1120,13 @@ msgstr ""
 #: Conversations.xml:798
 #, no-c-format
 msgid "The conversation list"
-msgstr ""
+msgstr "La lista delle conversazioni"
 
 #. Tag: para
 #: Conversations.xml:800
 #, no-c-format
 msgid "The conversation list is very similar to the conversation switcher, except that it is displayed as a table:"
-msgstr ""
+msgstr "La lista delle conversazioni è molto simile allo switcher delle conversazioni, tranne che viene mostrata come tabella:"
 
 #. Tag: programlisting
 #: Conversations.xml:805
@@ -1182,7 +1184,7 @@ msgstr ""
 #: Conversations.xml:807
 #, no-c-format
 msgid "We imagine that you will want to customize this for your own application."
-msgstr ""
+msgstr "Si immagini di voler personalizzare questo per la propria applicazione."
 
 #. Tag: para
 #: Conversations.xml:820
@@ -1200,13 +1202,13 @@ msgstr ""
 #: Conversations.xml:832
 #, no-c-format
 msgid "Breadcrumbs"
-msgstr ""
+msgstr "Breadcrumbs"
 
 #. Tag: para
 #: Conversations.xml:834
 #, no-c-format
 msgid "Breadcrumbs are useful in applications which use a nested conversation model. The breadcrumbs are a list of links to conversations in the current conversation stack:"
-msgstr ""
+msgstr "I breadcrumb sono utili nelle applicazioni che usano il modello di conversazioni innestato. I breadcrumb sono una lista di link alle conversazioni nell'attuale stack di conversazioni:"
 
 #. Tag: programlisting
 #: Conversations.xml:840
@@ -1330,7 +1332,7 @@ msgstr ""
 #: Conversations.xml:897
 #, no-c-format
 msgid "Concurrent calls to conversational components"
-msgstr ""
+msgstr "Chiamare concorrenti ai componenti conversazionali"
 
 #. Tag: para
 #: Conversations.xml:899
@@ -1462,7 +1464,7 @@ msgstr ""
 #: Conversations.xml:998
 #, no-c-format
 msgid "Dealing with errors"
-msgstr ""
+msgstr "Gestione degli errori"
 
 #. Tag: para
 #: Conversations.xml:1000
@@ -1498,7 +1500,7 @@ msgstr ""
 #: Conversations.xml:1024
 #, no-c-format
 msgid "Alternatively you could redirect to an error page:"
-msgstr ""
+msgstr "In alternativa si può fare il redirect ad una pagina d'errore:"
 
 #. Tag: programlisting
 #: Conversations.xml:1028
@@ -1586,5 +1588,5 @@ msgstr ""
 #: Conversations.xml:1091
 #, no-c-format
 msgid "<literal>&lt;a:poll reRender=\"total\" interval=\"1000\" /&gt;</literal> &#8212; Polls the server, and rerenders an area as needed"
-msgstr ""
+msgstr "<literal>&lt;a:poll reRender=\"total\" interval=\"1000\" /&gt;</literal> &#8212; interroga il server, e rigenera un'area come occorre"
 
