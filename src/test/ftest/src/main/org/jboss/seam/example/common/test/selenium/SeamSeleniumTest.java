@@ -32,12 +32,12 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
-import com.thoughtworks.selenium.DefaultSelenium;
 import com.thoughtworks.selenium.Selenium;
 
 /**
  * Base class for all Seam based selenium tests.
  * @author jbalunas
+ * @author jharting
  *
  */
 public abstract class SeamSeleniumTest {
@@ -53,14 +53,14 @@ public abstract class SeamSeleniumTest {
     private static Properties properties = new Properties();
     private static boolean propertiesLoaded = false;
 
-    protected Selenium browser;
+    protected SeamSelenium browser;
 
     @BeforeClass
     @Parameters( { "selenium.host", "selenium.server.port", "selenium.browser",
             "selenium.browser.url", "selenium.speed", "selenium.timeout",
             "PROPERTY_FILE", "CONTEXT_PATH" })
     public void setParameters(String host, String port, String browser,
-            String browserUrl, String speed, String timeout, String propertyFile, @Optional String contextPath) {
+            String browserUrl, String speed, String timeout, String propertyFile, @Optional("") String contextPath) {
         HOST = host;
         PORT = Integer.parseInt(port);
         BROWSER = browser;
@@ -73,7 +73,7 @@ public abstract class SeamSeleniumTest {
 
     @BeforeMethod
     public void setUp() {
-        startBrowser();
+        browser = startBrowser();
     }
 
     @AfterMethod
@@ -81,11 +81,13 @@ public abstract class SeamSeleniumTest {
         stopBrowser();
     }
 
-    public void startBrowser() {
-        browser = new DefaultSelenium(HOST, PORT, BROWSER, BROWSER_URL);
-        browser.start();
-        browser.allowNativeXpath("false");
-        browser.setSpeed(SPEED);
+    public SeamSelenium startBrowser() {
+        SeamSelenium newBrowser = new SeamSelenium(HOST, PORT, BROWSER, BROWSER_URL);
+        newBrowser.start();
+        newBrowser.allowNativeXpath("false");
+        newBrowser.setSpeed(SPEED);
+        newBrowser.setTimeout(TIMEOUT);
+        return newBrowser;
     }
     
     public void stopBrowser() {

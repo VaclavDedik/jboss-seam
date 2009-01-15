@@ -11,16 +11,16 @@
    </head>
    <body>
       <f:view>
-         <h:form>
+         <h:form id="registration">
             <s:validateAll>
                <h:panelGrid columns="2">
-                  Username: <h:inputText value="#{user.username}" required="true"/>
-                  Real Name: <h:inputText value="#{user.name}" required="true"/>
-                  Password: <h:inputSecret value="#{user.password}" required="true"/>
+                  Username: <h:inputText id="username" value="#{user.username}" required="true"/>
+                  Real Name: <h:inputText id="name" value="#{user.name}" required="true"/>
+                  Password: <h:inputSecret id="password" value="#{user.password}" required="true"/>
                </h:panelGrid>
             </s:validateAll>
-            <h:messages/>
-            <h:commandButton value="Register" action="#{register.register}"/>
+            <h:messages id="messages"/>
+            <h:commandButton id="register" value="Register" action="#{register.register}"/>
          </h:form>
       </f:view>
    </body>
