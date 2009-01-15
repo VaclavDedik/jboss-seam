@@ -620,7 +620,7 @@ public class EditDocumentBean implements EditDocument {
                </quote>
        		</para>
                <para>
-                  With a natural conversation its really easy to have the user
+                  With a natural conversation it's really easy to have the user
                   rejoin the existing conversation, and pick up where they left 
                   off - just have them to rejoin the payForItem conversation 
                   with the itemId as the conversation id.
