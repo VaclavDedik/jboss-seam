@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:23+0000\n"
-"PO-Revision-Date: 2009-01-14 22:11+0100\n"
+"PO-Revision-Date: 2009-01-15 18:35+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -109,19 +109,19 @@ msgstr "Qualsiasi richiesta faces (un postback JSF) si propagherà nel contesto 
 #: Conversations.xml:111
 #, no-c-format
 msgid "If the JSF request lifecycle is foreshortened by a redirect, Seam transparently stores and restores the current conversation context&#8212;unless the conversation was already ended via <literal>@End(beforeRedirect=true)</literal>."
-msgstr ""
+msgstr "Se il ciclo di vita della richiesta JSF viene accorciato da un redirect, Seam memorizza e ripristina in modo trasparente il contesto dell'attuale conversazione&#8212;amenoché la conversazione sia già stata terminata tramite <literal>@End(beforeRedirect=true)</literal>."
 
 #. Tag: para
 #: Conversations.xml:120
 #, no-c-format
 msgid "Seam transparently propagates the conversation context (including the temporary conversation context) across JSF postbacks and redirects. If you don't do anything special, a <emphasis>non-faces request</emphasis> (a GET request for example) will not propagate the conversation context and will be processed in a new temporary conversation. This is usually - but not always - the desired behavior."
-msgstr ""
+msgstr "Seam propaga in modo trasparente il contesto della conversazione (includendo il contesto della conversazione temporanea) lungo i postback JSF e i redirect. Se non si fa niente di speciale, una <emphasis>richiesta non-faces</emphasis> (per esempio una richiesta GET) non verrà propagata nel contesto di conversazione e non verrà processata in una conversazione temporanea. Questo è solitamente - ma non sempre - il comportamento desiderato."
 
 #. Tag: para
 #: Conversations.xml:129
 #, no-c-format
 msgid "If you want to propagate a Seam conversation across a non-faces request, you need to explicitly code the Seam <emphasis>conversation id</emphasis> as a request parameter:"
-msgstr ""
+msgstr "Se si vuole propagare una conversazione Seam lungo una richiesta non-faces, non occorre esplicitamente codificare l'<emphasis>id della conversazione</emphasis> come parametro di richiesta:"
 
 #. Tag: programlisting
 #: Conversations.xml:135
@@ -133,7 +133,7 @@ msgstr "<![CDATA[<a href=\"main.jsf?#{manager.conversationIdParameter}=#{convers
 #: Conversations.xml:137
 #, no-c-format
 msgid "Or, the more JSF-ish:"
-msgstr ""
+msgstr "O in stile più JSF:"
 
 #. Tag: programlisting
 #: Conversations.xml:141
@@ -154,7 +154,7 @@ msgstr ""
 #: Conversations.xml:156
 #, no-c-format
 msgid "If you use the Seam tag library, this is equivalent:"
-msgstr ""
+msgstr "Se si utilizza la libreria di tag Seam, questo è l'equivalente:"
 
 #. Tag: programlisting
 #: Conversations.xml:147
@@ -174,7 +174,7 @@ msgstr ""
 #: Conversations.xml:149
 #, no-c-format
 msgid "If you wish to disable propagation of the conversation context for a postback, a similar trick is used:"
-msgstr ""
+msgstr "Se si desidera disabilitare la propagazione del contesto di conversazione per il postback, viene usato un simile trucchetto:"
 
 #. Tag: programlisting
 #: Conversations.xml:154
@@ -204,13 +204,13 @@ msgstr ""
 #: Conversations.xml:162
 #, no-c-format
 msgid "Note that disabling conversation context propagation is absolutely not the same thing as ending the conversation."
-msgstr ""
+msgstr "Si noti che disabilitando la propagazione del contesto della conversazione non è assolutamente la stessa cosa che terminare la conversazione:"
 
 #. Tag: para
 #: Conversations.xml:167
 #, no-c-format
 msgid "The <literal>conversationPropagation</literal> request parameter, or the <literal>&lt;s:conversationPropagation&gt;</literal> tag may even be used to begin and end conversation, or begin a nested conversation."
-msgstr ""
+msgstr "Il parametro di richiesta <literal>conversationPropagation</literal>, o il tag <literal>&lt;s:conversationPropagation&gt;</literal> possono anche essere usati per iniziare e terminare la conversazione, o iniziare una conversazione innestata."
 
 #. Tag: programlisting
 #: Conversations.xml:174
@@ -264,19 +264,19 @@ msgstr ""
 #: Conversations.xml:182
 #, no-c-format
 msgid "This conversation model makes it easy to build applications which behave correctly with respect to multi-window operation. For many applications, this is all that is needed. Some complex applications have either or both of the following additional requirements:"
-msgstr ""
+msgstr "Il modello di conversazione rende semplice costruire applicazioni che si comportano in modo corretto in presenza di operazioni con finestre multiple. Per molte applicazioni, questo è quello che serve. Alcune applicazioni complesse hanno uno ed entrambi dei seguenti requisiti aggiuntivi:"
 
 #. Tag: para
 #: Conversations.xml:191
 #, no-c-format
 msgid "A conversation spans many smaller units of user interaction, which execute serially or even concurrently. The smaller <emphasis>nested conversations</emphasis> have their own isolated set of conversation state, and also have access to the state of the outer conversation."
-msgstr ""
+msgstr "Una conversazione propaga diverse unità più piccole di interazione utente, che vengono eseguite in modo seriale o anche concorrente. Le più piccole <emphasis>conversazioni innestate</emphasis> hanno il proprio stato isolato di conversazione, ed hanno anche accesso allo stato della conversazione più esterna."
 
 #. Tag: para
 #: Conversations.xml:200
 #, no-c-format
 msgid "The user is able to switch between many conversations within the same browser window. This feature is called <emphasis>workspace management</emphasis>."
-msgstr ""
+msgstr "L'utente è in grado di passare tra più conversazioni dentro la stessa finestra del browser. Questa caratteristica è chiamata <emphasis>gestione del workspace</emphasis>."
 
 #. Tag: title
 #: Conversations.xml:211
@@ -288,31 +288,31 @@ msgstr "Conversazioni innestate"
 #: Conversations.xml:213
 #, no-c-format
 msgid "A nested conversation is created by invoking a method marked <literal>@Begin(nested=true)</literal> inside the scope of an existing conversation. A nested conversation has its own conversation context, but can read values from the outer conversation's context. The outer conversation's context is read-only within a nested conversation, but because objects are obtained by reference, changes to the objects themselves will be reflected in the outer context."
-msgstr ""
+msgstr "Una conversazione innestata viene creata invocando un metodo marcato con <literal>@Begin(nested=true)</literal> dentro lo scope di una conversazione esitente. Una conversazione innestata ha un proprio contesto di conversazione, ma può leggere i valori dal contesto della conversazione più esterna. Il contesto della conversazione più esterna è in sola lettura in una conversazione innestata, ma poiché gli oggetti sono ottenuti per riferimento, i cambiamenti agli oggetti stessi si rifletteranno nel contesto più esterno."
 
 #. Tag: para
 #: Conversations.xml:226
 #, no-c-format
 msgid "Nesting a conversation through initializes a context that is stacked on the context of the original, or outer, conversation. The outer conversation is considered the parent."
-msgstr ""
+msgstr "Innestando una conversazione si inizializza una contesto che viene messo sullo stack del contesto della conversazione originale, o più esterna. La conversazione più esterna è considerata padre. "
 
 #. Tag: para
 #: Conversations.xml:233
 #, no-c-format
 msgid "Any values outjected or directly set into the nested conversation’s context do not affect the objects accessible in the parent conversation’s context."
-msgstr ""
+msgstr "Ogni valore messo in outjection o direttamente impostato nel contesto della conversazione ineestata non influenza gli oggetti accessibili nel contesto della conversazione padre."
 
 #. Tag: para
 #: Conversations.xml:240
 #, no-c-format
 msgid "Injection or a context lookup from the conversation context will first lookup the value in the current conversation context and, if no value is found, will proceed down the conversation stack if the conversation is nested. As you will see in moment, this behavior can be overriden."
-msgstr ""
+msgstr "L'iniezione o la ricerca nel contesto da un contesto di conversazione per prima cosa cercherà il valore nell'attuale contesto e, se non viene trovato alcun valore, procederà lungo lo stack della conversazione se questa è innestata. Come si vedrà, questo comportamento può essere ridefinito."
 
 #. Tag: para
 #: Conversations.xml:250
 #, no-c-format
 msgid "When an <literal>@End</literal> is subsequently encountered, the nested conversation will be destroyed, and the outer conversation will resume, by \"popping\" the conversation stack. Conversations may be nested to any arbitrary depth."
-msgstr ""
+msgstr "Quando si incontra una <literal>@End</literal>, la conversazione innestata verrà distrutta,  togliendola dallo stack (pop), e la conversazione più esterna verrà ripristinata. Le conversazioni possono essere annidate con gradi di profondità arbitrari."
 
 #. Tag: para
 #: Conversations.xml:257
@@ -412,7 +412,7 @@ msgstr ""
 #: Conversations.xml:341
 #, no-c-format
 msgid "Note that you can also call this built-in action from a JSF control, and, similarly, you can use <literal>#{conversation.end}</literal> to end conversations."
-msgstr ""
+msgstr "Si noti che si può chiamare quest'azione ridefinita da un controllo JSF, ed in modo simile si può usare <literal>#{conversation.end}</literal> per terminare le conversazioni."
 
 #. Tag: para
 #: Conversations.xml:347
@@ -574,7 +574,7 @@ msgstr "<![CDATA[<s:link view=\"/loggedOut.xhtml\"  action=\"#{login.logout}\" v
 #: Conversations.xml:468
 #, no-c-format
 msgid "The link automatically propagates the selected row of a <literal>DataModel</literal> using inside <literal>&lt;h:dataTable&gt;</literal>:"
-msgstr ""
+msgstr "Il link propaga automaticamente la riga selezionata del <literal>DataModel</literal> usando all'interno <literal>&lt;h:dataTable&gt;</literal>:"
 
 #. Tag: programlisting
 #: Conversations.xml:473
@@ -586,7 +586,7 @@ msgstr "<![CDATA[<s:link view=\"/hotel.xhtml\" action=\"#{hotelSearch.selectHote
 #: Conversations.xml:475
 #, no-c-format
 msgid "You can leave the scope of an existing conversation:"
-msgstr ""
+msgstr "Si può lasciare lo scope di una conversazione esistente:"
 
 #. Tag: programlisting
 #: Conversations.xml:479
@@ -598,7 +598,7 @@ msgstr "<![CDATA[<s:link view=\"/main.xhtml\" propagation=\"none\"/>]]>"
 #: Conversations.xml:481
 #, no-c-format
 msgid "You can begin, end, or nest conversations:"
-msgstr ""
+msgstr "Si può iniziare, terminare, o innestare le conversazioni:"
 
 #. Tag: programlisting
 #: Conversations.xml:485
@@ -610,7 +610,7 @@ msgstr "<![CDATA[<s:link action=\"#{issueEditor.viewComment}\" propagation=\"nes
 #: Conversations.xml:487
 #, no-c-format
 msgid "If the link begins a conversation, you can even specify a pageflow to be used:"
-msgstr ""
+msgstr "Se il link inizia una conversazione, si può anche specificare il pageflow da usare:"
 
 #. Tag: programlisting
 #: Conversations.xml:491
@@ -626,7 +626,7 @@ msgstr ""
 #: Conversations.xml:493
 #, no-c-format
 msgid "The <literal>taskInstance</literal> attribute if for use in jBPM task lists:"
-msgstr ""
+msgstr "L'attributo <literal>taskInstance</literal> è per l'uso nelle liste di task jBPM:"
 
 #. Tag: programlisting
 #: Conversations.xml:497
@@ -638,7 +638,7 @@ msgstr "<![CDATA[<s:link action=\"#{documentApproval.approveOrReject}\" taskInst
 #: Conversations.xml:499
 #, no-c-format
 msgid "(See the DVD Store demo application for examples of this.)"
-msgstr ""
+msgstr "(Si veda l'applicazione demo di Negozio DVD come esempio.)"
 
 #. Tag: para
 #: Conversations.xml:503
@@ -710,7 +710,7 @@ msgstr ""
 #: Conversations.xml:538
 #, no-c-format
 msgid "You can even include JSF EL expressions in a faces message summary:"
-msgstr ""
+msgstr "Si possono anche includere espressioni JSF EL in un sommario di messaggi faces:"
 
 #. Tag: programlisting
 #: Conversations.xml:542
@@ -722,7 +722,7 @@ msgstr "<![CDATA[facesMessages.add(\"Document #{document.title} was updated\");]
 #: Conversations.xml:544
 #, no-c-format
 msgid "You may display the messages in the usual way, for example:"
-msgstr ""
+msgstr "Si possono visualizzare i messaggi nella solita maniera, per esempio:"
 
 #. Tag: programlisting
 #: Conversations.xml:548
@@ -734,37 +734,37 @@ msgstr "<![CDATA[<h:messages globalOnly=\"true\"/>]]>"
 #: Conversations.xml:553
 #, no-c-format
 msgid "Natural conversation ids"
-msgstr ""
+msgstr "Id di una conversazione naturale"
 
 #. Tag: para
 #: Conversations.xml:554
 #, no-c-format
 msgid "When working with conversations that deal with persistent objects, it may be desirable to use the natural business key of the object instead of the standard, \"surrogate\" conversation id:"
-msgstr ""
+msgstr "Lavorando con le conversazioni che trattano oggetti persistenti, può essere desiderabile utilizzare la chiave naturale di business dell'oggetto invece dello standard, id di conversazione \"surrogato\":"
 
 #. Tag: emphasis
 #: Conversations.xml:561
 #, no-c-format
 msgid "Easy redirect to existing conversation"
-msgstr ""
+msgstr "Redirect facile verso conversazioni esistenti"
 
 #. Tag: para
 #: Conversations.xml:563
 #, no-c-format
 msgid "It can be useful to redirect to an existing conversation if the user requests the same operation twice. Take this example: <quote> You are on ebay, half way through paying for an item you just won as a Christmas present for your parents. Lets say you're sending it straight to them - you enter your payment details but you can't remember their address. You accidentally reuse the same browser window finding out their address. Now you need to return to the payment for the item. </quote>"
-msgstr ""
+msgstr "Può essere utile redirigersi verso una conversazione esistente se l'utente richiede la stessa operazione due volte. Si prenda quest'esempio: <quote>Sei su eBay, stai per pagare un oggetto che hai scelto come regalo per i tuoi genitori. Diciamo che lo stai per inviare a loro - stai per inserire i dettagli di pagamento ma non ti ricordi il loro indirizzo. Accidentalmente riutilizzi la stessa finestra del browser per cercare il loro indirizzo. Ora devi ritornare al pagamento di quell'oggetto.</quote>"
 
 #. Tag: para
 #: Conversations.xml:576
 #, no-c-format
 msgid "With a natural conversation its really easy to have the user rejoin the existing conversation, and pick up where they left off - just have them to rejoin the payForItem conversation with the itemId as the conversation id."
-msgstr ""
+msgstr "Con una conversazione naturale è molto facile riunire l'utente alla conversazione esistente, e riprendere dove aveva lasciato - riunirsi alla conversazione pagaOggetto con l'idOggetto come id di conversazione."
 
 #. Tag: emphasis
 #: Conversations.xml:584
 #, no-c-format
 msgid "User friendly URLs"
-msgstr ""
+msgstr "URL user friendly"
 
 #. Tag: para
 #: Conversations.xml:587
@@ -794,7 +794,7 @@ msgstr "Creazione di una conversazione naturale"
 #: Conversations.xml:613
 #, no-c-format
 msgid "Natural conversations are defined in <literal>pages.xml</literal>:"
-msgstr ""
+msgstr "Le conversazioni naturali sono definite in <literal>pages.xml</literal>:"
 
 #. Tag: programlisting
 #: Conversations.xml:617
