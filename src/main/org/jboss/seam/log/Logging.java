@@ -38,7 +38,7 @@ public class Logging
       return new LogImpl( clazz.getName() );
    }
    
-   static LogProvider getLogProvider(String category, boolean wrapped)
+   public static LogProvider getLogProvider(String category, boolean wrapped)
    {
       return isLog4JAvailable ? 
                new Log4JProvider(category, wrapped) : 
