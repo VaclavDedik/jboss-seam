@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Seam_Reference_Guide\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-04 00:58+0000\n"
-"PO-Revision-Date: 2008-12-31 16:02+0100\n"
+"PO-Revision-Date: 2009-01-16 19:43+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -53,7 +53,7 @@ msgstr ""
 #: Excel.xml:41
 #, no-c-format
 msgid "Customizing the module to support other kinds of &excel; spreadsheet API's has been made very easy. Implement the <literal>ExcelWorkbook </literal> interface, and register in components.xml."
-msgstr ""
+msgstr "La personalizzazione del modulo per supportare altri tipi di API &excel; è diventata molto semplice. Si implementi l'interfaccia <literal>ExcelWorkbook</literal>, e si registri in components.xml."
 
 #. Tag: programlisting
 #: Excel.xml:46
@@ -77,7 +77,7 @@ msgstr ""
 #: Excel.xml:47
 #, no-c-format
 msgid "and register the excel namespace in the components tag with"
-msgstr ""
+msgstr "e si registri il namespace excel nei tag dei componenti con"
 
 #. Tag: programlisting
 #: Excel.xml:50
@@ -193,7 +193,7 @@ msgstr ""
 #: Excel.xml:108
 #, no-c-format
 msgid "&lt;e:workbook&gt;"
-msgstr ""
+msgstr "&lt;e:workbook&gt;"
 
 #. Tag: emphasis
 #: Excel.xml:113
@@ -449,7 +449,7 @@ msgstr "Facets"
 #: Excel.xml:2333
 #, no-c-format
 msgid "none"
-msgstr ""
+msgstr "nessuno"
 
 #. Tag: programlisting
 #: Excel.xml:357
@@ -535,7 +535,7 @@ msgstr ""
 #: Excel.xml:445
 #, no-c-format
 msgid "<literal>bottomMargin</literal> &#8212;The bottom margin. The value is a number (inches)"
-msgstr ""
+msgstr "<literal>bottomMargin</literal> &#8212;Il margine inferiore. Il valore è un numero (pollici)."
 
 #. Tag: para
 #: Excel.xml:452
@@ -619,7 +619,7 @@ msgstr ""
 #: Excel.xml:544
 #, no-c-format
 msgid "<literal>leftMargin</literal> &#8212;The left margin. The value is a number (inches)."
-msgstr ""
+msgstr "<literal>leftMargin</literal> &#8212;Il margine sinistro. Il valore è un numero (pollici)."
 
 #. Tag: para
 #: Excel.xml:551
@@ -697,7 +697,7 @@ msgstr ""
 #: Excel.xml:643
 #, no-c-format
 msgid "<literal>rightMargin</literal> &#8212;The right margin. The value is a number (inches)."
-msgstr ""
+msgstr "<literal>rightMargin</literal> &#8212;Il margine destro. Il valore è un numero (pollici)."
 
 #. Tag: para
 #: Excel.xml:650
@@ -721,7 +721,7 @@ msgstr ""
 #: Excel.xml:671
 #, no-c-format
 msgid "<literal>topMargin</literal> &#8212;The top margin. The value is a number (inches)."
-msgstr ""
+msgstr "<literal>topMargin</literal> &#8212;Il margine superiore. Il valore è un numero (pollici)."
 
 #. Tag: para
 #: Excel.xml:678
@@ -1208,7 +1208,7 @@ msgstr "&lt;e:listValidationItem&gt;"
 #: Excel.xml:1256
 #, no-c-format
 msgid "<literal>value</literal> &#8212;A values to validate against."
-msgstr ""
+msgstr "<literal>value</literal> &#8212;Un valore da validare."
 
 #. Tag: programlisting
 #: Excel.xml:1287
@@ -1254,7 +1254,7 @@ msgstr ""
 #: Excel.xml:1294
 #, no-c-format
 msgid "Format masks"
-msgstr ""
+msgstr "Maschere per il formato"
 
 #. Tag: para
 #: Excel.xml:1295
@@ -1266,7 +1266,7 @@ msgstr ""
 #: Excel.xml:1305
 #, no-c-format
 msgid "Number masks"
-msgstr ""
+msgstr "Maschere per il numero"
 
 #. Tag: para
 #: Excel.xml:1306
@@ -1284,7 +1284,7 @@ msgstr ""
 #: Excel.xml:1326
 #, no-c-format
 msgid "Date masks"
-msgstr ""
+msgstr "Maschere per la data"
 
 #. Tag: para
 #: Excel.xml:1327
@@ -1302,7 +1302,7 @@ msgstr ""
 #: Excel.xml:1350
 #, no-c-format
 msgid "Formulas"
-msgstr ""
+msgstr "Formule"
 
 #. Tag: para
 #: Excel.xml:1351
@@ -1368,7 +1368,7 @@ msgstr ""
 #: Excel.xml:1373
 #, no-c-format
 msgid "Images"
-msgstr ""
+msgstr "Immagini"
 
 #. Tag: para
 #: Excel.xml:1374
@@ -1492,7 +1492,7 @@ msgstr ""
 #: Excel.xml:1529
 #, no-c-format
 msgid "<literal>description</literal> &#8212;The description of the link. The value is a string."
-msgstr ""
+msgstr "<literal>description</literal> &#8212;La descrizione del link. Il valore è una stringa."
 
 #. Tag: programlisting
 #: Excel.xml:1561
@@ -1528,13 +1528,13 @@ msgstr ""
 #: Excel.xml:1567
 #, no-c-format
 msgid "Headers and footers"
-msgstr ""
+msgstr "Intestazioni e pié di pagina"
 
 #. Tag: para
 #: Excel.xml:1568
 #, no-c-format
 msgid "Headers and footers are childrens of worksheets and contain facets which in turn contains a string with commands that are parsed."
-msgstr ""
+msgstr "Intestazioni e pié di pagina sono figli dei fogli di lavoro e contengono facet che a loro volta contengono una stringa con i comandi da analizzare."
 
 #. Tag: literal
 #: Excel.xml:1580
@@ -1547,21 +1547,21 @@ msgstr "&lt;e:header&gt;"
 #: Excel.xml:1672
 #, no-c-format
 msgid "<literal>left</literal> &#8212;The contents of the left header/footer part."
-msgstr ""
+msgstr "<literal>left</literal> &#8212; i contenuti della parte sinistra di intestazione/pié di pagina."
 
 #. Tag: para
 #: Excel.xml:1616
 #: Excel.xml:1679
 #, no-c-format
 msgid "<literal>center</literal> &#8212;The contents of the center header/footer part."
-msgstr ""
+msgstr "<literal>center</literal> &#8212; i contenuti della parte centrale di intestazione/pié di pagina."
 
 #. Tag: para
 #: Excel.xml:1623
 #: Excel.xml:1686
 #, no-c-format
 msgid "<literal>right</literal> &#8212;The contents of the right header/footer part."
-msgstr ""
+msgstr "<literal>right</literal> &#8212; i contenuti della parte destra di intestazione/pié di pagina."
 
 #. Tag: literal
 #: Excel.xml:1643
@@ -1774,7 +1774,7 @@ msgstr "#font_name#"
 #: Excel.xml:1859
 #, no-c-format
 msgid "Sets font name, used like #font_name=Verdana\""
-msgstr ""
+msgstr "Imposta il nome dei font, si usa come #font_name=Verdana#"
 
 #. Tag: para
 #: Excel.xml:1866
@@ -1786,7 +1786,7 @@ msgstr "#font_size#"
 #: Excel.xml:1869
 #, no-c-format
 msgid "Sets font size, use like #font_size=12#"
-msgstr ""
+msgstr "Imposta la dimensione dei font, si usa come #font_size=12#"
 
 #. Tag: programlisting
 #: Excel.xml:1877
@@ -1826,7 +1826,7 @@ msgstr ""
 #: Excel.xml:1880
 #, no-c-format
 msgid "Print areas and titles"
-msgstr ""
+msgstr "Stampa di aree e titoli"
 
 #. Tag: para
 #: Excel.xml:1881
@@ -1900,19 +1900,20 @@ msgstr ""
 #: Excel.xml:1965
 #, no-c-format
 msgid "Worksheet Commands"
-msgstr ""
+msgstr "Comandi per i fogli di lavoro (worksheet)"
 
+# workbook = ?
 #. Tag: para
 #: Excel.xml:1966
 #, no-c-format
 msgid "Worksheet commands are children of workbooks and are usually executed only once."
-msgstr ""
+msgstr "I comandi per i fogli di lavoro sono figli dei workbook e vengono solitamente eseguiti solo una volta."
 
 #. Tag: title
 #: Excel.xml:1971
 #, no-c-format
 msgid "Grouping"
-msgstr ""
+msgstr "Raggruppamento"
 
 #. Tag: para
 #: Excel.xml:1972
@@ -1952,7 +1953,7 @@ msgstr ""
 #: Excel.xml:2218
 #, no-c-format
 msgid "Child elements"
-msgstr ""
+msgstr "Elementi figli"
 
 #. Tag: literal
 #: Excel.xml:2046
@@ -2004,13 +2005,13 @@ msgstr ""
 #: Excel.xml:2112
 #, no-c-format
 msgid "Page breaks"
-msgstr ""
+msgstr "Interruzioni di pagina"
 
 #. Tag: para
 #: Excel.xml:2113
 #, no-c-format
 msgid "Provides page breaks"
-msgstr ""
+msgstr "Fornisce interruzioni di pagina"
 
 #. Tag: literal
 #: Excel.xml:2122
@@ -2048,13 +2049,13 @@ msgstr ""
 #: Excel.xml:2164
 #, no-c-format
 msgid "breaks page at row 5."
-msgstr ""
+msgstr "interrompe la pagina alla riga 5."
 
 #. Tag: title
 #: Excel.xml:2167
 #, no-c-format
 msgid "Merging"
-msgstr ""
+msgstr "Fusione (merge)"
 
 #. Tag: para
 #: Excel.xml:2168
@@ -2186,13 +2187,13 @@ msgstr ""
 #: Excel.xml:2269
 #, no-c-format
 msgid "See <xref linkend=\"excel.fontsandlayout\"/> for formatting."
-msgstr ""
+msgstr "Si veda <xref linkend=\"excel.fontsandlayout\"/> per la formattazione."
 
 #. Tag: title
 #: Excel.xml:2274
 #, no-c-format
 msgid "Fonts and layout"
-msgstr ""
+msgstr "Font e layout"
 
 #. Tag: para
 #: Excel.xml:2275
@@ -2210,7 +2211,7 @@ msgstr ""
 #: Excel.xml:2289
 #, no-c-format
 msgid "Stylesheet links"
-msgstr ""
+msgstr "Link ai fogli di stile"
 
 #. Tag: para
 #: Excel.xml:2290
@@ -2228,7 +2229,7 @@ msgstr "&lt;e:link&gt;"
 #: Excel.xml:2311
 #, no-c-format
 msgid "<literal>URL</literal> &#8212;The URL to the stylesheet"
-msgstr ""
+msgstr "<literal>URL</literal> &#8212;l'URL al foglio di stile"
 
 #. Tag: programlisting
 #: Excel.xml:2342
@@ -2256,7 +2257,7 @@ msgstr ""
 #: Excel.xml:2347
 #, no-c-format
 msgid "Fonts"
-msgstr ""
+msgstr "Font"
 
 #. Tag: para
 #: Excel.xml:2348
@@ -2286,7 +2287,7 @@ msgstr "xls-font-size"
 #: Excel.xml:2372
 #, no-c-format
 msgid "The font size. Use a plain number"
-msgstr ""
+msgstr "La dimensione del font. Si usi un numero intero."
 
 #. Tag: para
 #: Excel.xml:2377
@@ -2310,7 +2311,7 @@ msgstr "xls-font-bold"
 #: Excel.xml:2395
 #, no-c-format
 msgid "Should the font be bold? Valid values are \"true\" and \"false\""
-msgstr ""
+msgstr "Il font deve essere in grassetto? I valori validi sono \"true\" and \"false\""
 
 #. Tag: para
 #: Excel.xml:2403
@@ -2322,7 +2323,7 @@ msgstr "xls-font-italic"
 #: Excel.xml:2406
 #, no-c-format
 msgid "Should the font be italic? Valid values are \"true\" and \"false\""
-msgstr ""
+msgstr "Il font deve essere in corsivo? I valori validi sono \"true\" and \"false\""
 
 #. Tag: para
 #: Excel.xml:2414
@@ -2382,7 +2383,7 @@ msgstr ""
 #: Excel.xml:2474
 #, no-c-format
 msgid "Borders"
-msgstr ""
+msgstr "Bordi"
 
 #. Tag: para
 #: Excel.xml:2475
@@ -2550,7 +2551,7 @@ msgstr ""
 #: Excel.xml:2667
 #, no-c-format
 msgid "Background"
-msgstr ""
+msgstr "Background"
 
 #. Tag: para
 #: Excel.xml:2668
@@ -2598,7 +2599,7 @@ msgstr ""
 #: Excel.xml:2721
 #, no-c-format
 msgid "Column settings"
-msgstr ""
+msgstr "Impostazioni colonna"
 
 #. Tag: para
 #: Excel.xml:2722
@@ -2664,7 +2665,7 @@ msgstr ""
 #: Excel.xml:2782
 #, no-c-format
 msgid "Cell settings"
-msgstr ""
+msgstr "Impostazioni cella"
 
 #. Tag: para
 #: Excel.xml:2783
@@ -2832,7 +2833,7 @@ msgstr ""
 #: Excel.xml:2943
 #, no-c-format
 msgid "Links and further documentation"
-msgstr ""
+msgstr "Link ed ulteriore documentazione"
 
 #. Tag: para
 #: Excel.xml:2944

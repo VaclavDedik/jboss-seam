@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:23+0000\n"
-"PO-Revision-Date: 2009-01-15 18:35+0100\n"
+"PO-Revision-Date: 2009-01-16 19:28+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -318,25 +318,25 @@ msgstr "Quando si incontra una <literal>@End</literal>, la conversazione innesta
 #: Conversations.xml:257
 #, no-c-format
 msgid "Certain user activity (workspace management, or the back button) can cause the outer conversation to be resumed before the inner conversation is ended. In this case it is possible to have multiple concurrent nested conversations belonging to the same outer conversation. If the outer conversation ends before a nested conversation ends, Seam destroys all nested conversation contexts along with the outer context."
-msgstr ""
+msgstr "Certe attività utente (gestione del workspace, o il pulsante indietro) possono causare il ripristino della conversazione più esterna prima che venga terminata la conversazione innestata. In questo caso è possibile avere più conversazioni innestate concorrenti che appartengono alla stessa conversazione più esterna. Se la conversazione più esterna finisce prima che termini la conversazione innestata, Seam distrugge tutti i contesti delle conversazioni innestate assieme a quella più esterna."
 
 #. Tag: para
 #: Conversations.xml:267
 #, no-c-format
 msgid "The conversation at the bottom of the conversation stack is the root conversation. Destroying this conversation always destroy all of its descendents. You can achieve this declaratively by specifying <literal>@End(root=true)</literal>."
-msgstr ""
+msgstr "La conversazione alla fine dello stack delle conversazioni è la conversazione radice. Distruggendo questa conversazione si distruggono sempre tutti i suoi discendenti. Si può ottenere questo in modo dichiarativo specificando <literal>@End(root=true)</literal>."
 
 #. Tag: para
 #: Conversations.xml:274
 #, no-c-format
 msgid "A conversation may be thought of as a <emphasis>continuable state</emphasis>. Nested conversations allow the application to capture a consistent continuable state at various points in a user interaction, thus ensuring truly correct behavior in the face of backbuttoning and workspace management."
-msgstr ""
+msgstr "Una conversazione può essere pensata come uno <emphasis>stato continuo</emphasis>. Le conversazioni innestate consentono all'applicazione di catturare lo stato continuo consistente in vari punti durante l'interazione utente, quindi assicurando un comportamento corretto rispetto al pulsante indietro ed alla gestione del workspace."
 
 #. Tag: para
 #: Conversations.xml:282
 #, no-c-format
 msgid "As mentioned previously, if a component exists in a parent conversation of the current nested conversation, the nested conversation will use the same instance. Occasionally, it is useful to have a different instance in each nested conversation, so that the component instance that exists in the parent conversation is invisible to its child conversations. You can achieve this behavior by annotating the component <literal>@PerNestedConversation</literal>."
-msgstr ""
+msgstr "Come menzionato in precedenza, se un componente si trova in una conversazione padre dell'attuale conversazione innestata, la conversazione innestata userà la stessa istanza. Occasionalmente, è utile avere diverse istanze in ciascuna conversazione innestata, cosicché l'istanza del componente che si trova nella conversazione padre sia invisibile alle sue conversazioni figlie. Si può ottenere questo comportamento annotando il componente <literal>@PerNestedConversation</literal>."
 
 #. Tag: title
 #: Conversations.xml:295
@@ -348,25 +348,25 @@ msgstr "Avvio di conversazioni con richieste GET"
 #: Conversations.xml:296
 #, no-c-format
 msgid "JSF does not define any kind of action listener that is triggered when a page is accessed via a non-faces request (for example, a HTTP GET request). This can occur if the user bookmarks the page, or if we navigate to the page via an <literal>&lt;h:outputLink&gt;</literal>."
-msgstr ""
+msgstr "JSF non definisce alcun tipo di action listener da lanciare quando una pagina viene acceduta tramite una richiesta non-faces (per esempio, una richiesta HTTP GET). Questo può succedere se l'utente memorizza la pagina come segnalibro, o se si naviga nella pagina tramite un <literal>&lt;h:outputLink&gt;</literal>."
 
 #. Tag: para
 #: Conversations.xml:303
 #, no-c-format
 msgid "Sometimes we want to begin a conversation immediately the page is accessed. Since there is no JSF action method, we can't solve the problem in the usual way, by annotating the action with <literal>@Begin</literal>."
-msgstr ""
+msgstr "A volte si vuole immediatamente iniziare una conversazione all'accesso della pagina. Poiché non c'è alcun metodo d'azione JSF, non si può risolvere il problema nel consueto modo, annotando l'azione con <literal>@Begin</literal>."
 
 #. Tag: para
 #: Conversations.xml:309
 #, no-c-format
 msgid "A further problem arises if the page needs some state to be fetched into a context variable. We've already seen two ways to solve this problem. If that state is held in a Seam component, we can fetch the state in a <literal>@Create</literal> method. If not, we can define a <literal>@Factory</literal> method for the context variable."
-msgstr ""
+msgstr "Sorge un altro problema se la pagina ha bisogno di recuperare uno stato da una variabile di contesto. Si sono già visti due modi per risolvere questo problema. Se lo stato è mantenuto in un componente Seam, si può recuperare lo stato in un metodo <literal>@Create</literal>. Se non lo è, si può definire un metodo <literal>@Factory</literal> per la variabile di contesto."
 
 #. Tag: para
 #: Conversations.xml:317
 #, no-c-format
 msgid "If none of these options works for you, Seam lets you define a <emphasis>page action</emphasis> in the <literal>pages.xml</literal> file."
-msgstr ""
+msgstr "Se nessuna di queste opzioni funziona, Seam permette di definire una <emphasis>pagina d'azione</emphasis> nel file <literal>pages.xml</literal>."
 
 #. Tag: programlisting
 #: Conversations.xml:323
