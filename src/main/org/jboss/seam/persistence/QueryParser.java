@@ -35,35 +35,24 @@ public class QueryParser
    
    public QueryParser(String ejbql, int startingParameterNumber)
    {
-      StringTokenizer tokens = new StringTokenizer(ejbql, "#}", true);
-      ejbqlBuilder = new StringBuilder( ejbql.length() );
-      while ( tokens.hasMoreTokens() )
-      {
-         String token = tokens.nextToken();
-         if ( "#".equals(token) )
-         {
-            if ( !tokens.hasMoreTokens() )
-            {
-               throw new IllegalArgumentException("query fragment terminates in #");
-            }
-            String expressionToken = tokens.nextToken();
-            if ( !expressionToken.startsWith("{") )
-            {
-               throw new IllegalArgumentException("missing { after # in query fragment");
-            }
-            if ( !tokens.hasMoreTokens() )
-            {
-               throw new IllegalArgumentException("missing } after expression in query fragment");
-            }
-            String expression = token + expressionToken + tokens.nextToken();
-            ejbqlBuilder.append(':').append( getParameterName( startingParameterNumber + parameterValueBindings.size() ) );
-            parameterValueBindings.add( Expressions.instance().createValueExpression(expression) );
-         }
-         else
-         {
-            ejbqlBuilder.append(token);
-         }
-      }
+       StringTokenizer tokens = new StringTokenizer(ejbql, "#}", true);
+       ejbqlBuilder = new StringBuilder(ejbql.length());
+       while (tokens.hasMoreTokens()) {
+           String token = tokens.nextToken();
+           if ("#".equals(token) && tokens.hasMoreTokens()) {
+               String expressionToken = tokens.nextToken();
+
+               if (!expressionToken.startsWith("{") || !tokens.hasMoreTokens()) {
+                   ejbqlBuilder.append(token).append(expressionToken);
+               } else {
+                   String expression = token + expressionToken + tokens.nextToken();
+                   ejbqlBuilder.append(':').append( getParameterName( startingParameterNumber + parameterValueBindings.size() ) );
+                   parameterValueBindings.add( Expressions.instance().createValueExpression(expression) );
+               }    
+           } else {
+               ejbqlBuilder.append(token);
+           }
+       }
    }
    
 }
