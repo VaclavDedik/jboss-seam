@@ -639,7 +639,7 @@ public class EditDocumentBean implements EditDocument {
                </para>
 
                <para>
-                  With a natural conversations, when you are building your hotel 
+                  With a natural conversation, when you are building your hotel 
                   booking system (or, of course, whatever your app is) you can 
                   generate a URL like 
                   <literal>http://seam-hotels/book.seam?hotel=BestWesternAntwerpen</literal> 

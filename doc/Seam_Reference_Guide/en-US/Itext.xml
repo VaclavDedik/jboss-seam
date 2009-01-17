@@ -1,7 +1,7 @@
 <chapter id="itext">
     <title>iText PDF generation</title>
     <para>Seam now includes a component set for generating documents using iText. The primary focus of Seam's iText
-        document support is for the generation of PDF doucuments, but Seam also offers basic support for RTF document
+        document support is for the generation of PDF documents, but Seam also offers basic support for RTF document
         generation.</para>
 
     <section id="itext.intro">
