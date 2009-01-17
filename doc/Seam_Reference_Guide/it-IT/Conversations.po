@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:23+0000\n"
-"PO-Revision-Date: 2009-01-16 19:28+0100\n"
+"PO-Revision-Date: 2009-01-17 21:02+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -386,13 +386,13 @@ msgstr ""
 #: Conversations.xml:325
 #, no-c-format
 msgid "This action method is called at the beginning of the render response phase, any time the page is about to be rendered. If a page action returns a non-null outcome, Seam will process any appropriate JSF and Seam navigation rules, possibly resulting in a completely different page being rendered."
-msgstr ""
+msgstr "Il metodo d'azione viene chiamato all'inizio della fase di render response, ogni volta che la pagina sta per essere generata. Se l'azione della pagina ritorna un esito non-null, Seam processerà ogni opportuna regola di JSF e Seam, e genererà un'altra pagina."
 
 #. Tag: para
 #: Conversations.xml:333
 #, no-c-format
 msgid "If <emphasis>all</emphasis> you want to do before rendering the page is begin a conversation, you could use a built-in action method that does just that:"
-msgstr ""
+msgstr "Se <emphasis>tutto</emphasis> ciò che si vuole fare prima di generare una pagina è iniziare una conversazione, si può utilizzare un metodo d'azione predefinito che fa questo:"
 
 #. Tag: programlisting
 #: Conversations.xml:339
@@ -418,7 +418,7 @@ msgstr "Si noti che si può chiamare quest'azione ridefinita da un controllo JSF
 #: Conversations.xml:347
 #, no-c-format
 msgid "If you want more control, to join existing conversations or begin a nested conversion, to begin a pageflow or an atomic conversation, you should use the <literal>&lt;begin-conversation&gt;</literal> element."
-msgstr ""
+msgstr "Se si vuole più controllo, per unirsi a conversazioni esistenti od iniziare una conversazione innestata, per iniziare un pageflow od una conversazione atomica, occorre usare l'elemento <literal>&lt;begin-conversation&gt;</literal>."
 
 #. Tag: programlisting
 #: Conversations.xml:354
@@ -508,37 +508,37 @@ msgstr "Usando <literal>&lt;s:link&gt;</literal> e <literal>&lt;s:button&gt;</li
 #: Conversations.xml:405
 #, no-c-format
 msgid "JSF command links always perform a form submission via JavaScript, which breaks the web browser's \"open in new window\" or \"open in new tab\" feature. In plain JSF, you need to use an <literal>&lt;h:outputLink&gt;</literal> if you need this functionality. But there are two major limitations to <literal>&lt;h:outputLink&gt;</literal>."
-msgstr ""
+msgstr "I comandi link JSF eseguono sempre un invio di form tramite JavaScript, che rompe le caratteristiche dei browser \"Apri in nuova finestra\" o \"Apri in nuova scheda\". Nel semplice JSF occorre usare un <literal>&lt;h:outputLink&gt;</literal> se si vuole questa finzionalità. Ma ci sono due grandi limitazioni in <literal>&lt;h:outputLink&gt;</literal>"
 
 #. Tag: para
 #: Conversations.xml:415
 #, no-c-format
 msgid "JSF provides no way to attach an action listener to an <literal>&lt;h:outputLink&gt;</literal>."
-msgstr ""
+msgstr "JSF non fornisce un modo per agganciare un action listener a <literal>&lt;h:outputLink&gt;</literal>."
 
 #. Tag: para
 #: Conversations.xml:421
 #, no-c-format
 msgid "JSF does not propagate the selected row of a <literal>DataModel</literal> since there is no actual form submission."
-msgstr ""
+msgstr "JSF non propaga la riga selezionata di un <literal>DataModel</literal> poiché non c'è alcun invio di form."
 
 #. Tag: para
 #: Conversations.xml:428
 #, no-c-format
 msgid "Seam provides the notion of a <emphasis>page action</emphasis> to help solve the first problem, but this does nothing to help us with the second problem. We <emphasis>could</emphasis> work around this by using the RESTful approach of passing a request parameter and requerying for the selected object on the server side. In some cases&#8212;such as the Seam blog example application&#8212;this is indeed the best approach. The RESTful style supports bookmarking, since it does not require server-side state. In other cases, where we don't care about bookmarks, the use of <literal>@DataModel</literal> and <literal>@DataModelSelection</literal> is just so convenient and transparent!"
-msgstr ""
+msgstr "Seam fornisce la nozione di <emphasis>pagina d'azione</emphasis> per aiutare a risolvere il primo problema, ma questo non aiuta per niente il secondo problema. Si <emphasis>può</emphasis> aggirare questo usando l'approccio RESTful di passare un parametro di richiesta e di riottenere l'oggetto selezionato lato server. In alcuni casi&#8212;come nell'esempio Seam del Blog&#8212;questo è il migliore approccio. Lo stile RESTful supporta i segnalibri, poiché non richiede uno stato lato server. In altri casi, dove non interessanno i segnalibri, l'uso di un <literal>@DataModel</literal> e di <literal>@DataModelSelection</literal> è conveniente e trasparente!"
 
 #. Tag: para
 #: Conversations.xml:441
 #, no-c-format
 msgid "To fill in this missing functionality, and to make conversation propagation even simpler to manage, Seam provides the <literal>&lt;s:link&gt;</literal> JSF tag."
-msgstr ""
+msgstr "Per riempiere questa mancanza di funzionalità e rendere semplicela propagazione delle conversazioni da gestire, Seam fornisce il tag JSF <literal>&lt;s:link&gt;</literal>."
 
 #. Tag: para
 #: Conversations.xml:447
 #, no-c-format
 msgid "The link may specify just the JSF view id:"
-msgstr ""
+msgstr "Il link può specificare solo l'id della vista JSF:"
 
 #. Tag: programlisting
 #: Conversations.xml:451
@@ -550,7 +550,7 @@ msgstr "<![CDATA[<s:link view=\"/login.xhtml\" value=\"Login\"/>]]>"
 #: Conversations.xml:453
 #, no-c-format
 msgid "Or, it may specify an action method (in which case the action outcome determines the page that results):"
-msgstr ""
+msgstr "Oppure può spcificareil metodo d'azione (nel qual caso l'esito dell'azione determina la pagina di destinazione):"
 
 #. Tag: programlisting
 #: Conversations.xml:458
@@ -562,7 +562,7 @@ msgstr "<![CDATA[<s:link action=\"#{login.logout}\" value=\"Logout\"/>]]>"
 #: Conversations.xml:460
 #, no-c-format
 msgid "If you specify <emphasis>both</emphasis> a JSF view id and an action method, the 'view' will be used <emphasis>unless</emphasis> the action method returns a non-null outcome:"
-msgstr ""
+msgstr "Se si specificano <emphasis>entrambi</emphasis> l'id della vista JSF ed il metodo d'azione, verrà usata la 'vista' <emphasis>amenoché</emphasis> il metodo d'azione ritorni un esito non-null:"
 
 #. Tag: programlisting
 #: Conversations.xml:466
@@ -644,7 +644,7 @@ msgstr "(Si veda l'applicazione demo di Negozio DVD come esempio.)"
 #: Conversations.xml:503
 #, no-c-format
 msgid "Finally, if you need the \"link\" to be rendered as a button, use <literal>&lt;s:button&gt;</literal>:"
-msgstr ""
+msgstr "Infine se il \"link\" deve essere visualizzato come pulsante, si usi <literal>&lt;s:button&gt;</literal>:"
 
 #. Tag: programlisting
 #: Conversations.xml:507
@@ -662,13 +662,13 @@ msgstr "Messaggi di successo"
 #: Conversations.xml:513
 #, no-c-format
 msgid "It is quite common to display a message to the user indicating success or failure of an action. It is convenient to use a JSF <literal>FacesMessage</literal> for this. Unfortunately, a successful action often requires a browser redirect, and JSF does not propagate faces messages across redirects. This makes it quite difficult to display success messages in plain JSF."
-msgstr ""
+msgstr "E' abbastanza comune visualizzare all'utente un messaggio indicante il successo od il fallimento di un'azione. E' conveniente usare <literal>FacesMessage</literal> di JSF per questo scopo. Sfortunatamente un'azione di successo spesso richiede un redirect del browser, e JSF non propaga i messaggi faces lungo i redirect. Questo rende difficile visualizzare i messaggi nel semplice JSF."
 
 #. Tag: para
 #: Conversations.xml:522
 #, no-c-format
 msgid "The built in conversation-scoped Seam component named <literal>facesMessages</literal> solves this problem. (You must have the Seam redirect filter installed.)"
-msgstr ""
+msgstr "Il componente Seam predefinito con scope conversazione chiamato <literal>facesMessages</literal> risolve questo problema. (Occorre avere installato il filtro redirect di Seam.)"
 
 #. Tag: programlisting
 #: Conversations.xml:528
@@ -704,7 +704,7 @@ msgstr ""
 #: Conversations.xml:530
 #, no-c-format
 msgid "Any message added to <literal>facesMessages</literal> is used in the very next render response phase for the current conversation. This even works when there is no long-running conversation since Seam preserves even temporary conversation contexts across redirects."
-msgstr ""
+msgstr "Qualsiasi messaggio aggiunto a <literal>facesMessages</literal> viene usato nella fase render response più prossima per la conversazione corrente. Questo funziona anche quando non ci sono conversazioni long-running poiché Seam preserva anche i contesti di conversazioni temporanee lungo i redirect."
 
 #. Tag: para
 #: Conversations.xml:538
@@ -770,13 +770,13 @@ msgstr "URL user friendly"
 #: Conversations.xml:587
 #, no-c-format
 msgid "For me this consists of a navigable hierarchy (I can navigate by editing the url) and a meaningful URL (like this Wiki uses - so don't identify things by random ids). For some applications user friendly URLs are less important, of course."
-msgstr ""
+msgstr "Questo si concretizza in una gerarchia navigabile (si può navigare editando l'url) e in URL significativi (come mostrato in Wiki - quindi non si identifichino gli oggetti con id casuali). Per alcune applicazioni gli URL user friendly sono sicuramente meno importanti."
 
 #. Tag: para
 #: Conversations.xml:595
 #, no-c-format
 msgid "With a natural conversations, when you are building your hotel booking system (or, of course, whatever your app is) you can generate a URL like <literal>http://seam-hotels/book.seam?hotel=BestWesternAntwerpen</literal> (of course, whatever parameter <literal>hotel</literal> maps to on your domain model must be unique) and with URLRewrite easily transform this to http://seam-hotels/book/BestWesternAntwerpen."
-msgstr ""
+msgstr "Con una conversazione naturale, quando si costruisce un sistema di prenotazione hotel (od una qualsiasi applicazione) si può generare un URL del tipo <literal>http://seam-hotels/book.seam?hotel=BestWesternAntwerpen</literal> (sicuramente un qualsiasi parametro <literal>hotel</literal>, che mappi sul modello di dominio, deve essere univoco) e con URLRewrite si può facilmente trasformare questo in http://seam-hotels/book/BestWesternAntwerpen."
 
 #. Tag: para
 #: Conversations.xml:606
@@ -812,25 +812,25 @@ msgstr ""
 #: Conversations.xml:619
 #, no-c-format
 msgid "The first thing to note from the above definition is that the conversation has a name, in this case <literal>PlaceBid</literal>. This name uniquely identifies this particular named conversation, and is used by the <literal>page</literal> definition to identify a named conversation to participate in."
-msgstr ""
+msgstr "La prima cosa da notare dalla definizione di cui sopra è che la conversazione ha un nome, in questo caso <literal>PlaceBid</literal>. Questo nome identifica univocamente questa particolare conversazione e viene usato dalla definizione di <literal>pagina</literal> per identificare una conversazione con nome in cui partecipare."
 
 #. Tag: para
 #: Conversations.xml:627
 #, no-c-format
 msgid "The next attribute, <literal>parameter-name</literal> defines the request parameter that will contain the natural conversation id, in place of the default conversation id parameter. In this example, the <literal>parameter-name</literal> is <literal>auctionId</literal>. This means that instead of a conversation parameter like <literal>cid=123</literal> appearing in the URL for your page, it will contain <literal>auctionId=765432</literal> instead."
-msgstr ""
+msgstr "Il prossimo attributo <literal>parameter-name</literal> definisce il parametro di richiesta che conterrà l'id della conversazione naturale, al posto del parametro dell'id della conversazione di default. In quest'esempio, il <literal>parameter-name</literal> è <literal>auctionId</literal>. Questo significa che invece di un parametro di conversazione come <literal>cid=123</literal> che appare nell'URL della pagina, conterrà invece <literal>auctionId=765432</literal>."
 
 #. Tag: para
 #: Conversations.xml:636
 #, no-c-format
 msgid "The last attribute in the above configuration, <literal>parameter-value</literal>, defines an EL expression used to evaluate the value of the natural business key to use as the conversation id. In this example, the conversation id will be the primary key value of the <literal>auction</literal> instance currently in scope."
-msgstr ""
+msgstr "L'ultimo attributo della configurazione di cui sopra, <literal>parameter-value</literal>, definisce un'espressione EL usata per valutare il valore della chiave naturale di business da usare come id di conversazione. In quest'esempio, l'id della conversazione sarà il valore della chiave primaria dell'istanza <literal>auction</literal> attualmente nello scope."
 
 #. Tag: para
 #: Conversations.xml:643
 #, no-c-format
 msgid "Next, we define which pages will participate in the named conversation. This is done by specifying the <literal>conversation</literal> attribute for a <literal>page</literal> definition:"
-msgstr ""
+msgstr "Poi si definirà quali pagine parteciperanno nella conversazione con nome. Questo è fatto specificando l'attributo <literal>conversation</literal> per una definizione di <literal>pagina</literal>:"
 
 #. Tag: programlisting
 #: Conversations.xml:649
@@ -866,7 +866,7 @@ msgstr "Redirezione alla conversazione naturale"
 #: Conversations.xml:656
 #, no-c-format
 msgid "When starting, or redirecting to, a natural conversation there are a number of options for specifying the natural conversation name. Let's start by looking at the following page definition:"
-msgstr ""
+msgstr "Avviando o facendo redirect verso una conversazione naturale ci sono un numero di opzioni possibili per specificare il nome della conversazione naturale. Si guardi alla seguente definizione di pagina:"
 
 #. Tag: programlisting
 #: Conversations.xml:662
@@ -892,7 +892,7 @@ msgstr ""
 #: Conversations.xml:664
 #, no-c-format
 msgid "From here, we can see that invoking the action <literal>#{bidAction.placeBid}</literal> from our auction view (by the way, all these examples are taken from the seamBay example in Seam), that we will be redirected to <literal>/bid.xhtml</literal>, which, as we saw previously, is configured with the natural conversation <literal>PlaceBid</literal>. The declaration for our action method looks like this:"
-msgstr ""
+msgstr "Da qua si può vedere che invocando l'azione <literal>#{bidAction.placeBid}</literal> dalla vista auction (comunque, tutti questi esempio sono presi dall'esempio seamBay), che verrà rediretta a <literal>/bid.xhtml</literal>, che come si è visto, è configurata con la conversazione naturale <literal>PlaceBid</literal>. La dichiarazione del metodo d'azione appare come:"
 
 #. Tag: programlisting
 #: Conversations.xml:672
