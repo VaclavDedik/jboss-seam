@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seam_-_Contextual_Components VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-12-04 00:59+0000\n"
+"POT-Creation-Date: 2009-01-18 15:01+0000\n"
 "PO-Revision-Date: 2008-11-06 00:10+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -44,8 +44,8 @@ msgstr ""
 #, no-c-format
 msgid ""
 "Seam components may be provided with configuration properties either via "
-"servlet context parameters, or via a properties file named <literal>seam."
-"properties</literal> in the root of the classpath."
+"servlet context parameters, via system properties, or via a properties file "
+"named <literal>seam.properties</literal> in the root of the classpath."
 msgstr ""
 
 #. Tag: para
@@ -57,31 +57,33 @@ msgid ""
 "<literal>com.jboss.myapp.settings</literal> has a setter method named "
 "<literal>setLocale()</literal>, we can provide a property named <literal>com."
 "jboss.myapp.settings.locale</literal> in the <literal>seam.properties</"
-"literal> file or as a servlet context parameter, and Seam will set the value "
-"of the <literal>locale</literal> attribute whenever it instantiates the "
-"component."
+"literal> file, a system property named <literal>org.jboss.seam.properties."
+"com.jboss.myapp.settings.locale</literal> via -D at startup, or as a servlet "
+"context parameter, and Seam will set the value of the <literal>locale</"
+"literal> attribute whenever it instantiates the component."
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:31
+#: Xml.xml:32
 #, no-c-format
 msgid ""
 "The same mechanism is used to configure Seam itself. For example, to set the "
 "conversation timeout, we provide a value for <literal>org.jboss.seam.core."
-"manager.conversationTimeout</literal> in <literal>web.xml</literal> or "
-"<literal>seam.properties</literal>. (There is a built-in Seam component "
-"named <literal>org.jboss.seam.core.manager</literal> with a setter method "
-"named <literal>setConversationTimeout()</literal>.)"
+"manager.conversationTimeout</literal> in <literal>web.xml</literal>, "
+"<literal>seam.properties</literal>, or via a system property prefixed with "
+"<literal>org.jboss.seam.properties</literal>. (There is a built-in Seam "
+"component named <literal>org.jboss.seam.core.manager</literal> with a setter "
+"method named <literal>setConversationTimeout()</literal>.)"
 msgstr ""
 
 #. Tag: title
-#: Xml.xml:41
+#: Xml.xml:43
 #, no-c-format
 msgid "Configuring components via <literal>components.xml</literal>"
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:43
+#: Xml.xml:45
 #, no-c-format
 msgid ""
 "The <literal>components.xml</literal> file is a bit more powerful than "
@@ -89,27 +91,27 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:50
+#: Xml.xml:52
 #, no-c-format
 msgid ""
-"Configure components that have been installed automatically&#8212;including "
-"both built-in components, and application components that have been "
-"annotated with the <literal>@Name</literal> annotation and picked up by "
+"Configure components that have been installed automatically &#8212; "
+"including both built-in components, and application components that have "
+"been annotated with the <literal>@Name</literal> annotation and picked up by "
 "Seam's deployment scanner."
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:55
+#: Xml.xml:57
 #, no-c-format
 msgid ""
 "Install classes with no <literal>@Name</literal> annotation as Seam "
-"components&#8212;this is most useful for certain kinds of infrastructural "
-"components which can be installed multiple times different names (for "
+"components &#8212; this is most useful for certain kinds of infrastructural "
+"components which can be installed multiple times with different names (for "
 "example Seam-managed persistence contexts)."
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:60
+#: Xml.xml:62
 #, no-c-format
 msgid ""
 "Install components that <emphasis>do</emphasis> have a <literal>@Name</"
@@ -119,13 +121,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:65
+#: Xml.xml:67
 #, no-c-format
 msgid "Override the scope of a component."
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:69
+#: Xml.xml:71
 #, no-c-format
 msgid ""
 "A <literal>components.xml</literal> file may appear in one of three "
@@ -133,19 +135,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:75
+#: Xml.xml:77
 #, no-c-format
 msgid "The <literal>WEB-INF</literal> directory of a <literal>war</literal>."
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:78
+#: Xml.xml:80
 #, no-c-format
 msgid "The <literal>META-INF</literal> directory of a <literal>jar</literal>."
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:81
+#: Xml.xml:83
 #, no-c-format
 msgid ""
 "Any directory of a <literal>jar</literal> that contains classes with an "
@@ -153,7 +155,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:88
+#: Xml.xml:90
 #, no-c-format
 msgid ""
 "Usually, Seam components are installed when the deployment scanner discovers "
@@ -166,7 +168,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:97
+#: Xml.xml:99
 #, no-c-format
 msgid ""
 "For example, the following <literal>components.xml</literal> file installs "
@@ -174,7 +176,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:101
+#: Xml.xml:103
 #, no-c-format
 msgid ""
 "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\" \n"
@@ -185,13 +187,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:103
+#: Xml.xml:105
 #, no-c-format
 msgid "This example does the same thing:"
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:107
+#: Xml.xml:109
 #, no-c-format
 msgid ""
 "<![CDATA[<components>\n"
@@ -200,7 +202,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:109
+#: Xml.xml:111
 #, no-c-format
 msgid ""
 "This one installs and configures two different Seam-managed persistence "
@@ -208,7 +210,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:113
+#: Xml.xml:115
 #, no-c-format
 msgid ""
 "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\" \n"
@@ -227,13 +229,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:115
+#: Xml.xml:117
 #, no-c-format
 msgid "As does this one:"
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:119
+#: Xml.xml:121
 #, no-c-format
 msgid ""
 "<![CDATA[<components>\n"
@@ -254,7 +256,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:121
+#: Xml.xml:123
 #, no-c-format
 msgid ""
 "This example creates a session-scoped Seam-managed persistence context (this "
@@ -262,7 +264,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:126
+#: Xml.xml:128
 #, no-c-format
 msgid ""
 "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\" \n"
@@ -278,7 +280,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:128
+#: Xml.xml:130
 #, no-c-format
 msgid ""
 "<![CDATA[<components>\n"
@@ -295,7 +297,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:130
+#: Xml.xml:132
 #, no-c-format
 msgid ""
 "It is common to use the <literal>auto-create</literal> option for "
@@ -305,7 +307,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:137
+#: Xml.xml:139
 #, no-c-format
 msgid ""
 "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\" \n"
@@ -321,7 +323,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:139
+#: Xml.xml:141
 #, no-c-format
 msgid ""
 "<![CDATA[<components>\n"
@@ -338,7 +340,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:141
+#: Xml.xml:143
 #, no-c-format
 msgid ""
 "The <literal>&lt;factory&gt;</literal> declaration lets you specify a value "
@@ -347,7 +349,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:147
+#: Xml.xml:149
 #, no-c-format
 msgid ""
 "<![CDATA[<components>\n"
@@ -359,14 +361,14 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:149
+#: Xml.xml:151
 #, no-c-format
 msgid ""
 "You can create an \"alias\" (a second name) for a Seam component like so:"
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:153
+#: Xml.xml:155
 #, no-c-format
 msgid ""
 "<![CDATA[<components>\n"
@@ -377,13 +379,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:155
+#: Xml.xml:157
 #, no-c-format
 msgid "You can even create an \"alias\" for a commonly used expression:"
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:159
+#: Xml.xml:161
 #, no-c-format
 msgid ""
 "<![CDATA[<components>\n"
@@ -395,7 +397,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:161
+#: Xml.xml:163
 #, no-c-format
 msgid ""
 "It is especially common to see the use of <literal>auto-create=\"true\"</"
@@ -403,7 +405,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:166
+#: Xml.xml:168
 #, no-c-format
 msgid ""
 "<![CDATA[<components>\n"
@@ -415,7 +417,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:168
+#: Xml.xml:170
 #, no-c-format
 msgid ""
 "Sometimes we want to reuse the same <literal>components.xml</literal> file "
@@ -428,13 +430,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Xml.xml:179
+#: Xml.xml:181
 #, no-c-format
 msgid "Fine-grained configuration files"
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:180
+#: Xml.xml:182
 #, no-c-format
 msgid ""
 "If you have a large number of components that need to be configured in XML, "
@@ -448,13 +450,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:189
+#: Xml.xml:191
 #, no-c-format
 msgid "The first option lets you define multiple components in the file:"
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:193
+#: Xml.xml:195
 #, no-c-format
 msgid ""
 "<![CDATA[<components>\n"
@@ -466,7 +468,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:195
+#: Xml.xml:197
 #, no-c-format
 msgid ""
 "The second option only lets you define or configure one component, but is "
@@ -474,7 +476,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:199
+#: Xml.xml:201
 #, no-c-format
 msgid ""
 "<![CDATA[<component name=\"hello\">\n"
@@ -483,7 +485,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:201
+#: Xml.xml:203
 #, no-c-format
 msgid ""
 "In the second option, the class name is implied by the file in which the "
@@ -491,7 +493,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:206
+#: Xml.xml:208
 #, no-c-format
 msgid ""
 "Alternatively, you may put configuration for all classes in the <literal>com."
@@ -500,13 +502,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Xml.xml:213
+#: Xml.xml:215
 #, no-c-format
 msgid "Configurable property types"
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:214
+#: Xml.xml:216
 #, no-c-format
 msgid ""
 "Properties of string, primitive or primitive wrapper type may be configured "
@@ -514,19 +516,19 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:218
+#: Xml.xml:220
 #, no-c-format
 msgid "<![CDATA[org.jboss.seam.core.manager.conversationTimeout 60000]]>"
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:220
+#: Xml.xml:222
 #, no-c-format
 msgid "<![CDATA[<core:manager conversation-timeout=\"60000\"/>]]>"
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:222
+#: Xml.xml:224
 #, no-c-format
 msgid ""
 "<![CDATA[<component name=\"org.jboss.seam.core.manager\">\n"
@@ -535,13 +537,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:224
+#: Xml.xml:226
 #, no-c-format
 msgid "Arrays, sets and lists of strings or primitives are also supported:"
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:228
+#: Xml.xml:230
 #, no-c-format
 msgid ""
 "<![CDATA[org.jboss.seam.bpm.jbpm.processDefinitions order.jpdl.xml, return."
@@ -549,7 +551,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:230
+#: Xml.xml:232
 #, no-c-format
 msgid ""
 "<![CDATA[<bpm:jbpm>\n"
@@ -562,7 +564,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:232
+#: Xml.xml:234
 #, no-c-format
 msgid ""
 "<![CDATA[<component name=\"org.jboss.seam.bpm.jbpm\">\n"
@@ -575,7 +577,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:234
+#: Xml.xml:236
 #, no-c-format
 msgid ""
 "Even maps with String-valued keys and string or primitive values are "
@@ -583,7 +585,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:238
+#: Xml.xml:240
 #, no-c-format
 msgid ""
 "<![CDATA[<component name=\"issueEditor\">\n"
@@ -596,7 +598,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:240
+#: Xml.xml:242
 #, no-c-format
 msgid ""
 "When configuring multi-valued properties, by default, Seam will preserve the "
@@ -604,18 +606,18 @@ msgid ""
 "(unless you use a <literal>SortedSet</literal>/<literal>SortedMap</literal> "
 "then Seam will use <literal>TreeMap</literal>/<literal>TreeSet</literal>). "
 "If the property has a concrete type (for example <literal>LinkedList</"
-"literal> Seam will use that type."
+"literal>) Seam will use that type."
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:246
+#: Xml.xml:248
 #, no-c-format
 msgid ""
 "You can also override the type by specifying a fully qualified class name:"
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:250
+#: Xml.xml:252
 #, no-c-format
 msgid ""
 "<![CDATA[<component name=\"issueEditor\">\n"
@@ -628,7 +630,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:252
+#: Xml.xml:254
 #, no-c-format
 msgid ""
 "Finally, you may wire together components using a value-binding expression. "
@@ -639,7 +641,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:260
+#: Xml.xml:262
 #, no-c-format
 msgid ""
 "<![CDATA[<drools:managed-working-memory name=\"policyPricingWorkingMemory\"\n"
@@ -647,7 +649,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:262
+#: Xml.xml:264
 #, no-c-format
 msgid ""
 "<![CDATA[<component name=\"policyPricingWorkingMemory\"\n"
@@ -657,7 +659,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:264
+#: Xml.xml:266
 #, no-c-format
 msgid ""
 "Seam also resolves an EL expression string prior to assigning the initial "
@@ -666,7 +668,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:269
+#: Xml.xml:271
 #, no-c-format
 msgid ""
 "<![CDATA[<component name=\"greeter\" class=\"com.example.action.Greeter\">\n"
@@ -676,7 +678,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:271
+#: Xml.xml:273
 #, no-c-format
 msgid ""
 "However, there is one important exception. If the type of the property to "
@@ -689,7 +691,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:279
+#: Xml.xml:281
 #, no-c-format
 msgid ""
 "<![CDATA[<framework:entity-home name=\"myEntityHome\"\n"
@@ -700,7 +702,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:281
+#: Xml.xml:283
 #, no-c-format
 msgid ""
 "Inside the component, you can access the expression string by calling "
@@ -715,13 +717,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Xml.xml:294
+#: Xml.xml:296
 #, no-c-format
 msgid "Using XML Namespaces"
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:295
+#: Xml.xml:297
 #, no-c-format
 msgid ""
 "Throughout the examples, there have been two competing ways of declaring "
@@ -730,7 +732,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:301
+#: Xml.xml:303
 #, no-c-format
 msgid ""
 "<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -747,7 +749,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:303
+#: Xml.xml:305
 #, no-c-format
 msgid ""
 "As you can see, this is somewhat verbose. Even worse, the component and "
@@ -755,13 +757,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:308
+#: Xml.xml:310
 #, no-c-format
 msgid "The namespaced version looks like this:"
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:310
+#: Xml.xml:312
 #, no-c-format
 msgid ""
 "<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -780,7 +782,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:312
+#: Xml.xml:314
 #, no-c-format
 msgid ""
 "Even though the schema declarations are verbose, the actual XML content is "
@@ -791,7 +793,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:319
+#: Xml.xml:321
 #, no-c-format
 msgid ""
 "Now, this works great for the built-in Seam components, but what about user "
@@ -803,7 +805,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:326
+#: Xml.xml:328
 #, no-c-format
 msgid ""
 "Any Java package can be associated with an XML namespace by annotating the "
@@ -813,7 +815,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:332
+#: Xml.xml:334
 #, no-c-format
 msgid ""
 "@Namespace(value=\"http://jboss.com/products/seam/examples/seampay\")\n"
@@ -823,7 +825,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:334
+#: Xml.xml:336
 #, no-c-format
 msgid ""
 "That is all you need to do to use the namespaced style in "
@@ -831,7 +833,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:339
+#: Xml.xml:341
 #, no-c-format
 msgid ""
 "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
@@ -852,13 +854,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:341
+#: Xml.xml:343
 #, no-c-format
 msgid "<para>Or:</para>"
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:343
+#: Xml.xml:345
 #, no-c-format
 msgid ""
 "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
@@ -882,7 +884,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:345
+#: Xml.xml:347
 #, no-c-format
 msgid ""
 "These examples illustrate the two usage models of a namespaced element. In "
@@ -891,7 +893,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:351
+#: Xml.xml:353
 #, no-c-format
 msgid ""
 "<![CDATA[package org.jboss.seam.example.seampay;\n"
@@ -905,7 +907,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:353
+#: Xml.xml:355
 #, no-c-format
 msgid ""
 "The element name is the hyphenated form of the component name. The "
@@ -913,7 +915,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:358
+#: Xml.xml:360
 #, no-c-format
 msgid ""
 "In the second declaration, the <literal>&lt;pay:payment&gt;</literal> "
@@ -923,7 +925,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Xml.xml:364
+#: Xml.xml:366
 #, no-c-format
 msgid ""
 "<![CDATA[package org.jboss.seam.example.seampay;\n"
@@ -937,7 +939,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:366
+#: Xml.xml:368
 #, no-c-format
 msgid ""
 "If we want validation and autocompletion to work for user-defined "
@@ -948,13 +950,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:373
+#: Xml.xml:375
 #, no-c-format
 msgid "The following are the the namespaces used by Seam:"
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:377
+#: Xml.xml:379
 #, no-c-format
 msgid ""
 "components &#8212; <literal>http://jboss.com/products/seam/components</"
@@ -962,70 +964,70 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:380
+#: Xml.xml:382
 #, no-c-format
 msgid "core &#8212; <literal>http://jboss.com/products/seam/core</literal>"
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:383
+#: Xml.xml:385
 #, no-c-format
 msgid "drools &#8212; <literal>http://jboss.com/products/seam/drools</literal>"
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:386
+#: Xml.xml:388
 #, no-c-format
 msgid ""
 "framework &#8212; <literal>http://jboss.com/products/seam/framework</literal>"
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:389
+#: Xml.xml:391
 #, no-c-format
 msgid "jms &#8212; <literal>http://jboss.com/products/seam/jms</literal>"
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:392
+#: Xml.xml:394
 #, no-c-format
 msgid ""
 "remoting &#8212; <literal>http://jboss.com/products/seam/remoting</literal>"
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:395
+#: Xml.xml:397
 #, no-c-format
 msgid "theme &#8212; <literal>http://jboss.com/products/seam/theme</literal>"
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:398
+#: Xml.xml:400
 #, no-c-format
 msgid ""
 "security &#8212; <literal>http://jboss.com/products/seam/security</literal>"
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:401
+#: Xml.xml:403
 #, no-c-format
 msgid "mail &#8212; <literal>http://jboss.com/products/seam/mail</literal>"
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:404
+#: Xml.xml:406
 #, no-c-format
 msgid "web &#8212; <literal>http://jboss.com/products/seam/web</literal>"
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:407
+#: Xml.xml:409
 #, no-c-format
 msgid "pdf &#8212; <literal>http://jboss.com/products/seam/pdf</literal>"
 msgstr ""
 
 #. Tag: para
-#: Xml.xml:410
+#: Xml.xml:412
 #, no-c-format
 msgid "spring &#8212; <literal>http://jboss.com/products/seam/spring</literal>"
 msgstr ""

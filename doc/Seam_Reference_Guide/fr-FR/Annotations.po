@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-01-05 00:18+0000\n"
+"POT-Creation-Date: 2009-01-18 15:00+0000\n"
 "PO-Revision-Date: 2008-10-09 22:20+0100\n"
 "Last-Translator: Michael Courcy <michael.courcy@gmail.com>\n"
 "Language-Team: none\n"
@@ -838,12 +838,11 @@ msgstr "<![CDATA[@In(create=true) @Out private User currentUser;]]>"
 
 #. Tag: para
 #: Annotations.xml:434
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "The next annotation supports the <emphasis>manager component</emphasis> "
-"pattern, where a Seam component that manages the lifecycle of an instance of "
-"some other class that is to be injected. It appears on a component getter "
-"method."
+"pattern; a Seam component manages the lifecycle of an instance of some other "
+"class that is to be injected. It appears on a component getter method."
 msgstr ""
 "La prochaine annotation permet de mettre en oeuvre le pattern "
 "<emphasis>composant gestionnaire</emphasis>, dans lequel un composant Seam a "
@@ -875,11 +874,11 @@ msgstr ""
 
 #. Tag: para
 #: Annotations.xml:457
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "The next annotation supports the <emphasis>factory component</emphasis> "
-"pattern, where a Seam component is responsible for initializing the value of "
-"a context variable. This is especially useful for initializing any state "
+"pattern; a Seam component is responsible for initializing the value of a "
+"context variable. This is especially useful for initializing any state "
 "needed for rendering the response to a non-faces request. It appears on a "
 "component method."
 msgstr ""
@@ -1450,10 +1449,10 @@ msgstr ""
 
 #. Tag: para
 #: Annotations.xml:790
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "The jBPM <literal>TaskInstance</literal> will be available in a request "
-"context variable named <literal>taskInstance</literal>. The jPBM "
+"context variable named <literal>taskInstance</literal>. The jBPM "
 "<literal>ProcessInstance</literal> will be available in a request context "
 "variable named <literal>processInstance</literal>. (Of course, these objects "
 "are available for injection via <literal>@In</literal>.)"
@@ -1511,11 +1510,11 @@ msgstr ""
 
 #. Tag: para
 #: Annotations.xml:839
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "The jBPM <literal>org.jbpm.taskmgmt.exe.TaskInstance</literal> will be "
 "available in a request context variable named <literal>taskInstance</"
-"literal>. The jPBM <literal>org.jbpm.graph.exe.ProcessInstance</literal> "
+"literal>. The jBPM <literal>org.jbpm.graph.exe.ProcessInstance</literal> "
 "will be available in a request context variable named "
 "<literal>processInstance</literal>."
 msgstr ""
@@ -1973,12 +1972,12 @@ msgstr "<![CDATA[@WebRemote(exclude=\"path.to.exclude\")]]>"
 
 #. Tag: para
 #: Annotations.xml:1159
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "Indicates that the annotated method may be called from client-side "
 "JavaScript. The <literal>exclude</literal> property is optional and allows "
-"objects to be excluded from the result's object graph (see the Remoting "
-"chapter for more details)."
+"objects to be excluded from the result's object graph (see the <xref linkend="
+"\"remoting\"/> chapter for more details)."
 msgstr ""
 "Indiqye que la méthode annotée peut être appelée depuis le code client "
 "JavaScript. La propriétété <literal>exclude</literal> est optionnelle, elle "

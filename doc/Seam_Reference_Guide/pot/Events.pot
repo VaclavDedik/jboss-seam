@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-01-05 00:19+0000\n"
+"POT-Creation-Date: 2009-01-18 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -1160,7 +1160,7 @@ msgstr ""
 #: Events.xml:550
 #, no-c-format
 msgid ""
-"<literal>org.jboss.seam.beginConversation </literal>&#8212; called whenever "
+"<literal>org.jboss.seam.beginConversation </literal> &#8212; called whenever "
 "a long-running conversation begins"
 msgstr ""
 
@@ -1168,7 +1168,7 @@ msgstr ""
 #: Events.xml:551
 #, no-c-format
 msgid ""
-"<literal>org.jboss.seam.endConversation </literal>&#8212; called whenever a "
+"<literal>org.jboss.seam.endConversation </literal> &#8212; called whenever a "
 "long-running conversation ends"
 msgstr ""
 
@@ -1176,7 +1176,7 @@ msgstr ""
 #: Events.xml:552
 #, no-c-format
 msgid ""
-"<literal>org.jboss.seam.conversationTimeout</literal>&#8212; called when a "
+"<literal>org.jboss.seam.conversationTimeout</literal> &#8212; called when a "
 "conversation timeout occurs. The conversation id is passed as a parameter."
 msgstr ""
 
@@ -1184,7 +1184,7 @@ msgstr ""
 #: Events.xml:553
 #, no-c-format
 msgid ""
-"<literal>org.jboss.seam.beginPageflow </literal>&#8212; called when a "
+"<literal>org.jboss.seam.beginPageflow </literal> &#8212; called when a "
 "pageflow begins"
 msgstr ""
 
@@ -1192,7 +1192,7 @@ msgstr ""
 #: Events.xml:554
 #, no-c-format
 msgid ""
-"<literal>org.jboss.seam.beginPageflow.&lt;name&gt; </literal>&#8212; called "
+"<literal>org.jboss.seam.beginPageflow.&lt;name&gt; </literal> &#8212; called "
 "when the pageflow &lt;name&gt; begins"
 msgstr ""
 
@@ -1200,15 +1200,15 @@ msgstr ""
 #: Events.xml:555
 #, no-c-format
 msgid ""
-"<literal>org.jboss.seam.endPageflow </literal>&#8212; called when a pageflow "
-"ends"
+"<literal>org.jboss.seam.endPageflow </literal> &#8212; called when a "
+"pageflow ends"
 msgstr ""
 
 #. Tag: para
 #: Events.xml:556
 #, no-c-format
 msgid ""
-"<literal>org.jboss.seam.endPageflow.&lt;name&gt; </literal>&#8212; called "
+"<literal>org.jboss.seam.endPageflow.&lt;name&gt; </literal> &#8212; called "
 "when the pageflow &lt;name&gt; ends"
 msgstr ""
 
@@ -1216,7 +1216,7 @@ msgstr ""
 #: Events.xml:557
 #, no-c-format
 msgid ""
-"<literal>org.jboss.seam.createProcess.&lt;name&gt; </literal>&#8212; called "
+"<literal>org.jboss.seam.createProcess.&lt;name&gt; </literal> &#8212; called "
 "when the process &lt;name&gt; is created"
 msgstr ""
 
@@ -1224,7 +1224,7 @@ msgstr ""
 #: Events.xml:558
 #, no-c-format
 msgid ""
-"<literal>org.jboss.seam.endProcess.&lt;name&gt; </literal>&#8212; called "
+"<literal>org.jboss.seam.endProcess.&lt;name&gt; </literal> &#8212; called "
 "when the process &lt;name&gt; ends"
 msgstr ""
 
@@ -1232,7 +1232,7 @@ msgstr ""
 #: Events.xml:559
 #, no-c-format
 msgid ""
-"<literal>org.jboss.seam.initProcess.&lt;name&gt; </literal>&#8212; called "
+"<literal>org.jboss.seam.initProcess.&lt;name&gt; </literal> &#8212; called "
 "when the process &lt;name&gt; is associated with the conversation"
 msgstr ""
 
@@ -1240,7 +1240,7 @@ msgstr ""
 #: Events.xml:560
 #, no-c-format
 msgid ""
-"<literal>org.jboss.seam.initTask.&lt;name&gt; </literal>&#8212; called when "
+"<literal>org.jboss.seam.initTask.&lt;name&gt; </literal> &#8212; called when "
 "the task &lt;name&gt; is associated with the conversation"
 msgstr ""
 
@@ -1248,15 +1248,15 @@ msgstr ""
 #: Events.xml:561
 #, no-c-format
 msgid ""
-"<literal>org.jboss.seam.startTask.&lt;name&gt; </literal>&#8212; called when "
-"the task &lt;name&gt; is started"
+"<literal>org.jboss.seam.startTask.&lt;name&gt; </literal> &#8212; called "
+"when the task &lt;name&gt; is started"
 msgstr ""
 
 #. Tag: para
 #: Events.xml:562
 #, no-c-format
 msgid ""
-"<literal>org.jboss.seam.endTask.&lt;name&gt; </literal>&#8212; called when "
+"<literal>org.jboss.seam.endTask.&lt;name&gt; </literal> &#8212; called when "
 "the task &lt;name&gt; is ended"
 msgstr ""
 
@@ -1264,7 +1264,7 @@ msgstr ""
 #: Events.xml:563
 #, no-c-format
 msgid ""
-"<literal>org.jboss.seam.postCreate.&lt;name&gt; </literal>&#8212; called "
+"<literal>org.jboss.seam.postCreate.&lt;name&gt; </literal> &#8212; called "
 "when the component &lt;name&gt; is created"
 msgstr ""
 
@@ -1272,7 +1272,7 @@ msgstr ""
 #: Events.xml:564
 #, no-c-format
 msgid ""
-"<literal>org.jboss.seam.preDestroy.&lt;name&gt; </literal>&#8212; called "
+"<literal>org.jboss.seam.preDestroy.&lt;name&gt; </literal> &#8212; called "
 "when the component &lt;name&gt; is destroyed"
 msgstr ""
 
@@ -1280,7 +1280,7 @@ msgstr ""
 #: Events.xml:565
 #, no-c-format
 msgid ""
-"<literal>org.jboss.seam.beforePhase </literal>&#8212; called before the "
+"<literal>org.jboss.seam.beforePhase </literal> &#8212; called before the "
 "start of a JSF phase"
 msgstr ""
 
@@ -1288,15 +1288,15 @@ msgstr ""
 #: Events.xml:566
 #, no-c-format
 msgid ""
-"<literal>org.jboss.seam.afterPhase </literal>&#8212; called after the end of "
-"a JSF phase"
+"<literal>org.jboss.seam.afterPhase </literal> &#8212; called after the end "
+"of a JSF phase"
 msgstr ""
 
 #. Tag: para
 #: Events.xml:567
 #, no-c-format
 msgid ""
-"<literal>org.jboss.seam.postInitialization </literal>&#8212; called when "
+"<literal>org.jboss.seam.postInitialization </literal> &#8212; called when "
 "Seam has initialized and started up all components"
 msgstr ""
 
@@ -1304,7 +1304,7 @@ msgstr ""
 #: Events.xml:568
 #, no-c-format
 msgid ""
-"<literal>org.jboss.seam.postReInitialization </literal>&#8212; called when "
+"<literal>org.jboss.seam.postReInitialization </literal> &#8212; called when "
 "Seam has re-initialized and started up all components after a redeploy"
 msgstr ""
 
@@ -1312,7 +1312,7 @@ msgstr ""
 #: Events.xml:569
 #, no-c-format
 msgid ""
-"<literal>org.jboss.seam.postAuthenticate.&lt;name&gt; </literal>&#8212; "
+"<literal>org.jboss.seam.postAuthenticate.&lt;name&gt; </literal> &#8212; "
 "called after a user is authenticated"
 msgstr ""
 
@@ -1320,7 +1320,7 @@ msgstr ""
 #: Events.xml:570
 #, no-c-format
 msgid ""
-"<literal>org.jboss.seam.preAuthenticate.&lt;name&gt; </literal>&#8212; "
+"<literal>org.jboss.seam.preAuthenticate.&lt;name&gt; </literal> &#8212; "
 "called before attempting to authenticate a user"
 msgstr ""
 

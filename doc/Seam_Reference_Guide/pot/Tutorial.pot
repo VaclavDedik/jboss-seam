@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-01-05 00:19+0000\n"
+"POT-Creation-Date: 2009-01-18 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -1354,7 +1354,7 @@ msgid ""
 "But <literal>MessageManagerBean</literal> is also responsible for fetching "
 "the list of messages the first time we navigate to the message list page. "
 "There are various ways the user could navigate to the page, and not all of "
-"them are preceded by a JSF action&#8212;the user might have bookmarked the "
+"them are preceded by a JSF action &#8212; the user might have bookmarked the "
 "page, for example. So the job of fetching the message list takes place in a "
 "Seam <emphasis>factory method</emphasis>, instead of in an action listener "
 "method."
@@ -2814,8 +2814,8 @@ msgstr ""
 msgid ""
 "The numberguess example also contains Giveup and Cheat buttons. You should "
 "be able to trace the pageflow state for both actions relatively easily. Pay "
-"particular attention to the <literal>cheat</literal> transtition, which "
-"loads a sub-process to handle that flow. Although it's overkill for this "
+"particular attention to the <literal>cheat</literal> transition, which loads "
+"a sub-process to handle that flow. Although it's overkill for this "
 "application, it does demonstrate how complex pageflows can be broken down "
 "into smaller parts to make them easier to understand."
 msgstr ""
@@ -3837,7 +3837,7 @@ msgid ""
 "context</emphasis> so that the entity remains managed throughout the "
 "conversation. This allows us to lazily load the <varname>availableRooms</"
 "varname> through an <varname>@Factory</varname> method by simply walking the "
-"assocation."
+"association."
 msgstr ""
 
 #. Tag: para
@@ -4112,7 +4112,7 @@ msgstr ""
 msgid ""
 "Annotating an action with <link linkend=\"end-annotation\"> <varname>@End"
 "(root=true)</varname> </link> ends the root conversation which effectively "
-"destroys the entire conversation stack. When any conversation is ended, it's "
+"destroys the entire conversation stack. When any conversation is ended, its "
 "nested conversations are ended as well. As the root is the conversation that "
 "started it all, this is a simple way to destroy and release all state "
 "associated with a workspace once the booking is confirmed."
@@ -4289,7 +4289,7 @@ msgid ""
 "If we navigate to this page from a bookmark, how does the <literal>#{blog."
 "recentBlogEntries}</literal> data used by the <literal>&lt;h:dataTable&gt;</"
 "literal> actually get initialized? The <literal>Blog</literal> is retrieved "
-"lazily&#8212;\"pulled\"&#8212;when needed, by a Seam component named "
+"lazily &#8212; \"pulled\" &#8212; when needed, by a Seam component named "
 "<literal>blog</literal>. This is the opposite flow of control to what is "
 "used in traditional action-based web frameworks like Struts."
 msgstr ""
@@ -4334,9 +4334,9 @@ msgstr ""
 #, no-c-format
 msgid ""
 "The <literal>@Unwrap</literal> annotation tells Seam to provide the return "
-"value of the method&#8212;the <literal>Blog</literal>&#8212;instead of the "
-"actual <literal>BlogService</literal> component to clients. This is the Seam "
-"<emphasis>manager component pattern</emphasis>."
+"value of the method &#8212; the <literal>Blog</literal> &#8212; instead of "
+"the actual <literal>BlogService</literal> component to clients. This is the "
+"Seam <emphasis>manager component pattern</emphasis>."
 msgstr ""
 
 #. Tag: para
@@ -4422,15 +4422,15 @@ msgstr ""
 #, no-c-format
 msgid ""
 "But when we redirect, we need to include the values submitted with the form "
-"in the URL get a bookmarkable URL like <literal>http://localhost:8080/seam-"
-"blog/search/</literal>. JSF does not provide an easy way to do this, but "
-"Seam does. We use two Seam features to accomplish this: <emphasis>page "
+"in the URL to get a bookmarkable URL like <literal>http://localhost:8080/"
+"seam-blog/search/</literal>. JSF does not provide an easy way to do this, "
+"but Seam does. We use two Seam features to accomplish this: <emphasis>page "
 "parameters</emphasis> and <emphasis>URL rewriting</emphasis>. Both are "
 "defined in <literal>WEB-INF/pages.xml</literal>:"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1830
+#: Tutorial.xml:1829
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -4447,7 +4447,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1833
+#: Tutorial.xml:1832
 #, no-c-format
 msgid ""
 "The page parameter instructs Seam to link the request parameter named "
@@ -4459,23 +4459,23 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1840
+#: Tutorial.xml:1839
 #, no-c-format
 msgid ""
 "Without URL rewriting, the URL for a search on the term <literal>book</"
 "literal> would be <literal>http://localhost:8080/seam-blog/seam/search.xhtml?"
 "searchPattern=book</literal>. This is nice, but Seam can make the URL even "
 "simpler using a rewrite rule. The first rewrite rule, for the pattern "
-"<literal>/search/{searchPattern}</literal>, says that any time we have have "
-"a URL for search.xhtml with a searchPattern request parameter, we can fold "
-"that URL into the simpler URL. So,the URL we saw earlier, <literal>http://"
+"<literal>/search/{searchPattern}</literal>, says that any time we have a URL "
+"for search.xhtml with a searchPattern request parameter, we can fold that "
+"URL into the simpler URL. So,the URL we saw earlier, <literal>http://"
 "localhost:8080/seam-blog/seam/search.xhtml?searchPattern=book</literal> can "
 "be written instead as <literal>http://localhost:8080/seam-blog/search/book</"
 "literal>."
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1850
+#: Tutorial.xml:1849
 #, no-c-format
 msgid ""
 "Just like with page parameters, URL rewriting is bi-directional. That means "
@@ -4487,19 +4487,19 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1858
+#: Tutorial.xml:1857
 #, no-c-format
 msgid "&lt;web:rewrite-filter view-mapping=&quot;/seam/*&quot; /&gt;"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1860
+#: Tutorial.xml:1859
 #, no-c-format
 msgid "The redirect takes us to the <literal>search.xhtml</literal> page:"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1862
+#: Tutorial.xml:1861
 #, no-c-format
 msgid ""
 "<![CDATA[<h:dataTable value=\"#{searchResults}\" var=\"blogEntry\">\n"
@@ -4520,7 +4520,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1865
+#: Tutorial.xml:1864
 #, no-c-format
 msgid ""
 "Which again uses \"pull\"-style MVC to retrieve the actual search results "
@@ -4528,7 +4528,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1868
+#: Tutorial.xml:1867
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"searchService\")\n"
@@ -4589,13 +4589,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Tutorial.xml:1874
+#: Tutorial.xml:1873
 #, no-c-format
 msgid "Using \"push\"-style MVC in a RESTful application"
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1876
+#: Tutorial.xml:1875
 #, no-c-format
 msgid ""
 "Very occasionally, it makes more sense to use push-style MVC for processing "
@@ -4606,7 +4606,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1881
+#: Tutorial.xml:1880
 #, no-c-format
 msgid ""
 "The <literal>entryAction</literal> component works much like an action class "
@@ -4614,7 +4614,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1884
+#: Tutorial.xml:1883
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"entryAction\")\n"
@@ -4635,13 +4635,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1887
+#: Tutorial.xml:1886
 #, no-c-format
 msgid "Page actions are also declared in <literal>pages.xml</literal>:"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1889
+#: Tutorial.xml:1888
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -4679,7 +4679,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1892
+#: Tutorial.xml:1891
 #, no-c-format
 msgid ""
 "Notice that the example is using page actions for post validation and the "
@@ -4689,19 +4689,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1897
+#: Tutorial.xml:1896
 #, no-c-format
 msgid ""
 "When the <literal>entry.xhtml</literal> page is requested, Seam first binds "
 "the page parameter <literal>blogEntryId</literal> to the model. Keep in mind "
 "that because of the URL rewriting, the blogEntryId parameter name won't show "
 "up in the URL. Seam then runs the page action, which retrieves the needed "
-"data&#8212;the <literal>blogEntry</literal>&#8212;and places it in the Seam "
-"event context. Finally, the following is rendered:"
+"data &#8212; the <literal>blogEntry</literal> &#8212; and places it in the "
+"Seam event context. Finally, the following is rendered:"
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1904
+#: Tutorial.xml:1903
 #, no-c-format
 msgid ""
 "<![CDATA[<div class=\"blogEntry\">\n"
@@ -4720,7 +4720,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1907
+#: Tutorial.xml:1906
 #, no-c-format
 msgid ""
 "If the blog entry is not found in the database, the "
@@ -4730,7 +4730,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1911
+#: Tutorial.xml:1910
 #, no-c-format
 msgid ""
 "<![CDATA[@ApplicationException(rollback=true)\n"
@@ -4745,7 +4745,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1914
+#: Tutorial.xml:1913
 #, no-c-format
 msgid ""
 "An alternative implementation of the example does not use the parameter in "
@@ -4753,7 +4753,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1916
+#: Tutorial.xml:1915
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"entryAction\")\n"
@@ -4775,7 +4775,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Tutorial.xml:1918
+#: Tutorial.xml:1917
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -4790,13 +4790,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1921
+#: Tutorial.xml:1920
 #, no-c-format
 msgid "It is a matter of taste which implementation you prefer."
 msgstr ""
 
 #. Tag: para
-#: Tutorial.xml:1924
+#: Tutorial.xml:1923
 #, no-c-format
 msgid ""
 "The blog demo also demonstrates very simple password authentication, posting "

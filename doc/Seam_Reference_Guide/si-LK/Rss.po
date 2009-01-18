@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seam_Reference_Guide \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-10-14 13:15+0000\n"
+"POT-Creation-Date: 2009-01-18 15:00+0000\n"
 "PO-Revision-Date: 2008-10-14 11:38+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -134,7 +134,7 @@ msgstr ""
 #: Rss.xml:64
 #, no-c-format
 msgid ""
-"<literal>uid</literal> &#8212;An optional unique feed id. The value is a "
+"<literal>uid</literal> &#8212; An optional unique feed id. The value is a "
 "string."
 msgstr ""
 
@@ -142,14 +142,15 @@ msgstr ""
 #: Rss.xml:70
 #, no-c-format
 msgid ""
-"<literal>title</literal> &#8212;The title of the feed. The value is a string."
+"<literal>title</literal> &#8212; The title of the feed. The value is a "
+"string."
 msgstr ""
 
 #. Tag: para
 #: Rss.xml:76
 #, no-c-format
 msgid ""
-"<literal>subtitle</literal> &#8212;The subtitle of the feed. The value is a "
+"<literal>subtitle</literal> &#8212; The subtitle of the feed. The value is a "
 "string."
 msgstr ""
 
@@ -157,7 +158,7 @@ msgstr ""
 #: Rss.xml:82
 #, no-c-format
 msgid ""
-"<literal>updated</literal> &#8212;When was the feed updated? The value is a "
+"<literal>updated</literal> &#8212; When was the feed updated? The value is a "
 "date."
 msgstr ""
 
@@ -165,7 +166,7 @@ msgstr ""
 #: Rss.xml:88
 #, no-c-format
 msgid ""
-"<literal>link</literal> &#8212;The link to the source of the information. "
+"<literal>link</literal> &#8212; The link to the source of the information. "
 "The value is a string."
 msgstr ""
 
@@ -173,7 +174,7 @@ msgstr ""
 #: Rss.xml:95
 #, no-c-format
 msgid ""
-"<literal>feedFormat</literal> &#8212;The feed format. The value is a string "
+"<literal>feedFormat</literal> &#8212; The feed format. The value is a string "
 "and defaults to ATOM1. Valid values are RSS10, RSS20, ATOM03 and ATOM10."
 msgstr ""
 
@@ -217,7 +218,7 @@ msgstr ""
 #: Rss.xml:151
 #, no-c-format
 msgid ""
-"<literal>uid</literal> &#8212;An optional unique entry id. The value is a "
+"<literal>uid</literal> &#8212; An optional unique entry id. The value is a "
 "string."
 msgstr ""
 
@@ -225,7 +226,7 @@ msgstr ""
 #: Rss.xml:157
 #, no-c-format
 msgid ""
-"<literal>title</literal> &#8212;The title of the entry. The value is a "
+"<literal>title</literal> &#8212; The title of the entry. The value is a "
 "string."
 msgstr ""
 
@@ -233,14 +234,14 @@ msgstr ""
 #: Rss.xml:163
 #, no-c-format
 msgid ""
-"<literal>link</literal> &#8212;A link to the item. The value is a string."
+"<literal>link</literal> &#8212; A link to the item. The value is a string."
 msgstr ""
 
 #. Tag: para
 #: Rss.xml:169
 #, no-c-format
 msgid ""
-"<literal>author</literal> &#8212;The author of the story. The value is a "
+"<literal>author</literal> &#8212; The author of the story. The value is a "
 "string."
 msgstr ""
 
@@ -248,7 +249,7 @@ msgstr ""
 #: Rss.xml:175
 #, no-c-format
 msgid ""
-"<literal>summary</literal> &#8212;The body of the story. The value is a "
+"<literal>summary</literal> &#8212; The body of the story. The value is a "
 "string."
 msgstr ""
 
@@ -256,8 +257,8 @@ msgstr ""
 #: Rss.xml:181
 #, no-c-format
 msgid ""
-"<literal>textFormat</literal> &#8212;The format of the body and title of the "
-"story. The value is a string and valid values are \"text\" and \"html\". "
+"<literal>textFormat</literal> &#8212; The format of the body and title of "
+"the story. The value is a string and valid values are \"text\" and \"html\". "
 "Defaults to \"html\"."
 msgstr ""
 
@@ -265,7 +266,7 @@ msgstr ""
 #: Rss.xml:189
 #, no-c-format
 msgid ""
-"<literal>published</literal> &#8212;When was the story first published? The "
+"<literal>published</literal> &#8212; When was the story first published? The "
 "value is a date."
 msgstr ""
 
@@ -273,8 +274,8 @@ msgstr ""
 #: Rss.xml:195
 #, no-c-format
 msgid ""
-"<literal>updated</literal> &#8212;When was the story updated? The value is a "
-"date."
+"<literal>updated</literal> &#8212; When was the story updated? The value is "
+"a date."
 msgstr ""
 
 #. Tag: title

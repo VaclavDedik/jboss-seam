@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-01-05 00:19+0000\n"
+"POT-Creation-Date: 2009-01-18 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid ""
 "Seam now includes a component set for generating documents using iText. The "
 "primary focus of Seam's iText document support is for the generation of PDF "
-"doucuments, but Seam also offers basic support for RTF document generation."
+"documents, but Seam also offers basic support for RTF document generation."
 msgstr ""
 
 #. Tag: title
@@ -1424,7 +1424,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1388 Itext.xml:1584
+#: Itext.xml:1388
 #, no-c-format
 msgid ""
 "<literal>legendItemPaint</literal>&#8212; The default color of the text "
@@ -1432,7 +1432,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1394 Itext.xml:1590
+#: Itext.xml:1394
 #, no-c-format
 msgid ""
 "<literal>legendItemBackgoundPaint</literal>&#8212; The background color for "
@@ -1440,7 +1440,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1400 Itext.xml:1596
+#: Itext.xml:1400
 #, no-c-format
 msgid ""
 "<literal>legendOutlinePaint</literal>&#8212; The color of the border around "
@@ -1456,7 +1456,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1412 Itext.xml:1608
+#: Itext.xml:1412
 #, no-c-format
 msgid ""
 "<literal>plotBackgroundPaint</literal>&#8212; The color of the plot "
@@ -1464,7 +1464,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1418 Itext.xml:1614
+#: Itext.xml:1418
 #, no-c-format
 msgid ""
 "<literal>plotBackgroundAlpha</literal>&#8212; The alpha (transparency) level "
@@ -1473,7 +1473,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1425 Itext.xml:1621
+#: Itext.xml:1425
 #, no-c-format
 msgid ""
 "<literal>plotForegroundAlpha</literal>&#8212; The alpha (transparency) level "
@@ -1482,7 +1482,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1432 Itext.xml:1628
+#: Itext.xml:1432
 #, no-c-format
 msgid ""
 "<literal>plotOutlinePaint</literal>&#8212; The color of the range gridlines, "
@@ -1512,7 +1512,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1454 Itext.xml:1650
+#: Itext.xml:1454
 #, no-c-format
 msgid ""
 "<literal>rangeGridlinesVisible</literal>&#8212; Controls whether or not "
@@ -1520,7 +1520,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1459 Itext.xml:1655
+#: Itext.xml:1459
 #, no-c-format
 msgid ""
 "<literal>rangeGridlinePaint</literal>&#8212; The color of the range "
@@ -1536,19 +1536,19 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1470 Itext.xml:1666
+#: Itext.xml:1470 Itext.xml:1666 Itext.xml:1710
 #, no-c-format
 msgid "<literal>title</literal> &#8212; The chart title text."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1474 Itext.xml:1670
+#: Itext.xml:1474
 #, no-c-format
 msgid "<literal>titlePaint</literal>&#8212; The color of the chart title text."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1479 Itext.xml:1675
+#: Itext.xml:1479
 #, no-c-format
 msgid ""
 "<literal>titleBackgroundPaint</literal>&#8212; The background color around "
@@ -1583,6 +1583,95 @@ msgstr ""
 msgid "Displays a line chart."
 msgstr ""
 
+#. Tag: para
+#: Itext.xml:1584
+#, no-c-format
+msgid ""
+"<literal>legendItemPaint</literal> &#8212; The default color of the text "
+"labels in the legend."
+msgstr ""
+
+#. Tag: para
+#: Itext.xml:1590
+#, no-c-format
+msgid ""
+"<literal>legendItemBackgoundPaint</literal> &#8212; The background color for "
+"the legend, if different from the chart background color."
+msgstr ""
+
+#. Tag: para
+#: Itext.xml:1596
+#, no-c-format
+msgid ""
+"<literal>legendOutlinePaint</literal> &#8212; The color of the border around "
+"the legend."
+msgstr ""
+
+#. Tag: para
+#: Itext.xml:1608
+#, no-c-format
+msgid ""
+"<literal>plotBackgroundPaint</literal> &#8212; The color of the plot "
+"background."
+msgstr ""
+
+#. Tag: para
+#: Itext.xml:1614
+#, no-c-format
+msgid ""
+"<literal>plotBackgroundAlpha</literal> &#8212; The alpha (transparency) "
+"level of the plot background. It should be a number between 0 (completely "
+"transparent) and 1 (completely opaque)."
+msgstr ""
+
+#. Tag: para
+#: Itext.xml:1621
+#, no-c-format
+msgid ""
+"<literal>plotForegroundAlpha</literal> &#8212; The alpha (transparency) "
+"level of the plot. It should be a number between 0 (completely transparent) "
+"and 1 (completely opaque)."
+msgstr ""
+
+#. Tag: para
+#: Itext.xml:1628
+#, no-c-format
+msgid ""
+"<literal>plotOutlinePaint</literal> &#8212; The color of the range "
+"gridlines, if visible."
+msgstr ""
+
+#. Tag: para
+#: Itext.xml:1650
+#, no-c-format
+msgid ""
+"<literal>rangeGridlinesVisible</literal> &#8212; Controls whether or not "
+"gridlines for the range axis are shown on the chart."
+msgstr ""
+
+#. Tag: para
+#: Itext.xml:1655
+#, no-c-format
+msgid ""
+"<literal>rangeGridlinePaint</literal> &#8212; The color of the range "
+"gridlines, if visible."
+msgstr ""
+
+#. Tag: para
+#: Itext.xml:1670
+#, no-c-format
+msgid ""
+"<literal>titlePaint</literal> &#8212; The color of the chart title text."
+msgstr ""
+
+#. Tag: para
+#: Itext.xml:1675
+#, no-c-format
+msgid ""
+"<literal>titleBackgroundPaint</literal> &#8212; The background color around "
+"the chart title."
+msgstr ""
+
 #. Tag: programlisting
 #: Itext.xml:1688
 #, no-c-format
@@ -1612,23 +1701,17 @@ msgid "Displays a pie chart."
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:1710
-#, no-c-format
-msgid "<literal>title</literal>&#8212; The chart title text."
-msgstr ""
-
-#. Tag: para
 #: Itext.xml:1714
 #, no-c-format
 msgid ""
-"<literal>label</literal>&#8212; The default label text for pie sections."
+"<literal>label</literal> &#8212; The default label text for pie sections."
 msgstr ""
 
 #. Tag: para
 #: Itext.xml:1719
 #, no-c-format
 msgid ""
-"<literal>legend</literal>&#8212; A boolean value indicating whether or not "
+"<literal>legend</literal> &#8212; A boolean value indicating whether or not "
 "the chart should include a legend. Default value is true"
 msgstr ""
 
@@ -1636,21 +1719,21 @@ msgstr ""
 #: Itext.xml:1724
 #, no-c-format
 msgid ""
-"<literal>is3D</literal>&#8212;A boolean value indicating that the chart "
+"<literal>is3D</literal> &#8212;A boolean value indicating that the chart "
 "should be rendered in 3D instead of 2D."
 msgstr ""
 
 #. Tag: para
 #: Itext.xml:1729
 #, no-c-format
-msgid "<literal>labelLinkMargin</literal>&#8212; The link margin for labels."
+msgid "<literal>labelLinkMargin</literal> &#8212; The link margin for labels."
 msgstr ""
 
 #. Tag: para
 #: Itext.xml:1734
 #, no-c-format
 msgid ""
-"<literal>labelLinkPaint</literal>&#8212; The paint used for the label "
+"<literal>labelLinkPaint</literal> &#8212; The paint used for the label "
 "linking lines."
 msgstr ""
 
@@ -1658,7 +1741,7 @@ msgstr ""
 #: Itext.xml:1739
 #, no-c-format
 msgid ""
-"<literal>labelLinkStroke</literal>&#8212; he stroke used for the label "
+"<literal>labelLinkStroke</literal> &#8212; he stroke used for the label "
 "linking lines."
 msgstr ""
 
@@ -1666,7 +1749,7 @@ msgstr ""
 #: Itext.xml:1745
 #, no-c-format
 msgid ""
-"<literal>labelLinksVisible</literal>&#8212; A flag that controls whether or "
+"<literal>labelLinksVisible</literal> &#8212; A flag that controls whether or "
 "not the label links are drawn."
 msgstr ""
 
@@ -1674,7 +1757,7 @@ msgstr ""
 #: Itext.xml:1750
 #, no-c-format
 msgid ""
-"<literal>labelOutlinePaint</literal>&#8212; The paint used to draw the "
+"<literal>labelOutlinePaint</literal> &#8212; The paint used to draw the "
 "outline of the section labels."
 msgstr ""
 
@@ -1682,7 +1765,7 @@ msgstr ""
 #: Itext.xml:1755
 #, no-c-format
 msgid ""
-"<literal>labelOutlineStroke</literal>&#8212; The stroke used to draw the "
+"<literal>labelOutlineStroke</literal> &#8212; The stroke used to draw the "
 "outline of the section labels."
 msgstr ""
 
@@ -1690,15 +1773,15 @@ msgstr ""
 #: Itext.xml:1760
 #, no-c-format
 msgid ""
-"<literal>labelShadowPaint</literal>&#8212; The paint used to draw the shadow "
-"for the section labels."
+"<literal>labelShadowPaint</literal> &#8212; The paint used to draw the "
+"shadow for the section labels."
 msgstr ""
 
 #. Tag: para
 #: Itext.xml:1765
 #, no-c-format
 msgid ""
-"<literal>labelPaint</literal>&#8212; The color used to draw the section "
+"<literal>labelPaint</literal> &#8212; The color used to draw the section "
 "labels"
 msgstr ""
 
@@ -1706,7 +1789,7 @@ msgstr ""
 #: Itext.xml:1770
 #, no-c-format
 msgid ""
-"<literal>labelGap</literal>&#8212; The gap between the labels and the plot "
+"<literal>labelGap</literal> &#8212; The gap between the labels and the plot "
 "as a percentage of the plot width."
 msgstr ""
 
@@ -1714,7 +1797,7 @@ msgstr ""
 #: Itext.xml:1775
 #, no-c-format
 msgid ""
-"<literal>labelBackgroundPaint</literal>&#8212; The color used to draw the "
+"<literal>labelBackgroundPaint</literal> &#8212; The color used to draw the "
 "background of the section labels. If this is null, the background is not "
 "filled."
 msgstr ""
@@ -1723,32 +1806,33 @@ msgstr ""
 #: Itext.xml:1782
 #, no-c-format
 msgid ""
-"<literal>startAngle</literal>&#8212; The starting angle of the first section."
+"<literal>startAngle</literal> &#8212; The starting angle of the first "
+"section."
 msgstr ""
 
 #. Tag: para
 #: Itext.xml:1787
 #, no-c-format
 msgid ""
-"<literal>circular</literal>&#8212; A boolean value indicating that the chart "
-"should be drawn as a circle. If false, the chart is drawn as an ellipse. The "
-"default is true."
+"<literal>circular</literal> &#8212; A boolean value indicating that the "
+"chart should be drawn as a circle. If false, the chart is drawn as an "
+"ellipse. The default is true."
 msgstr ""
 
 #. Tag: para
 #: Itext.xml:1793
 #, no-c-format
 msgid ""
-"<literal>direction</literal>&#8212; The direction the pie section are drawn. "
-"One of: <literal>clockwise</literal> or <literal>anticlockwise</literal>. "
-"The default is <literal>clockwise</literal>."
+"<literal>direction</literal> &#8212; The direction the pie section are "
+"drawn. One of: <literal>clockwise</literal> or <literal>anticlockwise</"
+"literal>. The default is <literal>clockwise</literal>."
 msgstr ""
 
 #. Tag: para
 #: Itext.xml:1799
 #, no-c-format
 msgid ""
-"<literal>sectionOutlinePaint</literal>&#8212; The outline paint for all "
+"<literal>sectionOutlinePaint</literal> &#8212; The outline paint for all "
 "sections."
 msgstr ""
 
@@ -1756,7 +1840,7 @@ msgstr ""
 #: Itext.xml:1804
 #, no-c-format
 msgid ""
-"<literal>sectionOutlineStroke</literal>&#8212; The outline stroke for all "
+"<literal>sectionOutlineStroke</literal> &#8212; The outline stroke for all "
 "sections"
 msgstr ""
 
@@ -1764,7 +1848,7 @@ msgstr ""
 #: Itext.xml:1809
 #, no-c-format
 msgid ""
-"<literal>sectionOutlinesVisible</literal>&#8212; Indicates whether an "
+"<literal>sectionOutlinesVisible</literal> &#8212; Indicates whether an "
 "outline is drawn for each section in the plot."
 msgstr ""
 
@@ -1772,21 +1856,21 @@ msgstr ""
 #: Itext.xml:1814
 #, no-c-format
 msgid ""
-"<literal>baseSectionOutlinePaint</literal>&#8212; The base section outline "
+"<literal>baseSectionOutlinePaint</literal> &#8212; The base section outline "
 "paint."
 msgstr ""
 
 #. Tag: para
 #: Itext.xml:1819
 #, no-c-format
-msgid "<literal>baseSectionPaint</literal>&#8212; The base section paint."
+msgid "<literal>baseSectionPaint</literal> &#8212; The base section paint."
 msgstr ""
 
 #. Tag: para
 #: Itext.xml:1823
 #, no-c-format
 msgid ""
-"<literal>baseSectionOutlineStroke</literal>&#8212; The base section outline "
+"<literal>baseSectionOutlineStroke</literal> &#8212; The base section outline "
 "stroke."
 msgstr ""
 
@@ -2120,14 +2204,14 @@ msgstr ""
 #. Tag: para
 #: Itext.xml:2123
 #, no-c-format
-msgid "<literal>code</literal>&#8212; The value to be encoded by the barcode."
+msgid "<literal>code</literal> &#8212; The value to be encoded by the barcode."
 msgstr ""
 
 #. Tag: para
 #: Itext.xml:2128
 #, no-c-format
 msgid ""
-"<literal>xpos</literal>&#8212; For PDFs, the absolute y position of the "
+"<literal>xpos</literal> &#8212; For PDFs, the absolute y position of the "
 "barcode on the page."
 msgstr ""
 
@@ -2135,7 +2219,7 @@ msgstr ""
 #: Itext.xml:2133
 #, no-c-format
 msgid ""
-"<literal>ypos</literal>&#8212; For PDFs, the absolute y position of the "
+"<literal>ypos</literal> &#8212; For PDFs, the absolute y position of the "
 "barcode on the page."
 msgstr ""
 
@@ -2346,8 +2430,7 @@ msgstr ""
 #: Itext.xml:2339
 #, no-c-format
 msgid ""
-"<literal>height</literal> &#8212; ..The height of the component to be "
-"rendered."
+"<literal>height</literal> &#8212; The height of the component to be rendered."
 msgstr ""
 
 #. Tag: para
