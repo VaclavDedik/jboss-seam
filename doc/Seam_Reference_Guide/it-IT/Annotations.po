@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-01-18 16:10+0100\n"
+"PO-Revision-Date: 2009-01-18 16:55+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -848,7 +848,7 @@ msgstr "<![CDATA[@Begin(join=true)]]>"
 #: Annotations.xml:671
 #, no-c-format
 msgid "Specifies that if a long-running conversation is already in progress, the conversation context is simply propagated."
-msgstr "Specifica che se una conversazione ong-running è già in esecuzione, il contesto della conversazione viene semplicemente propagato."
+msgstr "Specifica che se una conversazione long-running è già in esecuzione, il contesto della conversazione viene semplicemente propagato."
 
 #. Tag: programlisting
 #: Annotations.xml:675
@@ -1194,7 +1194,7 @@ msgstr "Sinonimo di javax.interceptors.Interceptors, per l'uso in ambiente pre J
 #: Annotations.xml:1051
 #, no-c-format
 msgid "<emphasis>Do not use this annotations on EJB 3.0 components, use <literal>@javax.interceptor.Interceptors</literal> instead</emphasis>."
-msgstr "<emphasis>Do not use this annotations on EJB 3.0 components, use <literal>@javax.interceptor.Interceptors</literal> instead</emphasis>."
+msgstr "<emphasis>Non usare queste annotazioni su componenti EJB 3.0, usare invece <literal>@javax.interceptor.Interceptors</literal></emphasis>."
 
 #. Tag: para
 #: Annotations.xml:1060
@@ -1309,7 +1309,7 @@ msgstr "<![CDATA[@WebRemote(exclude=\"path.to.exclude\")]]>"
 #: Annotations.xml:1159
 #, no-c-format
 msgid "Indicates that the annotated method may be called from client-side JavaScript. The <literal>exclude</literal> property is optional and allows objects to be excluded from the result's object graph (see the <xref linkend=\"remoting\"/> chapter for more details)."
-msgstr "Indica che il metodo annotato può essere chiamato da JavaScript lato client. La proprietà <literal>exclude</literal> è opzionale e consente agli oggetti di essere esclusi dal grafo dell'oggetto dei risultati (vedere il capitolo Remoting per maggiori dettagli)."
+msgstr "Indica che il metodo annotato può essere chiamato da JavaScript lato client. La proprietà <literal>exclude</literal> è opzionale e consente agli oggetti di essere esclusi dal grafo dell'oggetto dei risultati (vedere il capitolo <xref linkend=\"remoting\"/> per maggiori dettagli)."
 
 #. Tag: title
 #: Annotations.xml:1173

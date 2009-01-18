@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Seam_Reference_Guide\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-01-18 16:17+0100\n"
+"PO-Revision-Date: 2009-01-18 17:09+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -378,19 +378,19 @@ msgstr ""
 #: Excel.xml:2318
 #, no-c-format
 msgid "Child elemenents"
-msgstr ""
+msgstr "Elementi figli"
 
 #. Tag: para
 #: Excel.xml:326
 #, no-c-format
 msgid "<literal>&lt;e:link/&gt;</literal> &#8212; Zero or more stylesheet links (see <xref linkend=\"excel.fontsandlayout.link\"/> )."
-msgstr ""
+msgstr "<literal>&lt;e:link/&gt;</literal> &#8212; Zero o più link a fogli di stile (vedere <xref linkend=\"excel.fontsandlayout.link\"/> )."
 
 #. Tag: para
 #: Excel.xml:334
 #, no-c-format
 msgid "<literal>&lt;e:worksheet/&gt;</literal> &#8212; Zero or more worksheets (see <xref linkend=\"excel.worksheet\"/> )."
-msgstr ""
+msgstr "<literal>&lt;e:worksheet/&gt;</literal> &#8212; Zero or più fogli di lavoro (see <xref linkend=\"excel.worksheet\"/> )."
 
 #. Tag: emphasis
 #: Excel.xml:343
@@ -475,7 +475,7 @@ msgstr ""
 #: Excel.xml:358
 #, no-c-format
 msgid "defines a workbook with a worksheet and a greeting at A1"
-msgstr ""
+msgstr "definisce un workbook con un foglio di lavoro ed un saluto in A1"
 
 #. Tag: title
 #: Excel.xml:362
@@ -841,25 +841,25 @@ msgstr "&lt;e:column&gt;"
 #: Excel.xml:806
 #, no-c-format
 msgid "<literal>&lt;e:cell/&gt;</literal> &#8212; Zero or more cells (see <xref linkend=\"excel.cells\"/> )."
-msgstr ""
+msgstr "<literal>&lt;e:cell/&gt;</literal> &#8212; Zero o più celle (vedere <xref linkend=\"excel.cells\"/> )."
 
 #. Tag: para
 #: Excel.xml:814
 #, no-c-format
 msgid "<literal>&lt;e:formula/&gt;</literal> &#8212; Zero or more formulas (see <xref linkend=\"excel.formulas\"/> )."
-msgstr ""
+msgstr "<literal>&lt;e:formula/&gt;</literal> &#8212; Zero o più formule (vedere <xref linkend=\"excel.formulas\"/> )."
 
 #. Tag: para
 #: Excel.xml:822
 #, no-c-format
 msgid "<literal>&lt;e:image/&gt;</literal> &#8212; Zero or more images (see <xref linkend=\"excel.images\"/> )."
-msgstr ""
+msgstr "<literal>&lt;e:image/&gt;</literal> &#8212; Zero o più immagini (vedere <xref linkend=\"excel.images\"/> )."
 
 #. Tag: para
 #: Excel.xml:830
 #, no-c-format
 msgid "<literal>&lt;e:hyperLink/&gt;</literal> &#8212; Zero or more hyperlinks (see <xref linkend=\"excel.hyperlinks\"/> )."
-msgstr ""
+msgstr "<literal>&lt;e:hyperLink/&gt;</literal> &#8212; Zero o più hyperlink (vedere <xref linkend=\"excel.hyperlinks\"/> )."
 
 #. Tag: para
 #: Excel.xml:843
@@ -2123,7 +2123,7 @@ msgstr ""
 #: Excel.xml:2247
 #, no-c-format
 msgid "Datatable exporter"
-msgstr ""
+msgstr "Esportatore di datatable"
 
 #. Tag: para
 #: Excel.xml:2248
