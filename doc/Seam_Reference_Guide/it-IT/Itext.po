@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-01-18 16:21+0100\n"
+"PO-Revision-Date: 2009-01-18 17:21+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -456,7 +456,7 @@ msgstr ""
 #: Itext.xml:343
 #, no-c-format
 msgid "<literal>size</literal> &#8212; The point size of the font."
-msgstr ""
+msgstr "<literal>size</literal> &#8212; La dimensione del punto nel font."
 
 #. Tag: para
 #: Itext.xml:347
@@ -468,7 +468,7 @@ msgstr ""
 #: Itext.xml:355
 #, no-c-format
 msgid "<literal>encoding</literal> &#8212; The character set encoding."
-msgstr ""
+msgstr "<literal>encoding</literal> &#8212; La codifica del set di caratteri."
 
 #. Tag: programlisting
 #: Itext.xml:362
@@ -492,7 +492,7 @@ msgstr "&lt;p:newPage&gt;"
 #: Itext.xml:378
 #, no-c-format
 msgid "<literal>p:newPage</literal> inserts a page break."
-msgstr ""
+msgstr "<literal>p:newPage</literal> inserisce un'interruzione di pagina."
 
 #. Tag: programlisting
 #: Itext.xml:385
@@ -570,7 +570,7 @@ msgstr "initialRotation"
 #: Itext.xml:487
 #, no-c-format
 msgid "<literal>dpi</literal>"
-msgstr ""
+msgstr "<literal>dpi</literal>"
 
 #. Tag: para
 #: Itext.xml:491
@@ -1003,11 +1003,12 @@ msgstr ""
 msgid "<literal>footerRows</literal> &#8212; The number of rows that are considered to be footer rows. This value is subtracted from the <literal>headerRows</literal> value. If document has 2 rows which make up the header and one row that makes up the footer, <literal>headerRows</literal> should be set to 3 and <literal>footerRows</literal> should be set to 1"
 msgstr ""
 
+# rivedere la frase
 #. Tag: para
 #: Itext.xml:986
 #, no-c-format
 msgid "<literal>widthPercentage</literal> &#8212; The percentage of the page width that the table spans."
-msgstr ""
+msgstr "<literal>widthPercentage</literal> &#8212; La percentuale della larghezza della pagina che la tabella eccede."
 
 #. Tag: para
 #: Itext.xml:991
@@ -1094,7 +1095,7 @@ msgstr "&lt;p:cell&gt;"
 #: Itext.xml:1082
 #, no-c-format
 msgid "<literal>p:cell</literal> supports the following attributes."
-msgstr ""
+msgstr "<literal>p:cell</literal> supporta i seguenti attributi."
 
 #. Tag: para
 #: Itext.xml:1092
@@ -1276,7 +1277,7 @@ msgstr ""
 #: Itext.xml:1519
 #, no-c-format
 msgid "<literal>borderPaint</literal> &#8212; The color of the border, if visible;"
-msgstr ""
+msgstr "<literal>borderPaint</literal> &#8212; Il colore del bordo, se visibile;"
 
 #. Tag: para
 #: Itext.xml:1328
@@ -1290,7 +1291,7 @@ msgstr ""
 #: Itext.xml:1529
 #, no-c-format
 msgid "<literal>borderStroke</literal> &#8212;"
-msgstr ""
+msgstr "<literal>borderStroke</literal> &#8212;"
 
 #. Tag: para
 #: Itext.xml:1339
@@ -2054,19 +2055,19 @@ msgstr "<literal>code</literal> &#8212; Il valore da codificare nel barcode."
 #: Itext.xml:2138
 #, no-c-format
 msgid "<literal>rotDegrees</literal> &#8212; For PDFs, the rotation factor of the barcode in degrees."
-msgstr ""
+msgstr "<literal>rotDegrees</literal> &#8212; Per i PDF il fattore di rotazione del barcode in gradi."
 
 #. Tag: para
 #: Itext.xml:2143
 #, no-c-format
 msgid "<literal>barHeight</literal> &#8212; The height of the bars in the barCode"
-msgstr ""
+msgstr "<literal>barHeight</literal> &#8212; L'altezza delle barre nel barCode."
 
 #. Tag: para
 #: Itext.xml:2149
 #, no-c-format
 msgid "<literal>minBarWidth</literal> &#8212; The minimum bar width."
-msgstr ""
+msgstr "<literal>minBarWidth</literal> &#8212; La larghezza minima della barra."
 
 #. Tag: para
 #: Itext.xml:2153
@@ -2078,7 +2079,7 @@ msgstr ""
 #: Itext.xml:2159
 #, no-c-format
 msgid "<literal>barColor</literal> &#8212; The color to draw the bars."
-msgstr ""
+msgstr "<literal>barColor</literal> &#8212; Il colore per disegnare le barre."
 
 #. Tag: para
 #: Itext.xml:2164
@@ -2090,7 +2091,7 @@ msgstr ""
 #: Itext.xml:2169
 #, no-c-format
 msgid "<literal>textSize</literal> &#8212; The size of the barcode text, if any."
-msgstr ""
+msgstr "<literal>textSize</literal> &#8212; La dimensione testo del barcode, se esiste."
 
 #. Tag: para
 #: Itext.xml:2174
