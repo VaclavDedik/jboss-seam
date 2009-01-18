@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-04-04 01:24+0000\n"
-"PO-Revision-Date: 2008-12-27 14:49+0100\n"
+"POT-Creation-Date: 2009-01-18 15:00+0000\n"
+"PO-Revision-Date: 2009-01-18 16:22+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -46,8 +46,8 @@ msgstr "Non c'è alcuna distinzione in Seam tra i componenti del livello present
 #. Tag: para
 #: Preface.xml:32
 #, no-c-format
-msgid "Unlike plain Java EE or J2EE components, Seam components may <emphasis>simultaneously</emphasis> access state associated with the web request and state held in transactional resources (without the need to propagate web request state manually via method parameters). You might object that the application layering imposed upon you by the old J2EE platform was a Good Thing. Well, nothing stops you creating an equivalent layered architecture using Seam&#8212;the difference is that <emphasis>you</emphasis> get to architect your own application and decide what the layers are and how they work together."
-msgstr "A differenza dei componenti J2EE o del semplice Java EE, i componenti Seam possono <emphasis>simultaneamente</emphasis> accedere allo stato associato alla richiesta web e allo stato mantenuto nelle risorse transazionali (senza il bisogno di propagare manualmente lo stato della richiesta web attraverso i parametri). Si potrebbe obbiettare che la stratificazione dell'applicazione imposta dalla vecchia piattaforma J2EE fosse una Cosa Buona. Bene, niente vieta di creare un'architettura a strati equivalente usando Seam&#8212; la differenza è che <emphasis>tu</emphasis> decidi l'architettura dell'applicazione e decidi quali sono i layer e come lavorano assieme"
+msgid "Unlike plain Java EE or J2EE components, Seam components may <emphasis>simultaneously</emphasis> access state associated with the web request and state held in transactional resources (without the need to propagate web request state manually via method parameters). You might object that the application layering imposed upon you by the old J2EE platform was a Good Thing. Well, nothing stops you creating an equivalent layered architecture using Seam &#8212; the difference is that <emphasis>you</emphasis> get to architect your own application and decide what the layers are and how they work together."
+msgstr "A differenza dei componenti J2EE o del semplice Java EE, i componenti Seam possono <emphasis>simultaneamente</emphasis> accedere allo stato associato alla richiesta web e allo stato mantenuto nelle risorse transazionali (senza il bisogno di propagare manualmente lo stato della richiesta web attraverso i parametri). Si potrebbe obbiettare che la stratificazione dell'applicazione imposta dalla vecchia piattaforma J2EE fosse una Cosa Buona. Bene, niente vieta di creare un'architettura a strati equivalente usando Seam &#8212; la differenza è che <emphasis>tu</emphasis> decidi l'architettura dell'applicazione e decidi quali sono i layer e come lavorano assieme"
 
 #. Tag: emphasis
 #: Preface.xml:45
@@ -70,8 +70,8 @@ msgstr "Seam unifica i modelli a componenti di JSF e EJB3, eliminando il codice 
 #. Tag: para
 #: Preface.xml:61
 #, no-c-format
-msgid "It is possible to write Seam applications where \"everything\" is an EJB. This may come as a surprise if you're used to thinking of EJBs as coarse-grained, so-called \"heavyweight\" objects. However, version 3.0 has completely changed the nature of EJB from the point of view of the developer. An EJB is a fine-grained object&#8212;nothing more complex than an annotated JavaBean. Seam even encourages you to use session beans as JSF action listeners!"
-msgstr "E' possibile scrivere applicazioni Seam dove \"qualsiasi cosa\" sia un EJB. Questo potrebbe essere sorprendente, se si è abituati a pensare agli EJB come ad oggetti cosiddetti a grana-grossa, \"di peso massimo\". Comunque la versione 3.0 ha completamente cambiato la natura di EJB dal punto di vista dello sviluppatore. Un EJB è un oggetto a grana-fine&#8212; non più complesso di un JavaBean con annotazioni. Seam incoraggia ad usare i session bean come action listener JSF! "
+msgid "It is possible to write Seam applications where \"everything\" is an EJB. This may come as a surprise if you're used to thinking of EJBs as coarse-grained, so-called \"heavyweight\" objects. However, version 3.0 has completely changed the nature of EJB from the point of view of the developer. An EJB is a fine-grained object &#8212; nothing more complex than an annotated JavaBean. Seam even encourages you to use session beans as JSF action listeners!"
+msgstr "E' possibile scrivere applicazioni Seam dove \"qualsiasi cosa\" sia un EJB. Questo potrebbe essere sorprendente, se si è abituati a pensare agli EJB come ad oggetti cosiddetti a grana-grossa, \"di peso massimo\". Comunque la versione 3.0 ha completamente cambiato la natura di EJB dal punto di vista dello sviluppatore. Un EJB è un oggetto a grana-fine &#8212; non più complesso di un JavaBean con annotazioni. Seam incoraggia ad usare i session bean come action listener JSF! "
 
 #. Tag: para
 #: Preface.xml:69
@@ -143,8 +143,8 @@ msgstr "Siamo tutti abituati al concetto di gestione dichiarativa delle transazi
 #. Tag: para
 #: Preface.xml:136
 #, no-c-format
-msgid "Declarative application state management is made possible by the richness of the <emphasis>context model</emphasis> defined by Seam. Seam extends the context model defined by the servlet spec&#8212;request, session, application&#8212;with two new contexts&#8212;conversation and business process&#8212;that are more meaningful from the point of view of the business logic."
-msgstr "La gestione dichiarativa dello stato dell''applicazione è resa possibile grazie alla ricchezza del <emphasis>modello di contesto</emphasis> definito da Seam. Seam estende il modello di contesto definito dalla specifica servlet&#8212;richiesta, sessione, applicazione&#8212;con due nuovi contesti&#8212;conversazione e processo di business&#8212;che sono più significatici dal punto di vista della logica di business."
+msgid "Declarative application state management is made possible by the richness of the <emphasis>context model</emphasis> defined by Seam. Seam extends the context model defined by the servlet spec &#8212; request, session, application &#8212; with two new contexts &#8212; conversation and business process &#8212; that are more meaningful from the point of view of the business logic."
+msgstr "La gestione dichiarativa dello stato dell''applicazione è resa possibile grazie alla ricchezza del <emphasis>modello di contesto</emphasis> definito da Seam. Seam estende il modello di contesto definito dalla specifica servlet &#8212; richiesta, sessione, applicazione &#8212; con due nuovi contesti &#8212; conversazione e processo di business &#8212; che sono più significatici dal punto di vista della logica di business."
 
 #. Tag: para
 #: Preface.xml:143

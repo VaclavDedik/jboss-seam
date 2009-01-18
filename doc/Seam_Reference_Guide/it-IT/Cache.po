@@ -5,9 +5,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cache\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-11-06 00:22+0000\n"
-"PO-Revision-Date: 2009-01-04 23:33+0100\n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2009-01-18 15:00+0000\n"
+"PO-Revision-Date: 2009-01-18 16:10+0100\n"
+"Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: Italian <stefano.travelli@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,10 +24,8 @@ msgstr "Gestione della cache"
 #. Tag: para
 #: Cache.xml:7
 #, no-c-format
-msgid "In almost all enterprise applications, the database is the primary bottleneck, and the least scalable tier of the runtime environment. People from a PHP/Ruby environment will try to tell you that so-called \"shared nothing\" architectures scale well. While that may be literally true, I don't know of many interesting multi-user applications which can be implemented with no sharing of resources between different nodes of the cluster. What these silly people are really thinking of is a \"share nothing except for the database\" architecture. Of course, sharing the database is the primary problem with scaling a multi-user application&#8212;so the claim that this architecture is highly scalable is absurd, and tells you a lot about the kind of applications that these folks spend most of their time working on."
-msgstr ""
-"In quasi tutte le applicazioni gestionali il database è il principale collo di bottiglia e lo strato meno scalabile dell'ambiente di esecuzione. Chi utilizza ambienti PHP/Ruby cercherà di sostenere che le architetture cosiddette \"shared nothing\" (nessuna condivisione) hanno una buona scalabilità. Benché questo possa essere letteralmente vero, non si conoscono molte applicazioni multi utente che possano essere implementate senza la condivisione di risorse tra diversi nodi di un cluster. In effetti ciò a cui questi sprovveduti stanno pensando è un'architettura con \"nessuna condivisione eccetto il database\". Ovviamente condividere il database è il principale problema di scalabilità di una applicazione multi utente, perciò affermare che questa architettura è altamente scalabile è assurdo e ci dice molto sul tipo di applicazioni sul cui sviluppo questi signori spendono la maggior parte del "
-"tempo."
+msgid "In almost all enterprise applications, the database is the primary bottleneck, and the least scalable tier of the runtime environment. People from a PHP/Ruby environment will try to tell you that so-called \"shared nothing\" architectures scale well. While that may be literally true, I don't know of many interesting multi-user applications which can be implemented with no sharing of resources between different nodes of the cluster. What these silly people are really thinking of is a \"share nothing except for the database\" architecture. Of course, sharing the database is the primary problem with scaling a multi-user application &#8212; so the claim that this architecture is highly scalable is absurd, and tells you a lot about the kind of applications that these folks spend most of their time working on."
+msgstr "In quasi tutte le applicazioni gestionali il database è il principale collo di bottiglia e lo strato meno scalabile dell'ambiente di esecuzione. Chi utilizza ambienti PHP/Ruby cercherà di sostenere che le architetture cosiddette \"shared nothing\" (nessuna condivisione) hanno una buona scalabilità. Benché questo possa essere letteralmente vero, non si conoscono molte applicazioni multi utente che possano essere implementate senza la condivisione di risorse tra diversi nodi di un cluster. In effetti ciò a cui questi sprovveduti stanno pensando è un'architettura con \"nessuna condivisione eccetto il database\". Ovviamente condividere il database è il principale problema di scalabilità di una applicazione multi utente, perciò affermare che questa architettura è altamente scalabile è assurdo e ci dice molto sul tipo di applicazioni sul cui sviluppo questi signori spendono la maggior parte del tempo."
 
 #. Tag: para
 #: Cache.xml:22

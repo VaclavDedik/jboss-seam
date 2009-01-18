@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-11-06 00:23+0000\n"
-"PO-Revision-Date: 2009-01-17 21:02+0100\n"
+"POT-Creation-Date: 2009-01-18 15:00+0000\n"
+"PO-Revision-Date: 2009-01-18 16:13+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -108,8 +108,8 @@ msgstr "Qualsiasi richiesta faces (un postback JSF) si propagherà nel contesto 
 #. Tag: para
 #: Conversations.xml:111
 #, no-c-format
-msgid "If the JSF request lifecycle is foreshortened by a redirect, Seam transparently stores and restores the current conversation context&#8212;unless the conversation was already ended via <literal>@End(beforeRedirect=true)</literal>."
-msgstr "Se il ciclo di vita della richiesta JSF viene accorciato da un redirect, Seam memorizza e ripristina in modo trasparente il contesto dell'attuale conversazione&#8212;amenoché la conversazione sia già stata terminata tramite <literal>@End(beforeRedirect=true)</literal>."
+msgid "If the JSF request lifecycle is foreshortened by a redirect, Seam transparently stores and restores the current conversation context &#8212; unless the conversation was already ended via <literal>@End(beforeRedirect=true)</literal>."
+msgstr "Se il ciclo di vita della richiesta JSF viene accorciato da un redirect, Seam memorizza e ripristina in modo trasparente il contesto dell'attuale conversazione &#8212; amenoché la conversazione sia già stata terminata tramite <literal>@End(beforeRedirect=true)</literal>."
 
 #. Tag: para
 #: Conversations.xml:120
@@ -525,8 +525,8 @@ msgstr "JSF non propaga la riga selezionata di un <literal>DataModel</literal> p
 #. Tag: para
 #: Conversations.xml:428
 #, no-c-format
-msgid "Seam provides the notion of a <emphasis>page action</emphasis> to help solve the first problem, but this does nothing to help us with the second problem. We <emphasis>could</emphasis> work around this by using the RESTful approach of passing a request parameter and requerying for the selected object on the server side. In some cases&#8212;such as the Seam blog example application&#8212;this is indeed the best approach. The RESTful style supports bookmarking, since it does not require server-side state. In other cases, where we don't care about bookmarks, the use of <literal>@DataModel</literal> and <literal>@DataModelSelection</literal> is just so convenient and transparent!"
-msgstr "Seam fornisce la nozione di <emphasis>pagina d'azione</emphasis> per aiutare a risolvere il primo problema, ma questo non aiuta per niente il secondo problema. Si <emphasis>può</emphasis> aggirare questo usando l'approccio RESTful di passare un parametro di richiesta e di riottenere l'oggetto selezionato lato server. In alcuni casi&#8212;come nell'esempio Seam del Blog&#8212;questo è il migliore approccio. Lo stile RESTful supporta i segnalibri, poiché non richiede uno stato lato server. In altri casi, dove non interessanno i segnalibri, l'uso di un <literal>@DataModel</literal> e di <literal>@DataModelSelection</literal> è conveniente e trasparente!"
+msgid "Seam provides the notion of a <emphasis>page action</emphasis> to help solve the first problem, but this does nothing to help us with the second problem. We <emphasis>could</emphasis> work around this by using the RESTful approach of passing a request parameter and requerying for the selected object on the server side. In some cases &#8212; such as the Seam blog example application &#8212; this is indeed the best approach. The RESTful style supports bookmarking, since it does not require server-side state. In other cases, where we don't care about bookmarks, the use of <literal>@DataModel</literal> and <literal>@DataModelSelection</literal> is just so convenient and transparent!"
+msgstr "Seam fornisce la nozione di <emphasis>pagina d'azione</emphasis> per aiutare a risolvere il primo problema, ma questo non aiuta per niente il secondo problema. Si <emphasis>può</emphasis> aggirare questo usando l'approccio RESTful di passare un parametro di richiesta e di riottenere l'oggetto selezionato lato server. In alcuni casi &#8212; come nell'esempio Seam del Blog &#8212; questo è il migliore approccio. Lo stile RESTful supporta i segnalibri, poiché non richiede uno stato lato server. In altri casi, dove non interessanno i segnalibri, l'uso di un <literal>@DataModel</literal> e di <literal>@DataModelSelection</literal> è conveniente e trasparente!"
 
 #. Tag: para
 #: Conversations.xml:441
@@ -757,7 +757,7 @@ msgstr "Può essere utile redirigersi verso una conversazione esistente se l'ute
 #. Tag: para
 #: Conversations.xml:576
 #, no-c-format
-msgid "With a natural conversation its really easy to have the user rejoin the existing conversation, and pick up where they left off - just have them to rejoin the payForItem conversation with the itemId as the conversation id."
+msgid "With a natural conversation it's really easy to have the user rejoin the existing conversation, and pick up where they left off - just have them to rejoin the payForItem conversation with the itemId as the conversation id."
 msgstr "Con una conversazione naturale è molto facile riunire l'utente alla conversazione esistente, e riprendere dove aveva lasciato - riunirsi alla conversazione pagaOggetto con l'idOggetto come id di conversazione."
 
 #. Tag: emphasis
@@ -775,7 +775,7 @@ msgstr "Questo si concretizza in una gerarchia navigabile (si può navigare edit
 #. Tag: para
 #: Conversations.xml:595
 #, no-c-format
-msgid "With a natural conversations, when you are building your hotel booking system (or, of course, whatever your app is) you can generate a URL like <literal>http://seam-hotels/book.seam?hotel=BestWesternAntwerpen</literal> (of course, whatever parameter <literal>hotel</literal> maps to on your domain model must be unique) and with URLRewrite easily transform this to http://seam-hotels/book/BestWesternAntwerpen."
+msgid "With a natural conversation, when you are building your hotel booking system (or, of course, whatever your app is) you can generate a URL like <literal>http://seam-hotels/book.seam?hotel=BestWesternAntwerpen</literal> (of course, whatever parameter <literal>hotel</literal> maps to on your domain model must be unique) and with URLRewrite easily transform this to http://seam-hotels/book/BestWesternAntwerpen."
 msgstr "Con una conversazione naturale, quando si costruisce un sistema di prenotazione hotel (od una qualsiasi applicazione) si può generare un URL del tipo <literal>http://seam-hotels/book.seam?hotel=BestWesternAntwerpen</literal> (sicuramente un qualsiasi parametro <literal>hotel</literal>, che mappi sul modello di dominio, deve essere univoco) e con URLRewrite si può facilmente trasformare questo in http://seam-hotels/book/BestWesternAntwerpen."
 
 #. Tag: para
@@ -908,7 +908,7 @@ msgstr ""
 #: Conversations.xml:674
 #, no-c-format
 msgid "When named conversations are specified in the <literal>&lt;page/&gt;</literal> element, redirection to the named conversation occurs as part of navigation rules, after the action method has already been invoked. This is a problem when redirecting to an existing conversation, as redirection needs to be occur before the action method is invoked. Therefore it is necessary to specify the conversation name when the action is invoked. One way of doing this is by using the <literal>s:conversationName</literal> tag:"
-msgstr ""
+msgstr "Quando le conversazioni con nome vengono specificate nell'elemento <literal>&lt;page/&gt;</literal>, la redirezione alla conversazione con nome avviene come parte delle regole, dopo che il metodo d'azione è già stato invocato. Questo è un problema quando ci si redirige ad una conversazione esistente, poiché la redirezione deve avvenire prima che sia invocato il metodo d'azione. Quindi è necessario specificare il nome della conversazione quando si invoca l'azione. Un metodo per fare questo è usare il tag <literal>s:conversationName</literal>:"
 
 #. Tag: programlisting
 #: Conversations.xml:684
@@ -926,7 +926,7 @@ msgstr ""
 #: Conversations.xml:686
 #, no-c-format
 msgid "Another alternative is to specify the <literal>conversationName</literal> attribute when using either <literal>s:link</literal> or <literal>s:button</literal>:"
-msgstr ""
+msgstr "Un'altra alternativa è specificare l'attributo <literal>conversationName</literal> quando si usano o <literal>s:link</literal> o <literal>s:button</literal>:"
 
 #. Tag: programlisting
 #: Conversations.xml:691
@@ -944,31 +944,31 @@ msgstr "Gestione del workspace"
 #: Conversations.xml:699
 #, no-c-format
 msgid "Workspace management is the ability to \"switch\" conversations in a single window. Seam makes workspace management completely transparent at the level of the Java code. To enable workspace management, all you need to do is:"
-msgstr ""
+msgstr "La gestione del workspace è la capacità di \"cambiare\" le conversazioni all'interno di una singola finestra. Seam rende la gestione del workspace completamente trasparente a livello di codice Java. Per abilitare la gestione del workspace, occorre fare questo:"
 
 #. Tag: para
 #: Conversations.xml:708
 #, no-c-format
 msgid "Provide <emphasis>description</emphasis> text for each view id (when using JSF or Seam navigation rules) or page node (when using jPDL pageflows). This description text is displayed to the user by the workspace switchers."
-msgstr ""
+msgstr "Fornire un testo di <emphasis>descrizione</emphasis> ad ogni id di vista (quando si usa JSF o le regole di navigazione JSF) od il nodo della pagina (quando si usano i pageflow jPDL). Questo testo di descrizione viene mostrato all'utente attraverso lo switcher di workspace."
 
 #. Tag: para
 #: Conversations.xml:716
 #, no-c-format
 msgid "Include one or more of the standard workspace switcher JSP or facelets fragments in your pages. The standard fragments support workspace management via a drop down menu, a list of conversations, or breadcrumbs."
-msgstr ""
+msgstr "Includere uno o più switcher JSP standard di workspace oppure frammenti facelets nelle proprie pagine. I frammenti standard supportano la gestione del workspace attraverso un menu dropdown, una lista di conversazioni, oppure breadcrumb."
 
 #. Tag: title
 #: Conversations.xml:726
 #, no-c-format
 msgid "Workspace management and JSF navigation"
-msgstr ""
+msgstr "Gestione del workspace e navigazione JSF"
 
 #. Tag: para
 #: Conversations.xml:727
 #, no-c-format
 msgid "When you use JSF or Seam navigation rules, Seam switches to a conversation by restoring the current <literal>view-id</literal> for that conversation. The descriptive text for the workspace is defined in a file called <literal>pages.xml</literal> that Seam expects to find in the <literal>WEB-INF</literal> directory, right next to <literal>faces-config.xml</literal>:"
-msgstr ""
+msgstr "Quando si usano JSF o le regole di navigazione di Seam, Seam cambia la conversazione ripristinando l'attuale <literal>view-id</literal> per quella conversazione. Il testo descrittivo per il workspace viene definito in un file chiamato <literal>pages.xml</literal> che Seam si aspetta di trovare nella directory <literal>WEB-INF</literal>, giusto dove si trova <literal>faces-config.xml</literal>:"
 
 #. Tag: programlisting
 #: Conversations.xml:736
@@ -1008,19 +1008,19 @@ msgstr ""
 #: Conversations.xml:738
 #, no-c-format
 msgid "Note that if this file is missing, the Seam application will continue to work perfectly! The only missing functionality will be the ability to switch workspaces."
-msgstr ""
+msgstr "Si noti che se questo file manca, l'applicazione Seam continuerà a funzionare perfettamente! La sola cosa che mancherà sarà la possibilità di cambiare workspace."
 
 #. Tag: title
 #: Conversations.xml:747
 #, no-c-format
 msgid "Workspace management and jPDL pageflow"
-msgstr ""
+msgstr "Gestione del workspace e pageflow jPDL"
 
 #. Tag: para
 #: Conversations.xml:748
 #, no-c-format
 msgid "When you use a jPDL pageflow definition, Seam switches to a conversation by restoring the current jBPM process state. This is a more flexible model since it allows the same <literal>view-id</literal> to have different descriptions depending upon the current <literal>&lt;page&gt;</literal> node. The description text is defined by the <literal>&lt;page&gt;</literal> node:"
-msgstr ""
+msgstr "Quando si usa una definizione di pageflow jPDL, Seam cambia la conversazione ripristinando il corrente stato del processo jBPM. Questo è un modello più flessibile poiché consente allo stesso <literal>view-id</literal> di avere descrizioni differenti a seconda del nodo corrente <literal>&lt;page&gt;</literal>. Il testo di descrizione è definito dal nodo <literal>&lt;page&gt;</literal>:"
 
 #. Tag: programlisting
 #: Conversations.xml:759
@@ -1084,7 +1084,7 @@ msgstr "Lo switcher delle conversazioni"
 #: Conversations.xml:766
 #, no-c-format
 msgid "Include the following fragment in your JSP or facelets page to get a drop-down menu that lets you switch to any current conversation, or to any other page of the application:"
-msgstr ""
+msgstr "Includere il seguente frammento nella pagina JSP o facelets per ottenere un menu dropdown che consenta di cambiare la conversazione, o la pagina dell'applicazione:"
 
 #. Tag: programlisting
 #: Conversations.xml:772
@@ -1108,13 +1108,13 @@ msgstr ""
 #: Conversations.xml:774
 #, no-c-format
 msgid "In this example, we have a menu that includes an item for each conversation, together with two additional items that let the user begin a new conversation."
-msgstr ""
+msgstr "In quest'esempio si ha un menu che include un item per ogni conversazione, assieme a due item aggiuntivi che consentono all'utente di iniziare una nuova conversazione."
 
 #. Tag: para
 #: Conversations.xml:780
 #, no-c-format
 msgid "Only conversations with a description (specified in <literal>pages.xml</literal>) will be included in the drop-down menu."
-msgstr ""
+msgstr "Solo le conversazioni con una descrizione (specificata in <literal>pages.xml</literal>) verranno incluse nel menu dropdown."
 
 #. Tag: title
 #: Conversations.xml:798
@@ -1190,13 +1190,13 @@ msgstr "Si immagini di voler personalizzare questo per la propria applicazione."
 #: Conversations.xml:820
 #, no-c-format
 msgid "Only conversations with a description will be included in the list."
-msgstr ""
+msgstr "Solo le conversazioni con una descrizione verranno incluse nella lista."
 
 #. Tag: para
 #: Conversations.xml:825
 #, no-c-format
 msgid "Notice that the conversation list lets the user destroy workspaces."
-msgstr ""
+msgstr "Si noti che la lista delle conversazioni consente all'utente di distruggere i workspace."
 
 #. Tag: title
 #: Conversations.xml:832
@@ -1228,19 +1228,19 @@ msgstr ""
 #: Conversations.xml:855
 #, no-c-format
 msgid "Conversational components and JSF component bindings"
-msgstr ""
+msgstr "Componenti conversazionali ed associazione ai componenti JSF"
 
 #. Tag: para
 #: Conversations.xml:857
 #, no-c-format
 msgid "Conversational components have one minor limitation: they cannot be used to hold bindings to JSF components. (We generally prefer not to use this feature of JSF unless absolutely necessary, since it creates a hard dependency from application logic to the view.) On a postback request, component bindings are updated during the Restore View phase, before the Seam conversation context has been restored."
-msgstr ""
+msgstr "I componenti conversazionali hanno una piccola limitazione: non possono essere usati per mantenere un riferimento ai componenti JSF. (In generali si preferisce non usare questa funzionalità di JSF amenoché sia assolutamente necessario, poiché questo crea una dipendenza stretta della logica dell'applicazione con la vista.) Sulle richieste postback, i binding dei componenti vengono aggiornati durante la fase restore view, prima che il contesto della conversazione di Seam venga ripristinato."
 
 #. Tag: para
 #: Conversations.xml:865
 #, no-c-format
 msgid "To work around this use an event scoped component to store the component bindings and inject it into the conversation scoped component that requires it."
-msgstr ""
+msgstr "Per aggirare questo si usa un componente con scope evento per memorizzare i binding dei componenti ed per iniettarlo nel componente a scope conversazione che lo richiede."
 
 #. Tag: programlisting
 #: Conversations.xml:870
@@ -1294,13 +1294,13 @@ msgstr ""
 #: Conversations.xml:875
 #, no-c-format
 msgid "Also, you can't inject a conversation scoped component into an event scoped component which you bind a JSF control to. This includes Seam built in components like <literal>facesMessages</literal>."
-msgstr ""
+msgstr "Inoltre non si può iniettare un componente con scope conversazione in un componente con scope evento a cui associare il controllo JSF. Questo include i componenti predefiniti Seam come <literal>facesMessages</literal>."
 
 #. Tag: para
 #: Conversations.xml:881
 #, no-c-format
-msgid "Alternatively, you can access the JSF component tree through the implicit <literal>uiComponent</literal> handle. The following example accesses <literal>getRowIndex()</literal>of the <literal>UIData</literal> component which backs the data table during iteration, it prints the current row number:"
-msgstr ""
+msgid "Alternatively, you can access the JSF component tree through the implicit <literal>uiComponent</literal> handle. The following example accesses <literal>getRowIndex()</literal> of the <literal>UIData</literal> component which backs the data table during iteration, it prints the current row number:"
+msgstr "In alternativa si può accedere all'albero del componente JSF attraverso l'handle implicito <literal>uiComponent</literal>. Il seguente esempio accede a <literal>getRowIndex()</literal> del componente <literal>UIData</literal> che è retrostante alla tabella dei dati durante l'interazione, e stampa il numero della riga corrente:"
 
 #. Tag: programlisting
 #: Conversations.xml:888
@@ -1326,7 +1326,7 @@ msgstr ""
 #: Conversations.xml:890
 #, no-c-format
 msgid "JSF UI components are available with their client identifier in this map."
-msgstr ""
+msgstr "I componenti JSF UI sono disponibili in questa mappa con il loro identificatore di client."
 
 #. Tag: title
 #: Conversations.xml:897
@@ -1338,25 +1338,25 @@ msgstr "Chiamare concorrenti ai componenti conversazionali"
 #: Conversations.xml:899
 #, no-c-format
 msgid "A general discussion of concurrent calls to Seam components can be found in <xref linkend=\"concurrency\"/>. Here we will discuss the most common situation in which you will encounter concurrency &#8212; accessing conversational components from AJAX requests. We're going to discuss the options that a Ajax client library should provide to control events originating at the client &#8212; and we'll look at the options RichFaces gives you."
-msgstr ""
+msgstr "Una discussione generale sulle chiamate concorrenti ai componenti Seam può essere trovata in <xref linkend=\"concurrency\"/>. Qua si discuterà la situazione più comune in cui si troverà la concorrenza &#8212; accedendo a componenti conversazionali da richieste AJAX. Si dicuteranno le opzioni che la libreria client Ajax dovrebbe fornire per controllare gli eventi originati nel client &#8212; e si vedranno le opzioni che fornisce RichFaces."
 
 #. Tag: para
 #: Conversations.xml:909
 #, no-c-format
 msgid "Conversational components don't allow real concurrent access therefore Seam queues each request to process them serially. This allows each request to be executed in a deterministic fashion. However, a simple queue isn't that great &#8212; firstly, if a method is, for some reason, taking a very long time to complete, running it over and over again whenever the client generates a request is bad idea (potential for Denial of Service attacks), and, secondly, AJAX is often to used to provide a quick status update to the user, so continuing to run the action after a long time isn't useful."
-msgstr ""
+msgstr "I componenti conversazionali non consentono una vero accesso concorrente, e quindi Seam accoda ogna richiesta per poi processarla in modo seriale. Questo consente ad ogni richiesta di venir eseguita in un modo deterministico. Comunque, una semplice cosa non è cosa ottima &#8212; in primo luogo, se un metodo per qualche ragione impiega molto tempo a terminare, eseguirlo più volte quando il client genera una richiesta, è una cattiva idea (potenziale per attacchi di tipo Denial of Service), ed in secondo luogo, AJAX spesso viene usato per fornire un veloce aggiornamento dello stato all'utente, e così continuare ad eseguire l'azione per lungo tempo non è utile."
 
 #. Tag: para
 #: Conversations.xml:921
 #, no-c-format
 msgid "Therefore, when you are working inside a long running conversation, Seam queues the action event for a period of time (the concurrent request timeout); if it can't process the event in time, it creates a temporary conversation and prints out a message to the user to let them know what's going on. It's therefore very important not to flood the server with AJAX events!"
-msgstr ""
+msgstr "Quindi quando si lavora all'interno di una conversazione long-running, Seam accoda l'evento azione per un periodo di tempo (il timeout della richiesta concorrente); se non si può processare l'evento in tempo, si crea una conversazione temporanea e si stampa un messaggio all'utente per rendergli noto cosa sta succedendo. E' quindi molto importante non inondare il server con eventi AJAX!"
 
 #. Tag: para
 #: Conversations.xml:930
 #, no-c-format
 msgid "We can set a sensible default for the concurrent request timeout (in ms) in components.xml:"
-msgstr ""
+msgstr "Si può impostare un valore di default sensibile per il timeout delle richieste concorrenti (in ms) dentro il file components.xml:"
 
 #. Tag: programlisting
 #: Conversations.xml:935
@@ -1368,7 +1368,7 @@ msgstr "<![CDATA[<core:manager concurrent-request-timeout=\"500\" />]]>"
 #: Conversations.xml:937
 #, no-c-format
 msgid "We can also fine tune the concurrent request timeout on a page-by-page basis:"
-msgstr ""
+msgstr "Si può anche perfezionare questo timeout a livello di ogni singola pagina:"
 
 #. Tag: programlisting
 #: Conversations.xml:942
@@ -1388,43 +1388,43 @@ msgstr ""
 #: Conversations.xml:944
 #, no-c-format
 msgid "So far we've discussed AJAX requests which appear serial to the user - the client tells the server that an event has occur, and then rerenders part of the page based on the result. This approach is great when the AJAX request is lightweight (the methods called are simple e.g. calculating the sum of a column of numbers). But what if we need to do a complex computation thats going to take a minute?"
-msgstr ""
+msgstr "Finora si è discusso delle richieste AJAX che appaiono in serie all'utente - il client dice al server quale evento avviene, e quindi rigenera parte della pagina a seconda del risultato. Questo approccio è ottimo quando la richiesta AJAX è leggera (i metodi chiamati sono semplici, per esempio il calcolo della somma di una colonna di numeri): Ma cosa succede se occorre un calcolo più complesso che dura diversi minuti?"
 
 #. Tag: para
 #: Conversations.xml:953
 #, no-c-format
 msgid "For heavy computation we should use a poll based approach &#8212; the client sends an AJAX request to the server, which causes action to be executed asynchronously on the server (the response to the client is immediate) and the client then polls the server for updates. This is good approach when you have a long-running action for which it is important that every action executes (you don't want some to timeout)."
-msgstr ""
+msgstr "Per una computazione pesante occorre usare un approccio basato sull'interrogazione &#8212; il client spedisce una richiesta AJAX al server, che causa un'azione asincrona sul server (la risposta al client è immediata) ed il client quindi interroga il server per gli aggiornamenti. Questo è un buon approccio quando si ha un'azione long-running per la quale è importante che ciascuna azione venga eseguita (non si vuole che qualcuna vada in timeout)."
 
 #. Tag: title
 #: Conversations.xml:963
 #, no-c-format
 msgid "How should we design our conversational AJAX application?"
-msgstr ""
+msgstr "Come si può progettare la nostra applicazione AJAX conversazionale?"
 
 #. Tag: para
 #: Conversations.xml:965
 #, no-c-format
 msgid "Well first, you need to decide whether you want to use the simpler \"serial\" request or whether you want to use a polling approach."
-msgstr ""
+msgstr "In primo luogo occorre decidere se si vuole usare una richiesta semplice \"seriale\" e se si vuole l'approccio con interrogazione."
 
 #. Tag: para
 #: Conversations.xml:970
 #, no-c-format
 msgid "If you go for a \"serial\" requests, then you need to estimate how long your request will take to complete - is it much shorter than the concurrent request timeout? If not, you probably want to alter the concurrent request timeout for this page (as discussed above). You probably want a queue on the client side to prevent flooding the server with requests. If the event occurs often (e.g. a keypress, onblur of input fields) and immediate update of the client is not a priority you should set a request delay on the client side. When working out your request delay, factor in that the event may also be queued on the server side."
-msgstr ""
+msgstr "Nel caso di richiesta \"seriale\" occorre stimare quando tempo occorrerà alle richieste per completarsi - è più breve del timeout della richiesta concorrente? Altrimenti si potrebbe volere probabilmente modificare il timeout per questa pagina (come discusso sopra). Si vuole che la coda lato client prevenga l'inondazione di richiesta al server. Se l'evento si verifica spesso (es. keypress, onblur di un campo d'input) e l'aggiornamento immediato del client non è una priorità si deve ritardare la richiesta lato client. Quando si lavora sul ritardo delle richieste, si tenga presente che l'evento può venire accodato anche lato server."
 
 #. Tag: para
 #: Conversations.xml:983
 #, no-c-format
 msgid "Finally, the client library may provide an option to abort unfinished duplicate requests in favor of the most recent."
-msgstr ""
+msgstr "Infine la libreria del client può fornire un'opzione su come abbandonare le richieste duplicate non terminate a favore di quelle più recenti."
 
 #. Tag: para
 #: Conversations.xml:988
 #, no-c-format
 msgid "Using a poll-style design requires less fine-tuning. You just mark your action method <literal>@Asynchronous</literal> and decide on a polling interval:"
-msgstr ""
+msgstr "Usando un design di tipo interrogazione richiede un minor fine-tuning. Basta marcare il metodo d'azione con <literal>@Asynchronous</literal> e decidere l'intervallo di interrogazione:"
 
 #. Tag: programlisting
 #: Conversations.xml:994
@@ -1470,7 +1470,7 @@ msgstr "Gestione degli errori"
 #: Conversations.xml:1000
 #, no-c-format
 msgid "However carefully you design your application to queue concurrent requests to your conversational component, there is a risk that the server will become overloaded and be unable to process all the requests before the request will have to wait longer than the <literal>concurrent-request-timeout</literal>. In this case Seam will throw a <literal>ConcurrentRequestTimeoutException</literal> which can be handled in <literal>pages.xml</literal>. We recommend sending an HTTP 503 error:"
-msgstr ""
+msgstr "Comunque per quanto in modo attento si progetti la propria applicazione in modo che accodi le richieste concorrenti nel componente conversazionale, c'è il rischio che il server venga sovraccaricato e sia incapace di processare tutte le richieste prima che la richiesta debba aspettare più a lungo del <literal>concurrent-request-timeout</literal>. In questo caso Seam lancerà una <literal>ConcurrentRequestTimeoutException</literal> che potrà venir gestita in <literal>pages.xml</literal>. Si raccomanda di inviare un errore HTTP 503:"
 
 #. Tag: programlisting
 #: Conversations.xml:1011
@@ -1494,7 +1494,7 @@ msgstr "503 Service Unavailable (HTTP/1.1 RFC)"
 #: Conversations.xml:1016
 #, no-c-format
 msgid "The server is currently unable to handle the request due to a temporary overloading or maintenance of the server. The implication is that this is a temporary condition which will be alleviated after some delay."
-msgstr ""
+msgstr "Il server è incapace di gestire la richiesta a causa di un temporaneo sovraccarico o di una manutenzione al server. L'implicazione è che questa è una condizione temporanea che verrà risolta dopo un qualche ritardo."
 
 #. Tag: para
 #: Conversations.xml:1024
@@ -1523,8 +1523,8 @@ msgstr ""
 #. Tag: para
 #: Conversations.xml:1030
 #, no-c-format
-msgid "ICEfaces, RichFaces Ajax and Seam Remoting can all handle HTTP error codes. Seam Remoting will pop up a dialog box showing the HTTP error and ICEfaces will indicate the error in it's connection status component. RichFaces Ajax provides the most complete support for handling HTTP errors by providing a user definable callback. For example, to show the error message to the user:"
-msgstr ""
+msgid "ICEfaces, RichFaces Ajax and Seam Remoting can all handle HTTP error codes. Seam Remoting will pop up a dialog box showing the HTTP error and ICEfaces will indicate the error in its connection status component. RichFaces Ajax provides the most complete support for handling HTTP errors by providing a user definable callback. For example, to show the error message to the user:"
+msgstr "ICEfaces, RichFaces Ajax e Seam Remoting possono tutti gestire i codici d'errore HTTP. Seam Remoting mostrerà una finestra di dialogo con l'errore HTTP e ICEfaces indicherà l'errore nel suo componente di stato. RichFaces Ajax fornisce il supporto più completo per la gestione degli errori HTTP e chiamate callback definibili dall'utente. Per esempio, per mostrare il messaggio d'errore all'utente:"
 
 #. Tag: programlisting
 #: Conversations.xml:1039
@@ -1552,37 +1552,37 @@ msgstr "RichFaces Ajax"
 #: Conversations.xml:1046
 #, no-c-format
 msgid "RichFaces Ajax is the AJAX library most commonly used with Seam, and provides all the controls discussed above:"
-msgstr ""
+msgstr "RichFaces Ajax è la libreria AJAX più usata in Seam e fornisce tutti i controlli discussi sopra:"
 
 #. Tag: para
 #: Conversations.xml:1053
 #, no-c-format
-msgid "<literal>eventsQueue</literal> &#8212; provide a queue in which events are placed. All events are queued and requests are sent to the server serially. This is useful if the request can to the server can take some time to execute (e.g. heavy computation, retrieving information from a slow source) as the server isn't flooded."
-msgstr ""
+msgid "<literal>eventsQueue</literal> &#8212; provides a queue in which events are placed. All events are queued and requests are sent to the server serially. This is useful if the request to the server can take some time to execute (e.g. heavy computation, retrieving information from a slow source) as the server isn't flooded."
+msgstr "<literal>eventsQueue</literal> &#8212; fornisce una coda in cui vengono messi gli eventi. Tutti gli eventi vengono accodati e le richieste vengono inviate al server in modo seriale. Questo è utile se la richiesta al server può prendersi un pò di tempo per essere eseguita (es. computazione pesante, recupero di informazioni da una sorgente lenta) ed il server non viene inondato."
 
 #. Tag: para
 #: Conversations.xml:1063
 #, no-c-format
-msgid "<literal>ignoreDupResponses</literal> &#8212; ignore the response produced by the request if a more recent 'similar' request is already in the queue. ignoreDupResponses=\"true\" does <emphasis>not cancel</emphasis> the the processing of the request on the server side &#8212; just prevents unnecessary updates on the client side."
-msgstr ""
+msgid "<literal>ignoreDupResponses</literal> &#8212; ignores the response produced by the request if a more recent 'similar' request is already in the queue. ignoreDupResponses=\"true\" does <emphasis>not cancel</emphasis> the processing of the request on the server side &#8212; just prevents unnecessary updates on the client side."
+msgstr "<literal>ignoreDupResponses</literal> &#8212; ignora la risposta prodotta dalla richiesta se una recente richiesta simile è già in coda. ignoreDupResponses=\"true\"  <emphasis>non cancella</emphasis> l'elaborazione della richiesta lato server &#8212; previene solamente aggiornamenti non necessari lato client."
 
 #. Tag: para
 #: Conversations.xml:1070
 #, no-c-format
 msgid "This option should be used with care with Seam's conversations as it allows multiple concurrent requests to be made."
-msgstr ""
+msgstr "Quest'opzione dovrebbe essere usata con cautela nelle conversazioni Seam poiché consente di eseguire richeste concorrenti multiple."
 
 #. Tag: para
 #: Conversations.xml:1076
 #, no-c-format
 msgid "<literal>requestDelay</literal> &#8212; defines the time (in ms.) that the request will be remain on the queue. If the request has not been processed by after this time the request will be sent (regardless of whether a response has been received) or discarded (if there is a more recent similar event on the queue)."
-msgstr ""
+msgstr "<literal>requestDelay</literal> &#8212; definisce il tempo (in ms) in cui la richiesta rimane in coda. Se la richiesta non è stata processata dopo questo tempo, la richiesta verrà inviata (anche se la risposta è stata ricevuta) o scartata (se c'è in coda una richiesta recente simile)."
 
 #. Tag: para
 #: Conversations.xml:1083
 #, no-c-format
 msgid "This option should be used with care with Seam's conversations as it allows multiple concurrent requests to be made. You need to be sure that the delay you set (in combination with the concurrent request timeout) is longer than the action will take to execute."
-msgstr ""
+msgstr "Quest'opzione dovrebbe essere usata con cautela nelle conversazioni Seam poiché consente richieste concorrenti multiple- Occorre accertarsi che il ritardo impostato (in combinazione con il timeout delle richieste concorrenti) sia più lungo dell'azione da eseguire."
 
 #. Tag: para
 #: Conversations.xml:1091

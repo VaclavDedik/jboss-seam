@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-01-05 00:19+0000\n"
-"PO-Revision-Date: 2009-01-11 20:26+0100\n"
+"POT-Creation-Date: 2009-01-18 15:00+0000\n"
+"PO-Revision-Date: 2009-01-18 16:25+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1383,8 +1383,8 @@ msgstr "Come nel precedente esempio, esiste un session bean, <literal>MessageMan
 #. Tag: para
 #: Tutorial.xml:558
 #, no-c-format
-msgid "But <literal>MessageManagerBean</literal> is also responsible for fetching the list of messages the first time we navigate to the message list page. There are various ways the user could navigate to the page, and not all of them are preceded by a JSF action&#8212;the user might have bookmarked the page, for example. So the job of fetching the message list takes place in a Seam <emphasis>factory method</emphasis>, instead of in an action listener method."
-msgstr "Ma <literal>MessageManagerBean</literal> è anche responsabile per il recupero della lista dei messaggi la prima volta che si naviga nella pagina della lista messaggi. Ci sono vari modi in cui l'utente può navigare nella pagina, e non tutti sono preceduti da un'azione JSF&#8212;l'utente può avere un memorizzato la pagina, per esempio. Quindi il compito di recuperare la lista messaggi avviene in un <emphasis>metodo factory</emphasis> di Seam, invece che in un metodo action listener."
+msgid "But <literal>MessageManagerBean</literal> is also responsible for fetching the list of messages the first time we navigate to the message list page. There are various ways the user could navigate to the page, and not all of them are preceded by a JSF action &#8212; the user might have bookmarked the page, for example. So the job of fetching the message list takes place in a Seam <emphasis>factory method</emphasis>, instead of in an action listener method."
+msgstr "Ma <literal>MessageManagerBean</literal> è anche responsabile per il recupero della lista dei messaggi la prima volta che si naviga nella pagina della lista messaggi. Ci sono vari modi in cui l'utente può navigare nella pagina, e non tutti sono preceduti da un'azione JSF &#8212; l'utente può avere un memorizzato la pagina, per esempio. Quindi il compito di recuperare la lista messaggi avviene in un <emphasis>metodo factory</emphasis> di Seam, invece che in un metodo action listener."
 
 #. Tag: para
 #: Tutorial.xml:564
@@ -3110,7 +3110,7 @@ msgstr "Non si analizzerà ulteriormente lo stato, tranne per notare che se in u
 #. Tag: para
 #: Tutorial.xml:1113
 #, no-c-format
-msgid "The numberguess example also contains Giveup and Cheat buttons. You should be able to trace the pageflow state for both actions relatively easily. Pay particular attention to the <literal>cheat</literal> transtition, which loads a sub-process to handle that flow. Although it's overkill for this application, it does demonstrate how complex pageflows can be broken down into smaller parts to make them easier to understand."
+msgid "The numberguess example also contains Giveup and Cheat buttons. You should be able to trace the pageflow state for both actions relatively easily. Pay particular attention to the <literal>cheat</literal> transition, which loads a sub-process to handle that flow. Although it's overkill for this application, it does demonstrate how complex pageflows can be broken down into smaller parts to make them easier to understand."
 msgstr "L'esempio indovina-numero contiene anche i pulsanti Giveup (abbandona) e Cheat (imbroglia). Si dovrebbe essere facilmente in grado di tracciare lo stato pageflow per le relative azioni. Si presti attenzione alla transizione <literal>cheat</literal>, che carica un sotto-processo per gestire tale flusso. Sebbene sia superfluo per quest'applicazione, questo dimostra come pageflow complessi possano venire spezzati in parti più piccole per renderle più facili da capire."
 
 #. Tag: title
@@ -4180,7 +4180,7 @@ msgstr ""
 #. Tag: para
 #: Tutorial.xml:1561
 #, no-c-format
-msgid "The <varname>hotel</varname> instance is injected from the conversation context. The hotel is loaded through an <emphasis>extended persistence context</emphasis> so that the entity remains managed throughout the conversation. This allows us to lazily load the <varname>availableRooms</varname> through an <varname>@Factory</varname> method by simply walking the assocation."
+msgid "The <varname>hotel</varname> instance is injected from the conversation context. The hotel is loaded through an <emphasis>extended persistence context</emphasis> so that the entity remains managed throughout the conversation. This allows us to lazily load the <varname>availableRooms</varname> through an <varname>@Factory</varname> method by simply walking the association."
 msgstr "L'istanza <varname>hotel</varname> viene iniettata dal contesto conversazione. L'hotel viene caricato tramite un <emphasis>contesto di persistenza esteso</emphasis> cosicché l'entity rimanga gestito lungo la conversazione. Questo consente di caricare in modo lazy la <varname>availableRooms</varname> tramite il metodo <varname>@Factory</varname> semplicemente seguendo l'associazione."
 
 #. Tag: para
@@ -4544,7 +4544,7 @@ msgstr ""
 #. Tag: para
 #: Tutorial.xml:1644
 #, no-c-format
-msgid "Annotating an action with <link linkend=\"end-annotation\"> <varname>@End(root=true)</varname> </link> ends the root conversation which effectively destroys the entire conversation stack. When any conversation is ended, it's nested conversations are ended as well. As the root is the conversation that started it all, this is a simple way to destroy and release all state associated with a workspace once the booking is confirmed."
+msgid "Annotating an action with <link linkend=\"end-annotation\"> <varname>@End(root=true)</varname> </link> ends the root conversation which effectively destroys the entire conversation stack. When any conversation is ended, its nested conversations are ended as well. As the root is the conversation that started it all, this is a simple way to destroy and release all state associated with a workspace once the booking is confirmed."
 msgstr "Annotare un'azione con <link linkend=\"end-annotation\"> <varname>@End(root=true)</varname> </link> termina la conversazione radice che distrugge effettivamente tutto lo stack delle conversazioni. Quando una conversazione termina, terminano anche le sue conversazioni innestate. Poiché la conversazione radice è quella che inizia tutto, questo è un modo semplice per distruggere e rilasciare tutto lo stato associato al workspace una volta confermata la prenotazione."
 
 #. Tag: para
@@ -4700,8 +4700,8 @@ msgstr ""
 #. Tag: para
 #: Tutorial.xml:1759
 #, no-c-format
-msgid "If we navigate to this page from a bookmark, how does the <literal>#{blog.recentBlogEntries}</literal> data used by the <literal>&lt;h:dataTable&gt;</literal> actually get initialized? The <literal>Blog</literal> is retrieved lazily&#8212;\"pulled\"&#8212;when needed, by a Seam component named <literal>blog</literal>. This is the opposite flow of control to what is used in traditional action-based web frameworks like Struts."
-msgstr "Se si arriva in quaste pagina da un segnalibro, come viene inizializzato <literal>#{blog.recentBlogEntries}</literal> usato da <literal>&lt;h:dataTable&gt;</literal>? <literal>Blog</literal> viene recuperato in modo lazy&#8212;\"tirato\"&#8212;quando serve, da un componente Seam chiamato <literal>blog</literal>. Questo è il flusso di controllo opposto a quello usato nei tradizionali framework web basati sull'azione, come ad esempio Struts."
+msgid "If we navigate to this page from a bookmark, how does the <literal>#{blog.recentBlogEntries}</literal> data used by the <literal>&lt;h:dataTable&gt;</literal> actually get initialized? The <literal>Blog</literal> is retrieved lazily &#8212; \"pulled\" &#8212; when needed, by a Seam component named <literal>blog</literal>. This is the opposite flow of control to what is used in traditional action-based web frameworks like Struts."
+msgstr "Se si arriva in quaste pagina da un segnalibro, come viene inizializzato <literal>#{blog.recentBlogEntries}</literal> usato da <literal>&lt;h:dataTable&gt;</literal>? <literal>Blog</literal> viene recuperato in modo lazy &#8212; \"tirato\" &#8212; quando serve, da un componente Seam chiamato <literal>blog</literal>. Questo è il flusso di controllo opposto a quello usato nei tradizionali framework web basati sull'azione, come ad esempio Struts."
 
 #. Tag: programlisting
 #: Tutorial.xml:1772
@@ -4752,8 +4752,8 @@ msgstr "Questo componente utilizza un <emphasis>contesto di persistenza gestito 
 #. Tag: para
 #: Tutorial.xml:1782
 #, no-c-format
-msgid "The <literal>@Unwrap</literal> annotation tells Seam to provide the return value of the method&#8212;the <literal>Blog</literal>&#8212;instead of the actual <literal>BlogService</literal> component to clients. This is the Seam <emphasis>manager component pattern</emphasis>."
-msgstr "L'annotazione <literal>@Unwrap</literal> impone a Seam di restituire il valore di ritorno del metodo&#8212;<literal>Blog</literal>&#8212;invece dell'attuale componente <literal>BlogService</literal> ai client. Questo è il <emphasis>manager component pattern</emphasis> di Seam."
+msgid "The <literal>@Unwrap</literal> annotation tells Seam to provide the return value of the method &#8212; the <literal>Blog</literal> &#8212; instead of the actual <literal>BlogService</literal> component to clients. This is the Seam <emphasis>manager component pattern</emphasis>."
+msgstr "L'annotazione <literal>@Unwrap</literal> impone a Seam di restituire il valore di ritorno del metodo &#8212; <literal>Blog</literal> &#8212; invece dell'attuale componente <literal>BlogService</literal> ai client. Questo è il <emphasis>manager component pattern</emphasis> di Seam."
 
 #. Tag: para
 #: Tutorial.xml:1792
@@ -4845,11 +4845,11 @@ msgstr ""
 #. Tag: para
 #: Tutorial.xml:1821
 #, no-c-format
-msgid "But when we redirect, we need to include the values submitted with the form in the URL get a bookmarkable URL like <literal>http://localhost:8080/seam-blog/search/</literal>. JSF does not provide an easy way to do this, but Seam does. We use two Seam features to accomplish this: <emphasis>page parameters</emphasis> and <emphasis>URL rewriting</emphasis>. Both are defined in <literal>WEB-INF/pages.xml</literal>:"
+msgid "But when we redirect, we need to include the values submitted with the form in the URL to get a bookmarkable URL like <literal>http://localhost:8080/seam-blog/search/</literal>. JSF does not provide an easy way to do this, but Seam does. We use two Seam features to accomplish this: <emphasis>page parameters</emphasis> and <emphasis>URL rewriting</emphasis>. Both are defined in <literal>WEB-INF/pages.xml</literal>:"
 msgstr "Ma quando viene fatto il redirect, occorre includere i valori sottomessi con la form dentro l'URL per ottenere un URL memorizzabile come ad esempio <literal>http://localhost:8080/seam-blog/search/</literal>. JSF non fornisce un modo semplice per farlo, ma Seam sì. Per ottenere questo si usano due funzionalità di Seam: <emphasis>i parametri di pagina</emphasis> e <emphasis>la riscrittura dell'URL</emphasis>. Entrambi sono definiti in <literal>WEB-INF/pages.xml</literal>:"
 
 #. Tag: programlisting
-#: Tutorial.xml:1830
+#: Tutorial.xml:1829
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -4875,37 +4875,37 @@ msgstr ""
 "</pages>]]>"
 
 #. Tag: para
-#: Tutorial.xml:1833
+#: Tutorial.xml:1832
 #, no-c-format
 msgid "The page parameter instructs Seam to link the request parameter named <literal>searchPattern</literal> to the value of <literal>#{searchService.searchPattern}</literal>, both whenever a request for the Search page comes in and whenever a link to the search page is generated. Seam takes responsibility for maintaining the link between URL state and application state, and you, the developer, don't have to worry about it."
 msgstr "Il parametro di pagina istruisce Seam a fare collegare il parametro di richiesta chiamato <literal>searchPattern</literal> al valore di <literal>#{searchService.searchPattern}</literal>, sia quando arriava una richiesta per la pagina di ricerca, sia quando viene generato un link alla pagina di ricerca. Seam si prende la responsabilità di mantenere il link tra lo stato dell'URL e lo stato dell'applicazione, mentre voi, come sviluppatori, non dovete preoccuparvene."
 
 #. Tag: para
-#: Tutorial.xml:1840
+#: Tutorial.xml:1839
 #, no-c-format
-msgid "Without URL rewriting, the URL for a search on the term <literal>book</literal> would be <literal>http://localhost:8080/seam-blog/seam/search.xhtml?searchPattern=book</literal>. This is nice, but Seam can make the URL even simpler using a rewrite rule. The first rewrite rule, for the pattern <literal>/search/{searchPattern}</literal>, says that any time we have have a URL for search.xhtml with a searchPattern request parameter, we can fold that URL into the simpler URL. So,the URL we saw earlier, <literal>http://localhost:8080/seam-blog/seam/search.xhtml?searchPattern=book</literal> can be written instead as <literal>http://localhost:8080/seam-blog/search/book</literal>."
+msgid "Without URL rewriting, the URL for a search on the term <literal>book</literal> would be <literal>http://localhost:8080/seam-blog/seam/search.xhtml?searchPattern=book</literal>. This is nice, but Seam can make the URL even simpler using a rewrite rule. The first rewrite rule, for the pattern <literal>/search/{searchPattern}</literal>, says that any time we have a URL for search.xhtml with a searchPattern request parameter, we can fold that URL into the simpler URL. So,the URL we saw earlier, <literal>http://localhost:8080/seam-blog/seam/search.xhtml?searchPattern=book</literal> can be written instead as <literal>http://localhost:8080/seam-blog/search/book</literal>."
 msgstr "Senza riscrittura, l'URL di una ricerca di un termine <literal>book</literal> sarebbe <literal>http://localhost:8080/seam-blog/seam/search.xhtml?searchPattern=book</literal>. Questo può andare bene, ma Seam può semplificare l'URL usando una regola di riscrittura. La prima regola, per il pattern <literal>/search/{searchPattern}</literal>, dice che in ogni volta che si ha un URL per search.xhtml con un parametro di richiesta searchPattern, si può semplificare quest'URL. E quindi l'URL visto prima, <literal>http://localhost:8080/seam-blog/seam/search.xhtml?searchPattern=book</literal> viene riscritto come <literal>http://localhost:8080/seam-blog/search/book</literal>."
 
 #. Tag: para
-#: Tutorial.xml:1850
+#: Tutorial.xml:1849
 #, no-c-format
 msgid "Just like with page parameters, URL rewriting is bi-directional. That means that Seam forwards requests for the simpler URL to the the right view, and it also automatically generates the simpler view for you. You never need to worry about constructing URLs. It's all handled transparently behind the scenes. The only requirement is that to use URL rewriting, the rewrite filter needs to be enabled in <literal>components.xml</literal>."
 msgstr "Come per i parametri di pagina, la riscrittura dell'URL è bidirezionale. Questo significa che Sean inoltra le richieste di URL più semplici alla giusta vista e genera automaticamente la vista più semplice per voi. Non serve preoccuparsi della costruzione dell'URL. Viene tutto gestito in modo trasparente dietro. L'unico requisito è che per usare la riscrittura dell'URL, occorre abilitare il filtro di riscrittura in <literal>components.xml</literal>."
 
 #. Tag: programlisting
-#: Tutorial.xml:1858
+#: Tutorial.xml:1857
 #, no-c-format
 msgid "&lt;web:rewrite-filter view-mapping=&quot;/seam/*&quot; /&gt;"
 msgstr "&lt;web:rewrite-filter view-mapping=&quot;/seam/*&quot; /&gt;"
 
 #. Tag: para
-#: Tutorial.xml:1860
+#: Tutorial.xml:1859
 #, no-c-format
 msgid "The redirect takes us to the <literal>search.xhtml</literal> page:"
 msgstr "Il redirect di porta alla pagina <literal>search.xhtml</literal>:"
 
 #. Tag: programlisting
-#: Tutorial.xml:1862
+#: Tutorial.xml:1861
 #, no-c-format
 msgid ""
 "<![CDATA[<h:dataTable value=\"#{searchResults}\" var=\"blogEntry\">\n"
@@ -4937,13 +4937,13 @@ msgstr ""
 "</h:dataTable>]]>"
 
 #. Tag: para
-#: Tutorial.xml:1865
+#: Tutorial.xml:1864
 #, no-c-format
 msgid "Which again uses \"pull\"-style MVC to retrieve the actual search results using Hibernate Search."
 msgstr "Il quale usa ancora MVC di tipo \"pull\" per recuperare i risultati di ricerca usando hibernate Search."
 
 #. Tag: programlisting
-#: Tutorial.xml:1868
+#: Tutorial.xml:1867
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"searchService\")\n"
@@ -5053,25 +5053,25 @@ msgstr ""
 "]]>"
 
 #. Tag: title
-#: Tutorial.xml:1874
+#: Tutorial.xml:1873
 #, no-c-format
 msgid "Using \"push\"-style MVC in a RESTful application"
 msgstr "Uso di MVC push in un'applicazione RESTful"
 
 #. Tag: para
-#: Tutorial.xml:1876
+#: Tutorial.xml:1875
 #, no-c-format
 msgid "Very occasionally, it makes more sense to use push-style MVC for processing RESTful pages, and so Seam provides the notion of a <emphasis>page action</emphasis>. The Blog example uses a page action for the blog entry page, <literal>entry.xhtml</literal>. Note that this is a little bit contrived, it would have been easier to use pull-style MVC here as well."
 msgstr "Alcune volte ha più senso usare MVC push-style per processare pagine RESTful, e quindi Seam fornisce la nozione di <emphasis>azione di pagina</emphasis>. L'esempio di Blog utilizza l'azione di pagina per pagina di entry del blog, <literal>entry.xhtml</literal>. Notare che questo è un pò forzato, sarebbe stato più facile usare anche qua lo stile MVC pull-style."
 
 #. Tag: para
-#: Tutorial.xml:1881
+#: Tutorial.xml:1880
 #, no-c-format
 msgid "The <literal>entryAction</literal> component works much like an action class in a traditional push-MVC action-oriented framework like Struts:"
 msgstr "Il componente <literal>entryAction</literal> funziona come una action class in un framework tradizionale orientato alle azioni e push-MVC come Struts:"
 
 #. Tag: programlisting
-#: Tutorial.xml:1884
+#: Tutorial.xml:1883
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"entryAction\")\n"
@@ -5107,13 +5107,13 @@ msgstr ""
 "}]]>"
 
 #. Tag: para
-#: Tutorial.xml:1887
+#: Tutorial.xml:1886
 #, no-c-format
 msgid "Page actions are also declared in <literal>pages.xml</literal>:"
 msgstr "Le azione nella pagina vengono anche dichiarate in <literal>pages.xml</literal>:"
 
 #. Tag: programlisting
-#: Tutorial.xml:1889
+#: Tutorial.xml:1888
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -5183,19 +5183,19 @@ msgstr ""
 "</pages>]]>"
 
 #. Tag: para
-#: Tutorial.xml:1892
+#: Tutorial.xml:1891
 #, no-c-format
 msgid "Notice that the example is using page actions for post validation and the pageview counter. Also notice the use of a parameter in the page action method binding. This is not a standard feature of JSF EL, but Seam lets you use it, not just for page actions but also in JSF method bindings."
 msgstr "Notare che l'esempio utilizza azioni di pagina per la validazione e per il conteggio delle pagine visitate. Si noti anche l'uso di un parametro nel binding di metodo all'interno della azione di pagina. Questa non è una caratteristiva standard di JSF EL, ma Seam consente di usarla, non solo per le azioni di pagina, ma anche nei binding di metodo JSF."
 
 #. Tag: para
-#: Tutorial.xml:1897
+#: Tutorial.xml:1896
 #, no-c-format
-msgid "When the <literal>entry.xhtml</literal> page is requested, Seam first binds the page parameter <literal>blogEntryId</literal> to the model. Keep in mind that because of the URL rewriting, the blogEntryId parameter name won't show up in the URL. Seam then runs the page action, which retrieves the needed data&#8212;the <literal>blogEntry</literal>&#8212;and places it in the Seam event context. Finally, the following is rendered:"
-msgstr "Quando la pagina <literal>entry.xhtml</literal> viene richiesta, Seam innanzitutto lega il parametro della pagina <literal>blogEntryId</literal> al modello. Si tenga presente che a causa della riscrittura dell'URL, il nome del parametro blogEntryId non verrà mostrato nell'URL. Seam quindi esegue l'azione, che recupera i dati necessari&#8212;<literal>blogEntry</literal>&#8212;e li colloca nel contesto di evento di Seam. Infine, viene generato il seguente:"
+msgid "When the <literal>entry.xhtml</literal> page is requested, Seam first binds the page parameter <literal>blogEntryId</literal> to the model. Keep in mind that because of the URL rewriting, the blogEntryId parameter name won't show up in the URL. Seam then runs the page action, which retrieves the needed data &#8212; the <literal>blogEntry</literal> &#8212; and places it in the Seam event context. Finally, the following is rendered:"
+msgstr "Quando la pagina <literal>entry.xhtml</literal> viene richiesta, Seam innanzitutto lega il parametro della pagina <literal>blogEntryId</literal> al modello. Si tenga presente che a causa della riscrittura dell'URL, il nome del parametro blogEntryId non verrà mostrato nell'URL. Seam quindi esegue l'azione, che recupera i dati necessari &#8212; <literal>blogEntry</literal> &#8212; e li colloca nel contesto di evento di Seam. Infine, viene generato il seguente:"
 
 #. Tag: programlisting
-#: Tutorial.xml:1904
+#: Tutorial.xml:1903
 #, no-c-format
 msgid ""
 "<![CDATA[<div class=\"blogEntry\">\n"
@@ -5225,13 +5225,13 @@ msgstr ""
 "</div>]]>"
 
 #. Tag: para
-#: Tutorial.xml:1907
+#: Tutorial.xml:1906
 #, no-c-format
 msgid "If the blog entry is not found in the database, the <literal>EntryNotFoundException</literal> exception is thrown. We want this exception to result in a 404 error, not a 505, so we annotate the exception class:"
 msgstr "Se l'entry del blog non viene trovata nel database, viene lanciata l'eccezione <literal>EntryNotFoundException</literal>. Si vuole che quest'eccezione venga evidenziata come errore 404, non 505, e quindi viene annotata la classe dell'eccezione:"
 
 #. Tag: programlisting
-#: Tutorial.xml:1911
+#: Tutorial.xml:1910
 #, no-c-format
 msgid ""
 "<![CDATA[@ApplicationException(rollback=true)\n"
@@ -5255,13 +5255,13 @@ msgstr ""
 "}]]>"
 
 #. Tag: para
-#: Tutorial.xml:1914
+#: Tutorial.xml:1913
 #, no-c-format
 msgid "An alternative implementation of the example does not use the parameter in the method binding:"
 msgstr "Un'implementazione alternativa dell'esempio non utilizza il parametro nel method binding:"
 
 #. Tag: programlisting
-#: Tutorial.xml:1916
+#: Tutorial.xml:1915
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"entryAction\")\n"
@@ -5299,7 +5299,7 @@ msgstr ""
 "}]]>"
 
 #. Tag: programlisting
-#: Tutorial.xml:1918
+#: Tutorial.xml:1917
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -5323,14 +5323,14 @@ msgstr ""
 "</pages>]]>"
 
 #. Tag: para
-#: Tutorial.xml:1921
+#: Tutorial.xml:1920
 #, no-c-format
 msgid "It is a matter of taste which implementation you prefer."
 msgstr "E' una questione di gusti su quale implementazione tu preferisca."
 
 # fragment caching = ?
 #. Tag: para
-#: Tutorial.xml:1924
+#: Tutorial.xml:1923
 #, no-c-format
 msgid "The blog demo also demonstrates very simple password authentication, posting to the blog, page fragment caching and atom feed generation."
 msgstr "La demo del blog mostra anche una semplice autenticazione di password, un invio di un post al blog, un esempio di caching frammentato della pagina e la generazione di atom feed."

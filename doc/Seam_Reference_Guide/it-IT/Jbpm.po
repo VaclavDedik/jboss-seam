@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2009-01-03 12:17+0100\n"
+"POT-Creation-Date: 2009-01-18 15:00+0000\n"
+"PO-Revision-Date: 2009-01-18 16:21+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -534,8 +534,8 @@ msgstr ""
 #. Tag: para
 #: Jbpm.xml:312
 #, no-c-format
-msgid "If we are beginning the pageflow during the <literal>RENDER_RESPONSE</literal> phase&#8212;during a <literal>@Factory</literal> or <literal>@Create</literal> method, for example&#8212;we consider ourselves to be already at the page being rendered, and use a <literal>&lt;start-page&gt;</literal> node as the first node in the pageflow, as in the example above."
-msgstr "Se il pageflow viene iniziato durante la fase <literal>RENDER_RESPONSE</literal>&#8212;durante un metodo <literal>@Factory</literal> o <literal>@Create</literal>, per esempio&#8212;si presume di essere già nella pagina da generare, e si usa un nodo <literal>&lt;start-page&gt;</literal> come primo nodo nel pageflow, come nell'esempio sopra."
+msgid "If we are beginning the pageflow during the <literal>RENDER_RESPONSE</literal> phase &#8212; during a <literal>@Factory</literal> or <literal>@Create</literal> method, for example &#8212; we consider ourselves to be already at the page being rendered, and use a <literal>&lt;start-page&gt;</literal> node as the first node in the pageflow, as in the example above."
+msgstr "Se il pageflow viene iniziato durante la fase <literal>RENDER_RESPONSE</literal> &#8212; durante un metodo <literal>@Factory</literal> o <literal>@Create</literal>, per esempio &#8212; si presume di essere già nella pagina da generare, e si usa un nodo <literal>&lt;start-page&gt;</literal> come primo nodo nel pageflow, come nell'esempio sopra."
 
 #. Tag: para
 #: Jbpm.xml:320

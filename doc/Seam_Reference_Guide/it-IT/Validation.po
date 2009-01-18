@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-10-14 11:39+0000\n"
-"PO-Revision-Date: 2008-12-25 14:52+0100\n"
+"POT-Creation-Date: 2009-01-18 15:00+0000\n"
+"PO-Revision-Date: 2009-01-18 16:25+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -220,8 +220,8 @@ msgstr "<emphasis>Nota:</emphasis> specificare <literal>@NotNull</literal> nel m
 #. Tag: para
 #: Validation.xml:48
 #, no-c-format
-msgid "This approach <emphasis>defines</emphasis> constraints on the model, and <emphasis>presents</emphasis> constraint violations in the view&#8212;a significantly better design."
-msgstr "Quest'approccio <emphasis>definisce</emphasis> i vincoli sul modello e <emphasis>presenta</emphasis> le violazioni al vincolo nella vista&#8212;di gran lunga un miglior design."
+msgid "This approach <emphasis>defines</emphasis> constraints on the model, and <emphasis>presents</emphasis> constraint violations in the view &#8212; a significantly better design."
+msgstr "Quest'approccio <emphasis>definisce</emphasis> i vincoli sul modello e <emphasis>presenta</emphasis> le violazioni al vincolo nella vista &#8212; di gran lunga un miglior design."
 
 #. Tag: para
 #: Validation.xml:54

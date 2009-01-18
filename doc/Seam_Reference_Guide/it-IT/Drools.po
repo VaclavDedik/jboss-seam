@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2008-12-25 15:04+0100\n"
+"POT-Creation-Date: 2009-01-18 15:00+0000\n"
+"PO-Revision-Date: 2009-01-18 16:13+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -208,8 +208,8 @@ msgstr "Utilizzo delle regole da una definizione di processo jBPM"
 #. Tag: para
 #: Drools.xml:90
 #, no-c-format
-msgid "You can even allow a rule base to act as a jBPM action handler, decision handler, or assignment handler&#8212;in either a pageflow or business process definition."
-msgstr "Si può anche consentire alla base di regole di agire come action handler di jBPM, decision handler, o assignment handler&#8212; sia in una definizione di pageflow sia in un processo di business."
+msgid "You can even allow a rule base to act as a jBPM action handler, decision handler, or assignment handler &#8212; in either a pageflow or business process definition."
+msgstr "Si può anche consentire alla base di regole di agire come action handler di jBPM, decision handler, o assignment handler &#8212; sia in una definizione di pageflow sia in un processo di business."
 
 #. Tag: programlisting
 #: Drools.xml:96
