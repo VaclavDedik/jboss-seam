@@ -1232,7 +1232,7 @@ public int getTotal() {
             <para>
               <literal>eventsQueue</literal> &#8212; provides a queue in which 
               events are placed.  All events are queued and requests are sent to
-              the server serially.  This is useful if the request can to the
+              the server serially.  This is useful if the request to the
               server can take some time to execute (e.g. heavy computation,
               retrieving information from a slow source) as the server isn't
               flooded.
@@ -1243,7 +1243,7 @@ public int getTotal() {
               <literal>ignoreDupResponses</literal> &#8212; ignores the response 
               produced by the request if a more recent 'similar' request is
               already in the queue. ignoreDupResponses="true" does <emphasis>not 
-              cancel</emphasis> the the processing of the request on the server
+              cancel</emphasis> the processing of the request on the server
               side &#8212; just prevents unnecessary updates on the client side.
             </para>
             <para>
