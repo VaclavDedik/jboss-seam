@@ -1205,7 +1205,7 @@ public int getTotal() {
         <para>
            ICEfaces, RichFaces Ajax and Seam Remoting can all handle HTTP error
            codes. Seam Remoting will pop up a dialog box showing the HTTP error
-           and ICEfaces will indicate the error in it's connection status 
+           and ICEfaces will indicate the error in its connection status 
            component. RichFaces Ajax provides the most complete support for
            handling HTTP errors by providing a user definable callback. For
            example, to show the error message to the user: 
@@ -1230,7 +1230,7 @@ public int getTotal() {
         <itemizedlist>
           <listitem>
             <para>
-              <literal>eventsQueue</literal> &#8212; provide a queue in which 
+              <literal>eventsQueue</literal> &#8212; provides a queue in which 
               events are placed.  All events are queued and requests are sent to
               the server serially.  This is useful if the request can to the
               server can take some time to execute (e.g. heavy computation,
@@ -1240,7 +1240,7 @@ public int getTotal() {
           </listitem>
           <listitem>
             <para>
-              <literal>ignoreDupResponses</literal> &#8212; ignore the response 
+              <literal>ignoreDupResponses</literal> &#8212; ignores the response 
               produced by the request if a more recent 'similar' request is
               already in the queue. ignoreDupResponses="true" does <emphasis>not 
               cancel</emphasis> the the processing of the request on the server
