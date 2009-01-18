@@ -16,7 +16,7 @@
         Seam grew out of the frustration of the Hibernate team with the 
         statelessness typical of the previous generation of Java application 
         architectures. The state management architecture of Seam was originally
-        designed to solve problems relating to persistence&#8212;in particular
+        designed to solve problems relating to persistence &#8212; in particular
         problems associated with <emphasis>optimistic transaction processing</emphasis>.
         Scalable online applications always use optimistic transactions. An atomic 
         (database/JTA) level transaction should not span a user interaction unless
@@ -124,7 +124,7 @@
     	<para>
             This pattern is usually implemented as a single transaction which spans the entire request. 
             There are several problems with this implementation, the most serious being that we 
-            can never be sure that a transaction is successful until we commit it&#8212;but by the 
+            can never be sure that a transaction is successful until we commit it &#8212; but by the 
             time the "open session in view" transaction is committed, the view is fully rendered, and 
             the rendered response may already have been flushed to the client. How can we notify the 
             user that their transaction was unsuccessful? 

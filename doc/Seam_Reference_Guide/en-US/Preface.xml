@@ -34,7 +34,7 @@
                         access state associated with the web request and state held in transactional resources (without
                         the need to propagate web request state manually via method parameters). You might object
                         that the application layering imposed upon you by the old J2EE platform was a Good Thing.
-                        Well, nothing stops you creating an equivalent layered architecture using Seam&#8212;the difference
+                        Well, nothing stops you creating an equivalent layered architecture using Seam &#8212; the difference
                         is that <emphasis>you</emphasis> get to architect your own application and decide what the
                         layers are and how they work together.
                     </para>
@@ -62,7 +62,7 @@
                         It is possible to write Seam applications where "everything" is an EJB. This may come 
                         as a surprise if you're used to thinking of EJBs as coarse-grained, so-called 
                         "heavyweight" objects. However, version 3.0 has completely changed the nature of EJB 
-                        from the point of view of the developer. An EJB is a fine-grained object&#8212;nothing 
+                        from the point of view of the developer. An EJB is a fine-grained object &#8212; nothing 
                         more complex than an annotated JavaBean. Seam even encourages you to use session beans 
                         as JSF action listeners!                    
                     </para>
@@ -136,8 +136,8 @@
                     <para>
                         Declarative application state management is made possible by the richness of the
                         <emphasis>context model</emphasis> defined by Seam. Seam extends the context model defined 
-                        by the servlet spec&#8212;request, session, application&#8212;with two new
-                        contexts&#8212;conversation and business process&#8212;that are more meaningful from the
+                        by the servlet spec &#8212; request, session, application &#8212; with two new
+                        contexts &#8212; conversation and business process &#8212; that are more meaningful from the
                         point of view of the business logic.
                     </para>
                     <para>

@@ -87,38 +87,38 @@
                         <listitem>
                            <para>
                               <literal>uid</literal>
-                              &#8212;An optional unique feed id. The value is a string.
+                              &#8212; An optional unique feed id. The value is a string.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>title</literal>
-                              &#8212;The title of the feed. The value is a string.
+                              &#8212; The title of the feed. The value is a string.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>subtitle</literal>
-                              &#8212;The subtitle of the feed. The value is a string.
+                              &#8212; The subtitle of the feed. The value is a string.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>updated</literal>
-                              &#8212;When was the feed updated? The value is a date.
+                              &#8212; When was the feed updated? The value is a date.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>link</literal>
-                              &#8212;The link to the source of the information.
+                              &#8212; The link to the source of the information.
                               The value is a string.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>feedFormat</literal>
-                              &#8212;The feed format. The value is a string and defaults
+                              &#8212; The feed format. The value is a string and defaults
                               to ATOM1. Valid values are RSS10, RSS20, ATOM03 and ATOM10.
                            </para>
                         </listitem>
@@ -174,37 +174,37 @@
                         <listitem>
                            <para>
                               <literal>uid</literal>
-                              &#8212;An optional unique entry id. The value is a string.
+                              &#8212; An optional unique entry id. The value is a string.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>title</literal>
-                              &#8212;The title of the entry. The value is a string.
+                              &#8212; The title of the entry. The value is a string.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>link</literal>
-                              &#8212;A link to the item. The value is a string.
+                              &#8212; A link to the item. The value is a string.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>author</literal>
-                              &#8212;The author of the story. The value is a string.
+                              &#8212; The author of the story. The value is a string.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>summary</literal>
-                              &#8212;The body of the story. The value is a string.
+                              &#8212; The body of the story. The value is a string.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>textFormat</literal>
-                              &#8212;The format of the body and title of the story. 
+                              &#8212; The format of the body and title of the story. 
                               The value is a string and valid values are "text" and 
                               "html". Defaults to "html".
                            </para>
@@ -212,13 +212,13 @@
                         <listitem>
                            <para>
                               <literal>published</literal>
-                              &#8212;When was the story first published? The value is a date.
+                              &#8212; When was the story first published? The value is a date.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>updated</literal>
-                              &#8212;When was the story updated? The value is a date.
+                              &#8212; When was the story updated? The value is a date.
                            </para>
                         </listitem>
                      </itemizedlist>

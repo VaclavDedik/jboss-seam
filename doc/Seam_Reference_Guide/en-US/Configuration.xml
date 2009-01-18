@@ -602,7 +602,7 @@ Authenticator authenticator;
 
             <para> You might think this is silly and what kind of idiot framework designers would make an empty file
                 affect the behavior of their software?? Well, this is a workaround for a limitation of the
-                JVM&#8212;if we didn't use this mechanism, our next best option would be to force you to list every
+                JVM &#8212; if we didn't use this mechanism, our next best option would be to force you to list every
                 component explicitly in <literal>components.xml</literal>, just like some other competing frameworks do!
                 I think you'll like our way better. </para>
 

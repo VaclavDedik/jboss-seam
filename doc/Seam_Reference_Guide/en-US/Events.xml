@@ -732,27 +732,27 @@ public class HelloListener {
             <listitem><para><literal>org.jboss.seam.postRemoveVariable.&lt;name&gt;</literal> &#8212; called when the context variable &lt;name&gt; is unset</para></listitem>
             <listitem><para><literal>org.jboss.seam.preDestroyContext.&lt;SCOPE&gt;</literal> &#8212; called before the &lt;SCOPE&gt; context is destroyed</para></listitem>
             <listitem><para><literal>org.jboss.seam.postDestroyContext.&lt;SCOPE&gt;</literal> &#8212; called after the &lt;SCOPE&gt; context is destroyed</para></listitem>
-            <listitem><para><literal>org.jboss.seam.beginConversation </literal>&#8212; called whenever a long-running conversation begins</para></listitem>
-            <listitem><para><literal>org.jboss.seam.endConversation </literal>&#8212; called whenever a long-running conversation ends</para></listitem>
-            <listitem><para><literal>org.jboss.seam.conversationTimeout</literal>&#8212; called when a conversation timeout occurs. The conversation id is passed as a parameter.</para></listitem>
-            <listitem><para><literal>org.jboss.seam.beginPageflow </literal>&#8212; called when a pageflow begins</para></listitem>
-            <listitem><para><literal>org.jboss.seam.beginPageflow.&lt;name&gt; </literal>&#8212; called when the pageflow &lt;name&gt; begins</para></listitem>
-            <listitem><para><literal>org.jboss.seam.endPageflow </literal>&#8212; called when a pageflow ends</para></listitem>
-            <listitem><para><literal>org.jboss.seam.endPageflow.&lt;name&gt; </literal>&#8212; called when the pageflow &lt;name&gt; ends</para></listitem>
-            <listitem><para><literal>org.jboss.seam.createProcess.&lt;name&gt; </literal>&#8212; called when the process &lt;name&gt; is created</para></listitem>
-            <listitem><para><literal>org.jboss.seam.endProcess.&lt;name&gt; </literal>&#8212; called when the process &lt;name&gt; ends</para></listitem>
-            <listitem><para><literal>org.jboss.seam.initProcess.&lt;name&gt; </literal>&#8212; called when the process &lt;name&gt; is associated with the conversation</para></listitem>
-            <listitem><para><literal>org.jboss.seam.initTask.&lt;name&gt; </literal>&#8212; called when the task &lt;name&gt; is associated with the conversation</para></listitem>
-            <listitem><para><literal>org.jboss.seam.startTask.&lt;name&gt; </literal>&#8212; called when the task &lt;name&gt; is started</para></listitem>
-            <listitem><para><literal>org.jboss.seam.endTask.&lt;name&gt; </literal>&#8212; called when the task &lt;name&gt; is ended</para></listitem>
-            <listitem><para><literal>org.jboss.seam.postCreate.&lt;name&gt; </literal>&#8212; called when the component &lt;name&gt; is created</para></listitem>
-            <listitem><para><literal>org.jboss.seam.preDestroy.&lt;name&gt; </literal>&#8212; called when the component &lt;name&gt; is destroyed</para></listitem>
-            <listitem><para><literal>org.jboss.seam.beforePhase </literal>&#8212; called before the start of a JSF phase</para></listitem>
-            <listitem><para><literal>org.jboss.seam.afterPhase </literal>&#8212; called after the end of a JSF phase</para></listitem>
-            <listitem><para><literal>org.jboss.seam.postInitialization </literal>&#8212; called when Seam has initialized and started up all components</para></listitem>
-            <listitem><para><literal>org.jboss.seam.postReInitialization </literal>&#8212; called when Seam has re-initialized and started up all components after a redeploy</para></listitem>
-            <listitem><para><literal>org.jboss.seam.postAuthenticate.&lt;name&gt; </literal>&#8212; called after a user is authenticated</para></listitem>
-            <listitem><para><literal>org.jboss.seam.preAuthenticate.&lt;name&gt; </literal>&#8212; called before attempting to authenticate a user</para></listitem>
+            <listitem><para><literal>org.jboss.seam.beginConversation </literal> &#8212; called whenever a long-running conversation begins</para></listitem>
+            <listitem><para><literal>org.jboss.seam.endConversation </literal> &#8212; called whenever a long-running conversation ends</para></listitem>
+            <listitem><para><literal>org.jboss.seam.conversationTimeout</literal> &#8212; called when a conversation timeout occurs. The conversation id is passed as a parameter.</para></listitem>
+            <listitem><para><literal>org.jboss.seam.beginPageflow </literal> &#8212; called when a pageflow begins</para></listitem>
+            <listitem><para><literal>org.jboss.seam.beginPageflow.&lt;name&gt; </literal> &#8212; called when the pageflow &lt;name&gt; begins</para></listitem>
+            <listitem><para><literal>org.jboss.seam.endPageflow </literal> &#8212; called when a pageflow ends</para></listitem>
+            <listitem><para><literal>org.jboss.seam.endPageflow.&lt;name&gt; </literal> &#8212; called when the pageflow &lt;name&gt; ends</para></listitem>
+            <listitem><para><literal>org.jboss.seam.createProcess.&lt;name&gt; </literal> &#8212; called when the process &lt;name&gt; is created</para></listitem>
+            <listitem><para><literal>org.jboss.seam.endProcess.&lt;name&gt; </literal> &#8212; called when the process &lt;name&gt; ends</para></listitem>
+            <listitem><para><literal>org.jboss.seam.initProcess.&lt;name&gt; </literal> &#8212; called when the process &lt;name&gt; is associated with the conversation</para></listitem>
+            <listitem><para><literal>org.jboss.seam.initTask.&lt;name&gt; </literal> &#8212; called when the task &lt;name&gt; is associated with the conversation</para></listitem>
+            <listitem><para><literal>org.jboss.seam.startTask.&lt;name&gt; </literal> &#8212; called when the task &lt;name&gt; is started</para></listitem>
+            <listitem><para><literal>org.jboss.seam.endTask.&lt;name&gt; </literal> &#8212; called when the task &lt;name&gt; is ended</para></listitem>
+            <listitem><para><literal>org.jboss.seam.postCreate.&lt;name&gt; </literal> &#8212; called when the component &lt;name&gt; is created</para></listitem>
+            <listitem><para><literal>org.jboss.seam.preDestroy.&lt;name&gt; </literal> &#8212; called when the component &lt;name&gt; is destroyed</para></listitem>
+            <listitem><para><literal>org.jboss.seam.beforePhase </literal> &#8212; called before the start of a JSF phase</para></listitem>
+            <listitem><para><literal>org.jboss.seam.afterPhase </literal> &#8212; called after the end of a JSF phase</para></listitem>
+            <listitem><para><literal>org.jboss.seam.postInitialization </literal> &#8212; called when Seam has initialized and started up all components</para></listitem>
+            <listitem><para><literal>org.jboss.seam.postReInitialization </literal> &#8212; called when Seam has re-initialized and started up all components after a redeploy</para></listitem>
+            <listitem><para><literal>org.jboss.seam.postAuthenticate.&lt;name&gt; </literal> &#8212; called after a user is authenticated</para></listitem>
+            <listitem><para><literal>org.jboss.seam.preAuthenticate.&lt;name&gt; </literal> &#8212; called before attempting to authenticate a user</para></listitem>
             <listitem><para><literal>org.jboss.seam.notLoggedIn</literal> &#8212; called there is no authenticated user and authentication is required</para></listitem>
             <listitem><para><literal>org.jboss.seam.rememberMe</literal> &#8212; occurs when Seam security detects the username in a cookie</para></listitem>
             <listitem><para><literal>org.jboss.seam.exceptionHandled.&lt;type&gt;</literal> &#8212; called when an uncaught exception is handled by Seam</para></listitem>

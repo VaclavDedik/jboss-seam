@@ -49,12 +49,12 @@
 
             <itemizedlist>
                 <listitem>
-                    <para> Configure components that have been installed automatically&#8212;including both built-in
+                    <para> Configure components that have been installed automatically &#8212; including both built-in
                         components, and application components that have been annotated with the
                         <literal>@Name</literal> annotation and picked up by Seam's deployment scanner. </para>
                 </listitem>
                 <listitem>
-                    <para> Install classes with no <literal>@Name</literal> annotation as Seam components&#8212;this
+                    <para> Install classes with no <literal>@Name</literal> annotation as Seam components &#8212; this
                         is most useful for certain kinds of infrastructural components which can be installed multiple
                         times with different names (for example Seam-managed persistence contexts). </para>
                 </listitem>

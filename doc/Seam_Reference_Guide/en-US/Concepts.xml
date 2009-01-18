@@ -612,7 +612,7 @@ public class User {
                 a <literal>User</literal> class which is usually used as a session-scoped component representing the
                 current user but is used in user administration screens as a conversation-scoped component. The
                 <literal>@Role</literal> annotation lets us define an additional named role for a component, with a
-                different scope&#8212;it lets us bind the same component class to different context variables. (Any
+                different scope &#8212; it lets us bind the same component class to different context variables. (Any
                 Seam component <emphasis>instance</emphasis> may be bound to multiple context variables, but this lets
                 us do it at the class level, and take advantage of auto-instantiation.) 
             </para>
@@ -1024,7 +1024,7 @@ public Order createOrder(User user, Product product, int quantity) {
 }]]></programlisting>
 
         <para>
-            It doesn't matter if you declare the <literal>log</literal> variable static or not&#8212;it will work 
+            It doesn't matter if you declare the <literal>log</literal> variable static or not &#8212; it will work 
             either way, except for entity bean components which require the <literal>log</literal> variable to be
             static.
         </para>

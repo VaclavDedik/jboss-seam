@@ -111,7 +111,7 @@
         <para>
             If the JSF request lifecycle is foreshortened by a redirect,
             Seam transparently stores and restores the current conversation 
-            context&#8212;unless the conversation was already ended via
+            context &#8212; unless the conversation was already ended via
             <literal>@End(beforeRedirect=true)</literal>.
         </para>
         </listitem>
@@ -464,8 +464,8 @@
             solve the first problem, but this does nothing to help us with the second 
             problem. We <emphasis>could</emphasis> work around this by using the
             RESTful approach of passing a request parameter and requerying
-            for the selected object on the server side. In some cases&#8212;such as the 
-            Seam blog example application&#8212;this is indeed the best approach. The 
+            for the selected object on the server side. In some cases &#8212; such as the 
+            Seam blog example application &#8212; this is indeed the best approach. The 
             RESTful style supports bookmarking, since it does not require server-side state. 
             In other cases, where we don't care about bookmarks, the use of 
             <literal>@DataModel</literal> and <literal>@DataModelSelection</literal> is 
@@ -1026,7 +1026,7 @@ public class GridEditor
 
        <para>
           Alternatively, you can access the JSF component tree through the implicit <literal>uiComponent</literal>
-          handle. The following example accesses <literal>getRowIndex()</literal>of the
+          handle. The following example accesses <literal>getRowIndex()</literal> of the
           <literal>UIData</literal> component which backs the data table during iteration, it prints
           the current row number:
        </para>

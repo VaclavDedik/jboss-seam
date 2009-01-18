@@ -14,7 +14,7 @@
       cluster. What these silly people are really thinking of is a "share
       nothing except for the database" architecture. Of course, sharing the
       database is the primary problem with scaling a multi-user
-      application&#8212;so the claim that this architecture is highly scalable
+      application &#8212; so the claim that this architecture is highly scalable
       is absurd, and tells you a lot about the kind of applications that these
       folks spend most of their time working on.
    </para>

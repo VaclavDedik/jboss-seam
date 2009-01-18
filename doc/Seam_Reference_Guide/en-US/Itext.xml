@@ -1664,19 +1664,19 @@
 
                                 <listitem>
                                     <para>
-                                        <literal>legendItemPaint</literal>&#8212; The default color of the text
+                                        <literal>legendItemPaint</literal> &#8212; The default color of the text
                                         labels in the legend. </para>
                                 </listitem>
 
                                 <listitem>
                                     <para>
-                                        <literal>legendItemBackgoundPaint</literal>&#8212; The background color for
+                                        <literal>legendItemBackgoundPaint</literal> &#8212; The background color for
                                         the legend, if different from the chart background color.</para>
                                 </listitem>
 
                                 <listitem>
                                     <para>
-                                        <literal>legendOutlinePaint</literal>&#8212; The color of the border around
+                                        <literal>legendOutlinePaint</literal> &#8212; The color of the border around
                                         the legend.</para>
                                 </listitem>
 
@@ -1688,27 +1688,27 @@
 
                                 <listitem>
                                     <para>
-                                        <literal>plotBackgroundPaint</literal>&#8212; The color of the plot
+                                        <literal>plotBackgroundPaint</literal> &#8212; The color of the plot
                                         background.</para>
                                 </listitem>
 
                                 <listitem>
                                     <para>
-                                        <literal>plotBackgroundAlpha</literal>&#8212; The alpha (transparency) level
+                                        <literal>plotBackgroundAlpha</literal> &#8212; The alpha (transparency) level
                                         of the plot background. It should be a number between 0 (completely transparent)
                                         and 1 (completely opaque). </para>
                                 </listitem>
 
                                 <listitem>
                                     <para>
-                                        <literal>plotForegroundAlpha</literal>&#8212; The alpha (transparency) level
+                                        <literal>plotForegroundAlpha</literal> &#8212; The alpha (transparency) level
                                         of the plot. It should be a number between 0 (completely transparent) and 1
                                         (completely opaque). </para>
                                 </listitem>
 
                                 <listitem>
                                     <para>
-                                        <literal>plotOutlinePaint</literal>&#8212; The color of the range gridlines,
+                                        <literal>plotOutlinePaint</literal> &#8212; The color of the range gridlines,
                                         if visible. </para>
                                 </listitem>
                                 <listitem>
@@ -1730,12 +1730,12 @@
 
                                 <listitem>
                                     <para>
-                                        <literal>rangeGridlinesVisible</literal>&#8212; Controls whether or not
+                                        <literal>rangeGridlinesVisible</literal> &#8212; Controls whether or not
                                         gridlines for the range axis are shown on the chart. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>rangeGridlinePaint</literal>&#8212; The color of the range
+                                        <literal>rangeGridlinePaint</literal> &#8212; The color of the range
                                         gridlines, if visible. </para>
                                 </listitem>
                                 <listitem>
@@ -1750,12 +1750,12 @@
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>titlePaint</literal>&#8212; The color of the chart title text.
+                                        <literal>titlePaint</literal> &#8212; The color of the chart title text.
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>titleBackgroundPaint</literal>&#8212; The background color around
+                                        <literal>titleBackgroundPaint</literal> &#8212; The background color around
                                         the chart title.</para>
                                 </listitem>
                                 <listitem>
@@ -1799,120 +1799,120 @@
 
                                 <listitem>
                                     <para>
-                                        <literal>title</literal>&#8212; The chart title text. </para>
+                                        <literal>title</literal> &#8212; The chart title text. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>label</literal>&#8212; The default label text for pie sections.
+                                        <literal>label</literal> &#8212; The default label text for pie sections.
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>legend</literal>&#8212; A boolean value indicating whether or not
+                                        <literal>legend</literal> &#8212; A boolean value indicating whether or not
                                         the chart should include a legend. Default value is true </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>is3D</literal>&#8212;A boolean value indicating that the chart
+                                        <literal>is3D</literal> &#8212;A boolean value indicating that the chart
                                         should be rendered in 3D instead of 2D. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>labelLinkMargin</literal>&#8212; The link margin for labels.
+                                        <literal>labelLinkMargin</literal> &#8212; The link margin for labels.
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>labelLinkPaint</literal>&#8212; The paint used for the label
+                                        <literal>labelLinkPaint</literal> &#8212; The paint used for the label
                                         linking lines. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>labelLinkStroke</literal>&#8212; he stroke used for the label
+                                        <literal>labelLinkStroke</literal> &#8212; he stroke used for the label
                                         linking lines. </para>
                                 </listitem>
 
                                 <listitem>
                                     <para>
-                                        <literal>labelLinksVisible</literal>&#8212; A flag that controls whether or
+                                        <literal>labelLinksVisible</literal> &#8212; A flag that controls whether or
                                         not the label links are drawn. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>labelOutlinePaint</literal>&#8212; The paint used to draw the
+                                        <literal>labelOutlinePaint</literal> &#8212; The paint used to draw the
                                         outline of the section labels. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>labelOutlineStroke</literal>&#8212; The stroke used to draw the
+                                        <literal>labelOutlineStroke</literal> &#8212; The stroke used to draw the
                                         outline of the section labels. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>labelShadowPaint</literal>&#8212; The paint used to draw the shadow
+                                        <literal>labelShadowPaint</literal> &#8212; The paint used to draw the shadow
                                         for the section labels. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>labelPaint</literal>&#8212; The color used to draw the section
+                                        <literal>labelPaint</literal> &#8212; The color used to draw the section
                                         labels </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>labelGap</literal>&#8212; The gap between the labels and the plot
+                                        <literal>labelGap</literal> &#8212; The gap between the labels and the plot
                                         as a percentage of the plot width. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>labelBackgroundPaint</literal>&#8212; The color used to draw the
+                                        <literal>labelBackgroundPaint</literal> &#8212; The color used to draw the
                                         background of the section labels. If this is null, the background is not filled.
                                     </para>
                                 </listitem>
 
                                 <listitem>
                                     <para>
-                                        <literal>startAngle</literal>&#8212; The starting angle of the first
+                                        <literal>startAngle</literal> &#8212; The starting angle of the first
                                         section. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>circular</literal>&#8212; A boolean value indicating that the chart
+                                        <literal>circular</literal> &#8212; A boolean value indicating that the chart
                                         should be drawn as a circle. If false, the chart is drawn as an ellipse. The
                                         default is true. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>direction</literal>&#8212; The direction the pie section are drawn.
+                                        <literal>direction</literal> &#8212; The direction the pie section are drawn.
                                         One of: <literal>clockwise</literal> or <literal>anticlockwise</literal>. The
                                         default is <literal>clockwise</literal>. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>sectionOutlinePaint</literal>&#8212; The outline paint for all
+                                        <literal>sectionOutlinePaint</literal> &#8212; The outline paint for all
                                         sections. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>sectionOutlineStroke</literal>&#8212; The outline stroke for all
+                                        <literal>sectionOutlineStroke</literal> &#8212; The outline stroke for all
                                         sections </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>sectionOutlinesVisible</literal>&#8212; Indicates whether an
+                                        <literal>sectionOutlinesVisible</literal> &#8212; Indicates whether an
                                         outline is drawn for each section in the plot. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>baseSectionOutlinePaint</literal>&#8212; The base section outline
+                                        <literal>baseSectionOutlinePaint</literal> &#8212; The base section outline
                                         paint. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>baseSectionPaint</literal>&#8212; The base section paint. </para>
+                                        <literal>baseSectionPaint</literal> &#8212; The base section paint. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>baseSectionOutlineStroke</literal>&#8212; The base section outline
+                                        <literal>baseSectionOutlineStroke</literal> &#8212; The base section outline
                                         stroke. </para>
                                 </listitem>
                             </itemizedlist>
@@ -1957,7 +1957,7 @@
                                 <!--
                                 <listitem>
                                     <para>
-                                        <literal>seriesFillPaint</literal>  &#8212; 
+                                        <literal>seriesFillPaint</literal> &#8212; 
                                     </para>
                                 </listitem>
                                 -->
@@ -2231,17 +2231,17 @@
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>code</literal>&#8212; The value to be encoded by the barcode.
+                                        <literal>code</literal> &#8212; The value to be encoded by the barcode.
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>xpos</literal>&#8212; For PDFs, the absolute y position of the
+                                        <literal>xpos</literal> &#8212; For PDFs, the absolute y position of the
                                         barcode on the page. </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>ypos</literal>&#8212; For PDFs, the absolute y position of the
+                                        <literal>ypos</literal> &#8212; For PDFs, the absolute y position of the
                                         barcode on the page. </para>
                                 </listitem>
                                 <listitem>
@@ -2460,7 +2460,7 @@
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>height</literal> &#8212; ..The height of the component to be rendered. </para>
+                                        <literal>height</literal> &#8212; The height of the component to be rendered. </para>
                                 </listitem>
                                 <listitem>
                                     <para>

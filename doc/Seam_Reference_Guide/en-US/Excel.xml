@@ -140,7 +140,7 @@
                         <listitem>
                            <para>
                               <literal>type</literal>
-                              &#8212;Defines which export module to be used. The
+                              &#8212; Defines which export module to be used. The
                               value is a string and can be either "jxl" or
                               "csv". The default is "jxl".
                            </para>
@@ -148,14 +148,14 @@
                         <listitem>
                            <para>
                               <literal>templateURI</literal>
-                              &#8212;A template that should be used as a basis
+                              &#8212; A template that should be used as a basis
                               for the workbook. The value is a string (URI).
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>arrayGrowSize</literal>
-                              &#8212;The amount of memory by which to increase
+                              &#8212; The amount of memory by which to increase
                               the amount of memory allocated to storing the
                               workbook data. For processeses reading many small
                               workbooks inside a WAS it might be necessary to
@@ -166,21 +166,21 @@
                         <listitem>
                            <para>
                               <literal>autoFilterDisabled</literal>
-                              &#8212;Should autofiltering be disabled?. The
+                              &#8212; Should autofiltering be disabled?. The
                               value is a boolean.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>cellValidationDisabled</literal>
-                              &#8212;Shoule cell validation be ignored? The
+                              &#8212; Should cell validation be ignored? The
                               value is a boolean.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>characterSet</literal>
-                              &#8212;The character set. This is only used when
+                              &#8212; The character set. This is only used when
                               the spreadsheet is read, and has no effect when
                               the spreadsheet is written. The value is a string
                               (character set encoding).
@@ -189,14 +189,14 @@
                         <listitem>
                            <para>
                               <literal>drawingsDisabled</literal>
-                              &#8212;Should drawings be disabled? The value is a
+                              &#8212; Should drawings be disabled? The value is a
                               boolean.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>excelDisplayLanguage</literal>
-                              &#8212;The language in which the generated file
+                              &#8212; The language in which the generated file
                               will display. The value is a string (two character
                               ISO 3166 country code).
                            </para>
@@ -204,7 +204,7 @@
                         <listitem>
                            <para>
                               <literal>excelRegionalSettings</literal>
-                              &#8212;The regional settings for the generated
+                              &#8212; The regional settings for the generated
                               excel file. The value is a string (two character
                               ISO 3166 country code).
                            </para>
@@ -212,28 +212,28 @@
                         <listitem>
                            <para>
                               <literal>formulaAdjust</literal>
-                              &#8212;Should formulas be adjusted? The value is a
+                              &#8212; Should formulas be adjusted? The value is a
                               boolean.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>gcDisabled</literal>
-                              &#8212;Should garbage collection be disabled? The
+                              &#8212; Should garbage collection be disabled? The
                               value is a boolean.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>ignoreBlanks</literal>
-                              &#8212;Should blanks be ignored? The value is a
+                              &#8212; Should blanks be ignored? The value is a
                               boolean.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>initialFileSize</literal>
-                              &#8212;The initial amount of memory allocated to
+                              &#8212; The initial amount of memory allocated to
                               store the workbook data when reading a worksheet.
                               For processeses reading many small workbooks
                               inside a WAS it might be necessary to reduce the
@@ -244,7 +244,7 @@
                         <listitem>
                            <para>
                               <literal>locale</literal>
-                              &#8212;The locale used by JExcelApi to generate
+                              &#8212; The locale used by JExcelApi to generate
                               the spreadsheet. Setting this value has no effect
                               on the language or region of the generated excel
                               file. The value is a string.
@@ -253,21 +253,21 @@
                         <listitem>
                            <para>
                               <literal>mergedCellCheckingDisabled</literal>
-                              &#8212;Should merged cell checking be disabled?
+                              &#8212; Should merged cell checking be disabled?
                               The value is a boolean.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>namesDisabled</literal>
-                              &#8212;Should handling of names be disabled? The
+                              &#8212; Should handling of names be disabled? The
                               value is a boolean.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>propertySets</literal>
-                              &#8212;Should any property sets be enabled (such
+                              &#8212; Should any property sets be enabled (such
                               as macros) to be copied along with the workbook?
                               Leaving this feature enabled will result in the
                               JXL process using more memory. The value is a
@@ -277,7 +277,7 @@
                         <listitem>
                            <para>
                               <literal>rationalization</literal>
-                              &#8212;Should the cell formats be rationalized
+                              &#8212; Should the cell formats be rationalized
                               before writing out the sheet? The value is a
                               boolean. Default is true.
                            </para>
@@ -285,7 +285,7 @@
                         <listitem>
                            <para>
                               <literal>supressWarnings</literal>
-                              &#8212;Should warnings be suppressed?. Due to the
+                              &#8212; Should warnings be suppressed?. Due to the
                               change in logging in version 2.4, this will now
                               set the warning behaviour across the JVM
                               (depending on the type of logger used). The value
@@ -297,7 +297,7 @@
                               <literal>
                                  temporaryFileDuringWriteDirectory
                               </literal>
-                              &#8212;Used in conjunction with the
+                              &#8212; Used in conjunction with the
                               <literal>useTemporaryFileDuringWrite</literal>
                               setting to set the target directory for the
                               temporary files. This value can be NULL, in which
@@ -310,7 +310,7 @@
                         <listitem>
                            <para>
                               <literal>useTemporaryFileDuringWrite</literal>
-                              &#8212;Should a temporary file is used during the
+                              &#8212; Should a temporary file is used during the
                               generation of the workbook. If not set, the
                               workbook will take place entirely in memory.
                               Setting this flag involves an assessment of the
@@ -321,14 +321,14 @@
                         <listitem>
                            <para>
                               <literal>workbookProtected</literal>
-                              &#8212;Should the workbook be protected? The value
+                              &#8212; Should the workbook be protected? The value
                               is a boolean.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>filename</literal>
-                              &#8212;The filename to use for the download. The value
+                              &#8212; The filename to use for the download. The value
                               is a string. Please not that if you map the DocumentServlet
                               to some pattern, this file extension must also match.
                            </para>
@@ -336,7 +336,7 @@
                         <listitem>
                            <para>
                               <literal>exportKey</literal>
-                              &#8212;A key under which to store the resulting data
+                              &#8212; A key under which to store the resulting data
                               in a DocumentData object under the event scope. If used,
                               there is no redirection.
                            </para>
@@ -349,7 +349,7 @@
                         <listitem>
                            <para>
                               <literal>&lt;e:link/&gt;</literal>
-                              &#8212;Zero or more stylesheet links (see
+                              &#8212; Zero or more stylesheet links (see
                               <xref linkend="excel.fontsandlayout.link" />
                               ).
                            </para>
@@ -357,7 +357,7 @@
                         <listitem>
                            <para>
                               <literal>&lt;e:worksheet/&gt;</literal>
-                              &#8212;Zero or more worksheets (see
+                              &#8212; Zero or more worksheets (see
                               <xref linkend="excel.worksheet" />
                               ).
                            </para>
@@ -414,7 +414,7 @@
                         <listitem>
                            <para>
                               <literal>value</literal>
-                              &#8212;An EL-expression to the backing data. The
+                              &#8212; An EL-expression to the backing data. The
                               value is a string. The target of this expression is
                               examined for an Iterable. Note that if the target is a Map,
                               the iteration is done over the Map.Entry entrySet(), so you
@@ -424,7 +424,7 @@
                         <listitem>
                            <para>
                               <literal>var</literal>
-                              &#8212;The current row iterator variable name that
+                              &#8212; The current row iterator variable name that
                               can later be referenced in cell value attributes.
                               The value is a string
                            </para>
@@ -432,7 +432,7 @@
                         <listitem>
                            <para>
                               <literal>name</literal>
-                              &#8212;The name of the worksheet. The valus is a
+                              &#8212; The name of the worksheet. The valus is a
                               string. Defaults to Sheet# where # is the
                               worksheet index. If the given worksheet name
                               exists, that sheet is selected. This can be used
@@ -449,7 +449,7 @@
                         <listitem>
                            <para>
                               <literal>startRow</literal>
-                              &#8212;Defines the starting row for the data. The
+                              &#8212; Defines the starting row for the data. The
                               value is a number. Used for placing the data in
                               other places than the upper-left corner
                               (especially useful if having multiple data sets
@@ -459,7 +459,7 @@
                         <listitem>
                            <para>
                               <literal>startColumn</literal>
-                              &#8212;Defines the starting column for the data.
+                              &#8212; Defines the starting column for the data.
                               The value is a number. Used for placing the data
                               in other places than the upper-left corner
                               (especially useful if having multiple data sets
@@ -469,63 +469,63 @@
                         <listitem>
                            <para>
                               <literal>automaticFormulaCalculation</literal>
-                              &#8212;Should formulas be automatically
+                              &#8212; Should formulas be automatically
                               calculated? The value is a boolean.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>bottomMargin</literal>
-                              &#8212;The bottom margin. The value is a number
+                              &#8212; The bottom margin. The value is a number
                               (inches)
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>copies</literal>
-                              &#8212;The number of copies. The value is a
+                              &#8212; The number of copies. The value is a
                               number.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>defaultColumnWidth</literal>
-                              &#8212;The default column width. The value is a
+                              &#8212; The default column width. The value is a
                               number (characters * 256).
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>defaultRowHeight</literal>
-                              &#8212;The default row height. The value is a
+                              &#8212; The default row height. The value is a
                               number (1/20ths of a point).
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>displayZeroValues</literal>
-                              &#8212;Should zero-values be displayed? The value
+                              &#8212; Should zero-values be displayed? The value
                               is a boolean.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>fitHeight</literal>
-                              &#8212;The number of pages vertically that this
+                              &#8212; The number of pages vertically that this
                               sheet will be printed into. The value is a number.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>fitToPages</literal>
-                              &#8212;Should printing be fit to pages? The value
+                              &#8212; Should printing be fit to pages? The value
                               is a boolean.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>fitWidth</literal>
-                              &#8212;The number of pages widthwise which this
+                              &#8212; The number of pages widthwise which this
                               sheet should be printed into. The value is a
                               number.
                            </para>
@@ -533,63 +533,63 @@
                         <listitem>
                            <para>
                               <literal>footerMargin</literal>
-                              &#8212;The margin for any page footer. The value
+                              &#8212; The margin for any page footer. The value
                               is a number (inches).
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>headerMargin</literal>
-                              &#8212;The margin for any page headers. The value
+                              &#8212; The margin for any page headers. The value
                               is a number (inches).
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>hidden</literal>
-                              &#8212;Should the worksheet be hidden? The value
+                              &#8212; Should the worksheet be hidden? The value
                               is a boolean.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>horizontalCentre</literal>
-                              &#8212;Should the worksheet be centered
+                              &#8212; Should the worksheet be centered
                               horizontally? The value is a boolean.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>horizontalFreeze</literal>
-                              &#8212;The row at which the pane is frozen
+                              &#8212; The row at which the pane is frozen
                               vertically. The value is a number.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>horizontalPrintResolution</literal>
-                              &#8212;The horizontal print resolution. The value
+                              &#8212; The horizontal print resolution. The value
                               is a number.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>leftMargin</literal>
-                              &#8212;The left margin. The value is a number
+                              &#8212; The left margin. The value is a number
                               (inches).
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>normalMagnification</literal>
-                              &#8212;The normal magnificaton factor (not zoom or
+                              &#8212; The normal magnificaton factor (not zoom or
                               scale factor). The value is a number (percentage).
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>orientation</literal>
-                              &#8212;The paper orientation for printing this
+                              &#8212; The paper orientation for printing this
                               sheet. The value is a string that can be either
                               "landscape" or "portrait".
                            </para>
@@ -597,7 +597,7 @@
                         <listitem>
                            <para>
                               <literal>pageBreakPreviewMagnification</literal>
-                              &#8212;The page break preview magnificaton factor
+                              &#8212; The page break preview magnificaton factor
                               (not zoom or scale factors). the value is a number
                               (percentage).
                            </para>
@@ -605,21 +605,21 @@
                         <listitem>
                            <para>
                               <literal>pageBreakPreviewMode</literal>
-                              &#8212;Show page in preview mode? The value is a
+                              &#8212; Show page in preview mode? The value is a
                               boolean.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>pageStart</literal>
-                              &#8212;The page number at which to commence
+                              &#8212; The page number at which to commence
                               printing. The value is a number.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>paperSize</literal>
-                              &#8212;The paper size to be used when printing
+                              &#8212; The paper size to be used when printing
                               this sheet. The value is a string that can be one
                               of "a4", "a3", "letter", "legal" etc (see
                               <ulink
@@ -632,104 +632,104 @@
                         <listitem>
                            <para>
                               <literal>password</literal>
-                              &#8212;The password for this sheet. The value is a
+                              &#8212; The password for this sheet. The value is a
                               string.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>passwordHash</literal>
-                              &#8212;The password hash - used only when copying
+                              &#8212; The password hash - used only when copying
                               sheets. The value is a string.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>printGridLines</literal>
-                              &#8212;Should grid lines be printed? The value is
+                              &#8212; Should grid lines be printed? The value is
                               a boolean.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>printHeaders</literal>
-                              &#8212;Should headers be printed? The value is a
+                              &#8212; Should headers be printed? The value is a
                               boolean.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>sheetProtected</literal>
-                              &#8212;Should the sheet be protected (read-only)?
+                              &#8212; Should the sheet be protected (read-only)?
                               The value is a boolean.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>recalculateFormulasBeforeSave</literal>
-                              &#8212;Should the formulas be re-calculated when
+                              &#8212; Should the formulas be re-calculated when
                               the sheet is saved? The value is a boolean. false
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>rightMargin</literal>
-                              &#8212;The right margin. The value is a number
+                              &#8212; The right margin. The value is a number
                               (inches).
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>scaleFactor</literal>
-                              &#8212;The scale factor for this sheet to be used
+                              &#8212; The scale factor for this sheet to be used
                               when printing. The value is a number (percent).
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>selected</literal>
-                              &#8212;Should the sheet be selected when the
+                              &#8212; Should the sheet be selected when the
                               workbook opens? The value is a boolean.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>showGridLines</literal>
-                              &#8212;Should gridlines be shown? The value is a
+                              &#8212; Should gridlines be shown? The value is a
                               boolean.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>topMargin</literal>
-                              &#8212;The top margin. The value is a number
+                              &#8212; The top margin. The value is a number
                               (inches).
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>verticalCentre</literal>
-                              &#8212;Center verically? The value is a boolean.
+                              &#8212; Center verically? The value is a boolean.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>verticalFreeze</literal>
-                              &#8212;The row at which the pane is frozen
+                              &#8212; The row at which the pane is frozen
                               vertically. The value is a number.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>verticalPrintResolution</literal>
-                              &#8212;The vertical print resolution. The value is
+                              &#8212; The vertical print resolution. The value is
                               a number.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>zoomFactor</literal>
-                              &#8212;T zoom factor. Do not confuse zoom factor
+                              &#8212; T zoom factor. Do not confuse zoom factor
                               (which relates to the on screen view) with scale
                               factor (which refers to the scale factor when
                               printing). The value is a number (percentage.
@@ -743,7 +743,7 @@
                         <listitem>
                            <para>
                               <literal>&lt;e:printArea/&gt;</literal>
-                              &#8212;Zero or more print area definitions (see
+                              &#8212; Zero or more print area definitions (see
                               <xref linkend="excel.printareatitles" />
                               ).
                            </para>
@@ -751,7 +751,7 @@
                         <listitem>
                            <para>
                               <literal>&lt;e:printTitle/&gt;</literal>
-                              &#8212;Zero or more print title definitions (see
+                              &#8212; Zero or more print title definitions (see
                               <xref linkend="excel.printareatitles" />
                               ).
                            </para>
@@ -759,7 +759,7 @@
                         <listitem>
                            <para>
                               <literal>&lt;e:headerFooter/&gt;</literal>
-                              &#8212;Zero or more header/footer definitions
+                              &#8212; Zero or more header/footer definitions
                               ((see
                               <xref linkend="excel.headersfooters" />
                               )).
@@ -779,14 +779,14 @@
                      <itemizedlist>
                         <listitem>
                            <para>
-                              <literal>header</literal>&#8212;Contents that will
+                              <literal>header</literal>&#8212; Contents that will
                               be placed at the top of the data block, above the 
                               column headers (if any)
                            </para>
                         </listitem>
                         <listitem>
                            <para>
-                              <literal>footer</literal>&#8212;Contents that will
+                              <literal>footer</literal>&#8212; Contents that will
                               be placed at the bottom of the data block, below the 
                               column footers (if any)
                            </para>
@@ -850,7 +850,7 @@
                         <listitem>
                            <para>
                               <literal>&lt;e:cell/&gt;</literal>
-                              &#8212;Zero or more cells (see
+                              &#8212; Zero or more cells (see
                               <xref linkend="excel.cells" />
                               ).
                            </para>
@@ -858,7 +858,7 @@
                         <listitem>
                            <para>
                               <literal>&lt;e:formula/&gt;</literal>
-                              &#8212;Zero or more formulas (see
+                              &#8212; Zero or more formulas (see
                               <xref linkend="excel.formulas" />
                               ).
                            </para>
@@ -866,7 +866,7 @@
                         <listitem>
                            <para>
                               <literal>&lt;e:image/&gt;</literal>
-                              &#8212;Zero or more images (see
+                              &#8212; Zero or more images (see
                               <xref linkend="excel.images" />
                               ).
                            </para>
@@ -874,7 +874,7 @@
                         <listitem>
                            <para>
                               <literal>&lt;e:hyperLink/&gt;</literal>
-                              &#8212;Zero or more hyperlinks (see
+                              &#8212; Zero or more hyperlinks (see
                               <xref linkend="excel.hyperlinks" />
                               ).
                            </para>
@@ -887,7 +887,7 @@
                         <listitem>
                            <para>
                               <literal>header</literal>
-                              &#8212;This facet can/will contain one
+                              &#8212; This facet can/will contain one
                               <literal>&lt;e:cell&gt;</literal>
                               ,
                               <literal>&lt;e:formula&gt;</literal>
@@ -901,7 +901,7 @@
                         <listitem>
                            <para>
                               <literal>footer</literal>
-                              &#8212;This facet can/will contain one
+                              &#8212; This facet can/will contain one
                               <literal>&lt;e:cell&gt;</literal>
                               ,
                               <literal>&lt;e:formula&gt;</literal>
@@ -964,7 +964,7 @@
                         <listitem>
                            <para>
                               <literal>column</literal>
-                              &#8212;The column where to place the cell. The
+                              &#8212; The column where to place the cell. The
                               default is the internal counter. The value is a
                               number. Note that the value is 0-based.
                            </para>
@@ -972,7 +972,7 @@
                         <listitem>
                            <para>
                               <literal>row</literal>
-                              &#8212;The row where to place the cell. The
+                              &#8212; The row where to place the cell. The
                               default is the internal counter. The value is
                               number. Note that the value is 0-based.
                            </para>
@@ -980,7 +980,7 @@
                         <listitem>
                            <para>
                               <literal>value</literal>
-                              &#8212;The value to display. Usually an
+                              &#8212; The value to display. Usually an
                               EL-expression referencing the var-attribute of the
                               containing datatable. The value is a string.
                            </para>
@@ -988,21 +988,21 @@
                         <listitem>
                            <para>
                               <literal>comment</literal>
-                              &#8212;A comment to add to the cell. The value is
+                              &#8212; A comment to add to the cell. The value is
                               a string.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>commentHeight</literal>
-                              &#8212;The height of the comment. The value is a
+                              &#8212; The height of the comment. The value is a
                               number (in pixels).
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>commentWidth</literal>
-                              &#8212;A width of the comment. The value is a
+                              &#8212; A width of the comment. The value is a
                               number (in pixels).
                            </para>
                         </listitem>
@@ -1075,7 +1075,7 @@
                            <listitem>
                               <para>
                                  <literal>value</literal>
-                                 &#8212;The limit (or lower limit where
+                                 &#8212; The limit (or lower limit where
                                  applicable) of the validation. The value is a
                                  number.
                               </para>
@@ -1083,14 +1083,14 @@
                            <listitem>
                               <para>
                                  <literal>value2</literal>
-                                 &#8212;The upper limit (where applicable) of
+                                 &#8212; The upper limit (where applicable) of
                                  the validation. The value is a number.
                               </para>
                            </listitem>
                            <listitem>
                               <para>
                                  <literal>condition</literal>
-                                 &#8212;The validation condition. The value is a
+                                 &#8212; The validation condition. The value is a
                                  string.
                                  <itemizedlist>
                                     <listitem>
@@ -1210,7 +1210,7 @@
                            <listitem>
                               <para>
                                  <literal>startColumn</literal>
-                                 &#8212;The starting column of the range of
+                                 &#8212; The starting column of the range of
                                  values to validate against. The value is a
                                  number.
                               </para>
@@ -1218,21 +1218,21 @@
                            <listitem>
                               <para>
                                  <literal>startRow</literal>
-                                 &#8212;The starting row of the range of values
+                                 &#8212; The starting row of the range of values
                                  to validate against. The value is a number.
                               </para>
                            </listitem>
                            <listitem>
                               <para>
                                  <literal>endColumn</literal>
-                                 &#8212;The ending column of the range of values
+                                 &#8212; The ending column of the range of values
                                  to validate against. The value is a number.
                               </para>
                            </listitem>
                            <listitem>
                               <para>
                                  <literal>endRow</literal>
-                                 &#8212;The ending row of the range of values to
+                                 &#8212; The ending row of the range of values to
                                  validate against. The value is a number.
                               </para>
                            </listitem>
@@ -1352,7 +1352,7 @@
                            <listitem>
                               <para>
                                  <literal>value</literal>
-                                 &#8212;A values to validate against.
+                                 &#8212; A values to validate against.
                               </para>
                            </listitem>
                         </itemizedlist>
@@ -1527,7 +1527,7 @@
                         <listitem>
                            <para>
                               <literal>startColumn</literal>
-                              &#8212;The starting column of the image. The
+                              &#8212; The starting column of the image. The
                               default is the internal counter. The value is a
                               number. Note that the value is 0-based.
                            </para>
@@ -1535,7 +1535,7 @@
                         <listitem>
                            <para>
                               <literal>startRow</literal>
-                              &#8212;The starting row of the image. The default
+                              &#8212; The starting row of the image. The default
                               is the internal counter. The value is a number.
                               Note that the value is 0-based.
                            </para>
@@ -1543,7 +1543,7 @@
                         <listitem>
                            <para>
                               <literal>columnSpan</literal>
-                              &#8212;The column span of the image. The default
+                              &#8212; The column span of the image. The default
                               is one resulting in the default width of the
                               image. The value is a float.
                            </para>
@@ -1551,7 +1551,7 @@
                         <listitem>
                            <para>
                               <literal>rowSpan</literal>
-                              &#8212;The row span of the image. The default is
+                              &#8212; The row span of the image. The default is
                               the one resulting in the default height of the
                               image. The value is a float.
                            </para>
@@ -1559,7 +1559,7 @@
                         <listitem>
                            <para>
                               <literal>URI</literal>
-                              &#8212;The URI to the image. The value is a
+                              &#8212; The URI to the image. The value is a
                               string.
                            </para>
                         </listitem>
@@ -1630,7 +1630,7 @@
                         <listitem>
                            <para>
                               <literal>startColumn</literal>
-                              &#8212;The starting column of the hyperlink. The
+                              &#8212; The starting column of the hyperlink. The
                               default is the internal counter. The value is a
                               number. Note that the value is 0-based.
                            </para>
@@ -1638,7 +1638,7 @@
                         <listitem>
                            <para>
                               <literal>startRow</literal>
-                              &#8212;The starting row of the hyperlink. The
+                              &#8212; The starting row of the hyperlink. The
                               default is the internal counter. The value is a
                               number. Note that the value is 0-based.
                            </para>
@@ -1646,7 +1646,7 @@
                         <listitem>
                            <para>
                               <literal>endColumn</literal>
-                              &#8212;The ending column of the hyperlink. The
+                              &#8212; The ending column of the hyperlink. The
                               default is the internal counter. The value is a
                               number. Note that the value is 0-based.
                            </para>
@@ -1654,7 +1654,7 @@
                         <listitem>
                            <para>
                               <literal>endRow</literal>
-                              &#8212;The ending row of the hyperlink. The
+                              &#8212; The ending row of the hyperlink. The
                               default is the internal counter. The value is a
                               number. Note that the value is 0-based.
                            </para>
@@ -1662,13 +1662,13 @@
                         <listitem>
                            <para>
                               <literal>URL</literal>
-                              &#8212;The URL to link. The value is a string.
+                              &#8212; The URL to link. The value is a string.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>description</literal>
-                              &#8212;The description of the link. The value is a
+                              &#8212; The description of the link. The value is a
                               string.
                            </para>
                         </listitem>
@@ -1758,21 +1758,21 @@
                         <listitem>
                            <para>
                               <literal>left</literal>
-                              &#8212;The contents of the left header/footer
+                              &#8212; The contents of the left header/footer
                               part.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>center</literal>
-                              &#8212;The contents of the center header/footer
+                              &#8212; The contents of the center header/footer
                               part.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>right</literal>
-                              &#8212;The contents of the right header/footer
+                              &#8212; The contents of the right header/footer
                               part.
                            </para>
                         </listitem>
@@ -1821,21 +1821,21 @@
                         <listitem>
                            <para>
                               <literal>left</literal>
-                              &#8212;The contents of the left header/footer
+                              &#8212; The contents of the left header/footer
                               part.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>center</literal>
-                              &#8212;The contents of the center header/footer
+                              &#8212; The contents of the center header/footer
                               part.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>right</literal>
-                              &#8212;The contents of the right header/footer
+                              &#8212; The contents of the right header/footer
                               part.
                            </para>
                         </listitem>
@@ -2066,7 +2066,7 @@
                         <listitem>
                            <para>
                               <literal>firstColumn</literal>
-                              &#8212;The column of the top-left corner of the
+                              &#8212; The column of the top-left corner of the
                               area. The parameter is a number. Note that the
                               value is 0-based.
                            </para>
@@ -2074,7 +2074,7 @@
                         <listitem>
                            <para>
                               <literal>firstRow</literal>
-                              &#8212;The row of the top-left corner of the area.
+                              &#8212; The row of the top-left corner of the area.
                               The parameter is a number. Note that the value is
                               0-based.
                            </para>
@@ -2082,7 +2082,7 @@
                         <listitem>
                            <para>
                               <literal>lastColumn</literal>
-                              &#8212;The column of the bottom-right corner of
+                              &#8212; The column of the bottom-right corner of
                               the area. The parameter is a number. Note that the
                               value is 0-based.
                            </para>
@@ -2090,7 +2090,7 @@
                         <listitem>
                            <para>
                               <literal>lastRow</literal>
-                              &#8212;The row of the bottom-right corner of the
+                              &#8212; The row of the bottom-right corner of the
                               area. The parameter is a number. Note that the
                               value is 0-based.
                            </para>
@@ -2165,7 +2165,7 @@
                            <listitem>
                               <para>
                                  <literal>startRow</literal>
-                                 &#8212;The row to start the grouping at. The
+                                 &#8212; The row to start the grouping at. The
                                  value is a number. Note that the value is
                                  0-based.
                               </para>
@@ -2173,7 +2173,7 @@
                            <listitem>
                               <para>
                                  <literal>endRow</literal>
-                                 &#8212;The row to end the grouping at. The
+                                 &#8212; The row to end the grouping at. The
                                  value is a number. Note that the value is
                                  0-based.
                               </para>
@@ -2181,7 +2181,7 @@
                            <listitem>
                               <para>
                                  <literal>collapse</literal>
-                                 &#8212;Should the grouping be collapsed
+                                 &#8212; Should the grouping be collapsed
                                  initially? The value is a boolean.
                               </para>
                            </listitem>
@@ -2230,7 +2230,7 @@
                            <listitem>
                               <para>
                                  <literal>startColumn</literal>
-                                 &#8212;The column to start the grouping at. The
+                                 &#8212; The column to start the grouping at. The
                                  value is a number. Note that the value is
                                  0-based.
                               </para>
@@ -2238,7 +2238,7 @@
                            <listitem>
                               <para>
                                  <literal>endColumn</literal>
-                                 &#8212;The column to end the grouping at. The
+                                 &#8212; The column to end the grouping at. The
                                  value is a number. Note that the value is
                                  0-based.
                               </para>
@@ -2246,7 +2246,7 @@
                            <listitem>
                               <para>
                                  <literal>collapse</literal>
-                                 &#8212;Should the grouping be collapsed
+                                 &#8212; Should the grouping be collapsed
                                  initially? The value is a boolean.
                               </para>
                            </listitem>
@@ -2315,7 +2315,7 @@
                            <listitem>
                               <para>
                                  <literal>row</literal>
-                                 &#8212;The row to break at. The value is a
+                                 &#8212; The row to break at. The value is a
                                  number. Note that the value is 0-based.
                               </para>
                            </listitem>
@@ -2378,7 +2378,7 @@
                            <listitem>
                               <para>
                                  <literal>startRow</literal>
-                                 &#8212;The row to start the merging from. The
+                                 &#8212; The row to start the merging from. The
                                  value is a number. Note that the value is
                                  0-based.
                               </para>
@@ -2386,7 +2386,7 @@
                            <listitem>
                               <para>
                                  <literal>startColumn</literal>
-                                 &#8212;The column to start the merging from.
+                                 &#8212; The column to start the merging from.
                                  The value is a number. Note that the value is
                                  0-based.
                               </para>
@@ -2394,14 +2394,14 @@
                            <listitem>
                               <para>
                                  <literal>endRow</literal>
-                                 &#8212;The row to end the merging at. The value
+                                 &#8212; The row to end the merging at. The value
                                  is a number. Note that the value is 0-based.
                               </para>
                            </listitem>
                            <listitem>
                               <para>
                                  <literal>endColumn</literal>
-                                 &#8212;The column to end the merging at. The
+                                 &#8212; The column to end the merging at. The
                                  value is a number. Note that the value is
                                  0-based.
                               </para>
@@ -2527,7 +2527,7 @@
                            <listitem>
                               <para>
                                  <literal>URL</literal>
-                                 &#8212;The URL to the stylesheet
+                                 &#8212; The URL to the stylesheet
                               </para>
                            </listitem>
                         </itemizedlist>
