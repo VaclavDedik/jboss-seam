@@ -36,14 +36,14 @@ public abstract class Work<T>
       boolean newTransactionRequired = isNewTransactionRequired(transactionActive);
       UserTransaction userTransaction = newTransactionRequired ? transaction : null;
       
-      if (newTransactionRequired) 
-      {
-         log.debug("beginning transaction");
-         userTransaction.begin();
-      }
-      
       try
       {
+         if (newTransactionRequired) 
+         {
+            log.debug("beginning transaction");
+            userTransaction.begin();
+         }
+
          T result = work();
          if (newTransactionRequired) 
          {
