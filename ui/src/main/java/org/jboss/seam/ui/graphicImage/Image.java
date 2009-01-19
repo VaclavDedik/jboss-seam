@@ -322,6 +322,19 @@ public class Image implements Serializable
       return this;
    }
 
+   public Image scaleToFit(int height, int width) 
+       throws IOException
+   {
+       float hratio = height/getHeight();
+       float wratio = width/getWidth();
+
+       if (hratio < wratio) {
+           return scaleToHeight(height);
+       } else {
+           return scaleToWidth(width);
+       }
+   }
+   
    /**
     * Scale the image to the given height
     */
