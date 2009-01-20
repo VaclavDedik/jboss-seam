@@ -8,9 +8,9 @@
         <title>Using PDF Support</title>
         <para>iText support is provided by <literal>jboss-seam-pdf.jar</literal>. This JAR contains the iText JSF
             controls, which are used to construct views that can render to PDF, and the DocumentStore component, which
-            serves the rendered documents to the user. To include PDF support in your application, included
+            serves the rendered documents to the user. To include PDF support in your application, put
                 <literal>jboss-seam-pdf.jar</literal> in your <literal>WEB-INF/lib</literal> directory along with the
-            iText JAR file. There is no further configuration needed to use Seam's iText supportfon. </para>
+            iText JAR file. There is no further configuration needed to use Seam's iText support. </para>
         <para> The Seam iText module requires the use of Facelets as the view technology. Future versions of the library
             may also support the use of JSP. Additionally, it requires the use of the seam-ui package.</para>
 
