@@ -146,6 +146,7 @@ public class UICell extends UIRectangle {
 
     @Override
     public void createITextObject(FacesContext context) {
+        hasContent = false;
         PdfPCell defaultCell = getDefaultCellFromTable();
         if (defaultCell != null) {
             cell = new PdfPCell(defaultCell);
@@ -157,9 +158,9 @@ public class UICell extends UIRectangle {
                 "horizontalAlignment", horizontalAlignment);
         if (horizontalAlignment != null) {
             cell.setHorizontalAlignment(ITextUtils
-                    .alignmentValue(horizontalAlignment));
+                    .alignmentValue(horizontalAlignment));            
         }
-
+        
         verticalAlignment = (String) valueBinding(context, "verticalAlignment",
                 verticalAlignment);
         if (verticalAlignment != null) {
