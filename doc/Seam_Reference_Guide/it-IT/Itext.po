@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-01-18 17:21+0100\n"
+"PO-Revision-Date: 2009-01-20 21:14+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgstr "Utilizzo del supporto PDF"
 #: Itext.xml:9
 #, no-c-format
 msgid "iText support is provided by <literal>jboss-seam-pdf.jar</literal>. This JAR contains the iText JSF controls, which are used to construct views that can render to PDF, and the DocumentStore component, which serves the rendered documents to the user. To include PDF support in your application, included <literal>jboss-seam-pdf.jar</literal> in your <literal>WEB-INF/lib</literal> directory along with the iText JAR file. There is no further configuration needed to use Seam's iText supportfon."
-msgstr ""
+msgstr "Il supporto a iText è fornito da <literal>jboss-seam-pdf.jar</literal>. Questo JAR contiene i controlli JSF di iText, che sono usati per costruire le viste che possono generare il PDF, e il componente DocumentStore, che serve i documenti renderizzati per l'utente. Per includere il supporto PDF nell'applicazione, si metta <literal>jboss-seam-pdf.jar</literal> nella directory <literal>WEB-INF/lib</literal> assieme al file JAR di iText. Non serve alcuna ulteriore configurazione per usare il supporto a iText di Seam."
 
 #. Tag: para
 #: Itext.xml:14
@@ -528,25 +528,25 @@ msgstr ""
 #: Itext.xml:426
 #, no-c-format
 msgid "<literal>rotation</literal> &#8212; The rotation of the image in degrees."
-msgstr ""
+msgstr "<literal>rotation</literal> &#8212; La rotazione dell'immagine in gradi."
 
 #. Tag: para
 #: Itext.xml:432
 #, no-c-format
 msgid "<literal>height</literal> &#8212; The height of the image."
-msgstr ""
+msgstr "<literal>height</literal> &#8212; L'altezza dell'immagine."
 
 #. Tag: para
 #: Itext.xml:436
 #, no-c-format
 msgid "<literal>width</literal> &#8212; The width of the image."
-msgstr ""
+msgstr "<literal>width</literal> &#8212; La larghezza dell'immagine."
 
 #. Tag: para
 #: Itext.xml:440
 #, no-c-format
 msgid "<literal>alignment</literal>&#8212; The alignment of the image. (see <xref linkend=\"itext.alignment\"/> for possible values)"
-msgstr ""
+msgstr "<literal>alignment</literal>&#8212; L'allineamento dell'immagine. (vedere <xref linkend=\"itext.alignment\"/> per i possibili valori)"
 
 #. Tag: para
 #: Itext.xml:447
@@ -935,13 +935,13 @@ msgstr ""
 #: Itext.xml:878
 #, no-c-format
 msgid "<literal>indentationLeft</literal> &#8212; The left indentation amount."
-msgstr ""
+msgstr "<literal>indentationLeft</literal> &#8212; La quantità di indentazione sinistra."
 
 #. Tag: para
 #: Itext.xml:885
 #, no-c-format
 msgid "<literal>indentationRight</literal> &#8212; The right indentation amount."
-msgstr ""
+msgstr "<literal>indentationRight</literal> &#8212; La quantità di indentazione destra."
 
 #. Tag: para
 #: Itext.xml:892

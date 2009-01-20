@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:22+0000\n"
-"PO-Revision-Date: 2008-12-30 12:20+0100\n"
+"PO-Revision-Date: 2009-01-20 20:42+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgstr ""
 #: Components.xml:22
 #, no-c-format
 msgid "Context injection components"
-msgstr ""
+msgstr "Componenti per l'iniezione del contesto"
 
 #. Tag: para
 #: Components.xml:23
@@ -59,7 +59,7 @@ msgstr "org.jboss.seam.core.contexts"
 #: Components.xml:36
 #, no-c-format
 msgid "Component that provides access to Seam Context objects, for example <literal>org.jboss.seam.core.contexts.sessionContext['user']</literal>."
-msgstr ""
+msgstr "Componente che fornisce accesso agli oggetti del contesto di Seam, per esempio <literal>org.jboss.seam.core.contexts.sessionContext['user']</literal>."
 
 #. Tag: literal
 #: Components.xml:43
@@ -71,7 +71,7 @@ msgstr "org.jboss.seam.faces.facesContext"
 #: Components.xml:45
 #, no-c-format
 msgid "Manager component for the <literal>FacesContext</literal> context object (not a true Seam context)"
-msgstr ""
+msgstr "Componente manager per l'oggetto del contesto <literal>FacesContext</literal> (non un vero contesto di Seam)"
 
 #. Tag: para
 #: Components.xml:53
@@ -80,19 +80,19 @@ msgstr ""
 #: Components.xml:629
 #, no-c-format
 msgid "All of these components are always installed."
-msgstr ""
+msgstr "Tutti questi componenti vengono sempre installati."
 
 #. Tag: title
 #: Components.xml:60
 #, no-c-format
 msgid "Utility components"
-msgstr ""
+msgstr "Componenti d'utilità"
 
 #. Tag: para
 #: Components.xml:61
 #, no-c-format
 msgid "These components are merely useful."
-msgstr ""
+msgstr "Questi componenti sono molto utili."
 
 #. Tag: literal
 #: Components.xml:67
@@ -104,7 +104,7 @@ msgstr "org.jboss.seam.faces.facesMessages"
 #: Components.xml:69
 #, no-c-format
 msgid "Allows faces success messages to propagate across a browser redirect."
-msgstr ""
+msgstr "Consentono ai messaggi faces di successo di essere propagati lungo i redirect del browser."
 
 #. Tag: para
 #: Components.xml:74
@@ -140,7 +140,7 @@ msgstr ""
 #: Components.xml:109
 #, no-c-format
 msgid "<literal>clear()</literal> &#8212; clear all messages."
-msgstr ""
+msgstr "<literal>clear()</literal> &#8212; pulisce tutti i messaggi."
 
 #. Tag: literal
 #: Components.xml:117
@@ -671,7 +671,7 @@ msgstr "org.jboss.seam.faces.switcher"
 #: Components.xml:622
 #, no-c-format
 msgid "The conversation switcher."
-msgstr ""
+msgstr "Lo switcher di conversazione."
 
 #. Tag: title
 #: Components.xml:636
@@ -683,7 +683,7 @@ msgstr "Componenti per jBPM"
 #: Components.xml:637
 #, no-c-format
 msgid "These components are for use with jBPM."
-msgstr ""
+msgstr "Questi componenti sono usati con jBPM."
 
 #. Tag: literal
 #: Components.xml:643
@@ -695,7 +695,7 @@ msgstr "org.jboss.seam.pageflow.pageflow"
 #: Components.xml:645
 #, no-c-format
 msgid "API control of Seam pageflows."
-msgstr ""
+msgstr "Controllo API dei pageflow di Seam."
 
 #. Tag: para
 #: Components.xml:650
@@ -749,7 +749,7 @@ msgstr ""
 #: Components.xml:701
 #, no-c-format
 msgid "org.jboss.seam.bpm.transition"
-msgstr ""
+msgstr "org.jboss.seam.bpm.transition"
 
 #. Tag: para
 #: Components.xml:703
@@ -767,7 +767,7 @@ msgstr ""
 #: Components.xml:719
 #, no-c-format
 msgid "org.jboss.seam.bpm.businessProcess"
-msgstr ""
+msgstr "org.jboss.seam.bpm.businessProcess"
 
 #. Tag: para
 #: Components.xml:721
@@ -953,7 +953,7 @@ msgstr ""
 #: Components.xml:872
 #, no-c-format
 msgid "Security-related components"
-msgstr ""
+msgstr "Componenti per la sicurezza"
 
 #. Tag: para
 #: Components.xml:873
@@ -989,7 +989,7 @@ msgstr ""
 #: Components.xml:900
 #, no-c-format
 msgid "JMS-related components"
-msgstr ""
+msgstr "Componenti per JMS"
 
 #. Tag: para
 #: Components.xml:901
@@ -1097,7 +1097,7 @@ msgstr ""
 #: Components.xml:990
 #, no-c-format
 msgid "Infrastructural components"
-msgstr ""
+msgstr "Componenti infrastrutturali"
 
 #. Tag: para
 #: Components.xml:991
@@ -1121,7 +1121,7 @@ msgstr ""
 #: Components.xml:1006
 #, no-c-format
 msgid "<literal>org.jboss.seam.core.init.jndiPattern</literal> &#8212; the JNDI pattern used for looking up session beans"
-msgstr ""
+msgstr "<literal>org.jboss.seam.core.init.jndiPattern</literal> &#8212; il pattern JNDI usato per la ricerca dei bean di sessione"
 
 #. Tag: para
 #: Components.xml:1012
