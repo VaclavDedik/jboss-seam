@@ -59,6 +59,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
       <testexample name="hibernate" />
       <testexample name="icefaces" />
       <testexample name="jpa" />
+   	  <testexample name="messages" />
       <testexample name="nestedbooking" />
    	  <testexample name="numberguess" />
       <testexample name="quartz" />
@@ -75,6 +76,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
    	<!-- Execute tests for all examples on jboss-embedded -->
    	<testexample name="blog" />
     <testexample name="dvdstore" />
+   	<testexample name="messages" />
    	<testexample name="numberguess" />
    	<testexample name="registration" />
     <testexample name="seampay" />
@@ -133,6 +135,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
       <cleanexample name="hibernate" />
       <cleanexample name="icefaces" />
       <cleanexample name="jpa" />
+   	  <cleanexample name="messages" />
       <cleanexample name="nestedbooking" />
    	  <cleanexample name="numberguess" />
       <cleanexample name="quartz" />
@@ -152,6 +155,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
       <undeployexample name="hibernate" />
       <undeployexample name="icefaces" />
       <undeployexample name="jpa" />
+   	  <undeployexample name="messages" />
       <undeployexample name="nestedbooking" />
    	  <undeployexample name="numberguess" />
       <undeployexample name="quartz" />
