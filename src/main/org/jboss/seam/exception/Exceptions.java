@@ -198,8 +198,11 @@ public class Exceptions
                 try { 
                     handler = createHandler(exception, 
                           Reflections.classForName(className));
-                    handler.setLogEnabled(logEnabled);
-                    handler.setLogLevel(logLevel);
+                    
+                    if (handler != null) {
+                        handler.setLogEnabled(logEnabled);
+                        handler.setLogLevel(logLevel);   
+                    }
                 } catch (ClassNotFoundException e) {
                     log.error("Can't find exception class for exception handler", e);
                 }
