@@ -75,7 +75,7 @@
                   Starting price:
                 </label>
                 <div>
-                  $<b><h:outputText value="#{auctionAction.auction.currentPrice}">
+                  $<b><h:outputText id="price" value="#{auctionAction.auction.currentPrice}">
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                   </h:outputText></b>
                 </div>
@@ -87,7 +87,7 @@
                 <label>End time:</label>
                 <div>
                   <b>
-                    <h:outputText value="#{auctionAction.auction.endDate}">
+                    <h:outputText id="endDate" value="#{auctionAction.auction.endDate}">
                       <f:convertDateTime pattern="dd-MMM-yyyy H:mm:ss"/>
                     </h:outputText>
                   </b>
@@ -168,7 +168,7 @@
             Description
           </div>
     
-          <div class="descriptionContent">
+          <div id="description" class="descriptionContent">
             <s:formattedText value="#{auctionAction.auction.description}" />
       
             <hr/>      
@@ -182,7 +182,7 @@
           </div>
         </div>
                   
-        <h:form>
+        <h:form id="sellForm">
                   
           <div class="navBar">
             <div class="navBarLeft">
@@ -190,7 +190,7 @@
             </div>
             
             <div class="navBarRight">
-              <h:commandButton action="#{auctionAction.confirm}" value="Confirm Listing"/>
+              <h:commandButton id="confirm" action="#{auctionAction.confirm}" value="Confirm Listing"/>
             </div>              
             
             <br class="clear"/>                          

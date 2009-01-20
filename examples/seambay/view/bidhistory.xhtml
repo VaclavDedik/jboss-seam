@@ -22,7 +22,7 @@
         <h:outputLink value="#{facesContext.externalContext.requestContextPath}/itemdetail/#{auction.auctionId}">
           <img src="#{facesContext.externalContext.requestContextPath}/img/arrow_left.png" border="0"/>
         </h:outputLink>
-        <h:outputLink value="#{facesContext.externalContext.requestContextPath}/itemdetail/#{auction.auctionId}">
+        <h:outputLink id="back" value="#{facesContext.externalContext.requestContextPath}/itemdetail/#{auction.auctionId}">
           Back to auction details
         </h:outputLink>
       </div>

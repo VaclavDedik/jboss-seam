@@ -67,7 +67,7 @@
               <b>*tip*</b> you can log in using <i>demo/demo</i>.            
             </p>
             
-            <h:form>
+            <h:form id="login">
               <p>
                 <b>seamBay User ID</b><br/>
                 <h:inputText id="username" value="#{identity.username}"/>
@@ -78,7 +78,7 @@
                 <h:inputSecret id="password" value="#{identity.password}"/>
               </p>
               
-              <h:commandButton action="#{identity.login}" value="Sign In > "/>
+              <h:commandButton id="submit" action="#{identity.login}" value="Sign In > "/>
           
               <p>
                 <h:selectBooleanCheckbox id="rememberMe" value="#{identity.rememberMe}"/>

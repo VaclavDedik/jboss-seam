@@ -56,7 +56,7 @@
         </div>   
       </s:div>
       
-      <s:div rendered="#{bidAction.outcome == 'outbid'}" styleClass="subSection">
+      <s:div id="outbid" rendered="#{bidAction.outcome == 'outbid'}" styleClass="subSection">
         <div class="outbidImage"/>
         <div class="alertContent">
           <b>Your bid has been submitted</b>
@@ -132,7 +132,7 @@
           </div>
         </s:div>
         
-        <h:form rendered="#{bidAction.outcome == 'invalid' or bidAction.outcome == 'required'}">
+        <h:form id="newBid" rendered="#{bidAction.outcome == 'invalid' or bidAction.outcome == 'required'}">
           <div class="maximumBidRow">
             <label>Your maximum bid:</label>
             <div>
@@ -144,13 +144,13 @@
           </div>
           
           <div class="placeBid">
-            <h:commandButton action="#{bidAction.updateBid}" value="Continue >"/>
+            <h:commandButton id="placeBidWithAmount" action="#{bidAction.updateBid}" value="Continue >"/>
           </div>
         </h:form>
       
       </div>
       
-      <h:form rendered="#{bidAction.outcome == 'outbid'}">
+      <h:form id="increaseBid" rendered="#{bidAction.outcome == 'outbid'}">
         <div class="increaseBid" >
           <label>Increase your maximum bid:</label>
           <div>
@@ -160,14 +160,14 @@
             </h:outputText> <b>or more</b>)</span>            
           </div>
         </div>
-        <h:commandButton styleClass="bidAgain" action="#{bidAction.updateBid}" value="Bid Again >"/>
+        <h:commandButton id="bidAgain" styleClass="bidAgain" action="#{bidAction.updateBid}" value="Bid Again >"/>
       </h:form>
                        
-      <h:form rendered="#{bidAction.outcome == 'confirm'}">
+      <h:form id="confirm" rendered="#{bidAction.outcome == 'confirm'}">
         <div class="confirmBid">
           <b>By clicking on the button below, you agree to buy this item if you're the
             winning bidder.</b><br/>
-          <h:commandButton styleClass="placeBid" action="#{bidAction.confirmBid}" value="Confirm Bid"/>
+          <h:commandButton id="confirmBid" styleClass="placeBid" action="#{bidAction.confirmBid}" value="Confirm Bid"/>
         </div>
         
       </h:form>          

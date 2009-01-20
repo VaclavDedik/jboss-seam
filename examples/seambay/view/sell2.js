@@ -26,7 +26,7 @@ function loadCategories(result)
     }
   }   
   
-  var catId = document.getElementById("catSelection:categoryId").value;  
+  var catId = document.getElementById("sellForm:categoryId").value;  
   
   // If the category ID is valid, select it
   if ((typeof(catId) == "number" || !isNaN(parseInt(catId))))
@@ -139,7 +139,7 @@ function selectCategory(ctl)
 {  
   var opt = getSelectedOption(ctl);
   
-  var ctl = document.getElementById("catSelection:categoryId");
+  var ctl = document.getElementById("sellForm:categoryId");
   var previous = findCategory(ctl.value);
   ctl.value = opt.value;
   

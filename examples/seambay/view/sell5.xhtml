@@ -28,7 +28,7 @@
           Enter a detailed description of the item you wish to sell
         </div>
         
-        <h:form>
+        <h:form id="sellForm">
         
           <div class="formRow">
             <h:inputTextarea id="description" value="#{auctionAction.auction.description}" styleClass="description"/>            
@@ -41,7 +41,7 @@
             </div>
             
             <div class="navBarRight">
-              <h:commandButton value="Next >" action="next"/>
+              <h:commandButton id="next" value="Next >" action="next"/>
             </div>              
             
             <br class="clear"/>                          

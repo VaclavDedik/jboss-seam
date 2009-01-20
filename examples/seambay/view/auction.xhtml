@@ -88,7 +88,7 @@
 
         <div class="itemDetails">
           <div class="itemDetailRow">
-            <h:form>
+            <h:form id="bid">
               <label>
                 <s:fragment rendered="#{auction.highBid ne null}">
                   Current bid:
@@ -133,7 +133,7 @@
             <label>History:</label>
             <div>
                           
-              <h:outputLink value="#{facesContext.externalContext.requestContextPath}/bidhistory/#{auction.auctionId}">
+              <h:outputLink id="bidHistory" value="#{facesContext.externalContext.requestContextPath}/bidhistory/#{auction.auctionId}">
                 #{auction.bids} bids
               </h:outputLink>              
               
@@ -143,7 +143,7 @@
           <div class="itemDetailRow">
             <label>High bidder:</label>
             <div>
-              <span>#{auction.highBid.account.name}</span>
+              <span id="highBidder">#{auction.highBid.account.name}</span>
               <h:outputText value="No bids" rendered="#{auction.highBid eq null}"/>
             </div>
           </div>
@@ -225,7 +225,7 @@
           <b>Place a bid</b>
           <hr class="blueLine"/>
 
-          <h:form>
+          <h:form id="newBid">
 
             <div class="bidRow">
               <s:fragment rendered="#{auction.highBid ne null}">

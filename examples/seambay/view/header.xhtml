@@ -15,18 +15,18 @@
         </div>
         
         <div class="header_search">
-          <h:form>
+          <h:form id="search">
             <h:inputText id="searchTerm" value="#{auctionSearch.searchTerm}"/>
-            <h:commandButton action="#{auctionSearch.queryAllAuctions}" value="Search"/>
+            <h:commandButton id="submit" action="#{auctionSearch.queryAllAuctions}" value="Search"/>
           </h:form>
         </div>
       </div>
 
       <div class="header_tools_bottom">    
         <div>          
-          <s:link view="/buy.xhtml" value="Buy" styleClass="header_action" propagation="none"
-          /><s:link view="/sell.xhtml" value="Sell" styleClass="header_action" propagation="none"
-          /><s:link view="/help.xhtml" value="Help" styleClass="header_action" propagation="none"/>
+          <s:link id="buy" view="/buy.xhtml" value="Buy" styleClass="header_action" propagation="none"
+          /><s:link id="sell" view="/sell.xhtml" value="Sell" styleClass="header_action" propagation="none"
+          /><s:link id="help" view="/help.xhtml" value="Help" styleClass="header_action" propagation="none"/>
         </div>       
 
       </div>
@@ -34,14 +34,14 @@
     
     <s:fragment rendered="#{not identity.loggedIn}">
       <span>Hello! </span>
-      <s:link view="/login.seam" value="Sign in" propagation="none"/>
+      <s:link id="login" view="/login.seam" value="Sign in" propagation="none"/>
       <span> or </span>
-      <s:link view="/register.seam" value="register" propagation="none"/>.
+      <s:link id="register" view="/register.seam" value="register" propagation="none"/>.
     </s:fragment>
     
     <s:fragment rendered="#{identity.loggedIn}">
       Hello, #{authenticatedAccount.name}. 
-      <span>(</span><s:link action="#{identity.logout}" propagation="none" value="Sign out"/><span>)</span>
+      <span>(</span><s:link id="logout" action="#{identity.logout}" propagation="none" value="Sign out"/><span>)</span>
     </s:fragment>
     
   </ui:composition>
