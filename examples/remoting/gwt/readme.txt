@@ -5,7 +5,7 @@ This shows GWT with Seam remoting.
 
 You can view the example at:
 
-http://localhost:8080/seam-helloworld/org.jboss.seam.example.remoting.gwt.HelloWorld/HelloWorld.html
+http://localhost:8080/seam-gwt/
 
 GWT:
 If you want to rebuild the GWT front end, you will need to download GWT, and configure build.properties to point to it.
