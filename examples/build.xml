@@ -459,6 +459,7 @@
 	<fileset id="ear.resources" dir="${resources.dir}">
 		<include name="META-INF/application.xml" />
 		<include name="META-INF/jboss-app.xml" />
+		<include name="META-INF/jboss-structure.xml" />
 		<include name="META-INF/*-service.xml" />
 		<include name="META-INF/*-xmbean.xml" />
 		<include name="treecache.xml" />
