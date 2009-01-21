@@ -408,6 +408,10 @@ public class Component extends Model
       {
          throw new IllegalArgumentException("Message-driven beans must be bound to STATELESS context: " + name);
       }      
+      if ( scope!=STATELESS && type==ComponentType.STATELESS_SESSION_BEAN )
+      {
+          log.warn("Stateless session beans should only be bound to the STATELESS context:" + name);
+      }      
    }
    
    protected void checkSynchronizedForComponentType()
