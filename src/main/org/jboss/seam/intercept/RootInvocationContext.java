@@ -28,6 +28,7 @@ class RootInvocationContext implements InvocationContext
    
    public Object proceed() throws Exception
    {     
+      method.setAccessible(true);
       return Reflections.invoke(method, bean, params);
    }
 
