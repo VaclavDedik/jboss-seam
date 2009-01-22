@@ -36,9 +36,10 @@ import org.testng.annotations.Test;
  */
 public class LoginTest extends SeleniumDvdTest {
 
+    @Override
     @BeforeMethod
     public void setUp() {
-        startBrowser();
+        browser = startBrowser();
     }
 
     @Test(groups = { "login.basic" })

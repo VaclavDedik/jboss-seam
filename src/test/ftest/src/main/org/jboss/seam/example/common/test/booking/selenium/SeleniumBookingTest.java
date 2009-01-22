@@ -44,7 +44,7 @@ public class SeleniumBookingTest extends SeamSeleniumTest {
     @Override
     @BeforeMethod
     public void setUp() {
-        startBrowser();
+        super.setUp();
         assertTrue("Login failed.", login());
     }
 
@@ -52,7 +52,7 @@ public class SeleniumBookingTest extends SeamSeleniumTest {
     @AfterMethod
     public void tearDown() {
         logout();
-        stopBrowser();
+        super.tearDown();
     }
 
     public boolean login() {

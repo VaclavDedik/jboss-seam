@@ -43,11 +43,13 @@ public class RegistrationTest extends SeleniumDvdTest {
     // suffix is needed to allow test to be run repeatedly
     private String suffix = Long.toString(new Date().getTime() % 10000000);
 
+    @Override
     @BeforeMethod
     public void setUp() {
-        startBrowser();
+        browser = startBrowser();
         browser.open(CONTEXT_PATH + getProperty("HOME_PAGE"));
         new Wait() {
+            @Override
             public boolean until() {
                 return browser.isElementPresent(getProperty("REGISTRATION"));
             }

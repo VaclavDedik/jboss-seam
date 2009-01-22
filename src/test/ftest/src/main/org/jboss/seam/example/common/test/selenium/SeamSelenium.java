@@ -61,5 +61,12 @@ public class SeamSelenium extends DefaultSelenium
       super.waitForPageToLoad(timeout);
    }
    
+   /**
+    * Simulates a user pressing "refresh" button and waits for page to load. Default timeout can be changed by setTimeout() method.
+    */
+   public void refreshAndWait() {
+      super.refresh();
+      super.waitForPageToLoad(timeout);
+   }
    
 }

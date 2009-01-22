@@ -44,7 +44,7 @@ public class ChangePasswordTest extends SeleniumBookingTest {
     @Override
     @BeforeMethod
     public void setUp() {
-        startBrowser();
+        browser = startBrowser();
         assertTrue("Login failed.", login(USERNAME, PASSWORD));
     }
 

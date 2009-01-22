@@ -52,7 +52,7 @@ public class RegistrationTest extends SeleniumBookingTest {
     @Override
     @BeforeMethod
     public void setUp() {
-        startBrowser();
+        browser = startBrowser();
     }
 
     @Override

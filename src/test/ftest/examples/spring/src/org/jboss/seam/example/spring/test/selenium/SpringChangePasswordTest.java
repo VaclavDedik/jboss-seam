@@ -42,9 +42,10 @@ public class SpringChangePasswordTest extends SeleniumBookingTest {
     private final String USERNAME = "gavin";
     private final String PASSWORD = "foobar";
 
+    @Override
     @BeforeMethod
     public void setUp() {
-        startBrowser();
+        super.setUp();
         assertTrue("Login failed.", login(USERNAME, PASSWORD));
     }
 

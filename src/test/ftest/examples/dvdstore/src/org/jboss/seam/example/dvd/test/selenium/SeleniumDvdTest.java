@@ -41,15 +41,17 @@ public abstract class SeleniumDvdTest extends SeamSeleniumTest {
     protected final String DEFAULT_USERNAME = "user1";
     protected final String DEFAULT_PASSWORD = "password";
 
+    @Override
     @BeforeMethod
     public void setUp() {
-        startBrowser();
+        super.setUp();
         login(DEFAULT_USERNAME, DEFAULT_PASSWORD);
     }
 
     public boolean login(String username, String password) {
         browser.open(CONTEXT_PATH + getProperty("HOME_PAGE"));
         new Wait() {
+            @Override
             public boolean until() {
                 return browser.isElementPresent(getProperty("LOGIN_SUBMIT"));
             }
@@ -64,10 +66,11 @@ public abstract class SeleniumDvdTest extends SeamSeleniumTest {
         return isLoggedIn(browser);
     }
 
+    @Override
     @AfterMethod
     public void tearDown() {
         logout(browser);
-        stopBrowser();
+        super.tearDown();
     }
 
     public void logout(Selenium browser) {
