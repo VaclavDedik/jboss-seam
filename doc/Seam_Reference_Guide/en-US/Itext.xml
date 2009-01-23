@@ -164,7 +164,7 @@
                 special UI components for generating suitable PDF content. Tags like
                 <literal>&lt;p:image&gt;</literal> and <literal>&lt;p:paragraph&gt;</literal> are the
                 basic foundations of simple documents. Tags like <literal>&lt;p:font&gt;</literal> provide style
-                information to all the content surrounging them. </para>
+                information to all the content surrounding them. </para>
 
 
             <informaltable>
