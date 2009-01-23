@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-01-21 21:11+0100\n"
+"PO-Revision-Date: 2009-01-24 00:41+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -143,31 +143,31 @@ msgstr "<literal>pageSize</literal> &#8212; La dimensionedella pagina da generar
 #: Itext.xml:74
 #, no-c-format
 msgid "<literal>orientation</literal> &#8212; The orientation of the page. Valid values are <literal>portrait</literal> and <literal>landscape</literal>. In landscape mode, the height and width page size values are reversed."
-msgstr ""
+msgstr "<literal>orientation</literal> &#8212; L'orientamento della pagina. Valori validi sono <literal>portrait</literal> e <literal>landscape</literal>. Nella modalità landscape, i valori dell'altezza e della larghezza della pagina sono invertiti."
 
 #. Tag: para
 #: Itext.xml:83
 #, no-c-format
 msgid "<literal>margins</literal> &#8212; The left, right, top and bottom margin values."
-msgstr ""
+msgstr "<literal>margins</literal> &#8212; Valori di margine left, right, top e bottom."
 
 #. Tag: para
 #: Itext.xml:88
 #, no-c-format
 msgid "<literal>marginMirroring</literal> &#8212; Indicates that margin settings should be reversed an alternating pages."
-msgstr ""
+msgstr "<literal>marginMirroring</literal> &#8212; Indica che le impostazioni dei margini dovrebbero essere invertite in pagine alternate."
 
 #. Tag: para
 #: Itext.xml:94
 #, no-c-format
 msgid "<literal>disposition</literal> &#8212; When generating PDFs in a web browser, this determines the HTTP <literal>Content-Disposition</literal> of the document. Valid values are <literal>inline</literal>, which indicates the document should be displayed in the browser window if possible, and <literal>attachment</literal>, which indicates that the document should be treated as a download. The default value is <literal>inline</literal>."
-msgstr ""
+msgstr "<literal>disposition</literal> &#8212; Quando si generano PDF in un browser, questo determina la <literal>Content-Disposition</literal> HTTP del documento. Valori validi sono <literal>inline</literal>, che indica che il documento deve essere mostrato in una finestra del browser se possibile, e <literal>attachment</literal>, che indica che il documento deve essere trattato come download. Il valore di default è <literal>inline</literal>."
 
 #. Tag: para
 #: Itext.xml:102
 #, no-c-format
 msgid "<literal>fileName</literal> &#8212; For attachments, this value overrides the downloaded file name."
-msgstr ""
+msgstr "<literal>fileName</literal> &#8212; Per gli allegati questo valore sovrascrive il nome del file scaricato."
 
 #. Tag: emphasis
 #: Itext.xml:111
@@ -256,7 +256,7 @@ msgstr "Elementi base per il testo"
 #: Itext.xml:160
 #, no-c-format
 msgid "Useful documents will need to contain more than just text; however, the standard UI components are geared towards HTML generation and are not useful for generating PDF content. Instead, Seam provides a special UI components for generating suitable PDF content. Tags like <literal>&lt;p:image&gt;</literal> and <literal>&lt;p:paragraph&gt;</literal> are the basic foundations of simple documents. Tags like <literal>&lt;p:font&gt;</literal> provide style information to all the content surrounging them."
-msgstr ""
+msgstr "I documenti utili dovranno contenere più che il solo testo; comunque i componenti standard UI sono idonei per la generazione HTML e non sono utili per generare contenuto in PDF. Invece Seam fornisce dei componenti UI speciali per generare contenuto in PDF idoneo. Tag quali <literal>&lt;p:image&gt;</literal> e <literal>&lt;p:paragraph&gt;</literal> sono la base per i semplici documenti. Tag come <literal>&lt;p:font&gt;</literal> forniscono informazioni di stile a tutto il contenuto che sta intorno."
 
 #. Tag: literal
 #: Itext.xml:177
@@ -268,7 +268,7 @@ msgstr "&lt;p:paragraph&gt;"
 #: Itext.xml:186
 #, no-c-format
 msgid "Most uses of text should be sectioned into paragraphs so that text fragments can be flowed, formatted and styled in logical groups."
-msgstr ""
+msgstr "La maggior parte dell'uso del testo dovrebbe essere sezionato in paragrafi, affinché i frammenti del testo possano scorrere, formattati ed con uno stile in gruppi logici."
 
 #. Tag: literal
 #: Itext.xml:196
@@ -303,7 +303,7 @@ msgstr "multipliedLeading"
 #: Itext.xml:1025
 #, no-c-format
 msgid "<literal>spacingBefore</literal> &#8212; The blank space to be inserted before the element."
-msgstr ""
+msgstr "<literal>spacingBefore</literal> &#8212; Lo spazio bianco da inserire prima dell'elemento."
 
 #. Tag: para
 #: Itext.xml:220
@@ -311,7 +311,7 @@ msgstr ""
 #: Itext.xml:1031
 #, no-c-format
 msgid "<literal>spacingAfter</literal> &#8212; The blank space to be inserted after the element."
-msgstr ""
+msgstr "<literal>spacingAfter</literal> &#8212; Lo spazio bianco da inserire dopo l'elemento."
 
 #. Tag: literal
 #: Itext.xml:226
@@ -356,13 +356,13 @@ msgstr "&lt;p:text&gt;"
 #: Itext.xml:259
 #, no-c-format
 msgid "The <literal>text</literal> tag allows text fragments to be produced from application data using normal JSF converter mechanisms. It is very similar to the <literal>outputText</literal> tag used when rendering HTML documents."
-msgstr ""
+msgstr "Il tag <literal>text</literal> consente ai frammenti del testo di essere prodotti dai dati dell'applicazione usando normali meccanismi convertitori JSF. E' molto simile al tag <literal>outputText</literal> impiegato quando si generano documenti HTML."
 
 #. Tag: para
 #: Itext.xml:270
 #, no-c-format
 msgid "<literal>value</literal> &#8212; The value to be displayed. This will typically be a value binding expression."
-msgstr ""
+msgstr "<literal>value</literal> &#8212; Il valore da visualizzare. Questo sarà tipicamente un'espressione di binding."
 
 #. Tag: programlisting
 #: Itext.xml:279
@@ -390,13 +390,13 @@ msgstr "&lt;p:html&gt;"
 #: Itext.xml:294
 #, no-c-format
 msgid "The <literal>html</literal> tag renders HTML content into the PDF."
-msgstr ""
+msgstr "Il tag <literal>html</literal> genera contenuto HTML in PDF."
 
 #. Tag: para
 #: Itext.xml:304
 #, no-c-format
 msgid "<literal>value</literal> &#8212; The text to be displayed."
-msgstr ""
+msgstr "<literal>value</literal> &#8212; Il testo da visualizzare."
 
 #. Tag: programlisting
 #: Itext.xml:312
@@ -1305,7 +1305,7 @@ msgstr ""
 #: Itext.xml:1540
 #, no-c-format
 msgid "<literal>domainAxisPaint</literal> &#8212; The color of the domain axis label."
-msgstr ""
+msgstr "<literal>domainAxisPaint</literal> &#8212; Il colore dell'etichetta degli assi di dominio."
 
 #. Tag: para
 #: Itext.xml:1350
@@ -1631,7 +1631,7 @@ msgstr "<literal>is3D</literal> &#8212; Un valore booleano che indica di visuali
 #: Itext.xml:1729
 #, no-c-format
 msgid "<literal>labelLinkMargin</literal> &#8212; The link margin for labels."
-msgstr ""
+msgstr "<literal>labelLinkMargin</literal> &#8212; Il margine di collegamento per le etichette."
 
 #. Tag: para
 #: Itext.xml:1734
@@ -1883,7 +1883,7 @@ msgstr ""
 #: Itext.xml:1952
 #, no-c-format
 msgid "<literal>sectionPaint</literal> &#8212; For bar charts, the color of the section."
-msgstr ""
+msgstr "<literal>sectionPaint</literal> &#8212; Per i grafici a barre, il colore della sezione."
 
 #. Tag: programlisting
 #: Itext.xml:1963
@@ -1917,25 +1917,25 @@ msgstr ""
 #: Itext.xml:1986
 #, no-c-format
 msgid "<literal>color</literal> &#8212; The color value. For gradient colors, this the starting color."
-msgstr ""
+msgstr "<literal>color</literal> &#8212; Il valore del colore. Per gradienti di colore, questo è il colore iniziale."
 
 #. Tag: para
 #: Itext.xml:1992
 #, no-c-format
 msgid "<literal>color2</literal> &#8212; For gradient colors, this is the color that ends the gradient."
-msgstr ""
+msgstr "<literal>color2</literal> &#8212; Per gradienti di colore, questo è il colore che termina il gradiente."
 
 #. Tag: para
 #: Itext.xml:1997
 #, no-c-format
 msgid "<literal>point</literal> &#8212; The co-ordinates where the gradient color begins."
-msgstr ""
+msgstr "<literal>point</literal> &#8212; Le coordinate dove inizia il colore gradiente."
 
 #. Tag: para
 #: Itext.xml:2002
 #, no-c-format
 msgid "<literal>point2</literal> &#8212; The co-ordinates where the gradient color ends."
-msgstr ""
+msgstr "<literal>point2</literal> &#8212; Le coordinate dove finisce il colore gradiente."
 
 #. Tag: programlisting
 #: Itext.xml:2010
@@ -2139,7 +2139,7 @@ msgstr "&lt;p:form&gt;"
 #: Itext.xml:2216
 #, no-c-format
 msgid "Defines a form template to populate"
-msgstr ""
+msgstr "Definisce un modello di form da popolare"
 
 #. Tag: para
 #: Itext.xml:2224
@@ -2157,7 +2157,7 @@ msgstr ""
 #: Itext.xml:2237
 #, no-c-format
 msgid "<literal>exportKey</literal> &#8212; Place the generated PDF file in a DocumentData object under the specified key in the event context. If set, no redirect will occur."
-msgstr ""
+msgstr "<literal>exportKey</literal> &#8212; Colloca un file PDF generato in un oggetto DocumentData sotto la chiave specificata nel contesto evento. Se impostato, non avverrà alcun redirect."
 
 #. Tag: literal
 #: Itext.xml:2259
@@ -2169,7 +2169,7 @@ msgstr "&lt;p:field&gt;"
 #: Itext.xml:2266
 #, no-c-format
 msgid "Connects a field name to its value"
-msgstr ""
+msgstr "Unisce un nome campo al suo valore"
 
 #. Tag: para
 #: Itext.xml:2275
@@ -2231,13 +2231,13 @@ msgstr "&lt;p:swing&gt;"
 #: Itext.xml:2327
 #, no-c-format
 msgid "Renders a Swing component into a PDF document."
-msgstr ""
+msgstr "Genera un componente Swing in un documento PDF."
 
 #. Tag: para
 #: Itext.xml:2335
 #, no-c-format
 msgid "<literal>width</literal> &#8212; The width of the component to be rendered."
-msgstr ""
+msgstr "<literal>width</literal> &#8212; La larghezza del componente da generare."
 
 #. Tag: para
 #: Itext.xml:2339
@@ -2249,7 +2249,7 @@ msgstr "<literal>code</literal> &#8212; Il valore da codificare nel barcode."
 #: Itext.xml:2343
 #, no-c-format
 msgid "<literal>component</literal> &#8212; An expression whose value is a Swing or AWT component."
-msgstr ""
+msgstr "<literal>component</literal> &#8212; Un'espressione il cui valore è un componente Swing o AWT."
 
 #. Tag: programlisting
 #: Itext.xml:2351
