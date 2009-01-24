@@ -1432,7 +1432,7 @@
                                 <listitem>
                                     <para>
                                         <literal>domainGridlineStroke</literal> &#8212; The stroke style of the
-                                        domain gridleines, if visible. </para>
+                                        domain gridlines, if visible. </para>
                                 </listitem>
 
                                 <listitem>
@@ -1509,7 +1509,7 @@
                                 <listitem>
                                     <para>
                                         <literal>plotOutlineStroke</literal> &#8212; The stroke style of the range
-                                        gridleines, if visible. </para>
+                                        gridlines, if visible. </para>
                                 </listitem>
 
                                 <listitem>
@@ -1536,7 +1536,7 @@
                                 <listitem>
                                     <para>
                                         <literal>rangeGridlineStroke</literal> &#8212; The stroke style of the range
-                                        gridleines, if visible. </para>
+                                        gridlines, if visible. </para>
                                 </listitem>
 
                                 <listitem>
@@ -1637,7 +1637,7 @@
                                 <listitem>
                                     <para>
                                         <literal>domainGridlineStroke</literal> &#8212; The stroke style of the
-                                        domain gridleines, if visible. </para>
+                                        domain gridlines, if visible. </para>
                                 </listitem>
 
                                 <listitem>
@@ -1714,7 +1714,7 @@
                                 <listitem>
                                     <para>
                                         <literal>plotOutlineStroke</literal> &#8212; The stroke style of the range
-                                        gridleines, if visible. </para>
+                                        gridlines, if visible. </para>
                                 </listitem>
 
                                 <listitem>
@@ -1741,7 +1741,7 @@
                                 <listitem>
                                     <para>
                                         <literal>rangeGridlineStroke</literal> &#8212; The stroke style of the range
-                                        gridleines, if visible. </para>
+                                        gridlines, if visible. </para>
                                 </listitem>
 
                                 <listitem>
@@ -1991,7 +1991,7 @@
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>seriesVisibleInLegend</literal> &#8212; A boolean indiciating if
+                                        <literal>seriesVisibleInLegend</literal> &#8212; A boolean indicating if
                                         the series should be listed in the legend. </para>
                                 </listitem>
 
@@ -2171,7 +2171,7 @@
                                 <listitem>
                                     <para>
                                         <literal>dashPhase</literal> &#8212; The dash phase indicates the offset
-                                        into the dash pattern that the the line should be drawn with. </para>
+                                        into the dash pattern that the line should be drawn with. </para>
                                 </listitem>
                             </itemizedlist>
                             <para>
@@ -2309,7 +2309,7 @@
         <title>Fill-in-forms</title>
         <para>
         	If you have a complex, pre-generated PDF with named fields, you can easily
-        	fill in the values from you application and present it to the user.
+        	fill in the values from your application and present it to the user.
         </para>
 
         <informaltable>
