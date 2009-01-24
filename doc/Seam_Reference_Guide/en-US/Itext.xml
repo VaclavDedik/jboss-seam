@@ -422,7 +422,7 @@
                                 </para>
 
 
-                                <para><literal>p:image</literal> inserts an image into the document. Images can be be
+                                <para><literal>p:image</literal> inserts an image into the document. Images can be
                                     loaded from the classpath or from the web application context using the
                                         <literal>value</literal> attribute. </para>
 
@@ -571,7 +571,7 @@
 
                                         <para><literal>reference</literal> &#8212; The destination the link refers
                                             to. Links to other points in the document should begin with a "#". For
-                                            example, "#link1" to refer to an anchor postion with a
+                                            example, "#link1" to refer to an anchor position with a
                                             <literal>name</literal> of <literal>link1</literal>. Links may also be a
                                             full URL to point to a resource outside of the document.</para>
                                     </listitem>
@@ -659,7 +659,7 @@
                                     <listitem>
                                         <para>
                                             <literal>borderWidth</literal> &#8212; The width of the border.
-                                            Inidvidual border sides can be specified using
+                                            Individual border sides can be specified using
                                             <literal>borderWidthLeft</literal>, <literal>borderWidthRight</literal>,
                                                 <literal>borderWidthTop</literal> and
                                             <literal>borderWidthBottom</literal>.</para>
@@ -762,7 +762,7 @@
                                     <listitem>
                                         <para><literal>numberDepth</literal> &#8212; The depth of numbering for
                                             section. All sections are numbered relative to their surrounding
-                                            chapter/sections. The fourth section of of the first section of chapter
+                                            chapter/sections. The fourth section of the first section of chapter
                                             three would be section 3.1.4, if displayed at the default number depth of
                                             three. To omit the chapter number, a number depth of 2 should be used. In
                                             that case, the section number would be displayed as 1.4.</para>
@@ -817,7 +817,7 @@
             <title>Lists</title>
 
             <para>List structures can be displayed using the <literal>p:list</literal> and <literal>p:listItem</literal>
-                tags. Lists may contain arbitrarily-nested sublists. List items may not be used outside of a list. he
+                tags. Lists may contain arbitrarily-nested sublists. List items may not be used outside of a list. The
                 following document uses the <literal>ui:repeat</literal> tag to to display a list of values retrieved
                 from a Seam component. </para>
 
