@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-01-24 19:05+0100\n"
+"PO-Revision-Date: 2009-01-25 11:04+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -2332,7 +2332,7 @@ msgstr ""
 #: Itext.xml:2380
 #, no-c-format
 msgid "The document store stores documents in conversation scope, and documents will expire when the conversation ends. At that point, references to the document will be invalid. You can specify a default view to be shown when a document does not exist using the <literal>error-page</literal> property of the <literal>documentStore</literal>."
-msgstr "Document store memorizza i documenti nello scope conversazione, ed i documenti scadranno quando termina la conversazione. A quel punto i riferimenti al documento saranno invalidati. Si può specificare la vista di default da mostrare quando un documento non esiste usando la proprietà <literal>error-page</literal> di  literal>documentStore</literal>."
+msgstr "Document store memorizza i documenti nello scope conversazione, ed i documenti scadranno quando termina la conversazione. A quel punto i riferimenti al documento saranno invalidati. Si può specificare la vista di default da mostrare quando un documento non esiste usando la proprietà <literal>error-page</literal> di  <literal>documentStore</literal>."
 
 #. Tag: programlisting
 #: Itext.xml:2383

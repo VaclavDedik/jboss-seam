@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Seam_Reference_Guide\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-01-25 12:20+0100\n"
+"PO-Revision-Date: 2009-01-25 19:25+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -305,7 +305,7 @@ msgstr "<literal>locale</literal> &#8212; Il locale usato da JExcelApi per gener
 #: Excel.xml:230
 #, no-c-format
 msgid "<literal>mergedCellCheckingDisabled</literal> &#8212; Should merged cell checking be disabled? The value is a boolean."
-msgstr ""
+msgstr "<literal>mergedCellCheckingDisabled</literal> &#8212; Se il controllo della cella unita debba essere disabilitato. Il valore è un booleano."
 
 #. Tag: para
 #: Excel.xml:237
@@ -317,31 +317,31 @@ msgstr "<literal>description</literal> &#8212; La descrizione del link. Il valor
 #: Excel.xml:244
 #, no-c-format
 msgid "<literal>propertySets</literal> &#8212; Should any property sets be enabled (such as macros) to be copied along with the workbook? Leaving this feature enabled will result in the JXL process using more memory. The value is a boolean."
-msgstr ""
+msgstr "<literal>propertySets</literal> &#8212; I set di proprietà (come le macro) devono essere abilitati per essere copiati assieme al workbook? Lasciando abilitato questa caratteristica, il processo JXL userà più memoria. Il valore è un booleano."
 
 #. Tag: para
 #: Excel.xml:254
 #, no-c-format
 msgid "<literal>rationalization</literal> &#8212; Should the cell formats be rationalized before writing out the sheet? The value is a boolean. Default is true."
-msgstr ""
+msgstr "<literal>rationalization</literal> &#8212; I formati delle celle devono essere razionalizzati prima di scrivere il foglio? Il valore è un booleano. Il default è true."
 
 #. Tag: para
 #: Excel.xml:262
 #, no-c-format
 msgid "<literal>supressWarnings</literal> &#8212; Should warnings be suppressed?. Due to the change in logging in version 2.4, this will now set the warning behaviour across the JVM (depending on the type of logger used). The value is a boolean."
-msgstr ""
+msgstr "<literal>supressWarnings</literal> &#8212; Gli avvisi devono essere soppressi? A causa di un cambiamento nella versione 2.4 del logging, ora il comportamento degli avvisi è impostato a livello di JVM (dipende dal tipo di logger usato). Il valore è un booleano."
 
 #. Tag: para
 #: Excel.xml:272
 #, no-c-format
 msgid "<literal> temporaryFileDuringWriteDirectory </literal> &#8212; Used in conjunction with the <literal>useTemporaryFileDuringWrite</literal> setting to set the target directory for the temporary files. This value can be NULL, in which case the normal system default temporary directory is used instead. The value is a string (the directory to which temporary files should be written)."
-msgstr ""
+msgstr "<literal> temporaryFileDuringWriteDirectory </literal> &#8212; Usato in congiunzione con <literal>useTemporaryFileDuringWrite</literal> per impostare la directory target per i file temporanei. Il valore può essere NULL, nel qual caso viene usata la directory temporanea di default del sistema. Il valore è una stringa (la directory in cui scrivere i file temporanei)."
 
 #. Tag: para
 #: Excel.xml:287
 #, no-c-format
 msgid "<literal>useTemporaryFileDuringWrite</literal> &#8212; Should a temporary file is used during the generation of the workbook. If not set, the workbook will take place entirely in memory. Setting this flag involves an assessment of the trade-offs between memory usage and performance. The value is a boolean."
-msgstr ""
+msgstr "<literal>useTemporaryFileDuringWrite</literal> &#8212; Se un file temporaneo debba essere usato durante la generazione del workbook. Se non impostato, il workbook avverrà interamente in memoria. Impostando questo flag si valuti il trade-off tra l'uso della memoria e la performance. Il valore è un booleano."
 
 #. Tag: para
 #: Excel.xml:298
@@ -353,13 +353,13 @@ msgstr "<literal>bottomMargin</literal> &#8212; Il margine inferiore. Il valore 
 #: Excel.xml:305
 #, no-c-format
 msgid "<literal>filename</literal> &#8212; The filename to use for the download. The value is a string. Please not that if you map the DocumentServlet to some pattern, this file extension must also match."
-msgstr ""
+msgstr "<literal>filename</literal> &#8212; Il nome del file da usare per il download. Il valore è una stringa. Si noti che se si mappa il DocumentServlet su qualche pattern, questa estensione del file deve corrispondere."
 
 #. Tag: para
 #: Excel.xml:313
 #, no-c-format
 msgid "<literal>exportKey</literal> &#8212; A key under which to store the resulting data in a DocumentData object under the event scope. If used, there is no redirection."
-msgstr ""
+msgstr "<literal>exportKey</literal> &#8212; Una chiave sotto cui memorizzare i dati di risultato in un oggetto DocumentData nello scope evento. Se usato, non c'è redirezione."
 
 #. Tag: emphasis
 #: Excel.xml:322
@@ -487,7 +487,7 @@ msgstr "Worksheets"
 #: Excel.xml:363
 #, no-c-format
 msgid "Worksheets are the children of workbooks and the parent of columns and worksheet commands They can also contain explicitly placed cells, formulas, images and hyperlinks. They are the pages that make up the workbook."
-msgstr ""
+msgstr "I worksheet sono figli dei workbook e padri delle colonne e dei comandi worksheet. Possono anche contenere celle, formule, immagini e collegamenti esplicitamente collocati. Sono le pagine che creano il workbook."
 
 #. Tag: literal
 #: Excel.xml:377
@@ -499,37 +499,37 @@ msgstr "&lt;e:worksheet&gt;"
 #: Excel.xml:383
 #, no-c-format
 msgid "<literal>value</literal> &#8212; An EL-expression to the backing data. The value is a string. The target of this expression is examined for an Iterable. Note that if the target is a Map, the iteration is done over the Map.Entry entrySet(), so you should use a .key or .value to target in your references."
-msgstr ""
+msgstr "<literal>value</literal> &#8212; Espressione-EL sui dati retrostanti. Il valore è una stringa. Il target di quest'espressione è esaminato per un Iterable. Si noti che se il target è una Map, l'iterazione viene fatta su Map.Entry entrySet(), e quindi occorre usare un .key o un .value per individuare i riferimenti."
 
 #. Tag: para
 #: Excel.xml:393
 #, no-c-format
 msgid "<literal>var</literal> &#8212; The current row iterator variable name that can later be referenced in cell value attributes. The value is a string"
-msgstr ""
+msgstr "<literal>var</literal> &#8212; Il nome della variabile della riga iteratore corrente che può successivamente essere referenziata negli attributi di valore della cella. Il valore è una stringa."
 
 #. Tag: para
 #: Excel.xml:401
 #, no-c-format
 msgid "<literal>name</literal> &#8212; The name of the worksheet. The valus is a string. Defaults to Sheet# where # is the worksheet index. If the given worksheet name exists, that sheet is selected. This can be used for merging several data sets into a single worksheet, just define the same name for them (using <literal>startRow</literal> and <literal>startCol</literal> to make sure that they don't occupy the same space)."
-msgstr ""
+msgstr "<literal>name</literal> &#8212; Il nome del worksheet. Il valore è una stringa. Il default è Sheet# dove # è l'indice del worksheet. Se esiste il nome del worksheet dato, tale foglio viene selezionato. Questo può essere usato per unire diversi set di dati in un singolo worksheet, solamente definendo lo stesso nome per questi (usando <literal>startRow</literal> e <literal>startCol</literal> per assicurarsi che non occupino lo stesso spazio)."
 
 #. Tag: para
 #: Excel.xml:418
 #, no-c-format
 msgid "<literal>startRow</literal> &#8212; Defines the starting row for the data. The value is a number. Used for placing the data in other places than the upper-left corner (especially useful if having multiple data sets for a single worksheet). The defaults is 0."
-msgstr ""
+msgstr "<literal>startRow</literal> &#8212; Definisce la riga di inizio dei dati. Il valore è un numero. Usato per collocare i dati in altri posti rispetto all'angolo in alto a sinistra (è utile in particolare se si hanno set di dati multipli per un singolo worksheet). Il default è 0."
 
 #. Tag: para
 #: Excel.xml:428
 #, no-c-format
 msgid "<literal>startColumn</literal> &#8212; Defines the starting column for the data. The value is a number. Used for placing the data in other places than the upper-left corner (especially useful if having multiple data sets for a single worksheet). The default is 0."
-msgstr ""
+msgstr "<literal>startColumn</literal> &#8212; Definisce la colonna di inizio dei dati. Il valore è un numero. Usato per collocare i dati in altri posti rispetto all'angolo in alto a sinistra (è utile in particolare se si hanno set di dati multipli per un singolo worksheet). Il default è 0."
 
 #. Tag: para
 #: Excel.xml:438
 #, no-c-format
 msgid "<literal>automaticFormulaCalculation</literal> &#8212; Should formulas be automatically calculated? The value is a boolean."
-msgstr ""
+msgstr "<literal>automaticFormulaCalculation</literal> &#8212; Le formule devono essere automaricamente ricalcolate? Il valore è un booleano."
 
 #. Tag: para
 #: Excel.xml:445
@@ -637,7 +637,7 @@ msgstr "<literal>description</literal> &#8212; La descrizione del link. Il valor
 #: Excel.xml:566
 #, no-c-format
 msgid "<literal>pageBreakPreviewMagnification</literal> &#8212; The page break preview magnificaton factor (not zoom or scale factors). the value is a number (percentage)."
-msgstr ""
+msgstr "<literal>pageBreakPreviewMagnification</literal> &#8212; Il fattore di ingrandimento dell'anteprima per l'interruzione di pagina (non fattori di zoom o di scala). Il valore è un numero (percentuale)."
 
 #. Tag: para
 #: Excel.xml:574
@@ -655,7 +655,7 @@ msgstr "<literal>rightMargin</literal> &#8212; Il margine destro. Il valore è u
 #: Excel.xml:588
 #, no-c-format
 msgid "<literal>paperSize</literal> &#8212; The paper size to be used when printing this sheet. The value is a string that can be one of \"a4\", \"a3\", \"letter\", \"legal\" etc (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/PaperSize.html\"> jxl.format.PaperSize </ulink> )."
-msgstr ""
+msgstr "<literal>paperSize</literal> &#8212; La dimensione dellapagina da usare quando si stampa questo foglio. Il valore è una stringa che può essere un valore tra \"a4\", \"a3\", \"letter\", \"legal\" ecc. (Si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/PaperSize.html\"> jxl.format.PaperSize </ulink> )."
 
 #. Tag: para
 #: Excel.xml:601
@@ -691,7 +691,7 @@ msgstr "<literal>bottomMargin</literal> &#8212; Il margine inferiore. Il valore 
 #: Excel.xml:636
 #, no-c-format
 msgid "<literal>recalculateFormulasBeforeSave</literal> &#8212; Should the formulas be re-calculated when the sheet is saved? The value is a boolean. false"
-msgstr ""
+msgstr "<literal>recalculateFormulasBeforeSave</literal> &#8212; Le formule devono essere ricalcolate quando viene salvato il foglio? Il valore è un boolean. Il default è false."
 
 #. Tag: para
 #: Excel.xml:643
@@ -745,25 +745,25 @@ msgstr "<literal>description</literal> &#8212; La descrizione del link. Il valor
 #: Excel.xml:698
 #, no-c-format
 msgid "<literal>zoomFactor</literal> &#8212; T zoom factor. Do not confuse zoom factor (which relates to the on screen view) with scale factor (which refers to the scale factor when printing). The value is a number (percentage."
-msgstr ""
+msgstr "<literal>zoomFactor</literal> &#8212; Fattore di zoom. Da non confondere con il fattore di zoom (che è relazionato alla vista dello schermo) con il fattore di scala (che si riferisce al fattore di scala in fase di stampa). Il valore è un numero (percentuale)."
 
 #. Tag: para
 #: Excel.xml:712
 #, no-c-format
 msgid "<literal>&lt;e:printArea/&gt;</literal> &#8212; Zero or more print area definitions (see <xref linkend=\"excel.printareatitles\"/> )."
-msgstr ""
+msgstr "<literal>&lt;e:printArea/&gt;</literal> &#8212; Zero o più definizioni di area di stampa (Si veda <xref linkend=\"excel.printareatitles\"/> )."
 
 #. Tag: para
 #: Excel.xml:720
 #, no-c-format
 msgid "<literal>&lt;e:printTitle/&gt;</literal> &#8212; Zero or more print title definitions (see <xref linkend=\"excel.printareatitles\"/> )."
-msgstr ""
+msgstr "<literal>&lt;e:printTitle/&gt;</literal> &#8212; Zero o più definizioni di titolo di stampa(Si veda <xref linkend=\"excel.printareatitles\"/> )."
 
 #. Tag: para
 #: Excel.xml:728
 #, no-c-format
 msgid "<literal>&lt;e:headerFooter/&gt;</literal> &#8212; Zero or more header/footer definitions ((see <xref linkend=\"excel.headersfooters\"/> ))."
-msgstr ""
+msgstr "<literal>&lt;e:headerFooter/&gt;</literal> &#8212; Zero o più definizioni di header/footer (Si veda <xref linkend=\"excel.headersfooters\"/>)."
 
 #. Tag: para
 #: Excel.xml:737
@@ -775,13 +775,13 @@ msgstr "Zero o più comandi di worksheet (si veda <xref linkend=\"excel.workshee
 #: Excel.xml:749
 #, no-c-format
 msgid "<literal>header</literal>&#8212; Contents that will be placed at the top of the data block, above the column headers (if any)"
-msgstr ""
+msgstr "<literal>header</literal>&#8212; I contenuti che verranno messi in cima al blocco di dati, sopra le intestazioni della colonna (se presenti)."
 
 #. Tag: para
 #: Excel.xml:756
 #, no-c-format
 msgid "<literal>footer</literal>&#8212; Contents that will be placed at the bottom of the data block, below the column footers (if any)"
-msgstr ""
+msgstr "<literal>footer</literal>&#8212; I contenuti che verranno messi in fondo al blocco di dati, sotto i pié di pagina della colonna (se presenti)."
 
 #. Tag: programlisting
 #: Excel.xml:768
@@ -817,7 +817,7 @@ msgstr ""
 #: Excel.xml:769
 #, no-c-format
 msgid "defines a worksheet with the name \"foo\", starting at B2."
-msgstr ""
+msgstr "definisce un worksheet con nome \"foo\", che inizia in B2."
 
 #. Tag: title
 #: Excel.xml:772
@@ -829,7 +829,7 @@ msgstr "Colonne"
 #: Excel.xml:773
 #, no-c-format
 msgid "Columns are the children of worksheets and the parents of cells, images, formulas and hyperlinks. They are the structure that control the iteration of the worksheet data. See <xref linkend=\"excel.fontsandlayout.columnsettings\"/> for formatting."
-msgstr ""
+msgstr "Le colonne sono figle dei worksheet e padri delle celle, immagini, formule e collegamenti. Sono la struttura che controlla l'iterazione dei dati del worksheet. Si veda <xref linkend=\"excel.fontsandlayout.columnsettings\"/> per la formattazione."
 
 #. Tag: literal
 #: Excel.xml:787
@@ -865,13 +865,13 @@ msgstr "<literal>&lt;e:hyperLink/&gt;</literal> &#8212; Zero o più hyperlink (v
 #: Excel.xml:843
 #, no-c-format
 msgid "<literal>header</literal> &#8212; This facet can/will contain one <literal>&lt;e:cell&gt;</literal> , <literal>&lt;e:formula&gt;</literal> , <literal>&lt;e:image&gt;</literal> or <literal>&lt;e:hyperLink&gt;</literal> that will be used as header for the column."
-msgstr ""
+msgstr "<literal>header</literal> &#8212; Questo facet può contenere un <literal>&lt;e:cell&gt;</literal>, <literal>&lt;e:formula&gt;</literal>, <literal>&lt;e:image&gt;</literal> o <literal>&lt;e:hyperLink&gt;</literal> che verrà usato come intestazione per la colonna."
 
 #. Tag: para
 #: Excel.xml:857
 #, no-c-format
 msgid "<literal>footer</literal> &#8212; This facet can/will contain one <literal>&lt;e:cell&gt;</literal> , <literal>&lt;e:formula&gt;</literal> , <literal>&lt;e:image&gt;</literal> or <literal>&lt;e:hyperLink&gt;</literal> that will be used as footer for the column."
-msgstr ""
+msgstr "<literal>footer</literal> &#8212; Questo facet può contenere un <literal>&lt;e:cell&gt;</literal>, <literal>&lt;e:formula&gt;</literal>, <literal>&lt;e:image&gt;</literal> o <literal>&lt;e:hyperLink&gt;</literal> che verrà usato come pié di pagina per la colonna."
 
 #. Tag: programlisting
 #: Excel.xml:876
@@ -908,7 +908,7 @@ msgstr ""
 #: Excel.xml:981
 #, no-c-format
 msgid "defines a column with a header and an iterated output"
-msgstr ""
+msgstr "definisce una colonna con un intestazione ed un output iterato."
 
 #. Tag: title
 #: Excel.xml:881
@@ -920,7 +920,7 @@ msgstr "Celle"
 #: Excel.xml:882
 #, no-c-format
 msgid "Cells are nested within columns (for iteration) or inside worksheets (for direct placement using the <literal>column</literal> and <literal>row</literal> attributes) and are responsible for outputting the value (usually though en EL-expression involving the <literal>var</literal>-attribute of the datatable. See"
-msgstr ""
+msgstr "Le celle sono innestate dentro le colonne (per l'iterazione) o dentro i worksheet (per il collocamento diretto usando gli attributi <literal>column</literal> e <literal>row</literal>) e sono responsabili dell'output del valore (solitamente tramite un'espressione EL che coinvolge l'attributo <literal>var</literal> della datatable."
 
 #. Tag: literal
 #: Excel.xml:898
@@ -932,19 +932,19 @@ msgstr "&lt;e:cell&gt;"
 #: Excel.xml:907
 #, no-c-format
 msgid "<literal>column</literal> &#8212; The column where to place the cell. The default is the internal counter. The value is a number. Note that the value is 0-based."
-msgstr ""
+msgstr "<literal>column</literal> &#8212; La colonna dove mettere la cella. Il default è un contatore interno. Il valore è un numero. Si noti che il valore parte da 0."
 
 #. Tag: para
 #: Excel.xml:915
 #, no-c-format
 msgid "<literal>row</literal> &#8212; The row where to place the cell. The default is the internal counter. The value is number. Note that the value is 0-based."
-msgstr ""
+msgstr "<literal>row</literal> &#8212; La riga dove mettere la cella. Il default è un contatore interno. Il valore è un numero. Si noti che il valore parte da 0."
 
 #. Tag: para
 #: Excel.xml:923
 #, no-c-format
 msgid "<literal>value</literal> &#8212; The value to display. Usually an EL-expression referencing the var-attribute of the containing datatable. The value is a string."
-msgstr ""
+msgstr "<literal>value</literal> &#8212; Il valore da mostrare. Solitamente un'espressione-EL che fa riferimento all'attributo della variabile della datatable che lo contiene. Il valore è una stringa."
 
 #. Tag: para
 #: Excel.xml:931
@@ -2299,7 +2299,7 @@ msgstr "xls-font-color"
 #: Excel.xml:2380
 #, no-c-format
 msgid "The color of the font (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour </ulink> )."
-msgstr ""
+msgstr "Il colore dei font (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html\">jxl.format.Colour</ulink> )."
 
 #. Tag: para
 #: Excel.xml:2392
@@ -2335,7 +2335,7 @@ msgstr "xls-font-script-style"
 #: Excel.xml:2417
 #, no-c-format
 msgid "The script style of the font (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/ScriptStyle.html\"> jxl.format.ScriptStyle </ulink> )."
-msgstr ""
+msgstr "The script style of the font (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/ScriptStyle.html\"> jxl.format.ScriptStyle </ulink> )."
 
 #. Tag: para
 #: Excel.xml:2429
