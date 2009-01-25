@@ -329,7 +329,7 @@
                            <para>
                               <literal>filename</literal>
                               &#8212; The filename to use for the download. The value
-                              is a string. Please not that if you map the DocumentServlet
+                              is a string. Please note that if you map the DocumentServlet
                               to some pattern, this file extension must also match.
                            </para>
                         </listitem>
@@ -394,7 +394,7 @@
       <title>Worksheets</title>
       <para>
          Worksheets are the children of workbooks and the parent of columns and
-         worksheet commands They can also contain explicitly placed cells,
+         worksheet commands. They can also contain explicitly placed cells,
          formulas, images and hyperlinks. They are the pages that make up the
          workbook.
       </para>
@@ -426,13 +426,13 @@
                               <literal>var</literal>
                               &#8212; The current row iterator variable name that
                               can later be referenced in cell value attributes.
-                              The value is a string
+                              The value is a string.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>name</literal>
-                              &#8212; The name of the worksheet. The valus is a
+                              &#8212; The name of the worksheet. The value is a
                               string. Defaults to Sheet# where # is the
                               worksheet index. If the given worksheet name
                               exists, that sheet is selected. This can be used
@@ -477,7 +477,7 @@
                            <para>
                               <literal>bottomMargin</literal>
                               &#8212; The bottom margin. The value is a number
-                              (inches)
+                              (inches).
                            </para>
                         </listitem>
                         <listitem>
@@ -582,7 +582,7 @@
                         <listitem>
                            <para>
                               <literal>normalMagnification</literal>
-                              &#8212; The normal magnificaton factor (not zoom or
+                              &#8212; The normal magnification factor (not zoom or
                               scale factor). The value is a number (percentage).
                            </para>
                         </listitem>
@@ -597,8 +597,8 @@
                         <listitem>
                            <para>
                               <literal>pageBreakPreviewMagnification</literal>
-                              &#8212; The page break preview magnificaton factor
-                              (not zoom or scale factors). the value is a number
+                              &#8212; The page break preview magnification factor
+                              (not zoom or scale factors). The value is a number
                               (percentage).
                            </para>
                         </listitem>
@@ -668,7 +668,7 @@
                            <para>
                               <literal>recalculateFormulasBeforeSave</literal>
                               &#8212; Should the formulas be re-calculated when
-                              the sheet is saved? The value is a boolean. false
+                              the sheet is saved? The value is a boolean. Default value is false.
                            </para>
                         </listitem>
                         <listitem>
@@ -729,10 +729,10 @@
                         <listitem>
                            <para>
                               <literal>zoomFactor</literal>
-                              &#8212; T zoom factor. Do not confuse zoom factor
+                              &#8212; The zoom factor. Do not confuse zoom factor
                               (which relates to the on screen view) with scale
                               factor (which refers to the scale factor when
-                              printing). The value is a number (percentage.
+                              printing). The value is a number (percentage).
                            </para>
                         </listitem>
                      </itemizedlist>
@@ -760,9 +760,9 @@
                            <para>
                               <literal>&lt;e:headerFooter/&gt;</literal>
                               &#8212; Zero or more header/footer definitions
-                              ((see
+                              (see
                               <xref linkend="excel.headersfooters" />
-                              )).
+                              ).
                            </para>
                         </listitem>
                         <listitem>
@@ -781,14 +781,14 @@
                            <para>
                               <literal>header</literal>&#8212; Contents that will
                               be placed at the top of the data block, above the 
-                              column headers (if any)
+                              column headers (if any).
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>footer</literal>&#8212; Contents that will
                               be placed at the bottom of the data block, below the 
-                              column footers (if any)
+                              column footers (if any).
                            </para>
                         </listitem>
                      </itemizedlist>
@@ -941,7 +941,7 @@
          Cells are nested within columns (for iteration) or inside worksheets
          (for direct placement using the <literal>column</literal> and
          <literal>row</literal> attributes) and are responsible for outputting 
-         the value (usually though en EL-expression involving the
+         the value (usually through an EL-expression involving the
          <literal>var</literal>-attribute of the datatable. See 
          <xref linkend="excel.fontsandlayout.cells"/>
       </para>
