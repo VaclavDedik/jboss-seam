@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Seam_Reference_Guide\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-01-18 17:09+0100\n"
+"PO-Revision-Date: 2009-01-25 12:20+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr "&Excel;"
 #: Excel.xml:9
 #, no-c-format
 msgid "Seam also supports generation of &excel; spreadsheets through the excellent <ulink url=\"http://jexcelapi.sourceforge.net/\">JExcelAPI </ulink> library. The generated document is compatible with &excel; versions 95, 97, 2000, XP and 2003. Currently a limited subset of the library functionality is exposed but the ultimate goal is to be able to do everything the library allows for. Please refer to the JExcelAPI documentation for more information on capabilities and limitations."
-msgstr ""
+msgstr "Seam supporta inoltre la generazione di fogli elettronici &excel; tramite l'eccellente libreria <ulink url=\"http://jexcelapi.sourceforge.net/\">JExcelAPI </ulink>. Il documento generato è compatibile con &excel; versione 95, 97, 2000, XP e 2003. Attualmente viene esposto un limitato set di funzionalità di questa libreria, ma lo scopo finale è riuscire a fare tutto ciò che la libreria consente. Si prega di fare riferimento alla documentazione di JExcelAPI per ulteriori informazioni, possibilità e limitazioni."
 
 #. Tag: title
 #: Excel.xml:21
@@ -35,19 +35,19 @@ msgstr "Supporto &Excel;"
 #: Excel.xml:22
 #, no-c-format
 msgid "&Excel; <literal>jboss-seam-excel.jar</literal>. This JAR contains the &excel; JSF controls, which are used to construct views that can render the document, and the DocumentStore component, which serves the rendered document to the user. To include &excel; support in your application, included <literal>jboss-seam-excel.jar</literal> in your <literal>WEB-INF/lib</literal> directory along with the <literal>jxl.jar</literal> JAR file. Furthermore, you need to configure the DocumentStore servlet in your web.xml"
-msgstr ""
+msgstr "&Excel; <literal>jboss-seam-excel.jar</literal>. Questo JAR contiene i controlli &excel; JSF, che vengono impiegati per costruire le viste che possono generare il documento, ed il componente DocumentStore, che serve il documento generato all'utente. Per includere il supporto ad &excel; nella propria applicazione, si includa <literal>jboss-seam-excel.jar</literal> nella directory <literal>WEB-INF/lib</literal> assieme al file <literal>jxl.jar</literal>. Inoltre, occorre configurare il servlet DocumentStore in web.xml."
 
 #. Tag: para
 #: Excel.xml:32
 #, no-c-format
 msgid "&Excel; Seam module requires the use of Facelets as the view technology. Additionally, it requires the use of the seam-ui package."
-msgstr ""
+msgstr "Il modulo &Excel; di Seam richiede l'uso di Facelets come tecnologia per la vista. Inoltre richiede l'uso del pacchetto seam-ui."
 
 #. Tag: para
 #: Excel.xml:36
 #, no-c-format
 msgid "The <literal>examples/excel</literal> project contains an example of &excel; support in action. It demonstrates proper deployment packaging, and it shows the exposed functionality."
-msgstr ""
+msgstr "Il progetto <literal>examples/excel</literal> contiene un esempio del supporto &excel;  in azione. Mostra come eseguire il correttto impacchettamento per il deploy e mostra le funzionalità esposte."
 
 #. Tag: para
 #: Excel.xml:41
@@ -89,31 +89,31 @@ msgstr "<![CDATA[xmlns:excel=\"http://jboss.com/products/seam/excel\"]]>"
 #: Excel.xml:51
 #, no-c-format
 msgid "Then set the UIWorkbook type to <literal>myExcelExporter</literal> and your own exporter will be used. Default is \"jxl\", but support for CSV has also been added, using the type \"csv\"."
-msgstr ""
+msgstr "Poi si imposti il tipo UIWorkbook per <literal>myExcelExporter</literal> e verrà usato il proprio esportatore. Di default è \"jxl\", ma è stato aggiunto anche il supporto per CSV, usando il tipo \"csv\"."
 
 #. Tag: para
 #: Excel.xml:56
 #, no-c-format
 msgid "See <xref linkend=\"itext.configuration\"/> for information on how to configure the document servlet for serving the documents with an .xls extension."
-msgstr ""
+msgstr "Si veda <xref linkend=\"itext.configuration\"/> per informazioni su come configurare il document servlet per servire i documenti con estensione .xls."
 
 #. Tag: para
 #: Excel.xml:60
 #, no-c-format
 msgid "If you are having problems accessing the generated file under IE (especially with https), make sure you are not using too strict restrictions in the browser (see <ulink url=\"http://www.nwnetworks.com/iezones.htm/\"></ulink>), too strict security constraint in web.xml or a combination of both."
-msgstr ""
+msgstr "Se si incontrano problemi nell'accedere al file generato con IE (specialmente con https), ci si assicuri di non avere messo restrizioni nel browser (si veda <ulink url=\"http://www.nwnetworks.com/iezones.htm/\"></ulink>), restrizioni di sicurezza in web.xml oppure una combinazione delle due."
 
 #. Tag: title
 #: Excel.xml:68
 #, no-c-format
 msgid "Creating a simple workbook"
-msgstr ""
+msgstr "Creazione di un semplice workbook"
 
 #. Tag: para
 #: Excel.xml:69
 #, no-c-format
 msgid "Basic usage of the worksheet support is simple; it is used like a familiar <literal>&lt;h:dataTable&gt;</literal> and you can bind to a <literal>List</literal>, <literal>Set</literal>, <literal>Map</literal>, <literal>Array</literal> or <literal>DataModel</literal>."
-msgstr ""
+msgstr "L'uso base del supporto ai fogli elettronici è molto semplice; viene usato come il familiare <literal>&lt;h:dataTable&gt;</literal> e si può associare una <literal>List</literal>, <literal>Set</literal>, <literal>Map</literal>, <literal>Array</literal> o <literal>DataModel</literal>."
 
 #. Tag: programlisting
 #: Excel.xml:76
@@ -139,7 +139,7 @@ msgstr ""
 #: Excel.xml:77
 #, no-c-format
 msgid "That's not terribly useful, so lets have a look at a more common case:"
-msgstr ""
+msgstr "Non è molto utile, guardiamo quindi ai casi più comuni:"
 
 #. Tag: programlisting
 #: Excel.xml:80
@@ -169,13 +169,13 @@ msgstr ""
 #: Excel.xml:81
 #, no-c-format
 msgid "First we have the top-level workbook element which serves as the container and it doesn't have any attributes. The child-element worksheet has two attributes; value=&quot;#{data}&quot; is the EL-binding to the data and var=&quot;item&quot; is the name of the current item. Nested inside the worksheet is a single column and within it you see the cell which is the final bind to the data within the currently iterated item"
-msgstr ""
+msgstr "In primo luogo si ha a livello più alto un elemento workbook, che serve come container e non ha attributi. L'elemento figlio worksheet ha due attributi; value=&quot;#{data}&quot; è il binding EL ai dati e var=&quot;item&quot; è il nome dell'elemento corrente. Innestato dentro worksheet c'è una singola colonna e dentro essa si vede la cella, che è l'associazione finale ai dati dell'elemento iterato."
 
 #. Tag: para
 #: Excel.xml:90
 #, no-c-format
 msgid "This is all you know to get started dumping your data to worksheets!"
-msgstr ""
+msgstr "Questo è ciò che serve sapere per cominciare a mettere dati nei fogli elettronici!"
 
 #. Tag: title
 #: Excel.xml:96
@@ -187,7 +187,7 @@ msgstr "Workbooks"
 #: Excel.xml:97
 #, no-c-format
 msgid "Workbooks are the top-level parents of worksheets and stylesheet links."
-msgstr ""
+msgstr "I workbook sono i padri di livello più alto dei worksheet e dei link ai fogli di stile."
 
 #. Tag: literal
 #: Excel.xml:108
@@ -221,7 +221,7 @@ msgstr "Attributi"
 #: Excel.xml:117
 #, no-c-format
 msgid "<literal>type</literal> &#8212; Defines which export module to be used. The value is a string and can be either \"jxl\" or \"csv\". The default is \"jxl\"."
-msgstr ""
+msgstr "<literal>type</literal> &#8212; Definisce quale module esporto usare. Il valore è una string e può essere o \"jxl\" o \"csv\". Il default è \"jxl\"."
 
 #. Tag: para
 #: Excel.xml:125
@@ -233,7 +233,7 @@ msgstr "<literal>description</literal> &#8212; La descrizione del link. Il valor
 #: Excel.xml:132
 #, no-c-format
 msgid "<literal>arrayGrowSize</literal> &#8212; The amount of memory by which to increase the amount of memory allocated to storing the workbook data. For processeses reading many small workbooks inside a WAS it might be necessary to reduce the default size Default value is 1 megabyte. The value is a number (bytes)."
-msgstr ""
+msgstr "<literal>arrayGrowSize</literal> &#8212; L'ammontare di memoria con cui incrementare la memoria allocata per la memorizzazione dei dati di workbook. Per processi che leggono molti workbook piccoli dentro un WAS, può essere necessario ridurre la dimensione di default. Il valore di default è 1 megabyte. Il valore è un numero (byte)."
 
 #. Tag: para
 #: Excel.xml:143
@@ -251,7 +251,7 @@ msgstr "<literal>description</literal> &#8212; La descrizione del link. Il valor
 #: Excel.xml:157
 #, no-c-format
 msgid "<literal>characterSet</literal> &#8212; The character set. This is only used when the spreadsheet is read, and has no effect when the spreadsheet is written. The value is a string (character set encoding)."
-msgstr ""
+msgstr "<literal>characterSet</literal> &#8212; Il set di caratteri. Questo viene usato solo quando viene letto il foglio elettronico, e non ha alcun effetto quando viene scritto. Il valore è una stringa (codifica del set di caratteri)."
 
 #. Tag: para
 #: Excel.xml:166
@@ -263,7 +263,7 @@ msgstr "<literal>description</literal> &#8212; La descrizione del link. Il valor
 #: Excel.xml:173
 #, no-c-format
 msgid "<literal>excelDisplayLanguage</literal> &#8212; The language in which the generated file will display. The value is a string (two character ISO 3166 country code)."
-msgstr ""
+msgstr "<literal>excelDisplayLanguage</literal> &#8212; Il linguaggio in cui viene mostrato il file generato. Il valore è una stringa (codice a due caratteri ISO 3166 del paese)."
 
 #. Tag: para
 #: Excel.xml:181
@@ -293,13 +293,13 @@ msgstr "<literal>leftMargin</literal> &#8212; Il margine sinistro. Il valore è 
 #: Excel.xml:210
 #, no-c-format
 msgid "<literal>initialFileSize</literal> &#8212; The initial amount of memory allocated to store the workbook data when reading a worksheet. For processeses reading many small workbooks inside a WAS it might be necessary to reduce the default size Default value is 5 megabytes. The value is a number (bytes)."
-msgstr ""
+msgstr "<literal>initialFileSize</literal> &#8212; Ammontare iniziale di memoria allocata per memorizzare i dati del workbook quando viene letto un foglio elettronico. Per processi che leggono molti workbook piccoli dentro un WAS può essere necessario ridurre la dimensione di default. Il valore di default è 5 megabytes. Il valore è un numero (byte)."
 
 #. Tag: para
 #: Excel.xml:221
 #, no-c-format
 msgid "<literal>locale</literal> &#8212; The locale used by JExcelApi to generate the spreadsheet. Setting this value has no effect on the language or region of the generated excel file. The value is a string."
-msgstr ""
+msgstr "<literal>locale</literal> &#8212; Il locale usato da JExcelApi per generare il foglio elettronico. Impostare questo valore non ha effetti sulla lingua o la regione del file excel generato. Il valore è una stringa."
 
 #. Tag: para
 #: Excel.xml:230
@@ -769,7 +769,7 @@ msgstr ""
 #: Excel.xml:737
 #, no-c-format
 msgid "Zero or more worksheet commands (see <xref linkend=\"excel.worksheetcommands\"/> )."
-msgstr ""
+msgstr "Zero o più comandi di worksheet (si veda <xref linkend=\"excel.worksheetcommands\"/>)."
 
 #. Tag: para
 #: Excel.xml:749
@@ -968,7 +968,7 @@ msgstr "<literal>leftMargin</literal> &#8212; Il margine sinistro. Il valore è 
 #: Excel.xml:958
 #, no-c-format
 msgid "Zero or more validation conditions (see <xref linkend=\"excel.cells.validation\"/> )."
-msgstr ""
+msgstr "Zero o più condizioni di validazione (si veda <xref linkend=\"excel.cells.validation\"/> )."
 
 #. Tag: programlisting
 #: Excel.xml:980
