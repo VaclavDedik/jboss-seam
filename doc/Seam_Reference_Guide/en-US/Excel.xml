@@ -24,7 +24,7 @@
          the &excel; JSF controls, which are used to construct views that can 
          render the document, and the DocumentStore component, which serves 
          the rendered document to the user. To include &excel; support in 
-         your application, included <literal>jboss-seam-excel.jar</literal>
+         your application, include <literal>jboss-seam-excel.jar</literal>
          in your <literal>WEB-INF/lib</literal> directory along with the
          <literal>jxl.jar</literal> JAR file. Furthermore, you need to 
          configure the DocumentStore servlet in your web.xml
@@ -157,9 +157,9 @@
                               <literal>arrayGrowSize</literal>
                               &#8212; The amount of memory by which to increase
                               the amount of memory allocated to storing the
-                              workbook data. For processeses reading many small
+                              workbook data. For processes reading many small
                               workbooks inside a WAS it might be necessary to
-                              reduce the default size Default value is 1
+                              reduce the default size. Default value is 1
                               megabyte. The value is a number (bytes).
                            </para>
                         </listitem>
@@ -235,9 +235,9 @@
                               <literal>initialFileSize</literal>
                               &#8212; The initial amount of memory allocated to
                               store the workbook data when reading a worksheet.
-                              For processeses reading many small workbooks
+                              For processes reading many small workbooks
                               inside a WAS it might be necessary to reduce the
-                              default size Default value is 5 megabytes. The
+                              default size. Default value is 5 megabytes. The
                               value is a number (bytes).
                            </para>
                         </listitem>
