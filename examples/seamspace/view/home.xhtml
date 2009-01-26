@@ -23,11 +23,11 @@
       <div id="contentSide">
         <div class="advertising"></div>
                
-        <h:form rendered="#{not identity.loggedIn}">
+        <h:form id="loginForm" rendered="#{not identity.loggedIn}">
           <div class="memberLogin">
             <div class="loginHeader">Member Login</div>
             
-            <h:messages globalOnly="true"/>
+            <h:messages id="messages" globalOnly="true"/>
             
             <div class="loginRow">
               <h:outputLabel for="name" value="Member name" styleClass="loginLabel"/>
@@ -53,8 +53,8 @@
             </div>
 
             <div class="buttons">
-              <h:commandButton value="LOGIN" action="#{identity.login}" styleClass="loginButton"/>
-              <h:commandButton value="SIGN UP!" action="#{register.start}" styleClass="registerButton"/>
+              <h:commandButton id="login" value="LOGIN" action="#{identity.login}" styleClass="loginButton"/>
+              <h:commandButton id="register" value="SIGN UP!" action="#{register.start}" styleClass="registerButton"/>
             </div>
 
             <br class="clear"/>

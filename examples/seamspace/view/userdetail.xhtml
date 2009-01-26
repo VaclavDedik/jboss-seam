@@ -20,7 +20,7 @@
   	    
   	    <h:messages globalOnly="true"/>
   	    
-  	    <h:form>
+  	    <h:form id="user">
   	    
           <div class="formRow">
             <h:outputLabel for="firstname" value="First name" styleClass="formLabel"/>
@@ -67,8 +67,8 @@
           </div>   
                                       
           <div class="formButtons">
-            <h:commandButton value="Save" action="#{userAction.save}" styleClass="formButton"/>
-            <s:button view="/usermanager.xhtml" value="Cancel" propagation="end" styleClass="formButton"/>
+            <h:commandButton id="save" value="Save" action="#{userAction.save}" styleClass="formButton"/>
+            <s:button id="cancel" view="/usermanager.xhtml" value="Cancel" propagation="end" styleClass="formButton"/>
           </div>
     
           <br class="clear"/>

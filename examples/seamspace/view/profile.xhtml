@@ -51,12 +51,12 @@
             </div>
           </ui:repeat>            
           
-          [<s:link view="/blog.seam" value="View all blog entries" propagation="none">
+          [<s:link id="viewBlog" view="/blog.seam" value="View all blog entries" propagation="none">
              <f:param name="name" value="#{selectedMember.memberName}"/>
            </s:link>]
           
           <s:span rendered="#{s:hasPermission(selectedMember, 'createBlog')}">
-            [<s:link action="#{blog.createEntry}" value="Create new blog entry" propagation="none"/>]
+            [<s:link id="createBlog" action="#{blog.createEntry}" value="Create new blog entry" propagation="none"/>]
           </s:span>
         </s:div>
         

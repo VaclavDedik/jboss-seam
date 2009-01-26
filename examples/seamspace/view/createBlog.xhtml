@@ -32,7 +32,7 @@
           </s:div>				
 				
           <div class="blogEntry">
-            <h:form>
+            <h:form id="newBlog">
               
               <div class="formRow">
                 <h:outputLabel for="title">Please type a title for your blog entry</h:outputLabel><br/>
@@ -45,8 +45,8 @@
               </div>
 
               <div class="buttons">
-                <h:commandButton action="#{blog.saveEntry}" value="Add entry" styleClass="action"/>            
-                <h:commandButton value="Preview" styleClass="action"/>                            
+                <h:commandButton id="submit" action="#{blog.saveEntry}" value="Add entry" styleClass="action"/>            
+                <h:commandButton id="preview" value="Preview" styleClass="action"/>                            
               </div>
               
               <br class="clear"/>

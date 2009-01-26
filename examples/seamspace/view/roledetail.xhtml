@@ -20,18 +20,18 @@
   	    
   	    <h:messages globalOnly="true"/>
   	    
-  	    <h:form>
+  	    <h:form id="role">
               
           <div class="formRow">
             <h:outputLabel for="role" value="Role" styleClass="formLabel"/>
-            <h:inputText id="role" value="#{roleAction.role}" readonly="#{identityManager.userExists(roleAction.role)}"/>
+            <h:inputText id="name" value="#{roleAction.role}" readonly="#{identityManager.userExists(roleAction.role)}"/>
             <div class="validationError"><h:message for="role"/></div>
           </div>              
 
           <div class="formRow">            
             <h:outputLabel for="groups" value="Member of" styleClass="formLabel"/>
             <div class="selectMany">
-              <h:selectManyCheckbox id="groups" value="#{roleAction.groups}" layout="pageDirection" styleClass="roles">
+              <h:selectManyCheckbox id="roles" value="#{roleAction.groups}" layout="pageDirection" styleClass="roles">
                 <s:selectItems value="#{roleAction.assignableRoles}" var="role" label="#{role}"/>
               </h:selectManyCheckbox>
             </div>
@@ -39,8 +39,8 @@
           </div>
           
           <div class="formButtons">
-            <h:commandButton value="Save" action="#{roleAction.save}" styleClass="formButton"/>
-            <s:button view="/rolemanager.xhtml" value="Cancel" propagation="end" styleClass="formButton"/>
+            <h:commandButton id="save" value="Save" action="#{roleAction.save}" styleClass="formButton"/>
+            <s:button id="cancel" view="/rolemanager.xhtml" value="Cancel" propagation="end" styleClass="formButton"/>
           </div>
     
           <br class="clear"/>

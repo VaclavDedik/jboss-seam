@@ -20,19 +20,19 @@
       <div class="headerMenu">
 
         <s:fragment rendered="#{identity.loggedIn}">
-          <s:link view="/profile.xhtml" value="My Profile" propagation="none">
+          <s:link id="profile" view="/profile.xhtml" value="My Profile" propagation="none">
             <f:param name="name" value="#{authenticatedMember.memberName}"/>
           </s:link>
           <h:outputText styleClass="divider" value=" | "/>
         </s:fragment>
 
         <s:fragment rendered="#{s:hasRole('admin')}">
-          <s:link view="/security.xhtml" value="Security" propagation="none"/>
+          <s:link id="security" view="/security.xhtml" value="Security" propagation="none"/>
           <h:outputText styleClass="divider" value=" | "/>
         </s:fragment>
         
-        <s:link action="#{identity.logout}" value="Log out" rendered="#{identity.loggedIn}"/>
-        <h:outputLink value="home.seam" rendered="#{not identity.loggedIn}">Log in</h:outputLink>
+        <s:link id="logout" action="#{identity.logout}" value="Log out" rendered="#{identity.loggedIn}"/>
+        <h:outputLink id="login" value="home.seam" rendered="#{not identity.loggedIn}">Log in</h:outputLink>
       </div>
       <br style="clear:both"/>
       <h:form>
