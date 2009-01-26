@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Seam_Reference_Guide\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-01-25 19:25+0100\n"
+"PO-Revision-Date: 2009-01-26 23:15+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1010,7 +1010,7 @@ msgstr "Validazione"
 #: Excel.xml:984
 #, no-c-format
 msgid "Validations are nested inside cells, formulas or cell templates. They add constrains for the cell data."
-msgstr ""
+msgstr "Le validazioni vengono innestate dentro le celle, le formule o modelli di cella. Esse aggiungono vincoli ai dati di cella."
 
 #. Tag: literal
 #: Excel.xml:996
@@ -1040,43 +1040,43 @@ msgstr "<literal>description</literal> &#8212; La descrizione del link. Il valor
 #: Excel.xml:1026
 #, no-c-format
 msgid "\"equal\" - requires the cell value to match the one defined in the value-attribute"
-msgstr ""
+msgstr "\"equal\" - richiede che il valore della cella corrisponda a quello definito nell'attributo value"
 
 #. Tag: para
 #: Excel.xml:1033
 #, no-c-format
 msgid "\"greater_equal\" - requires the cell value to be greater than or equal to the value defined in the value-attribute"
-msgstr ""
+msgstr "\"greater_equal\" - richiede che il valore della cella sia maggiore o uguale al valore definito nell'attributo value"
 
 #. Tag: para
 #: Excel.xml:1041
 #, no-c-format
 msgid "\"less_equal\" - requires the cell value to be less than or equal to the value defined in the value-attribute"
-msgstr ""
+msgstr "\"less_equal\" - richiede che il valore della cella sia minore o uguale al valore definito nell'attributo value"
 
 #. Tag: para
 #: Excel.xml:1048
 #, no-c-format
 msgid "\"less_than\" - requires the cell value to be less than the value defined in the value-attribute"
-msgstr ""
+msgstr "\"less_than\" - richiede che il valore della cella sia minore del valore definito nell'attributo value"
 
 #. Tag: para
 #: Excel.xml:1055
 #, no-c-format
 msgid "\"not_equal\" - requires the cell value to not match the one defined in the value-attribute"
-msgstr ""
+msgstr "\"not_equal\" - richiede che il valore della cella non corrisponda al valore definito nell'attributo value"
 
 #. Tag: para
 #: Excel.xml:1062
 #, no-c-format
 msgid "\"between\" - requires the cell value to be between the values defined in the value- and value2 attributes"
-msgstr ""
+msgstr "\"between\" - richiede che il valore della cella sia compreso tra i valori definiti negli attributi value e value2"
 
 #. Tag: para
 #: Excel.xml:1069
 #, no-c-format
 msgid "\"not_between\" - requires the cell value not to be between the values defined in the value- and value2 attributes"
-msgstr ""
+msgstr "\"not_between\" - richiede che il valore della cella non sia compreso tra i valori definiti negli attributi value e value2"
 
 #. Tag: programlisting
 #: Excel.xml:1105
@@ -1112,7 +1112,7 @@ msgstr ""
 #: Excel.xml:1106
 #, no-c-format
 msgid "adds numeric validation to a cell specifying that the value must be between 4 and 18."
-msgstr ""
+msgstr "aggiunge la validazione numerica alla cella specificando che il valore deve essere tra 4 e 18."
 
 #. Tag: literal
 #: Excel.xml:1118
@@ -1178,7 +1178,7 @@ msgstr ""
 #: Excel.xml:1182
 #, no-c-format
 msgid "adds validation to a cell specifying that the value must be in the values specified in range A1:A10."
-msgstr ""
+msgstr "aggiunge la validazione ad una cella specificando che il valore deve essere in valori specificati nel range A1:A10."
 
 #. Tag: literal
 #: Excel.xml:1194
@@ -1190,13 +1190,13 @@ msgstr "&lt;e:listValidation&gt;"
 #: Excel.xml:1214
 #, no-c-format
 msgid "Zero or more list validation items."
-msgstr ""
+msgstr "Zero o più elementi di validazione lista."
 
 #. Tag: para
 #: Excel.xml:1235
 #, no-c-format
 msgid "e:listValidation is a just a container for holding multiple e:listValidationItem tags."
-msgstr ""
+msgstr "e:listValidation è solo un container per mantenere diversi tag e:listValidationItem."
 
 #. Tag: literal
 #: Excel.xml:1247
@@ -1248,7 +1248,7 @@ msgstr ""
 #: Excel.xml:1288
 #, no-c-format
 msgid "adds validation to a cell specifying that the value must be \"manager\" or \"employee\"."
-msgstr ""
+msgstr "aggiunge la valodazione ad una cella specificando che il valore deve essere \"manager\" o \"employee\"."
 
 #. Tag: title
 #: Excel.xml:1294
@@ -1362,7 +1362,7 @@ msgstr ""
 #: Excel.xml:1367
 #, no-c-format
 msgid "defines an formula in B2 summing cells A1 in worksheets FooSheet and BarSheet"
-msgstr ""
+msgstr "definisce una formula in B2 che somma le celle A1 nei worksheet FooSheet e BarSheet."
 
 #. Tag: title
 #: Excel.xml:1373
@@ -1594,7 +1594,7 @@ msgstr ""
 #: Excel.xml:1712
 #, no-c-format
 msgid "Inserts the current date"
-msgstr ""
+msgstr "Inserisce la data corrente"
 
 #. Tag: para
 #: Excel.xml:1717
@@ -1606,7 +1606,7 @@ msgstr "#page_number#"
 #: Excel.xml:1720
 #, no-c-format
 msgid "Inserts the current page number"
-msgstr ""
+msgstr "Inserisce il numero della pagina corrente"
 
 #. Tag: para
 #: Excel.xml:1725
@@ -1618,7 +1618,7 @@ msgstr "#time#"
 #: Excel.xml:1728
 #, no-c-format
 msgid "Inserts the current time"
-msgstr ""
+msgstr "Inserisce l'orario corrente"
 
 #. Tag: para
 #: Excel.xml:1733
@@ -1630,7 +1630,7 @@ msgstr "#total_pages#"
 #: Excel.xml:1736
 #, no-c-format
 msgid "Inserts the total page count"
-msgstr ""
+msgstr "Inserisce il conteggio totale della pagina"
 
 #. Tag: para
 #: Excel.xml:1741
@@ -1642,7 +1642,7 @@ msgstr "#worksheet_name#"
 #: Excel.xml:1744
 #, no-c-format
 msgid "Inserts the worksheet name"
-msgstr ""
+msgstr "Inserisce il nome del worksheet"
 
 #. Tag: para
 #: Excel.xml:1749
@@ -1654,7 +1654,7 @@ msgstr "#workbook_name#"
 #: Excel.xml:1752
 #, no-c-format
 msgid "Inserts the workbook name"
-msgstr ""
+msgstr "Inserisce il nome del workbook"
 
 #. Tag: para
 #: Excel.xml:1757
@@ -2061,7 +2061,7 @@ msgstr "Fusione (merge)"
 #: Excel.xml:2168
 #, no-c-format
 msgid "Provides cell merging"
-msgstr ""
+msgstr "Fornisce l'unione delle celle"
 
 #. Tag: literal
 #: Excel.xml:2177
@@ -2117,7 +2117,7 @@ msgstr ""
 #: Excel.xml:2243
 #, no-c-format
 msgid "merges the cells in the range A1:J10"
-msgstr ""
+msgstr "unisce le celle nel range A1:J10"
 
 #. Tag: title
 #: Excel.xml:2247
