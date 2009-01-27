@@ -68,6 +68,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
       <testexample name="seampay" />
       <testexample name="seamspace" />
       <testexample name="spring" />
+      <testexample name="todo" />
       <testexample name="wicket" />
       <antcall target="stop.selenium.server"/>
    </target>
@@ -83,6 +84,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
    	<testexample name="registration" />
    	<testexample name="seambay" />
     <testexample name="seampay" />
+    <testexample name="todo" />
     <testexample name="booking" />
     <testexample name="jpa" />
     <testexample name="hibernate" />
@@ -147,6 +149,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
       <cleanexample name="seampay" />
       <cleanexample name="seamspace" />
       <cleanexample name="spring" />
+      <cleanexample name="todo" />
       <cleanexample name="wicket" />
    </target>
 
@@ -169,6 +172,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
       <undeployexample name="seampay" />
       <undeployexample name="seamspace" />
       <undeployexample name="spring" />
+      <undeployexample name="todo" />
       <undeployexample name="wicket" />
    </target>
 

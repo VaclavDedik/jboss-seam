@@ -7,10 +7,10 @@
 <body>
 <h1>Login</h1>
 <f:view>
-	<h:form>
+	<h:form id="login">
 	  <div>
-	    <h:inputText value="#{login.user}"/>
-	    <h:commandButton value="Login" action="#{login.login}"/>
+	    <h:inputText id="username" value="#{login.user}"/>
+	    <h:commandButton id="submit" value="Login" action="#{login.login}"/>
 	  </div>
 	</h:form>
 </f:view>

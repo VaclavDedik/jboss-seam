@@ -10,13 +10,13 @@
 <f:view>
    <h:form id="list">
       <div>
-         <h:outputText value="There are no todo items." rendered="#{empty taskInstancePriorityList}"/>
-         <h:dataTable value="#{taskInstancePriorityList}" var="task" rendered="#{not empty taskInstancePriorityList}">
+         <h:outputText id="noItems" value="There are no todo items." rendered="#{empty taskInstancePriorityList}"/>
+         <h:dataTable id="items" value="#{taskInstancePriorityList}" var="task" rendered="#{not empty taskInstancePriorityList}">
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Description"/>
                 </f:facet>
-                <h:inputText value="#{task.description}" style="width: 400"/>
+                <h:inputText id="description" value="#{task.description}" style="width: 400"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
@@ -30,18 +30,18 @@
                 <f:facet name="header">
                     <h:outputText value="Priority"/>
                 </f:facet>
-                <h:inputText value="#{task.priority}" style="width: 30"/>
+                <h:inputText id="priority" value="#{task.priority}" style="width: 30"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Due Date"/>
                 </f:facet>
-                <h:inputText value="#{task.dueDate}" style="width: 100">
+                <h:inputText id="dueDate" value="#{task.dueDate}" style="width: 100">
                     <s:convertDateTime type="date" dateStyle="short"/>
                 </h:inputText>
             </h:column>
             <h:column>
-                <s:button action="#{todoList.done}" taskInstance="#{task}" value="Done"/>
+                <s:button id="done" action="#{todoList.done}" taskInstance="#{task}" value="Done"/>
             </h:column>
          </h:dataTable>
       </div>
@@ -49,13 +49,13 @@
       <h:messages/>
       </div>
       <div>
-         <h:commandButton value="Update Items" rendered="#{not empty taskInstanceList}"/>
+         <h:commandButton id="update" value="Update Items" rendered="#{not empty taskInstanceList}"/>
       </div>
    </h:form>
    <h:form id="new">
       <div>
-         <h:inputText value="#{todoList.description}" style="width: 400"/>
-         <h:commandButton value="Create New Item" action="#{todoList.createTodo}"/>
+         <h:inputText id="description" value="#{todoList.description}" style="width: 400"/>
+         <h:commandButton id="create" value="Create New Item" action="#{todoList.createTodo}"/>
       </div>
    </h:form>
 </f:view>
