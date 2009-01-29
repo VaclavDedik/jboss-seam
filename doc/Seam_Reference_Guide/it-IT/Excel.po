@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Seam_Reference_Guide\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-01-26 23:15+0100\n"
+"PO-Revision-Date: 2009-01-29 01:13+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1386,25 +1386,26 @@ msgstr "&lt;e:image&gt;"
 #: Excel.xml:1397
 #, no-c-format
 msgid "<literal>startColumn</literal> &#8212; The starting column of the image. The default is the internal counter. The value is a number. Note that the value is 0-based."
-msgstr ""
+msgstr "<literal>startColumn</literal> &#8212; La colonna iniziale dell'immagine. Il default è il contatore interno. Il valore è un numero. Si noti che il valore inizia da zero."
 
 #. Tag: para
 #: Excel.xml:1405
 #, no-c-format
 msgid "<literal>startRow</literal> &#8212; The starting row of the image. The default is the internal counter. The value is a number. Note that the value is 0-based."
-msgstr ""
+msgstr "<literal>startRow</literal> &#8212; La riga iniziale dell'immagine. Il default è il contatore interno. Il valore è un numero. Si noti che il valore inizia da zero."
 
+# come tradurre span?
 #. Tag: para
 #: Excel.xml:1413
 #, no-c-format
 msgid "<literal>columnSpan</literal> &#8212; The column span of the image. The default is one resulting in the default width of the image. The value is a float."
-msgstr ""
+msgstr "<literal>columnSpan</literal> &#8212; Lo span di colonna dell'immagine. Il default è quello risultante nella larghezza di default dell'immagine. Il default è un float."
 
 #. Tag: para
 #: Excel.xml:1421
 #, no-c-format
 msgid "<literal>rowSpan</literal> &#8212; The row span of the image. The default is the one resulting in the default height of the image. The value is a float."
-msgstr ""
+msgstr "<literal>rowSpan</literal> &#8212; Lo span di colonna dell'immagine. Il default è quello risultante nella altezza di default dell'immagine. Il default è un float."
 
 #. Tag: para
 #: Excel.xml:1429
@@ -1438,7 +1439,7 @@ msgstr ""
 #: Excel.xml:1462
 #, no-c-format
 msgid "defines an image in A1:E5 based on the given data"
-msgstr ""
+msgstr "definisce un'immagine in A1:A5 basato sui dati in questione"
 
 #. Tag: title
 #: Excel.xml:1466
