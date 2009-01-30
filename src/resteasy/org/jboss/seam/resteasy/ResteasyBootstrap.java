@@ -23,7 +23,7 @@ import java.util.HashMap;
 @Scope(ScopeType.APPLICATION)
 @Startup
 @AutoCreate
-@Install(classDependencies = "org.resteasy.Dispatcher")
+@Install(classDependencies = "org.jboss.resteasy.core.Dispatcher")
 public class ResteasyBootstrap
 {
 
@@ -31,7 +31,7 @@ public class ResteasyBootstrap
     Log log;
 
     @In
-    protected ApplicationConfig applicationConfig;
+    protected Application application;
 
     @Create
     public void onStartup()
@@ -40,7 +40,7 @@ public class ResteasyBootstrap
 
         Collection<Class<?>> annotatedProviderClasses = null;
         Collection<Class<?>> annotatedResourceClasses = null;
-        if (applicationConfig.isScanProviders() || applicationConfig.isScanResources())
+        if (application.isScanProviders() || application.isScanResources())
         {
             log.debug("scanning all classes for JAX-RS annotations");
 
@@ -76,10 +76,10 @@ public class ResteasyBootstrap
         Collection<Class> providerClasses = new HashSet<Class>();
         try
         {
-            if (applicationConfig.isScanProviders() && annotatedProviderClasses != null)
+            if (application.isScanProviders() && annotatedProviderClasses != null)
                 providerClasses.addAll(annotatedProviderClasses);
 
-            for (String s : new HashSet<String>(applicationConfig.getProviderClassNames()))
+            for (String s : new HashSet<String>(application.getProviderClassNames()))
                 providerClasses.add(Reflections.classForName(s));
 
         }
@@ -90,7 +90,7 @@ public class ResteasyBootstrap
         for (Class providerClass : providerClasses)
         {
             // Ignore built-in providers, we register them manually later
-            if (providerClass.getName().startsWith("org.resteasy.plugins.providers")) continue;
+            if (providerClass.getName().startsWith("org.jboss.resteasy.plugins.providers")) continue;
 
             Component seamComponent = null;
             // Check if this is also a Seam component bean class
@@ -114,10 +114,10 @@ public class ResteasyBootstrap
             {
                 log.debug("registering provider class: " + providerClass.getName());
             }
-            applicationConfig.addProviderClass(providerClass, seamComponent);
+            application.addProviderClass(providerClass, seamComponent);
         }
-        if (applicationConfig.getProviderClasses().size() == 0 &&
-                !applicationConfig.isUseBuiltinProviders())
+        if (application.getProviderClasses().size() == 0 &&
+                !application.isUseBuiltinProviders())
         {
             log.info("no RESTEasy provider classes registered");
         }
@@ -129,10 +129,10 @@ public class ResteasyBootstrap
         Collection<Class> resourceClasses = new HashSet<Class>();
         try
         {
-            if (applicationConfig.isScanResources() && annotatedResourceClasses != null)
+            if (application.isScanResources() && annotatedResourceClasses != null)
                 resourceClasses.addAll(annotatedResourceClasses);
 
-            for (String s : new HashSet<String>(applicationConfig.getResourceClassNames()))
+            for (String s : new HashSet<String>(application.getResourceClassNames()))
                 resourceClasses.add(Reflections.classForName(s));
 
         }
@@ -154,9 +154,9 @@ public class ResteasyBootstrap
             {
                 log.debug("registering resource class with JAX-RS default lifecycle: " + resourceClass.getName());
             }
-            applicationConfig.addResourceClass(resourceClass, seamComponent);
+            application.addResourceClass(resourceClass, seamComponent);
         }
-        if (applicationConfig.getResourceClasses().size() == 0)
+        if (application.getClasses().size() == 0)
             log.info("no JAX-RS resource classes registered");
     }
 

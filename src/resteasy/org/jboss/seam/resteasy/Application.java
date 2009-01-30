@@ -16,11 +16,11 @@ import java.util.*;
  *
  * @author Christian Bauer
  */
-@Name("org.jboss.seam.resteasy.applicationConfig")
+@Name("org.jboss.seam.resteasy.application")
 @Scope(ScopeType.APPLICATION)
 @Install(precedence = Install.BUILT_IN)
 @AutoCreate
-public class ApplicationConfig extends javax.ws.rs.core.ApplicationConfig
+public class Application extends javax.ws.rs.core.Application
 {
 
     private Map<Class<?>, Component> providerClasses = new HashMap<Class<?>, Component>();
@@ -39,7 +39,7 @@ public class ApplicationConfig extends javax.ws.rs.core.ApplicationConfig
     private String resourcePathPrefix = "/rest";
     private boolean stripSeamResourcePath = true;
 
-    public ApplicationConfig()
+    public Application()
     {
         super();
     }
@@ -49,7 +49,8 @@ public class ApplicationConfig extends javax.ws.rs.core.ApplicationConfig
         return providerClasses.keySet();
     }
 
-    public Set<Class<?>> getResourceClasses()
+    @Override
+    public Set<Class<?>> getClasses()
     {
         return resourceClasses.keySet();
     }

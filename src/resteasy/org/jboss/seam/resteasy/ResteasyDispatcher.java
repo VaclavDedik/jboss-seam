@@ -2,13 +2,26 @@ package org.jboss.seam.resteasy;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.AutoCreate;
+import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Install;
+import org.jboss.seam.annotations.Logger;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.log.Log;
-import org.resteasy.Dispatcher;
-import org.resteasy.plugins.providers.RegisterBuiltin;
-import org.resteasy.plugins.server.servlet.HttpServletDispatcher;
-import org.resteasy.plugins.server.resourcefactory.POJOResourceFactory;
-import org.resteasy.spi.*;
+import org.jboss.resteasy.core.AsynchronousDispatcher;
+import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
+import org.jboss.resteasy.plugins.server.resourcefactory.POJOResourceFactory;
+import org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher;
+import org.jboss.resteasy.spi.HttpRequest;
+import org.jboss.resteasy.spi.HttpResponse;
+import org.jboss.resteasy.spi.InjectorFactory;
+import org.jboss.resteasy.spi.PropertyInjector;
+import org.jboss.resteasy.spi.Registry;
+import org.jboss.resteasy.spi.ResourceFactory;
+import org.jboss.resteasy.spi.ResteasyProviderFactory;
 
 /**
  * An extended version of the RESTEasy dispatcher, configured on Seam application
@@ -19,14 +32,14 @@ import org.resteasy.spi.*;
  */
 @Name("org.jboss.seam.resteasy.dispatcher")
 @Scope(ScopeType.APPLICATION)
-@Startup(depends = "resteasyBootstrap")
+@Startup(depends = "org.jboss.seam.resteasy.bootstrap")
 @AutoCreate
-@Install(classDependencies = "org.resteasy.Dispatcher")
+@Install(classDependencies = "org.jboss.resteasy.core.Dispatcher")
 public class ResteasyDispatcher extends HttpServletDispatcher
 {
 
     @In
-    ApplicationConfig applicationConfig;
+    Application application;
 
     @Logger
     Log log;
@@ -38,16 +51,16 @@ public class ResteasyDispatcher extends HttpServletDispatcher
 
         ResteasyProviderFactory providerFactory = new ResteasyProviderFactory();
         ResteasyProviderFactory.setInstance(providerFactory); // This is really necessary
-        setDispatcher(new Dispatcher(providerFactory));
+        setDispatcher(new AsynchronousDispatcher(providerFactory));
 
-        getDispatcher().setLanguageMappings(applicationConfig.getLanguageMappings());
-        getDispatcher().setMediaTypeMappings(applicationConfig.getMediaTypeMappings());
+        getDispatcher().setLanguageMappings(application.getLanguageMappings());
+        getDispatcher().setMediaTypeMappings(application.getMediaTypeMappings());
 
         // Resource registration
         Registry registry = getDispatcher().getRegistry();
-        for (final Class resourceClass : applicationConfig.getResourceClasses())
+        for (final Class resourceClass : application.getClasses())
         {
-            final Component seamComponent = applicationConfig.getResourceClassComponent(resourceClass);
+            final Component seamComponent = application.getResourceClassComponent(resourceClass);
             if (seamComponent != null)
             {
                 // Seam component lookup when call is dispatched to resource
@@ -92,14 +105,14 @@ public class ResteasyDispatcher extends HttpServletDispatcher
         }
 
         // Provider registration
-        if (applicationConfig.isUseBuiltinProviders())
+        if (application.isUseBuiltinProviders())
         {
             log.info("registering built-in RESTEasy providers");
             RegisterBuiltin.register(providerFactory);
         }
-        for (Class providerClass : applicationConfig.getProviderClasses())
+        for (Class providerClass : application.getProviderClasses())
         {
-            Component seamComponent = applicationConfig.getProviderClassComponent(providerClass);
+            Component seamComponent = application.getProviderClassComponent(providerClass);
             if (seamComponent != null)
             {
                 if (ScopeType.STATELESS.equals(seamComponent.getScope()))

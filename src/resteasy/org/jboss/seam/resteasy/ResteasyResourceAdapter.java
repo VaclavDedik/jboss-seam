@@ -9,17 +9,18 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.servlet.ContextualHttpServletRequest;
 import org.jboss.seam.web.AbstractResource;
-import org.resteasy.plugins.server.servlet.HttpServletDispatcher;
-import org.resteasy.plugins.server.servlet.HttpServletInputMessage;
-import org.resteasy.plugins.server.servlet.HttpServletResponseWrapper;
-import org.resteasy.plugins.server.servlet.ServletSecurityContext;
-import org.resteasy.specimpl.PathSegmentImpl;
-import org.resteasy.specimpl.UriBuilderImpl;
-import org.resteasy.specimpl.UriInfoImpl;
-import org.resteasy.spi.HttpRequest;
-import org.resteasy.spi.HttpResponse;
-import org.resteasy.spi.ResteasyProviderFactory;
-import org.resteasy.util.PathHelper;
+import org.jboss.resteasy.core.SynchronousDispatcher;
+import org.jboss.resteasy.plugins.server.servlet.HttpServletInputMessage;
+import org.jboss.resteasy.plugins.server.servlet.HttpServletResponseWrapper;
+import org.jboss.resteasy.plugins.server.servlet.ServletSecurityContext;
+import org.jboss.resteasy.plugins.server.servlet.ServletUtil;
+import org.jboss.resteasy.specimpl.PathSegmentImpl;
+import org.jboss.resteasy.specimpl.UriBuilderImpl;
+import org.jboss.resteasy.specimpl.UriInfoImpl;
+import org.jboss.resteasy.spi.HttpRequest;
+import org.jboss.resteasy.spi.HttpResponse;
+import org.jboss.resteasy.spi.ResteasyProviderFactory;
+import org.jboss.resteasy.util.PathHelper;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -51,7 +52,7 @@ public class ResteasyResourceAdapter extends AbstractResource
     @Override
     public String getResourcePath()
     {
-        ApplicationConfig appConfig = (ApplicationConfig)Component.getInstance(ApplicationConfig.class);
+        Application appConfig = (Application)Component.getInstance(Application.class);
         return appConfig.getResourcePathPrefix();
     }
 
@@ -74,7 +75,7 @@ public class ResteasyResourceAdapter extends AbstractResource
                 public void process() throws ServletException, IOException
                 {
 
-                    HttpHeaders headers = HttpServletDispatcher.extractHttpHeaders(request);
+                    HttpHeaders headers = ServletUtil.extractHttpHeaders(request);
                     String path = PathHelper.getEncodedPathInfo(request.getRequestURI(), request.getContextPath());
                     URI absolutePath;
                     try
@@ -86,7 +87,7 @@ public class ResteasyResourceAdapter extends AbstractResource
                         builder.host(absolute.getHost());
                         builder.port(absolute.getPort());
                         builder.path(absolute.getPath());
-                        builder.replaceQueryParams(absolute.getQuery());
+                        builder.replaceQuery(absolute.getQuery());
                         absolutePath = builder.build();
                     }
                     catch (MalformedURLException e)
@@ -94,7 +95,7 @@ public class ResteasyResourceAdapter extends AbstractResource
                         throw new RuntimeException(e);
                     }
 
-                    ApplicationConfig appConfig = (ApplicationConfig)Component.getInstance(ApplicationConfig.class);
+                    Application appConfig = (Application)Component.getInstance(Application.class);
                     if (appConfig.isStripSeamResourcePath()) {
                         log.debug("removing SeamResourceServlet url-pattern and dispatcher prefix from request path");
                         path = path.substring(path.indexOf(getResourcePath())+getResourcePath().length());
@@ -105,25 +106,13 @@ public class ResteasyResourceAdapter extends AbstractResource
                     UriInfoImpl uriInfo = new UriInfoImpl(absolutePath, path, request.getQueryString(), pathSegments);
 
                     HttpRequest in;
-                    try
-                    {
-                        in =
-                            new HttpServletInputMessage(
-                                headers,
-                                request.getInputStream(),
-                                uriInfo,
-                                request.getMethod().toUpperCase()
-                            );
-                    }
-                    catch (IOException e)
-                    {
-                        throw new RuntimeException(e);
-                    }
-
                     ResteasyDispatcher dispatcher =
                             (ResteasyDispatcher) Component.getInstance(ResteasyDispatcher.class);
                     HttpResponse theResponse =
                             new HttpServletResponseWrapper(response, dispatcher.getDispatcher().getProviderFactory());
+                    in = new HttpServletInputMessage( 
+                          request, theResponse, headers, uriInfo, request.getMethod().toUpperCase(), (SynchronousDispatcher)dispatcher.getDispatcher());
+                    
                     dispatcher.getDispatcher().invoke(in, theResponse);
                 }
             }.run();
