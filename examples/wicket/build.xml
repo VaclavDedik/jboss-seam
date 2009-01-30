@@ -9,11 +9,6 @@
 	<property name="src.java.dir" value="src/action" />
 	<property name="src.web.dir" value="src/web" />
 
-
-	<!--If this is set to true, wicket classes are instrumented at build time by seam's
-	WicketInstrumentationTask.  The resulting classes will be placed in WEB-INF/dev if debug=true,
-	else they'll go in WEB-INF/classes -->
-	<property name="instrumentAtBuildTime" value="true" />
 	<property name="build.web" value="build-web" />
 	<property name="build.instrumented" value="instrumented-web" />
 
@@ -38,7 +33,7 @@
 		</javac>
 	</target>
 
-	<target name="instrument" depends="compile.web" if="instrumentAtBuildTime">
+	<target name="instrument" depends="compile.web" unless="instrumentAtRunTime">
 		<taskdef name="instrumentWicket" classname="org.jboss.seam.wicket.ioc.WicketInstrumentationTask">
 			<classpath>
 				<pathelement location="${lib.dir}/jboss-seam-wicket-ant.jar" />
@@ -68,7 +63,7 @@
 		</instrumentWicket>
 	</target>
 
-	<target name="copyWicketClasses" depends="compile.web" unless="instrumentAtBuildTime">
+	<target name="copyWicketClasses" depends="compile.web" if="instrumentAtRunTime">
 		<mkdir dir="${war.dir}/WEB-INF/wicket" />
 		<copy todir="${war.dir}/WEB-INF/wicket">
 			<fileset dir="${src.web.dir}">
@@ -79,7 +74,7 @@
 		</copy>
 	</target>
 
-	<target name="copyWicketInstrumentedClasses" depends="instrument" if="instrumentAtBuildTime">
+	<target name="copyWicketInstrumentedClasses" depends="instrument" unless="instrumentAtRunTime">
 		<condition property="wicketClassDestination" value="${war.dir}/WEB-INF/dev" else="${war.dir}/WEB-INF/classes">
 			<istrue value="${debug}" />
 		</condition>
