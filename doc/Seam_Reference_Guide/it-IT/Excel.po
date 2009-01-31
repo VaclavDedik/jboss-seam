@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Seam_Reference_Guide\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-01-29 01:13+0100\n"
+"PO-Revision-Date: 2009-01-31 21:06+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1260,7 +1260,7 @@ msgstr "Maschere per il formato"
 #: Excel.xml:1295
 #, no-c-format
 msgid "Format masks are defined in the mask attribute in cell templates, cells or formulas. <emphasis>Note that when using templates, the format mask must be placed in the first template</emphasis> to be cascaded since the constructor hierarchy in <literal>JExcelAPI</literal> used for copying cell formats makes it hard to change the format mask at a later stage. There are two types of format masks, one for numbers and one for dates"
-msgstr ""
+msgstr "Le maschere di formato sono definite nell'attributo maschera nei template di cella, nelle celle o nelle formule. <emphasis>Si noti che usando i template, la maschera di formato deve essere collocata nel primo template</emphasis> per essere messa in cascata poiché la gerarchia del costruttore in <literal>JExcelAPI</literal>, usata per copiare i formati di cella, rende difficile cambiare la maschera del formato in una fase successiva. Ci sono due tipi di maschere di formato, una per i numeri e una per le date."
 
 #. Tag: title
 #: Excel.xml:1305
@@ -1272,13 +1272,13 @@ msgstr "Maschere per il numero"
 #: Excel.xml:1306
 #, no-c-format
 msgid "When encountering a format mask, first it is checked if it is in internal form, e.g \"format1\", \"accounting_float\" and so on (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/write/NumberFormats.html\"> jxl.write.NumberFormats </ulink> )."
-msgstr ""
+msgstr "Incontrando una maschera di formato, in primo luogo è contrassegnata se è in una form interna, es. \"format1\", \"accounting_float\" e così via (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/write/NumberFormats.html\"> jxl.write.NumberFormats</ulink> )."
 
 #. Tag: para
 #: Excel.xml:1315
 #, no-c-format
 msgid "if the mask is not in the list, it is treated as a custom mask (see <ulink url=\"http://java.sun.com/javase/6/docs/api/java/text/DecimalFormat.html\"> java.text.DecimalFormat </ulink> ). e.g \"0.00\" and automatically converted to the closest match."
-msgstr ""
+msgstr "se la maschera non è nella lista, viene trattata come una maschera personalizzata (si veda <ulink url=\"http://java.sun.com/javase/6/docs/api/java/text/DecimalFormat.html\"> java.text.DecimalFormat </ulink>). Es. \"0.00\" e automaticamente convertita nella corrispondenza più vicina."
 
 #. Tag: title
 #: Excel.xml:1326
@@ -1290,7 +1290,7 @@ msgstr "Maschere per la data"
 #: Excel.xml:1327
 #, no-c-format
 msgid "When encountering a format mask, first it is checked if it is in internal form, e.g \"format1\", \"format2\" and so on (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/write/DecimalFormats.html\"> jxl.write.DecimalFormats </ulink> )."
-msgstr ""
+msgstr "Incontrando una maschera di formato, in primo luogo è contrassegnata se è in una form interna, es. \"format1\", \"format2\" e così via (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/write/DecimalFormats.html\"> jxl.write.DecimalFormats </ulink> )."
 
 #. Tag: para
 #: Excel.xml:1336
@@ -2276,7 +2276,7 @@ msgstr "xls-font-family"
 #: Excel.xml:2361
 #, no-c-format
 msgid "The name of the font. Make sure that it's one that is supported by your system."
-msgstr ""
+msgstr "Il nome del font. Assicurarsi che sia supportato del proprio sistema."
 
 #. Tag: para
 #: Excel.xml:2369
@@ -2348,7 +2348,7 @@ msgstr "xls-font-underline-style"
 #: Excel.xml:2432
 #, no-c-format
 msgid "The underline style of the font (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/UnderlineStyle.html\"> jxl.format.UnderlineStyle </ulink> )."
-msgstr ""
+msgstr "Lo stile sottolineato del font (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/UnderlineStyle.html\"> jxl.format.UnderlineStyle </ulink> )."
 
 #. Tag: para
 #: Excel.xml:2444
@@ -2378,7 +2378,7 @@ msgstr ""
 #: Excel.xml:2464
 #, no-c-format
 msgid "Example style=\"xls-font: red bold italic 22 Verdana\""
-msgstr ""
+msgstr "Esempio style=\"xls-font: red bold italic 22 Verdana\""
 
 #. Tag: title
 #: Excel.xml:2474
@@ -2402,7 +2402,7 @@ msgstr "xls-border-left-color"
 #: Excel.xml:2488
 #, no-c-format
 msgid "The border color of the left edge of the cell (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour </ulink> )."
-msgstr ""
+msgstr "Il colore del bordo dello spigolo sinistro della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour </ulink> )."
 
 #. Tag: para
 #: Excel.xml:2501
@@ -2414,7 +2414,7 @@ msgstr "xls-border-left-line-style"
 #: Excel.xml:2504
 #, no-c-format
 msgid "The border line style of the left edge of the cell (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format.LineStyle </ulink> )."
-msgstr ""
+msgstr "Lo stile di linea del bordo dello spigolo sinistro della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format.LineStyle </ulink> )."
 
 #. Tag: para
 #: Excel.xml:2516
@@ -2636,7 +2636,7 @@ msgstr ""
 #: Excel.xml:2751
 #, no-c-format
 msgid "Example style=\"xls-column-widths: 5000, 5000, *, 10000\""
-msgstr ""
+msgstr "Esempio style=\"xls-column-widths: 5000, 5000, *, 10000\""
 
 #. Tag: para
 #: Excel.xml:2758
@@ -2684,7 +2684,7 @@ msgstr "xls-alignment"
 #: Excel.xml:2796
 #, no-c-format
 msgid "The alignment of the cell value (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Alignment.html\"> jxl.format.Alignment </ulink> )."
-msgstr ""
+msgstr "L'allineamento del valore della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Alignment.html\"> jxl.format.Alignment </ulink> )."
 
 #. Tag: para
 #: Excel.xml:2808
@@ -2744,7 +2744,7 @@ msgstr "xls-orientation"
 #: Excel.xml:2854
 #, no-c-format
 msgid "The orientation of the cell value (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Orientation.html\"> jxl.format.Orientation </ulink> )."
-msgstr ""
+msgstr "L'orientamento del valore della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Orientation.html\"> jxl.format.Orientation </ulink> )."
 
 #. Tag: para
 #: Excel.xml:2866
@@ -2756,7 +2756,7 @@ msgstr "xls-vertical-alignment"
 #: Excel.xml:2869
 #, no-c-format
 msgid "The vertical alignment of the cell value (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/VerticalAlignment.html\"> jxl.format.VerticalAlignment </ulink> )."
-msgstr ""
+msgstr "L'allineamento verticale del valore della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/VerticalAlignment.html\"> jxl.format.VerticalAlignment </ulink> )."
 
 #. Tag: para
 #: Excel.xml:2881
@@ -2846,5 +2846,5 @@ msgstr ""
 #: Excel.xml:2950
 #, no-c-format
 msgid "If you use the forum or mailing list, please remember that they don't know anything about Seam and the usage of their library, any issues are best reported in the JBoss Seam JIRA under the \"excel\" module."
-msgstr ""
+msgstr "Se si usano il forum o la mailing list, si prega di ricordare che non questi non possono fornire informazioni su come Seam impiega la loro libreria, ogni problema dovrebbe essere riportato in JBoss Seam JIRA sotto il modulo \"excel\"."
 
