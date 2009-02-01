@@ -1470,7 +1470,7 @@
          cells.
       </para>
       <para>
-         The formula of the cell in placed in the <literal>value</literal>
+         The formula of the cell is placed in the <literal>value</literal>
          -attribute as a normal &excel; notation. Note that when doing 
          cross-sheet formulas, the worksheets must exist before referencing 
          a formula against them. The value is a string.
@@ -2288,7 +2288,7 @@
             ]]>
          </programlisting>
          <para>
-            groups rows 5 trough 10 and columns 5 through 10 so that the rows
+            groups rows 5 through 10 and columns 5 through 10 so that the rows
             are initially collapsed (but not the columns).
          </para>
 
@@ -2696,7 +2696,7 @@
       <section id="excel.fontsandlayout.borders">
          <title>Borders</title>
          <para>
-            This group of XLS-CSS attributes define the borders of the cell
+            This group of XLS-CSS attributes defines the borders of the cell
          </para>
          <informaltable>
             <tgroup cols="2">
@@ -2889,7 +2889,7 @@
       <section id="excel.fontsandlayout.background">
          <title>Background</title>
          <para>
-            This group of XLS-CSS attributes define the background of the cell
+            This group of XLS-CSS attributes defines the background of the cell
          </para>
          <informaltable>
             <tgroup cols="2">
@@ -2943,7 +2943,7 @@
       <section id="excel.fontsandlayout.columnsettings">
          <title>Column settings</title>
          <para>
-            This group of XLS-CSS attributes define the column widths etc.
+            This group of XLS-CSS attributes defines the column widths etc.
          </para>
          <informaltable>
             <tgroup cols="2">
@@ -3004,7 +3004,7 @@
       <section id="excel.fontsandlayout.cellsettings">
          <title>Cell settings</title>
          <para>
-            This group of XLS-CSS attributes define the cell properties
+            This group of XLS-CSS attributes defines the cell properties
          </para>
          <informaltable>
             <tgroup cols="2">
@@ -3150,7 +3150,7 @@
             <listitem>
                <para>
                   When using .xhtml documents, stylesheets must be referenced
-                  through the <literal>&lt;e:link&gt; tag</literal>
+                  through the <literal>&lt;e:link&gt;</literal> tag
                </para>
             </listitem>
             <listitem>
@@ -3167,8 +3167,8 @@
       <para>
          The core of the &excel; functionality is based on the excellent 
          JExcelAPI library which can be found on 
-         http://jexcelapi.sourceforge.net/ and most features and possible 
-         limitations are inherited from here.
+         <ulink url="http://jexcelapi.sourceforge.net">http://jexcelapi.sourceforge.net/</ulink>
+         and most features and possible limitations are inherited from here.
       </para>
       <para>
          If you use the forum or mailing list, please remember that they don't
