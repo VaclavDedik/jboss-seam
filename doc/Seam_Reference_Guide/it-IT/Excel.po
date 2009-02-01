@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Seam_Reference_Guide\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-01-31 21:06+0100\n"
+"PO-Revision-Date: 2009-02-01 13:31+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1296,7 +1296,7 @@ msgstr "Incontrando una maschera di formato, in primo luogo è contrassegnata se
 #: Excel.xml:1336
 #, no-c-format
 msgid "if the mask is not in the list, it is treated as a custom mask (see <ulink url=\"http://java.sun.com/javase/6/docs/api/java/text/DateFormat.html\"> java.text.DateFormat </ulink> )., e.g \"dd.MM.yyyy\" and automatically converted to the closest match."
-msgstr ""
+msgstr "se la maschera non è nella lista, viene trattata come maschera personalizzata (si veda <ulink url=\"http://java.sun.com/javase/6/docs/api/java/text/DateFormat.html\"> java.text.DateFormat </ulink> ), es. \"dd.MM.yyyy\" viene automaticamente convertita nella corrispondenza più vicina."
 
 #. Tag: title
 #: Excel.xml:1350
@@ -1308,7 +1308,7 @@ msgstr "Formule"
 #: Excel.xml:1351
 #, no-c-format
 msgid "Formulas are nested within columns (for iteration) or inside worksheets (for direct placement using the <literal>column</literal> and <literal>row</literal> attributes) and add calculations or functions to ranges of cells. They are essentially cells, see <xref linkend=\"excel.cells\"/> for available attributes. Note that they can apply templates and have own font definitions etc just as normal cells."
-msgstr ""
+msgstr "Le formule sono innestate nelle colonne (per iterazione) o dentro i worksheet (per collocazione diretta usando gli attributi <literal>column</literal> e <literal>row</literal>) e aggiungono calcoli o funzioni ai range di celle. Sono essenzialmente celle, si veda <xref linkend=\"excel.cells\"/>  per gli attributi disponibili. Si noti che possono impiegare template ed avere definizioni proprie di font, ecc. come le normali celle."
 
 #. Tag: para
 #: Excel.xml:1360
@@ -1463,25 +1463,25 @@ msgstr "&lt;e:hyperlink&gt;"
 #: Excel.xml:1491
 #, no-c-format
 msgid "<literal>startColumn</literal> &#8212; The starting column of the hyperlink. The default is the internal counter. The value is a number. Note that the value is 0-based."
-msgstr ""
+msgstr "<literal>startColumn</literal> &#8212; La colonna iniziale del hyperlink. Il default è un contatore interno. Il valore è un numero. Si noti che il valore parte da zero."
 
 #. Tag: para
 #: Excel.xml:1499
 #, no-c-format
 msgid "<literal>startRow</literal> &#8212; The starting row of the hyperlink. The default is the internal counter. The value is a number. Note that the value is 0-based."
-msgstr ""
+msgstr "<literal>startRow</literal> &#8212; La riga iniziale del hyperlink. Il default è un contatore interno. Il valore è un numero. Si noti che il valore parte da zero."
 
 #. Tag: para
 #: Excel.xml:1507
 #, no-c-format
 msgid "<literal>endColumn</literal> &#8212; The ending column of the hyperlink. The default is the internal counter. The value is a number. Note that the value is 0-based."
-msgstr ""
+msgstr "<literal>endColumn</literal> &#8212; La colonna finale del hyperlink. Il default è un contatore interno. Il valore è un numero. Si noti che il valore parte da zero."
 
 #. Tag: para
 #: Excel.xml:1515
 #, no-c-format
 msgid "<literal>endRow</literal> &#8212; The ending row of the hyperlink. The default is the internal counter. The value is a number. Note that the value is 0-based."
-msgstr ""
+msgstr "<literal>endRow</literal> &#8212; La riga finale del hyperlink. Il default è un contatore interno. Il valore è un numero. Si noti che il valore parte da zero."
 
 #. Tag: para
 #: Excel.xml:1523
@@ -1667,7 +1667,7 @@ msgstr "#bold#"
 #: Excel.xml:1760
 #, no-c-format
 msgid "Toggles bold font, use another #bold# to turn it off"
-msgstr ""
+msgstr "Attiva il font in grassetto, usare un altro #bold# per disattivarlo"
 
 #. Tag: para
 #: Excel.xml:1768
@@ -1679,7 +1679,7 @@ msgstr "#italics#"
 #: Excel.xml:1771
 #, no-c-format
 msgid "Toggles italic font, use another #italic# to turn it off"
-msgstr ""
+msgstr "Attiva il font in corsivo, usare un altro #italic# per disattivarlo"
 
 #. Tag: para
 #: Excel.xml:1779
@@ -1691,7 +1691,7 @@ msgstr "#underline#"
 #: Excel.xml:1782
 #, no-c-format
 msgid "Toggles underlining, use another #underline# to turn it off"
-msgstr ""
+msgstr "Attiva la sottolineatura, usare un altro #underline# per disattivarla"
 
 #. Tag: para
 #: Excel.xml:1790
@@ -1703,7 +1703,7 @@ msgstr "#double_underline#"
 #: Excel.xml:1793
 #, no-c-format
 msgid "Toggles double underlining, use another #double_underline# to turn it off"
-msgstr ""
+msgstr "Attiva la doppia sottolineatura, usare un altro #double_underline# per disattivarla"
 
 #. Tag: para
 #: Excel.xml:1801
@@ -1711,11 +1711,12 @@ msgstr ""
 msgid "#outline#"
 msgstr "#outline#"
 
+# come tradurre outline?
 #. Tag: para
 #: Excel.xml:1804
 #, no-c-format
 msgid "Toggles outlined font, use another #outline# to turn it off"
-msgstr ""
+msgstr "Attiva il font outline, usare un altro #outline# per disattivarlo"
 
 #. Tag: para
 #: Excel.xml:1812
@@ -1727,7 +1728,7 @@ msgstr "#shadow#"
 #: Excel.xml:1815
 #, no-c-format
 msgid "Toggles shadowed font, use another #shadow# to turn it off"
-msgstr ""
+msgstr "Attiva il font ombreggiato, usare un altro #shadow# per disattivarlo"
 
 #. Tag: para
 #: Excel.xml:1823
@@ -1739,7 +1740,7 @@ msgstr "#strikethrough#"
 #: Excel.xml:1826
 #, no-c-format
 msgid "Toggles strikethrough font, use another #strikethrough# to turn it off"
-msgstr ""
+msgstr "Attiva il font barrato, usare un altro #strikethrough# per disattivarlo"
 
 #. Tag: para
 #: Excel.xml:1834
@@ -1751,7 +1752,7 @@ msgstr "#subscript#"
 #: Excel.xml:1837
 #, no-c-format
 msgid "Toggles subscripted font, use another #subscript# to turn it off"
-msgstr ""
+msgstr "Attiva il font subscripted, usare un altro #subscript# per disattivarlo"
 
 #. Tag: para
 #: Excel.xml:1845
@@ -1763,7 +1764,7 @@ msgstr "#superscript#"
 #: Excel.xml:1848
 #, no-c-format
 msgid "Toggles superscript font, use another #superscript# to turn it off"
-msgstr ""
+msgstr "Attiva il font superscript, usare un altro #superscript# per disattivarlo"
 
 #. Tag: para
 #: Excel.xml:1856
@@ -2570,7 +2571,7 @@ msgstr "xls-background-color"
 #: Excel.xml:2681
 #, no-c-format
 msgid "The color of the background (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format.LineStyle </ulink> )."
-msgstr ""
+msgstr "Il colore del background (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html\">jxl.format.LineStyle</ulink> )."
 
 #. Tag: para
 #: Excel.xml:2693
@@ -2582,7 +2583,7 @@ msgstr "xls-background-pattern"
 #: Excel.xml:2696
 #, no-c-format
 msgid "The pattern of the background (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Pattern.html\"> jxl.format.Pattern </ulink> )."
-msgstr ""
+msgstr "Il pattern del background (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Pattern.html\"> jxl.format.Pattern </ulink> )."
 
 #. Tag: para
 #: Excel.xml:2708
@@ -2660,7 +2661,7 @@ msgstr "xls-column-hidden"
 #: Excel.xml:2772
 #, no-c-format
 msgid "Should the column be hidden? Valid values are \"true\" and \"false\"."
-msgstr ""
+msgstr "La colonna deve essere nascosta? I valori validi sono \"true\" e \"false\"."
 
 #. Tag: title
 #: Excel.xml:2782
@@ -2672,7 +2673,7 @@ msgstr "Impostazioni cella"
 #: Excel.xml:2783
 #, no-c-format
 msgid "This group of XLS-CSS attributes define the cell properties"
-msgstr ""
+msgstr "Questo gruppo di attributi XLS-CSS definisce le proprietà della cella"
 
 #. Tag: para
 #: Excel.xml:2793
@@ -2708,7 +2709,7 @@ msgstr "xls-format-mask"
 #: Excel.xml:2823
 #, no-c-format
 msgid "The format mask of the cell, see"
-msgstr ""
+msgstr "La maschera di formato della cella, si veda"
 
 #. Tag: para
 #: Excel.xml:2830
@@ -2720,7 +2721,7 @@ msgstr "xls-indentation"
 #: Excel.xml:2833
 #, no-c-format
 msgid "The indentation of the cell value. The value is numeric."
-msgstr ""
+msgstr "L'indentazione del valore della cella. Il valore è numerico."
 
 #. Tag: para
 #: Excel.xml:2840
@@ -2768,7 +2769,7 @@ msgstr "xls-shrink-to-fit"
 #: Excel.xml:2884
 #, no-c-format
 msgid "Should the cell values shrink to fit? Valid values are \"true\" and \"false\"."
-msgstr ""
+msgstr "I valori della cella devono adattarsi alla dimensione? I valori validi sono \"true\" e \"false\"."
 
 #. Tag: para
 #: Excel.xml:2892
@@ -2776,11 +2777,12 @@ msgstr ""
 msgid "xls-wrap"
 msgstr "xls-wrap"
 
+# controllare traduzione
 #. Tag: para
 #: Excel.xml:2895
 #, no-c-format
 msgid "Should the cell wrap with newlines? Valid values are \"true\" and \"false\"."
-msgstr ""
+msgstr "La cella deve contenere nuove linee? I valori validi sono \"true\" e \"false\"."
 
 #. Tag: title
 #: Excel.xml:2906
