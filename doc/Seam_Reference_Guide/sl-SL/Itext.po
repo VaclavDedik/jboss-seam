@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-01-18 15:00+0000\n"
+"POT-Creation-Date: 2009-02-01 21:19+0000\n"
 "PO-Revision-Date: 2008-04-21 00:37+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -41,10 +41,10 @@ msgid ""
 "iText support is provided by <literal>jboss-seam-pdf.jar</literal>. This JAR "
 "contains the iText JSF controls, which are used to construct views that can "
 "render to PDF, and the DocumentStore component, which serves the rendered "
-"documents to the user. To include PDF support in your application, included "
+"documents to the user. To include PDF support in your application, put "
 "<literal>jboss-seam-pdf.jar</literal> in your <literal>WEB-INF/lib</literal> "
 "directory along with the iText JAR file. There is no further configuration "
-"needed to use Seam's iText supportfon."
+"needed to use Seam's iText support."
 msgstr ""
 
 #. Tag: para
@@ -251,7 +251,7 @@ msgid ""
 "for generating suitable PDF content. Tags like <literal>&lt;p:image&gt;</"
 "literal> and <literal>&lt;p:paragraph&gt;</literal> are the basic "
 "foundations of simple documents. Tags like <literal>&lt;p:font&gt;</literal> "
-"provide style information to all the content surrounging them."
+"provide style information to all the content surrounding them."
 msgstr ""
 
 #. Tag: literal
@@ -492,7 +492,7 @@ msgstr ""
 #, no-c-format
 msgid ""
 "<literal>p:image</literal> inserts an image into the document. Images can be "
-"be loaded from the classpath or from the web application context using the "
+"loaded from the classpath or from the web application context using the "
 "<literal>value</literal> attribute."
 msgstr ""
 
@@ -626,7 +626,7 @@ msgstr ""
 msgid ""
 "<literal>reference</literal> &#8212; The destination the link refers to. "
 "Links to other points in the document should begin with a \"#\". For "
-"example, \"#link1\" to refer to an anchor postion with a <literal>name</"
+"example, \"#link1\" to refer to an anchor position with a <literal>name</"
 "literal> of <literal>link1</literal>. Links may also be a full URL to point "
 "to a resource outside of the document."
 msgstr ""
@@ -704,7 +704,7 @@ msgstr ""
 #: Itext.xml:631
 #, no-c-format
 msgid ""
-"<literal>borderWidth</literal> &#8212; The width of the border. Inidvidual "
+"<literal>borderWidth</literal> &#8212; The width of the border. Individual "
 "border sides can be specified using <literal>borderWidthLeft</literal>, "
 "<literal>borderWidthRight</literal>, <literal>borderWidthTop</literal> and "
 "<literal>borderWidthBottom</literal>."
@@ -792,7 +792,7 @@ msgstr ""
 msgid ""
 "<literal>numberDepth</literal> &#8212; The depth of numbering for section. "
 "All sections are numbered relative to their surrounding chapter/sections. "
-"The fourth section of of the first section of chapter three would be section "
+"The fourth section of the first section of chapter three would be section "
 "3.1.4, if displayed at the default number depth of three. To omit the "
 "chapter number, a number depth of 2 should be used. In that case, the "
 "section number would be displayed as 1.4."
@@ -839,7 +839,7 @@ msgstr ""
 msgid ""
 "List structures can be displayed using the <literal>p:list</literal> and "
 "<literal>p:listItem</literal> tags. Lists may contain arbitrarily-nested "
-"sublists. List items may not be used outside of a list. he following "
+"sublists. List items may not be used outside of a list. The following "
 "document uses the <literal>ui:repeat</literal> tag to to display a list of "
 "values retrieved from a Seam component."
 msgstr ""
@@ -1391,7 +1391,7 @@ msgstr ""
 #, no-c-format
 msgid ""
 "<literal>domainGridlineStroke</literal> &#8212; The stroke style of the "
-"domain gridleines, if visible."
+"domain gridlines, if visible."
 msgstr ""
 
 #. Tag: para
@@ -1493,7 +1493,7 @@ msgstr ""
 #, no-c-format
 msgid ""
 "<literal>plotOutlineStroke</literal> &#8212; The stroke style of the range "
-"gridleines, if visible."
+"gridlines, if visible."
 msgstr ""
 
 #. Tag: para
@@ -1531,7 +1531,7 @@ msgstr ""
 #, no-c-format
 msgid ""
 "<literal>rangeGridlineStroke</literal> &#8212; The stroke style of the range "
-"gridleines, if visible."
+"gridlines, if visible."
 msgstr ""
 
 #. Tag: para
@@ -1946,8 +1946,8 @@ msgstr ""
 #: Itext.xml:1893
 #, no-c-format
 msgid ""
-"<literal>seriesVisibleInLegend</literal> &#8212; A boolean indiciating if "
-"the series should be listed in the legend."
+"<literal>seriesVisibleInLegend</literal> &#8212; A boolean indicating if the "
+"series should be listed in the legend."
 msgstr ""
 
 #. Tag: programlisting
@@ -2149,7 +2149,7 @@ msgstr ""
 #, no-c-format
 msgid ""
 "<literal>dashPhase</literal> &#8212; The dash phase indicates the offset "
-"into the dash pattern that the the line should be drawn with."
+"into the dash pattern that the line should be drawn with."
 msgstr ""
 
 #. Tag: programlisting
@@ -2303,7 +2303,7 @@ msgstr ""
 #, no-c-format
 msgid ""
 "If you have a complex, pre-generated PDF with named fields, you can easily "
-"fill in the values from you application and present it to the user."
+"fill in the values from your application and present it to the user."
 msgstr ""
 
 #. Tag: literal
