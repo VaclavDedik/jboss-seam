@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seam_Reference_Guide\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-02-01 21:34+0100\n"
+"POT-Creation-Date: 2009-02-01 21:19+0000\n"
+"PO-Revision-Date: 2009-02-01 22:37+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgstr "Supporto &Excel;"
 #. Tag: para
 #: Excel.xml:22
 #, no-c-format
-msgid "&Excel; <literal>jboss-seam-excel.jar</literal>. This JAR contains the &excel; JSF controls, which are used to construct views that can render the document, and the DocumentStore component, which serves the rendered document to the user. To include &excel; support in your application, included <literal>jboss-seam-excel.jar</literal> in your <literal>WEB-INF/lib</literal> directory along with the <literal>jxl.jar</literal> JAR file. Furthermore, you need to configure the DocumentStore servlet in your web.xml"
+msgid "&Excel; <literal>jboss-seam-excel.jar</literal>. This JAR contains the &excel; JSF controls, which are used to construct views that can render the document, and the DocumentStore component, which serves the rendered document to the user. To include &excel; support in your application, include <literal>jboss-seam-excel.jar</literal> in your <literal>WEB-INF/lib</literal> directory along with the <literal>jxl.jar</literal> JAR file. Furthermore, you need to configure the DocumentStore servlet in your web.xml"
 msgstr "&Excel; <literal>jboss-seam-excel.jar</literal>. Questo JAR contiene i controlli &excel; JSF, che vengono impiegati per costruire le viste che possono generare il documento, ed il componente DocumentStore, che serve il documento generato all'utente. Per includere il supporto ad &excel; nella propria applicazione, si includa <literal>jboss-seam-excel.jar</literal> nella directory <literal>WEB-INF/lib</literal> assieme al file <literal>jxl.jar</literal>. Inoltre, occorre configurare il servlet DocumentStore in web.xml."
 
 #. Tag: para
@@ -232,7 +232,7 @@ msgstr "<literal>description</literal> &#8212; La descrizione del link. Il valor
 #. Tag: para
 #: Excel.xml:132
 #, no-c-format
-msgid "<literal>arrayGrowSize</literal> &#8212; The amount of memory by which to increase the amount of memory allocated to storing the workbook data. For processeses reading many small workbooks inside a WAS it might be necessary to reduce the default size Default value is 1 megabyte. The value is a number (bytes)."
+msgid "<literal>arrayGrowSize</literal> &#8212; The amount of memory by which to increase the amount of memory allocated to storing the workbook data. For processes reading many small workbooks inside a WAS it might be necessary to reduce the default size. Default value is 1 megabyte. The value is a number (bytes)."
 msgstr "<literal>arrayGrowSize</literal> &#8212; L'ammontare di memoria con cui incrementare la memoria allocata per la memorizzazione dei dati di workbook. Per processi che leggono molti workbook piccoli dentro un WAS, può essere necessario ridurre la dimensione di default. Il valore di default è 1 megabyte. Il valore è un numero (byte)."
 
 #. Tag: para
@@ -292,7 +292,7 @@ msgstr "<literal>leftMargin</literal> &#8212; Il margine sinistro. Il valore è 
 #. Tag: para
 #: Excel.xml:210
 #, no-c-format
-msgid "<literal>initialFileSize</literal> &#8212; The initial amount of memory allocated to store the workbook data when reading a worksheet. For processeses reading many small workbooks inside a WAS it might be necessary to reduce the default size Default value is 5 megabytes. The value is a number (bytes)."
+msgid "<literal>initialFileSize</literal> &#8212; The initial amount of memory allocated to store the workbook data when reading a worksheet. For processes reading many small workbooks inside a WAS it might be necessary to reduce the default size. Default value is 5 megabytes. The value is a number (bytes)."
 msgstr "<literal>initialFileSize</literal> &#8212; Ammontare iniziale di memoria allocata per memorizzare i dati del workbook quando viene letto un foglio elettronico. Per processi che leggono molti workbook piccoli dentro un WAS può essere necessario ridurre la dimensione di default. Il valore di default è 5 megabytes. Il valore è un numero (byte)."
 
 #. Tag: para
@@ -352,7 +352,7 @@ msgstr "<literal>bottomMargin</literal> &#8212; Il margine inferiore. Il valore 
 #. Tag: para
 #: Excel.xml:305
 #, no-c-format
-msgid "<literal>filename</literal> &#8212; The filename to use for the download. The value is a string. Please not that if you map the DocumentServlet to some pattern, this file extension must also match."
+msgid "<literal>filename</literal> &#8212; The filename to use for the download. The value is a string. Please note that if you map the DocumentServlet to some pattern, this file extension must also match."
 msgstr "<literal>filename</literal> &#8212; Il nome del file da usare per il download. Il valore è una stringa. Si noti che se si mappa il DocumentServlet su qualche pattern, questa estensione del file deve corrispondere."
 
 #. Tag: para
@@ -363,21 +363,12 @@ msgstr "<literal>exportKey</literal> &#8212; Una chiave sotto cui memorizzare i 
 
 #. Tag: emphasis
 #: Excel.xml:322
-#: Excel.xml:708
-#: Excel.xml:802
-#: Excel.xml:954
-#: Excel.xml:1081
-#: Excel.xml:1157
-#: Excel.xml:1209
-#: Excel.xml:1263
-#: Excel.xml:1437
-#: Excel.xml:1537
-#: Excel.xml:1595
-#: Excel.xml:1658
-#: Excel.xml:1935
-#: Excel.xml:2318
+#: Excel.xml:2014
+#: Excel.xml:2079
+#: Excel.xml:2139
+#: Excel.xml:2218
 #, no-c-format
-msgid "Child elemenents"
+msgid "Child elements"
 msgstr "Elementi figli"
 
 #. Tag: para
@@ -486,7 +477,7 @@ msgstr "Worksheets"
 #. Tag: para
 #: Excel.xml:363
 #, no-c-format
-msgid "Worksheets are the children of workbooks and the parent of columns and worksheet commands They can also contain explicitly placed cells, formulas, images and hyperlinks. They are the pages that make up the workbook."
+msgid "Worksheets are the children of workbooks and the parent of columns and worksheet commands. They can also contain explicitly placed cells, formulas, images and hyperlinks. They are the pages that make up the workbook."
 msgstr "I worksheet sono figli dei workbook e padri delle colonne e dei comandi worksheet. Possono anche contenere celle, formule, immagini e collegamenti esplicitamente collocati. Sono le pagine che creano il workbook."
 
 #. Tag: literal
@@ -504,13 +495,13 @@ msgstr "<literal>value</literal> &#8212; Espressione-EL sui dati retrostanti. Il
 #. Tag: para
 #: Excel.xml:393
 #, no-c-format
-msgid "<literal>var</literal> &#8212; The current row iterator variable name that can later be referenced in cell value attributes. The value is a string"
-msgstr "<literal>var</literal> &#8212; Il nome della variabile della riga iteratore corrente che può successivamente essere referenziata negli attributi di valore della cella. Il valore è una stringa."
+msgid "<literal>var</literal> &#8212; The current row iterator variable name that can later be referenced in cell value attributes. The value is a string."
+msgstr "<literal>var</literal> &#8212; Il nome della variabile della riga iteratore corrente che può successivamente essere referenziata negli attributi di valore della cella. Il valore è una stringa. "
 
 #. Tag: para
 #: Excel.xml:401
 #, no-c-format
-msgid "<literal>name</literal> &#8212; The name of the worksheet. The valus is a string. Defaults to Sheet# where # is the worksheet index. If the given worksheet name exists, that sheet is selected. This can be used for merging several data sets into a single worksheet, just define the same name for them (using <literal>startRow</literal> and <literal>startCol</literal> to make sure that they don't occupy the same space)."
+msgid "<literal>name</literal> &#8212; The name of the worksheet. The value is a string. Defaults to Sheet# where # is the worksheet index. If the given worksheet name exists, that sheet is selected. This can be used for merging several data sets into a single worksheet, just define the same name for them (using <literal>startRow</literal> and <literal>startCol</literal> to make sure that they don't occupy the same space)."
 msgstr "<literal>name</literal> &#8212; Il nome del worksheet. Il valore è una stringa. Il default è Sheet# dove # è l'indice del worksheet. Se esiste il nome del worksheet dato, tale foglio viene selezionato. Questo può essere usato per unire diversi set di dati in un singolo worksheet, solamente definendo lo stesso nome per questi (usando <literal>startRow</literal> e <literal>startCol</literal> per assicurarsi che non occupino lo stesso spazio)."
 
 #. Tag: para
@@ -534,7 +525,7 @@ msgstr "<literal>automaticFormulaCalculation</literal> &#8212; Le formule devono
 #. Tag: para
 #: Excel.xml:445
 #, no-c-format
-msgid "<literal>bottomMargin</literal> &#8212; The bottom margin. The value is a number (inches)"
+msgid "<literal>bottomMargin</literal> &#8212; The bottom margin. The value is a number (inches)."
 msgstr "<literal>bottomMargin</literal> &#8212; Il margine inferiore. Il valore è un numero (pollici)."
 
 #. Tag: para
@@ -624,8 +615,8 @@ msgstr "<literal>leftMargin</literal> &#8212; Il margine sinistro. Il valore è 
 #. Tag: para
 #: Excel.xml:551
 #, no-c-format
-msgid "<literal>normalMagnification</literal> &#8212; The normal magnificaton factor (not zoom or scale factor). The value is a number (percentage)."
-msgstr "<literal>topMargin</literal> &#8212; Il margine superiore. Il valore è un numero (pollici)."
+msgid "<literal>normalMagnification</literal> &#8212; The normal magnification factor (not zoom or scale factor). The value is a number (percentage)."
+msgstr "<literal>normalMagnification</literal> &#8212; Il fattore di ingrandimento normale (non zoom o fattore di scala). Il valore è un numero (percentuale)."
 
 #. Tag: para
 #: Excel.xml:558
@@ -636,7 +627,7 @@ msgstr "<literal>description</literal> &#8212; La descrizione del link. Il valor
 #. Tag: para
 #: Excel.xml:566
 #, no-c-format
-msgid "<literal>pageBreakPreviewMagnification</literal> &#8212; The page break preview magnificaton factor (not zoom or scale factors). the value is a number (percentage)."
+msgid "<literal>pageBreakPreviewMagnification</literal> &#8212; The page break preview magnification factor (not zoom or scale factors). The value is a number (percentage)."
 msgstr "<literal>pageBreakPreviewMagnification</literal> &#8212; Il fattore di ingrandimento dell'anteprima per l'interruzione di pagina (non fattori di zoom o di scala). Il valore è un numero (percentuale)."
 
 #. Tag: para
@@ -690,7 +681,7 @@ msgstr "<literal>bottomMargin</literal> &#8212; Il margine inferiore. Il valore 
 #. Tag: para
 #: Excel.xml:636
 #, no-c-format
-msgid "<literal>recalculateFormulasBeforeSave</literal> &#8212; Should the formulas be re-calculated when the sheet is saved? The value is a boolean. false"
+msgid "<literal>recalculateFormulasBeforeSave</literal> &#8212; Should the formulas be re-calculated when the sheet is saved? The value is a boolean. Default value is false."
 msgstr "<literal>recalculateFormulasBeforeSave</literal> &#8212; Le formule devono essere ricalcolate quando viene salvato il foglio? Il valore è un boolean. Il default è false."
 
 #. Tag: para
@@ -744,8 +735,26 @@ msgstr "<literal>description</literal> &#8212; La descrizione del link. Il valor
 #. Tag: para
 #: Excel.xml:698
 #, no-c-format
-msgid "<literal>zoomFactor</literal> &#8212; T zoom factor. Do not confuse zoom factor (which relates to the on screen view) with scale factor (which refers to the scale factor when printing). The value is a number (percentage."
+msgid "<literal>zoomFactor</literal> &#8212; The zoom factor. Do not confuse zoom factor (which relates to the on screen view) with scale factor (which refers to the scale factor when printing). The value is a number (percentage)."
 msgstr "<literal>zoomFactor</literal> &#8212; Fattore di zoom. Da non confondere con il fattore di zoom (che è relazionato alla vista dello schermo) con il fattore di scala (che si riferisce al fattore di scala in fase di stampa). Il valore è un numero (percentuale)."
+
+#. Tag: emphasis
+#: Excel.xml:708
+#: Excel.xml:802
+#: Excel.xml:954
+#: Excel.xml:1081
+#: Excel.xml:1157
+#: Excel.xml:1209
+#: Excel.xml:1263
+#: Excel.xml:1437
+#: Excel.xml:1537
+#: Excel.xml:1595
+#: Excel.xml:1658
+#: Excel.xml:1935
+#: Excel.xml:2318
+#, no-c-format
+msgid "Child elemenents"
+msgstr "Elementi figli"
 
 #. Tag: para
 #: Excel.xml:712
@@ -762,7 +771,7 @@ msgstr "<literal>&lt;e:printTitle/&gt;</literal> &#8212; Zero o più definizioni
 #. Tag: para
 #: Excel.xml:728
 #, no-c-format
-msgid "<literal>&lt;e:headerFooter/&gt;</literal> &#8212; Zero or more header/footer definitions ((see <xref linkend=\"excel.headersfooters\"/> ))."
+msgid "<literal>&lt;e:headerFooter/&gt;</literal> &#8212; Zero or more header/footer definitions (see <xref linkend=\"excel.headersfooters\"/> )."
 msgstr "<literal>&lt;e:headerFooter/&gt;</literal> &#8212; Zero o più definizioni di header/footer (Si veda <xref linkend=\"excel.headersfooters\"/>)."
 
 #. Tag: para
@@ -774,13 +783,13 @@ msgstr "Zero o più comandi di worksheet (si veda <xref linkend=\"excel.workshee
 #. Tag: para
 #: Excel.xml:749
 #, no-c-format
-msgid "<literal>header</literal>&#8212; Contents that will be placed at the top of the data block, above the column headers (if any)"
+msgid "<literal>header</literal>&#8212; Contents that will be placed at the top of the data block, above the column headers (if any)."
 msgstr "<literal>header</literal>&#8212; I contenuti che verranno messi in cima al blocco di dati, sopra le intestazioni della colonna (se presenti)."
 
 #. Tag: para
 #: Excel.xml:756
 #, no-c-format
-msgid "<literal>footer</literal>&#8212; Contents that will be placed at the bottom of the data block, below the column footers (if any)"
+msgid "<literal>footer</literal>&#8212; Contents that will be placed at the bottom of the data block, below the column footers (if any)."
 msgstr "<literal>footer</literal>&#8212; I contenuti che verranno messi in fondo al blocco di dati, sotto i pié di pagina della colonna (se presenti)."
 
 #. Tag: programlisting
@@ -919,8 +928,8 @@ msgstr "Celle"
 #. Tag: para
 #: Excel.xml:882
 #, no-c-format
-msgid "Cells are nested within columns (for iteration) or inside worksheets (for direct placement using the <literal>column</literal> and <literal>row</literal> attributes) and are responsible for outputting the value (usually though en EL-expression involving the <literal>var</literal>-attribute of the datatable. See"
-msgstr "Le celle sono innestate dentro le colonne (per l'iterazione) o dentro i worksheet (per il collocamento diretto usando gli attributi <literal>column</literal> e <literal>row</literal>) e sono responsabili dell'output del valore (solitamente tramite un'espressione EL che coinvolge l'attributo <literal>var</literal> della datatable."
+msgid "Cells are nested within columns (for iteration) or inside worksheets (for direct placement using the <literal>column</literal> and <literal>row</literal> attributes) and are responsible for outputting the value (usually through an EL-expression involving the <literal>var</literal>-attribute of the datatable. See"
+msgstr "Le celle sono innestate dentro le colonne (per l'iterazione) o dentro i worksheet (per il collocamento diretto usando gli attributi <literal>column</literal> e <literal>row</literal>) e sono responsabili dell'output del valore (solitamente tramite un'espressione EL che coinvolge l'attributo <literal>var</literal> della datatable. Vedere"
 
 #. Tag: literal
 #: Excel.xml:898
@@ -1313,7 +1322,7 @@ msgstr "Le formule sono innestate nelle colonne (per iterazione) o dentro i work
 #. Tag: para
 #: Excel.xml:1360
 #, no-c-format
-msgid "The formula of the cell in placed in the <literal>value</literal> -attribute as a normal &excel; notation. Note that when doing cross-sheet formulas, the worksheets must exist before referencing a formula against them. The value is a string."
+msgid "The formula of the cell is placed in the <literal>value</literal> -attribute as a normal &excel; notation. Note that when doing cross-sheet formulas, the worksheets must exist before referencing a formula against them. The value is a string."
 msgstr "La formula della cella è collocata nell'attributo <literal>value</literal> come una normale annotazione &excel;. Si noti che quando si fanno formule con riferimenti ad altri fogli, i worksheet devo esistere prima di eseguire riferimenti ad essa. Il valore è una stringa."
 
 #. Tag: programlisting
@@ -1948,15 +1957,6 @@ msgstr "<literal>leftMargin</literal> &#8212; Il margine sinistro. Il valore è 
 msgid "<literal>collapse</literal> &#8212; Should the grouping be collapsed initially? The value is a boolean."
 msgstr "<literal>description</literal> &#8212; La descrizione del link. Il valore è una stringa."
 
-#. Tag: emphasis
-#: Excel.xml:2014
-#: Excel.xml:2079
-#: Excel.xml:2139
-#: Excel.xml:2218
-#, no-c-format
-msgid "Child elements"
-msgstr "Elementi figli"
-
 #. Tag: literal
 #: Excel.xml:2046
 #, no-c-format
@@ -2000,7 +2000,7 @@ msgstr ""
 #. Tag: para
 #: Excel.xml:2105
 #, no-c-format
-msgid "groups rows 5 trough 10 and columns 5 through 10 so that the rows are initially collapsed (but not the columns)."
+msgid "groups rows 5 through 10 and columns 5 through 10 so that the rows are initially collapsed (but not the columns)."
 msgstr "raggruppa dalla riga 5 alla 10 e dalla colonna 5 alla 10 in modo che le righe siano inizialmente collassate (ma non le colonne)."
 
 #. Tag: title
@@ -2206,7 +2206,7 @@ msgstr "Il controllo dell'aspetto dell'output è fatto con una combinazione di a
 #. Tag: para
 #: Excel.xml:2280
 #, no-c-format
-msgid "The CSS attributes cascade down from parent to children and within one tag cascades over the CSS classes referenced in the <literal>styleClass</literal> attributes and finally over the CSS attributes defined in the <literal>style</literal>attribute. You can place them pretty much anywhere but e.g. placing a column width setting in a cell nested within that column makes little sense."
+msgid "The CSS attributes cascade down from parent to children and within one tag cascades over the CSS classes referenced in the <literal>styleClass</literal> attributes and finally over the CSS attributes defined in the <literal>style</literal> attribute. You can place them pretty much anywhere but e.g. placing a column width setting in a cell nested within that column makes little sense."
 msgstr "Gli attributi CSS vanno in cascata dal padre ai figli e da un tag si scende in cascata attraverso classi CSS referenziate negli attributi <literal>styleClass</literal> ed infine lungo gli attributi CSS definiti nell'attributo <literal>style</literal>. Si può collocarli ovunque, ma ad esempio impostare la larghezza di colonna in una cella innestata dentro tale colonna ha poco senso."
 
 #. Tag: title
@@ -2390,7 +2390,7 @@ msgstr "Bordi"
 #. Tag: para
 #: Excel.xml:2475
 #, no-c-format
-msgid "This group of XLS-CSS attributes define the borders of the cell"
+msgid "This group of XLS-CSS attributes defines the borders of the cell"
 msgstr "Questo gruppo di attributi XLS-CSS definisce i bordi della cella"
 
 #. Tag: para
@@ -2462,8 +2462,8 @@ msgstr "xls-border-top"
 #. Tag: para
 #: Excel.xml:2561
 #, no-c-format
-msgid "A shorthand for setting line style and color of the top edge of the cell, e.g style=\"xls-border-left: red thick\""
-msgstr "Una notazione breve per impostare lo stile della linea ed il colore del lato alto della cella, es. style=\"xls-border-top: thick red\""
+msgid "A shorthand for setting line style and color of the top edge of the cell, e.g style=\"xls-border-top: red thick\""
+msgstr "Una notazione breve per impostare lo stile della linea ed il colore del lato alto della cella, es. style=\"xls-border-top: red thick\""
 
 #. Tag: para
 #: Excel.xml:2569
@@ -2558,7 +2558,7 @@ msgstr "Background"
 #. Tag: para
 #: Excel.xml:2668
 #, no-c-format
-msgid "This group of XLS-CSS attributes define the background of the cell"
+msgid "This group of XLS-CSS attributes defines the background of the cell"
 msgstr "Questo gruppo di attributi XLS-CSS definisce il background della cella"
 
 #. Tag: para
@@ -2606,8 +2606,8 @@ msgstr "Impostazioni colonna"
 #. Tag: para
 #: Excel.xml:2722
 #, no-c-format
-msgid "This group of XLS-CSS attributes define the column widths etc."
-msgstr "Questo gruppo di attributi XLS-CSS definisce lelarghezze di colonna, ecc."
+msgid "This group of XLS-CSS attributes defines the column widths etc."
+msgstr "Questo gruppo di attributi XLS-CSS definisce le larghezze di colonna, ecc."
 
 #. Tag: para
 #: Excel.xml:2732
@@ -2672,7 +2672,7 @@ msgstr "Impostazioni cella"
 #. Tag: para
 #: Excel.xml:2783
 #, no-c-format
-msgid "This group of XLS-CSS attributes define the cell properties"
+msgid "This group of XLS-CSS attributes defines the cell properties"
 msgstr "Questo gruppo di attributi XLS-CSS definisce le proprietà della cella"
 
 #. Tag: para
@@ -2823,7 +2823,7 @@ msgstr "Nell'attuale versione ci sono alcune note limitazioni riguardanti il sup
 #. Tag: para
 #: Excel.xml:2928
 #, no-c-format
-msgid "When using .xhtml documents, stylesheets must be referenced through the <literal>&lt;e:link&gt; tag</literal>"
+msgid "When using .xhtml documents, stylesheets must be referenced through the <literal>&lt;e:link&gt;</literal> tag"
 msgstr "Usando i documenti xhtml, gli stylesheet devono fare riferimento tramite il tag <literal>&lt;e:link&gt; tag</literal>"
 
 #. Tag: para
@@ -2841,8 +2841,8 @@ msgstr "Link ed ulteriore documentazione"
 #. Tag: para
 #: Excel.xml:2944
 #, no-c-format
-msgid "The core of the &excel; functionality is based on the excellent JExcelAPI library which can be found on http://jexcelapi.sourceforge.net/ and most features and possible limitations are inherited from here."
-msgstr "Il nucleo delle funzionalità &excel; è basato sull'eccellente libreria JExcelAPI che può essere trovata "
+msgid "The core of the &excel; functionality is based on the excellent JExcelAPI library which can be found on <ulink url=\"http://jexcelapi.sourceforge.net\">http://jexcelapi.sourceforge.net/</ulink> and most features and possible limitations are inherited from here."
+msgstr "Il nucleo delle funzionalità &excel; è basato sull'eccellente libreria JExcelAPI che può essere trovata in <ulink url=\"http://jexcelapi.sourceforge.net\">http://jexcelapi.sourceforge.net/</ulink> e la maggior parte delle funzionalità e le possibili limitazioni sono ereditate da qua."
 
 #. Tag: para
 #: Excel.xml:2950

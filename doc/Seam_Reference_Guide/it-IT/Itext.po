@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-01-25 11:04+0100\n"
+"POT-Creation-Date: 2009-02-01 21:19+0000\n"
+"PO-Revision-Date: 2009-02-01 22:38+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgstr "Utilizzo del supporto PDF"
 #. Tag: para
 #: Itext.xml:9
 #, no-c-format
-msgid "iText support is provided by <literal>jboss-seam-pdf.jar</literal>. This JAR contains the iText JSF controls, which are used to construct views that can render to PDF, and the DocumentStore component, which serves the rendered documents to the user. To include PDF support in your application, included <literal>jboss-seam-pdf.jar</literal> in your <literal>WEB-INF/lib</literal> directory along with the iText JAR file. There is no further configuration needed to use Seam's iText supportfon."
+msgid "iText support is provided by <literal>jboss-seam-pdf.jar</literal>. This JAR contains the iText JSF controls, which are used to construct views that can render to PDF, and the DocumentStore component, which serves the rendered documents to the user. To include PDF support in your application, put <literal>jboss-seam-pdf.jar</literal> in your <literal>WEB-INF/lib</literal> directory along with the iText JAR file. There is no further configuration needed to use Seam's iText support."
 msgstr "Il supporto a iText è fornito da <literal>jboss-seam-pdf.jar</literal>. Questo JAR contiene i controlli JSF di iText, che sono usati per costruire le viste che possono generare il PDF, e il componente DocumentStore, che serve i documenti renderizzati per l'utente. Per includere il supporto PDF nell'applicazione, si metta <literal>jboss-seam-pdf.jar</literal> nella directory <literal>WEB-INF/lib</literal> assieme al file JAR di iText. Non serve alcuna ulteriore configurazione per usare il supporto a iText di Seam."
 
 #. Tag: para
@@ -255,7 +255,7 @@ msgstr "Elementi base per il testo"
 #. Tag: para
 #: Itext.xml:160
 #, no-c-format
-msgid "Useful documents will need to contain more than just text; however, the standard UI components are geared towards HTML generation and are not useful for generating PDF content. Instead, Seam provides a special UI components for generating suitable PDF content. Tags like <literal>&lt;p:image&gt;</literal> and <literal>&lt;p:paragraph&gt;</literal> are the basic foundations of simple documents. Tags like <literal>&lt;p:font&gt;</literal> provide style information to all the content surrounging them."
+msgid "Useful documents will need to contain more than just text; however, the standard UI components are geared towards HTML generation and are not useful for generating PDF content. Instead, Seam provides a special UI components for generating suitable PDF content. Tags like <literal>&lt;p:image&gt;</literal> and <literal>&lt;p:paragraph&gt;</literal> are the basic foundations of simple documents. Tags like <literal>&lt;p:font&gt;</literal> provide style information to all the content surrounding them."
 msgstr "I documenti utili dovranno contenere più che il solo testo; comunque i componenti standard UI sono idonei per la generazione HTML e non sono utili per generare contenuto in PDF. Invece Seam fornisce dei componenti UI speciali per generare contenuto in PDF idoneo. Tag quali <literal>&lt;p:image&gt;</literal> e <literal>&lt;p:paragraph&gt;</literal> sono la base per i semplici documenti. Tag come <literal>&lt;p:font&gt;</literal> forniscono informazioni di stile a tutto il contenuto che sta intorno."
 
 #. Tag: literal
@@ -509,7 +509,7 @@ msgstr "&lt;p:image&gt;"
 #. Tag: para
 #: Itext.xml:401
 #, no-c-format
-msgid "<literal>p:image</literal> inserts an image into the document. Images can be be loaded from the classpath or from the web application context using the <literal>value</literal> attribute."
+msgid "<literal>p:image</literal> inserts an image into the document. Images can be loaded from the classpath or from the web application context using the <literal>value</literal> attribute."
 msgstr "<literal>p:image</literal> inserisce un'immagine in un documento. Le immagini possono essere caricate dal classpath o dal contesto dell'applicazione web usando l'attributo <literal>value</literal>."
 
 #. Tag: para
@@ -623,7 +623,7 @@ msgstr "<literal>name</literal> &#8212; Il nome di una destinazione d'ancora den
 #. Tag: para
 #: Itext.xml:548
 #, no-c-format
-msgid "<literal>reference</literal> &#8212; The destination the link refers to. Links to other points in the document should begin with a \"#\". For example, \"#link1\" to refer to an anchor postion with a <literal>name</literal> of <literal>link1</literal>. Links may also be a full URL to point to a resource outside of the document."
+msgid "<literal>reference</literal> &#8212; The destination the link refers to. Links to other points in the document should begin with a \"#\". For example, \"#link1\" to refer to an anchor position with a <literal>name</literal> of <literal>link1</literal>. Links may also be a full URL to point to a resource outside of the document."
 msgstr "<literal>reference</literal> &#8212; La destinazione a cui il link di riferisce. I link ad altri punti del documento dovrebbero iniziare con un \"#\". Per esempio, \"#link1\" si riferisce ad una posizione dell'ancora con il <literal>name</literal> impostato a <literal>link1</literal>. I link possono anche essere URL completi ad un punto della risorsa fuori dal documento."
 
 #. Tag: programlisting
@@ -692,7 +692,7 @@ msgstr "<literal>borderColor</literal> &#8212; Il colore del bordo di header/foo
 #. Tag: para
 #: Itext.xml:631
 #, no-c-format
-msgid "<literal>borderWidth</literal> &#8212; The width of the border. Inidvidual border sides can be specified using <literal>borderWidthLeft</literal>, <literal>borderWidthRight</literal>, <literal>borderWidthTop</literal> and <literal>borderWidthBottom</literal>."
+msgid "<literal>borderWidth</literal> &#8212; The width of the border. Individual border sides can be specified using <literal>borderWidthLeft</literal>, <literal>borderWidthRight</literal>, <literal>borderWidthTop</literal> and <literal>borderWidthBottom</literal>."
 msgstr "<literal>borderWidth</literal> &#8212; La larghezza del bordo. I singoli lati dei bordi possono essere specificati usando <literal>borderWidthLeft</literal>, <literal>borderWidthRight</literal>, <literal>borderWidthTop</literal> e <literal>borderWidthBottom</literal>."
 
 #. Tag: programlisting
@@ -776,7 +776,7 @@ msgstr "<literal>number</literal> &#8212; Il numero del capitolo. Ogni capitolo 
 #. Tag: para
 #: Itext.xml:724
 #, no-c-format
-msgid "<literal>numberDepth</literal> &#8212; The depth of numbering for section. All sections are numbered relative to their surrounding chapter/sections. The fourth section of of the first section of chapter three would be section 3.1.4, if displayed at the default number depth of three. To omit the chapter number, a number depth of 2 should be used. In that case, the section number would be displayed as 1.4."
+msgid "<literal>numberDepth</literal> &#8212; The depth of numbering for section. All sections are numbered relative to their surrounding chapter/sections. The fourth section of the first section of chapter three would be section 3.1.4, if displayed at the default number depth of three. To omit the chapter number, a number depth of 2 should be used. In that case, the section number would be displayed as 1.4."
 msgstr "<literal>numberDepth</literal> &#8212; La profondità della numerazione per le sezioni. Tutte le sezioni sono numerate relativamente ai loro capitoli/sezioni circostanti. La quarta sezione della prima sezione del capitolo terzo avrebbe sezione 3.1.4, se visualizzata con una profondità di default di tre. Per omettere il numero del capitolo, occorre usare una profondità di numerazione pari a 2. In questo caso, il numero della sezione visualizzato sarebbe 1.4."
 
 #. Tag: programlisting
@@ -828,7 +828,7 @@ msgstr "Liste"
 #. Tag: para
 #: Itext.xml:767
 #, no-c-format
-msgid "List structures can be displayed using the <literal>p:list</literal> and <literal>p:listItem</literal> tags. Lists may contain arbitrarily-nested sublists. List items may not be used outside of a list. he following document uses the <literal>ui:repeat</literal> tag to to display a list of values retrieved from a Seam component."
+msgid "List structures can be displayed using the <literal>p:list</literal> and <literal>p:listItem</literal> tags. Lists may contain arbitrarily-nested sublists. List items may not be used outside of a list. The following document uses the <literal>ui:repeat</literal> tag to to display a list of values retrieved from a Seam component."
 msgstr "Le strutture di lista possono essere visualizzate usando i tag <literal>p:list</literal> e <literal>p:listItem</literal>. Le liste possono contenere sottoliste arbitrariamente innestate. Gli elementi di lista non possono essere usati fuori da una lista. Il seguente documento utilizza il tag <literal>ui:repeat</literal> per mostrare una lista di valori recuperata da un componente Seam."
 
 #. Tag: programlisting
@@ -1325,7 +1325,7 @@ msgstr "<literal>domainGridlinePaint</literal>&#8212; Il colore delle griglie di
 #: Itext.xml:1360
 #: Itext.xml:1556
 #, no-c-format
-msgid "<literal>domainGridlineStroke</literal> &#8212; The stroke style of the domain gridleines, if visible."
+msgid "<literal>domainGridlineStroke</literal> &#8212; The stroke style of the domain gridlines, if visible."
 msgstr "<literal>domainGridlineStroke</literal> &#8212; Lo stile del tratteggio delle griglie di dominio, se visibili."
 
 #. Tag: para
@@ -1411,7 +1411,7 @@ msgstr "<literal>plotOutlinePaint</literal>&#8212; Il colore delle griglie di ra
 #: Itext.xml:1437
 #: Itext.xml:1633
 #, no-c-format
-msgid "<literal>plotOutlineStroke</literal> &#8212; The stroke style of the range gridleines, if visible."
+msgid "<literal>plotOutlineStroke</literal> &#8212; The stroke style of the range gridlines, if visible."
 msgstr "<literal>plotOutlineStroke</literal> &#8212; Lo stile del tratteggio delle griglie di range, se visibili."
 
 #. Tag: para
@@ -1444,7 +1444,7 @@ msgstr "<literal>rangeGridlinePaint</literal>&#8212; Il colore delle griglie di 
 #: Itext.xml:1464
 #: Itext.xml:1660
 #, no-c-format
-msgid "<literal>rangeGridlineStroke</literal> &#8212; The stroke style of the range gridleines, if visible."
+msgid "<literal>rangeGridlineStroke</literal> &#8212; The stroke style of the range gridlines, if visible."
 msgstr "<literal>rangeGridlineStroke</literal> &#8212; Lo stile del tratteggio delle griglie di range, se visibili."
 
 #. Tag: para
@@ -1812,7 +1812,7 @@ msgstr "<literal>seriesVisible</literal> &#8212; Un valore booleano che indicare
 #. Tag: para
 #: Itext.xml:1893
 #, no-c-format
-msgid "<literal>seriesVisibleInLegend</literal> &#8212; A boolean indiciating if the series should be listed in the legend."
+msgid "<literal>seriesVisibleInLegend</literal> &#8212; A boolean indicating if the series should be listed in the legend."
 msgstr "<literal>seriesVisibleInLegend</literal> &#8212; Un valore booleano che indicare se la serie debba essere elencata nella legenda."
 
 #. Tag: programlisting
@@ -1995,7 +1995,7 @@ msgstr "<literal>dash</literal> &#8212; Il valore del dash imposta il pattern da
 #. Tag: para
 #: Itext.xml:2062
 #, no-c-format
-msgid "<literal>dashPhase</literal> &#8212; The dash phase indicates the offset into the dash pattern that the the line should be drawn with."
+msgid "<literal>dashPhase</literal> &#8212; The dash phase indicates the offset into the dash pattern that the line should be drawn with."
 msgstr "<literal>dashPhase</literal> &#8212; La fase di dash indica l'offset nel pattern dash che con cui la linea dovrebbe essere disegnata."
 
 #. Tag: programlisting
@@ -2127,7 +2127,7 @@ msgstr "Form da riempire"
 #. Tag: para
 #: Itext.xml:2195
 #, no-c-format
-msgid "If you have a complex, pre-generated PDF with named fields, you can easily fill in the values from you application and present it to the user."
+msgid "If you have a complex, pre-generated PDF with named fields, you can easily fill in the values from your application and present it to the user."
 msgstr "Se si ha un PDF complesso pregenerato con campi definiti (con nome), lo si può facilmente riempire con valori dell'applicazione e presentarlo all'utente."
 
 #. Tag: literal
