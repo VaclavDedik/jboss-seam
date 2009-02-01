@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Seam_Reference_Guide\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-02-01 17:53+0100\n"
+"PO-Revision-Date: 2009-02-01 21:34+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -2201,13 +2201,13 @@ msgstr "Font e layout"
 #: Excel.xml:2275
 #, no-c-format
 msgid "Controlling how the output look is done with a combination of CSSish style attributes and tag attributes. The most common ones (fonts, borders, backgrounds etc) are CSS and some more general settings are in tag attributes."
-msgstr ""
+msgstr "Il controllo dell'aspetto dell'output è fatto con una combinazione di attributi stile-CSS e di attributi tag. I più comuni (font, bordi, background, ecc.) sono CSS ed alcune impostazioni generali sono negli attributi tag."
 
 #. Tag: para
 #: Excel.xml:2280
 #, no-c-format
 msgid "The CSS attributes cascade down from parent to children and within one tag cascades over the CSS classes referenced in the <literal>styleClass</literal> attributes and finally over the CSS attributes defined in the <literal>style</literal>attribute. You can place them pretty much anywhere but e.g. placing a column width setting in a cell nested within that column makes little sense."
-msgstr ""
+msgstr "Gli attributi CSS vanno in cascata dal padre ai figli e da un tag si scende in cascata attraverso classi CSS referenziate negli attributi <literal>styleClass</literal> ed infine lungo gli attributi CSS definiti nell'attributo <literal>style</literal>. Si può collocarli ovunque, ma ad esempio impostare la larghezza di colonna in una cella innestata dentro tale colonna ha poco senso."
 
 #. Tag: title
 #: Excel.xml:2289
@@ -2219,7 +2219,7 @@ msgstr "Link ai fogli di stile"
 #: Excel.xml:2290
 #, no-c-format
 msgid "External stylesheets are references with the e:link tag. They are placed as children of the workbook."
-msgstr ""
+msgstr "Gli stylesheet esterni sono referenziati con il tag e:link. Vengono messi come figli del workbook."
 
 #. Tag: literal
 #: Excel.xml:2302
@@ -2361,7 +2361,7 @@ msgstr "xls-font-struck-out"
 #: Excel.xml:2447
 #, no-c-format
 msgid "Should the font be struck out? Valid values are \"true\" and \"false\""
-msgstr ""
+msgstr "Il font deve essere barrato? I valori validi sono \"true\" e \"false\""
 
 #. Tag: para
 #: Excel.xml:2455
@@ -2373,7 +2373,7 @@ msgstr "xls-font"
 #: Excel.xml:2458
 #, no-c-format
 msgid "A shorthand notation for setting all the values. Place the font name last and use tick marks for fonts with spaces in them, e.g. 'Times New Roman'. Use \"italic\", \"bold\" and \"struckout\"."
-msgstr ""
+msgstr "Una notazione breve per impostare tutti i valori. Si collochi il nome del font in fondo e si usino i tick mark per i font separati da uno spazio, es. 'Times New Roman'. Si usi \"italic\", \"bold\" e \"struckout\"."
 
 #. Tag: para
 #: Excel.xml:2464
@@ -2403,7 +2403,7 @@ msgstr "xls-border-left-color"
 #: Excel.xml:2488
 #, no-c-format
 msgid "The border color of the left edge of the cell (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour </ulink> )."
-msgstr "Il colore del bordo dello spigolo sinistro della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour </ulink> )."
+msgstr "Il colore del bordo del lato sinistro della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour </ulink> )."
 
 #. Tag: para
 #: Excel.xml:2501
@@ -2415,7 +2415,7 @@ msgstr "xls-border-left-line-style"
 #: Excel.xml:2504
 #, no-c-format
 msgid "The border line style of the left edge of the cell (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format.LineStyle </ulink> )."
-msgstr "Lo stile di linea del bordo dello spigolo sinistro della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format.LineStyle </ulink> )."
+msgstr "Lo stile di linea del bordo del lato sinistro della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format.LineStyle </ulink> )."
 
 #. Tag: para
 #: Excel.xml:2516
@@ -2427,7 +2427,7 @@ msgstr "xls-border-left"
 #: Excel.xml:2519
 #, no-c-format
 msgid "A shorthand for setting line style and color of the left edge of the cell, e.g style=\"xls-border-left: thick red\""
-msgstr ""
+msgstr "Una notazione breve per impostare lo stile della linea ed il colore del lato sinistro della cella, es. style=\"xls-border-left: thick red\""
 
 #. Tag: para
 #: Excel.xml:2527
@@ -2439,7 +2439,7 @@ msgstr "xls-border-top-color"
 #: Excel.xml:2530
 #, no-c-format
 msgid "The border color of the top edge of the cell (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour </ulink> )."
-msgstr "Il colore del bordo dello spigolo in alto della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour </ulink> )."
+msgstr "Il colore del bordo del lato alto della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour </ulink> )."
 
 #. Tag: para
 #: Excel.xml:2543
@@ -2451,7 +2451,7 @@ msgstr "xls-border-top-line-style"
 #: Excel.xml:2546
 #, no-c-format
 msgid "The border line style of the top edge of the cell (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format.LineStyle </ulink> )."
-msgstr "Lo stile di linea del bordo dello spigolo in alto della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format.LineStyle </ulink> )."
+msgstr "Lo stile di linea del bordo del lato alto della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format.LineStyle </ulink> )."
 
 #. Tag: para
 #: Excel.xml:2558
@@ -2463,7 +2463,7 @@ msgstr "xls-border-top"
 #: Excel.xml:2561
 #, no-c-format
 msgid "A shorthand for setting line style and color of the top edge of the cell, e.g style=\"xls-border-left: red thick\""
-msgstr ""
+msgstr "Una notazione breve per impostare lo stile della linea ed il colore del lato alto della cella, es. style=\"xls-border-top: thick red\""
 
 #. Tag: para
 #: Excel.xml:2569
@@ -2475,7 +2475,7 @@ msgstr "xls-border-right-color"
 #: Excel.xml:2572
 #, no-c-format
 msgid "The border color of the right edge of the cell (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour </ulink> )."
-msgstr "Il colore del bordo dello spigolo destro della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour </ulink> )."
+msgstr "Il colore del bordo del lato destro della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour </ulink> )."
 
 #. Tag: para
 #: Excel.xml:2585
@@ -2487,7 +2487,7 @@ msgstr "xls-border-right-line-style"
 #: Excel.xml:2588
 #, no-c-format
 msgid "The border line style of the right edge of the cell (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format.LineStyle </ulink> )."
-msgstr "Lo stile di linea del bordo dello spigolo a destra della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format.LineStyle </ulink> )."
+msgstr "Lo stile di linea del bordo del lato destro della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format.LineStyle </ulink> )."
 
 #. Tag: para
 #: Excel.xml:2600
@@ -2499,7 +2499,7 @@ msgstr "xls-border-right"
 #: Excel.xml:2603
 #, no-c-format
 msgid "A shorthand for setting line style and color of the right edge of the cell, e.g style=\"xls-border-right: thick red\""
-msgstr ""
+msgstr "Una notazione breve per impostare lo stile della linea ed il colore del lato destro della cella, es. style=\"xls-border-right: thick red\""
 
 #. Tag: para
 #: Excel.xml:2611
@@ -2511,7 +2511,7 @@ msgstr "xls-border-bottom-color"
 #: Excel.xml:2614
 #, no-c-format
 msgid "The border color of the bottom edge of the cell (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour </ulink> )."
-msgstr "Il colore del bordo dello spigolo in basso della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour </ulink> )."
+msgstr "Il colore del bordo del lato basso della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour </ulink> )."
 
 #. Tag: para
 #: Excel.xml:2627
@@ -2523,7 +2523,7 @@ msgstr "xls-border-bottom-line-style"
 #: Excel.xml:2630
 #, no-c-format
 msgid "The border line style of the bottom edge of the cell (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format.LineStyle </ulink> )."
-msgstr "Lo stile di linea del bordo dello spigolo in basso della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format.LineStyle </ulink> )."
+msgstr "Lo stile di linea del bordo del lato basso della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format.LineStyle </ulink> )."
 
 #. Tag: para
 #: Excel.xml:2642
@@ -2535,7 +2535,7 @@ msgstr "xls-border-bottom"
 #: Excel.xml:2645
 #, no-c-format
 msgid "A shorthand for setting line style and color of the bottom edge of the cell, e.g style=\"xls-border-bottom: thick red\""
-msgstr ""
+msgstr "Una notazione breve per impostare lo stile della linea ed il colore del lato basso della cella, es. style=\"xls-border-bottom: thick red\""
 
 #. Tag: para
 #: Excel.xml:2653
@@ -2547,7 +2547,7 @@ msgstr "xls-border"
 #: Excel.xml:2656
 #, no-c-format
 msgid "A shorthand for setting line style and color for all edges of the cell, e.g style=\"xls-border: thick red\""
-msgstr ""
+msgstr "Una notazione breve per impostare lo stile della linea ed il colore per tutti i lati della cella, es. style=\"xls-border: thick red\""
 
 #. Tag: title
 #: Excel.xml:2667
@@ -2595,7 +2595,7 @@ msgstr "xls-background"
 #: Excel.xml:2711
 #, no-c-format
 msgid "A shorthand for setting the background color and pattern. See above for rules."
-msgstr ""
+msgstr "Una notazione breve per impostare il pattern ed il colore del background. Vedere sopra per le regole."
 
 #. Tag: title
 #: Excel.xml:2721
@@ -2619,7 +2619,7 @@ msgstr "xls-column-width"
 #: Excel.xml:2735
 #, no-c-format
 msgid "The width of the column. Use largeish values (~5000) to start with. Used by the e:column in xhtml mode."
-msgstr ""
+msgstr "La larghezza della colonna. Si usino valori ampi (~5000) per cominciare. Usata da e:column nella modalità xhtml."
 
 #. Tag: para
 #: Excel.xml:2743
@@ -2631,7 +2631,7 @@ msgstr "xls-column-widths"
 #: Excel.xml:2746
 #, no-c-format
 msgid "The width of the column. Use largeish values (~5000) to start with. Used by the excel exporter, placed in the datatable style attribute. Use numerical values or * to bypass a column."
-msgstr ""
+msgstr "La larghezza della colonna. Si usino valori ampi (~5000) per cominciare. Usata dall'excel exporter, collocato nell'attributo style della datatable. Si usino valori numerici o * per bypassare una colonna."
 
 #. Tag: para
 #: Excel.xml:2751
@@ -2649,7 +2649,7 @@ msgstr "xls-column-autosize"
 #: Excel.xml:2761
 #, no-c-format
 msgid "Should an attempt be made to autosize the column? Valid values are \"true\" and \"false\"."
-msgstr ""
+msgstr "Deve essere fatto un tentativo per autodimensionare la colonna? I valori validi sono \"true\" and \"false\"."
 
 #. Tag: para
 #: Excel.xml:2769
@@ -2697,7 +2697,7 @@ msgstr "xls-force-type"
 #: Excel.xml:2811
 #, no-c-format
 msgid "The forced type of the cell data. The value is a string that can be one of \"general\", \"number\", \"text\", \"date\", \"formula\" or \"bool\". The type is automatically detected so there is rarely any use for this attribute."
-msgstr ""
+msgstr "Il tipo forzato dei dati della cella. Il valore è una stringa che può essere una tra \"general\", \"number\", \"text\", \"date\", \"formula\" o \"bool\". Il tipo è automaticamente individuato e quindi quest'attributo si usa raramente."
 
 #. Tag: para
 #: Excel.xml:2820

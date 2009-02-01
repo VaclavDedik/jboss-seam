@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:19+0000\n"
-"PO-Revision-Date: 2009-01-11 17:05+0100\n"
+"PO-Revision-Date: 2009-02-01 21:41+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -148,35 +148,35 @@ msgstr "Attributi"
 #: Controls.xml:158
 #, no-c-format
 msgid "<literal>value</literal> &#8212; the label."
-msgstr ""
+msgstr "<literal>value</literal> &#8212; l'etichetta."
 
 #. Tag: para
 #: Controls.xml:50
 #: Controls.xml:163
 #, no-c-format
 msgid "<literal>action</literal> &#8212; a method binding that specified the action listener."
-msgstr ""
+msgstr "<literal>action</literal> &#8212; un metodo di binding che specifica l'action listener."
 
 #. Tag: para
 #: Controls.xml:57
 #: Controls.xml:169
 #, no-c-format
 msgid "<literal>view</literal> &#8212; the JSF view id to link to."
-msgstr ""
+msgstr "<literal>view</literal> &#8212; l'id della vista JSF a cui fare riferimento."
 
 #. Tag: para
 #: Controls.xml:62
 #: Controls.xml:174
 #, no-c-format
 msgid "<literal>fragment</literal> &#8212; the fragment identifier to link to."
-msgstr ""
+msgstr "<literal>fragment</literal> &#8212; l'identificatore del frammento a cui fare riferimento."
 
 #. Tag: para
 #: Controls.xml:68
 #: Controls.xml:180
 #, no-c-format
 msgid "<literal>disabled</literal> &#8212; is the link disabled?"
-msgstr ""
+msgstr "<literal>disabled</literal> &#8212; il link è disabilitato?"
 
 #. Tag: para
 #: Controls.xml:73
@@ -264,7 +264,7 @@ msgstr ""
 #: Controls.xml:120
 #, no-c-format
 msgid "None"
-msgstr ""
+msgstr "Nessuno"
 
 #. Tag: literal
 #: Controls.xml:125
@@ -295,7 +295,7 @@ msgstr ""
 #: Controls.xml:698
 #, no-c-format
 msgid "None."
-msgstr ""
+msgstr "Nessuno."
 
 #. Tag: literal
 #: Controls.xml:141

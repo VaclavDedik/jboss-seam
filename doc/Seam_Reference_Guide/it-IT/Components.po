@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:22+0000\n"
-"PO-Revision-Date: 2009-01-20 20:42+0100\n"
+"PO-Revision-Date: 2009-02-01 21:43+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1416,7 +1416,7 @@ msgstr ""
 #: Components.xml:1284
 #, no-c-format
 msgid "Miscellaneous components"
-msgstr ""
+msgstr "Componenti misti"
 
 #. Tag: para
 #: Components.xml:1285
@@ -1470,7 +1470,7 @@ msgstr ""
 #: Components.xml:1338
 #, no-c-format
 msgid "Special components"
-msgstr ""
+msgstr "Componenti speciali"
 
 #. Tag: para
 #: Components.xml:1339
