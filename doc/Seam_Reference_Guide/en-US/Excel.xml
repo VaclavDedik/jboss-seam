@@ -2498,7 +2498,7 @@
          The CSS attributes cascade down from parent to children and within one tag
          cascades over the CSS classes referenced in the <literal>styleClass</literal>
          attributes and finally over the CSS attributes defined in the 
-         <literal>style</literal>attribute. You can place them pretty much anywhere but
+         <literal>style</literal> attribute. You can place them pretty much anywhere but
          e.g. placing a column width setting in a cell nested within that column makes
          little sense.
       </para>
@@ -2783,7 +2783,7 @@
                      <entry valign="top">
                         <para>
                            A shorthand for setting line style and color of the top edge
-                           of the cell, e.g style="xls-border-left: red thick"
+                           of the cell, e.g style="xls-border-top: red thick"
                         </para>
                      </entry>
                   </row>
