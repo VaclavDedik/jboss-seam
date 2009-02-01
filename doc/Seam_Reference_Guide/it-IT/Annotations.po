@@ -1188,7 +1188,7 @@ msgstr "<![CDATA[@Interceptors({DVDInterceptor, CDInterceptor})]]>"
 #: Annotations.xml:1045
 #, no-c-format
 msgid "Synonym for javax.interceptors.Interceptors, for use in a pre Java EE 5 environment. Note that this may only be used as a meta-annotation. Declares an ordered list of interceptors for a class or method."
-msgstr "Sinonimo di javax.interceptors.Interceptors, per l'uso in ambiente pre Java EE 5.Si noti che può essere usato solo come meta-annotazione. Dichiara una lista ordinata di interceptor per una classe o un metodo."
+msgstr "Sinonimo di javax.interceptors.Interceptors, per l'uso in ambiente pre Java EE 5. Si noti che può essere usato solo come meta-annotazione. Dichiara una lista ordinata di interceptor per una classe o un metodo."
 
 #. Tag: para
 #: Annotations.xml:1051
@@ -1249,7 +1249,7 @@ msgstr "<literal>message</literal> &#8212; un messaggio da mostrare, di default 
 #: Annotations.xml:1133
 #, no-c-format
 msgid "<literal>end</literal> &#8212; specifies that the long-running conversation should end, default to <literal>false</literal>."
-msgstr "<literal>end</literal> &#8212; specifica che la conversazione long-runninf debba terminare, di default è <literal>false</literal>."
+msgstr "<literal>end</literal> &#8212; specifica che la conversazione long-running debba terminare, di default è <literal>false</literal>."
 
 #. Tag: literal
 #: Annotations.xml:1111
@@ -1321,13 +1321,13 @@ msgstr "Annotazioni per gli interceptor di Seam"
 #: Annotations.xml:1174
 #, no-c-format
 msgid "The following annotations appear on Seam interceptor classes."
-msgstr "Le seguenti annotazioni appaiono nelle classi interceptor di Seam."
+msgstr "Nelle classi interceptor di Seam appaiono le seguenti annotazioni."
 
 #. Tag: para
 #: Annotations.xml:1177
 #, no-c-format
 msgid "Please refer to the documentation for the EJB 3.0 specification for information about the annotations required for EJB interceptor definition."
-msgstr "Si prega di fare riferimento alla documentazione per la specifica EJB 3.0 per informazioni sulle annotazioni richieste per la definizione di interceptor EJB."
+msgstr "Si prega di fare riferimento alla documentazione della specifica EJB 3.0 per informazioni sulle annotazioni richieste per la definizione di interceptor EJB."
 
 #. Tag: literal
 #: Annotations.xml:1185

@@ -290,7 +290,7 @@ msgstr "#{company.departments}"
 #: Elenhancements.xml:206
 #, no-c-format
 msgid "might return a list of departments. If you only need a list of department names, your only option is to iterate over the list to retrieve the values. JBoss EL allows this with a projection expression:"
-msgstr "potrebbe restituire una lista di dipartimenti. Se tu avessi bisogno di una lista di nomi di dipartimento, l'unica opzione è quella di iterare sulla lista per recuperare i valori. JBoss EL permette questo con l'espressione di proiezione:"
+msgstr "potrebbe restituire una lista di dipartimenti. Se occorresse una lista di nomi di dipartimento, l'unica opzione è quella di iterare sulla lista per recuperare i valori. JBoss EL permette questo con l'espressione di proiezione:"
 
 #. Tag: programlisting
 #: Elenhancements.xml:212

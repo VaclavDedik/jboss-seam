@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Seam_Reference_Guide\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-02-01 13:31+0100\n"
+"PO-Revision-Date: 2009-02-01 17:53+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1314,7 +1314,7 @@ msgstr "Le formule sono innestate nelle colonne (per iterazione) o dentro i work
 #: Excel.xml:1360
 #, no-c-format
 msgid "The formula of the cell in placed in the <literal>value</literal> -attribute as a normal &excel; notation. Note that when doing cross-sheet formulas, the worksheets must exist before referencing a formula against them. The value is a string."
-msgstr ""
+msgstr "La formula della cella è collocata nell'attributo <literal>value</literal> come una normale annotazione &excel;. Si noti che quando si fanno formule con riferimenti ad altri fogli, i worksheet devo esistere prima di eseguire riferimenti ad essa. Il valore è una stringa."
 
 #. Tag: programlisting
 #: Excel.xml:1366
@@ -1374,7 +1374,7 @@ msgstr "Immagini"
 #: Excel.xml:1374
 #, no-c-format
 msgid "Images are nested within columns (for iteration) or inside worksheets (for direct placement using the <literal>startColumn/startRow</literal> and <literal>rowSpan/columnSpan</literal> attributes). The spans are optional and if omitted, the image will be inserted without resizing."
-msgstr ""
+msgstr "Le immagini sono innestate dentro le colonne (per iterazione) o dentro i worksheet (per collocazione diretta usando gli attributi <literal>startColumn/startRow</literal> e <literal>rowSpan/columnSpan</literal>). Gli span sono opzionali e se omessi, l'immagine verrà inserita senza ridimensionamento."
 
 #. Tag: literal
 #: Excel.xml:1388
@@ -1451,7 +1451,7 @@ msgstr "Hyperlinks"
 #: Excel.xml:1467
 #, no-c-format
 msgid "Hyperlinks are nested within columns (for iteration) or inside worksheets (for direct placement using the <literal>startColumn/startRow</literal> and <literal>endColumn/endRow</literal> attributes). They add link navigation to URIs"
-msgstr ""
+msgstr "Gli hyperlink sono innestati dentro le colonne (per iterazione) o dentro i worksheet (per collocazione diretta usando gli attributi <literal>startColumn/startRow</literal> e <literal>endColumn/endRow</literal>). Aggiungono agli URI una navigazione tramite link."
 
 #. Tag: literal
 #: Excel.xml:1482
@@ -1523,7 +1523,7 @@ msgstr ""
 #: Excel.xml:1562
 #, no-c-format
 msgid "defines a described hyperlink pointing to SFWK in the area A1:E5"
-msgstr ""
+msgstr "definisce un hyperlink che punta a SFWK nell'area A1:E5"
 
 #. Tag: title
 #: Excel.xml:1567
@@ -1574,7 +1574,7 @@ msgstr "&lt;e:footer&gt;"
 #: Excel.xml:1698
 #, no-c-format
 msgid "The content of the facets is a string that can contain various #-delimited commands as follows:"
-msgstr ""
+msgstr "Il contenuto dei facets è una stringa che può contenere vari comandi delimitati da # come segue:"
 
 #. Tag: para
 #: Excel.xml:1709
@@ -1834,7 +1834,7 @@ msgstr "Stampa di aree e titoli"
 #: Excel.xml:1881
 #, no-c-format
 msgid "Print areas and titles childrens of worksheets and worksheet templates and provide... print areas and titles."
-msgstr ""
+msgstr "Stampa le aree ed i titoli figli dei worksheet e dei templatee fornisce...stampa aree e titoli."
 
 #. Tag: literal
 #: Excel.xml:1893
@@ -1846,25 +1846,25 @@ msgstr "&lt;e:printArea&gt;"
 #: Excel.xml:1902
 #, no-c-format
 msgid "<literal>firstColumn</literal> &#8212; The column of the top-left corner of the area. The parameter is a number. Note that the value is 0-based."
-msgstr ""
+msgstr "<literal>firstColumn</literal> &#8212; La colonna dell'angolo in alto a sinistra dell'area. Il parametro è un numero. Si noti che il valore parte da zero."
 
 #. Tag: para
 #: Excel.xml:1910
 #, no-c-format
 msgid "<literal>firstRow</literal> &#8212; The row of the top-left corner of the area. The parameter is a number. Note that the value is 0-based."
-msgstr ""
+msgstr "<literal>firstRow</literal> &#8212; La riga dell'angolo in alto a sinistra dell'area. Il parametro è un numero. Si noti che il valore parte da zero."
 
 #. Tag: para
 #: Excel.xml:1918
 #, no-c-format
 msgid "<literal>lastColumn</literal> &#8212; The column of the bottom-right corner of the area. The parameter is a number. Note that the value is 0-based."
-msgstr ""
+msgstr "<literal>lastColumn</literal> &#8212; La colonna dell'angolo in basso a destra dell'area. Il parametro è un numero. Si noti che il valore parte da zero."
 
 #. Tag: para
 #: Excel.xml:1926
 #, no-c-format
 msgid "<literal>lastRow</literal> &#8212; The row of the bottom-right corner of the area. The parameter is a number. Note that the value is 0-based."
-msgstr ""
+msgstr "<literal>lastRow</literal> &#8212; La riga dell'angolo in basso a destra dell'area. Il parametro è un numero. Si noti che il valore parte da zero."
 
 #. Tag: programlisting
 #: Excel.xml:1959
@@ -1896,7 +1896,7 @@ msgstr ""
 #: Excel.xml:1960
 #, no-c-format
 msgid "defines a print title between A1:A10 and a print area between B2:J10."
-msgstr ""
+msgstr "definisce un titolo di stampa tra A1:A10 ed un'area di stampa tra B2:J10."
 
 #. Tag: title
 #: Excel.xml:1965
@@ -1921,7 +1921,7 @@ msgstr "Raggruppamento"
 #: Excel.xml:1972
 #, no-c-format
 msgid "Provides grouping of columns and rows."
-msgstr ""
+msgstr "Fornisce un raggruppamento di colonne e righe."
 
 #. Tag: literal
 #: Excel.xml:1981
@@ -2001,7 +2001,7 @@ msgstr ""
 #: Excel.xml:2105
 #, no-c-format
 msgid "groups rows 5 trough 10 and columns 5 through 10 so that the rows are initially collapsed (but not the columns)."
-msgstr ""
+msgstr "raggruppa dalla riga 5 alla 10 e dalla colonna 5 alla 10 in modo che le righe siano inizialmente collassate (ma non le colonne)."
 
 #. Tag: title
 #: Excel.xml:2112
@@ -2131,7 +2131,7 @@ msgstr "Esportatore di datatable"
 #: Excel.xml:2248
 #, no-c-format
 msgid "If you prefer to export an existing JSF datatable instead of writing a dedicated XHTML document, this can also be achieved easily by executing the <literal>org.jboss.seam.excel.excelExporter.export</literal> component, passing in the id of the datatable as an Seam EL parameter. Consider you have a data table"
-msgstr ""
+msgstr "Se si preferisce esportare una datatable JSF esistente invece di scrivere un apposito documento XHTML, si può eseguire il componente <literal>org.jboss.seam.excel.excelExporter.export</literal>, passando l'id della datatable come parametro Seam EL. Si presuma di avere una datatable"
 
 #. Tag: programlisting
 #: Excel.xml:2255
@@ -2159,7 +2159,7 @@ msgstr ""
 #: Excel.xml:2256
 #, no-c-format
 msgid "that you want to view as an <trademark class=\"registered\">Microsoft</trademark> <trademark class=\"registered\">Excel</trademark> spreadsheet. Place a"
-msgstr ""
+msgstr "che si vuole visualizzare come foglio <trademark class=\"registered\">Microsoft</trademark> <trademark class=\"registered\">Excel</trademark>. Si collochi un"
 
 #. Tag: programlisting
 #: Excel.xml:2262
@@ -2183,7 +2183,7 @@ msgstr ""
 #: Excel.xml:2263
 #, no-c-format
 msgid "in the form and you're done. You can of course execute the exporter with a button, s:link or other preferred method. There are also plans for a dedicated export tag that can be placed inside the datatable tag so you won't have to refer to the datatable by ID."
-msgstr ""
+msgstr "nella form e si è già finito. Si può certamente eseguire l'exporter con un pulsante, s: link oppure con un altro metodo preferito. Ci sono anche piani per un tag dedicato all'export che possa essere messo nel tag della datatable per non dover più fare riferimento all'id della datatable."
 
 #. Tag: para
 #: Excel.xml:2269
@@ -2253,7 +2253,7 @@ msgstr ""
 #: Excel.xml:2343
 #, no-c-format
 msgid "References a stylesheet that can be found at /css/excel.css"
-msgstr ""
+msgstr "Fa riferimento allo stylesheet che può essere trovato in /css/excel.css"
 
 #. Tag: title
 #: Excel.xml:2347
@@ -2265,7 +2265,7 @@ msgstr "Font"
 #: Excel.xml:2348
 #, no-c-format
 msgid "This group of XLS-CSS attributes define a font and its attributes"
-msgstr ""
+msgstr "Questo gruppo di attributi XLS-CSS definisce un font ed i suoi attributi"
 
 #. Tag: para
 #: Excel.xml:2358
@@ -2391,7 +2391,7 @@ msgstr "Bordi"
 #: Excel.xml:2475
 #, no-c-format
 msgid "This group of XLS-CSS attributes define the borders of the cell"
-msgstr ""
+msgstr "Questo gruppo di attributi XLS-CSS definisce i bordi della cella"
 
 #. Tag: para
 #: Excel.xml:2485
@@ -2439,7 +2439,7 @@ msgstr "xls-border-top-color"
 #: Excel.xml:2530
 #, no-c-format
 msgid "The border color of the top edge of the cell (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour </ulink> )."
-msgstr ""
+msgstr "Il colore del bordo dello spigolo in alto della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour </ulink> )."
 
 #. Tag: para
 #: Excel.xml:2543
@@ -2451,7 +2451,7 @@ msgstr "xls-border-top-line-style"
 #: Excel.xml:2546
 #, no-c-format
 msgid "The border line style of the top edge of the cell (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format.LineStyle </ulink> )."
-msgstr ""
+msgstr "Lo stile di linea del bordo dello spigolo in alto della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format.LineStyle </ulink> )."
 
 #. Tag: para
 #: Excel.xml:2558
@@ -2475,7 +2475,7 @@ msgstr "xls-border-right-color"
 #: Excel.xml:2572
 #, no-c-format
 msgid "The border color of the right edge of the cell (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour </ulink> )."
-msgstr ""
+msgstr "Il colore del bordo dello spigolo destro della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour </ulink> )."
 
 #. Tag: para
 #: Excel.xml:2585
@@ -2487,7 +2487,7 @@ msgstr "xls-border-right-line-style"
 #: Excel.xml:2588
 #, no-c-format
 msgid "The border line style of the right edge of the cell (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format.LineStyle </ulink> )."
-msgstr ""
+msgstr "Lo stile di linea del bordo dello spigolo a destra della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format.LineStyle </ulink> )."
 
 #. Tag: para
 #: Excel.xml:2600
@@ -2511,7 +2511,7 @@ msgstr "xls-border-bottom-color"
 #: Excel.xml:2614
 #, no-c-format
 msgid "The border color of the bottom edge of the cell (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour </ulink> )."
-msgstr ""
+msgstr "Il colore del bordo dello spigolo in basso della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html\"> jxl.format.Colour </ulink> )."
 
 #. Tag: para
 #: Excel.xml:2627
@@ -2523,7 +2523,7 @@ msgstr "xls-border-bottom-line-style"
 #: Excel.xml:2630
 #, no-c-format
 msgid "The border line style of the bottom edge of the cell (see <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format.LineStyle </ulink> )."
-msgstr ""
+msgstr "Lo stile di linea del bordo dello spigolo in basso della cella (si veda <ulink url=\"http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html\"> jxl.format.LineStyle </ulink> )."
 
 #. Tag: para
 #: Excel.xml:2642
@@ -2559,7 +2559,7 @@ msgstr "Background"
 #: Excel.xml:2668
 #, no-c-format
 msgid "This group of XLS-CSS attributes define the background of the cell"
-msgstr ""
+msgstr "Questo gruppo di attributi XLS-CSS definisce il background della cella"
 
 #. Tag: para
 #: Excel.xml:2678
@@ -2607,7 +2607,7 @@ msgstr "Impostazioni colonna"
 #: Excel.xml:2722
 #, no-c-format
 msgid "This group of XLS-CSS attributes define the column widths etc."
-msgstr ""
+msgstr "Questo gruppo di attributi XLS-CSS definisce lelarghezze di colonna, ecc."
 
 #. Tag: para
 #: Excel.xml:2732
@@ -2733,7 +2733,7 @@ msgstr "xls-locked"
 #: Excel.xml:2843
 #, no-c-format
 msgid "Should the cell be locked. Use with workbook level locked. Valid values are \"true\" and \"false\"."
-msgstr ""
+msgstr "Se la cella debba essere bloccata. Da usare con il livello workbook bloccato. I valori validi sono \"true\" e \"false\"."
 
 #. Tag: para
 #: Excel.xml:2851
@@ -2788,13 +2788,13 @@ msgstr "La cella deve contenere nuove linee? I valori validi sono \"true\" e \"f
 #: Excel.xml:2906
 #, no-c-format
 msgid "The datatable exporter"
-msgstr ""
+msgstr "L'exporter delle datatable"
 
 #. Tag: para
 #: Excel.xml:2907
 #, no-c-format
 msgid "The datatable exporter uses the same xls-css attributes as the xhtml document with the exception that column widths are defined with the <literal>xls-column-widths</literal> attribute on the datatable (since the UIColumn doesn't support the style or styleClass attributes)."
-msgstr ""
+msgstr "L'exporter delle datatable impiega gli stessi attributi xls-css come documento xhtml con l'eccezione che le larghezze di colonna vengono definite con l'attributo <literal>xls-column-widths</literal> nella datatable (poiché UIColumn non supporta gli attributi style o styleClass)."
 
 #. Tag: title
 #: Excel.xml:2915
@@ -2818,19 +2818,19 @@ msgstr "Limitazioni"
 #: Excel.xml:2922
 #, no-c-format
 msgid "In the current version there are some known limitations regarding CSS support"
-msgstr ""
+msgstr "Nell'attuale versione ci sono alcune note limitazioni riguardanti il supporto CSS."
 
 #. Tag: para
 #: Excel.xml:2928
 #, no-c-format
 msgid "When using .xhtml documents, stylesheets must be referenced through the <literal>&lt;e:link&gt; tag</literal>"
-msgstr ""
+msgstr "Usando i documenti xhtml, gli stylesheet devono fare riferimento tramite il tag <literal>&lt;e:link&gt; tag</literal>"
 
 #. Tag: para
 #: Excel.xml:2934
 #, no-c-format
 msgid "When using the datatable exporter, CSS must be entered through style-attributes, external stylesheets are not supported"
-msgstr ""
+msgstr "Usando l'exporter delle datatable, i CSS devono essere inseriti negli attributi style, gli stylesheet esterni non sono supportati"
 
 #. Tag: title
 #: Excel.xml:2943
@@ -2842,7 +2842,7 @@ msgstr "Link ed ulteriore documentazione"
 #: Excel.xml:2944
 #, no-c-format
 msgid "The core of the &excel; functionality is based on the excellent JExcelAPI library which can be found on http://jexcelapi.sourceforge.net/ and most features and possible limitations are inherited from here."
-msgstr ""
+msgstr "Il nucleo delle funzionalità &excel; è basato sull'eccellente libreria JExcelAPI che può essere trovata "
 
 #. Tag: para
 #: Excel.xml:2950
