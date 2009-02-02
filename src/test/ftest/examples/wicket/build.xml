@@ -27,4 +27,58 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
    <property name="jboss.example.ready.check.url" value="seam-wicket/home.seam"/>
    
    <import file="../build.xml" />
+	
+	   <target name="test" depends="build" description="Run Tests">
+		  <!-- clean example -->
+	   	  <ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="clean" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
+	      <!-- deploy the example-->
+	      <antcall target="deploy.example.${container}" />
+	      <!-- execute testng tests -->
+	      <antcall target="selenium.test" />
+	      <!-- undeploy the example -->
+	      <antcall target="undeploy.example.${container}" />
+	   	
+	   	  <!-- run second time with runtime instrumentation -->
+		  <!-- clean example -->
+	   	  <ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="clean" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
+	      <!-- deploy the example-->
+	      <antcall target="deploy.example.${container}.runtime" />
+	      <!-- execute testng tests -->
+	      <antcall target="selenium.test.runtime"/>
+	      <!-- undeploy the example -->
+	      <antcall target="undeploy.example.${container}" />
+	   	
+	   </target>
+	
+	   <target name="deploy.example.jboss.runtime">
+	   	  <echo>Deploying JBoss Example - ${example.name} with runtime instrumentation</echo>
+	   	  <ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${jboss.deploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}" >
+	   		 <property name="instrumentAtRunTime" value="true"/>	
+	   	  </ant>
+	      <!-- wait for the application to be active -->
+	      <!-- TODO is there a better way? -->
+	      <waitfor maxwait="${jboss.deploy.waittime}" maxwaitunit="second">
+	         <and>
+	            <!-- wait for the application to not throw 404 -->
+	            <http url="${selenium.browser.url}/${jboss.example.ready.check.url}" errorsBeginAt="404" />
+	         </and>
+	      </waitfor>
+	   </target>
+	
+	   <target name="selenium.test.runtime" depends="build" description="Run Tests">
+	      <taskdef resource="testngtasks" classpathref="classpath.test" />
+	      <mkdir dir="${test.output.dir}" />
+
+	      <!-- execute testng tests -->
+	      <testng haltonfailure="false" outputdir="${test.output.dir}" classpathref="classpath.test">
+	         <xmlfileset file="${container}-runtime.xml" />
+	         <sysproperty key="selenium.server.port" value="${selenium.server.port}" />
+	         <sysproperty key="selenium.host" value="${selenium.host}" />
+	         <sysproperty key="selenium.browser" value="${selenium.browser}" />
+	         <sysproperty key="selenium.browser.url" value="${selenium.browser.url}" />
+	         <sysproperty key="selenium.speed" value="${selenium.speed}" />
+	         <sysproperty key="selenium.timeout" value="${selenium.timeout}" />
+	      </testng>
+	   </target>
+	
 </project>
