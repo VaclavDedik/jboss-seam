@@ -1,26 +1,26 @@
-# Language ja-JP translations for PACKAGE package.
-# Automatically generated, 2008.
-#
+# translation of Spring.po to Japanese
+# Noriko Mizumoto <noriko@redhat.com>, 2007, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Spring\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-12-04 00:59+0000\n"
-"PO-Revision-Date: 2008-04-04 01:24+0000\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"POT-Creation-Date: 2008-11-06 06:41+0000\n"
+"PO-Revision-Date: 2008-12-22 17:14+1000\n"
+"Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
+"Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #. Tag: title
-#: Spring.xml:6
+#: Spring.xml:3
 #, no-c-format
 msgid "Spring Framework integration"
-msgstr ""
+msgstr "Spring Framework 統合"
 
 #. Tag: para
-#: Spring.xml:8
+#: Spring.xml:5
 #, no-c-format
 msgid ""
 "The Spring integration module allows easy migration of Spring-based projects "
@@ -28,83 +28,93 @@ msgid ""
 "features like conversations and Seam's more sophisticated persistence "
 "context management."
 msgstr ""
+"Spring 統合モジュールにより Seam への Spring ベースとするプロジェクトの移植が"
+"容易になり、 Spring アプリケーションは対話や Seam の高度な永続コンテキスト管"
+"理など Seam の主要な機能を利用することができるようになります。"
 
 #. Tag: para
-#: Spring.xml:12
+#: Spring.xml:9
 #, no-c-format
 msgid ""
 "Note! The Spring integration code is included in the jboss-seam-ioc library. "
 "This dependency is required for all seam-spring integration techniques "
 "covered in this chapter."
 msgstr ""
+"注意! Spring 統合コードは jboss-seam-ioc ライブラリに含まれています。 この依"
+"存性は本章に記載されているすべての seam-spring 統合技術に必要となります。"
 
 #. Tag: para
-#: Spring.xml:15
+#: Spring.xml:12
 #, no-c-format
 msgid "Seam's support for Spring provides the ability to:"
-msgstr ""
+msgstr "Spring の Seam サポートは次のような機能を提供します。"
+
+#. Tag: para
+#: Spring.xml:16
+#, no-c-format
+msgid "inject Seam component instances into Spring beans"
+msgstr "Seam コンポーネントインスタンスを Spring bean にインジェクトする"
 
 #. Tag: para
 #: Spring.xml:19
 #, no-c-format
-msgid "inject Seam component instances into Spring beans"
-msgstr ""
+msgid "inject Spring beans into Seam components"
+msgstr "Spring bean を Seam コンポーネントにインジェクトする"
 
 #. Tag: para
 #: Spring.xml:22
 #, no-c-format
-msgid "inject Spring beans into Seam components"
-msgstr ""
+msgid "turn Spring beans into Seam components"
+msgstr "Spring bean を Seam コンポーネントに変換する"
 
 #. Tag: para
 #: Spring.xml:25
 #, no-c-format
-msgid "turn Spring beans into Seam components"
-msgstr ""
+msgid "allow Spring beans to live in any Seam context"
+msgstr "Spring bean を Seam コンテキストに配置できるようにする"
 
 #. Tag: para
 #: Spring.xml:28
 #, no-c-format
-msgid "allow Spring beans to live in any Seam context"
-msgstr ""
+msgid "start a spring WebApplicationContext with a Seam component"
+msgstr "Seam コンポーネント で Spring Web アプリケーションを起動する"
 
 #. Tag: para
 #: Spring.xml:31
 #, no-c-format
-msgid "start a spring WebApplicationContext with a Seam component"
-msgstr ""
+msgid "Support for Spring PlatformTransactionManagement"
+msgstr "Spring PlatformTransactionManagement のサポート"
 
 #. Tag: para
 #: Spring.xml:34
-#, no-c-format
-msgid "Support for Spring PlatformTransactionManagement"
-msgstr ""
-
-#. Tag: para
-#: Spring.xml:37
 #, no-c-format
 msgid ""
 "provides a Seam managed replacement for Spring's "
 "<literal>OpenEntityManagerInViewFilter</literal> and "
 "<literal>OpenSessionInViewFilter</literal>"
 msgstr ""
+"Spring の <literal>OpenEntityManagerInViewFilter</literal> および "
+"<literal>OpenSessionInViewFilter</literal> に対して Seam 管理の代替を提供しま"
+"す。"
 
 #. Tag: para
-#: Spring.xml:40
+#: Spring.xml:37
 #, no-c-format
 msgid ""
 "Support for Spring <literal>TaskExecutors</literal> to back "
 "<literal>@Asynchronous</literal> calls"
 msgstr ""
+"<literal>@Asynchronous</literal> コールに対応する Spring "
+"<literal>TaskExecutors</literal> のサポート"
 
 #. Tag: title
-#: Spring.xml:45
+#: Spring.xml:42
 #, no-c-format
 msgid "Injecting Seam components into Spring beans"
-msgstr ""
+msgstr "Seam コンポーネントを Spring bean にインジェクトする"
 
 #. Tag: para
-#: Spring.xml:47
+#: Spring.xml:44
 #, no-c-format
 msgid ""
 "Injecting Seam component instances into Spring beans is accomplished using "
@@ -112,9 +122,13 @@ msgid ""
 "the Seam namespace handler, the Seam namespace must be added to the Spring "
 "beans definition file:"
 msgstr ""
+"Seam コンポーネントインスタンスの Spring bean へのインジェクションは、 "
+"<literal>&lt;seam:instance/&gt;</literal> 名前空間ハンドラを使用して行いま"
+"す。 Seam 名前空間ハンドラを有効にするには、 Seam 名前空間を Spring bean 定義"
+"ファイルに追加しなければなりません。"
 
 #. Tag: programlisting
-#: Spring.xml:51
+#: Spring.xml:48
 #, no-c-format
 msgid ""
 "<![CDATA[<beans xmlns=\"http://www.springframework.org/schema/beans\"\n"
@@ -127,15 +141,26 @@ msgid ""
 "                        http://jboss.com/products/seam/spring-seam-2.1.xsd"
 "\">]]>"
 msgstr ""
+"<![CDATA[<beans xmlns=\"http://www.springframework.org/schema/beans\"\n"
+"    xmlns:seam=\"http://jboss.com/products/seam/spring-seam\"\n"
+"    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"    xsi:schemaLocation=\"http://www.springframework.org/schema/beans\n"
+"                        http://www.springframework.org/schema/beans/spring-"
+"beans-2.0.xsd\n"
+"                        http://jboss.com/products/seam/spring-seam\n"
+"                        http://jboss.com/products/seam/spring-seam-2.1.xsd"
+"\">]]>"
 
 #. Tag: para
-#: Spring.xml:53
+#: Spring.xml:50
 #, no-c-format
 msgid "Now any Seam component may be injected into any Spring bean:"
 msgstr ""
+"これで、 Seam コンポーネントはいれの Spring bean にもインジェクション可能とな"
+"りました。"
 
 #. Tag: programlisting
-#: Spring.xml:55
+#: Spring.xml:52
 #, no-c-format
 msgid ""
 "<![CDATA[<bean id=\"someSpringBean\" class=\"SomeSpringBeanClass\" scope="
@@ -145,15 +170,21 @@ msgid ""
 "    </property>\n"
 "</bean>]]>"
 msgstr ""
+"<![CDATA[<bean id=\"someSpringBean\" class=\"SomeSpringBeanClass\" scope="
+"\"prototype\">\n"
+"    <property name=\"someProperty\">\n"
+"        <seam:instance name=\"someComponent\"/>\n"
+"    </property>\n"
+"</bean>]]>"
 
 #. Tag: para
-#: Spring.xml:57
+#: Spring.xml:54
 #, no-c-format
 msgid "An EL expression may be used instead of a component name:"
-msgstr ""
+msgstr "コンポーネント名の代わりに EL 式が利用可能です。"
 
 #. Tag: programlisting
-#: Spring.xml:59
+#: Spring.xml:56
 #, no-c-format
 msgid ""
 "<![CDATA[<bean id=\"someSpringBean\" class=\"SomeSpringBeanClass\" scope="
@@ -163,17 +194,25 @@ msgid ""
 "    </property>\n"
 "</bean>]]>"
 msgstr ""
+"<![CDATA[<bean id=\"someSpringBean\" class=\"SomeSpringBeanClass\" scope="
+"\"prototype\">\n"
+"    <property name=\"someProperty\">\n"
+"        <seam:instance name=\"#{someExpression}\"/>\n"
+"    </property>\n"
+"</bean>]]>"
 
 #. Tag: para
-#: Spring.xml:61
+#: Spring.xml:58
 #, no-c-format
 msgid ""
 "Seam component instances may even be made available for injection into "
 "Spring beans by a Spring bean id."
 msgstr ""
+"Seam コンポーネントインスタンスは、 Spring bean id で Spring bean へのイン"
+"ジェクションができるようになります。"
 
 #. Tag: programlisting
-#: Spring.xml:63
+#: Spring.xml:60
 #, no-c-format
 msgid ""
 "<![CDATA[<seam:instance name=\"someComponent\" id=\"someSeamComponentInstance"
@@ -185,15 +224,23 @@ msgid ""
 "</bean>\n"
 "]]>"
 msgstr ""
+"<![CDATA[<seam:instance name=\"someComponent\" id=\"someSeamComponentInstance"
+"\"/>\n"
+"\n"
+"<bean id=\"someSpringBean\" class=\"SomeSpringBeanClass\" scope=\"prototype"
+"\">\n"
+"    <property name=\"someProperty\" ref=\"someSeamComponentInstance\">\n"
+"</bean>\n"
+"]]>"
 
 #. Tag: para
-#: Spring.xml:65
+#: Spring.xml:62
 #, no-c-format
 msgid "Now for the caveat!"
-msgstr ""
+msgstr "警告!"
 
 #. Tag: para
-#: Spring.xml:67
+#: Spring.xml:64
 #, no-c-format
 msgid ""
 "Seam was designed from the ground up to support a stateful component model "
@@ -210,17 +257,33 @@ msgid ""
 "system. In Spring, we need to inject a proxy of the Seam component, and "
 "resolve the reference when the proxy is invoked."
 msgstr ""
+"Seamは複数のコンテキストを持つステートフルなコンポーネントモデルに対応するこ"
+"とを基本に設計されました。 Spring はそうではありません。 Seam のバイジェク"
+"ションと異なり、 Spring のインジェクションはメソッド呼び出し時に発生しませ"
+"ん。 その代わり、 Spring bean がインスタンス化されるときだけ、 インジェクショ"
+"ンは発生します。 従って、 bean がインスタンス化されるときに利用可能なインスタ"
+"ンスは、 beanのライフサイクル全期間で bean が使用するものと同じインスタンスで"
+"す。 例えば、 Seam <literal>対話</literal> スコープコンポーネントのインスタン"
+"スが 直接、 単一の Spring bean にインジェクトされると、 その単一の Spring "
+"bean はその対話が終了した後もずっと同じインスタンスに対する参照を保持しま"
+"す。 この問題を<emphasis>スコープインピーダンス</emphasis>と呼んでいます。 シ"
+"ステム全体に呼び出しが流れるように、 Seam バイインジェクションはスコープイン"
+"ピーダンスが自然に維持されるようにします。 Spring では、 Seam コンポーネント"
+"のプロキシをインジェクトすることでプロキシが呼ばれた場合に参照を解決する必要"
+"があります。"
 
 #. Tag: para
-#: Spring.xml:77
+#: Spring.xml:74
 #, no-c-format
 msgid ""
 "The <literal>&lt;seam:instance/&gt;</literal> tag lets us automatically "
 "proxy the Seam component."
 msgstr ""
+"<literal>&lt;seam:instance/&gt;</literal>  タグで自動的に Seam コンポーネント"
+"をプロキシできるようになります。"
 
 #. Tag: programlisting
-#: Spring.xml:79
+#: Spring.xml:76
 #, no-c-format
 msgid ""
 "<![CDATA[<seam:instance id=\"seamManagedEM\" name=\"someManagedEMComponent\" "
@@ -230,9 +293,15 @@ msgid ""
 "    <property name=\"entityManager\" ref=\"seamManagedEM\">\n"
 "</bean>]]>"
 msgstr ""
+"<![CDATA[<seam:instance id=\"seamManagedEM\" name=\"someManagedEMComponent\" "
+"proxy=\"true\"/>\n"
+"\n"
+"<bean id=\"someSpringBean\" class=\"SomeSpringBeanClass\">\n"
+"    <property name=\"entityManager\" ref=\"seamManagedEM\">\n"
+"</bean>]]>"
 
 #. Tag: para
-#: Spring.xml:81
+#: Spring.xml:78
 #, no-c-format
 msgid ""
 "This example shows one way to use a Seam-managed persistence context from a "
@@ -241,43 +310,51 @@ msgid ""
 "filter see section on <link linkend=\"spring-persistence\">Using a Seam "
 "Managed Persistence Context in Spring</link>)"
 msgstr ""
+"上記の例では Spring Bean から Seam 管理の永続コンテキストを使用する方法のひと"
+"つを示しています。 (Spring <literal>OpenEntityManagerInView</literal> フィル"
+"タの代替として Seam 管理の永続コンテキストを使用するより堅牢な方法について"
+"は、 <link linkend=\"spring-persistence\">Spring で Seam 管理の永続コンテキストを使用する</link> のセクションを参照してください。)"
 
 #. Tag: title
-#: Spring.xml:88
+#: Spring.xml:85
 #, no-c-format
 msgid "Injecting Spring beans into Seam components"
-msgstr ""
+msgstr "Spring bean を Seam コンポーネントにインジェクトする"
 
 #. Tag: para
-#: Spring.xml:90
+#: Spring.xml:87
 #, no-c-format
 msgid ""
 "It is even easier to inject Spring beans into Seam component instances. "
 "Actually, there are two possible approaches:"
 msgstr ""
+"Spring bean を Seam コンポーネントインスタンスにインジェクトするのはさらに簡"
+"単です。 実際、 可能な方法は 2 つあります。"
+
+#. Tag: para
+#: Spring.xml:92
+#, no-c-format
+msgid "inject a Spring bean using an EL expression"
+msgstr "EL 式を使用して Spring bean をインジェクトする"
 
 #. Tag: para
 #: Spring.xml:95
 #, no-c-format
-msgid "inject a Spring bean using an EL expression"
-msgstr ""
-
-#. Tag: para
-#: Spring.xml:98
-#, no-c-format
 msgid "make the Spring bean a Seam component"
-msgstr ""
+msgstr "Spring bean を Seam コンポーネントにする"
 
 #. Tag: para
-#: Spring.xml:102
+#: Spring.xml:99
 #, no-c-format
 msgid ""
 "We'll discuss the second option in the next section. The easiest approach is "
 "to access the Spring beans via EL."
 msgstr ""
+"次のセクションでは 2 番目の選択肢について説明します。 もっとも容易な方法は "
+"EL を使って Spring Bean にアクセスします。"
 
 #. Tag: para
-#: Spring.xml:105
+#: Spring.xml:102
 #, no-c-format
 msgid ""
 "The Spring <literal>DelegatingVariableResolver</literal> is an integration "
@@ -287,9 +364,15 @@ msgid ""
 "<literal>DelegatingVariableResolver</literal> to <literal>faces-config.xml</"
 "literal>:"
 msgstr ""
+"Spring の <literal>DelegatingVariableResolver</literal> は Spring を JSF と統"
+"合する場合に Spring によって提供される統合ポイントになります。 この "
+"<literal>VariableResolver</literal> はその Bean ID によって EL ですべての "
+"Spring Bean を利用可能にさせることができます。 "
+"<literal>DelegatingVariableResolver</literal> を <literal>faces-config.xml</"
+"literal> に追加する必要があります。"
 
 #. Tag: programlisting
-#: Spring.xml:110
+#: Spring.xml:107
 #, no-c-format
 msgid ""
 "<![CDATA[<application>\n"
@@ -298,38 +381,50 @@ msgid ""
 "    </variable-resolver>\n"
 "</application>]]>"
 msgstr ""
+"<![CDATA[<application>\n"
+"    <variable-resolver>\n"
+"        org.springframework.web.jsf.DelegatingVariableResolver\n"
+"    </variable-resolver>\n"
+"</application>]]>"
 
 #. Tag: para
-#: Spring.xml:112
+#: Spring.xml:109
 #, no-c-format
 msgid "Then you can inject Spring beans using <literal>@In</literal>:"
 msgstr ""
+"これを行うと <literal>@In</literal> を使って Spring bean をインジェクトできる"
+"ようになります。"
 
 #. Tag: programlisting
-#: Spring.xml:114
+#: Spring.xml:111
 #, no-c-format
 msgid ""
 "<![CDATA[@In(\"#{bookingService}\")\n"
 "private BookingService bookingService;]]>"
 msgstr ""
+"<![CDATA[@In(\"#{bookingService}\")\n"
+"private BookingService bookingService;]]>"
 
 #. Tag: para
-#: Spring.xml:116
+#: Spring.xml:113
 #, no-c-format
 msgid ""
 "The use of Spring beans in EL is not limited to injection. Spring beans may "
 "be used anywhere that EL expressions are used in Seam: process and pageflow "
 "definitions, working memory assertions, etc..."
 msgstr ""
+"EL 式でインジェクションを行うために Spring bean を使用することに制限はありま"
+"せん。 Seam で EL 式が使用されるところならどこでも Spring bean を使用すること"
+"ができます。 プロセスとページフロー定義、 ワーキングメモリアサーションなど。"
 
 #. Tag: title
-#: Spring.xml:122
+#: Spring.xml:119
 #, no-c-format
 msgid "Making a Spring bean into a Seam component"
-msgstr ""
+msgstr "Spring bean を Seam コンポーネントにする"
 
 #. Tag: para
-#: Spring.xml:124
+#: Spring.xml:121
 #, no-c-format
 msgid ""
 "The <literal>&lt;seam:component/&gt;</literal> namespace handler can be used "
@@ -337,9 +432,13 @@ msgid ""
 "component/&gt;</literal> tag within the declaration of the bean that you "
 "wish to be a Seam component:"
 msgstr ""
+"<literal>&lt;seam:component/&gt;</literal> 名前空間ハンドラを使用すると、 ど"
+"んな Spring bean でも Seam コンポーネントにすることができます。 Seam コンポー"
+"ネントにしたい bean の宣言内に <literal>&lt;seam:component/&gt;</literal> タ"
+"グを配置するだけです。"
 
 #. Tag: programlisting
-#: Spring.xml:128
+#: Spring.xml:125
 #, no-c-format
 msgid ""
 "<![CDATA[<bean id=\"someSpringBean\" class=\"SomeSpringBeanClass\" scope="
@@ -347,9 +446,13 @@ msgid ""
 "    <seam:component/>\n"
 "</bean>]]>"
 msgstr ""
+"<![CDATA[<bean id=\"someSpringBean\" class=\"SomeSpringBeanClass\" scope="
+"\"prototype\">\n"
+"    <seam:component/>\n"
+"</bean>]]>"
 
 #. Tag: para
-#: Spring.xml:130
+#: Spring.xml:127
 #, no-c-format
 msgid ""
 "By default, <literal>&lt;seam:component/&gt;</literal> will create a "
@@ -360,9 +463,16 @@ msgid ""
 "should be explicitly specified. A Seam component name may be explicitly "
 "specified in cases where there is potential for a naming conflict."
 msgstr ""
+"デフォルトでは、 <literal>&lt;seam:component/&gt;</literal>は bean 定義で与え"
+"られるクラスと名前を付けて <literal>STATELESS</literal>コンポーネントを生成し"
+"ます。 ときおり、<literal>FactoryBean</literal> が使用される場合など、 "
+"Spring bean のクラス が bean 定義に出てくるクラスではないことがあります。 こ"
+"のような場合、 <literal>class</literal> は明示的に指定されなければなりませ"
+"ん。 名前付けに競合の可能性がある場合、 Seam コンポーネント名を明示的に指定し"
+"ても構いません。"
 
 #. Tag: para
-#: Spring.xml:136
+#: Spring.xml:133
 #, no-c-format
 msgid ""
 "The <literal>scope</literal> attribute of <literal>&lt;seam:component/&gt;</"
@@ -372,15 +482,21 @@ msgid ""
 "<literal>STATELESS</literal>. Pre-existing Spring beans usually have a "
 "fundamentally stateless character, so this attribute is not usually needed."
 msgstr ""
+"Spring bean を特定の Seam スコープで管理したい場合、 <literal>&lt;seam:"
+"component/&gt;</literal> の <literal>scope</literal> 属性を使用することができ"
+"ます。 指定される Seam スコープが <literal>STATELESS</literal> ではない場"
+"合、 Spring bean は <literal>prototype</literal> にスコープされなければなりま"
+"せん。 既にある Spring bean は通常ステートレスな特徴を基本的に持っていますの"
+"で、 この属性は一般的には不要になります。"
 
 #. Tag: title
-#: Spring.xml:145
+#: Spring.xml:142
 #, no-c-format
 msgid "Seam-scoped Spring beans"
-msgstr ""
+msgstr "Seam スコープの Spring bean"
 
 #. Tag: para
-#: Spring.xml:147
+#: Spring.xml:144
 #, no-c-format
 msgid ""
 "The Seam integration package also lets you use Seam's contexts as Spring 2.0 "
@@ -391,9 +507,17 @@ msgid ""
 "beans is deeply problematic, and care must be taken when injecting a bean or "
 "component from a wider scope into a bean of a narrower scope."
 msgstr ""
+"Seam 統合パッケージにより Seam のコンテキストを Spring 2.0 スタイルのカスタム"
+"スコープとして使用することもできるようになります。 これによりいずれの Seam コ"
+"ンテキスト内でもあらゆる Spring Bean を宣言することができるようになります。 "
+"ただし、 Spring のコンポーネントモデルはステートフル性に対応するようには設計"
+"されたことはないため、 この機能を使用する際は十分に気を付けてください。 特"
+"に、 セッションや対話スコープの Spring Bean のクラスタ化は深刻な問題があるた"
+"め、 広いスコープから狭いスコープの Bean への Bean ないしはコンポーネントのイ"
+"ンジェクションには注意が必要です。"
 
 #. Tag: para
-#: Spring.xml:153
+#: Spring.xml:150
 #, no-c-format
 msgid ""
 "By specifying <literal>&lt;seam:configure-scopes/&gt;</literal> once in a "
@@ -402,9 +526,14 @@ msgid ""
 "particular Seam scope, specify the Seam scope in the <literal>scope</"
 "literal> attribute of the bean definition."
 msgstr ""
+"Spring bean factory 設定で<literal>&lt;seam:configure-scopes/&gt;</literal> "
+"を一度指定すると、 すべての Seam スコープがカスタムスコープとして Spring "
+"bean に利用可能になります。 Spring bean を特定の Seam スコープに関連付けるに"
+"は、 bean 定義の <literal>scope</literal> 属性で Seam スコープを指定してくだ"
+"さい。"
 
 #. Tag: programlisting
-#: Spring.xml:158
+#: Spring.xml:155
 #, no-c-format
 msgid ""
 "<![CDATA[<!-- Only needs to be specified once per bean factory-->\n"
@@ -415,18 +544,28 @@ msgid ""
 "<bean id=\"someSpringBean\" class=\"SomeSpringBeanClass\" scope=\"seam."
 "CONVERSATION\"/>]]>"
 msgstr ""
+"<![CDATA[<!-- Only needs to be specified once per bean factory-->\n"
+"<seam:configure-scopes/>\n"
+"\n"
+"...\n"
+"\n"
+"<bean id=\"someSpringBean\" class=\"SomeSpringBeanClass\" scope=\"seam."
+"CONVERSATION\"/>]]>"
 
 #. Tag: para
-#: Spring.xml:160
+#: Spring.xml:157
 #, no-c-format
 msgid ""
 "The prefix of the scope name may be changed by specifying the "
 "<literal>prefix</literal> attribute in the <literal>configure-scopes</"
 "literal> definition. (The default prefix is <literal>seam.</literal>)"
 msgstr ""
+"<literal>configure-scopes</literal> 定義内の <literal>prefix</literal> 属性を"
+"指定することによって、 スコープ名のプレフィックスを変更することができます。 "
+"(デフォルトのプレフィックスは <literal>seam.</literal> です。)"
 
 #. Tag: para
-#: Spring.xml:163
+#: Spring.xml:160
 #, no-c-format
 msgid ""
 "By default an instance of a Spring Component registered in this way is not "
@@ -437,9 +576,16 @@ msgid ""
 "of <literal>configure-scopes</literal> to make all spring beans who use a "
 "seam scope auto created."
 msgstr ""
+"デフォルトではこの方法で登録される Spring コンポーネントのインスタンスは "
+"<literal>@In</literal> を使って参照される場合に自動的には作成されません。 イ"
+"ンスタンスを自動作成させるにはインジェクションポイントで <literal>@In"
+"(create=true)</literal> を指定して自動作成される特定 Bean を識別するか、 "
+"<literal>configure-scopes</literal> の <literal>default-auto-create</"
+"literal> 属性を使って Seam スコープを使用する Spring Bean はすべて自動作成さ"
+"れるようにします。"
 
 #. Tag: para
-#: Spring.xml:168
+#: Spring.xml:165
 #, no-c-format
 msgid ""
 "Seam-scoped Spring beans defined this way can be injected into other Spring "
@@ -451,9 +597,18 @@ msgid ""
 "literal>. So if you need to inject a Seam-scoped Spring bean into a "
 "singleton, <literal>&lt;seam:instance/&gt;</literal> must be used:"
 msgstr ""
+"この方法で定義された Seam スコープの Spring bean は、 <literal>&lt;seam:"
+"instance/&gt;</literal> を使用することなく他の Spring bean にインジェクト可能"
+"です。 ただし、 スコープインピーダンスが必ず維持されるよう十分に注意してくだ"
+"さい。 Spring で一般的に使用される方法は、 bean 定義内での <literal>&lt;aop:"
+"scoped-proxy/&gt;</literal> の指定です。 しかし、 Seamスコープの Spring bean "
+"は <literal>&lt;aop:scoped-proxy/&gt;</literal> との<emphasis>互換性がありま"
+"せん</emphasis>。 したがって、 単一の bean に Seam スコープ Spring beanをイン"
+"ジェクトする必要がある場合、 <literal>&lt;seam:instance/&gt;</literal>を使用"
+"しなければなりません。"
 
 #. Tag: programlisting
-#: Spring.xml:176
+#: Spring.xml:173
 #, no-c-format
 msgid ""
 "<![CDATA[<bean id=\"someSpringBean\" class=\"SomeSpringBeanClass\" scope="
@@ -467,15 +622,25 @@ msgid ""
 "    </property>\n"
 "</bean>]]>"
 msgstr ""
+"<![CDATA[<bean id=\"someSpringBean\" class=\"SomeSpringBeanClass\" scope="
+"\"seam.CONVERSATION\"/>\n"
+"\n"
+"...\n"
+"\n"
+"<bean id=\"someSingleton\">\n"
+"    <property name=\"someSeamScopedSpringBean\">\n"
+"        <seam:instance name=\"someSpringBean\" proxy=\"true\"/>\n"
+"    </property>\n"
+"</bean>]]>"
 
 #. Tag: title
-#: Spring.xml:180
+#: Spring.xml:177
 #, no-c-format
 msgid "Using Spring PlatformTransactionManagement"
-msgstr ""
+msgstr "Spring の PlatformTransactionManagement を使用する"
 
 #. Tag: para
-#: Spring.xml:182
+#: Spring.xml:179
 #, no-c-format
 msgid ""
 "Spring provides an extensible transaction management abstraction with "
@@ -488,40 +653,55 @@ msgid ""
 "\"http://static.springframework.org/spring/docs/2.0.x/reference/transaction."
 "html\">here</ulink>."
 msgstr ""
+"Spring は拡張可能なトランザクション管理抽象を提供し、 多くのトランザクション "
+"API (JPA、 Hibernate、 JDO、 JTA など) に対応します。 また、 Spring は "
+"Websphere や Weblogic などの多くのアプリケーションサーバーの "
+"TransactionManagers との堅固な統合を実現します。 Spring トランザクション管理"
+"はネストされるトランザクションなど多くの高度な機能のサポートを提供し、 "
+"REQUIRES_NEW や NOT_SUPPORTED のような完全 Java EE トランザクション伝播のルー"
+"ルに対応します。 詳細については Spring のドキュメント <ulink url="
+"\"http://static.springframework.org/spring/docs/2.0.x/reference/transaction."
+"html\">ここ</ulink> を参照してください。"
 
 #. Tag: para
-#: Spring.xml:190
+#: Spring.xml:187
 #, no-c-format
 msgid ""
 "To configure Seam to use Spring transactions enable the SpringTransaction "
 "component like so:"
 msgstr ""
+"Seam が Spring のトランザクションを使用するよう設定するには、 "
+"SpringTransaction コンポーネントを以下のように有効にします。"
 
 #. Tag: programlisting
-#: Spring.xml:192
+#: Spring.xml:189
 #, no-c-format
 msgid ""
 "<![CDATA[<spring:spring-transaction platform-transaction-manager=\"#"
 "{transactionManager}\"/>]]>"
 msgstr ""
+"<![CDATA[<spring:spring-transaction platform-transaction-manager=\"#"
+"{transactionManager}\"/>]]>"
 
 #. Tag: para
-#: Spring.xml:194
+#: Spring.xml:191
 #, no-c-format
 msgid ""
 "The <literal>spring:spring-transaction</literal> component will utilize "
 "Springs transaction synchronization capabilities for synchronization "
 "callbacks."
 msgstr ""
+"<literal>spring:spring-transaction</literal> コンポーネントは同期のコールバッ"
+"クに Spring トランザクション同期の機能を利用します。"
 
 #. Tag: title
-#: Spring.xml:200
+#: Spring.xml:197
 #, no-c-format
 msgid "Using a Seam Managed Persistence Context in Spring"
-msgstr ""
+msgstr "Spring で Seam 管理の永続コンテキストを使用する"
 
 #. Tag: para
-#: Spring.xml:202
+#: Spring.xml:199
 #, no-c-format
 msgid ""
 "One of the most powerful features of Seam is its conversation scope and the "
@@ -536,57 +716,77 @@ msgid ""
 "(e.g. <literal>PersistenceAnnotationBeanPostProcessor</literal>, "
 "<literal>JpaTemplate</literal>, etc.)"
 msgstr ""
+"Seam のパワフルな機能のひとつにその対話スコープと対話が生きている間 "
+"EntityManager をオープンにしておく機能があります。 これによりエンティティの分"
+"離や添付に関連する多くの問題が解消され、 深刻な "
+"<literal>LazyInitializationException</literal> の発生を軽減することができま"
+"す。 Spring は Web の 1 要求のスコープを越えて永続コンテキストを管理する方法"
+"は提供していません (<literal>OpenEntityManagerInViewFilter</literal>)。 この"
+"ため、 Spring が JPA との統合に提供しているのとすべて同じツールを使った Seam "
+"管理の永続コンテキストへのアクセスを Spring 開発者に持たせることができるとよ"
+"いでしょう (<literal>PersistenceAnnotationBeanPostProcessor</literal>、 "
+"<literal>JpaTemplate</literal> など)。"
 
 #. Tag: para
-#: Spring.xml:212
+#: Spring.xml:209
 #, no-c-format
 msgid ""
 "Seam provides a way for Spring to access a Seam managed persistence context "
 "with Spring's provided JPA tools bringing conversation scoped persistence "
 "context capabilities to Spring applications."
 msgstr ""
+"Seam は提供される JPA ツールを使って Spring が Seam 管理永続コンテキストにア"
+"クセスする方法を提供します。 これにより Spring アプリケーションに対して対話ス"
+"コープの永続コンテキスト機能を実現します。"
 
 #. Tag: para
-#: Spring.xml:216
+#: Spring.xml:213
 #, no-c-format
 msgid "This integration work provides the following functionality:"
-msgstr ""
+msgstr "この統合作業により次のような機能を実現します。"
+
+#. Tag: para
+#: Spring.xml:217
+#, no-c-format
+msgid ""
+"transparent access to a Seam managed persistence context using Spring "
+"provided tools"
+msgstr "Spring 提供ツールを使った Seam 管理永続コンテキストへの透過的なアクセス"
 
 #. Tag: para
 #: Spring.xml:220
 #, no-c-format
 msgid ""
-"transparent access to a Seam managed persistence context using Spring "
-"provided tools"
-msgstr ""
-
-#. Tag: para
-#: Spring.xml:223
-#, no-c-format
-msgid ""
 "access to Seam conversation scoped persistence contexts in a non web request "
 "(e.g. asynchronous quartz job)"
 msgstr ""
+"Web 要求以外での Seam 対話スコープ永続コンテキストへのアクセス (非同期の "
+"quartz ジョブ)"
 
 #. Tag: para
-#: Spring.xml:227
+#: Spring.xml:224
 #, no-c-format
 msgid ""
 "allows for using Seam managed persistence contexts with Spring managed "
 "transactions (will need to flush the persistence context manually)"
 msgstr ""
+"Seam 管理永続コンテキストと Spring 管理トランザクションとの併用が可能 (手作業"
+"による永続コンテキストのフラッシュが必要)"
 
 #. Tag: para
-#: Spring.xml:232
+#: Spring.xml:229
 #, no-c-format
 msgid ""
 "Spring's persistence context propagation model allows only one open "
 "EntityManager per EntityManagerFactory so the Seam integration works by "
 "wrapping an EntityManagerFactory around a Seam managed persistence context."
 msgstr ""
+"Spring の永続コンテキスト伝播モデルは EntityManagerFactory ごと 1 つの "
+"EntityManager しかオープンにしないため、 Seam 統合は EntityManagerFactory を "
+"Seam 管理永続コンテキストでラップすることで動作します。"
 
 #. Tag: programlisting
-#: Spring.xml:236
+#: Spring.xml:233
 #, no-c-format
 msgid ""
 "<![CDATA[<bean id=\"seamEntityManagerFactory\" class=\"org.jboss.seam.ioc."
@@ -595,9 +795,14 @@ msgid ""
 ">\n"
 "</bean>]]>"
 msgstr ""
+"<![CDATA[<bean id=\"seamEntityManagerFactory\" class=\"org.jboss.seam.ioc."
+"spring.SeamManagedEntityManagerFactoryBean\">\n"
+"           <property name=\"persistenceContextName\" value=\"entityManager\"/"
+">\n"
+"</bean>]]>"
 
 #. Tag: para
-#: Spring.xml:238
+#: Spring.xml:235
 #, no-c-format
 msgid ""
 "Where 'persistenceContextName' is the name of the Seam managed persistence "
@@ -606,9 +811,14 @@ msgid ""
 "provide a different unitName you can do so by providing a "
 "persistenceUnitName like so:"
 msgstr ""
+"「persistenceContextName」は Seam 管理の永続コンテキストコンポーネントの名前"
+"になります。 デフォルトではこの EntityManagerFactory には Seam コンポーネント"
+"名と同等の unitName があり、 この場合は「entityManager」になります。 別の "
+"unitName を与えたい場合は次のようにして persistenceUnitName を与えることがで"
+"きます。"
 
 #. Tag: programlisting
-#: Spring.xml:243
+#: Spring.xml:240
 #, no-c-format
 msgid ""
 "<![CDATA[<bean id=\"seamEntityManagerFactory\" class=\"org.jboss.seam.ioc."
@@ -619,26 +829,39 @@ msgid ""
 "extended\"/>\n"
 "</bean>]]>"
 msgstr ""
+"<![CDATA[<bean id=\"seamEntityManagerFactory\" class=\"org.jboss.seam.ioc."
+"spring.SeamManagedEntityManagerFactoryBean\">\n"
+"           <property name=\"persistenceContextName\" value=\"entityManager\"/"
+">\n"
+"        <property name=\"persistenceUnitName\" value=\"bookingDatabase:"
+"extended\"/>\n"
+"</bean>]]>"
 
 #. Tag: para
-#: Spring.xml:245
+#: Spring.xml:242
 #, no-c-format
 msgid ""
 "This EntityManagerFactory can then be used in any Spring provided tools. For "
 "example, using Spring's <literal>PersistenceAnnotationBeanPostProcessor</"
 "literal> is the exact same as before."
 msgstr ""
+"これでこの EntityManagerFactory をいずれの Spring 提供のツールでも使用するこ"
+"とができるようになります。 たとえば、 Spring の "
+"<literal>PersistenceAnnotationBeanPostProcessor</literal> を使用すると前と"
+"まったく同じになります。"
 
 #. Tag: programlisting
-#: Spring.xml:248
+#: Spring.xml:245
 #, no-c-format
 msgid ""
 "<![CDATA[<bean class=\"org.springframework.orm.jpa.support."
 "PersistenceAnnotationBeanPostProcessor\"/>]]>"
 msgstr ""
+"<![CDATA[<bean class=\"org.springframework.orm.jpa.support."
+"PersistenceAnnotationBeanPostProcessor\"/>]]>"
 
 #. Tag: para
-#: Spring.xml:250
+#: Spring.xml:247
 #, no-c-format
 msgid ""
 "If you define your real EntityManagerFactory in Spring but wish to use a "
@@ -647,15 +870,20 @@ msgid ""
 "persistenctUnitName you wish to use by default by specifying the "
 "<literal>defaultPersistenceUnitName</literal> property."
 msgstr ""
+"Spring では実際の EntityManagerFactory を定義するが Seam 管理の永続コンテキス"
+"トを使用したい場合は <literal>defaultPersistenceUnitName</literal> プロパティ"
+"を指定してデフォルトで使用したい persistenctUnitName を "
+"<literal>PersistenceAnnotationBeanPostProcessor</literal> に指示することがで"
+"きます。"
 
 #. Tag: para
-#: Spring.xml:255
+#: Spring.xml:252
 #, no-c-format
 msgid "The <literal>applicationContext.xml</literal> might look like:"
-msgstr ""
+msgstr "<literal>applicationContext.xml</literal> は次に似たようなものになります。"
 
 #. Tag: programlisting
-#: Spring.xml:256
+#: Spring.xml:253
 #, no-c-format
 msgid ""
 "<![CDATA[<bean id=\"entityManagerFactory\" class=\"org.springframework.orm."
@@ -675,33 +903,55 @@ msgid ""
 "\"bookingDatabase:extended\"/>\n"
 "</bean>]]>"
 msgstr ""
+"<![CDATA[<bean id=\"entityManagerFactory\" class=\"org.springframework.orm."
+"jpa.LocalEntityManagerFactoryBean\">\n"
+"        <property name=\"persistenceUnitName\" value=\"bookingDatabase\"/>\n"
+"</bean>\n"
+"<bean id=\"seamEntityManagerFactory\" class=\"org.jboss.seam.ioc.spring."
+"SeamManagedEntityManagerFactoryBean\">\n"
+"           <property name=\"persistenceContextName\" value=\"entityManager\"/"
+">\n"
+"        <property name=\"persistenceUnitName\" value=\"bookingDatabase:"
+"extended\"/>\n"
+"</bean>\n"
+"<bean class=\"org.springframework.orm.jpa.support."
+"PersistenceAnnotationBeanPostProcessor\">\n"
+"        <property name=\"defaultPersistenceUnitName\" value="
+"\"bookingDatabase:extended\"/>\n"
+"</bean>]]>"
 
 #. Tag: para
-#: Spring.xml:258
+#: Spring.xml:255
 #, no-c-format
 msgid "The <literal>component.xml</literal> might look like:"
-msgstr ""
+msgstr "<literal>component.xml</literal> は次に似たようなものになります。"
 
 #. Tag: programlisting
-#: Spring.xml:259
+#: Spring.xml:256
 #, no-c-format
 msgid ""
 "<![CDATA[<persistence:managed-persistence-context name=\"entityManager\"\n"
 "        auto-create=\"true\" entity-manager-factory=\"#{entityManagerFactory}"
 "\"/>]]>"
 msgstr ""
+"<![CDATA[<persistence:managed-persistence-context name=\"entityManager\"\n"
+"        auto-create=\"true\" entity-manager-factory=\"#{entityManagerFactory}"
+"\"/>]]>"
 
 #. Tag: para
-#: Spring.xml:262
+#: Spring.xml:259
 #, no-c-format
 msgid ""
 "<literal>JpaTemplate</literal> and <literal>JpaDaoSupport</literal> are "
 "configured the same way for a Seam managed persistence context as they would "
 "be fore a Seam managed persistence context."
 msgstr ""
+"<literal>JpaTemplate</literal> および <literal>JpaDaoSupport</literal> は "
+"Seam 管理永続コンテキスト用となるため、 Seam 管理永続コンテキストに対して同じ"
+"方法で設定します。"
 
 #. Tag: programlisting
-#: Spring.xml:265
+#: Spring.xml:262
 #, no-c-format
 msgid ""
 "<![CDATA[<bean id=\"bookingService\" class=\"org.jboss.seam.example.spring."
@@ -710,15 +960,20 @@ msgid ""
 "\"seamEntityManagerFactory\"/>\n"
 "</bean>]]>"
 msgstr ""
+"<![CDATA[<bean id=\"bookingService\" class=\"org.jboss.seam.example.spring."
+"BookingService\">\n"
+"        <property name=\"entityManagerFactory\" ref="
+"\"seamEntityManagerFactory\"/>\n"
+"</bean>]]>"
 
 #. Tag: title
-#: Spring.xml:268
+#: Spring.xml:265
 #, no-c-format
 msgid "Using a Seam Managed Hibernate Session in Spring"
-msgstr ""
+msgstr "Spring で Seam 管理の Hibernate セッションを使用する"
 
 #. Tag: para
-#: Spring.xml:270
+#: Spring.xml:267
 #, no-c-format
 msgid ""
 "The Seam Spring integration also provides support for complete access to a "
@@ -726,9 +981,11 @@ msgid ""
 "very similar to the <link linkend=\"spring-persistence\">JPA integration</"
 "link>."
 msgstr ""
+"Seam Spring 統合により Spring のツールを使った Seam 管理 Hibernate セッション"
+"への完全アクセスに対応することもできます。 この統合は <link linkend=\"spring-persistence\">JPA 統合</link> に非常に似ています。"
 
 #. Tag: para
-#: Spring.xml:273
+#: Spring.xml:270
 #, no-c-format
 msgid ""
 "Like Spring's JPA integration spring's propagation model allows only one "
@@ -737,9 +994,14 @@ msgid ""
 "wrapping a proxy SessionFactory around a Seam managed Hibernate session "
 "context."
 msgstr ""
+"Spring の JPA 統合と同様に Spring の伝播モデルは 1 トランザクションの 1 "
+"EntityManagerFactory ごとに 1 つの EntityManager しか Spring ツールに対して利"
+"用できるようオープンにしません。 このため、 Seam Session 統合は proxy "
+"SessionFactory を Seam 管理の Hibernate セッションコンテキストでラップするこ"
+"とにより動作します。"
 
 #. Tag: programlisting
-#: Spring.xml:278
+#: Spring.xml:275
 #, no-c-format
 msgid ""
 "<![CDATA[<bean id=\"seamSessionFactory\" class=\"org.jboss.seam.ioc.spring."
@@ -747,9 +1009,13 @@ msgid ""
 "        <property name=\"sessionName\" value=\"hibernateSession\"/>\n"
 "</bean>]]>"
 msgstr ""
+"<![CDATA[<bean id=\"seamSessionFactory\" class=\"org.jboss.seam.ioc.spring."
+"SeamManagedSessionFactoryBean\">\n"
+"        <property name=\"sessionName\" value=\"hibernateSession\"/>\n"
+"</bean>]]>"
 
 #. Tag: para
-#: Spring.xml:280
+#: Spring.xml:277
 #, no-c-format
 msgid ""
 "Where 'sessionName' is the name of the <literal>persistence:managed-"
@@ -759,40 +1025,53 @@ msgid ""
 "you call getCurrentInstance() on the <literal>SeamManagedSessionFactory</"
 "literal>."
 msgstr ""
+"「sessionName」は <literal>persistence:managed-hibernate-session</literal> コ"
+"ンポーネントの名前になります。 これでこの SessionFactory はいずれの Spring 提"
+"供ツールでも使用することができるようになります。 この統合は "
+"<literal>SeamManagedSessionFactory</literal> で getCurrentInstance() を呼び出"
+"している場合であれば <literal>SessionFactory.getCurrentInstance()</literal> "
+"に対する呼び出しにも対応します。"
 
 #. Tag: title
-#: Spring.xml:286
+#: Spring.xml:283
 #, no-c-format
 msgid "Spring Application Context as a Seam Component"
-msgstr ""
+msgstr "Seam コンポーネントとしての Spring Application Context"
 
 #. Tag: para
-#: Spring.xml:288
+#: Spring.xml:285
 #, no-c-format
 msgid ""
 "Although it is possible to use the Spring <literal>ContextLoaderListener</"
 "literal> to start your application's Spring ApplicationContext there are a "
 "couple of limitations."
 msgstr ""
+"アプリケーションの持つ Spring の ApplicationContext を起動するために Spring "
+"の <literal>ContextLoaderListener</literal> を使用することはできますが、 制約"
+"がいくつかあります。"
 
 #. Tag: para
-#: Spring.xml:293
+#: Spring.xml:290
 #, no-c-format
 msgid ""
 "the Spring ApplicationContext must be started <emphasis>after</emphasis> the "
 "<literal>SeamListener</literal>"
 msgstr ""
+"Spring ApplicationContext は、 <literal>SeamListener</literal>の<emphasis>後"
+"に</emphasis>起動されなければなりません。"
 
 #. Tag: para
-#: Spring.xml:297
+#: Spring.xml:294
 #, no-c-format
 msgid ""
 "it can be tricky starting a Spring ApplicationContext for use in Seam unit "
 "and integration tests"
 msgstr ""
+"Seam ユニット及び統合テストでの使用を目的とした Spring ApplicationContext の"
+"起動は厄介なことがあります。"
 
 #. Tag: para
-#: Spring.xml:302
+#: Spring.xml:299
 #, no-c-format
 msgid ""
 "To overcome these two limitations the Spring integration includes a Seam "
@@ -804,9 +1083,18 @@ msgid ""
 "<literal>&lt;spring:config-locations/&gt;</literal> element following "
 "standard <literal>components.xml</literal> multi value practices."
 msgstr ""
+"これら 2 つの制約を克服するために Spring 統合には Spring ApplicationContext "
+"を起動する Seam コンポーネントが含まれています。 この Seam コンポーネントを使"
+"用するには、 <literal>&lt;spring:context-loader/&gt;</literal> の定義を "
+"<literal>components.xml</literal> に配置します。 <literal>config-locations</"
+"literal> 属性で使用する Spring コンテキストファイルの場所を指定します。 複数"
+"の設定ファイルが必要な場合は、 ネストされる <literal>&lt;spring:config-"
+"locations/&gt;</literal> エレメントに配置することができます。 これを行うに"
+"は、 <literal>components.xml</literal> ファイルに複数の値エレメントを追加する"
+"基準に従ってください。"
 
 #. Tag: programlisting
-#: Spring.xml:310
+#: Spring.xml:307
 #, no-c-format
 msgid ""
 "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
@@ -824,15 +1112,29 @@ msgid ""
 "\n"
 "</components>]]>"
 msgstr ""
+"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
+"            xmlns:spring=\"http://jboss.com/products/seam/spring\"\n"
+"            xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"            xsi:schemaLocation=\"http://jboss.com/products/seam/components\n"
+"                                http://jboss.com/products/seam/components-"
+"2.1.xsd\n"
+"                                http://jboss.com/products/seam/spring\n"
+"                                http://jboss.com/products/seam/spring-2.1.xsd"
+"\">\n"
+"\n"
+"        <spring:context-loader config-locations=\"/WEB-INF/"
+"applicationContext.xml\"/>\n"
+"\n"
+"</components>]]>"
 
 #. Tag: title
-#: Spring.xml:313
+#: Spring.xml:310
 #, no-c-format
 msgid "Using a Spring TaskExecutor for @Asynchronous"
-msgstr ""
+msgstr "@Asynchronous に Spring の TaskExecutor を使用する"
 
 #. Tag: para
-#: Spring.xml:315
+#: Spring.xml:312
 #, no-c-format
 msgid ""
 "Spring provides an abstraction for executing code asynchronously called a "
@@ -842,26 +1144,37 @@ msgid ""
 "install the <literal>SpringTaskExecutorDispatchor</literal> and provide a "
 "spring bean defined taskExecutor like so:"
 msgstr ""
+"Spring はコードを非同期に実行するために <literal>TaskExecutor</literal> と呼"
+"ばれる抽象を提供します。 Spring Seam 統合では <literal>@Asynchronous</"
+"literal> メソッドの呼び出しを直ちに実行するために Spring の "
+"<literal>TaskExecutor</literal> を使用できます。 この機能を有効にするには "
+"<literal>SpringTaskExecutorDispatchor</literal> をインストールしてから次のよ"
+"うに Spring Bean 定義の taskExecutor を与えます。"
 
 #. Tag: programlisting
-#: Spring.xml:320
+#: Spring.xml:317
 #, no-c-format
 msgid ""
 "<![CDATA[<spring:task-executor-dispatcher task-executor=\"#"
 "{springThreadPoolTaskExecutor}\"/>]]>"
 msgstr ""
+"<![CDATA[<spring:task-executor-dispatcher task-executor=\"#"
+"{springThreadPoolTaskExecutor}\"/>]]>"
 
 #. Tag: para
-#: Spring.xml:322
+#: Spring.xml:319
 #, no-c-format
 msgid ""
 "Because a Spring <literal>TaskExecutor</literal> does not support scheduling "
 "of an asynchronous event a fallback Seam <literal>Dispatcher</literal> can "
 "be provided to handle scheduled asynchronous event like so:"
 msgstr ""
+"Spring の <literal>TaskExecutor</literal> は非同期イベントのスケジューリング"
+"には対応しないため、 代替となる Seam <literal>Dispatcher</literal> を与えて次"
+"のようにスケジュールされた非同期イベントを処理することができます。"
 
 #. Tag: programlisting
-#: Spring.xml:325
+#: Spring.xml:322
 #, no-c-format
 msgid ""
 "<![CDATA[<!-- Install a ThreadPoolDispatcher to handle scheduled "
@@ -873,3 +1186,12 @@ msgid ""
 "{springThreadPoolTaskExecutor}\" schedule-dispatcher=\"#"
 "{threadPoolDispatcher}\"/>]]>"
 msgstr ""
+"<![CDATA[<!-- Install a ThreadPoolDispatcher to handle scheduled "
+"asynchronous event -->\n"
+"<core:thread-pool-dispatcher name=\"threadPoolDispatcher\"/>\n"
+"\n"
+"<!-- Install the SpringDispatcher as default -->\n"
+"<spring:task-executor-dispatcher task-executor=\"#"
+"{springThreadPoolTaskExecutor}\" schedule-dispatcher=\"#"
+"{threadPoolDispatcher}\"/>]]>"
+

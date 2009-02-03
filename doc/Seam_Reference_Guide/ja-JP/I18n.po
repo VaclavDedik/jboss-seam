@@ -1,23 +1,23 @@
-# Language ja-JP translations for PACKAGE package.
-# Automatically generated, 2008.
-#
+# translation of I18n.po to Japanese
+# Noriko Mizumoto <noriko@redhat.com>, 2007, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: I18n\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2008-04-04 01:24+0000\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"POT-Creation-Date: 2008-11-06 06:41+0000\n"
+"PO-Revision-Date: 2008-12-08 17:17+1000\n"
+"Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
+"Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #. Tag: title
 #: I18n.xml:5
 #, no-c-format
 msgid "Internationalization, localization and themes"
-msgstr ""
+msgstr "国際化と地域化およびテーマ"
 
 #. Tag: para
 #: I18n.xml:7
@@ -26,13 +26,13 @@ msgid ""
 "Seam makes it easy to build internationalized applications. First, let's "
 "walk through all the stages needed to internationalize and localize your "
 "app. Then we'll take a look at the components Seam bundles."
-msgstr ""
+msgstr "Seam では容易に国際化されたアプリケーションを作成できます。 まず、 アプリケーションの国際化および地域化に必要とされるすべての段階について見ていきます。 そのあと Seam が同梱するコンポーネントの説明をします。"
 
 #. Tag: title
 #: I18n.xml:14
 #, no-c-format
 msgid "Internationalizing your app"
-msgstr ""
+msgstr "アプリケーションを国際化する"
 
 #. Tag: para
 #: I18n.xml:16
@@ -40,7 +40,7 @@ msgstr ""
 msgid ""
 "A JEE application consists of many components and all of them must be "
 "configured properly for your application to be localized."
-msgstr ""
+msgstr "JEE アプリケーションは数多くのコンポーネントから構成され、 それらのコンポーネントすべてがローカライズを行うアプリケーションに対して正しく設定されていなければなりません。"
 
 #. Tag: para
 #: I18n.xml:21
@@ -50,13 +50,13 @@ msgid ""
 "server and client is using the correct character encoding for your locale. "
 "Normally you'll want to use UTF-8. How to do this is outside the scope of "
 "this tutorial."
-msgstr ""
+msgstr "最初から始めることにします。 1 番目の手順としてデータベースのサーバーとクライアントが使用するロケールに対応する正しい文字エンコーディングを使用していることを確認します。 UTF-8 を使用するのが全般的には多くなります。 この方法については本チュートリアルの範囲外となります。"
 
 #. Tag: title
 #: I18n.xml:29
 #, no-c-format
 msgid "Application server configuration"
-msgstr ""
+msgstr "アプリケーションサーバーの設定"
 
 #. Tag: para
 #: I18n.xml:31
@@ -69,12 +69,15 @@ msgid ""
 "change <literal>${JBOSS_HOME}/server/(default)/deploy/jboss-web.deployer/"
 "server.xml</literal>:"
 msgstr ""
+"アプリケーションサーバーが要求パラメータを正しいエンコーディングでクライアントの要求から受け取るようにするには、 tomcat コネクタを設定する必要があります。 Tomcat または JBoss AS を使用する場合は <literal>URIEncoding=\"UTF-"
+"8\"</literal> 属性をコネクタの設定に追加します。 JBoss AS 4.2 なら <literal>${JBOSS_HOME}/server/(default)/deploy/jboss-web.deployer/"
+"server.xml</literal> を変更します。"
 
 #. Tag: programlisting
 #: I18n.xml:40
 #, no-c-format
 msgid "&lt;Connector port=\"8080\" URIEncoding=\"UTF-8\"/&gt;"
-msgstr ""
+msgstr "&lt;Connector port=\"8080\" URIEncoding=\"UTF-8\"/&gt;"
 
 #. Tag: para
 #: I18n.xml:42
@@ -82,19 +85,19 @@ msgstr ""
 msgid ""
 "There is alternative which is probably better. You can tell JBoss AS that "
 "the encoding for the request parameters will be taken from the request:"
-msgstr ""
+msgstr "別の方法もあり、 こちらの方がよいでしょう。 JBoss AS に要求パラメータのエンコーディングはその要求から取得されることを指示することができます。"
 
 #. Tag: programlisting
 #: I18n.xml:48
 #, no-c-format
 msgid "&lt;Connector port=\"8080\" useBodyEncodingForURI=\"true\"/&gt;"
-msgstr ""
+msgstr "&lt;Connector port=\"8080\" useBodyEncodingForURI=\"true\"/&gt;"
 
 #. Tag: title
 #: I18n.xml:52
 #, no-c-format
 msgid "Translated application strings"
-msgstr ""
+msgstr "翻訳されたアプリケーション文字列"
 
 #. Tag: para
 #: I18n.xml:54
@@ -105,7 +108,7 @@ msgid ""
 "to ensure that your resource bundle is encoded using the desired character "
 "encoding. By default ASCII is used. Although ASCII is enough for many "
 "languages, it doesn't provide characters for all languages."
-msgstr ""
+msgstr "アプリケーションのすべての <emphasis>メッセージ</emphasis> にも翻訳された文字列が必要となります (例、 ビューのフィールドラベルなど)。 まず、 リソースバンドルが目的の文字エンコーディングを使ってコード化されることを確認する必要があります。 デフォルトでは ASCII が使用されます。 ASCII は多くの言語に十分対応しますが、 すべての言語の文字を提供しているわけではありません。"
 
 #. Tag: para
 #: I18n.xml:63
@@ -117,7 +120,7 @@ msgid ""
 "you must use either ASCII characters or escape characters not in the ASCII "
 "character set. You can represent a Unicode character in any Java file using "
 "\\uXXXX, where XXXX is the hexidecimal representation of the character."
-msgstr ""
+msgstr "リソースバンドルは ASCII で作成されなければなりません。 あるいは Unicode 文字の表示に Unicode エスケープのコードを使用します。 バイトコードに対してプロパティファイルをコンパイルしないため使用にセットする文字を JVM に伝える方法がありません。 このため、 ASCII 文字または ASCII 文字にはないエスケープ文字を使用しなければなりません。 \\uXXXX を使用するといずれの Java ファイルでも Unicode 文字を表すことができます。 XXXX はその文字を表す 16 進数です。"
 
 #. Tag: para
 #: I18n.xml:73
@@ -130,6 +133,8 @@ msgid ""
 "a file written in your native encoding to one that represents non-ASCII "
 "characters as Unicode escape sequences."
 msgstr ""
+"ネイティブエンコーディングでメッセージのリソースバンドルにラベル (<xlink linkend=\"labels\">ラベル</"
+"xlink>) の翻訳を書き込みそのファイルの内容を JDK で提供される <literal>native2ascii</literal> ツールでエスケープ形式に変換することができます。 このツールはネイティブエンコーディングで記述されたファイルを Unicode エスケープ配列として非 ASCII 文字で表すものに変換します。"
 
 #. Tag: para
 #: I18n.xml:83
@@ -140,6 +145,10 @@ msgid ""
 "\"http://java.sun.com/javase/6/docs/technotes/tools/#intl\">here for Java 6</"
 "ulink>. For example, to convert a file from UTF-8:"
 msgstr ""
+"このツールの使い方は <ulink url=\"http://java.sun.com/j2se/1.5.0/"
+"docs/tooldocs/index.html#intl\">Java 5 の場合はここ</ulink> または <ulink url="
+"\"http://java.sun.com/javase/6/docs/technotes/tools/#intl\">Java 6 の場合はここ</"
+"ulink> に記載されています。 たとえば、 あるファイルを UTF-8 から変換するには、"
 
 #. Tag: programlisting
 #: I18n.xml:91
@@ -148,12 +157,14 @@ msgid ""
 "<prompt>$ native2ascii -encoding UTF-8 messages_cs.properties &gt; "
 "messages_cs_escaped.properties</prompt>"
 msgstr ""
+"<prompt>$ native2ascii -encoding UTF-8 messages_cs.properties &gt; "
+"messages_cs_escaped.properties</prompt>"
 
 #. Tag: title
 #: I18n.xml:96
 #, no-c-format
 msgid "Other encoding settings"
-msgstr ""
+msgstr "その他のエンコーディング設定"
 
 #. Tag: para
 #: I18n.xml:98
@@ -162,7 +173,7 @@ msgid ""
 "We need to make sure that the view displays your localized data and messages "
 "using the correct character set and also any data submitted uses the correct "
 "encoding."
-msgstr ""
+msgstr "正しい文字セットを使ってローカライズされたデータとメッセージが表示されること、 そしてサブミットされるデータがすべて正しいエンコーディングを使用することを確認する必要があります。"
 
 #. Tag: para
 #: I18n.xml:104
@@ -175,6 +186,8 @@ msgid ""
 "encoding attribute in xml declaration <literal>&lt;?xml version=\"1.0\" "
 "encoding=\"UTF-8\"?&gt;</literal> as required."
 msgstr ""
+"表示文字のエンコーディングを設定するには <literal>&lt;f:"
+"view locale=\"cs_CZ\"/&gt;</literal> タグを使用する必要があります (ここでは JSF にチェコ語を使用するよう指示している)。 xml にローカライズされた文字列を埋め込む場合は xml ドキュメント自体のエンコーディングを変更したいことがあります。 これを行うには xml 宣言の <literal>&lt;?xml version=\"1.0\" encoding=\"UTF-8\"?&gt;</literal> で必要に応じてエンコーディング属性を変更します。"
 
 #. Tag: para
 #: I18n.xml:114
@@ -185,6 +198,8 @@ msgid ""
 "can force the request encoding using a servlet filter. Configure this in "
 "<literal>components.xml</literal>:"
 msgstr ""
+"また、 JSF や Facelet は指定文字エンコーディングを使った要求をサブミットするはずですが、 エンコーディングを指定していない場合は強制的にサーブレットフィルタを使うようにすることができます。 <literal>components.xml</"
+"literal> で設定します。"
 
 #. Tag: programlisting
 #: I18n.xml:121
@@ -194,12 +209,15 @@ msgid ""
 "   override-client=\"true\" \n"
 "   url-pattern=\"*.seam\" />]]>"
 msgstr ""
+"<![CDATA[<web:character-encoding-filter encoding=\"UTF-8\" \n"
+"   override-client=\"true\" \n"
+"   url-pattern=\"*.seam\" />]]>"
 
 #. Tag: title
 #: I18n.xml:126
 #, no-c-format
 msgid "Locales"
-msgstr ""
+msgstr "ロケール"
 
 #. Tag: para
 #: I18n.xml:128
@@ -210,7 +228,7 @@ msgid ""
 "<literal>locale</literal>). Under normal circumstances, you won't need to do "
 "any special configuration to set the locale. Seam just delegates to JSF to "
 "determine the active locale:"
-msgstr ""
+msgstr "各ユーザログインのセッションは、 <literal>java.util.Locale</literal> インスタンスと関連しています (アプリケーションでは、 <literal>locale</literal> という名前のコンポーネントとして扱えます)。 通常の環境では、 ロケールのための特別な設定は不要です。 Seam ではアクティブなロケールの決定は単純に JSF に委譲しています。"
 
 #. Tag: para
 #: I18n.xml:136
@@ -220,6 +238,10 @@ msgid ""
 "and that locale is in the list of supported locales from <literal>faces-"
 "config.xml</literal>, use that locale for the rest of the session."
 msgstr ""
+"HTTP リクエストで指定されるロケール (ブラウザのロケール) があり、 そして、 "
+"<literal>faces-config.xml</literal> により対応可能なロケールの組み合わせの中"
+"にそのロケールがある場合、 その後のセッションの期間、そのロケールを使用しま"
+"す。"
 
 #. Tag: para
 #: I18n.xml:143
@@ -228,12 +250,14 @@ msgid ""
 "Otherwise, if a default locale was specified in the <literal>faces-config."
 "xml</literal>, use that locale for the rest of the session."
 msgstr ""
+"それ以外で、デフォルトロケールが  <literal>faces-config.xml</literal> 中に指"
+"定されていれば、 その後のセッションの期間、そのロケールを使用します。"
 
 #. Tag: para
 #: I18n.xml:149
 #, no-c-format
 msgid "Otherwise, use the default locale of the server."
-msgstr ""
+msgstr "それ以外では、サーバのデフォルトロケールを使用します。"
 
 #. Tag: para
 #: I18n.xml:153
@@ -245,7 +269,7 @@ msgid ""
 "localeSelector.country</literal> and <literal> org.jboss.seam.international."
 "localeSelector.variant</literal>, but we can't think of any good reason to "
 "ever do this."
-msgstr ""
+msgstr "Seam 設定プロパティの <literal>org.jboss.seam.international.localeSelector.language</literal>、 <literal>org.jboss.seam.international.localeSelector.country</literal> そして <literal>org.jboss.seam.international.localeSelector.variant</literal> によりマニュアルでのロケール設定が <emphasis>可能</emphasis> ですが、 これを行う妥当な理由は考え付きません。"
 
 #. Tag: para
 #: I18n.xml:160
@@ -256,6 +280,10 @@ msgid ""
 "overriding the locale determined by the algorithm above. All you have to do "
 "is add the following fragment to a form in your JSP or Facelets page:"
 msgstr ""
+"しかし、アプリケーションユーザインタフェースを介して、 ユーザにマニュアルでロ"
+"ケール設定を可能とさせることは有用です。 Seam は上記のアルゴリズムによって決"
+"定されるロケールをオーバライドする組み込み機能も提供しています。 すべきこと"
+"は、JSP または、Facelet ページのフォームに以下の断片を追加するだけです。"
 
 #. Tag: programlisting
 #: I18n.xml:166
@@ -269,6 +297,13 @@ msgid ""
 "&lt;h:commandButton action=\"#{localeSelector.select}\"\n"
 "    value=\"#{messages['ChangeLanguage']}\"/&gt;"
 msgstr ""
+"&lt;h:selectOneMenu value=\"#{localeSelector.language}\"&gt;\n"
+"    &lt;f:selectItem itemLabel=\"English\" itemValue=\"en\"/&gt;\n"
+"    &lt;f:selectItem itemLabel=\"Deutsch\" itemValue=\"de\"/&gt;\n"
+"    &lt;f:selectItem itemLabel=\"Francais\" itemValue=\"fr\"/&gt;\n"
+"&lt;/h:selectOneMenu&gt;\n"
+"&lt;h:commandButton action=\"#{localeSelector.select}\"\n"
+"    value=\"#{messages['ChangeLanguage']}\"/&gt;"
 
 #. Tag: para
 #: I18n.xml:168
@@ -276,7 +311,7 @@ msgstr ""
 msgid ""
 "Or, if you want a list of all supported locales from <literal> faces-config."
 "xml</literal>, just use:"
-msgstr ""
+msgstr "あるいは、<literal>faces-config.xml</literal> に対応されたすべてのロケールの組み合わせが欲しければ、 以下を使ってください。"
 
 #. Tag: programlisting
 #: I18n.xml:171
@@ -288,6 +323,11 @@ msgid ""
 "&lt;h:commandButton action=\"#{localeSelector.select}\"\n"
 "    value=\"#{messages['ChangeLanguage']}\"/&gt;"
 msgstr ""
+"&lt;h:selectOneMenu value=\"#{localeSelector.localeString}\"&gt;\n"
+"    &lt;f:selectItems value=\"#{localeSelector.supportedLocales}\"/&gt;\n"
+"&lt;/h:selectOneMenu&gt;\n"
+"&lt;h:commandButton action=\"#{localeSelector.select}\"\n"
+"    value=\"#{messages['ChangeLanguage']}\"/&gt;"
 
 #. Tag: para
 #: I18n.xml:173
@@ -297,6 +337,8 @@ msgid ""
 "button, the Seam and JSF locales will be overridden for the rest of the "
 "session."
 msgstr ""
+"ユーザーがドロップダウンからアイテムを選択してコマンドボタンをクリックすると、 そ"
+"の後のセッションに対して Seam と JSF のロケールはオーバライドされます。"
 
 #. Tag: para
 #: I18n.xml:177
@@ -313,7 +355,7 @@ msgid ""
 "localeConfig</literal>. To use it, you first declare an XML namespace for "
 "Seam's international package in the Seam component descriptor. You then "
 "define the default locale and supported locales as follows:"
-msgstr ""
+msgstr "これにより対応ロケールはどこで定義するのだろうかという疑問が湧いてきます。 一般的には JSF 設定ファイル (/META-INF/faces-config.xml) の <literal>&lt;locale-config&gt;</literal> エレメントでリソースバンドルに一致するロケール一覧を与えます。 ただし、 Seam のコンポーネント設定のメカニズムは Java EE 提供のそれよりずっとパワフルであることを学んできました。 こうした理由から <literal>org.jboss.seam.international.localeConfig</literal> という名前の組み込みコンポーネントを使用して対応ロケールおよびサーバーのデフォルトロケールを設定することができます。 これを使うにはまず Seam コンポーネント記述子で Seam の国際パッケージ用の XML 名前空間を宣言します。 次にデフォルトのロケールと対応ロケールを次のように定義します。"
 
 #. Tag: programlisting
 #: I18n.xml:190
@@ -322,6 +364,8 @@ msgid ""
 "&lt;international:locale-config default-locale=\"fr_CA\" supported-locales="
 "\"en fr_CA fr_FR\"/&gt;"
 msgstr ""
+"&lt;international:locale-config default-locale=\"fr_CA\" supported-locales="
+"\"en fr_CA fr_FR\"/&gt;"
 
 #. Tag: para
 #: I18n.xml:192
@@ -330,13 +374,13 @@ msgid ""
 "Naturally, if you pronounce that you support a locale, you better provide a "
 "resource bundle to match it! Up next, you'll learn how to define the "
 "language-specific labels."
-msgstr ""
+msgstr "必然的にロケールをサポートすることを宣言する場合、 一致するリソースバンドルを与えた方がよいでしょう。 次は言語固有のラベルの定義方法について説明します。"
 
 #. Tag: title
 #: I18n.xml:198
 #, no-c-format
 msgid "Labels"
-msgstr ""
+msgstr "ラベル"
 
 #. Tag: para
 #: I18n.xml:200
@@ -347,13 +391,13 @@ msgid ""
 "this approach in Seam applications. Alternatively, you can take advantage of "
 "the Seam <literal> messages</literal> component to display templated labels "
 "with embedded EL expressions."
-msgstr ""
+msgstr "JSF は、ユーザインタフェースのラベルや説明用テキストの国際化を、 <literal>&lt;f:loadBundle /&gt;</literal> を使用することによって対応しています。 Seam アプリケーションでもこのアプローチが使用可能です。 代わりに、組み込みの EL 式を利用したテンプレート化ラベルの表示に、 Seam <literal> messages</literal> コンポーネントを利用することも可能です。"
 
 #. Tag: title
 #: I18n.xml:207
 #, no-c-format
 msgid "Defining labels"
-msgstr ""
+msgstr "ラベルを定義する"
 
 #. Tag: para
 #: I18n.xml:209
@@ -368,31 +412,31 @@ msgid ""
 "messages_en.properties</literal>, <literal> messages_en_AU.properties</"
 "literal>, etc. These files usually belong in the <literal>WEB-INF/classes</"
 "literal> directory."
-msgstr ""
+msgstr "Seam は <literal>java.util.ResourceBundle</literal> を提供しています (アプリケーションでは <literal>org.jboss.seam.core.resourceBundle</literal> として利用可能)。 この特殊リソースバンドルを通じて国際化されたラベルを使用可能にする必要があります。 デフォルトでは、 Seam で使用されるリソースバンドルは <literal>messages</literal> の名称なので <literal>messages.properties</literal>、 <literal>messages_en.properties</literal>、 <literal>messages_en_AU.properties</literal> などの名称のファイルにラベルを定義する必要があります。 これらのファイルは通常 <literal>WEB-INF/classes</literal> ディレクトリに属します。"
 
 #. Tag: para
 #: I18n.xml:220
 #, no-c-format
 msgid "So, in <literal>messages_en.properties</literal>:"
-msgstr ""
+msgstr "従って、<literal>messages_en.properties</literal> では、"
 
 #. Tag: programlisting
 #: I18n.xml:222
 #, no-c-format
 msgid "Hello=Hello"
-msgstr ""
+msgstr "Hello=Hello"
 
 #. Tag: para
 #: I18n.xml:224
 #, no-c-format
 msgid "And in <literal>messages_en_AU.properties</literal>:"
-msgstr ""
+msgstr "そして、<literal>messages_en_AU.properties</literal> では、"
 
 #. Tag: programlisting
 #: I18n.xml:226
 #, no-c-format
 msgid "Hello=G'day"
-msgstr ""
+msgstr "Hello=G'day"
 
 #. Tag: para
 #: I18n.xml:228
@@ -403,6 +447,8 @@ msgid ""
 "bundleNames</literal>. You can even specify a list of resource bundle names "
 "to be searched (depth first) for messages."
 msgstr ""
+"<literal> org.jboss.seam.core.resourceLoader."
+"bundleNames</literal> と呼ばれる Seam 設定プロパティによって、 リソースバンドルとして異なる名前を選択することが可能です。 リソースバンドル名の一覧を指定してメッセージの検索をさせる (深さ優先) こともできます。"
 
 #. Tag: programlisting
 #: I18n.xml:234
@@ -415,6 +461,12 @@ msgid ""
 "    &lt;/core:bundle-names&gt;\n"
 "&lt;/core:resource-loader&gt;"
 msgstr ""
+"&lt;core:resource-loader&gt;\n"
+"    &lt;core:bundle-names&gt;\n"
+"        &lt;value&gt;mycompany_messages&lt;/value&gt;\n"
+"        &lt;value&gt;standard_messages&lt;/value&gt;       \n"
+"    &lt;/core:bundle-names&gt;\n"
+"&lt;/core:resource-loader&gt;"
 
 #. Tag: para
 #: I18n.xml:236
@@ -426,7 +478,7 @@ msgid ""
 "could put our message in <literal> welcome/hello_en.properties</literal> if "
 "we only needed to display the message on <literal> /welcome/hello.jsp</"
 "literal>."
-msgstr ""
+msgstr "特定のページだけにメッセージを定義したいのであれば、 そのJSFビューIDと同じ名前でリソースバンドルに指定します。 このときIDの最初の <literal>/</literal> と最後の拡張子を除去します。 つまり <literal>/welcome/hello.jsp</literal> にのみメッセージを表示したいのであれば、 表示させるメッセージを <literal>welcome/hello_en.properties</literal> に配置します。"
 
 #. Tag: para
 #: I18n.xml:243
@@ -434,13 +486,13 @@ msgstr ""
 msgid ""
 "You can even specify an explicit bundle name in <literal> pages.xml</"
 "literal>:"
-msgstr ""
+msgstr "<literal>pages.xml</literal> に明示的なバンドル名を指定することもできます。"
 
 #. Tag: programlisting
 #: I18n.xml:246
 #, no-c-format
 msgid "&lt;page view-id=\"/welcome/hello.jsp\" bundle=\"HelloMessages\"/&gt;"
-msgstr ""
+msgstr "&lt;page view-id=\"/welcome/hello.jsp\" bundle=\"HelloMessages\"/&gt;"
 
 #. Tag: para
 #: I18n.xml:248
@@ -448,13 +500,13 @@ msgstr ""
 msgid ""
 "Then we could use messages defined in <literal> HelloMessages.properties</"
 "literal> on <literal> /welcome/hello.jsp</literal>."
-msgstr ""
+msgstr "これで <literal>HelloMessages.properties</literal> に定義されたメッセージを <literal>/welcome/hello.jsp</literal> で使うことができます。"
 
 #. Tag: title
 #: I18n.xml:254
 #, no-c-format
 msgid "Displaying labels"
-msgstr ""
+msgstr "ラベルを表示する"
 
 #. Tag: para
 #: I18n.xml:256
@@ -463,67 +515,67 @@ msgid ""
 "If you define your labels using the Seam resource bundle, you'll be able to "
 "use them without having to type <literal> &lt;f:loadBundle ... /&gt;</"
 "literal> on every page. Instead, you can simply type:"
-msgstr ""
+msgstr "もし、Seamのリソースバンドルを使ってラベルを定義する場合、 各ページそれぞれに <literal>&lt;f:loadBundle ... /&gt;</literal> を入力しなくてもこれを使用することができます。 代わりに単に以下のように入力します。"
 
 #. Tag: programlisting
 #: I18n.xml:260
 #, no-c-format
 msgid "&lt;h:outputText value=\"#{messages['Hello']}\"/&gt;"
-msgstr ""
+msgstr "&lt;h:outputText value=\"#{messages['Hello']}\"/&gt;"
 
 #. Tag: para
 #: I18n.xml:262
 #, no-c-format
 msgid "<para>or:</para>"
-msgstr ""
+msgstr "<para>または、</para>"
 
 #. Tag: programlisting
 #: I18n.xml:264
 #, no-c-format
 msgid "&lt;h:outputText value=\"#{messages.Hello}\"/&gt;"
-msgstr ""
+msgstr "&lt;h:outputText value=\"#{messages.Hello}\"/&gt;"
 
 #. Tag: para
 #: I18n.xml:266
 #, no-c-format
 msgid "Even better, the messages themselves may contain EL expressions:"
-msgstr ""
+msgstr "さらに良いことに、メッセージそのものには EL 式を含むことも可能です。"
 
 #. Tag: programlisting
 #: I18n.xml:269
 #, no-c-format
 msgid "Hello=Hello, #{user.firstName} #{user.lastName}"
-msgstr ""
+msgstr "Hello=Hello, #{user.firstName} #{user.lastName}"
 
 #. Tag: programlisting
 #: I18n.xml:271
 #, no-c-format
 msgid "Hello=G'day, #{user.firstName}"
-msgstr ""
+msgstr "Hello=G'day, #{user.firstName}"
 
 #. Tag: para
 #: I18n.xml:273
 #, no-c-format
 msgid "You can even use the messages in your code:"
-msgstr ""
+msgstr "コードの中にメッセージを使用することも可能です。"
 
 #. Tag: programlisting
 #: I18n.xml:275
 #, no-c-format
 msgid "@In private Map&lt;String, String&gt; messages;"
-msgstr ""
+msgstr "@In private Map&lt;String, String&gt; messages;"
 
 #. Tag: programlisting
 #: I18n.xml:277
 #, no-c-format
 msgid "@In(\"#{messages['Hello']}\") private String helloMessage;"
-msgstr ""
+msgstr "@In(\"#{messages['Hello']}\") private String helloMessage;"
 
 #. Tag: title
 #: I18n.xml:281
 #, no-c-format
 msgid "Faces messages"
-msgstr ""
+msgstr "Faces メッセージ"
 
 #. Tag: para
 #: I18n.xml:283
@@ -533,6 +585,8 @@ msgid ""
 "display success or failure messages to the user. The functionality we just "
 "described also works for faces messages:"
 msgstr ""
+"<literal>facesMessages</literal> コンポーネントはユーザに成功か失敗かを表示す"
+"るとても便利な方法です。 上述した機能は、faces messages にも有効です。"
 
 #. Tag: programlisting
 #: I18n.xml:288
@@ -548,6 +602,15 @@ msgid ""
 "    }\n"
 "}"
 msgstr ""
+"@Name(\"hello\")\n"
+"@Stateless\n"
+"public class HelloBean implements Hello {\n"
+"    @In FacesMessages facesMessages;\n"
+"    \n"
+"    public String sayIt() {\n"
+"        facesMessages.addFromResourceBundle(\"Hello\");\n"
+"    }\n"
+"}"
 
 #. Tag: para
 #: I18n.xml:290
@@ -555,13 +618,13 @@ msgstr ""
 msgid ""
 "This will display <literal>Hello, Gavin King</literal> or <literal>G'day, "
 "Gavin</literal>, depending upon the user's locale."
-msgstr ""
+msgstr "これは、ユーザのロケールに応じて、<literal>Hello, Gavin King</literal> あるいは、 <literal>G'day, Gavin</literal> と表示されます。"
 
 #. Tag: title
 #: I18n.xml:297
 #, no-c-format
 msgid "Timezones"
-msgstr ""
+msgstr "タイムゾーン"
 
 #. Tag: para
 #: I18n.xml:299
@@ -576,7 +639,7 @@ msgid ""
 "UTC, unless a timezone is explicitly specified using <literal> &lt;f:"
 "convertDateTime&gt;</literal>. This is an extremely inconvenient default "
 "behavior."
-msgstr ""
+msgstr "<literal>java.util.Timezone</literal> のセッションスコープのインスタンス、 名称は<literal>org.jboss.seam.international.timezone</literal> とタイムゾーンを変更する Seam コンポーネント、 名称は <literal>org.jboss.seam.international.timezoneSelector</literal> もあります。 デフォルトでは、タイムゾーンはサーバのデフォルトタイムゾーンです。 タイムゾーンが <literal>&lt;f:convertDateTime&gt;</literal> を使用して明示的に指定されない限り、 残念ながら JSF 仕様ではすべての日付と時間は UTC を前提としており、UTC として表示されます。 非常に不便なデフォルト動作となります。"
 
 #. Tag: para
 #: I18n.xml:310
@@ -585,13 +648,13 @@ msgid ""
 "Seam overrides this behavior, and defaults all dates and times to the Seam "
 "timezone. In addition, Seam provides the <literal> &lt;s:convertDateTime&gt;"
 "</literal> tag which always performs conversions in the Seam timezone."
-msgstr ""
+msgstr "Seamはこの動作をオーバーライドし、全ての日付と時刻をデフォルトでSeamタイムゾーンにします。 さらにSeamは、Seamタイムゾーンでの変換を常に行う <literal>&lt;s:convertDateTime&gt;</literal> タグを提供します。"
 
 #. Tag: title
 #: I18n.xml:317
 #, no-c-format
 msgid "Themes"
-msgstr ""
+msgstr "テーマ"
 
 #. Tag: para
 #: I18n.xml:319
@@ -601,12 +664,16 @@ msgid ""
 "similar to the localization API, but of course these two concerns are "
 "orthogonal, and some applications support both localization and themes."
 msgstr ""
+"Seamアプリケーションはまた、とても簡単にスキン変更ができます。 テーマAPIは"
+"ローカライゼーションAPIにとても似ていますが、 もちろんこれら２つの関心事は直"
+"交しており、 ローカライゼーションとテーマの両方をサポートするアプリケーション"
+"もあります。"
 
 #. Tag: para
 #: I18n.xml:324
 #, no-c-format
 msgid "First, configure the set of supported themes:"
-msgstr ""
+msgstr "まず、サポートされるテーマのセットを設定します:"
 
 #. Tag: programlisting
 #: I18n.xml:326
@@ -620,12 +687,19 @@ msgid ""
 "    &lt;/theme:available-themes&gt;\n"
 "&lt;/theme:theme-selector&gt;"
 msgstr ""
+"&lt;theme:theme-selector cookie-enabled=\"true\"&gt;\n"
+"    &lt;theme:available-themes&gt;\n"
+"        &lt;value&gt;default&lt;/value&gt;\n"
+"        &lt;value&gt;accessible&lt;/value&gt;\n"
+"        &lt;value&gt;printable&lt;/value&gt;\n"
+"    &lt;/theme:available-themes&gt;\n"
+"&lt;/theme:theme-selector&gt;"
 
 #. Tag: para
 #: I18n.xml:328
 #, no-c-format
 msgid "Note that the first theme listed is the default theme."
-msgstr ""
+msgstr "最初にリストされたテーマがデフォルトテーマであることに注意してください。"
 
 #. Tag: para
 #: I18n.xml:330
@@ -635,7 +709,7 @@ msgid ""
 "example, the <literal>default</literal> theme is defined as a set of entries "
 "in <literal> default.properties</literal>. For example, <literal> default."
 "properties</literal> might define:"
-msgstr ""
+msgstr "テーマは、そのテーマと同じ名前でプロパティファイルに定義されます。 例えば、 <literal>default</literal> テーマは <literal>default.properties</literal> に一連のエントリとして定義されます。 例えば、<literal>default.properties</literal> は以下のように定義します。"
 
 #. Tag: programlisting
 #: I18n.xml:335
@@ -644,6 +718,8 @@ msgid ""
 "css ../screen.css\n"
 "template /template.xhtml"
 msgstr ""
+"css ../screen.css\n"
+"template /template.xhtml"
 
 #. Tag: para
 #: I18n.xml:337
@@ -653,6 +729,9 @@ msgid ""
 "or images and names of facelets templates (unlike localization resource "
 "bundles which are usually text)."
 msgstr ""
+"通常、 テーマリソースバンドルのエントリは CSS スタイルや画像へのパスや "
+"facelet テンプレートの名前になるでしょう (通常はテキストであるローカライゼー"
+"ションリソースバンドルとは違って)。"
 
 #. Tag: para
 #: I18n.xml:341
@@ -661,19 +740,20 @@ msgid ""
 "Now we can use these entries in our JSP or facelets pages. For example, to "
 "theme the stylesheet in a facelets page:"
 msgstr ""
+"これでJSPやfaceletページにおいてこれらのエントリを使えます。 例えば、facelet"
+"ページでスタイルシートを適用するには:"
 
 #. Tag: programlisting
 #: I18n.xml:344
 #, no-c-format
-msgid ""
-"&lt;link href=\"#{theme.css}\" rel=\"stylesheet\" type=\"text/css\" /&gt;"
-msgstr ""
+msgid "&lt;link href=\"#{theme.css}\" rel=\"stylesheet\" type=\"text/css\" /&gt;"
+msgstr "&lt;link href=\"#{theme.css}\" rel=\"stylesheet\" type=\"text/css\" /&gt;"
 
 #. Tag: para
 #: I18n.xml:346
 #, no-c-format
 msgid "Or, when the page definition resides in a subdirectory:"
-msgstr ""
+msgstr "あるいは、サブディレクトリにページ定義が存在している場合は次のようになります。"
 
 #. Tag: programlisting
 #: I18n.xml:348
@@ -683,6 +763,9 @@ msgid ""
 "css}\" \n"
 "    rel=\"stylesheet\" type=\"text/css\" /&gt;"
 msgstr ""
+"&lt;link href=\"#{facesContext.externalContext.requestContextPath}#{theme."
+"css}\" \n"
+"    rel=\"stylesheet\" type=\"text/css\" /&gt;"
 
 #. Tag: para
 #: I18n.xml:350
@@ -691,6 +774,8 @@ msgid ""
 "Most powerfully, facelets lets us theme the template used by a <literal>&lt;"
 "ui:composition&gt;</literal>:"
 msgstr ""
+"最も強力な使い方として、 faceletでは <literal>&lt;ui:composition&gt;</"
+"literal> によってテンプレートを適用できます。"
 
 #. Tag: programlisting
 #: I18n.xml:353
@@ -702,6 +787,11 @@ msgid ""
 "    xmlns:f=\"http://java.sun.com/jsf/core\"\n"
 "    template=\"#{theme.template}\"&gt;"
 msgstr ""
+"&lt;ui:composition xmlns=\"http://www.w3.org/1999/xhtml\"\n"
+"    xmlns:ui=\"http://java.sun.com/jsf/facelets\"\n"
+"    xmlns:h=\"http://java.sun.com/jsf/html\"\n"
+"    xmlns:f=\"http://java.sun.com/jsf/core\"\n"
+"    template=\"#{theme.template}\"&gt;"
 
 #. Tag: para
 #: I18n.xml:355
@@ -710,6 +800,8 @@ msgid ""
 "Just like the locale selector, there is a built-in theme selector to allow "
 "the user to freely switch themes:"
 msgstr ""
+"ちょうどロケールセレクタのように、 ユーザが自由にテーマを変更できるよう、組み"
+"込みのテーマセレクタがあります。"
 
 #. Tag: programlisting
 #: I18n.xml:358
@@ -721,12 +813,17 @@ msgid ""
 "&lt;h:commandButton action=\"#{themeSelector.select}\" value=\"Select Theme"
 "\"/&gt;"
 msgstr ""
+"&lt;h:selectOneMenu value=\"#{themeSelector.theme}\"&gt;\n"
+"    &lt;f:selectItems value=\"#{themeSelector.themes}\"/&gt;\n"
+"&lt;/h:selectOneMenu&gt;\n"
+"&lt;h:commandButton action=\"#{themeSelector.select}\" value=\"Select Theme"
+"\"/&gt;"
 
 #. Tag: title
 #: I18n.xml:362
 #, no-c-format
 msgid "Persisting locale and theme preferences via cookies"
-msgstr ""
+msgstr "ロケールとテーマ設定のクッキーによる永続化"
 
 #. Tag: para
 #: I18n.xml:364
@@ -736,7 +833,7 @@ msgid ""
 "persistence of locale and theme preference to a cookie. Simply set the "
 "<literal>cookie-enabled</literal> property in <literal>components.xml</"
 "literal>:"
-msgstr ""
+msgstr "ロケールセレクタ、テーマセレクタ、タイムゾーンセレクタは全て、 ロケールとテーマ設定をクッキーに永続化することをサポートしています。 単純に <literal>components.xml</literal> で <literal>cookie-enabled</literal> プロパティを設定します。"
 
 #. Tag: programlisting
 #: I18n.xml:369
@@ -752,3 +849,13 @@ msgid ""
 "\n"
 "&lt;international:locale-selector cookie-enabled=\"true\"/&gt;"
 msgstr ""
+"&lt;theme:theme-selector cookie-enabled=\"true\"&gt;\n"
+"    &lt;theme:available-themes&gt;\n"
+"        &lt;value&gt;default&lt;/value&gt;\n"
+"        &lt;value&gt;accessible&lt;/value&gt;\n"
+"        &lt;value&gt;printable&lt;/value&gt;\n"
+"    &lt;/theme:available-themes&gt;\n"
+"&lt;/theme:theme-selector&gt;\n"
+"\n"
+"&lt;international:locale-selector cookie-enabled=\"true\"/&gt;"
+

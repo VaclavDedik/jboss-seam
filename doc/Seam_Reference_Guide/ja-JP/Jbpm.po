@@ -1,147 +1,110 @@
-# Language ja-JP translations for PACKAGE package.
-# Automatically generated, 2008.
-#
+# translation of Tools.po to Japanese
+# Noriko Mizumoto <noriko@redhat.com>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Tools\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2008-04-04 01:24+0000\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"POT-Creation-Date: 2008-11-06 06:41+0000\n"
+"PO-Revision-Date: 2008-12-23 00:57+0900\n"
+"Last-Translator: wkzk <waki41@gmail.com>\n"
+"Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"X-Poedit-Language: Japanese\n"
+"X-Poedit-Country: JAPAN\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
 #. Tag: title
 #: Jbpm.xml:2
 #, no-c-format
 msgid "Pageflows and business processes"
-msgstr ""
+msgstr "ページフローとビジネスプロセス"
 
 #. Tag: para
 #: Jbpm.xml:4
 #, no-c-format
-msgid ""
-"JBoss jBPM is a business process management engine for any Java SE or EE "
-"environment. jBPM lets you represent a business process or user interaction "
-"as a graph of nodes representing wait states, decisions, tasks, web pages, "
-"etc. The graph is defined using a simple, very readable, XML dialect called "
-"jPDL, and may be edited and visualised graphically using an eclipse plugin. "
-"jPDL is an extensible language, and is suitable for a range of problems, "
-"from defining web application page flow, to traditional workflow management, "
-"all the way up to orchestration of services in a SOA environment."
-msgstr ""
+msgid "JBoss jBPM is a business process management engine for any Java SE or EE environment. jBPM lets you represent a business process or user interaction as a graph of nodes representing wait states, decisions, tasks, web pages, etc. The graph is defined using a simple, very readable, XML dialect called jPDL, and may be edited and visualised graphically using an eclipse plugin. jPDL is an extensible language, and is suitable for a range of problems, from defining web application page flow, to traditional workflow management, all the way up to orchestration of services in a SOA environment."
+msgstr "JBoss jBPM はJava SE や EE 環境のためのビジネスプロセス管理エンジンです。 jBPM はビジネスプロセスやユーザインタラクションを、 待ち状態、デシジョン、タスク、WEBページなどノードの図式として表現を可能にします。 図式は簡単でとても読みやすい jPDL と呼ばれる XML 表現を使用して定義されており、 Eclipse プラグインを利用して編集、グラフィックによる視覚化が可能です。 jPDL は拡張可能な言語でありWEB アプリケーションのページフローを定義することから、典型的なワークフローの管理、SOA 環境におけるサービスのオーケストレーションまで適応します。"
 
 #. Tag: para
 #: Jbpm.xml:16
 #, no-c-format
 msgid "Seam applications use jBPM for two different problems:"
-msgstr ""
+msgstr "Seam アプリケーションは jBPM を2 つの異なる問題に使用します。"
 
 #. Tag: para
 #: Jbpm.xml:22
 #, no-c-format
-msgid ""
-"Defining the pageflow involved in complex user interactions. A jPDL process "
-"definition defines the page flow for a single conversation. A Seam "
-"conversation is considered to be a relatively short-running interaction with "
-"a single user."
-msgstr ""
+msgid "Defining the pageflow involved in complex user interactions. A jPDL process definition defines the page flow for a single conversation. A Seam conversation is considered to be a relatively short-running interaction with a single user."
+msgstr "複雑なユーザインタラクションを含むページフローを定義します。 jPDL プロセス定義は対話のためのページフローを定義します。 Seamコンバセーションはシングルユーザとの相対的に短期な対話のインタラクションであると考えられます。"
 
 #. Tag: para
 #: Jbpm.xml:30
 #, no-c-format
-msgid ""
-"Defining the overarching business process. The business process may span "
-"multiple conversations with multiple users. Its state is persistent in the "
-"jBPM database, so it is considered long-running. Coordination of the "
-"activities of multiple users is a much more complex problem than scripting "
-"an interaction with a single user, so jBPM offers sophisticated facilities "
-"for task management and dealing with multiple concurrent paths of execution."
-msgstr ""
+msgid "Defining the overarching business process. The business process may span multiple conversations with multiple users. Its state is persistent in the jBPM database, so it is considered long-running. Coordination of the activities of multiple users is a much more complex problem than scripting an interaction with a single user, so jBPM offers sophisticated facilities for task management and dealing with multiple concurrent paths of execution."
+msgstr "ビジネスプロセスを包括的に定義します。 ビジネスプロセスは、複数ユーザの複数の対話の範囲を含むかもしれません。 その状態は jBPM データベースの中で永続的なので長期的であると考えられます。 複数ユーザのアクティビティの調整は、 シングルユーザとのインタラクションについて動作を記述するよりずっと複雑な問題です。 そこで、jBPM は複数の並行な実行パスを扱うようなタスク管理のための洗練された機能を提供します。"
 
 #. Tag: para
 #: Jbpm.xml:42
 #, no-c-format
-msgid ""
-"Don't get these two things confused! They operate at very different levels "
-"or granularity. <emphasis>Pageflow</emphasis>, <emphasis>conversation</"
-"emphasis> and <emphasis>task</emphasis> all refer to a single interaction "
-"with a single user. A business process spans many tasks. Futhermore, the two "
-"applications of jBPM are totally orthogonal. You can use them together or "
-"independently or not at all."
-msgstr ""
+msgid "Don't get these two things confused! They operate at very different levels or granularity. <emphasis>Pageflow</emphasis>, <emphasis>conversation</emphasis> and <emphasis>task</emphasis> all refer to a single interaction with a single user. A business process spans many tasks. Futhermore, the two applications of jBPM are totally orthogonal. You can use them together or independently or not at all."
+msgstr "この２つを混乱させないでください！まったく異なるレベルまたは粒度で動作します。<emphasis>Pageflow</emphasis>, <emphasis>conversation</emphasis> と <emphasis>task</emphasis> "
 
 #. Tag: para
 #: Jbpm.xml:51
 #, no-c-format
-msgid ""
-"You don't have to know jDPL to use Seam. If you're perfectly happy defining "
-"pageflow using JSF or Seam navigation rules, and if your application is more "
-"data-driven that process-driven, you probably don't need jBPM. But we're "
-"finding that thinking of user interaction in terms of a well-defined "
-"graphical representation is helping us build more robust applications."
-msgstr ""
+msgid "You don't have to know jDPL to use Seam. If you're perfectly happy defining pageflow using JSF or Seam navigation rules, and if your application is more data-driven that process-driven, you probably don't need jBPM. But we're finding that thinking of user interaction in terms of a well-defined graphical representation is helping us build more robust applications."
+msgstr "Seamを使うためにJPDLのことは知らなくていいです。"
 
 #. Tag: title
 #: Jbpm.xml:60
 #, no-c-format
 msgid "Pageflow in Seam"
-msgstr ""
+msgstr "Seamのページフロー"
 
 #. Tag: para
 #: Jbpm.xml:61
 #, no-c-format
 msgid "There are two ways to define pageflow in Seam:"
-msgstr ""
+msgstr "Seam にはページフローを定義する 2 つの方法があります。"
 
 #. Tag: para
 #: Jbpm.xml:67
 #, no-c-format
-msgid ""
-"Using JSF or Seam navigation rules - the <emphasis>stateless navigation "
-"model</emphasis>"
-msgstr ""
+msgid "Using JSF or Seam navigation rules - the <emphasis>stateless navigation model</emphasis>"
+msgstr "JSFあるいはSeam ナビゲーション規則の利用 - <emphasis>ステートレスなナビゲーションモデル</emphasis>"
 
 #. Tag: para
 #: Jbpm.xml:73
 #, no-c-format
 msgid "Using jPDL - the <emphasis>stateful navigation model</emphasis>"
-msgstr ""
+msgstr "jPDL の利用 - <emphasis>ステートフルなナビゲーションモデル</emphasis>"
 
 #. Tag: para
 #: Jbpm.xml:79
 #, no-c-format
-msgid ""
-"Very simple applications will only need the stateless navigation model. Very "
-"complex applications will use both models in different places. Each model "
-"has its strengths and weaknesses!"
-msgstr ""
+msgid "Very simple applications will only need the stateless navigation model. Very complex applications will use both models in different places. Each model has its strengths and weaknesses!"
+msgstr "簡単なアプリケーションではステートレスなナビゲーションモデルで十分です。 とても複雑なアプリケーションは場所に応じて両方を使用します。 それぞれのモデルはそれぞれの強みも弱みもあります。"
 
 #. Tag: title
 #: Jbpm.xml:86
 #, no-c-format
 msgid "The two navigation models"
-msgstr ""
+msgstr "2 つのナビゲーションモデル"
 
 #. Tag: para
 #: Jbpm.xml:88
 #, no-c-format
-msgid ""
-"The stateless model defines a mapping from a set of named, logical outcomes "
-"of an event directly to the resulting page of the view. The navigation rules "
-"are entirely oblivious to any state held by the application other than what "
-"page was the source of the event. This means that your action listener "
-"methods must sometimes make decisions about the page flow, since only they "
-"have access to the current state of the application."
-msgstr ""
+msgid "The stateless model defines a mapping from a set of named, logical outcomes of an event directly to the resulting page of the view. The navigation rules are entirely oblivious to any state held by the application other than what page was the source of the event. This means that your action listener methods must sometimes make decisions about the page flow, since only they have access to the current state of the application."
+msgstr "ステートレスなモデルは 一組の名前の付いた論理的なイベントの結果 (outcome) から 直接、結果として生じるビューのマッピングを定義します。 ナビゲーション規則は、どのページがイベントのソースであったかということ以外、 アプリケーションによって保持されたどのような状態も全く気にしません。 これは、アクションリスナメソッドがページフローを決めなければならないことがあることを意味しています。 なぜなら、それらだけがアプリケーションの現在の状態にアクセスできるからです。"
 
 #. Tag: para
 #: Jbpm.xml:98
 #, no-c-format
 msgid "Here is an example page flow definition using JSF navigation rules:"
-msgstr ""
+msgstr "これは JSF ナビゲーション規則を使用したページフローの例です。"
 
 #. Tag: programlisting
 #: Jbpm.xml:103
@@ -170,13 +133,34 @@ msgid ""
 "\n"
 "</navigation-rule>]]>"
 msgstr ""
+"<![CDATA[<navigation-rule>\n"
+"    <from-view-id>/numberGuess.jsp</from-view-id>\n"
+"        \n"
+"    <navigation-case>\n"
+"        <from-outcome>guess</from-outcome>\n"
+"        <to-view-id>/numberGuess.jsp</to-view-id>\n"
+"        <redirect/>\n"
+"    </navigation-case>\n"
+"\n"
+"    <navigation-case>\n"
+"        <from-outcome>win</from-outcome>\n"
+"        <to-view-id>/win.jsp</to-view-id>\n"
+"        <redirect/>\n"
+"    </navigation-case>\n"
+"        \n"
+"    <navigation-case>\n"
+"        <from-outcome>lose</from-outcome>\n"
+"        <to-view-id>/lose.jsp</to-view-id>\n"
+"        <redirect/>\n"
+"    </navigation-case>\n"
+"\n"
+"</navigation-rule>]]>"
 
 #. Tag: para
 #: Jbpm.xml:105
 #, no-c-format
-msgid ""
-"Here is the same example page flow definition using Seam navigation rules:"
-msgstr ""
+msgid "Here is the same example page flow definition using Seam navigation rules:"
+msgstr "これは Seam ナビゲーション規則を使用したページフローの例です。"
 
 #. Tag: programlisting
 #: Jbpm.xml:110
@@ -198,14 +182,27 @@ msgid ""
 "\n"
 "</page>]]>"
 msgstr ""
+"<![CDATA[<page view-id=\"/numberGuess.jsp\">\n"
+"        \n"
+"    <navigation>\n"
+"        <rule if-outcome=\"guess\">\n"
+"            <redirect view-id=\"/numberGuess.jsp\"/>\n"
+"        </rule>\n"
+"        <rule if-outcome=\"win\">\n"
+"            <redirect view-id=\"/win.jsp\"/>\n"
+"        </rule>\n"
+"        <rule if-outcome=\"lose\">\n"
+"            <redirect view-id=\"/lose.jsp\"/>\n"
+"        </rule>\n"
+"    </navigation>\n"
+"\n"
+"</page>]]>"
 
 #. Tag: para
 #: Jbpm.xml:112
 #, no-c-format
-msgid ""
-"If you find navigation rules overly verbose, you can return view ids "
-"directly from your action listener methods:"
-msgstr ""
+msgid "If you find navigation rules overly verbose, you can return view ids directly from your action listener methods:"
+msgstr "ナビゲーション規則が冗長過ぎると考えるならば、 アクションリスナーメソッドから直接、ビューIDを返すことが可能です。"
 
 #. Tag: programlisting
 #: Jbpm.xml:117
@@ -217,41 +214,41 @@ msgid ""
 "    return null;\n"
 "}]]>"
 msgstr ""
+"<![CDATA[public String guess() {\n"
+"    if (guess==randomNumber) return \"/win.jsp\";\n"
+"    if (++guessCount==maxGuesses) return \"/lose.jsp\";\n"
+"    return null;\n"
+"}]]>"
 
 #. Tag: para
 #: Jbpm.xml:119
 #, no-c-format
-msgid ""
-"Note that this results in a redirect. You can even specify parameters to be "
-"used in the redirect:"
-msgstr ""
+msgid "Note that this results in a redirect. You can even specify parameters to be used in the redirect:"
+msgstr "これは、リダイレクトの結果であることに留意ください。 リダイレクト中に使用するパラメータを指定することも可能です。"
 
 #. Tag: programlisting
 #: Jbpm.xml:124
 #, no-c-format
 msgid ""
 "<![CDATA[public String search() {\n"
-"    return \"/searchResults.jsp?searchPattern=#{searchAction.searchPattern}"
-"\";\n"
+"    return \"/searchResults.jsp?searchPattern=#{searchAction.searchPattern}\";\n"
 "}]]>"
 msgstr ""
+"<![CDATA[public String search() {\n"
+"    return \"/searchResults.jsp?searchPattern=#{searchAction.searchPattern}\";\n"
+"}]]>"
 
 #. Tag: para
 #: Jbpm.xml:126
 #, no-c-format
-msgid ""
-"The stateful model defines a set of transitions between a set of named, "
-"logical application states. In this model, it is possible to express the "
-"flow of any user interaction entirely in the jPDL pageflow definition, and "
-"write action listener methods that are completely unaware of the flow of the "
-"interaction."
-msgstr ""
+msgid "The stateful model defines a set of transitions between a set of named, logical application states. In this model, it is possible to express the flow of any user interaction entirely in the jPDL pageflow definition, and write action listener methods that are completely unaware of the flow of the interaction."
+msgstr "ステートフルなモデルは名前の付いた論理的なアプリケーションの状態間で起こる遷移の組み合わせを定義します。 このモデルではjPDL ページフロー定義中に、どのようなユーザインタラクションのフロー表現も可能であり、 インタラクションのフローを全く知らないアクションリスナーメソッドを書くことも可能です。"
 
 #. Tag: para
 #: Jbpm.xml:134
 #, no-c-format
 msgid "Here is an example page flow definition using jPDL:"
-msgstr ""
+msgstr "これは jPDL を使用したページフロー定義の例です。"
 
 #. Tag: programlisting
 #: Jbpm.xml:138
@@ -266,14 +263,12 @@ msgid ""
 "      </transition>\n"
 "   </start-page>\n"
 "   \n"
-"   <decision name=\"evaluateGuess\" expression=\"#{numberGuess.correctGuess}"
-"\">\n"
+"   <decision name=\"evaluateGuess\" expression=\"#{numberGuess.correctGuess}\">\n"
 "      <transition name=\"true\" to=\"win\"/>\n"
 "      <transition name=\"false\" to=\"evaluateRemainingGuesses\"/>\n"
 "   </decision>\n"
 "   \n"
-"   <decision name=\"evaluateRemainingGuesses\" expression=\"#{numberGuess."
-"lastGuess}\">\n"
+"   <decision name=\"evaluateRemainingGuesses\" expression=\"#{numberGuess.lastGuess}\">\n"
 "      <transition name=\"true\" to=\"lose\"/>\n"
 "      <transition name=\"false\" to=\"displayGuess\"/>\n"
 "   </decision>\n"
@@ -290,98 +285,90 @@ msgid ""
 "   \n"
 "</pageflow-definition>]]>"
 msgstr ""
+"<![CDATA[<pageflow-definition name=\"numberGuess\">\n"
+"    \n"
+"   <start-page name=\"displayGuess\" view-id=\"/numberGuess.jsp\">\n"
+"      <redirect/>\n"
+"      <transition name=\"guess\" to=\"evaluateGuess\">\n"
+"              <action expression=\"#{numberGuess.guess}\" />\n"
+"      </transition>\n"
+"   </start-page>\n"
+"   \n"
+"   <decision name=\"evaluateGuess\" expression=\"#{numberGuess.correctGuess}\">\n"
+"      <transition name=\"true\" to=\"win\"/>\n"
+"      <transition name=\"false\" to=\"evaluateRemainingGuesses\"/>\n"
+"   </decision>\n"
+"   \n"
+"   <decision name=\"evaluateRemainingGuesses\" expression=\"#{numberGuess.lastGuess}\">\n"
+"      <transition name=\"true\" to=\"lose\"/>\n"
+"      <transition name=\"false\" to=\"displayGuess\"/>\n"
+"   </decision>\n"
+"   \n"
+"   <page name=\"win\" view-id=\"/win.jsp\">\n"
+"      <redirect/>\n"
+"      <end-conversation />\n"
+"   </page>\n"
+"   \n"
+"   <page name=\"lose\" view-id=\"/lose.jsp\">\n"
+"      <redirect/>\n"
+"      <end-conversation />\n"
+"   </page>\n"
+"   \n"
+"</pageflow-definition>]]>"
 
 #. Tag: para
 #: Jbpm.xml:149
 #, no-c-format
 msgid "There are two things we notice immediately here:"
-msgstr ""
+msgstr "ここですぐに気づく 2 つのことがあります。"
 
 #. Tag: para
 #: Jbpm.xml:155
 #, no-c-format
-msgid ""
-"The JSF/Seam navigation rules are <emphasis>much</emphasis> simpler. "
-"(However, this obscures the fact that the underlying Java code is more "
-"complex.)"
-msgstr ""
+msgid "The JSF/Seam navigation rules are <emphasis>much</emphasis> simpler. (However, this obscures the fact that the underlying Java code is more complex.)"
+msgstr "JSF/Seam ナビゲーション規則は、<emphasis>より</emphasis> 簡単です。 (しかし、これは根底となる Java コードがより複雑化であるという事実をあいまいにしています。)"
 
 #. Tag: para
 #: Jbpm.xml:162
 #, no-c-format
-msgid ""
-"The jPDL makes the user interaction immediately understandable, without us "
-"needing to even look at the JSP or Java code."
-msgstr ""
+msgid "The jPDL makes the user interaction immediately understandable, without us needing to even look at the JSP or Java code."
+msgstr "jPDL はJSP や Java コードを見る必要がなく、 即座にユーザインタラクションの理解ができます。"
 
 #. Tag: para
 #: Jbpm.xml:169
 #, no-c-format
-msgid ""
-"In addition, the stateful model is more <emphasis>constrained</emphasis>. "
-"For each logical state (each step in the page flow), there are a constrained "
-"set of possible transitions to other states. The stateless model is an "
-"<emphasis>ad hoc</emphasis> model which is suitable to relatively "
-"unconstrained, freeform navigation where the user decides where he/she wants "
-"to go next, not the application."
-msgstr ""
+msgid "In addition, the stateful model is more <emphasis>constrained</emphasis>. For each logical state (each step in the page flow), there are a constrained set of possible transitions to other states. The stateless model is an <emphasis>ad hoc</emphasis> model which is suitable to relatively unconstrained, freeform navigation where the user decides where he/she wants to go next, not the application."
+msgstr "それに加えてステートフルモデルはもっと <emphasis>制約的</emphasis> です。 各論理的な状態 (ページフローの各ステップ) に対して他の状態に遷移可能な制約された組み合わせがあります。 ステートレスモデルは<emphasis>アドホックな</emphasis> モデルです。 それはアプリケーションではなく、 比較的制約のない、ユーザが次に行きたいところを決めるフリーフォームナビゲーションに適しています。"
 
 #. Tag: para
 #: Jbpm.xml:178
 #, no-c-format
-msgid ""
-"The stateful/stateless navigation distinction is quite similar to the "
-"traditional view of modal/modeless interaction. Now, Seam applications are "
-"not usually modal in the simple sense of the word - indeed, avoiding "
-"application modal behavior is one of the main reasons for having "
-"conversations! However, Seam applications can be, and often are, modal at "
-"the level of a particular conversation. It is well-known that modal behavior "
-"is something to avoid as much as possible; it is very difficult to predict "
-"the order in which your users are going to want to do things! However, there "
-"is no doubt that the stateful model has its place."
-msgstr ""
+msgid "The stateful/stateless navigation distinction is quite similar to the traditional view of modal/modeless interaction. Now, Seam applications are not usually modal in the simple sense of the word - indeed, avoiding application modal behavior is one of the main reasons for having conversations! However, Seam applications can be, and often are, modal at the level of a particular conversation. It is well-known that modal behavior is something to avoid as much as possible; it is very difficult to predict the order in which your users are going to want to do things! However, there is no doubt that the stateful model has its place."
+msgstr "ステートフル / ステートレスナビゲーションの判断は、 典型的なモーダル / モーダレスインタラクションの考え方ととてもよく似ています。 さて、アプリケーションをモーダルな振る舞いから回避することは、 対話を持つ 1 つの主な理由ですが、 Seam アプリケーションは、 通常、単純な意味でのモーダルではありません。 しかし、Seam アプリケーションは、 特定な対話レベルで、モーダル可能であり、しばしばそうです。 モーダルな振る舞いは、 可能な限り回避したものとして知られています。 ユーザがしたいことの順番を予測することは、とても困難です。 しかし、ステートフルモデルの存在意義があるのは疑う余地はありません。"
 
 #. Tag: para
 #: Jbpm.xml:191
 #, no-c-format
-msgid ""
-"The biggest contrast between the two models is the back-button behavior."
-msgstr ""
+msgid "The biggest contrast between the two models is the back-button behavior."
+msgstr "2 つのモデルの最大の違いは、 戻るボタンの振る舞いです。"
 
 #. Tag: title
 #: Jbpm.xml:199
 #, no-c-format
 msgid "Seam and the back button"
-msgstr ""
+msgstr "Seam と 戻るボタン"
 
 #. Tag: para
 #: Jbpm.xml:201
 #, no-c-format
-msgid ""
-"When JSF or Seam navigation rules are used, Seam lets the user freely "
-"navigate via the back, forward and refresh buttons. It is the responsibility "
-"of the application to ensure that conversational state remains internally "
-"consistent when this occurs. Experience with the combination of web "
-"application frameworks like Struts or WebWork - that do not support a "
-"conversational model - and stateless component models like EJB stateless "
-"session beans or the Spring framework has taught many developers that this "
-"is close to impossible to do! However, our experience is that in the context "
-"of Seam, where there is a well-defined conversational model, backed by "
-"stateful session beans, it is actually quite straightforward. Usually it is "
-"as simple as combining the use of <literal>no-conversation-view-id</literal> "
-"with null checks at the beginning of action listener methods. We consider "
-"support for freeform navigation to be almost always desirable."
-msgstr ""
+msgid "When JSF or Seam navigation rules are used, Seam lets the user freely navigate via the back, forward and refresh buttons. It is the responsibility of the application to ensure that conversational state remains internally consistent when this occurs. Experience with the combination of web application frameworks like Struts or WebWork - that do not support a conversational model - and stateless component models like EJB stateless session beans or the Spring framework has taught many developers that this is close to impossible to do! However, our experience is that in the context of Seam, where there is a well-defined conversational model, backed by stateful session beans, it is actually quite straightforward. Usually it is as simple as combining the use of <literal>no-conversation-view-id</literal> with null checks at the beginning of action listener methods. We consider support for freeform navigation to be almost always desirable."
+msgstr "JSF あるいは Seam ナビゲーション規則が使用されている場合、 Seam は、ユーザに戻る、進む、更新ボタンの自由なナビゲーションを可能にします。 これが発生したとき、 内部的な対話状態の一貫性を保持することは、 アプリケーションの責任です。 Struts や WebWork のような対話モデルをサポートしない WEB アプリケーションフレームワーク、 そして、EJB ステートレスセッションBean や Spring framework のようなステートレスコンポーネントモデルの組み合わせの経験は、 多くの開発者にこれをすることは、ほとんど不可能であることを教えていました。 しかし、Seam のコンテキストでの経験から、 ステートフルセッション Bean に裏付けられた明確な対話モデルがあるところでは、 それは実際とても簡単です。 通常、それは、アクションリスナーメソッドの最初に、 <literal>no-conversation-view-id</literal> アノテーションと null チェックの使用を組合わせる程度に簡単です。 私たちは、フリーフォームナビゲーションのサポートは、 ほぼいつも要求されるものと考えています。"
 
 #. Tag: para
 #: Jbpm.xml:219
 #, no-c-format
-msgid ""
-"In this case, the <literal>no-conversation-view-id</literal> declaration "
-"goes in <literal>pages.xml</literal>. It tells Seam to redirect to a "
-"different page if a request originates from a page rendered during a "
-"conversation, and that conversation no longer exists:"
-msgstr ""
+msgid "In this case, the <literal>no-conversation-view-id</literal> declaration goes in <literal>pages.xml</literal>. It tells Seam to redirect to a different page if a request originates from a page rendered during a conversation, and that conversation no longer exists:"
+msgstr "この場合、<literal>no-conversation-view-id</literal>の宣言は <literal>pages.xml</literal>で行います。 対話中のレンダリングされたページからのリクエストの場合、 異なるページにリダイレクトして、その対話は存在していないことを Seamに伝えることになります。"
 
 #. Tag: programlisting
 #: Jbpm.xml:227
@@ -390,23 +377,14 @@ msgid ""
 "<![CDATA[<page view-id=\"/checkout.xhtml\" \n"
 "        no-conversation-view-id=\"/main.xhtml\"/>]]>"
 msgstr ""
+"<![CDATA[<page view-id=\"/checkout.xhtml\" \n"
+"        no-conversation-view-id=\"/main.xhtml\"/>]]>"
 
 #. Tag: para
 #: Jbpm.xml:229
 #, no-c-format
-msgid ""
-"On the other hand, in the stateful model, backbuttoning is interpreted as an "
-"undefined transition back to a previous state. Since the stateful model "
-"enforces a defined set of transitions from the current state, back buttoning "
-"is by default disallowed in the stateful model! Seam transparently detects "
-"the use of the back button, and blocks any attempt to perform an action from "
-"a previous, \"stale\" page, and simply redirects the user to the \"current\" "
-"page (and displays a faces message). Whether you consider this a feature or "
-"a limitation of the stateful model depends upon your point of view: as an "
-"application developer, it is a feature; as a user, it might be frustrating! "
-"You can enable backbutton navigation from a particular page node by setting "
-"<literal>back=\"enabled\"</literal>."
-msgstr ""
+msgid "On the other hand, in the stateful model, backbuttoning is interpreted as an undefined transition back to a previous state. Since the stateful model enforces a defined set of transitions from the current state, back buttoning is by default disallowed in the stateful model! Seam transparently detects the use of the back button, and blocks any attempt to perform an action from a previous, \"stale\" page, and simply redirects the user to the \"current\" page (and displays a faces message). Whether you consider this a feature or a limitation of the stateful model depends upon your point of view: as an application developer, it is a feature; as a user, it might be frustrating! You can enable backbutton navigation from a particular page node by setting <literal>back=\"enabled\"</literal>."
+msgstr "一方のステートフルなモデルで戻るボタンは以前の状態への未定義な遷移として読み込まれます。ステートフルなモデルでは現在の状態から定義済みな遷移のみを行なえるようになっているため、戻るボタンはデフォルトでは有効になっていません。Seamは戻るボタンの利用を透過的に感知します、そして利用していない以前のページからの動作を一切ブロックし、単純に現在のページにリダイレクトします。(faces messageを表示します)。これを機能とみるかステートフルモデルの制約とみるかは視点によります：アプリケーション開発者の視点からは機能とみて、ユーザからの視点としてはフラストレーションを引き起こすようなものかもしれません。<literal>back=\"enabled\"</literal>を指定することによって特定のページでの戻るボタンを有効にすることもできます。"
 
 #. Tag: programlisting
 #: Jbpm.xml:245
@@ -420,24 +398,25 @@ msgid ""
 "    <transition name=\"complete\" to=\"complete\"/>\n"
 "</page>]]>"
 msgstr ""
+"<![CDATA[<page name=\"checkout\" \n"
+"        view-id=\"/checkout.xhtml\" \n"
+"        back=\"enabled\">\n"
+"    <redirect/>\n"
+"    <transition to=\"checkout\"/>\n"
+"    <transition name=\"complete\" to=\"complete\"/>\n"
+"</page>]]>"
 
 #. Tag: para
 #: Jbpm.xml:247
 #, no-c-format
-msgid ""
-"This allows backbuttoning <emphasis>from</emphasis> the <literal>checkout</"
-"literal> state to <emphasis>any previous state!</emphasis>"
-msgstr ""
+msgid "This allows backbuttoning <emphasis>from</emphasis> the <literal>checkout</literal> state to <emphasis>any previous state!</emphasis>"
+msgstr "これは、<literal>checkout</literal> 状態 <emphasis>から</emphasis><emphasis>以前のどの状態</emphasis> にでも戻るボタンでの遷移が可能です。"
 
 #. Tag: para
 #: Jbpm.xml:253
 #, no-c-format
-msgid ""
-"Of course, we still need to define what happens if a request originates from "
-"a page rendered during a pageflow, and the conversation with the pageflow no "
-"longer exists. In this case, the <literal>no-conversation-view-id</literal> "
-"declaration goes into the pageflow definition:"
-msgstr ""
+msgid "Of course, we still need to define what happens if a request originates from a page rendered during a pageflow, and the conversation with the pageflow no longer exists. In this case, the <literal>no-conversation-view-id</literal> declaration goes into the pageflow definition:"
+msgstr "もちろん、ページフローのレンダリングされたページからのリクエストの場合も、 異なるページにリダイレクトして、そのページフローでの対話は存在していないことを 定義しなければなりません。この場合、<literal>no-conversation-view-id</literal> の宣言は、ページフロー定義で行います:"
 
 #. Tag: programlisting
 #: Jbpm.xml:261
@@ -452,50 +431,50 @@ msgid ""
 "    <transition name=\"complete\" to=\"complete\"/>\n"
 "</page>]]>"
 msgstr ""
+"<![CDATA[<page name=\"checkout\" \n"
+"        view-id=\"/checkout.xhtml\" \n"
+"        back=\"enabled\" \n"
+"        no-conversation-view-id=\"/main.xhtml\">\n"
+"    <redirect/>\n"
+"    <transition to=\"checkout\"/>\n"
+"    <transition name=\"complete\" to=\"complete\"/>\n"
+"</page>]]>"
 
 #. Tag: para
 #: Jbpm.xml:264
 #, no-c-format
-msgid ""
-"In practice, both navigation models have their place, and you'll quickly "
-"learn to recognize when to prefer one model over the other."
-msgstr ""
+msgid "In practice, both navigation models have their place, and you'll quickly learn to recognize when to prefer one model over the other."
+msgstr "実際には両ナビゲーションモデルとも使い道があり、どちらの方が適切か認識できるように簡単に学びます。"
 
 #. Tag: title
 #: Jbpm.xml:273
 #, no-c-format
 msgid "Using jPDL pageflows"
-msgstr ""
+msgstr "jPDL ページフローの使用"
 
 #. Tag: title
 #: Jbpm.xml:276
 #, no-c-format
 msgid "Installing pageflows"
-msgstr ""
+msgstr "ページフローの設定"
 
 #. Tag: para
 #: Jbpm.xml:278
 #, no-c-format
-msgid ""
-"We need to install the Seam jBPM-related components, and place the pageflow "
-"definitions (using the standard <literal>.jpdl.xml</literal> extension) "
-"inside a Seam archive (an archive which contains a <literal>seam.properties</"
-"literal> file):"
-msgstr ""
+msgid "We need to install the Seam jBPM-related components, and place the pageflow definitions (using the standard <literal>.jpdl.xml</literal> extension) inside a Seam archive (an archive which contains a <literal>seam.properties</literal> file):"
+msgstr "Seam の jBPM 関連のコンポーネントをインストールしページフロー定義の場所を指示する必要があります。 この <literal>components.xml</literal> に Seam 設定を指定することができます。"
 
 #. Tag: programlisting
 #: Jbpm.xml:285
 #, no-c-format
 msgid "<![CDATA[<bpm:jbpm />]]>"
-msgstr ""
+msgstr "<![CDATA[<bpm:jbpm />]]>"
 
 #. Tag: para
 #: Jbpm.xml:287
 #, no-c-format
-msgid ""
-"We can also explicitly tell Seam where to find our pageflow definition. We "
-"specify this in <literal>components.xml</literal>:"
-msgstr ""
+msgid "We can also explicitly tell Seam where to find our pageflow definition. We specify this in <literal>components.xml</literal>:"
+msgstr "Seam の jBPM 関連のコンポーネントをインストールしページフロー定義の場所を指示する必要があります。 この <literal>components.xml</literal> に Seam 設定を指定することができます。"
 
 #. Tag: programlisting
 #: Jbpm.xml:292
@@ -507,21 +486,23 @@ msgid ""
 "    </bpm:pageflow-definitions>\n"
 "</bpm:jbpm>]]>"
 msgstr ""
+"<![CDATA[<bpm:jbpm>\n"
+"    <bpm:pageflow-definitions>\n"
+"        <value>pageflow.jpdl.xml</value>\n"
+"    </bpm:pageflow-definitions>\n"
+"</bpm:jbpm>]]>"
 
 #. Tag: title
 #: Jbpm.xml:297
 #, no-c-format
 msgid "Starting pageflows"
-msgstr ""
+msgstr "ページフローの開始"
 
 #. Tag: para
 #: Jbpm.xml:299
 #, no-c-format
-msgid ""
-"We \"start\" a jPDL-based pageflow by specifying the name of the process "
-"definition using a <literal>@Begin</literal>, <literal>@BeginTask</literal> "
-"or <literal>@StartTask</literal> annotation:"
-msgstr ""
+msgid "We \"start\" a jPDL-based pageflow by specifying the name of the process definition using a <literal>@Begin</literal>, <literal>@BeginTask</literal> or <literal>@StartTask</literal> annotation:"
+msgstr "<literal>@Begin</literal>、<literal>@BeginTask</literal> あるいは、 <literal>@StartTask</literal> アノテーションを使用して、 プロセス定義の名前を指定することによって、 jPDL ベースのページフローを開始します:"
 
 #. Tag: programlisting
 #: Jbpm.xml:306
@@ -530,12 +511,14 @@ msgid ""
 "<![CDATA[@Begin(pageflow=\"numberguess\")\n"
 "public void begin() { ... }]]>"
 msgstr ""
+"<![CDATA[@Begin(pageflow=\"numberguess\")\n"
+"public void begin() { ... }]]>"
 
 #. Tag: para
 #: Jbpm.xml:308
 #, no-c-format
 msgid "Alternatively we can start a pageflow using pages.xml:"
-msgstr ""
+msgstr "もしくは、pages.xmlを使用してページフローを開始できます。"
 
 #. Tag: programlisting
 #: Jbpm.xml:310
@@ -545,29 +528,21 @@ msgid ""
 "        <begin-conversation pageflow=\"numberguess\"/>\n"
 "    </page>]]>"
 msgstr ""
+"<![CDATA[<page>\n"
+"        <begin-conversation pageflow=\"numberguess\"/>\n"
+"    </page>]]>"
 
 #. Tag: para
 #: Jbpm.xml:312
 #, no-c-format
-msgid ""
-"If we are beginning the pageflow during the <literal>RENDER_RESPONSE</"
-"literal> phase &#8212; during a <literal>@Factory</literal> or "
-"<literal>@Create</literal> method, for example &#8212; we consider ourselves "
-"to be already at the page being rendered, and use a <literal>&lt;start-"
-"page&gt;</literal> node as the first node in the pageflow, as in the example "
-"above."
-msgstr ""
+msgid "If we are beginning the pageflow during the <literal>RENDER_RESPONSE</literal> phase&#8212;during a <literal>@Factory</literal> or <literal>@Create</literal> method, for example&#8212;we consider ourselves to be already at the page being rendered, and use a <literal>&lt;start-page&gt;</literal> node as the first node in the pageflow, as in the example above."
+msgstr "例えば<literal>RENDER_RESPONSE</literal> フェーズ&#8212;<literal>@Factory</literal>または<literal>@Create</literal>メソッドを呼び出している間でページフローが開始している時というのはページは既にレンダリングされているものとし、上記の例でいえば<literal>&lt;start-page&gt;</literal> ノードをページフローの最初のノードとして使います。"
 
 #. Tag: para
 #: Jbpm.xml:320
 #, no-c-format
-msgid ""
-"But if the pageflow is begun as the result of an action listener invocation, "
-"the outcome of the action listener determines which is the first page to be "
-"rendered. In this case, we use a <literal>&lt;start-state&gt;</literal> as "
-"the first node in the pageflow, and declare a transition for each possible "
-"outcome:"
-msgstr ""
+msgid "But if the pageflow is begun as the result of an action listener invocation, the outcome of the action listener determines which is the first page to be rendered. In this case, we use a <literal>&lt;start-state&gt;</literal> as the first node in the pageflow, and declare a transition for each possible outcome:"
+msgstr "しかし、ページフローがアクションリスナ呼び出しの結果として開始される場合、 アクションリスナの結果 (outcome) は、レンダリングされる最初のページを決定します。 この場合、ページフローの最初のノードとして <literal>&lt;start-state&gt;</literal> を使用し、 それぞれの可能な結果 (outcome) のために遷移を宣言します。"
 
 #. Tag: programlisting
 #: Jbpm.xml:328
@@ -593,20 +568,37 @@ msgid ""
 "    \n"
 "</pageflow-definition>]]>"
 msgstr ""
+"<![CDATA[<pageflow-definition name=\"viewEditDocument\">\n"
+"\n"
+"    <start-state name=\"start\">\n"
+"        <transition name=\"documentFound\" to=\"displayDocument\"/>\n"
+"        <transition name=\"documentNotFound\" to=\"notFound\"/>\n"
+"    </start-state>\n"
+"    \n"
+"    <page name=\"displayDocument\" view-id=\"/document.jsp\">\n"
+"        <transition name=\"edit\" to=\"editDocument\"/>\n"
+"        <transition name=\"done\" to=\"main\"/>\n"
+"    </page>\n"
+"    \n"
+"    ...\n"
+"    \n"
+"    <page name=\"notFound\" view-id=\"/404.jsp\">\n"
+"        <end-conversation/>\n"
+"    </page>\n"
+"    \n"
+"</pageflow-definition>]]>"
 
 #. Tag: title
 #: Jbpm.xml:333
 #, no-c-format
 msgid "Page nodes and transitions"
-msgstr ""
+msgstr "ページノードと遷移"
 
 #. Tag: para
 #: Jbpm.xml:335
 #, no-c-format
-msgid ""
-"Each <literal>&lt;page&gt;</literal> node represents a state where the "
-"system is waiting for user input:"
-msgstr ""
+msgid "Each <literal>&lt;page&gt;</literal> node represents a state where the system is waiting for user input:"
+msgstr "各 <literal>&lt;page&gt;</literal> ノードは、システムがユーザ入力を待っている状態を表します。"
 
 #. Tag: programlisting
 #: Jbpm.xml:340
@@ -619,71 +611,54 @@ msgid ""
 "    </transition>\n"
 "</page>]]>"
 msgstr ""
+"<![CDATA[<page name=\"displayGuess\" view-id=\"/numberGuess.jsp\">\n"
+"    <redirect/>\n"
+"    <transition name=\"guess\" to=\"evaluateGuess\">\n"
+"        <action expression=\"#{numberGuess.guess}\" />\n"
+"    </transition>\n"
+"</page>]]>"
 
 #. Tag: para
 #: Jbpm.xml:342
 #, no-c-format
-msgid ""
-"The <literal>view-id</literal> is the JSF view id. The <literal>&lt;redirect/"
-"&gt;</literal> element has the same effect as <literal>&lt;redirect/&gt;</"
-"literal> in a JSF navigation rule: namely, a post-then-redirect behavior, to "
-"overcome problems with the browser's refresh button. (Note that Seam "
-"propagates conversation contexts over these browser redirects. So there is "
-"no need for a Ruby on Rails style \"flash\" construct in Seam!)"
-msgstr ""
+msgid "The <literal>view-id</literal> is the JSF view id. The <literal>&lt;redirect/&gt;</literal> element has the same effect as <literal>&lt;redirect/&gt;</literal> in a JSF navigation rule: namely, a post-then-redirect behavior, to overcome problems with the browser's refresh button. (Note that Seam propagates conversation contexts over these browser redirects. So there is no need for a Ruby on Rails style \"flash\" construct in Seam!)"
+msgstr "<literal>view-id</literal> はJSFのビューIDです。 <literal>&lt;redirect/&gt;</literal>要素はJSFナビゲーションルールにある<literal>&lt;redirect/&gt;</literal>と同じで、ブラウザの再表示ボタンの問題に対応するためのpost-then-redirectといった振る舞いと同じ効果をもたらします。(Seamはこれらブラウザのリダイレクトをこえてコンバセーションコンテキストを渡していきますのでRuby on Rails の \"flash\"のようなものはSeamでは必要はありません） "
 
 #. Tag: para
 #: Jbpm.xml:351
 #, no-c-format
-msgid ""
-"The transition name is the name of a JSF outcome triggered by clicking a "
-"command button or command link in <literal>numberGuess.jsp</literal>."
-msgstr ""
+msgid "The transition name is the name of a JSF outcome triggered by clicking a command button or command link in <literal>numberGuess.jsp</literal>."
+msgstr "遷移名は、<literal>numberGuess.jsp</literal> において、 ボタン あるいは、リンクをクリックすることによって起動された JSF 結果 (outcome) の名前です。"
 
 #. Tag: programlisting
 #: Jbpm.xml:356
 #, no-c-format
-msgid ""
-"<![CDATA[<h:commandButton type=\"submit\" value=\"Guess\" action=\"guess\"/"
-">]]>"
-msgstr ""
+msgid "<![CDATA[<h:commandButton type=\"submit\" value=\"Guess\" action=\"guess\"/>]]>"
+msgstr "<![CDATA[<h:commandButton type=\"submit\" value=\"Guess\" action=\"guess\"/>]]>"
 
 #. Tag: para
 #: Jbpm.xml:358
 #, no-c-format
-msgid ""
-"When the transition is triggered by clicking this button, jBPM will activate "
-"the transition action by calling the <literal>guess()</literal> method of "
-"the <literal>numberGuess</literal> component. Notice that the syntax used "
-"for specifying actions in the jPDL is just a familiar JSF EL expression, and "
-"that the transition action handler is just a method of a Seam component in "
-"the current Seam contexts. So we have exactly the same event model for jBPM "
-"events that we already have for JSF events! (The <emphasis>One Kind of "
-"Stuff</emphasis> principle.)"
-msgstr ""
+msgid "When the transition is triggered by clicking this button, jBPM will activate the transition action by calling the <literal>guess()</literal> method of the <literal>numberGuess</literal> component. Notice that the syntax used for specifying actions in the jPDL is just a familiar JSF EL expression, and that the transition action handler is just a method of a Seam component in the current Seam contexts. So we have exactly the same event model for jBPM events that we already have for JSF events! (The <emphasis>One Kind of Stuff</emphasis> principle.)"
+msgstr "遷移が、このボタンをクリックすることによって起動されるときに、 <literal>numberGuess</literal> コンポーネントの <literal>guess () </literal> メソッドと呼び出すことによって、 jBPM は、遷移のアクションを起動します。 jPDL においてアクションを指定するために使わるシンタックスは、 JSF EL 式とよく似ていること、 そして、遷移のアクションハンドラは、 ちょうど現在の Seam コンテキストにおける Seam コンポーネントのメソッドであることに注意してください。 従って、JSF イベントのために既に持っているものと、ちょうど同じ jBPM イベントのモデルを持ちます。 (一貫した原則 (The One Kind of Stuff principle))"
 
 #. Tag: para
 #: Jbpm.xml:369
 #, no-c-format
-msgid ""
-"In the case of a null outcome (for example, a command button with no "
-"<literal>action</literal> defined), Seam will signal the transition with no "
-"name if one exists, or else simply redisplay the page if all transitions "
-"have names. So we could slightly simplify our example pageflow and this "
-"button:"
-msgstr ""
+msgid "In the case of a null outcome (for example, a command button with no <literal>action</literal> defined), Seam will signal the transition with no name if one exists, or else simply redisplay the page if all transitions have names. So we could slightly simplify our example pageflow and this button:"
+msgstr "nullでのoutcome の場合 (例えば、<literal>action</literal> が定義されていないコマンドボタン)、 もし、名前のない遷移があるならば、Seam は遷移するためのシグナルを送ります。 あるいは、もし、すべての遷移が名前を持つならば、単純にページを再表示します。 従って、サンプルページフローを少し単純化でき、このボタンは"
 
 #. Tag: programlisting
 #: Jbpm.xml:376
 #, no-c-format
 msgid "<![CDATA[<h:commandButton type=\"submit\" value=\"Guess\"/>]]>"
-msgstr ""
+msgstr "<![CDATA[<h:commandButton type=\"submit\" value=\"Guess\"/>]]>"
 
 #. Tag: para
 #: Jbpm.xml:378
 #, no-c-format
 msgid "Would fire the following un-named transition:"
-msgstr ""
+msgstr "以下の名前のない遷移でのアクションを実行します。"
 
 #. Tag: programlisting
 #: Jbpm.xml:382
@@ -696,22 +671,24 @@ msgid ""
 "    </transition>\n"
 "</page>]]>"
 msgstr ""
+"<![CDATA[<page name=\"displayGuess\" view-id=\"/numberGuess.jsp\">\n"
+"    <redirect/>\n"
+"    <transition to=\"evaluateGuess\">\n"
+"        <action expression=\"#{numberGuess.guess}\" />\n"
+"    </transition>\n"
+"</page>]]>"
 
 #. Tag: para
 #: Jbpm.xml:384
 #, no-c-format
-msgid ""
-"It is even possible to have the button call an action method, in which case "
-"the action outcome will determine the transition to be taken:"
-msgstr ""
+msgid "It is even possible to have the button call an action method, in which case the action outcome will determine the transition to be taken:"
+msgstr "ボタンにアクションメソッドを呼ばせることも可能です。 この場合アクション結果 (outcome) が遷移を決定します。"
 
 #. Tag: programlisting
 #: Jbpm.xml:389
 #, no-c-format
-msgid ""
-"<![CDATA[<h:commandButton type=\"submit\" value=\"Guess\" action=\"#"
-"{numberGuess.guess}\"/>]]>"
-msgstr ""
+msgid "<![CDATA[<h:commandButton type=\"submit\" value=\"Guess\" action=\"#{numberGuess.guess}\"/>]]>"
+msgstr "<![CDATA[<h:commandButton type=\"submit\" value=\"Guess\" action=\"#{numberGuess.guess}\"/>]]>"
 
 #. Tag: programlisting
 #: Jbpm.xml:391
@@ -722,63 +699,60 @@ msgid ""
 "    <transition name=\"incorrectGuess\" to=\"evaluateGuess\"/>\n"
 "</page>]]>"
 msgstr ""
+"<![CDATA[<page name=\"displayGuess\" view-id=\"/numberGuess.jsp\">\n"
+"    <transition name=\"correctGuess\" to=\"win\"/>\n"
+"    <transition name=\"incorrectGuess\" to=\"evaluateGuess\"/>\n"
+"</page>]]>"
 
 #. Tag: para
 #: Jbpm.xml:393
 #, no-c-format
-msgid ""
-"However, this is considered an inferior style, since it moves responsibility "
-"for controlling the flow out of the pageflow definition and back into the "
-"other components. It is much better to centralize this concern in the "
-"pageflow itself."
-msgstr ""
+msgid "However, this is considered an inferior style, since it moves responsibility for controlling the flow out of the pageflow definition and back into the other components. It is much better to centralize this concern in the pageflow itself."
+msgstr "しかし、これは質の悪いスタイルだと考えます。 なぜならフロー制御の責任をページフロー定義の外側の他のコンポーネントに移動しているからです。 ページフローに関連することをそれ自身に集中することは、より良いことです。"
 
 #. Tag: title
 #: Jbpm.xml:402
 #, no-c-format
 msgid "Controlling the flow"
-msgstr ""
+msgstr "フローの制御"
 
 #. Tag: para
 #: Jbpm.xml:404
 #, no-c-format
-msgid ""
-"Usually, we don't need the more powerful features of jPDL when defining "
-"pageflows. We do need the <literal>&lt;decision&gt;</literal> node, however:"
-msgstr ""
+msgid "Usually, we don't need the more powerful features of jPDL when defining pageflows. We do need the <literal>&lt;decision&gt;</literal> node, however:"
+msgstr "一般的にページフローを定義するときにjPDLのより強力な機能は必要としていません。しかし<literal>&lt;decision&gt;</literal>ノードはとても必要です。"
 
 #. Tag: programlisting
 #: Jbpm.xml:409
 #, no-c-format
 msgid ""
-"<![CDATA[<decision name=\"evaluateGuess\" expression=\"#{numberGuess."
-"correctGuess}\">\n"
+"<![CDATA[<decision name=\"evaluateGuess\" expression=\"#{numberGuess.correctGuess}\">\n"
 "    <transition name=\"true\" to=\"win\"/>\n"
 "    <transition name=\"false\" to=\"evaluateRemainingGuesses\"/>\n"
 "</decision>]]>"
 msgstr ""
+"<![CDATA[<decision name=\"evaluateGuess\" expression=\"#{numberGuess.correctGuess}\">\n"
+"    <transition name=\"true\" to=\"win\"/>\n"
+"    <transition name=\"false\" to=\"evaluateRemainingGuesses\"/>\n"
+"</decision>]]>"
 
 #. Tag: para
 #: Jbpm.xml:411
 #, no-c-format
-msgid ""
-"A decision is made by evaluating a JSF EL expression in the Seam contexts."
-msgstr ""
+msgid "A decision is made by evaluating a JSF EL expression in the Seam contexts."
+msgstr "デシジョンは Seam コンテキスト中では JSF EL 式によって評価されます。"
 
 #. Tag: title
 #: Jbpm.xml:418
 #, no-c-format
 msgid "Ending the flow"
-msgstr ""
+msgstr "フローの終了"
 
 #. Tag: para
 #: Jbpm.xml:420
 #, no-c-format
-msgid ""
-"We end the conversation using <literal>&lt;end-conversation&gt;</literal> or "
-"<literal>@End</literal>. (In fact, for readability, use of <emphasis>both</"
-"emphasis> is encouraged.)"
-msgstr ""
+msgid "We end the conversation using <literal>&lt;end-conversation&gt;</literal> or <literal>@End</literal>. (In fact, for readability, use of <emphasis>both</emphasis> is encouraged.)"
+msgstr "<literal>&lt;end-conversation&gt;</literal>、または<literal>@End</literal> を使用して対話を終了します。 (実際、可読性のために<emphasis>両方</emphasis> の使用を勧めます。)"
 
 #. Tag: programlisting
 #: Jbpm.xml:426
@@ -789,15 +763,16 @@ msgid ""
 "    <end-conversation/>\n"
 "</page>]]>"
 msgstr ""
+"<![CDATA[<page name=\"win\" view-id=\"/win.jsp\">\n"
+"    <redirect/>\n"
+"    <end-conversation/>\n"
+"</page>]]>"
 
 #. Tag: para
 #: Jbpm.xml:428
 #, no-c-format
-msgid ""
-"Optionally, we can end a task, specify a jBPM <literal>transition</literal> "
-"name. In this case, Seam will signal the end of the current task in the "
-"overarching business process."
-msgstr ""
+msgid "Optionally, we can end a task, specify a jBPM <literal>transition</literal> name. In this case, Seam will signal the end of the current task in the overarching business process."
+msgstr "オプションとして<literal>transition</literal> 名を指定してタスクを終了することができます。 この場合Seam はビジネスプロセスにおいて現在のタスク終了の信号を送るでしょう。"
 
 #. Tag: programlisting
 #: Jbpm.xml:434
@@ -808,21 +783,22 @@ msgid ""
 "    <end-task transition=\"success\"/>\n"
 "</page>]]>"
 msgstr ""
+"<![CDATA[<page name=\"win\" view-id=\"/win.jsp\">\n"
+"    <redirect/>\n"
+"    <end-task transition=\"success\"/>\n"
+"</page>]]>"
 
 #. Tag: title
 #: Jbpm.xml:439
 #, no-c-format
 msgid "Pageflow composition"
-msgstr ""
+msgstr "ページフローコンポジション"
 
 #. Tag: para
 #: Jbpm.xml:440
 #, no-c-format
-msgid ""
-"It is possible to compose pageflows and have one pageflow pause pause while "
-"another pageflow executes. The <literal>&lt;process-state&gt;</literal> node "
-"pauses the outer pageflow, and begins execution of a named pageflow:"
-msgstr ""
+msgid "It is possible to compose pageflows and have one pageflow pause pause while another pageflow executes. The <literal>&lt;process-state&gt;</literal> node pauses the outer pageflow, and begins execution of a named pageflow:"
+msgstr "ページフローを含むことができ、他のページフローが実行中の際にとめることも可能です。<literal>&lt;process-state&gt;</literal> ノードは外部のページフローをとめて指定されたページフローを開始します。"
 
 #. Tag: programlisting
 #: Jbpm.xml:447
@@ -833,48 +809,34 @@ msgid ""
 "    <transition to=\"displayGuess\"/>\n"
 "</process-state>]]>"
 msgstr ""
+"<![CDATA[<process-state name=\"cheat\">\n"
+"    <sub-process name=\"cheat\"/>\n"
+"    <transition to=\"displayGuess\"/>\n"
+"</process-state>]]>"
 
 #. Tag: para
 #: Jbpm.xml:449
 #, no-c-format
-msgid ""
-"The inner flow begins executing at a <literal>&lt;start-state&gt;</literal> "
-"node. When it reaches an <literal>&lt;end-state&gt;</literal> node, "
-"execution of the inner flow ends, and execution of the outer flow resumes "
-"with the transition defined by the <literal>&lt;process-state&gt;</literal> "
-"element."
-msgstr ""
+msgid "The inner flow begins executing at a <literal>&lt;start-state&gt;</literal> node. When it reaches an <literal>&lt;end-state&gt;</literal> node, execution of the inner flow ends, and execution of the outer flow resumes with the transition defined by the <literal>&lt;process-state&gt;</literal> element."
+msgstr "<literal>&lt;start-state&gt;</literal> ノードで内のフローは開始します。 <literal>&lt;end-state&gt;</literal> ノードの到着すると、そのフローは終了し、外側のフローの<literal>&lt;process-state&gt;</literal> 要素で定義された遷移から再開されます。"
 
 #. Tag: title
 #: Jbpm.xml:462
 #, no-c-format
 msgid "Business process management in Seam"
-msgstr ""
+msgstr "Seam のビジネスプロセス管理"
 
 #. Tag: para
 #: Jbpm.xml:463
 #, no-c-format
-msgid ""
-"A business process is a well-defined set of tasks that must be performed by "
-"users or software systems according to well-defined rules about "
-"<emphasis>who</emphasis> can perform a task, and <emphasis>when</emphasis> "
-"it should be performed. Seam's jBPM integration makes it easy to display "
-"lists of tasks to users and let them manage their tasks. Seam also lets the "
-"application store state associated with the business process in the "
-"<literal>BUSINESS_PROCESS</literal> context, and have that state made "
-"persistent via jBPM variables."
-msgstr ""
+msgid "A business process is a well-defined set of tasks that must be performed by users or software systems according to well-defined rules about <emphasis>who</emphasis> can perform a task, and <emphasis>when</emphasis> it should be performed. Seam's jBPM integration makes it easy to display lists of tasks to users and let them manage their tasks. Seam also lets the application store state associated with the business process in the <literal>BUSINESS_PROCESS</literal> context, and have that state made persistent via jBPM variables."
+msgstr "ビジネスプロセスはユーザによって操作されるタスクや<emphasis>誰</emphasis>がタスクをこなせて <emphasis>いつ</emphasis>できなければいけないのかといったことがよくまとまったソフトウェアシステムのあつまりです。SeamのjBPMインテグレーションはユーザにタスクを照会し管理させることを簡単にできます。またSeamはアプリケーション側で<literal>BUSINESS_PROCESS</literal>に状態を保存できるようにもしてくれています。それはjBPM変数経由で永続化されます。"
 
 #. Tag: para
 #: Jbpm.xml:475
 #, no-c-format
-msgid ""
-"A simple business process definition looks much the same as a page flow "
-"definition (<emphasis>One Kind of Stuff</emphasis>), except that instead of "
-"<literal>&lt;page&gt;</literal> nodes, we have <literal>&lt;task-node&gt;</"
-"literal> nodes. In a long-running business process, the wait states are "
-"where the system is waiting for some user to log in and perform a task."
-msgstr ""
+msgid "A simple business process definition looks much the same as a page flow definition (<emphasis>One Kind of Stuff</emphasis>), except that instead of <literal>&lt;page&gt;</literal> nodes, we have <literal>&lt;task-node&gt;</literal> nodes. In a long-running business process, the wait states are where the system is waiting for some user to log in and perform a task."
+msgstr "<literal>&lt;page&gt;</literal> の代わりに<literal>&lt;task-node&gt;</literal> ノードを持つ以外、 簡単なビジネスプロセス定義はページフロー定義とほぼ同じであるように見えます。 (一貫した原則 (The One Kind of Stuff principle)) 長期間のビジネスプロセスにおいて、 待ち状態はシステムが、ユーザがログインしタスクを実行するのを待っているところです。"
 
 #. Tag: programlisting
 #: Jbpm.xml:484
@@ -897,37 +859,46 @@ msgid ""
 "   \n"
 "</process-definition>]]>"
 msgstr ""
+"<![CDATA[<process-definition name=\"todo\">\n"
+"   \n"
+"   <start-state name=\"start\">\n"
+"      <transition to=\"todo\"/>\n"
+"   </start-state>\n"
+"   \n"
+"   <task-node name=\"todo\">\n"
+"      <task name=\"todo\" description=\"#{todoList.description}\">\n"
+"         <assignment actor-id=\"#{actor.id}\"/>\n"
+"      </task>\n"
+"      <transition to=\"done\"/>\n"
+"   </task-node>\n"
+"   \n"
+"   <end-state name=\"done\"/>\n"
+"   \n"
+"</process-definition>]]>"
 
 #. Tag: para
 #: Jbpm.xml:496
 #, no-c-format
-msgid ""
-"It is perfectly possible that we might have both jPDL business process "
-"definitions and jPDL pageflow definitions in the same project. If so, the "
-"relationship between the two is that a single <literal>&lt;task&gt;</"
-"literal> in a business process corresponds to a whole pageflow <literal>&lt;"
-"pageflow-definition&gt;</literal>"
-msgstr ""
+msgid "It is perfectly possible that we might have both jPDL business process definitions and jPDL pageflow definitions in the same project. If so, the relationship between the two is that a single <literal>&lt;task&gt;</literal> in a business process corresponds to a whole pageflow <literal>&lt;pageflow-definition&gt;</literal>"
+msgstr "同じプロジェクトの中にjPDL ビジネスプロセス定義と jPDL ページフロー定義を持つことは可能です。 そうであれば2 つの関係は ビジネスプロセス中の <literal>&lt;task&gt;</literal>は ページフロー <literal>&lt;process-definition&gt;</literal>全体と一致します。"
 
 #. Tag: title
 #: Jbpm.xml:507
 #, no-c-format
 msgid "Using jPDL business process definitions"
-msgstr ""
+msgstr "jPDL ビジネスプロセス定義の使用"
 
 #. Tag: title
 #: Jbpm.xml:510
 #, no-c-format
 msgid "Installing process definitions"
-msgstr ""
+msgstr "プロセス定義の設定"
 
 #. Tag: para
 #: Jbpm.xml:512
 #, no-c-format
-msgid ""
-"We need to install jBPM, and tell it where to find the business process "
-"definitions:"
-msgstr ""
+msgid "We need to install jBPM, and tell it where to find the business process definitions:"
+msgstr "jBPM を設定し、そのjBPMにビジネスプロセス定義の場所を指示する必要があります。"
 
 #. Tag: programlisting
 #: Jbpm.xml:517
@@ -939,34 +910,29 @@ msgid ""
 "    </bpm:process-definitions>\n"
 "</bpm:jbpm>]]>"
 msgstr ""
+"<![CDATA[<bpm:jbpm>\n"
+"    <bpm:process-definitions>\n"
+"        <value>todo.jpdl.xml</value>\n"
+"    </bpm:process-definitions>\n"
+"</bpm:jbpm>]]>"
 
 #. Tag: para
 #: Jbpm.xml:519
 #, no-c-format
-msgid ""
-"As jBPM processes are persistent across application restarts, when using "
-"Seam in a production environment you won't want to install the process "
-"definition every time the application starts. Therefore, in a production "
-"environment, you'll need to deploy the process to jBPM outside of Seam. In "
-"other words, only install process definitions from <literal>components.xml</"
-"literal> when developing your application."
-msgstr ""
+msgid "As jBPM processes are persistent across application restarts, when using Seam in a production environment you won't want to install the process definition every time the application starts. Therefore, in a production environment, you'll need to deploy the process to jBPM outside of Seam. In other words, only install process definitions from <literal>components.xml</literal> when developing your application."
+msgstr "jBPMプロセスは永続化されているためアプリケーションをまたいで開始できますが、本番環境でSeamを使うときにはアプリケーションが開始されるたびにプロセス定義をインストールしません。つまり本番環境ではSeamアプリケーションとは別に、jBPMに対してプロセス定義をデプロイする必要があります。言い換えればアプリケーションをデプロイするときの<literal>components.xml</literal> からプロセス定義をインストールする時のみということです。"
 
 #. Tag: title
 #: Jbpm.xml:532
 #, no-c-format
 msgid "Initializing actor ids"
-msgstr ""
+msgstr "アクターIDの初期化"
 
 #. Tag: para
 #: Jbpm.xml:534
 #, no-c-format
-msgid ""
-"We always need to know what user is currently logged in. jBPM \"knows\" "
-"users by their <emphasis>actor id</emphasis> and <emphasis>group actor ids</"
-"emphasis>. We specify the current actor ids using the built in Seam "
-"component named <literal>actor</literal>:"
-msgstr ""
+msgid "We always need to know what user is currently logged in. jBPM \"knows\" users by their <emphasis>actor id</emphasis> and <emphasis>group actor ids</emphasis>. We specify the current actor ids using the built in Seam component named <literal>actor</literal>:"
+msgstr "いつでも現在ログインしているユーザを知っている必要があります。 jBPM は<emphasis>actor id</emphasis> と <emphasis>group actor id</emphasis>によってユーザを識別します。 <literal>actor</literal> と呼ばれる組み込み Seam コンポーネントを使用することにより現在の actor id を指定します。"
 
 #. Tag: programlisting
 #: Jbpm.xml:542
@@ -981,20 +947,26 @@ msgid ""
 "    ...\n"
 "}]]>"
 msgstr ""
+"<![CDATA[@In Actor actor;\n"
+"\n"
+"public String login() {\n"
+"    ...\n"
+"    actor.setId( user.getUserName() );\n"
+"    actor.getGroupActorIds().addAll( user.getGroupNames() );\n"
+"    ...\n"
+"}]]>"
 
 #. Tag: title
 #: Jbpm.xml:547
 #, no-c-format
 msgid "Initiating a business process"
-msgstr ""
+msgstr "ビジネスプロセスの初期化"
 
 #. Tag: para
 #: Jbpm.xml:549
 #, no-c-format
-msgid ""
-"To initiate a business process instance, we use the <literal>@CreateProcess</"
-"literal> annotation:"
-msgstr ""
+msgid "To initiate a business process instance, we use the <literal>@CreateProcess</literal> annotation:"
+msgstr "ビジネスプロセスインスタンスを初期化するためには <literal>@CreateProcess</literal> アノテーションを使用します。"
 
 #. Tag: programlisting
 #: Jbpm.xml:554
@@ -1003,12 +975,14 @@ msgid ""
 "<![CDATA[@CreateProcess(definition=\"todo\")\n"
 "public void createTodo() { ... }]]>"
 msgstr ""
+"<![CDATA[@CreateProcess(definition=\"todo\")\n"
+"public void createTodo() { ... }]]>"
 
 #. Tag: para
 #: Jbpm.xml:556
 #, no-c-format
 msgid "Alternatively we can initiate a business process using pages.xml:"
-msgstr ""
+msgstr "また、 pages.xmlを使用してビジネスプロセスの初期化も行えます:"
 
 #. Tag: programlisting
 #: Jbpm.xml:558
@@ -1018,21 +992,21 @@ msgid ""
 "    <create-process definition=\"todo\" />\n"
 "</page>]]>"
 msgstr ""
+"<![CDATA[<page>\n"
+"    <create-process definition=\"todo\" />\n"
+"</page>]]>"
 
 #. Tag: title
 #: Jbpm.xml:563
 #, no-c-format
 msgid "Task assignment"
-msgstr ""
+msgstr "タスク割り当て"
 
 #. Tag: para
 #: Jbpm.xml:565
 #, no-c-format
-msgid ""
-"When a process reaches a task node, task instances are created. These must "
-"be assigned to users or user groups. We can either hardcode our actor ids, "
-"or delegate to a Seam component:"
-msgstr ""
+msgid "When a process reaches a task node, task instances are created. These must be assigned to users or user groups. We can either hardcode our actor ids, or delegate to a Seam component:"
+msgstr "プロセスがタスクノードに到着したときタスクインスタンスは作成されます。そのタスクインスタンスにはユーザもしくはグループが割り当てられていなければなりません。アクターIDをハードコードもできますしSeamコンポーネントに委譲することもできます。"
 
 #. Tag: programlisting
 #: Jbpm.xml:571
@@ -1042,14 +1016,15 @@ msgid ""
 "    <assignment actor-id=\"#{actor.id}\"/>\n"
 "</task>]]>"
 msgstr ""
+"<![CDATA[<task name=\"todo\" description=\"#{todoList.description}\">\n"
+"    <assignment actor-id=\"#{actor.id}\"/>\n"
+"</task>]]>"
 
 #. Tag: para
 #: Jbpm.xml:573
 #, no-c-format
-msgid ""
-"In this case, we have simply assigned the task to the current user. We can "
-"also assign tasks to a pool:"
-msgstr ""
+msgid "In this case, we have simply assigned the task to the current user. We can also assign tasks to a pool:"
+msgstr "この場合、 単純に現在のユーザにタスクを割り当てます。 タスクをプールに割り当てることもできます。"
 
 #. Tag: programlisting
 #: Jbpm.xml:578
@@ -1059,21 +1034,21 @@ msgid ""
 "    <assignment pooled-actors=\"employees\"/>\n"
 "</task>]]>"
 msgstr ""
+"<![CDATA[<task name=\"todo\" description=\"#{todoList.description}\">\n"
+"    <assignment pooled-actors=\"employees\"/>\n"
+"</task>]]>"
 
 #. Tag: title
 #: Jbpm.xml:583
 #, no-c-format
 msgid "Task lists"
-msgstr ""
+msgstr "タスクリスト"
 
 #. Tag: para
 #: Jbpm.xml:585
 #, no-c-format
-msgid ""
-"Several built-in Seam components make it easy to display task lists. The "
-"<literal>pooledTaskInstanceList</literal> is a list of pooled tasks that "
-"users may assign to themselves:"
-msgstr ""
+msgid "Several built-in Seam components make it easy to display task lists. The <literal>pooledTaskInstanceList</literal> is a list of pooled tasks that users may assign to themselves:"
+msgstr "いくつかの組み込み Seam コンポーネントによりタスクリストの表示が容易になっています。 <literal>pooledTaskInstanceList</literal> は ユーザが自分自身に割り当てることができるプールされたタスクのリストです。"
 
 #. Tag: programlisting
 #: Jbpm.xml:591
@@ -1085,19 +1060,25 @@ msgid ""
 "        <h:outputText value=\"#{task.description}\"/>\n"
 "    </h:column>\n"
 "    <h:column>\n"
-"        <s:link action=\"#{pooledTask.assignToCurrentActor}\" value=\"Assign"
-"\" taskInstance=\"#{task}\"/>\n"
+"        <s:link action=\"#{pooledTask.assignToCurrentActor}\" value=\"Assign\" taskInstance=\"#{task}\"/>\n"
 "    </h:column>                    \n"
 "</h:dataTable>]]>"
 msgstr ""
+"<![CDATA[<h:dataTable value=\"#{pooledTaskInstanceList}\" var=\"task\">\n"
+"    <h:column>\n"
+"        <f:facet name=\"header\">Description</f:facet>\n"
+"        <h:outputText value=\"#{task.description}\"/>\n"
+"    </h:column>\n"
+"    <h:column>\n"
+"        <s:link action=\"#{pooledTask.assignToCurrentActor}\" value=\"Assign\" taskInstance=\"#{task}\"/>\n"
+"    </h:column>                    \n"
+"</h:dataTable>]]>"
 
 #. Tag: para
 #: Jbpm.xml:593
 #, no-c-format
-msgid ""
-"Note that instead of <literal>&lt;s:link&gt;</literal> we could have used a "
-"plain JSF <literal>&lt;h:commandLink&gt;</literal>:"
-msgstr ""
+msgid "Note that instead of <literal>&lt;s:link&gt;</literal> we could have used a plain JSF <literal>&lt;h:commandLink&gt;</literal>:"
+msgstr "<literal>&lt;s:link&gt;</literal> の代わりに普通の JSF <literal>&lt;h:commandLink&gt;</literal> を使用することもできます。"
 
 #. Tag: programlisting
 #: Jbpm.xml:598
@@ -1107,53 +1088,57 @@ msgid ""
 "    <f:param name=\"taskId\" value=\"#{task.id}\"/>\n"
 "</h:commandLink>]]>"
 msgstr ""
+"<![CDATA[<h:commandLink action=\"#{pooledTask.assignToCurrentActor}\"> \n"
+"    <f:param name=\"taskId\" value=\"#{task.id}\"/>\n"
+"</h:commandLink>]]>"
 
 #. Tag: para
 #: Jbpm.xml:600
 #, no-c-format
-msgid ""
-"The <literal>pooledTask</literal> component is a built-in component that "
-"simply assigns the task to the current user."
-msgstr ""
+msgid "The <literal>pooledTask</literal> component is a built-in component that simply assigns the task to the current user."
+msgstr "<literal>pooledTask</literal> コンポーネントは単純にタスクを現在のユーザに割り当てる組み込みコンポーネントです。"
 
 #. Tag: para
 #: Jbpm.xml:605
 #, no-c-format
-msgid ""
-"The <literal>taskInstanceListForType</literal> component includes tasks of a "
-"particular type that are assigned to the current user:"
-msgstr ""
+msgid "The <literal>taskInstanceListForType</literal> component includes tasks of a particular type that are assigned to the current user:"
+msgstr "<literal>taskInstanceListForType</literal> コンポーネントは、 現在のユーザに割り当てられた特定タイプのタスクを含んでいます。"
 
 #. Tag: programlisting
 #: Jbpm.xml:610
 #, no-c-format
 msgid ""
-"<![CDATA[<h:dataTable value=\"#{taskInstanceListForType['todo']}\" var=\"task"
-"\">\n"
+"<![CDATA[<h:dataTable value=\"#{taskInstanceListForType['todo']}\" var=\"task\">\n"
 "    <h:column>\n"
 "        <f:facet name=\"header\">Description</f:facet>\n"
 "        <h:outputText value=\"#{task.description}\"/>\n"
 "    </h:column>\n"
 "    <h:column>\n"
-"        <s:link action=\"#{todoList.start}\" value=\"Start Work\" "
-"taskInstance=\"#{task}\"/>\n"
+"        <s:link action=\"#{todoList.start}\" value=\"Start Work\" taskInstance=\"#{task}\"/>\n"
 "    </h:column>                    \n"
 "</h:dataTable>]]>"
 msgstr ""
+"<![CDATA[<h:dataTable value=\"#{taskInstanceListForType['todo']}\" var=\"task\">\n"
+"    <h:column>\n"
+"        <f:facet name=\"header\">Description</f:facet>\n"
+"        <h:outputText value=\"#{task.description}\"/>\n"
+"    </h:column>\n"
+"    <h:column>\n"
+"        <s:link action=\"#{todoList.start}\" value=\"Start Work\" taskInstance=\"#{task}\"/>\n"
+"    </h:column>                    \n"
+"</h:dataTable>]]>"
 
 #. Tag: title
 #: Jbpm.xml:615
 #, no-c-format
 msgid "Performing a task"
-msgstr ""
+msgstr "タスクの実行"
 
 #. Tag: para
 #: Jbpm.xml:617
 #, no-c-format
-msgid ""
-"To begin work on a task, we use either <literal>@StartTask</literal> or "
-"<literal>@BeginTask</literal> on the listener method:"
-msgstr ""
+msgid "To begin work on a task, we use either <literal>@StartTask</literal> or <literal>@BeginTask</literal> on the listener method:"
+msgstr "タスクの作業を開始させるために、リスナメソッドに <literal>@StartTask</literal> あるいは <literal>@BeginTask</literal>を使用します。"
 
 #. Tag: programlisting
 #: Jbpm.xml:622
@@ -1162,12 +1147,14 @@ msgid ""
 "<![CDATA[@StartTask\n"
 "public String start() { ... }]]>"
 msgstr ""
+"<![CDATA[@StartTask\n"
+"public String start() { ... }]]>"
 
 #. Tag: para
 #: Jbpm.xml:624
 #, no-c-format
 msgid "Alternatively we can begin work on a task using pages.xml:"
-msgstr ""
+msgstr "また、 タスクの実行を pages.xml を使用して始めることもできます:"
 
 #. Tag: programlisting
 #: Jbpm.xml:626
@@ -1177,23 +1164,21 @@ msgid ""
 "    <start-task />\n"
 "</page>]]>"
 msgstr ""
+"<![CDATA[<page>\n"
+"    <start-task />\n"
+"</page>]]>"
 
 #. Tag: para
 #: Jbpm.xml:628
 #, no-c-format
-msgid ""
-"These annotations begin a special kind of conversation that has significance "
-"in terms of the overarching business process. Work done by this conversation "
-"has access to state held in the business process context."
-msgstr ""
+msgid "These annotations begin a special kind of conversation that has significance in terms of the overarching business process. Work done by this conversation has access to state held in the business process context."
+msgstr "これらのアノテーションはビジネスプロセス全体に関して意味を持つ特殊な種類の対話を開始します。 この対話による処理はビジネスプロセスコンテキストの中で保持する状態にアクセスできます。"
 
 #. Tag: para
 #: Jbpm.xml:635
 #, no-c-format
-msgid ""
-"If we end the conversation using <literal>@EndTask</literal>, Seam will "
-"signal the completion of the task:"
-msgstr ""
+msgid "If we end the conversation using <literal>@EndTask</literal>, Seam will signal the completion of the task:"
+msgstr "<literal>@EndTask</literal> を使用して対話を終了する場合にSeam はタスクの完了サインを送信します。"
 
 #. Tag: programlisting
 #: Jbpm.xml:640
@@ -1202,12 +1187,14 @@ msgid ""
 "<![CDATA[@EndTask(transition=\"completed\")\n"
 "public String completed() { ... }]]>"
 msgstr ""
+"<![CDATA[@EndTask(transition=\"completed\")\n"
+"public String completed() { ... }]]>"
 
 #. Tag: para
 #: Jbpm.xml:642
 #, no-c-format
 msgid "Alternatively we can use pages.xml:"
-msgstr ""
+msgstr "また、 pages.xmlも使用できます:"
 
 #. Tag: programlisting
 #: Jbpm.xml:644
@@ -1217,27 +1204,25 @@ msgid ""
 "    <end-task transition=\"completed\" />\n"
 "</page>]]>"
 msgstr ""
+"<![CDATA[<page>\n"
+"    <end-task transition=\"completed\" />\n"
+"</page>]]>"
 
 #. Tag: para
 #: Jbpm.xml:646
 #, no-c-format
 msgid "You can also use EL to specify the transition in pages.xml."
-msgstr ""
+msgstr "pages.xmlに遷移をELを使って指定もできます。"
 
 #. Tag: para
 #: Jbpm.xml:650
 #, no-c-format
-msgid ""
-"At this point, jBPM takes over and continues executing the business process "
-"definition. (In more complex processes, several tasks might need to be "
-"completed before process execution can resume.)"
-msgstr ""
+msgid "At this point, jBPM takes over and continues executing the business process definition. (In more complex processes, several tasks might need to be completed before process execution can resume.)"
+msgstr "この時点でjBPM はビジネスプロセス定義を引継ぎ、実行を続行します。 (より複雑なプロセスにおいてはプロセス実行が再開する前に完了する必要があるタスクがあるかもしれません。)"
 
 #. Tag: para
 #: Jbpm.xml:656
 #, no-c-format
-msgid ""
-"Please refer to the jBPM documentation for a more thorough overview of the "
-"sophisticated features that jBPM provides for managing complex business "
-"processes."
-msgstr ""
+msgid "Please refer to the jBPM documentation for a more thorough overview of the sophisticated features that jBPM provides for managing complex business processes."
+msgstr "複雑なビジネスプロセスの管理を実現する各種の高度な機能の全体的な概要については jBPM ドキュメントを参照してください。"
+

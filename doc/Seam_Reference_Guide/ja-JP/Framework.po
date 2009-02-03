@@ -1,23 +1,23 @@
-# Language ja-JP translations for PACKAGE package.
-# Automatically generated, 2008.
-#
+# translation of Framework.po to Japanese
+# Noriko Mizumoto <noriko@redhat.com>, 2007, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Framework\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2008-04-04 01:24+0000\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"POT-Creation-Date: 2008-11-06 06:41+0000\n"
+"PO-Revision-Date: 2008-11-25 15:02+1000\n"
+"Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
+"Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #. Tag: title
 #: Framework.xml:6
 #, no-c-format
 msgid "The Seam Application Framework"
-msgstr ""
+msgstr "Seamアプリケーションフレームワーク"
 
 #. Tag: para
 #: Framework.xml:8
@@ -29,7 +29,7 @@ msgid ""
 "further, by providing a set of pre-built components which can be re-used "
 "either by configuration in <literal>components.xml</literal> (for very "
 "simple cases) or extension."
-msgstr ""
+msgstr "Seam は特別のインターフェースやスーパークラスを拡張することなく、 純粋な Java クラスにアノテーションを付記することにより簡単にアプリケーションを作成することができます。 しかし、 <literal>components.xml</literal>の設定 (簡単な場合には) や機能の拡張により再利用する事ができる既成のコンポーネントを提供することにより、 お決まりのプログラムについて更に簡単に作成できるようにすることができます。"
 
 #. Tag: para
 #: Framework.xml:18
@@ -39,6 +39,9 @@ msgid ""
 "code you need to write when doing basic database access in a web "
 "application, using either Hibernate or JPA."
 msgstr ""
+"<emphasis>Seamアプリケーションフレームワーク</emphasis>はJPAやHibernateを使っ"
+"たデータベースへのアクセスに関わる基本的なプログラムのコード量を削減すること"
+"が出来ます。"
 
 #. Tag: para
 #: Framework.xml:24
@@ -46,15 +49,15 @@ msgstr ""
 msgid ""
 "We should emphasize that the framework is extremely simple, just a handful "
 "of simple classes that are easy to understand and extend. The \"magic\" is "
-"in Seam itself &#8212; the same magic you use when creating any Seam "
+"in Seam itself&#8212;the same magic you use when creating any Seam "
 "application even without using this framework."
-msgstr ""
+msgstr "このフレームワークは理解も容易で、拡張し易く簡単ないくつかのクラスから構成されています。 Seam そのものが「マジック」なのです &#8212; このフレームワークを使わなくても Seam アプリケーションを作成するときには同様のマジックを使用しているのです。"
 
 #. Tag: title
 #: Framework.xml:33
 #, no-c-format
 msgid "Introduction"
-msgstr ""
+msgstr "はじめに"
 
 #. Tag: para
 #: Framework.xml:35
@@ -67,7 +70,7 @@ msgid ""
 "following fragment from <literal>components.xml</literal> installs a "
 "component which can perform basic CRUD operations for a <literal>Person</"
 "literal> entity:"
-msgstr ""
+msgstr "Seam アプリケーションフレームワークの提供するコンポーネントは、 二つの使い方のいずれかで利用することが出来ます。 一つは、 他の Seam の組み込みコンポーネントで行っているように、 <literal>components.xml</literal> でコンポーネントのインスタンスをインストールし設定する方法です。 たとえば、 以下の <literal>components.xml</literal> 設定の一部では <literal>Person</literal> エンティティに対する基本的な CRUD 操作を実行できる 1 コンポーネントをインストールしています。"
 
 #. Tag: programlisting
 #: Framework.xml:47
@@ -79,6 +82,11 @@ msgid ""
 "    <framework:id>#{param.personId}</framework:id>\n"
 "</framework:entity-home>]]>"
 msgstr ""
+"<![CDATA[<framework:entity-home name=\"personHome\" \n"
+"                       entity-class=\"eg.Person\" \n"
+"                       entity-manager=\"#{personDatabase}\">\n"
+"    <framework:id>#{param.personId}</framework:id>\n"
+"</framework:entity-home>]]>"
 
 #. Tag: para
 #: Framework.xml:49
@@ -86,7 +94,7 @@ msgstr ""
 msgid ""
 "If that looks a bit too much like \"programming in XML\" for your taste, you "
 "can use extension instead:"
-msgstr ""
+msgstr "上記が「XML でのプログラミング」に偏重しているように思える場合は、 代りに拡張を使用することもできます。"
 
 #. Tag: programlisting
 #: Framework.xml:54
@@ -103,6 +111,16 @@ msgid ""
 "    \n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> {\n"
+"    \n"
+"   @In EntityManager personDatabase;\n"
+"    \n"
+"   public EntityManager getEntityManager() {\n"
+"      return personDatabase; \n"
+"   }\n"
+"    \n"
+"}]]>"
 
 #. Tag: para
 #: Framework.xml:56
@@ -112,6 +130,9 @@ msgid ""
 "functionality, and override the built-in functionality (the framework "
 "classes were carefully designed for extension and customization)."
 msgstr ""
+"第二の方法 (機能の拡張を使う) は大きなメリットとして、簡単に拡張したり、内蔵"
+"された機能をオーバーライドすることが出来ます。 (このフレームワークの提供する"
+"クラスは、拡張や、カスタム化に対応できるよう、注意深く作成されています。)"
 
 #. Tag: para
 #: Framework.xml:63
@@ -120,7 +141,7 @@ msgid ""
 "A second advantage is that your classes may be EJB stateful session beans, "
 "if you like. (They do not have to be, they can be plain JavaBean components "
 "if you prefer.) If you are using JBoss AS, you'll need 4.2.2.GA or later:"
-msgstr ""
+msgstr "また、第２のメリットとして、クラスをEJBのステートフルセッション Bean とすることが出来ます。 (必ずEJBにする必要はなく、好みで、プレーンなJavaBeanとすることも出来ます。) JBoss AS を使用される場合、4.2.2.GAあるいはそれ以降のバージョンが必須です。"
 
 #. Tag: programlisting
 #: Framework.xml:70
@@ -133,6 +154,12 @@ msgid ""
 "    \n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Stateful\n"
+"@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> implements "
+"LocalPersonHome {\n"
+"    \n"
+"}]]>"
 
 #. Tag: para
 #: Framework.xml:72
@@ -141,7 +168,7 @@ msgid ""
 "You can also make your classes stateless session beans. In this case you "
 "<emphasis>must</emphasis> use injection to provide the persistence context, "
 "even if it is called <literal>entityManager</literal>:"
-msgstr ""
+msgstr "クラスをステートレスセッション Bean にすることもできます。 この場合、 その名前が <literal>entityManager</literal> であってもインジェクションを使って永続コンテキストを<emphasis>提供しなければなりません</emphasis>。"
 
 #. Tag: programlisting
 #: Framework.xml:79
@@ -160,6 +187,18 @@ msgid ""
 "    \n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Stateless\n"
+"@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> implements "
+"LocalPersonHome {\n"
+"    \n"
+"   @In EntityManager entityManager;\n"
+"    \n"
+"   public EntityManager getPersistenceContext() { \n"
+"      entityManager; \n"
+"   }\n"
+"    \n"
+"}]]>"
 
 #. Tag: para
 #: Framework.xml:81
@@ -169,7 +208,7 @@ msgid ""
 "components: <literal>EntityHome</literal> and <literal>HibernateEntityHome</"
 "literal> for CRUD, along with <literal>EntityQuery</literal> and "
 "<literal>HibernateEntityQuery</literal> for queries."
-msgstr ""
+msgstr "現時点で、Seamアプリケーションフレームワークは、CRUD 用に<literal>EntityHome</literal> と<literal>HibernateEntityHome</literal>、それにQueryの為の<literal>EntityQuery</literal> と <literal>HibernateEntityQuery</literal>の４つの組み込みメインコンポーネントを提供しています。"
 
 #. Tag: para
 #: Framework.xml:89
@@ -179,6 +218,9 @@ msgid ""
 "scope of session, event or conversation. Which scope you use depends upon "
 "the state model you wish to use in your application."
 msgstr ""
+"HomeとQueryはセッション、イベント、それに対話スコープで機能するように作成され"
+"ています。 どのスコープを使用するかは、アプリケーションのステートモデルに依存"
+"します。"
 
 #. Tag: para
 #: Framework.xml:95
@@ -188,12 +230,15 @@ msgid ""
 "contexts. By default, the components will look for a persistence context "
 "named <literal>entityManager</literal>."
 msgstr ""
+"SeamアプリケーションフレームワークはSeamが管理している永続性コンテキストでの"
+"み動作します。 デフォルトで、<literal>entityManager</literal>という名前の永続"
+"性コンテキストを探します。"
 
 #. Tag: title
 #: Framework.xml:104
 #, no-c-format
 msgid "Home objects"
-msgstr ""
+msgstr "Homeオブジェクト"
 
 #. Tag: para
 #: Framework.xml:106
@@ -202,6 +247,8 @@ msgid ""
 "A Home object provides persistence operations for a particular entity class. "
 "Suppose we have our trusty <literal>Person</literal> class:"
 msgstr ""
+"Homeオブジェクトは、特定のエンティティクラスに対する永続性操作を提供します。"
+"<literal>Person</literal>クラスについて考えてみましょう。"
 
 #. Tag: programlisting
 #: Framework.xml:111
@@ -217,6 +264,15 @@ msgid ""
 "    //getters and setters...\n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Entity\n"
+"public class Person {\n"
+"    @Id private Long id;\n"
+"    private String firstName;\n"
+"    private String lastName;\n"
+"    private Country nationality;\n"
+"    \n"
+"    //getters and setters...\n"
+"}]]>"
 
 #. Tag: para
 #: Framework.xml:113
@@ -225,6 +281,8 @@ msgid ""
 "We can define a <literal>personHome</literal> component either via "
 "configuration:"
 msgstr ""
+"コンフィギュレーションで、下のように<literal>personHome</literal>コンポーネン"
+"トを定義することが出来ます。"
 
 #. Tag: programlisting
 #: Framework.xml:118
@@ -233,12 +291,14 @@ msgid ""
 "<![CDATA[<framework:entity-home name=\"personHome\" entity-class=\"eg.Person"
 "\" />]]>"
 msgstr ""
+"<![CDATA[<framework:entity-home name=\"personHome\" entity-class=\"eg.Person"
+"\" />]]>"
 
 #. Tag: para
 #: Framework.xml:120
 #, no-c-format
 msgid "Or via extension:"
-msgstr ""
+msgstr "また、機能を拡張して下のように、同様のことが出来ます。"
 
 #. Tag: programlisting
 #: Framework.xml:124
@@ -247,6 +307,8 @@ msgid ""
 "<![CDATA[@Name(\"personHome\")\n"
 "public class PersonHome extends EntityHome<Person> {}]]>"
 msgstr ""
+"<![CDATA[@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> {}]]>"
 
 #. Tag: para
 #: Framework.xml:126
@@ -259,12 +321,17 @@ msgid ""
 "identifier of the object you are interested in, using the <literal>setId()</"
 "literal> method."
 msgstr ""
+"Home オブジェクトは <literal>persist()</literal>、 <literal>remove()</"
+"literal>、 <literal>update()</literal>、 <literal>getInstance()</"
+"literal> の オペレーションを提供します。 <literal>remove()</"
+"literal>、あるいは <literal>update()</literal> を呼び出す前にまず関心のあるオブジェクトの識別子をセットする必要があります。 <literal>setId()</"
+"literal> メソッドを使用します。"
 
 #. Tag: para
 #: Framework.xml:135
 #, no-c-format
 msgid "We can use a Home directly from a JSF page, for example:"
-msgstr ""
+msgstr "HomeはJSFページから、下のように直接利用することが出来ます。"
 
 #. Tag: programlisting
 #: Framework.xml:139
@@ -282,6 +349,17 @@ msgid ""
 "    </div>\n"
 "</h:form>]]>"
 msgstr ""
+"<![CDATA[<h1>Create Person</h1>\n"
+"<h:form>\n"
+"    <div>First name: <h:inputText value=\"#{personHome.instance.firstName}\"/"
+"></div>\n"
+"    <div>Last name: <h:inputText value=\"#{personHome.instance.lastName}\"/"
+"></div>\n"
+"    <div>\n"
+"        <h:commandButton value=\"Create Person\" action=\"#{personHome."
+"persist}\"/>\n"
+"    </div>\n"
+"</h:form>]]>"
 
 #. Tag: para
 #: Framework.xml:141
@@ -290,7 +368,7 @@ msgid ""
 "Usually, it is much nicer to be able to refer to the <literal>Person</"
 "literal> merely as <literal>person</literal>, so let's make that possible by "
 "adding a line to <literal>components.xml</literal>:"
-msgstr ""
+msgstr "通常、<literal>Person</literal>は<literal>person</literal>で参照出来た方が便利ですので、<literal>components.xml</literal>に下のように一行加えて、そのようにしましょう。"
 
 #. Tag: programlisting
 #: Framework.xml:147
@@ -302,6 +380,11 @@ msgid ""
 "<framework:entity-home name=\"personHome\" \n"
 "                       entity-class=\"eg.Person\" />]]>"
 msgstr ""
+"<![CDATA[<factory name=\"person\" \n"
+"         value=\"#{personHome.instance}\"/>\n"
+"\n"
+"<framework:entity-home name=\"personHome\" \n"
+"                       entity-class=\"eg.Person\" />]]>"
 
 #. Tag: para
 #: Framework.xml:149
@@ -310,6 +393,8 @@ msgid ""
 "(If we are using configuration.) Or by adding a <literal>@Factory</literal> "
 "method to <literal>PersonHome</literal>:"
 msgstr ""
+"(コンフィギュレーションを使用している場合、) <literal>PersonHome</literal> "
+"に <literal>@Factory</literal> を追加します。"
 
 #. Tag: programlisting
 #: Framework.xml:154
@@ -323,6 +408,13 @@ msgid ""
 "    \n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> {\n"
+"    \n"
+"    @Factory(\"person\")\n"
+"    public Person initPerson() { return getInstance(); }\n"
+"    \n"
+"}]]>"
 
 #. Tag: para
 #: Framework.xml:156
@@ -331,6 +423,8 @@ msgid ""
 "(If we are using extension.) This change simplifies our JSF page to the "
 "following:"
 msgstr ""
+"(機能を拡張している場合) これで、下のように JSF ページの記述が簡単になりま"
+"す。"
 
 #. Tag: programlisting
 #: Framework.xml:161
@@ -346,6 +440,15 @@ msgid ""
 "    </div>\n"
 "</h:form>]]>"
 msgstr ""
+"<![CDATA[<h1>Create Person</h1>\n"
+"<h:form>\n"
+"    <div>First name: <h:inputText value=\"#{person.firstName}\"/></div>\n"
+"    <div>Last name: <h:inputText value=\"#{person.lastName}\"/></div>\n"
+"    <div>\n"
+"        <h:commandButton value=\"Create Person\" action=\"#{personHome."
+"persist}\"/>\n"
+"    </div>\n"
+"</h:form>]]>"
 
 #. Tag: para
 #: Framework.xml:163
@@ -357,6 +460,11 @@ msgid ""
 "database, we need to be able to pass the entry identifier to the "
 "<literal>PersonHome</literal>. Page parameters are a great way to do that:"
 msgstr ""
+"これで、<literal>Person</literal>の新しいエントリーを作成することが出来るよう"
+"になります。 はい、これで全てです。 次に、表示、更新、それに削除機能を既存の"
+"データ−ベースの <literal>Person</literal>エントリー操作に追加するためには、"
+"<literal>PersonHome</literal>に対象のエントリーを特定する識別子を伝える必要が"
+"あります。 下のように、ページパラメータを使って、これを行います。"
 
 #. Tag: programlisting
 #: Framework.xml:172
@@ -368,12 +476,17 @@ msgid ""
 "    </page>\n"
 "</pages>]]>"
 msgstr ""
+"<![CDATA[<pages>\n"
+"    <page view-id=\"/editPerson.jsp\">\n"
+"        <param name=\"personId\" value=\"#{personHome.id}\"/>\n"
+"    </page>\n"
+"</pages>]]>"
 
 #. Tag: para
 #: Framework.xml:174
 #, no-c-format
 msgid "Now we can add the extra operations to our JSF page:"
-msgstr ""
+msgstr "これで、JSFページにこれらの機能を追加することが出来ます。"
 
 #. Tag: programlisting
 #: Framework.xml:178
@@ -398,6 +511,24 @@ msgid ""
 "    </div>\n"
 "</h:form>]]>"
 msgstr ""
+"<![CDATA[<h1>\n"
+"    <h:outputText rendered=\"#{!personHome.managed}\" value=\"Create Person"
+"\"/>\n"
+"    <h:outputText rendered=\"#{personHome.managed}\" value=\"Edit Person\"/"
+">\n"
+"</h1>\n"
+"<h:form>\n"
+"    <div>First name: <h:inputText value=\"#{person.firstName}\"/></div>\n"
+"    <div>Last name: <h:inputText value=\"#{person.lastName}\"/></div>\n"
+"    <div>\n"
+"        <h:commandButton value=\"Create Person\" action=\"#{personHome."
+"persist}\" rendered=\"#{!personHome.managed}\"/>\n"
+"        <h:commandButton value=\"Update Person\" action=\"#{personHome."
+"update}\" rendered=\"#{personHome.managed}\"/>\n"
+"        <h:commandButton value=\"Delete Person\" action=\"#{personHome."
+"remove}\" rendered=\"#{personHome.managed}\"/>\n"
+"    </div>\n"
+"</h:form>]]>"
 
 #. Tag: para
 #: Framework.xml:180
@@ -408,6 +539,9 @@ msgid ""
 "<literal>personId</literal> request parameter, it will be an \"Edit Person\" "
 "page."
 msgstr ""
+"リクエストパラメータ無しでページにリンクした場合、「Person作成」としてページ"
+"が表示され、<literal>personId</literal> をリクエストパラメータとして渡した場"
+"合には、「Person編集」としてページが表示されます。"
 
 #. Tag: para
 #: Framework.xml:187
@@ -416,6 +550,8 @@ msgid ""
 "Suppose we need to create <literal>Person</literal> entries with their "
 "nationality initialized. We can do that easily, via configuration:"
 msgstr ""
+"<literal>Person</literal>をその国籍を初期化して作成しなければならない場合を考"
+"えてみましょう。これも簡単に出来ます。 コンフィギュレーションを使う場合は；"
 
 #. Tag: programlisting
 #: Framework.xml:192
@@ -433,12 +569,23 @@ msgid ""
 "    <property name=\"nationality\">#{country}</property>\n"
 "</component>]]>"
 msgstr ""
+"<![CDATA[<factory name=\"person\" \n"
+"         value=\"#{personHome.instance}\"/>\n"
+"\n"
+"<framework:entity-home name=\"personHome\" \n"
+"                       entity-class=\"eg.Person\" \n"
+"                       new-instance=\"#{newPerson}\"/>\n"
+"\n"
+"<component name=\"newPerson\" \n"
+"           class=\"eg.Person\">\n"
+"    <property name=\"nationality\">#{country}</property>\n"
+"</component>]]>"
 
 #. Tag: para
 #: Framework.xml:194
 #, no-c-format
 msgid "Or by extension:"
-msgstr ""
+msgstr "また、機能を拡張して行う場合は下の様になります。"
 
 #. Tag: programlisting
 #: Framework.xml:198
@@ -458,6 +605,19 @@ msgid ""
 "    \n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> {\n"
+"    \n"
+"    @In Country country;\n"
+"    \n"
+"    @Factory(\"person\")\n"
+"    public Person initPerson() { return getInstance(); }\n"
+"    \n"
+"    protected Person createInstance() {\n"
+"        return new Person(country);\n"
+"    }\n"
+"    \n"
+"}]]>"
 
 #. Tag: para
 #: Framework.xml:200
@@ -466,6 +626,8 @@ msgid ""
 "Of course, the <literal>Country</literal> could be an object managed by "
 "another Home object, for example, <literal>CountryHome</literal>."
 msgstr ""
+"勿論、<literal>Country</literal>オブジェクトは、例えば<literal>CountryHome</"
+"literal>というHomeオブジェクトの管理下のオブジェクトとすることも出来ます。"
 
 #. Tag: para
 #: Framework.xml:205
@@ -474,6 +636,9 @@ msgid ""
 "To add more sophisticated operations (association management, etc), we can "
 "just add methods to <literal>PersonHome</literal>."
 msgstr ""
+"アソシエーションの管理など、 より洗練された操作を実現するのも "
+"<literal>PersonHome</literal> にメソッドを追加するだけで出来るようになりま"
+"す。"
 
 #. Tag: programlisting
 #: Framework.xml:210
@@ -499,6 +664,25 @@ msgid ""
 "    \n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> {\n"
+"    \n"
+"    @In Country country;\n"
+"    \n"
+"    @Factory(\"person\")\n"
+"    public Person initPerson() { return getInstance(); }\n"
+"    \n"
+"    protected Person createInstance() {\n"
+"        return new Person(country);\n"
+"    }\n"
+"    \n"
+"    public void migrate()\n"
+"    {\n"
+"        getInstance().setCountry(country);\n"
+"        update();\n"
+"    }\n"
+"    \n"
+"}]]>"
 
 #. Tag: para
 #: Framework.xml:212
@@ -512,7 +696,7 @@ msgid ""
 "when a particular entity is persited, updated or removed we can observe the "
 "<literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> event "
 "(where <literal>&lt;name&gt;</literal> is the name of the entity)."
-msgstr ""
+msgstr "Home オブジェクトはトランザクションが成功すると (<literal>persist()</literal>、 <literal>update()</literal> または <literal>remove()</literal> への呼び出しが成功する) <literal>org.jboss.seam.afterTransactionSuccess</literal> イベントを引き起こします。 このイベントを監視することで基礎となるエンティティが変更される場合にクエリをリフレッシュすることができます。 特定のエンティティが永続化された、 交信されたまたは削除された場合に特定のクエリだけをリフレッシュしたい場合は <literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> イベントを監視することができます (<literal>&lt;name&gt;</literal> はエンティティ名になる)。"
 
 #. Tag: para
 #: Framework.xml:223
@@ -521,6 +705,9 @@ msgid ""
 "The Home object automatically displays faces messages when an operation is "
 "successful. To customize these messages we can, again, use configuration:"
 msgstr ""
+"Homeオブジェクトは操作が成功したときに自動的にフェースメッセージを表示しま"
+"す。 これを、カスタマイズするには、下のようにコンフィギュレーションを設定しま"
+"す。"
 
 #. Tag: programlisting
 #: Framework.xml:228
@@ -545,12 +732,30 @@ msgid ""
 "    <property name=\"nationality\">#{country}</property>\n"
 "</component>]]>"
 msgstr ""
+"<![CDATA[<factory name=\"person\" \n"
+"         value=\"#{personHome.instance}\"/>\n"
+"\n"
+"<framework:entity-home name=\"personHome\"\n"
+"                       entity-class=\"eg.Person\"\n"
+"                       new-instance=\"#{newPerson}\">\n"
+"    <framework:created-message>New person #{person.firstName} #{person."
+"lastName} created</framework:created-message>\n"
+"    <framework:deleted-message>Person #{person.firstName} #{person.lastName} "
+"deleted</framework:deleted-message>\n"
+"    <framework:updated-message>Person #{person.firstName} #{person.lastName} "
+"updated</framework:updated-message>\n"
+"</framework:entity-home>\n"
+"\n"
+"<component name=\"newPerson\" \n"
+"           class=\"eg.Person\">\n"
+"    <property name=\"nationality\">#{country}</property>\n"
+"</component>]]>"
 
 #. Tag: para
 #: Framework.xml:230
 #, no-c-format
 msgid "Or extension:"
-msgstr ""
+msgstr "あるいは、機能を拡張して下のようにすることも出来ます。"
 
 #. Tag: programlisting
 #: Framework.xml:234
@@ -577,6 +782,26 @@ msgid ""
 "    \n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> {\n"
+"    \n"
+"    @In Country country;\n"
+"    \n"
+"    @Factory(\"person\")\n"
+"    public Person initPerson() { return getInstance(); }\n"
+"    \n"
+"    protected Person createInstance() {\n"
+"        return new Person(country);\n"
+"    }\n"
+"    \n"
+"    protected String getCreatedMessage() { return createValueExpression"
+"(\"New person #{person.firstName} #{person.lastName} created\"); }\n"
+"    protected String getUpdatedMessage() { return createValueExpression"
+"(\"Person #{person.firstName} #{person.lastName} updated\"); }\n"
+"    protected String getDeletedMessage() { return createValueExpression"
+"(\"Person #{person.firstName} #{person.lastName} deleted\"); }\n"
+"    \n"
+"}]]>"
 
 #. Tag: para
 #: Framework.xml:236
@@ -585,6 +810,9 @@ msgid ""
 "But the best way to specify the messages is to put them in a resource bundle "
 "known to Seam (the bundle named <literal>messages</literal>, by default)."
 msgstr ""
+"しかし、メッセージ定義における最良の方法は (デフォルトで <literal>messages</"
+"literal> という名前の) Seam に対して既知のリソースバンドルに定義することで"
+"しょう。"
 
 #. Tag: programlisting
 #: Framework.xml:242
@@ -595,6 +823,10 @@ msgid ""
 "Person_deleted=Person #{person.firstName} #{person.lastName} deleted\n"
 "Person_updated=Person #{person.firstName} #{person.lastName} updated]]>"
 msgstr ""
+"<![CDATA[Person_created=New person #{person.firstName} #{person.lastName} "
+"created\n"
+"Person_deleted=Person #{person.firstName} #{person.lastName} deleted\n"
+"Person_updated=Person #{person.firstName} #{person.lastName} updated]]>"
 
 #. Tag: para
 #: Framework.xml:244
@@ -603,6 +835,8 @@ msgid ""
 "This enables internationalization, and keeps your code and configuration "
 "clean of presentation concerns."
 msgstr ""
+"この方法を使えば、国際化に対応することが出来ますし、コードやコンフィギュレー"
+"ションファイルとプレゼンテーション層とを切り離すことが出来ます。"
 
 #. Tag: para
 #: Framework.xml:249
@@ -611,13 +845,13 @@ msgid ""
 "The final step is to add validation functionality to the page, using "
 "<literal>&lt;s:validateAll&gt;</literal> and <literal>&lt;s:decorate&gt;</"
 "literal>, but I'll leave that for you to figure out."
-msgstr ""
+msgstr "最後のステップは<literal>&lt;s:validateAll&gt;</literal> と<literal>&lt;s:decorate&gt;</literal>を使って、ページにバリデーション機能を追加することですが、これは皆さんへの宿題としておきましょう。"
 
 #. Tag: title
 #: Framework.xml:258
 #, no-c-format
 msgid "Query objects"
-msgstr ""
+msgstr "Queryオブジェクト"
 
 #. Tag: para
 #: Framework.xml:260
@@ -626,6 +860,8 @@ msgid ""
 "If we need a list of all <literal>Person</literal> instance in the database, "
 "we can use a Query object. For example:"
 msgstr ""
+"データベース中の<literal>Person</literal>の全てのインスタンスのリストが必要な"
+"場合、Queryオブジェクトを使って、下のようにすることが出来ます。"
 
 #. Tag: programlisting
 #: Framework.xml:265
@@ -634,12 +870,14 @@ msgid ""
 "<![CDATA[<framework:entity-query name=\"people\" \n"
 "                        ejbql=\"select p from Person p\"/>]]>"
 msgstr ""
+"<![CDATA[<framework:entity-query name=\"people\" \n"
+"                        ejbql=\"select p from Person p\"/>]]>"
 
 #. Tag: para
 #: Framework.xml:267
 #, no-c-format
 msgid "We can use it from a JSF page:"
-msgstr ""
+msgstr "また、これ（この結果）をJSFページから使うことが出来ます。"
 
 #. Tag: programlisting
 #: Framework.xml:271
@@ -655,12 +893,21 @@ msgid ""
 "    </h:column>\n"
 "</h:dataTable>]]>"
 msgstr ""
+"<![CDATA[<h1>List of people</h1>\n"
+"<h:dataTable value=\"#{people.resultList}\" var=\"person\">\n"
+"    <h:column>\n"
+"        <s:link view=\"/editPerson.jsp\" value=\"#{person.firstName} #"
+"{person.lastName}\">\n"
+"            <f:param name=\"personId\" value=\"#{person.id}\"/>\n"
+"        </s:link>\n"
+"    </h:column>\n"
+"</h:dataTable>]]>"
 
 #. Tag: para
 #: Framework.xml:273
 #, no-c-format
 msgid "We probably need to support pagination:"
-msgstr ""
+msgstr "量の多いページを処理する為にページングも必要でしょう。"
 
 #. Tag: programlisting
 #: Framework.xml:277
@@ -671,12 +918,16 @@ msgid ""
 "                        order=\"lastName\" \n"
 "                        max-results=\"20\"/>]]>"
 msgstr ""
+"<![CDATA[<framework:entity-query name=\"people\" \n"
+"                        ejbql=\"select p from Person p\" \n"
+"                        order=\"lastName\" \n"
+"                        max-results=\"20\"/>]]>"
 
 #. Tag: para
 #: Framework.xml:279
 #, no-c-format
 msgid "We'll use a page parameter to determine the page to display:"
-msgstr ""
+msgstr "表示するページを決める為にページパラメータを使います。"
 
 #. Tag: programlisting
 #: Framework.xml:284
@@ -688,12 +939,17 @@ msgid ""
 "    </page>\n"
 "</pages>]]>"
 msgstr ""
+"<![CDATA[<pages>\n"
+"    <page view-id=\"/searchPerson.jsp\">\n"
+"        <param name=\"firstResult\" value=\"#{people.firstResult}\"/>\n"
+"    </page>\n"
+"</pages>]]>"
 
 #. Tag: para
 #: Framework.xml:286
 #, no-c-format
 msgid "The JSF code for a pagination control is a bit verbose, but manageable:"
-msgstr ""
+msgstr "ページングを管理するJSFのコードは若干繁雑ですが、許容範囲内です。"
 
 #. Tag: programlisting
 #: Framework.xml:290
@@ -729,6 +985,35 @@ msgid ""
 "    <f:param name=\"firstResult\" value=\"#{people.lastFirstResult}\"/>\n"
 "</s:link>]]>"
 msgstr ""
+"<![CDATA[<h1>Search for people</h1>\n"
+"<h:dataTable value=\"#{people.resultList}\" var=\"person\">\n"
+"    <h:column>\n"
+"        <s:link view=\"/editPerson.jsp\" value=\"#{person.firstName} #"
+"{person.lastName}\">\n"
+"            <f:param name=\"personId\" value=\"#{person.id}\"/>\n"
+"        </s:link>\n"
+"    </h:column>\n"
+"</h:dataTable>\n"
+"\n"
+"<s:link view=\"/search.xhtml\" rendered=\"#{people.previousExists}\" value="
+"\"First Page\">\n"
+"    <f:param name=\"firstResult\" value=\"0\"/>\n"
+"</s:link>\n"
+"\n"
+"<s:link view=\"/search.xhtml\" rendered=\"#{people.previousExists}\" value="
+"\"Previous Page\">\n"
+"    <f:param name=\"firstResult\" value=\"#{people.previousFirstResult}\"/>\n"
+"</s:link>\n"
+"\n"
+"<s:link view=\"/search.xhtml\" rendered=\"#{people.nextExists}\" value="
+"\"Next Page\">\n"
+"    <f:param name=\"firstResult\" value=\"#{people.nextFirstResult}\"/>\n"
+"</s:link>\n"
+"\n"
+"<s:link view=\"/search.xhtml\" rendered=\"#{people.nextExists}\" value="
+"\"Last Page\">\n"
+"    <f:param name=\"firstResult\" value=\"#{people.lastFirstResult}\"/>\n"
+"</s:link>]]>"
 
 #. Tag: para
 #: Framework.xml:292
@@ -738,6 +1023,10 @@ msgid ""
 "to narrow the list of results returned. The Query object lets you specify "
 "optional \"restrictions\" to support this important usecase:"
 msgstr ""
+"実用的な検索スクリーンでは、絞りこんだ検索結果を得るために、多くの検索のクラ"
+"イテリアをユーザに入力してもらう必要があります。 この重要なユースケースをサ"
+"ポートする為に、Queryオブジェクトはオプションとして制約を設定することが出来ま"
+"す。"
 
 #. Tag: programlisting
 #: Framework.xml:298
@@ -757,12 +1046,25 @@ msgid ""
 "    </framework:restrictions>\n"
 "</framework:entity-query>]]>"
 msgstr ""
+"<![CDATA[<component name=\"examplePerson\" class=\"Person\"/>\n"
+"        \n"
+"<framework:entity-query name=\"people\" \n"
+"                        ejbql=\"select p from Person p\" \n"
+"                        order=\"lastName\" \n"
+"                        max-results=\"20\">\n"
+"    <framework:restrictions>\n"
+"        <value>lower(firstName) like lower( concat(#{examplePerson."
+"firstName},'%') )</value>\n"
+"        <value>lower(lastName) like lower( concat(#{examplePerson."
+"lastName},'%') )</value>\n"
+"    </framework:restrictions>\n"
+"</framework:entity-query>]]>"
 
 #. Tag: para
 #: Framework.xml:300
 #, no-c-format
 msgid "Notice the use of an \"example\" object."
-msgstr ""
+msgstr "上記の例ではexampleオブジェクトの使用について留意してください。"
 
 #. Tag: programlisting
 #: Framework.xml:304
@@ -786,6 +1088,23 @@ msgid ""
 "    </h:column>\n"
 "</h:dataTable>]]>"
 msgstr ""
+"<![CDATA[<h1>Search for people</h1>\n"
+"<h:form>\n"
+"    <div>First name: <h:inputText value=\"#{examplePerson.firstName}\"/></"
+"div>\n"
+"    <div>Last name: <h:inputText value=\"#{examplePerson.lastName}\"/></"
+"div>\n"
+"    <div><h:commandButton value=\"Search\" action=\"/search.jsp\"/></div>\n"
+"</h:form>\n"
+"\n"
+"<h:dataTable value=\"#{people.resultList}\" var=\"person\">\n"
+"    <h:column>\n"
+"        <s:link view=\"/editPerson.jsp\" value=\"#{person.firstName} #"
+"{person.lastName}\">\n"
+"            <f:param name=\"personId\" value=\"#{person.id}\"/>\n"
+"        </s:link>\n"
+"    </h:column>\n"
+"</h:dataTable>]]>"
 
 #. Tag: para
 #: Framework.xml:306
@@ -793,7 +1112,7 @@ msgstr ""
 msgid ""
 "To refresh the query when the underlying entities change we observe the "
 "<literal>org.jboss.seam.afterTransactionSuccess</literal> event:"
-msgstr ""
+msgstr "基礎となるエンティティが変化する場合にリフレッシュするには <literal>org.jboss.seam.afterTransactionSuccess</literal> イベントを監視します。"
 
 #. Tag: programlisting
 #: Framework.xml:311
@@ -803,6 +1122,9 @@ msgid ""
 "    <action execute=\"#{people.refresh}\" />\n"
 "</event>]]>"
 msgstr ""
+"<![CDATA[<event type=\"org.jboss.seam.afterTransactionSuccess\">\n"
+"    <action execute=\"#{people.refresh}\" />\n"
+"</event>]]>"
 
 #. Tag: para
 #: Framework.xml:313
@@ -810,7 +1132,7 @@ msgstr ""
 msgid ""
 "Or, to just refresh the query when the person entity is persisted, updated "
 "or removed through <literal>PersonHome</literal>:"
-msgstr ""
+msgstr "または、 <literal>PersonHome</literal> で person エンティティが永続化された、 交信されたまたは削除された場合にクエリをリフレッシュするだけなら次のようにします。"
 
 #. Tag: programlisting
 #: Framework.xml:318
@@ -820,6 +1142,9 @@ msgid ""
 "    <action execute=\"#{people.refresh}\" />\n"
 "    </event>]]>"
 msgstr ""
+"<![CDATA[<event type=\"org.jboss.seam.afterTransactionSuccess.Person\">\n"
+"    <action execute=\"#{people.refresh}\" />\n"
+"    </event>]]>"
 
 #. Tag: para
 #: Framework.xml:320
@@ -829,7 +1154,7 @@ msgid ""
 "emphasis> queries - the use of pagination with these queries is not "
 "recomended, and you'll have to implement your own method of calculating the "
 "total number of results (by overriding <literal>getCountEjbql()</literal>."
-msgstr ""
+msgstr "残念ながらクエリのオブジェクトは <emphasis>join fetch</emphasis> クエリとは正常に動作しません。 こうしたクエリでのページネーションの使用は推奨しません。 <literal>getCountEjbql()</literal> を上書きして結果の合計数の計算に独自のメソッドを実装しなければならなくなります。"
 
 #. Tag: para
 #: Framework.xml:328
@@ -838,12 +1163,14 @@ msgid ""
 "The examples in this section have all shown reuse by configuration. However, "
 "reuse by extension is equally possible for Query objects."
 msgstr ""
+"ここの例ではコンフィギュレーションによる再利用を示していますが、Queryオブジェ"
+"クトの再利用は機能を拡張して行う事も同様に可能です。"
 
 #. Tag: title
 #: Framework.xml:336
 #, no-c-format
 msgid "Controller objects"
-msgstr ""
+msgstr "Controllerオブジェクト"
 
 #. Tag: para
 #: Framework.xml:337
@@ -858,6 +1185,8 @@ msgid ""
 "keystrokes (characters can add up!) and provide a great launchpad for new "
 "users to explore the rich functionality built in to Seam."
 msgstr ""
+"Seamアプリケーションフレームワークのオプショナルなクラスとして、<literal>Controller</literal>と、そのサブクラスとして、 <literal>EntityController</literal>、 <literal>HibernateEntityController</literal> と<literal>BusinessProcessController</literal>があります。 よく使用される組み込みのコンポーネントへのアクセスに便利なメソッドや組み込みコンポーネントのメソッドを提供しています。"
+"これらは、新しいユーザがSeamに組み込まれた豊富な機能を探検するための出発点を提供し、また若干のコード量の削減に貢献します。"
 
 #. Tag: para
 #: Framework.xml:349
@@ -866,6 +1195,8 @@ msgid ""
 "For example, here is what <literal>RegisterAction</literal> from the Seam "
 "registration example would look like:"
 msgstr ""
+"例として、SeamのRegistrationの例の<literal>RegisterAction</literal>をSeamアプ"
+"リケーションフレームワークで書き直すと以下のようになります。"
 
 #. Tag: programlisting
 #: Framework.xml:354
@@ -900,9 +1231,38 @@ msgid ""
 "\n"
 "}]]>"
 msgstr ""
+"<![CDATA[@Stateless\n"
+"@Name(\"register\")\n"
+"public class RegisterAction extends EntityController implements Register\n"
+"{\n"
+"\n"
+"   @In private User user;\n"
+"   \n"
+"   public String register()\n"
+"   {\n"
+"      List existing = createQuery(\"select u.username from User u where u."
+"username=:username\")\n"
+"         .setParameter(\"username\", user.getUsername())\n"
+"         .getResultList();\n"
+"      \n"
+"      if ( existing.size()==0 )\n"
+"      {\n"
+"         persist(user);\n"
+"         info(\"Registered new user #{user.username}\");\n"
+"         return \"/registered.jspx\";\n"
+"      }\n"
+"      else\n"
+"      {\n"
+"         addFacesMessage(\"User #{user.username} already exists\");\n"
+"         return null;\n"
+"      }\n"
+"   }\n"
+"\n"
+"}]]>"
 
 #. Tag: para
 #: Framework.xml:356
 #, no-c-format
 msgid "As you can see, its not an earthshattering improvement..."
-msgstr ""
+msgstr "ご覧のように、びっくりするような改善にはなりません、、、。"
+

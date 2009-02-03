@@ -1,23 +1,23 @@
-# Language ja-JP translations for PACKAGE package.
-# Automatically generated, 2008.
-#
+# translation of Text.po to Japanese
+# Noriko Mizumoto <noriko@redhat.com>, 2007, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Text\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-04-04 01:24+0000\n"
-"PO-Revision-Date: 2008-04-04 01:24+0000\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"POT-Creation-Date: 2008-11-06 06:41+0000\n"
+"PO-Revision-Date: 2008-12-03 14:41+1000\n"
+"Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
+"Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #. Tag: title
 #: Text.xml:2
 #, no-c-format
 msgid "Seam Text"
-msgstr ""
+msgstr "Seam Text"
 
 #. Tag: para
 #: Text.xml:4
@@ -29,19 +29,19 @@ msgid ""
 "for display of formatted text that conforms to the <emphasis>Seam Text</"
 "emphasis> language. Seam Text is implemented using an ANTLR-based parser. "
 "You don't need to know anything about ANTLR to use it, however."
-msgstr ""
+msgstr "コラボレーション志向のウェブサイトでは、 フォーラムへの投稿、wikiページ、blog、コメントなどでフォーマット済みテキストを簡単に入力するために人間が扱いやすいマークアップ言語が必要になります。 Seamには <emphasis>Seam Text</emphasis> と呼ばれる言語に従ったフォーマット済みテキストを表示するための <literal>&lt;s:formattedText/&gt;</literal> コントロールがあります。 Seam TextはANTLRベースのパーサを利用して実装されていますが、 Seam Textを利用するにあたってANTLRについての知識は不要なので安心してください。"
 
 #. Tag: title
 #: Text.xml:13
 #, no-c-format
 msgid "Basic fomatting"
-msgstr ""
+msgstr "フォーマットの基本"
 
 #. Tag: para
 #: Text.xml:14
 #, no-c-format
 msgid "Here is a simple example:"
-msgstr ""
+msgstr "シンプルな例:"
 
 #. Tag: programlisting
 #: Text.xml:18
@@ -50,6 +50,8 @@ msgid ""
 "<![CDATA[It's easy to make *emphasis*, |monospace|,\n"
 "~deleted text~, super^scripts^ or _underlines_.]]>"
 msgstr ""
+"<![CDATA[It's easy to make *emphasis*, |monospace|,\n"
+"~deleted text~, super^scripts^ or _underlines_.]]>"
 
 #. Tag: para
 #: Text.xml:20
@@ -58,6 +60,8 @@ msgid ""
 "If we display this using <literal>&lt;s:formattedText/&gt;</literal>, we "
 "will get the following HTML produced:"
 msgstr ""
+"これを <literal>&lt;s:formattedText/&gt;</literal> で表示させると、 以下の"
+"HTMLが生成されます:"
 
 #. Tag: programlisting
 #: Text.xml:25
@@ -68,6 +72,10 @@ msgid ""
 "<del>deleted text</del>, super<sup>scripts</sup> or <u>underlines</u>.\n"
 "</p>]]>"
 msgstr ""
+"<![CDATA[<p>\n"
+"It's easy to make <i>emphasis</i>, <tt>monospace</tt>\n"
+"<del>deleted text</del>, super<sup>scripts</sup> or <u>underlines</u>.\n"
+"</p>]]>"
 
 #. Tag: para
 #: Text.xml:27
@@ -76,6 +84,8 @@ msgid ""
 "We can use a blank line to indicate a new paragraph, and <literal>+</"
 "literal> to indicate a heading:"
 msgstr ""
+"空行は新しいパラグラフを作成するときに使用します。 また、<literal>+</"
+"literal> は見出しに使用します:"
 
 #. Tag: programlisting
 #: Text.xml:32
@@ -90,6 +100,14 @@ msgid ""
 "\n"
 "This is the second paragraph.]]>"
 msgstr ""
+"<![CDATA[+This is a big heading\n"
+"You /must/ have some text following a heading!\n"
+" \n"
+"++This is a smaller heading\n"
+"This is the first paragraph. We can split it across multiple \n"
+"lines, but we must end it with a blank line.\n"
+"\n"
+"This is the second paragraph.]]>"
 
 #. Tag: para
 #: Text.xml:34
@@ -98,6 +116,8 @@ msgid ""
 "(Note that a simple newline is ignored, you need an additional blank line to "
 "wrap text into a new paragraph.) This is the HTML that results:"
 msgstr ""
+"(段落内の改行は単に無視されます。 新しい段落としてテキストを記述したい場合は"
+"空行が必要なことを忘れないでください。) これが結果の HTML です:"
 
 #. Tag: programlisting
 #: Text.xml:39
@@ -118,6 +138,20 @@ msgid ""
 "This is the second paragraph.\n"
 "</p>]]>"
 msgstr ""
+"<![CDATA[<h1>This is a big heading</h1>\n"
+"<p>\n"
+"You <i>must</i> have some text following a heading!\n"
+"</p>\n"
+" \n"
+"<h2>This is a smaller heading</h2>\n"
+"<p>\n"
+"This is the first paragraph. We can split it across multiple \n"
+"lines, but we must end it with a blank line.\n"
+"</p>\n"
+"\n"
+"<p>\n"
+"This is the second paragraph.\n"
+"</p>]]>"
 
 #. Tag: para
 #: Text.xml:41
@@ -126,6 +160,8 @@ msgid ""
 "Ordered lists are created using the <literal>#</literal> character. "
 "Unordered lists use the <literal>=</literal> character:"
 msgstr ""
+"順序付きリストは <literal>#</literal> 文字で作成できます。順序なしリストは "
+"<literal>=</literal> 文字を使います:"
 
 #. Tag: programlisting
 #: Text.xml:46
@@ -142,6 +178,16 @@ msgid ""
 "=an item\n"
 "=another item]]>"
 msgstr ""
+"<![CDATA[An ordered list:\n"
+"        \n"
+"#first item\n"
+"#second item\n"
+"#and even the /third/ item\n"
+"\n"
+"An unordered list:\n"
+"\n"
+"=an item\n"
+"=another item]]>"
 
 #. Tag: programlisting
 #: Text.xml:48
@@ -166,12 +212,30 @@ msgid ""
 "<li>another item</li>\n"
 "</ul>]]>"
 msgstr ""
+"<![CDATA[<p>\n"
+"An ordered list:\n"
+"</p>\n"
+" \n"
+"<ol>       \n"
+"<li>first item</li>\n"
+"<li>second item</li>\n"
+"<li>and even the <i>third</i> item</li>\n"
+"</ol>\n"
+"\n"
+"<p>\n"
+"An unordered list:\n"
+"</p>\n"
+"\n"
+"<ul>\n"
+"<li>an item</li>\n"
+"<li>another item</li>\n"
+"</ul>]]>"
 
 #. Tag: para
 #: Text.xml:50
 #, no-c-format
 msgid "Quoted sections should be surrounded in double quotes:"
-msgstr ""
+msgstr "引用ブロックはダブルクオートで囲む必要があります:"
 
 #. Tag: programlisting
 #: Text.xml:54
@@ -184,6 +248,12 @@ msgid ""
 "\n"
 "But what do you think he means by \"nyeah-nee\"?]]>"
 msgstr ""
+"<![CDATA[The other guy said:\n"
+"        \n"
+"\"Nyeah nyeah-nee \n"
+"/nyeah/ nyeah!\"\n"
+"\n"
+"But what do you think he means by \"nyeah-nee\"?]]>"
 
 #. Tag: programlisting
 #: Text.xml:56
@@ -200,12 +270,22 @@ msgid ""
 "But what do you think he means by <q>nyeah-nee</q>?\n"
 "</p>]]>"
 msgstr ""
+"<![CDATA[<p>\n"
+"The other guy said:\n"
+"</p>\n"
+"        \n"
+"<q>Nyeah nyeah-nee\n"
+"<i>nyeah</i> nyeah!</q>\n"
+"\n"
+"<p>\n"
+"But what do you think he means by <q>nyeah-nee</q>?\n"
+"</p>]]>"
 
 #. Tag: title
 #: Text.xml:61
 #, no-c-format
 msgid "Entering code and text with special characters"
-msgstr ""
+msgstr "プログラムコードや特殊文字を含むテキストの記述"
 
 #. Tag: para
 #: Text.xml:62
@@ -216,6 +296,10 @@ msgid ""
 "literal>, <literal>&gt;</literal> and <literal>&amp;</literal> may be "
 "escaped using <literal>\\</literal>:"
 msgstr ""
+"<literal>*</literal>, <literal>|</literal>, <literal>#</literal> などの特殊文"
+"字や、<literal>&lt;</literal>, <literal>&gt;</literal>, <literal>&amp;</"
+"literal> などのHTMLで利用される文字は <literal>\\</literal> でエスケープしま"
+"す:"
 
 #. Tag: programlisting
 #: Text.xml:69
@@ -224,6 +308,8 @@ msgid ""
 "<![CDATA[You can write down equations like 2\\*3\\=6 and HTML tags\n"
 "like \\<body\\> using the escape character: \\\\.]]>"
 msgstr ""
+"<![CDATA[You can write down equations like 2\\*3\\=6 and HTML tags\n"
+"like \\<body\\> using the escape character: \\\\.]]>"
 
 #. Tag: programlisting
 #: Text.xml:71
@@ -234,12 +320,16 @@ msgid ""
 "like &lt;body&gt; using the escape character: \\.\n"
 "</p>]]>"
 msgstr ""
+"<![CDATA[<p>\n"
+"You can write down equations like 2*3=6 and HTML tags\n"
+"like &lt;body&gt; using the escape character: \\.\n"
+"</p>]]>"
 
 #. Tag: para
 #: Text.xml:73
 #, no-c-format
 msgid "And we can quote code blocks using backticks:"
-msgstr ""
+msgstr "また、 バックティック (`) を使ってコードのブロックを囲むことができます。"
 
 #. Tag: programlisting
 #: Text.xml:77
@@ -254,6 +344,14 @@ msgid ""
 "\n"
 "Any ideas?]]>"
 msgstr ""
+"<![CDATA[My code doesn't work:\n"
+"\n"
+"`for (int i=0; i<100; i--)\n"
+"{\n"
+"    doSomething();\n"
+"}`\n"
+"\n"
+"Any ideas?]]>"
 
 #. Tag: programlisting
 #: Text.xml:79
@@ -272,6 +370,18 @@ msgid ""
 "Any ideas?\n"
 "</p>]]>"
 msgstr ""
+"<![CDATA[<p>\n"
+"My code doesn't work:\n"
+"</p>\n"
+"\n"
+"<pre>for (int i=0; i&lt;100; i--)\n"
+"{\n"
+"    doSomething();\n"
+"}</pre>\n"
+"\n"
+"<p>\n"
+"Any ideas?\n"
+"</p>]]>"
 
 #. Tag: para
 #: Text.xml:81
@@ -280,13 +390,13 @@ msgid ""
 "Note that inline monospace formatting always escapes (most monospace "
 "formatted text is in fact code or tags with many special characters). So you "
 "can, for example, write:"
-msgstr ""
+msgstr "インライン固定スペースのフォーマットはいつもエスケープ処理されます (ほとんどの固定スペースフォーマットされたテキストは実際には特殊な文字のあるタグやコードになります)。 したがって、例えば以下のように固定スペースのバー内でいずれの文字もエスケープ処理することなく記述することができます。"
 
 #. Tag: programlisting
 #: Text.xml:86
 #, no-c-format
 msgid "<![CDATA[This is a |<tag attribute=\"value\"/>| example.]]>"
-msgstr ""
+msgstr "<![CDATA[This is a |<tag attribute=\"value\"/>| example.]]>"
 
 #. Tag: para
 #: Text.xml:88
@@ -295,38 +405,37 @@ msgid ""
 "without escaping any of the characters inside the monospace bars. The "
 "downside is that you can't format inline monospace text in any other way "
 "(italics, underscore, and so on)."
-msgstr ""
+msgstr "その他の方法ではインライン固定スペーステキストをフォーマット化することができないのが弱点となります (斜字体、 下線など)。"
 
 #. Tag: title
 #: Text.xml:96
 #, no-c-format
 msgid "Links"
-msgstr ""
+msgstr "リンク"
 
 #. Tag: para
 #: Text.xml:98
 #, no-c-format
 msgid "A link may be created using the following syntax:"
-msgstr ""
+msgstr "リンクを作るには以下の構文を利用します:"
 
 #. Tag: programlisting
 #: Text.xml:102
 #, no-c-format
-msgid ""
-"<![CDATA[Go to the Seam website at [=>http://jboss.com/products/seam].]]>"
-msgstr ""
+msgid "<![CDATA[Go to the Seam website at [=>http://jboss.com/products/seam].]]>"
+msgstr "<![CDATA[Go to the Seam website at [=>http://jboss.com/products/seam].]]>"
 
 #. Tag: para
 #: Text.xml:104
 #, no-c-format
 msgid "Or, if you want to specify the text of the link:"
-msgstr ""
+msgstr "または、リンクテキストを指定したい場合:"
 
 #. Tag: programlisting
 #: Text.xml:108
 #, no-c-format
 msgid "<![CDATA[Go to [the Seam website=>http://jboss.com/products/seam].]]>"
-msgstr ""
+msgstr "<![CDATA[Go to [the Seam website=>http://jboss.com/products/seam].]]>"
 
 #. Tag: para
 #: Text.xml:110
@@ -335,12 +444,14 @@ msgid ""
 "For advanced users, it is even possible to customize the Seam Text parser to "
 "understand wikiword links written using this syntax."
 msgstr ""
+"上級者向けですが、この構文を利用したwikiワードのリンクを解釈できるようSeam "
+"Textパーサをカスタマイズすることも可能です。"
 
 #. Tag: title
 #: Text.xml:118
 #, no-c-format
 msgid "Entering HTML"
-msgstr ""
+msgstr "HTMLの記述"
 
 #. Tag: para
 #: Text.xml:120
@@ -349,7 +460,7 @@ msgid ""
 "Text may even include a certain limited subset of HTML (don't worry, the "
 "subset is chosen to be safe from cross-site scripting attacks). This is "
 "useful for creating links:"
-msgstr ""
+msgstr "テキストには限定されたHTMLのサブセットを含めることが出来ます (心配しないでください、 クロスサイトスクリプティング攻撃には利用できないようなサブセットを選んでいます)。 これはリンクを作成する際などに便利です。"
 
 #. Tag: programlisting
 #: Text.xml:125
@@ -359,12 +470,15 @@ msgid ""
 "\">something\n"
 "cool</a>, or even include an image: <img src=\"/logo.jpg\"/>]]>"
 msgstr ""
+"<![CDATA[You might want to link to <a href=\"http://jboss.com/products/seam"
+"\">something\n"
+"cool</a>, or even include an image: <img src=\"/logo.jpg\"/>]]>"
 
 #. Tag: para
 #: Text.xml:127
 #, no-c-format
 msgid "And for creating tables:"
-msgstr ""
+msgstr "テーブルも作れます:"
 
 #. Tag: programlisting
 #: Text.xml:131
@@ -375,9 +489,14 @@ msgid ""
 "    <tr><td>Last name:</td><td>King</td></tr>\n"
 "</table>]]>"
 msgstr ""
+"<![CDATA[<table>\n"
+"    <tr><td>First name:</td><td>Gavin</td></tr>\n"
+"    <tr><td>Last name:</td><td>King</td></tr>\n"
+"</table>]]>"
 
 #. Tag: para
 #: Text.xml:133
 #, no-c-format
 msgid "But you can do much more if you want!"
-msgstr ""
+msgstr "あなたがやろうと思えば他にもいろいろできるでしょう!"
+
