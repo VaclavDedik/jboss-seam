@@ -31,7 +31,7 @@ import org.jboss.seam.deployment.HotDeploymentStrategy;
 @Name("org.jboss.seam.web.wicketFilter")
 @Install(precedence = BUILT_IN, dependencies="org.jboss.seam.wicket.web.wicketFilterInstantiator")
 @BypassInterceptors
-@org.jboss.seam.annotations.web.Filter(within="org.jboss.seam.debug.hotDeployFilter")
+@org.jboss.seam.annotations.web.Filter(within="org.jboss.seam.web.hotDeployFilter")
 public class WicketFilter extends AbstractFilter
 {
    
