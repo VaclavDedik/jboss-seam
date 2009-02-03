@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:19+0000\n"
-"PO-Revision-Date: 2009-02-01 21:41+0100\n"
+"PO-Revision-Date: 2009-02-03 23:24+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr "Controlli JSF di Seam"
 #: Controls.xml:6
 #, no-c-format
 msgid "Seam includes a number of JSF controls that are useful for working with Seam. These are intended to complement the built-in JSF controls, and controls from other third-party libraries. We recommend JBoss RichFaces, ICEsoft ICEfaces and Apache MyFaces Trinidad tag libraries for use with Seam. We do not recommend the use of the Tomahawk tag library."
-msgstr ""
+msgstr "Seam include un numero di controlli JSF che sono utili per lavorare con Seam. Sono intesi comecomplemento ai controlli predefiniti JSF, e ai controlli di librerie di terze parti. Si raccomanda l'uso in Seam dei tag presenti nelle librerie di JBoss RichFaces, ICEsoft ICEfaces e Apache MyFaces Trinidad. Non si raccomanda l'uso dei tag della libreria Tomahawk."
 
 #. Tag: title
 #: Controls.xml:15
@@ -35,7 +35,7 @@ msgstr "Tag"
 #: Controls.xml:17
 #, no-c-format
 msgid "To use these tags, define the \"<literal>s</literal>\" namespace in your page as follows (facelets only):"
-msgstr ""
+msgstr "Per usare questi tag si definisce il namespace \"<literal>s</literal>\" nella propria pagina come segue (solo facelets):"
 
 #. Tag: programlisting
 #: Controls.xml:22
@@ -51,7 +51,7 @@ msgstr ""
 #: Controls.xml:24
 #, no-c-format
 msgid "The ui example demonstrates the use of a number of these tags."
-msgstr ""
+msgstr "L'esempio ui mostra l'uso di diversi tag."
 
 #. Tag: title
 #: Controls.xml:29
@@ -105,7 +105,7 @@ msgstr "Descrizione"
 #: Controls.xml:36
 #, no-c-format
 msgid "A button that supports invocation of an action with control over conversation propagation. <emphasis>Does not submit the form.</emphasis>"
-msgstr ""
+msgstr "Un pulsante che supporta l'invocazione di un'azione con controllo sulla propagazione della conversazione. <emphasis>Non effettua il submit della form.</emphasis>"
 
 #. Tag: emphasis
 #: Controls.xml:41
@@ -183,13 +183,13 @@ msgstr "<literal>disabled</literal> &#8212; il link è disabilitato?"
 #: Controls.xml:185
 #, no-c-format
 msgid "<literal>propagation</literal> &#8212; determines the conversation propagation style: <literal>begin</literal>, <literal>join</literal>, <literal>nest</literal>, <literal>none</literal> or <literal>end</literal>."
-msgstr ""
+msgstr "<literal>propagation</literal> &#8212; determina lo stile della propagazione della conversazione: <literal>begin</literal>, <literal>join</literal>, <literal>nest</literal>, <literal>none</literal> o <literal>end</literal>."
 
 #. Tag: para
 #: Controls.xml:81
 #, no-c-format
 msgid "<literal>pageflow</literal> &#8212; a pageflow definition to begin. (This is only useful when <literal>propagation=\"begin\"</literal> or <literal>propagation=\"join\"</literal> is used)."
-msgstr ""
+msgstr "<literal>pageflow</literal> &#8212; una definizione di pageflow da avviare. (E' utile solamente quando vengono usati <literal>propagation=\"begin\"</literal> oppure <literal>propagation=\"join\"</literal>)."
 
 #. Tag: emphasis
 #: Controls.xml:90
@@ -320,7 +320,7 @@ msgstr ""
 #: Controls.xml:233
 #, no-c-format
 msgid "<literal>pageflow</literal> &#8212; a pageflow definition to begin. (This is only useful when using <literal>propagation=\"begin\"</literal> or <literal>propagation=\"join\"</literal>.)"
-msgstr ""
+msgstr "<literal>pageflow</literal> &#8212; una definizione di pageflow da avviare. (E' utile solamente quando vengono usati <literal>propagation=\"begin\"</literal> oppure <literal>propagation=\"join\"</literal>)."
 
 #. Tag: programlisting
 #: Controls.xml:203
@@ -348,7 +348,7 @@ msgstr ""
 #: Controls.xml:225
 #, no-c-format
 msgid "<literal>type</literal> &#8212; determines the conversation propagation style: <literal>begin</literal>, <literal>join</literal>, <literal>nest</literal>, <literal>none</literal> or <literal>end</literal>."
-msgstr ""
+msgstr "<literal>type</literal> &#8212; determina lo stile della propagazione della conversazione: <literal>begin</literal>, <literal>join</literal>, <literal>nest</literal>, <literal>none</literal> oppure <literal>end</literal>."
 
 #. Tag: programlisting
 #: Controls.xml:242
@@ -414,7 +414,7 @@ msgstr "&lt;s:convertDateTime&gt;"
 #: Controls.xml:286
 #, no-c-format
 msgid "Perform date or time conversions in the Seam timezone."
-msgstr ""
+msgstr "Esegue conversioni di data o orario nella timezone di Seam."
 
 #. Tag: programlisting
 #: Controls.xml:292
@@ -704,19 +704,19 @@ msgstr ""
 #: Controls.xml:442
 #, no-c-format
 msgid "<literal>for</literal> &#8212; The id of a control to validate against."
-msgstr ""
+msgstr "<literal>for</literal> &#8212; L'id di un controllo da validare."
 
 #. Tag: para
 #: Controls.xml:447
 #, no-c-format
 msgid "<literal>message</literal> &#8212; Message to show on failure."
-msgstr ""
+msgstr "<literal>message</literal> &#8212; Messaggio da mostrare in presenza di errori."
 
 #. Tag: para
 #: Controls.xml:452
 #, no-c-format
 msgid "<literal>messageId</literal> &#8212; Message id to show on failure."
-msgstr ""
+msgstr "<literal>messageId</literal> &#8212; L'id del messaggio da mostrare in presenza di errori."
 
 #. Tag: para
 #: Controls.xml:457
@@ -728,37 +728,37 @@ msgstr ""
 #: Controls.xml:462
 #, no-c-format
 msgid "<literal>equal</literal> &#8212; Validates that value.equals(forValue)"
-msgstr ""
+msgstr "<literal>equal</literal> &#8212; Valida che value.equals(forValue)"
 
 #. Tag: para
 #: Controls.xml:467
 #, no-c-format
 msgid "<literal>not_equal</literal> &#8212; Validates that !value.equals(forValue)"
-msgstr ""
+msgstr "<literal>not_equal</literal> &#8212; Valida che !value.equals(forValue)"
 
 #. Tag: para
 #: Controls.xml:472
 #, no-c-format
 msgid "<literal>greater</literal> &#8212; <![CDATA[Validates that ((Comparable)value).compareTo(forValue)> 0]]>"
-msgstr ""
+msgstr "<literal>greater</literal> &#8212; <![CDATA[Valida che sia ((Comparable)value).compareTo(forValue)> 0]]>"
 
 #. Tag: para
 #: Controls.xml:477
 #, no-c-format
 msgid "<literal>greater_or_equal</literal> &#8212; <![CDATA[Validates that ((Comparable)value).compareTo(forValue)>= 0]]>"
-msgstr ""
+msgstr "<literal>greater_or_equal</literal> &#8212; <![CDATA[Valida che sia ((Comparable)value).compareTo(forValue)>= 0]]>"
 
 #. Tag: para
 #: Controls.xml:482
 #, no-c-format
 msgid "<literal>less</literal> &#8212; <![CDATA[Validates that ((Comparable)value).compareTo(forValue) <0]]>"
-msgstr ""
+msgstr "<literal>less</literal> &#8212; <![CDATA[Valida che sia ((Comparable)value).compareTo(forValue) <0]]>"
 
 #. Tag: para
 #: Controls.xml:487
 #, no-c-format
 msgid "<literal>less_or_equal</literal> &#8212; <![CDATA[Validates that ((Comparable)value).compareTo(forValue) <= 0]]>"
-msgstr ""
+msgstr "<literal>less_or_equal</literal> &#8212; <![CDATA[Valida che sia ((Comparable)value).compareTo(forValue) <= 0]]>"
 
 #. Tag: programlisting
 #: Controls.xml:497
@@ -1536,7 +1536,7 @@ msgstr ""
 #: Controls.xml:1024
 #, no-c-format
 msgid "Here is an example on how to use the tag:"
-msgstr ""
+msgstr "Ecco un esempio su come usare il tag:"
 
 #. Tag: programlisting
 #: Controls.xml:1025
@@ -1578,7 +1578,7 @@ msgstr ""
 #: Controls.xml:1041
 #, no-c-format
 msgid "<literal>src</literal> &#8212; Resource file serving files."
-msgstr ""
+msgstr "<literal>src</literal> &#8212; I file che servono al file di risorsa."
 
 #. Tag: programlisting
 #: Controls.xml:1048
@@ -1596,7 +1596,7 @@ msgstr ""
 #: Controls.xml:1050
 #, no-c-format
 msgid "Will produce something like: <literal><![CDATA[http://localhost/resources.seam?fileId=1]]></literal>"
-msgstr ""
+msgstr "Genererà qualcosa di simile a: <literal><![CDATA[http://localhost/resources.seam?fileId=1]]></literal>"
 
 #. Tag: literal
 #: Controls.xml:1057
