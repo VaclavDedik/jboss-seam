@@ -67,6 +67,7 @@
                <translations>
                   <translation>fr-FR</translation>
                   <translation>it-IT</translation>
+                  <translation>ja-JP</translation>
                </translations>
                <imageResource>
                   <directory>${pom.basedir}/en-US</directory>
