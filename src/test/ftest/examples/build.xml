@@ -19,171 +19,166 @@ You should have received a copy of the GNU Lesser General Public
 License along with this software; if not, write to the Free
 Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 02110-1301 USA, or see the FSF site: http://www.fsf.org.
---> 
+-->
 <project name="ftest.example.common.build" basedir="." default="build">
 
-   <!-- Location of Seam -->
-   <dirname property="seam.dir" file="${ant.file.ftest.example.common.build}/../../../../" />
+	<!-- Location of Seam -->
+	<dirname property="seam.dir" file="${ant.file.ftest.example.common.build}/../../../../" />
 
-   <!-- default property setup -->
-   <property file="${seam.dir}/src/test/ftest/ftest.properties" />
+	<!-- default property setup -->
+	<property file="${seam.dir}/src/test/ftest/ftest.properties" />
 
-   <property name="ftest.dir" value="${seam.dir}/src/test/ftest" />
-   <property name="src.dir" value="src" />
-   <property name="common.src.dir" value="${ftest.dir}/src/main" />
-   <property name="build.dir" value="build" />
-   <property name="classes.dir" value="${build.dir}/classes" />
-   <property name="test.output.dir" value="${seam.dir}/test-output" />
-   <property name="ftest.lib.dir" value="${ftest.dir}/lib" />
-   <property name="log.dir" value="log" />
-   <property name="test.report.dir" value="test-report" />
+	<property name="ftest.dir" value="${seam.dir}/src/test/ftest" />
+	<property name="src.dir" value="src" />
+	<property name="common.src.dir" value="${ftest.dir}/src/main" />
+	<property name="build.dir" value="build" />
+	<property name="classes.dir" value="${build.dir}/classes" />
+	<property name="test.output.dir" value="${seam.dir}/test-output" />
+	<property name="ftest.lib.dir" value="${ftest.dir}/lib" />
+	<property name="log.dir" value="log" />
+	<property name="test.report.dir" value="test-report" />
 
-   <!-- common path setup -->
+	<!-- common path setup -->
 
-   <path id="classpath.build">
-      <fileset dir="${ftest.lib.dir}" includes="**/*.jar" />
-   </path>
+	<path id="classpath.build">
+		<fileset dir="${ftest.lib.dir}" includes="**/*.jar" />
+	</path>
 
-   <path id="classpath.test">
-      <path refid="classpath.build" />
-      <path location="${classes.dir}" />
-   </path>
+	<path id="classpath.test">
+		<path refid="classpath.build" />
+		<path location="${classes.dir}" />
+	</path>
 
-   <!-- common target definitions -->
+	<!-- common target definitions -->
 
-   <target name="clean" description="Delete all generated files">
-      <delete dir="${build.dir}" />
-      <delete dir="${test.output.dir}" />
-      <delete dir="${report.dir}" />
-      <delete dir="${log.dir}" />
-   </target>
+	<target name="clean" description="Delete all generated files">
+		<delete dir="${build.dir}" />
+		<delete dir="${test.output.dir}" />
+		<delete dir="${report.dir}" />
+		<delete dir="${log.dir}" />
+	</target>
 
-   <target name="build" depends="build.common" description="Compiles the Test">
-      <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath.build" debug="true"/>
-      <copy todir="${classes.dir}">
-         <fileset dir="src">
-            <exclude name="**/*.java" />
-         </fileset>
-      </copy>
-   </target>
+	<target name="build" depends="build.common" description="Compiles the Test">
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath.build" debug="true" />
+		<copy todir="${classes.dir}">
+			<fileset dir="src">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
 
-   <!-- TODO we should compile this once to a common place not build for each example -->
-   <!-- TODO if needed we should allow examples to exclude/include src under 
+	<!-- TODO we should compile this once to a common place not build for each example -->
+	<!-- TODO if needed we should allow examples to exclude/include src under 
         common dvd does not care about booking for example-->
-   <target name="build.common" description="Compiles the common selenium test code">
-      <mkdir dir="${classes.dir}" />
-      <javac srcdir="${common.src.dir}" destdir="${classes.dir}" classpathref="classpath.build" debug="true"/>
-      <copy todir="${classes.dir}">
-         <fileset dir="src">
-            <exclude name="**/*.java" />
-         </fileset>
-      </copy>
-   </target>
+	<target name="build.common" description="Compiles the common selenium test code">
+		<mkdir dir="${classes.dir}" />
+		<javac srcdir="${common.src.dir}" destdir="${classes.dir}" classpathref="classpath.build" debug="true" />
+		<copy todir="${classes.dir}">
+			<fileset dir="src">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
 
-   <target name="selenium.test" depends="build" description="Run Tests">
-      <taskdef resource="testngtasks" classpathref="classpath.test" />
-      <mkdir dir="${test.output.dir}" />
+	<target name="selenium.test" depends="build" description="Run Tests">
+		<taskdef resource="testngtasks" classpathref="classpath.test" />
+		<mkdir dir="${test.output.dir}" />
 
-      <!-- execute testng tests -->
-      <testng haltonfailure="false" outputdir="${test.output.dir}" classpathref="classpath.test">
-         <xmlfileset file="${container}.xml" />
-         <sysproperty key="selenium.server.port" value="${selenium.server.port}" />
-         <sysproperty key="selenium.host" value="${selenium.host}" />
-         <sysproperty key="selenium.browser" value="${selenium.browser}" />
-         <sysproperty key="selenium.browser.url" value="${selenium.browser.url}" />
-         <sysproperty key="selenium.speed" value="${selenium.speed}" />
-         <sysproperty key="selenium.timeout" value="${selenium.timeout}" />
-      </testng>
-   </target>
+		<!-- execute testng tests -->
+		<testng haltonfailure="false" outputdir="${test.output.dir}" classpathref="classpath.test">
+			<xmlfileset file="${container}.xml" />
+			<sysproperty key="selenium.server.port" value="${selenium.server.port}" />
+			<sysproperty key="selenium.host" value="${selenium.host}" />
+			<sysproperty key="selenium.browser" value="${selenium.browser}" />
+			<sysproperty key="selenium.browser.url" value="${selenium.browser.url}" />
+			<sysproperty key="selenium.speed" value="${selenium.speed}" />
+			<sysproperty key="selenium.timeout" value="${selenium.timeout}" />
+		</testng>
+	</target>
 
-   <target name="test" depends="build" description="Run Tests">
-      <!-- TODO all of these jboss commands must be optional with checks -->
-      <!-- TODO  go get JBoss and extract -->
+	<target name="test" depends="build" description="Run Tests">
+		<!-- TODO all of these jboss commands must be optional with checks -->
+		<!-- TODO  go get JBoss and extract -->
 
-      <!-- TODO start JBoss -->
-	  <!-- clean example -->
-   	  <ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="clean" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
-   	
-      <!-- deploy the example-->
-      <antcall target="deploy.example.${container}" />
+		<!-- TODO start JBoss -->
+		<!-- clean example -->
+		<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="clean" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
 
-      <!-- execute testng tests -->
-      <antcall target="selenium.test" />
+		<!-- deploy the example-->
+		<antcall target="deploy.example.${container}" />
 
-      <!-- undeploy the example -->
-      <antcall target="undeploy.example.${container}" />
+		<!-- execute testng tests -->
+		<antcall target="selenium.test" />
 
-      <!-- TODO stop jboss -->
+		<!-- undeploy the example -->
+		<antcall target="undeploy.example.${container}" />
 
-      <!-- TODO remove jboss -->
-   </target>
+		<!-- TODO stop jboss -->
 
-   <!-- TODO get this to next level too - how to combine into one report -->
-   <target name="testreport" depends="test" description="generate html report">
-      <mkdir dir="${test.report.dir}" />
-      <junitreport todir="${test.report.dir}">
-         <fileset dir="${test.output.dir}">
-            <include name="**/*.xml" />
-            <exclude name="**/testng-*.xml" />
-         </fileset>
-         <report format="noframes" todir="${test.report.dir}" />
-      </junitreport>
-      <echo>Report available at ${report.dir}/junit-noframes.html</echo>
-   </target>
+		<!-- TODO remove jboss -->
+	</target>
 
-   <target name="deploy.example.jboss">
-      <echo>Deploying JBoss Example - ${example.name}</echo>
-      <ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${jboss.deploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
+	<!-- TODO get this to next level too - how to combine into one report -->
+	<target name="testreport" depends="test" description="generate html report">
+		<mkdir dir="${test.report.dir}" />
+		<junitreport todir="${test.report.dir}">
+			<fileset dir="${test.output.dir}">
+				<include name="**/*.xml" />
+				<exclude name="**/testng-*.xml" />
+			</fileset>
+			<report format="noframes" todir="${test.report.dir}" />
+		</junitreport>
+		<echo>Report available at ${report.dir}/junit-noframes.html</echo>
+	</target>
 
-      <!-- wait for the application to be active -->
-      <!-- TODO is there a better way? -->
-      <waitfor maxwait="${jboss.deploy.waittime}" maxwaitunit="second">
-         <and>
-            <!-- wait for the application to not throw 404 -->
-            <http url="${selenium.browser.url}/${jboss.example.ready.check.url}" errorsBeginAt="404" />
-         </and>
-      </waitfor>
-   </target>
+	<target name="deploy.example.jboss">
+		<deploy.example target="${jboss.deploy.target}" wait.url="${jboss.example.ready.check.url}" wait.time="${jboss.deploy.waittime}" />
+	</target>
 
-   <target name="undeploy.example.jboss">
-      <echo>Undeploying JBoss Example - ${example.name}</echo>
-      <ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${jboss.undeploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
-   </target>
+	<target name="undeploy.example.jboss">
+		<undeploy.example target="${jboss.undeploy.target}" />
+	</target>
 
-   <target name="deploy.example.tomcat6">
-      <echo>Deploying Tomcat Example - ${example.name}</echo>
-      <ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${tomcat6.deploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
-   	<!-- wait for the application to be active -->
-    <!-- TODO is there a better way? -->
-    <waitfor maxwait="${tomcat6.deploy.waittime}" maxwaitunit="second">
-       <and>
-          <!-- wait for the application to not throw 404 -->
-          <http url="${selenium.browser.url}/${tomcat6.example.ready.check.url}" errorsBeginAt="404" />
-       </and>
-    </waitfor>
-   </target>
+	<target name="deploy.example.tomcat6">
+		<deploy.example target="${tomcat6.deploy.target}" wait.url="${tomcat6.example.ready.check.url}" wait.time="${tomcat6.deploy.waittime}" />
+	</target>
 
-   <target name="undeploy.example.tomcat6">
-      <echo>Undeploying Tomcat Example - ${example.name}</echo>
-      <ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${tomcat6.undeploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
-   </target>
-	
-    <target name="deploy.example.jboss-embedded">
-       <echo>Deploying Tomcat Example - ${example.name}</echo>
-       <ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${jboss-embedded.deploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
-    	<!-- wait for the application to be active -->
-    	<!-- TODO is there a better way? -->
-    	<waitfor maxwait="${jboss-embedded.deploy.waittime}" maxwaitunit="second">
-    	   <and>
-    	   <!-- wait for the application to not throw 404 -->
-    	      <http url="${selenium.browser.url}/${jboss-embedded.example.ready.check.url}" errorsBeginAt="404" />
-    	   </and>
-    	</waitfor>
-    </target>
+	<target name="undeploy.example.tomcat6">
+		<undeploy.example target="${tomcat6.undeploy.target}" />
+	</target>
 
-    <target name="undeploy.example.jboss-embedded">
-       <echo>Undeploying Tomcat Example - ${example.name}</echo>
-       <ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${jboss-embedded.undeploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
-    </target>
+	<target name="deploy.example.jboss-embedded">
+		<deploy.example target="${jboss-embedded.deploy.target}" wait.url="${jboss-embedded.example.ready.check.url}" wait.time="${jboss-embedded.deploy.waittime}" />
+	</target>
 
+	<target name="undeploy.example.jboss-embedded">
+		<undeploy.example target="${jboss-embedded.undeploy.target}" />
+	</target>
+
+	<macrodef name="deploy.example">
+		<attribute name="target" />
+		<attribute name="wait.url" />
+		<attribute name="wait.time" />
+		<sequential>
+			<echo>Deploying ${example.name} example to ${container}</echo>
+			<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="@{target}" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
+			<!-- wait for the application to be active -->
+			<!-- TODO is there a better way? -->
+			<echo>Going to wait @{wait.time} seconds for @{wait.url}</echo>
+			<waitfor maxwait="@{wait.time}" maxwaitunit="second">
+				<and>
+					<!-- wait for the application to not throw 404 -->
+					<http url="${selenium.browser.url}/${wait.url}" errorsBeginAt="404" />
+				</and>
+			</waitfor>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="undeploy.example">
+		<attribute name="target" />
+		<sequential>
+			<echo>Undeploying example ${example.name} from ${container}</echo>
+			<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="@{target}" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
+		</sequential>
+	</macrodef>
 </project>

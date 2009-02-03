@@ -19,19 +19,18 @@ You should have received a copy of the GNU Lesser General Public
 License along with this software; if not, write to the Free
 Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 02110-1301 USA, or see the FSF site: http://www.fsf.org.
---> 
+-->
 <project name="groovybooking.ftest.build" basedir="." default="build">
-   <property name="example.name" value="groovybooking" />
-   <property name="jboss.deploy.target" value="jbosswar.deploy" />
-   <property name="jboss.undeploy.target" value="undeploy" />
-   <property name="jbosss.example.ready.check.url" value="jboss-seam-groovybooking/home.seam"/>
+	<property name="example.name" value="groovybooking" />
+	<property name="jboss.deploy.target" value="jbosswar.deploy" />
+	<property name="jbosss.example.ready.check.url" value="jboss-seam-groovybooking/home.seam" />
 
-   <import file="../build.xml" />
+	<import file="../build.xml" />
 
-   <target name="undeploy.example.jboss">
-      <echo>Undeploying JBoss Example - ${example.name}</echo>
-      <ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="jbosswar.undeploy" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
-      <ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${jboss.undeploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
-   </target>
+	<target name="undeploy.example.jboss">
+		<echo>Undeploying JBoss Example - ${example.name}</echo>
+		<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="jbosswar.undeploy" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
+		<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${jboss.undeploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
+	</target>
 
 </project>

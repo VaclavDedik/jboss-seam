@@ -19,225 +19,226 @@ You should have received a copy of the GNU Lesser General Public
 License along with this software; if not, write to the Free
 Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 02110-1301 USA, or see the FSF site: http://www.fsf.org.
---> 
+-->
 
 <!-- core build file for executing and managing Seam functional tests -->
 <project name="ftest.base.build" default="testall" basedir=".">
 
-   <!-- Location of Seam -->
-   <dirname property="seam.dir" file="${ant.file.ftest.base.build}/../../../" />
+	<!-- Location of Seam -->
+	<dirname property="seam.dir" file="${ant.file.ftest.base.build}/../../../" />
 
-   <!--Import properties -->
-   <property file="ftest.properties" />
+	<!--Import properties -->
+	<property file="ftest.properties" />
 
-   <property name="ftest.dir" value="${seam.dir}/src/test/ftest" />
+	<property name="ftest.dir" value="${seam.dir}/src/test/ftest" />
 
-   <!-- TODO : should the libs be in seam/lib and managed with mvn? -->
-   <property name="lib.dir" value="${ftest.dir}/lib" />
-   <property name="log.dir" value="${ftest.dir}/log" />
+	<!-- TODO : should the libs be in seam/lib and managed with mvn? -->
+	<property name="lib.dir" value="${ftest.dir}/lib" />
+	<property name="log.dir" value="${ftest.dir}/log" />
 
-   <path id="selenium.server.classpath">
-      <fileset dir="${lib.dir}">
-         <include name="selenium-server-standalone.jar" />
-      </fileset>
-   </path>
-	
-   <target name="testall">
-      <antcall target="testall.jboss"/>
-   </target>
+	<path id="selenium.server.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="selenium-server-standalone.jar" />
+		</fileset>
+	</path>
 
-   <target name="testall.jboss">
-   	  <property name="container" value="jboss" />
-      <antcall target="start.selenium.server"/>
-      <!-- Execute tests for all examples jboss-->
-   	  <testexample name="blog" />
-      <testexample name="booking" />
-   	  <testexample name="drools" />
-      <testexample name="dvdstore" />
-      <testexample name="contactlist" />
-      <testexample name="groovybooking" />
-      <testexample name="hibernate" />
-      <testexample name="icefaces" />
-      <testexample name="jpa" />
-   	  <testexample name="messages" />
-      <testexample name="nestedbooking" />
-   	  <testexample name="numberguess" />
-      <testexample name="quartz" />
-   	  <testexample name="registration" />
-   	  <testexample name="seambay" />
-      <testexample name="seampay" />
-      <testexample name="seamspace" />
-      <testexample name="spring" />
-      <testexample name="todo" />
-      <testexample name="wicket" />
-      <antcall target="stop.selenium.server"/>
-   </target>
-	
-   <target name="testall.jboss-embedded">
-    <property name="container" value="jboss-embedded" />
-    <antcall target="start.selenium.server"/>
-   	<!-- Execute tests for all examples on jboss-embedded -->
-   	<testexample name="blog" />
-    <testexample name="dvdstore" />
-   	<testexample name="messages" />
-   	<testexample name="numberguess" />
-   	<testexample name="registration" />
-   	<testexample name="seambay" />
-    <testexample name="seampay" />
-    <testexample name="todo" />
-    <testexample name="booking" />
-    <testexample name="jpa" />
-    <testexample name="hibernate" />
-    <antcall target="stop.selenium.server"/>
-   </target>
-	
-   <target name="testall.tomcat6">
-	   	
-      <property name="container" value="tomcat6" />
-      <antcall target="start.selenium.server"/>
+	<target name="testall">
+		<antcall target="testall.jboss" />
+	</target>
 
-	  <testexample name="jpa" />
-      <testexample name="hibernate" />
-	
-      <antcall target="stop.selenium.server"/>
- </target>
+	<target name="testall.jboss">
+		<property name="container" value="jboss" />
+		<antcall target="start.selenium.server" />
+		<!-- Execute tests for all examples jboss-->
+		<testexample name="blog" />
+		<testexample name="booking" />
+		<testexample name="drools" />
+		<testexample name="dvdstore" />
+		<testexample name="contactlist" />
+		<testexample name="groovybooking" />
+		<testexample name="hibernate" />
+		<testexample name="icefaces" />
+		<testexample name="jpa" />
+		<testexample name="messages" />
+		<testexample name="nestedbooking" />
+		<testexample name="numberguess" />
+		<testexample name="quartz" />
+		<testexample name="registration" />
+		<testexample name="seambay" />
+		<testexample name="seampay" />
+		<testexample name="seamspace" />
+		<testexample name="spring" />
+		<testexample name="todo" />
+		<testexample name="wicket" />
+		<antcall target="stop.selenium.server" />
+	</target>
+
+	<target name="testall.jboss-embedded">
+		<property name="container" value="jboss-embedded" />
+		<antcall target="start.selenium.server" />
+		<!-- Execute tests for all examples on jboss-embedded -->
+		<testexample name="blog" />
+		<testexample name="dvdstore" />
+		<testexample name="messages" />
+		<testexample name="numberguess" />
+		<testexample name="registration" />
+		<testexample name="seambay" />
+		<testexample name="seampay" />
+		<testexample name="todo" />
+		<testexample name="booking" />
+		<testexample name="jpa" />
+		<testexample name="hibernate" />
+		<antcall target="stop.selenium.server" />
+	</target>
+
+	<target name="testall.tomcat6">
+
+		<property name="container" value="tomcat6" />
+		<antcall target="start.selenium.server" />
+
+		<testexample name="jpa" />
+		<testexample name="hibernate" />
+
+		<antcall target="stop.selenium.server" />
+	</target>
 
 	<target name="test">
-			<antcall target="test.jboss"/>	
+		<antcall target="test.jboss" />
 	</target>
-	
+
 	<target name="test.jboss">
 		<property name="container" value="jboss" />
-		<antcall target="test.single.example"/>	
+		<antcall target="test.single.example" />
 	</target>
-	
+
 	<target name="test.tomcat6">
 		<property name="container" value="tomcat6" />
-		<antcall target="test.single.example"/>	
+		<antcall target="test.single.example" />
 	</target>
-	
+
 	<target name="test.jboss-embedded">
 		<property name="container" value="jboss-embedded" />
-		<antcall target="test.single.example"/>	
+		<antcall target="test.single.example" />
 	</target>
-	
-   <target name="test.single.example">
-      <antcall target="start.selenium.server"/>
 
-      <!-- Execute tests for a specific example-->
-      <testexample name="${test}" />
+	<target name="test.single.example">
+		<antcall target="start.selenium.server" />
 
-      <antcall target="stop.selenium.server"/>
-   </target>
+		<!-- Execute tests for a specific example-->
+		<testexample name="${test}" />
 
-   <target name="cleanall">
-   	  <cleanexample name="blog" />
-      <cleanexample name="booking" />
-   	  <cleanexample name="drools" />
-      <cleanexample name="dvdstore" />
-      <cleanexample name="contactlist" />
-      <cleanexample name="groovybooking" />
-      <cleanexample name="hibernate" />
-      <cleanexample name="icefaces" />
-      <cleanexample name="jpa" />
-   	  <cleanexample name="messages" />
-      <cleanexample name="nestedbooking" />
-   	  <cleanexample name="numberguess" />
-      <cleanexample name="quartz" />
-   	  <cleanexample name="registration" />
-   	  <cleanexample name="seambay" />
-      <cleanexample name="seampay" />
-      <cleanexample name="seamspace" />
-      <cleanexample name="spring" />
-      <cleanexample name="todo" />
-      <cleanexample name="wicket" />
-   </target>
+		<antcall target="stop.selenium.server" />
+	</target>
 
-   <target name="undeployall">
-   	  <undeployexample name="blog" />
-      <undeployexample name="booking" />
-   	  <undeployexample name="drools" />
-      <undeployexample name="dvdstore" />
-      <undeployexample name="contactlist" />
-      <undeployexample name="groovybooking" />
-      <undeployexample name="hibernate" />
-      <undeployexample name="icefaces" />
-      <undeployexample name="jpa" />
-   	  <undeployexample name="messages" />
-      <undeployexample name="nestedbooking" />
-   	  <undeployexample name="numberguess" />
-      <undeployexample name="quartz" />
-   	  <undeployexample name="registration" />
-   	  <undeployexample name="seambay" />
-      <undeployexample name="seampay" />
-      <undeployexample name="seamspace" />
-      <undeployexample name="spring" />
-      <undeployexample name="todo" />
-      <undeployexample name="wicket" />
-   </target>
+	<target name="cleanall">
+		<cleanexample name="blog" />
+		<cleanexample name="booking" />
+		<cleanexample name="drools" />
+		<cleanexample name="dvdstore" />
+		<cleanexample name="contactlist" />
+		<cleanexample name="groovybooking" />
+		<cleanexample name="hibernate" />
+		<cleanexample name="icefaces" />
+		<cleanexample name="jpa" />
+		<cleanexample name="messages" />
+		<cleanexample name="nestedbooking" />
+		<cleanexample name="numberguess" />
+		<cleanexample name="quartz" />
+		<cleanexample name="registration" />
+		<cleanexample name="seambay" />
+		<cleanexample name="seampay" />
+		<cleanexample name="seamspace" />
+		<cleanexample name="spring" />
+		<cleanexample name="todo" />
+		<cleanexample name="wicket" />
+	</target>
 
-
-   <target name="start.selenium.server">
-      <java classpathref="selenium.server.classpath" classname="org.openqa.selenium.server.SeleniumServer" fork="true" spawn="true">
-         <arg line="-port ${selenium.server.port}" />
-         <arg line="${selenium.server.cmd.args}" />
-      </java>
-
-      <waitfor maxwait="30" maxwaitunit="second">
-         <and>
-            <socket server="${selenium.host}" port="${selenium.server.port}" />
-            <!-- this url will 403, so we say that it should start counting errors at 404 to skip -->
-            <http url="http://${selenium.host}:${selenium.server.port}/selenium-server/core/index.html" errorsBeginAt="404" />
-         </and>
-      </waitfor>
-   </target>
-
-   <target name="stop.selenium.server">
-      <get taskname="selenium-shutdown" src="http://${selenium.host}:${selenium.server.port}/selenium-server/driver/?cmd=shutDown" dest="${log.dir}/server.shutdown.dest.log" ignoreerrors="true" />
-      <echo taskname="selenium-shutdown" message="DGF Errors during shutdown are expected" />
-   </target>
+	<target name="undeployall">
+		<undeployexample name="blog" />
+		<undeployexample name="booking" />
+		<undeployexample name="drools" />
+		<undeployexample name="dvdstore" />
+		<undeployexample name="contactlist" />
+		<undeployexample name="groovybooking" />
+		<undeployexample name="hibernate" />
+		<undeployexample name="icefaces" />
+		<undeployexample name="jpa" />
+		<undeployexample name="messages" />
+		<undeployexample name="nestedbooking" />
+		<undeployexample name="numberguess" />
+		<undeployexample name="quartz" />
+		<undeployexample name="registration" />
+		<undeployexample name="seambay" />
+		<undeployexample name="seampay" />
+		<undeployexample name="seamspace" />
+		<undeployexample name="spring" />
+		<undeployexample name="todo" />
+		<undeployexample name="wicket" />
+	</target>
 
 
-   <!-- duplicated from ${seam.dir}/build.xml -->
-   <!-- TODO can we avoid duplication -->
-   <macrodef name="testexample">
-      <attribute name="name" />
-      <attribute name="path" default="examples/@{name}" />
-      <attribute name="message" default="Running functional tests on @{name} example" />
-      <sequential>
-         <echo>@{message}</echo>
-         <callExample path="@{path}" target="test" />
-      </sequential>
-   </macrodef>
+	<target name="start.selenium.server">
+		<java classpathref="selenium.server.classpath" classname="org.openqa.selenium.server.SeleniumServer" fork="true" spawn="true">
+			<arg line="-port ${selenium.server.port}" />
+			<arg line="${selenium.server.cmd.args}" />
+		</java>
 
-   <macrodef name="cleanexample">
-      <attribute name="name" />
-      <attribute name="path" default="examples/@{name}" />
-      <attribute name="message" default="Cleaning @{name} example" />
-      <sequential>
-         <echo>@{message}</echo>
-         <callExample path="@{path}" target="clean" />
-      </sequential>
-   </macrodef>
+		<waitfor maxwait="30" maxwaitunit="second">
+			<and>
+				<socket server="${selenium.host}" port="${selenium.server.port}" />
+				<!-- this url will 403, so we say that it should start counting errors at 404 to skip -->
+				<http url="http://${selenium.host}:${selenium.server.port}/selenium-server/core/index.html" errorsBeginAt="404" />
+			</and>
+		</waitfor>
+	</target>
 
-   <macrodef name="undeployexample">
-      <attribute name="name" />
-      <attribute name="path" default="examples/@{name}" />
-      <attribute name="message" default="Undeploying @{name} example from JBoss" />
-      <sequential>
-         <echo>@{message}</echo>
-         <callExample path="@{path}" target="undeploy.example.jboss" />
-      </sequential>
-   </macrodef>
+	<target name="stop.selenium.server">
+		<get taskname="selenium-shutdown" src="http://${selenium.host}:${selenium.server.port}/selenium-server/driver/?cmd=shutDown" dest="${log.dir}/server.shutdown.dest.log" ignoreerrors="true" />
+		<echo taskname="selenium-shutdown" message="DGF Errors during shutdown are expected" />
+	</target>
 
-   <macrodef name="callExample">
-      <attribute name="path" />
-      <attribute name="target" />
-      <sequential>
-         <ant dir="@{path}" target="@{target}" inheritall="false" >
-         	<property name="container" value="${container}"></property>
-         </ant>
-      </sequential>
-   </macrodef>
+
+	<!-- duplicated from ${seam.dir}/build.xml -->
+	<!-- TODO can we avoid duplication -->
+	<macrodef name="testexample">
+		<attribute name="name" />
+		<attribute name="path" default="examples/@{name}" />
+		<attribute name="message" default="Running functional tests on @{name} example" />
+		<sequential>
+			<echo>@{message}</echo>
+			<callExample path="@{path}" target="test" />
+		</sequential>
+	</macrodef>
+
+	<macrodef name="cleanexample">
+		<attribute name="name" />
+		<attribute name="path" default="examples/@{name}" />
+		<attribute name="message" default="Cleaning @{name} example" />
+		<sequential>
+			<echo>@{message}</echo>
+			<callExample path="@{path}" target="clean" />
+		</sequential>
+	</macrodef>
+
+	<macrodef name="undeployexample">
+		<attribute name="name" />
+		<attribute name="path" default="examples/@{name}" />
+		<attribute name="message" default="Undeploying @{name} example from JBoss" />
+		<sequential>
+			<echo>@{message}</echo>
+			<callExample path="@{path}" target="undeploy.example.jboss" />
+		</sequential>
+	</macrodef>
+
+	<macrodef name="callExample">
+		<attribute name="path" />
+		<attribute name="target" />
+		<sequential>
+			<ant dir="@{path}" target="@{target}" inheritall="false">
+				<property name="container" value="${container}">
+				</property>
+			</ant>
+		</sequential>
+	</macrodef>
 </project>
 
