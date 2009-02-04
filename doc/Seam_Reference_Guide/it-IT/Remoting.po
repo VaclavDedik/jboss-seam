@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-04 00:58+0000\n"
-"PO-Revision-Date: 2009-01-24 14:46+0100\n"
+"PO-Revision-Date: 2009-02-04 18:32+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr "Remoting"
 #: Remoting.xml:6
 #, no-c-format
 msgid "Seam provides a convenient method of remotely accessing components from a web page, using AJAX (Asynchronous Javascript and XML). The framework for this functionality is provided with almost no up-front development effort - your components only require simple annotating to become accessible via AJAX. This chapter describes the steps required to build an AJAX-enabled web page, then goes on to explain the features of the Seam Remoting framework in more detail."
-msgstr ""
+msgstr "Seam fornisce un metodo per accedere in modo remoto i componenti da una pagina web, usando AJAX (Asynchronous Javascript and XML). Il framework per questa funzionalità viene fornito con quasi nessuno sforzo di sviluppo - i componenti richiedono solamente una semplice annotazione per diventare accessibile via AJAX. Questo capitolo descrive i passi richiesti per costruire una pagina web abilitata a AJAX, poi spiega con maggior dettaglio le caratteristiche del framework Seam Remoting."
 
 #. Tag: title
 #: Remoting.xml:13
@@ -36,7 +36,7 @@ msgstr "Configurazione"
 #: Remoting.xml:14
 #, no-c-format
 msgid "To use remoting, the Seam Resource servlet must first be configured in your <literal>web.xml</literal> file:"
-msgstr ""
+msgstr "Per usare remoting, il resource servlet di Seam deve essere innanzitutto configurato nel file <literal>web.xml</literal>:"
 
 #. Tag: programlisting
 #: Remoting.xml:16
@@ -66,7 +66,7 @@ msgstr ""
 #: Remoting.xml:18
 #, no-c-format
 msgid "The next step is to import the necessary Javascript into your web page. There are a minimum of two scripts that must be imported. The first one contains all the client-side framework code that enables remoting functionality:"
-msgstr ""
+msgstr "Il passo successivi è importare il Javascript necessario nella propria pagina web. Ci sono un minimo di due script da importare. Il primo contiene tutto il codice del framework lato client che abilita le funzionalità di remoting:"
 
 #. Tag: programlisting
 #: Remoting.xml:22
@@ -78,7 +78,7 @@ msgstr "<![CDATA[<script type=\"text/javascript\" src=\"seam/resource/remoting/r
 #: Remoting.xml:24
 #, no-c-format
 msgid "The second script contains the stubs and type definitions for the components you wish to call. It is generated dynamically based on the local interface of your components, and includes type definitions for all of the classes that can be used to call the remotable methods of the interface. The name of the script reflects the name of your component. For example, if you have a stateless session bean annotated with <literal>@Name(\"customerAction\")</literal>, then your script tag should look like this:"
-msgstr ""
+msgstr "Il secondo script contiene gli stub e le definizioni tipo per i componenti da chiamare. Viene generato dinamicamente basandosi sull'interfaccia locale dei propri componenti, ed include le definizioni tipo per tutte le classi che possono essere usate per chiamare i metodi remoti dell'interfaccia. Il nome dello script riflette il nome del componente. Per esempio se si ha un bean di sessione stateless annotato con <literal>@Name(\"customerAction\")</literal>, allora il tag dello script dovrebbe essere simile a:"
 
 #. Tag: programlisting
 #: Remoting.xml:30
@@ -94,7 +94,7 @@ msgstr ""
 #: Remoting.xml:32
 #, no-c-format
 msgid "If you wish to access more than one component from the same page, then include them all as parameters of your script tag:"
-msgstr ""
+msgstr "Se si vuole accedere a più di un componente dalla stessa pagina, allora li si includa tutti come parametri nel tag script:"
 
 #. Tag: programlisting
 #: Remoting.xml:35
@@ -110,7 +110,7 @@ msgstr ""
 #: Remoting.xml:38
 #, no-c-format
 msgid "Alternatively, you may use the <literal>s:remote</literal> tag to import the required Javascript. Separate each component or class name you wish to import with a comma:"
-msgstr ""
+msgstr "In alternativa si può usare il tag <literal>s:remote</literal> per importare il Javascript richiesto. Si separi ciascun componente o nome di classe che si vuole importare con una virgola:"
 
 #. Tag: programlisting
 #: Remoting.xml:43
@@ -128,7 +128,7 @@ msgstr ""
 #: Remoting.xml:48
 #, no-c-format
 msgid "The \"Seam\" object"
-msgstr ""
+msgstr "L'oggetto \"Seam\""
 
 #. Tag: para
 #: Remoting.xml:50
@@ -140,7 +140,7 @@ msgstr ""
 #: Remoting.xml:57
 #, no-c-format
 msgid "A Hello World example"
-msgstr ""
+msgstr "Esempio Hello World"
 
 #. Tag: para
 #: Remoting.xml:59

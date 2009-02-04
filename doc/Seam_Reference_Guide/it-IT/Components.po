@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:22+0000\n"
-"PO-Revision-Date: 2009-02-01 21:43+0100\n"
+"PO-Revision-Date: 2009-02-04 18:11+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -23,13 +23,13 @@ msgstr "Componenti Seam predefiniti"
 #: Components.xml:6
 #, no-c-format
 msgid "This chapter describes Seam's built-in components, and their configuration properties. The built-in components will be created even if they are not listed in your <literal>components.xml</literal> file, but if you need to override default properties or specify more than one component of a certain type, <literal>components.xml</literal> is used."
-msgstr ""
+msgstr "Questo capitolo descrive i componenti predefiniti di Seam e le loro proprietà di configurazione. I componenti predefiniti verranno creati anche se non sono elencati nel file <literal>components.xml</literal>, ma occorre fare l'override delle proprietà di default o specificare più di un compoenente di un certo tipo, viene usato <literal>components.xml</literal>."
 
 #. Tag: para
 #: Components.xml:14
 #, no-c-format
 msgid "Note that you can replace any of the built in components with your own implementations simply by specifying the name of one of the built in components on your own class using <literal>@Name</literal>."
-msgstr ""
+msgstr "Si noti che si puà sostituire uno dei componenti predefiniti con le proprie implementazioni semplicemente specificando il nome di uno dei componenti predefiniti nella propria classe usando <literal>@Name</literal>."
 
 #. Tag: title
 #: Components.xml:22
@@ -41,7 +41,7 @@ msgstr "Componenti per l'iniezione del contesto"
 #: Components.xml:23
 #, no-c-format
 msgid "The first set of built in components exist purely to support injection of various contextual objects. For example, the following component instance variable would have the Seam session context object injected:"
-msgstr ""
+msgstr "Il primo set di componenti predefiniti esiste solamente per supportare l'injection di vari oggetti contestuali. Per esempio, la seguente variabile d'istanza di componente vedrebbe iniettato l'oggetto del contesto di sessione di Seam:"
 
 #. Tag: programlisting
 #: Components.xml:30
@@ -110,31 +110,31 @@ msgstr "Consentono ai messaggi faces di successo di essere propagati lungo i red
 #: Components.xml:74
 #, no-c-format
 msgid "<literal>add(FacesMessage facesMessage)</literal> &#8212; add a faces message, which will be displayed during the next render response phase that occurs in the current conversation."
-msgstr ""
+msgstr "<literal>add(FacesMessage facesMessage)</literal> &#8212; aggiunge un messaggio faces, che verrà mostrato durante la prossima fase di render response che avviene nella conversazione corrente."
 
 #. Tag: para
 #: Components.xml:81
 #, no-c-format
 msgid "<literal>add(String messageTemplate)</literal> &#8212; add a faces message, rendered from the given message template which may contain EL expressions."
-msgstr ""
+msgstr "<literal>add(String messageTemplate)</literal> &#8212; aggiunge un messaggio faces, generato dal template di messaggio che può contenere espressioni EL."
 
 #. Tag: para
 #: Components.xml:88
 #, no-c-format
 msgid "<literal>add(Severity severity, String messageTemplate)</literal> &#8212; add a faces message, rendered from the given message template which may contain EL expressions."
-msgstr ""
+msgstr "<literal>add(Severity severity, String messageTemplate)</literal> &#8212; aggiunge un messaggio faces, generato dal template di messaggio che può contenere espressioni EL."
 
 #. Tag: para
 #: Components.xml:95
 #, no-c-format
 msgid "<literal>addFromResourceBundle(String key)</literal> &#8212; add a faces message, rendered from a message template defined in the Seam resource bundle which may contain EL expressions."
-msgstr ""
+msgstr "<literal>addFromResourceBundle(String key)</literal> &#8212; aggiunge un messaggio faces, generato dal template di messaggio che può contenere espressioni EL."
 
 #. Tag: para
 #: Components.xml:102
 #, no-c-format
 msgid "<literal>addFromResourceBundle(Severity severity, String key)</literal> &#8212; add a faces message, rendered from a message template defined in the Seam resource bundle which may contain EL expressions."
-msgstr ""
+msgstr "<literal>addFromResourceBundle(Severity severity, String key)</literal> &#8212; aggiunge un messaggio faces, generato dal template di messaggio definito nel resource bundle di Seam e che può contenete espressioni EL."
 
 #. Tag: para
 #: Components.xml:109
@@ -152,37 +152,37 @@ msgstr "org.jboss.seam.faces.redirect"
 #: Components.xml:119
 #, no-c-format
 msgid "A convenient API for performing redirects with parameters (this is especially useful for bookmarkable search results screens)."
-msgstr ""
+msgstr "Un'API per l'esecuzione dei redirect con parametri (utile specialmente per le schermate con risultati di ricerca memorizzabili come segnalibro)."
 
 #. Tag: para
 #: Components.xml:125
 #, no-c-format
 msgid "<literal>redirect.viewId</literal> &#8212; the JSF view id to redirect to."
-msgstr ""
+msgstr "<literal>redirect.viewId</literal> &#8212; l'id della vista JSF a cui fare il redirect."
 
 #. Tag: para
 #: Components.xml:131
 #, no-c-format
 msgid "<literal>redirect.conversationPropagationEnabled</literal> &#8212; determines whether the conversation will propagate across the redirect."
-msgstr ""
+msgstr "<literal>redirect.conversationPropagationEnabled</literal> &#8212; determina se la conversazione verrà propagata assieme al redirect."
 
 #. Tag: para
 #: Components.xml:138
 #, no-c-format
 msgid "<literal>redirect.parameters</literal> &#8212; a map of request parameter name to value, to be passed in the redirect request."
-msgstr ""
+msgstr "<literal>redirect.parameters</literal> &#8212; una mappa di nomi di parametri di richiesta da valorizzare, da passare alla richiesta di redirect."
 
 #. Tag: para
 #: Components.xml:145
 #, no-c-format
 msgid "<literal>execute()</literal> &#8212; perform the redirect immediately."
-msgstr ""
+msgstr "<literal>execute()</literal> &#8212; esegue immediatamente il redirect."
 
 #. Tag: para
 #: Components.xml:151
 #, no-c-format
 msgid "<literal>captureCurrentRequest()</literal> &#8212; stores the view id and request parameters of the current GET request (in the conversation context), for later use by calling <literal>execute()</literal>."
-msgstr ""
+msgstr "<literal>captureCurrentRequest()</literal> &#8212; memorizza l'id della vista ed i parametri di richiesta della richesta GET corrente (nel contesto conversazione), per poi essere usato chiamando <literal>execute()</literal>."
 
 #. Tag: literal
 #: Components.xml:162
@@ -194,7 +194,7 @@ msgstr "org.jboss.seam.faces.httpError"
 #: Components.xml:164
 #, no-c-format
 msgid "A convenient API for sending HTTP errors."
-msgstr ""
+msgstr "Un'API per l'invio di errori HTTP."
 
 #. Tag: literal
 #: Components.xml:170
@@ -212,19 +212,19 @@ msgstr ""
 #: Components.xml:179
 #, no-c-format
 msgid "<literal>raiseEvent(String type)</literal> &#8212; raise an event of a particular type and distribute to all observers."
-msgstr ""
+msgstr "<literal>raiseEvent(String type)</literal> &#8212; solleva un evento di un tipo particolare e lo distribuisce a tutti gli osservatori."
 
 #. Tag: para
 #: Components.xml:186
 #, no-c-format
 msgid "<literal>raiseAsynchronousEvent(String type)</literal> &#8212; raise an event to be processed asynchronously by the EJB3 timer service."
-msgstr ""
+msgstr "<literal>raiseAsynchronousEvent(String type)</literal> &#8212; solleva un evento da processare in modo asincrono da parte del servizio timer di EJB3."
 
 #. Tag: para
 #: Components.xml:193
 #, no-c-format
 msgid "<literal>raiseTimedEvent(String type, ....)</literal> &#8212; schedule an event to be processed asynchronously by the EJB3 timer service."
-msgstr ""
+msgstr "<literal>raiseTimedEvent(String type, ....)</literal> &#8212; schedula un evento da processare in modo asincrono dal servizio timer di EJB3."
 
 #. Tag: para
 #: Components.xml:200
@@ -376,7 +376,7 @@ msgstr ""
 #: Components.xml:391
 #, no-c-format
 msgid "<literal>select()</literal> &#8212; select the specified locale."
-msgstr ""
+msgstr "<literal>select()</literal> &#8212; seleziona il locale specificato."
 
 #. Tag: para
 #: Components.xml:337
@@ -941,7 +941,7 @@ msgstr "org.jboss.seam.bpm.processInstanceList"
 #: Components.xml:857
 #, no-c-format
 msgid "The process instance task list."
-msgstr ""
+msgstr "La lista dei task delle istanze di processo."
 
 #. Tag: para
 #: Components.xml:864
@@ -1025,7 +1025,7 @@ msgstr ""
 #: Components.xml:927
 #, no-c-format
 msgid "Mail-related components"
-msgstr ""
+msgstr "Componenti relativi alla Mail"
 
 #. Tag: para
 #: Components.xml:928
@@ -1422,7 +1422,7 @@ msgstr "Componenti misti"
 #: Components.xml:1285
 #, no-c-format
 msgid "These components don't fit into"
-msgstr ""
+msgstr "Questi componenti non entrano in"
 
 #. Tag: literal
 #: Components.xml:1291
@@ -1560,7 +1560,7 @@ msgstr ""
 #: Components.xml:1387
 #, no-c-format
 msgid "<literal>entityManagerFactory.persistenceUnitName</literal> &#8212; the name of the persistence unit."
-msgstr ""
+msgstr "<literal>entityManagerFactory.persistenceUnitName</literal> &#8212; il nome dell'unità di persistenza."
 
 #. Tag: para
 #: Components.xml:1393
@@ -1597,7 +1597,7 @@ msgstr ""
 #: Components.xml:1412
 #, no-c-format
 msgid "<emphasis>&lt;session&gt;</emphasis>.sessionFactoryJndiName &#8212; the JNDI name of the session factory, default to java:/<emphasis>&lt;managedSession&gt;</emphasis>."
-msgstr ""
+msgstr "<emphasis>&lt;session&gt;</emphasis>.sessionFactoryJndiName &#8212; il nome JNDI della factory di sessione, di default è java:/<emphasis>&lt;managedSession&gt;</emphasis>."
 
 #. Tag: emphasis
 #: Components.xml:1422
@@ -1615,7 +1615,7 @@ msgstr "org.jboss.seam.persistence.HibernateSessionFactory"
 #: Components.xml:1425
 #, no-c-format
 msgid "Manages a Hibernate <literal>SessionFactory</literal>."
-msgstr ""
+msgstr "Gestisce una <literal>SessionFactory</literal> di Hibernate."
 
 #. Tag: para
 #: Components.xml:1430
@@ -1717,13 +1717,13 @@ msgstr ""
 #: Components.xml:1503
 #, no-c-format
 msgid "<emphasis>&lt;ruleBase&gt;</emphasis>.ruleFiles &#8212; a list of files containing Drools rules."
-msgstr ""
+msgstr "<emphasis>&lt;ruleBase&gt;</emphasis>.ruleFiles &#8212; una lista di file contenenti regole Drools."
 
 #. Tag: para
 #: Components.xml:1507
 #, no-c-format
 msgid "<emphasis>&lt;ruleBase&gt;</emphasis>.dslFile &#8212; a Drools DSL definition."
-msgstr ""
+msgstr "<emphasis>&lt;ruleBase&gt;</emphasis>.dslFile &#8212; una definizione DSL di Drools."
 
 #. Tag: emphasis
 #: Components.xml:1516
