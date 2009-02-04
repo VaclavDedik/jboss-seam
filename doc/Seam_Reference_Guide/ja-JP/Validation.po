@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Validation\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-11-06 06:41+0000\n"
+"POT-Creation-Date: 2009-02-01 21:20+0000\n"
 "PO-Revision-Date: 2008-11-21 13:46+1000\n"
 "Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -89,7 +89,8 @@ msgstr ""
 msgid ""
 "Let's start by defining our constraints, on our <literal>Location</literal> "
 "class:"
-msgstr "<literal>Location</literal> クラスで制約を定義するところから始めてみます。"
+msgstr ""
+"<literal>Location</literal> クラスで制約を定義するところから始めてみます。"
 
 #. Tag: programlisting
 #: Validation.xml:22
@@ -133,7 +134,9 @@ msgstr ""
 msgid ""
 "Well, that's a decent first cut, but in practice it might be more elegant to "
 "use custom constraints instead of the ones built into Hibernate Validator:"
-msgstr "たしかに上記が正当ですが、 実際には Hibernate Validator にビルトインのものを使わずにカスタムな制約を使う方がスマートかもしれません。"
+msgstr ""
+"たしかに上記が正当ですが、 実際には Hibernate Validator にビルトインのものを"
+"使わずにカスタムな制約を使う方がスマートかもしれません。"
 
 #. Tag: programlisting
 #: Validation.xml:30
@@ -243,12 +246,14 @@ msgstr ""
 
 #. Tag: para
 #: Validation.xml:48
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "This approach <emphasis>defines</emphasis> constraints on the model, and "
-"<emphasis>presents</emphasis> constraint violations in the view&#8212;a "
+"<emphasis>presents</emphasis> constraint violations in the view &#8212; a "
 "significantly better design."
-msgstr "この方法はモデル上の制約を<emphasis>定義</emphasis>し、 ビューで制約違反を <emphasis>表示</emphasis> します &#8212; デザイン性に優れている。"
+msgstr ""
+"この方法はモデル上の制約を<emphasis>定義</emphasis>し、 ビューで制約違反を "
+"<emphasis>表示</emphasis> します &#8212; デザイン性に優れている。"
 
 #. Tag: para
 #: Validation.xml:54
@@ -256,7 +261,9 @@ msgstr "この方法はモデル上の制約を<emphasis>定義</emphasis>し、
 msgid ""
 "However, it is not much less verbose than what we started with, so let's try "
 "<literal>&lt;s:validateAll&gt;</literal>:"
-msgstr "しかし、 最初の例と比べてそれほど冗長性が軽減されているわけではないので、 <literal>&lt;s:validateAll&gt;</literal> を使ってみます。"
+msgstr ""
+"しかし、 最初の例と比べてそれほど冗長性が軽減されているわけではないので、 "
+"<literal>&lt;s:validateAll&gt;</literal> を使ってみます。"
 
 #. Tag: programlisting
 #: Validation.xml:59
@@ -326,7 +333,12 @@ msgid ""
 "form. In order for the user to correlate the message with an input, you need "
 "to define a label using the standard <literal>label</literal> attribute on "
 "the input component."
-msgstr "ここで、 検証が失敗した場合にユーザーに対してフィードバックを表示させるために何らか手を打たなければなりません。 現在、 すべてのメッセージはフォームの冒頭で表示しています。 ユーザーがメッセージと入力を関連付けられるようにするため、 入力コンポーネントで標準の <literal>label</literal> 属性を使いラベルを定義する必要があります。"
+msgstr ""
+"ここで、 検証が失敗した場合にユーザーに対してフィードバックを表示させるために"
+"何らか手を打たなければなりません。 現在、 すべてのメッセージはフォームの冒頭"
+"で表示しています。 ユーザーがメッセージと入力を関連付けられるようにするた"
+"め、 入力コンポーネントで標準の <literal>label</literal> 属性を使いラベルを定"
+"義する必要があります。"
 
 #. Tag: programlisting
 #: Validation.xml:73
@@ -350,7 +362,11 @@ msgid ""
 "{0} (the first and only parameter passed to a JSF message for a Hiberate "
 "Validator restriction). See the internationalization section for more "
 "information regarding where to define these messages."
-msgstr "次にプレーすホルダーの {0} を使ってこの値をメッセージ文字列にインジェクトすることができます (最初のパラメータで Hiberate Validator 制約用に JSF メッセージに渡されたパラメータのみ)。 これらのメッセージを定義する場所については国際化 (Internationalization) のセクションをご覧ください。"
+msgstr ""
+"次にプレーすホルダーの {0} を使ってこの値をメッセージ文字列にインジェクトする"
+"ことができます (最初のパラメータで Hiberate Validator 制約用に JSF メッセージ"
+"に渡されたパラメータのみ)。 これらのメッセージを定義する場所については国際化 "
+"(Internationalization) のセクションをご覧ください。"
 
 #. Tag: programlisting
 #: Validation.xml:83
@@ -368,7 +384,12 @@ msgid ""
 "next to the field (also not possible). We also want to display a little "
 "colored asterisk next to the label for each required form field. Using this "
 "approach, the identifying label is not necessary."
-msgstr "実際に行いたいのは、 エラーを付けてフィールドのとなりにメッセージを表示 (プレーン JSF で可能)、 フィールドとラベルをハイライトさせて (これは不可能)、 ついでにフィールドのとなりに何かイメージを表示させる (これも不可能) ことです。 また、 必須事項の各フィールドにはラベルのとなりに色の付いたアスタリスクを表示させたいとします。 これを行うのにラベルを識別する必要はありません。"
+msgstr ""
+"実際に行いたいのは、 エラーを付けてフィールドのとなりにメッセージを表示 (プ"
+"レーン JSF で可能)、 フィールドとラベルをハイライトさせて (これは不可能)、 つ"
+"いでにフィールドのとなりに何かイメージを表示させる (これも不可能) ことです。 "
+"また、 必須事項の各フィールドにはラベルのとなりに色の付いたアスタリスクを表示"
+"させたいとします。 これを行うのにラベルを識別する必要はありません。"
 
 #. Tag: para
 #: Validation.xml:95
@@ -378,7 +399,11 @@ msgid ""
 "wouldn't want to have to specify higlighting and the layout of the image, "
 "message and input field for every field on the form. So, instead, we'll "
 "specify the common layout in a facelets template:"
-msgstr "フォームの各フィールドに対してかなり多くの機能を必要としています。 フォームにあるすべてのフィールドそれぞれに対してイメージ、メッセージ、入力フィールドのレイアウトやハイライトを指定したいとは思わないでしょうから、 代わりに facelets テンプレートで共通のレイアウトを指定します。"
+msgstr ""
+"フォームの各フィールドに対してかなり多くの機能を必要としています。 フォームに"
+"あるすべてのフィールドそれぞれに対してイメージ、メッセージ、入力フィールドの"
+"レイアウトやハイライトを指定したいとは思わないでしょうから、 代わりに "
+"facelets テンプレートで共通のレイアウトを指定します。"
 
 #. Tag: programlisting
 #: Validation.xml:103
@@ -496,7 +521,9 @@ msgstr ""
 msgid ""
 "Finally, we can use RichFaces Ajax to display validation messages as the "
 "user is navigating around the form:"
-msgstr "最後に、 ユーザーがフォーム内を行ったり来たりするのに応じて RichFaces Ajax を使って検証メッセージを表示させることができます。"
+msgstr ""
+"最後に、 ユーザーがフォーム内を行ったり来たりするのに応じて RichFaces Ajax を"
+"使って検証メッセージを表示させることができます。"
 
 #. Tag: programlisting
 #: Validation.xml:117
@@ -559,7 +586,11 @@ msgid ""
 "toolkit like Selenium. If you don't provide explicit ids, JSF will generate "
 "them, but the generated values will change if you change anything on the "
 "page."
-msgstr "ページ上の重要なコントロールに明示的な ID を定義することは好ましいスタイルです。 特に UI 用の自動テストを Selenium などのツールキットを使用して行いたい場合に適しています。 明示的な ID を与えないと、 JSF はそれらを生成しますがページ上で変更があると生成された値が変化します。"
+msgstr ""
+"ページ上の重要なコントロールに明示的な ID を定義することは好ましいスタイルで"
+"す。 特に UI 用の自動テストを Selenium などのツールキットを使用して行いたい場"
+"合に適しています。 明示的な ID を与えないと、 JSF はそれらを生成しますがペー"
+"ジ上で変更があると生成された値が変化します。"
 
 #. Tag: programlisting
 #: Validation.xml:128
@@ -625,7 +656,11 @@ msgid ""
 "validation fails? You can use the Seam message bundle (and all it's goodies "
 "like el expressions inside the message, and per-view message bundles) with "
 "the Hibernate Validator:"
-msgstr "バリデーションが失敗したときに表示させる別のメッセージを指定したい場合はどうでしょう。 Seam メッセージバンドル (およびメッセージ中の EL 式やビューごとのメッセージバンドルなど優れたものすべて) を Hibernate Validator で使用することができます。"
+msgstr ""
+"バリデーションが失敗したときに表示させる別のメッセージを指定したい場合はどう"
+"でしょう。 Seam メッセージバンドル (およびメッセージ中の EL 式やビューごとの"
+"メッセージバンドルなど優れたものすべて) を Hibernate Validator で使用すること"
+"ができます。"
 
 #. Tag: programlisting
 #: Validation.xml:137
@@ -660,6 +695,8 @@ msgstr ""
 #. Tag: programlisting
 #: Validation.xml:139
 #, no-c-format
-msgid "location.zipCode.invalid = The zip code is not valid for #{location.name}"
-msgstr "location.zipCode.invalid = #{location.name} に対する有効な郵便番号ではありません"
-
+msgid ""
+"location.zipCode.invalid = The zip code is not valid for #{location.name}"
+msgstr ""
+"location.zipCode.invalid = #{location.name} に対する有効な郵便番号ではありま"
+"せん"

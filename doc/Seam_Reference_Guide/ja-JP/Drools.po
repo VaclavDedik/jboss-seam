@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Drools\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-11-06 06:41+0000\n"
+"POT-Creation-Date: 2009-02-01 21:19+0000\n"
 "PO-Revision-Date: 2008-11-18 11:32+1000\n"
 "Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -44,7 +44,12 @@ msgid ""
 "provides a built-in component that compiles a static set of rules from the "
 "classpath. You can install this component via <literal>components.xml</"
 "literal>:"
-msgstr "最初のステップは、Seam コンテキスト変数で <literal>org.drools.RuleBase</literal> インスタンスを有効化することです。 テスト目的で、Seam はクラスパスから静的なルール一式をコンパイルする、組み込みコンポーネントを提供しています。 このコンポーネントは、<literal>components.xml</literal> によりインストール可能です。"
+msgstr ""
+"最初のステップは、Seam コンテキスト変数で <literal>org.drools.RuleBase</"
+"literal> インスタンスを有効化することです。 テスト目的で、Seam はクラスパスか"
+"ら静的なルール一式をコンパイルする、組み込みコンポーネントを提供しています。 "
+"このコンポーネントは、<literal>components.xml</literal> によりインストール可"
+"能です。"
 
 #. Tag: programlisting
 #: Drools.xml:22
@@ -72,13 +77,16 @@ msgid ""
 "you will need to install multiple rule bases in a rule-driven application."
 msgstr ""
 "このコンポーネントは、<literal>.drl</literal> ファイル一式からルールをコンパ"
-"イルし、 Seam <literal>APPLICATION</literal> コンテキストの "
-"<literal>org.drools.RuleBase</literal> のインスタンスをキャッシュします。 1 つのルール駆動型アプリケーションに複数の RuleBase をインストールする必要が生じる可能性が非常に高いので注意してください。"
+"イルし、 Seam <literal>APPLICATION</literal> コンテキストの <literal>org."
+"drools.RuleBase</literal> のインスタンスをキャッシュします。 1 つのルール駆動"
+"型アプリケーションに複数の RuleBase をインストールする必要が生じる可能性が非"
+"常に高いので注意してください。"
 
 #. Tag: para
 #: Drools.xml:32
 #, no-c-format
-msgid "If you want to use a Drools DSL, you alse need to specify the DSL definition:"
+msgid ""
+"If you want to use a Drools DSL, you alse need to specify the DSL definition:"
 msgstr "Drools DSLを利用するのであれば DSL 定義を指定しなければなりません。"
 
 #. Tag: programlisting
@@ -108,7 +116,13 @@ msgid ""
 "the RuleBase. The RuleAgent can connect to a Drools rule server (BRMS) or "
 "hot deploy rules packages from a local file repository. The RulesAgent-"
 "managed RuleBase is also configurable in <literal>components.xml</literal>:"
-msgstr "ほとんどのルール型アプリケーションでは、 ルールが動的にデプロイ可能である必要があるので実稼働アプリケーションは RuleBase の管理に Drools RuleAgent の使用を好みます。 RuleAgent は Drools ルールサーバー (BRMS) またはローカルファイルレポジトリにあるホットデプロイルールのパッケージに接続することができます。 RulesAgent 管理の RuleBase も <literal>components.xml</literal> で設定が可能です。"
+msgstr ""
+"ほとんどのルール型アプリケーションでは、 ルールが動的にデプロイ可能である必要"
+"があるので実稼働アプリケーションは RuleBase の管理に Drools RuleAgent の使用"
+"を好みます。 RuleAgent は Drools ルールサーバー (BRMS) またはローカルファイル"
+"レポジトリにあるホットデプロイルールのパッケージに接続することができます。 "
+"RulesAgent 管理の RuleBase も <literal>components.xml</literal> で設定が可能"
+"です。"
 
 #. Tag: programlisting
 #: Drools.xml:47
@@ -128,7 +142,9 @@ msgstr ""
 msgid ""
 "The properties file contains properties specific to the RulesAgent. Here is "
 "an example configuration file from the Drools example distribution."
-msgstr "プロパティファイルはその RulesAgent に固有のプロパティを含んでいます。 Drools  サンプルディストリビューションからの設定ファイルの例を示します。"
+msgstr ""
+"プロパティファイルはその RulesAgent に固有のプロパティを含んでいます。 "
+"Drools  サンプルディストリビューションからの設定ファイルの例を示します。"
 
 #. Tag: programlisting
 #: Drools.xml:52
@@ -156,7 +172,9 @@ msgstr ""
 msgid ""
 "It is also possible to configure the options on the component directly, "
 "bypassing the configuration file."
-msgstr "また、 設定ファイルを避けコンポーネントで直接オプションを設定することも可能です。"
+msgstr ""
+"また、 設定ファイルを避けコンポーネントで直接オプションを設定することも可能で"
+"す。"
 
 #. Tag: programlisting
 #: Drools.xml:57
@@ -209,8 +227,8 @@ msgid ""
 "configuration property."
 msgstr ""
 "<literal>policyPricingWorkingMemory</literal> に、 <literal>ruleBase</"
-"literal> 設定プロパティにより、 RuleBase への参照を与えていることに留意し"
-"てください。"
+"literal> 設定プロパティにより、 RuleBase への参照を与えていることに留意してく"
+"ださい。"
 
 #. Tag: title
 #: Drools.xml:76
@@ -264,12 +282,15 @@ msgstr "jBPM プロセス定義からルール使用"
 
 #. Tag: para
 #: Drools.xml:90
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "You can even allow a rule base to act as a jBPM action handler, decision "
-"handler, or assignment handler&#8212;in either a pageflow or business "
+"handler, or assignment handler &#8212; in either a pageflow or business "
 "process definition."
-msgstr "RuleBase が jBPM アクションハンドラとして、あるいはデシジョンハンドラ、割り当てハンドラなどとして動作するようにさせることも可能です &#8212; ページフローまたはビジネスプロセス定義のどちらでも可。"
+msgstr ""
+"RuleBase が jBPM アクションハンドラとして、あるいはデシジョンハンドラ、割り当"
+"てハンドラなどとして動作するようにさせることも可能です &#8212; ページフローま"
+"たはビジネスプロセス定義のどちらでも可。"
 
 #. Tag: programlisting
 #: Drools.xml:96
@@ -477,7 +498,9 @@ msgstr ""
 msgid ""
 "You can find out more about Drools at <ulink url=\"http://www.drools.org\"></"
 "ulink>"
-msgstr "Drools については <ulink url=\"http://www.drools.org\"></ulink> を参照してください。"
+msgstr ""
+"Drools については <ulink url=\"http://www.drools.org\"></ulink> を参照してく"
+"ださい。"
 
 #. Tag: para
 #: Drools.xml:131
@@ -486,7 +509,10 @@ msgid ""
 "Seam comes with enough of Drools' dependencies to implement some simple "
 "rules. If you want to add extra capabilities to Drools you should download "
 "the full distribution and add in extra dependencies as needed."
-msgstr "Seam はシンプルなルールを実装するのには十分な Drools の依存性を同梱しています。 Drools に機能を追加したい場合は完全なディストリビューションをダウンロードしてから必要に応じて追加の依存性を追加してください。"
+msgstr ""
+"Seam はシンプルなルールを実装するのには十分な Drools の依存性を同梱していま"
+"す。 Drools に機能を追加したい場合は完全なディストリビューションをダウンロー"
+"ドしてから必要に応じて追加の依存性を追加してください。"
 
 #. Tag: para
 #: Drools.xml:140
@@ -495,5 +521,7 @@ msgid ""
 "Drools comes with MVEL compiled for Java 1.4, which is compatible with Java "
 "1.4, Java 5 and Java 6. You may want to change your MVEL jar with one "
 "compiled for the version of Java you are using"
-msgstr "Drools には Java 1.4 用にコンパイルされた MVEL が同梱され、 Java 1.4、 Java 5、 Java 6 と互換性があります。 使用しているバージョン用にコンパイルされたものと MVEL jar を変更したい場合があるかもしれません。"
-
+msgstr ""
+"Drools には Java 1.4 用にコンパイルされた MVEL が同梱され、 Java 1.4、 Java "
+"5、 Java 6 と互換性があります。 使用しているバージョン用にコンパイルされたも"
+"のと MVEL jar を変更したい場合があるかもしれません。"

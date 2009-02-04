@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tools\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-11-06 06:41+0000\n"
+"POT-Creation-Date: 2009-02-01 21:19+0000\n"
 "PO-Revision-Date: 2009-01-04 23:27+0900\n"
 "Last-Translator: Shinobu NOGAMI <s-nogami@sourceforge.jp>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -70,8 +70,12 @@ msgstr "<firstname>Dan</firstname> <surname>Allen</surname>"
 #. Tag: author
 #: Author_Group.xml:41
 #, no-c-format
-msgid "<firstname>Max</firstname> <othername>Rydahl</othername> <surname>Andersen</surname>"
-msgstr "<firstname>Max</firstname> <othername>Rydahl</othername> <surname>Andersen</surname>"
+msgid ""
+"<firstname>Max</firstname> <othername>Rydahl</othername> <surname>Andersen</"
+"surname>"
+msgstr ""
+"<firstname>Max</firstname> <othername>Rydahl</othername> <surname>Andersen</"
+"surname>"
 
 #. Tag: author
 #: Author_Group.xml:46
@@ -116,8 +120,7 @@ msgid "<firstname>James</firstname> <surname>Cobb</surname>"
 msgstr "<firstname>James</firstname> <surname>Cobb</surname>"
 
 #. Tag: shortaffil
-#: Author_Group.xml:74
-#: Author_Group.xml:81
+#: Author_Group.xml:74 Author_Group.xml:81
 #, no-c-format
 msgid "Graphic Design"
 msgstr "グラフィックデザイン"
@@ -152,9 +155,26 @@ msgstr "<firstname>Michael</firstname> <surname>Courcy</surname>"
 msgid "French Translation"
 msgstr "フランス語翻訳"
 
-#. Tag: editor
+#. Tag: othercredit
 #: Author_Group.xml:99
+#, fuzzy, no-c-format
+msgid "<firstname>Nicola</firstname> <surname>Benaglia</surname>"
+msgstr "<firstname>Jay</firstname> <surname>Balunas</surname>"
+
+#. Tag: shortaffil
+#: Author_Group.xml:103 Author_Group.xml:110
+#, fuzzy, no-c-format
+msgid "Italian Translation"
+msgstr "フランス語翻訳"
+
+#. Tag: othercredit
+#: Author_Group.xml:106
+#, fuzzy, no-c-format
+msgid "<firstname>Stefano</firstname> <surname>Travelli</surname>"
+msgstr "<firstname>Dan</firstname> <surname>Allen</surname>"
+
+#. Tag: editor
+#: Author_Group.xml:113
 #, no-c-format
 msgid "<firstname>Samson</firstname> <surname>Kittoli</surname>"
 msgstr "<firstname>Samson</firstname> <surname>Kittoli</surname>"
-

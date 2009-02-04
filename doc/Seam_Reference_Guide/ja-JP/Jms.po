@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Jms\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-11-06 06:41+0000\n"
+"POT-Creation-Date: 2009-02-01 21:19+0000\n"
 "PO-Revision-Date: 2008-12-18 10:26+1000\n"
 "Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -21,13 +21,13 @@ msgstr "非同期性とメッセージング"
 
 #. Tag: para
 #: Jms.xml:3
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "Seam makes it very easy to perform work asynchronously from a web request. "
 "When most people think of asynchronicity in Java EE, they think of using "
 "JMS. This is certainly one way to approach the problem in Seam, and is the "
 "right way when you have strict and well-defined quality of service "
-"requirements. Seam makes it easy to send and recieve JMS messages using Seam "
+"requirements. Seam makes it easy to send and receive JMS messages using Seam "
 "components."
 msgstr ""
 "Seamでは、Webリクエストに対して非同期に処理を行うことが非常に簡単にできま"
@@ -38,12 +38,14 @@ msgstr ""
 
 #. Tag: para
 #: Jms.xml:11
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"But for many usecases, JMS is overkill. Seam layers a simple asynchronous "
+"But for many use cases, JMS is overkill. Seam layers a simple asynchronous "
 "method and event facility over your choice of <emphasis>dispatchers</"
 "emphasis>:"
-msgstr "しかし多くの使用事例ではJMSは過剰です。 Seamはシンプルな非同期メソッドとイベント機能をディスパッチャの選択に応じてレイヤ化します。"
+msgstr ""
+"しかし多くの使用事例ではJMSは過剰です。 Seamはシンプルな非同期メソッドとイベ"
+"ント機能をディスパッチャの選択に応じてレイヤ化します。"
 
 #. Tag: para
 #: Jms.xml:18
@@ -51,7 +53,9 @@ msgstr "しかし多くの使用事例ではJMSは過剰です。 Seamはシン�
 msgid ""
 "<literal>java.util.concurrent.ScheduledThreadPoolExecutor</literal> (by "
 "default)"
-msgstr "<literal>java.util.concurrent.ScheduledThreadPoolExecutor</literal> (デフォルト)"
+msgstr ""
+"<literal>java.util.concurrent.ScheduledThreadPoolExecutor</literal> (デフォル"
+"ト)"
 
 #. Tag: para
 #: Jms.xml:23
@@ -82,7 +86,13 @@ msgid ""
 "hence no guarantee that a task will ever actually be executed. If you're "
 "working in an environment that supports EJB 3.0, and add the following line "
 "to <literal>components.xml</literal>:"
-msgstr "非同期のイベントやメソッドのコールは基礎となるディスパッチャーのメカニズムと同等のサービスが期待されます。 <literal>ScheduledThreadPoolExecutor</literal> をベースとするデフォルトのディスパッチャーは効率的な働きをしますが、 永続非同期のタスクに対応していないためタスクが実際に実行されるかは保証されません。 EJB 3.0 に対応する環境で作業している場合は次の行を <literal>components.xml</literal> に追加します。"
+msgstr ""
+"非同期のイベントやメソッドのコールは基礎となるディスパッチャーのメカニズムと"
+"同等のサービスが期待されます。 <literal>ScheduledThreadPoolExecutor</"
+"literal> をベースとするデフォルトのディスパッチャーは効率的な働きをします"
+"が、 永続非同期のタスクに対応していないためタスクが実際に実行されるかは保証さ"
+"れません。 EJB 3.0 に対応する環境で作業している場合は次の行を "
+"<literal>components.xml</literal> に追加します。"
 
 #. Tag: programlisting
 #: Jms.xml:46
@@ -100,7 +110,13 @@ msgid ""
 "methods in Seam. The important thing to know is that any good EJB 3.0 "
 "implementation will have the option of using persistent timers, which gives "
 "some guarantee that the tasks will eventually be processed."
-msgstr "これを行うと非同期のタスクがコンテナの EJB タイマーサービスによって処理されるようになります。 タイマーサービスについて十分な知識がなくても心配する必要はありません。 Seam で非同期メソッドを使用する場合は直接タイマーサービスを操作する必要はありません。 理解しておくべき重要な部分とは、 適切に実装されている EJB 3.0 には永続タイマーを使用するオプションがあり、 これによりタスクが最終的には処理されることを保証します。"
+msgstr ""
+"これを行うと非同期のタスクがコンテナの EJB タイマーサービスによって処理される"
+"ようになります。 タイマーサービスについて十分な知識がなくても心配する必要はあ"
+"りません。 Seam で非同期メソッドを使用する場合は直接タイマーサービスを操作す"
+"る必要はありません。 理解しておくべき重要な部分とは、 適切に実装されている "
+"EJB 3.0 には永続タイマーを使用するオプションがあり、 これによりタスクが最終的"
+"には処理されることを保証します。"
 
 #. Tag: para
 #: Jms.xml:56
@@ -114,7 +130,15 @@ msgid ""
 "named <literal>seam.quartz.properties</literal>. In addition, you need to "
 "add the following line to <literal>components.xml</literal> to install the "
 "Quartz dispatcher."
-msgstr "別の方法としては、 オープンソースの Quartz ライブラリを使って非同期メソッドを管理する方法です。この場合、 EAR に Quartz ライブラリ JAR (<literal>lib</literal> ディレクトリにある) を同梱してから <literal>application.xml</literal> で Java モジュールとして宣言する必要があります。 Quartz ディスパッチャーはクラスパスに Quartz プロパティファイルを追加すると設定可能になります。 <literal>seam.quartz.properties</literal> という名前にしてください。 また、 次の行を <literal>components.xml</literal> に追加して Quartz ディスパッチャーをインストールする必要があります。"
+msgstr ""
+"別の方法としては、 オープンソースの Quartz ライブラリを使って非同期メソッドを"
+"管理する方法です。この場合、 EAR に Quartz ライブラリ JAR (<literal>lib</"
+"literal> ディレクトリにある) を同梱してから <literal>application.xml</"
+"literal> で Java モジュールとして宣言する必要があります。 Quartz ディスパッ"
+"チャーはクラスパスに Quartz プロパティファイルを追加すると設定可能になりま"
+"す。 <literal>seam.quartz.properties</literal> という名前にしてください。 ま"
+"た、 次の行を <literal>components.xml</literal> に追加して Quartz ディスパッ"
+"チャーをインストールする必要があります。"
 
 #. Tag: programlisting
 #: Jms.xml:66
@@ -130,7 +154,11 @@ msgid ""
 "the EJB3 <literal>Timer</literal>, and the Quartz <literal>Scheduler</"
 "literal> are largely the same. They can just \"plug and play\" by adding a "
 "line to <literal>components.xml</literal>."
-msgstr "デフォルトの <literal>ScheduledThreadPoolExecutor</literal> の Seam API、 EJB3 <literal>Timer</literal>、 Quartz <literal>Scheduler</literal> の大部分は同じになります。 <literal>components.xml</literal> に 1 行追加するだけでプラグアンドプレイが可能です。"
+msgstr ""
+"デフォルトの <literal>ScheduledThreadPoolExecutor</literal> の Seam API、 "
+"EJB3 <literal>Timer</literal>、 Quartz <literal>Scheduler</literal> の大部分"
+"は同じになります。 <literal>components.xml</literal> に 1 行追加するだけでプ"
+"ラグアンドプレイが可能です。"
 
 #. Tag: title
 #: Jms.xml:75
@@ -377,7 +405,14 @@ msgid ""
 "<literal>Future</literal> from the JDK. For the Quartz dispatcher, it "
 "returns <literal>QuartzTriggerHandle</literal>, which we will discuss in the "
 "next section."
-msgstr "クライアント、 サーバーいずれも呼び出しに関連する <literal>Timer</literal> オブジェクトにアクセスすることができます。 以下に示す <literal>Timer</literal> オブジェクトは EJB3 ディスパッチャーを使用する場合は EJB 3 のタイマーになります。 デフォルトの <literal>ScheduledThreadPoolExecutor</literal> の場合、 返されるオブジェクトは JDK からの <literal>Future</literal> になります。 Quartz ディスパッチャーの場合は <literal>QuartzTriggerHandle</literal> を返します。 これについては次のセクションで説明していきます。"
+msgstr ""
+"クライアント、 サーバーいずれも呼び出しに関連する <literal>Timer</literal> オ"
+"ブジェクトにアクセスすることができます。 以下に示す <literal>Timer</literal> "
+"オブジェクトは EJB3 ディスパッチャーを使用する場合は EJB 3 のタイマーになりま"
+"す。 デフォルトの <literal>ScheduledThreadPoolExecutor</literal> の場合、 返"
+"されるオブジェクトは JDK からの <literal>Future</literal> になります。 "
+"Quartz ディスパッチャーの場合は <literal>QuartzTriggerHandle</literal> を返し"
+"ます。 これについては次のセクションで説明していきます。"
 
 #. Tag: programlisting
 #: Jms.xml:129
@@ -495,8 +530,11 @@ msgid ""
 "annotations as above. But it has some powerful additional features. The "
 "Quartz dispatcher supports three new annotations."
 msgstr ""
-"Quartz ディスパッチャー (インストール方法については前述の説明を参照) では上記のような <literal>@Asynchronous</literal>、 <literal>@Duration</literal>、 "
-"<literal>@Expiration</literal>、 <literal>@IntervalDuration</literal> のアノテーションが使用できます。 ただし、 強力な追加機能があります。 Quartz ディスパッチャーは 3 種類の新しいアノテーションに対応します。"
+"Quartz ディスパッチャー (インストール方法については前述の説明を参照) では上記"
+"のような <literal>@Asynchronous</literal>、 <literal>@Duration</literal>、 "
+"<literal>@Expiration</literal>、 <literal>@IntervalDuration</literal> のアノ"
+"テーションが使用できます。 ただし、 強力な追加機能があります。 Quartz ディス"
+"パッチャーは 3 種類の新しいアノテーションに対応します。"
 
 #. Tag: para
 #: Jms.xml:148
@@ -505,7 +543,10 @@ msgid ""
 "The <literal>@FinalExpiration</literal> annotation specifies an end date for "
 "the recurring task. Note that you can inject the <code>QuartzTriggerHandle</"
 "code>."
-msgstr "<literal>@FinalExpiration</literal> アノテーションは反復タスクの終了日を指定します。 <code>QuartzTriggerHandle</code> のインジェクトが可能なので注意してください。"
+msgstr ""
+"<literal>@FinalExpiration</literal> アノテーションは反復タスクの終了日を指定"
+"します。 <code>QuartzTriggerHandle</code> のインジェクトが可能なので注意して"
+"ください。"
 
 #. Tag: programlisting
 #: Jms.xml:150
@@ -566,7 +607,12 @@ msgid ""
 "The <literal>QuartzTriggerHandle</literal> object is serializable, so you "
 "can save it into the database if you need to keep it around for extended "
 "period of time."
-msgstr "このメソッドは <literal>QuartzTriggerHandle</literal> を返すので注意してください。 後でこれを使用してスケジューラの停止、 一時停止、 再開などを行うことができます。 <literal>QuartzTriggerHandle</literal> オブジェクトはシリアライズ可能であるため、 長期間に渡りこれを維持する必要がある場合はデータベースに保存することができます。"
+msgstr ""
+"このメソッドは <literal>QuartzTriggerHandle</literal> を返すので注意してくだ"
+"さい。 後でこれを使用してスケジューラの停止、 一時停止、 再開などを行うことが"
+"できます。 <literal>QuartzTriggerHandle</literal> オブジェクトはシリアライズ"
+"可能であるため、 長期間に渡りこれを維持する必要がある場合はデータベースに保存"
+"することができます。"
 
 #. Tag: programlisting
 #: Jms.xml:154
@@ -607,7 +653,10 @@ msgid ""
 "The <literal>@IntervalCron</literal> annotation supports Unix cron job "
 "syntax for task scheduling. For instance, the following asynchronous method "
 "runs at 2:10pm and at 2:44pm every Wednesday in the month of March."
-msgstr "<literal>@IntervalCron</literal> アノテーションはタスクのスケジュールを行うのに Unix cron ジョブ構文をサポートします。 たとえば、 次の非同期メソッドは 3 月の毎水曜日の 2:10pm と 2:44pm に実行されます。"
+msgstr ""
+"<literal>@IntervalCron</literal> アノテーションはタスクのスケジュールを行うの"
+"に Unix cron ジョブ構文をサポートします。 たとえば、 次の非同期メソッドは 3 "
+"月の毎水曜日の 2:10pm と 2:44pm に実行されます。"
 
 #. Tag: programlisting
 #: Jms.xml:159
@@ -658,7 +707,11 @@ msgid ""
 "asynchronous method runs at 14:00 on the 2nd business day of each month. By "
 "default, it excludes all weekends and US federal holidays until 2010 from "
 "the business days."
-msgstr "<literal>@IntervalBusinessDay</literal> アノテーションは「第X日営業日」という状況の呼び出しに対応します。 たとえば、 次の非同期メソッドは毎月第2営業日の 14:00 に実行されます。 デフォルトでは 2010 年まですべての週末とアメリカ合衆国の祝日を営業日から除外します。"
+msgstr ""
+"<literal>@IntervalBusinessDay</literal> アノテーションは「第X日営業日」という"
+"状況の呼び出しに対応します。 たとえば、 次の非同期メソッドは毎月第2営業日の "
+"14:00 に実行されます。 デフォルトでは 2010 年まですべての週末とアメリカ合衆国"
+"の祝日を営業日から除外します。"
 
 #. Tag: programlisting
 #: Jms.xml:164
@@ -708,7 +761,10 @@ msgid ""
 "the invocation trigger. You can specify more holidays (e.g., company "
 "holidays, non-US holidays etc.) via the <literal>additionalHolidays</"
 "literal> property."
-msgstr "<literal>NthBusinessDay</literal> オブジェクトには呼び出しトリガーの設定が含まれます。 <literal>additionalHolidays</literal> プロパティを使って祝日を追加指定することができます (例、 会社固有の休み、 アメリカ合衆国以外の祝日など)。"
+msgstr ""
+"<literal>NthBusinessDay</literal> オブジェクトには呼び出しトリガーの設定が含"
+"まれます。 <literal>additionalHolidays</literal> プロパティを使って祝日を追加"
+"指定することができます (例、 会社固有の休み、 アメリカ合衆国以外の祝日など)。"
 
 #. Tag: programlisting
 #: Jms.xml:168
@@ -772,7 +828,11 @@ msgid ""
 "and <literal>@IntervalNthBusinessDay</literal> annotations are mutually "
 "exclusive. If they are used in the same method, a <literal>RuntimeException</"
 "literal> will be thrown."
-msgstr "<literal>@IntervalDuration</literal>、 <literal>@IntervalCron</literal>、 <literal>@IntervalNthBusinessDay</literal> のアノテーションは互いに矛盾します。 同じメソッド内で使用されると <literal>RuntimeException</literal> が送出されます。"
+msgstr ""
+"<literal>@IntervalDuration</literal>、 <literal>@IntervalCron</literal>、 "
+"<literal>@IntervalNthBusinessDay</literal> のアノテーションは互いに矛盾しま"
+"す。 同じメソッド内で使用されると <literal>RuntimeException</literal> が送出"
+"されます。"
 
 #. Tag: title
 #: Jms.xml:175
@@ -792,7 +852,16 @@ msgid ""
 "service dispatcher, use <literal>TimerSchedule</literal>). Components may "
 "observe asynchronous events in the usual way, but remember that only the "
 "business process context is propagated to the asynchronous thread."
-msgstr "コンポーネント駆動のイベントも非同期にすることができます。 非同期処理のイベントを引き起こす場合は <literal>Events</literal> の <literal>raiseAsynchronousEvent()</literal> メソッドを呼び出すだけです。 指定時刻に起きるイベントをスケジュールするには <literal>raiseTimedEvent()</literal> メソッドを呼び出し <emphasis>schedule</emphasis> オブジェクトを渡します (デフォルトのディスパッチャーまたはタイマーサービスのディスパッチャーの場合は <literal>TimerSchedule</literal> を使用する)。 コンポーネントは通常通りに非同期のイベントを監視することができますが、 非同期スレッドに伝播されるのはビジネスプロセスコンテキストのみになることを忘れないようにしてください。"
+msgstr ""
+"コンポーネント駆動のイベントも非同期にすることができます。 非同期処理のイベン"
+"トを引き起こす場合は <literal>Events</literal> の "
+"<literal>raiseAsynchronousEvent()</literal> メソッドを呼び出すだけです。 指定"
+"時刻に起きるイベントをスケジュールするには <literal>raiseTimedEvent()</"
+"literal> メソッドを呼び出し <emphasis>schedule</emphasis> オブジェクトを渡し"
+"ます (デフォルトのディスパッチャーまたはタイマーサービスのディスパッチャーの"
+"場合は <literal>TimerSchedule</literal> を使用する)。 コンポーネントは通常通"
+"りに非同期のイベントを監視することができますが、 非同期スレッドに伝播されるの"
+"はビジネスプロセスコンテキストのみになることを忘れないようにしてください。"
 
 #. Tag: title
 #: Jms.xml:188
@@ -810,7 +879,12 @@ msgid ""
 "and the EJB3 timer service will swallow the exception. Seam therefore "
 "catches any exception which propagates out of the asynchronous call before "
 "it reaches the dispatcher."
-msgstr "各非同期ディスパッチャーは例外がそれを介して伝播される場合はそれぞれ異なった動作をします。 たとえば、 <literal>java.util.concurrent</literal> ディスパッチャーは繰り返すコールの実行がこれ以上起きないよう一時停止し、 EJB3 タイマーサービスがその例外を吸収します。 したがって伝播する例外はディスパッチャーに到達する前にすべて Seam によって非同期のコールからキャッチされます。"
+msgstr ""
+"各非同期ディスパッチャーは例外がそれを介して伝播される場合はそれぞれ異なった"
+"動作をします。 たとえば、 <literal>java.util.concurrent</literal> ディスパッ"
+"チャーは繰り返すコールの実行がこれ以上起きないよう一時停止し、 EJB3 タイマー"
+"サービスがその例外を吸収します。 したがって伝播する例外はディスパッチャーに到"
+"達する前にすべて Seam によって非同期のコールからキャッチされます。"
 
 #. Tag: para
 #: Jms.xml:200
@@ -862,12 +936,15 @@ msgstr ""
 
 #. Tag: para
 #: Jms.xml:210
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "Here, for example, using <literal>java.util.concurrent</literal> dispatcher, "
-"we inject it's control object and cancel all future invocations when an "
+"we inject its control object and cancel all future invocations when an "
 "exception is encountered"
-msgstr "たとえば この <literal>java.util.concurrent</literal> ディスパッチャーを使用している例では、 その制御オブジェクトをインジェクトして例外が発生すると今後の呼び出しすべてを取り消しています。"
+msgstr ""
+"たとえば この <literal>java.util.concurrent</literal> ディスパッチャーを使用"
+"している例では、 その制御オブジェクトをインジェクトして例外が発生すると今後の"
+"呼び出しすべてを取り消しています。"
 
 #. Tag: para
 #: Jms.xml:216
@@ -876,7 +953,10 @@ msgid ""
 "You can also alter this behavior for an individual component by implementing "
 "the method <literal>public void handleAsynchronousException(Exception "
 "exception);</literal> on the component. For example:"
-msgstr "また、 コンポーネント上にメソッド <literal>public void handleAsynchronousException(Exception exception);</literal> を実装することで個別にコンポーネントのこの動作を変更することができます。 たとえば、"
+msgstr ""
+"また、 コンポーネント上にメソッド <literal>public void "
+"handleAsynchronousException(Exception exception);</literal> を実装することで"
+"個別にコンポーネントのこの動作を変更することができます。 たとえば、"
 
 #. Tag: programlisting
 #: Jms.xml:223
@@ -902,7 +982,8 @@ msgstr "Seam でのメッセージング"
 msgid ""
 "Seam makes it easy to send and receive JMS messages to and from Seam "
 "components."
-msgstr "Seam は Seam コンポーネントの JMS メッセージの送受信を容易にしています。"
+msgstr ""
+"Seam は Seam コンポーネントの JMS メッセージの送受信を容易にしています。"
 
 #. Tag: title
 #: Jms.xml:238
@@ -919,8 +1000,11 @@ msgid ""
 "tell Seam where to find the <literal>QueueConnectionFactory</literal> and/or "
 "<literal>TopicConnectionFactory</literal>."
 msgstr ""
-"JMS メッセージを送信するため Seam のインフラストラクチャを設定するには、 Seam に メッセージの送信先となるトピックおよびキューに関する情報を知らせ、 また <literal>QueueConnectionFactory</literal> と "
-"<literal>TopicConnectionFactory</literal> の両方あるいはいずれかの場所も知らせる必要があります。"
+"JMS メッセージを送信するため Seam のインフラストラクチャを設定するには、 "
+"Seam に メッセージの送信先となるトピックおよびキューに関する情報を知らせ、 ま"
+"た <literal>QueueConnectionFactory</literal> と "
+"<literal>TopicConnectionFactory</literal> の両方あるいはいずれかの場所も知ら"
+"せる必要があります。"
 
 #. Tag: para
 #: Jms.xml:247
@@ -1101,5 +1185,7 @@ msgstr "クライアントでのメッセージの受信"
 msgid ""
 "Seam Remoting lets you subscribe to a JMS topic from client-side JavaScript. "
 "This is described in <xref linkend=\"remoting\"/>."
-msgstr "Seam Remoting によりクライアント側の JavaScript から JMS トピックにサブスクライブすることができます。 これについては <xref linkend=\"remoting\"/> に記載されています。"
-
+msgstr ""
+"Seam Remoting によりクライアント側の JavaScript から JMS トピックにサブスクラ"
+"イブすることができます。 これについては <xref linkend=\"remoting\"/> に記載さ"
+"れています。"

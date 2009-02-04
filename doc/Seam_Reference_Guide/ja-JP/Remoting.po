@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Remoting\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-11-06 06:41+0000\n"
+"POT-Creation-Date: 2009-02-01 21:19+0000\n"
 "PO-Revision-Date: 2008-12-18 10:57+1000\n"
 "Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -40,7 +40,7 @@ msgstr ""
 "す。"
 
 #. Tag: title
-#: Remoting.xml:13 Remoting.xml:562
+#: Remoting.xml:13 Remoting.xml:587
 #, no-c-format
 msgid "Configuration"
 msgstr "設定"
@@ -141,8 +141,8 @@ msgid ""
 "If you wish to access more than one component from the same page, then "
 "include them all as parameters of your script tag:"
 msgstr ""
-"同じページから一つ以上のコンポーネントにアクセスしたい場合は、スクリプ"
-"トタグのパラメータとしてそれらを全て含めます。"
+"同じページから一つ以上のコンポーネントにアクセスしたい場合は、スクリプトタグ"
+"のパラメータとしてそれらを全て含めます。"
 
 #. Tag: programlisting
 #: Remoting.xml:35
@@ -163,7 +163,10 @@ msgid ""
 "Alternatively, you may use the <literal>s:remote</literal> tag to import the "
 "required Javascript. Separate each component or class name you wish to "
 "import with a comma:"
-msgstr "代わりに、 必要な Javascript のインポートに <literal>s:remote</literal> を使用することもできます。 インポートするコンポーネントあるいはクラス名をそれぞれコンマで区切ります。"
+msgstr ""
+"代わりに、 必要な Javascript のインポートに <literal>s:remote</literal> を使"
+"用することもできます。 インポートするコンポーネントあるいはクラス名をそれぞれ"
+"コンマで区切ります。"
 
 #. Tag: programlisting
 #: Remoting.xml:43
@@ -195,7 +198,14 @@ msgid ""
 "components and <literal>Seam.Remoting</literal> contains methods for "
 "executing remote requests. The easiest way to become familiar with this "
 "object is to start with a simple example."
-msgstr "クライアント側からのコンポーネントとのやりとりは、 すべて <literal>Seam</literal> Javascript オブジェクト経由で行われます。 このオブジェクトは <literal>remote.js</literal> に定義され、 コンポーネントに対する非同期呼び出しにそれを使用します。 それは、2 つの機能に区分されます。 コンポーネントと連携するメソッドを含む <literal>Seam.Component</literal> そして、リモートリクエストを実行するメソッドを含む <literal>Seam.Remoting</literal> です。 このオブジェクトに精通する一番容易な方法は、 簡単なサンプルから始めることです。"
+msgstr ""
+"クライアント側からのコンポーネントとのやりとりは、 すべて <literal>Seam</"
+"literal> Javascript オブジェクト経由で行われます。 このオブジェクトは "
+"<literal>remote.js</literal> に定義され、 コンポーネントに対する非同期呼び出"
+"しにそれを使用します。 それは、2 つの機能に区分されます。 コンポーネントと連"
+"携するメソッドを含む <literal>Seam.Component</literal> そして、リモートリクエ"
+"ストを実行するメソッドを含む <literal>Seam.Remoting</literal> です。 このオブ"
+"ジェクトに精通する一番容易な方法は、 簡単なサンプルから始めることです。"
 
 #. Tag: title
 #: Remoting.xml:57
@@ -210,7 +220,11 @@ msgid ""
 "Let's step through a simple example to see how the <literal>Seam</literal> "
 "object works. First of all, let's create a new Seam component called "
 "<literal>helloAction</literal>."
-msgstr "<literal>Seam</literal> オブジェクトがどのように動作するかを見るために、 簡単なサンプルを通じて一歩を踏み出してみましょう。 まず最初に、<literal>helloAction</literal> と呼ばれる新しい Seam コンポーネントを作成しましょう。"
+msgstr ""
+"<literal>Seam</literal> オブジェクトがどのように動作するかを見るために、 簡単"
+"なサンプルを通じて一歩を踏み出してみましょう。 まず最初に、"
+"<literal>helloAction</literal> と呼ばれる新しい Seam コンポーネントを作成しま"
+"しょう。"
 
 #. Tag: programlisting
 #: Remoting.xml:62
@@ -239,7 +253,10 @@ msgid ""
 "You also need to create a local interface for our new component - take "
 "special note of the <literal>@WebRemote</literal> annotation, as it's "
 "required to make our method accessible via remoting:"
-msgstr "新しいコンポーネントのために、ローカルインタフェースも生成する必要があります。 <literal>@WebRemote</literal> アノテーションに特に注意してください。 Remoting を通じてのメソッドへのアクセスを可能とするために必要です。"
+msgstr ""
+"新しいコンポーネントのために、ローカルインタフェースも生成する必要がありま"
+"す。 <literal>@WebRemote</literal> アノテーションに特に注意してください。 "
+"Remoting を通じてのメソッドへのアクセスを可能とするために必要です。"
 
 #. Tag: programlisting
 #: Remoting.xml:67
@@ -263,7 +280,10 @@ msgstr ""
 msgid ""
 "That's all the server-side code we need to write. Now for our web page - "
 "create a new page and import the <literal>helloAction</literal> component:"
-msgstr "書く必要があるサーバサイドのコードはこれだけです。 それでは、WEB ページのために - 新しいページを作成して、 <literal>helloAction</literal> コンポーネントをインポートしましょう。"
+msgstr ""
+"書く必要があるサーバサイドのコードはこれだけです。 それでは、WEB ページのため"
+"に - 新しいページを作成して、 <literal>helloAction</literal> コンポーネントを"
+"インポートしましょう。"
 
 #. Tag: programlisting
 #: Remoting.xml:72
@@ -277,13 +297,17 @@ msgstr "<![CDATA[<s:remote include=\"helloAction\"/>]]>"
 msgid ""
 "To make this a fully interactive user experience, let's add a button to our "
 "page:"
-msgstr "ユーザーにとって完全にインテラクティブとなるようページにボタンを追加してみます。"
+msgstr ""
+"ユーザーにとって完全にインテラクティブとなるようページにボタンを追加してみま"
+"す。"
 
 #. Tag: programlisting
 #: Remoting.xml:76
 #, no-c-format
-msgid "<![CDATA[<button onclick=\"javascript:sayHello()\">Say Hello</button>]]>"
-msgstr "<![CDATA[<button onclick=\"javascript:sayHello()\">Say Hello</button>]]>"
+msgid ""
+"<![CDATA[<button onclick=\"javascript:sayHello()\">Say Hello</button>]]>"
+msgstr ""
+"<![CDATA[<button onclick=\"javascript:sayHello()\">Say Hello</button>]]>"
 
 #. Tag: para
 #: Remoting.xml:78
@@ -291,7 +315,9 @@ msgstr "<![CDATA[<button onclick=\"javascript:sayHello()\">Say Hello</button>]]>
 msgid ""
 "We'll also need to add some more script to make our button actually do "
 "something when it's clicked:"
-msgstr "ボタンをクリックしたとき、 実際にボタンに何かを行わせるためもう少しスクリプトを追加する必要があります。"
+msgstr ""
+"ボタンをクリックしたとき、 実際にボタンに何かを行わせるためもう少しスクリプト"
+"を追加する必要があります。"
 
 #. Tag: programlisting
 #: Remoting.xml:80
@@ -338,7 +364,12 @@ msgid ""
 "message confirming that the call was successful. If you want to save some "
 "time, you'll find the full source code for this Hello World example in "
 "Seam's <literal>/examples/remoting/helloworld</literal> directory."
-msgstr "作業完了です! アプリケーションをデプロイして、ページをブラウズしましょう。 ボタンをクリックして、プロンプトが出たら名前を入力しましょう。 呼び出しの成功を確認するための hello メッセージが、メッセージボックスに表示されます。 少し時間を節約したいのであれば、 Seam の <literal>/examples/remoting/helloworld</literal> ディレクトリにこの Hello World サンプルの全ソースコードがあります。"
+msgstr ""
+"作業完了です! アプリケーションをデプロイして、ページをブラウズしましょう。 ボ"
+"タンをクリックして、プロンプトが出たら名前を入力しましょう。 呼び出しの成功を"
+"確認するための hello メッセージが、メッセージボックスに表示されます。 少し時"
+"間を節約したいのであれば、 Seam の <literal>/examples/remoting/helloworld</"
+"literal> ディレクトリにこの Hello World サンプルの全ソースコードがあります。"
 
 #. Tag: para
 #: Remoting.xml:87
@@ -349,13 +380,19 @@ msgid ""
 "that we have implemented two methods - the first method is responsible for "
 "prompting the user for their name and then making a remote request. Take a "
 "look at the following line:"
-msgstr "ところで、このスクリプトのコードは何をするのでしょうか。 もっと細かく分解してみましょう。手始めに、2 つのメソッドを実装した Javascript コードから見ていきましょう。 最初のメソッドはユーザに対して名前を入力するよう促し、リモートリクエストを行うのがその役割です。 以下の行から見てみましょう。"
+msgstr ""
+"ところで、このスクリプトのコードは何をするのでしょうか。 もっと細かく分解して"
+"みましょう。手始めに、2 つのメソッドを実装した Javascript コードから見ていき"
+"ましょう。 最初のメソッドはユーザに対して名前を入力するよう促し、リモートリク"
+"エストを行うのがその役割です。 以下の行から見てみましょう。"
 
 #. Tag: programlisting
 #: Remoting.xml:92
 #, no-c-format
-msgid "Seam.Component.getInstance(\"helloAction\").sayHello(name, sayHelloCallback);"
-msgstr "Seam.Component.getInstance(\"helloAction\").sayHello(name, sayHelloCallback);"
+msgid ""
+"Seam.Component.getInstance(\"helloAction\").sayHello(name, sayHelloCallback);"
+msgstr ""
+"Seam.Component.getInstance(\"helloAction\").sayHello(name, sayHelloCallback);"
 
 #. Tag: para
 #: Remoting.xml:94
@@ -368,7 +405,8 @@ msgid ""
 "remainder of the line: <literal>sayHello(name, sayHelloCallback);</literal>."
 msgstr ""
 "この行の最初の部分 <literal>Seam.Component.getInstance(\"helloAction\")</"
-"literal> は、 <literal>helloAction</literal> コンポーネントのプロキシ、あるいは\"スタブ\"を返します。 このスタブに対してコンポーネントのメソッド呼び出しが"
+"literal> は、 <literal>helloAction</literal> コンポーネントのプロキシ、あるい"
+"は\"スタブ\"を返します。 このスタブに対してコンポーネントのメソッド呼び出しが"
 "可能です。 それは、まさにこの行の残りの部分で発生します: <literal>sayHello"
 "(name, sayHelloCallback);</literal>"
 
@@ -386,7 +424,16 @@ msgid ""
 "callback parameter is entirely optional, so feel free to leave it out if "
 "you're calling a method with a <literal>void</literal> return type or if you "
 "don't care about the result."
-msgstr "コード行全体で行っていることは、コンポーネントの<literal>sayHello</literal>メソッドの呼び出しと、 パラメータとして<literal>name</literal>を渡すことです。 2 番目のパラメータ<literal>sayHelloCallback</literal>は、 このコンポーネントの <literal>sayHello</literal>メソッドのパラメータではありません。 その代わり、Seam Remoting フレームワークにリクエストへのレスポンスを受けたら、 それを <literal>sayHelloCallback</literal> Javascript メソッドに渡すべきことを指示します。 このコールバックパラメータは完全にオプションです。 返り値 <literal>void</literal> のメソッドを呼び出す場合、 あるいは結果を気にする必要がない場合は、 遠慮なくそのままにしてください。"
+msgstr ""
+"コード行全体で行っていることは、コンポーネントの<literal>sayHello</literal>メ"
+"ソッドの呼び出しと、 パラメータとして<literal>name</literal>を渡すことです。 "
+"2 番目のパラメータ<literal>sayHelloCallback</literal>は、 このコンポーネント"
+"の <literal>sayHello</literal>メソッドのパラメータではありません。 その代わ"
+"り、Seam Remoting フレームワークにリクエストへのレスポンスを受けたら、 それ"
+"を <literal>sayHelloCallback</literal> Javascript メソッドに渡すべきことを指"
+"示します。 このコールバックパラメータは完全にオプションです。 返り値 "
+"<literal>void</literal> のメソッドを呼び出す場合、 あるいは結果を気にする必要"
+"がない場合は、 遠慮なくそのままにしてください。"
 
 #. Tag: para
 #: Remoting.xml:107
@@ -521,7 +568,8 @@ msgstr ""
 #: Remoting.xml:129
 #, no-c-format
 msgid "To create a client-side Customer you would write the following code:"
-msgstr "クライアントサイド Customer を生成するために、以下のコードを記述します。"
+msgstr ""
+"クライアントサイド Customer を生成するために、以下のコードを記述します。"
 
 #. Tag: programlisting
 #: Remoting.xml:131
@@ -632,7 +680,10 @@ msgid ""
 "the <literal>Seam.Remoting</literal> object. While you shouldn't need to "
 "directly call most of its methods, there are a couple of important ones "
 "worth mentioning."
-msgstr "Seam Remoting の大部分のクライアントサイドの機能は、<literal>Seam.Remoting</literal>オブジェクトに含まれます。 メソッドを直接呼ぶ必要はほとんどないとはいえ、 言及する価値のある重要なものがあります。"
+msgstr ""
+"Seam Remoting の大部分のクライアントサイドの機能は、<literal>Seam.Remoting</"
+"literal>オブジェクトに含まれます。 メソッドを直接呼ぶ必要はほとんどないとはい"
+"え、 言及する価値のある重要なものがあります。"
 
 #. Tag: title
 #: Remoting.xml:173
@@ -649,7 +700,12 @@ msgid ""
 "parameters into your component method. Use the <literal>createType()</"
 "literal> method to create an instance of your type. Pass in the fully "
 "qualified Java class name as a parameter:"
-msgstr "アプリケーションが Seam コンポーネントではない JavaBean のクラスを含むまたは使用する場合、 クライアント側ででこれらのタイプを作成してパラメータとしてコンポーネントメソッドに渡す必要があるかもしれません。 タイプのインスタンスを作成するために、 <literal>createType()</literal> メソッドを使用してください。 パラメータとして、完全修飾の Java クラス名を渡してください。"
+msgstr ""
+"アプリケーションが Seam コンポーネントではない JavaBean のクラスを含むまたは"
+"使用する場合、 クライアント側ででこれらのタイプを作成してパラメータとしてコン"
+"ポーネントメソッドに渡す必要があるかもしれません。 タイプのインスタンスを作成"
+"するために、 <literal>createType()</literal> メソッドを使用してください。 パ"
+"ラメータとして、完全修飾の Java クラス名を渡してください。"
 
 #. Tag: programlisting
 #: Remoting.xml:180
@@ -672,8 +728,10 @@ msgid ""
 "for an object instance, or <literal>null</literal> if the type is not known. "
 "The name is the fully qualified name of the type's Java class."
 msgstr ""
-"このメソッドは非コンポーネントタイプの場合を除き <literal>Seam.Component.getComponentName()</"
-"literal> と同等です。 オブジェクトインスタンスにタイプの名前を返します。 または、タイプが既知でない場合は <literal>null</literal> を返します。 この名前は、タイプの Java クラス完全修飾名です。"
+"このメソッドは非コンポーネントタイプの場合を除き <literal>Seam.Component."
+"getComponentName()</literal> と同等です。 オブジェクトインスタンスにタイプの"
+"名前を返します。 または、タイプが既知でない場合は <literal>null</literal> を"
+"返します。 この名前は、タイプの Java クラス完全修飾名です。"
 
 #. Tag: title
 #: Remoting.xml:194
@@ -692,7 +750,14 @@ msgid ""
 "client-side callback method. This function accepts two parameters, the first "
 "being the EL expression to evaluate, and the second being the callback "
 "method to invoke with the value of the expression. Here's an example:"
-msgstr "Seam Remoting は EL 式の評価にも対応します。 サーバーからのデータ取得にもうひとつ便利なメソッドを提供します。 <literal>Seam.Remoting.eval()</literal> 関数を使用して、 EL 式をサーバー上で遠隔に評価してその結果値をクライアント側のコールバックメソッドに返すことができます。 この関数は 2 つのパラメータを受け取ります。 1 番目のパラメータは 評価対象となる EL 式となり、 2 番目のパラメータはその式の値を付けて呼び出すコールバックメソッドになります。 次に例を示します。"
+msgstr ""
+"Seam Remoting は EL 式の評価にも対応します。 サーバーからのデータ取得にもうひ"
+"とつ便利なメソッドを提供します。 <literal>Seam.Remoting.eval()</literal> 関数"
+"を使用して、 EL 式をサーバー上で遠隔に評価してその結果値をクライアント側の"
+"コールバックメソッドに返すことができます。 この関数は 2 つのパラメータを受け"
+"取ります。 1 番目のパラメータは 評価対象となる EL 式となり、 2 番目のパラメー"
+"タはその式の値を付けて呼び出すコールバックメソッドになります。 次に例を示しま"
+"す。"
 
 #. Tag: programlisting
 #: Remoting.xml:204
@@ -728,7 +793,14 @@ msgid ""
 "with them in Javascript. So to work with a list of <literal>customer</"
 "literal> objects, it is required to import the <literal>customer</literal> "
 "type:"
-msgstr "この例では、 <literal>#{customers}</literal> の式が Seam によって評価され、 その式の値 (この場合 Customer オブジェクトの一覧) が<literal>customersCallback()</literal> メソッドに返されます。 このようにして返されるオブジェクトは Javascript で動作できるようそれ自体のタイプがインポートされていなければなりません (<literal>s:remote</literal>)。 したがって、 <literal>customer</literal> オブジェクトの一覧と動作させるには、 <literal>customer</literal> タイプをインポートする必要があります。"
+msgstr ""
+"この例では、 <literal>#{customers}</literal> の式が Seam によって評価され、 "
+"その式の値 (この場合 Customer オブジェクトの一覧) が"
+"<literal>customersCallback()</literal> メソッドに返されます。 このようにして"
+"返されるオブジェクトは Javascript で動作できるようそれ自体のタイプがインポー"
+"トされていなければなりません (<literal>s:remote</literal>)。 したがって、 "
+"<literal>customer</literal> オブジェクトの一覧と動作させるには、 "
+"<literal>customer</literal> タイプをインポートする必要があります。"
 
 #. Tag: programlisting
 #: Remoting.xml:214
@@ -750,7 +822,10 @@ msgid ""
 "component is imported into our page either via <literal>seam/resource/"
 "remoting/interface.js</literal>: or using the <literal>s:remote</literal> "
 "tag:"
-msgstr "上記の設定のセクションでは、 インターフェースまたはコンポーネントの「スタブ」は <literal>seam/resource/remoting/interface.js</literal> 経由でページにインポートするか、 <literal>s:remote</literal> を使用してインポートします。"
+msgstr ""
+"上記の設定のセクションでは、 インターフェースまたはコンポーネントの「スタブ」"
+"は <literal>seam/resource/remoting/interface.js</literal> 経由でページにイン"
+"ポートするか、 <literal>s:remote</literal> を使用してインポートします。"
 
 #. Tag: programlisting
 #: Remoting.xml:225
@@ -813,7 +888,15 @@ msgid ""
 "generated for it instead of a type stub. This allows you to use remoting to "
 "call methods of your JavaBean components in a non-EJB environment where you "
 "don't have access to session beans."
-msgstr "生成されたクライアントスタブのタイプは、Seamコンポーネントのタイプに依存します。コンポーネントがセッション Bean の場合は実行可能スタブが生成され、 それ以外のエンティティ、またはJavaBeanの場合にはタイプスタブが生成されます。 この規則には例外がひとつあります。 コンポーネントが JavaBean (つまり、セッション Bean や エンティティ Bean でない場合) で、かつそのメソッドに@WebRemote アノテーションが付けられていた場合は、タイプスタブの代わりに実行可能スタブが生成されます。 これは、セッション Bean にアクセスできない非EJB 環境で、JavaBean コンポーネントのメソッドを呼び出す Remoting を使用可能にします。"
+msgstr ""
+"生成されたクライアントスタブのタイプは、Seamコンポーネントのタイプに依存しま"
+"す。コンポーネントがセッション Bean の場合は実行可能スタブが生成され、 それ以"
+"外のエンティティ、またはJavaBeanの場合にはタイプスタブが生成されます。 この規"
+"則には例外がひとつあります。 コンポーネントが JavaBean (つまり、セッション "
+"Bean や エンティティ Bean でない場合) で、かつそのメソッドに@WebRemote アノ"
+"テーションが付けられていた場合は、タイプスタブの代わりに実行可能スタブが生成"
+"されます。 これは、セッション Bean にアクセスできない非EJB 環境で、JavaBean "
+"コンポーネントのメソッドを呼び出す Remoting を使用可能にします。"
 
 #. Tag: title
 #: Remoting.xml:247
@@ -868,7 +951,12 @@ msgid ""
 "your page, then you may need to explicitly set the conversation ID before "
 "each call. If you are working with just a single conversation, then you "
 "don't need to do anything special."
-msgstr "対話ID が明示的に <literal>Seam.Remoting.getContext().setConversationId()</literal>で設定されない場合、 リモート呼び出しによって返される最初の有効な対話ID が自動的に割り当てられます。 ページ内で複数の対話ID を使用する場合は、それぞれの呼び出しの前に対話IDを明示的に設定する必要があるかもしれません。1つの対話だけを使用する場合は、 特別なことをする必要はありません。"
+msgstr ""
+"対話ID が明示的に <literal>Seam.Remoting.getContext().setConversationId()</"
+"literal>で設定されない場合、 リモート呼び出しによって返される最初の有効な対話"
+"ID が自動的に割り当てられます。 ページ内で複数の対話ID を使用する場合は、それ"
+"ぞれの呼び出しの前に対話IDを明示的に設定する必要があるかもしれません。1つの対"
+"話だけを使用する場合は、 特別なことをする必要はありません。"
 
 #. Tag: title
 #: Remoting.xml:268
@@ -885,7 +973,11 @@ msgid ""
 "set the conversation ID to that of the view before making the remote call. "
 "This small snippet of JavaScript will set the conversation ID that is used "
 "for remoting calls to the current view's conversation ID:"
-msgstr "現在のビューの対話スコープ内でリモート呼び出しを行う必要がある場合があります。 これを行うにはリモート呼び出しを行う前に明示的に対話 ID をビューのそれにセットする必要があります。 この小さな JavaScript により Remoting 呼び出しに使用される対話 ID を現在のビューの対話 ID にセットします。"
+msgstr ""
+"現在のビューの対話スコープ内でリモート呼び出しを行う必要がある場合がありま"
+"す。 これを行うにはリモート呼び出しを行う前に明示的に対話 ID をビューのそれに"
+"セットする必要があります。 この小さな JavaScript により Remoting 呼び出しに使"
+"用される対話 ID を現在のビューの対話 ID にセットします。"
 
 #. Tag: programlisting
 #: Remoting.xml:275
@@ -946,7 +1038,10 @@ msgid ""
 "then decide you don't want to send it, the <literal>Seam.Remoting.cancelBatch"
 "()</literal> method will discard any calls that were queued and exit the "
 "batch mode."
-msgstr "<literal>startBatch()</literal>メソッドで新たなバッチを起動したがそれを送らないことにした場合、 <literal>Seam.Remoting.cancelBatch()</literal>メソッドはキュー待ちしているすべての呼び出しを破棄してそのバッチモードを終了します。"
+msgstr ""
+"<literal>startBatch()</literal>メソッドで新たなバッチを起動したがそれを送らな"
+"いことにした場合、 <literal>Seam.Remoting.cancelBatch()</literal>メソッドは"
+"キュー待ちしているすべての呼び出しを破棄してそのバッチモードを終了します。"
 
 #. Tag: para
 #: Remoting.xml:296
@@ -991,7 +1086,8 @@ msgstr "String 型"
 #. Tag: para
 #: Remoting.xml:312
 #, no-c-format
-msgid "Simply use Javascript String objects when setting String parameter values."
+msgid ""
+"Simply use Javascript String objects when setting String parameter values."
 msgstr ""
 "String パラメータ値を設定する場合は、 単純に Javascript String オブジェクトを"
 "使用してください。"
@@ -1101,7 +1197,12 @@ msgid ""
 "<literal>myAction</literal> won't include <literal>myWidget</literal> as it "
 "is not directly referenced by any of its methods. To get around this, "
 "<literal>MyWidget</literal> needs to be explicitly imported:"
-msgstr "この場合、 <literal>myWidget</literal> コンポーネントのインスタンスを渡したいところですが、 <literal>myAction</literal> のインターフェースはそのいずれのメソッドからも直接参照されないため <literal>myWidget</literal> を含みません。 これを回避するには、 <literal>MyWidget</literal> を明示的にインポートする必要があります。"
+msgstr ""
+"この場合、 <literal>myWidget</literal> コンポーネントのインスタンスを渡したい"
+"ところですが、 <literal>myAction</literal> のインターフェースはそのいずれのメ"
+"ソッドからも直接参照されないため <literal>myWidget</literal> を含みません。 "
+"これを回避するには、 <literal>MyWidget</literal> を明示的にインポートする必要"
+"があります。"
 
 #. Tag: programlisting
 #: Remoting.xml:352
@@ -1348,11 +1449,67 @@ msgstr ""
 #. Tag: title
 #: Remoting.xml:437
 #, no-c-format
+msgid "Handling Exceptions"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:439
+#, no-c-format
+msgid ""
+"When invoking a remote component method, it is possible to specify an "
+"exception handler which will process the response in the event of an "
+"exception during component invocation. To specify an exception handler "
+"function, include a reference to it after the callback parameter in your "
+"JavaScript:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:445
+#, no-c-format
+msgid ""
+"<![CDATA[var callback = function(result) { alert(result); };\n"
+"var exceptionHandler = function(ex) { alert(\"An exception occurred: \" + ex."
+"getMessage()); };\n"
+"Seam.Component.getInstance(\"helloAction\").sayHello(name, callback, "
+"exceptionHandler);]]>"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:447
+#, no-c-format
+msgid ""
+"If you do not have a callback handler defined, you must specify "
+"<literal>null</literal> in its place:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:451
+#, no-c-format
+msgid ""
+"<![CDATA[var exceptionHandler = function(ex) { alert(\"An exception "
+"occurred: \" + ex.getMessage()); };\n"
+"Seam.Component.getInstance(\"helloAction\").sayHello(name, null, "
+"exceptionHandler);]]>"
+msgstr ""
+
+#. Tag: para
+#: Remoting.xml:453
+#, no-c-format
+msgid ""
+"The exception object that is passed to the exception handler exposes one "
+"method, <literal>getMessage()</literal> that returns the exception message "
+"which is produced by the exception thrown by the <literal>@WebRemote</"
+"literal> method."
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:462
+#, no-c-format
 msgid "The Loading Message"
 msgstr "メッセージをロードする"
 
 #. Tag: para
-#: Remoting.xml:439
+#: Remoting.xml:464
 #, no-c-format
 msgid ""
 "The default loading message that appears in the top right corner of the "
@@ -1363,13 +1520,13 @@ msgstr ""
 "ダリングのカスタマイズ、 完全にオフにするなどが可能です。"
 
 #. Tag: title
-#: Remoting.xml:443
+#: Remoting.xml:468
 #, no-c-format
 msgid "Changing the message"
 msgstr "メッセージを変更する"
 
 #. Tag: para
-#: Remoting.xml:445
+#: Remoting.xml:470
 #, no-c-format
 msgid ""
 "To change the message from the default \"Please Wait...\" to something "
@@ -1379,19 +1536,19 @@ msgstr ""
 "は、 <literal>Seam.Remoting.loadingMessage</literal> の値を設定します。"
 
 #. Tag: programlisting
-#: Remoting.xml:448
+#: Remoting.xml:473
 #, no-c-format
 msgid "Seam.Remoting.loadingMessage = \"Loading...\";"
 msgstr "Seam.Remoting.loadingMessage = \"Loading...\";"
 
 #. Tag: title
-#: Remoting.xml:452
+#: Remoting.xml:477
 #, no-c-format
 msgid "Hiding the loading message"
 msgstr "ローディングメッセージを隠す"
 
 #. Tag: para
-#: Remoting.xml:454
+#: Remoting.xml:479
 #, no-c-format
 msgid ""
 "To completely suppress the display of the loading message, override the "
@@ -1404,7 +1561,7 @@ msgstr ""
 "()</literal> を何も行わない機能で上書きします。"
 
 #. Tag: programlisting
-#: Remoting.xml:458
+#: Remoting.xml:483
 #, no-c-format
 msgid ""
 "// don't display the loading indicator\n"
@@ -1416,13 +1573,13 @@ msgstr ""
 "Seam.Remoting.hideLoadingMessage = function() {};"
 
 #. Tag: title
-#: Remoting.xml:462
+#: Remoting.xml:487
 #, no-c-format
 msgid "A Custom Loading Indicator"
 msgstr "カスタムのローディングインジケーター"
 
 #. Tag: para
-#: Remoting.xml:464
+#: Remoting.xml:489
 #, no-c-format
 msgid ""
 "It is also possible to override the loading indicator to display an animated "
@@ -1436,7 +1593,7 @@ msgstr ""
 "てこれを行います。"
 
 #. Tag: programlisting
-#: Remoting.xml:468
+#: Remoting.xml:493
 #, no-c-format
 msgid ""
 "Seam.Remoting.displayLoadingMessage = function() {\n"
@@ -1456,13 +1613,13 @@ msgstr ""
 "  };"
 
 #. Tag: title
-#: Remoting.xml:473
+#: Remoting.xml:498
 #, no-c-format
 msgid "Controlling what data is returned"
 msgstr "返されるデータを制御する"
 
 #. Tag: para
-#: Remoting.xml:475
+#: Remoting.xml:500
 #, no-c-format
 msgid ""
 "When a remote method is executed, the result is serialized into an XML "
@@ -1488,7 +1645,7 @@ msgstr ""
 "して機密情報が公表されてしまうのを防ぎたい場合もあるかもしれません。"
 
 #. Tag: para
-#: Remoting.xml:483
+#: Remoting.xml:508
 #, no-c-format
 msgid ""
 "Seam Remoting provides a simple means to \"constrain\" the object graph, by "
@@ -1497,10 +1654,17 @@ msgid ""
 "containing one or more paths specified using dot notation. When invoking a "
 "remote method, the objects in the result's object graph that match these "
 "paths are excluded from the serialized result packet."
-msgstr "Seam Remoting は、 リモートメソッドの <literal>@WebRemote</literal> アノテーションの <literal>exclude</literal> フィールドを指定することでそのオブジェクトグラフを「制約する」シンプルな方法を提供しています。 このフィールドはドット (「.」) 表記を使って指定されるパスまたは複数のパスを含む String アレイを受け取ります。 リモートメソッドを呼び出すと、 これらのパスと一致する結果となるオブジェクトグラフ内のオブジェクトが連続化される結果パケットから除外されます。"
+msgstr ""
+"Seam Remoting は、 リモートメソッドの <literal>@WebRemote</literal> アノテー"
+"ションの <literal>exclude</literal> フィールドを指定することでそのオブジェク"
+"トグラフを「制約する」シンプルな方法を提供しています。 このフィールドはドッ"
+"ト (「.」) 表記を使って指定されるパスまたは複数のパスを含む String アレイを受"
+"け取ります。 リモートメソッドを呼び出すと、 これらのパスと一致する結果となる"
+"オブジェクトグラフ内のオブジェクトが連続化される結果パケットから除外されま"
+"す。"
 
 #. Tag: para
-#: Remoting.xml:488
+#: Remoting.xml:513
 #, no-c-format
 msgid ""
 "For all our examples, we'll use the following <literal>Widget</literal> "
@@ -1508,7 +1672,7 @@ msgid ""
 msgstr "すべての例で次の <literal>Widget</literal> クラスを使用します。"
 
 #. Tag: programlisting
-#: Remoting.xml:490
+#: Remoting.xml:515
 #, no-c-format
 msgid ""
 "@Name(\"widget\")\n"
@@ -1536,22 +1700,25 @@ msgstr ""
 "}"
 
 #. Tag: title
-#: Remoting.xml:493
+#: Remoting.xml:518
 #, no-c-format
 msgid "Constraining normal fields"
 msgstr "通常のフィールドを制約する"
 
 #. Tag: para
-#: Remoting.xml:495
+#: Remoting.xml:520
 #, no-c-format
 msgid ""
 "If your remote method returns an instance of <literal>Widget</literal>, but "
 "you don't want to expose the <literal>secret</literal> field because it "
 "contains sensitive information, you would constrain it like this:"
-msgstr "リモートメソッドが <literal>Widget</literal> のインスタンスを返すけれど <literal>secret</literal> フィールドには機密情報が含まれているため公表したくない場合、 次のように制約します。"
+msgstr ""
+"リモートメソッドが <literal>Widget</literal> のインスタンスを返すけれど "
+"<literal>secret</literal> フィールドには機密情報が含まれているため公表したく"
+"ない場合、 次のように制約します。"
 
 #. Tag: programlisting
-#: Remoting.xml:498
+#: Remoting.xml:523
 #, no-c-format
 msgid ""
 "@WebRemote(exclude = {\"secret\"})\n"
@@ -1561,7 +1728,7 @@ msgstr ""
 "public Widget getWidget();"
 
 #. Tag: para
-#: Remoting.xml:500
+#: Remoting.xml:525
 #, no-c-format
 msgid ""
 "The value \"secret\" refers to the <literal>secret</literal> field of the "
@@ -1572,10 +1739,17 @@ msgid ""
 "<literal>child</literal>'s <literal>secret</literal> value instead? We can "
 "do this by using dot notation to specify this field's path within the "
 "result's object graph:"
-msgstr "「secret」の値は返されるオブジェクトの <literal>secret</literal> フィールドを参照します。 ここで、 クライアントに対してこの特定フィールドが公開されても構わないと仮定します。 返される <literal>Widget</literal> 値には <literal>child</literal> フィールドがあり、 これも <literal>Widget</literal> になります。 代わりに <literal>child</literal> の <literal>secret</literal> 値を隠したい場合はどうしたらよいでしょうか。 ドット表記を使用して結果となるオブジェクトグラフ内のこのフィールドのパスを指定することができます。"
+msgstr ""
+"「secret」の値は返されるオブジェクトの <literal>secret</literal> フィールドを"
+"参照します。 ここで、 クライアントに対してこの特定フィールドが公開されても構"
+"わないと仮定します。 返される <literal>Widget</literal> 値には "
+"<literal>child</literal> フィールドがあり、 これも <literal>Widget</literal> "
+"になります。 代わりに <literal>child</literal> の <literal>secret</literal> "
+"値を隠したい場合はどうしたらよいでしょうか。 ドット表記を使用して結果となるオ"
+"ブジェクトグラフ内のこのフィールドのパスを指定することができます。"
 
 #. Tag: programlisting
-#: Remoting.xml:507
+#: Remoting.xml:532
 #, no-c-format
 msgid ""
 "@WebRemote(exclude = {\"child.secret\"})\n"
@@ -1585,13 +1759,13 @@ msgstr ""
 "public Widget getWidget();"
 
 #. Tag: title
-#: Remoting.xml:512
+#: Remoting.xml:537
 #, no-c-format
 msgid "Constraining Maps and Collections"
 msgstr "Map と 集合を制約する"
 
 #. Tag: para
-#: Remoting.xml:514
+#: Remoting.xml:539
 #, no-c-format
 msgid ""
 "The other place that objects can exist within an object graph are within a "
@@ -1612,7 +1786,7 @@ msgstr ""
 "literal> フィールドを制約している場合、 アノテーションは次のようになります。"
 
 #. Tag: programlisting
-#: Remoting.xml:521
+#: Remoting.xml:546
 #, no-c-format
 msgid ""
 "@WebRemote(exclude = {\"widgetList.secret\"})\n"
@@ -1622,7 +1796,7 @@ msgstr ""
 "public Widget getWidget();"
 
 #. Tag: para
-#: Remoting.xml:523
+#: Remoting.xml:548
 #, no-c-format
 msgid ""
 "To constrain a <literal>Map</literal>'s key or value, the notation is "
@@ -1632,10 +1806,16 @@ msgid ""
 "constrain the value object values. The following example demonstrates how "
 "the values of the <literal>widgetMap</literal> field have their "
 "<literal>secret</literal> field constrained:"
-msgstr "<literal>Map</literal> のキーまたは値を制約する場合の表記は少し異なります。 <literal>Map</literal> のフィールド名の後ろに <literal>[key]</literal> を付け加えると <literal>Map</literal> のキーオブジェクト値を制約し、 <literal>[value]</literal> は値オブジェクトの値を制約します。 次の例では <literal>widgetMap</literal> フィールドの値に制約された <literal>secret</literal> フィールドを持たせる方法を示しています。"
+msgstr ""
+"<literal>Map</literal> のキーまたは値を制約する場合の表記は少し異なります。 "
+"<literal>Map</literal> のフィールド名の後ろに <literal>[key]</literal> を付け"
+"加えると <literal>Map</literal> のキーオブジェクト値を制約し、 <literal>"
+"[value]</literal> は値オブジェクトの値を制約します。 次の例では "
+"<literal>widgetMap</literal> フィールドの値に制約された <literal>secret</"
+"literal> フィールドを持たせる方法を示しています。"
 
 #. Tag: programlisting
-#: Remoting.xml:529
+#: Remoting.xml:554
 #, no-c-format
 msgid ""
 "@WebRemote(exclude = {\"widgetMap[value].secret\"})\n"
@@ -1645,13 +1825,13 @@ msgstr ""
 "public Widget getWidget();"
 
 #. Tag: title
-#: Remoting.xml:533
+#: Remoting.xml:558
 #, no-c-format
 msgid "Constraining objects of a specific type"
 msgstr "特定タイプのオブジェクトを制約する"
 
 #. Tag: para
-#: Remoting.xml:535
+#: Remoting.xml:560
 #, no-c-format
 msgid ""
 "There is one last notation that can be used to constrain the fields of a "
@@ -1659,10 +1839,15 @@ msgid ""
 "notation uses either the name of the component (if the object is a Seam "
 "component) or the fully qualified class name (only if the object is not a "
 "Seam component) and is expressed using square brackets:"
-msgstr "最後に、結果となるオブジェクトグラフ内のどこに出現するかに関係なくオブジェクトタイプのフィールド制約に使用できる表記について説明します。 この表記はコンポーネント名 (オブジェクトが Seam コンポーネントである場合) または完全修飾クラス名 (オブジェクトが Seam コンポーネントではない場合のみ) のいずれかを使用し角括弧を使って表現されます。"
+msgstr ""
+"最後に、結果となるオブジェクトグラフ内のどこに出現するかに関係なくオブジェク"
+"トタイプのフィールド制約に使用できる表記について説明します。 この表記はコン"
+"ポーネント名 (オブジェクトが Seam コンポーネントである場合) または完全修飾ク"
+"ラス名 (オブジェクトが Seam コンポーネントではない場合のみ) のいずれかを使用"
+"し角括弧を使って表現されます。"
 
 #. Tag: programlisting
-#: Remoting.xml:540
+#: Remoting.xml:565
 #, no-c-format
 msgid ""
 "@WebRemote(exclude = {\"[widget].secret\"})\n"
@@ -1672,13 +1857,13 @@ msgstr ""
 "public Widget getWidget();"
 
 #. Tag: title
-#: Remoting.xml:545
+#: Remoting.xml:570
 #, no-c-format
 msgid "Combining Constraints"
 msgstr "制約同士を組み合わせる"
 
 #. Tag: para
-#: Remoting.xml:547
+#: Remoting.xml:572
 #, no-c-format
 msgid ""
 "Constraints can also be combined, to filter objects from multiple paths "
@@ -1688,7 +1873,7 @@ msgstr ""
 "に組み合わせることもできます。"
 
 #. Tag: programlisting
-#: Remoting.xml:549
+#: Remoting.xml:574
 #, no-c-format
 msgid ""
 "@WebRemote(exclude = {\"widgetList.secret\", \"widgetMap[value].secret\"})\n"
@@ -1698,13 +1883,13 @@ msgstr ""
 "public Widget getWidget();"
 
 #. Tag: title
-#: Remoting.xml:555
+#: Remoting.xml:580
 #, no-c-format
 msgid "JMS Messaging"
 msgstr "JMS メッセージング"
 
 #. Tag: para
-#: Remoting.xml:557
+#: Remoting.xml:582
 #, no-c-format
 msgid ""
 "Seam Remoting provides experimental support for JMS Messaging. This section "
@@ -1718,7 +1903,7 @@ msgstr ""
 "稼働環境下で使用することは推奨されていません。"
 
 #. Tag: para
-#: Remoting.xml:564
+#: Remoting.xml:589
 #, no-c-format
 msgid ""
 "Before you can subscribe to a JMS topic, you must first configure a list of "
@@ -1735,25 +1920,26 @@ msgstr ""
 "ます。"
 
 #. Tag: programlisting
-#: Remoting.xml:569 Remoting.xml:624
+#: Remoting.xml:594 Remoting.xml:649
 #, no-c-format
 msgid "<![CDATA[<remoting:remoting poll-timeout=\"5\" poll-interval=\"1\"/>]]>"
-msgstr "<![CDATA[<remoting:remoting poll-timeout=\"5\" poll-interval=\"1\"/>]]>"
+msgstr ""
+"<![CDATA[<remoting:remoting poll-timeout=\"5\" poll-interval=\"1\"/>]]>"
 
 #. Tag: title
-#: Remoting.xml:574
+#: Remoting.xml:599
 #, no-c-format
 msgid "Subscribing to a JMS Topic"
 msgstr "JMS Topic にサブスクライブする"
 
 #. Tag: para
-#: Remoting.xml:576
+#: Remoting.xml:601
 #, no-c-format
 msgid "The following example demonstrates how to subscribe to a JMS Topic:"
 msgstr "次の例では JMS Topic へのサブスクライブ方法を示しています。"
 
 #. Tag: programlisting
-#: Remoting.xml:578
+#: Remoting.xml:603
 #, no-c-format
 msgid ""
 "function subscriptionCallback(message)\n"
@@ -1773,7 +1959,7 @@ msgstr ""
 "Seam.Remoting.subscribe(\"topicName\", subscriptionCallback);"
 
 #. Tag: para
-#: Remoting.xml:580
+#: Remoting.xml:605
 #, no-c-format
 msgid ""
 "The <literal>Seam.Remoting.subscribe()</literal> method accepts two "
@@ -1785,7 +1971,7 @@ msgstr ""
 "ジが受け取られると呼び出すコールバック機能になります。"
 
 #. Tag: para
-#: Remoting.xml:583
+#: Remoting.xml:608
 #, no-c-format
 msgid ""
 "There are two types of messages supported, Text messages and Object "
@@ -1798,16 +1984,26 @@ msgid ""
 "<literal>ObjectMessage</literal> contains its object value in its "
 "<literal>value</literal> field (or call its <literal>getValue()</literal> "
 "method)."
-msgstr "サポートされているメッセージは 2 種類で、 テキストメッセージとオブジェクトメッセージです。 コールバック機能に渡されるメッセージタイプのテストを必要とする場合は、 <literal>instanceof</literal> 演算子を使ってメッセージが <literal>Seam.Remoting.TextMessage</literal> なのか <literal>Seam.Remoting.ObjectMessage</literal> であるのかをテストすることができます。 <literal>TextMessage</literal> はその <literal>text</literal> フィールドにテキスト値を含み (または代わりに <literal>getText()</literal> を呼び出す)、 <literal>ObjectMessage</literal> はその <literal>value</literal>  フィールドにオブジェクト値を含みます (またはその <literal>getValue()</literal> メソッドを呼び出す)。"
+msgstr ""
+"サポートされているメッセージは 2 種類で、 テキストメッセージとオブジェクト"
+"メッセージです。 コールバック機能に渡されるメッセージタイプのテストを必要とす"
+"る場合は、 <literal>instanceof</literal> 演算子を使ってメッセージが "
+"<literal>Seam.Remoting.TextMessage</literal> なのか <literal>Seam.Remoting."
+"ObjectMessage</literal> であるのかをテストすることができます。 "
+"<literal>TextMessage</literal> はその <literal>text</literal> フィールドにテ"
+"キスト値を含み (または代わりに <literal>getText()</literal> を呼び出す)、 "
+"<literal>ObjectMessage</literal> はその <literal>value</literal>  フィールド"
+"にオブジェクト値を含みます (またはその <literal>getValue()</literal> メソッド"
+"を呼び出す)。"
 
 #. Tag: title
-#: Remoting.xml:593
+#: Remoting.xml:618
 #, no-c-format
 msgid "Unsubscribing from a Topic"
 msgstr "トピックのサブスクライブを中止する"
 
 #. Tag: para
-#: Remoting.xml:595
+#: Remoting.xml:620
 #, no-c-format
 msgid ""
 "To unsubscribe from a topic, call <literal>Seam.Remoting.unsubscribe()</"
@@ -1817,20 +2013,20 @@ msgstr ""
 "</literal> を呼び出してトピック名で渡します。"
 
 #. Tag: programlisting
-#: Remoting.xml:598
+#: Remoting.xml:623
 #, no-c-format
 msgid "Seam.Remoting.unsubscribe(\"topicName\");"
 msgstr "Seam.Remoting.unsubscribe(\"topicName\");"
 
 #. Tag: title
-#: Remoting.xml:602
+#: Remoting.xml:627
 #, no-c-format
 msgid "Tuning the Polling Process"
 msgstr "ポーリングのプロセスを調整する"
 
 # <literal>Seam.Remoting.pollInterval</literal>: en.xml:759 (para)
 #. Tag: para
-#: Remoting.xml:604
+#: Remoting.xml:629
 #, no-c-format
 msgid ""
 "There are two parameters which you can modify to control how polling occurs. "
@@ -1844,7 +2040,7 @@ msgstr ""
 "設定は 10 になります。"
 
 #. Tag: para
-#: Remoting.xml:608
+#: Remoting.xml:633
 #, no-c-format
 msgid ""
 "The second parameter is <literal>Seam.Remoting.pollTimeout</literal>, and is "
@@ -1861,7 +2057,7 @@ msgstr ""
 "が直ちに返されます。"
 
 #. Tag: para
-#: Remoting.xml:613
+#: Remoting.xml:638
 #, no-c-format
 msgid ""
 "Caution should be used when setting a high <literal>pollTimeout</literal> "
@@ -1877,7 +2073,7 @@ msgstr ""
 "が固定される結果になります。"
 
 #. Tag: para
-#: Remoting.xml:618
+#: Remoting.xml:643
 #, no-c-format
 msgid ""
 "It is recommended that you set these options via components.xml, however "
@@ -1891,19 +2087,19 @@ msgstr ""
 "用のアプリケーションに適切な値を設定してください。"
 
 #. Tag: para
-#: Remoting.xml:622
+#: Remoting.xml:647
 #, no-c-format
 msgid "Via components.xml:"
 msgstr "components.xml:"
 
 #. Tag: para
-#: Remoting.xml:626
+#: Remoting.xml:651
 #, no-c-format
 msgid "Via JavaScript:"
 msgstr "JavaScript:"
 
 #. Tag: programlisting
-#: Remoting.xml:628
+#: Remoting.xml:653
 #, no-c-format
 msgid ""
 "// Only wait 1 second between receiving a poll response and sending the next "
@@ -1919,4 +2115,3 @@ msgstr ""
 "  \n"
 "// Wait up to 5 seconds on the server for new messages\n"
 "Seam.Remoting.pollTimeout = 5;"
-

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tools\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-11-06 06:41+0000\n"
+"POT-Creation-Date: 2009-02-01 21:19+0000\n"
 "PO-Revision-Date: 2008-12-07 23:13+0900\n"
 "Last-Translator: tagawaman <karlgotch1924.2007@gmail.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -22,8 +22,14 @@ msgstr "RSSサポート"
 #. Tag: para
 #: Rss.xml:6
 #, no-c-format
-msgid "It is now easy to integrate RSS feeds in Seam through the <ulink url=\"http://yarfraw.sourceforge.net/\">YARFRAW</ulink> library. The RSS support is currently in the state of \"tech preview\" in the current release."
-msgstr "<ulink url=\"http://yarfraw.sourceforge.net/\">YARFRAW</ulink>ライブラリを通してSeamにRSSフィードを統合する事は、今では容易に行えます。RSSサポートは現在、最新のリリースにおいて\"テクノロジ プレビュー\"の状態にあります。"
+msgid ""
+"It is now easy to integrate RSS feeds in Seam through the <ulink url="
+"\"http://yarfraw.sourceforge.net/\">YARFRAW</ulink> library. The RSS support "
+"is currently in the state of \"tech preview\" in the current release."
+msgstr ""
+"<ulink url=\"http://yarfraw.sourceforge.net/\">YARFRAW</ulink>ライブラリを通"
+"してSeamにRSSフィードを統合する事は、今では容易に行えます。RSSサポートは現"
+"在、最新のリリースにおいて\"テクノロジ プレビュー\"の状態にあります。"
 
 #. Tag: title
 #: Rss.xml:14
@@ -34,14 +40,27 @@ msgstr "インストール"
 #. Tag: para
 #: Rss.xml:15
 #, no-c-format
-msgid "To enable RSS support, include the <literal>jboss-seam-rss.jar</literal> in your applications <literal>WEB-INF/lib</literal> directory. The RSS library also has some dependent libraries that should be placed in the same directory. See <xref linkend=\"dependencies.rss\"/> for a list of libraries to include."
-msgstr "RSSサポートを可能にする為には、あなたのアプリケーションの<literal>WEB-INF/lib</literal>ディレクトリに<literal>jboss-seam-rss.jar</literal>を含めるようにして下さい。RSSライブラリには、依存関係にある幾つかのライブラリもあり、それらのライブラリはRSSライブラリと同じディレクトリに置かなければなりません。含めなければならないライブラリの一覧は<xref linkend=\"dependencies.rss\"/>を参照して下さい。"
+msgid ""
+"To enable RSS support, include the <literal>jboss-seam-rss.jar</literal> in "
+"your applications <literal>WEB-INF/lib</literal> directory. The RSS library "
+"also has some dependent libraries that should be placed in the same "
+"directory. See <xref linkend=\"dependencies.rss\"/> for a list of libraries "
+"to include."
+msgstr ""
+"RSSサポートを可能にする為には、あなたのアプリケーションの<literal>WEB-INF/"
+"lib</literal>ディレクトリに<literal>jboss-seam-rss.jar</literal>を含めるよう"
+"にして下さい。RSSライブラリには、依存関係にある幾つかのライブラリもあり、それ"
+"らのライブラリはRSSライブラリと同じディレクトリに置かなければなりません。含め"
+"なければならないライブラリの一覧は<xref linkend=\"dependencies.rss\"/>を参照"
+"して下さい。"
 
 #. Tag: para
 #: Rss.xml:22
 #, no-c-format
-msgid "The Seam RSS support requires the use of Facelets as the view technology."
-msgstr "Seam RSSサポートは、ビュー テクノロジとしてFaceletsの利用を必要とします。"
+msgid ""
+"The Seam RSS support requires the use of Facelets as the view technology."
+msgstr ""
+"Seam RSSサポートは、ビュー テクノロジとしてFaceletsの利用を必要とします。"
 
 #. Tag: title
 #: Rss.xml:28
@@ -52,14 +71,24 @@ msgstr "フィードを生成する"
 #. Tag: para
 #: Rss.xml:29
 #, no-c-format
-msgid "The <literal>examples/rss</literal> project contains an example of RSS support in action. It demonstrates proper deployment packaging, and it shows the exposed functionality."
-msgstr "<literal>examples/rss</literal> プロジェクトには実行可能なデモ用 RSS サポートのサンプルが含まれています。このプロジェクトは、デプロイ可能なパッケージとして適切なデモであり、RSSサポートの持つ機能をあらわにします。"
+msgid ""
+"The <literal>examples/rss</literal> project contains an example of RSS "
+"support in action. It demonstrates proper deployment packaging, and it shows "
+"the exposed functionality."
+msgstr ""
+"<literal>examples/rss</literal> プロジェクトには実行可能なデモ用 RSS サポート"
+"のサンプルが含まれています。このプロジェクトは、デプロイ可能なパッケージとし"
+"て適切なデモであり、RSSサポートの持つ機能をあらわにします。"
 
 #. Tag: para
 #: Rss.xml:34
 #, no-c-format
-msgid "A feed is a xhtml-page that consist of a feed and a list of nested entry items."
-msgstr "フィードは、フィードと入れ子になったエントリ項目のリストから成るxhtmlページです。"
+msgid ""
+"A feed is a xhtml-page that consist of a feed and a list of nested entry "
+"items."
+msgstr ""
+"フィードは、フィードと入れ子になったエントリ項目のリストから成るxhtmlページで"
+"す。"
 
 #. Tag: programlisting
 #: Rss.xml:38
@@ -122,62 +151,84 @@ msgstr "フィード"
 #. Tag: para
 #: Rss.xml:43
 #, no-c-format
-msgid "Feeds are the top-level entities that describe the properties of the information source. It contains zero or more nested entries."
-msgstr "フィードは、情報源の属性を説明する最上位のエンティティです。それは、０層以上の入れ子となったエントリを含みます。"
+msgid ""
+"Feeds are the top-level entities that describe the properties of the "
+"information source. It contains zero or more nested entries."
+msgstr ""
+"フィードは、情報源の属性を説明する最上位のエンティティです。それは、０層以上"
+"の入れ子となったエントリを含みます。"
 
 #. Tag: literal
-#: Rss.xml:55
-#: Rss.xml:142
+#: Rss.xml:55 Rss.xml:142
 #, no-c-format
 msgid "&lt;r:feed&gt;"
 msgstr "&lt;r:feed&gt;"
 
 #. Tag: emphasis
-#: Rss.xml:60
-#: Rss.xml:147
+#: Rss.xml:60 Rss.xml:147
 #, no-c-format
 msgid "Attributes"
 msgstr "属性"
 
 #. Tag: para
 #: Rss.xml:64
-#, no-c-format
-msgid "<literal>uid</literal> &#8212;An optional unique feed id. The value is a string."
-msgstr "<literal>uid</literal> &#8212;任意のユニークなフィードIDです。値は文字列です。"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>uid</literal> &#8212; An optional unique feed id. The value is a "
+"string."
+msgstr ""
+"<literal>uid</literal> &#8212;任意のユニークなフィードIDです。値は文字列で"
+"す。"
 
 #. Tag: para
 #: Rss.xml:70
-#, no-c-format
-msgid "<literal>title</literal> &#8212;The title of the feed. The value is a string."
-msgstr "<literal>title</literal> &#8212;フィードのタイトルです。値は文字列です。"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>title</literal> &#8212; The title of the feed. The value is a "
+"string."
+msgstr ""
+"<literal>title</literal> &#8212;フィードのタイトルです。値は文字列です。"
 
 #. Tag: para
 #: Rss.xml:76
-#, no-c-format
-msgid "<literal>subtitle</literal> &#8212;The subtitle of the feed. The value is a string."
-msgstr "<literal>subtitle</literal> &#8212;フィードのサブタイトルです。値は文字列です。"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>subtitle</literal> &#8212; The subtitle of the feed. The value is a "
+"string."
+msgstr ""
+"<literal>subtitle</literal> &#8212;フィードのサブタイトルです。値は文字列で"
+"す。"
 
 #. Tag: para
 #: Rss.xml:82
-#, no-c-format
-msgid "<literal>updated</literal> &#8212;When was the feed updated? The value is a date."
-msgstr "<literal>updated</literal> &#8212;フィードはいつ更新されましたか？値は日付です。"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>updated</literal> &#8212; When was the feed updated? The value is a "
+"date."
+msgstr ""
+"<literal>updated</literal> &#8212;フィードはいつ更新されましたか？値は日付で"
+"す。"
 
 #. Tag: para
 #: Rss.xml:88
-#, no-c-format
-msgid "<literal>link</literal> &#8212;The link to the source of the information. The value is a string."
+#, fuzzy, no-c-format
+msgid ""
+"<literal>link</literal> &#8212; The link to the source of the information. "
+"The value is a string."
 msgstr "<literal>link</literal> &#8212;情報源へのリンクです。値は文字列です。"
 
 #. Tag: para
 #: Rss.xml:95
-#, no-c-format
-msgid "<literal>feedFormat</literal> &#8212;The feed format. The value is a string and defaults to ATOM1. Valid values are RSS10, RSS20, ATOM03 and ATOM10."
-msgstr "<literal>feedFormat</literal> &#8212;フィードの形式です。値は文字列で、初期値はATOM10です。有効な値はRSS10、RSS20、ATOM03そしてATOM10です。"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>feedFormat</literal> &#8212; The feed format. The value is a string "
+"and defaults to ATOM1. Valid values are RSS10, RSS20, ATOM03 and ATOM10."
+msgstr ""
+"<literal>feedFormat</literal> &#8212;フィードの形式です。値は文字列で、初期値"
+"はATOM10です。有効な値はRSS10、RSS20、ATOM03そしてATOM10です。"
 
 #. Tag: emphasis
-#: Rss.xml:103
-#: Rss.xml:202
+#: Rss.xml:103 Rss.xml:202
 #, no-c-format
 msgid "Child elemenents"
 msgstr "子要素"
@@ -189,16 +240,13 @@ msgid "Zero or more feed entries"
 msgstr "０以上のフィードエントリです。"
 
 #. Tag: emphasis
-#: Rss.xml:113
-#: Rss.xml:212
+#: Rss.xml:113 Rss.xml:212
 #, no-c-format
 msgid "Facets"
 msgstr "ファセット"
 
 #. Tag: literal
-#: Rss.xml:118
-#: Rss.xml:207
-#: Rss.xml:217
+#: Rss.xml:118 Rss.xml:207 Rss.xml:217
 #, no-c-format
 msgid "none"
 msgstr "なし"
@@ -217,51 +265,76 @@ msgstr "エントリはフィード中の\"headlines\"にあたります。"
 
 #. Tag: para
 #: Rss.xml:151
-#, no-c-format
-msgid "<literal>uid</literal> &#8212;An optional unique entry id. The value is a string."
-msgstr "<literal>uid</literal> &#8212;任意のユニークなエントリIDです。値は文字列です。"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>uid</literal> &#8212; An optional unique entry id. The value is a "
+"string."
+msgstr ""
+"<literal>uid</literal> &#8212;任意のユニークなエントリIDです。値は文字列で"
+"す。"
 
 #. Tag: para
 #: Rss.xml:157
-#, no-c-format
-msgid "<literal>title</literal> &#8212;The title of the entry. The value is a string."
-msgstr "<literal>title</literal> &#8212;エントリのタイトルです。値は文字列です。"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>title</literal> &#8212; The title of the entry. The value is a "
+"string."
+msgstr ""
+"<literal>title</literal> &#8212;エントリのタイトルです。値は文字列です。"
 
 #. Tag: para
 #: Rss.xml:163
-#, no-c-format
-msgid "<literal>link</literal> &#8212;A link to the item. The value is a string."
+#, fuzzy, no-c-format
+msgid ""
+"<literal>link</literal> &#8212; A link to the item. The value is a string."
 msgstr "<literal>link</literal> &#8212;項目へのリンクです。値は文字列です。"
 
 #. Tag: para
 #: Rss.xml:169
-#, no-c-format
-msgid "<literal>author</literal> &#8212;The author of the story. The value is a string."
+#, fuzzy, no-c-format
+msgid ""
+"<literal>author</literal> &#8212; The author of the story. The value is a "
+"string."
 msgstr "<literal>author</literal> &#8212;その記事の著者です。値は文字列です。"
 
 #. Tag: para
 #: Rss.xml:175
-#, no-c-format
-msgid "<literal>summary</literal> &#8212;The body of the story. The value is a string."
+#, fuzzy, no-c-format
+msgid ""
+"<literal>summary</literal> &#8212; The body of the story. The value is a "
+"string."
 msgstr "<literal>summary</literal> &#8212;その記事の本文です。値は文字列です。"
 
 #. Tag: para
 #: Rss.xml:181
-#, no-c-format
-msgid "<literal>textFormat</literal> &#8212;The format of the body and title of the story. The value is a string and valid values are \"text\" and \"html\". Defaults to \"html\"."
-msgstr "<literal>textFormat</literal> &#8212;その記事の本文とタイトルの形式です。値は文字列で、有効な値は\"text\"と\"html\"です。初期値は\"html\"です。"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>textFormat</literal> &#8212; The format of the body and title of "
+"the story. The value is a string and valid values are \"text\" and \"html\". "
+"Defaults to \"html\"."
+msgstr ""
+"<literal>textFormat</literal> &#8212;その記事の本文とタイトルの形式です。値は"
+"文字列で、有効な値は\"text\"と\"html\"です。初期値は\"html\"です。"
 
 #. Tag: para
 #: Rss.xml:189
-#, no-c-format
-msgid "<literal>published</literal> &#8212;When was the story first published? The value is a date."
-msgstr "<literal>published</literal> &#8212;その記事を最初に公開したのはいつですか？値は日付です。"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>published</literal> &#8212; When was the story first published? The "
+"value is a date."
+msgstr ""
+"<literal>published</literal> &#8212;その記事を最初に公開したのはいつですか？"
+"値は日付です。"
 
 #. Tag: para
 #: Rss.xml:195
-#, no-c-format
-msgid "<literal>updated</literal> &#8212;When was the story updated? The value is a date."
-msgstr "<literal>updated</literal> &#8212;その記事を更新したのはいつですか？値は日付です。"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>updated</literal> &#8212; When was the story updated? The value is "
+"a date."
+msgstr ""
+"<literal>updated</literal> &#8212;その記事を更新したのはいつですか？値は日付"
+"です。"
 
 #. Tag: title
 #: Rss.xml:229
@@ -272,18 +345,31 @@ msgstr "リンクと、より詳細な文書について"
 #. Tag: para
 #: Rss.xml:230
 #, no-c-format
-msgid "The core of the RSs functionality is based on the YARFRAW library which can be found on http://yarfraw.sourceforge.net/ and most features and possible limitations are inherited from here."
-msgstr "RSS機能のコア部分はYARFRAWライブラリに基づいており、YARFRAWライブラリはhttp://yarfraw.sourceforge.net/で見つける事が出来ます。そして、ほとんどの特徴と可能な制限はここから引き継がれています。"
+msgid ""
+"The core of the RSs functionality is based on the YARFRAW library which can "
+"be found on http://yarfraw.sourceforge.net/ and most features and possible "
+"limitations are inherited from here."
+msgstr ""
+"RSS機能のコア部分はYARFRAWライブラリに基づいており、YARFRAWライブラリは"
+"http://yarfraw.sourceforge.net/で見つける事が出来ます。そして、ほとんどの特徴"
+"と可能な制限はここから引き継がれています。"
 
 #. Tag: para
 #: Rss.xml:235
 #, no-c-format
-msgid "For details on the ATOM 1.0 format, have a look at <ulink url=\"http://atompub.org/2005/07/11/draft-ietf-atompub-format-10.html\"> the specs</ulink>"
-msgstr "ATOM 1.0形式についての詳細は、<ulink url=\"http://atompub.org/2005/07/11/draft-ietf-atompub-format-10.html\">ATOM1.0仕様</ulink>を見て下さい。"
+msgid ""
+"For details on the ATOM 1.0 format, have a look at <ulink url=\"http://"
+"atompub.org/2005/07/11/draft-ietf-atompub-format-10.html\"> the specs</ulink>"
+msgstr ""
+"ATOM 1.0形式についての詳細は、<ulink url=\"http://atompub.org/2005/07/11/"
+"draft-ietf-atompub-format-10.html\">ATOM1.0仕様</ulink>を見て下さい。"
 
 #. Tag: para
 #: Rss.xml:240
 #, no-c-format
-msgid "For details on the RSS 2.0 format, have a look at <ulink url=\"http://cyber.law.harvard.edu/rss/rss.html\">the specs</ulink>"
-msgstr "RSS 2.0形式についての詳細は、<ulink url=\"http://cyber.law.harvard.edu/rss/rss.html\">RSS 2.0仕様</ulink>を見て下さい。"
-
+msgid ""
+"For details on the RSS 2.0 format, have a look at <ulink url=\"http://cyber."
+"law.harvard.edu/rss/rss.html\">the specs</ulink>"
+msgstr ""
+"RSS 2.0形式についての詳細は、<ulink url=\"http://cyber.law.harvard.edu/rss/"
+"rss.html\">RSS 2.0仕様</ulink>を見て下さい。"

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tools\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-11-06 06:41+0000\n"
+"POT-Creation-Date: 2009-02-01 21:19+0000\n"
 "PO-Revision-Date: 2008-12-10 01:49+0900\n"
 "Last-Translator: tokobayashi <toshiyakobayashi@gmail.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -22,8 +22,18 @@ msgstr "Seam JSF コントロール"
 #. Tag: para
 #: Controls.xml:6
 #, no-c-format
-msgid "Seam includes a number of JSF controls that are useful for working with Seam. These are intended to complement the built-in JSF controls, and controls from other third-party libraries. We recommend JBoss RichFaces, ICEsoft ICEfaces and Apache MyFaces Trinidad tag libraries for use with Seam. We do not recommend the use of the Tomahawk tag library."
-msgstr "Seam には Seam での作業に便利な JSF コントロールがいくつか含まれています。これらは組み込み JSF コントロールと他のサードパーティライブラリのコントロールの機能補完を目的としています。 Seam と併用する際は、JBoss RichFaces、Apache MyFaces Trinidad タグライブラリの使用を推奨します。 Tomahawk タグライブラリの使用はお薦めできません。"
+msgid ""
+"Seam includes a number of JSF controls that are useful for working with "
+"Seam. These are intended to complement the built-in JSF controls, and "
+"controls from other third-party libraries. We recommend JBoss RichFaces, "
+"ICEsoft ICEfaces and Apache MyFaces Trinidad tag libraries for use with "
+"Seam. We do not recommend the use of the Tomahawk tag library."
+msgstr ""
+"Seam には Seam での作業に便利な JSF コントロールがいくつか含まれています。こ"
+"れらは組み込み JSF コントロールと他のサードパーティライブラリのコントロールの"
+"機能補完を目的としています。 Seam と併用する際は、JBoss RichFaces、Apache "
+"MyFaces Trinidad タグライブラリの使用を推奨します。 Tomahawk タグライブラリの"
+"使用はお薦めできません。"
 
 #. Tag: title
 #: Controls.xml:15
@@ -34,8 +44,12 @@ msgstr "タグ"
 #. Tag: para
 #: Controls.xml:17
 #, no-c-format
-msgid "To use these tags, define the \"<literal>s</literal>\" namespace in your page as follows (facelets only):"
-msgstr "これらのタグを使用するには、 以下のように使用するページで  \"<literal>s</literal>\" ネームスペースを定義します (facelets 固有)。"
+msgid ""
+"To use these tags, define the \"<literal>s</literal>\" namespace in your "
+"page as follows (facelets only):"
+msgstr ""
+"これらのタグを使用するには、 以下のように使用するページで  \"<literal>s</"
+"literal>\" ネームスペースを定義します (facelets 固有)。"
 
 #. Tag: programlisting
 #: Controls.xml:22
@@ -67,35 +81,14 @@ msgid "&lt;s:button&gt;"
 msgstr "&lt;s:button&gt;"
 
 #. Tag: emphasis
-#: Controls.xml:34
-#: Controls.xml:110
-#: Controls.xml:127
-#: Controls.xml:143
-#: Controls.xml:216
-#: Controls.xml:251
-#: Controls.xml:285
-#: Controls.xml:299
-#: Controls.xml:364
-#: Controls.xml:380
-#: Controls.xml:397
-#: Controls.xml:414
-#: Controls.xml:433
-#: Controls.xml:469
-#: Controls.xml:487
-#: Controls.xml:511
-#: Controls.xml:543
-#: Controls.xml:560
-#: Controls.xml:584
-#: Controls.xml:603
-#: Controls.xml:631
-#: Controls.xml:654
-#: Controls.xml:668
-#: Controls.xml:708
-#: Controls.xml:736
-#: Controls.xml:808
-#: Controls.xml:848
-#: Controls.xml:949
-#: Controls.xml:1081
+#: Controls.xml:34 Controls.xml:110 Controls.xml:127 Controls.xml:143
+#: Controls.xml:216 Controls.xml:251 Controls.xml:285 Controls.xml:299
+#: Controls.xml:364 Controls.xml:380 Controls.xml:397 Controls.xml:414
+#: Controls.xml:433 Controls.xml:507 Controls.xml:525 Controls.xml:549
+#: Controls.xml:581 Controls.xml:598 Controls.xml:622 Controls.xml:641
+#: Controls.xml:669 Controls.xml:692 Controls.xml:706 Controls.xml:746
+#: Controls.xml:774 Controls.xml:846 Controls.xml:886 Controls.xml:987
+#: Controls.xml:1033 Controls.xml:1059 Controls.xml:1191
 #, no-c-format
 msgid "Description"
 msgstr "詳細"
@@ -103,118 +96,92 @@ msgstr "詳細"
 #. Tag: para
 #: Controls.xml:36
 #, no-c-format
-msgid "A button that supports invocation of an action with control over conversation propagation. <emphasis>Does not submit the form.</emphasis>"
-msgstr "対話伝搬の制御付きアクションの起動をサポートするボタンです。 <emphasis>フォームはサブミットしません。</emphasis>"
+msgid ""
+"A button that supports invocation of an action with control over "
+"conversation propagation. <emphasis>Does not submit the form.</emphasis>"
+msgstr ""
+"対話伝搬の制御付きアクションの起動をサポートするボタンです。 <emphasis>フォー"
+"ムはサブミットしません。</emphasis>"
 
 #. Tag: emphasis
-#: Controls.xml:41
-#: Controls.xml:118
-#: Controls.xml:133
-#: Controls.xml:155
-#: Controls.xml:222
-#: Controls.xml:269
-#: Controls.xml:288
-#: Controls.xml:312
-#: Controls.xml:370
-#: Controls.xml:386
-#: Controls.xml:403
-#: Controls.xml:420
-#: Controls.xml:439
-#: Controls.xml:475
-#: Controls.xml:493
-#: Controls.xml:517
-#: Controls.xml:548
-#: Controls.xml:565
-#: Controls.xml:590
-#: Controls.xml:610
-#: Controls.xml:636
-#: Controls.xml:659
-#: Controls.xml:675
-#: Controls.xml:713
-#: Controls.xml:741
-#: Controls.xml:815
-#: Controls.xml:893
-#: Controls.xml:960
-#: Controls.xml:1086
+#: Controls.xml:41 Controls.xml:118 Controls.xml:133 Controls.xml:155
+#: Controls.xml:222 Controls.xml:269 Controls.xml:288 Controls.xml:312
+#: Controls.xml:370 Controls.xml:386 Controls.xml:403 Controls.xml:420
+#: Controls.xml:439 Controls.xml:513 Controls.xml:531 Controls.xml:555
+#: Controls.xml:586 Controls.xml:603 Controls.xml:628 Controls.xml:648
+#: Controls.xml:674 Controls.xml:697 Controls.xml:713 Controls.xml:751
+#: Controls.xml:779 Controls.xml:853 Controls.xml:931 Controls.xml:998
+#: Controls.xml:1047 Controls.xml:1070 Controls.xml:1196
 #, no-c-format
 msgid "Attributes"
 msgstr "属性"
 
 #. Tag: para
-#: Controls.xml:45
-#: Controls.xml:158
+#: Controls.xml:45 Controls.xml:158
 #, no-c-format
 msgid "<literal>value</literal> &#8212; the label."
 msgstr "<literal>value</literal> &#8212; ラベル"
 
 #. Tag: para
-#: Controls.xml:50
-#: Controls.xml:163
+#: Controls.xml:50 Controls.xml:163
 #, no-c-format
-msgid "<literal>action</literal> &#8212; a method binding that specified the action listener."
-msgstr "<literal>action</literal> &#8212; アクションリスナを指定するメソッドバインディング"
+msgid ""
+"<literal>action</literal> &#8212; a method binding that specified the action "
+"listener."
+msgstr ""
+"<literal>action</literal> &#8212; アクションリスナを指定するメソッドバイン"
+"ディング"
 
 #. Tag: para
-#: Controls.xml:57
-#: Controls.xml:169
+#: Controls.xml:57 Controls.xml:169
 #, no-c-format
 msgid "<literal>view</literal> &#8212; the JSF view id to link to."
 msgstr "<literal>view</literal> &#8212; リンクする JSF view id"
 
 #. Tag: para
-#: Controls.xml:62
-#: Controls.xml:174
+#: Controls.xml:62 Controls.xml:174
 #, no-c-format
 msgid "<literal>fragment</literal> &#8212; the fragment identifier to link to."
 msgstr "<literal>fragment</literal> &#8212; リンクするフラグメント ID"
 
 #. Tag: para
-#: Controls.xml:68
-#: Controls.xml:180
+#: Controls.xml:68 Controls.xml:180
 #, no-c-format
 msgid "<literal>disabled</literal> &#8212; is the link disabled?"
 msgstr "<literal>disabled</literal> &#8212; リンクが無効かどうか"
 
 #. Tag: para
-#: Controls.xml:73
-#: Controls.xml:185
+#: Controls.xml:73 Controls.xml:185
 #, no-c-format
-msgid "<literal>propagation</literal> &#8212; determines the conversation propagation style: <literal>begin</literal>, <literal>join</literal>, <literal>nest</literal>, <literal>none</literal> or <literal>end</literal>."
-msgstr "<literal>propagation</literal> &#8212; 対話の伝播方式の指定 :  <literal>begin</literal>, <literal>join</literal>, <literal>nest</literal>, <literal>none</literal> または <literal>end</literal>"
+msgid ""
+"<literal>propagation</literal> &#8212; determines the conversation "
+"propagation style: <literal>begin</literal>, <literal>join</literal>, "
+"<literal>nest</literal>, <literal>none</literal> or <literal>end</literal>."
+msgstr ""
+"<literal>propagation</literal> &#8212; 対話の伝播方式の指定 :  "
+"<literal>begin</literal>, <literal>join</literal>, <literal>nest</literal>, "
+"<literal>none</literal> または <literal>end</literal>"
 
 #. Tag: para
 #: Controls.xml:81
 #, no-c-format
-msgid "<literal>pageflow</literal> &#8212; a pageflow definition to begin. (This is only useful when <literal>propagation=\"begin\"</literal> or <literal>propagation=\"join\"</literal> is used)."
-msgstr "<literal>pageflow</literal> &#8212; 開始するページフロー定義 (<literal>propagation=\"begin\"</literal> または <literal>propagation=\"join\"</literal> の場合のみ有効)"
+msgid ""
+"<literal>pageflow</literal> &#8212; a pageflow definition to begin. (This is "
+"only useful when <literal>propagation=\"begin\"</literal> or "
+"<literal>propagation=\"join\"</literal> is used)."
+msgstr ""
+"<literal>pageflow</literal> &#8212; 開始するページフロー定義 "
+"(<literal>propagation=\"begin\"</literal> または <literal>propagation=\"join"
+"\"</literal> の場合のみ有効)"
 
 #. Tag: emphasis
-#: Controls.xml:90
-#: Controls.xml:202
-#: Controls.xml:241
-#: Controls.xml:273
-#: Controls.xml:291
-#: Controls.xml:357
-#: Controls.xml:373
-#: Controls.xml:391
-#: Controls.xml:408
-#: Controls.xml:425
-#: Controls.xml:458
-#: Controls.xml:480
-#: Controls.xml:498
-#: Controls.xml:535
-#: Controls.xml:553
-#: Controls.xml:576
-#: Controls.xml:595
-#: Controls.xml:624
-#: Controls.xml:641
-#: Controls.xml:685
-#: Controls.xml:729
-#: Controls.xml:796
-#: Controls.xml:839
-#: Controls.xml:941
-#: Controls.xml:1074
-#: Controls.xml:1098
+#: Controls.xml:90 Controls.xml:202 Controls.xml:241 Controls.xml:273
+#: Controls.xml:291 Controls.xml:357 Controls.xml:373 Controls.xml:391
+#: Controls.xml:408 Controls.xml:425 Controls.xml:496 Controls.xml:518
+#: Controls.xml:536 Controls.xml:573 Controls.xml:591 Controls.xml:614
+#: Controls.xml:633 Controls.xml:662 Controls.xml:679 Controls.xml:723
+#: Controls.xml:767 Controls.xml:834 Controls.xml:877 Controls.xml:979
+#: Controls.xml:1023 Controls.xml:1184 Controls.xml:1208
 #, no-c-format
 msgid "Usage"
 msgstr "使い方"
@@ -233,17 +200,26 @@ msgstr ""
 
 # 「この場合、指定されたビューへのリダイレクトが発生するとアクションが呼ばれます。」から「この場合、指定されたビューへのリダイレクトが発生した時点でアクションが呼ばれます。」に変更。ifよりもwhenのニュアンス
 #. Tag: para
-#: Controls.xml:93
-#: Controls.xml:204
+#: Controls.xml:93 Controls.xml:204
 #, no-c-format
-msgid "You can specify both <literal>view</literal> and <literal>action</literal> on <literal>&lt;s:link /&gt;</literal>. In this case, the action will be called once the redirect to the specified view has occured."
-msgstr "<literal>&lt;s:link /&gt;</literal> には、 <literal>view</literal> と <literal>action</literal> の両方が指定可能です。 この場合、指定されたビューへのリダイレクトが発生した時点でアクションが呼ばれます。"
+msgid ""
+"You can specify both <literal>view</literal> and <literal>action</literal> "
+"on <literal>&lt;s:link /&gt;</literal>. In this case, the action will be "
+"called once the redirect to the specified view has occured."
+msgstr ""
+"<literal>&lt;s:link /&gt;</literal> には、 <literal>view</literal> と "
+"<literal>action</literal> の両方が指定可能です。 この場合、指定されたビューへ"
+"のリダイレクトが発生した時点でアクションが呼ばれます。"
 
 #. Tag: para
 #: Controls.xml:100
 #, no-c-format
-msgid "The use of action listeners (including the default JSF action listener) is not supported with <literal>&lt;s:button /&gt;</literal>."
-msgstr "<literal>&lt;s:button /&gt;</literal>ではアクションリスナ(デフォルトのJSFアクションリスナも含む)の使用はサポートされません。"
+msgid ""
+"The use of action listeners (including the default JSF action listener) is "
+"not supported with <literal>&lt;s:button /&gt;</literal>."
+msgstr ""
+"<literal>&lt;s:button /&gt;</literal>ではアクションリスナ(デフォルトのJSFアク"
+"ションリスナも含む)の使用はサポートされません。"
 
 #. Tag: literal
 #: Controls.xml:108
@@ -254,8 +230,12 @@ msgstr "&lt;s:conversationId&gt;"
 #. Tag: para
 #: Controls.xml:112
 #, no-c-format
-msgid "Add the conversation id to JSF link or button (e.g. <literal>&lt;h:commandLink /&gt;</literal> , <literal>&lt;s:button /&gt;</literal>)."
-msgstr "JSF リンクあるいはボタンに対話 ID を追加します ( 例 <literal>&lt;h:commandLink /&gt;</literal>、<literal>&lt;s:button /&gt;</literal>)。"
+msgid ""
+"Add the conversation id to JSF link or button (e.g. <literal>&lt;h:"
+"commandLink /&gt;</literal> , <literal>&lt;s:button /&gt;</literal>)."
+msgstr ""
+"JSF リンクあるいはボタンに対話 ID を追加します ( 例 <literal>&lt;h:"
+"commandLink /&gt;</literal>、<literal>&lt;s:button /&gt;</literal>)。"
 
 #. Tag: para
 #: Controls.xml:120
@@ -272,24 +252,18 @@ msgstr "&lt;s:taskId&gt;"
 #. Tag: para
 #: Controls.xml:128
 #, no-c-format
-msgid "Add the task id to an output link (or similar JSF control), when the task is available via <literal>#{task}</literal>."
-msgstr "タスクが<literal>#{task}</literal>で利用可能な場合、リンク(または同様のJSFコントロール)にタスクIDを付加します。"
+msgid ""
+"Add the task id to an output link (or similar JSF control), when the task is "
+"available via <literal>#{task}</literal>."
+msgstr ""
+"タスクが<literal>#{task}</literal>で利用可能な場合、リンク(または同様のJSFコ"
+"ントロール)にタスクIDを付加します。"
 
 #. Tag: para
-#: Controls.xml:134
-#: Controls.xml:271
-#: Controls.xml:289
-#: Controls.xml:313
-#: Controls.xml:371
-#: Controls.xml:387
-#: Controls.xml:404
-#: Controls.xml:421
-#: Controls.xml:476
-#: Controls.xml:494
-#: Controls.xml:549
-#: Controls.xml:591
-#: Controls.xml:637
-#: Controls.xml:660
+#: Controls.xml:134 Controls.xml:271 Controls.xml:289 Controls.xml:313
+#: Controls.xml:371 Controls.xml:387 Controls.xml:404 Controls.xml:421
+#: Controls.xml:514 Controls.xml:532 Controls.xml:587 Controls.xml:629
+#: Controls.xml:675 Controls.xml:698
 #, no-c-format
 msgid "None."
 msgstr "なし"
@@ -303,21 +277,34 @@ msgstr "&lt;s:link&gt;"
 #. Tag: para
 #: Controls.xml:144
 #, no-c-format
-msgid "A link that supports invocation of an action with control over conversation propagation. <emphasis>Does not submit the form.</emphasis>"
-msgstr "対話伝搬の制御付きアクションの起動をサポートするリンクです。 <emphasis>フォームはサブミットしません。</emphasis>"
+msgid ""
+"A link that supports invocation of an action with control over conversation "
+"propagation. <emphasis>Does not submit the form.</emphasis>"
+msgstr ""
+"対話伝搬の制御付きアクションの起動をサポートするリンクです。 <emphasis>フォー"
+"ムはサブミットしません。</emphasis>"
 
 #. Tag: para
 #: Controls.xml:150
 #, no-c-format
-msgid "The use of action listeners (including the default JSF action listener) is not supported with <literal>&lt;s:link /&gt;</literal>."
-msgstr "<literal>&lt;s:link /&gt;</literal>ではアクションリスナ(デフォルトのJSFアクションリスナも含む)の使用はサポートされません。"
+msgid ""
+"The use of action listeners (including the default JSF action listener) is "
+"not supported with <literal>&lt;s:link /&gt;</literal>."
+msgstr ""
+"<literal>&lt;s:link /&gt;</literal>ではアクションリスナ(デフォルトのJSFアク"
+"ションリスナも含む)の使用はサポートされません。"
 
 #. Tag: para
-#: Controls.xml:193
-#: Controls.xml:233
+#: Controls.xml:193 Controls.xml:233
 #, no-c-format
-msgid "<literal>pageflow</literal> &#8212; a pageflow definition to begin. (This is only useful when using <literal>propagation=\"begin\"</literal> or <literal>propagation=\"join\"</literal>.)"
-msgstr "<literal>pageflow</literal> &#8212; 開始するページフロー定義 (<literal>propagation=\"begin\"</literal> または <literal>propagation=\"join\"</literal> の場合のみ有効)"
+msgid ""
+"<literal>pageflow</literal> &#8212; a pageflow definition to begin. (This is "
+"only useful when using <literal>propagation=\"begin\"</literal> or "
+"<literal>propagation=\"join\"</literal>.)"
+msgstr ""
+"<literal>pageflow</literal> &#8212; 開始するページフロー定義 "
+"(<literal>propagation=\"begin\"</literal> または <literal>propagation=\"join"
+"\"</literal> の場合のみ有効)"
 
 #. Tag: programlisting
 #: Controls.xml:203
@@ -338,14 +325,24 @@ msgstr "&lt;s:conversationPropagation&gt;"
 #. Tag: para
 #: Controls.xml:217
 #, no-c-format
-msgid "Customize the conversation propagation for a command link or button (or similar JSF control). <emphasis>Facelets only.</emphasis>"
-msgstr "コマンドリンクやボタン (または同様の JSF コントロール) に対する対話伝搬をカスタマイズします。 <emphasis>Facelets 固有です。</emphasis>"
+msgid ""
+"Customize the conversation propagation for a command link or button (or "
+"similar JSF control). <emphasis>Facelets only.</emphasis>"
+msgstr ""
+"コマンドリンクやボタン (または同様の JSF コントロール) に対する対話伝搬をカス"
+"タマイズします。 <emphasis>Facelets 固有です。</emphasis>"
 
 #. Tag: para
 #: Controls.xml:225
 #, no-c-format
-msgid "<literal>type</literal> &#8212; determines the conversation propagation style: <literal>begin</literal>, <literal>join</literal>, <literal>nest</literal>, <literal>none</literal> or <literal>end</literal>."
-msgstr "対話の伝播方式を指定します : <literal>begin</literal>、<literal>join</literal>、<literal>nest</literal>、<literal>none</literal> または <literal>end</literal>"
+msgid ""
+"<literal>type</literal> &#8212; determines the conversation propagation "
+"style: <literal>begin</literal>, <literal>join</literal>, <literal>nest</"
+"literal>, <literal>none</literal> or <literal>end</literal>."
+msgstr ""
+"対話の伝播方式を指定します : <literal>begin</literal>、<literal>join</"
+"literal>、<literal>nest</literal>、<literal>none</literal> または "
+"<literal>end</literal>"
 
 #. Tag: programlisting
 #: Controls.xml:242
@@ -368,30 +365,46 @@ msgstr "&lt;s:defaultAction&gt;"
 #. Tag: para
 #: Controls.xml:253
 #, no-c-format
-msgid "Specify the default action to run when the form is submitted using the enter key."
-msgstr "enterキーでフォームをサブミットしたときに実行するデフォルトアクションを指定します。"
+msgid ""
+"Specify the default action to run when the form is submitted using the enter "
+"key."
+msgstr ""
+"enterキーでフォームをサブミットしたときに実行するデフォルトアクションを指定し"
+"ます。"
 
 #. Tag: para
 #: Controls.xml:257
 #, no-c-format
-msgid "Currently you can only nest it inside buttons (e.g. <literal>&lt;h:commandButton /&gt;</literal>, <literal>&lt;a:commandButton /&gt;</literal> or <literal>&lt;tr:commandButton /&gt;</literal>)."
-msgstr "今のところ、ボタン (例えば<literal>&lt;h:commandButton /&gt;</literal>、<literal>&lt;a:commandButton /&gt;</literal> または <literal>&lt;tr:commandButton /&gt;</literal>)の中にネストすることのみできます。"
+msgid ""
+"Currently you can only nest it inside buttons (e.g. <literal>&lt;h:"
+"commandButton /&gt;</literal>, <literal>&lt;a:commandButton /&gt;</literal> "
+"or <literal>&lt;tr:commandButton /&gt;</literal>)."
+msgstr ""
+"今のところ、ボタン (例えば<literal>&lt;h:commandButton /&gt;</literal>、"
+"<literal>&lt;a:commandButton /&gt;</literal> または <literal>&lt;tr:"
+"commandButton /&gt;</literal>)の中にネストすることのみできます。"
 
 #. Tag: para
 #: Controls.xml:263
 #, no-c-format
-msgid "You must specify an id on the action source. You can only have one default action per form."
-msgstr "元となるアクションにはIDを指定しなければいけません。フォームにはひとつのデフォルトアクションしか持てません。"
+msgid ""
+"You must specify an id on the action source. You can only have one default "
+"action per form."
+msgstr ""
+"元となるアクションにはIDを指定しなければいけません。フォームにはひとつのデ"
+"フォルトアクションしか持てません。"
 
 #. Tag: programlisting
 #: Controls.xml:274
 #, no-c-format
 msgid ""
-"<![CDATA[<h:commandButton id=\"foo\" value=\"Foo\" action=\"#{manager.foo}\">\n"
+"<![CDATA[<h:commandButton id=\"foo\" value=\"Foo\" action=\"#{manager.foo}"
+"\">\n"
 "   <s:defaultAction />\n"
 "</h:commandButton>]]>"
 msgstr ""
-"<![CDATA[<h:commandButton id=\"foo\" value=\"Foo\" action=\"#{manager.foo}\">\n"
+"<![CDATA[<h:commandButton id=\"foo\" value=\"Foo\" action=\"#{manager.foo}"
+"\">\n"
 "   <s:defaultAction />\n"
 "</h:commandButton>]]>"
 
@@ -434,18 +447,28 @@ msgstr "&lt;s:convertEntity&gt;"
 #. Tag: para
 #: Controls.xml:300
 #, no-c-format
-msgid "Assigns an entity converter to the current component. This is useful for radio button and dropdown controls."
-msgstr "エンティティコンバータを現在のコンポーネントに割り当てます。 ラジオボタンコントロール及びドロップダウンコントロールに役立ちます。"
+msgid ""
+"Assigns an entity converter to the current component. This is useful for "
+"radio button and dropdown controls."
+msgstr ""
+"エンティティコンバータを現在のコンポーネントに割り当てます。 ラジオボタンコン"
+"トロール及びドロップダウンコントロールに役立ちます。"
 
 #. Tag: para
 #: Controls.xml:305
 #, no-c-format
-msgid "The converter works with any managed entity - either simple or composite. The converter should be able to find the items declared in the JSF controls on form submission, otherwise you will receive a validation error."
-msgstr "コンバータは管理されたどのようなエンティティとも動作します。単純なエンティティでも複合エンティティでも同様です。フォームのサブミット時にコンバータはJSFコントロールで宣言された項目を見つけることができるべきです。さもなければバリデーションエラーを受け取ることになるでしょう。"
+msgid ""
+"The converter works with any managed entity - either simple or composite. "
+"The converter should be able to find the items declared in the JSF controls "
+"on form submission, otherwise you will receive a validation error."
+msgstr ""
+"コンバータは管理されたどのようなエンティティとも動作します。単純なエンティ"
+"ティでも複合エンティティでも同様です。フォームのサブミット時にコンバータはJSF"
+"コントロールで宣言された項目を見つけることができるべきです。さもなければバリ"
+"デーションエラーを受け取ることになるでしょう。"
 
 #. Tag: emphasis
-#: Controls.xml:315
-#: Controls.xml:864
+#: Controls.xml:315 Controls.xml:902 Controls.xml:993
 #, no-c-format
 msgid "Configuration"
 msgstr "設定"
@@ -453,14 +476,24 @@ msgstr "設定"
 #. Tag: para
 #: Controls.xml:317
 #, no-c-format
-msgid "You must use <emphasis>Seam managed transactions</emphasis> (see <xref linkend=\"persistence.seam-managed-transactions\"/>) with <literal>&lt;s:convertEntity /&gt;</literal>."
-msgstr "<literal>&lt;s:convertEntity /&gt;</literal> は <emphasis>Seam管理トランザクション</emphasis> ( <xref linkend=\"persistence.seam-managed-transactions\"/> 参照) とともに使う必要があります。 "
+msgid ""
+"You must use <emphasis>Seam managed transactions</emphasis> (see <xref "
+"linkend=\"persistence.seam-managed-transactions\"/>) with <literal>&lt;s:"
+"convertEntity /&gt;</literal>."
+msgstr ""
+"<literal>&lt;s:convertEntity /&gt;</literal> は <emphasis>Seam管理トランザク"
+"ション</emphasis> ( <xref linkend=\"persistence.seam-managed-transactions\"/"
+"> 参照) とともに使う必要があります。 "
 
 #. Tag: para
 #: Controls.xml:323
 #, no-c-format
-msgid "If your <emphasis>Managed Persistence Context</emphasis> isn't called <literal>entityManager</literal>, then you need to set it in components.xml:"
-msgstr "<emphasis>管理された永続コンテキスト</emphasis> が <literal>entityManager</literal> と呼ばれていないならば、 components.xmlで設定する必要があります:"
+msgid ""
+"If your <emphasis>Managed Persistence Context</emphasis> isn't called "
+"<literal>entityManager</literal>, then you need to set it in components.xml:"
+msgstr ""
+"<emphasis>管理された永続コンテキスト</emphasis> が <literal>entityManager</"
+"literal> と呼ばれていないならば、 components.xmlで設定する必要があります:"
 
 #. Tag: programlisting
 #: Controls.xml:328
@@ -479,8 +512,12 @@ msgstr ""
 #. Tag: para
 #: Controls.xml:330
 #, no-c-format
-msgid "If you are using a <emphasis>Managed Hibernate Session</emphasis> then you need to set it in components.xml:"
-msgstr "<emphasis>管理された Hibernate セッション</emphasis> を使用するならば、components.xmlで設定する必要があります:"
+msgid ""
+"If you are using a <emphasis>Managed Hibernate Session</emphasis> then you "
+"need to set it in components.xml:"
+msgstr ""
+"<emphasis>管理された Hibernate セッション</emphasis> を使用するならば、"
+"components.xmlで設定する必要があります:"
 
 #. Tag: programlisting
 #: Controls.xml:334
@@ -499,8 +536,12 @@ msgstr ""
 #. Tag: para
 #: Controls.xml:336
 #, no-c-format
-msgid "If your <emphasis>Managed Hibernate Session</emphasis> isn't called <literal>session</literal>, then you need to set it in components.xml:"
-msgstr "<emphasis>管理された Hibernate セッション</emphasis> が <literal>session</literal> と呼ばれていないならば、components.xmlで設定する必要があります:"
+msgid ""
+"If your <emphasis>Managed Hibernate Session</emphasis> isn't called "
+"<literal>session</literal>, then you need to set it in components.xml:"
+msgstr ""
+"<emphasis>管理された Hibernate セッション</emphasis> が <literal>session</"
+"literal> と呼ばれていないならば、components.xmlで設定する必要があります:"
 
 #. Tag: programlisting
 #: Controls.xml:342
@@ -519,8 +560,16 @@ msgstr ""
 #. Tag: para
 #: Controls.xml:344
 #, no-c-format
-msgid "If you want to use more than one entity manager with the entity converter, you can create a copy of the entity converter for each entity manager in <literal>components.xml</literal> - note how the entity converter delegates to the entity loader to perform persistence operations:"
-msgstr "ひとつ以上のエンティティマネージャをエンティティコンバータと使いたい場合、<literal>components.xml</literal> でそれぞれのエンティティマネージャに対してエンティティコンバータのコピーを作成することができます。エンティティコンバータがどのようにエンティティローダに永続化処理を委譲するのか注意してください:"
+msgid ""
+"If you want to use more than one entity manager with the entity converter, "
+"you can create a copy of the entity converter for each entity manager in "
+"<literal>components.xml</literal> - note how the entity converter delegates "
+"to the entity loader to perform persistence operations:"
+msgstr ""
+"ひとつ以上のエンティティマネージャをエンティティコンバータと使いたい場合、"
+"<literal>components.xml</literal> でそれぞれのエンティティマネージャに対して"
+"エンティティコンバータのコピーを作成することができます。エンティティコンバー"
+"タがどのようにエンティティローダに永続化処理を委譲するのか注意してください:"
 
 #. Tag: programlisting
 #: Controls.xml:352
@@ -529,24 +578,32 @@ msgid ""
 "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
 "            xmlns:ui=\"http://jboss.com/products/seam/ui\">\n"
 " \n"
-"   <ui:entity-converter name=\"standardEntityConverter\" entity-loader=\"#{standardEntityLoader}\" />\n"
+"   <ui:entity-converter name=\"standardEntityConverter\" entity-loader=\"#"
+"{standardEntityLoader}\" />\n"
 "            \n"
-"   <ui:jpa-entity-loader name=\"standardEntityLoader\" entity-manager=\"#{standardEntityManager}\" />\n"
+"   <ui:jpa-entity-loader name=\"standardEntityLoader\" entity-manager=\"#"
+"{standardEntityManager}\" />\n"
 "   \n"
-"   <ui:entity-converter name=\"restrictedEntityConverter\" entity-loader=\"#{restrictedEntityLoader}\" />\n"
+"   <ui:entity-converter name=\"restrictedEntityConverter\" entity-loader=\"#"
+"{restrictedEntityLoader}\" />\n"
 "            \n"
-"   <ui:jpa-entity-loader name=\"restrictedEntityLoader\" entity-manager=\"#{restrictedEntityManager}\" />]]>"
+"   <ui:jpa-entity-loader name=\"restrictedEntityLoader\" entity-manager=\"#"
+"{restrictedEntityManager}\" />]]>"
 msgstr ""
 "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
 "            xmlns:ui=\"http://jboss.com/products/seam/ui\">\n"
 " \n"
-"   <ui:entity-converter name=\"standardEntityConverter\" entity-loader=\"#{standardEntityLoader}\" />\n"
+"   <ui:entity-converter name=\"standardEntityConverter\" entity-loader=\"#"
+"{standardEntityLoader}\" />\n"
 "            \n"
-"   <ui:jpa-entity-loader name=\"standardEntityLoader\" entity-manager=\"#{standardEntityManager}\" />\n"
+"   <ui:jpa-entity-loader name=\"standardEntityLoader\" entity-manager=\"#"
+"{standardEntityManager}\" />\n"
 "   \n"
-"   <ui:entity-converter name=\"restrictedEntityConverter\" entity-loader=\"#{restrictedEntityLoader}\" />\n"
+"   <ui:entity-converter name=\"restrictedEntityConverter\" entity-loader=\"#"
+"{restrictedEntityLoader}\" />\n"
 "            \n"
-"   <ui:jpa-entity-loader name=\"restrictedEntityLoader\" entity-manager=\"#{restrictedEntityManager}\" />]]>"
+"   <ui:jpa-entity-loader name=\"restrictedEntityLoader\" entity-manager=\"#"
+"{restrictedEntityManager}\" />]]>"
 
 #. Tag: programlisting
 #: Controls.xml:354
@@ -591,8 +648,12 @@ msgstr "&lt;s:convertEnum&gt;"
 #. Tag: para
 #: Controls.xml:365
 #, no-c-format
-msgid "Assigns an enum converter to the current component. This is primarily useful for radio button and dropdown controls."
-msgstr "enum コンバータを現在のコンポーネントに割り当てます。 おもにラジオボタンコントロール及びドロップダウンコントロールに役立ちます。"
+msgid ""
+"Assigns an enum converter to the current component. This is primarily useful "
+"for radio button and dropdown controls."
+msgstr ""
+"enum コンバータを現在のコンポーネントに割り当てます。 おもにラジオボタンコン"
+"トロール及びドロップダウンコントロールに役立ちます。"
 
 #. Tag: programlisting
 #: Controls.xml:374
@@ -621,8 +682,12 @@ msgstr "&lt;s:convertAtomicBoolean&gt;"
 #. Tag: para
 #: Controls.xml:381
 #, no-c-format
-msgid "<literal>javax.faces.convert.Converter</literal> for <literal>java.util.concurrent.atomic.AtomicBoolean</literal>."
-msgstr "<literal>java.util.concurrent.atomic.AtomicBoolean</literal> のための <literal>javax.faces.convert.Converter</literal> です。"
+msgid ""
+"<literal>javax.faces.convert.Converter</literal> for <literal>java.util."
+"concurrent.atomic.AtomicBoolean</literal>."
+msgstr ""
+"<literal>java.util.concurrent.atomic.AtomicBoolean</literal> のための "
+"<literal>javax.faces.convert.Converter</literal> です。"
 
 #. Tag: programlisting
 #: Controls.xml:392
@@ -645,8 +710,12 @@ msgstr "&lt;s:convertAtomicInteger&gt;"
 #. Tag: para
 #: Controls.xml:398
 #, no-c-format
-msgid "<literal>javax.faces.convert.Converter</literal> for <literal>java.util.concurrent.atomic.AtomicInteger</literal>."
-msgstr "<literal>java.util.concurrent.atomic.AtomicInteger</literal> のための <literal>javax.faces.convert.Converter</literal> です。"
+msgid ""
+"<literal>javax.faces.convert.Converter</literal> for <literal>java.util."
+"concurrent.atomic.AtomicInteger</literal>."
+msgstr ""
+"<literal>java.util.concurrent.atomic.AtomicInteger</literal> のための "
+"<literal>javax.faces.convert.Converter</literal> です。"
 
 #. Tag: programlisting
 #: Controls.xml:409
@@ -669,8 +738,12 @@ msgstr "&lt;s:convertAtomicLong&gt;"
 #. Tag: para
 #: Controls.xml:415
 #, no-c-format
-msgid "<literal>javax.faces.convert.Converter</literal> for <literal>java.util.concurrent.atomic.AtomicLong</literal>."
-msgstr "<literal>java.util.concurrent.atomic.AtomicLong</literal> のための <literal>javax.faces.convert.Converter</literal> です。"
+msgid ""
+"<literal>javax.faces.convert.Converter</literal> for <literal>java.util."
+"concurrent.atomic.AtomicLong</literal>."
+msgstr ""
+"<literal>java.util.concurrent.atomic.AtomicLong</literal> のための "
+"<literal>javax.faces.convert.Converter</literal> です。"
 
 #. Tag: programlisting
 #: Controls.xml:426
@@ -692,9 +765,13 @@ msgstr "&lt;s:validateEquality&gt;"
 
 #. Tag: para
 #: Controls.xml:434
-#, no-c-format
-msgid "Tag to nest inside an input control to validate that its parent's value is the same as the referenced control's value."
-msgstr "インプットコントロール内にネストし、その親の値と参照先のコントロールの値が同じであることを検証するタグです。"
+#, fuzzy, no-c-format
+msgid ""
+"Tag to nest inside an input control to validate that its parent's value is "
+"equal (or not equal!) to the referenced control's value."
+msgstr ""
+"インプットコントロール内にネストし、その親の値と参照先のコントロールの値が同"
+"じであることを検証するタグです。"
 
 #. Tag: para
 #: Controls.xml:442
@@ -714,8 +791,61 @@ msgstr "<literal>message</literal> &#8212; 失敗時に表示されるメッセ�
 msgid "<literal>messageId</literal> &#8212; Message id to show on failure."
 msgstr "<literal>messageId</literal> &#8212; 失敗時に表示するメッセージID"
 
+#. Tag: para
+#: Controls.xml:457
+#, fuzzy, no-c-format
+msgid ""
+"<literal>operator</literal> &#8212; What operator to use when comparing the "
+"values Valid operators are:"
+msgstr "<literal>factor</literal> &#8212; 与えられた係数で画像を拡大縮小します"
+
+#. Tag: para
+#: Controls.xml:462
+#, fuzzy, no-c-format
+msgid "<literal>equal</literal> &#8212; Validates that value.equals(forValue)"
+msgstr "<literal>disabled</literal> &#8212; リンクが無効かどうか"
+
+#. Tag: para
+#: Controls.xml:467
+#, fuzzy, no-c-format
+msgid ""
+"<literal>not_equal</literal> &#8212; Validates that !value.equals(forValue)"
+msgstr "<literal>disabled</literal> &#8212; リンクが無効かどうか"
+
+#. Tag: para
+#: Controls.xml:472
+#, no-c-format
+msgid ""
+"<literal>greater</literal> &#8212; <![CDATA[Validates that ((Comparable)"
+"value).compareTo(forValue)> 0]]>"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:477
+#, no-c-format
+msgid ""
+"<literal>greater_or_equal</literal> &#8212; <![CDATA[Validates that "
+"((Comparable)value).compareTo(forValue)>= 0]]>"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:482
+#, no-c-format
+msgid ""
+"<literal>less</literal> &#8212; <![CDATA[Validates that ((Comparable)value)."
+"compareTo(forValue) <0]]>"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:487
+#, no-c-format
+msgid ""
+"<literal>less_or_equal</literal> &#8212; <![CDATA[Validates that "
+"((Comparable)value).compareTo(forValue) <= 0]]>"
+msgstr ""
+
 #. Tag: programlisting
-#: Controls.xml:459
+#: Controls.xml:497
 #, no-c-format
 msgid ""
 "<![CDATA[<h:inputText id=\"name\" value=\"#{bean.name}\"/>\n"
@@ -729,19 +859,23 @@ msgstr ""
 "</h:inputText>]]>"
 
 #. Tag: literal
-#: Controls.xml:467
+#: Controls.xml:505
 #, no-c-format
 msgid "&lt;s:validate&gt;"
 msgstr "&lt;s:validate&gt;"
 
 #. Tag: para
-#: Controls.xml:470
+#: Controls.xml:508
 #, no-c-format
-msgid "A non-visual control, validates a JSF input field against the bound property using Hibernate Validator."
-msgstr "非視覚的なコントロールです。 Hibernate Validator を使用してバウンドプロパティに対して JSF 入力フィールドを確認します。"
+msgid ""
+"A non-visual control, validates a JSF input field against the bound property "
+"using Hibernate Validator."
+msgstr ""
+"非視覚的なコントロールです。 Hibernate Validator を使用してバウンドプロパティ"
+"に対して JSF 入力フィールドを確認します。"
 
 #. Tag: programlisting
-#: Controls.xml:481
+#: Controls.xml:519
 #, no-c-format
 msgid ""
 "<![CDATA[<h:inputText id=\"userName\" required=\"true\" \n"
@@ -757,111 +891,133 @@ msgstr ""
 "<h:message for=\"userName\" styleClass=\"error\" />]]>"
 
 #. Tag: literal
-#: Controls.xml:485
+#: Controls.xml:523
 #, no-c-format
 msgid "&lt;s:validateAll&gt;"
 msgstr "&lt;s:validateAll&gt;"
 
 #. Tag: para
-#: Controls.xml:488
-#, no-c-format
-msgid "A non-visual control, validates all child JSF input fields against their bound properties using Hibernate Validator."
-msgstr "非視覚的なコントロールです。 Hibernate Validator を使ってそのバウンドプロパティに対しすべての子 JSF 入力フィールドを確認します。"
-
-#. Tag: programlisting
-#: Controls.xml:499
-#, no-c-format
-msgid ""
-"<![CDATA[<s:validateAll>\n"
-"  <div class=\"entry\">\n"
-"    <h:outputLabel for=\"username\">Username:</h:outputLabel>\n"
-"    <h:inputText id=\"username\" value=\"#{user.username}\" \n"
-"                 required=\"true\"/>\n"
-"    <h:message for=\"username\" styleClass=\"error\" />\n"
-"  </div>\n"
-"  <div class=\"entry\">\n"
-"    <h:outputLabel for=\"password\">Password:</h:outputLabel>\n"
-"    <h:inputSecret id=\"password\" value=\"#{user.password}\" \n"
-"                   required=\"true\"/>\n"
-"    <h:message for=\"password\" styleClass=\"error\" />\n"
-"  </div>\n"
-"  <div class=\"entry\">\n"
-"    <h:outputLabel for=\"verify\">Verify Password:</h:outputLabel>\n"
-"    <h:inputSecret id=\"verify\" value=\"#{register.verify}\" \n"
-"                   required=\"true\"/>\n"
-"    <h:message for=\"verify\" styleClass=\"error\" />\n"
-"  </div>\n"
-"</s:validateAll>]]>"
-msgstr ""
-"<![CDATA[<s:validateAll>\n"
-"  <div class=\"entry\">\n"
-"    <h:outputLabel for=\"username\">Username:</h:outputLabel>\n"
-"    <h:inputText id=\"username\" value=\"#{user.username}\" \n"
-"                 required=\"true\"/>\n"
-"    <h:message for=\"username\" styleClass=\"error\" />\n"
-"  </div>\n"
-"  <div class=\"entry\">\n"
-"    <h:outputLabel for=\"password\">Password:</h:outputLabel>\n"
-"    <h:inputSecret id=\"password\" value=\"#{user.password}\" \n"
-"                   required=\"true\"/>\n"
-"    <h:message for=\"password\" styleClass=\"error\" />\n"
-"  </div>\n"
-"  <div class=\"entry\">\n"
-"    <h:outputLabel for=\"verify\">Verify Password:</h:outputLabel>\n"
-"    <h:inputSecret id=\"verify\" value=\"#{register.verify}\" \n"
-"                   required=\"true\"/>\n"
-"    <h:message for=\"verify\" styleClass=\"error\" />\n"
-"  </div>\n"
-"</s:validateAll>]]>"
-
-#. Tag: title
-#: Controls.xml:506
-#, no-c-format
-msgid "Formatting"
-msgstr "フォーマット"
-
-#. Tag: literal
-#: Controls.xml:509
-#, no-c-format
-msgid "&lt;s:decorate&gt;"
-msgstr "&lt;s:decorate&gt;"
-
-#. Tag: para
-#: Controls.xml:512
-#, no-c-format
-msgid "\"Decorate\" a JSF input field when validation fails or when <literal>required=\"true\"</literal> is set."
-msgstr "検証に失敗した場合または <literal>required=\"true\"</literal> が設定されている場合、 JSF 入力フィールドを \"装飾\" します。"
-
-#. Tag: para
-#: Controls.xml:520
-#, no-c-format
-msgid "<literal>template</literal> &#8212; the facelets template to use to decorate the component"
-msgstr "<literal>template</literal> &#8212; コンポーネントを装飾するためのfaceletテンプレート"
-
-#. Tag: para
 #: Controls.xml:526
 #, no-c-format
-msgid "<literal>#{invalid}</literal> and <literal>#{required}</literal> are available inside <literal>s:decorate</literal>; <literal>#{required}</literal> evaluates to <literal>true</literal> if you have set the input component being decorated as required, and <literal>#{invalid}</literal> evaluates to <literal>true</literal> if a validation error occurs."
-msgstr "<literal>#{invalid}</literal> と <literal>#{required}</literal> が <literal>s:decorate</literal> の内部で利用可能です; 入力コンポーネントを入力必須として装飾した場合、<literal>#{required}</literal> は <literal>true</literal> と評価されます。また、検証エラーが起こった場合、 <literal>#{invalid}</literal> は <literal>true</literal> と評価されます。"
-
-#. Tag: programlisting
-#: Controls.xml:536
-#, no-c-format
 msgid ""
-"<![CDATA[<s:decorate template=\"edit.xhtml\">\n"
-"   <ui:define name=\"label\">Country:</ui:define>\n"
-"      <h:inputText value=\"#{location.country}\" required=\"true\"/>\n"
-"   </s:decorate>]]>"
+"A non-visual control, validates all child JSF input fields against their "
+"bound properties using Hibernate Validator."
 msgstr ""
-"<![CDATA[<s:decorate template=\"edit.xhtml\">\n"
-"   <ui:define name=\"label\">Country:</ui:define>\n"
-"      <h:inputText value=\"#{location.country}\" required=\"true\"/>\n"
-"   </s:decorate>]]>"
+"非視覚的なコントロールです。 Hibernate Validator を使ってそのバウンドプロパ"
+"ティに対しすべての子 JSF 入力フィールドを確認します。"
 
 #. Tag: programlisting
 #: Controls.xml:537
 #, no-c-format
 msgid ""
+"<![CDATA[<s:validateAll>\n"
+"  <div class=\"entry\">\n"
+"    <h:outputLabel for=\"username\">Username:</h:outputLabel>\n"
+"    <h:inputText id=\"username\" value=\"#{user.username}\" \n"
+"                 required=\"true\"/>\n"
+"    <h:message for=\"username\" styleClass=\"error\" />\n"
+"  </div>\n"
+"  <div class=\"entry\">\n"
+"    <h:outputLabel for=\"password\">Password:</h:outputLabel>\n"
+"    <h:inputSecret id=\"password\" value=\"#{user.password}\" \n"
+"                   required=\"true\"/>\n"
+"    <h:message for=\"password\" styleClass=\"error\" />\n"
+"  </div>\n"
+"  <div class=\"entry\">\n"
+"    <h:outputLabel for=\"verify\">Verify Password:</h:outputLabel>\n"
+"    <h:inputSecret id=\"verify\" value=\"#{register.verify}\" \n"
+"                   required=\"true\"/>\n"
+"    <h:message for=\"verify\" styleClass=\"error\" />\n"
+"  </div>\n"
+"</s:validateAll>]]>"
+msgstr ""
+"<![CDATA[<s:validateAll>\n"
+"  <div class=\"entry\">\n"
+"    <h:outputLabel for=\"username\">Username:</h:outputLabel>\n"
+"    <h:inputText id=\"username\" value=\"#{user.username}\" \n"
+"                 required=\"true\"/>\n"
+"    <h:message for=\"username\" styleClass=\"error\" />\n"
+"  </div>\n"
+"  <div class=\"entry\">\n"
+"    <h:outputLabel for=\"password\">Password:</h:outputLabel>\n"
+"    <h:inputSecret id=\"password\" value=\"#{user.password}\" \n"
+"                   required=\"true\"/>\n"
+"    <h:message for=\"password\" styleClass=\"error\" />\n"
+"  </div>\n"
+"  <div class=\"entry\">\n"
+"    <h:outputLabel for=\"verify\">Verify Password:</h:outputLabel>\n"
+"    <h:inputSecret id=\"verify\" value=\"#{register.verify}\" \n"
+"                   required=\"true\"/>\n"
+"    <h:message for=\"verify\" styleClass=\"error\" />\n"
+"  </div>\n"
+"</s:validateAll>]]>"
+
+#. Tag: title
+#: Controls.xml:544
+#, no-c-format
+msgid "Formatting"
+msgstr "フォーマット"
+
+#. Tag: literal
+#: Controls.xml:547
+#, no-c-format
+msgid "&lt;s:decorate&gt;"
+msgstr "&lt;s:decorate&gt;"
+
+#. Tag: para
+#: Controls.xml:550
+#, no-c-format
+msgid ""
+"\"Decorate\" a JSF input field when validation fails or when "
+"<literal>required=\"true\"</literal> is set."
+msgstr ""
+"検証に失敗した場合または <literal>required=\"true\"</literal> が設定されてい"
+"る場合、 JSF 入力フィールドを \"装飾\" します。"
+
+#. Tag: para
+#: Controls.xml:558
+#, no-c-format
+msgid ""
+"<literal>template</literal> &#8212; the facelets template to use to decorate "
+"the component"
+msgstr ""
+"<literal>template</literal> &#8212; コンポーネントを装飾するためのfaceletテン"
+"プレート"
+
+#. Tag: para
+#: Controls.xml:564
+#, no-c-format
+msgid ""
+"<literal>#{invalid}</literal> and <literal>#{required}</literal> are "
+"available inside <literal>s:decorate</literal>; <literal>#{required}</"
+"literal> evaluates to <literal>true</literal> if you have set the input "
+"component being decorated as required, and <literal>#{invalid}</literal> "
+"evaluates to <literal>true</literal> if a validation error occurs."
+msgstr ""
+"<literal>#{invalid}</literal> と <literal>#{required}</literal> が "
+"<literal>s:decorate</literal> の内部で利用可能です; 入力コンポーネントを入力"
+"必須として装飾した場合、<literal>#{required}</literal> は <literal>true</"
+"literal> と評価されます。また、検証エラーが起こった場合、 <literal>#{invalid}"
+"</literal> は <literal>true</literal> と評価されます。"
+
+#. Tag: programlisting
+#: Controls.xml:574
+#, no-c-format
+msgid ""
+"<![CDATA[<s:decorate template=\"edit.xhtml\">\n"
+"   <ui:define name=\"label\">Country:</ui:define>\n"
+"      <h:inputText value=\"#{location.country}\" required=\"true\"/>\n"
+"   </s:decorate>]]>"
+msgstr ""
+"<![CDATA[<s:decorate template=\"edit.xhtml\">\n"
+"   <ui:define name=\"label\">Country:</ui:define>\n"
+"      <h:inputText value=\"#{location.country}\" required=\"true\"/>\n"
+"   </s:decorate>]]>"
+
+#. Tag: programlisting
+#: Controls.xml:575
+#, no-c-format
+msgid ""
 "<![CDATA[<ui:composition xmlns=\"http://www.w3.org/1999/xhtml\"\n"
 "   xmlns:ui=\"http://java.sun.com/jsf/facelets\"\n"
 "   xmlns:h=\"http://java.sun.com/jsf/html\"\n"
@@ -872,7 +1028,8 @@ msgid ""
 "   \n"
 "      <s:label styleClass=\"#{invalid?'error':''}\">\n"
 "         <ui:insert name=\"label\"/>\n"
-"         <s:span styleClass=\"required\" rendered=\"#{required}\">*</s:span>\n"
+"         <s:span styleClass=\"required\" rendered=\"#{required}\">*</s:"
+"span>\n"
 "      </s:label>\n"
 "        \n"
 "      <span class=\"#{invalid?'error':''}\">\n"
@@ -897,7 +1054,8 @@ msgstr ""
 "   \n"
 "      <s:label styleClass=\"#{invalid?'error':''}\">\n"
 "         <ui:insert name=\"label\"/>\n"
-"         <s:span styleClass=\"required\" rendered=\"#{required}\">*</s:span>\n"
+"         <s:span styleClass=\"required\" rendered=\"#{required}\">*</s:"
+"span>\n"
 "      </s:label>\n"
 "        \n"
 "      <span class=\"#{invalid?'error':''}\">\n"
@@ -913,19 +1071,19 @@ msgstr ""
 "</ui:composition>]]>"
 
 #. Tag: literal
-#: Controls.xml:541
+#: Controls.xml:579
 #, no-c-format
 msgid "&lt;s:div&gt;"
 msgstr "&lt;s:div&gt;"
 
 #. Tag: para
-#: Controls.xml:544
+#: Controls.xml:582
 #, no-c-format
 msgid "Render a HTML <literal>&lt;div&gt;</literal>."
 msgstr "HTML <literal>&lt;div&gt;</literal> をレンダリングします。"
 
 #. Tag: programlisting
-#: Controls.xml:554
+#: Controls.xml:592
 #, no-c-format
 msgid ""
 "<![CDATA[<s:div rendered=\"#{selectedMember == null}\">\n"
@@ -937,43 +1095,51 @@ msgstr ""
 "</s:div>]]>"
 
 #. Tag: literal
-#: Controls.xml:558
+#: Controls.xml:596
 #, no-c-format
 msgid "&lt;s:span&gt;"
 msgstr "&lt;s:span&gt;"
 
 #. Tag: para
-#: Controls.xml:561
+#: Controls.xml:599
 #, no-c-format
 msgid "Render a HTML <literal>&lt;span&gt;</literal>."
 msgstr "HTML <literal>&lt;span&gt;</literal> をレンダリングします。"
 
 #. Tag: para
-#: Controls.xml:569
+#: Controls.xml:607
 #, no-c-format
 msgid "<literal>title</literal> &#8212; Title for a span."
 msgstr "<literal>title</literal> &#8212; span のタイトル"
 
 #. Tag: programlisting
-#: Controls.xml:577
+#: Controls.xml:615
 #, no-c-format
-msgid "<![CDATA[<s:span styleClass=\"required\" rendered=\"#{required}\" title=\"Small tooltip\">*</s:span>]]>"
-msgstr "<![CDATA[<s:span styleClass=\"required\" rendered=\"#{required}\" title=\"Small tooltip\">*</s:span>]]>"
+msgid ""
+"<![CDATA[<s:span styleClass=\"required\" rendered=\"#{required}\" title="
+"\"Small tooltip\">*</s:span>]]>"
+msgstr ""
+"<![CDATA[<s:span styleClass=\"required\" rendered=\"#{required}\" title="
+"\"Small tooltip\">*</s:span>]]>"
 
 #. Tag: literal
-#: Controls.xml:582
+#: Controls.xml:620
 #, no-c-format
 msgid "&lt;s:fragment&gt;"
 msgstr "&lt;s:fragment&gt;"
 
 #. Tag: para
-#: Controls.xml:585
+#: Controls.xml:623
 #, no-c-format
-msgid "A non-rendering component useful for enabling/disabling rendering of it's children."
-msgstr "レンダリングされないコンポーネントです。その子要素のレンダリングを有効化/無効化するのに便利です。"
+msgid ""
+"A non-rendering component useful for enabling/disabling rendering of it's "
+"children."
+msgstr ""
+"レンダリングされないコンポーネントです。その子要素のレンダリングを有効化/無効"
+"化するのに便利です。"
 
 #. Tag: programlisting
-#: Controls.xml:596
+#: Controls.xml:634
 #, no-c-format
 msgid ""
 "<![CDATA[<s:fragment rendered=\"#{auction.highBidder ne null}\">\n"
@@ -985,33 +1151,38 @@ msgstr ""
 "</s:fragment>]]>"
 
 #. Tag: literal
-#: Controls.xml:601
+#: Controls.xml:639
 #, no-c-format
 msgid "&lt;s:label&gt;"
 msgstr "&lt;s:label&gt;"
 
 #. Tag: para
-#: Controls.xml:604
+#: Controls.xml:642
 #, no-c-format
-msgid "\"Decorate\" a JSF input field with the label. The label is placed inside the HTML <literal>&lt;label&gt;</literal> tag, and is associated with the nearest JSF input component. It is often used with <literal>&lt;s:decorate&gt;</literal>."
-msgstr "JSF入力フィールドをラベルで \"装飾\" します。ラベルはHTMLでは <literal>&lt;label&gt;</literal> タグで配置され、最も近いJSF入力コンポーネントと関連づけられます。 よく <literal>&lt;s:decorate&gt;</literal> とともに使用されます。"
+msgid ""
+"\"Decorate\" a JSF input field with the label. The label is placed inside "
+"the HTML <literal>&lt;label&gt;</literal> tag, and is associated with the "
+"nearest JSF input component. It is often used with <literal>&lt;s:"
+"decorate&gt;</literal>."
+msgstr ""
+"JSF入力フィールドをラベルで \"装飾\" します。ラベルはHTMLでは <literal>&lt;"
+"label&gt;</literal> タグで配置され、最も近いJSF入力コンポーネントと関連づけら"
+"れます。 よく <literal>&lt;s:decorate&gt;</literal> とともに使用されます。"
 
 #. Tag: para
-#: Controls.xml:613
-#: Controls.xml:930
+#: Controls.xml:651 Controls.xml:968
 #, no-c-format
 msgid "<literal>style</literal> &#8212; The control's style"
 msgstr "<literal>style</literal> &#8212; コントロールのスタイル"
 
 #. Tag: para
-#: Controls.xml:618
-#: Controls.xml:935
+#: Controls.xml:656 Controls.xml:973
 #, no-c-format
 msgid "<literal>styleClass</literal> &#8212; The control's style class"
 msgstr "<literal>styleClass</literal> &#8212; コントロールのスタイルクラス"
 
 #. Tag: programlisting
-#: Controls.xml:625
+#: Controls.xml:663
 #, no-c-format
 msgid ""
 "<![CDATA[<s:label styleClass=\"label\">\n"
@@ -1025,19 +1196,19 @@ msgstr ""
 "<h:inputText value=\"#{location.country}\" required=\"true\"/>]]>"
 
 #. Tag: literal
-#: Controls.xml:629
+#: Controls.xml:667
 #, no-c-format
 msgid "&lt;s:message&gt;"
 msgstr "&lt;s:message&gt;"
 
 #. Tag: para
-#: Controls.xml:632
+#: Controls.xml:670
 #, no-c-format
 msgid "\"Decorate\" a JSF input field with the validation error message."
 msgstr "検証エラーのメッセージで JSF 入力フィールドを \"装飾\" します。"
 
 #. Tag: programlisting
-#: Controls.xml:642
+#: Controls.xml:680
 #, no-c-format
 msgid ""
 "<![CDATA[<f:facet name=\"afterInvalidField\">\n"
@@ -1055,85 +1226,101 @@ msgstr ""
 "</f:facet>]]>"
 
 #. Tag: title
-#: Controls.xml:649
+#: Controls.xml:687
 #, no-c-format
 msgid "Seam Text"
 msgstr "Seam Text"
 
 #. Tag: literal
-#: Controls.xml:652
+#: Controls.xml:690
 #, no-c-format
 msgid "&lt;s:validateFormattedText&gt;"
 msgstr "&lt;s:validateFormattedText&gt;"
 
 #. Tag: para
-#: Controls.xml:655
+#: Controls.xml:693
 #, no-c-format
 msgid "Checks that the submitted value is valid Seam Text"
 msgstr "サブミットされた値が正しいSeam Textであることをチェックします。"
 
 #. Tag: literal
-#: Controls.xml:666
+#: Controls.xml:704
 #, no-c-format
 msgid "&lt;s:formattedText&gt;"
 msgstr "&lt;s:formattedText&gt;"
 
 #. Tag: para
-#: Controls.xml:669
+#: Controls.xml:707
 #, no-c-format
-msgid "Outputs <emphasis>Seam Text</emphasis>, a rich text markup useful for blogs, wikis and other applications that might use rich text. See the Seam Text chapter for full usage."
-msgstr "<emphasis>Seam Text</emphasis> を出力します。Seam Text はブログ、wiki  及びリッチテキストを使うその他のアプリケーションにとって便利なリッチテキストマークアップです。使い方の全詳細については Seam Text の章を参照してください。"
+msgid ""
+"Outputs <emphasis>Seam Text</emphasis>, a rich text markup useful for blogs, "
+"wikis and other applications that might use rich text. See the Seam Text "
+"chapter for full usage."
+msgstr ""
+"<emphasis>Seam Text</emphasis> を出力します。Seam Text はブログ、wiki  及び"
+"リッチテキストを使うその他のアプリケーションにとって便利なリッチテキストマー"
+"クアップです。使い方の全詳細については Seam Text の章を参照してください。"
 
 #. Tag: para
-#: Controls.xml:678
+#: Controls.xml:716
 #, no-c-format
-msgid "<literal>value</literal> &#8212; an EL expression specifying the rich text markup to render."
-msgstr "<literal>value</literal> &#8212; レンダリングするリッチテキストマークアップを指定するEL式"
+msgid ""
+"<literal>value</literal> &#8212; an EL expression specifying the rich text "
+"markup to render."
+msgstr ""
+"<literal>value</literal> &#8212; レンダリングするリッチテキストマークアップを"
+"指定するEL式"
 
 #. Tag: programlisting
-#: Controls.xml:686
+#: Controls.xml:724
 #, no-c-format
 msgid "<![CDATA[<s:formattedText value=\"#{blog.text}\"/>]]>"
 msgstr "<![CDATA[<s:formattedText value=\"#{blog.text}\"/>]]>"
 
 #. Tag: emphasis
-#: Controls.xml:688
+#: Controls.xml:726
 #, no-c-format
 msgid "Example"
 msgstr "例"
 
 #. Tag: title
-#: Controls.xml:703
+#: Controls.xml:741
 #, no-c-format
 msgid "Dropdowns"
 msgstr "ドロップダウン"
 
 #. Tag: literal
-#: Controls.xml:706
+#: Controls.xml:744
 #, no-c-format
 msgid "&lt;s:enumItem&gt;"
 msgstr "&lt;s:enumItem&gt;"
 
 #. Tag: para
-#: Controls.xml:709
+#: Controls.xml:747
 #, no-c-format
 msgid "Creates a <literal>SelectItem</literal> from an enum value."
 msgstr "enum の値から <literal>SelectItem</literal> を作成します。"
 
 #. Tag: para
-#: Controls.xml:716
+#: Controls.xml:754
 #, no-c-format
-msgid "<literal>enumValue</literal> &#8212; the string representation of the enum value."
+msgid ""
+"<literal>enumValue</literal> &#8212; the string representation of the enum "
+"value."
 msgstr "<literal>enumValue</literal> &#8212; 列挙値の文字列表現"
 
 #. Tag: para
-#: Controls.xml:722
+#: Controls.xml:760
 #, no-c-format
-msgid "<literal>label</literal> &#8212; the label to be used when rendering the <literal>SelectItem</literal>."
-msgstr "<literal>label</literal> &#8212; <literal>SelectItem</literal> をレンダリングする際に使用するラベル"
+msgid ""
+"<literal>label</literal> &#8212; the label to be used when rendering the "
+"<literal>SelectItem</literal>."
+msgstr ""
+"<literal>label</literal> &#8212; <literal>SelectItem</literal> をレンダリング"
+"する際に使用するラベル"
 
 #. Tag: programlisting
-#: Controls.xml:730
+#: Controls.xml:768
 #, no-c-format
 msgid ""
 "<![CDATA[<h:selectOneRadio id=\"radioList\"\n"
@@ -1159,61 +1346,100 @@ msgstr ""
 "</h:selectOneRadio>]]>"
 
 #. Tag: literal
-#: Controls.xml:734
+#: Controls.xml:772
 #, no-c-format
 msgid "&lt;s:selectItems&gt;"
 msgstr "&lt;s:selectItems&gt;"
 
 #. Tag: para
-#: Controls.xml:737
+#: Controls.xml:775
 #, no-c-format
-msgid "Creates a <literal>List&lt;SelectItem&gt;</literal> from a List, Set, DataModel or Array."
-msgstr "List、 Set、 DataModel または Array から <literal>List&lt;SelectItem&gt;</literal> を作成します。"
+msgid ""
+"Creates a <literal>List&lt;SelectItem&gt;</literal> from a List, Set, "
+"DataModel or Array."
+msgstr ""
+"List、 Set、 DataModel または Array から <literal>List&lt;SelectItem&gt;</"
+"literal> を作成します。"
 
 #. Tag: para
-#: Controls.xml:744
+#: Controls.xml:782
 #, no-c-format
-msgid "<literal>value</literal> &#8212; an EL expression specifying the data that backs the <literal>List&lt;SelectItem&gt;</literal>"
-msgstr "<literal>value</literal> &#8212; <literal>List&lt;SelectItem&gt;</literal> に格納されるデータを指定するEL式"
-
-#. Tag: para
-#: Controls.xml:751
-#, no-c-format
-msgid "<literal>var</literal>&#8212; defines the name of the local variable that holds the current object during iteration"
-msgstr "<literal>var</literal>&#8212; 繰り返し中、現在のオブジェクトを保持するローカル変数の名前を定義します"
-
-#. Tag: para
-#: Controls.xml:757
-#, no-c-format
-msgid "<literal>label</literal> &#8212; the label to be used when rendering the <literal>SelectItem</literal>. Can reference the <literal>var</literal> variable."
-msgstr "<literal>label</literal> &#8212; <literal>SelectItem</literal> をレンダリングする際に使用するラベル。 <literal>var</literal> 変数を参照できます。"
-
-#. Tag: para
-#: Controls.xml:764
-#, no-c-format
-msgid "<literal>itemValue</literal> &#8212; Value to return to the server if this option is selected. Optional, by default the <literal>var</literal> object is used. Can reference the <literal>var</literal> variable."
-msgstr "<literal>itemValue</literal> &#8212; この選択肢が選ばれたときにサーバへ送信する値。この指定はオプションです。デフォルトでは <literal>var</literal> オブジェクトが使用されます。<literal>var</literal> 変数を参照できます。"
-
-#. Tag: para
-#: Controls.xml:773
-#, no-c-format
-msgid "<literal>disabled</literal> &#8212; if true the <literal>SelectItem</literal> will be rendered disabled. Can reference the <literal>var</literal> variable."
-msgstr "<literal>disabled</literal> &#8212; true の場合、 <literal>SelectItem</literal> はレンダリングされません。<literal>var</literal> 変数を参照できます。"
-
-#. Tag: para
-#: Controls.xml:781
-#, no-c-format
-msgid "<literal>noSelectionLabel</literal> &#8212; specifies the (optional) label to place at the top of list (if <literal>required=\"true\"</literal> is also specified then selecting this value will cause a validation error)."
-msgstr "<literal>noSelectionLabel</literal> &#8212; リストの最初に表示される (オプションの) ラベルを指定します ( <literal>required=\"true\"</literal> も指定されている場合、この値を選択すれば検証エラーになるでしょう) 。"
+msgid ""
+"<literal>value</literal> &#8212; an EL expression specifying the data that "
+"backs the <literal>List&lt;SelectItem&gt;</literal>"
+msgstr ""
+"<literal>value</literal> &#8212; <literal>List&lt;SelectItem&gt;</literal> に"
+"格納されるデータを指定するEL式"
 
 #. Tag: para
 #: Controls.xml:789
 #, no-c-format
-msgid "<literal>hideNoSelectionLabel</literal> &#8212; if true, the <literal>noSelectionLabel</literal> will be hidden when a value is selected"
-msgstr "<literal>hideNoSelectionLabel</literal> &#8212; true の場合、値が選択されているときは <literal>noSelectionLabel</literal> は隠されます。"
+msgid ""
+"<literal>var</literal>&#8212; defines the name of the local variable that "
+"holds the current object during iteration"
+msgstr ""
+"<literal>var</literal>&#8212; 繰り返し中、現在のオブジェクトを保持するローカ"
+"ル変数の名前を定義します"
+
+#. Tag: para
+#: Controls.xml:795
+#, no-c-format
+msgid ""
+"<literal>label</literal> &#8212; the label to be used when rendering the "
+"<literal>SelectItem</literal>. Can reference the <literal>var</literal> "
+"variable."
+msgstr ""
+"<literal>label</literal> &#8212; <literal>SelectItem</literal> をレンダリング"
+"する際に使用するラベル。 <literal>var</literal> 変数を参照できます。"
+
+#. Tag: para
+#: Controls.xml:802
+#, no-c-format
+msgid ""
+"<literal>itemValue</literal> &#8212; Value to return to the server if this "
+"option is selected. Optional, by default the <literal>var</literal> object "
+"is used. Can reference the <literal>var</literal> variable."
+msgstr ""
+"<literal>itemValue</literal> &#8212; この選択肢が選ばれたときにサーバへ送信す"
+"る値。この指定はオプションです。デフォルトでは <literal>var</literal> オブ"
+"ジェクトが使用されます。<literal>var</literal> 変数を参照できます。"
+
+#. Tag: para
+#: Controls.xml:811
+#, no-c-format
+msgid ""
+"<literal>disabled</literal> &#8212; if true the <literal>SelectItem</"
+"literal> will be rendered disabled. Can reference the <literal>var</literal> "
+"variable."
+msgstr ""
+"<literal>disabled</literal> &#8212; true の場合、 <literal>SelectItem</"
+"literal> はレンダリングされません。<literal>var</literal> 変数を参照できま"
+"す。"
+
+#. Tag: para
+#: Controls.xml:819
+#, no-c-format
+msgid ""
+"<literal>noSelectionLabel</literal> &#8212; specifies the (optional) label "
+"to place at the top of list (if <literal>required=\"true\"</literal> is also "
+"specified then selecting this value will cause a validation error)."
+msgstr ""
+"<literal>noSelectionLabel</literal> &#8212; リストの最初に表示される (オプ"
+"ションの) ラベルを指定します ( <literal>required=\"true\"</literal> も指定さ"
+"れている場合、この値を選択すれば検証エラーになるでしょう) 。"
+
+#. Tag: para
+#: Controls.xml:827
+#, no-c-format
+msgid ""
+"<literal>hideNoSelectionLabel</literal> &#8212; if true, the "
+"<literal>noSelectionLabel</literal> will be hidden when a value is selected"
+msgstr ""
+"<literal>hideNoSelectionLabel</literal> &#8212; true の場合、値が選択されてい"
+"るときは <literal>noSelectionLabel</literal> は隠されます。"
 
 #. Tag: programlisting
-#: Controls.xml:797
+#: Controls.xml:835
 #, no-c-format
 msgid ""
 "<![CDATA[<h:selectOneMenu value=\"#{person.age}\" \n"
@@ -1227,44 +1453,66 @@ msgstr ""
 "</h:selectOneMenu>]]>"
 
 #. Tag: title
-#: Controls.xml:803
+#: Controls.xml:841
 #, no-c-format
 msgid "Other"
 msgstr "その他"
 
 #. Tag: literal
-#: Controls.xml:806
+#: Controls.xml:844
 #, no-c-format
 msgid "&lt;s:cache&gt;"
 msgstr "&lt;s:cache&gt;"
 
 #. Tag: para
-#: Controls.xml:809
+#: Controls.xml:847
 #, no-c-format
-msgid "Cache the rendered page fragment using JBoss Cache. Note that <literal>&lt;s:cache&gt;</literal> actually uses the instance of JBoss Cache managed by the built-in <literal>pojoCache</literal> component."
-msgstr "JBoss Cache を使用してレンダリングされるページフラグメントの Cache です。 <literal>&lt;s:cache&gt;</literal> は実際にはビルトインの <literal>pojoCache</literal> コンポーネントで管理される JBoss Cache のインスタンスを使用するので注意してください。"
+msgid ""
+"Cache the rendered page fragment using JBoss Cache. Note that <literal>&lt;s:"
+"cache&gt;</literal> actually uses the instance of JBoss Cache managed by the "
+"built-in <literal>pojoCache</literal> component."
+msgstr ""
+"JBoss Cache を使用してレンダリングされるページフラグメントの Cache です。 "
+"<literal>&lt;s:cache&gt;</literal> は実際にはビルトインの "
+"<literal>pojoCache</literal> コンポーネントで管理される JBoss Cache のインス"
+"タンスを使用するので注意してください。"
 
 # faragment:フラグメント、断片
 #. Tag: para
-#: Controls.xml:818
+#: Controls.xml:856
 #, no-c-format
-msgid "<literal>key</literal> &#8212; the key to cache rendered content, often a value expression. For example, if we were caching a page fragment that displays a document, we might use <literal>key=\"Document-#{document.id}\"</literal>."
-msgstr "<literal>key</literal> &#8212; レンダリングされたコンテンツをキャッシュするキーです。値式を使うことが多いです。例えばドキュメントを表示するページフラグメントをキャッシュする場合、 <literal>key=\"Document-#{document.id}\"</literal>のように使います。"
+msgid ""
+"<literal>key</literal> &#8212; the key to cache rendered content, often a "
+"value expression. For example, if we were caching a page fragment that "
+"displays a document, we might use <literal>key=\"Document-#{document.id}\"</"
+"literal>."
+msgstr ""
+"<literal>key</literal> &#8212; レンダリングされたコンテンツをキャッシュする"
+"キーです。値式を使うことが多いです。例えばドキュメントを表示するページフラグ"
+"メントをキャッシュする場合、 <literal>key=\"Document-#{document.id}\"</"
+"literal>のように使います。"
 
 #. Tag: para
-#: Controls.xml:826
+#: Controls.xml:864
 #, no-c-format
-msgid "<literal>enabled</literal> &#8212; a value expression that determines if the cache should be used."
-msgstr "<literal>enabled</literal> &#8212; キャッシュを使うべきかどうか決定する値式"
+msgid ""
+"<literal>enabled</literal> &#8212; a value expression that determines if the "
+"cache should be used."
+msgstr ""
+"<literal>enabled</literal> &#8212; キャッシュを使うべきかどうか決定する値式"
 
 #. Tag: para
-#: Controls.xml:832
+#: Controls.xml:870
 #, no-c-format
-msgid "<literal>region</literal> &#8212; a JBoss Cache node to use (different nodes can have different expiry policies)."
-msgstr "<literal>region</literal> &#8212; 使用する JBoss Cache のノード(ノード毎に異なる有効期限ポリシーを持つことができます)"
+msgid ""
+"<literal>region</literal> &#8212; a JBoss Cache node to use (different nodes "
+"can have different expiry policies)."
+msgstr ""
+"<literal>region</literal> &#8212; 使用する JBoss Cache のノード(ノード毎に異"
+"なる有効期限ポリシーを持つことができます)"
 
 #. Tag: programlisting
-#: Controls.xml:840
+#: Controls.xml:878
 #, no-c-format
 msgid ""
 "<![CDATA[<s:cache key=\"entry-#{blogEntry.id}\" region=\"pageFragments\">\n"
@@ -1276,7 +1524,8 @@ msgid ""
 "    <p>\n"
 "      [Posted on&#160;\n"
 "      <h:outputText value=\"#{blogEntry.date}\">\n"
-"        <f:convertDateTime timezone=\"#{blog.timeZone}\" locale=\"#{blog.locale}\" \n"
+"        <f:convertDateTime timezone=\"#{blog.timeZone}\" locale=\"#{blog."
+"locale}\" \n"
 "                           type=\"both\"/>\n"
 "      </h:outputText>]\n"
 "    </p>\n"
@@ -1292,7 +1541,8 @@ msgstr ""
 "    <p>\n"
 "      [Posted on&#160;\n"
 "      <h:outputText value=\"#{blogEntry.date}\">\n"
-"        <f:convertDateTime timezone=\"#{blog.timeZone}\" locale=\"#{blog.locale}\" \n"
+"        <f:convertDateTime timezone=\"#{blog.timeZone}\" locale=\"#{blog."
+"locale}\" \n"
 "                           type=\"both\"/>\n"
 "      </h:outputText>]\n"
 "    </p>\n"
@@ -1300,31 +1550,40 @@ msgstr ""
 "</s:cache>]]>"
 
 #. Tag: literal
-#: Controls.xml:846
+#: Controls.xml:884
 #, no-c-format
 msgid "&lt;s:fileUpload&gt;"
 msgstr "&lt;s:fileUpload&gt;"
 
 #. Tag: para
-#: Controls.xml:849
+#: Controls.xml:887
 #, no-c-format
-msgid "Renders a file upload control. This control must be used within a form with an encoding type of <literal>multipart/form-data</literal>, i.e:"
-msgstr "ファイルアップロードコントロールをレンダリングします。 このコントロールはエンコーディングタイプ <literal>multipart/form-data</literal> を使用してフォーム内で使用する必要があります。"
+msgid ""
+"Renders a file upload control. This control must be used within a form with "
+"an encoding type of <literal>multipart/form-data</literal>, i.e:"
+msgstr ""
+"ファイルアップロードコントロールをレンダリングします。 このコントロールはエン"
+"コーディングタイプ <literal>multipart/form-data</literal> を使用してフォーム"
+"内で使用する必要があります。"
 
 #. Tag: programlisting
-#: Controls.xml:855
+#: Controls.xml:893
 #, no-c-format
 msgid "<![CDATA[<h:form enctype=\"multipart/form-data\">]]>"
 msgstr "<![CDATA[<h:form enctype=\"multipart/form-data\">]]>"
 
 #. Tag: para
-#: Controls.xml:857
+#: Controls.xml:895
 #, no-c-format
-msgid "For multipart requests, the Seam Multipart servlet filter must also be configured in <literal>web.xml</literal>:"
-msgstr "マルチパートリクエストの場合、 Seam Multipart サーブレットフィルタも <literal>web.xml</literal> 内で設定しなければなりません。"
+msgid ""
+"For multipart requests, the Seam Multipart servlet filter must also be "
+"configured in <literal>web.xml</literal>:"
+msgstr ""
+"マルチパートリクエストの場合、 Seam Multipart サーブレットフィルタも "
+"<literal>web.xml</literal> 内で設定しなければなりません。"
 
 #. Tag: programlisting
-#: Controls.xml:862
+#: Controls.xml:900
 #, no-c-format
 msgid ""
 "<![CDATA[<filter>\n"
@@ -1348,31 +1607,43 @@ msgstr ""
 "</filter-mapping>]]>"
 
 #. Tag: para
-#: Controls.xml:866
+#: Controls.xml:904
 #, no-c-format
-msgid "The following configuration options for multipart requests may be configured in components.xml:"
-msgstr "components.xml では、 次のようなマルチパートリクエスト用の設定オプションが設定できます。"
+msgid ""
+"The following configuration options for multipart requests may be configured "
+"in components.xml:"
+msgstr ""
+"components.xml では、 次のようなマルチパートリクエスト用の設定オプションが設"
+"定できます。"
 
 #. Tag: para
-#: Controls.xml:873
+#: Controls.xml:911
 #, no-c-format
-msgid "<literal>createTempFiles</literal> &#8212; if this option is set to true, uploaded files are streamed to a temporary file instead of in memory."
-msgstr "<literal>createTempFiles</literal> &#8212; true の場合、アップロードされたファイルはメモリではなく一時ファイルに保存されます。"
+msgid ""
+"<literal>createTempFiles</literal> &#8212; if this option is set to true, "
+"uploaded files are streamed to a temporary file instead of in memory."
+msgstr ""
+"<literal>createTempFiles</literal> &#8212; true の場合、アップロードされた"
+"ファイルはメモリではなく一時ファイルに保存されます。"
 
 #. Tag: para
-#: Controls.xml:880
+#: Controls.xml:918
 #, no-c-format
-msgid "<literal>maxRequestSize</literal> &#8212; the maximum size of a file upload request, in bytes."
-msgstr "<literal>maxRequestSize</literal> &#8212; ファイルアップロードリクエストの最大サイズです。単位はバイトです。"
+msgid ""
+"<literal>maxRequestSize</literal> &#8212; the maximum size of a file upload "
+"request, in bytes."
+msgstr ""
+"<literal>maxRequestSize</literal> &#8212; ファイルアップロードリクエストの最"
+"大サイズです。単位はバイトです。"
 
 #. Tag: para
-#: Controls.xml:887
+#: Controls.xml:925
 #, no-c-format
 msgid "Here's an example:"
 msgstr "例:"
 
 #. Tag: programlisting
-#: Controls.xml:891
+#: Controls.xml:929
 #, no-c-format
 msgid ""
 "<![CDATA[<component class=\"org.jboss.seam.web.MultipartFilter\">\n"
@@ -1386,37 +1657,61 @@ msgstr ""
 "</component>]]>"
 
 #. Tag: para
-#: Controls.xml:896
+#: Controls.xml:934
 #, no-c-format
-msgid "<literal>data</literal> &#8212; this value binding receives the binary file data. The receiving field should be declared as a <literal>byte[]</literal> or <literal>InputStream</literal> (required)."
-msgstr "<literal>data</literal> &#8212; この値結合はバイナリのファイルデータを受け取ります。受け取るフィールドは <literal>byte[]</literal> または <literal>InputStream</literal> として宣言されている必要があります(必須)。"
+msgid ""
+"<literal>data</literal> &#8212; this value binding receives the binary file "
+"data. The receiving field should be declared as a <literal>byte[]</literal> "
+"or <literal>InputStream</literal> (required)."
+msgstr ""
+"<literal>data</literal> &#8212; この値結合はバイナリのファイルデータを受け取"
+"ります。受け取るフィールドは <literal>byte[]</literal> または "
+"<literal>InputStream</literal> として宣言されている必要があります(必須)。"
 
 #. Tag: para
-#: Controls.xml:904
+#: Controls.xml:942
 #, no-c-format
-msgid "<literal>contentType</literal> &#8212; this value binding receives the file's content type (optional)."
-msgstr "<literal>contentType</literal> &#8212; この値結合はファイルのコンテントタイプを受け取ります (オプション)。"
+msgid ""
+"<literal>contentType</literal> &#8212; this value binding receives the "
+"file's content type (optional)."
+msgstr ""
+"<literal>contentType</literal> &#8212; この値結合はファイルのコンテントタイプ"
+"を受け取ります (オプション)。"
 
 #. Tag: para
-#: Controls.xml:910
+#: Controls.xml:948
 #, no-c-format
-msgid "<literal>fileName</literal> &#8212; this value binding receives the filename (optional)."
-msgstr "<literal>fileName</literal> &#8212; この値結合はファイル名を受け取ります (オプション)。"
+msgid ""
+"<literal>fileName</literal> &#8212; this value binding receives the filename "
+"(optional)."
+msgstr ""
+"<literal>fileName</literal> &#8212; この値結合はファイル名を受け取ります (オ"
+"プション)。"
 
 #. Tag: para
-#: Controls.xml:916
+#: Controls.xml:954
 #, no-c-format
-msgid "<literal>fileSize</literal> &#8212; this value binding receives the file size (optional)."
-msgstr "<literal>fileSize</literal> &#8212; この値結合はファイルサイズを受け取ります (オプション)。"
+msgid ""
+"<literal>fileSize</literal> &#8212; this value binding receives the file "
+"size (optional)."
+msgstr ""
+"<literal>fileSize</literal> &#8212; この値結合はファイルサイズを受け取ります "
+"(オプション)。"
 
 #. Tag: para
-#: Controls.xml:922
+#: Controls.xml:960
 #, no-c-format
-msgid "<literal>accept</literal> &#8212; a comma-separated list of content types to accept, may not be supported by the browser. E.g. <literal>\"images/png,images/jpg\"</literal>, <literal>\"images/*\"</literal>."
-msgstr "<literal>accept</literal> &#8212; 受け入れるコンテントタイプの、カンマ区切りのリストです。ブラウザによってサポートされないかもしれません。 例： <literal>\"images/png,images/jpg\"</literal>、 <literal>\"images/*\"</literal>。"
+msgid ""
+"<literal>accept</literal> &#8212; a comma-separated list of content types to "
+"accept, may not be supported by the browser. E.g. <literal>\"images/png,"
+"images/jpg\"</literal>, <literal>\"images/*\"</literal>."
+msgstr ""
+"<literal>accept</literal> &#8212; 受け入れるコンテントタイプの、カンマ区切り"
+"のリストです。ブラウザによってサポートされないかもしれません。 例： <literal>"
+"\"images/png,images/jpg\"</literal>、 <literal>\"images/*\"</literal>。"
 
 #. Tag: programlisting
-#: Controls.xml:942
+#: Controls.xml:980
 #, no-c-format
 msgid ""
 "<![CDATA[<s:fileUpload id=\"picture\" data=\"#{register.picture}\" \n"
@@ -1428,109 +1723,306 @@ msgstr ""
 "              contentType=\"#{register.pictureContentType}\" />]]>"
 
 #. Tag: literal
-#: Controls.xml:947
+#: Controls.xml:985
+#, fuzzy, no-c-format
+msgid "&lt;s:resource&gt;"
+msgstr "&lt;s:remote&gt;"
+
+#. Tag: para
+#: Controls.xml:988
+#, no-c-format
+msgid ""
+"A tag that acts a file download provider. It must be alone in the JSF page. "
+"To be able to use this contol, web.xml must be set up as follows."
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:995
+#, fuzzy, no-c-format
+msgid ""
+"<![CDATA[<servlet>\n"
+"   <servlet-name>Document Store Servlet</servlet-name>\n"
+"   <servlet-class>org.jboss.seam.document.DocumentStoreServlet</servlet-"
+"class>\n"
+"</servlet>\n"
+"<servlet-mapping>\n"
+"   <servlet-name>Document Store Servlet</servlet-name>\n"
+"   <url-pattern>/seam/docstore/*</url-pattern>\n"
+"</servlet-mapping>\n"
+"]]>"
+msgstr ""
+"<![CDATA[<filter>\n"
+"  <filter-name>Seam Filter</filter-name>\n"
+"  <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>\n"
+"</filter>\n"
+"\n"
+"<filter-mapping>\n"
+"  <filter-name>Seam Filter</filter-name>\n"
+"  <url-pattern>/*</url-pattern>\n"
+"</filter-mapping>]]>"
+
+#. Tag: para
+#: Controls.xml:1001
+#, no-c-format
+msgid ""
+"<literal>data</literal> &#8212; Data that should be downloaded. May be a "
+"java.util.File, an InputStream or a byte array."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:1007
+#, fuzzy, no-c-format
+msgid "<literal>fileName</literal> &#8212; Filename of the file to be served"
+msgstr ""
+"<literal>fileName</literal> &#8212; この値結合はファイル名を受け取ります (オ"
+"プション)。"
+
+#. Tag: para
+#: Controls.xml:1012
+#, fuzzy, no-c-format
+msgid ""
+"<literal>contentType</literal> &#8212; content type of the file to be "
+"downloaded"
+msgstr ""
+"<literal>contentType</literal> &#8212; この値結合はファイルのコンテントタイプ"
+"を受け取ります (オプション)。"
+
+#. Tag: para
+#: Controls.xml:1017
+#, fuzzy, no-c-format
+msgid ""
+"<literal>disposition</literal> &#8212; disposition to use. Default is inline"
+msgstr "<literal>disabled</literal> &#8212; リンクが無効かどうか"
+
+#. Tag: para
+#: Controls.xml:1024
+#, no-c-format
+msgid "Here is an example on how to use the tag:"
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:1025
+#, fuzzy, no-c-format
+msgid ""
+"<![CDATA[<s:resource xmlns=\"http://www.w3.org/1999/xhtml\"\n"
+"        xmlns:s=\"http://jboss.com/products/seam/taglib\"\n"
+"        data=\"#{resources.data}\"\n"
+"        contentType=\"#{resources.contentType}\"\n"
+"        fileName=\"#{resources.fileName}\" />\n"
+"]]>"
+msgstr ""
+"<![CDATA[<html xmlns=\"http://www.w3.org/1999/xhtml\"\n"
+"      xmlns:s=\"http://jboss.com/products/seam/taglib\">]]>"
+
+#. Tag: para
+#: Controls.xml:1027
+#, no-c-format
+msgid ""
+"The bean named <literal>resources</literal> is some backing bean that given "
+"some request parameters servers a specific file, see <literal>s:download</"
+"literal>."
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:1032
+#, fuzzy, no-c-format
+msgid "&lt;s:download&gt;"
+msgstr "&lt;s:fileUpload&gt;"
+
+#. Tag: para
+#: Controls.xml:1034
+#, no-c-format
+msgid ""
+"Builds a RESTful link to a <literal>&lt;s:resource&gt;</literal>. Nested "
+"<literal>f:param</literal> build up the url."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:1041
+#, fuzzy, no-c-format
+msgid "<literal>src</literal> &#8212; Resource file serving files."
+msgstr "<literal>message</literal> &#8212; 失敗時に表示されるメッセージ"
+
+#. Tag: programlisting
+#: Controls.xml:1048
+#, no-c-format
+msgid ""
+"<![CDATA[<s:download src=\"/resources.xhtml\">\n"
+"    <f:param name=\"fileId\" value=\"#{someBean.downloadableFileId}\"/>\n"
+"</s:download>]]>"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:1050
+#, no-c-format
+msgid ""
+"Will produce something like: <literal><![CDATA[http://localhost/resources."
+"seam?fileId=1]]></literal>"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:1057
 #, no-c-format
 msgid "&lt;s:graphicImage&gt;"
 msgstr "&lt;s:graphicImage&gt;"
 
 #. Tag: para
-#: Controls.xml:950
+#: Controls.xml:1060
 #, no-c-format
-msgid "An extended <literal>&lt;h:graphicImage&gt;</literal> that allows the image to be created in a Seam Component; further transforms can be applied to the image."
-msgstr "拡張された <literal>&lt;h:graphicImage&gt;</literal> で、Seamコンポーネント内で画像を作成することを許可します; さらに画像の変換も適用できます。"
+msgid ""
+"An extended <literal>&lt;h:graphicImage&gt;</literal> that allows the image "
+"to be created in a Seam Component; further transforms can be applied to the "
+"image."
+msgstr ""
+"拡張された <literal>&lt;h:graphicImage&gt;</literal> で、Seamコンポーネント内"
+"で画像を作成することを許可します; さらに画像の変換も適用できます。"
 
 #. Tag: para
-#: Controls.xml:955
+#: Controls.xml:1065
 #, no-c-format
-msgid "All attributes for <literal>&lt;h:graphicImage&gt;</literal> are supported, as well as:"
-msgstr "<literal>&lt;h:graphicImage&gt;</literal> のすべての属性がサポートされている他、 以下もサポートされています。"
+msgid ""
+"All attributes for <literal>&lt;h:graphicImage&gt;</literal> are supported, "
+"as well as:"
+msgstr ""
+"<literal>&lt;h:graphicImage&gt;</literal> のすべての属性がサポートされている"
+"他、 以下もサポートされています。"
 
 #. Tag: para
-#: Controls.xml:963
+#: Controls.xml:1073
 #, no-c-format
-msgid "<literal>value</literal> &#8212; image to display. Can be a path <literal>String</literal> (loaded from the classpath), a <literal>byte[]</literal>, a <literal>java.io.File</literal>, a <literal>java.io.InputStream</literal> or a <literal>java.net.URL</literal>. Currently supported image formats are <literal>image/png</literal>, <literal>image/jpeg</literal> and <literal>image/gif</literal>."
-msgstr "<literal>value</literal> &#8212; 表示する画像です。パスを表す <literal>String</literal> (クラスパスからロードされます)、<literal>byte[]</literal>、<literal>java.io.File</literal>、<literal>java.io.InputStream</literal> または  <literal>java.net.URL</literal> が指定可能です。現在サポートされる画像フォーマットは <literal>image/png</literal>、<literal>image/jpeg</literal> と <literal>image/gif</literal> です。"
+msgid ""
+"<literal>value</literal> &#8212; image to display. Can be a path "
+"<literal>String</literal> (loaded from the classpath), a <literal>byte[]</"
+"literal>, a <literal>java.io.File</literal>, a <literal>java.io.InputStream</"
+"literal> or a <literal>java.net.URL</literal>. Currently supported image "
+"formats are <literal>image/png</literal>, <literal>image/jpeg</literal> and "
+"<literal>image/gif</literal>."
+msgstr ""
+"<literal>value</literal> &#8212; 表示する画像です。パスを表す "
+"<literal>String</literal> (クラスパスからロードされます)、<literal>byte[]</"
+"literal>、<literal>java.io.File</literal>、<literal>java.io.InputStream</"
+"literal> または  <literal>java.net.URL</literal> が指定可能です。現在サポート"
+"される画像フォーマットは <literal>image/png</literal>、<literal>image/jpeg</"
+"literal> と <literal>image/gif</literal> です。"
 
 #. Tag: para
-#: Controls.xml:976
+#: Controls.xml:1086
 #, no-c-format
-msgid "<literal>fileName</literal> &#8212; if not specified the served image will have a generated file name. If you want to name your file, you should specify it here. This name should be unique"
-msgstr "<literal>fileName</literal> &#8212; 指定しなかった場合、画像は生成されたファイル名を持ちます。ファイルに名前を付けたい場合、ここで指定してください。この名前は一意である必要があります"
+msgid ""
+"<literal>fileName</literal> &#8212; if not specified the served image will "
+"have a generated file name. If you want to name your file, you should "
+"specify it here. This name should be unique"
+msgstr ""
+"<literal>fileName</literal> &#8212; 指定しなかった場合、画像は生成されたファ"
+"イル名を持ちます。ファイルに名前を付けたい場合、ここで指定してください。この"
+"名前は一意である必要があります"
 
 #. Tag: emphasis
-#: Controls.xml:985
+#: Controls.xml:1095
 #, no-c-format
 msgid "Transformations"
 msgstr "変換"
 
 #. Tag: para
-#: Controls.xml:986
+#: Controls.xml:1096
 #, no-c-format
-msgid "To apply a transform to the image, you would nest a tag specifying the transform to apply. Seam currently supports these transforms:"
-msgstr "イメージに変換を適用するには、 適用する変換を指定するタグをネストさせます。 Seam は現在、 次のような変換をサポートしています。"
+msgid ""
+"To apply a transform to the image, you would nest a tag specifying the "
+"transform to apply. Seam currently supports these transforms:"
+msgstr ""
+"イメージに変換を適用するには、 適用する変換を指定するタグをネストさせます。 "
+"Seam は現在、 次のような変換をサポートしています。"
 
 #. Tag: literal
-#: Controls.xml:994
+#: Controls.xml:1104
 #, no-c-format
 msgid "&lt;s:transformImageSize&gt;"
 msgstr "&lt;s:transformImageSize&gt;"
 
 #. Tag: para
-#: Controls.xml:999
+#: Controls.xml:1109
 #, no-c-format
 msgid "<literal>width</literal> &#8212; new width of the image"
 msgstr "<literal>width</literal> &#8212; 画像の幅を指定します"
 
 #. Tag: para
-#: Controls.xml:1005
+#: Controls.xml:1115
 #, no-c-format
 msgid "<literal>height</literal> &#8212; new height of the image"
 msgstr "<literal>height</literal> &#8212; 画像の高さを指定します"
 
 #. Tag: para
-#: Controls.xml:1011
+#: Controls.xml:1121
 #, no-c-format
-msgid "<literal>maintainRatio</literal> &#8212; if <literal>true</literal>, and <emphasis>one</emphasis> of <literal>width</literal>/<literal>height</literal> are specified, the image will be resized with the dimension not specified being calculated to maintain the aspect ratio."
-msgstr "<literal>maintainRatio</literal> &#8212; <literal>true</literal> が指定され、かつ <literal>width</literal> と <literal>height</literal> の <emphasis>片方</emphasis> が指定された場合、指定されなかった側をアスペクト比を維持するよう計算し、画像をリサイズします。"
+msgid ""
+"<literal>maintainRatio</literal> &#8212; if <literal>true</literal>, and "
+"<emphasis>one</emphasis> of <literal>width</literal>/<literal>height</"
+"literal> are specified, the image will be resized with the dimension not "
+"specified being calculated to maintain the aspect ratio."
+msgstr ""
+"<literal>maintainRatio</literal> &#8212; <literal>true</literal> が指定され、"
+"かつ <literal>width</literal> と <literal>height</literal> の <emphasis>片方"
+"</emphasis> が指定された場合、指定されなかった側をアスペクト比を維持するよう"
+"計算し、画像をリサイズします。"
 
 #. Tag: para
-#: Controls.xml:1022
+#: Controls.xml:1132
 #, no-c-format
 msgid "<literal>factor</literal> &#8212; scale the image by the given factor"
 msgstr "<literal>factor</literal> &#8212; 与えられた係数で画像を拡大縮小します"
 
 #. Tag: literal
-#: Controls.xml:1032
+#: Controls.xml:1142
 #, no-c-format
 msgid "&lt;s:transformImageBlur&gt;"
 msgstr "&lt;s:transformImageBlur&gt;"
 
 #. Tag: para
-#: Controls.xml:1037
+#: Controls.xml:1147
 #, no-c-format
-msgid "<literal>radius</literal> &#8212; perform a convolution blur with the given radius"
-msgstr "<literal>radius</literal> &#8212; 与えられた半径でコンボリューションブラーを実行します"
+msgid ""
+"<literal>radius</literal> &#8212; perform a convolution blur with the given "
+"radius"
+msgstr ""
+"<literal>radius</literal> &#8212; 与えられた半径でコンボリューションブラーを"
+"実行します"
 
 #. Tag: literal
-#: Controls.xml:1047
+#: Controls.xml:1157
 #, no-c-format
 msgid "&lt;s:transformImageType&gt;"
 msgstr "&lt;s:transformImageType&gt;"
 
 #. Tag: para
-#: Controls.xml:1052
+#: Controls.xml:1162
 #, no-c-format
-msgid "<literal>contentType</literal> &#8212; alter the type of the image to either <literal>image/jpeg</literal> or <literal>image/png</literal>"
-msgstr "<literal>contentType</literal> &#8212; 画像のタイプを <literal>image/jpeg</literal> または <literal>image/png</literal> に変更します"
+msgid ""
+"<literal>contentType</literal> &#8212; alter the type of the image to either "
+"<literal>image/jpeg</literal> or <literal>image/png</literal>"
+msgstr ""
+"<literal>contentType</literal> &#8212; 画像のタイプを <literal>image/jpeg</"
+"literal> または <literal>image/png</literal> に変更します"
 
 #. Tag: para
-#: Controls.xml:1064
+#: Controls.xml:1174
 #, no-c-format
-msgid "It's easy to create your own transform - create a <literal>UIComponent</literal> which implements <literal>org.jboss.seam.ui.graphicImage.ImageTransform</literal>. Inside the <literal>applyTransform()</literal>method use <literal>image.getBufferedImage()</literal> to get the original image and <literal>image.setBufferedImage()</literal> to set your transformed image. Transforms are applied in the order specified in the view."
-msgstr "変換を自作するのは簡単です - <literal>org.jboss.seam.ui.graphicImage.ImageTransform</literal> を実装する <literal>UIComponent</literal> を作成します。 <literal>applyTransform()</literal>メソッド内で <literal>image.getBufferedImage()</literal> を使って元の画像を取得し、<literal>image.setBufferedImage()</literal> で変換した画像をセットします。変換はビューに指定された順序で適用されます。"
+msgid ""
+"It's easy to create your own transform - create a <literal>UIComponent</"
+"literal> which implements <literal>org.jboss.seam.ui.graphicImage."
+"ImageTransform</literal>. Inside the <literal>applyTransform()</"
+"literal>method use <literal>image.getBufferedImage()</literal> to get the "
+"original image and <literal>image.setBufferedImage()</literal> to set your "
+"transformed image. Transforms are applied in the order specified in the view."
+msgstr ""
+"変換を自作するのは簡単です - <literal>org.jboss.seam.ui.graphicImage."
+"ImageTransform</literal> を実装する <literal>UIComponent</literal> を作成しま"
+"す。 <literal>applyTransform()</literal>メソッド内で <literal>image."
+"getBufferedImage()</literal> を使って元の画像を取得し、<literal>image."
+"setBufferedImage()</literal> で変換した画像をセットします。変換はビューに指定"
+"された順序で適用されます。"
 
 #. Tag: programlisting
-#: Controls.xml:1075
+#: Controls.xml:1185
 #, no-c-format
 msgid ""
 "<![CDATA[<s:graphicImage rendered=\"#{auction.image ne null}\"\n"
@@ -1544,49 +2036,63 @@ msgstr ""
 "</s:graphicImage>]]>"
 
 #. Tag: literal
-#: Controls.xml:1079
+#: Controls.xml:1189
 #, no-c-format
 msgid "&lt;s:remote&gt;"
 msgstr "&lt;s:remote&gt;"
 
 #. Tag: para
-#: Controls.xml:1082
+#: Controls.xml:1192
 #, no-c-format
 msgid "Generates the Javascript stubs required to use Seam Remoting."
 msgstr "Seam Remoting を使うのに必要な Javascript のスタブを生成します。"
 
 #. Tag: para
-#: Controls.xml:1089
+#: Controls.xml:1199
 #, no-c-format
-msgid "<literal>include</literal> &#8212; a comma-separated list of the component names (or fully qualified class names)for which to generate Seam Remoting Javascript stubs. See <xref linkend=\"remoting\"/> for more details."
-msgstr "<literal>include</literal> &#8212; コンポーネント名 (または完全修飾クラス名)のカンマ区切りのリストです。これらの Seam Remoting の Javascript スタブを生成します。詳しくは <xref linkend=\"remoting\"/> を参照してください。"
+msgid ""
+"<literal>include</literal> &#8212; a comma-separated list of the component "
+"names (or fully qualified class names)for which to generate Seam Remoting "
+"Javascript stubs. See <xref linkend=\"remoting\"/> for more details."
+msgstr ""
+"<literal>include</literal> &#8212; コンポーネント名 (または完全修飾クラス名)"
+"のカンマ区切りのリストです。これらの Seam Remoting の Javascript スタブを生成"
+"します。詳しくは <xref linkend=\"remoting\"/> を参照してください。"
 
 #. Tag: programlisting
-#: Controls.xml:1099
+#: Controls.xml:1209
 #, no-c-format
-msgid "<![CDATA[<s:remote include=\"customerAction,accountAction,com.acme.MyBean\"/>]]>"
-msgstr "<![CDATA[<s:remote include=\"customerAction,accountAction,com.acme.MyBean\"/>]]>"
+msgid ""
+"<![CDATA[<s:remote include=\"customerAction,accountAction,com.acme.MyBean\"/"
+">]]>"
+msgstr ""
+"<![CDATA[<s:remote include=\"customerAction,accountAction,com.acme.MyBean\"/"
+">]]>"
 
 #. Tag: title
-#: Controls.xml:1106
+#: Controls.xml:1216
 #, no-c-format
 msgid "Annotations"
 msgstr "アノテーション"
 
 #. Tag: para
-#: Controls.xml:1108
+#: Controls.xml:1218
 #, no-c-format
-msgid "Seam also provides annotations to allow you to use Seam components as JSF converters and validators:"
-msgstr "Seamはさらに、SeamコンポーネントをJSFコンバータやバリデータとして使えるようにするアノテーションを提供します:"
+msgid ""
+"Seam also provides annotations to allow you to use Seam components as JSF "
+"converters and validators:"
+msgstr ""
+"Seamはさらに、SeamコンポーネントをJSFコンバータやバリデータとして使えるように"
+"するアノテーションを提供します:"
 
 #. Tag: literal
-#: Controls.xml:1116
+#: Controls.xml:1226
 #, no-c-format
 msgid "@Converter"
 msgstr "@Converter"
 
 #. Tag: programlisting
-#: Controls.xml:1119
+#: Controls.xml:1229
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"itemConverter\") \n"
@@ -1595,13 +2101,16 @@ msgid ""
 "public class ItemConverter implements Converter {\n"
 "   \n"
 "   @Transactional\n"
-"   public Object getAsObject(FacesContext context, UIComponent cmp, String value) {\n"
-"      EntityManager entityManager = (EntityManager) Component.getInstance(\"entityManager\");\n"
+"   public Object getAsObject(FacesContext context, UIComponent cmp, String "
+"value) {\n"
+"      EntityManager entityManager = (EntityManager) Component.getInstance"
+"(\"entityManager\");\n"
 "      entityManager.joinTransaction();\n"
 "      // Do the conversion\n"
 "   }\n"
 "  \n"
-"   public String getAsString(FacesContext context, UIComponent cmp, Object value) {\n"
+"   public String getAsString(FacesContext context, UIComponent cmp, Object "
+"value) {\n"
 "      // Do the conversion\n"
 "   }\n"
 "  \n"
@@ -1613,38 +2122,51 @@ msgstr ""
 "public class ItemConverter implements Converter {\n"
 "   \n"
 "   @Transactional\n"
-"   public Object getAsObject(FacesContext context, UIComponent cmp, String value) {\n"
-"      EntityManager entityManager = (EntityManager) Component.getInstance(\"entityManager\");\n"
+"   public Object getAsObject(FacesContext context, UIComponent cmp, String "
+"value) {\n"
+"      EntityManager entityManager = (EntityManager) Component.getInstance"
+"(\"entityManager\");\n"
 "      entityManager.joinTransaction();\n"
 "      // Do the conversion\n"
 "   }\n"
 "  \n"
-"   public String getAsString(FacesContext context, UIComponent cmp, Object value) {\n"
+"   public String getAsString(FacesContext context, UIComponent cmp, Object "
+"value) {\n"
 "      // Do the conversion\n"
 "   }\n"
 "  \n"
 "}]]>"
 
 #. Tag: programlisting
-#: Controls.xml:1121
+#: Controls.xml:1231
 #, no-c-format
-msgid "<![CDATA[<h:inputText value=\"#{shop.item}\" converter=\"itemConverter\" />]]>"
-msgstr "<![CDATA[<h:inputText value=\"#{shop.item}\" converter=\"itemConverter\" />]]>"
+msgid ""
+"<![CDATA[<h:inputText value=\"#{shop.item}\" converter=\"itemConverter\" />]]"
+">"
+msgstr ""
+"<![CDATA[<h:inputText value=\"#{shop.item}\" converter=\"itemConverter\" />]]"
+">"
 
 #. Tag: para
-#: Controls.xml:1123
+#: Controls.xml:1233
 #, no-c-format
-msgid "Registers the Seam component as a JSF converter. Shown here is a converter which is able to access the JPA EntityManager inside a JTA transaction, when converting the value back to it's object representation."
-msgstr "SeamコンポーネントをJSFバリデータとして登録します。ここで例に挙げたのは、値をそのオブジェクト表現に変換する際に、JTAトランザクション内でJPAエンティティマネージャにアクセスするようなコンバータです。"
+msgid ""
+"Registers the Seam component as a JSF converter. Shown here is a converter "
+"which is able to access the JPA EntityManager inside a JTA transaction, when "
+"converting the value back to it's object representation."
+msgstr ""
+"SeamコンポーネントをJSFバリデータとして登録します。ここで例に挙げたのは、値を"
+"そのオブジェクト表現に変換する際に、JTAトランザクション内でJPAエンティティマ"
+"ネージャにアクセスするようなコンバータです。"
 
 #. Tag: literal
-#: Controls.xml:1133
+#: Controls.xml:1243
 #, no-c-format
 msgid "@Validator"
 msgstr "@Validator"
 
 #. Tag: programlisting
-#: Controls.xml:1136
+#: Controls.xml:1246
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"itemValidator\") \n"
@@ -1652,9 +2174,11 @@ msgid ""
 "@org.jboss.seam.annotations.faces.Validator\n"
 "public class ItemValidator implements javax.faces.validator.Validator {\n"
 "      \n"
-"   public void validate(FacesContext context, UIComponent cmp, Object value)\n"
+"   public void validate(FacesContext context, UIComponent cmp, Object "
+"value)\n"
 "         throws ValidatorException {\n"
-"      ItemController ItemController = (ItemController) Component.getInstance(\"itemController\");\n"
+"      ItemController ItemController = (ItemController) Component.getInstance"
+"(\"itemController\");\n"
 "      boolean valid = itemController.validate(value);\n"
 "      if (!valid) {\n"
 "         throw ValidatorException(\"Invalid value \" + value);\n"
@@ -1667,9 +2191,11 @@ msgstr ""
 "@org.jboss.seam.annotations.faces.Validator\n"
 "public class ItemValidator implements javax.faces.validator.Validator {\n"
 "      \n"
-"   public void validate(FacesContext context, UIComponent cmp, Object value)\n"
+"   public void validate(FacesContext context, UIComponent cmp, Object "
+"value)\n"
 "         throws ValidatorException {\n"
-"      ItemController ItemController = (ItemController) Component.getInstance(\"itemController\");\n"
+"      ItemController ItemController = (ItemController) Component.getInstance"
+"(\"itemController\");\n"
 "      boolean valid = itemController.validate(value);\n"
 "      if (!valid) {\n"
 "         throw ValidatorException(\"Invalid value \" + value);\n"
@@ -1678,14 +2204,23 @@ msgstr ""
 "}]]>"
 
 #. Tag: programlisting
-#: Controls.xml:1138
+#: Controls.xml:1248
 #, no-c-format
-msgid "<![CDATA[<h:inputText value=\"#{shop.item}\" validator=\"itemValidator\" />]]>"
-msgstr "<![CDATA[<h:inputText value=\"#{shop.item}\" validator=\"itemValidator\" />]]>"
+msgid ""
+"<![CDATA[<h:inputText value=\"#{shop.item}\" validator=\"itemValidator\" />]]"
+">"
+msgstr ""
+"<![CDATA[<h:inputText value=\"#{shop.item}\" validator=\"itemValidator\" />]]"
+">"
 
 #. Tag: para
-#: Controls.xml:1139
+#: Controls.xml:1249
 #, no-c-format
-msgid "Registers the Seam component as a JSF validator. Shown here is a validator which injects another Seam component; the injected component is used to validate the value."
-msgstr "SeamコンポーネントをJSFバリデータとして登録します。ここで例に挙げたのは、別のSeamコンポーネントをインジェクトし、インジェクトされたコンポーネントが値を検証するようなバリデータです。"
-
+msgid ""
+"Registers the Seam component as a JSF validator. Shown here is a validator "
+"which injects another Seam component; the injected component is used to "
+"validate the value."
+msgstr ""
+"SeamコンポーネントをJSFバリデータとして登録します。ここで例に挙げたのは、別の"
+"Seamコンポーネントをインジェクトし、インジェクトされたコンポーネントが値を検"
+"証するようなバリデータです。"
