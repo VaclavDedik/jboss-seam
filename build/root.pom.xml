@@ -1294,7 +1294,7 @@
         <plugin>
           <groupId>org.richfaces.cdk</groupId>
           <artifactId>maven-cdk-plugin</artifactId>
-          <version>3.2.1.CR4</version>
+          <version>${version.richfaces}</version>
         </plugin>
 
         <!-- Packaging -->
