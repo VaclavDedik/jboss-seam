@@ -2,6 +2,8 @@ package org.jboss.seam.security.openid;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import javax.faces.context.ExternalContext;
@@ -65,12 +67,20 @@ public class OpenId
     }
 
     
-    public String returnToUrl() {
+    public String returnToUrl()  {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        String returnToUrl = "http://" + request.getServerName() + ":" + request.getServerPort() +  
-            context.getApplication().getViewHandler().getActionURL(context, "/openid.xhtml");
-        return returnToUrl;
+
+        try {            
+            URL returnToUrl = new URL("http",
+                    request.getServerName(), 
+                    request.getServerPort(),
+                    context.getApplication().getViewHandler().getActionURL(context, "/openid.xhtml"));
+
+            return returnToUrl.toExternalForm();
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
     }
     
     public void login() throws IOException {
@@ -173,16 +183,16 @@ public class OpenId
             // examine the verification result and extract the verified identifier
             Identifier verified = verification.getVerifiedId();
             if (verified != null) {
-                AuthSuccess authSuccess =
-                    (AuthSuccess) verification.getAuthResponse();
+//                AuthSuccess authSuccess =
+//                    (AuthSuccess) verification.getAuthResponse();
                 
-                if (authSuccess.hasExtension(AxMessage.OPENID_NS_AX)) {
-                    FetchResponse fetchResp = (FetchResponse) authSuccess
-                        .getExtension(AxMessage.OPENID_NS_AX);
-                    
-                    List emails = fetchResp.getAttributeValues("email");
-                    String email = (String) emails.get(0);
-                }
+//                if (authSuccess.hasExtension(AxMessage.OPENID_NS_AX)) {
+//                    FetchResponse fetchResp = (FetchResponse) authSuccess
+//                        .getExtension(AxMessage.OPENID_NS_AX);
+//                    
+//                    List emails = fetchResp.getAttributeValues("email");
+//                    String email = (String) emails.get(0);
+//                }
                 
                 return verified.getIdentifier();
             }
