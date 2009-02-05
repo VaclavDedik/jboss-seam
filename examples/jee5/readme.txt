@@ -10,29 +10,34 @@ guide for instructions for other containers.
 GlassFish V2 
 ------------
 
-1.  Build the demo app by running ANT. The build target is 
-    "dist/jboss-seam-jee5.ear"
+1. Modify the following files in the project.
 
-2.  Download GlassFish V2 Final Build
+   * resources/META-INF/persistence.xml: Change the jta-persistence-provider to the commented
+     out Glassfish property
 
-3.  Install it: java -Xmx256m -jar glassfish-installer-xxx.jar
+2.  Build the demo app by running Ant. The build target is 
+    "dist/jboss-seam-jee5.ear" 
 
-4.  Setup glassfish: cd glassfish; ant -f setup.xml;
+3.  Download GlassFish V2 Final Build
 
-5.  Start the GlassFish server: $GLASSFISH_HOME/bin/asadmin start-domain domain1
+4.  Install it: java -Xmx256m -jar glassfish-installer-xxx.jar
 
-6.  Start the embedded JavaDB: $GLASSFISH_HOME/bin/asadmin start-database
+5.  Setup glassfish: cd glassfish; ant -f setup.xml;
 
-7.  Load the admin console: http://localhost:4848/
+6.  Start the GlassFish server: $GLASSFISH_HOME/bin/asadmin start-domain domain1
 
-8.  Login using username/password: admin / adminadmin
+7.  Start the embedded JavaDB: $GLASSFISH_HOME/bin/asadmin start-database
 
-9.  Deploy the "Enterprise Application" in the admin console
+8.  Load the admin console: http://localhost:4848/
+
+9.  Login using username/password: admin / adminadmin
+
+10.  Deploy the "Enterprise Application" in the admin console
     or using the command $GLASSFISH_HOME/bin/asadmin deploy dist/jboss-seam-jee5.ear
 
-10. Checkout the app at: http://localhost:8080/seam-jee5/
+11. Checkout the app at: http://localhost:8080/seam-jee5/
 
-11. Stop the server and database: 
+12. Stop the server and database: 
     $GLASSFISH_HOME/bin/asadmin stop-domain domain1; $GLASSFISH_HOME/bin/asadmin stop-database
 
 
@@ -42,8 +47,7 @@ OC4J 11g Technology Preview
 1.  Modify the following files in the project.
   
     * build.xml: Un-comment the OC4J-related libraries
-    * resources/META-INF/persistence.xml: Comment out the GlassFish properties 
-      and un-comment the OC4J properties
+    * resources/META-INF/persistence.xml: un-comment the OC4J properties
 
 2.  Build the demo app by running ANT. The build target is 
     "dist/jboss-seam-jee5.ear"
