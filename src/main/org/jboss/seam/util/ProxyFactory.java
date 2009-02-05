@@ -516,7 +516,8 @@ public class ProxyFactory {
     private static int counter = 0;
 
     private static synchronized String makeProxyName(String classname) {
-        return classname + "_$$_javassist_" + counter++;
+        // SEAM CHANGE
+        return classname + "_$$_javassist_seam_" + counter++;
     }
 
     private ClassFile make() throws CannotCompileException {
