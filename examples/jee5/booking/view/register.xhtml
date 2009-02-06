@@ -34,7 +34,7 @@
                        </f:facet>
                        <f:facet name="afterInvalidField">
                            <s:div styleClass="errors">
-               	               <s:message/>
+               	               <s:message id="message"/>
                	           </s:div>
                        </f:facet>
 		    
@@ -63,7 +63,7 @@
 						<div class="entry">
 							<div class="label"><h:outputLabel for="password">Password:</h:outputLabel></div>
 							<div class="input">
-								<s:decorate>
+								<s:decorate id="passwordDecorate">
 									<h:inputSecret id="password" value="#{user.password}" required="true"/>
 								</s:decorate>
 							</div>
@@ -72,7 +72,7 @@
 						<div class="entry">
 							<div class="label"><h:outputLabel for="verify">Verify Password:</h:outputLabel></div>
 							<div class="input">
-								<s:decorate>
+								<s:decorate id="verifyDecorate">
 									<h:inputSecret id="verify" value="#{register.verify}" required="true"/>
 								</s:decorate>
 							</div>
@@ -81,7 +81,7 @@
 					</s:validateAll>
 					
 					<div class="entry errors">
-						<h:messages globalOnly="true"/>
+						<h:messages id="messages" globalOnly="true"/>
 					</div>
 					
 					<div class="entry">

@@ -38,6 +38,12 @@ How To:
   * "ant test -Dtest=example_name" for JBoss AS
   * "ant test.jboss-embedded -Dtest=example_name" for Tomcat + JBoss Embedded
   * "ant test.tomcat6 -Dtest=example_name" for Tomcat6
+
+* Note that testall suite is adjusted for JBoss AS 4.2
+* If you are testing examples on JBoss AS 5 you can use it but:
+  * jpa example tests will be skipped - you need to deploy example using "jboss5" target
+    and run selenium.test in /src/test/ftest/examples/jpa
+  * after the testall suite run tests for jee5-booking example with "ant test -Dtest=jee5/booking" in /src/test/ftest 
   
 Known Limitations:
 ---------------------

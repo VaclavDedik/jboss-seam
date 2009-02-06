@@ -139,6 +139,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<cleanexample name="groovybooking" />
 		<cleanexample name="hibernate" />
 		<cleanexample name="icefaces" />
+		<cleanexample name="jee5/booking" />
 		<cleanexample name="jpa" />
 		<cleanexample name="messages" />
 		<cleanexample name="nestedbooking" />
@@ -154,6 +155,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	</target>
 
 	<target name="undeployall">
+		<property name="container" value="jboss" />
 		<undeployexample name="blog" />
 		<undeployexample name="booking" />
 		<undeployexample name="drools" />
@@ -162,6 +164,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<undeployexample name="groovybooking" />
 		<undeployexample name="hibernate" />
 		<undeployexample name="icefaces" />
+		<undeployexample name="jee5/booking" />
 		<undeployexample name="jpa" />
 		<undeployexample name="messages" />
 		<undeployexample name="nestedbooking" />
@@ -223,9 +226,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<macrodef name="undeployexample">
 		<attribute name="name" />
 		<attribute name="path" default="examples/@{name}" />
-		<attribute name="message" default="Undeploying @{name} example from JBoss" />
 		<sequential>
-			<echo>@{message}</echo>
 			<callExample path="@{path}" target="undeploy.example.jboss" />
 		</sequential>
 	</macrodef>
