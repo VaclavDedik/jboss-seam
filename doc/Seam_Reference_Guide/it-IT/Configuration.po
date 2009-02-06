@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-02-04 18:18+0100\n"
+"PO-Revision-Date: 2009-02-06 18:27+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -85,7 +85,7 @@ msgstr "(Si può sistemare il pattern dell'URL a proprio piacimento.)"
 #: Configuration.xml:25
 #, no-c-format
 msgid "In addition, Seam requires the following entry in your <literal>web.xml</literal> file:"
-msgstr ""
+msgstr "In aggiunta, Seam richiede la seguente voce nel file <literal>web.xml</literal>:"
 
 #. Tag: programlisting
 #: Configuration.xml:27
@@ -103,13 +103,13 @@ msgstr ""
 #: Configuration.xml:29
 #, no-c-format
 msgid "This listener is responsible for bootstrapping Seam, and for destroying session and application contexts."
-msgstr ""
+msgstr "Questo listener è responsabile dell'avvio di Seam e della distruzione dei contesti di sessione e di applicazione."
 
 #. Tag: para
 #: Configuration.xml:32
 #, no-c-format
 msgid "Some JSF implementations have a broken implementation of server-side state saving that interferes with Seam's conversation propagation. If you have problems with conversation propagation during form submissions, try switching to client-side state saving. You'll need this in <literal>web.xml</literal>:"
-msgstr ""
+msgstr "Alcune implementazioni JSF hanno un'implementazione erronea della conservazione dello stato lato server, che interferisce con la propagazione della conversazione di Seam. Se si hanno problemi con la propagazione della conversazione durante l'invio di form, si provi a cambiare impostanto la conservazione lato client. Occorre impostare questo in <literal>web.xml</literal>:"
 
 #. Tag: programlisting
 #: Configuration.xml:36
@@ -129,7 +129,7 @@ msgstr ""
 #: Configuration.xml:38
 #, no-c-format
 msgid "There is a minor gray area in the JSF specification regarding the mutability of view state values. Since Seam uses the JSF view state to back its PAGE scope this can become an issue in some cases. If you're using server side state saving with the JSF-RI and you want a PAGE scoped bean to keep its exact value for a given view of a page you will need to specify the following context-param. Otherwise if a user uses the \"back\" button a PAGE scoped component will have the latest value if it has changed not the value of the \"back\" page. (see <ulink url=\"https://javaserverfaces-spec-public.dev.java.net/issues/show_bug.cgi?id=295\"> Spec Issue </ulink> ). This setting is not enabled by default because of the performance hit of serializing the JSF view with every request."
-msgstr ""
+msgstr "C'è una piccola parte grigia nella specifica JSF riguardante la mutabilità dei valore dello stato della vista. Poiché Seam usa lo stato della vista JSF per tornare allo scope PAGE, questo in alcuni casi può diventare un problema. Se si usa la conservazione dello stato lato server con JSF-RI e si vuole che il bean con scope PAGE mantenga l'esatto valore per una data vista di pagina, occorre specificare il seguente parametro di contesto. Altrimenti se un utente usa il pulsante \"indietro\" un componente con scope PAGE avrà l'ultimo valore se questo non è cambiato nella pagina \"indietro\". (si veda <ulink url=\"https://javaserverfaces-spec-public.dev.java.net/issues/show_bug.cgi?id=295\"> Spec Issue </ulink> ). Quest'impostazione non è abilitata di default a causa della performance nella serializzazione della vista JSF ad ogni richiesta."
 
 #. Tag: programlisting
 #: Configuration.xml:52
@@ -155,7 +155,7 @@ msgstr "Usare Facelets"
 #: Configuration.xml:58
 #, no-c-format
 msgid "If you want follow our advice and use Facelets instead of JSP, add the following lines to <literal>faces-config.xml</literal>:"
-msgstr ""
+msgstr "Se si vuole seguire il consiglio ed usare Facelets invece di JSP, si aggiungano le seguenti linee a <literal>faces-config.xml</literal>:"
 
 #. Tag: programlisting
 #: Configuration.xml:61
@@ -173,7 +173,7 @@ msgstr ""
 #: Configuration.xml:63
 #, no-c-format
 msgid "And the following lines to <literal>web.xml</literal>:"
-msgstr ""
+msgstr "E le seguenti linee a <literal>web.xml</literal>:"
 
 #. Tag: programlisting
 #: Configuration.xml:65
@@ -193,7 +193,7 @@ msgstr ""
 #: Configuration.xml:67
 #, no-c-format
 msgid "If you are using facelets in JBoss AS, you'll find that Facelets logging is broken (the log messages don't make it to the server log). Seam provides a bridge to fix this, to use it copy <literal>lib/interop/jboss-seam-jul.jar</literal> to <literal>$JBOSS_HOME/server/default/deploy/jboss-web.deployer/jsf-libs/</literal> and include the <literal>jboss-seam-ui.jar</literal> in the <literal>WEB-INF/lib</literal> of your application. The Facelets logging catagories are itemized in the <ulink url=\"https://facelets.dev.java.net/nonav/docs/dev/docbook.html#config-logging\">Facelets Developer Documentation</ulink>."
-msgstr ""
+msgstr "Se si usa facelets in JBoss AS, si noterà che il logging di Facelets è guasto (i messaggi di log non appaiono nel log del server). Seam fornisce un modo per sistemare questo problema, per usarlo si copi <literal>lib/interop/jboss-seam-jul.jar</literal> in <literal>$JBOSS_HOME/server/default/deploy/jboss-web.deployer/jsf-libs/</literal> e si includa <literal>jboss-seam-ui.jar</literal> nel <literal>WEB-INF/lib</literal> dell'applicazione. Le categorie di logging di Facelets sono elencate nella <ulink url=\"https://facelets.dev.java.net/nonav/docs/dev/docbook.html#config-logging\">Documentazione per lo sviluppatore Facelets</ulink>."
 
 #. Tag: title
 #: Configuration.xml:81
@@ -295,7 +295,7 @@ msgstr ""
 #: Configuration.xml:125
 #, no-c-format
 msgid "<literal>disabled</literal> &#8212; Used to disable a built in filter."
-msgstr ""
+msgstr "<literal>disabled</literal> &#8212; Usato per disabilitare il filtro predefinito."
 
 #. Tag: para
 #: Configuration.xml:131
@@ -313,7 +313,7 @@ msgstr ""
 #: Configuration.xml:140
 #, no-c-format
 msgid "Exception handling"
-msgstr ""
+msgstr "Gestione delle eccezioni."
 
 #. Tag: para
 #: Configuration.xml:141
@@ -397,7 +397,7 @@ msgstr ""
 #: Configuration.xml:186
 #, no-c-format
 msgid "Multipart form submissions"
-msgstr ""
+msgstr "Invio di form multipart"
 
 #. Tag: para
 #: Configuration.xml:187
@@ -433,7 +433,7 @@ msgstr ""
 #: Configuration.xml:211
 #, no-c-format
 msgid "Character encoding"
-msgstr ""
+msgstr "Codifica dei caratteri"
 
 #. Tag: para
 #: Configuration.xml:212
@@ -464,7 +464,7 @@ msgstr ""
 #: Configuration.xml:221
 #, no-c-format
 msgid "<literal>encoding</literal> &#8212; The encoding to use."
-msgstr ""
+msgstr "<literal>encoding</literal> &#8212; La codifica da usare."
 
 #. Tag: para
 #: Configuration.xml:225

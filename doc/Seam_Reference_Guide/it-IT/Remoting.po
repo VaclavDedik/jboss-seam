@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-04 00:58+0000\n"
-"PO-Revision-Date: 2009-02-04 18:32+0100\n"
+"PO-Revision-Date: 2009-02-06 18:08+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -134,7 +134,7 @@ msgstr "L'oggetto \"Seam\""
 #: Remoting.xml:50
 #, no-c-format
 msgid "Client-side interaction with your components is all performed via the <literal>Seam</literal> Javascript object. This object is defined in <literal>remote.js</literal>, and you'll be using it to make asynchronous calls against your component. It is split into two areas of functionality; <literal>Seam.Component</literal> contains methods for working with components and <literal>Seam.Remoting</literal> contains methods for executing remote requests. The easiest way to become familiar with this object is to start with a simple example."
-msgstr ""
+msgstr "L'interazione lato client con i componenti viene eseguita tutta tramite l'oggetto Javascript <literal>Seam</literal>. Quest'oggetti è definito in <literal>remote.js</literal>, e lo si userà per fare chiamate asincrone verso il componente. E' suddiviso in due aree di funzionalità; <literal>Seam.Component</literal> contiene metodi per lavorare con i componenti e <literal>Seam.Remoting</literal> contiene metodi per eseguire le richieste remote. La via più facile per diventare familiare con quest'oggetto è cominciare con un semplice esempio."
 
 #. Tag: title
 #: Remoting.xml:57
@@ -146,7 +146,7 @@ msgstr "Esempio Hello World"
 #: Remoting.xml:59
 #, no-c-format
 msgid "Let's step through a simple example to see how the <literal>Seam</literal> object works. First of all, let's create a new Seam component called <literal>helloAction</literal>."
-msgstr ""
+msgstr "Si cominci con un semplice esempio per vedere come funziona l'oggetto <literal>Seam</literal>"
 
 #. Tag: programlisting
 #: Remoting.xml:62
@@ -614,7 +614,7 @@ msgstr ""
 #: Remoting.xml:253
 #, no-c-format
 msgid "Setting and reading the Conversation ID"
-msgstr ""
+msgstr "Impostazione e lettura dell'ID di conversazione"
 
 #. Tag: para
 #: Remoting.xml:256
@@ -680,7 +680,7 @@ msgstr ""
 #: Remoting.xml:301
 #, no-c-format
 msgid "Working with Data types"
-msgstr ""
+msgstr "Lavorare con i tipi di dati"
 
 #. Tag: title
 #: Remoting.xml:304
@@ -912,7 +912,7 @@ msgstr "Seam.Remoting.setDebug(true);"
 #: Remoting.xml:428
 #, no-c-format
 msgid "Or configure it via components.xml:"
-msgstr ""
+msgstr "O lo si configuri via components.xml:"
 
 #. Tag: programlisting
 #: Remoting.xml:430
@@ -1000,7 +1000,7 @@ msgstr ""
 #: Remoting.xml:473
 #, no-c-format
 msgid "Seam.Remoting.loadingMessage = \"Loading...\";"
-msgstr ""
+msgstr "Seam.Remoting.loadingMessage = \"Loading...\";"
 
 #. Tag: title
 #: Remoting.xml:477
@@ -1022,6 +1022,9 @@ msgid ""
 "Seam.Remoting.displayLoadingMessage = function() {};\n"
 "Seam.Remoting.hideLoadingMessage = function() {};"
 msgstr ""
+"// non mostrare l'indicatore di caricamento\n"
+"Seam.Remoting.displayLoadingMessage = function() {};\n"
+"Seam.Remoting.hideLoadingMessage = function() {};"
 
 #. Tag: title
 #: Remoting.xml:487

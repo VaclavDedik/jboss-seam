@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2008-12-31 00:20+0100\n"
+"PO-Revision-Date: 2009-02-06 18:43+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -23,25 +23,25 @@ msgstr "Email"
 #: Mail.xml:3
 #, no-c-format
 msgid "Seam now includes an optional components for templating and sending emails."
-msgstr ""
+msgstr "Seam include ora dei componenti opzionali per modellare e spedire le email."
 
 #. Tag: para
 #: Mail.xml:7
 #, no-c-format
 msgid "Email support is provided by <literal>jboss-seam-mail.jar</literal>. This JAR contains the mail JSF controls, which are used to construct emails, and the <literal>mailSession</literal> manager component."
-msgstr ""
+msgstr "Il supporto email è fornito da <literal>jboss-seam-mail.jar</literal>. Questo JAR contiene i controlli JSF per la mail, che vengono impiegati per costruire le email, ed il componente manager <literal>mailSession</literal>."
 
 #. Tag: para
 #: Mail.xml:13
 #, no-c-format
 msgid "The examples/mail project contains an example of the email support in action. It demonstrates proper packaging, and it contains a number of example that demonstrate the key features currently supported."
-msgstr ""
+msgstr "Il progetto examples/mail contiene un esempio di supporto email in azione. Mostra un pacchetto idoneo e contiene esempi che mostrano le funzionalità chiave attualmente supportate."
 
 #. Tag: para
 #: Mail.xml:19
 #, no-c-format
 msgid "You can also test your mail's using Seam's integration testing environment. See <xref linkend=\"testing.mail\"/>."
-msgstr ""
+msgstr "Si può testare la propria mail usando l'ambiente di test di Seam. Si veda <xref linkend=\"testing.mail\"/>."
 
 #. Tag: title
 #: Mail.xml:25
@@ -53,7 +53,7 @@ msgstr "Creare un messaggio"
 #: Mail.xml:27
 #, no-c-format
 msgid "You don't need to learn a whole new templating language to use Seam Mail &#8212; an email is just facelet!"
-msgstr ""
+msgstr "Non occorre imparare un nuovo linguaggio di template per usare Seam Mail &#8212; un'email è semplicemente un facelet!"
 
 #. Tag: programlisting
 #: Mail.xml:32
@@ -99,13 +99,13 @@ msgstr ""
 #: Mail.xml:34
 #, no-c-format
 msgid "The <literal>&lt;m:message&gt;</literal> tag wraps the whole message, and tells Seam to start rendering an email. Inside the <literal>&lt;m:message&gt;</literal> tag we use an <literal>&lt;m:from&gt;</literal> tag to set who the message is from, a <literal>&lt;m:to&gt;</literal> tag to specify a sender (notice how we use EL as we would in a normal facelet), and a <literal>&lt;m:subject&gt;</literal> tag."
-msgstr ""
+msgstr "Il tag <literal>&lt;m:message&gt;</literal> racchiude l'intero messaggio e dice a Seam di iniziare a generare la mail. Dentro al tag <literal>&lt;m:message&gt;</literal> si usa un tag <literal>&lt;m:from&gt;</literal> per impostare il mittente, un tag <literal>&lt;m:to&gt;</literal> per specificare un destinatario (si noti che EL viene impiegato come in un facelet normale), e un tag <literal>&lt;m:subject&gt;</literal>."
 
 #. Tag: para
 #: Mail.xml:43
 #, no-c-format
 msgid "The <literal>&lt;m:body&gt;</literal> tag wraps the body of the email. You can use regular HTML tags inside the body as well as JSF components."
-msgstr ""
+msgstr "Il tag <literal>&lt;m:body&gt;</literal> racchiude il corpo della mail. Si possono usare tag HTML dentro il corpo così come componenti JSF."
 
 #. Tag: para
 #: Mail.xml:48
@@ -773,19 +773,19 @@ msgstr ""
 #: Mail.xml:418
 #, no-c-format
 msgid "<literal>importance</literal> &#8212; low, normal or high. By default normal, this sets the importance of the mail message."
-msgstr ""
+msgstr "<literal>importance</literal> &#8212; low, normal or high. Di default è normal, questo imposta l'importanza del messaggio email."
 
 #. Tag: para
 #: Mail.xml:424
 #, no-c-format
 msgid "<literal>precedence</literal> &#8212; sets the precedence of the message (e.g. bulk)."
-msgstr ""
+msgstr "<literal>precedence</literal> &#8212; imposta la precedenza del messaggio (es. bulk)."
 
 #. Tag: para
 #: Mail.xml:430
 #, no-c-format
 msgid "<literal>requestReadReceipt</literal> &#8212; by default false, if set, a read receipt request will be will be added, with the read receipt being sent to the <literal>From:</literal> address."
-msgstr ""
+msgstr "<literal>requestReadReceipt</literal> &#8212; di default è false, se impostato, verrà aggiunta un richiesta di conferma di lettura, da inviare all'indirizzo <literal>From:</literal>."
 
 #. Tag: para
 #: Mail.xml:438
@@ -964,7 +964,7 @@ msgstr ""
 #: Mail.xml:630
 #, no-c-format
 msgid "If the value attribute is ommitted:"
-msgstr ""
+msgstr "Se viene omesso l'attributo value:"
 
 #. Tag: para
 #: Mail.xml:633
@@ -976,19 +976,19 @@ msgstr ""
 #: Mail.xml:641
 #, no-c-format
 msgid "If this tag contains other JSF tags a HTML document will be generated from them and attached to the email. A <literal>fileName</literal> should be specfied."
-msgstr ""
+msgstr "Se questo tag contiene altri tag JSF, da questi verrà generato un documento HTML ed allegato alla mail. Un <literal>fileName</literal> dovrebbe sempre essere specificato."
 
 #. Tag: para
 #: Mail.xml:650
 #, no-c-format
 msgid "<literal>fileName</literal> &#8212; Specify the file name to use for the attached file."
-msgstr ""
+msgstr "<literal>fileName</literal> &#8212; Specifica il nome del file da usare per il file allegato."
 
 #. Tag: para
 #: Mail.xml:656
 #, no-c-format
 msgid "<literal>contentType</literal> &#8212; Specify the MIME type of the attached file"
-msgstr ""
+msgstr "<literal>contentType</literal> &#8212; Specifica il tipo MIME del file allegato."
 
 #. Tag: term
 #: Mail.xml:665
@@ -1012,11 +1012,11 @@ msgstr "&lt;m:body&gt;"
 #: Mail.xml:675
 #, no-c-format
 msgid "Set's the body for the email. Supports an <literal>alternative</literal> facet which, if an HTML email is generated can contain alternative text for a mail reader which doesn't support html."
-msgstr ""
+msgstr "Si imposti il corpo della mail. Supporta un facet  <literal>alternativo</literal> che, se viene generata una mail HTML, può contenere testo alternativo per un lettore di email che non supporta HTML."
 
 #. Tag: para
 #: Mail.xml:682
 #, no-c-format
 msgid "<literal>type</literal> &#8212; If set to <literal>plain</literal> then a plain text email will be generated otherwise an HTML email is generated."
-msgstr ""
+msgstr "<literal>type</literal> &#8212; Se impostato a <literal>plain</literal> allora verrà generata una mail con semplice testo, altrimenti una mail HTML."
 
