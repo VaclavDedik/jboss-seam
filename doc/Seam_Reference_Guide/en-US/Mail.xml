@@ -733,7 +733,7 @@ public class MailListenerMDB implements MailListener {
                     If this tag contains a <literal>&lt;p:document&gt;</literal>
                     tag, the document described will be generated and 
                     attached to the email.  A <literal>fileName</literal>
-                    should be specfied.
+                    should be specified.
                   </para>
                 </listitem>
                 <listitem>
