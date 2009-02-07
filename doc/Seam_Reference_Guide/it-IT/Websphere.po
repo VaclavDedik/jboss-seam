@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-02-01 21:20+0000\n"
-"PO-Revision-Date: 2009-02-01 22:39+0100\n"
+"PO-Revision-Date: 2009-02-07 21:28+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -97,7 +97,7 @@ msgstr ""
 #: Websphere.xml:784
 #, no-c-format
 msgid "resources/WEB-INF/components.xml"
-msgstr ""
+msgstr "resources/WEB-INF/components.xml"
 
 #. Tag: para
 #: Websphere.xml:63
@@ -113,12 +113,15 @@ msgid ""
 "<core:init jndi-pattern=\"java:comp/env/jboss-seam-jee5/#{ejbName}\" debug=\"true\"/>\n"
 "                  ]]>"
 msgstr ""
+"<![CDATA[\n"
+"<core:init jndi-pattern=\"java:comp/env/jboss-seam-jee5/#{ejbName}\" debug=\"true\"/>\n"
+"                  ]]>"
 
 #. Tag: literal
 #: Websphere.xml:76
 #, no-c-format
 msgid "resources/META-INF/ejb-jar.xml"
-msgstr ""
+msgstr "resources/META-INF/ejb-jar.xml"
 
 #. Tag: para
 #: Websphere.xml:79
@@ -144,13 +147,26 @@ msgid ""
 "      </session>\n"
 "   </enterprise-beans>]]>"
 msgstr ""
+"<![CDATA[\n"
+"   <enterprise-beans>\n"
+"      <!-- EJB reference required when one Seam EJB component references another Seam EJB component using @In -->\n"
+"      <!-- Not required if you inject using @EJB, but then you lose state management and client-side interceptors (e.g., security) -->\n"
+"      <session>\n"
+"         <ejb-name>RegisterAction</ejb-name>\n"
+"         <ejb-local-ref>\n"
+"            <ejb-ref-name>jboss-seam-jee5/AuthenticatorAction</ejb-ref-name>\n"
+"            <ejb-ref-type>Session</ejb-ref-type>\n"
+"            <local>org.jboss.seam.example.booking.Authenticator</local>\n"
+"         </ejb-local-ref>\n"
+"      </session>\n"
+"   </enterprise-beans>]]>"
 
 #. Tag: literal
 #: Websphere.xml:88
 #: Websphere.xml:816
 #, no-c-format
 msgid "resources/WEB-INF/web.xml"
-msgstr ""
+msgstr "resources/WEB-INF/web.xml"
 
 #. Tag: para
 #: Websphere.xml:91
@@ -206,6 +222,49 @@ msgid ""
 "    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>\n"
 "  </ejb-local-ref>]]>"
 msgstr ""
+"<![CDATA[\n"
+"  <!-- JEE5 EJB3 names -->\n"
+"  <ejb-local-ref>\n"
+"    <ejb-ref-name>jboss-seam-jee5/AuthenticatorAction</ejb-ref-name>\n"
+"    <ejb-ref-type>Session</ejb-ref-type>\n"
+"    <local>org.jboss.seam.example.booking.Authenticator</local>\n"
+"  </ejb-local-ref>        \n"
+"\n"
+"  <ejb-local-ref>\n"
+"    <ejb-ref-name>jboss-seam-jee5/BookingListAction</ejb-ref-name>\n"
+"    <ejb-ref-type>Session</ejb-ref-type>\n"
+"    <local>org.jboss.seam.example.booking.BookingList</local>\n"
+"  </ejb-local-ref>\n"
+"\n"
+"  <ejb-local-ref>\n"
+"    <ejb-ref-name>jboss-seam-jee5/RegisterAction</ejb-ref-name>\n"
+"    <ejb-ref-type>Session</ejb-ref-type>\n"
+"    <local>org.jboss.seam.example.booking.Register</local>\n"
+"  </ejb-local-ref>\n"
+"\n"
+"  <ejb-local-ref>\n"
+"    <ejb-ref-name>jboss-seam-jee5/ChangePasswordAction</ejb-ref-name>\n"
+"    <ejb-ref-type>Session</ejb-ref-type>\n"
+"    <local>org.jboss.seam.example.booking.ChangePassword</local>\n"
+"  </ejb-local-ref>\n"
+"\n"
+"  <ejb-local-ref>\n"
+"    <ejb-ref-name>jboss-seam-jee5/HotelBookingAction</ejb-ref-name>\n"
+"    <ejb-ref-type>Session</ejb-ref-type>\n"
+"    <local>org.jboss.seam.example.booking.HotelBooking</local>\n"
+"  </ejb-local-ref>\n"
+"\n"
+"  <ejb-local-ref>\n"
+"    <ejb-ref-name>jboss-seam-jee5/HotelSearchingAction</ejb-ref-name>\n"
+"    <ejb-ref-type>Session</ejb-ref-type>\n"
+"    <local>org.jboss.seam.example.booking.HotelSearching</local>\n"
+"  </ejb-local-ref>\n"
+"\n"
+"  <ejb-local-ref>\n"
+"    <ejb-ref-name>jboss-seam-jee5/EjbSynchronizations</ejb-ref-name>\n"
+"    <ejb-ref-type>Session</ejb-ref-type>\n"
+"    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>\n"
+"  </ejb-local-ref>]]>"
 
 #. Tag: para
 #: Websphere.xml:102
@@ -225,6 +284,13 @@ msgid ""
 "    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>\n"
 "  </ejb-local-ref>]]>"
 msgstr ""
+"<![CDATA[\n"
+"  <ejb-local-ref>\n"
+"    <ejb-ref-name>myapp/EjbSynchronizations</ejb-ref-name>\n"
+"    <ejb-ref-type>Session</ejb-ref-type>\n"
+"    <local-home></local-home>\n"
+"    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>\n"
+"  </ejb-local-ref>]]>"
 
 #. Tag: para
 #: Websphere.xml:108
@@ -242,7 +308,7 @@ msgstr ""
 #: Websphere.xml:114
 #, no-c-format
 msgid "resources/META-INF/persistence.xml"
-msgstr ""
+msgstr "resources/META-INF/persistence.xml"
 
 #. Tag: para
 #: Websphere.xml:117
@@ -258,6 +324,9 @@ msgid ""
 "<jta-data-source>DefaultDatasource</jta-data-source>\n"
 "                  ]]>"
 msgstr ""
+"<![CDATA[\n"
+"<jta-data-source>DefaultDatasource</jta-data-source>\n"
+"                  ]]>"
 
 #. Tag: para
 #: Websphere.xml:121
@@ -278,6 +347,14 @@ msgid ""
 "          value=\"org.hibernate.transaction.WebSphereExtendedJTATransactionLookup\"/>\n"
 "                  ]]>"
 msgstr ""
+"<![CDATA[\n"
+"<!--<property name=\"hibernate.transaction.flush_before_completion\" value=\"true\"/>-->\n"
+"<property name=\"hibernate.cache.provider_class\" \n"
+"                  value=\"org.hibernate.cache.HashtableCacheProvider\"/>\n"
+"<property name=\"hibernate.dialect\" value=\"GlassfishDerbyDialect\"/>\n"
+"<property name=\"hibernate.transaction.manager_lookup_class\" \n"
+"          value=\"org.hibernate.transaction.WebSphereExtendedJTATransactionLookup\"/>\n"
+"                  ]]>"
 
 #. Tag: para
 #: Websphere.xml:130
@@ -298,6 +375,8 @@ msgid ""
 "<![CDATA[com.ibm.wsspi.injectionengine.InjectionException: \n"
 "                 EJBContext may only be looked up by or injected into an EJB]]>"
 msgstr ""
+"<![CDATA[com.ibm.wsspi.injectionengine.InjectionException: \n"
+"                 EJBContext may only be looked up by or injected into an EJB]]>"
 
 #. Tag: para
 #: Websphere.xml:148
@@ -310,7 +389,7 @@ msgstr ""
 #: Websphere.xml:750
 #, no-c-format
 msgid "src/GlassfishDerbyDialect.java"
-msgstr ""
+msgstr "src/GlassfishDerbyDialect.java"
 
 #. Tag: para
 #: Websphere.xml:161
@@ -326,6 +405,9 @@ msgid ""
 "cp ../../jpa/src/GlassfishDerbyDialect.java\n"
 "   ./src]]>"
 msgstr ""
+"<![CDATA[\n"
+"cp ../../jpa/src/GlassfishDerbyDialect.java\n"
+"   ./src]]>"
 
 #. Tag: para
 #: Websphere.xml:170
@@ -352,6 +434,8 @@ msgid ""
 "<![CDATA[\n"
 "cp ../../jpa/resources-websphere7/import.sql ./resources]]>"
 msgstr ""
+"<![CDATA[\n"
+"cp ../../jpa/resources-websphere7/import.sql ./resources]]>"
 
 #. Tag: title
 #: Websphere.xml:194
@@ -401,6 +485,13 @@ msgid ""
 "      <include name=\"META-INF/ejb-jar.xml\" />\n"
 "   </fileset>]]>"
 msgstr ""
+"<![CDATA[\n"
+"   <fileset id=\"jar.resources\" dir=\"${resources.dir}\">\n"
+"      <include name=\"import.sql\" />\n"
+"      <include name=\"seam.properties\" />\n"
+"      <include name=\"META-INF/persistence.xml\" />\n"
+"      <include name=\"META-INF/ejb-jar.xml\" />\n"
+"   </fileset>]]>"
 
 #. Tag: para
 #: Websphere.xml:225
@@ -442,7 +533,7 @@ msgstr ""
 #: Websphere.xml:250
 #, no-c-format
 msgid "<![CDATA[http://localhost:9060/admin]]>"
-msgstr ""
+msgstr "<![CDATA[http://localhost:9060/admin]]>"
 
 #. Tag: para
 #: Websphere.xml:254
@@ -785,43 +876,43 @@ msgstr ""
 #: Websphere.xml:602
 #, no-c-format
 msgid "hibernate.jar"
-msgstr ""
+msgstr "hibernate.jar"
 
 #. Tag: literal
 #: Websphere.xml:607
 #, no-c-format
 msgid "hibernate-annotations.jar"
-msgstr ""
+msgstr "hibernate-annotations.jar"
 
 #. Tag: literal
 #: Websphere.xml:612
 #, no-c-format
 msgid "hibernate-commons-annotations.jar"
-msgstr ""
+msgstr "hibernate-commons-annotations.jar"
 
 #. Tag: literal
 #: Websphere.xml:617
 #, no-c-format
 msgid "hibernate-entitymanager.jar"
-msgstr ""
+msgstr "hibernate-entitymanager.jar"
 
 #. Tag: literal
 #: Websphere.xml:622
 #, no-c-format
 msgid "hibernate-validator.jar"
-msgstr ""
+msgstr "hibernate-validator.jar"
 
 #. Tag: literal
 #: Websphere.xml:627
 #, no-c-format
 msgid "commons-collections.jar"
-msgstr ""
+msgstr "commons-collections.jar"
 
 #. Tag: literal
 #: Websphere.xml:632
 #, no-c-format
 msgid "jboss-common-core.jar"
-msgstr ""
+msgstr "jboss-common-core.jar"
 
 #. Tag: para
 #: Websphere.xml:638
@@ -833,31 +924,31 @@ msgstr ""
 #: Websphere.xml:641
 #, no-c-format
 msgid "antlr.jar"
-msgstr ""
+msgstr "antlr.jar"
 
 #. Tag: literal
 #: Websphere.xml:645
 #, no-c-format
 msgid "cglib.jar"
-msgstr ""
+msgstr "cglib.jar"
 
 #. Tag: literal
 #: Websphere.xml:649
 #, no-c-format
 msgid "asm.jar"
-msgstr ""
+msgstr "asm.jar"
 
 #. Tag: literal
 #: Websphere.xml:653
 #, no-c-format
 msgid "dom4j.jar"
-msgstr ""
+msgstr "dom4j.jar"
 
 #. Tag: literal
 #: Websphere.xml:658
 #, no-c-format
 msgid "javassist.jar"
-msgstr ""
+msgstr "javassist.jar"
 
 #. Tag: literal
 #: Websphere.xml:663
@@ -1157,7 +1248,7 @@ msgstr ""
 #: Websphere.xml:774
 #, no-c-format
 msgid "resources/*-ds.xml"
-msgstr ""
+msgstr "resources/*-ds.xml"
 
 #. Tag: para
 #: Websphere.xml:777
@@ -1192,6 +1283,10 @@ msgid ""
 "             auto-create=\"true\"\n"
 "             persistence-unit-jndi-name=\"java:/websphere_exampleEntityManagerFactory\"/> ]]>"
 msgstr ""
+"<![CDATA[\n"
+"<persistence:managed-persistence-context name=\"entityManager\"\n"
+"             auto-create=\"true\"\n"
+"             persistence-unit-jndi-name=\"java:/websphere_exampleEntityManagerFactory\"/> ]]>"
 
 #. Tag: para
 #: Websphere.xml:819
@@ -1216,6 +1311,18 @@ msgid ""
 "    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>\n"
 "  </ejb-local-ref>]]>"
 msgstr ""
+"<![CDATA[  \n"
+"  <ejb-local-ref>\n"
+"    <ejb-ref-name>websphere_example/AuthenticatorAction</ejb-ref-name>\n"
+"    <ejb-ref-type>Session</ejb-ref-type>\n"
+"    <local>org.jboss.seam.tutorial.websphere.action.Authenticator</local>\n"
+"  </ejb-local-ref>        \n"
+"   \n"
+"  <ejb-local-ref>\n"
+"    <ejb-ref-name>websphere_example/EjbSynchronizations</ejb-ref-name>  \n"
+"    <ejb-ref-type>Session</ejb-ref-type>\n"
+"    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>\n"
+"  </ejb-local-ref>]]>"
 
 #. Tag: title
 #: Websphere.xml:832
@@ -1261,6 +1368,9 @@ msgid ""
 "@Name(\"authenticator\") @Stateless public class\n"
 "            AuthenticatorAction implements Authenticator {]]>"
 msgstr ""
+"<![CDATA[\n"
+"@Name(\"authenticator\") @Stateless public class\n"
+"            AuthenticatorAction implements Authenticator {]]>"
 
 #. Tag: programlisting
 #: Websphere.xml:866
@@ -1271,6 +1381,10 @@ msgid ""
 "  public boolean authenticate(); \n"
 "}]]>"
 msgstr ""
+"<![CDATA[\n"
+"@Local public interface Authenticator { \n"
+"  public boolean authenticate(); \n"
+"}]]>"
 
 #. Tag: para
 #: Websphere.xml:869
@@ -1303,6 +1417,8 @@ msgid ""
 "<![CDATA[\n"
 "<project name=\"websphere_example\" default=\"archive\" basedir=\".\">]]>"
 msgstr ""
+"<![CDATA[\n"
+"<project name=\"websphere_example\" default=\"archive\" basedir=\".\">]]>"
 
 #. Tag: para
 #: Websphere.xml:892
@@ -1321,6 +1437,12 @@ msgid ""
 "   </fileset>\n"
 "</copy>]]>"
 msgstr ""
+"<![CDATA[\n"
+"<copy todir=\"${war.dir}\">\n"
+"   <fileset dir=\"${basedir}/resources\" >\n"
+"       <include name=\"*.drl\" />\n"
+"   </fileset>\n"
+"</copy>]]>"
 
 #. Tag: para
 #: Websphere.xml:906
@@ -1360,12 +1482,39 @@ msgid ""
 "    </copy>\n"
 "</target>]]>"
 msgstr ""
+"<![CDATA[\n"
+"<target name=\"ear\" description=\"Build the EAR\">\n"
+"    <copy todir=\"${ear.dir}\">\n"
+"            <fileset dir=\"${basedir}/resources\">\n"
+"                    <include name=\"*jpdl.xml\" />\n"
+"                    <include name=\"*hibernate.cfg.xml\" />\n"
+"                    <include name=\"jbpm.cfg.xml\" />\n"
+"            </fileset>\n"
+"\n"
+"            <fileset dir=\"${basedir}\">\n"
+"                    <include name=\"lib/jbpm*.jar\" />\n"
+"                    <include name=\"lib/jboss-el.jar\" />\n"
+"                    <include name=\"lib/drools-*.jar\"/>\n"
+"                    <include name=\"lib/core.jar\"/>\n"
+"                    <include name=\"lib/janino*.jar\"/>\n"
+"                    <include name=\"lib/antlr-*.jar\"/>\n"
+"                    <include name=\"lib/mvel*.jar\"/>\n"
+"                  <include name=\"lib/richfaces-api*.jar\" />\n"
+"            </fileset>\n"
+"    </copy>\n"
+"    <copy todir=\"${ear.dir}/META-INF\">\n"
+"            <fileset dir=\"${basedir}/resources/META-INF\">\n"
+"                    <include name=\"application.xml\" />\n"
+"                    <include name=\"jboss-app.xml\" />\n"
+"            </fileset>\n"
+"    </copy>\n"
+"</target>]]>"
 
 #. Tag: para
 #: Websphere.xml:917
 #, no-c-format
 msgid "Hibernate dependencies"
-msgstr ""
+msgstr "Dipendenze Hibernate"
 
 #. Tag: programlisting
 #: Websphere.xml:918
@@ -1380,12 +1529,20 @@ msgid ""
 "   <include name=\"lib/hibernate-validator.jar\"/>\n"
 "   <include name=\"lib/jboss-common-core.jar\" />]]>"
 msgstr ""
+"<![CDATA[\n"
+"   <!-- Hibernate and deps -->\n"
+"   <include name=\"lib/hibernate.jar\"/>\n"
+"   <include name=\"lib/hibernate-commons-annotations.jar\"/>\n"
+"   <include name=\"lib/hibernate-annotations.jar\"/>\n"
+"   <include name=\"lib/hibernate-entitymanager.jar\"/>\n"
+"   <include name=\"lib/hibernate-validator.jar\"/>\n"
+"   <include name=\"lib/jboss-common-core.jar\" />]]>"
 
 #. Tag: para
 #: Websphere.xml:921
 #, no-c-format
 msgid "Third party dependencies."
-msgstr ""
+msgstr "Dipendenze di terze parti"
 
 #. Tag: programlisting
 #: Websphere.xml:922
@@ -1403,6 +1560,17 @@ msgid ""
 "   <include name=\"lib/commons-logging.jar\" />\n"
 "   <include name=\"lib/commons-collections.jar\" />]]>"
 msgstr ""
+"<![CDATA[\n"
+"   <!-- 3rd party and supporting jars -->\n"
+"   <!--<include name=\"lib/log4j.jar\" />-->\n"
+"   <include name=\"lib/javassist.jar\"/>\n"
+"   <include name=\"lib/dom4j.jar\" />\n"
+"   <include name=\"lib/concurrent.jar\" />\n"
+"   <include name=\"lib/cglib.jar\"/>\n"
+"   <include name=\"lib/asm.jar\"/>\n"
+"   <include name=\"lib/antlr.jar\" />\n"
+"   <include name=\"lib/commons-logging.jar\" />\n"
+"   <include name=\"lib/commons-collections.jar\" />]]>"
 
 #. Tag: para
 #: Websphere.xml:925
@@ -1418,6 +1586,9 @@ msgid ""
 "   <!-- seam jar -->\n"
 "   <include name=\"lib/jboss-seam.jar\" />]]>"
 msgstr ""
+"<![CDATA[\n"
+"   <!-- seam jar -->\n"
+"   <include name=\"lib/jboss-seam.jar\" />]]>"
 
 #. Tag: para
 #: Websphere.xml:932
@@ -1463,6 +1634,39 @@ msgid ""
 "                           \n"
 "</fileset>]]>"
 msgstr ""
+"<![CDATA[<fileset dir=\"${basedir}\">\n"
+"               \n"
+"   <include name=\"lib/jbpm*.jar\" />\n"
+"   <include name=\"lib/jboss-el.jar\" />\n"
+"   <include name=\"lib/drools-*.jar\"/>\n"
+"   <include name=\"lib/core.jar\"/>\n"
+"   <include name=\"lib/janino*.jar\"/>\n"
+"   <include name=\"lib/antlr-*.jar\"/>\n"
+"   <include name=\"lib/mvel*.jar\"/>\n"
+"   <include name=\"lib/richfaces-api*.jar\" />\n"
+"                                 \n"
+"   <!-- Hibernate and deps -->\n"
+"   <include name=\"lib/hibernate.jar\"/>\n"
+"   <include name=\"lib/hibernate-commons-annotations.jar\"/>\n"
+"   <include name=\"lib/hibernate-annotations.jar\"/>\n"
+"   <include name=\"lib/hibernate-entitymanager.jar\"/>\n"
+"   <include name=\"lib/hibernate-validator.jar\"/>\n"
+"   <include name=\"lib/jboss-common-core.jar\" />\n"
+"\n"
+"   <!-- 3rd party and supporting jars -->\n"
+"   <include name=\"lib/javassist.jar\"/>\n"
+"   <include name=\"lib/dom4j.jar\" />\n"
+"   <include name=\"lib/concurrent.jar\" />\n"
+"   <include name=\"lib/cglib.jar\"/>\n"
+"   <include name=\"lib/asm.jar\"/>\n"
+"   <include name=\"lib/antlr.jar\" />\n"
+"   <include name=\"lib/commons-logging.jar\" />\n"
+"   <include name=\"lib/commons-collections.jar\" />\n"
+"               \n"
+"   <!-- seam jar -->\n"
+"   <include name=\"lib/jboss-seam.jar\" />\n"
+"                           \n"
+"</fileset>]]>"
 
 #. Tag: title
 #: Websphere.xml:940
