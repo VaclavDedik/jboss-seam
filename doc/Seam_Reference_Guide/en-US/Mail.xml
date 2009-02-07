@@ -224,7 +224,7 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>
 	  <title>Templating</title>
 	    	
 	  <para>
-        The mail templating example shows that facelets templating Just Works 
+        The mail templating example shows that facelets templating just works 
         with the Seam mail tags.
       </para>
 	    	
@@ -310,7 +310,7 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>
     requestReadReceipt="true"/>]]></programlisting>
    
       <para>
-        Otherise you can add any header to the message using the 
+        Otherwise you can add any header to the message using the 
         <literal>&lt;m:header&gt;</literal> tag:
       </para>
 	    	
@@ -328,7 +328,7 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>
       <literal>mail-ra.rar</literal> &#8212; but the version distributed with
       JBoss AS has a number of limitations (and isn't bundled in some versions)
       therefore we recommend using the <literal>mail-ra.rar</literal> 
-      distributed with Seam is recommended (it's in the <literal>extras/</literal>
+      distributed with Seam (it's in the <literal>extras/</literal>
       directory in the Seam bundle).  <literal>mail-ra.rar</literal> should 
       be placed in <literal>$JBOSS_HOME/server/default/deploy</literal>; if the
       version of JBoss AS you use already has this file, replace it.
@@ -366,7 +366,7 @@ public class MailListenerMDB implements MailListener {
     </para>
 
     <para>
-      You can find more information on<literal>mail-ra.rar</literal>
+      You can find more information on <literal>mail-ra.rar</literal>
       at <ulink url="http://wiki.jboss.org/wiki/Wiki.jsp?page=InboundJavaMail">http://wiki.jboss.org/wiki/Wiki.jsp?page=InboundJavaMail</ulink>.
     </para>
 		
@@ -393,7 +393,7 @@ public class MailListenerMDB implements MailListener {
             
     <note>
       <para>
-         The Seam Email module requires the use of Facelets as the view 
+         The Seam Mail module requires the use of Facelets as the view 
          technology. Future versions of the library may also support the use of 
          JSP. Additionally, it requires the use of the seam-ui package.
       </para>
@@ -740,7 +740,7 @@ public class MailListenerMDB implements MailListener {
                   <para>
                     If this tag contains other JSF tags a HTML document will 
                     be generated from them and attached to the email. A 
-                    <literal>fileName</literal> should be specfied.
+                    <literal>fileName</literal> should be specified.
                   </para>
                 </listitem>
               </itemizedlist>
