@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Seam_Reference_Guide\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-13 18:12+0000\n"
-"PO-Revision-Date: 2008-12-15 18:33+0100\n"
+"PO-Revision-Date: 2009-02-08 11:31+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr "Tuning delle performance"
 #: Performance.xml:7
 #, no-c-format
 msgid "This chapter is an attempt to document in one place all the tips for getting the best performance from your Seam application."
-msgstr "Questo capitolo è un tentativo di documentazione in un unico posto tutti i suggerimenti per ottenere le migliore performance da un'applicazione Seam."
+msgstr "Questo capitolo è un tentativo di documentare in un unico posto tutti i suggerimenti per ottenere migliori performance da un'applicazione Seam."
 
 #. Tag: title
 #: Performance.xml:13
@@ -35,19 +35,19 @@ msgstr "Bypassare gli interceptor"
 #: Performance.xml:15
 #, no-c-format
 msgid "For repetitive value bindings such as those found in a JSF dataTable or other iterative control (like <literal>ui:repeat</literal>), the full interceptor stack will be invoked for every invocation of the referenced Seam component. The effect of this can result in a substantial performance hit, especially if the component is accessed many times. A significant performance gain can be achieved by disabling the interceptor stack for the Seam component being invoked. To disable interceptors for the component, add the <literal>@BypassInterceptors</literal> annotation to the component class."
-msgstr "Per binding di value repetitivi come quelli in dataTable JSF o altri controlli iterativi (come <literal>ui:repeat</literal>), l'intero stack di interceptor verrà invocato ad ogni invocazione di un componente Seam referenziato. L'effetto di questo può essere una sostanziale performance, specialmente se il componente viene chiamato molte volte. Un guadagno significante di performance può essere ottenuto disabilitando lo stack degli interceptor per in componente Seam da invocare. Per disabilitare gli interceptor di un componente occorre aggiungere l'annotazione <literal>@BypassInterceptors</literal> alla classe del componente."
+msgstr "Per ripetitivi binding di valore come quelli in dataTable JSF o in altri controlli iterativi (come <literal>ui:repeat</literal>), l'intero stack di interceptor verrà chiamato ad ogni invocazione di un componente Seam referenziato. L'effetto di questo può essere una sostanziale degradazione di performance, specialmente se il componente viene chiamato molte volte. Un guadagno significativo di performance può essere ottenuto disabilitando lo stack degli interceptor per il componente Seam da invocare. Per disabilitare gli interceptor di un componente occorre aggiungere l'annotazione <literal>@BypassInterceptors</literal> alla classe del componente."
 
 #. Tag: para
 #: Performance.xml:25
 #, no-c-format
 msgid "It is very important to be aware of the implications of disabling interceptors for a Seam component. Features such as bijection, annotated security restrictions, synchronization and others are unavailable for a component marked with <literal>@BypassInterceptors</literal>. While in most cases it is possible to compensate for the loss of these features (e.g. instead of injecting a component using <literal>@In</literal>, you can use <literal>Component.getInstance()</literal> instead) it is important to be aware of the consequences."
-msgstr "E' molto importante essere consapevoli delle implicazioni che seguono la disabilitazioni degli interceptor per un componente Seam. Funzionalità quali la bijection, le restrizioni annotate sulla sicurezza, la sincronizzazione e altro vengono a mancare per un componente marcato con <literal>@BypassInterceptors</literal>. Mentre nella maggior parte dei casi è possibile compensare la perdita di queste funzionalità (es. invece di iniettare un componente usando <literal>@In</literal>, si può invece usare <literal>Component.getInstance()</literal>) è importante essere consci delle conseguenze."
+msgstr "E' molto importante essere consapevoli delle implicazioni che seguono la disabilitazioni degli interceptor per un componente Seam. Funzionalità quali la bijection, le restrizioni annotate sulla sicurezza, la sincronizzazione e altro vengono a mancare per un componente marcato con <literal>@BypassInterceptors</literal>. Mentre nella maggior parte dei casi è possibile compensare la perdita di queste funzionalità (es. invece di iniettare un componente usando <literal>@In</literal>, si può invece usare <literal>Component.getInstance()</literal>) è importante essere consapevoli delle conseguenze."
 
 #. Tag: para
 #: Performance.xml:35
 #, no-c-format
 msgid "The following code listing demonstrates a Seam component with its interceptors disabled:"
-msgstr "Il seguente listato di codice dimostra che un componente Seam viene disabilitato con i suoi interceptor:"
+msgstr "Il seguente listato di codice mostra come un componente Seam venga disabilitato con i suoi interceptor:"
 
 #. Tag: programlisting
 #: Performance.xml:39

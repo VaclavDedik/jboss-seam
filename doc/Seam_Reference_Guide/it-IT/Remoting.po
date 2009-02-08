@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-04 00:58+0000\n"
-"PO-Revision-Date: 2009-02-06 18:08+0100\n"
+"PO-Revision-Date: 2009-02-08 12:29+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -976,7 +976,7 @@ msgstr ""
 #: Remoting.xml:462
 #, no-c-format
 msgid "The Loading Message"
-msgstr ""
+msgstr "Il messaggio di caricamento"
 
 #. Tag: para
 #: Remoting.xml:464
@@ -988,13 +988,13 @@ msgstr ""
 #: Remoting.xml:468
 #, no-c-format
 msgid "Changing the message"
-msgstr ""
+msgstr "Cambiare il messaggio"
 
 #. Tag: para
 #: Remoting.xml:470
 #, no-c-format
 msgid "To change the message from the default \"Please Wait...\" to something different, set the value of <literal>Seam.Remoting.loadingMessage</literal>:"
-msgstr ""
+msgstr "Per cambiare il messaggio dal default \"Attendere prego...\" a qualcosa di differente, si imposti il valore di <literal>Seam.Remoting.loadingMessage</literal>:"
 
 #. Tag: programlisting
 #: Remoting.xml:473
@@ -1006,7 +1006,7 @@ msgstr "Seam.Remoting.loadingMessage = \"Loading...\";"
 #: Remoting.xml:477
 #, no-c-format
 msgid "Hiding the loading message"
-msgstr ""
+msgstr "Nascondere il messaggio di caricamento"
 
 #. Tag: para
 #: Remoting.xml:479

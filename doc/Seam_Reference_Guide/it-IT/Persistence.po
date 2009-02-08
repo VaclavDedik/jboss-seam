@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-02-06 18:44+0100\n"
+"PO-Revision-Date: 2009-02-08 12:57+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr "Seam e Object/Relational Mapping"
 #: Persistence.xml:4
 #, no-c-format
 msgid "Seam provides extensive support for the two most popular persistence architectures for Java: Hibernate3, and the Java Persistence API introduced with EJB 3.0. Seam's unique state-management architecture allows the most sophisticated ORM integration of any web application framework."
-msgstr ""
+msgstr "Seam fornisce un supporto esteso alle due maggiori e più popolari architetture per la persistenza in Java: Hibernate3 e Java Persistence API introdotta con EJB 3.0. L'architettura unica di Seam per la gestione dello stato consente l'integrazione dei più sofisticati ORM di ogni framework per applicazioni web."
 
 #. Tag: title
 #: Persistence.xml:13
@@ -35,37 +35,37 @@ msgstr "Introduzione"
 #: Persistence.xml:15
 #, no-c-format
 msgid "Seam grew out of the frustration of the Hibernate team with the statelessness typical of the previous generation of Java application architectures. The state management architecture of Seam was originally designed to solve problems relating to persistence &#8212; in particular problems associated with <emphasis>optimistic transaction processing</emphasis>. Scalable online applications always use optimistic transactions. An atomic (database/JTA) level transaction should not span a user interaction unless the application is designed to support only a very small number of concurrent clients. But almost all interesting work involves first displaying data to a user, and then, slightly later, updating the same data. So Hibernate was designed to support the idea of a persistence context which spanned an optimistic transaction."
-msgstr ""
+msgstr "Seam è nato dalla frustrazione del team di Hibernate per l'assenza di contesto stateless tipica delle precedenti generazioni di architetture nelle applicazioni Java. L'architettura della gestione dello stato di Seam è stata originariamente progettata per risolvere problemi relativi alla persistenza &#8212; in particolare i problemi associati all'<emphasis>elaborazione ottimistica delle transazioni</emphasis>. Le applicazioni online scalabili usano sempre transazioni ottimistiche. Una transazione atomica di livello (database/JTA) non dovrebbe propagare l'interazione dell'utente amenoché l'applicazione sia progettata per supportare solo un piccolo numero di client concorrenti. Ma quasi tutto il lavoro interessante coinvolge in primo luogo la visualizzazione dei dati all'utente, e poi, immediatamente dopo, l'aggiornamento dei dati stessi. Quindi Hibernate è stato progettato per supportare l'idea del contesto di persistenza che propaga una transazione ottimistica."
 
 #. Tag: para
 #: Persistence.xml:30
 #, no-c-format
 msgid "Unfortunately, the so-called \"stateless\" architectures that preceded Seam and EJB 3.0 had no construct for representing an optimistic transaction. So, instead, these architectures provided persistence contexts scoped to the atomic transaction. Of course, this resulted in many problems for users, and is the cause of the number one user complaint about Hibernate: the dreaded <literal>LazyInitializationException</literal>. What we need is a construct for representing an optimistic transaction in the application tier."
-msgstr ""
+msgstr "Sfortunatamente le cosiddette architetture \"stateless\" che precedettero Seam e EJB 3.0 non avevano alcun costrutto per rappresentare una transazione ottimistica. Quindi, invece, queste architetture fornivano contesti di persistenza con scope a livello di transazione atomica. Sicuramente questo portava diversi problemi agli utenti ed è la causa numero uno per le lamentele riguardanti Hibernate: la temuta <literal>LazyInitializationException</literal>. Ciò di cui si ha bisogno è un costrutto per rappresentare una transazione ottimistica a livello applicazione."
 
 #. Tag: para
 #: Persistence.xml:40
 #, no-c-format
 msgid "EJB 3.0 recognizes this problem, and introduces the idea of a stateful component (a stateful session bean) with an <emphasis>extended persistence context</emphasis> scoped to the lifetime of the component. This is a partial solution to the problem (and is a useful construct in and of itself) however there are two problems:"
-msgstr ""
+msgstr "EJB 3.0 riconosce il problema e introduce l'idea di componente stateful (un bean di sessione stateful) con un <emphasis>contesto di persistenza esteso</emphasis> con scope legato al ciclo di vita del componente. Questa è una soluzione parziale al problema (ed è un utile costrutto), comunque ci sono due problemi:"
 
 #. Tag: para
 #: Persistence.xml:50
 #, no-c-format
 msgid "The lifecycle of the stateful session bean must be managed manually via code in the web tier (it turns out that this is a subtle problem and much more difficult in practice than it sounds)."
-msgstr ""
+msgstr "Il ciclo di vita del bean di sessione stateful deve essere gestito manualmente via codice a livello web (risulta che questo è un problema sottile e molto più difficile in pratica di quanto sembri)."
 
 #. Tag: para
 #: Persistence.xml:57
 #, no-c-format
 msgid "Propagation of the persistence context between stateful components in the same optimistic transaction is possible, but tricky."
-msgstr ""
+msgstr "La propagazione del contesto di persistenza tra componenti stateful nella stessa transazione ottimistica è possibile, ma pericolosa."
 
 #. Tag: para
 #: Persistence.xml:64
 #, no-c-format
 msgid "Seam solves the first problem by providing conversations, and stateful session bean components scoped to the conversation. (Most conversations actually represent optimistic transactions in the data layer.) This is sufficient for many simple applications (such as the Seam booking demo) where persistence context propagation is not needed. For more complex applications, with many loosly-interacting components in each conversation, propagation of the persistence context across components becomes an important issue. So Seam extends the persistence context management model of EJB 3.0, to provide conversation-scoped extended persistence contexts."
-msgstr ""
+msgstr "Seam risolve il primo problema fornendo conversazioni, componenti bean di sessione stateful con scope di conversazione. (La maggior parte delle conversazioni in verità rappresentano transazioni ottimistiche a livello dei dati). Questo è sufficiente per molte semplici applicazioni (quali la demo prenotazione di Seam) dove non serve la propagazione del contesto di persistenza. Per applicazioni più complesse, con molti componenti interagenti in modo stretto in ciascuna conversazione, la propagazione del contesto di persistenza tra componenti diventa un problema importante. Quindi Seam estende il modello di gestione del contesto di persistenza di EJB 3.0 per fornire contesti di persistenza estesi e con scope di conversazione."
 
 #. Tag: title
 #: Persistence.xml:80
@@ -77,25 +77,25 @@ msgstr "Transazioni gestite da Seam"
 #: Persistence.xml:81
 #, no-c-format
 msgid "EJB session beans feature declarative transaction management. The EJB container is able to start a transaction transparently when the bean is invoked, and end it when the invocation ends. If we write a session bean method that acts as a JSF action listener, we can do all the work associated with that action in one transaction, and be sure that it is committed or rolled back when we finish processing the action. This is a great feature, and all that is needed by some Seam applications."
-msgstr ""
+msgstr "I bean di sessione EJB includono la gestione dichiarativa delle transazioni. Il container EJB è capace di avviare una transazione in modo trasparente quando viene invocato il bean, e terminarla quando termina l'invocazione. Se si scrive un metodo di un bean di sessione che agisce come action listener JSF, si può fare tutto il lavoro associato all'azione in una transazione, ed essere sicuri che venga eseguito il commit od il rollback quando l'azione viene terminata. Questa è grande funzionalità ed è tutto ciò che serve ad alcune applicazioni Seam."
 
 #. Tag: para
 #: Persistence.xml:90
 #, no-c-format
 msgid "However, there is a problem with this approach. A Seam application may not perform all data access for a request from a single method call to a session bean."
-msgstr ""
+msgstr "Comunque c'è un problema con tale approccio. Un'applicazione Seam potrebbe non eseguire l'accesso a tutti i dati per una richiesta da una chiamata di un singolo metodo a un bean di sessione."
 
 #. Tag: para
 #: Persistence.xml:97
 #, no-c-format
 msgid "The request might require processing by several loosly-coupled components, each of which is called independently from the web layer. It is common to see several or even many calls per request from the web layer to EJB components in Seam."
-msgstr ""
+msgstr "La richiesta può comportare di essere processata da diversi componenti poco accoppiati, ciascuno dei quali viene chiamato indipendentemente dal layer web. E' comune vedere parecchie chiamate per richiesta dal layer web ai componenti EJB in Seam."
 
 #. Tag: para
 #: Persistence.xml:104
 #, no-c-format
 msgid "Rendering of the view might require lazy fetching of associations."
-msgstr ""
+msgstr "La generazione della vista può richiedere il lazy fetching delle associazioni."
 
 #. Tag: para
 #: Persistence.xml:110
@@ -677,7 +677,7 @@ msgstr ""
 #: Persistence.xml:512
 #, no-c-format
 msgid "Of course, you should never, ever write it like this:"
-msgstr ""
+msgstr "Certamente non si dovrà mai e poi mai scrivere qualcosa del tipo:"
 
 #. Tag: programlisting
 #: Persistence.xml:516
@@ -693,7 +693,7 @@ msgstr ""
 #: Persistence.xml:518
 #, no-c-format
 msgid "(It is inefficient and vulnerable to SQL injection attacks.)"
-msgstr ""
+msgstr "(è inefficiente e vulnerabile ad attacchi di SQL injection.)"
 
 #. Tag: title
 #: Persistence.xml:525
@@ -711,7 +711,7 @@ msgstr ""
 #: Persistence.xml:535
 #, no-c-format
 msgid "Seam-managed persistence contexts may have a list of filters defined, which will be enabled whenever an <literal>EntityManager</literal> or Hibernate <literal>Session</literal> is first created. (Of course, they may only be used when Hibernate is the underlying persistence provider.)"
-msgstr ""
+msgstr "I contesti di persistenza gestiti da Seam possono avere una lista di filtri definiti, che verrà abilitata quando viene creato un <literal>EntityManager</literal> od una <literal>Session</literal> di Hibernate. (Certamente possono essere utilizzati solo quando Hibernare è il provider di persistenza sottostante.)"
 
 #. Tag: programlisting
 #: Persistence.xml:542

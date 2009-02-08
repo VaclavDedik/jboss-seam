@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Seam_Reference_Guide\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-01-18 16:23+0100\n"
+"PO-Revision-Date: 2009-02-08 12:35+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +43,7 @@ msgstr "Per abilitare il supporto RSS includere <literal>jboss-seam-rss.jar</lit
 #: Rss.xml:22
 #, no-c-format
 msgid "The Seam RSS support requires the use of Facelets as the view technology."
-msgstr "Il supporto RSS in Seam richiede di utilizzare Facelets."
+msgstr "Il supporto RSS in Seam richiede di utilizzare Facelets come tecnologia per la vista."
 
 #. Tag: title
 #: Rss.xml:28
@@ -281,11 +281,11 @@ msgstr "Alla base del supporto RSS c'è la libreria YARFRAW che si può trovare 
 #: Rss.xml:235
 #, no-c-format
 msgid "For details on the ATOM 1.0 format, have a look at <ulink url=\"http://atompub.org/2005/07/11/draft-ietf-atompub-format-10.html\"> the specs</ulink>"
-msgstr "Per i dettagli sul formato ATOM 1.0, vedi sulle <ulink url=\"http://atompub.org/2005/07/11/draft-ietf-atompub-format-10.html\">specifiche</ulink>"
+msgstr "Per i dettagli sul formato ATOM 1.0, si veda sulle <ulink url=\"http://atompub.org/2005/07/11/draft-ietf-atompub-format-10.html\">specifiche</ulink>"
 
 #. Tag: para
 #: Rss.xml:240
 #, no-c-format
 msgid "For details on the RSS 2.0 format, have a look at <ulink url=\"http://cyber.law.harvard.edu/rss/rss.html\">the specs</ulink>"
-msgstr "Per i dettagli sul formato RSS 2.0, vedi su <ulink url=\"http://cyber.law.harvard.edu/rss/rss.html\">le specifiche</ulink>."
+msgstr "Per i dettagli sul formato RSS 2.0, si veda su <ulink url=\"http://cyber.law.harvard.edu/rss/rss.html\">le specifiche</ulink>."
 
