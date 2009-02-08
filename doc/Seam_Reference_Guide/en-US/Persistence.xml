@@ -95,7 +95,7 @@
     	<itemizedlist>
     		<listitem>
     			<para>
-                    The request might require processing by several loosly-coupled components, each
+                    The request might require processing by several loosely-coupled components, each
                     of which is called independently from the web layer. It is common to see several
                     or even many calls per request from the web layer to EJB components in Seam.
     			</para>
