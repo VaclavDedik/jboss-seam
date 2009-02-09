@@ -110,6 +110,13 @@
          <shortaffil>Italian Translation</shortaffil>
       </affiliation>
    </othercredit>
+   <othercredit>
+      <firstname>Japan</firstname>
+      <surname>JBoss User Group</surname>
+      <affiliation>
+         <shortaffil>Japanese Translation</shortaffil>
+      </affiliation>
+   </othercredit>
    <editor>
       <firstname>Samson</firstname>
       <surname>Kittoli</surname>
