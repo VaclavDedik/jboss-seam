@@ -39,6 +39,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -941,7 +942,7 @@ public class Component extends Model
       initDefaultInterceptors();
 
       for ( Annotation annotation: getBeanClass().getAnnotations() )
-      {
+      { 
          if ( annotation.annotationType().isAnnotationPresent(INTERCEPTORS) )
          {
             Class[] classes = value( annotation.annotationType().getAnnotation(INTERCEPTORS) );
@@ -955,7 +956,8 @@ public class Component extends Model
       }
 
       newSort(interceptors);
-
+      newSort(clientSideInterceptors);
+      
       if ( log.isDebugEnabled() ) log.debug("interceptor stack: " + interceptors);
    }
 
