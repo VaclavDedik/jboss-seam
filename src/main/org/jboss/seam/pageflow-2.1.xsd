@@ -291,6 +291,7 @@
 	<xs:group name="action-elements">
 		<xs:choice>
 			<xs:element ref="action" />
+			<xs:element ref="script"/>
 		</xs:choice>
 	</xs:group>
 
