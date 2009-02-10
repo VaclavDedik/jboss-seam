@@ -45,8 +45,8 @@ public class SpringChangePasswordTest extends SeleniumBookingTest {
     @Override
     @BeforeMethod
     public void setUp() {
-        super.setUp();
-        assertTrue("Login failed.", login(USERNAME, PASSWORD));
+       browser = startBrowser();
+       login(USERNAME, PASSWORD);
     }
 
     /**
