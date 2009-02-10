@@ -159,16 +159,17 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<attribute name="target" />
 		<attribute name="wait.url" />
 		<attribute name="wait.time" />
+		<attribute name="absolute.wait.url" default="${selenium.browser.url}/@{wait.url}"/>
 		<sequential>
 			<echo>Deploying ${example.name} example to ${container}</echo>
 			<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="@{target}" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
 			<!-- wait for the application to be active -->
 			<!-- TODO is there a better way? -->
-			<echo>Going to wait @{wait.time} seconds for @{wait.url}</echo>
+			<echo>Waiting @{wait.time} seconds for @{absolute.wait.url}</echo>
 			<waitfor maxwait="@{wait.time}" maxwaitunit="second">
 				<and>
 					<!-- wait for the application to not throw 404 -->
-					<http url="${selenium.browser.url}/${wait.url}" errorsBeginAt="404" />
+					<http url="@{absolute.wait.url}" errorsBeginAt="404" />
 				</and>
 			</waitfor>
 		</sequential>
