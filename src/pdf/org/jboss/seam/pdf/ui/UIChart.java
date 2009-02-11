@@ -10,7 +10,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.jboss.seam.core.Manager;
 import org.jboss.seam.pdf.ITextUtils;
 import org.jboss.seam.ui.graphicImage.GraphicImageResource;
 import org.jboss.seam.ui.graphicImage.GraphicImageStore;
