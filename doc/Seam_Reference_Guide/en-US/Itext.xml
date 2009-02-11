@@ -1413,6 +1413,17 @@
                                         <literal>domainAxisLabel</literal> &#8212; The text label for the domain
                                         axis. </para>
                                 </listitem>
+                       
+                       
+                                <listitem>
+                                    <para>
+                                        <literal>domainLabelPosition</literal> &#8212; The angle of the domain axis category labels.
+                                        Valid values are <literal>STANDARD</literal>, <literal>UP_45</literal>, <literal>UP_90</literal>,
+                                        <literal>DOWN_45</literal> and <literal>DOWN_90</literal>.  Alternatively, the value
+                                        can the positive or negative angle in radians.
+                                    </para>
+                                </listitem>
+                                
                                 <listitem>
                                     <para>
                                         <literal>domainAxisPaint</literal> &#8212; The color of the domain axis
@@ -1618,6 +1629,16 @@
                                         <literal>domainAxisLabel</literal> &#8212; The text label for the domain
                                         axis. </para>
                                 </listitem>
+                                
+                                <listitem>
+                                    <para>
+                                        <literal>domainLabelPosition</literal> &#8212; The angle of the domain axis category labels.
+                                        Valid values are <literal>STANDARD</literal>, <literal>UP_45</literal>, <literal>UP_90</literal>,
+                                        <literal>DOWN_45</literal> and <literal>DOWN_90</literal>.  Alternatively, the value
+                                        can the positive or negative angle in radians.
+                                    </para>
+                                </listitem>
+                                
                                 <listitem>
                                     <para>
                                         <literal>domainAxisPaint</literal> &#8212; The color of the domain axis
