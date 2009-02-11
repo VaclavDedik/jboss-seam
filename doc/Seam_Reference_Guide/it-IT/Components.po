@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:22+0000\n"
-"PO-Revision-Date: 2009-02-04 18:11+0100\n"
+"PO-Revision-Date: 2009-02-11 21:44+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -206,7 +206,7 @@ msgstr "org.jboss.seam.core.events"
 #: Components.xml:172
 #, no-c-format
 msgid "An API for raising events that can be observed via <literal>@Observer</literal> methods, or method bindings in <literal>components.xml</literal>."
-msgstr ""
+msgstr "Un'API per sollevare eventi che possono essere osservati tramite i metodi <literal>@Observer</literal>, o binding di metodo in <literal>components.xml</literal>."
 
 #. Tag: para
 #: Components.xml:179
@@ -230,7 +230,7 @@ msgstr "<literal>raiseTimedEvent(String type, ....)</literal> &#8212; schedula u
 #: Components.xml:200
 #, no-c-format
 msgid "<literal>addListener(String type, String methodBinding)</literal> &#8212; add an observer for a particular event type."
-msgstr ""
+msgstr "<literal>addListener(String type, String methodBinding)</literal> &#8212; aggiunge un observer per un particolare tipo di evento."
 
 #. Tag: literal
 #: Components.xml:209
@@ -242,13 +242,13 @@ msgstr "org.jboss.seam.core.interpolator"
 #: Components.xml:211
 #, no-c-format
 msgid "An API for interpolating the values of JSF EL expressions in Strings."
-msgstr ""
+msgstr "Un'API per interpolare i valori di espressioni EL JSF in String."
 
 #. Tag: para
 #: Components.xml:217
 #, no-c-format
 msgid "<literal>interpolate(String template)</literal> &#8212; scan the template for JSF EL expressions of the form <literal>#{...}</literal> and replace them with their evaluated values."
-msgstr ""
+msgstr "<literal>interpolate(String template)</literal> &#8212; analizza il template per espressioni EL JSF della forma <literal>#{...}</literal> e li sostituisce con i loro valori valutati."
 
 #. Tag: literal
 #: Components.xml:227
@@ -260,19 +260,19 @@ msgstr "org.jboss.seam.core.expressions"
 #: Components.xml:229
 #, no-c-format
 msgid "An API for creating value and method bindings."
-msgstr ""
+msgstr "Un'API per creare binding di valore e di metodo."
 
 #. Tag: para
 #: Components.xml:234
 #, no-c-format
 msgid "<literal>createValueBinding(String expression)</literal> &#8212; create a value binding object."
-msgstr ""
+msgstr "<literal>createValueBinding(String expression)</literal> &#8212; crea un oggetto per il binding di valore."
 
 #. Tag: para
 #: Components.xml:240
 #, no-c-format
 msgid "<literal>createMethodBinding(String expression)</literal> &#8212; create a method binding object."
-msgstr ""
+msgstr "<literal>createMethodBinding(String expression)</literal> &#8212; crea un oggetto per il binding di metodo."
 
 #. Tag: literal
 #: Components.xml:249
@@ -285,25 +285,25 @@ msgstr "org.jboss.seam.core.pojoCache"
 #: Components.xml:251
 #, no-c-format
 msgid "Manager component for a JBoss Cache <literal>PojoCache</literal> instance."
-msgstr ""
+msgstr "Componente manager per un'istanza <literal>PojoCache</literal> di JBoss Cache."
 
 #. Tag: para
 #: Components.xml:257
 #, no-c-format
 msgid "<literal>pojoCache.cfgResourceName</literal> &#8212; the name of the configuration file. Default to <literal>treecache.xml</literal>."
-msgstr ""
+msgstr "<literal>pojoCache.cfgResourceName</literal> &#8212; il nome del file di configurazione. Di default è <literal>treecache.xml</literal>."
 
 #. Tag: title
 #: Components.xml:273
 #, no-c-format
 msgid "Components for internationalization and themes"
-msgstr ""
+msgstr "Componenti per l'internazionalizzazione ed i temi"
 
 #. Tag: para
 #: Components.xml:274
 #, no-c-format
 msgid "The next group of components make it easy to build internationalized user interfaces using Seam."
-msgstr ""
+msgstr "Il prossimo gruppo di componenti semplifica la costruzione di interfacce utente internazionalizzate usando Seam."
 
 #. Tag: literal
 #: Components.xml:281
@@ -315,7 +315,7 @@ msgstr "org.jboss.seam.core.locale"
 #: Components.xml:283
 #, no-c-format
 msgid "The Seam locale."
-msgstr ""
+msgstr "Il locale di Seam."
 
 #. Tag: literal
 #: Components.xml:289
@@ -327,7 +327,7 @@ msgstr "org.jboss.seam.international.timezone"
 #: Components.xml:291
 #, no-c-format
 msgid "The Seam timezone. The timezone is session scoped."
-msgstr ""
+msgstr "La timezone di Seam. La timezone ha scope di sessione."
 
 #. Tag: literal
 #: Components.xml:297
@@ -339,7 +339,7 @@ msgstr "org.jboss.seam.core.resourceBundle"
 #: Components.xml:299
 #, no-c-format
 msgid "The Seam resource bundle. The resource bundle is stateless. The Seam resource bundle performs a depth-first search for keys in a list of Java resource bundles."
-msgstr ""
+msgstr "Il resource bundle di Seam. Il resource bundle è stateless. Il resource bundle di Seam esegue una ricerca delle chiavi in una lista di resource bundle di Java."
 
 #. Tag: literal
 #: Components.xml:307
@@ -351,13 +351,13 @@ msgstr "org.jboss.seam.core.resourceLoader"
 #: Components.xml:309
 #, no-c-format
 msgid "The resource loader provides access to application resources and resource bundles."
-msgstr ""
+msgstr "Il resource loader fornisce accesso alle risorce dell'applicazione ed ai resource bundle."
 
 #. Tag: para
 #: Components.xml:314
 #, no-c-format
 msgid "<literal>resourceLoader.bundleNames</literal> &#8212; the names of the Java resource bundles to search when the Seam resource bundle is used. Default to <literal>messages</literal>."
-msgstr ""
+msgstr "<literal>resourceLoader.bundleNames</literal> &#8212; i nomi dei resource bundle da cerca quando viene usato il resource bundle di Seam. Di default è <literal>messages</literal>."
 
 #. Tag: literal
 #: Components.xml:324
@@ -369,7 +369,7 @@ msgstr "org.jboss.seam.international.localeSelector"
 #: Components.xml:326
 #, no-c-format
 msgid "Supports selection of the locale either at configuration time, or by the user at runtime."
-msgstr ""
+msgstr "Supporta la selezione del locale o a configuration time, o dall'utente a runtime."
 
 #. Tag: para
 #: Components.xml:332
@@ -382,31 +382,31 @@ msgstr "<literal>select()</literal> &#8212; seleziona il locale specificato."
 #: Components.xml:337
 #, no-c-format
 msgid "<literal>localeSelector.locale</literal> &#8212; the actual <literal>java.util.Locale</literal>."
-msgstr ""
+msgstr "<literal>localeSelector.locale</literal> &#8212; l'attuale <literal>java.util.Locale</literal>."
 
 #. Tag: para
 #: Components.xml:343
 #, no-c-format
 msgid "<literal>localeSelector.localeString</literal> &#8212; the stringified representation of the locale."
-msgstr ""
+msgstr "<literal>localeSelector.localeString</literal> &#8212; la rappresentazione in stringa del locale."
 
 #. Tag: para
 #: Components.xml:349
 #, no-c-format
 msgid "<literal>localeSelector.language</literal> &#8212; the language for the specified locale."
-msgstr ""
+msgstr "<literal>localeSelector.language</literal> &#8212; il linguaggio per il locale specificato."
 
 #. Tag: para
 #: Components.xml:355
 #, no-c-format
 msgid "<literal>localeSelector.country</literal> &#8212; the country for the specified locale."
-msgstr ""
+msgstr "<literal>localeSelector.country</literal> &#8212; il paese del locale specificato."
 
 #. Tag: para
 #: Components.xml:361
 #, no-c-format
 msgid "<literal>localeSelector.variant</literal> &#8212; the variant for the specified locale."
-msgstr ""
+msgstr "<literal>localeSelector.variant</literal> &#8212; la variante del locale specificato."
 
 #. Tag: para
 #: Components.xml:367
