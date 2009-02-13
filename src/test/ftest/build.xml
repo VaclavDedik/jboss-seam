@@ -55,20 +55,27 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<testexample name="drools" />
 		<testexample name="dvdstore" />
 		<testexample name="contactlist" />
+		<testexample name="excel" />
 		<testexample name="groovybooking" />
 		<testexample name="hibernate" />
 		<testexample name="icefaces" />
+		<testexample name="itext" />
 		<testexample name="jpa" />
+		<testexample name="mail" />
 		<testexample name="messages" />
 		<testexample name="nestedbooking" />
 		<testexample name="numberguess" />
+		<testexample name="openid" />
 		<testexample name="quartz" />
 		<testexample name="registration" />
+		<testexample name="remoting/chatroom" />
+		<testexample name="rss" />
 		<testexample name="seambay" />
 		<testexample name="seampay" />
 		<testexample name="seamspace" />
 		<testexample name="spring" />
 		<testexample name="todo" />
+		<testexample name="ui" />
 		<testexample name="wicket" />
 		<antcall target="stop.selenium.server" />
 	</target>
@@ -136,21 +143,28 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<cleanexample name="drools" />
 		<cleanexample name="dvdstore" />
 		<cleanexample name="contactlist" />
+		<cleanexample name="excel" />
 		<cleanexample name="groovybooking" />
 		<cleanexample name="hibernate" />
 		<cleanexample name="icefaces" />
+		<cleanexample name="itext" />
 		<cleanexample name="jee5/booking" />
 		<cleanexample name="jpa" />
+		<cleanexample name="mail" />
 		<cleanexample name="messages" />
 		<cleanexample name="nestedbooking" />
 		<cleanexample name="numberguess" />
+		<cleanexample name="openid" />
 		<cleanexample name="quartz" />
 		<cleanexample name="registration" />
+		<cleanexample name="remoting/chatroom" />
+		<cleanexample name="rss" />
 		<cleanexample name="seambay" />
 		<cleanexample name="seampay" />
 		<cleanexample name="seamspace" />
 		<cleanexample name="spring" />
 		<cleanexample name="todo" />
+		<cleanexample name="ui" />
 		<cleanexample name="wicket" />
 	</target>
 
@@ -161,21 +175,28 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<undeployexample name="drools" />
 		<undeployexample name="dvdstore" />
 		<undeployexample name="contactlist" />
+		<undeployexample name="excel" />
 		<undeployexample name="groovybooking" />
 		<undeployexample name="hibernate" />
 		<undeployexample name="icefaces" />
+		<undeployexample name="itext" />
 		<undeployexample name="jee5/booking" />
 		<undeployexample name="jpa" />
+		<undeployexample name="mail" />
 		<undeployexample name="messages" />
 		<undeployexample name="nestedbooking" />
 		<undeployexample name="numberguess" />
+		<undeployexample name="openid" />
 		<undeployexample name="quartz" />
 		<undeployexample name="registration" />
+		<undeployexample name="rss" />
+		<undeployexample name="remoting/chatroom" />
 		<undeployexample name="seambay" />
 		<undeployexample name="seampay" />
 		<undeployexample name="seamspace" />
 		<undeployexample name="spring" />
 		<undeployexample name="todo" />
+		<undeployexample name="ui" />
 		<undeployexample name="wicket" />
 	</target>
 
