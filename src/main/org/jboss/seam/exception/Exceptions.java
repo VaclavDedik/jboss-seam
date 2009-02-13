@@ -162,20 +162,18 @@ public class Exceptions
             String className = exception.attributeValue("class");
             boolean logEnabled = exception.attributeValue("log") != null ? 
                   Boolean.valueOf(exception.attributeValue("log")) : true;
+            
             LogLevel logLevel = LogLevel.error;
-            try
-            {
-               logLevel = exception.attributeValue("log-level") != null ?
-                     LogLevel.valueOf(exception.attributeValue("log-level").toLowerCase()) : null;
-                     
-               // The logLevel attribute is deprecated! Use log-level instead
-               if (logLevel == null && exception.attributeValue("logLevel") != null)
-               {
-                  logLevel = LogLevel.valueOf(exception.attributeValue("logLevel").toLowerCase());
+            try {
+               String levelValue = exception.attributeValue("log-level");
+               if (levelValue == null) {
+                   levelValue = exception.attributeValue("logLevel");
                }
-            }
-            catch (IllegalArgumentException ex)
-            { 
+               
+               if (levelValue != null) {
+                   logLevel = LogLevel.valueOf(levelValue.toLowerCase());
+               }
+            } catch (IllegalArgumentException ex) { 
                StringBuilder sb = new StringBuilder();
                sb.append("Exception handler");
                if (className != null) sb.append(" for class " + className);
