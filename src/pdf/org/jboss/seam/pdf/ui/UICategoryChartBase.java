@@ -6,11 +6,13 @@ import org.jboss.seam.log.*;
 
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.block.BlockBorder;
+import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.title.TextTitle;
+import org.jfree.data.category.CategoryDataset;
 
 public abstract class UICategoryChartBase extends UIChart {
     private static Log log = Logging.getLog(UICategoryChartBase.class);
@@ -312,7 +314,8 @@ public abstract class UICategoryChartBase extends UIChart {
 
         if (getDomainLabelPosition() != null) {
             CategoryLabelPositions positions = categoryLabelPosition(getDomainLabelPosition());
-            plot.getDomainAxis().setCategoryLabelPositions(positions);
+            plot.getDomainAxis().setCategoryLabelPositions(positions);  
+            
         }
         
         configureRenderer(plot.getRenderer());
