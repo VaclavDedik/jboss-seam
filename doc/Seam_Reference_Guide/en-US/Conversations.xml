@@ -1176,7 +1176,7 @@ public int getTotal() {
           HTTP 503 error: 
         </para>
         
-        <programlisting role="XML"><![CDATA[   <exception class="org.jboss.seam.ConcurrentRequestTimeoutException" logLevel="trace">
+        <programlisting role="XML"><![CDATA[   <exception class="org.jboss.seam.ConcurrentRequestTimeoutException" log-level="trace">
       <http-error error-code="503" />
    </exception>]]></programlisting>
         
@@ -1195,7 +1195,7 @@ public int getTotal() {
           Alternatively you could redirect to an error page:
         </para>
         
-        <programlisting role="XML"><![CDATA[<exception class="org.jboss.seam.ConcurrentRequestTimeoutException" logLevel="trace">
+        <programlisting role="XML"><![CDATA[<exception class="org.jboss.seam.ConcurrentRequestTimeoutException" log-level="trace">
    <end-conversation/>
    <redirect view-id="/error.xhtml">
       <message>The server is too busy to process your request, please try again later</message>
