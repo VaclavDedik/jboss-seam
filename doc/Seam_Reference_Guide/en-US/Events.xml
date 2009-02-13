@@ -751,17 +751,20 @@ public class HelloListener {
             <listitem><para><literal>org.jboss.seam.afterPhase </literal> &#8212; called after the end of a JSF phase</para></listitem>
             <listitem><para><literal>org.jboss.seam.postInitialization </literal> &#8212; called when Seam has initialized and started up all components</para></listitem>
             <listitem><para><literal>org.jboss.seam.postReInitialization </literal> &#8212; called when Seam has re-initialized and started up all components after a redeploy</para></listitem>
-            <listitem><para><literal>org.jboss.seam.postAuthenticate.&lt;name&gt; </literal> &#8212; called after a user is authenticated</para></listitem>
-            <listitem><para><literal>org.jboss.seam.preAuthenticate.&lt;name&gt; </literal> &#8212; called before attempting to authenticate a user</para></listitem>
-            <listitem><para><literal>org.jboss.seam.notLoggedIn</literal> &#8212; called there is no authenticated user and authentication is required</para></listitem>
-            <listitem><para><literal>org.jboss.seam.rememberMe</literal> &#8212; occurs when Seam security detects the username in a cookie</para></listitem>
             <listitem><para><literal>org.jboss.seam.exceptionHandled.&lt;type&gt;</literal> &#8212; called when an uncaught exception is handled by Seam</para></listitem>
             <listitem><para><literal>org.jboss.seam.exceptionHandled</literal> &#8212; called when an uncaught exception is handled by Seam</para></listitem>
             <listitem><para><literal>org.jboss.seam.exceptionNotHandled</literal> &#8212; called when there was no handler for an uncaught exception</para></listitem>
             <listitem><para><literal>org.jboss.seam.afterTransactionSuccess</literal> &#8212; called when a transaction succeeds in the Seam Application Framework</para></listitem>
             <listitem><para><literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> &#8212; called when a transaction succeeds in the Seam Application Framework which manages an entity called <literal>&lt;name&gt;</literal></para></listitem>
+            <listitem><para><literal>org.jboss.seam.security.loggedOut</literal> &#8212; called when a user logs out</para></listitem>            
+            <listitem><para><literal>org.jboss.seam.security.loginFailed</literal> &#8212; called when a user authentication attempt fails</para></listitem>            
+            <listitem><para><literal>org.jboss.seam.security.loginSuccessful</literal> &#8212; called when a user is successfully authenticated</para></listitem>            
+            <listitem><para><literal>org.jboss.seam.security.notAuthorized</literal> &#8212; called when an authorization check fails</para></listitem>            
+            <listitem><para><literal>org.jboss.seam.security.notLoggedIn</literal> &#8212; called there is no authenticated user and authentication is required</para></listitem>            
+            <listitem><para><literal>org.jboss.seam.security.postAuthenticate.</literal> &#8212; called after a user is authenticated</para></listitem>
+            <listitem><para><literal>org.jboss.seam.security.preAuthenticate</literal> &#8212; called before attempting to authenticate a user</para></listitem>
             </itemizedlist>
-             
+            
              <para>
                  Seam components may observe any of these events in just the same way they
                  observe any other component-driven events.
