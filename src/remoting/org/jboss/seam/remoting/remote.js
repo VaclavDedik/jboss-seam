@@ -670,7 +670,8 @@ Seam.Remoting.sendAjaxRequest = function(envelope, path, callback, silent)
           try
           {         
             asyncReq.responseXML.documentElement;
-            Seam.Remoting.processResponse(asyncReq.responseXML);
+            //Seam.Remoting.processResponse(asyncReq.responseXML);
+	    callback(asyncReq.responseXML);
           }
           catch (ex)
           {
@@ -686,7 +687,8 @@ Seam.Remoting.sendAjaxRequest = function(envelope, path, callback, silent)
              {
                // If that fails, use standards
                var parser = new DOMParser();
-               Seam.Remoting.processResponse(parser.parseFromString(asyncReq.responseText, "text/xml"));
+               //Seam.Remoting.processResponse(parser.parseFromString(asyncReq.responseText, "text/xml"));
+	       callback(parser.parseFromString(asyncReq.responseText, "text/xml")); 
              }
           } 
         }
