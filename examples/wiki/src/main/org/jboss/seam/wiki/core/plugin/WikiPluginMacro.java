@@ -150,7 +150,7 @@ public class WikiPluginMacro extends WikiTextMacro implements Serializable {
         Cache keys for macros are unique hashes:
 
         - unique in all wiki areas: the id of the current document
-        - unique in a particular document: the hashcode of the macro, which includes its name and position in the document
+        - unique in a particular document: the name and position of the macro in the document
         - unique with changing macro parameters: the hashcode of any macro parameters
         - unique for a particular user access level: the current users access level
         - unique considering the hashCode() of any additional objects passed to the method
@@ -171,12 +171,17 @@ public class WikiPluginMacro extends WikiTextMacro implements Serializable {
 
         log.debug("generating cache key for document: " + currentDocument + " and macro: " + this + " and access level: " + accessLevel);
         StringBuilder builder = new StringBuilder();
+
         if (log.isDebugEnabled()) log.debug("including id of document: " + currentDocument.getId());
         builder.append( currentDocument.getId() );
-        if (log.isDebugEnabled()) log.debug("including hashCode of this macro: " + Math.abs(hashCode()));
-        builder.append( Math.abs(hashCode()) );
+
+        int namePositionHash = (getName() + "_" + getPosition()).hashCode();
+        if (log.isDebugEnabled()) log.debug("including name/position of this macro: " + Math.abs(namePositionHash));
+        builder.append( Math.abs(namePositionHash) );
+
         if (log.isDebugEnabled()) log.debug("including hashCode of macro params: " + Math.abs(getParams().hashCode()));
         builder.append( Math.abs(getParams().hashCode()) );
+
         if (log.isDebugEnabled()) log.debug("including accessLevel: " + accessLevel);
         builder.append( accessLevel );
 
