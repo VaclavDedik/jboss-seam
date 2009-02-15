@@ -11,6 +11,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.async.Asynchronous;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.util.Progress;
+import org.jboss.seam.wiki.core.model.WikiNode;
 
 import javax.persistence.EntityManager;
 import javax.transaction.UserTransaction;
@@ -28,7 +29,7 @@ public class IndexManager {
     static Log log;
 
     // TODO: Read the Hibernate Seach configuration option instead, when it becomes available as an API
-    public int batchSize = 50;
+    public int batchSize = 500;
 
     /**
      * Runs asynchronously and re-indexes the given entity class after purging the index.
@@ -38,6 +39,7 @@ public class IndexManager {
      */
     @Asynchronous
     public void rebuildIndex(Class entityClass, Progress progress) {
+
         log.info("asynchronously rebuilding Lucene index for entity: " + entityClass);
 
         UserTransaction userTx = null;
@@ -73,10 +75,17 @@ public class IndexManager {
             em = (EntityManager) Component.getInstance("entityManager");
             ftSession = (FullTextSession)em.getDelegate();
 
-            userTx.begin();
+            // TODO: Let's run this in auto-commit mode, assuming we have READ COMMITTED isolation anyway and non-repeatable reads
+            //userTx.setTransactionTimeout(3600);
+            //userTx.begin();
 
             // Use HQL instead of Criteria to eager fetch lazy properties
-            ScrollableResults cursor = ftSession.createQuery("select o from " + entityClass.getName() + " o fetch all properties").scroll();
+            String query = "select o from " + entityClass.getName() + " o fetch all properties";
+            if (WikiNode.class.isAssignableFrom(entityClass)) {
+                // If it's a WikiNode, fetch the associated User instances, avoiding N+1 selects
+                query = "select o from " + entityClass.getName() + " o inner join fetch o.createdBy left join fetch o.lastModifiedBy fetch all properties";
+            }
+            ScrollableResults cursor = ftSession.createQuery(query).scroll();
 
             cursor.last();
             int count = cursor.getRowNumber() + 1;
@@ -104,17 +113,19 @@ public class IndexManager {
                 }
             }
             cursor.close();
-            userTx.commit();
+            //userTx.commit();
 
             progress.setStatus(Progress.COMPLETE);
             log.debug("indexing complete of entity class: " + entityClass);
 
         } catch (Exception ex) {
+            /*
             try {
                 if (userTx != null) userTx.rollback();
             } catch (Exception rbEx) {
                 rbEx.printStackTrace();
             }
+            */
             throw new RuntimeException(ex);
         }
 
