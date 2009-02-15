@@ -5,6 +5,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.wiki.core.model.*;
+import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.ScopeType;
 import org.hibernate.Session;
 import org.hibernate.transform.ResultTransformer;
@@ -22,6 +23,9 @@ public class ForumDAO implements Serializable {
 
     @In
     EntityManager restrictedEntityManager;
+
+    @In
+    WikiNodeDAO wikiNodeDAO;
 
     @In
     Integer currentAccessLevel;
@@ -103,27 +107,26 @@ public class ForumDAO implements Serializable {
             )
             .list();
 
-        // Append last topic WikiDocument
-        getSession(true).getNamedQuery("forumLastTopic")
-            .setParameter("parentDir", forumsDirectory)
+        // Append last topic WikiDocument (faster if we do it with a MySQL specific LIMIT subselect)
+        List<Object[]> forumsAndLastTopics = getSession(true).getNamedQuery("forumLastTopic")
+            .setParameter("parentDirId", forumsDirectory.getId())
+            .setParameter("readAccessLevel", currentAccessLevel)
             .setComment("Finding last topics for all forums")
-            .setResultTransformer(
-                new ResultTransformer() {
-                    public Object transformTuple(Object[] result, String[] strings) {
-                        if (forumInfoMap.containsKey((Long)result[0]))
-                            forumInfoMap.get( (Long)result[0] ).setLastTopic( (WikiDocument)result[1] );
-                        return null;
-                    }
-                    public List transformList(List list) { return list; }
-                }
-            )
+            .setCacheable(true)
             .list();
+        for (Object[] lastTopicRow : forumsAndLastTopics) {
+            if (forumInfoMap.containsKey((Long)lastTopicRow[0])) {
+                WikiDocument lastTopic = wikiNodeDAO.findWikiDocument( (Long)lastTopicRow[1] );
+                forumInfoMap.get( (Long)lastTopicRow[0] ).setLastTopic( lastTopic );
+            }
+        }
 
         // Append last reply WikiComment
         getSession(true).getNamedQuery("forumLastReply")
             .setParameter("parentDirId", forumsDirectory.getId())
             .setParameter("readAccessLevel", currentAccessLevel)
             .setComment("Finding last replies for all forums")
+            .setCacheable(true)
             .setResultTransformer(
                 new ResultTransformer() {
                     public Object transformTuple(Object[] result, String[] strings) {
@@ -196,32 +199,58 @@ public class ForumDAO implements Serializable {
     }
 
     public Map<Long, TopicInfo> findTopics(WikiDirectory forum, long firstResult, long maxResults) {
+
+        // Limited list of topics, first retrieve identifiers only (faster on ORDER BY/LIMIT) then
+        // batch select the topic instances, then batch select the reply instances, we collect all
+        // of this stuff in this map:
         final Map<Long, TopicInfo> topicInfoMap = new LinkedHashMap<Long, TopicInfo>();
 
-        getSession(true).getNamedQuery("forumTopics")
+        // Retrieve topic identifier, sticky? and hasReplies? data
+        getSession(true).getNamedQuery("forumTopicsList")
             .setParameter("parentNodeId", forum.getId())
             .setParameter("readAccessLevel", currentAccessLevel)
-            .setComment("Retrieving forum topics")
+            .setComment("Retrieving forum topics list")
             .setFirstResult(new Long(firstResult).intValue())
             .setMaxResults(new Long(maxResults).intValue())
             .setResultTransformer(
-                new ResultTransformer() {
-                    public Object transformTuple(Object[] result, String[] strings) {
-                        topicInfoMap.put(
-                            ((WikiDocument)result[0]).getId(),
-                            new TopicInfo( (WikiDocument)result[0], (Integer)result[1], (Boolean)result[2])
-                        );
-                        return null;
+                    new ResultTransformer() {
+                        public Object transformTuple(Object[] result, String[] strings) {
+                            Long topicId = (Long) result[0];
+                            Integer sticky = (Integer)result[1];
+                            Boolean hasReplies = (Boolean)result[2];
+                            topicInfoMap.put(topicId, new TopicInfo(sticky, hasReplies));
+                            return null;
+                        }
+                        public List transformList(List list) { return list; }
                     }
-                    public List transformList(List list) { return list; }
-                }
             )
             .list();
 
+        if (topicInfoMap.keySet().size() == 0) return topicInfoMap; // Early exist possible
+
+        // Retrieve the topic entity instances and shove them into the map
+        getSession(true).getNamedQuery("forumTopics")
+            .setParameterList("topicIds", topicInfoMap.keySet())
+            .setComment("Retrieving forum topic list instances")
+            .setResultTransformer(
+                    new ResultTransformer() {
+                        public Object transformTuple(Object[] result, String[] strings) {
+                            WikiDocument topicInstance = (WikiDocument)result[0];
+                            topicInfoMap.get(topicInstance.getId()).setTopic(topicInstance);
+                            return null;
+                        }
+                        public List transformList(List list) { return list; }
+                    }
+            )
+            .list();
+
+
+        // Figure out which and if we even should query the reply instances
         List<Long> topicIdsWithReplies = new ArrayList<Long>();
         for (Map.Entry<Long, TopicInfo> entry : topicInfoMap.entrySet()) {
             if (entry.getValue().isReplies()) topicIdsWithReplies.add(entry.getKey());
         }
+
         if (topicIdsWithReplies.size() == 0) return topicInfoMap; // Early exit possible
         
         getSession(true).getNamedQuery("forumTopicsReplies")

@@ -12,10 +12,13 @@ public class TopicInfo {
     private long numOfReplies;
     private WikiComment lastComment;
 
-    public TopicInfo(WikiDocument topic, Integer sticky, Boolean replies) {
-        this.topic = topic;
+    public TopicInfo(Integer sticky, boolean replies) {
         this.sticky = sticky != 0;
         this.replies = replies;
+    }
+
+    public void setTopic(WikiDocument topic) {
+        this.topic = topic;
     }
 
     public WikiDocument getTopic() {
