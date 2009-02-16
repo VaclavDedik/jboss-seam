@@ -168,6 +168,13 @@
     </tag>
 
     <tag>
+        <tag-name>timeserieschart</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UITimeSeriesChart</component-type>
+        </component>
+    </tag>
+
+    <tag>
         <tag-name>data</tag-name>
         <component>
             <component-type>org.jboss.seam.pdf.ui.UIChartData</component-type>

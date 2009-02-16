@@ -6,23 +6,17 @@ import org.jboss.seam.log.*;
 
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.block.BlockBorder;
-import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.title.TextTitle;
-import org.jfree.data.category.CategoryDataset;
 
 public abstract class UICategoryChartBase extends UIChart {
     private static Log log = Logging.getLog(UICategoryChartBase.class);
 
     private String orientation;
 
-    private boolean legend;
-    private boolean is3D = false;
-
-    private String title;
     private String titleBackgroundPaint;
     private String titlePaint;
 
@@ -67,36 +61,12 @@ public abstract class UICategoryChartBase extends UIChart {
         this.domainLabelPosition = domainLabelPosition;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getTitle() {
-        return (String) valueBinding("title", title);
-    }
-
     public void setOrientation(String orientation) {
         this.orientation = orientation;
     }
 
     public String getOrientation() {
         return (String) valueBinding("orientation", orientation);
-    }
-
-    public void setLegend(boolean legend) {
-        this.legend = legend;
-    }
-
-    public boolean getLegend() {
-        return (Boolean) valueBinding("legend", legend);
-    }
-
-    public void setIs3D(boolean is3D) {
-        this.is3D = true;
-    }
-
-    public boolean getIs3D() {
-        return (Boolean) valueBinding("is3D", is3D);
     }
 
     public void setTitleBackgroundPaint(String titleBackgroundPaint) {
@@ -215,9 +185,8 @@ public abstract class UICategoryChartBase extends UIChart {
         super.restoreState(context, values[0]);
 
         orientation = (String) values[1];
-        legend = (Boolean) values[2];
-        is3D = (Boolean) values[3];
-        title = (String) values[4];
+        //legend = (Boolean) values[2];
+        //is3D = (Boolean) values[3];
         titleBackgroundPaint = (String) values[5];
         titlePaint = (String) values[6];
         legendBackgroundPaint = (String) values[7];
@@ -241,9 +210,9 @@ public abstract class UICategoryChartBase extends UIChart {
         Object[] values = new Object[21];
         values[0] = super.saveState(context);
         values[1] = orientation;
-        values[2] = legend;
-        values[3] = is3D;
-        values[4] = title;
+        //values[2] = legend;
+        //values[3] = is3D;
+        //values[4] = title;
         values[5] = titleBackgroundPaint;
         values[6] = titlePaint;
         values[7] = legendBackgroundPaint;
@@ -374,8 +343,7 @@ public abstract class UICategoryChartBase extends UIChart {
     public void configureTitle(TextTitle chartTitle) {
         if (chartTitle != null) {
             if (findColor(getTitleBackgroundPaint()) != null) {
-                chartTitle
-                        .setBackgroundPaint(findColor(getTitleBackgroundPaint()));
+                chartTitle.setBackgroundPaint(findColor(getTitleBackgroundPaint()));
             }
 
             if (findColor(getTitlePaint()) != null) {
@@ -391,7 +359,7 @@ public abstract class UICategoryChartBase extends UIChart {
             }
 
             if (findColor(getLegendOutlinePaint()) != null) {
-                chartLegend.setBorder(new BlockBorder(findColor(getLegendOutlinePaint())));
+                chartLegend.setFrame(new BlockBorder(findColor(getLegendOutlinePaint())));
             }
 
             if (findColor(getLegendItemPaint()) != null) {

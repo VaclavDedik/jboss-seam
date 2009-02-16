@@ -32,11 +32,16 @@ public abstract class UIChart extends ITextComponent
 {
    private Image image = null;
    private JFreeChart chart = null;
+   
    private byte[] imageData;
 
    private int height = 300;
    private int width = 400;
 
+   private boolean legend;
+   private boolean is3D = false;
+   
+   private String title;
    private String borderBackgroundPaint;
    private String borderPaint;
    private String borderStroke;
@@ -47,6 +52,18 @@ public abstract class UIChart extends ITextComponent
    private Float plotForegroundAlpha;
    private String plotOutlineStroke;
    private String plotOutlinePaint;
+
+   protected Dataset dataset;
+   
+   
+
+   public void setTitle(String title) {
+       this.title = title;
+   }
+
+   public String getTitle() {
+       return (String) valueBinding("title", title);
+   }
 
    public void setHeight(int height)
    {
@@ -67,6 +84,23 @@ public abstract class UIChart extends ITextComponent
    {
       return (Integer) valueBinding(FacesContext.getCurrentInstance(), "width", width);
    }
+   
+   public void setLegend(boolean legend) {
+       this.legend = legend;
+   }
+
+   public boolean getLegend() {
+       return (Boolean) valueBinding("legend", legend);
+   }
+
+   public void setIs3D(boolean is3D) {
+       this.is3D = true;
+   }
+
+   public boolean getIs3D() {
+       return (Boolean) valueBinding("is3D", is3D);
+   }
+
 
    public void setBorderBackgroundPaint(String backgroundPaint)
    {
@@ -158,6 +192,14 @@ public abstract class UIChart extends ITextComponent
       return (String) valueBinding(FacesContext.getCurrentInstance(), "plotOutlineStroke", plotOutlineStroke);
    }
 
+   public void setDataset(Dataset dataset) {
+        this.dataset = dataset;
+   }
+
+   public Dataset getDataset() {
+       return (Dataset) valueBinding(FacesContext.getCurrentInstance(), "dataset", dataset);
+   }
+   
    @Override
    public void restoreState(FacesContext context, Object state)
    {
@@ -175,12 +217,15 @@ public abstract class UIChart extends ITextComponent
       plotForegroundAlpha = (Float) values[9];
       plotOutlineStroke = (String) values[10];
       plotOutlinePaint = (String) values[11];
+      title = (String) values[12];
+      is3D = (Boolean) values[13];
+      legend = (Boolean) values[14];
    }
 
    @Override
    public Object saveState(FacesContext context)
    {
-      Object[] values = new Object[12];
+      Object[] values = new Object[15];
 
       values[0] = super.saveState(context);
       values[1] = height;
@@ -194,7 +239,10 @@ public abstract class UIChart extends ITextComponent
       values[9] = plotForegroundAlpha;
       values[10] = plotOutlineStroke;
       values[11] = plotOutlinePaint;
-
+      values[12] = title;
+      values[13] = is3D;
+      values[14] = legend;
+      
       return values;
    }
 
@@ -345,8 +393,11 @@ public abstract class UIChart extends ITextComponent
    @Override
    public void encodeBegin(FacesContext context) throws IOException
    {
+      dataset = getDataset();
       // bypass super to avoid createITextObject() before the chart is ready
-      createDataset();
+      if (dataset == null) {
+          dataset = createDataset();
+      }
       chart = createChart(context);
    }
 
@@ -394,7 +445,5 @@ public abstract class UIChart extends ITextComponent
       chart = null;
    }
 
-   public abstract void createDataset();
-
-   public abstract Dataset getDataset();
+   public abstract Dataset createDataset();
 }

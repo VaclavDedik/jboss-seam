@@ -142,7 +142,11 @@ public class UIChartSeries extends ITextComponent {
                 } else {
                     log.error("render is not AbtractRenderer" + renderer);
                 }
+                
             }
+//             else if (p instanceof XYPlot) {
+//                /// ??? 
+//            }
         }
     }
 

@@ -120,6 +120,11 @@
     </component>
 
     <component>
+        <component-type>org.jboss.seam.pdf.ui.UITimeSeriesChart</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UITimeSeriesChart</component-class>
+    </component>
+
+    <component>
         <component-type>org.jboss.seam.pdf.ui.UIChartData</component-type>
         <component-class>org.jboss.seam.pdf.ui.UIChartData</component-class>
     </component>

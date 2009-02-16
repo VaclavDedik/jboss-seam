@@ -166,6 +166,9 @@ public class UIChartData extends ITextComponent {
                 // CategoryPlot plot = (CategoryPlot)
                 // chart.getChart().getPlot();
                 data.addValue(getNumericValue(), getSeries(), getKey());
+//            } else if (dataset instanceof DefaultXYDataset) {
+//              DefaultXYDataset data =   (DefaultXYDataset) dataset;
+
             } else {
                 throw new RuntimeException(
                         "Cannot add data to dataset of type "

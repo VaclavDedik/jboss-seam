@@ -11,8 +11,6 @@ import org.jfree.data.general.Dataset;
 
 public class UILineChart extends UICategoryChartBase
 {
-   CategoryDataset dataset;
-
    @Override
    public void restoreState(FacesContext context, Object state)
    {
@@ -31,9 +29,9 @@ public class UILineChart extends UICategoryChartBase
    }
 
    @Override
-   public void createDataset()
+   public Dataset createDataset()
    {
-      dataset = new DefaultCategoryDataset();
+      return new DefaultCategoryDataset();
    }
 
    @Override
@@ -43,11 +41,11 @@ public class UILineChart extends UICategoryChartBase
 
       if (!getIs3D())
       {
-         chart = ChartFactory.createLineChart(getTitle(), getDomainAxisLabel(), getRangeAxisLabel(), dataset, plotOrientation(getOrientation()), getLegend(), false, false);
+         chart = ChartFactory.createLineChart(getTitle(), getDomainAxisLabel(), getRangeAxisLabel(), (CategoryDataset) dataset, plotOrientation(getOrientation()), getLegend(), false, false);
       }
       else
       {
-         chart = ChartFactory.createLineChart3D(getTitle(), getDomainAxisLabel(), getRangeAxisLabel(), dataset, plotOrientation(getOrientation()), getLegend(), false, false);
+         chart = ChartFactory.createLineChart3D(getTitle(), getDomainAxisLabel(), getRangeAxisLabel(), (CategoryDataset) dataset, plotOrientation(getOrientation()), getLegend(), false, false);
       }
 
       configureTitle(chart.getTitle());
@@ -67,10 +65,5 @@ public class UILineChart extends UICategoryChartBase
       super.configureRenderer(renderer);
    }
 
-   @Override
-   public Dataset getDataset()
-   {
-      return dataset;
-   }
 
 }

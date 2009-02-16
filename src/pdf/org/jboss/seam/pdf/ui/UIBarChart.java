@@ -12,8 +12,6 @@ import org.jfree.data.general.Dataset;
 
 public class UIBarChart extends UICategoryChartBase
 {
-   private CategoryDataset dataset;
-
    @Override
    public void restoreState(FacesContext context, Object state)
    {
@@ -31,9 +29,9 @@ public class UIBarChart extends UICategoryChartBase
    }
 
    @Override
-   public void createDataset()
+   public Dataset createDataset()
    {
-      dataset = new DefaultCategoryDataset();
+      return new DefaultCategoryDataset();
    }
 
    // @Override
@@ -62,22 +60,16 @@ public class UIBarChart extends UICategoryChartBase
 
       if (!getIs3D())
       {
-         chart = ChartFactory.createBarChart(getTitle(), getDomainAxisLabel(), getRangeAxisLabel(), dataset, plotOrientation(getOrientation()), getLegend(), false, false);
+         chart = ChartFactory.createBarChart(getTitle(), getDomainAxisLabel(), getRangeAxisLabel(), (CategoryDataset) dataset, plotOrientation(getOrientation()), getLegend(), false, false);
       }
       else
       {
-         chart = ChartFactory.createBarChart3D(getTitle(), getDomainAxisLabel(), getRangeAxisLabel(), dataset, plotOrientation(getOrientation()), getLegend(), false, false);
+         chart = ChartFactory.createBarChart3D(getTitle(), getDomainAxisLabel(), getRangeAxisLabel(), (CategoryDataset) dataset, plotOrientation(getOrientation()), getLegend(), false, false);
       }
 
       configureTitle(chart.getTitle());
       configureLegend(chart.getLegend());
 
       return chart;
-   }
-
-   @Override
-   public Dataset getDataset()
-   {
-      return dataset;
    }
 }
