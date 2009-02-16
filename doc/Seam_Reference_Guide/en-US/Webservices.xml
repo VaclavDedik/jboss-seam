@@ -306,7 +306,7 @@ public class MyCustomerResource {
             You can then change the <literal>/rest</literal> prefix as mentioned earlier:
          </para>
 
-         <programlisting role="XML"><![CDATA[<resteasy:application-config resource-path-prefix="/restv1"/>]]></programlisting>
+         <programlisting role="XML"><![CDATA[<resteasy:application resource-path-prefix="/restv1"/>]]></programlisting>
 
          <para>
             The full base path to your resources is now <literal>/seam/resource/restv1/{resource}</literal> - note
@@ -318,7 +318,7 @@ public class MyCustomerResource {
             You can disable stripping of the base path if you'd like to map the full path in your resources:
          </para>
 
-         <programlisting role="XML"><![CDATA[<resteasy:application-config strip-seam-resource-path="false"/>]]></programlisting>
+         <programlisting role="XML"><![CDATA[<resteasy:application strip-seam-resource-path="false"/>]]></programlisting>
 
          <para>
             The path of a resource is now mapped with e.g.
@@ -332,7 +332,7 @@ public class MyCustomerResource {
             classes manually:
          </para>
          
-         <programlisting role="XML"><![CDATA[<resteasy:application-config
+         <programlisting role="XML"><![CDATA[<resteasy:application
      scan-providers="false"
      scan-resources="false"
      use-builtin-providers="true">
@@ -346,7 +346,7 @@ public class MyCustomerResource {
          <value>org.foo.MyFancyProvider</value>
      </resteasy:provider-class-names>
 
- </resteasy:application-config>]]></programlisting>
+ </resteasy:application>]]></programlisting>
 
          <para>
             The <literal>use-built-in-providers</literal> switch enables (default) or disables the RESTEasy built-in
@@ -358,7 +358,7 @@ public class MyCustomerResource {
             Finally, you can configure media type and language URI extensions:
          </para>
 
-         <programlisting role="XML"><![CDATA[<resteasy:application-config>
+         <programlisting role="XML"><![CDATA[<resteasy:application>
 
     <resteasy:media-type-mappings>
        <key>txt</key><value>text/plain</value>
@@ -368,7 +368,7 @@ public class MyCustomerResource {
        <key>deutsch</key><value>de-DE</value>
     </resteasy:language-mappings>
 
-</resteasy:application-config>]]></programlisting>
+</resteasy:application>]]></programlisting>
 
          <para>
             This definition would map the URI suffix of <literal>.txt.deutsch</literal> to

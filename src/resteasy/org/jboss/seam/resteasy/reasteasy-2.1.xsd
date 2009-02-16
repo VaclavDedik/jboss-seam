@@ -3,12 +3,12 @@
     targetNamespace="http://jboss.com/products/seam/resteasy" xmlns:resteasy="http://jboss.com/products/seam/resteasy"
     xmlns:components="http://jboss.com/products/seam/components" attributeFormDefault="unqualified">
 
-    <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-2.1.xsd"/>
+    <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="http://jboss.com/products/seam/components-2.1.xsd"/>
 
-   <xs:element name="application-config">
+   <xs:element name="application">
        <xs:annotation>
            <xs:documentation>
-               An implementation of JAX-RS ApplicationConfig with additional properties for RESTEasy.
+               An implementation of JAX-RS Application with additional properties for RESTEasy.
            </xs:documentation>
        </xs:annotation>
        <xs:complexType mixed="true">
@@ -47,11 +47,11 @@
              </xs:element>
           </xs:sequence>
           <xs:attributeGroup ref="components:attlist.component"/>
-          <xs:attributeGroup ref="pdf:attlist.application-config"/>
+          <xs:attributeGroup ref="resteasy:attlist.application"/>
        </xs:complexType>
    </xs:element>
 
-   <xs:attributeGroup name="attlist.application-config">
+   <xs:attributeGroup name="attlist.application">
        <xs:attribute name="scan-providers" type="components:boolean">
            <xs:annotation>
                <xs:documentation>
