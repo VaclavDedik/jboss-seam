@@ -10,7 +10,9 @@
 			<xs:documentation>Factory creating excel workbook instances</xs:documentation>
 		</xs:annotation>
 		<xs:complexType mixed="true">
-			<xs:element name="implementations" type="components:mapProperty" />
+			<xs:sequence>
+                <xs:element name="implementations" type="components:mapProperty" />
+			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
 
