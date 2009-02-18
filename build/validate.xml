@@ -23,6 +23,8 @@
 	http://jboss.com/products/seam/theme ${src.schema.dir}/theme-${schema.version}.xsd 
 	http://jboss.com/products/seam/transaction ${src.schema.dir}/transaction-${schema.version}.xsd 
 	http://jboss.com/products/seam/web ${src.schema.dir}/web-${schema.version}.xsd " />
+	
+	<property name="xsdLocation" value="http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd" />
 
 	<taskdef name="xmlvalidate.task" classname="org.apache.tools.ant.taskdefs.optional.XMLValidateTask">
 		<classpath>
@@ -46,10 +48,20 @@
 		<include name="**/*.jpdl.xml" />
 		<exclude name="**/.gpd.*.jpdl.xml" />
 	</fileset>
+	
+	<fileset id="validate.schemas" dir="${seam.dir}">
+		<include name="src/**/*.xsd" />
+	</fileset>
 
 	<target name="validateConfiguration" description="Validate XML Configuration Files">
 		<validateConfiguration>
 			<fileset refid="validate.resources" />
+		</validateConfiguration>
+	</target>
+	
+	<target name="validatexsd" description="Validate all XML Schemas">
+		<validateConfiguration>
+			<fileset refid="validate.schemas" />
 		</validateConfiguration>
 	</target>
 
@@ -58,7 +70,7 @@
 			<attribute name="http://xml.org/sax/features/validation" value="true" />
 			<attribute name="http://apache.org/xml/features/validation/schema" value="true" />
 			<attribute name="http://xml.org/sax/features/namespaces" value="true" />
-			<property name="http://apache.org/xml/properties/schema/external-schemaLocation" value="${seam.schemaLocations}" />
+			<property name="http://apache.org/xml/properties/schema/external-schemaLocation" value="${seam.schemaLocations} ${xsdLocation}" />
 			<xmlcatalog>
 				<dtd publicId="-//JBoss/Seam Component Configuration DTD 2.0//EN" location="${src.schema.dir}/components-${schema.version}.dtd" />
 				<dtd publicId="-//JBoss/Seam Pages Configuration DTD 2.0//EN" location="${src.schema.dir}/pages-${schema.version}.dtd" />

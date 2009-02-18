@@ -526,6 +526,7 @@
 	<target name="testall" depends="test,build,copylib,testexamples" description="Run the core unit tests and all example tests"/>
 
 	<target name="validateall" description="Validate all example XML Configuration Files">
+		<ant antfile="${seam.dir}/build/validate.xml" target="validatexsd"/>
 		<ant dir="examples/booking" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/blog" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/contactlist" target="validateConfiguration" inheritall="false" />
