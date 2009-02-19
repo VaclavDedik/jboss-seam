@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-02-01 21:19+0000\n"
-"PO-Revision-Date: 2009-02-01 22:38+0100\n"
+"POT-Creation-Date: 2009-02-19 21:44+0000\n"
+"PO-Revision-Date: 2009-02-19 22:54+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -78,16 +78,16 @@ msgstr "&lt;p:document&gt;"
 #: Itext.xml:939
 #: Itext.xml:1080
 #: Itext.xml:1308
-#: Itext.xml:1504
-#: Itext.xml:1700
-#: Itext.xml:1843
-#: Itext.xml:1914
-#: Itext.xml:1975
-#: Itext.xml:2022
-#: Itext.xml:2102
-#: Itext.xml:2214
-#: Itext.xml:2264
-#: Itext.xml:2324
+#: Itext.xml:1515
+#: Itext.xml:1721
+#: Itext.xml:1864
+#: Itext.xml:1935
+#: Itext.xml:1996
+#: Itext.xml:2043
+#: Itext.xml:2123
+#: Itext.xml:2235
+#: Itext.xml:2285
+#: Itext.xml:2345
 #, no-c-format
 msgid "Description"
 msgstr "Descrizione"
@@ -113,16 +113,16 @@ msgstr "I documenti vengono generati dai file XHTML facelet usando dei tag nel n
 #: Itext.xml:944
 #: Itext.xml:1085
 #: Itext.xml:1312
-#: Itext.xml:1508
-#: Itext.xml:1704
-#: Itext.xml:1848
-#: Itext.xml:1918
-#: Itext.xml:1980
-#: Itext.xml:2026
-#: Itext.xml:2107
-#: Itext.xml:2219
-#: Itext.xml:2269
-#: Itext.xml:2329
+#: Itext.xml:1519
+#: Itext.xml:1725
+#: Itext.xml:1869
+#: Itext.xml:1939
+#: Itext.xml:2001
+#: Itext.xml:2047
+#: Itext.xml:2128
+#: Itext.xml:2240
+#: Itext.xml:2290
+#: Itext.xml:2350
 #, no-c-format
 msgid "Attributes"
 msgstr "Attributi"
@@ -221,15 +221,15 @@ msgstr "creator"
 #: Itext.xml:899
 #: Itext.xml:1065
 #: Itext.xml:1241
-#: Itext.xml:1490
-#: Itext.xml:1686
-#: Itext.xml:1829
-#: Itext.xml:1900
-#: Itext.xml:1958
-#: Itext.xml:2008
-#: Itext.xml:2068
-#: Itext.xml:2182
-#: Itext.xml:2349
+#: Itext.xml:1501
+#: Itext.xml:1707
+#: Itext.xml:1850
+#: Itext.xml:1921
+#: Itext.xml:1979
+#: Itext.xml:2029
+#: Itext.xml:2089
+#: Itext.xml:2203
+#: Itext.xml:2370
 #, no-c-format
 msgid "Usage"
 msgstr "Utilizzo"
@@ -1267,208 +1267,215 @@ msgstr "Visualizza un grafico a barre."
 
 #. Tag: para
 #: Itext.xml:1317
-#: Itext.xml:1513
+#: Itext.xml:1524
 #, no-c-format
 msgid "<literal>borderVisible</literal> &#8212; Controls whether or not a border is displayed around the entire chart."
 msgstr "<literal>borderVisible</literal> &#8212; Controlla se mostrare oppure no un bordo attorno a tutto il grafico."
 
 #. Tag: para
 #: Itext.xml:1323
-#: Itext.xml:1519
+#: Itext.xml:1530
 #, no-c-format
 msgid "<literal>borderPaint</literal> &#8212; The color of the border, if visible;"
 msgstr "<literal>borderPaint</literal> &#8212; Il colore del bordo, se visibile;"
 
 #. Tag: para
 #: Itext.xml:1328
-#: Itext.xml:1524
+#: Itext.xml:1535
 #, no-c-format
 msgid "<literal>borderBackgroundPaint</literal> &#8212; The default background color of the chart."
 msgstr "<literal>borderBackgroundPaint</literal> &#8212; Il colore di default per lo sfondo del grafico."
 
 #. Tag: para
 #: Itext.xml:1333
-#: Itext.xml:1529
+#: Itext.xml:1540
 #, no-c-format
 msgid "<literal>borderStroke</literal> &#8212;"
 msgstr "<literal>borderStroke</literal> &#8212;"
 
 #. Tag: para
 #: Itext.xml:1339
-#: Itext.xml:1535
+#: Itext.xml:1546
 #, no-c-format
 msgid "<literal>domainAxisLabel</literal> &#8212; The text label for the domain axis."
 msgstr "<literal>domainAxisLabel</literal> &#8212; L'etichetta del testo per gli assi del dominio."
 
 #. Tag: para
-#: Itext.xml:1344
-#: Itext.xml:1540
+#: Itext.xml:1346
+#: Itext.xml:1552
+#, no-c-format
+msgid "<literal>domainLabelPosition</literal> &#8212; The angle of the domain axis category labels. Valid values are <literal>STANDARD</literal>, <literal>UP_45</literal>, <literal>UP_90</literal>, <literal>DOWN_45</literal> and <literal>DOWN_90</literal>. Alternatively, the value can the positive or negative angle in radians."
+msgstr "<literal>domainLabelPosition</literal> &#8212; L'angolo delle etichette di categoria degli assi. I valori validi sono <literal>STANDARD</literal>, <literal>UP_45</literal>, <literal>UP_90</literal>, <literal>DOWN_45</literal> e <literal>DOWN_90</literal>. In alternativa, il valore può essere un valore positivo o negativo in radianti."
+
+#. Tag: para
+#: Itext.xml:1355
+#: Itext.xml:1561
 #, no-c-format
 msgid "<literal>domainAxisPaint</literal> &#8212; The color of the domain axis label."
 msgstr "<literal>domainAxisPaint</literal> &#8212; Il colore dell'etichetta degli assi di dominio."
 
 #. Tag: para
-#: Itext.xml:1350
-#: Itext.xml:1546
+#: Itext.xml:1361
+#: Itext.xml:1567
 #, no-c-format
 msgid "<literal>domainGridlinesVisible</literal>&#8212; Controls whether or not gridlines for the domain axis are shown on the chart."
 msgstr "<literal>domainGridlinesVisible</literal>&#8212; Controlla se mostrare oppure no all'interno del grafico le griglie per gli assi del dominio."
 
 #. Tag: para
-#: Itext.xml:1355
-#: Itext.xml:1551
+#: Itext.xml:1366
+#: Itext.xml:1572
 #, no-c-format
 msgid "<literal>domainGridlinePaint</literal>&#8212; The color of the domain gridlines, if visible."
 msgstr "<literal>domainGridlinePaint</literal>&#8212; Il colore delle griglie di dominio, se visibili."
 
 #. Tag: para
-#: Itext.xml:1360
-#: Itext.xml:1556
+#: Itext.xml:1371
+#: Itext.xml:1577
 #, no-c-format
 msgid "<literal>domainGridlineStroke</literal> &#8212; The stroke style of the domain gridlines, if visible."
 msgstr "<literal>domainGridlineStroke</literal> &#8212; Lo stile del tratteggio delle griglie di dominio, se visibili."
 
 #. Tag: para
-#: Itext.xml:1366
-#: Itext.xml:1562
+#: Itext.xml:1377
+#: Itext.xml:1583
 #, no-c-format
 msgid "<literal>height</literal> &#8212; The height of the chart."
 msgstr "<literal>height</literal> &#8212; L'altezza del grafico."
 
 #. Tag: para
-#: Itext.xml:1371
-#: Itext.xml:1484
-#: Itext.xml:1567
-#: Itext.xml:1680
+#: Itext.xml:1382
+#: Itext.xml:1495
+#: Itext.xml:1588
+#: Itext.xml:1701
 #, no-c-format
 msgid "<literal>width</literal> &#8212; The width of the chart."
 msgstr "<literal>width</literal> &#8212; La larghezza del grafico."
 
 #. Tag: para
-#: Itext.xml:1376
-#: Itext.xml:1572
+#: Itext.xml:1387
+#: Itext.xml:1593
 #, no-c-format
 msgid "<literal>is3D</literal> &#8212; A boolean value indicating that the chart should be rendered in 3D instead of 2D."
 msgstr "<literal>is3D</literal> &#8212; Un valore booleano che indica di visualizzare il grafico in 3D invece che in 2D."
 
 #. Tag: para
-#: Itext.xml:1382
-#: Itext.xml:1578
+#: Itext.xml:1393
+#: Itext.xml:1599
 #, no-c-format
 msgid "<literal>legend</literal> &#8212; A boolean value indicating whether or not the chart should include a legend."
 msgstr "<literal>legend</literal> &#8212; Un valore booleano che indica se oppure no includere la legenda nel grafico."
 
 #. Tag: para
-#: Itext.xml:1388
+#: Itext.xml:1399
 #, no-c-format
 msgid "<literal>legendItemPaint</literal>&#8212; The default color of the text labels in the legend."
 msgstr "<literal>legendItemPaint</literal>&#8212; Il colore di default delle etichette di testo nella legenda."
 
 #. Tag: para
-#: Itext.xml:1394
+#: Itext.xml:1405
 #, no-c-format
 msgid "<literal>legendItemBackgoundPaint</literal>&#8212; The background color for the legend, if different from the chart background color."
 msgstr "<literal>legendItemBackgoundPaint</literal>&#8212; Il colore dello sfondo della legenda, se diverso dal colore di sfondo del grafico."
 
 #. Tag: para
-#: Itext.xml:1400
+#: Itext.xml:1411
 #, no-c-format
 msgid "<literal>legendOutlinePaint</literal>&#8212; The color of the border around the legend."
 msgstr "<literal>legendOutlinePaint</literal>&#8212; Il colore del bordo attorno alla legenda."
 
 #. Tag: para
-#: Itext.xml:1406
-#: Itext.xml:1602
+#: Itext.xml:1417
+#: Itext.xml:1623
 #, no-c-format
 msgid "<literal>orientation</literal> &#8212; The orientation of the plot, either <code>vertical</code> (the default) or <code>horizontal</code>."
 msgstr "<literal>orientation</literal> &#8212; L'orientamento del disegno, o <code>vertical</code> (di default) o <code>horizontal</code>."
 
 #. Tag: para
-#: Itext.xml:1412
+#: Itext.xml:1423
 #, no-c-format
 msgid "<literal>plotBackgroundPaint</literal>&#8212; The color of the plot background."
 msgstr "<literal>plotBackgroundPaint</literal>&#8212; Il colore dello sfondo del disegno."
 
 #. Tag: para
-#: Itext.xml:1418
+#: Itext.xml:1429
 #, no-c-format
 msgid "<literal>plotBackgroundAlpha</literal>&#8212; The alpha (transparency) level of the plot background. It should be a number between 0 (completely transparent) and 1 (completely opaque)."
 msgstr "<literal>plotBackgroundAlpha</literal>&#8212; Il livello alfa (trasparenza) dello sfondo del disegno. Dovrebbe essere un numero tra 0 (completamente trasparente) e 1 (completamente opaco)."
 
 #. Tag: para
-#: Itext.xml:1425
+#: Itext.xml:1436
 #, no-c-format
 msgid "<literal>plotForegroundAlpha</literal>&#8212; The alpha (transparency) level of the plot. It should be a number between 0 (completely transparent) and 1 (completely opaque)."
 msgstr "<literal>plotForegroundAlpha</literal>&#8212; Il livello alfa (trasparenza) del disegno. Dovrebbe essere un numero tra 0 (completamente trasparente) e 1 (completamente opaco)."
 
 #. Tag: para
-#: Itext.xml:1432
+#: Itext.xml:1443
 #, no-c-format
 msgid "<literal>plotOutlinePaint</literal>&#8212; The color of the range gridlines, if visible."
 msgstr "<literal>plotOutlinePaint</literal>&#8212; Il colore delle griglie di range, se visibili."
 
 #. Tag: para
-#: Itext.xml:1437
-#: Itext.xml:1633
+#: Itext.xml:1448
+#: Itext.xml:1654
 #, no-c-format
 msgid "<literal>plotOutlineStroke</literal> &#8212; The stroke style of the range gridlines, if visible."
 msgstr "<literal>plotOutlineStroke</literal> &#8212; Lo stile del tratteggio delle griglie di range, se visibili."
 
 #. Tag: para
-#: Itext.xml:1443
-#: Itext.xml:1639
+#: Itext.xml:1454
+#: Itext.xml:1660
 #, no-c-format
 msgid "<literal>rangeAxisLabel</literal> &#8212; The text label for the range axis."
 msgstr "<literal>rangeAxisLabel</literal> &#8212; L'etichetta di testo per l'asse di range."
 
 #. Tag: para
-#: Itext.xml:1448
-#: Itext.xml:1644
+#: Itext.xml:1459
+#: Itext.xml:1665
 #, no-c-format
 msgid "<literal>rangeAxisPaint</literal> &#8212; The color of the range axis label."
 msgstr "<literal>rangeAxisPaint</literal> &#8212; Il colore per l'etichetta dell'asse di range."
 
 #. Tag: para
-#: Itext.xml:1454
+#: Itext.xml:1465
 #, no-c-format
 msgid "<literal>rangeGridlinesVisible</literal>&#8212; Controls whether or not gridlines for the range axis are shown on the chart."
 msgstr "<literal>rangeGridlinesVisible</literal>&#8212; Controlla se visualizzare nel grafico oppure no le griglie per l'asse di range."
 
 #. Tag: para
-#: Itext.xml:1459
+#: Itext.xml:1470
 #, no-c-format
 msgid "<literal>rangeGridlinePaint</literal>&#8212; The color of the range gridlines, if visible."
 msgstr "<literal>rangeGridlinePaint</literal>&#8212; Il colore delle griglie di range, se visibili."
 
 #. Tag: para
-#: Itext.xml:1464
-#: Itext.xml:1660
+#: Itext.xml:1475
+#: Itext.xml:1681
 #, no-c-format
 msgid "<literal>rangeGridlineStroke</literal> &#8212; The stroke style of the range gridlines, if visible."
 msgstr "<literal>rangeGridlineStroke</literal> &#8212; Lo stile del tratteggio delle griglie di range, se visibili."
 
 #. Tag: para
-#: Itext.xml:1470
-#: Itext.xml:1666
-#: Itext.xml:1710
+#: Itext.xml:1481
+#: Itext.xml:1687
+#: Itext.xml:1731
 #, no-c-format
 msgid "<literal>title</literal> &#8212; The chart title text."
 msgstr "<literal>title</literal> &#8212; Il titolo del grafico."
 
 #. Tag: para
-#: Itext.xml:1474
+#: Itext.xml:1485
 #, no-c-format
 msgid "<literal>titlePaint</literal>&#8212; The color of the chart title text."
 msgstr "<literal>titlePaint</literal>&#8212; Il colore del titolo del grafico."
 
 #. Tag: para
-#: Itext.xml:1479
+#: Itext.xml:1490
 #, no-c-format
 msgid "<literal>titleBackgroundPaint</literal>&#8212; The background color around the chart title."
 msgstr "<literal>titleBackgroundPaint</literal>&#8212; Il colore di sfondo attorno al titolo del grafico."
 
 #. Tag: programlisting
-#: Itext.xml:1492
+#: Itext.xml:1503
 #, no-c-format
 msgid ""
 "<![CDATA[<p:barchart title=\"Bar Chart\" legend=\"true\"\n"
@@ -1494,85 +1501,85 @@ msgstr ""
 "</p:barchart>]]>"
 
 #. Tag: literal
-#: Itext.xml:1499
+#: Itext.xml:1510
 #, no-c-format
 msgid "&lt;p:linechart&gt;"
 msgstr "&lt;p:linechart&gt;"
 
 #. Tag: para
-#: Itext.xml:1506
+#: Itext.xml:1517
 #, no-c-format
 msgid "Displays a line chart."
 msgstr "Mostra un grafico a linea."
 
 #. Tag: para
-#: Itext.xml:1584
+#: Itext.xml:1605
 #, no-c-format
 msgid "<literal>legendItemPaint</literal> &#8212; The default color of the text labels in the legend."
 msgstr "<literal>code</literal> &#8212; Il valore da codificare nel barcode."
 
 #. Tag: para
-#: Itext.xml:1590
+#: Itext.xml:1611
 #, no-c-format
 msgid "<literal>legendItemBackgoundPaint</literal> &#8212; The background color for the legend, if different from the chart background color."
 msgstr "<literal>legendItemBackgoundPaint</literal> &#8212; Il colore di sfondo della legenda, se diverso dal colore di sfondo del grafico."
 
 #. Tag: para
-#: Itext.xml:1596
+#: Itext.xml:1617
 #, no-c-format
 msgid "<literal>legendOutlinePaint</literal> &#8212; The color of the border around the legend."
 msgstr "<literal>code</literal> &#8212; Il valore da codificare nel barcode."
 
 #. Tag: para
-#: Itext.xml:1608
+#: Itext.xml:1629
 #, no-c-format
 msgid "<literal>plotBackgroundPaint</literal> &#8212; The color of the plot background."
 msgstr "<literal>code</literal> &#8212; Il valore da codificare nel barcode."
 
 #. Tag: para
-#: Itext.xml:1614
+#: Itext.xml:1635
 #, no-c-format
 msgid "<literal>plotBackgroundAlpha</literal> &#8212; The alpha (transparency) level of the plot background. It should be a number between 0 (completely transparent) and 1 (completely opaque)."
 msgstr "<literal>plotBackgroundAlpha</literal>&#8212; Il livello alfa (trasparenza) dello sfondo del disegno. Dovrebbe essere un numero tra 0 (completamente trasparente) e 1 (completamente opaco)."
 
 #. Tag: para
-#: Itext.xml:1621
+#: Itext.xml:1642
 #, no-c-format
 msgid "<literal>plotForegroundAlpha</literal> &#8212; The alpha (transparency) level of the plot. It should be a number between 0 (completely transparent) and 1 (completely opaque)."
 msgstr "<literal>plotForegroundAlpha</literal>&#8212; Il livello alfa (trasparenza) del disegno. Dovrebbe essere un numero tra 0 (completamente trasparente) e 1 (completamente opaco)."
 
 #. Tag: para
-#: Itext.xml:1628
+#: Itext.xml:1649
 #, no-c-format
 msgid "<literal>plotOutlinePaint</literal> &#8212; The color of the range gridlines, if visible."
 msgstr "<literal>plotOutlinePaint</literal> &#8212; Il colore delle griglie di range, se visibili."
 
 #. Tag: para
-#: Itext.xml:1650
+#: Itext.xml:1671
 #, no-c-format
 msgid "<literal>rangeGridlinesVisible</literal> &#8212; Controls whether or not gridlines for the range axis are shown on the chart."
 msgstr "<literal>rangeGridlinesVisible</literal> &#8212; Controlla se visualizzare nel grafico oppure no le griglie dell'asse di range."
 
 #. Tag: para
-#: Itext.xml:1655
+#: Itext.xml:1676
 #, no-c-format
 msgid "<literal>rangeGridlinePaint</literal> &#8212; The color of the range gridlines, if visible."
 msgstr "<literal>rangeGridlinePaint</literal> &#8212; Il colore delle griglie di range, se visibili."
 
 #. Tag: para
-#: Itext.xml:1670
+#: Itext.xml:1691
 #, no-c-format
 msgid "<literal>titlePaint</literal> &#8212; The color of the chart title text."
 msgstr "<literal>code</literal> &#8212; Il valore da codificare nel barcode."
 
 #. Tag: para
-#: Itext.xml:1675
+#: Itext.xml:1696
 #, no-c-format
 msgid "<literal>titleBackgroundPaint</literal> &#8212; The background color around the chart title."
 msgstr "<literal>code</literal> &#8212; Il valore da codificare nel barcode."
 
 #. Tag: programlisting
-#: Itext.xml:1688
+#: Itext.xml:1709
 #, no-c-format
 msgid ""
 "<![CDATA[<p:linechart title=\"Line Chart\"\n"
@@ -1598,151 +1605,151 @@ msgstr ""
 "</p:linechart>]]>"
 
 #. Tag: literal
-#: Itext.xml:1695
+#: Itext.xml:1716
 #, no-c-format
 msgid "&lt;p:piechart&gt;"
 msgstr "&lt;p:piechart&gt;"
 
 #. Tag: para
-#: Itext.xml:1702
+#: Itext.xml:1723
 #, no-c-format
 msgid "Displays a pie chart."
 msgstr "Mostrare un grafico."
 
 #. Tag: para
-#: Itext.xml:1714
+#: Itext.xml:1735
 #, no-c-format
 msgid "<literal>label</literal> &#8212; The default label text for pie sections."
 msgstr "<literal>code</literal> &#8212; Il valore da codificare nel barcode."
 
 #. Tag: para
-#: Itext.xml:1719
+#: Itext.xml:1740
 #, no-c-format
 msgid "<literal>legend</literal> &#8212; A boolean value indicating whether or not the chart should include a legend. Default value is true"
 msgstr "<literal>legend</literal> &#8212; Un valore booleano che indica se oppure no includere la legenda nel grafico. Di default è true."
 
 #. Tag: para
-#: Itext.xml:1724
+#: Itext.xml:1745
 #, no-c-format
 msgid "<literal>is3D</literal> &#8212;A boolean value indicating that the chart should be rendered in 3D instead of 2D."
 msgstr "<literal>is3D</literal> &#8212; Un valore booleano che indica di visualizzare il grafico in 3D invece che in 2D."
 
 #. Tag: para
-#: Itext.xml:1729
+#: Itext.xml:1750
 #, no-c-format
 msgid "<literal>labelLinkMargin</literal> &#8212; The link margin for labels."
 msgstr "<literal>labelLinkMargin</literal> &#8212; Il margine di collegamento per le etichette."
 
 #. Tag: para
-#: Itext.xml:1734
+#: Itext.xml:1755
 #, no-c-format
 msgid "<literal>labelLinkPaint</literal> &#8212; The paint used for the label linking lines."
 msgstr "<literal>labelLinkPaint</literal> &#8212; Il motivo usato per le linee di collegamento dell'etichetta."
 
 #. Tag: para
-#: Itext.xml:1739
+#: Itext.xml:1760
 #, no-c-format
 msgid "<literal>labelLinkStroke</literal> &#8212; he stroke used for the label linking lines."
 msgstr "<literal>code</literal> &#8212; Il valore da codificare nel barcode."
 
 #. Tag: para
-#: Itext.xml:1745
+#: Itext.xml:1766
 #, no-c-format
 msgid "<literal>labelLinksVisible</literal> &#8212; A flag that controls whether or not the label links are drawn."
 msgstr "<literal>labelLinksVisible</literal> &#8212; Un flag che controlla se vengono disegnati o no i link di etichetta."
 
 #. Tag: para
-#: Itext.xml:1750
+#: Itext.xml:1771
 #, no-c-format
 msgid "<literal>labelOutlinePaint</literal> &#8212; The paint used to draw the outline of the section labels."
 msgstr "<literal>code</literal> &#8212; Il valore da codificare nel barcode."
 
 #. Tag: para
-#: Itext.xml:1755
+#: Itext.xml:1776
 #, no-c-format
 msgid "<literal>labelOutlineStroke</literal> &#8212; The stroke used to draw the outline of the section labels."
 msgstr "<literal>code</literal> &#8212; Il valore da codificare nel barcode."
 
 #. Tag: para
-#: Itext.xml:1760
+#: Itext.xml:1781
 #, no-c-format
 msgid "<literal>labelShadowPaint</literal> &#8212; The paint used to draw the shadow for the section labels."
 msgstr "<literal>code</literal> &#8212; Il valore da codificare nel barcode."
 
 #. Tag: para
-#: Itext.xml:1765
+#: Itext.xml:1786
 #, no-c-format
 msgid "<literal>labelPaint</literal> &#8212; The color used to draw the section labels"
 msgstr "<literal>code</literal> &#8212; Il valore da codificare nel barcode."
 
 #. Tag: para
-#: Itext.xml:1770
+#: Itext.xml:1791
 #, no-c-format
 msgid "<literal>labelGap</literal> &#8212; The gap between the labels and the plot as a percentage of the plot width."
 msgstr "<literal>labelGap</literal> &#8212; Il gap tra le etichette ed il disegno come percentuale della larghezza del disegno."
 
 #. Tag: para
-#: Itext.xml:1775
+#: Itext.xml:1796
 #, no-c-format
 msgid "<literal>labelBackgroundPaint</literal> &#8212; The color used to draw the background of the section labels. If this is null, the background is not filled."
 msgstr "<literal>labelBackgroundPaint</literal> &#8212; Il colore usato per disegnare lo sfondo delle etichette di sezione. Se null, lo sfondo non viene riempito."
 
 #. Tag: para
-#: Itext.xml:1782
+#: Itext.xml:1803
 #, no-c-format
 msgid "<literal>startAngle</literal> &#8212; The starting angle of the first section."
 msgstr "<literal>code</literal> &#8212; Il valore da codificare nel barcode."
 
 #. Tag: para
-#: Itext.xml:1787
+#: Itext.xml:1808
 #, no-c-format
 msgid "<literal>circular</literal> &#8212; A boolean value indicating that the chart should be drawn as a circle. If false, the chart is drawn as an ellipse. The default is true."
 msgstr "<literal>circular</literal> &#8212; Un valore booleano che indica se il grafico deve essere disegnato come cerchio. Se false, il grafico viene disegnato come ellisse. Di default è true."
 
 #. Tag: para
-#: Itext.xml:1793
+#: Itext.xml:1814
 #, no-c-format
 msgid "<literal>direction</literal> &#8212; The direction the pie section are drawn. One of: <literal>clockwise</literal> or <literal>anticlockwise</literal>. The default is <literal>clockwise</literal>."
 msgstr "<literal>direction</literal> &#8212; La direzione in cui vengono disegnate le sezioni della torta. Un valore tra: <literal>clockwise</literal> o <literal>anticlockwise</literal>. Il default è <literal>clockwise</literal>."
 
 #. Tag: para
-#: Itext.xml:1799
+#: Itext.xml:1820
 #, no-c-format
 msgid "<literal>sectionOutlinePaint</literal> &#8212; The outline paint for all sections."
 msgstr "<literal>code</literal> &#8212; Il valore da codificare nel barcode."
 
 #. Tag: para
-#: Itext.xml:1804
+#: Itext.xml:1825
 #, no-c-format
 msgid "<literal>sectionOutlineStroke</literal> &#8212; The outline stroke for all sections"
 msgstr "<literal>code</literal> &#8212; Il valore da codificare nel barcode."
 
 #. Tag: para
-#: Itext.xml:1809
+#: Itext.xml:1830
 #, no-c-format
 msgid "<literal>sectionOutlinesVisible</literal> &#8212; Indicates whether an outline is drawn for each section in the plot."
 msgstr "<literal>sectionOutlinesVisible</literal> &#8212; Indica se viene disegnata una outline per ciascuna sezione del disegno."
 
 #. Tag: para
-#: Itext.xml:1814
+#: Itext.xml:1835
 #, no-c-format
 msgid "<literal>baseSectionOutlinePaint</literal> &#8212; The base section outline paint."
 msgstr "<literal>code</literal> &#8212; Il valore da codificare nel barcode."
 
 #. Tag: para
-#: Itext.xml:1819
+#: Itext.xml:1840
 #, no-c-format
 msgid "<literal>baseSectionPaint</literal> &#8212; The base section paint."
 msgstr "<literal>code</literal> &#8212; Il valore da codificare nel barcode."
 
 #. Tag: para
-#: Itext.xml:1823
+#: Itext.xml:1844
 #, no-c-format
 msgid "<literal>baseSectionOutlineStroke</literal> &#8212; The base section outline stroke."
 msgstr "<literal>code</literal> &#8212; Il valore da codificare nel barcode."
 
 #. Tag: programlisting
-#: Itext.xml:1831
+#: Itext.xml:1852
 #, no-c-format
 msgid ""
 "<![CDATA[<p:piechart title=\"Pie Chart\" circular=\"false\" direction=\"anticlockwise\" \n"
@@ -1768,55 +1775,55 @@ msgstr ""
 "</p:piechart>]]>"
 
 #. Tag: literal
-#: Itext.xml:1838
+#: Itext.xml:1859
 #, no-c-format
 msgid "&lt;p:series&gt;"
 msgstr "&lt;p:series&gt;"
 
 #. Tag: para
-#: Itext.xml:1845
+#: Itext.xml:1866
 #, no-c-format
 msgid "Category data can be broken down into series. The series tag is used to categorize a set of data with a series and apply styling to the entire series."
 msgstr "I dati di categoria posso essere spezzati in serie. I tag delle serie vengono usati per categorizzare un set di dati con serie ed applicare lo stile all'intera serie."
 
 #. Tag: para
-#: Itext.xml:1854
+#: Itext.xml:1875
 #, no-c-format
 msgid "<literal>key</literal> &#8212; The series name."
 msgstr "<literal>key</literal> &#8212; Il nome delle serie."
 
 #. Tag: para
-#: Itext.xml:1865
+#: Itext.xml:1886
 #, no-c-format
 msgid "<literal>seriesPaint</literal> &#8212; The color of each item in the series"
 msgstr "<literal>seriesPaint</literal> &#8212; Il colore di ciascun item nelle serie."
 
 #. Tag: para
-#: Itext.xml:1871
+#: Itext.xml:1892
 #, no-c-format
 msgid "<literal>seriesOutlinePaint</literal> &#8212; The outline color for each item in the series."
 msgstr "<literal>seriesOutlinePaint</literal> &#8212; Il colore dell'outline per ciascun elemento nella serie."
 
 #. Tag: para
-#: Itext.xml:1876
+#: Itext.xml:1897
 #, no-c-format
 msgid "<literal>seriesOutlineStroke</literal> &#8212; The stroke used to draw each item in the series."
 msgstr "<literal>seriesOutlineStroke</literal> &#8212; Il tratteggio usato per disegnare ciascun elemento nella serie."
 
 #. Tag: para
-#: Itext.xml:1888
+#: Itext.xml:1909
 #, no-c-format
 msgid "<literal>seriesVisible</literal> &#8212; A boolean indicating if the series should be displayed."
 msgstr "<literal>seriesVisible</literal> &#8212; Un valore booleano che indicare se la serie debba essere visualizzata."
 
 #. Tag: para
-#: Itext.xml:1893
+#: Itext.xml:1914
 #, no-c-format
 msgid "<literal>seriesVisibleInLegend</literal> &#8212; A boolean indicating if the series should be listed in the legend."
 msgstr "<literal>seriesVisibleInLegend</literal> &#8212; Un valore booleano che indicare se la serie debba essere elencata nella legenda."
 
 #. Tag: programlisting
-#: Itext.xml:1902
+#: Itext.xml:1923
 #, no-c-format
 msgid ""
 "<![CDATA[<p:series key=\"data1\">\n"
@@ -1832,62 +1839,62 @@ msgstr ""
 "</p:series>]]>"
 
 #. Tag: literal
-#: Itext.xml:1909
+#: Itext.xml:1930
 #, no-c-format
 msgid "&lt;p:data&gt;"
 msgstr "&lt;p:data&gt;"
 
 #. Tag: para
-#: Itext.xml:1916
+#: Itext.xml:1937
 #, no-c-format
 msgid "The data tag describes each data point to be displayed in the graph."
 msgstr "Il tag dei dati descrive ciascun punto di dati da mostrare nel grafico."
 
 #. Tag: para
-#: Itext.xml:1923
+#: Itext.xml:1944
 #, no-c-format
 msgid "<literal>key</literal> &#8212; The name of the data item."
 msgstr "<literal>key</literal> &#8212; Il nome dell'item di dati."
 
 #. Tag: para
-#: Itext.xml:1927
+#: Itext.xml:1948
 #, no-c-format
 msgid "<literal>series</literal> &#8212; The series name, when not embedded inside a <code>&lt;p:series&gt;</code>."
 msgstr "<literal>series</literal> &#8212; I nomi delle serie, quando non è incorporato dentro un <code>&lt;p:series&gt;</code>."
 
 #. Tag: para
-#: Itext.xml:1932
+#: Itext.xml:1953
 #, no-c-format
 msgid "<literal>value</literal> &#8212; The numeric data value."
 msgstr "<literal>value</literal> &#8212; Il valore numerico dei dati."
 
 # rivedere la frase
 #. Tag: para
-#: Itext.xml:1936
+#: Itext.xml:1957
 #, no-c-format
 msgid "<literal>explodedPercent</literal> &#8212; For pie charts, indicates how exploded a from the pie a piece is."
 msgstr "<literal>explodedPercent</literal> &#8212; Per i grafici a torta, indica come viene esploso un pezzo della torta."
 
 #. Tag: para
-#: Itext.xml:1942
+#: Itext.xml:1963
 #, no-c-format
 msgid "<literal>sectionOutlinePaint</literal> &#8212; For bar charts, the color of the section outline."
 msgstr "<literal>sectionOutlinePaint</literal> &#8212; Per i grafici a barre, il colore dell'outline di sezione."
 
 #. Tag: para
-#: Itext.xml:1947
+#: Itext.xml:1968
 #, no-c-format
 msgid "<literal>sectionOutlineStroke</literal> &#8212; For bar charts, the stroke type for the section outline."
 msgstr "<literal>sectionOutlineStroke</literal> &#8212; Per i grafici a barre, il tipo di tratteggio dell'outline di sezione."
 
 #. Tag: para
-#: Itext.xml:1952
+#: Itext.xml:1973
 #, no-c-format
 msgid "<literal>sectionPaint</literal> &#8212; For bar charts, the color of the section."
 msgstr "<literal>sectionPaint</literal> &#8212; Per i grafici a barre, il colore della sezione."
 
 #. Tag: programlisting
-#: Itext.xml:1963
+#: Itext.xml:1984
 #, no-c-format
 msgid ""
 "<![CDATA[<p:data key=\"foo\" value=\"20\" sectionPaint=\"#111111\" \n"
@@ -1903,43 +1910,43 @@ msgstr ""
 "        sectionOutlineStroke=\"my-dot-style\" />]]>"
 
 #. Tag: literal
-#: Itext.xml:1970
+#: Itext.xml:1991
 #, no-c-format
 msgid "&lt;p:color&gt;"
 msgstr "&lt;p:color&gt;"
 
 #. Tag: para
-#: Itext.xml:1977
+#: Itext.xml:1998
 #, no-c-format
 msgid "The color component declares a color or gradient than can be referenced when drawing filled shapes."
 msgstr "Il componente del colore dichiara un colore oppure un gradiente che può venire referenziato quando si disegnano forme piene."
 
 #. Tag: para
-#: Itext.xml:1986
+#: Itext.xml:2007
 #, no-c-format
 msgid "<literal>color</literal> &#8212; The color value. For gradient colors, this the starting color."
 msgstr "<literal>color</literal> &#8212; Il valore del colore. Per gradienti di colore, questo è il colore iniziale."
 
 #. Tag: para
-#: Itext.xml:1992
+#: Itext.xml:2013
 #, no-c-format
 msgid "<literal>color2</literal> &#8212; For gradient colors, this is the color that ends the gradient."
 msgstr "<literal>color2</literal> &#8212; Per gradienti di colore, questo è il colore che termina il gradiente."
 
 #. Tag: para
-#: Itext.xml:1997
+#: Itext.xml:2018
 #, no-c-format
 msgid "<literal>point</literal> &#8212; The co-ordinates where the gradient color begins."
 msgstr "<literal>point</literal> &#8212; Le coordinate dove inizia il colore gradiente."
 
 #. Tag: para
-#: Itext.xml:2002
+#: Itext.xml:2023
 #, no-c-format
 msgid "<literal>point2</literal> &#8212; The co-ordinates where the gradient color ends."
 msgstr "<literal>point2</literal> &#8212; Le coordinate dove finisce il colore gradiente."
 
 #. Tag: programlisting
-#: Itext.xml:2010
+#: Itext.xml:2031
 #, no-c-format
 msgid ""
 "<![CDATA[<p:color id=\"foo\" color=\"#0ff00f\"/>\n"
@@ -1951,157 +1958,157 @@ msgstr ""
 "                  point=\"50 50\" point2=\"300 300\"/>]]>"
 
 #. Tag: literal
-#: Itext.xml:2017
+#: Itext.xml:2038
 #, no-c-format
 msgid "&lt;p:stroke&gt;"
 msgstr "&lt;p:stroke&gt;"
 
 #. Tag: para
-#: Itext.xml:2024
+#: Itext.xml:2045
 #, no-c-format
 msgid "Describes a stroke used to draw lines in a chart."
 msgstr "Descrive un tratteggio usato per disegnare le linee in un grafico."
 
 #. Tag: para
-#: Itext.xml:2032
+#: Itext.xml:2053
 #, no-c-format
 msgid "<literal>width</literal> &#8212; The width of the stroke."
 msgstr "<literal>width</literal> &#8212; La larghezza del tratteggio."
 
 #. Tag: para
-#: Itext.xml:2037
+#: Itext.xml:2058
 #, no-c-format
 msgid "<literal>cap</literal> &#8212; The line cap type. Valid values are <literal>butt</literal>, <literal>round</literal> and <literal>square</literal>"
 msgstr "<literal>cap</literal> &#8212; Il tipo di line cap. Valori validi sono <literal>butt</literal>, <literal>round</literal> e <literal>square</literal>"
 
 #. Tag: para
-#: Itext.xml:2043
+#: Itext.xml:2064
 #, no-c-format
 msgid "<literal>join</literal> &#8212; The line join type. Valid values are <literal>miter</literal>, <literal>round</literal> and <literal>bevel</literal>"
 msgstr "<literal>join</literal> &#8212; Il tipo di line join. Valori validi sono <literal>miter</literal>, <literal>round</literal> e <literal>bevel</literal>"
 
 #. Tag: para
-#: Itext.xml:2049
+#: Itext.xml:2070
 #, no-c-format
 msgid "<literal>miterLimit</literal> &#8212; For miter joins, this value is the limit of the size of the join."
 msgstr "<literal>miterLimit</literal> &#8212; Per join di tipo miter, questo valore è il limite della dimensione del join."
 
 #. Tag: para
-#: Itext.xml:2055
+#: Itext.xml:2076
 #, no-c-format
 msgid "<literal>dash</literal> &#8212; The dash value sets the dash pattern to be used to draw the line. The space separated integers indicate the length of each alternating drawn and undrawn segments."
 msgstr "<literal>dash</literal> &#8212; Il valore del dash imposta il pattern dash da usare per disegnare la linea. Gli interi separati da spazio indicano la lunghezza di ciascun segmento in modo alternato disegnato e non disegnato."
 
 #. Tag: para
-#: Itext.xml:2062
+#: Itext.xml:2083
 #, no-c-format
 msgid "<literal>dashPhase</literal> &#8212; The dash phase indicates the offset into the dash pattern that the line should be drawn with."
 msgstr "<literal>dashPhase</literal> &#8212; La fase di dash indica l'offset nel pattern dash che con cui la linea dovrebbe essere disegnata."
 
 #. Tag: programlisting
-#: Itext.xml:2070
+#: Itext.xml:2091
 #, no-c-format
 msgid "<![CDATA[<p:stroke id=\"dot2\" width=\"2\" cap=\"round\" join=\"bevel\" dash=\"2 3\" />]]>"
 msgstr "<![CDATA[<p:stroke id=\"dot2\" width=\"2\" cap=\"round\" join=\"bevel\" dash=\"2 3\" />]]>"
 
 #. Tag: title
-#: Itext.xml:2082
+#: Itext.xml:2103
 #, no-c-format
 msgid "Bar codes"
 msgstr "Codici a barre"
 
 #. Tag: para
-#: Itext.xml:2083
+#: Itext.xml:2104
 #, no-c-format
 msgid "Seam can use iText to generate barcodes in a wide variety of formats. These barcodes can be embedded in a PDF document or displayed as an image on a web page. Note that when used with HTML images, barcodes can not currently display barcode text in the barcode."
 msgstr "Seam può usare iText per generare barcode in un'ampia varietà di formati. Questi barcode possono essere incorporati in un documento PDF o mostrati come immagine in una pagina web. Si noti che quando sono usati in immagini HTML, i barcode non possono attualmente mostrare testo al loro interno."
 
 #. Tag: literal
-#: Itext.xml:2097
+#: Itext.xml:2118
 #, no-c-format
 msgid "&lt;p:barCode&gt;"
 msgstr "&lt;p:barCode&gt;"
 
 #. Tag: para
-#: Itext.xml:2104
+#: Itext.xml:2125
 #, no-c-format
 msgid "Displays a barcode image."
 msgstr "Mostra un'immagine di barcode."
 
 #. Tag: para
-#: Itext.xml:2113
+#: Itext.xml:2134
 #, no-c-format
 msgid "<literal>type</literal> &#8212; A barcode type supported by iText. Valid values include: <literal>EAN13</literal>, <literal>EAN8</literal>, <literal>UPCA</literal>, <literal>UPCE</literal>, <literal>SUPP2</literal>, <literal>SUPP5</literal>, <literal>POSTNET</literal>, <literal>PLANET</literal>, <literal>CODE128</literal>, <literal>CODE128_UCC</literal>, <literal>CODE128_RAW</literal> and <literal>CODABAR</literal>."
 msgstr "<literal>type</literal> &#8212; Un tipo di barcode supportato da iText. Valori validi includono: <literal>EAN13</literal>, <literal>EAN8</literal>, <literal>UPCA</literal>, <literal>UPCE</literal>, <literal>SUPP2</literal>, <literal>SUPP5</literal>, <literal>POSTNET</literal>, <literal>PLANET</literal>, <literal>CODE128</literal>, <literal>CODE128_UCC</literal>, <literal>CODE128_RAW</literal> e <literal>CODABAR</literal>."
 
 #. Tag: para
-#: Itext.xml:2123
+#: Itext.xml:2144
 #, no-c-format
 msgid "<literal>code</literal> &#8212; The value to be encoded by the barcode."
 msgstr "<literal>code</literal> &#8212; Il valore da codificare nel barcode."
 
 #. Tag: para
-#: Itext.xml:2128
+#: Itext.xml:2149
 #, no-c-format
 msgid "<literal>xpos</literal> &#8212; For PDFs, the absolute y position of the barcode on the page."
 msgstr "<literal>code</literal> &#8212; Il valore da codificare nel barcode."
 
 #. Tag: para
-#: Itext.xml:2133
+#: Itext.xml:2154
 #, no-c-format
 msgid "<literal>ypos</literal> &#8212; For PDFs, the absolute y position of the barcode on the page."
 msgstr "<literal>code</literal> &#8212; Il valore da codificare nel barcode."
 
 #. Tag: para
-#: Itext.xml:2138
+#: Itext.xml:2159
 #, no-c-format
 msgid "<literal>rotDegrees</literal> &#8212; For PDFs, the rotation factor of the barcode in degrees."
 msgstr "<literal>rotDegrees</literal> &#8212; Per i PDF il fattore di rotazione del barcode in gradi."
 
 #. Tag: para
-#: Itext.xml:2143
+#: Itext.xml:2164
 #, no-c-format
 msgid "<literal>barHeight</literal> &#8212; The height of the bars in the barCode"
 msgstr "<literal>barHeight</literal> &#8212; L'altezza delle barre nel barCode."
 
 #. Tag: para
-#: Itext.xml:2149
+#: Itext.xml:2170
 #, no-c-format
 msgid "<literal>minBarWidth</literal> &#8212; The minimum bar width."
 msgstr "<literal>minBarWidth</literal> &#8212; La larghezza minima della barra."
 
 #. Tag: para
-#: Itext.xml:2153
+#: Itext.xml:2174
 #, no-c-format
 msgid "<literal>barMultiplier</literal> &#8212; The bar multiplier for wide bars or the distance between bars for <literal>POSTNET</literal> and <literal>PLANET</literal> code."
 msgstr "<literal>barMultiplier</literal> &#8212; Il moltiplicatore per le barre ampie o la distanza delle barre per codici <literal>POSTNET</literal> e <literal>PLANET</literal>."
 
 #. Tag: para
-#: Itext.xml:2159
+#: Itext.xml:2180
 #, no-c-format
 msgid "<literal>barColor</literal> &#8212; The color to draw the bars."
 msgstr "<literal>barColor</literal> &#8212; Il colore per disegnare le barre."
 
 #. Tag: para
-#: Itext.xml:2164
+#: Itext.xml:2185
 #, no-c-format
 msgid "<literal>textColor</literal> &#8212; The color of any text on the barcode."
 msgstr "<literal>textColor</literal> &#8212; Il colore del testo nel barcode."
 
 #. Tag: para
-#: Itext.xml:2169
+#: Itext.xml:2190
 #, no-c-format
 msgid "<literal>textSize</literal> &#8212; The size of the barcode text, if any."
 msgstr "<literal>textSize</literal> &#8212; La dimensione testo del barcode, se esiste."
 
 #. Tag: para
-#: Itext.xml:2174
+#: Itext.xml:2195
 #, no-c-format
 msgid "<literal>altText</literal> &#8212; The <literal>alt</literal> text for HTML image links."
 msgstr "<literal>altText</literal> &#8212; Il testo <literal>alt</literal> per i link HTML delle immagini."
 
 #. Tag: programlisting
-#: Itext.xml:2184
+#: Itext.xml:2205
 #, no-c-format
 msgid ""
 "<![CDATA[<p:barCode type=\"code128\" \n"
@@ -2119,79 +2126,79 @@ msgstr ""
 "           altText=\"My BarCode\" />]]>"
 
 #. Tag: title
-#: Itext.xml:2194
+#: Itext.xml:2215
 #, no-c-format
 msgid "Fill-in-forms"
 msgstr "Form da riempire"
 
 #. Tag: para
-#: Itext.xml:2195
+#: Itext.xml:2216
 #, no-c-format
 msgid "If you have a complex, pre-generated PDF with named fields, you can easily fill in the values from your application and present it to the user."
 msgstr "Se si ha un PDF complesso pregenerato con campi definiti (con nome), lo si può facilmente riempire con valori dell'applicazione e presentarlo all'utente."
 
 #. Tag: literal
-#: Itext.xml:2209
+#: Itext.xml:2230
 #, no-c-format
 msgid "&lt;p:form&gt;"
 msgstr "&lt;p:form&gt;"
 
 #. Tag: para
-#: Itext.xml:2216
+#: Itext.xml:2237
 #, no-c-format
 msgid "Defines a form template to populate"
 msgstr "Definisce un modello di form da popolare"
 
 #. Tag: para
-#: Itext.xml:2224
+#: Itext.xml:2245
 #, no-c-format
 msgid "<literal>URL</literal> &#8212; An URL pointing to the PDF file to use as a template. If the value has no protocol part (://), the file is read locally."
 msgstr "<literal>URL</literal> &#8212; Un URL che punta al file PDF da usarsi come template. Se il valore non ha la partedi protocollo (://), il file viene letto localmente."
 
 #. Tag: para
-#: Itext.xml:2231
+#: Itext.xml:2252
 #, no-c-format
 msgid "<literal>filename</literal> &#8212; The filename to use for the generated PDF file."
 msgstr "<literal>filename</literal> &#8212; Il nome del file da usare per il file PDF generato."
 
 #. Tag: para
-#: Itext.xml:2237
+#: Itext.xml:2258
 #, no-c-format
 msgid "<literal>exportKey</literal> &#8212; Place the generated PDF file in a DocumentData object under the specified key in the event context. If set, no redirect will occur."
 msgstr "<literal>exportKey</literal> &#8212; Colloca un file PDF generato in un oggetto DocumentData sotto la chiave specificata nel contesto evento. Se impostato, non avverrà alcun redirect."
 
 #. Tag: literal
-#: Itext.xml:2259
+#: Itext.xml:2280
 #, no-c-format
 msgid "&lt;p:field&gt;"
 msgstr "&lt;p:field&gt;"
 
 #. Tag: para
-#: Itext.xml:2266
+#: Itext.xml:2287
 #, no-c-format
 msgid "Connects a field name to its value"
 msgstr "Unisce un nome campo al suo valore"
 
 #. Tag: para
-#: Itext.xml:2275
+#: Itext.xml:2296
 #, no-c-format
 msgid "<literal>name</literal> &#8212; The name of the field"
 msgstr "<literal>name</literal> &#8212; Il nome del campo."
 
 #. Tag: para
-#: Itext.xml:2281
+#: Itext.xml:2302
 #, no-c-format
 msgid "<literal>value</literal> &#8212; The value of the field"
 msgstr "<literal>value</literal> &#8212; Il valore del campo."
 
 #. Tag: para
-#: Itext.xml:2287
+#: Itext.xml:2308
 #, no-c-format
 msgid "<literal>readOnly</literal> &#8212; Should the field be read-only? Defaults to true."
 msgstr "<literal>readOnly</literal> &#8212; Il campo deve essere di sola lettura? Di default è true."
 
 #. Tag: programlisting
-#: Itext.xml:2299
+#: Itext.xml:2320
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -2211,73 +2218,73 @@ msgstr ""
 "                        ]]>"
 
 #. Tag: title
-#: Itext.xml:2304
+#: Itext.xml:2325
 #, no-c-format
 msgid "Rendering Swing/AWT components"
 msgstr "Componenti per i rendering Swing/AWT"
 
 #. Tag: para
-#: Itext.xml:2305
+#: Itext.xml:2326
 #, no-c-format
 msgid "Seam now provides experimental support for rendering Swing components to into a PDF image. Some Swing look and feels supports, notably ones that use native widgets, will not render correctly."
 msgstr "Seam fornisce ora il supporto sperimentale per generare componenti Swing in un'immagine di PDF. Alcuni componenti Swing look and feels, in particolare quelli che usano widget nativi, non verranno correttamente generati."
 
 #. Tag: literal
-#: Itext.xml:2319
+#: Itext.xml:2340
 #, no-c-format
 msgid "&lt;p:swing&gt;"
 msgstr "&lt;p:swing&gt;"
 
 #. Tag: para
-#: Itext.xml:2327
+#: Itext.xml:2348
 #, no-c-format
 msgid "Renders a Swing component into a PDF document."
 msgstr "Genera un componente Swing in un documento PDF."
 
 #. Tag: para
-#: Itext.xml:2335
+#: Itext.xml:2356
 #, no-c-format
 msgid "<literal>width</literal> &#8212; The width of the component to be rendered."
 msgstr "<literal>width</literal> &#8212; La larghezza del componente da generare."
 
 #. Tag: para
-#: Itext.xml:2339
+#: Itext.xml:2360
 #, no-c-format
 msgid "<literal>height</literal> &#8212; The height of the component to be rendered."
 msgstr "<literal>code</literal> &#8212; Il valore da codificare nel barcode."
 
 #. Tag: para
-#: Itext.xml:2343
+#: Itext.xml:2364
 #, no-c-format
 msgid "<literal>component</literal> &#8212; An expression whose value is a Swing or AWT component."
 msgstr "<literal>component</literal> &#8212; Un'espressione il cui valore è un componente Swing o AWT."
 
 #. Tag: programlisting
-#: Itext.xml:2351
+#: Itext.xml:2372
 #, no-c-format
 msgid "<![CDATA[<p:swing width=\"310\" height=\"120\" component=\"#{aButton}\" />]]>"
 msgstr "<![CDATA[<p:swing width=\"310\" height=\"120\" component=\"#{aButton}\" />]]>"
 
 #. Tag: title
-#: Itext.xml:2362
+#: Itext.xml:2383
 #, no-c-format
 msgid "Configuring iText"
 msgstr "Configurazione di iText"
 
 #. Tag: para
-#: Itext.xml:2364
+#: Itext.xml:2385
 #, no-c-format
 msgid "Document generation works out of the box with no additional configuration needed. However, there are a few points of configuration that are needed for more serious applications."
 msgstr "La generazione del documento funziona senza nessuna ulteriore configurazione necessaria. Comunque ci sono alcuni punti della configurazione che servono per applicazioni più serie."
 
 #. Tag: para
-#: Itext.xml:2367
+#: Itext.xml:2388
 #, no-c-format
 msgid "The default implementation serves PDF documents from a generic URL, <literal>/seam-doc.seam</literal>. Many browsers (and users) would prefer to see URLs that contain the actual PDF name like <literal>/myDocument.pdf</literal>. This capability requires some configuration. To serve PDF files, all <literal>*.pdf</literal> resources should be mapped to the DocumentStoreServlet:"
 msgstr "L'implementazione di default serve i documenti PDF da un URL generico, <literal>/seam-doc.seam</literal>. Molti browser (e utenti) preferiscono vedere URL che contengono il vero nome del PDF, come <literal>/myDocument.pdf</literal>. Questa capacità richiede una configurazione. Per servire file PDF, tutte le risorse <literal>*.pdf</literal> devono essere mappate sul DocumentStoreServlet:"
 
 #. Tag: programlisting
-#: Itext.xml:2372
+#: Itext.xml:2393
 #, no-c-format
 msgid ""
 "<![CDATA[<servlet>\n"
@@ -2301,13 +2308,13 @@ msgstr ""
 "</servlet-mapping>]]>"
 
 #. Tag: para
-#: Itext.xml:2374
+#: Itext.xml:2395
 #, no-c-format
 msgid "The <literal>use-extensions</literal> option on the document store component completes the functionality by instructing the document store to generate URLs with the correct filename extension for the document type being generated."
 msgstr "L'opzione <literal>use-extensions</literal> nel componente document store completa la funzionalità istruendo il document store su come generare l'URL con l'estensione corretta del nome per i tipi di documenti da generare."
 
 #. Tag: programlisting
-#: Itext.xml:2378
+#: Itext.xml:2399
 #, no-c-format
 msgid ""
 "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
@@ -2329,37 +2336,37 @@ msgstr ""
 "</components>]]>"
 
 #. Tag: para
-#: Itext.xml:2380
+#: Itext.xml:2401
 #, no-c-format
 msgid "The document store stores documents in conversation scope, and documents will expire when the conversation ends. At that point, references to the document will be invalid. You can specify a default view to be shown when a document does not exist using the <literal>error-page</literal> property of the <literal>documentStore</literal>."
 msgstr "Document store memorizza i documenti nello scope conversazione, ed i documenti scadranno quando termina la conversazione. A quel punto i riferimenti al documento saranno invalidati. Si può specificare la vista di default da mostrare quando un documento non esiste usando la proprietà <literal>error-page</literal> di  <literal>documentStore</literal>."
 
 #. Tag: programlisting
-#: Itext.xml:2383
+#: Itext.xml:2404
 #, no-c-format
 msgid "<![CDATA[<document:document-store use-extensions=\"true\" error-page=\"/documentMissing.seam\" />]]>"
 msgstr "<![CDATA[<document:document-store use-extensions=\"true\" error-page=\"/documentMissing.seam\" />]]>"
 
 #. Tag: title
-#: Itext.xml:2387
+#: Itext.xml:2408
 #, no-c-format
 msgid "Further documentation"
 msgstr "Ulteriore documentazione"
 
 #. Tag: para
-#: Itext.xml:2389
+#: Itext.xml:2410
 #, no-c-format
 msgid "For further information on iText, see:"
 msgstr "Per leggere ulteriore documentazione su iText, vedere:"
 
 #. Tag: ulink
-#: Itext.xml:2394
+#: Itext.xml:2415
 #, no-c-format
 msgid "iText Home Page"
 msgstr "iText Home Page"
 
 #. Tag: ulink
-#: Itext.xml:2399
+#: Itext.xml:2420
 #, no-c-format
 msgid "iText in Action"
 msgstr "iText in Action"

@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-10-14 11:38+0000\n"
-"PO-Revision-Date: 2009-02-07 21:44+0100\n"
+"POT-Creation-Date: 2009-02-19 21:44+0000\n"
+"PO-Revision-Date: 2009-02-19 22:57+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -384,7 +384,7 @@ msgstr "Comporre template"
 #. Tag: para
 #: Mail.xml:176
 #, no-c-format
-msgid "The mail templating example shows that facelets templating Just Works with the Seam mail tags."
+msgid "The mail templating example shows that facelets templating just works with the Seam mail tags."
 msgstr "L'esempio mail templating mostra che il templating facelets funziona solo con i tag mail di Seam."
 
 #. Tag: para
@@ -518,7 +518,7 @@ msgstr ""
 #. Tag: para
 #: Mail.xml:244
 #, no-c-format
-msgid "Otherise you can add any header to the message using the <literal>&lt;m:header&gt;</literal> tag:"
+msgid "Otherwise you can add any header to the message using the <literal>&lt;m:header&gt;</literal> tag:"
 msgstr "Altrimenti si può aggiunge una qualsiasi intestazione al messaggio usando il tag <literal>&lt;m:header&gt;</literal>:"
 
 #. Tag: programlisting
@@ -536,7 +536,7 @@ msgstr "Ricevere email"
 #. Tag: para
 #: Mail.xml:257
 #, no-c-format
-msgid "If you are using EJB then you can use a MDB (Message Driven Bean) to receive email. JBoss provides a JCA adaptor &#8212; <literal>mail-ra.rar</literal> &#8212; but the version distributed with JBoss AS has a number of limitations (and isn't bundled in some versions) therefore we recommend using the <literal>mail-ra.rar</literal> distributed with Seam is recommended (it's in the <literal>extras/</literal> directory in the Seam bundle). <literal>mail-ra.rar</literal> should be placed in <literal>$JBOSS_HOME/server/default/deploy</literal>; if the version of JBoss AS you use already has this file, replace it."
+msgid "If you are using EJB then you can use a MDB (Message Driven Bean) to receive email. JBoss provides a JCA adaptor &#8212; <literal>mail-ra.rar</literal> &#8212; but the version distributed with JBoss AS has a number of limitations (and isn't bundled in some versions) therefore we recommend using the <literal>mail-ra.rar</literal> distributed with Seam (it's in the <literal>extras/</literal> directory in the Seam bundle). <literal>mail-ra.rar</literal> should be placed in <literal>$JBOSS_HOME/server/default/deploy</literal>; if the version of JBoss AS you use already has this file, replace it."
 msgstr "Se si usa EJB, allora si può impiegare MDB (Message Driven Bean) per ricevere una mail. JBoss fornisce un adattatore JCA &#8212; <literal>mail-ra.rar</literal> &#8212; ma la versione distribuita cone JBoss AS ha un numero di limitazioni (e non è incorporata in alcune versioni) quindi si raccomanda di usare <literal>mail-ra.rar</literal> distribuito con Seam (si trova nella directory <literal>extras/</literal> nella distribuzione Seam). <literal>mail-ra.rar</literal> deve essere messo in <literal>$JBOSS_HOME/server/default/deploy</literal>; se la versione di JBoss già lo contiene, lo si sostituisca."
 
 #. Tag: para
@@ -600,7 +600,7 @@ msgstr "Ogni messaggio ricevuto causerà una chiamata a <literal>onMessage(Messa
 #. Tag: para
 #: Mail.xml:281
 #, no-c-format
-msgid "You can find more information on<literal>mail-ra.rar</literal> at <ulink url=\"http://wiki.jboss.org/wiki/Wiki.jsp?page=InboundJavaMail\">http://wiki.jboss.org/wiki/Wiki.jsp?page=InboundJavaMail</ulink>."
+msgid "You can find more information on <literal>mail-ra.rar</literal> at <ulink url=\"http://wiki.jboss.org/wiki/Wiki.jsp?page=InboundJavaMail\">http://wiki.jboss.org/wiki/Wiki.jsp?page=InboundJavaMail</ulink>."
 msgstr "Si possono trovare maggiori informazioni su <literal>mail-ra.rar</literal> all'indirizzo <ulink url=\"http://wiki.jboss.org/wiki/Wiki.jsp?page=InboundJavaMail\">http://wiki.jboss.org/wiki/Wiki.jsp?page=InboundJavaMail</ulink>."
 
 #. Tag: para
@@ -624,7 +624,7 @@ msgstr "Per includere il supporto email nella propria applicazione, si includa <
 #. Tag: para
 #: Mail.xml:308
 #, no-c-format
-msgid "The Seam Email module requires the use of Facelets as the view technology. Future versions of the library may also support the use of JSP. Additionally, it requires the use of the seam-ui package."
+msgid "The Seam Mail module requires the use of Facelets as the view technology. Future versions of the library may also support the use of JSP. Additionally, it requires the use of the seam-ui package."
 msgstr "Il module Seam Mail richiede l'uso di Facelets come tecnologia per la vista. Future versioni della libreria potranno supportare l'uso di JSP. In aggiunta si richiede l'uso del pacchetto seam-ui."
 
 #. Tag: para
@@ -969,13 +969,13 @@ msgstr "Se viene omesso l'attributo value:"
 #. Tag: para
 #: Mail.xml:633
 #, no-c-format
-msgid "If this tag contains a <literal>&lt;p:document&gt;</literal> tag, the document described will be generated and attached to the email. A <literal>fileName</literal> should be specfied."
+msgid "If this tag contains a <literal>&lt;p:document&gt;</literal> tag, the document described will be generated and attached to the email. A <literal>fileName</literal> should be specified."
 msgstr "Se questo tag contiene un tag <literal>&lt;p:document&gt;</literal>, il documento descritto sarà generato ed allegato alla mail. Deve essere specificato un <literal>fileName</literal>."
 
 #. Tag: para
 #: Mail.xml:641
 #, no-c-format
-msgid "If this tag contains other JSF tags a HTML document will be generated from them and attached to the email. A <literal>fileName</literal> should be specfied."
+msgid "If this tag contains other JSF tags a HTML document will be generated from them and attached to the email. A <literal>fileName</literal> should be specified."
 msgstr "Se questo tag contiene altri tag JSF, da questi verrà generato un documento HTML ed allegato alla mail. Un <literal>fileName</literal> dovrebbe sempre essere specificato."
 
 #. Tag: para

@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-10-14 11:39+0000\n"
-"PO-Revision-Date: 2009-02-07 21:22+0100\n"
+"POT-Creation-Date: 2009-02-19 21:44+0000\n"
+"PO-Revision-Date: 2009-02-19 22:57+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -446,8 +446,8 @@ msgstr ""
 #. Tag: programlisting
 #: Webservices.xml:231
 #, no-c-format
-msgid "<![CDATA[<resteasy:application-config resource-path-prefix=\"/restv1\"/>]]>"
-msgstr "<![CDATA[<resteasy:application-config resource-path-prefix=\"/restv1\"/>]]>"
+msgid "<![CDATA[<resteasy:application resource-path-prefix=\"/restv1\"/>]]>"
+msgstr "<![CDATA[<resteasy:application resource-path-prefix=\"/restv1\"/>]]>"
 
 #. Tag: para
 #: Webservices.xml:233
@@ -464,8 +464,8 @@ msgstr ""
 #. Tag: programlisting
 #: Webservices.xml:243
 #, no-c-format
-msgid "<![CDATA[<resteasy:application-config strip-seam-resource-path=\"false\"/>]]>"
-msgstr "<![CDATA[<resteasy:application-config strip-seam-resource-path=\"false\"/>]]>"
+msgid "<![CDATA[<resteasy:application strip-seam-resource-path=\"false\"/>]]>"
+msgstr "<![CDATA[<resteasy:application strip-seam-resource-path=\"false\"/>]]>"
 
 #. Tag: para
 #: Webservices.xml:245
@@ -483,7 +483,7 @@ msgstr ""
 #: Webservices.xml:257
 #, no-c-format
 msgid ""
-"<![CDATA[<resteasy:application-config\n"
+"<![CDATA[<resteasy:application\n"
 "     scan-providers=\"false\"\n"
 "     scan-resources=\"false\"\n"
 "     use-builtin-providers=\"true\">\n"
@@ -497,9 +497,9 @@ msgid ""
 "         <value>org.foo.MyFancyProvider</value>\n"
 "     </resteasy:provider-class-names>\n"
 "\n"
-" </resteasy:application-config>]]>"
+" </resteasy:application>]]>"
 msgstr ""
-"<![CDATA[<resteasy:application-config\n"
+"<![CDATA[<resteasy:application\n"
 "     scan-providers=\"false\"\n"
 "     scan-resources=\"false\"\n"
 "     use-builtin-providers=\"true\">\n"
@@ -513,7 +513,7 @@ msgstr ""
 "         <value>org.foo.MyFancyProvider</value>\n"
 "     </resteasy:provider-class-names>\n"
 "\n"
-" </resteasy:application-config>]]>"
+" </resteasy:application>]]>"
 
 #. Tag: para
 #: Webservices.xml:259
@@ -531,7 +531,7 @@ msgstr ""
 #: Webservices.xml:269
 #, no-c-format
 msgid ""
-"<![CDATA[<resteasy:application-config>\n"
+"<![CDATA[<resteasy:application>\n"
 "\n"
 "    <resteasy:media-type-mappings>\n"
 "       <key>txt</key><value>text/plain</value>\n"
@@ -541,9 +541,9 @@ msgid ""
 "       <key>deutsch</key><value>de-DE</value>\n"
 "    </resteasy:language-mappings>\n"
 "\n"
-"</resteasy:application-config>]]>"
+"</resteasy:application>]]>"
 msgstr ""
-"<![CDATA[<resteasy:application-config>\n"
+"<![CDATA[<resteasy:application>\n"
 "\n"
 "    <resteasy:media-type-mappings>\n"
 "       <key>txt</key><value>text/plain</value>\n"
@@ -553,7 +553,7 @@ msgstr ""
 "       <key>deutsch</key><value>de-DE</value>\n"
 "    </resteasy:language-mappings>\n"
 "\n"
-"</resteasy:application-config>]]>"
+"</resteasy:application>]]>"
 
 #. Tag: para
 #: Webservices.xml:271

@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-02-08 12:57+0100\n"
+"POT-Creation-Date: 2009-02-19 21:44+0000\n"
+"PO-Revision-Date: 2009-02-19 22:57+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -88,7 +88,7 @@ msgstr "Comunque c'è un problema con tale approccio. Un'applicazione Seam potre
 #. Tag: para
 #: Persistence.xml:97
 #, no-c-format
-msgid "The request might require processing by several loosly-coupled components, each of which is called independently from the web layer. It is common to see several or even many calls per request from the web layer to EJB components in Seam."
+msgid "The request might require processing by several loosely-coupled components, each of which is called independently from the web layer. It is common to see several or even many calls per request from the web layer to EJB components in Seam."
 msgstr "La richiesta può comportare di essere processata da diversi componenti poco accoppiati, ciascuno dei quali viene chiamato indipendentemente dal layer web. E' comune vedere parecchie chiamate per richiesta dal layer web ai componenti EJB in Seam."
 
 #. Tag: para
