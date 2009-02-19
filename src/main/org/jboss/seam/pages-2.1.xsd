@@ -59,7 +59,7 @@
         <xs:attribute name="log-level" type="pages:loglevel-values"/>
         
         <!-- The logLevel attribute is deprecated and will be removed in the next major version! Please use log-level instead -->
-        <xs:attribute name="logLevel" type="pages:logLevel-values"/>
+        <xs:attribute name="logLevel" type="pages:loglevel-values"/>
     </xs:attributeGroup>
     
     <xs:element name="conversation">
