@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-01-18 16:25+0100\n"
+"PO-Revision-Date: 2009-02-19 22:35+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -735,7 +735,7 @@ msgstr "\"Poiché questa è la prima applicazione vista, si prenderanno in esame
 #: Tutorial.xml:380
 #, no-c-format
 msgid "If you've used many Java frameworks before, you'll be used to having to declare all your component classes in some kind of XML file that gradually grows more and more unmanageable as your project matures. You'll be relieved to know that Seam does not require that application components be accompanied by XML. Most Seam applications require a very small amount of XML that does not grow very much as the project gets bigger."
-msgstr "Se si sono utilizzati altri framework Java in precedenza, si è abituati a dichiarare le classi componenti in un qualche file XML che gradualmente cresce sempre più e diventa sempre più ingestibile man man che il progetto evolve. Si resterà sollevati dal sapere che Seam non richiede che i componenti dell'applicazione siano accompagnati da file XML. La maggior parte delle applicazioni Seam richiede una quantità molto piccola di XML che non aumenta man mano che il progetto cresce."
+msgstr "Se in precedenza si sono utilizzati altri framework Java, si è abituati a dichiarare le classi componenti in un qualche file XML che gradualmente cresce sempre più e diventa sempre più ingestibile man mano che il progetto evolve. Si resterà sollevati dal sapere che Seam non richiede che i componenti dell'applicazione siano accompagnati da file XML. La maggior parte delle applicazioni Seam richiede una quantità molto piccola di XML che non aumenta man mano che il progetto cresce."
 
 #. Tag: para
 #: Tutorial.xml:386
