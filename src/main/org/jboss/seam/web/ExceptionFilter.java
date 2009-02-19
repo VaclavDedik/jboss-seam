@@ -27,6 +27,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.web.Filter;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.FacesLifecycle;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.exception.Exceptions;
@@ -92,6 +93,9 @@ public class ExceptionFilter extends AbstractFilter
               (Manager) request.getAttribute( Seam.getComponentName(Manager.class) );
       String conversationId = manager==null ? null : manager.getCurrentConversationId();
       
+      // Ensure that the call in which the exception occurred was cleaned up - it might not be, and there is no harm in trying
+      Lifecycle.endRequest();
+
       //Initialize the temporary context objects
       FacesLifecycle.beginExceptionRecovery( facesContext.getExternalContext() );
       
