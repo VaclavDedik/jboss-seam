@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tools\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-02-01 21:19+0000\n"
+"POT-Creation-Date: 2009-02-19 21:44+0000\n"
 "PO-Revision-Date: 2008-12-31 16:00+0900\n"
 "Last-Translator: minamoto <miki.htmnet@nifty.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -1821,50 +1821,6 @@ msgstr ""
 # 2.1
 #. Tag: para
 #: Events.xml:569
-#, fuzzy, no-c-format
-msgid ""
-"<literal>org.jboss.seam.postAuthenticate.&lt;name&gt; </literal> &#8212; "
-"called after a user is authenticated"
-msgstr ""
-"<literal>org.jboss.seam.postAuthenticate.&lt;name&gt; </literal>&#8212; ユー"
-"ザが認証された後に呼ばれます"
-
-# 2.1
-#. Tag: para
-#: Events.xml:570
-#, fuzzy, no-c-format
-msgid ""
-"<literal>org.jboss.seam.preAuthenticate.&lt;name&gt; </literal> &#8212; "
-"called before attempting to authenticate a user"
-msgstr ""
-"<literal>org.jboss.seam.preAuthenticate.&lt;name&gt; </literal>&#8212; ユーザ"
-"を認証しようとする前に呼ばれます"
-
-# 2.1
-#. Tag: para
-#: Events.xml:571
-#, no-c-format
-msgid ""
-"<literal>org.jboss.seam.notLoggedIn</literal> &#8212; called there is no "
-"authenticated user and authentication is required"
-msgstr ""
-"<literal>org.jboss.seam.notLoggedIn</literal> &#8212; 認証されたユーザが存在"
-"しないところで認証が要求されるときに呼ばれます"
-
-# 2.1
-#. Tag: para
-#: Events.xml:572
-#, no-c-format
-msgid ""
-"<literal>org.jboss.seam.rememberMe</literal> &#8212; occurs when Seam "
-"security detects the username in a cookie"
-msgstr ""
-"<literal>org.jboss.seam.rememberMe</literal> &#8212; Seamセキュリティがクッ"
-"キー内にユーザ名を検出したときに発生します"
-
-# 2.1
-#. Tag: para
-#: Events.xml:573
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.exceptionHandled.&lt;type&gt;</literal> &#8212; "
@@ -1875,7 +1831,7 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:574
+#: Events.xml:570
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.exceptionHandled</literal> &#8212; called when an "
@@ -1886,7 +1842,7 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:575
+#: Events.xml:571
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.exceptionNotHandled</literal> &#8212; called when "
@@ -1897,7 +1853,7 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:576
+#: Events.xml:572
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.afterTransactionSuccess</literal> &#8212; called "
@@ -1908,7 +1864,7 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:577
+#: Events.xml:573
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> "
@@ -1919,8 +1875,85 @@ msgstr ""
 "&#8212; <literal>&lt;name&gt;</literal>という名前のエンティティを管理するSeam"
 "アプリケーションフレームワークでトランザクションが成功するときに呼ばれます"
 
+# 2.1
+#. Tag: para
+#: Events.xml:574
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.security.loggedOut</literal> &#8212; called when a "
+"user logs out"
+msgstr ""
+"<literal>org.jboss.seam.beginPageflow </literal>&#8212; ページフローが開始す"
+"るときに呼ばれます"
+
+# 2.1
+#. Tag: para
+#: Events.xml:575
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.security.loginFailed</literal> &#8212; called when a "
+"user authentication attempt fails"
+msgstr ""
+"<literal>org.jboss.seam.validationFailed</literal> &#8212; JSFバリデーション"
+"が失敗したときに呼ばれます"
+
+# 2.1
+#. Tag: para
+#: Events.xml:576
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.security.loginSuccessful</literal> &#8212; called "
+"when a user is successfully authenticated"
+msgstr ""
+"<literal>org.jboss.seam.postAuthenticate.&lt;name&gt; </literal>&#8212; ユー"
+"ザが認証された後に呼ばれます"
+
+# 2.1
+#. Tag: para
+#: Events.xml:577
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.security.notAuthorized</literal> &#8212; called when "
+"an authorization check fails"
+msgstr ""
+"<literal>org.jboss.seam.validationFailed</literal> &#8212; JSFバリデーション"
+"が失敗したときに呼ばれます"
+
+# 2.1
+#. Tag: para
+#: Events.xml:578
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.security.notLoggedIn</literal> &#8212; called there "
+"is no authenticated user and authentication is required"
+msgstr ""
+"<literal>org.jboss.seam.notLoggedIn</literal> &#8212; 認証されたユーザが存在"
+"しないところで認証が要求されるときに呼ばれます"
+
+# 2.1
+#. Tag: para
+#: Events.xml:579
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.security.postAuthenticate.</literal> &#8212; called "
+"after a user is authenticated"
+msgstr ""
+"<literal>org.jboss.seam.postAuthenticate.&lt;name&gt; </literal>&#8212; ユー"
+"ザが認証された後に呼ばれます"
+
+# 2.1
 #. Tag: para
 #: Events.xml:580
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.security.preAuthenticate</literal> &#8212; called "
+"before attempting to authenticate a user"
+msgstr ""
+"<literal>org.jboss.seam.preAuthenticate.&lt;name&gt; </literal>&#8212; ユーザ"
+"を認証しようとする前に呼ばれます"
+
+#. Tag: para
+#: Events.xml:583
 #, no-c-format
 msgid ""
 "Seam components may observe any of these events in just the same way they "
@@ -1930,13 +1963,13 @@ msgstr ""
 "まったく同様に これらのどのイベントでも観察することが可能です。"
 
 #. Tag: title
-#: Events.xml:589
+#: Events.xml:592
 #, no-c-format
 msgid "Seam interceptors"
 msgstr "Seamインターセプタ"
 
 #. Tag: para
-#: Events.xml:591
+#: Events.xml:594
 #, no-c-format
 msgid ""
 "EJB 3.0 introduced a standard interceptor model for session bean components. "
@@ -1953,7 +1986,7 @@ msgstr ""
 "<literal>@Interceptors</literal> のアノテーションを付ける必要があります。"
 
 #. Tag: programlisting
-#: Events.xml:600
+#: Events.xml:603
 #, no-c-format
 msgid ""
 "<![CDATA[public class LoggedInInterceptor {\n"
@@ -1998,7 +2031,7 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:602
+#: Events.xml:605
 #, no-c-format
 msgid ""
 "To apply this interceptor to a session bean which acts as an action "
@@ -2019,7 +2052,7 @@ msgstr ""
 "<literal>@LoggedIn</literal> アノテーションを生成します。"
 
 #. Tag: programlisting
-#: Events.xml:611
+#: Events.xml:614
 #, no-c-format
 msgid ""
 "<![CDATA[@Target(TYPE)\n"
@@ -2033,7 +2066,7 @@ msgstr ""
 "public @interface LoggedIn {}]]>"
 
 #. Tag: para
-#: Events.xml:613
+#: Events.xml:616
 #, no-c-format
 msgid ""
 "We can now simply annotate our action listener bean with <literal>@LoggedIn</"
@@ -2043,7 +2076,7 @@ msgstr ""
 "<literal>@LoggedIn</literal> アノテーションだけを付加すればよくなりました。"
 
 #. Tag: programlisting
-#: Events.xml:618
+#: Events.xml:621
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateless\n"
@@ -2071,7 +2104,7 @@ msgstr ""
 "}]]>"
 
 #. Tag: para
-#: Events.xml:620
+#: Events.xml:623
 #, no-c-format
 msgid ""
 "If interceptor ordering is important (it usually is), you can add "
@@ -2083,7 +2116,7 @@ msgstr ""
 "半順序を指定することが可能です。"
 
 #. Tag: programlisting
-#: Events.xml:626
+#: Events.xml:629
 #, no-c-format
 msgid ""
 "<![CDATA[@Interceptor(around={BijectionInterceptor.class,\n"
@@ -2105,7 +2138,7 @@ msgstr ""
 "}]]>"
 
 #. Tag: para
-#: Events.xml:628
+#: Events.xml:631
 #, no-c-format
 msgid ""
 "You can even have a \"client-side\" interceptor, that runs around any of the "
@@ -2115,7 +2148,7 @@ msgstr ""
 "み機能とでも併用することができます。"
 
 #. Tag: programlisting
-#: Events.xml:633
+#: Events.xml:636
 #, no-c-format
 msgid ""
 "<![CDATA[@Interceptor(type=CLIENT)\n"
@@ -2131,7 +2164,7 @@ msgstr ""
 "}]]>"
 
 #. Tag: para
-#: Events.xml:635
+#: Events.xml:638
 #, no-c-format
 msgid ""
 "EJB interceptors are stateful, with a lifecycle that is the same as the "
@@ -2146,7 +2179,7 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:642
+#: Events.xml:645
 #, no-c-format
 msgid ""
 "Much of the functionality of Seam is implemented as a set of built-in Seam "
@@ -2160,7 +2193,7 @@ msgstr ""
 "セプタを適用可能なすべてのSeamコンポーネントのために存在しているのです。"
 
 #. Tag: para
-#: Events.xml:649
+#: Events.xml:652
 #, no-c-format
 msgid ""
 "You can even use Seam interceptors with JavaBean components, not just EJB3 "
@@ -2170,7 +2203,7 @@ msgstr ""
 "とができます。"
 
 #. Tag: para
-#: Events.xml:653
+#: Events.xml:656
 #, no-c-format
 msgid ""
 "EJB defines interception not only for business methods (using "
@@ -2192,13 +2225,13 @@ msgstr ""
 "除きます)。"
 
 #. Tag: title
-#: Events.xml:665
+#: Events.xml:668
 #, no-c-format
 msgid "Managing exceptions"
 msgstr "例外を管理する"
 
 #. Tag: para
-#: Events.xml:667
+#: Events.xml:670
 #, no-c-format
 msgid ""
 "JSF is surprisingly limited when it comes to exception handling. As a "
@@ -2217,13 +2250,13 @@ msgstr ""
 "ションと一緒に使われることが意図されていています。"
 
 #. Tag: title
-#: Events.xml:677
+#: Events.xml:680
 #, no-c-format
 msgid "Exceptions and transactions"
 msgstr "例外およびトランザクション"
 
 #. Tag: para
-#: Events.xml:679
+#: Events.xml:682
 #, no-c-format
 msgid ""
 "EJB specifies well-defined rules that let us control whether an exception "
@@ -2249,7 +2282,7 @@ msgstr ""
 "テーションが付いていずチェックも付いていない例外です。)"
 
 #. Tag: para
-#: Events.xml:692
+#: Events.xml:695
 #, no-c-format
 msgid ""
 "Note that there is a difference between marking a transaction for rollback, "
@@ -2263,7 +2296,7 @@ msgstr ""
 "ティブのままである可能性があるということに注意してください。"
 
 #. Tag: para
-#: Events.xml:699
+#: Events.xml:702
 #, no-c-format
 msgid ""
 "Seam applies the EJB 3.0 exception rollback rules also to Seam JavaBean "
@@ -2273,7 +2306,7 @@ msgstr ""
 "も適用します。"
 
 #. Tag: para
-#: Events.xml:704
+#: Events.xml:707
 #, no-c-format
 msgid ""
 "But these rules only apply in the Seam component layer. What about an "
@@ -2290,14 +2323,14 @@ msgstr ""
 "す。"
 
 #. Tag: title
-#: Events.xml:714
+#: Events.xml:717
 #, no-c-format
 msgid "Enabling Seam exception handling"
 msgstr "Seam 例外処理を有効にする"
 
 # 2.1
 #. Tag: para
-#: Events.xml:716
+#: Events.xml:719
 #, no-c-format
 msgid ""
 "To enable Seam's exception handling, we need to make sure we have the master "
@@ -2307,7 +2340,7 @@ msgstr ""
 "xml</literal>で宣言したことを確認する必要があります。"
 
 #. Tag: programlisting
-#: Events.xml:721
+#: Events.xml:724
 #, no-c-format
 msgid ""
 "<![CDATA[<filter>\n"
@@ -2332,7 +2365,7 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:723
+#: Events.xml:726
 #, no-c-format
 msgid ""
 "You need to disable Facelets development mode in <literal>web.xml</literal> "
@@ -2344,13 +2377,13 @@ msgstr ""
 "モードも無効にする必要があります。"
 
 #. Tag: title
-#: Events.xml:732
+#: Events.xml:735
 #, no-c-format
 msgid "Using annotations for exception handling"
 msgstr "例外処理に対してアノテーションを使用する"
 
 #. Tag: para
-#: Events.xml:734
+#: Events.xml:737
 #, no-c-format
 msgid ""
 "The following exception results in a HTTP 404 error whenever it propagates "
@@ -2364,7 +2397,7 @@ msgstr ""
 "ションはロールバックされます。"
 
 #. Tag: programlisting
-#: Events.xml:741
+#: Events.xml:744
 #, no-c-format
 msgid ""
 "<![CDATA[@HttpError(errorCode=404)\n"
@@ -2374,7 +2407,7 @@ msgstr ""
 "public class ApplicationException extends Exception { ... }]]>"
 
 #. Tag: para
-#: Events.xml:743
+#: Events.xml:746
 #, no-c-format
 msgid ""
 "This exception results in a browser redirect whenever it propagates out of "
@@ -2386,7 +2419,7 @@ msgstr ""
 "を即時ロールバックさせることになります。"
 
 #. Tag: programlisting
-#: Events.xml:749
+#: Events.xml:752
 #, no-c-format
 msgid ""
 "<![CDATA[@Redirect(viewId=\"/failure.xhtml\", end=true)\n"
@@ -2401,7 +2434,7 @@ msgstr ""
 
 # 2.1
 #. Tag: note
-#: Events.xml:751
+#: Events.xml:754
 #, no-c-format
 msgid ""
 "It is important to note that Seam cannot handle exceptions that occur during "
@@ -2414,7 +2447,7 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:757
+#: Events.xml:760
 #, no-c-format
 msgid ""
 "You can also use EL to specify the <literal>viewId</literal> to redirect to."
@@ -2423,7 +2456,7 @@ msgstr ""
 "す。"
 
 #. Tag: para
-#: Events.xml:761
+#: Events.xml:764
 #, no-c-format
 msgid ""
 "This exception results in a redirect, along with a message to the user, when "
@@ -2435,7 +2468,7 @@ msgstr ""
 "させます。"
 
 #. Tag: programlisting
-#: Events.xml:767
+#: Events.xml:770
 #, no-c-format
 msgid ""
 "<![CDATA[@Redirect(viewId=\"/error.xhtml\", message=\"Unexpected error\")\n"
@@ -2445,14 +2478,14 @@ msgstr ""
 "public class SystemException extends RuntimeException { ... }]]>"
 
 #. Tag: title
-#: Events.xml:772
+#: Events.xml:775
 #, no-c-format
 msgid "Using XML for exception handling"
 msgstr "例外処理に XML を使用する"
 
 # 2.1
 #. Tag: para
-#: Events.xml:774
+#: Events.xml:777
 #, no-c-format
 msgid ""
 "Since we can't add annotations to all the exception classes we are "
@@ -2464,7 +2497,7 @@ msgstr ""
 "す。"
 
 #. Tag: programlisting
-#: Events.xml:779
+#: Events.xml:782
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -2512,7 +2545,7 @@ msgstr ""
 "</pages>]]>"
 
 #. Tag: para
-#: Events.xml:781
+#: Events.xml:784
 #, no-c-format
 msgid ""
 "The last <literal>&lt;exception&gt;</literal> declaration does not specify a "
@@ -2525,7 +2558,7 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:787
+#: Events.xml:790
 #, no-c-format
 msgid ""
 "You can also use EL to specify the <literal>view-id</literal> to redirect to."
@@ -2534,7 +2567,7 @@ msgstr ""
 "す。"
 
 #. Tag: para
-#: Events.xml:791
+#: Events.xml:794
 #, no-c-format
 msgid ""
 "You can also access the handled exception instance through EL, Seam places "
@@ -2545,7 +2578,7 @@ msgstr ""
 "り。"
 
 #. Tag: programlisting
-#: Events.xml:796
+#: Events.xml:799
 #, no-c-format
 msgid ""
 "<![CDATA[...\n"
@@ -2580,7 +2613,7 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:798
+#: Events.xml:801
 #, no-c-format
 msgid ""
 "<literal>org.jboss.seam.handledException</literal> holds the nested "
@@ -2594,20 +2627,20 @@ msgstr ""
 
 # 2.1
 #. Tag: title
-#: Events.xml:805
+#: Events.xml:808
 #, no-c-format
 msgid "Suppressing exception logging"
 msgstr "例外のロギングを抑制する"
 
 # 　2.1
 #. Tag: para
-#: Events.xml:807
-#, no-c-format
+#: Events.xml:810
+#, fuzzy, no-c-format
 msgid ""
 "For the exception handlers defined in <literal>pages.xml</literal>, it is "
 "possible to declare the logging level at which the exception will be logged, "
 "or to even suppress the exception being logged altogether. The attributes "
-"<literal>log</literal> and <literal>logLevel</literal> can be used to "
+"<literal>log</literal> and <literal>log-level</literal> can be used to "
 "control exception logging. By setting <literal>log=\"false\"</literal> as "
 "per the following example, then no log message will be generated when the "
 "specified exception occurs:"
@@ -2620,7 +2653,7 @@ msgstr ""
 "出力されません。"
 
 #. Tag: programlisting
-#: Events.xml:816
+#: Events.xml:819
 #, no-c-format
 msgid ""
 "<![CDATA[    <exception class=\"org.jboss.seam.security.NotLoggedInException"
@@ -2641,13 +2674,13 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:818
-#, no-c-format
+#: Events.xml:821
+#, fuzzy, no-c-format
 msgid ""
 "If the <literal>log</literal> attribute is not specified, then it defaults "
 "to <literal>true</literal> (i.e. the exception will be logged). "
-"Alternatively, you can specify the <literal>logLevel</literal> to control at "
-"which log level the exception will be logged:"
+"Alternatively, you can specify the <literal>log-level</literal> to control "
+"at which log level the exception will be logged:"
 msgstr ""
 "もし <literal>log</literal> 属性が指定されなければ、 <literal>true</literal>"
 "がデフォルトになります（つまり、例外はログに記録されます）。別の方法として、"
@@ -2655,11 +2688,11 @@ msgstr ""
 "ことも可能です。"
 
 #. Tag: programlisting
-#: Events.xml:824
-#, no-c-format
+#: Events.xml:827
+#, fuzzy, no-c-format
 msgid ""
 "<![CDATA[    <exception class=\"org.jboss.seam.security.NotLoggedInException"
-"\" logLevel=\"info\">\n"
+"\" log-level=\"info\">\n"
 "        <redirect view-id=\"/register.xhtml\">\n"
 "            <message severity=\"warn\">You must be a member to use this "
 "feature</message>\n"
@@ -2676,12 +2709,12 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:826
-#, no-c-format
+#: Events.xml:829
+#, fuzzy, no-c-format
 msgid ""
-"The acceptable values for <literal>logLevel</literal> are: <literal>fatal, "
+"The acceptable values for <literal>log-level</literal> are: <literal>fatal, "
 "error, warn, info, debug</literal> or <literal>trace</literal>. If the "
-"<literal>logLevel</literal> is not specified, or if an invalid value is "
+"<literal>log-level</literal> is not specified, or if an invalid value is "
 "configured, then it will default to <literal>error</literal>."
 msgstr ""
 "<literal>logLevel</literal> に指定可能な値は、<literal>fatal, error, warn, "
@@ -2691,20 +2724,20 @@ msgstr ""
 
 # 2.1
 #. Tag: title
-#: Events.xml:837
+#: Events.xml:840
 #, no-c-format
 msgid "Some common exceptions"
 msgstr "共通の例外"
 
 # 2.1
 #. Tag: para
-#: Events.xml:839
+#: Events.xml:842
 #, no-c-format
 msgid "If you are using JPA:"
 msgstr "もしJPAを使っているなら、"
 
 #. Tag: programlisting
-#: Events.xml:843
+#: Events.xml:846
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"javax.persistence.EntityNotFoundException\">\n"
@@ -2737,13 +2770,13 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:845
+#: Events.xml:848
 #, no-c-format
 msgid "If you are using the Seam Application Framework:"
 msgstr "もしSeamアプリケーションフレームワークを使っているなら、"
 
 #. Tag: programlisting
-#: Events.xml:849
+#: Events.xml:852
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"org.jboss.seam.framework.EntityNotFoundException"
@@ -2762,13 +2795,13 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:851
+#: Events.xml:854
 #, no-c-format
 msgid "If you are using Seam Security:"
 msgstr "もしSeamセキュリティを使っているなら、"
 
 #. Tag: programlisting
-#: Events.xml:855
+#: Events.xml:858
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"org.jboss.seam.security.AuthorizationException"
@@ -2799,13 +2832,13 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:857
+#: Events.xml:860
 #, no-c-format
 msgid "And, for JSF:"
 msgstr "そして、JSFでは、"
 
 #. Tag: programlisting
-#: Events.xml:861
+#: Events.xml:864
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"javax.faces.application.ViewExpiredException\">\n"
@@ -2822,7 +2855,7 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:863
+#: Events.xml:866
 #, no-c-format
 msgid ""
 "A <literal>ViewExpiredException</literal> occurs if the user posts back to a "
@@ -2836,13 +2869,13 @@ msgstr ""
 "required</literal> を使えば細かなセッションの有効期限の制御が可能になります。"
 
 #. Tag: title
-#: Events.xml:873
+#: Events.xml:876
 #, no-c-format
 msgid "conversation-required"
 msgstr ""
 
 #. Tag: para
-#: Events.xml:875
+#: Events.xml:878
 #, no-c-format
 msgid ""
 "When specified as the attribute of a <literal>page</literal> element in "
@@ -2855,7 +2888,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Events.xml:883
+#: Events.xml:886
 #, fuzzy, no-c-format
 msgid ""
 "<![CDATA[  <page view-id=\"/foo.xhtml\" conversation-required=\"true\"/>]]>"
@@ -2865,3 +2898,11 @@ msgstr ""
 "    <rewrite pattern=\"/home\" />\n"
 "</page>\n"
 "]]>"
+
+# 2.1
+#~ msgid ""
+#~ "<literal>org.jboss.seam.rememberMe</literal> &#8212; occurs when Seam "
+#~ "security detects the username in a cookie"
+#~ msgstr ""
+#~ "<literal>org.jboss.seam.rememberMe</literal> &#8212; Seamセキュリティが"
+#~ "クッキー内にユーザ名を検出したときに発生します"

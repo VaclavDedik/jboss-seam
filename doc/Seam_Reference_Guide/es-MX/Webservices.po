@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seam_-_Contextual_Components VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-11-06 00:10+0000\n"
+"POT-Creation-Date: 2009-02-19 21:44+0000\n"
 "PO-Revision-Date: 2008-11-06 00:10+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -485,8 +485,7 @@ msgstr ""
 #. Tag: programlisting
 #: Webservices.xml:231
 #, no-c-format
-msgid ""
-"<![CDATA[<resteasy:application-config resource-path-prefix=\"/restv1\"/>]]>"
+msgid "<![CDATA[<resteasy:application resource-path-prefix=\"/restv1\"/>]]>"
 msgstr ""
 
 #. Tag: para
@@ -510,8 +509,7 @@ msgstr ""
 #. Tag: programlisting
 #: Webservices.xml:243
 #, no-c-format
-msgid ""
-"<![CDATA[<resteasy:application-config strip-seam-resource-path=\"false\"/>]]>"
+msgid "<![CDATA[<resteasy:application strip-seam-resource-path=\"false\"/>]]>"
 msgstr ""
 
 #. Tag: para
@@ -537,7 +535,7 @@ msgstr ""
 #: Webservices.xml:257
 #, no-c-format
 msgid ""
-"<![CDATA[<resteasy:application-config\n"
+"<![CDATA[<resteasy:application\n"
 "     scan-providers=\"false\"\n"
 "     scan-resources=\"false\"\n"
 "     use-builtin-providers=\"true\">\n"
@@ -551,7 +549,7 @@ msgid ""
 "         <value>org.foo.MyFancyProvider</value>\n"
 "     </resteasy:provider-class-names>\n"
 "\n"
-" </resteasy:application-config>]]>"
+" </resteasy:application>]]>"
 msgstr ""
 
 #. Tag: para
@@ -574,7 +572,7 @@ msgstr ""
 #: Webservices.xml:269
 #, no-c-format
 msgid ""
-"<![CDATA[<resteasy:application-config>\n"
+"<![CDATA[<resteasy:application>\n"
 "\n"
 "    <resteasy:media-type-mappings>\n"
 "       <key>txt</key><value>text/plain</value>\n"
@@ -584,7 +582,7 @@ msgid ""
 "       <key>deutsch</key><value>de-DE</value>\n"
 "    </resteasy:language-mappings>\n"
 "\n"
-"</resteasy:application-config>]]>"
+"</resteasy:application>]]>"
 msgstr ""
 
 #. Tag: para

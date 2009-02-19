@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tools\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-11-06 06:41+0000\n"
+"POT-Creation-Date: 2009-02-19 21:44+0000\n"
 "PO-Revision-Date: 2008-12-03 12:28+0900\n"
 "Last-Translator: Ken Yamada <ken@tydfam.jp>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -22,26 +22,45 @@ msgstr "電子メール"
 #. Tag: para
 #: Mail.xml:3
 #, no-c-format
-msgid "Seam now includes an optional components for templating and sending emails."
-msgstr "Seam には 電子メールの送信およびテンプレート作成用のオプションコンポーネントが含まれるようになります。"
+msgid ""
+"Seam now includes an optional components for templating and sending emails."
+msgstr ""
+"Seam には 電子メールの送信およびテンプレート作成用のオプションコンポーネント"
+"が含まれるようになります。"
 
 #. Tag: para
 #: Mail.xml:7
 #, no-c-format
-msgid "Email support is provided by <literal>jboss-seam-mail.jar</literal>. This JAR contains the mail JSF controls, which are used to construct emails, and the <literal>mailSession</literal> manager component."
-msgstr "電子メールのサポートは <literal>jboss-seam-mail.jar</literal> により提供されます。 この JAR にはメールの作成に使用されるメール JSF コントロールおよび <literal>mailSession</literal> 管理コンポーネントが含まれます。"
+msgid ""
+"Email support is provided by <literal>jboss-seam-mail.jar</literal>. This "
+"JAR contains the mail JSF controls, which are used to construct emails, and "
+"the <literal>mailSession</literal> manager component."
+msgstr ""
+"電子メールのサポートは <literal>jboss-seam-mail.jar</literal> により提供され"
+"ます。 この JAR にはメールの作成に使用されるメール JSF コントロールおよび "
+"<literal>mailSession</literal> 管理コンポーネントが含まれます。"
 
 #. Tag: para
 #: Mail.xml:13
 #, no-c-format
-msgid "The examples/mail project contains an example of the email support in action. It demonstrates proper packaging, and it contains a number of example that demonstrate the key features currently supported."
-msgstr " examples/mail プロジェクトには実行可能なデモ用電子メールサポートのサンプルが含まれています。 正しいパッケージ化の方法を行い、 また現在サポートされている主要な機能を実際に示すサンプルがいくつか含まれています。"
+msgid ""
+"The examples/mail project contains an example of the email support in "
+"action. It demonstrates proper packaging, and it contains a number of "
+"example that demonstrate the key features currently supported."
+msgstr ""
+" examples/mail プロジェクトには実行可能なデモ用電子メールサポートのサンプルが"
+"含まれています。 正しいパッケージ化の方法を行い、 また現在サポートされている"
+"主要な機能を実際に示すサンプルがいくつか含まれています。"
 
 #. Tag: para
 #: Mail.xml:19
 #, no-c-format
-msgid "You can also test your mail's using Seam's integration testing environment. See <xref linkend=\"testing.mail\"/>."
-msgstr "Seamの統合テスト環境で電子メールの動作をテストする事が出来ます。　<xref linkend=\"testing.mail\"/>参照"
+msgid ""
+"You can also test your mail's using Seam's integration testing environment. "
+"See <xref linkend=\"testing.mail\"/>."
+msgstr ""
+"Seamの統合テスト環境で電子メールの動作をテストする事が出来ます。　<xref "
+"linkend=\"testing.mail\"/>参照"
 
 #. Tag: title
 #: Mail.xml:25
@@ -52,8 +71,12 @@ msgstr "メッセージを作成する"
 #. Tag: para
 #: Mail.xml:27
 #, no-c-format
-msgid "You don't need to learn a whole new templating language to use Seam Mail &#8212; an email is just facelet!"
-msgstr "Seamの電子メール機能はfaceletを利用して記述しているので、新たなテンプレート用の言語を学ぶような必要はありません。　"
+msgid ""
+"You don't need to learn a whole new templating language to use Seam Mail "
+"&#8212; an email is just facelet!"
+msgstr ""
+"Seamの電子メール機能はfaceletを利用して記述しているので、新たなテンプレート用"
+"の言語を学ぶような必要はありません。　"
 
 #. Tag: programlisting
 #: Mail.xml:32
@@ -64,13 +87,15 @@ msgid ""
 "    xmlns:h=\"http://java.sun.com/jsf/html\">\n"
 "  \n"
 "    <m:from name=\"Peter\" address=\"peter@example.com\" />\n"
-"    <m:to name=\"#{person.firstname} #{person.lastname}\">#{person.address}</m:to>\n"
+"    <m:to name=\"#{person.firstname} #{person.lastname}\">#{person.address}</"
+"m:to>\n"
 "    <m:subject>Try out Seam!</m:subject>\n"
 "    \n"
 "    <m:body>\n"
 "        <p><h:outputText value=\"Dear #{person.firstname}\" />,</p>\n"
 "        <p>You can try out Seam by visiting \n"
-"        <a href=\"http://labs.jboss.com/jbossseam\">http://labs.jboss.com/jbossseam</a>.</p>\n"
+"        <a href=\"http://labs.jboss.com/jbossseam\">http://labs.jboss.com/"
+"jbossseam</a>.</p>\n"
 "        <p>Regards,</p>\n"
 "        <p>Pete</p>\n"
 "    </m:body>\n"
@@ -82,13 +107,15 @@ msgstr ""
 "    xmlns:h=\"http://java.sun.com/jsf/html\">\n"
 "  \n"
 "    <m:from name=\"Peter\" address=\"peter@example.com\" />\n"
-"    <m:to name=\"#{person.firstname} #{person.lastname}\">#{person.address}</m:to>\n"
+"    <m:to name=\"#{person.firstname} #{person.lastname}\">#{person.address}</"
+"m:to>\n"
 "    <m:subject>Try out Seam!</m:subject>\n"
 "    \n"
 "    <m:body>\n"
 "        <p><h:outputText value=\"Dear #{person.firstname}\" />,</p>\n"
 "        <p>You can try out Seam by visiting \n"
-"        <a href=\"http://labs.jboss.com/jbossseam\">http://labs.jboss.com/jbossseam</a>.</p>\n"
+"        <a href=\"http://labs.jboss.com/jbossseam\">http://labs.jboss.com/"
+"jbossseam</a>.</p>\n"
 "        <p>Regards,</p>\n"
 "        <p>Pete</p>\n"
 "    </m:body>\n"
@@ -98,20 +125,44 @@ msgstr ""
 #. Tag: para
 #: Mail.xml:34
 #, no-c-format
-msgid "The <literal>&lt;m:message&gt;</literal> tag wraps the whole message, and tells Seam to start rendering an email. Inside the <literal>&lt;m:message&gt;</literal> tag we use an <literal>&lt;m:from&gt;</literal> tag to set who the message is from, a <literal>&lt;m:to&gt;</literal> tag to specify a sender (notice how we use EL as we would in a normal facelet), and a <literal>&lt;m:subject&gt;</literal> tag."
-msgstr "<literal>&lt;m:message&gt;</literal> タグはメッセージ全体を包み、 Seam に email のレンダリングを開始するよう指示します。 <literal>&lt;m:message&gt;</literal> タグ内では、 メッセージの送信元の設定に <literal>&lt;m:from&gt;</literal> タグ、 送信者の指定に <literal>&lt;m:to&gt;</literal> タグ (通常のfacelet 内にいるのでそれに応じた EL の使用方法に注意してください)、 また <literal>&lt;m:subject&gt;</literal> タグを使用します。"
+msgid ""
+"The <literal>&lt;m:message&gt;</literal> tag wraps the whole message, and "
+"tells Seam to start rendering an email. Inside the <literal>&lt;m:message&gt;"
+"</literal> tag we use an <literal>&lt;m:from&gt;</literal> tag to set who "
+"the message is from, a <literal>&lt;m:to&gt;</literal> tag to specify a "
+"sender (notice how we use EL as we would in a normal facelet), and a "
+"<literal>&lt;m:subject&gt;</literal> tag."
+msgstr ""
+"<literal>&lt;m:message&gt;</literal> タグはメッセージ全体を包み、 Seam に "
+"email のレンダリングを開始するよう指示します。 <literal>&lt;m:message&gt;</"
+"literal> タグ内では、 メッセージの送信元の設定に <literal>&lt;m:from&gt;</"
+"literal> タグ、 送信者の指定に <literal>&lt;m:to&gt;</literal> タグ (通常の"
+"facelet 内にいるのでそれに応じた EL の使用方法に注意してください)、 また "
+"<literal>&lt;m:subject&gt;</literal> タグを使用します。"
 
 #. Tag: para
 #: Mail.xml:43
 #, no-c-format
-msgid "The <literal>&lt;m:body&gt;</literal> tag wraps the body of the email. You can use regular HTML tags inside the body as well as JSF components."
-msgstr "<literal>&lt;m:body&gt;</literal> は email のボディを包みます。 HTML 正規タグをボディ内や JSF コンポーネント内に使用することができます。"
+msgid ""
+"The <literal>&lt;m:body&gt;</literal> tag wraps the body of the email. You "
+"can use regular HTML tags inside the body as well as JSF components."
+msgstr ""
+"<literal>&lt;m:body&gt;</literal> は email のボディを包みます。 HTML 正規タグ"
+"をボディ内や JSF コンポーネント内に使用することができます。"
 
 #. Tag: para
 #: Mail.xml:48
 #, no-c-format
-msgid "So, now you have your email template, how do you go about sending it? Well, at the end of rendering the <literal>m:message</literal> the <literal>mailSession</literal> is called to send the email, so all you have to do is ask Seam to render the view:"
-msgstr "これで電子メールテンプレートのできあがりです。 送信方法についてですが、 <literal>m:message</literal> のレンダリングの最後に、 <literal>mailSession</literal> が email を送信するようコールされるので、 ユーザーがすべきことは Seam にそのビューをレンダリングするよう支持するだけです。"
+msgid ""
+"So, now you have your email template, how do you go about sending it? Well, "
+"at the end of rendering the <literal>m:message</literal> the "
+"<literal>mailSession</literal> is called to send the email, so all you have "
+"to do is ask Seam to render the view:"
+msgstr ""
+"これで電子メールテンプレートのできあがりです。 送信方法についてですが、 "
+"<literal>m:message</literal> のレンダリングの最後に、 <literal>mailSession</"
+"literal> が email を送信するようコールされるので、 ユーザーがすべきことは "
+"Seam にそのビューをレンダリングするよう支持するだけです。"
 
 #. Tag: programlisting
 #: Mail.xml:55
@@ -146,8 +197,12 @@ msgstr ""
 #. Tag: para
 #: Mail.xml:57
 #, no-c-format
-msgid "If, for example, you entered an invalid email address, then an exception would be thrown, which is caught and then displayed to the user."
-msgstr "たとえば、 無効な電子メールアドレスを入力すると例外が投げられ、 その例外がキャッチされてユーザーに表示されます。"
+msgid ""
+"If, for example, you entered an invalid email address, then an exception "
+"would be thrown, which is caught and then displayed to the user."
+msgstr ""
+"たとえば、 無効な電子メールアドレスを入力すると例外が投げられ、 その例外が"
+"キャッチされてユーザーに表示されます。"
 
 #. Tag: title
 #: Mail.xml:63
@@ -158,8 +213,12 @@ msgstr "添付ファイル"
 #. Tag: para
 #: Mail.xml:64
 #, no-c-format
-msgid "Seam makes it easy to attach files to an email. It supports most of the standard java types used when working with files."
-msgstr "Seam では電子メールへのファイル添付が容易になっています。 ファイルを操作する際に使用される標準 java タイプのほとんどに対応しています。"
+msgid ""
+"Seam makes it easy to attach files to an email. It supports most of the "
+"standard java types used when working with files."
+msgstr ""
+"Seam では電子メールへのファイル添付が容易になっています。 ファイルを操作する"
+"際に使用される標準 java タイプのほとんどに対応しています。"
 
 #. Tag: para
 #: Mail.xml:69
@@ -176,20 +235,36 @@ msgstr "<![CDATA[<m:attachment value=\"/WEB-INF/lib/jboss-seam-mail.jar\"/>]]>"
 #. Tag: para
 #: Mail.xml:75
 #, no-c-format
-msgid "Seam will load the file from the classpath, and attach it to the email. By default it would be attached as <literal>jboss-seam-mail.jar</literal>; if you wanted it to have another name you would just add the <literal>fileName</literal> attribute:"
-msgstr "Seam はファイルをクラスパスからロードして、 電子メールにそのファイルを添付します。 デフォルトでは、 <literal>jboss-seam-mail.jar</literal> という名前で添付されます。 別の名前にしたい場合は <literal>fileName</literal> 属性を追加するだけです。"
+msgid ""
+"Seam will load the file from the classpath, and attach it to the email. By "
+"default it would be attached as <literal>jboss-seam-mail.jar</literal>; if "
+"you wanted it to have another name you would just add the <literal>fileName</"
+"literal> attribute:"
+msgstr ""
+"Seam はファイルをクラスパスからロードして、 電子メールにそのファイルを添付し"
+"ます。 デフォルトでは、 <literal>jboss-seam-mail.jar</literal> という名前で添"
+"付されます。 別の名前にしたい場合は <literal>fileName</literal> 属性を追加す"
+"るだけです。"
 
 #. Tag: programlisting
 #: Mail.xml:81
 #, no-c-format
-msgid "<![CDATA[<m:attachment value=\"/WEB-INF/lib/jboss-seam-mail.jar\" fileName=\"this-is-so-cool.jar\"/>]]>"
-msgstr "<![CDATA[<m:attachment value=\"/WEB-INF/lib/jboss-seam-mail.jar\" fileName=\"this-is-so-cool.jar\"/>]]>"
+msgid ""
+"<![CDATA[<m:attachment value=\"/WEB-INF/lib/jboss-seam-mail.jar\" fileName="
+"\"this-is-so-cool.jar\"/>]]>"
+msgstr ""
+"<![CDATA[<m:attachment value=\"/WEB-INF/lib/jboss-seam-mail.jar\" fileName="
+"\"this-is-so-cool.jar\"/>]]>"
 
 #. Tag: para
 #: Mail.xml:83
 #, no-c-format
-msgid "You could also attach a <literal>java.io.File</literal>, a <literal>java.net.URL</literal>:"
-msgstr "<literal>java.io.File</literal>, <literal>java.net.URL</literal> を添付することもできます。"
+msgid ""
+"You could also attach a <literal>java.io.File</literal>, a <literal>java.net."
+"URL</literal>:"
+msgstr ""
+"<literal>java.io.File</literal>, <literal>java.net.URL</literal> を添付するこ"
+"ともできます。"
 
 #. Tag: programlisting
 #: Mail.xml:87
@@ -200,26 +275,45 @@ msgstr "<![CDATA[<m:attachment value=\"#{numbers}\"/>]]>"
 #. Tag: para
 #: Mail.xml:89
 #, no-c-format
-msgid "Or a <literal>byte[]</literal> or a <literal>java.io.InputStream</literal>:"
-msgstr "または、 <literal>byte[]</literal> あるいは <literal>java.io.InputStream</literal>"
+msgid ""
+"Or a <literal>byte[]</literal> or a <literal>java.io.InputStream</literal>:"
+msgstr ""
+"または、 <literal>byte[]</literal> あるいは <literal>java.io.InputStream</"
+"literal>"
 
 #. Tag: programlisting
 #: Mail.xml:93
 #, no-c-format
-msgid "<![CDATA[<m:attachment value=\"#{person.photo}\" contentType=\"image/png\"/>]]>"
-msgstr "<![CDATA[<m:attachment value=\"#{person.photo}\" contentType=\"image/png\"/>]]>"
+msgid ""
+"<![CDATA[<m:attachment value=\"#{person.photo}\" contentType=\"image/png\"/"
+">]]>"
+msgstr ""
+"<![CDATA[<m:attachment value=\"#{person.photo}\" contentType=\"image/png\"/"
+">]]>"
 
 #. Tag: para
 #: Mail.xml:95
 #, no-c-format
-msgid "You'll notice that for a <literal>byte[]</literal> and a <literal>java.io.InputStream</literal> you need to specify the MIME type of the attachment (as that information is not carried as part of the file)."
-msgstr "コード例から、<literal>byte[]</literal>や<literal>java.io.InputStream</literal>を使うためには、添付ファイルのMIMEタイプを指定する必要があることが分かると思います。"
+msgid ""
+"You'll notice that for a <literal>byte[]</literal> and a <literal>java.io."
+"InputStream</literal> you need to specify the MIME type of the attachment "
+"(as that information is not carried as part of the file)."
+msgstr ""
+"コード例から、<literal>byte[]</literal>や<literal>java.io.InputStream</"
+"literal>を使うためには、添付ファイルのMIMEタイプを指定する必要があることが分"
+"かると思います。"
 
 #. Tag: para
 #: Mail.xml:101
 #, no-c-format
-msgid "And it gets even better, you can attach a Seam generated PDF, or any standard JSF view, just by wrapping a <literal>&lt;m:attachment&gt;</literal> around the normal tags you would use:"
-msgstr "さらに便利なことに、 使用する通常のタグの前後を <literal>&lt;m:attachment&gt;</literal> でラップするだけで Seam 生成 PDF や標準 JSF ビュー を添付することができます。"
+msgid ""
+"And it gets even better, you can attach a Seam generated PDF, or any "
+"standard JSF view, just by wrapping a <literal>&lt;m:attachment&gt;</"
+"literal> around the normal tags you would use:"
+msgstr ""
+"さらに便利なことに、 使用する通常のタグの前後を <literal>&lt;m:attachment&gt;"
+"</literal> でラップするだけで Seam 生成 PDF や標準 JSF ビュー を添付すること"
+"ができます。"
 
 #. Tag: programlisting
 #: Mail.xml:107
@@ -227,32 +321,41 @@ msgstr "さらに便利なことに、 使用する通常のタグの前後を <
 msgid ""
 "<![CDATA[<m:attachment fileName=\"tiny.pdf\">\n"
 "    <p:document>                                                      \n"
-"        A very tiny PDF                                                                                                \n"
+"        A very tiny "
+"PDF                                                                                                \n"
 "    </p:document>\n"
 "</m:attachment>]]>"
 msgstr ""
 "<![CDATA[<m:attachment fileName=\"tiny.pdf\">\n"
 "    <p:document>                                                      \n"
-"        A very tiny PDF                                                                                                \n"
+"        A very tiny "
+"PDF                                                                                                \n"
 "    </p:document>\n"
 "</m:attachment>]]>"
 
 #. Tag: para
 #: Mail.xml:109
 #, no-c-format
-msgid "If you had a set of files you wanted to attach (for example a set of pictures loaded from a database) you can just use a <literal>&lt;ui:repeat&gt;</literal>:"
-msgstr "添付したいファイル一式が手元にある場合 (例、 データーベースからロードした写真一式)、 <literal>&lt;ui:repeat&gt;</literal> を使うだけで添付できます。"
+msgid ""
+"If you had a set of files you wanted to attach (for example a set of "
+"pictures loaded from a database) you can just use a <literal>&lt;ui:"
+"repeat&gt;</literal>:"
+msgstr ""
+"添付したいファイル一式が手元にある場合 (例、 データーベースからロードした写真"
+"一式)、 <literal>&lt;ui:repeat&gt;</literal> を使うだけで添付できます。"
 
 #. Tag: programlisting
 #: Mail.xml:114
 #, no-c-format
 msgid ""
 "<![CDATA[<ui:repeat value=\"#{people}\" var=\"person\">\n"
-"    <m:attachment value=\"#{person.photo}\" contentType=\"image/jpeg\" fileName=\"#{person.firstname}_#{person.lastname}.jpg\"/>\n"
+"    <m:attachment value=\"#{person.photo}\" contentType=\"image/jpeg\" "
+"fileName=\"#{person.firstname}_#{person.lastname}.jpg\"/>\n"
 "</ui:repeat>]]>"
 msgstr ""
 "<![CDATA[<ui:repeat value=\"#{people}\" var=\"person\">\n"
-"    <m:attachment value=\"#{person.photo}\" contentType=\"image/jpeg\" fileName=\"#{person.firstname}_#{person.lastname}.jpg\"/>\n"
+"    <m:attachment value=\"#{person.photo}\" contentType=\"image/jpeg\" "
+"fileName=\"#{person.firstname}_#{person.lastname}.jpg\"/>\n"
 "</ui:repeat>]]>"
 
 #. Tag: para
@@ -284,14 +387,24 @@ msgstr ""
 #. Tag: para
 #: Mail.xml:122
 #, no-c-format
-msgid "You may be wondering what <literal>cid:#{...}</literal> does. Well, the IETF specified that by putting this as the src for your image, the attachments will be looked at when trying to locate the image (the <literal>Content-ID</literal>'s must match) &#8212; magic!"
-msgstr "<literal>cid:#{...}</literal>が何をするのか疑問に思わるかもしれませんが、IETFの規則によればこれはイメージファイルのソースにこれを指定すれば、イメージを見ようとすると添付ファイルを見にゆく（但し、<literal>Content-ID</literal>が一致している必要があります）とあります。　"
+msgid ""
+"You may be wondering what <literal>cid:#{...}</literal> does. Well, the IETF "
+"specified that by putting this as the src for your image, the attachments "
+"will be looked at when trying to locate the image (the <literal>Content-ID</"
+"literal>'s must match) &#8212; magic!"
+msgstr ""
+"<literal>cid:#{...}</literal>が何をするのか疑問に思わるかもしれませんが、IETF"
+"の規則によればこれはイメージファイルのソースにこれを指定すれば、イメージを見"
+"ようとすると添付ファイルを見にゆく（但し、<literal>Content-ID</literal>が一致"
+"している必要があります）とあります。　"
 
 #. Tag: para
 #: Mail.xml:129
 #, no-c-format
-msgid "You must declare the attachment before trying to access the status object."
-msgstr "ステータス　オブジェクトにアクセスする前に、添付を宣言しなければなりません。"
+msgid ""
+"You must declare the attachment before trying to access the status object."
+msgstr ""
+"ステータス　オブジェクトにアクセスする前に、添付を宣言しなければなりません。"
 
 #. Tag: title
 #: Mail.xml:136
@@ -302,20 +415,27 @@ msgstr "HTML/Text 代替部分"
 #. Tag: para
 #: Mail.xml:138
 #, no-c-format
-msgid "Whilst most mail readers nowadays support HTML, some don't, so you can add a plain text alternative to your email body:"
-msgstr "現在ではほとんどのメールリーダーがHTMLをサポートしていますが、一部でサポートしていないメールリーダーもありますので、メール本体に代わりにプレーンなテキストを追加する事も出来ます。"
+msgid ""
+"Whilst most mail readers nowadays support HTML, some don't, so you can add a "
+"plain text alternative to your email body:"
+msgstr ""
+"現在ではほとんどのメールリーダーがHTMLをサポートしていますが、一部でサポート"
+"していないメールリーダーもありますので、メール本体に代わりにプレーンなテキス"
+"トを追加する事も出来ます。"
 
 #. Tag: programlisting
 #: Mail.xml:143
 #, no-c-format
 msgid ""
 "<![CDATA[<m:body>\n"
-"    <f:facet name=\"alternative\">Sorry, your email reader can't show our fancy email, \n"
+"    <f:facet name=\"alternative\">Sorry, your email reader can't show our "
+"fancy email, \n"
 "please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>\n"
 "</m:body>]]>"
 msgstr ""
 "<![CDATA[<m:body>\n"
-"    <f:facet name=\"alternative\">Sorry, your email reader can't show our fancy email, \n"
+"    <f:facet name=\"alternative\">Sorry, your email reader can't show our "
+"fancy email, \n"
 "please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>\n"
 "</m:body>]]>"
 
@@ -328,19 +448,27 @@ msgstr "複数の受信者"
 #. Tag: para
 #: Mail.xml:150
 #, no-c-format
-msgid "Often you'll want to send an email to a group of recipients (for example your users). All of the recipient mail tags can be placed inside a <literal>&lt;ui:repeat&gt;</literal>:"
-msgstr "複数の受取人が属するグループに対して電子メールを送信したい場合には、全ての受取人のメールタグ、を繰り返しタグ<literal>&lt;ui:repeat&gt;</literal>の中に置くことが出来ます。"
+msgid ""
+"Often you'll want to send an email to a group of recipients (for example "
+"your users). All of the recipient mail tags can be placed inside a "
+"<literal>&lt;ui:repeat&gt;</literal>:"
+msgstr ""
+"複数の受取人が属するグループに対して電子メールを送信したい場合には、全ての受"
+"取人のメールタグ、を繰り返しタグ<literal>&lt;ui:repeat&gt;</literal>の中に置"
+"くことが出来ます。"
 
 #. Tag: programlisting
 #: Mail.xml:156
 #, no-c-format
 msgid ""
 "<![CDATA[<ui:repeat value=\"#{allUsers} var=\"user\">\n"
-"    <m:to name=\"#{user.firstname} #{user.lastname}\" address=\"#{user.emailAddress}\" />\n"
+"    <m:to name=\"#{user.firstname} #{user.lastname}\" address=\"#{user."
+"emailAddress}\" />\n"
 "</ui:repeat>]]>"
 msgstr ""
 "<![CDATA[<ui:repeat value=\"#{allUsers} var=\"user\">\n"
-"    <m:to name=\"#{user.firstname} #{user.lastname}\" address=\"#{user.emailAddress}\" />\n"
+"    <m:to name=\"#{user.firstname} #{user.lastname}\" address=\"#{user."
+"emailAddress}\" />\n"
 "</ui:repeat>]]>"
 
 #. Tag: title
@@ -352,8 +480,14 @@ msgstr "複数のメッセージ"
 #. Tag: para
 #: Mail.xml:163
 #, no-c-format
-msgid "Sometimes, however, you need to send a slightly different message to each recipient (e.g. a password reset). The best way to do this is to place the whole message inside a <literal>&lt;ui:repeat&gt;</literal>:"
-msgstr "ただし、 若干異なる内容のメッセージを各受信者に送信する必要がある場合もあります (パスワードのリセットなど)。 最適な方法としては、 メッセージ全体を <literal>&lt;ui:repeat&gt;</literal> 内に配置することです。"
+msgid ""
+"Sometimes, however, you need to send a slightly different message to each "
+"recipient (e.g. a password reset). The best way to do this is to place the "
+"whole message inside a <literal>&lt;ui:repeat&gt;</literal>:"
+msgstr ""
+"ただし、 若干異なる内容のメッセージを各受信者に送信する必要がある場合もありま"
+"す (パスワードのリセットなど)。 最適な方法としては、 メッセージ全体を "
+"<literal>&lt;ui:repeat&gt;</literal> 内に配置することです。"
 
 #. Tag: programlisting
 #: Mail.xml:169
@@ -361,7 +495,8 @@ msgstr "ただし、 若干異なる内容のメッセージを各受信者に�
 msgid ""
 "<![CDATA[<ui:repeat value=\"#{people}\" var=\"p\">\n"
 "    <m:message>\n"
-"        <m:from name=\"#{person.firstname} #{person.lastname}\">#{person.address}</m:from>\n"
+"        <m:from name=\"#{person.firstname} #{person.lastname}\">#{person."
+"address}</m:from>\n"
 "        <m:to name=\"#{p.firstname}\">#{p.address}</m:to>\n"
 "            ...\n"
 "    </m:message>\n"
@@ -369,7 +504,8 @@ msgid ""
 msgstr ""
 "<![CDATA[<ui:repeat value=\"#{people}\" var=\"p\">\n"
 "    <m:message>\n"
-"        <m:from name=\"#{person.firstname} #{person.lastname}\">#{person.address}</m:from>\n"
+"        <m:from name=\"#{person.firstname} #{person.lastname}\">#{person."
+"address}</m:from>\n"
 "        <m:to name=\"#{p.firstname}\">#{p.address}</m:to>\n"
 "            ...\n"
 "    </m:message>\n"
@@ -383,15 +519,20 @@ msgstr "テンプレートの作成"
 
 #. Tag: para
 #: Mail.xml:176
-#, no-c-format
-msgid "The mail templating example shows that facelets templating Just Works with the Seam mail tags."
-msgstr "メールのテンプレート作成例では、 facelets テンプレートは Seam メールタグで正しく動作することを示しています。"
+#, fuzzy, no-c-format
+msgid ""
+"The mail templating example shows that facelets templating just works with "
+"the Seam mail tags."
+msgstr ""
+"メールのテンプレート作成例では、 facelets テンプレートは Seam メールタグで正"
+"しく動作することを示しています。"
 
 #. Tag: para
 #: Mail.xml:181
 #, no-c-format
 msgid "Our <literal>template.xhtml</literal> contains:"
-msgstr "jboss.org の <literal>template.xhtml</literal> には次が含まれています。"
+msgstr ""
+"jboss.org の <literal>template.xhtml</literal> には次が含まれています。"
 
 #. Tag: programlisting
 #: Mail.xml:185
@@ -399,12 +540,14 @@ msgstr "jboss.org の <literal>template.xhtml</literal> には次が含まれて
 msgid ""
 "<![CDATA[<m:message>\n"
 "   <m:from name=\"Seam\" address=\"do-not-reply@jboss.com\" />\n"
-"   <m:to name=\"#{person.firstname} #{person.lastname}\">#{person.address}</m:to>\n"
+"   <m:to name=\"#{person.firstname} #{person.lastname}\">#{person.address}</"
+"m:to>\n"
 "   <m:subject>#{subject}</m:subject>\n"
 "   <m:body>\n"
 "       <html>\n"
 "           <body>\n"
-"               <ui:insert name=\"body\">This is the default body, specified by the template.</ui:insert>\n"
+"               <ui:insert name=\"body\">This is the default body, specified "
+"by the template.</ui:insert>\n"
 "           </body>\n"
 "       </html>\n"
 "   </m:body>\n"
@@ -412,12 +555,14 @@ msgid ""
 msgstr ""
 "<![CDATA[<m:message>\n"
 "   <m:from name=\"Seam\" address=\"do-not-reply@jboss.com\" />\n"
-"   <m:to name=\"#{person.firstname} #{person.lastname}\">#{person.address}</m:to>\n"
+"   <m:to name=\"#{person.firstname} #{person.lastname}\">#{person.address}</"
+"m:to>\n"
 "   <m:subject>#{subject}</m:subject>\n"
 "   <m:body>\n"
 "       <html>\n"
 "           <body>\n"
-"               <ui:insert name=\"body\">This is the default body, specified by the template.</ui:insert>\n"
+"               <ui:insert name=\"body\">This is the default body, specified "
+"by the template.</ui:insert>\n"
 "           </body>\n"
 "       </html>\n"
 "   </m:body>\n"
@@ -427,7 +572,8 @@ msgstr ""
 #: Mail.xml:187
 #, no-c-format
 msgid "Our <literal>templating.xhtml</literal> contains:"
-msgstr "jboss.org の <literal>templating.xhtml</literal> には次が含まれています。"
+msgstr ""
+"jboss.org の <literal>templating.xhtml</literal> には次が含まれています。"
 
 #. Tag: programlisting
 #: Mail.xml:191
@@ -435,25 +581,45 @@ msgstr "jboss.org の <literal>templating.xhtml</literal> には次が含まれ�
 msgid ""
 "<![CDATA[<ui:param name=\"subject\" value=\"Templating with Seam Mail\"/>\n"
 "<ui:define name=\"body\">\n"
-"    <p>This example demonstrates that you can easily use <i>facelets templating</i> in email!</p>\n"
+"    <p>This example demonstrates that you can easily use <i>facelets "
+"templating</i> in email!</p>\n"
 "</ui:define>]]>"
 msgstr ""
 "<![CDATA[<ui:param name=\"subject\" value=\"Templating with Seam Mail\"/>\n"
 "<ui:define name=\"body\">\n"
-"    <p>This example demonstrates that you can easily use <i>facelets templating</i> in email!</p>\n"
+"    <p>This example demonstrates that you can easily use <i>facelets "
+"templating</i> in email!</p>\n"
 "</ui:define>]]>"
 
 #. Tag: para
 #: Mail.xml:193
 #, no-c-format
-msgid "You can also use facelets source tags in your email, but you must place them in a jar in <literal>WEB-INF/lib</literal> - referencing the <literal>.taglib.xml</literal> from <literal>web.xml</literal> isn't reliable when using Seam Mail (if you send your mail asynchrounously Seam Mail doesn't have access to the full JSF or Servlet context, and so doesn't know about <literal>web.xml</literal> configuration parameters)."
-msgstr "<literal>WEB-INF/lib</literal>にjarファイルを入れて置く事によりfaceletのソースタグもメールの中で使う事が出来ます。　Seamのメールでは<literal>web.xml</literal>から<literal>.taglib.xml</literal>を参照する方法は安定性を欠いています（非同期でメールを送信する場合、SeamメールはJSF或いはサーブレットのコンテキスト全てにアクセスするわけではないので、 <literal>web.xml</literal>の設定パラメータを認識しません）。"
+msgid ""
+"You can also use facelets source tags in your email, but you must place them "
+"in a jar in <literal>WEB-INF/lib</literal> - referencing the <literal>."
+"taglib.xml</literal> from <literal>web.xml</literal> isn't reliable when "
+"using Seam Mail (if you send your mail asynchrounously Seam Mail doesn't "
+"have access to the full JSF or Servlet context, and so doesn't know about "
+"<literal>web.xml</literal> configuration parameters)."
+msgstr ""
+"<literal>WEB-INF/lib</literal>にjarファイルを入れて置く事によりfaceletのソー"
+"スタグもメールの中で使う事が出来ます。　Seamのメールでは<literal>web.xml</"
+"literal>から<literal>.taglib.xml</literal>を参照する方法は安定性を欠いていま"
+"す（非同期でメールを送信する場合、SeamメールはJSF或いはサーブレットのコンテキ"
+"スト全てにアクセスするわけではないので、 <literal>web.xml</literal>の設定パラ"
+"メータを認識しません）。"
 
 #. Tag: para
 #: Mail.xml:203
 #, no-c-format
-msgid "If you do need more configure Facelets or JSF when sending mail, you'll need to override the Renderer component and do the configuration programmatically - only for advanced users!"
-msgstr "メール送信時にFaceletやJSFの設定を更にしておきたい場合には、レンダラーコンポーネントをオーバーライドして、プログラムで設定するようにします。－上級ユーザ用。"
+msgid ""
+"If you do need more configure Facelets or JSF when sending mail, you'll need "
+"to override the Renderer component and do the configuration programmatically "
+"- only for advanced users!"
+msgstr ""
+"メール送信時にFaceletやJSFの設定を更にしておきたい場合には、レンダラーコン"
+"ポーネントをオーバーライドして、プログラムで設定するようにします。－上級ユー"
+"ザ用。"
 
 #. Tag: title
 #: Mail.xml:213
@@ -464,8 +630,13 @@ msgstr "国際化"
 #. Tag: para
 #: Mail.xml:215
 #, no-c-format
-msgid "Seam supports sending internationalised messages. By default, the encoding provided by JSF is used, but this can be overridden on the template:"
-msgstr "Seam は国際化メッセージの送信に対応しています。 デフォルトでは、 JSF で提供されるエンコーディングが使用されますが、 テンプレートで上書きすることができます。"
+msgid ""
+"Seam supports sending internationalised messages. By default, the encoding "
+"provided by JSF is used, but this can be overridden on the template:"
+msgstr ""
+"Seam は国際化メッセージの送信に対応しています。 デフォルトでは、 JSF で提供さ"
+"れるエンコーディングが使用されますが、 テンプレートで上書きすることができま"
+"す。"
 
 #. Tag: programlisting
 #: Mail.xml:221
@@ -482,8 +653,14 @@ msgstr ""
 #. Tag: para
 #: Mail.xml:223
 #, no-c-format
-msgid "The body, subject and recipient (and from) name will be encoded. You'll need to make sure facelets uses the correct charset for parsing your pages by setting encoding of the template:"
-msgstr "本文、タイトルと受信者名はエンコードされます。　テンプレートのエンコーディングを設定して、faceletがメールページをパースする際に正しい文字セットを確実に使用するようにすることが必要です。"
+msgid ""
+"The body, subject and recipient (and from) name will be encoded. You'll need "
+"to make sure facelets uses the correct charset for parsing your pages by "
+"setting encoding of the template:"
+msgstr ""
+"本文、タイトルと受信者名はエンコードされます。　テンプレートのエンコーディン"
+"グを設定して、faceletがメールページをパースする際に正しい文字セットを確実に使"
+"用するようにすることが必要です。"
 
 #. Tag: programlisting
 #: Mail.xml:229
@@ -500,8 +677,15 @@ msgstr "その他のヘッダ"
 #. Tag: para
 #: Mail.xml:235
 #, no-c-format
-msgid "Sometimes you'll want to add other headers to your email. Seam provides support for some (see <xref linkend=\"mail.tags\"/>). For example, we can set the importance of the email, and ask for a read receipt:"
-msgstr "場合により、これ以外のヘッダー情報を追加したい場合があると思いますが、Seamはこれらの幾つかをサポートしています（<xref linkend=\"mail.tags\"/>参照）。　例として、メールの重要度の設定や、受信者の受取確認の要求等を設定する事が出来ます。"
+msgid ""
+"Sometimes you'll want to add other headers to your email. Seam provides "
+"support for some (see <xref linkend=\"mail.tags\"/>). For example, we can "
+"set the importance of the email, and ask for a read receipt:"
+msgstr ""
+"場合により、これ以外のヘッダー情報を追加したい場合があると思いますが、Seamは"
+"これらの幾つかをサポートしています（<xref linkend=\"mail.tags\"/>参照）。　例"
+"として、メールの重要度の設定や、受信者の受取確認の要求等を設定する事が出来ま"
+"す。"
 
 #. Tag: programlisting
 #: Mail.xml:242
@@ -517,9 +701,13 @@ msgstr ""
 
 #. Tag: para
 #: Mail.xml:244
-#, no-c-format
-msgid "Otherise you can add any header to the message using the <literal>&lt;m:header&gt;</literal> tag:"
-msgstr "これ以外、 <literal>&lt;m:header&gt;</literal> タグを使ってメッセージにあらゆるヘッダを追加することができます。"
+#, fuzzy, no-c-format
+msgid ""
+"Otherwise you can add any header to the message using the <literal>&lt;m:"
+"header&gt;</literal> tag:"
+msgstr ""
+"これ以外、 <literal>&lt;m:header&gt;</literal> タグを使ってメッセージにあらゆ"
+"るヘッダを追加することができます。"
 
 #. Tag: programlisting
 #: Mail.xml:249
@@ -535,9 +723,27 @@ msgstr "電子メールを受信する"
 
 #. Tag: para
 #: Mail.xml:257
-#, no-c-format
-msgid "If you are using EJB then you can use a MDB (Message Driven Bean) to receive email. JBoss provides a JCA adaptor &#8212; <literal>mail-ra.rar</literal> &#8212; but the version distributed with JBoss AS has a number of limitations (and isn't bundled in some versions) therefore we recommend using the <literal>mail-ra.rar</literal> distributed with Seam is recommended (it's in the <literal>extras/</literal> directory in the Seam bundle). <literal>mail-ra.rar</literal> should be placed in <literal>$JBOSS_HOME/server/default/deploy</literal>; if the version of JBoss AS you use already has this file, replace it."
-msgstr "EJBを使用している場合はMDB(Message Driven Bean)をメールの受信に使用する事が出来ます。　JBossはJCAアダプター&#8212; <literal>mail-ra.rar</literal> &#8212;を提供していますが、JBoss ASと共に提供されているバージョンのJCAアダプターは幾つかの制約があります（またバージョンによっては提供されていない場合があります）。　この為、Seamと共に配布している<literal>mail-ra.rar</literal>を使用する事を推奨します（Seam配布ファイルの<literal>extras/</literal>下のディレクトリにあります）。　<literal>mail-ra.rar</literal>は<literal>$JBOSS_HOME/server/default/deploy</literal>に配置して下さい。　もし、使用しているJBoss ASにこのファイルが存在する場合には、それと置き換えて使用してください。"
+#, fuzzy, no-c-format
+msgid ""
+"If you are using EJB then you can use a MDB (Message Driven Bean) to receive "
+"email. JBoss provides a JCA adaptor &#8212; <literal>mail-ra.rar</literal> "
+"&#8212; but the version distributed with JBoss AS has a number of "
+"limitations (and isn't bundled in some versions) therefore we recommend "
+"using the <literal>mail-ra.rar</literal> distributed with Seam (it's in the "
+"<literal>extras/</literal> directory in the Seam bundle). <literal>mail-ra."
+"rar</literal> should be placed in <literal>$JBOSS_HOME/server/default/"
+"deploy</literal>; if the version of JBoss AS you use already has this file, "
+"replace it."
+msgstr ""
+"EJBを使用している場合はMDB(Message Driven Bean)をメールの受信に使用する事が出"
+"来ます。　JBossはJCAアダプター&#8212; <literal>mail-ra.rar</literal> &#8212;"
+"を提供していますが、JBoss ASと共に提供されているバージョンのJCAアダプターは幾"
+"つかの制約があります（またバージョンによっては提供されていない場合がありま"
+"す）。　この為、Seamと共に配布している<literal>mail-ra.rar</literal>を使用す"
+"る事を推奨します（Seam配布ファイルの<literal>extras/</literal>下のディレクト"
+"リにあります）。　<literal>mail-ra.rar</literal>は<literal>$JBOSS_HOME/"
+"server/default/deploy</literal>に配置して下さい。　もし、使用しているJBoss AS"
+"にこのファイルが存在する場合には、それと置き換えて使用してください。"
 
 #. Tag: para
 #: Mail.xml:269
@@ -550,11 +756,16 @@ msgstr "次のように設定することができます。"
 #, no-c-format
 msgid ""
 "<![CDATA[@MessageDriven(activationConfig={\n"
-"    @ActivationConfigProperty(propertyName=\"mailServer\", propertyValue=\"localhost\"),\n"
-"    @ActivationConfigProperty(propertyName=\"mailFolder\", propertyValue=\"INBOX\"),\n"
-"    @ActivationConfigProperty(propertyName=\"storeProtocol\", propertyValue=\"pop3\"),\n"
-"    @ActivationConfigProperty(propertyName=\"userName\", propertyValue=\"seam\"),\n"
-"    @ActivationConfigProperty(propertyName=\"password\", propertyValue=\"seam\")\n"
+"    @ActivationConfigProperty(propertyName=\"mailServer\", propertyValue="
+"\"localhost\"),\n"
+"    @ActivationConfigProperty(propertyName=\"mailFolder\", propertyValue="
+"\"INBOX\"),\n"
+"    @ActivationConfigProperty(propertyName=\"storeProtocol\", propertyValue="
+"\"pop3\"),\n"
+"    @ActivationConfigProperty(propertyName=\"userName\", propertyValue=\"seam"
+"\"),\n"
+"    @ActivationConfigProperty(propertyName=\"password\", propertyValue=\"seam"
+"\")\n"
 "})\n"
 "@ResourceAdapter(\"mail-ra.rar\")\n"
 "@Name(\"mailListener\")\n"
@@ -571,11 +782,16 @@ msgid ""
 "}]]>"
 msgstr ""
 "<![CDATA[@MessageDriven(activationConfig={\n"
-"    @ActivationConfigProperty(propertyName=\"mailServer\", propertyValue=\"localhost\"),\n"
-"    @ActivationConfigProperty(propertyName=\"mailFolder\", propertyValue=\"INBOX\"),\n"
-"    @ActivationConfigProperty(propertyName=\"storeProtocol\", propertyValue=\"pop3\"),\n"
-"    @ActivationConfigProperty(propertyName=\"userName\", propertyValue=\"seam\"),\n"
-"    @ActivationConfigProperty(propertyName=\"password\", propertyValue=\"seam\")\n"
+"    @ActivationConfigProperty(propertyName=\"mailServer\", propertyValue="
+"\"localhost\"),\n"
+"    @ActivationConfigProperty(propertyName=\"mailFolder\", propertyValue="
+"\"INBOX\"),\n"
+"    @ActivationConfigProperty(propertyName=\"storeProtocol\", propertyValue="
+"\"pop3\"),\n"
+"    @ActivationConfigProperty(propertyName=\"userName\", propertyValue=\"seam"
+"\"),\n"
+"    @ActivationConfigProperty(propertyName=\"password\", propertyValue=\"seam"
+"\")\n"
 "})\n"
 "@ResourceAdapter(\"mail-ra.rar\")\n"
 "@Name(\"mailListener\")\n"
@@ -594,20 +810,38 @@ msgstr ""
 #. Tag: para
 #: Mail.xml:275
 #, no-c-format
-msgid "Each message received will cause <literal>onMessage(Message message)</literal> to be called. Most Seam annotations will work inside a MDB but you musn't access the persistence context."
-msgstr "メッセージの受信の度に<literal>onMessage(Message message)</literal>が呼ばれいます。　MDBの中ではほとんどのSeamのアノテーションを使用可能ですが、MDBの中でpersistence contextにアクセスしてはいけません。"
+msgid ""
+"Each message received will cause <literal>onMessage(Message message)</"
+"literal> to be called. Most Seam annotations will work inside a MDB but you "
+"musn't access the persistence context."
+msgstr ""
+"メッセージの受信の度に<literal>onMessage(Message message)</literal>が呼ばれい"
+"ます。　MDBの中ではほとんどのSeamのアノテーションを使用可能ですが、MDBの中で"
+"persistence contextにアクセスしてはいけません。"
 
 #. Tag: para
 #: Mail.xml:281
-#, no-c-format
-msgid "You can find more information on<literal>mail-ra.rar</literal> at <ulink url=\"http://wiki.jboss.org/wiki/Wiki.jsp?page=InboundJavaMail\">http://wiki.jboss.org/wiki/Wiki.jsp?page=InboundJavaMail</ulink>."
-msgstr "<ulink url=\"http://wiki.jboss.org/wiki/Wiki.jsp?page=InboundJavaMail\">http://wiki.jboss.org/wiki/Wiki.jsp?page=InboundJavaMail</ulink>に<literal>mail-ra.rar</literal>関する情報がありますので更に詳細が知りたい場合にはそちらを参照してください。"
+#, fuzzy, no-c-format
+msgid ""
+"You can find more information on <literal>mail-ra.rar</literal> at <ulink "
+"url=\"http://wiki.jboss.org/wiki/Wiki.jsp?page=InboundJavaMail\">http://wiki."
+"jboss.org/wiki/Wiki.jsp?page=InboundJavaMail</ulink>."
+msgstr ""
+"<ulink url=\"http://wiki.jboss.org/wiki/Wiki.jsp?page=InboundJavaMail"
+"\">http://wiki.jboss.org/wiki/Wiki.jsp?page=InboundJavaMail</ulink>に"
+"<literal>mail-ra.rar</literal>関する情報がありますので更に詳細が知りたい場合"
+"にはそちらを参照してください。"
 
 #. Tag: para
 #: Mail.xml:286
 #, no-c-format
-msgid "If you aren't using JBoss AS you can still use <literal>mail-ra.rar</literal> or you may find your application server includes a similar adapter."
-msgstr "JBoss ASをアプリケーションサーバとして使用していない場合にも、<literal>mail-ra.rar</literal>を使用する事は出来ますし、お使いのアプリケーションサーバが同様の機能を提供しているはずです。"
+msgid ""
+"If you aren't using JBoss AS you can still use <literal>mail-ra.rar</"
+"literal> or you may find your application server includes a similar adapter."
+msgstr ""
+"JBoss ASをアプリケーションサーバとして使用していない場合にも、<literal>mail-"
+"ra.rar</literal>を使用する事は出来ますし、お使いのアプリケーションサーバが同"
+"様の機能を提供しているはずです。"
 
 #. Tag: title
 #: Mail.xml:294
@@ -618,20 +852,46 @@ msgstr "設定"
 #. Tag: para
 #: Mail.xml:296
 #, no-c-format
-msgid "To include Email support in your application, include <literal>jboss-seam-mail.jar</literal> in your <literal>WEB-INF/lib</literal> directory. If you are using JBoss AS there is no further configuration needed to use Seam's email support. Otherwise you need to make sure you have the JavaMail API, an implementation of the JavaMail API present (the API and impl used in JBoss AS are distributed with seam as <literal>lib/mail.jar</literal>), and a copy of the Java Activation Framework (distributed with Seam as <literal>lib/activation.jar</literal>."
-msgstr "Seamアプリケーションでメールサポートをする場合には、<literal>jboss-seam-mail.jar</literal>を<literal>WEB-INF/lib</literal>に配置してください。　JBoss ASをアプリケーションサーバとして使用している場合には、Seamのメールサポートの為にこれ以上の設定は必要ありません。　JBoss AS以外を使用している場合には、JavaMailAPIがサポートされていること（JBoss ASで使用されるAPIとImplは<literal>lib/mail.jar</literal>としてSeamの配布ファイルに同梱されています）とJava Activation Frameworkのコピー（<literal>lib/activation.jar</literal>としてSeamの配布ファイルに同梱）が利用可能であることを確認してください。"
+msgid ""
+"To include Email support in your application, include <literal>jboss-seam-"
+"mail.jar</literal> in your <literal>WEB-INF/lib</literal> directory. If you "
+"are using JBoss AS there is no further configuration needed to use Seam's "
+"email support. Otherwise you need to make sure you have the JavaMail API, an "
+"implementation of the JavaMail API present (the API and impl used in JBoss "
+"AS are distributed with seam as <literal>lib/mail.jar</literal>), and a copy "
+"of the Java Activation Framework (distributed with Seam as <literal>lib/"
+"activation.jar</literal>."
+msgstr ""
+"Seamアプリケーションでメールサポートをする場合には、<literal>jboss-seam-mail."
+"jar</literal>を<literal>WEB-INF/lib</literal>に配置してください。　JBoss ASを"
+"アプリケーションサーバとして使用している場合には、Seamのメールサポートの為に"
+"これ以上の設定は必要ありません。　JBoss AS以外を使用している場合には、"
+"JavaMailAPIがサポートされていること（JBoss ASで使用されるAPIとImplは"
+"<literal>lib/mail.jar</literal>としてSeamの配布ファイルに同梱されています）と"
+"Java Activation Frameworkのコピー（<literal>lib/activation.jar</literal>とし"
+"てSeamの配布ファイルに同梱）が利用可能であることを確認してください。"
 
 #. Tag: para
 #: Mail.xml:308
-#, no-c-format
-msgid "The Seam Email module requires the use of Facelets as the view technology. Future versions of the library may also support the use of JSP. Additionally, it requires the use of the seam-ui package."
-msgstr "Seam Email モジュールにはビューテクノロジーとして Facelets を使用する必要があります。 ライブラリの今後のバージョンでは JSP の使用にも対応する可能性があります。 また、 seam-ui パッケージの使用も必要となります。"
+#, fuzzy, no-c-format
+msgid ""
+"The Seam Mail module requires the use of Facelets as the view technology. "
+"Future versions of the library may also support the use of JSP. "
+"Additionally, it requires the use of the seam-ui package."
+msgstr ""
+"Seam Email モジュールにはビューテクノロジーとして Facelets を使用する必要があ"
+"ります。 ライブラリの今後のバージョンでは JSP の使用にも対応する可能性があり"
+"ます。 また、 seam-ui パッケージの使用も必要となります。"
 
 #. Tag: para
 #: Mail.xml:315
 #, no-c-format
-msgid "The <literal>mailSession</literal> component uses JavaMail to talk to a 'real' SMTP server."
-msgstr "<literal>mailSession</literal>コンポーネントはSMTPサーバと交信するときにJavaMailを使用しています。"
+msgid ""
+"The <literal>mailSession</literal> component uses JavaMail to talk to a "
+"'real' SMTP server."
+msgstr ""
+"<literal>mailSession</literal>コンポーネントはSMTPサーバと交信するときに"
+"JavaMailを使用しています。"
 
 #. Tag: literal
 #: Mail.xml:321
@@ -642,14 +902,22 @@ msgstr "mailSession"
 #. Tag: para
 #: Mail.xml:323
 #, no-c-format
-msgid "A JavaMail Session may be available via a JNDI lookup if you are working in an JEE environment or you can use a Seam configured Session."
-msgstr "JEE 環境で作業している、 または Seam 設定の Session を使用できる場合、 JavaMail Session が JNDI ルックアップから使用できる可能性があります。"
+msgid ""
+"A JavaMail Session may be available via a JNDI lookup if you are working in "
+"an JEE environment or you can use a Seam configured Session."
+msgstr ""
+"JEE 環境で作業している、 または Seam 設定の Session を使用できる場合、 "
+"JavaMail Session が JNDI ルックアップから使用できる可能性があります。"
 
 #. Tag: para
 #: Mail.xml:328
 #, no-c-format
-msgid "The mailSession component's properties are described in more detail in <xref linkend=\"components.mail\"/>."
-msgstr "メールセッション・コンポーネントのプロパティの詳細は<xref linkend=\"components.mail\"/>を参照してください。"
+msgid ""
+"The mailSession component's properties are described in more detail in <xref "
+"linkend=\"components.mail\"/>."
+msgstr ""
+"メールセッション・コンポーネントのプロパティの詳細は<xref linkend="
+"\"components.mail\"/>を参照してください。"
 
 #. Tag: title
 #: Mail.xml:334
@@ -660,8 +928,18 @@ msgstr "JBoss AS の JNDI ルックアップ"
 #. Tag: para
 #: Mail.xml:336
 #, no-c-format
-msgid "The JBossAS <literal>deploy/mail-service.xml</literal> configures a JavaMail session binding into JNDI. The default service configuration will need altering for your network. <ulink url=\"http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail\">http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail</ulink> describes the service in more detail."
-msgstr "JBossAS <literal>deploy/mail-service.xml</literal> は JNDI にバインドする JavaMail セッションを設定します。 デフォルトのサービス設定は使用しているネットワークに応じて変更が必要となります。 サービスについての詳細は <ulink url=\"http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail\">http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail</ulink> で説明されています。"
+msgid ""
+"The JBossAS <literal>deploy/mail-service.xml</literal> configures a JavaMail "
+"session binding into JNDI. The default service configuration will need "
+"altering for your network. <ulink url=\"http://wiki.jboss.org/wiki/Wiki.jsp?"
+"page=JavaMail\">http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail</ulink> "
+"describes the service in more detail."
+msgstr ""
+"JBossAS <literal>deploy/mail-service.xml</literal> は JNDI にバインドする "
+"JavaMail セッションを設定します。 デフォルトのサービス設定は使用しているネッ"
+"トワークに応じて変更が必要となります。 サービスについての詳細は <ulink url="
+"\"http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail\">http://wiki.jboss.org/"
+"wiki/Wiki.jsp?page=JavaMail</ulink> で説明されています。"
 
 #. Tag: programlisting
 #: Mail.xml:344
@@ -686,8 +964,12 @@ msgstr ""
 #. Tag: para
 #: Mail.xml:346
 #, no-c-format
-msgid "Here we tell Seam to get the mail session bound to <literal>java:/Mail</literal> from JNDI."
-msgstr "ここで Seam に JNDI から <literal>java:/Mail</literal> に送られるするメールセッションを取得するよう指示します。"
+msgid ""
+"Here we tell Seam to get the mail session bound to <literal>java:/Mail</"
+"literal> from JNDI."
+msgstr ""
+"ここで Seam に JNDI から <literal>java:/Mail</literal> に送られるするメール"
+"セッションを取得するよう指示します。"
 
 #. Tag: title
 #: Mail.xml:354
@@ -698,8 +980,13 @@ msgstr "Seam 設定のセション"
 #. Tag: para
 #: Mail.xml:356
 #, no-c-format
-msgid "A mail session can be configured via <literal>components.xml</literal>. Here we tell Seam to use <literal>smtp.example.com</literal> as the smtp server:"
-msgstr "メールセッションは<literal>components.xml</literal>で設定する事が出来ます。　ここでは、<literal>smtp.example.com</literal>によりSeamがsmtpサーバを使用するように指示しています。"
+msgid ""
+"A mail session can be configured via <literal>components.xml</literal>. Here "
+"we tell Seam to use <literal>smtp.example.com</literal> as the smtp server:"
+msgstr ""
+"メールセッションは<literal>components.xml</literal>で設定する事が出来ます。　"
+"ここでは、<literal>smtp.example.com</literal>によりSeamがsmtpサーバを使用する"
+"ように指示しています。"
 
 #. Tag: programlisting
 #: Mail.xml:362
@@ -730,14 +1017,36 @@ msgstr "Meldware"
 #. Tag: para
 #: Mail.xml:371
 #, no-c-format
-msgid "Seam's mail examples use Meldware (from <ulink url=\"http://buni.org\">buni.org</ulink>) as a mail server. Meldware is a groupware package that provides <literal>SMTP</literal>, <literal>POP3</literal>, <literal>IMAP</literal>, webmail, a shared calendar and an graphical admin tool; it's written as a JEE application so can be deployed onto JBoss AS alongside your Seam application."
-msgstr "Meldwareをメールサーバとして使用したSeamのメールの例です（<ulink url=\"http://buni.org\">buni.org</ulink>より）。　Meldwareは<literal>SMTP</literal>, <literal>POP3</literal>, <literal>IMAP</literal>、webmail、共有カレンダー、グラフィカルな管理ツールを提供するグループウェアで、JEEアプリケーションとして書かれているので、Seamアプリケーションと共にJBoss ASにデプロイする事が出来ます。"
+msgid ""
+"Seam's mail examples use Meldware (from <ulink url=\"http://buni.org\">buni."
+"org</ulink>) as a mail server. Meldware is a groupware package that provides "
+"<literal>SMTP</literal>, <literal>POP3</literal>, <literal>IMAP</literal>, "
+"webmail, a shared calendar and an graphical admin tool; it's written as a "
+"JEE application so can be deployed onto JBoss AS alongside your Seam "
+"application."
+msgstr ""
+"Meldwareをメールサーバとして使用したSeamのメールの例です（<ulink url="
+"\"http://buni.org\">buni.org</ulink>より）。　Meldwareは<literal>SMTP</"
+"literal>, <literal>POP3</literal>, <literal>IMAP</literal>、webmail、共有カレ"
+"ンダー、グラフィカルな管理ツールを提供するグループウェアで、JEEアプリケーショ"
+"ンとして書かれているので、Seamアプリケーションと共にJBoss ASにデプロイする事"
+"が出来ます。"
 
 #. Tag: para
 #: Mail.xml:381
 #, no-c-format
-msgid "The version of Meldware distributed with Seam (downloaded on demand) is specially tailored for development - mailboxes, users and aliases (email addresses) are created every time the application deploys. If you want to use Meldware in production you should install the latest release from <ulink url=\"http://buni.org\">buni.org</ulink>."
-msgstr "Seamと共に配布されているMeldwareのバージョンは開発用のバージョンでメールボックス、ユーザ、メールアドレス（アライアス）等がアプリケーションがデプロイされる度に新規に作られます。　製品にMeldwareを使用するのでしたら、<ulink url=\"http://buni.org\">buni.org</ulink>から最新のバージョンをダウンロードしてインストールしてください。"
+msgid ""
+"The version of Meldware distributed with Seam (downloaded on demand) is "
+"specially tailored for development - mailboxes, users and aliases (email "
+"addresses) are created every time the application deploys. If you want to "
+"use Meldware in production you should install the latest release from <ulink "
+"url=\"http://buni.org\">buni.org</ulink>."
+msgstr ""
+"Seamと共に配布されているMeldwareのバージョンは開発用のバージョンでメールボッ"
+"クス、ユーザ、メールアドレス（アライアス）等がアプリケーションがデプロイされ"
+"る度に新規に作られます。　製品にMeldwareを使用するのでしたら、<ulink url="
+"\"http://buni.org\">buni.org</ulink>から最新のバージョンをダウンロードしてイ"
+"ンストールしてください。"
 
 #. Tag: title
 #: Mail.xml:393
@@ -748,14 +1057,29 @@ msgstr "タグ"
 #. Tag: para
 #: Mail.xml:395
 #, no-c-format
-msgid "Emails are generated using tags in the <literal>http://jboss.com/products/seam/mail</literal> namespace. Documents should always have the <literal>message</literal> tag at the root of the message. The message tag prepares Seam to generate an email."
-msgstr "電子メールは <literal>http://jboss.com/products/seam/mail</literal> 名前スペース内でタグを使って生成されます。 ドキュメントには常にメッセージのルートに <literal>message</literal> タグがあるはずです。 メッセージタグは Seam による電子メール生成の準備を行います。"
+msgid ""
+"Emails are generated using tags in the <literal>http://jboss.com/products/"
+"seam/mail</literal> namespace. Documents should always have the "
+"<literal>message</literal> tag at the root of the message. The message tag "
+"prepares Seam to generate an email."
+msgstr ""
+"電子メールは <literal>http://jboss.com/products/seam/mail</literal> 名前ス"
+"ペース内でタグを使って生成されます。 ドキュメントには常にメッセージのルート"
+"に <literal>message</literal> タグがあるはずです。 メッセージタグは Seam によ"
+"る電子メール生成の準備を行います。"
 
 #. Tag: para
 #: Mail.xml:402
 #, no-c-format
-msgid "The standard templating tags of facelets can be used as normal. Inside the body you can use any JSF tag; if it requires access to external resources (stylesheets, javascript) then be sure to set the <literal>urlBase</literal>."
-msgstr "faceletの標準のテンプレートタグは、そのまま使う事が出来ます。　また、本文の中では全てのJSFタグを使う事が出来ます（もし、スタイルシートやJavascript等で外部のリソースへのアクセスが必要であれば<literal>urlBase</literal>を設定してください。"
+msgid ""
+"The standard templating tags of facelets can be used as normal. Inside the "
+"body you can use any JSF tag; if it requires access to external resources "
+"(stylesheets, javascript) then be sure to set the <literal>urlBase</literal>."
+msgstr ""
+"faceletの標準のテンプレートタグは、そのまま使う事が出来ます。　また、本文の中"
+"では全てのJSFタグを使う事が出来ます（もし、スタイルシートやJavascript等で外部"
+"のリソースへのアクセスが必要であれば<literal>urlBase</literal>を設定してくだ"
+"さい。"
 
 #. Tag: term
 #: Mail.xml:411
@@ -772,26 +1096,46 @@ msgstr "メールメッセージのルートタグ"
 #. Tag: para
 #: Mail.xml:418
 #, no-c-format
-msgid "<literal>importance</literal> &#8212; low, normal or high. By default normal, this sets the importance of the mail message."
-msgstr "<literal>importance</literal> &#8212;メールの重要度の設定(low,normal,high)。デフォルトでnormal"
+msgid ""
+"<literal>importance</literal> &#8212; low, normal or high. By default "
+"normal, this sets the importance of the mail message."
+msgstr ""
+"<literal>importance</literal> &#8212;メールの重要度の設定(low,normal,high)。"
+"デフォルトでnormal"
 
 #. Tag: para
 #: Mail.xml:424
 #, no-c-format
-msgid "<literal>precedence</literal> &#8212; sets the precedence of the message (e.g. bulk)."
-msgstr "<literal>precedence</literal> &#8212;メッセージの順序を設定します（例：バルク）"
+msgid ""
+"<literal>precedence</literal> &#8212; sets the precedence of the message (e."
+"g. bulk)."
+msgstr ""
+"<literal>precedence</literal> &#8212;メッセージの順序を設定します（例：バル"
+"ク）"
 
 #. Tag: para
 #: Mail.xml:430
 #, no-c-format
-msgid "<literal>requestReadReceipt</literal> &#8212; by default false, if set, a read receipt request will be will be added, with the read receipt being sent to the <literal>From:</literal> address."
-msgstr "<literal>requestReadReceipt</literal> &#8212;デフォルトで偽に設定されています。　正に設定すると、メールの受け取りを<literal>From:</literal> アドレスに送信の要求を追加します。　"
+msgid ""
+"<literal>requestReadReceipt</literal> &#8212; by default false, if set, a "
+"read receipt request will be will be added, with the read receipt being sent "
+"to the <literal>From:</literal> address."
+msgstr ""
+"<literal>requestReadReceipt</literal> &#8212;デフォルトで偽に設定されていま"
+"す。　正に設定すると、メールの受け取りを<literal>From:</literal> アドレスに送"
+"信の要求を追加します。　"
 
 #. Tag: para
 #: Mail.xml:438
 #, no-c-format
-msgid "<literal>urlBase</literal> &#8212; If set, the value is prepended to the <literal>requestContextPath</literal> allowing you to use components such as <literal>&lt;h:graphicImage&gt;</literal> in your emails."
-msgstr "<literal>urlBase</literal> &#8212; 設定されている<literal>urlBase</literal>が<literal>requestContextPath</literal>の前に置かれ、メール中に <literal>&lt;h:graphicImage&gt;</literal>のようにコンポーネントを使用する事を可能にします。"
+msgid ""
+"<literal>urlBase</literal> &#8212; If set, the value is prepended to the "
+"<literal>requestContextPath</literal> allowing you to use components such as "
+"<literal>&lt;h:graphicImage&gt;</literal> in your emails."
+msgstr ""
+"<literal>urlBase</literal> &#8212; 設定されている<literal>urlBase</literal>が"
+"<literal>requestContextPath</literal>の前に置かれ、メール中に <literal>&lt;h:"
+"graphicImage&gt;</literal>のようにコンポーネントを使用する事を可能にします。"
 
 #. Tag: para
 #: Mail.xml:446
@@ -808,8 +1152,11 @@ msgstr "&lt;m:from&gt;"
 #. Tag: para
 #: Mail.xml:456
 #, no-c-format
-msgid "Set's the From: address for the email. You can only have one of these per email."
-msgstr "メール発信者のアドレス（From:)の設定。一つのメールに対して一つ設定できます。"
+msgid ""
+"Set's the From: address for the email. You can only have one of these per "
+"email."
+msgstr ""
+"メール発信者のアドレス（From:)の設定。一つのメールに対して一つ設定できます。"
 
 #. Tag: para
 #: Mail.xml:462
@@ -818,10 +1165,11 @@ msgid "<literal>name</literal> &#8212; the name the email should come from."
 msgstr "<literal>name</literal> &#8212;メール発信者の名前"
 
 #. Tag: para
-#: Mail.xml:468
-#: Mail.xml:485
+#: Mail.xml:468 Mail.xml:485
 #, no-c-format
-msgid "<literal>address</literal> &#8212; the email address the email should come from."
+msgid ""
+"<literal>address</literal> &#8212; the email address the email should come "
+"from."
 msgstr "<literal>address</literal> &#8212; メール発信者のメールアドレス"
 
 #. Tag: term
@@ -833,8 +1181,12 @@ msgstr "&lt;m:replyTo&gt;"
 #. Tag: para
 #: Mail.xml:479
 #, no-c-format
-msgid "Set's the Reply-to: address for the email. You can only have one of these per email."
-msgstr "メールの返信用のアドレス(Reply-to:)の設定。　一つのメールに対して一つのアドレスを設定する事が出来ます。"
+msgid ""
+"Set's the Reply-to: address for the email. You can only have one of these "
+"per email."
+msgstr ""
+"メールの返信用のアドレス(Reply-to:)の設定。　一つのメールに対して一つのアドレ"
+"スを設定する事が出来ます。"
 
 #. Tag: term
 #: Mail.xml:494
@@ -845,21 +1197,23 @@ msgstr "&lt;m:to&gt;"
 #. Tag: para
 #: Mail.xml:496
 #, no-c-format
-msgid "Add a recipient to the email. Use multiple &lt;m:to&gt; tags for multiple recipients. This tag can be safely placed inside a repeat tag such as &lt;ui:repeat&gt;."
-msgstr "電子メール に受取人を追加します。 受取人が複数の場合は複数の &lt;m:to&gt; タグを使用します。 このタグは &lt;ui:repeat&gt;. などの繰り返しタグ内に配置しても安全です。"
+msgid ""
+"Add a recipient to the email. Use multiple &lt;m:to&gt; tags for multiple "
+"recipients. This tag can be safely placed inside a repeat tag such as &lt;ui:"
+"repeat&gt;."
+msgstr ""
+"電子メール に受取人を追加します。 受取人が複数の場合は複数の &lt;m:to&gt; タ"
+"グを使用します。 このタグは &lt;ui:repeat&gt;. などの繰り返しタグ内に配置して"
+"も安全です。"
 
 #. Tag: para
-#: Mail.xml:503
-#: Mail.xml:525
-#: Mail.xml:548
+#: Mail.xml:503 Mail.xml:525 Mail.xml:548
 #, no-c-format
 msgid "<literal>name</literal> &#8212; the name of the recipient."
 msgstr "<literal>name</literal> &#8212; 受取人の名前"
 
 #. Tag: para
-#: Mail.xml:508
-#: Mail.xml:530
-#: Mail.xml:553
+#: Mail.xml:508 Mail.xml:530 Mail.xml:553
 #, no-c-format
 msgid "<literal>address</literal> &#8212; the email address of the recipient."
 msgstr "<literal>address</literal> &#8212; 受取人のメールアドレス"
@@ -873,8 +1227,14 @@ msgstr "&lt;m:cc&gt;"
 #. Tag: para
 #: Mail.xml:518
 #, no-c-format
-msgid "Add a cc recipient to the email. Use multiple &lt;m:cc&gt; tags for multiple ccs. This tag can be safely placed inside a iterator tag such as &lt;ui:repeat&gt;."
-msgstr "email に CC の受取人を追加します。 CC が複数の場合は複数の &lt;m:cc&gt; タグを使用します。 このタグは &lt;ui:repeat&gt; などの繰り返しタグ内に配置しても安全です。"
+msgid ""
+"Add a cc recipient to the email. Use multiple &lt;m:cc&gt; tags for multiple "
+"ccs. This tag can be safely placed inside a iterator tag such as &lt;ui:"
+"repeat&gt;."
+msgstr ""
+"email に CC の受取人を追加します。 CC が複数の場合は複数の &lt;m:cc&gt; タグ"
+"を使用します。 このタグは &lt;ui:repeat&gt; などの繰り返しタグ内に配置しても"
+"安全です。"
 
 #. Tag: term
 #: Mail.xml:539
@@ -885,8 +1245,14 @@ msgstr "&lt;m:bcc&gt;"
 #. Tag: para
 #: Mail.xml:541
 #, no-c-format
-msgid "Add a bcc recipient to the email. Use multiple &lt;m:bcc&gt; tags for multiple bccs. This tag can be safely placed inside a repeat tag such as &lt;ui:repeat&gt;."
-msgstr "email に BCC の受取人を追加します。 BCC が複数の場合は複数の &lt;m:bcc&gt; タグを使用します。 このタグは &lt;ui:repeat&gt; などの繰り返しタグ内に配置しても安全です。"
+msgid ""
+"Add a bcc recipient to the email. Use multiple &lt;m:bcc&gt; tags for "
+"multiple bccs. This tag can be safely placed inside a repeat tag such as &lt;"
+"ui:repeat&gt;."
+msgstr ""
+"email に BCC の受取人を追加します。 BCC が複数の場合は複数の &lt;m:bcc&gt; タ"
+"グを使用します。 このタグは &lt;ui:repeat&gt; などの繰り返しタグ内に配置して"
+"も安全です。"
 
 #. Tag: term
 #: Mail.xml:562
@@ -897,20 +1263,30 @@ msgstr "&lt;m:header&gt;"
 #. Tag: para
 #: Mail.xml:564
 #, no-c-format
-msgid "Add a header to the email (e.g. <literal>X-Sent-From: JBoss Seam</literal>)"
-msgstr "メールへのヘッダー情報の追加（例：<literal>X-Sent-From: JBoss Seam</literal>)"
+msgid ""
+"Add a header to the email (e.g. <literal>X-Sent-From: JBoss Seam</literal>)"
+msgstr ""
+"メールへのヘッダー情報の追加（例：<literal>X-Sent-From: JBoss Seam</literal>)"
 
 #. Tag: para
 #: Mail.xml:569
 #, no-c-format
-msgid "<literal>name</literal> &#8212; The name of the header to add (e.g. <literal>X-Sent-From</literal>)."
-msgstr "<literal>name</literal> &#8212; 追加するヘッダーの名前 (e.g. <literal>X-Sent-From</literal>)."
+msgid ""
+"<literal>name</literal> &#8212; The name of the header to add (e.g. "
+"<literal>X-Sent-From</literal>)."
+msgstr ""
+"<literal>name</literal> &#8212; 追加するヘッダーの名前 (e.g. <literal>X-Sent-"
+"From</literal>)."
 
 #. Tag: para
 #: Mail.xml:575
 #, no-c-format
-msgid "<literal>value</literal> &#8212; The value of the header to add (e.g. <literal>JBoss Seam</literal>)."
-msgstr "<literal>value</literal> &#8212;ヘッダーに追加する値（例：<literal>JBoss Seam</literal>）"
+msgid ""
+"<literal>value</literal> &#8212; The value of the header to add (e.g. "
+"<literal>JBoss Seam</literal>)."
+msgstr ""
+"<literal>value</literal> &#8212;ヘッダーに追加する値（例：<literal>JBoss "
+"Seam</literal>）"
 
 #. Tag: term
 #: Mail.xml:584
@@ -933,32 +1309,57 @@ msgstr "<literal>value</literal> &#8212; 添付ファイル:"
 #. Tag: para
 #: Mail.xml:596
 #, no-c-format
-msgid "<literal>String</literal> &#8212; A <literal>String</literal> is interpreted as a path to file within the classpath"
-msgstr "<literal>String</literal> &#8212;<literal>String</literal>はクラスパス内のファイルへのパスと解釈されます。"
+msgid ""
+"<literal>String</literal> &#8212; A <literal>String</literal> is interpreted "
+"as a path to file within the classpath"
+msgstr ""
+"<literal>String</literal> &#8212;<literal>String</literal>はクラスパス内の"
+"ファイルへのパスと解釈されます。"
 
 #. Tag: para
 #: Mail.xml:602
 #, no-c-format
-msgid "<literal>java.io.File</literal> &#8212; An EL expression can reference a <literal>File</literal> object"
-msgstr "<literal>java.io.File</literal> &#8212;EL式は<literal>File</literal> オブジェクトを参照する事が出来ます。"
+msgid ""
+"<literal>java.io.File</literal> &#8212; An EL expression can reference a "
+"<literal>File</literal> object"
+msgstr ""
+"<literal>java.io.File</literal> &#8212;EL式は<literal>File</literal> オブジェ"
+"クトを参照する事が出来ます。"
 
 #. Tag: para
 #: Mail.xml:608
 #, no-c-format
-msgid "<literal>java.net.URL</literal> &#8212; An EL expression can reference a <literal>URL</literal> object"
-msgstr "<literal>java.net.URL</literal> &#8212; EL式は<literal>URL</literal>オブジェクトを参照する事が出来ます"
+msgid ""
+"<literal>java.net.URL</literal> &#8212; An EL expression can reference a "
+"<literal>URL</literal> object"
+msgstr ""
+"<literal>java.net.URL</literal> &#8212; EL式は<literal>URL</literal>オブジェ"
+"クトを参照する事が出来ます"
 
 #. Tag: para
 #: Mail.xml:614
 #, no-c-format
-msgid "<literal>java.io.InputStream</literal> &#8212; An EL expression can reference an <literal>InputStream</literal>. In this case both a <literal>fileName</literal> and a <literal>contentType</literal> must be specified."
-msgstr "<literal>java.io.InputStream</literal> &#8212; EL式は<literal>InputStream</literal>を参照する事が出来ます。この場合、<literal>fileName</literal>と<literal>contentType</literal>が設定されていることが必要です。"
+msgid ""
+"<literal>java.io.InputStream</literal> &#8212; An EL expression can "
+"reference an <literal>InputStream</literal>. In this case both a "
+"<literal>fileName</literal> and a <literal>contentType</literal> must be "
+"specified."
+msgstr ""
+"<literal>java.io.InputStream</literal> &#8212; EL式は<literal>InputStream</"
+"literal>を参照する事が出来ます。この場合、<literal>fileName</literal>と"
+"<literal>contentType</literal>が設定されていることが必要です。"
 
 #. Tag: para
 #: Mail.xml:622
 #, no-c-format
-msgid "<literal>byte[]</literal> &#8212; An EL expression can reference an <literal>byte[]</literal>. In this case both a <literal>fileName</literal> and a <literal>contentType</literal> must be specified."
-msgstr "<literal>byte[]</literal> &#8212; EL式は <literal>byte[]</literal>.を参照する事が出来ます。この場合、<literal>fileName</literal>と<literal>contentType</literal>が指定されていることが必要です。"
+msgid ""
+"<literal>byte[]</literal> &#8212; An EL expression can reference an "
+"<literal>byte[]</literal>. In this case both a <literal>fileName</literal> "
+"and a <literal>contentType</literal> must be specified."
+msgstr ""
+"<literal>byte[]</literal> &#8212; EL式は <literal>byte[]</literal>.を参照する"
+"事が出来ます。この場合、<literal>fileName</literal>と<literal>contentType</"
+"literal>が指定されていることが必要です。"
 
 #. Tag: para
 #: Mail.xml:630
@@ -968,26 +1369,42 @@ msgstr "値属性が省略される場合、"
 
 #. Tag: para
 #: Mail.xml:633
-#, no-c-format
-msgid "If this tag contains a <literal>&lt;p:document&gt;</literal> tag, the document described will be generated and attached to the email. A <literal>fileName</literal> should be specfied."
-msgstr "このタグが <literal>&lt;p:document&gt;</literal> タグを含んでいるなら、 記述されるドキュメントが生成されて email に添付されます。 <literal>fileName</literal> が指定されなければなりません。"
+#, fuzzy, no-c-format
+msgid ""
+"If this tag contains a <literal>&lt;p:document&gt;</literal> tag, the "
+"document described will be generated and attached to the email. A "
+"<literal>fileName</literal> should be specified."
+msgstr ""
+"このタグが <literal>&lt;p:document&gt;</literal> タグを含んでいるなら、 記述"
+"されるドキュメントが生成されて email に添付されます。 <literal>fileName</"
+"literal> が指定されなければなりません。"
 
 #. Tag: para
 #: Mail.xml:641
-#, no-c-format
-msgid "If this tag contains other JSF tags a HTML document will be generated from them and attached to the email. A <literal>fileName</literal> should be specfied."
-msgstr "このタグがその他の JSF タグをを含んでいると、 HTML ドキュメントがそこから生成されて email に添付されます。 <literal>fileName</literal> が指定されていなければなりません。"
+#, fuzzy, no-c-format
+msgid ""
+"If this tag contains other JSF tags a HTML document will be generated from "
+"them and attached to the email. A <literal>fileName</literal> should be "
+"specified."
+msgstr ""
+"このタグがその他の JSF タグをを含んでいると、 HTML ドキュメントがそこから生成"
+"されて email に添付されます。 <literal>fileName</literal> が指定されていなけ"
+"ればなりません。"
 
 #. Tag: para
 #: Mail.xml:650
 #, no-c-format
-msgid "<literal>fileName</literal> &#8212; Specify the file name to use for the attached file."
+msgid ""
+"<literal>fileName</literal> &#8212; Specify the file name to use for the "
+"attached file."
 msgstr "<literal>fileName</literal> &#8212; 添付ファイルのファイル名の指定"
 
 #. Tag: para
 #: Mail.xml:656
 #, no-c-format
-msgid "<literal>contentType</literal> &#8212; Specify the MIME type of the attached file"
+msgid ""
+"<literal>contentType</literal> &#8212; Specify the MIME type of the attached "
+"file"
 msgstr "<literal>contentType</literal> &#8212;添付ファイルのMIMEタイプの指定"
 
 #. Tag: term
@@ -1011,12 +1428,21 @@ msgstr "&lt;m:body&gt;"
 #. Tag: para
 #: Mail.xml:675
 #, no-c-format
-msgid "Set's the body for the email. Supports an <literal>alternative</literal> facet which, if an HTML email is generated can contain alternative text for a mail reader which doesn't support html."
-msgstr "メールの本文の設定。　<literal>alternative</literal>facetによりHTMLメールを作成する際、htmlメールをサポートしていないメールリーダの為に、テキスト版を含めることが出来ます。"
+msgid ""
+"Set's the body for the email. Supports an <literal>alternative</literal> "
+"facet which, if an HTML email is generated can contain alternative text for "
+"a mail reader which doesn't support html."
+msgstr ""
+"メールの本文の設定。　<literal>alternative</literal>facetによりHTMLメールを作"
+"成する際、htmlメールをサポートしていないメールリーダの為に、テキスト版を含め"
+"ることが出来ます。"
 
 #. Tag: para
 #: Mail.xml:682
 #, no-c-format
-msgid "<literal>type</literal> &#8212; If set to <literal>plain</literal> then a plain text email will be generated otherwise an HTML email is generated."
-msgstr "<literal>type</literal> &#8212; <literal>plain</literal>と設定してあれば、プレーンテキストのメールを生成しますが、それ以外ではHTMLメールを生成します。"
-
+msgid ""
+"<literal>type</literal> &#8212; If set to <literal>plain</literal> then a "
+"plain text email will be generated otherwise an HTML email is generated."
+msgstr ""
+"<literal>type</literal> &#8212; <literal>plain</literal>と設定してあれば、プ"
+"レーンテキストのメールを生成しますが、それ以外ではHTMLメールを生成します。"

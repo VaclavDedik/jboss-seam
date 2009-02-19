@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Conversations\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-02-01 21:19+0000\n"
+"POT-Creation-Date: 2009-02-19 21:44+0000\n"
 "PO-Revision-Date: 2009-01-07 13:46+1000\n"
 "Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -2234,10 +2234,10 @@ msgstr ""
 
 #. Tag: programlisting
 #: Conversations.xml:1011
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "<![CDATA[   <exception class=\"org.jboss.seam."
-"ConcurrentRequestTimeoutException\" logLevel=\"trace\">\n"
+"ConcurrentRequestTimeoutException\" log-level=\"trace\">\n"
 "      <http-error error-code=\"503\" />\n"
 "   </exception>]]>"
 msgstr ""
@@ -2271,10 +2271,10 @@ msgstr "代わりにエラーページにリダイレクトすることができ
 
 #. Tag: programlisting
 #: Conversations.xml:1028
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"org.jboss.seam.ConcurrentRequestTimeoutException"
-"\" logLevel=\"trace\">\n"
+"\" log-level=\"trace\">\n"
 "   <end-conversation/>\n"
 "   <redirect view-id=\"/error.xhtml\">\n"
 "      <message>The server is too busy to process your request, please try "

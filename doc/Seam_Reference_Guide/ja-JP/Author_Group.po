@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tools\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-02-01 21:19+0000\n"
+"POT-Creation-Date: 2009-02-19 21:44+0000\n"
 "PO-Revision-Date: 2009-01-04 23:27+0900\n"
 "Last-Translator: Shinobu NOGAMI <s-nogami@sourceforge.jp>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -173,8 +173,20 @@ msgstr "フランス語翻訳"
 msgid "<firstname>Stefano</firstname> <surname>Travelli</surname>"
 msgstr "<firstname>Dan</firstname> <surname>Allen</surname>"
 
-#. Tag: editor
+#. Tag: othercredit
 #: Author_Group.xml:113
+#, fuzzy, no-c-format
+msgid "<firstname>Japan</firstname> <surname>JBoss User Group</surname>"
+msgstr "<firstname>Jay</firstname> <surname>Balunas</surname>"
+
+#. Tag: shortaffil
+#: Author_Group.xml:117
+#, fuzzy, no-c-format
+msgid "Japanese Translation"
+msgstr "フランス語翻訳"
+
+#. Tag: editor
+#: Author_Group.xml:120
 #, no-c-format
 msgid "<firstname>Samson</firstname> <surname>Kittoli</surname>"
 msgstr "<firstname>Samson</firstname> <surname>Kittoli</surname>"

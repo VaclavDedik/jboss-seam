@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Itext\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-02-01 21:19+0000\n"
+"POT-Creation-Date: 2009-02-19 21:44+0000\n"
 "PO-Revision-Date: 2008-12-10 11:35+1000\n"
 "Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -98,9 +98,9 @@ msgstr "&lt;p:document&gt;"
 #: Itext.xml:42 Itext.xml:184 Itext.xml:256 Itext.xml:291 Itext.xml:324
 #: Itext.xml:374 Itext.xml:397 Itext.xml:528 Itext.xml:592 Itext.xml:654
 #: Itext.xml:694 Itext.xml:749 Itext.xml:852 Itext.xml:939 Itext.xml:1080
-#: Itext.xml:1308 Itext.xml:1504 Itext.xml:1700 Itext.xml:1843 Itext.xml:1914
-#: Itext.xml:1975 Itext.xml:2022 Itext.xml:2102 Itext.xml:2214 Itext.xml:2264
-#: Itext.xml:2324
+#: Itext.xml:1308 Itext.xml:1515 Itext.xml:1721 Itext.xml:1864 Itext.xml:1935
+#: Itext.xml:1996 Itext.xml:2043 Itext.xml:2123 Itext.xml:2235 Itext.xml:2285
+#: Itext.xml:2345
 #, no-c-format
 msgid "Description"
 msgstr "詳細"
@@ -125,9 +125,9 @@ msgstr ""
 #. Tag: emphasis
 #: Itext.xml:51 Itext.xml:190 Itext.xml:264 Itext.xml:298 Itext.xml:330
 #: Itext.xml:415 Itext.xml:535 Itext.xml:599 Itext.xml:704 Itext.xml:796
-#: Itext.xml:857 Itext.xml:944 Itext.xml:1085 Itext.xml:1312 Itext.xml:1508
-#: Itext.xml:1704 Itext.xml:1848 Itext.xml:1918 Itext.xml:1980 Itext.xml:2026
-#: Itext.xml:2107 Itext.xml:2219 Itext.xml:2269 Itext.xml:2329
+#: Itext.xml:857 Itext.xml:944 Itext.xml:1085 Itext.xml:1312 Itext.xml:1519
+#: Itext.xml:1725 Itext.xml:1869 Itext.xml:1939 Itext.xml:2001 Itext.xml:2047
+#: Itext.xml:2128 Itext.xml:2240 Itext.xml:2290 Itext.xml:2350
 #, no-c-format
 msgid "Attributes"
 msgstr "属性"
@@ -261,8 +261,8 @@ msgstr "creator"
 #: Itext.xml:143 Itext.xml:242 Itext.xml:276 Itext.xml:309 Itext.xml:359
 #: Itext.xml:382 Itext.xml:510 Itext.xml:558 Itext.xml:640 Itext.xml:660
 #: Itext.xml:733 Itext.xml:838 Itext.xml:899 Itext.xml:1065 Itext.xml:1241
-#: Itext.xml:1490 Itext.xml:1686 Itext.xml:1829 Itext.xml:1900 Itext.xml:1958
-#: Itext.xml:2008 Itext.xml:2068 Itext.xml:2182 Itext.xml:2349
+#: Itext.xml:1501 Itext.xml:1707 Itext.xml:1850 Itext.xml:1921 Itext.xml:1979
+#: Itext.xml:2029 Itext.xml:2089 Itext.xml:2203 Itext.xml:2370
 #, no-c-format
 msgid "Usage"
 msgstr "使い方"
@@ -1613,7 +1613,7 @@ msgid "Displays a bar chart."
 msgstr "棒グラフを表示します。"
 
 #. Tag: para
-#: Itext.xml:1317 Itext.xml:1513
+#: Itext.xml:1317 Itext.xml:1524
 #, no-c-format
 msgid ""
 "<literal>borderVisible</literal> &#8212; Controls whether or not a border is "
@@ -1623,7 +1623,7 @@ msgstr ""
 "うかを制御します。"
 
 #. Tag: para
-#: Itext.xml:1323 Itext.xml:1519
+#: Itext.xml:1323 Itext.xml:1530
 #, no-c-format
 msgid ""
 "<literal>borderPaint</literal> &#8212; The color of the border, if visible;"
@@ -1631,7 +1631,7 @@ msgstr ""
 "<literal>borderPaint</literal> &#8212; 境界線を表示させる場合の色になります。"
 
 #. Tag: para
-#: Itext.xml:1328 Itext.xml:1524
+#: Itext.xml:1328 Itext.xml:1535
 #, no-c-format
 msgid ""
 "<literal>borderBackgroundPaint</literal> &#8212; The default background "
@@ -1641,13 +1641,13 @@ msgstr ""
 "す。"
 
 #. Tag: para
-#: Itext.xml:1333 Itext.xml:1529
+#: Itext.xml:1333 Itext.xml:1540
 #, no-c-format
 msgid "<literal>borderStroke</literal> &#8212;"
 msgstr "<literal>borderStroke</literal> &#8212;"
 
 #. Tag: para
-#: Itext.xml:1339 Itext.xml:1535
+#: Itext.xml:1339 Itext.xml:1546
 #, no-c-format
 msgid ""
 "<literal>domainAxisLabel</literal> &#8212; The text label for the domain "
@@ -1656,7 +1656,23 @@ msgstr ""
 "<literal>domainAxisLabel</literal> &#8212; 領域軸のテキストラベルです。"
 
 #. Tag: para
-#: Itext.xml:1344 Itext.xml:1540
+#: Itext.xml:1346 Itext.xml:1552
+#, fuzzy, no-c-format
+msgid ""
+"<literal>domainLabelPosition</literal> &#8212; The angle of the domain axis "
+"category labels. Valid values are <literal>STANDARD</literal>, "
+"<literal>UP_45</literal>, <literal>UP_90</literal>, <literal>DOWN_45</"
+"literal> and <literal>DOWN_90</literal>. Alternatively, the value can the "
+"positive or negative angle in radians."
+msgstr ""
+"<literal>style</literal> &#8212; リストの箇条書き／番号付けのスタイルです。 "
+"<literal>NUMBERED</literal>、 <literal>LETTERED</literal>、 <literal>GREEK</"
+"literal>、 <literal>ROMAN</literal>、 <literal>ZAPFDINGBATS</literal>、 "
+"<literal>ZAPFDINGBATS_NUMBER</literal> のいずれかになります。 スタイルの指定"
+"がない場合は中黒になります。"
+
+#. Tag: para
+#: Itext.xml:1355 Itext.xml:1561
 #, no-c-format
 msgid ""
 "<literal>domainAxisPaint</literal> &#8212; The color of the domain axis "
@@ -1664,7 +1680,7 @@ msgid ""
 msgstr "<literal>domainAxisPaint</literal> &#8212; 領域軸ラベルの色です。"
 
 #. Tag: para
-#: Itext.xml:1350 Itext.xml:1546
+#: Itext.xml:1361 Itext.xml:1567
 #, no-c-format
 msgid ""
 "<literal>domainGridlinesVisible</literal>&#8212; Controls whether or not "
@@ -1674,7 +1690,7 @@ msgstr ""
 "表示させるかどうかを制御します。"
 
 #. Tag: para
-#: Itext.xml:1355 Itext.xml:1551
+#: Itext.xml:1366 Itext.xml:1572
 #, no-c-format
 msgid ""
 "<literal>domainGridlinePaint</literal>&#8212; The color of the domain "
@@ -1684,7 +1700,7 @@ msgstr ""
 "の色です。"
 
 #. Tag: para
-#: Itext.xml:1360 Itext.xml:1556
+#: Itext.xml:1371 Itext.xml:1577
 #, fuzzy, no-c-format
 msgid ""
 "<literal>domainGridlineStroke</literal> &#8212; The stroke style of the "
@@ -1694,19 +1710,19 @@ msgstr ""
 "の線スタイルです。"
 
 #. Tag: para
-#: Itext.xml:1366 Itext.xml:1562
+#: Itext.xml:1377 Itext.xml:1583
 #, no-c-format
 msgid "<literal>height</literal> &#8212; The height of the chart."
 msgstr "<literal>height</literal> &#8212; グラフの高さです。"
 
 #. Tag: para
-#: Itext.xml:1371 Itext.xml:1484 Itext.xml:1567 Itext.xml:1680
+#: Itext.xml:1382 Itext.xml:1495 Itext.xml:1588 Itext.xml:1701
 #, no-c-format
 msgid "<literal>width</literal> &#8212; The width of the chart."
 msgstr "<literal>width</literal> &#8212; グラフの幅です。"
 
 #. Tag: para
-#: Itext.xml:1376 Itext.xml:1572
+#: Itext.xml:1387 Itext.xml:1593
 #, no-c-format
 msgid ""
 "<literal>is3D</literal> &#8212; A boolean value indicating that the chart "
@@ -1716,7 +1732,7 @@ msgstr ""
 "boolean 値です。"
 
 #. Tag: para
-#: Itext.xml:1382 Itext.xml:1578
+#: Itext.xml:1393 Itext.xml:1599
 #, no-c-format
 msgid ""
 "<literal>legend</literal> &#8212; A boolean value indicating whether or not "
@@ -1726,7 +1742,7 @@ msgstr ""
 "boolean 値です。"
 
 #. Tag: para
-#: Itext.xml:1388
+#: Itext.xml:1399
 #, no-c-format
 msgid ""
 "<literal>legendItemPaint</literal>&#8212; The default color of the text "
@@ -1736,7 +1752,7 @@ msgstr ""
 "ト色です。"
 
 #. Tag: para
-#: Itext.xml:1394
+#: Itext.xml:1405
 #, no-c-format
 msgid ""
 "<literal>legendItemBackgoundPaint</literal>&#8212; The background color for "
@@ -1746,7 +1762,7 @@ msgstr ""
 "にする場合の説明文の背景色です。"
 
 #. Tag: para
-#: Itext.xml:1400
+#: Itext.xml:1411
 #, no-c-format
 msgid ""
 "<literal>legendOutlinePaint</literal>&#8212; The color of the border around "
@@ -1755,7 +1771,7 @@ msgstr ""
 "<literal>legendOutlinePaint</literal>&#8212; 説明文を囲む境界線の色です。"
 
 #. Tag: para
-#: Itext.xml:1406 Itext.xml:1602
+#: Itext.xml:1417 Itext.xml:1623
 #, no-c-format
 msgid ""
 "<literal>orientation</literal> &#8212; The orientation of the plot, either "
@@ -1765,7 +1781,7 @@ msgstr ""
 "(デフォルト) または <code>horizontal</code> になります。"
 
 #. Tag: para
-#: Itext.xml:1412
+#: Itext.xml:1423
 #, no-c-format
 msgid ""
 "<literal>plotBackgroundPaint</literal>&#8212; The color of the plot "
@@ -1773,7 +1789,7 @@ msgid ""
 msgstr "<literal>plotBackgroundPaint</literal>&#8212; 図表背景の色です。"
 
 #. Tag: para
-#: Itext.xml:1418
+#: Itext.xml:1429
 #, no-c-format
 msgid ""
 "<literal>plotBackgroundAlpha</literal>&#8212; The alpha (transparency) level "
@@ -1784,7 +1800,7 @@ msgstr ""
 "ベルです。 0 (完全に透明) から 1 (完全に不透明) の間の数字になります。"
 
 #. Tag: para
-#: Itext.xml:1425
+#: Itext.xml:1436
 #, no-c-format
 msgid ""
 "<literal>plotForegroundAlpha</literal>&#8212; The alpha (transparency) level "
@@ -1795,7 +1811,7 @@ msgstr ""
 "です。 0 (完全に透明) から 1 (完全に不透明) の間の数字になります。"
 
 #. Tag: para
-#: Itext.xml:1432
+#: Itext.xml:1443
 #, no-c-format
 msgid ""
 "<literal>plotOutlinePaint</literal>&#8212; The color of the range gridlines, "
@@ -1805,7 +1821,7 @@ msgstr ""
 "合の色です。"
 
 #. Tag: para
-#: Itext.xml:1437 Itext.xml:1633
+#: Itext.xml:1448 Itext.xml:1654
 #, fuzzy, no-c-format
 msgid ""
 "<literal>plotOutlineStroke</literal> &#8212; The stroke style of the range "
@@ -1815,7 +1831,7 @@ msgstr ""
 "場合の線スタイルです。"
 
 #. Tag: para
-#: Itext.xml:1443 Itext.xml:1639
+#: Itext.xml:1454 Itext.xml:1660
 #, no-c-format
 msgid ""
 "<literal>rangeAxisLabel</literal> &#8212; The text label for the range axis."
@@ -1823,14 +1839,14 @@ msgstr ""
 "<literal>rangeAxisLabel</literal> &#8212; 範囲軸用のテキストラベルです。"
 
 #. Tag: para
-#: Itext.xml:1448 Itext.xml:1644
+#: Itext.xml:1459 Itext.xml:1665
 #, no-c-format
 msgid ""
 "<literal>rangeAxisPaint</literal> &#8212; The color of the range axis label."
 msgstr "<literal>rangeAxisPaint</literal> &#8212; 範囲軸ラベルの色です。"
 
 #. Tag: para
-#: Itext.xml:1454
+#: Itext.xml:1465
 #, no-c-format
 msgid ""
 "<literal>rangeGridlinesVisible</literal>&#8212; Controls whether or not "
@@ -1840,7 +1856,7 @@ msgstr ""
 "表示させるかどうかを制御します。"
 
 #. Tag: para
-#: Itext.xml:1459
+#: Itext.xml:1470
 #, no-c-format
 msgid ""
 "<literal>rangeGridlinePaint</literal>&#8212; The color of the range "
@@ -1850,7 +1866,7 @@ msgstr ""
 "色です。"
 
 #. Tag: para
-#: Itext.xml:1464 Itext.xml:1660
+#: Itext.xml:1475 Itext.xml:1681
 #, fuzzy, no-c-format
 msgid ""
 "<literal>rangeGridlineStroke</literal> &#8212; The stroke style of the range "
@@ -1860,19 +1876,19 @@ msgstr ""
 "の線スタイルです。"
 
 #. Tag: para
-#: Itext.xml:1470 Itext.xml:1666 Itext.xml:1710
+#: Itext.xml:1481 Itext.xml:1687 Itext.xml:1731
 #, no-c-format
 msgid "<literal>title</literal> &#8212; The chart title text."
 msgstr "<literal>title</literal> &#8212; グラフタイトルのテキストです。"
 
 #. Tag: para
-#: Itext.xml:1474
+#: Itext.xml:1485
 #, no-c-format
 msgid "<literal>titlePaint</literal>&#8212; The color of the chart title text."
 msgstr "<literal>titlePaint</literal>&#8212; グラフタイトルのテキスト色です。"
 
 #. Tag: para
-#: Itext.xml:1479
+#: Itext.xml:1490
 #, no-c-format
 msgid ""
 "<literal>titleBackgroundPaint</literal>&#8212; The background color around "
@@ -1882,7 +1898,7 @@ msgstr ""
 "す。"
 
 #. Tag: programlisting
-#: Itext.xml:1492
+#: Itext.xml:1503
 #, no-c-format
 msgid ""
 "<![CDATA[<p:barchart title=\"Bar Chart\" legend=\"true\"\n"
@@ -1908,19 +1924,19 @@ msgstr ""
 "</p:barchart>]]>"
 
 #. Tag: literal
-#: Itext.xml:1499
+#: Itext.xml:1510
 #, no-c-format
 msgid "&lt;p:linechart&gt;"
 msgstr "&lt;p:linechart&gt;"
 
 #. Tag: para
-#: Itext.xml:1506
+#: Itext.xml:1517
 #, no-c-format
 msgid "Displays a line chart."
 msgstr "折れ線グラフを表示します。"
 
 #. Tag: para
-#: Itext.xml:1584
+#: Itext.xml:1605
 #, fuzzy, no-c-format
 msgid ""
 "<literal>legendItemPaint</literal> &#8212; The default color of the text "
@@ -1930,7 +1946,7 @@ msgstr ""
 "ト色です。"
 
 #. Tag: para
-#: Itext.xml:1590
+#: Itext.xml:1611
 #, fuzzy, no-c-format
 msgid ""
 "<literal>legendItemBackgoundPaint</literal> &#8212; The background color for "
@@ -1940,7 +1956,7 @@ msgstr ""
 "にする場合の説明文の背景色です。"
 
 #. Tag: para
-#: Itext.xml:1596
+#: Itext.xml:1617
 #, fuzzy, no-c-format
 msgid ""
 "<literal>legendOutlinePaint</literal> &#8212; The color of the border around "
@@ -1949,7 +1965,7 @@ msgstr ""
 "<literal>legendOutlinePaint</literal>&#8212; 説明文を囲む境界線の色です。"
 
 #. Tag: para
-#: Itext.xml:1608
+#: Itext.xml:1629
 #, fuzzy, no-c-format
 msgid ""
 "<literal>plotBackgroundPaint</literal> &#8212; The color of the plot "
@@ -1957,7 +1973,7 @@ msgid ""
 msgstr "<literal>plotBackgroundPaint</literal>&#8212; 図表背景の色です。"
 
 #. Tag: para
-#: Itext.xml:1614
+#: Itext.xml:1635
 #, fuzzy, no-c-format
 msgid ""
 "<literal>plotBackgroundAlpha</literal> &#8212; The alpha (transparency) "
@@ -1968,7 +1984,7 @@ msgstr ""
 "ベルです。 0 (完全に透明) から 1 (完全に不透明) の間の数字になります。"
 
 #. Tag: para
-#: Itext.xml:1621
+#: Itext.xml:1642
 #, fuzzy, no-c-format
 msgid ""
 "<literal>plotForegroundAlpha</literal> &#8212; The alpha (transparency) "
@@ -1979,7 +1995,7 @@ msgstr ""
 "です。 0 (完全に透明) から 1 (完全に不透明) の間の数字になります。"
 
 #. Tag: para
-#: Itext.xml:1628
+#: Itext.xml:1649
 #, fuzzy, no-c-format
 msgid ""
 "<literal>plotOutlinePaint</literal> &#8212; The color of the range "
@@ -1989,7 +2005,7 @@ msgstr ""
 "合の色です。"
 
 #. Tag: para
-#: Itext.xml:1650
+#: Itext.xml:1671
 #, fuzzy, no-c-format
 msgid ""
 "<literal>rangeGridlinesVisible</literal> &#8212; Controls whether or not "
@@ -1999,7 +2015,7 @@ msgstr ""
 "表示させるかどうかを制御します。"
 
 #. Tag: para
-#: Itext.xml:1655
+#: Itext.xml:1676
 #, fuzzy, no-c-format
 msgid ""
 "<literal>rangeGridlinePaint</literal> &#8212; The color of the range "
@@ -2009,14 +2025,14 @@ msgstr ""
 "色です。"
 
 #. Tag: para
-#: Itext.xml:1670
+#: Itext.xml:1691
 #, fuzzy, no-c-format
 msgid ""
 "<literal>titlePaint</literal> &#8212; The color of the chart title text."
 msgstr "<literal>titlePaint</literal>&#8212; グラフタイトルのテキスト色です。"
 
 #. Tag: para
-#: Itext.xml:1675
+#: Itext.xml:1696
 #, fuzzy, no-c-format
 msgid ""
 "<literal>titleBackgroundPaint</literal> &#8212; The background color around "
@@ -2026,7 +2042,7 @@ msgstr ""
 "す。"
 
 #. Tag: programlisting
-#: Itext.xml:1688
+#: Itext.xml:1709
 #, no-c-format
 msgid ""
 "<![CDATA[<p:linechart title=\"Line Chart\"\n"
@@ -2052,19 +2068,19 @@ msgstr ""
 "</p:linechart>]]>"
 
 #. Tag: literal
-#: Itext.xml:1695
+#: Itext.xml:1716
 #, no-c-format
 msgid "&lt;p:piechart&gt;"
 msgstr "&lt;p:piechart&gt;"
 
 #. Tag: para
-#: Itext.xml:1702
+#: Itext.xml:1723
 #, no-c-format
 msgid "Displays a pie chart."
 msgstr "円グラフを表示します。"
 
 #. Tag: para
-#: Itext.xml:1714
+#: Itext.xml:1735
 #, fuzzy, no-c-format
 msgid ""
 "<literal>label</literal> &#8212; The default label text for pie sections."
@@ -2073,7 +2089,7 @@ msgstr ""
 "トです。"
 
 #. Tag: para
-#: Itext.xml:1719
+#: Itext.xml:1740
 #, fuzzy, no-c-format
 msgid ""
 "<literal>legend</literal> &#8212; A boolean value indicating whether or not "
@@ -2083,7 +2099,7 @@ msgstr ""
 "boolean 値です。 デフォルト値は true です。"
 
 #. Tag: para
-#: Itext.xml:1724
+#: Itext.xml:1745
 #, fuzzy, no-c-format
 msgid ""
 "<literal>is3D</literal> &#8212;A boolean value indicating that the chart "
@@ -2093,13 +2109,13 @@ msgstr ""
 "boolean 値です。"
 
 #. Tag: para
-#: Itext.xml:1729
+#: Itext.xml:1750
 #, fuzzy, no-c-format
 msgid "<literal>labelLinkMargin</literal> &#8212; The link margin for labels."
 msgstr "<literal>labelLinkMargin</literal>&#8212; ラベルのリンク余白です。"
 
 #. Tag: para
-#: Itext.xml:1734
+#: Itext.xml:1755
 #, fuzzy, no-c-format
 msgid ""
 "<literal>labelLinkPaint</literal> &#8212; The paint used for the label "
@@ -2109,7 +2125,7 @@ msgstr ""
 "す。"
 
 #. Tag: para
-#: Itext.xml:1739
+#: Itext.xml:1760
 #, fuzzy, no-c-format
 msgid ""
 "<literal>labelLinkStroke</literal> &#8212; he stroke used for the label "
@@ -2118,7 +2134,7 @@ msgstr ""
 "<literal>labelLinkStroke</literal>&#8212; ラベルリンク行に使用する線です。"
 
 #. Tag: para
-#: Itext.xml:1745
+#: Itext.xml:1766
 #, fuzzy, no-c-format
 msgid ""
 "<literal>labelLinksVisible</literal> &#8212; A flag that controls whether or "
@@ -2128,7 +2144,7 @@ msgstr ""
 "制御するフラグです。"
 
 #. Tag: para
-#: Itext.xml:1750
+#: Itext.xml:1771
 #, fuzzy, no-c-format
 msgid ""
 "<literal>labelOutlinePaint</literal> &#8212; The paint used to draw the "
@@ -2138,7 +2154,7 @@ msgstr ""
 "使用するペイントです。"
 
 #. Tag: para
-#: Itext.xml:1755
+#: Itext.xml:1776
 #, fuzzy, no-c-format
 msgid ""
 "<literal>labelOutlineStroke</literal> &#8212; The stroke used to draw the "
@@ -2148,7 +2164,7 @@ msgstr ""
 "使用する線です。"
 
 #. Tag: para
-#: Itext.xml:1760
+#: Itext.xml:1781
 #, fuzzy, no-c-format
 msgid ""
 "<literal>labelShadowPaint</literal> &#8212; The paint used to draw the "
@@ -2158,7 +2174,7 @@ msgstr ""
 "するペイントです。"
 
 #. Tag: para
-#: Itext.xml:1765
+#: Itext.xml:1786
 #, fuzzy, no-c-format
 msgid ""
 "<literal>labelPaint</literal> &#8212; The color used to draw the section "
@@ -2168,7 +2184,7 @@ msgstr ""
 "す。"
 
 #. Tag: para
-#: Itext.xml:1770
+#: Itext.xml:1791
 #, fuzzy, no-c-format
 msgid ""
 "<literal>labelGap</literal> &#8212; The gap between the labels and the plot "
@@ -2177,7 +2193,7 @@ msgstr ""
 "<literal>labelGap</literal>&#8212; 図表幅の割合によるラベルと図表の間隔です。"
 
 #. Tag: para
-#: Itext.xml:1775
+#: Itext.xml:1796
 #, fuzzy, no-c-format
 msgid ""
 "<literal>labelBackgroundPaint</literal> &#8212; The color used to draw the "
@@ -2188,7 +2204,7 @@ msgstr ""
 "に使用する色です。 null にすると背景は埋められません。"
 
 #. Tag: para
-#: Itext.xml:1782
+#: Itext.xml:1803
 #, fuzzy, no-c-format
 msgid ""
 "<literal>startAngle</literal> &#8212; The starting angle of the first "
@@ -2197,7 +2213,7 @@ msgstr ""
 "<literal>startAngle</literal>&#8212; 1 番目のセクションの開始角度です。"
 
 #. Tag: para
-#: Itext.xml:1787
+#: Itext.xml:1808
 #, fuzzy, no-c-format
 msgid ""
 "<literal>circular</literal> &#8212; A boolean value indicating that the "
@@ -2208,7 +2224,7 @@ msgstr ""
 "す。 false にするとグラフは楕円で描かれます。 デフォルトは true です。"
 
 #. Tag: para
-#: Itext.xml:1793
+#: Itext.xml:1814
 #, fuzzy, no-c-format
 msgid ""
 "<literal>direction</literal> &#8212; The direction the pie section are "
@@ -2220,7 +2236,7 @@ msgstr ""
 "なります。 デフォルトは <literal>clockwise</literal> です。"
 
 #. Tag: para
-#: Itext.xml:1799
+#: Itext.xml:1820
 #, fuzzy, no-c-format
 msgid ""
 "<literal>sectionOutlinePaint</literal> &#8212; The outline paint for all "
@@ -2230,7 +2246,7 @@ msgstr ""
 "す。"
 
 #. Tag: para
-#: Itext.xml:1804
+#: Itext.xml:1825
 #, fuzzy, no-c-format
 msgid ""
 "<literal>sectionOutlineStroke</literal> &#8212; The outline stroke for all "
@@ -2239,7 +2255,7 @@ msgstr ""
 "<literal>sectionOutlineStroke</literal>&#8212; 全セクションの輪郭線です。"
 
 #. Tag: para
-#: Itext.xml:1809
+#: Itext.xml:1830
 #, fuzzy, no-c-format
 msgid ""
 "<literal>sectionOutlinesVisible</literal> &#8212; Indicates whether an "
@@ -2249,7 +2265,7 @@ msgstr ""
 "れ輪郭を描くかどうかを示します。"
 
 #. Tag: para
-#: Itext.xml:1814
+#: Itext.xml:1835
 #, fuzzy, no-c-format
 msgid ""
 "<literal>baseSectionOutlinePaint</literal> &#8212; The base section outline "
@@ -2259,7 +2275,7 @@ msgstr ""
 "郭ペイントです。"
 
 #. Tag: para
-#: Itext.xml:1819
+#: Itext.xml:1840
 #, fuzzy, no-c-format
 msgid "<literal>baseSectionPaint</literal> &#8212; The base section paint."
 msgstr ""
@@ -2267,7 +2283,7 @@ msgstr ""
 "す。"
 
 #. Tag: para
-#: Itext.xml:1823
+#: Itext.xml:1844
 #, fuzzy, no-c-format
 msgid ""
 "<literal>baseSectionOutlineStroke</literal> &#8212; The base section outline "
@@ -2277,7 +2293,7 @@ msgstr ""
 "郭線です。"
 
 #. Tag: programlisting
-#: Itext.xml:1831
+#: Itext.xml:1852
 #, no-c-format
 msgid ""
 "<![CDATA[<p:piechart title=\"Pie Chart\" circular=\"false\" direction="
@@ -2305,13 +2321,13 @@ msgstr ""
 "</p:piechart>]]>"
 
 #. Tag: literal
-#: Itext.xml:1838
+#: Itext.xml:1859
 #, no-c-format
 msgid "&lt;p:series&gt;"
 msgstr "&lt;p:series&gt;"
 
 #. Tag: para
-#: Itext.xml:1845
+#: Itext.xml:1866
 #, no-c-format
 msgid ""
 "Category data can be broken down into series. The series tag is used to "
@@ -2322,13 +2338,13 @@ msgstr ""
 "リーズで分類しそのシリーズ全体にスタイリングを適用します。"
 
 #. Tag: para
-#: Itext.xml:1854
+#: Itext.xml:1875
 #, no-c-format
 msgid "<literal>key</literal> &#8212; The series name."
 msgstr "<literal>key</literal> &#8212; シリーズ名です。"
 
 #. Tag: para
-#: Itext.xml:1865
+#: Itext.xml:1886
 #, no-c-format
 msgid ""
 "<literal>seriesPaint</literal> &#8212; The color of each item in the series"
@@ -2336,7 +2352,7 @@ msgstr ""
 "<literal>seriesPaint</literal> &#8212; シリーズ内の各アイテムの色です。"
 
 #. Tag: para
-#: Itext.xml:1871
+#: Itext.xml:1892
 #, no-c-format
 msgid ""
 "<literal>seriesOutlinePaint</literal> &#8212; The outline color for each "
@@ -2346,7 +2362,7 @@ msgstr ""
 "です。"
 
 #. Tag: para
-#: Itext.xml:1876
+#: Itext.xml:1897
 #, no-c-format
 msgid ""
 "<literal>seriesOutlineStroke</literal> &#8212; The stroke used to draw each "
@@ -2356,7 +2372,7 @@ msgstr ""
 "に使用する線です。"
 
 #. Tag: para
-#: Itext.xml:1888
+#: Itext.xml:1909
 #, no-c-format
 msgid ""
 "<literal>seriesVisible</literal> &#8212; A boolean indicating if the series "
@@ -2366,7 +2382,7 @@ msgstr ""
 "boolean です。"
 
 #. Tag: para
-#: Itext.xml:1893
+#: Itext.xml:1914
 #, fuzzy, no-c-format
 msgid ""
 "<literal>seriesVisibleInLegend</literal> &#8212; A boolean indicating if the "
@@ -2376,7 +2392,7 @@ msgstr ""
 "かどうかを示す boolean です。"
 
 #. Tag: programlisting
-#: Itext.xml:1902
+#: Itext.xml:1923
 #, no-c-format
 msgid ""
 "<![CDATA[<p:series key=\"data1\">\n"
@@ -2392,25 +2408,25 @@ msgstr ""
 "</p:series>]]>"
 
 #. Tag: literal
-#: Itext.xml:1909
+#: Itext.xml:1930
 #, no-c-format
 msgid "&lt;p:data&gt;"
 msgstr "&lt;p:data&gt;"
 
 #. Tag: para
-#: Itext.xml:1916
+#: Itext.xml:1937
 #, no-c-format
 msgid "The data tag describes each data point to be displayed in the graph."
 msgstr "データタグはグラフ内で表示される各データポイントを表現します。"
 
 #. Tag: para
-#: Itext.xml:1923
+#: Itext.xml:1944
 #, no-c-format
 msgid "<literal>key</literal> &#8212; The name of the data item."
 msgstr "<literal>key</literal> &#8212; データアイテム名です。"
 
 #. Tag: para
-#: Itext.xml:1927
+#: Itext.xml:1948
 #, no-c-format
 msgid ""
 "<literal>series</literal> &#8212; The series name, when not embedded inside "
@@ -2420,13 +2436,13 @@ msgstr ""
 "込まれない場合のシリーズ名です。"
 
 #. Tag: para
-#: Itext.xml:1932
+#: Itext.xml:1953
 #, no-c-format
 msgid "<literal>value</literal> &#8212; The numeric data value."
 msgstr "<literal>value</literal> &#8212; 数値データです。"
 
 #. Tag: para
-#: Itext.xml:1936
+#: Itext.xml:1957
 #, no-c-format
 msgid ""
 "<literal>explodedPercent</literal> &#8212; For pie charts, indicates how "
@@ -2436,7 +2452,7 @@ msgstr ""
 "属性はグラフの一片がどのように展開されるかを示します。"
 
 #. Tag: para
-#: Itext.xml:1942
+#: Itext.xml:1963
 #, no-c-format
 msgid ""
 "<literal>sectionOutlinePaint</literal> &#8212; For bar charts, the color of "
@@ -2446,7 +2462,7 @@ msgstr ""
 "の色です。"
 
 #. Tag: para
-#: Itext.xml:1947
+#: Itext.xml:1968
 #, no-c-format
 msgid ""
 "<literal>sectionOutlineStroke</literal> &#8212; For bar charts, the stroke "
@@ -2456,7 +2472,7 @@ msgstr ""
 "郭の線タイプです。"
 
 #. Tag: para
-#: Itext.xml:1952
+#: Itext.xml:1973
 #, no-c-format
 msgid ""
 "<literal>sectionPaint</literal> &#8212; For bar charts, the color of the "
@@ -2464,7 +2480,7 @@ msgid ""
 msgstr "<literal>sectionPaint</literal> &#8212; 棒グラフのセクションの色です。"
 
 #. Tag: programlisting
-#: Itext.xml:1963
+#: Itext.xml:1984
 #, no-c-format
 msgid ""
 "<![CDATA[<p:data key=\"foo\" value=\"20\" sectionPaint=\"#111111\" \n"
@@ -2480,13 +2496,13 @@ msgstr ""
 "        sectionOutlineStroke=\"my-dot-style\" />]]>"
 
 #. Tag: literal
-#: Itext.xml:1970
+#: Itext.xml:1991
 #, no-c-format
 msgid "&lt;p:color&gt;"
 msgstr "&lt;p:color&gt;"
 
 #. Tag: para
-#: Itext.xml:1977
+#: Itext.xml:1998
 #, no-c-format
 msgid ""
 "The color component declares a color or gradient than can be referenced when "
@@ -2496,7 +2512,7 @@ msgstr ""
 "す。"
 
 #. Tag: para
-#: Itext.xml:1986
+#: Itext.xml:2007
 #, no-c-format
 msgid ""
 "<literal>color</literal> &#8212; The color value. For gradient colors, this "
@@ -2506,7 +2522,7 @@ msgstr ""
 "なります。"
 
 #. Tag: para
-#: Itext.xml:1992
+#: Itext.xml:2013
 #, no-c-format
 msgid ""
 "<literal>color2</literal> &#8212; For gradient colors, this is the color "
@@ -2516,7 +2532,7 @@ msgstr ""
 "す。"
 
 #. Tag: para
-#: Itext.xml:1997
+#: Itext.xml:2018
 #, no-c-format
 msgid ""
 "<literal>point</literal> &#8212; The co-ordinates where the gradient color "
@@ -2524,7 +2540,7 @@ msgid ""
 msgstr "<literal>point</literal> &#8212; 勾配色開始点の座標です。"
 
 #. Tag: para
-#: Itext.xml:2002
+#: Itext.xml:2023
 #, no-c-format
 msgid ""
 "<literal>point2</literal> &#8212; The co-ordinates where the gradient color "
@@ -2532,7 +2548,7 @@ msgid ""
 msgstr "<literal>point2</literal> &#8212; 勾配色終了点の座標です。"
 
 #. Tag: programlisting
-#: Itext.xml:2010
+#: Itext.xml:2031
 #, no-c-format
 msgid ""
 "<![CDATA[<p:color id=\"foo\" color=\"#0ff00f\"/>\n"
@@ -2544,25 +2560,25 @@ msgstr ""
 "                  point=\"50 50\" point2=\"300 300\"/>]]>"
 
 #. Tag: literal
-#: Itext.xml:2017
+#: Itext.xml:2038
 #, no-c-format
 msgid "&lt;p:stroke&gt;"
 msgstr "&lt;p:stroke&gt;"
 
 #. Tag: para
-#: Itext.xml:2024
+#: Itext.xml:2045
 #, no-c-format
 msgid "Describes a stroke used to draw lines in a chart."
 msgstr "グラフ内に先途を描くのに使用する線を表します。"
 
 #. Tag: para
-#: Itext.xml:2032
+#: Itext.xml:2053
 #, no-c-format
 msgid "<literal>width</literal> &#8212; The width of the stroke."
 msgstr "<literal>width</literal> &#8212; 線の幅です。"
 
 #. Tag: para
-#: Itext.xml:2037
+#: Itext.xml:2058
 #, no-c-format
 msgid ""
 "<literal>cap</literal> &#8212; The line cap type. Valid values are "
@@ -2573,7 +2589,7 @@ msgstr ""
 "literal>、 <literal>round</literal>、 <literal>square</literal> です。"
 
 #. Tag: para
-#: Itext.xml:2043
+#: Itext.xml:2064
 #, no-c-format
 msgid ""
 "<literal>join</literal> &#8212; The line join type. Valid values are "
@@ -2585,7 +2601,7 @@ msgstr ""
 "literal> です。"
 
 #. Tag: para
-#: Itext.xml:2049
+#: Itext.xml:2070
 #, no-c-format
 msgid ""
 "<literal>miterLimit</literal> &#8212; For miter joins, this value is the "
@@ -2595,7 +2611,7 @@ msgstr ""
 "制限サイズです。"
 
 #. Tag: para
-#: Itext.xml:2055
+#: Itext.xml:2076
 #, no-c-format
 msgid ""
 "<literal>dash</literal> &#8212; The dash value sets the dash pattern to be "
@@ -2607,7 +2623,7 @@ msgstr ""
 "します。"
 
 #. Tag: para
-#: Itext.xml:2062
+#: Itext.xml:2083
 #, fuzzy, no-c-format
 msgid ""
 "<literal>dashPhase</literal> &#8212; The dash phase indicates the offset "
@@ -2615,7 +2631,7 @@ msgid ""
 msgstr "<literal>dashPhase</literal> &#8212; 点線を引く場合の補正を示します。"
 
 #. Tag: programlisting
-#: Itext.xml:2070
+#: Itext.xml:2091
 #, no-c-format
 msgid ""
 "<![CDATA[<p:stroke id=\"dot2\" width=\"2\" cap=\"round\" join=\"bevel\" dash="
@@ -2625,13 +2641,13 @@ msgstr ""
 "\"2 3\" />]]>"
 
 #. Tag: title
-#: Itext.xml:2082
+#: Itext.xml:2103
 #, no-c-format
 msgid "Bar codes"
 msgstr "バーコード"
 
 #. Tag: para
-#: Itext.xml:2083
+#: Itext.xml:2104
 #, no-c-format
 msgid ""
 "Seam can use iText to generate barcodes in a wide variety of formats. These "
@@ -2645,19 +2661,19 @@ msgstr ""
 "バーコードはバーコード内でバーコードテキストを表示することができません。"
 
 #. Tag: literal
-#: Itext.xml:2097
+#: Itext.xml:2118
 #, no-c-format
 msgid "&lt;p:barCode&gt;"
 msgstr "&lt;p:barCode&gt;"
 
 #. Tag: para
-#: Itext.xml:2104
+#: Itext.xml:2125
 #, no-c-format
 msgid "Displays a barcode image."
 msgstr "バーコードイメージを表示します。"
 
 #. Tag: para
-#: Itext.xml:2113
+#: Itext.xml:2134
 #, no-c-format
 msgid ""
 "<literal>type</literal> &#8212; A barcode type supported by iText. Valid "
@@ -2676,14 +2692,14 @@ msgstr ""
 "<literal>CODABAR</literal> などが含まれます。"
 
 #. Tag: para
-#: Itext.xml:2123
+#: Itext.xml:2144
 #, fuzzy, no-c-format
 msgid "<literal>code</literal> &#8212; The value to be encoded by the barcode."
 msgstr ""
 "<literal>code</literal>&#8212; バーコードによってコード化される値です。"
 
 #. Tag: para
-#: Itext.xml:2128
+#: Itext.xml:2149
 #, fuzzy, no-c-format
 msgid ""
 "<literal>xpos</literal> &#8212; For PDFs, the absolute y position of the "
@@ -2693,7 +2709,7 @@ msgstr ""
 "です。"
 
 #. Tag: para
-#: Itext.xml:2133
+#: Itext.xml:2154
 #, fuzzy, no-c-format
 msgid ""
 "<literal>ypos</literal> &#8212; For PDFs, the absolute y position of the "
@@ -2703,7 +2719,7 @@ msgstr ""
 "です。"
 
 #. Tag: para
-#: Itext.xml:2138
+#: Itext.xml:2159
 #, no-c-format
 msgid ""
 "<literal>rotDegrees</literal> &#8212; For PDFs, the rotation factor of the "
@@ -2713,20 +2729,20 @@ msgstr ""
 "係数です。"
 
 #. Tag: para
-#: Itext.xml:2143
+#: Itext.xml:2164
 #, no-c-format
 msgid ""
 "<literal>barHeight</literal> &#8212; The height of the bars in the barCode"
 msgstr "<literal>barHeight</literal> &#8212; barCode 内のバーの高さです。"
 
 #. Tag: para
-#: Itext.xml:2149
+#: Itext.xml:2170
 #, no-c-format
 msgid "<literal>minBarWidth</literal> &#8212; The minimum bar width."
 msgstr "<literal>minBarWidth</literal> &#8212; バーの最小幅です。"
 
 #. Tag: para
-#: Itext.xml:2153
+#: Itext.xml:2174
 #, no-c-format
 msgid ""
 "<literal>barMultiplier</literal> &#8212; The bar multiplier for wide bars or "
@@ -2738,20 +2754,20 @@ msgstr ""
 "になります。"
 
 #. Tag: para
-#: Itext.xml:2159
+#: Itext.xml:2180
 #, no-c-format
 msgid "<literal>barColor</literal> &#8212; The color to draw the bars."
 msgstr "<literal>barColor</literal> &#8212; バーを描く色です。"
 
 #. Tag: para
-#: Itext.xml:2164
+#: Itext.xml:2185
 #, no-c-format
 msgid ""
 "<literal>textColor</literal> &#8212; The color of any text on the barcode."
 msgstr "<literal>textColor</literal> &#8212; バーコード上のテキスト色です。"
 
 #. Tag: para
-#: Itext.xml:2169
+#: Itext.xml:2190
 #, no-c-format
 msgid ""
 "<literal>textSize</literal> &#8212; The size of the barcode text, if any."
@@ -2760,7 +2776,7 @@ msgstr ""
 "す。"
 
 #. Tag: para
-#: Itext.xml:2174
+#: Itext.xml:2195
 #, no-c-format
 msgid ""
 "<literal>altText</literal> &#8212; The <literal>alt</literal> text for HTML "
@@ -2770,7 +2786,7 @@ msgstr ""
 "literal> テキストです。"
 
 #. Tag: programlisting
-#: Itext.xml:2184
+#: Itext.xml:2205
 #, no-c-format
 msgid ""
 "<![CDATA[<p:barCode type=\"code128\" \n"
@@ -2788,13 +2804,13 @@ msgstr ""
 "           altText=\"My BarCode\" />]]>"
 
 #. Tag: title
-#: Itext.xml:2194
+#: Itext.xml:2215
 #, no-c-format
 msgid "Fill-in-forms"
 msgstr "入力フォーム"
 
 #. Tag: para
-#: Itext.xml:2195
+#: Itext.xml:2216
 #, fuzzy, no-c-format
 msgid ""
 "If you have a complex, pre-generated PDF with named fields, you can easily "
@@ -2804,19 +2820,19 @@ msgstr ""
 "を入力してユーザーに提示することが簡単にできます。"
 
 #. Tag: literal
-#: Itext.xml:2209
+#: Itext.xml:2230
 #, no-c-format
 msgid "&lt;p:form&gt;"
 msgstr "&lt;p:form&gt;"
 
 #. Tag: para
-#: Itext.xml:2216
+#: Itext.xml:2237
 #, no-c-format
 msgid "Defines a form template to populate"
 msgstr "移植するフォームテンプレートを定義します。"
 
 #. Tag: para
-#: Itext.xml:2224
+#: Itext.xml:2245
 #, no-c-format
 msgid ""
 "<literal>URL</literal> &#8212; An URL pointing to the PDF file to use as a "
@@ -2827,7 +2843,7 @@ msgstr ""
 "読み込まれます。"
 
 #. Tag: para
-#: Itext.xml:2231
+#: Itext.xml:2252
 #, no-c-format
 msgid ""
 "<literal>filename</literal> &#8212; The filename to use for the generated "
@@ -2837,7 +2853,7 @@ msgstr ""
 "名です。"
 
 #. Tag: para
-#: Itext.xml:2237
+#: Itext.xml:2258
 #, no-c-format
 msgid ""
 "<literal>exportKey</literal> &#8212; Place the generated PDF file in a "
@@ -2849,31 +2865,31 @@ msgstr ""
 "とリダイレクトが起こらなくなります。"
 
 #. Tag: literal
-#: Itext.xml:2259
+#: Itext.xml:2280
 #, no-c-format
 msgid "&lt;p:field&gt;"
 msgstr "&lt;p:field&gt;"
 
 #. Tag: para
-#: Itext.xml:2266
+#: Itext.xml:2287
 #, no-c-format
 msgid "Connects a field name to its value"
 msgstr "フィールド名をその値に接続します。"
 
 #. Tag: para
-#: Itext.xml:2275
+#: Itext.xml:2296
 #, no-c-format
 msgid "<literal>name</literal> &#8212; The name of the field"
 msgstr "<literal>name</literal> &#8212; フィールド名です。"
 
 #. Tag: para
-#: Itext.xml:2281
+#: Itext.xml:2302
 #, no-c-format
 msgid "<literal>value</literal> &#8212; The value of the field"
 msgstr "<literal>value</literal> &#8212; フィールドの値です。"
 
 #. Tag: para
-#: Itext.xml:2287
+#: Itext.xml:2308
 #, no-c-format
 msgid ""
 "<literal>readOnly</literal> &#8212; Should the field be read-only? Defaults "
@@ -2883,7 +2899,7 @@ msgstr ""
 "は true です。"
 
 #. Tag: programlisting
-#: Itext.xml:2299
+#: Itext.xml:2320
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -2909,13 +2925,13 @@ msgstr ""
 "                        ]]>"
 
 #. Tag: title
-#: Itext.xml:2304
+#: Itext.xml:2325
 #, no-c-format
 msgid "Rendering Swing/AWT components"
 msgstr "Swing/AWT コンポーネントをレンダリングする"
 
 #. Tag: para
-#: Itext.xml:2305
+#: Itext.xml:2326
 #, no-c-format
 msgid ""
 "Seam now provides experimental support for rendering Swing components to "
@@ -2927,19 +2943,19 @@ msgstr ""
 "トを使用するものは正しいレンダリングを行いません。"
 
 #. Tag: literal
-#: Itext.xml:2319
+#: Itext.xml:2340
 #, no-c-format
 msgid "&lt;p:swing&gt;"
 msgstr "&lt;p:swing&gt;"
 
 #. Tag: para
-#: Itext.xml:2327
+#: Itext.xml:2348
 #, no-c-format
 msgid "Renders a Swing component into a PDF document."
 msgstr "Swing コンポーネントを PDF ドキュメントにレンダリングします。"
 
 #. Tag: para
-#: Itext.xml:2335
+#: Itext.xml:2356
 #, no-c-format
 msgid ""
 "<literal>width</literal> &#8212; The width of the component to be rendered."
@@ -2947,7 +2963,7 @@ msgstr ""
 "<literal>width</literal> &#8212; レンダリングされるコンポーネントの幅です。"
 
 #. Tag: para
-#: Itext.xml:2339
+#: Itext.xml:2360
 #, fuzzy, no-c-format
 msgid ""
 "<literal>height</literal> &#8212; The height of the component to be rendered."
@@ -2956,7 +2972,7 @@ msgstr ""
 "す。"
 
 #. Tag: para
-#: Itext.xml:2343
+#: Itext.xml:2364
 #, no-c-format
 msgid ""
 "<literal>component</literal> &#8212; An expression whose value is a Swing or "
@@ -2966,7 +2982,7 @@ msgstr ""
 "る式です。"
 
 #. Tag: programlisting
-#: Itext.xml:2351
+#: Itext.xml:2372
 #, no-c-format
 msgid ""
 "<![CDATA[<p:swing width=\"310\" height=\"120\" component=\"#{aButton}\" />]]>"
@@ -2974,13 +2990,13 @@ msgstr ""
 "<![CDATA[<p:swing width=\"310\" height=\"120\" component=\"#{aButton}\" />]]>"
 
 #. Tag: title
-#: Itext.xml:2362
+#: Itext.xml:2383
 #, no-c-format
 msgid "Configuring iText"
 msgstr "iText を設定する"
 
 #. Tag: para
-#: Itext.xml:2364
+#: Itext.xml:2385
 #, no-c-format
 msgid ""
 "Document generation works out of the box with no additional configuration "
@@ -2992,7 +3008,7 @@ msgstr ""
 "かあります。"
 
 #. Tag: para
-#: Itext.xml:2367
+#: Itext.xml:2388
 #, no-c-format
 msgid ""
 "The default implementation serves PDF documents from a generic URL, "
@@ -3010,7 +3026,7 @@ msgstr ""
 "にマッピングされなければなりません。"
 
 #. Tag: programlisting
-#: Itext.xml:2372
+#: Itext.xml:2393
 #, no-c-format
 msgid ""
 "<![CDATA[<servlet>\n"
@@ -3036,7 +3052,7 @@ msgstr ""
 "</servlet-mapping>]]>"
 
 #. Tag: para
-#: Itext.xml:2374
+#: Itext.xml:2395
 #, no-c-format
 msgid ""
 "The <literal>use-extensions</literal> option on the document store component "
@@ -3049,7 +3065,7 @@ msgstr ""
 "拡張子を付けて URL を生成するよう指示することでこれを行います。"
 
 #. Tag: programlisting
-#: Itext.xml:2378
+#: Itext.xml:2399
 #, no-c-format
 msgid ""
 "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
@@ -3065,7 +3081,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Itext.xml:2380
+#: Itext.xml:2401
 #, no-c-format
 msgid ""
 "The document store stores documents in conversation scope, and documents "
@@ -3081,7 +3097,7 @@ msgstr ""
 "することができます。"
 
 #. Tag: programlisting
-#: Itext.xml:2383
+#: Itext.xml:2404
 #, no-c-format
 msgid ""
 "<![CDATA[<document:document-store use-extensions=\"true\" error-page=\"/"
@@ -3091,25 +3107,25 @@ msgstr ""
 "documentMissing.seam\" />]]>"
 
 #. Tag: title
-#: Itext.xml:2387
+#: Itext.xml:2408
 #, no-c-format
 msgid "Further documentation"
 msgstr "その他のドキュメント"
 
 #. Tag: para
-#: Itext.xml:2389
+#: Itext.xml:2410
 #, no-c-format
 msgid "For further information on iText, see:"
 msgstr "iText に関する詳細は、 次を参照してください。"
 
 #. Tag: ulink
-#: Itext.xml:2394
+#: Itext.xml:2415
 #, no-c-format
 msgid "iText Home Page"
 msgstr "iText ホームページ"
 
 #. Tag: ulink
-#: Itext.xml:2399
+#: Itext.xml:2420
 #, no-c-format
 msgid "iText in Action"
 msgstr "iText in Action (実行可能なデモ) "
