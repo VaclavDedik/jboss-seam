@@ -39,7 +39,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -124,7 +123,6 @@ import org.jboss.seam.web.Parameters;
  * 
  */
 @Scope(ScopeType.APPLICATION)
-@SuppressWarnings("deprecation")
 public class Component extends Model
 {
    public static final String PROPERTIES = "org.jboss.seam.properties";
