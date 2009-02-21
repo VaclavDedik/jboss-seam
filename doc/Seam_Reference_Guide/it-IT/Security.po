@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Security\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-04 00:58+0000\n"
-"PO-Revision-Date: 2009-02-20 12:31+0100\n"
+"PO-Revision-Date: 2009-02-21 14:18+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: Italian <stefano.travelli@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -665,7 +665,7 @@ msgstr "Per prevenire il fatto che gli utenti ricevano la pagina di errore di de
 #: Security.xml:382
 #, no-c-format
 msgid "<literal>NotLoggedInException</literal> - This exception is thrown if the user attempts to access a restricted action or page when they are not logged in."
-msgstr "<literal>NotLoggedInException<literal> - Questa eccezione viene lanciata se l'utente tenta di accedere ad un'azione o ad una pagina protetta quando non ha fatto l'accesso."
+msgstr "<literal>NotLoggedInException</literal> - Questa eccezione viene lanciata se l'utente tenta di accedere ad un'azione o ad una pagina protetta quando non ha fatto l'accesso."
 
 #. Tag: para
 #: Security.xml:388
@@ -1578,7 +1578,7 @@ msgstr "JpaIdentityStore.EVENT_USER_CREATED"
 #: Security.xml:911
 #, no-c-format
 msgid "This event is also raised in response to calling <literal>IdentityManager.createUser()</literal>. However, it is raised after the user entity has already been persisted to the database. Like the <literal>EVENT_PRE_PERSIST_USER</literal> event, it also passes the entity instance as an event parameter. It may be useful to observe this event if you also need to persist other entities that reference the user entity, for example contact detail records or other user-specific data."
-msgstr "Anche questo evento viene lanciato in corrispondenza di <litera>IdentityMananger.createUser()</literal>. Però viene lanciato dopo che l'entità utente è già stata resa persistente sul database. Come per l'evento <literal>EVENT_PRE_PERSIST_USER</literal>, anche questo passa l'istanza dell'entità come un parametro dell'evento. Può essere utile osservare questo evento se c'è bisogno di rendere persistenti altre entità che fanno riferimento all'entità utente, ad esempio informazioni di dettaglio del contatto o altri dati specifici dell'utente."
+msgstr "Anche questo evento viene lanciato in corrispondenza di <literal>IdentityMananger.createUser()</literal>. Però viene lanciato dopo che l'entità utente è già stata resa persistente sul database. Come per l'evento <literal>EVENT_PRE_PERSIST_USER</literal>, anche questo passa l'istanza dell'entità come un parametro dell'evento. Può essere utile osservare questo evento se c'è bisogno di rendere persistenti altre entità che fanno riferimento all'entità utente, ad esempio informazioni di dettaglio del contatto o altri dati specifici dell'utente."
 
 #. Tag: title
 #: Security.xml:921
@@ -2030,7 +2030,7 @@ msgstr "Esempio di configurazione di LdapIdentityStore"
 #: Security.xml:1335
 #, no-c-format
 msgid "The following configuration example shows how <literal>LdapIdentityStore</literal> may be configured for an LDAP directory running on fictional host <literal>directory.mycompany.com</literal>. The users are stored within this directory under the context <literal>ou=Person,dc=mycompany,dc=com</literal>, and are identified using the <literal>uid</literal> attribute (which corresponds to their username). Roles are stored in their own context, <literal>ou=Roles,dc=mycompany,dc=com</literal> and referenced from the user's entry via the <literal>roles</literal> attribute. Role entries are identified by their common name (the <literal>cn</literal> attribute) , which corresponds to the role name. In this example, users may be disabled by setting the value of their <literal>enabled</literal> attribute to false."
-msgstr "La seguente configurazione di esempio mostra come <literal>LdapIdentityStore</literal> può essere configurato per una directory LDAP sul sistema immaginario <literal>directory.mycompany.com</literal>. Gli utenti sono memorizzati all'interno di questa directory sotto il contesto <literal>ou=Person,dc=mycompany,dc=com</literal> e sono identificati usando l'attributo <literal>uid</literal> (che corrisponde al loro nome utente). I ruoli sono memorizzati nel loro contesto, <literal>ou=Roles,dc=mycompany,dc=com</literal> e referenziati dalla voce dell'utente tramite l'attributo <literal>roles<literal>. Le voci dei ruoli sono identificate tramite il loro common name (l'attributo <literal>cn</literal>), che corrisponde al nome del ruolo. In questo esempio gli utenti possono essere disabilitati impostando il valoro del loro attributo <literal>enabled</literal> a false."
+msgstr "La seguente configurazione di esempio mostra come <literal>LdapIdentityStore</literal> può essere configurato per una directory LDAP sul sistema immaginario <literal>directory.mycompany.com</literal>. Gli utenti sono memorizzati all'interno di questa directory sotto il contesto <literal>ou=Person,dc=mycompany,dc=com</literal> e sono identificati usando l'attributo <literal>uid</literal> (che corrisponde al loro nome utente). I ruoli sono memorizzati nel loro contesto, <literal>ou=Roles,dc=mycompany,dc=com</literal> e referenziati dalla voce dell'utente tramite l'attributo <literal>roles</literal>. Le voci dei ruoli sono identificate tramite il loro common name (l'attributo <literal>cn</literal>), che corrisponde al nome del ruolo. In questo esempio gli utenti possono essere disabilitati impostando il valoro del loro attributo <literal>enabled</literal> a false."
 
 #. Tag: programlisting
 #: Security.xml:1346
@@ -2811,7 +2811,7 @@ msgstr "L'annotazione @Restrict"
 #: Security.xml:2302
 #, no-c-format
 msgid "Seam components may be secured either at the method or the class level, using the <literal>@Restrict</literal> annotation. If both a method and it's declaring class are annotated with <literal>@Restrict</literal>, the method restriction will take precedence (and the class restriction will not apply). If a method invocation fails a security check, then an exception will be thrown as per the contract for <literal>Identity.checkRestriction()</literal> (see Inline Restrictions). A <literal>@Restrict</literal> on just the component class itself is equivalent to adding <literal>@Restrict</literal> to each of its methods."
-msgstr "I componenti Seam possono essere resi sicuri sia a livello di metodo che a livello di classe usando l'annotazione <litera>@Restrict</literal>. Se sia un metodo che la classe in cui è dichiarato sono annotati con <literal>@Restrict</literal>, la restrizione sul metodo ha la precedenza (e la restrizione sulla classe non si applica). Se nell'invocazione di un metodo fallisce il controllo di sicurezza, viene lanciata un'eccezione come definito nel contratto di <literal>Identity.checkRestriction()</literal> (vedi Restrizioni in linea). Una <literal>@Restrict</literal> solo sulla classe del componente stesso è equivalente ad aggiungere <literal>@Restrict</literal> a ciascuno dei suoi metodi."
+msgstr "I componenti Seam possono essere resi sicuri sia a livello di metodo che a livello di classe usando l'annotazione <literal>@Restrict</literal>. Se sia un metodo che la classe in cui è dichiarato sono annotati con <literal>@Restrict</literal>, la restrizione sul metodo ha la precedenza (e la restrizione sulla classe non si applica). Se nell'invocazione di un metodo fallisce il controllo di sicurezza, viene lanciata un'eccezione come definito nel contratto di <literal>Identity.checkRestriction()</literal> (vedi Restrizioni in linea). Una <literal>@Restrict</literal> solo sulla classe del componente stesso è equivalente ad aggiungere <literal>@Restrict</literal> a ciascuno dei suoi metodi."
 
 #. Tag: para
 #: Security.xml:2312
