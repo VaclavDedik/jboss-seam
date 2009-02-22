@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-02-19 21:44+0000\n"
-"PO-Revision-Date: 2009-02-19 22:57+0100\n"
+"PO-Revision-Date: 2009-02-22 10:52+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -101,7 +101,7 @@ msgstr "La generazione della vista può richiedere il lazy fetching delle associ
 #: Persistence.xml:110
 #, no-c-format
 msgid "The more transactions per request, the more likely we are to encounter atomicity and isolation problems when our application is processing many concurrent requests. Certainly, all write operations should occur in the same transaction!"
-msgstr ""
+msgstr "Più transazioni per richiesta ci sono, più è probabile che si incontrino problemi di atomicità e isolamento quando l'applicazione processa molte richieste concorrenti. Certamente tutte le operazioni di scrittura devono avvenire nella stessa transazione!"
 
 #. Tag: para
 #: Persistence.xml:116
@@ -143,7 +143,7 @@ msgstr ""
 #: Persistence.xml:165
 #, no-c-format
 msgid "Seam transaction management is useful even if you're using EJB 3.0 container-managed persistence contexts. But it is especially useful if you use Seam outside a Java EE 5 environment, or in any other case where you would use a Seam-managed persistence context."
-msgstr ""
+msgstr "La gestione delle transazioni di Seam è utile anche se vengono usati contesti di persistenza gestiti da un container EJB 3.0. Ma in particolare essa è utile quando Seam è usato fuori dall'ambiente Java EE 5, o in ogni altro caso dove si usi un contesto di persistenza gestito da Seam."
 
 #. Tag: title
 #: Persistence.xml:173
@@ -173,7 +173,7 @@ msgstr ""
 #: Persistence.xml:186
 #, no-c-format
 msgid "Configuring a Seam transaction manager"
-msgstr ""
+msgstr "Configurazione di un gestore di transazioni Seam"
 
 #. Tag: para
 #: Persistence.xml:188
@@ -275,7 +275,7 @@ msgstr ""
 #: Persistence.xml:283
 #, no-c-format
 msgid "Seam-managed persistence contexts"
-msgstr ""
+msgstr "Contesti di persistenza gestiti da Seam"
 
 #. Tag: para
 #: Persistence.xml:285
@@ -363,13 +363,13 @@ msgstr ""
 #: Persistence.xml:356
 #, no-c-format
 msgid "Using a Seam-managed Hibernate session"
-msgstr ""
+msgstr "Uso delle sessioni Hibernate gestite da Seam"
 
 #. Tag: para
 #: Persistence.xml:358
 #, no-c-format
 msgid "Seam-managed Hibernate sessions are similar. In <literal>components.xml</literal>:"
-msgstr ""
+msgstr "Le sessioni Hibernate gestite da Seam sono simili. In <literal>components.xml</literal>:"
 
 #. Tag: programlisting
 #: Persistence.xml:362
@@ -391,7 +391,7 @@ msgstr ""
 #: Persistence.xml:364
 #, no-c-format
 msgid "Where <literal>java:/bookingSessionFactory</literal> is the name of the session factory specified in <literal>hibernate.cfg.xml</literal>."
-msgstr ""
+msgstr "Dove <literal>java:/bookingSessionFactory</literal> è il nome della session factory specificata in <literal>hibernate.cfg.xml</literal>."
 
 #. Tag: programlisting
 #: Persistence.xml:369
@@ -537,7 +537,7 @@ msgstr "<![CDATA[<begin-conversation flush-mode=\"MANUAL\" />]]>"
 #: Persistence.xml:448
 #, no-c-format
 msgid "You can set any Seam Managed Persistence Context to use manual flush mode:"
-msgstr ""
+msgstr "Si può impostare qualsiasi Contesto di Persistenza Gestito da Seam alla modalità flush manuale:"
 
 #. Tag: programlisting
 #: Persistence.xml:453

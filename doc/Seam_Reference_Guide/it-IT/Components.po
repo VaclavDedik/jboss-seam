@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:22+0000\n"
-"PO-Revision-Date: 2009-02-11 21:44+0100\n"
+"PO-Revision-Date: 2009-02-22 11:13+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -412,13 +412,13 @@ msgstr "<literal>localeSelector.variant</literal> &#8212; la variante del locale
 #: Components.xml:367
 #, no-c-format
 msgid "<literal>localeSelector.supportedLocales</literal> &#8212; a list of <literal>SelectItem</literal>s representing the supported locales listed in <literal>jsf-config.xml</literal>."
-msgstr ""
+msgstr "<literal>localeSelector.supportedLocales</literal> &#8212; una lista di <literal>SelectItem</literal>che rappresenta il locale supportati elencati in <literal>jsf-config.xml</literal>."
 
 #. Tag: para
 #: Components.xml:374
 #, no-c-format
 msgid "<literal>localeSelector.cookieEnabled</literal> &#8212; specifies that the locale selection should be persisted via a cookie."
-msgstr ""
+msgstr "<literal>localeSelector.cookieEnabled</literal> &#8212; specifica che la selezione del locale debba essere memorizzata in un cookie."
 
 #. Tag: literal
 #: Components.xml:383
@@ -430,25 +430,25 @@ msgstr "org.jboss.seam.international.timezoneSelector"
 #: Components.xml:385
 #, no-c-format
 msgid "Supports selection of the timezone either at configuration time, or by the user at runtime."
-msgstr ""
+msgstr "Supporta la selezione della timezone o a configuration time o da parte dell'utente a runtime."
 
 #. Tag: para
 #: Components.xml:396
 #, no-c-format
 msgid "<literal>timezoneSelector.timezone</literal> &#8212; the actual <literal>java.util.TimeZone</literal>."
-msgstr ""
+msgstr "<literal>timezoneSelector.timezone</literal> &#8212; la <literal>java.util.TimeZone</literal> corrente."
 
 #. Tag: para
 #: Components.xml:402
 #, no-c-format
 msgid "<literal>timezoneSelector.timeZoneId</literal> &#8212; the stringified representation of the timezone."
-msgstr ""
+msgstr "<literal>timezoneSelector.timeZoneId</literal> &#8212; la rappresentazione in stringa della timezone."
 
 #. Tag: para
 #: Components.xml:408
 #, no-c-format
 msgid "<literal>timezoneSelector.cookieEnabled</literal> &#8212; specifies that the timezone selection should be persisted via a cookie."
-msgstr ""
+msgstr "<literal>timezoneSelector.cookieEnabled</literal> &#8212; specificare che la selezione della timezone debba essere memorizzata in un cookie."
 
 #. Tag: literal
 #: Components.xml:417
@@ -460,7 +460,7 @@ msgstr "org.jboss.seam.international.messages"
 #: Components.xml:419
 #, no-c-format
 msgid "A map containing internationalized messages rendered from message templates defined in the Seam resource bundle."
-msgstr ""
+msgstr "Una mappa contenente messaggi internazionalizzati generati da template di messaggi definiti nel resource bundle di Seam."
 
 #. Tag: literal
 #: Components.xml:426
@@ -472,37 +472,37 @@ msgstr "org.jboss.seam.theme.themeSelector"
 #: Components.xml:428
 #, no-c-format
 msgid "Supports selection of the theme either at configuration time, or by the user at runtime."
-msgstr ""
+msgstr "Supporta la selezione di temi o a configuration time, o da parte dell'utente a runtime."
 
 #. Tag: para
 #: Components.xml:434
 #, no-c-format
 msgid "<literal>select()</literal> &#8212; select the specified theme."
-msgstr ""
+msgstr "<literal>select()</literal> &#8212; seleziona il tema specificato."
 
 #. Tag: para
 #: Components.xml:439
 #, no-c-format
 msgid "<literal>theme.availableThemes</literal> &#8212; the list of defined themes."
-msgstr ""
+msgstr "<literal>theme.availableThemes</literal> &#8212; la lista dei temi definiti."
 
 #. Tag: para
 #: Components.xml:445
 #, no-c-format
 msgid "<literal>themeSelector.theme</literal> &#8212; the selected theme."
-msgstr ""
+msgstr "<literal>themeSelector.theme</literal> &#8212; il tema selezionato."
 
 #. Tag: para
 #: Components.xml:451
 #, no-c-format
 msgid "<literal>themeSelector.themes</literal> &#8212; a list of <literal>SelectItem</literal>s representing the defined themes."
-msgstr ""
+msgstr "<literal>themeSelector.themes</literal> &#8212; una lista di <literal>SelectItem</literal> che rappresentano il temi definiti."
 
 #. Tag: para
 #: Components.xml:458
 #, no-c-format
 msgid "<literal>themeSelector.cookieEnabled</literal> &#8212; specifies that the theme selection should be persisted via a cookie."
-msgstr ""
+msgstr "<literal>themeSelector.cookieEnabled</literal> &#8212; specifica che la selezione del tema sia memorizzata in un cookie."
 
 #. Tag: literal
 #: Components.xml:467
@@ -514,13 +514,13 @@ msgstr "org.jboss.seam.theme.theme"
 #: Components.xml:469
 #, no-c-format
 msgid "A map containing theme entries."
-msgstr ""
+msgstr "Una mappa contenente delle entry di temi."
 
 #. Tag: title
 #: Components.xml:483
 #, no-c-format
 msgid "Components for controlling conversations"
-msgstr ""
+msgstr "Componenti per il controllo delle conversazioni."
 
 #. Tag: para
 #: Components.xml:484
@@ -629,13 +629,13 @@ msgstr ""
 #: Components.xml:589
 #, no-c-format
 msgid "<literal>root()</literal> &#8212; return to the root conversation of the conversation stack."
-msgstr ""
+msgstr "<literal>root()</literal> &#8212; ritorna la conversazione root dello stack di conversazioni."
 
 #. Tag: para
 #: Components.xml:595
 #, no-c-format
 msgid "<literal>changeFlushMode(FlushModeType flushMode)</literal> &#8212; change the flush mode of the conversation."
-msgstr ""
+msgstr "<literal>changeFlushMode(FlushModeType flushMode)</literal> &#8212; cambia la modalità flush della conversazione."
 
 #. Tag: literal
 #: Components.xml:604
@@ -1007,7 +1007,7 @@ msgstr "org.jboss.seam.jms.queueSession"
 #: Components.xml:910
 #, no-c-format
 msgid "Manager component for a JMS <literal>QueueSession</literal> ."
-msgstr ""
+msgstr "Componente gestore di una <literal>QueueSession</literal> JMS."
 
 #. Tag: literal
 #: Components.xml:916
@@ -1019,7 +1019,7 @@ msgstr "org.jboss.seam.jms.topicSession"
 #: Components.xml:918
 #, no-c-format
 msgid "Manager component for a JMS <literal>TopicSession</literal> ."
-msgstr ""
+msgstr "Componente gestore di una <literal>TopicSession</literal> JMS."
 
 #. Tag: title
 #: Components.xml:927
@@ -1043,55 +1043,55 @@ msgstr "org.jboss.seam.mail.mailSession"
 #: Components.xml:936
 #, no-c-format
 msgid "Manager component for a JavaMail <literal>Session</literal>. The session can be either looked up in the JNDI context (by setting the <literal>sessionJndiName</literal> property) or it can created from the configuration options in which case the <literal>host</literal> is mandatory."
-msgstr ""
+msgstr "Componente gestore di una <literal>Session</literal> JavaMail. La sessione può essere o ricercata in un contesto JNDI (impostando la proprietà <literal>sessionJndiName</literal>) o creata dalle opzioni di configurazione nel qual caso è obbligatori l'<literal>host</literal>."
 
 #. Tag: para
 #: Components.xml:945
 #, no-c-format
 msgid "<literal>org.jboss.seam.mail.mailSession.host</literal> &#8212; the hostname of the SMTP server to use"
-msgstr ""
+msgstr "<literal>org.jboss.seam.mail.mailSession.host</literal> &#8212; l'hostname del server SMTP da usare."
 
 #. Tag: para
 #: Components.xml:950
 #, no-c-format
 msgid "<literal>org.jboss.seam.mail.mailSession.port</literal> &#8212; the port of the SMTP server to use"
-msgstr ""
+msgstr "<literal>org.jboss.seam.mail.mailSession.port</literal> &#8212; la porta del server SMTP da usare."
 
 #. Tag: para
 #: Components.xml:955
 #, no-c-format
 msgid "<literal>org.jboss.seam.mail.mailSession.username</literal> &#8212; the username to use to connect to the SMTP server."
-msgstr ""
+msgstr "<literal>org.jboss.seam.mail.mailSession.username</literal> &#8212; lo username da usare per connettersi al server SMTP."
 
 #. Tag: para
 #: Components.xml:960
 #, no-c-format
 msgid "<literal>org.jboss.seam.mail.mailSession.password</literal> &#8212; the password to use to connect to the SMTP server"
-msgstr ""
+msgstr "<literal>org.jboss.seam.mail.mailSession.password</literal> &#8212; la password da usare per connettersi al server SMTP."
 
 #. Tag: para
 #: Components.xml:965
 #, no-c-format
 msgid "<literal>org.jboss.seam.mail.mailSession.debug</literal> &#8212; enable JavaMail debugging (very verbose)"
-msgstr ""
+msgstr "<literal>org.jboss.seam.mail.mailSession.debug</literal> &#8212; abilita il debugging JavaMail (molto verboso)."
 
 #. Tag: para
 #: Components.xml:970
 #, no-c-format
 msgid "<literal>org.jboss.seam.mail.mailSession.ssl</literal> &#8212; enable SSL connection to SMTP (will default to port 465)"
-msgstr ""
+msgstr "<literal>org.jboss.seam.mail.mailSession.ssl</literal> &#8212; abilita la connessioneSSL all'SMTP (porta 465 di default)."
 
 #. Tag: para
 #: Components.xml:973
 #, no-c-format
 msgid "<literal>org.jboss.seam.mail.mailSession.tls</literal> &#8212; by default true, enable TLS support in the mail session"
-msgstr ""
+msgstr "<literal>org.jboss.seam.mail.mailSession.tls</literal> &#8212; di default è true, abilita il supporto TLS nella sessione mail."
 
 #. Tag: para
 #: Components.xml:978
 #, no-c-format
 msgid "<literal>org.jboss.seam.mail.mailSession.sessionJndiName</literal> &#8212; name under which a javax.mail.Session is bound to JNDI. If supplied, all other properties will be ignored."
-msgstr ""
+msgstr "<literal>org.jboss.seam.mail.mailSession.sessionJndiName</literal> &#8212; nome sotto cui una javax.mail.Session è legata a JNDI. Se fornito, tutte le proprietà verranno ignorate."
 
 #. Tag: title
 #: Components.xml:990
@@ -1157,7 +1157,7 @@ msgstr ""
 #: Components.xml:1043
 #, no-c-format
 msgid "<literal>org.jboss.seam.core.manager.conversationTimeout</literal> &#8212; the conversation context timeout in milliseconds."
-msgstr ""
+msgstr "<literal>org.jboss.seam.core.manager.conversationTimeout</literal> &#8212; il timeout del contesto di conversazione espresso in millisecondi."
 
 #. Tag: para
 #: Components.xml:1049
@@ -1301,7 +1301,7 @@ msgstr ""
 #: Components.xml:1185
 #, no-c-format
 msgid "<literal>org.jboss.seam.jms.queueConnection.queueConnectionFactoryJndiName</literal> &#8212; the JNDI name of a JMS <literal>QueueConnectionFactory</literal>. Default to <literal>UIL2ConnectionFactory</literal>"
-msgstr ""
+msgstr "<literal>org.jboss.seam.jms.queueConnection.queueConnectionFactoryJndiName</literal> &#8212; il nome JNDI di un <literal>QueueConnectionFactory</literal> JMS. Di default è <literal>UIL2ConnectionFactory</literal>"
 
 #. Tag: literal
 #: Components.xml:1195
@@ -1319,7 +1319,7 @@ msgstr ""
 #: Components.xml:1203
 #, no-c-format
 msgid "<literal>org.jboss.seam.jms.topicConnection.topicConnectionFactoryJndiName</literal> &#8212; the JNDI name of a JMS <literal>TopicConnectionFactory</literal>. Default to <literal>UIL2ConnectionFactory</literal>"
-msgstr ""
+msgstr "<literal>org.jboss.seam.jms.topicConnection.topicConnectionFactoryJndiName</literal> &#8212; il nome JNDIdi un <literal>TopicConnectionFactory</literal> JMS . Di default è <literal>UIL2ConnectionFactory</literal>"
 
 #. Tag: literal
 #: Components.xml:1213
@@ -1530,13 +1530,13 @@ msgstr ""
 #: Components.xml:1363
 #, no-c-format
 msgid "<emphasis>&lt;entityManager&gt;</emphasis>.entityManagerFactory &#8212; a value binding expression that evaluates to an instance of <literal>EntityManagerFactory</literal>."
-msgstr ""
+msgstr "<emphasis>&lt;entityManager&gt;</emphasis>.entityManagerFactory &#8212; un'espressione di value binding che valuta un'istanza di <literal>EntityManagerFactory</literal>."
 
 #. Tag: para
 #: Components.xml:1368
 #, no-c-format
 msgid "<emphasis>&lt;entityManager&gt;</emphasis>.persistenceUnitJndiName &#8212; the JNDI name of the entity manager factory, default to java:/<emphasis>&lt;managedPersistenceContext&gt;</emphasis>."
-msgstr ""
+msgstr "<emphasis>&lt;entityManager&gt;</emphasis>.persistenceUnitJndiName &#8212; il nome JNDI  di un entity manager factory, il valore di default è java:/<emphasis>&lt;managedPersistenceContext&gt;</emphasis>."
 
 #. Tag: emphasis
 #: Components.xml:1378
@@ -1669,7 +1669,7 @@ msgstr ""
 #: Components.xml:1467
 #, no-c-format
 msgid "<emphasis>&lt;managedTopicPublisher&gt;</emphasis>.topicJndiName &#8212; the JNDI name of the JMS topic."
-msgstr ""
+msgstr "<emphasis>&lt;managedTopicPublisher&gt;</emphasis>.topicJndiName &#8212; il nome JNDI del topic JMS."
 
 #. Tag: emphasis
 #: Components.xml:1476
@@ -1687,13 +1687,13 @@ msgstr "org.jboss.seam.drools.ManagedWorkingMemory"
 #: Components.xml:1479
 #, no-c-format
 msgid "Manager component for a conversation scoped managed Drools <literal>WorkingMemory</literal>."
-msgstr ""
+msgstr "Componente gestore di una <literal>WorkingMemory</literal> di Drools gestita con scope di conversazione."
 
 #. Tag: para
 #: Components.xml:1484
 #, no-c-format
 msgid "<emphasis>&lt;managedWorkingMemory&gt;</emphasis>.ruleBase &#8212; a value expression that evaluates to an instance of <literal>RuleBase</literal>."
-msgstr ""
+msgstr "<emphasis>&lt;managedWorkingMemory&gt;</emphasis>.ruleBase &#8212; un'espressione che valuta un'istanza di <literal>RuleBase</literal>."
 
 #. Tag: emphasis
 #: Components.xml:1493
@@ -1711,7 +1711,7 @@ msgstr "org.jboss.seam.drools.RuleBase"
 #: Components.xml:1496
 #, no-c-format
 msgid "Manager component for an application scoped Drools <literal>RuleBase</literal>. <emphasis>Note that this is not really intended for production usage, since it does not support dynamic installation of new rules.</emphasis>"
-msgstr ""
+msgstr "Componente gestore di una <literal>RuleBase</literal> di Drools con scope di applicazione. <emphasis>Si noti che questo non è inteso per l'uso in produzione, poiché non supporta l'installazione dinamica di nuove regole.</emphasis>"
 
 #. Tag: para
 #: Components.xml:1503

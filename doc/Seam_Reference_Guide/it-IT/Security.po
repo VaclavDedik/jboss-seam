@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Security\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-04 00:58+0000\n"
-"PO-Revision-Date: 2009-02-21 14:18+0100\n"
+"PO-Revision-Date: 2009-02-22 10:38+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: Italian <stefano.travelli@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -3880,7 +3880,7 @@ msgstr ""
 #: Security.xml:2985
 #, no-c-format
 msgid "<![CDATA[c: PermissionCheck(target == \"customer\", action == \"delete\")]]>"
-msgstr ""
+msgstr "<![CDATA[c: PermissionCheck(target == \"customer\", action == \"delete\")]]>"
 
 #. Tag: para
 #: Security.xml:2987
@@ -3916,7 +3916,7 @@ msgstr ""
 #: Security.xml:3030
 #, no-c-format
 msgid "<![CDATA[Role(name == \"admin\")]]>"
-msgstr ""
+msgstr "<![CDATA[Role(name == \"admin\")]]>"
 
 #. Tag: para
 #: Security.xml:3032
@@ -3934,7 +3934,7 @@ msgstr ""
 #: Security.xml:3044
 #, no-c-format
 msgid "<![CDATA[c.grant()]]>"
-msgstr ""
+msgstr "<![CDATA[c.grant()]]>"
 
 #. Tag: para
 #: Security.xml:3046
@@ -3970,6 +3970,17 @@ msgid ""
 "end\n"
 "]]>"
 msgstr ""
+"<![CDATA[rule CanCreateBlogComment\n"
+"  no-loop\n"
+"  activation-group \"permissions\"\n"
+"when\n"
+"  blog: MemberBlog()\n"
+"  check: PermissionCheck(target == blog, action == \"create\", granted == false)\n"
+"  Role(name == \"user\")\n"
+"then\n"
+"  check.grant();\n"
+"end\n"
+"]]>"
 
 #. Tag: title
 #: Security.xml:3076
@@ -3996,6 +4007,14 @@ msgid ""
 "end;\n"
 "        ]]>"
 msgstr ""
+"<![CDATA[rule CanDoAnythingToCustomersIfYouAreAnAdmin\n"
+"when\n"
+"  c: PermissionCheck(target == \"customer\")\n"
+"  Role(name == \"admin\")\n"
+"then\n"
+"  c.grant();\n"
+"end;\n"
+"        ]]>"
 
 #. Tag: para
 #: Security.xml:3086
@@ -4007,7 +4026,7 @@ msgstr ""
 #: Security.xml:3096
 #, no-c-format
 msgid "PersistentPermissionResolver"
-msgstr ""
+msgstr "PersistentPermissionResolver"
 
 #. Tag: para
 #: Security.xml:3098
@@ -4025,7 +4044,7 @@ msgstr ""
 #: Security.xml:3117
 #, no-c-format
 msgid "<![CDATA[  <security:persistent-permission-resolver permission-store=\"#{myCustomPermissionStore}\"/>]]>"
-msgstr ""
+msgstr "<![CDATA[  <security:persistent-permission-resolver permission-store=\"#{myCustomPermissionStore}\"/>]]>"
 
 #. Tag: title
 #: Security.xml:3122
@@ -4053,14 +4072,14 @@ msgstr ""
 #: Security.xml:3800
 #, no-c-format
 msgid "List&lt;Permission&gt;"
-msgstr ""
+msgstr "List&lt;Permission&gt;"
 
 #. Tag: literal
 #: Security.xml:3165
 #: Security.xml:3805
 #, no-c-format
 msgid "listPermissions(Object target)"
-msgstr ""
+msgstr "listPermissions(Object target)"
 
 #. Tag: para
 #: Security.xml:3169
@@ -4073,7 +4092,7 @@ msgstr ""
 #: Security.xml:3786
 #, no-c-format
 msgid "listPermissions(Object target, String action)"
-msgstr ""
+msgstr "listPermissions(Object target, String action)"
 
 #. Tag: para
 #: Security.xml:3188
@@ -4085,7 +4104,7 @@ msgstr ""
 #: Security.xml:3203
 #, no-c-format
 msgid "listPermissions(Set&lt;Object&gt; targets, String action)"
-msgstr ""
+msgstr "listPermissions(Set&lt;Object&gt; targets, String action)"
 
 #. Tag: para
 #: Security.xml:3207
@@ -4097,7 +4116,7 @@ msgstr ""
 #: Security.xml:3223
 #, no-c-format
 msgid "grantPermission(Permission)"
-msgstr ""
+msgstr "grantPermission(Permission)"
 
 #. Tag: para
 #: Security.xml:3227
@@ -4110,7 +4129,7 @@ msgstr ""
 #: Security.xml:3843
 #, no-c-format
 msgid "grantPermissions(List&lt;Permission&gt; permissions)"
-msgstr ""
+msgstr "grantPermissions(List&lt;Permission&gt; permissions)"
 
 #. Tag: para
 #: Security.xml:3246
@@ -4123,7 +4142,7 @@ msgstr ""
 #: Security.xml:3862
 #, no-c-format
 msgid "revokePermission(Permission permission)"
-msgstr ""
+msgstr "revokePermission(Permission permission)"
 
 #. Tag: para
 #: Security.xml:3265
@@ -4136,7 +4155,7 @@ msgstr ""
 #: Security.xml:3881
 #, no-c-format
 msgid "revokePermissions(List&lt;Permission&gt; permissions)"
-msgstr ""
+msgstr "revokePermissions(List&lt;Permission&gt; permissions)"
 
 #. Tag: para
 #: Security.xml:3283
@@ -4149,14 +4168,14 @@ msgstr ""
 #: Security.xml:3895
 #, no-c-format
 msgid "List&lt;String&gt;"
-msgstr ""
+msgstr "List&lt;String&gt;"
 
 #. Tag: literal
 #: Security.xml:3298
 #: Security.xml:3900
 #, no-c-format
 msgid "listAvailableActions(Object target)"
-msgstr ""
+msgstr "listAvailableActions(Object target)"
 
 #. Tag: para
 #: Security.xml:3302
@@ -4168,7 +4187,7 @@ msgstr ""
 #: Security.xml:3316
 #, no-c-format
 msgid "JpaPermissionStore"
-msgstr ""
+msgstr "JpaPermissionStore"
 
 #. Tag: para
 #: Security.xml:3318
@@ -4192,7 +4211,7 @@ msgstr ""
 #: Security.xml:3335
 #, no-c-format
 msgid "<![CDATA[  <security:jpa-permission-store user-permission-class=\"com.acme.model.AccountPermission\"/>]]>"
-msgstr ""
+msgstr "<![CDATA[  <security:jpa-permission-store user-permission-class=\"com.acme.model.AccountPermission\"/>]]>"
 
 #. Tag: para
 #: Security.xml:3337
@@ -4207,6 +4226,8 @@ msgid ""
 "<![CDATA[  <security:jpa-permission-store user-permission-class=\"com.acme.model.UserPermission\"\n"
 "    role-permission-class=\"com.acme.model.RolePermission\"/>]]>"
 msgstr ""
+"<![CDATA[  <security:jpa-permission-store user-permission-class=\"com.acme.model.UserPermission\"\n"
+"    role-permission-class=\"com.acme.model.RolePermission\"/>]]>"
 
 #. Tag: title
 #: Security.xml:3342
@@ -4231,13 +4252,13 @@ msgstr ""
 #: Security.xml:3527
 #, no-c-format
 msgid "Target"
-msgstr ""
+msgstr "Target"
 
 #. Tag: literal
 #: Security.xml:3377
 #, no-c-format
 msgid "@PermissionTarget"
-msgstr ""
+msgstr "@PermissionTarget"
 
 #. Tag: literal
 #: Security.xml:3382
@@ -4247,7 +4268,7 @@ msgstr ""
 #: Security.xml:3458
 #, no-c-format
 msgid "FIELD,METHOD"
-msgstr ""
+msgstr "FIELD,METHOD"
 
 #. Tag: para
 #: Security.xml:3386
@@ -4259,7 +4280,7 @@ msgstr ""
 #: Security.xml:3396
 #, no-c-format
 msgid "@PermissionAction"
-msgstr ""
+msgstr "@PermissionAction"
 
 #. Tag: para
 #: Security.xml:3405
@@ -4271,7 +4292,7 @@ msgstr ""
 #: Security.xml:3415
 #, no-c-format
 msgid "@PermissionUser"
-msgstr ""
+msgstr "@PermissionUser"
 
 #. Tag: para
 #: Security.xml:3424
@@ -4283,7 +4304,7 @@ msgstr ""
 #: Security.xml:3434
 #, no-c-format
 msgid "@PermissionRole"
-msgstr ""
+msgstr "@PermissionRole"
 
 #. Tag: para
 #: Security.xml:3443
@@ -4295,7 +4316,7 @@ msgstr ""
 #: Security.xml:3453
 #, no-c-format
 msgid "@PermissionDiscriminator"
-msgstr ""
+msgstr "@PermissionDiscriminator"
 
 #. Tag: para
 #: Security.xml:3462
@@ -4307,7 +4328,7 @@ msgstr ""
 #: Security.xml:3472
 #, no-c-format
 msgid "<![CDATA[  @PermissionDiscriminator(userValue = \"u\", roleValue = \"r\")]]>"
-msgstr ""
+msgstr "<![CDATA[  @PermissionDiscriminator(userValue = \"u\", roleValue = \"r\")]]>"
 
 #. Tag: title
 #: Security.xml:3483
@@ -4381,6 +4402,61 @@ msgid ""
 "}          \n"
 "          ]]>"
 msgstr ""
+"<![CDATA[\n"
+"@Entity\n"
+"public class AccountPermission implements Serializable {  \n"
+"   private Integer permissionId;\n"
+"   private String recipient;\n"
+"   private String target;\n"
+"   private String action;\n"
+"   private String discriminator;\n"
+"   \n"
+"   @Id @GeneratedValue\n"
+"   public Integer getPermissionId() {\n"
+"      return permissionId;\n"
+"   }\n"
+"   \n"
+"   public void setPermissionId(Integer permissionId) {\n"
+"      this.permissionId = permissionId;\n"
+"   }\n"
+"   \n"
+"   @PermissionUser @PermissionRole\n"
+"   public String getRecipient() {\n"
+"      return recipient;\n"
+"   }\n"
+"   \n"
+"   public void setRecipient(String recipient) {\n"
+"      this.recipient = recipient;\n"
+"   }\n"
+"   \n"
+"   @PermissionTarget\n"
+"   public String getTarget() {\n"
+"      return target;\n"
+"   }\n"
+"   \n"
+"   public void setTarget(String target) {\n"
+"      this.target = target;\n"
+"   }\n"
+"   \n"
+"   @PermissionAction\n"
+"   public String getAction() {\n"
+"      return action;\n"
+"   }\n"
+"   \n"
+"   public void setAction(String action) {\n"
+"      this.action = action;\n"
+"   }\n"
+"   \n"
+"   @PermissionDiscriminator\n"
+"   public String getDiscriminator() {\n"
+"      return discriminator;\n"
+"   }\n"
+"   \n"
+"   public void setDiscriminator(String discriminator) {\n"
+"      this.discriminator = discriminator;\n"
+"   }\n"
+"}          \n"
+"          ]]>"
 
 #. Tag: para
 #: Security.xml:3492
@@ -4410,14 +4486,14 @@ msgstr ""
 #: Security.xml:3540
 #, no-c-format
 msgid "@Permissions"
-msgstr ""
+msgstr "@Permissions"
 
 #. Tag: literal
 #: Security.xml:3545
 #: Security.xml:3563
 #, no-c-format
 msgid "TYPE"
-msgstr ""
+msgstr "TYPE"
 
 #. Tag: para
 #: Security.xml:3549
@@ -4429,7 +4505,7 @@ msgstr ""
 #: Security.xml:3558
 #, no-c-format
 msgid "@Permission"
-msgstr ""
+msgstr "@Permission"
 
 #. Tag: para
 #: Security.xml:3567
@@ -4454,6 +4530,12 @@ msgid ""
 "@Entity\n"
 "public class MemberImage implements Serializable {]]>"
 msgstr ""
+"<![CDATA[@Permissions({\n"
+"   @Permission(action = \"view\"),\n"
+"   @Permission(action = \"comment\")\n"
+"})\n"
+"@Entity\n"
+"public class MemberImage implements Serializable {]]>"
 
 #. Tag: para
 #: Security.xml:3585
@@ -4563,7 +4645,7 @@ msgstr ""
 #: Security.xml:3660
 #, no-c-format
 msgid "ClassIdentifierStrategy"
-msgstr ""
+msgstr "ClassIdentifierStrategy"
 
 #. Tag: para
 #: Security.xml:3662
@@ -4715,7 +4797,7 @@ msgstr ""
 #: Security.xml:3739
 #, no-c-format
 msgid "PermissionManager"
-msgstr ""
+msgstr "PermissionManager"
 
 #. Tag: para
 #: Security.xml:3741
@@ -4890,7 +4972,7 @@ msgstr "revokePermissions()"
 #: Security.xml:4067
 #, no-c-format
 msgid "SSL Security"
-msgstr ""
+msgstr "SSL Security"
 
 #. Tag: para
 #: Security.xml:4069
@@ -5155,7 +5237,7 @@ msgstr ""
 #: Security.xml:4218
 #, no-c-format
 msgid "org.jboss.seam.security.loginSuccessful"
-msgstr ""
+msgstr "org.jboss.seam.security.loginSuccessful"
 
 #. Tag: para
 #: Security.xml:4222
@@ -5443,6 +5525,9 @@ msgid ""
 "    &lt;phase-listener&gt;org.jboss.seam.security.openid.OpenIdPhaseListener&lt;/phase-listener&gt;\n"
 "&lt;/lifecycle&gt;"
 msgstr ""
+"&lt;lifecycle&gt;\n"
+"    &lt;phase-listener&gt;org.jboss.seam.security.openid.OpenIdPhaseListener&lt;/phase-listener&gt;\n"
+"&lt;/lifecycle&gt;"
 
 #. Tag: para
 #: Security.xml:4444

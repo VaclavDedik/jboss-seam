@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-02-19 21:44+0000\n"
-"PO-Revision-Date: 2009-02-19 22:57+0100\n"
+"PO-Revision-Date: 2009-02-22 10:47+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr "Web Service"
 #: Webservices.xml:4
 #, no-c-format
 msgid "Seam integrates with JBossWS to allow standard JEE web services to take full advantage of Seam's contextual framework, including support for conversational web services. This chapter walks through the steps required to allow web services to run within a Seam environment."
-msgstr ""
+msgstr "Seam si integra con JBossWS per consentire allo standard JEE web service di sfruttrare pienamente il framework contestuale di Seam, includendo il supporto ai web service conversazionali. Questo capitolo passa in rassegna tutti i passi richiesti per consentire ai web service di funzionare in ambiente Seam."
 
 #. Tag: title
 #: Webservices.xml:11
@@ -35,13 +35,13 @@ msgstr "Configurazione ed impacchettamento"
 #: Webservices.xml:12
 #, no-c-format
 msgid "To allow Seam to intercept web service requests so that the necessary Seam contexts can be created for the request, a special SOAP handler must be configured; <literal>org.jboss.seam.webservice.SOAPRequestHandler</literal> is a <literal>SOAPHandler</literal> implementation that does the work of managing Seam's lifecycle during the scope of a web service request."
-msgstr ""
+msgstr "Per consentire a Seam di intercettare le richieste web service in modo tale da creare i contesti Seam necessari per la richiesta, deve essere configurato uno speciale handler SOAP; <literal>org.jboss.seam.webservice.SOAPRequestHandler</literal> è un'implementazione <literal>SOAPHandler</literal> che esegue il lavoro di gestione del ciclo di vita di Seam durante lo scope di una richiesta web service."
 
 #. Tag: para
 #: Webservices.xml:19
 #, no-c-format
 msgid "A special configuration file, <literal>standard-jaxws-endpoint-config.xml</literal> should be placed into the <literal>META-INF</literal> directory of the <literal>jar</literal> file that contains the web service classes. This file contains the following SOAP handler configuration:"
-msgstr ""
+msgstr "Uno speciale file di configurazione, <literal>standard-jaxws-endpoint-config.xml</literal>, deve essere collocato nella directory <literal>META-INF</literal> del file <literal>jar</literal> che contiene le classi web service. Questo file contiene la seguente configurazione handler SOAP:"
 
 #. Tag: programlisting
 #: Webservices.xml:25
@@ -93,7 +93,7 @@ msgstr "Web Service conversazionali"
 #: Webservices.xml:31
 #, no-c-format
 msgid "So how are conversations propagated between web service requests? Seam uses a SOAP header element present in both the SOAP request and response messages to carry the conversation ID from the consumer to the service, and back again. Here's an example of a web service request that contains a conversation ID:"
-msgstr ""
+msgstr "Quindi come vengono propagate le conversazioni tra le richieste web service? Seam usa un elemento di intestazione SOAP presente in entrambi i messaggi di richiesta e di risposta SOAP per portare l'ID della conversazione dal consumatore al servizio, e viceversa. Ecco un esempio di richiesta web service che contiene un ID di conversazione:"
 
 #. Tag: programlisting
 #: Webservices.xml:37
@@ -565,7 +565,7 @@ msgstr ""
 #: Webservices.xml:280
 #, no-c-format
 msgid "Resources and providers as Seam components"
-msgstr ""
+msgstr "Risorse e provider come componenti Seam"
 
 #. Tag: para
 #: Webservices.xml:282
