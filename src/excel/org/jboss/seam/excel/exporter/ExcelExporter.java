@@ -13,6 +13,7 @@ import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
@@ -25,6 +26,7 @@ import org.jboss.seam.excel.ExcelFactory;
 import org.jboss.seam.excel.ExcelWorkbook;
 import org.jboss.seam.excel.ExcelWorkbookException;
 import org.jboss.seam.excel.css.CSSNames;
+import org.jboss.seam.excel.css.ColumnStyle;
 import org.jboss.seam.excel.css.Parser;
 import org.jboss.seam.excel.css.StyleMap;
 import org.jboss.seam.excel.ui.ExcelComponent;
@@ -43,6 +45,7 @@ import org.jboss.seam.navigation.Pages;
  */
 @Name("org.jboss.seam.excel.exporter.excelExporter")
 @Scope(ScopeType.EVENT)
+@Install(precedence = Install.BUILT_IN)
 @BypassInterceptors
 public class ExcelExporter
 {
@@ -75,6 +78,8 @@ public class ExcelExporter
    {
       excelWorkbook = ExcelFactory.instance().getExcelWorkbook(type);
 
+      Parser parser = new Parser();
+
       // Gets the datatable
       UIData dataTable = (UIData) FacesContext.getCurrentInstance().getViewRoot().findComponent(dataTableId);
       if (dataTable == null)
@@ -101,10 +106,15 @@ public class ExcelExporter
       int col = 0;
       for (javax.faces.component.UIColumn column : columns)
       {
-         uiWorksheet.getChildren().add(column);
-         Iterator iterator = UIWorksheet.unwrapIterator(dataTable.getValue());
-         processColumn(column, iterator, dataTableVar, col++);
-         excelWorkbook.nextColumn();
+         ColumnStyle columnStyle = new ColumnStyle(parser.getCascadedStyleMap(column));
+         boolean cssExport = columnStyle.export == null || columnStyle.export;
+         if (column.isRendered() && cssExport)
+         {
+            uiWorksheet.getChildren().add(column);
+            Iterator iterator = UIWorksheet.unwrapIterator(dataTable.getValue());
+            processColumn(column, iterator, dataTableVar, col++);
+            excelWorkbook.nextColumn();
+         }
       }
 
       // Restores the data table var

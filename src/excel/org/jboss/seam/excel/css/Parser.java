@@ -138,6 +138,7 @@ public class Parser
       propertyBuilders.put(CSSNames.COLUMN_WIDTH, new PropertyBuilders.ColumnWidth());
       propertyBuilders.put(CSSNames.COLUMN_AUTO_SIZE, new PropertyBuilders.ColumnAutoSize());
       propertyBuilders.put(CSSNames.COLUMN_HIDDEN, new PropertyBuilders.ColumnHidden());
+      propertyBuilders.put(CSSNames.COLUMN_EXPORT, new PropertyBuilders.ColumnExport());
       propertyBuilders.put(CSSNames.COLUMN_WIDTHS, new PropertyBuilders.ColumnWidths());
       propertyBuilders.put(CSSNames.FORCE_TYPE, new PropertyBuilders.ForceType());
    }

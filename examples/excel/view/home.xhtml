@@ -54,6 +54,12 @@
 					</f:facet>
 					<h:outputText value="#{person.task}" />
 				</rich:column>
+				<rich:column style="xls-column-export:false">
+					<f:facet name="header">
+						<h:outputText value="Hide in export" style="xls-font: red bold" />
+					</f:facet>
+					<h:outputText value="Details" />
+				</rich:column>				
 			</rich:dataTable>
 			<h:commandLink value="Export table as Excel spreadsheet"
 				rendered="#{!empty excelTest.result}"

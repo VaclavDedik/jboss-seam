@@ -49,6 +49,10 @@ public class PropertyBuilders
    public static class ColumnHidden extends BooleanPropertyBuilder
    {
    }
+   
+   public static class ColumnExport extends BooleanPropertyBuilder
+   {
+   }   
 
    public static class BorderBottomLineStyle extends StringPropertyBuilder
    {

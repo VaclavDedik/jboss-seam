@@ -53,5 +53,6 @@ public class CSSNames
    public static final String COLUMN_WIDTHS = "xls-column-widths";
    public static final String COLUMN_AUTO_SIZE = "xls-column-autosize";
    public static final String COLUMN_HIDDEN = "xls-column-hidden";
+   public static final String COLUMN_EXPORT = "xls-column-export";
 
 }

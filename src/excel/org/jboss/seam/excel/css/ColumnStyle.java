@@ -12,10 +12,12 @@ public class ColumnStyle
    public Boolean autoSize;
    public Boolean hidden;
    public Integer width;
+   public Boolean export;
    
    public ColumnStyle(Map<String, Object> styleMap) {
       autoSize = (Boolean) styleMap.get(CSSNames.COLUMN_AUTO_SIZE);
       hidden = (Boolean) styleMap.get(CSSNames.COLUMN_HIDDEN);
       width = (Integer) styleMap.get(CSSNames.COLUMN_WIDTH);
+      export = (Boolean) styleMap.get(CSSNames.COLUMN_EXPORT);
    }
 }
