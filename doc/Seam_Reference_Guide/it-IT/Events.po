@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-02-19 21:44+0000\n"
-"PO-Revision-Date: 2009-02-19 22:53+0100\n"
+"PO-Revision-Date: 2009-02-22 11:52+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 #: Events.xml:5
 #, no-c-format
 msgid "Events, interceptors and exception handling"
-msgstr ""
+msgstr "Eventi, interceptor e gestione delle eccezioni"
 
 #. Tag: para
 #: Events.xml:7
@@ -29,7 +29,7 @@ msgstr ""
 #: Events.xml:17
 #, no-c-format
 msgid "Seam events"
-msgstr ""
+msgstr "Eventi di Seam"
 
 #. Tag: para
 #: Events.xml:18
@@ -41,31 +41,31 @@ msgstr ""
 #: Events.xml:27
 #, no-c-format
 msgid "JSF events"
-msgstr ""
+msgstr "Eventi JSF"
 
 #. Tag: para
 #: Events.xml:30
 #, no-c-format
 msgid "jBPM transition events"
-msgstr ""
+msgstr "Eventi di transizione jBPM"
 
 #. Tag: para
 #: Events.xml:33
 #, no-c-format
 msgid "Seam page actions"
-msgstr ""
+msgstr "Azioni di pagina Seam"
 
 #. Tag: para
 #: Events.xml:36
 #, no-c-format
 msgid "Seam component-driven events"
-msgstr ""
+msgstr "Eventi guidati da componenti Seam"
 
 #. Tag: para
 #: Events.xml:39
 #, no-c-format
 msgid "Seam contextual events"
-msgstr ""
+msgstr "Eventi contestuali Seam"
 
 #. Tag: para
 #: Events.xml:43
@@ -111,7 +111,7 @@ msgstr ""
 #: Events.xml:66
 #, no-c-format
 msgid "Page actions"
-msgstr ""
+msgstr "Azioni di pagina"
 
 #. Tag: para
 #: Events.xml:68
@@ -207,7 +207,7 @@ msgstr ""
 #: Events.xml:120
 #, no-c-format
 msgid "Page parameters"
-msgstr ""
+msgstr "Parametri di pagina"
 
 #. Tag: para
 #: Events.xml:122
@@ -297,7 +297,7 @@ msgstr ""
 #: Events.xml:200
 #, no-c-format
 msgid "Propagating request parameters"
-msgstr ""
+msgstr "Parametri di richiesta che si propagano"
 
 #. Tag: para
 #: Events.xml:202
@@ -484,7 +484,7 @@ msgstr ""
 #: Events.xml:327
 #, no-c-format
 msgid "Alternatively:"
-msgstr ""
+msgstr "In alternativa:"
 
 #. Tag: programlisting
 #: Events.xml:318
@@ -510,7 +510,7 @@ msgstr ""
 #: Events.xml:321
 #, no-c-format
 msgid "JSF validators, and <literal>required=\"true\"</literal> may also be used:"
-msgstr ""
+msgstr "possono essere usati anche i validatori JSF e <literal>required=\"true\"</literal>:"
 
 #. Tag: programlisting
 #: Events.xml:325
@@ -572,7 +572,7 @@ msgstr ""
 #: Events.xml:346
 #, no-c-format
 msgid "Navigation"
-msgstr ""
+msgstr "Navigazione"
 
 #. Tag: para
 #: Events.xml:348
@@ -608,7 +608,7 @@ msgstr ""
 #: Events.xml:378
 #, no-c-format
 msgid "This JSF navigation rule:"
-msgstr ""
+msgstr "Questa regola di navigazione JSF:"
 
 #. Tag: programlisting
 #: Events.xml:382
@@ -704,7 +704,7 @@ msgstr ""
 #: Events.xml:397
 #, no-c-format
 msgid "Or even:"
-msgstr ""
+msgstr "Od anche:"
 
 #. Tag: programlisting
 #: Events.xml:401
@@ -922,7 +922,7 @@ msgstr ""
 #: Events.xml:469
 #, no-c-format
 msgid "Component-driven events"
-msgstr ""
+msgstr "Eventi guidati da componenti"
 
 #. Tag: para
 #: Events.xml:471
@@ -990,7 +990,7 @@ msgstr ""
 #: Events.xml:497
 #, no-c-format
 msgid "Or you can use an annotation."
-msgstr ""
+msgstr "Oppure si può usare un'annotazione."
 
 #. Tag: programlisting
 #: Events.xml:501
@@ -1126,247 +1126,247 @@ msgstr ""
 #: Events.xml:542
 #, no-c-format
 msgid "<literal>org.jboss.seam.validationFailed</literal> &#8212; called when JSF validation fails"
-msgstr ""
+msgstr "<literal>org.jboss.seam.validationFailed</literal> &#8212; chiamato quando fallisce la validazione JSF"
 
 #. Tag: para
 #: Events.xml:543
 #, no-c-format
 msgid "<literal>org.jboss.seam.noConversation</literal> &#8212; called when there is no long running conversation and a long running conversation is required"
-msgstr ""
+msgstr "<literal>org.jboss.seam.noConversation</literal> &#8212; chiamato quando non c'è alcuna conversazione long-running mentre questa è richiesta"
 
 #. Tag: para
 #: Events.xml:544
 #, no-c-format
 msgid "<literal>org.jboss.seam.preSetVariable.&lt;name&gt;</literal> &#8212; called when the context variable &lt;name&gt; is set"
-msgstr ""
+msgstr "<literal>org.jboss.seam.preSetVariable.&lt;name&gt;</literal> &#8212; chiamato quando la variabile di contesto &lt;name&gt; è impostata"
 
 #. Tag: para
 #: Events.xml:545
 #, no-c-format
 msgid "<literal>org.jboss.seam.postSetVariable.&lt;name&gt;</literal> &#8212; called when the context variable &lt;name&gt; is set"
-msgstr ""
+msgstr "<literal>org.jboss.seam.postSetVariable.&lt;name&gt;</literal> &#8212; chiamato quando la variabile di contesto &lt;name&gt; è impostata"
 
 #. Tag: para
 #: Events.xml:546
 #, no-c-format
 msgid "<literal>org.jboss.seam.preRemoveVariable.&lt;name&gt;</literal> &#8212; called when the context variable &lt;name&gt; is unset"
-msgstr ""
+msgstr "<literal>org.jboss.seam.preRemoveVariable.&lt;name&gt;</literal> &#8212; chiamato quando la variabile di contesto &lt;name&gt; non è impostata"
 
 #. Tag: para
 #: Events.xml:547
 #, no-c-format
 msgid "<literal>org.jboss.seam.postRemoveVariable.&lt;name&gt;</literal> &#8212; called when the context variable &lt;name&gt; is unset"
-msgstr ""
+msgstr "<literal>org.jboss.seam.postRemoveVariable.&lt;name&gt;</literal> &#8212; chiamato quando la variabile di contesto &lt;name&gt; non è impostata"
 
 #. Tag: para
 #: Events.xml:548
 #, no-c-format
 msgid "<literal>org.jboss.seam.preDestroyContext.&lt;SCOPE&gt;</literal> &#8212; called before the &lt;SCOPE&gt; context is destroyed"
-msgstr ""
+msgstr "<literal>org.jboss.seam.preDestroyContext.&lt;SCOPE&gt;</literal> &#8212; chiamato prima che il contesto &lt;SCOPE&gt; venga distrutto"
 
 #. Tag: para
 #: Events.xml:549
 #, no-c-format
 msgid "<literal>org.jboss.seam.postDestroyContext.&lt;SCOPE&gt;</literal> &#8212; called after the &lt;SCOPE&gt; context is destroyed"
-msgstr ""
+msgstr "<literal>org.jboss.seam.postDestroyContext.&lt;SCOPE&gt;</literal> &#8212; chiamato prima che il contesto &lt;SCOPE&gt; venga distrutto"
 
 #. Tag: para
 #: Events.xml:550
 #, no-c-format
 msgid "<literal>org.jboss.seam.beginConversation </literal> &#8212; called whenever a long-running conversation begins"
-msgstr ""
+msgstr "<literal>org.jboss.seam.beginConversation </literal> &#8212; chiamato quando inizia una conversazione long-running"
 
 #. Tag: para
 #: Events.xml:551
 #, no-c-format
 msgid "<literal>org.jboss.seam.endConversation </literal> &#8212; called whenever a long-running conversation ends"
-msgstr ""
+msgstr "<literal>org.jboss.seam.endConversation </literal> &#8212; chiamato quando finisce una conversazione long-running"
 
 #. Tag: para
 #: Events.xml:552
 #, no-c-format
 msgid "<literal>org.jboss.seam.conversationTimeout</literal> &#8212; called when a conversation timeout occurs. The conversation id is passed as a parameter."
-msgstr ""
+msgstr "<literal>org.jboss.seam.conversationTimeout</literal> &#8212; chiamato quando avviene un timeout di conversazione. L'id di conversazione viene passato come parametro."
 
 #. Tag: para
 #: Events.xml:553
 #, no-c-format
 msgid "<literal>org.jboss.seam.beginPageflow </literal> &#8212; called when a pageflow begins"
-msgstr ""
+msgstr "<literal>org.jboss.seam.beginPageflow </literal> &#8212; chiamato quando inizia un pageflow"
 
 #. Tag: para
 #: Events.xml:554
 #, no-c-format
 msgid "<literal>org.jboss.seam.beginPageflow.&lt;name&gt; </literal> &#8212; called when the pageflow &lt;name&gt; begins"
-msgstr ""
+msgstr "<literal>org.jboss.seam.beginPageflow.&lt;name&gt; </literal> &#8212; chiamato quando inizia il pageflow &lt;name&gt;"
 
 #. Tag: para
 #: Events.xml:555
 #, no-c-format
 msgid "<literal>org.jboss.seam.endPageflow </literal> &#8212; called when a pageflow ends"
-msgstr ""
+msgstr "<literal>org.jboss.seam.endPageflow </literal> &#8212; chiamato quando finisce il pageflow"
 
 #. Tag: para
 #: Events.xml:556
 #, no-c-format
 msgid "<literal>org.jboss.seam.endPageflow.&lt;name&gt; </literal> &#8212; called when the pageflow &lt;name&gt; ends"
-msgstr ""
+msgstr "<literal>org.jboss.seam.endPageflow.&lt;name&gt; </literal> &#8212; chiamato quando finisce il pageflow &lt;name&gt;"
 
 #. Tag: para
 #: Events.xml:557
 #, no-c-format
 msgid "<literal>org.jboss.seam.createProcess.&lt;name&gt; </literal> &#8212; called when the process &lt;name&gt; is created"
-msgstr ""
+msgstr "<literal>org.jboss.seam.createProcess.&lt;name&gt; </literal> &#8212; chiamato quando viene creato il processo &lt;name&gt;"
 
 #. Tag: para
 #: Events.xml:558
 #, no-c-format
 msgid "<literal>org.jboss.seam.endProcess.&lt;name&gt; </literal> &#8212; called when the process &lt;name&gt; ends"
-msgstr ""
+msgstr "<literal>org.jboss.seam.endProcess.&lt;name&gt; </literal> &#8212; chiamato quando finisce il processo &lt;name&gt;"
 
 #. Tag: para
 #: Events.xml:559
 #, no-c-format
 msgid "<literal>org.jboss.seam.initProcess.&lt;name&gt; </literal> &#8212; called when the process &lt;name&gt; is associated with the conversation"
-msgstr ""
+msgstr "<literal>org.jboss.seam.initProcess.&lt;name&gt; </literal> &#8212; chiamato quando il processo &lt;name&gt; è associato alla conversazione"
 
 #. Tag: para
 #: Events.xml:560
 #, no-c-format
 msgid "<literal>org.jboss.seam.initTask.&lt;name&gt; </literal> &#8212; called when the task &lt;name&gt; is associated with the conversation"
-msgstr ""
+msgstr "<literal>org.jboss.seam.initTask.&lt;name&gt; </literal> &#8212; chiamato quando il task &lt;name&gt; è associato alla conversazione"
 
 #. Tag: para
 #: Events.xml:561
 #, no-c-format
 msgid "<literal>org.jboss.seam.startTask.&lt;name&gt; </literal> &#8212; called when the task &lt;name&gt; is started"
-msgstr ""
+msgstr "<literal>org.jboss.seam.startTask.&lt;name&gt; </literal> &#8212; chiamato quando il task &lt;name&gt; viene avviato"
 
 #. Tag: para
 #: Events.xml:562
 #, no-c-format
 msgid "<literal>org.jboss.seam.endTask.&lt;name&gt; </literal> &#8212; called when the task &lt;name&gt; is ended"
-msgstr ""
+msgstr "<literal>org.jboss.seam.endTask.&lt;name&gt; </literal> &#8212; chiamato quando il task &lt;name&gt; viene terminato"
 
 #. Tag: para
 #: Events.xml:563
 #, no-c-format
 msgid "<literal>org.jboss.seam.postCreate.&lt;name&gt; </literal> &#8212; called when the component &lt;name&gt; is created"
-msgstr ""
+msgstr "<literal>org.jboss.seam.postCreate.&lt;name&gt; </literal> &#8212; chiamato quando il componente &lt;name&gt; viene creato"
 
 #. Tag: para
 #: Events.xml:564
 #, no-c-format
 msgid "<literal>org.jboss.seam.preDestroy.&lt;name&gt; </literal> &#8212; called when the component &lt;name&gt; is destroyed"
-msgstr ""
+msgstr "<literal>org.jboss.seam.preDestroy.&lt;name&gt; </literal> &#8212; chiamato quando il componente &lt;name&gt; viene distrutto"
 
 #. Tag: para
 #: Events.xml:565
 #, no-c-format
 msgid "<literal>org.jboss.seam.beforePhase </literal> &#8212; called before the start of a JSF phase"
-msgstr ""
+msgstr "<literal>org.jboss.seam.beforePhase </literal> &#8212; chiamato prima dell'inizio di una fase JSF"
 
 #. Tag: para
 #: Events.xml:566
 #, no-c-format
 msgid "<literal>org.jboss.seam.afterPhase </literal> &#8212; called after the end of a JSF phase"
-msgstr ""
+msgstr "<literal>org.jboss.seam.afterPhase </literal> &#8212; chiamato dopo la fine di una fase JSF"
 
 #. Tag: para
 #: Events.xml:567
 #, no-c-format
 msgid "<literal>org.jboss.seam.postInitialization </literal> &#8212; called when Seam has initialized and started up all components"
-msgstr ""
+msgstr "<literal>org.jboss.seam.postInitialization </literal> &#8212; chiamato quando Seam ha inizializzato e avviato tutti i componenti"
 
 #. Tag: para
 #: Events.xml:568
 #, no-c-format
 msgid "<literal>org.jboss.seam.postReInitialization </literal> &#8212; called when Seam has re-initialized and started up all components after a redeploy"
-msgstr ""
+msgstr "<literal>org.jboss.seam.postReInitialization </literal> &#8212; chiamato quando Seam ha reinizializzato ed avviato tutti i componenti dopo un redeploy"
 
 #. Tag: para
 #: Events.xml:569
 #, no-c-format
 msgid "<literal>org.jboss.seam.exceptionHandled.&lt;type&gt;</literal> &#8212; called when an uncaught exception is handled by Seam"
-msgstr ""
+msgstr "<literal>org.jboss.seam.exceptionHandled.&lt;type&gt;</literal> &#8212; chiamato quando viene gestita da Seam un'eccezione non catturata del tipo &lt;type&gt;"
 
 #. Tag: para
 #: Events.xml:570
 #, no-c-format
 msgid "<literal>org.jboss.seam.exceptionHandled</literal> &#8212; called when an uncaught exception is handled by Seam"
-msgstr ""
+msgstr "<literal>org.jboss.seam.exceptionHandled</literal> &#8212; chiamato quando viene gestita da Seam un'eccezione non catturata"
 
 #. Tag: para
 #: Events.xml:571
 #, no-c-format
 msgid "<literal>org.jboss.seam.exceptionNotHandled</literal> &#8212; called when there was no handler for an uncaught exception"
-msgstr ""
+msgstr "<literal>org.jboss.seam.exceptionNotHandled</literal> &#8212; chiamato quando non c'è alcun handler per eccezioni non catturate"
 
 #. Tag: para
 #: Events.xml:572
 #, no-c-format
 msgid "<literal>org.jboss.seam.afterTransactionSuccess</literal> &#8212; called when a transaction succeeds in the Seam Application Framework"
-msgstr ""
+msgstr "<literal>org.jboss.seam.afterTransactionSuccess</literal> &#8212; chiamato quando ha successo una transazione nel Seam Application Framework"
 
 #. Tag: para
 #: Events.xml:573
 #, no-c-format
 msgid "<literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> &#8212; called when a transaction succeeds in the Seam Application Framework which manages an entity called <literal>&lt;name&gt;</literal>"
-msgstr ""
+msgstr "<literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> &#8212; chiamato quando ha successo una transazione nel Seam Application Framework che gestisce un'entità chiamata <literal>&lt;name&gt;</literal>"
 
 #. Tag: para
 #: Events.xml:574
 #, no-c-format
 msgid "<literal>org.jboss.seam.security.loggedOut</literal> &#8212; called when a user logs out"
-msgstr ""
+msgstr "<literal>org.jboss.seam.security.loggedOut</literal> &#8212; chiamato quando un utente si disconnette"
 
 #. Tag: para
 #: Events.xml:575
 #, no-c-format
 msgid "<literal>org.jboss.seam.security.loginFailed</literal> &#8212; called when a user authentication attempt fails"
-msgstr ""
+msgstr "<literal>org.jboss.seam.security.loginFailed</literal> &#8212; chiamato quando fallisce un tentativo di autenticazione utente"
 
 #. Tag: para
 #: Events.xml:576
 #, no-c-format
 msgid "<literal>org.jboss.seam.security.loginSuccessful</literal> &#8212; called when a user is successfully authenticated"
-msgstr ""
+msgstr "<literal>org.jboss.seam.security.loginSuccessful</literal> &#8212; chiamato quando un utente si autentica con successo"
 
 #. Tag: para
 #: Events.xml:577
 #, no-c-format
 msgid "<literal>org.jboss.seam.security.notAuthorized</literal> &#8212; called when an authorization check fails"
-msgstr ""
+msgstr "<literal>org.jboss.seam.security.notAuthorized</literal> &#8212; chiamato quando fallisce un controllo di autorizzazione"
 
 #. Tag: para
 #: Events.xml:578
 #, no-c-format
 msgid "<literal>org.jboss.seam.security.notLoggedIn</literal> &#8212; called there is no authenticated user and authentication is required"
-msgstr ""
+msgstr "<literal>org.jboss.seam.security.notLoggedIn</literal> &#8212; chiamato quando non è autenticato alcun utente mentre l'autenticazione è richiesta"
 
 #. Tag: para
 #: Events.xml:579
 #, no-c-format
 msgid "<literal>org.jboss.seam.security.postAuthenticate.</literal> &#8212; called after a user is authenticated"
-msgstr ""
+msgstr "<literal>org.jboss.seam.security.postAuthenticate.</literal> &#8212; chiamato dopo che un utente viene autenticato"
 
 #. Tag: para
 #: Events.xml:580
 #, no-c-format
 msgid "<literal>org.jboss.seam.security.preAuthenticate</literal> &#8212; called before attempting to authenticate a user"
-msgstr ""
+msgstr "<literal>org.jboss.seam.security.preAuthenticate</literal> &#8212; chiamato prima del tentativo di autenticazione di un utente"
 
 #. Tag: para
 #: Events.xml:583
 #, no-c-format
 msgid "Seam components may observe any of these events in just the same way they observe any other component-driven events."
-msgstr ""
+msgstr "I componenti Seam possono osservare uno di questi eventi così come osservano qualsiasi altro evento guidato da componente."
 
 #. Tag: title
 #: Events.xml:592
 #, no-c-format
 msgid "Seam interceptors"
-msgstr ""
+msgstr "Interceptor Seam"
 
 #. Tag: para
 #: Events.xml:594
@@ -1546,7 +1546,7 @@ msgstr ""
 #: Events.xml:668
 #, no-c-format
 msgid "Managing exceptions"
-msgstr ""
+msgstr "Gestione delle eccezioni"
 
 #. Tag: para
 #: Events.xml:670
@@ -1558,7 +1558,7 @@ msgstr ""
 #: Events.xml:680
 #, no-c-format
 msgid "Exceptions and transactions"
-msgstr ""
+msgstr "Eccezioni e transazioni"
 
 #. Tag: para
 #: Events.xml:682
@@ -1588,7 +1588,7 @@ msgstr ""
 #: Events.xml:717
 #, no-c-format
 msgid "Enabling Seam exception handling"
-msgstr ""
+msgstr "Abilitare la gestione delle eccezioni di Seam"
 
 #. Tag: para
 #: Events.xml:719
@@ -1630,7 +1630,7 @@ msgstr ""
 #: Events.xml:735
 #, no-c-format
 msgid "Using annotations for exception handling"
-msgstr ""
+msgstr "Uso delle annotazioni per la gestione delle eccezioni"
 
 #. Tag: para
 #: Events.xml:737
@@ -1698,7 +1698,7 @@ msgstr ""
 #: Events.xml:775
 #, no-c-format
 msgid "Using XML for exception handling"
-msgstr ""
+msgstr "Uso di XML per la gestione delle eccezioni"
 
 #. Tag: para
 #: Events.xml:777
@@ -1968,7 +1968,7 @@ msgstr ""
 #: Events.xml:860
 #, no-c-format
 msgid "And, for JSF:"
-msgstr ""
+msgstr "E per JSF:"
 
 #. Tag: programlisting
 #: Events.xml:864
@@ -1996,7 +1996,7 @@ msgstr ""
 #: Events.xml:876
 #, no-c-format
 msgid "conversation-required"
-msgstr ""
+msgstr "conversation-required"
 
 #. Tag: para
 #: Events.xml:878

@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-02-19 21:44+0000\n"
-"PO-Revision-Date: 2009-02-19 22:54+0100\n"
+"PO-Revision-Date: 2009-02-22 11:20+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1008,7 +1008,7 @@ msgstr "<literal>footerRows</literal> &#8212; Il numero iniziale di righe che so
 #: Itext.xml:986
 #, no-c-format
 msgid "<literal>widthPercentage</literal> &#8212; The percentage of the page width that the table spans."
-msgstr "<literal>widthPercentage</literal> &#8212; La percentuale della larghezza della pagina che la tabella eccede."
+msgstr "<literal>widthPercentage</literal> &#8212; La percentuale della larghezza della pagina che occupa la tabella."
 
 #. Tag: para
 #: Itext.xml:991
@@ -1614,7 +1614,7 @@ msgstr "&lt;p:piechart&gt;"
 #: Itext.xml:1723
 #, no-c-format
 msgid "Displays a pie chart."
-msgstr "Mostrare un grafico."
+msgstr "Mostra un grafico."
 
 #. Tag: para
 #: Itext.xml:1735
@@ -2275,7 +2275,7 @@ msgstr "Configurazione di iText"
 #: Itext.xml:2385
 #, no-c-format
 msgid "Document generation works out of the box with no additional configuration needed. However, there are a few points of configuration that are needed for more serious applications."
-msgstr "La generazione del documento funziona senza nessuna ulteriore configurazione necessaria. Comunque ci sono alcuni punti della configurazione che servono per applicazioni più serie."
+msgstr "La generazione del documento funziona senza nessuna ulteriore configurazione. Comunque ci sono alcuni punti della configurazione necessari per applicazioni più serie."
 
 #. Tag: para
 #: Itext.xml:2388

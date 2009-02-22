@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Security\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-04 00:58+0000\n"
-"PO-Revision-Date: 2009-02-22 10:38+0100\n"
+"PO-Revision-Date: 2009-02-22 11:27+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: Italian <stefano.travelli@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr "Panoramica"
 #: Security.xml:9
 #, no-c-format
 msgid "The Seam Security API provides a multitude of security-related features for your Seam-based application, covering such areas as:"
-msgstr "Le API della sicurezza di Seam forniscono una serie di caratteristiche relatative alla sicurezza di un'applicazione basata su Seam, coprendo le seguenti aree:"
+msgstr "Le API della sicurezza di Seam forniscono una serie di caratteristiche relative alla sicurezza di un'applicazione basata su Seam, coprendo le seguenti aree:"
 
 #. Tag: para
 #: Security.xml:16
@@ -55,7 +55,7 @@ msgstr "Autorizzazione - un framework di autorizzazione estremamente comprensibi
 #: Security.xml:33
 #, no-c-format
 msgid "Permission Management - a set of built-in Seam components to allow easy management of an application's security policy."
-msgstr "Gestione dei permessi - un insieme di componenti Seam già fatti che consente una gestione facile delle politiche di sicurezza di un'applicazione."
+msgstr "Gestione dei permessi - un insieme di componenti Seam predefiniti che consente una gestione facile delle politiche di sicurezza dell'applicazione."
 
 #. Tag: para
 #: Security.xml:39
@@ -121,7 +121,7 @@ msgstr "Integrazione con la sicurezza delle API Servlet"
 #: Security.xml:85
 #, no-c-format
 msgid "Assuming you are planning to take advantage of what Seam Security has to offer, the rest of this chapter documents the plethora of options you have for giving your user an identity in the eyes of the security model (authentication) and locking down the application by establishing constraints (authorization). Let's begin with the task of authentication since that's the foundation of any security model."
-msgstr "Assumendo che si stia pianificando di sfruttare i vantaggi che la sicurezza Seam ha da offrire, il resto di questo capitolo documenta l'insieme delle opzioni disponibili per dare agli utenti un'identità dal punto di vista del modello di sicurezza (autenticazione) e un accesso limitato all'applicazione secondo dei vincoli stabiliti (autorizzazione). Iniziamo con la questione dell'autentifica poiché è il fondamento di ogni modello di sicurezza."
+msgstr "Assumendo che si stia pianificando di sfruttare i vantaggi che la sicurezza Seam ha da offrire, il resto di questo capitolo documenta l'insieme delle opzioni disponibili per dare agli utenti un'identità dal punto di vista del modello di sicurezza (autenticazione) e un accesso limitato all'applicazione secondo dei vincoli stabiliti (autorizzazione). Iniziamo con la questione dell'autenticazione poiché è il fondamento di ogni modello di sicurezza."
 
 #. Tag: title
 #: Security.xml:95
@@ -133,7 +133,7 @@ msgstr "Autenticazione"
 #: Security.xml:97
 #, no-c-format
 msgid "The authentication features provided by Seam Security are built upon JAAS (Java Authentication and Authorization Service), and as such provide a robust and highly configurable API for handling user authentication. However, for less complex authentication requirements Seam offers a much more simplified method of authentication that hides the complexity of JAAS."
-msgstr "Le caratteristiche relative all'autenticazione nella gestione della sicurezza di Seam sono costruite su JAAS (Java Authentication and Authorization Service, servizio di autentifica e autorizzazione Java) e, come tali, forniscono una API robusta e altamente configurabile per gestire l'autentifica degli utenti. Comunque, per requisiti di autentifica meno complessi, Seam offre un metodo di autentifica molto semplificato che nasconde la complessità di JAAS."
+msgstr "Le caratteristiche relative all'autenticazione nella gestione della sicurezza di Seam sono costruite su JAAS (Java Authentication and Authorization Service, servizio di autenticazione e autorizzazione Java) e, come tali, forniscono una API robusta e altamente configurabile per gestire l'autentifica degli utenti. Comunque, per requisiti di autentifica meno complessi, Seam offre un metodo di autentifica molto semplificato che nasconde la complessità di JAAS."
 
 #. Tag: title
 #: Security.xml:104
@@ -1126,7 +1126,7 @@ msgstr "Richiesta"
 #: Security.xml:652
 #, no-c-format
 msgid "This annotation marks the field or method containing the user's username."
-msgstr "Questa annotazione contrassegna il campo o il metodo che contiene la username dell'utente."
+msgstr "Questa annotazione contrassegna il campo o il metodo che contiene lo username dell'utente."
 
 #. Tag: literal
 #: Security.xml:661

@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:23+0000\n"
-"PO-Revision-Date: 2009-02-01 21:47+0100\n"
+"PO-Revision-Date: 2009-02-22 11:30+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -65,7 +65,7 @@ msgstr ""
 #: Oc4j.xml:49
 #, no-c-format
 msgid "Start OC4J: <literal> $ORACLE_HOME/j2ee/home/java -jar -XX:MaxPermSize=256M oc4j.jar </literal>"
-msgstr ""
+msgstr "Avviare OC4J: <literal> $ORACLE_HOME/j2ee/home/java -jar -XX:MaxPermSize=256M oc4j.jar </literal>"
 
 #. Tag: para
 #: Oc4j.xml:51
