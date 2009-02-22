@@ -30,15 +30,25 @@ public class CsvExcelWorkbook implements ExcelWorkbook
    private int maxColumn = 0;
    private int sheetStartRow = 0;
 
-   private final String COLUMN_DELIMITER = "\"";
-   private final String LINEBREAK = "\n";
-   private final String COMMA = ",";
+   private final static String DEFAULT_COLUMN_DELIMITER = "\"";
+   private final static String DEFAULT_LINEBREAK = "\n";
+   private final static String DEFAULT_COLUMN_SEPERATOR = ",";
 
    private Map<String, String> table = null;
    private String sheetName = null;
 
    private Log log = Logging.getLog(getClass());
 
+   protected String getColumnDelimeter() {
+      return DEFAULT_COLUMN_DELIMITER;
+   }
+   protected String getLineBreak() {
+      return DEFAULT_LINEBREAK;
+   }
+   protected String getColumnSeparator() {
+      return DEFAULT_COLUMN_SEPERATOR;
+   }
+   
    public void createWorkbook(UIWorkbook uiWorkbook) throws ExcelWorkbookException
    {
       table = new HashMap<String, String>();
@@ -73,10 +83,10 @@ public class CsvExcelWorkbook implements ExcelWorkbook
          {
             String value = table.get(hash(i, j));
             value = (value == null) ? "" : value;
-            buffer.append(COLUMN_DELIMITER).append(value).append(COLUMN_DELIMITER).append(COMMA);
+            buffer.append(getColumnDelimeter()).append(value).append(getColumnDelimeter()).append(getColumnSeparator());
          }
          buffer.deleteCharAt(buffer.length() - 1);
-         buffer.append(LINEBREAK);
+         buffer.append(getLineBreak());
       }
 
       return buffer.toString().getBytes();
@@ -138,7 +148,7 @@ public class CsvExcelWorkbook implements ExcelWorkbook
    private String hash(int row, int column)
    {
       StringBuffer buffer = new StringBuffer();
-      buffer.append(row).append(COMMA).append(column);
+      buffer.append(row).append(getColumnSeparator()).append(column);
       return buffer.toString();
    }
 
