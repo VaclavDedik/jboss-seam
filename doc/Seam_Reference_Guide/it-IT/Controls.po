@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:19+0000\n"
-"PO-Revision-Date: 2009-02-03 23:24+0100\n"
+"PO-Revision-Date: 2009-02-23 21:43+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -968,7 +968,7 @@ msgstr "&lt;s:div&gt;"
 #: Controls.xml:582
 #, no-c-format
 msgid "Render a HTML <literal>&lt;div&gt;</literal>."
-msgstr ""
+msgstr "Generare un <literal>&lt;div&gt;</literal> HTML."
 
 #. Tag: programlisting
 #: Controls.xml:592
@@ -992,13 +992,13 @@ msgstr "&lt;s:span&gt;"
 #: Controls.xml:599
 #, no-c-format
 msgid "Render a HTML <literal>&lt;span&gt;</literal>."
-msgstr ""
+msgstr "Generare un <literal>&lt;span&gt;</literal> HTML."
 
 #. Tag: para
 #: Controls.xml:607
 #, no-c-format
 msgid "<literal>title</literal> &#8212; Title for a span."
-msgstr ""
+msgstr "<literal>title</literal> &#8212; Fornisce un titolo per uno span."
 
 #. Tag: programlisting
 #: Controls.xml:615
@@ -1047,14 +1047,14 @@ msgstr ""
 #: Controls.xml:968
 #, no-c-format
 msgid "<literal>style</literal> &#8212; The control's style"
-msgstr ""
+msgstr "<literal>style</literal> &#8212; Lo stile del controllo"
 
 #. Tag: para
 #: Controls.xml:656
 #: Controls.xml:973
 #, no-c-format
 msgid "<literal>styleClass</literal> &#8212; The control's style class"
-msgstr ""
+msgstr "<literal>styleClass</literal> &#8212; La classe di stile del controllo"
 
 #. Tag: programlisting
 #: Controls.xml:663
@@ -1104,7 +1104,7 @@ msgstr ""
 #: Controls.xml:687
 #, no-c-format
 msgid "Seam Text"
-msgstr ""
+msgstr "Seam Text"
 
 #. Tag: literal
 #: Controls.xml:690
@@ -1152,7 +1152,7 @@ msgstr "Esempio"
 #: Controls.xml:741
 #, no-c-format
 msgid "Dropdowns"
-msgstr ""
+msgstr "I dropdown"
 
 #. Tag: literal
 #: Controls.xml:744
