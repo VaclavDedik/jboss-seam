@@ -20,7 +20,7 @@ import org.jboss.seam.util.Faces;
 public class DocumentStore 
     implements Serializable
 {    
-    public static final String DOCSTORE_BASE_URL = "/seam/docstore/";
+    public static final String DOCSTORE_BASE_URL = "/seam/docstore/document";
 
     private static final long serialVersionUID = -357154201942127711L;
 
