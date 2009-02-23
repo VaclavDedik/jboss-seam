@@ -223,13 +223,13 @@
       <dependency>
         <groupId>javax.faces</groupId>
         <artifactId>jsf-api</artifactId>
-        <version>1.2_09-BETA1</version>
+        <version>1.2_12</version>
       </dependency>
 
       <dependency>
         <groupId>javax.faces</groupId>
         <artifactId>jsf-impl</artifactId>
-        <version>1.2_09-BETA1</version>
+        <version>1.2_12</version>
         <exclusions>
           <exclusion>
             <groupId>commons-collections</groupId>
