@@ -64,11 +64,11 @@
 				</tr:form>
 			</a:outputPanel>
 			<tr:panelButtonBar rendered="#{identity.loggedIn}">
-				<s:button action="artist" value="Add artist">
+				<s:button action="artist" value="Add artist" id="addArtist">
 					<f:param name="artistId" value="" />
 					<f:param name="type" value="artist" />
 				</s:button>
-				<s:button action="artist" value="Add band">
+				<s:button action="artist" value="Add band" id="addBand">
 					<f:param name="artistId" value="" />
 					<f:param name="type" value="band" />
 				</s:button>

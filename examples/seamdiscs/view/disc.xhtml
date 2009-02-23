@@ -19,7 +19,7 @@
 		    	<tr:outputText value=" by #{disc.artist.name}" />
 		    </s:fragment>
 		</f:facet>
-    	<tr:form>
+    	<tr:form id="disc">
     		<s:validateAll>
 		    	<tr:panelFormLayout>
 		    		<tr:inputText label="Disc" value="#{disc.name}" readOnly="#{not identity.loggedIn}" required="true" />
@@ -41,10 +41,10 @@
 	    	</s:validateAll>
 	    	
 	    	<tr:panelButtonBar rendered="#{identity.loggedIn}">
-		    	<h:commandButton action="#{discHome.update}" value="Save" rendered="#{discHome.managed}" />
-		    	<h:commandButton action="#{discHome.persist}" value="Save" rendered="#{not discHome.managed}" />
-		    	<h:commandButton action="#{discHome.remove}" value="Delete" rendered="#{discHome.managed}" />
-		    	<s:button action="cancel" value="Cancel" />
+		    	<h:commandButton action="#{discHome.update}" value="Save" rendered="#{discHome.managed}" id="update" />
+		    	<h:commandButton action="#{discHome.persist}" value="Save" rendered="#{not discHome.managed}" id="persist" />
+		    	<h:commandButton action="#{discHome.remove}" value="Delete" rendered="#{discHome.managed}" id="remove" />
+		    	<s:button action="cancel" value="Cancel" id="cancel"/>
 		    </tr:panelButtonBar>
     	</tr:form>
     </rich:panel>

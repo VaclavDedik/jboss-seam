@@ -14,10 +14,10 @@
     
     <rich:panel>
     	<f:facet name="header"><tr:outputText value="#{artist.name} (#{messages[artist.class.name]})" rendered="#{artist.name ne null}" /></f:facet>
-	  	<h:form>
+	  	<h:form id="artist">
 	  		<s:validateAll>
 	    	<tr:panelFormLayout>
-	    		<tr:inputText label="Artist" value="#{artist.name}" readOnly="#{not identity.loggedIn}" required="true"/>
+	    		<tr:inputText label="Artist" id="name" value="#{artist.name}" readOnly="#{not identity.loggedIn}" required="true"/>
 	    		<tr:panelLabelAndMessage label="Band Members" rendered="#{artist.class.simpleName eq 'Band'}">
 					<ul>
 			    		<ui:repeat value="#{artist.bandMembers}" var="bandMember">
@@ -32,7 +32,7 @@
 			    		</ui:repeat>
 					</ul>
 		    		<f:facet name="end">
-		    			<h:commandButton action="#{artistHome.addBandMember}" value="Add Band Member" rendered="#{identity.loggedIn}"/>
+		    			<h:commandButton id="addBandMember" action="#{artistHome.addBandMember}" value="Add Band Member" rendered="#{identity.loggedIn}"/>
 		    		</f:facet>
 		    	</tr:panelLabelAndMessage>
 		    	<tr:panelLabelAndMessage label="Details">
@@ -46,7 +46,7 @@
 					</s:div>
 				</tr:panelLabelAndMessage>
 		    	<tr:panelLabelAndMessage label="Discs">
-		    		<tr:table value="#{artist.discs}" var="disc" rows="5" emptyText="None Known">
+		    		<tr:table value="#{artist.discs}" var="disc" rows="5" emptyText="None Known" id="discs">
 			    		<tr:column>
 			    			<f:facet name="header">
 			    				Disc
@@ -67,16 +67,16 @@
 				 		</f:facet>
 			    	</tr:table>
 			    	<f:facet name="end">
-		    			<h:commandButton action="#{artistHome.addDisc}" value="Add Disc" rendered="#{identity.loggedIn}"/>
+		    			<h:commandButton id="addDisc" action="#{artistHome.addDisc}" value="Add Disc" rendered="#{identity.loggedIn}"/>
 		    		</f:facet>
 		    	</tr:panelLabelAndMessage>
 	    	</tr:panelFormLayout>
 	   	</s:validateAll>
 	   	
 	   	<tr:panelButtonBar rendered="#{identity.loggedIn}">
-	   		<h:commandButton action="#{artistHome.update}" value="Save" rendered="#{artistHome.managed}" />
-	   		<h:commandButton action="#{artistHome.persist}" value="Save" rendered="#{not artistHome.managed}" />
-	   		<s:button action="cancel" value="Cancel" />
+	   		<h:commandButton action="#{artistHome.update}" value="Save" rendered="#{artistHome.managed}" id="update"/>
+	   		<h:commandButton action="#{artistHome.persist}" value="Save" rendered="#{not artistHome.managed}" id="persist"/>
+	   		<s:button action="cancel" value="Cancel" id="cancel"/>
 	   	</tr:panelButtonBar>
 	  	</h:form>
     </rich:panel>

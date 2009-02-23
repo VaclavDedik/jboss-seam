@@ -11,7 +11,7 @@
 
 <ui:define name="body">
     
-    <rich:panel>
+    <rich:panel id="discs">
    		<f:facet name="header">Discs</f:facet>
     	<tr:form>
 	    	<tr:table value="#{discs.dataModel}" var="disc" rows="#{discs.maxResults}">
@@ -38,7 +38,7 @@
 	    		</f:facet>
 	    	</tr:table>
 	    	<tr:panelButtonBar rendered="#{identity.loggedIn}">
-		    	<s:button action="disc" value="Add disc">
+		    	<s:button action="disc" value="Add disc" id="addDisc">
 		    		<f:param name="discId" value="" />
 	    		</s:button>
 		    </tr:panelButtonBar>
