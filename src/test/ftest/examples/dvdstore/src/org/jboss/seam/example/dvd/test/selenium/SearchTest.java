@@ -58,20 +58,18 @@ public class SearchTest extends SeleniumDvdTest {
     /**
      * This test does simple search in two windows verifying they do not affect
      * each other
+    * @throws InterruptedException 
      */
     @Test(dependsOnMethods = { "testSearch" }, dependsOnGroups = { "login.basic" })
-    public void testMultipleWindowSearch() {
+    public void testMultipleWindowSearch() throws InterruptedException {
         String searchString1 = "Forrest Gump";
         String searchString2 = "The Shawshank Redemption";
 
         browser.openWindow(CONTEXT_PATH + getProperty("HOME_PAGE"), "1");
         browser.selectWindow("1");
-        browser.waitForPageToLoad(TIMEOUT);
+        Thread.sleep(10000); // ugly but turned out to be the most browser-compatible solution
         assertTrue("User should be logged in by now.", isLoggedIn(browser));
-        // search for dvd in first window
-        browser.openWindow(CONTEXT_PATH + getProperty("HOME_PAGE"), "2");
-        browser.selectWindow("2");
-        browser.waitForPageToLoad(TIMEOUT);
+        browser.selectWindow(null); // select main window
         assertTrue("User should be logged in by now.", isLoggedIn(browser));
         browser.click(getProperty("SHOP"));
         browser.waitForPageToLoad(TIMEOUT);
@@ -91,7 +89,7 @@ public class SearchTest extends SeleniumDvdTest {
         assertEquals("Unexpected search result in second window.",
                 searchString2, browser
                         .getText(getProperty("SEARCH_RESULT_FIRST_ROW_LINK")));
-        browser.selectWindow("2");
+        browser.selectWindow(null);
         browser.refresh();
         browser.waitForPageToLoad(TIMEOUT);
         assertEquals("Unexpected search result in first window after refresh.",

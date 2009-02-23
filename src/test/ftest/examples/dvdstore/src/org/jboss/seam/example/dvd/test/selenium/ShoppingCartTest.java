@@ -27,9 +27,6 @@ import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.Currency;
-import java.util.Locale;
-
 import org.testng.annotations.Test;
 
 /**
@@ -40,6 +37,8 @@ import org.testng.annotations.Test;
  * 
  */
 public class ShoppingCartTest extends SeleniumDvdTest {
+   
+    private NumberFormat nf = NumberFormat.getNumberInstance();
 
     @Test(dependsOnGroups = { "search" })
     public void simpleCartTest() {
@@ -60,8 +59,6 @@ public class ShoppingCartTest extends SeleniumDvdTest {
     @Test(dependsOnMethods = { "simpleCartTest" })
     public void testCartCostCalculation() throws ParseException {
         String[] dvds = new String[] { "Top Gun", "Pulp Fiction", "Top Gun" };
-        NumberFormat nf = NumberFormat.getCurrencyInstance();
-        nf.setCurrency(Currency.getInstance(Locale.US));
         BigDecimal expectedSum = BigDecimal.ZERO;
         for (String dvd : dvds) {
             addDVDToCart(dvd);
@@ -72,18 +69,14 @@ public class ShoppingCartTest extends SeleniumDvdTest {
                 .intValue();
         assertNotSame("Cart should not be empty.", 0, items);
         for (int i = 0; i < items; i++) {
-            BigDecimal quantity = BigDecimal.valueOf(Double.parseDouble(browser
-                    .getValue(MessageFormat.format(
-                            getProperty("CART_TABLE_QUANTITY_BY_ID"), i))));
-            BigDecimal price = BigDecimal.valueOf(nf.parse(
-                    browser.getText(MessageFormat.format(
-                            getProperty("CART_TABLE_PRICE_BY_ID"), i)))
-                    .doubleValue());
+            BigDecimal quantity = parseBalance(browser.getValue(MessageFormat.format(
+                            getProperty("CART_TABLE_QUANTITY_BY_ID"), i)));
+            BigDecimal price = parseBalance(browser.getText(MessageFormat.format(
+                            getProperty("CART_TABLE_PRICE_BY_ID"), i)));
             BigDecimal priceForCurrentRow = price.multiply(quantity);
             expectedSum = expectedSum.add(priceForCurrentRow);
         }
-        BigDecimal actualSum = BigDecimal.valueOf((nf.parse(browser
-                .getText(getProperty("CART_SUBTOTAL"))).doubleValue()));
+        BigDecimal actualSum = parseBalance(browser.getText(getProperty("CART_SUBTOTAL")));
         assertEquals("Price sum in cart is incorrect.", 0, expectedSum
                 .compareTo(actualSum));
     }
@@ -143,5 +136,10 @@ public class ShoppingCartTest extends SeleniumDvdTest {
         browser.check(getProperty("SEARCH_RESULT_FIRST_ROW_CHECKBOX"));
         browser.click(getProperty("SEARCH_RESULT_UPDATE_BUTTON"));
         browser.waitForPageToLoad(TIMEOUT);
+    }
+    
+    private BigDecimal parseBalance(String text) throws ParseException {
+       String number = text.replaceAll("\\$", "").trim();
+       return BigDecimal.valueOf(nf.parse(number).doubleValue());
     }
 }
