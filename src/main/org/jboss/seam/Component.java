@@ -997,30 +997,37 @@ public class Component extends Model
    private List<Interceptor> newSort(List<Interceptor> list)
    {
       List<SortItem<Interceptor>> siList = new ArrayList<SortItem<Interceptor>>();
-      Map<Class<?>,SortItem<Interceptor>> ht = new HashMap<Class<?>,SortItem<Interceptor>>();
+      Map<Class<?>,SortItem<Interceptor>> ht = 
+          new HashMap<Class<?>,SortItem<Interceptor>>();
 
-      for (Interceptor i : list)
-      {
+      for (Interceptor i: list) {
          SortItem<Interceptor> si = new SortItem<Interceptor>(i);
          siList.add(si);
-         ht.put( i.getUserInterceptorClass(), si );
+         ht.put(i.getUserInterceptorClass(), si);
       }
 
-      for (SortItem<Interceptor> si : siList)
-      {
-         Class<?> clazz = si.getObj().getUserInterceptorClass();
-         if ( clazz.isAnnotationPresent(org.jboss.seam.annotations.intercept.Interceptor.class) )
-         {
-            org.jboss.seam.annotations.intercept.Interceptor interceptorAnn = clazz.getAnnotation(org.jboss.seam.annotations.intercept.Interceptor.class);
-            for (Class<?> cl : Arrays.asList( interceptorAnn.around() ) )
-            {
-               SortItem<Interceptor> sortItem = ht.get(cl);
-               if (sortItem!=null) si.getAround().add( sortItem );
-            }
-            for (Class<?> cl : Arrays.asList( interceptorAnn.within() ) )
-            {
-               SortItem<Interceptor> sortItem = ht.get(cl);
-               if (sortItem!=null) si.getWithin().add( sortItem );
+      for (SortItem<Interceptor> si : siList) {
+          Class<?> clazz = si.getObj().getUserInterceptorClass();
+          org.jboss.seam.annotations.intercept.Interceptor interceptorAnn = 
+              seamInterceptor(clazz);
+          
+          if (interceptorAnn != null) {
+              for (Class<?> cl : Arrays.asList(interceptorAnn.around())) {
+                  if (!isCompatibleInterceptor(interceptorAnn, seamInterceptor(cl))) {
+                      log.warn("Interceptor " + clazz +  
+                               " has different type than around interceptor " + cl);
+                  }
+
+                  si.addAround(ht.get(cl));
+              }
+            
+            for (Class<?> cl : Arrays.asList( interceptorAnn.within())) {
+                if (!isCompatibleInterceptor(interceptorAnn, seamInterceptor(cl))) {                
+                    log.warn("Interceptor " + clazz +  
+                            " has different type than within interceptor " + cl);
+                }
+                
+                si.addWithin(ht.get(cl));
             }
          }
       }
@@ -1029,12 +1036,34 @@ public class Component extends Model
       siList = sList.sort(siList);
 
       list.clear();
-      for (SortItem<Interceptor> si : siList)
-      {
-         list.add( si.getObj() );
+      for (SortItem<Interceptor> si : siList) {
+         list.add(si.getObj());
       }
       return list ;
    }
+   
+   private org.jboss.seam.annotations.intercept.Interceptor seamInterceptor(Class<?> clazz) {
+       return clazz.getAnnotation(org.jboss.seam.annotations.intercept.Interceptor.class);
+   }
+
+   private boolean isCompatibleInterceptor(
+            org.jboss.seam.annotations.intercept.Interceptor anno1,
+            org.jboss.seam.annotations.intercept.Interceptor anno2) {
+
+        if (anno1==null || anno2==null) {
+            return true;
+        }
+        
+        if (anno1.type()==InterceptorType.CLIENT && anno2.type()==InterceptorType.SERVER) {
+            return false;
+        } 
+        
+        if (anno2.type()==InterceptorType.CLIENT && anno2.type()==InterceptorType.SERVER) {
+            return false;
+        }
+         
+        return true;
+    }
 
    private void initDefaultInterceptors()
    {
