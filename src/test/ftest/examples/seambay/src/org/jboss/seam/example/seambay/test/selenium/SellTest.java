@@ -24,6 +24,9 @@ package org.jboss.seam.example.seambay.test.selenium;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
+
 import org.testng.annotations.Test;
 
 import com.thoughtworks.selenium.Wait;
@@ -35,8 +38,11 @@ import com.thoughtworks.selenium.Wait;
  */
 public class SellTest extends SeleniumSeamBayTest
 {
+
+   private NumberFormat nf = NumberFormat.getInstance();
+   
    @Test(dependsOnGroups={"searchTest"})
-   public void joystickSellingTest()
+   public void joystickSellingTest() throws NumberFormatException, ParseException
    {
       String title = "Saitek X52 Pro Flight System";
       int category = 7;
@@ -48,7 +54,7 @@ public class SellTest extends SeleniumSeamBayTest
       sellItem(title, category, subcategory, duration, price, description);
    }
 
-   protected void sellItem(String title, int category, int subcategory, String duration, String price, String description)
+   protected void sellItem(String title, int category, int subcategory, String duration, String price, String description) throws NumberFormatException, ParseException
    {
       login();
       browser.clickAndWait(getProperty("SELL"));
@@ -76,7 +82,7 @@ public class SellTest extends SeleniumSeamBayTest
          @Override
          public boolean until()
          {
-            return browser.isElementPresent(getProperty("SELL_CATEGORY_SELECT"));
+            return browser.isElementPresent(getProperty("SELL_CATEGORY_SELECT_SECOND_OPTION"));
          }
       };
       browser.select(getProperty("SELL_CATEGORY_SELECT"), "index=" + category);
@@ -113,10 +119,10 @@ public class SellTest extends SeleniumSeamBayTest
       browser.clickAndWait(getProperty("SELL_NEXT"));
    }
    
-   protected void validatePreview(String price, String description)
+   protected void validatePreview(String price, String description) throws NumberFormatException, ParseException
    {
       assertTrue("Must be on preview page to validate preview.", browser.getLocation().contains(getProperty("SELL_PREVIEW_URL")));
-      assertEquals("Unexpected price on preview page.", Double.valueOf(price), Double.valueOf(browser.getText(getProperty("SELL_PREVIEW_PRICE"))));
+      assertEquals("Unexpected price on preview page.", Double.valueOf(price), nf.parse(browser.getText(getProperty("SELL_PREVIEW_PRICE"))).doubleValue());
       assertEquals("Unexpected description on description page.", description, browser.getText(getProperty("SELL_PREVIEW_DESCRIPTION")));
    }
 }
