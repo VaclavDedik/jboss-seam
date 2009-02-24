@@ -4,6 +4,7 @@ import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import org.jboss.cache.CacheException;
+import org.jboss.cache.Node;
 import org.jboss.cache.aop.PojoCache;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Create;
@@ -70,18 +71,20 @@ public class JbossPojoCacheProvider extends AbstractJBossCacheProvider<PojoCache
       cache = null;
    }
 
-   @Override
-   public Object get(String region, String key)
-   {
-      try
-      {
-         return cache.get(getFqn(key));
-      }
-      catch (CacheException e)
-      {
-         throw new IllegalStateException(String.format("Cache throw exception when trying to get %s from region %s.", key, region), e);
-      }
-   }
+    @Override
+    public Object get(String region, String key) {
+        try {
+            Node node = cache.get(getFqn(region));
+            if (node != null) {
+                return node.get(key);
+            } else {
+                return null;
+            }
+        } catch (CacheException e) {
+            throw new IllegalStateException(String.format("Cache throw exception when trying to get %s from region %s.",                                    key, region), e);
+        }
+    }
+
 
    @Override
    public void put(String region, String key, Object object)
