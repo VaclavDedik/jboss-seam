@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:19+0000\n"
-"PO-Revision-Date: 2009-01-05 01:38+0100\n"
+"PO-Revision-Date: 2009-02-24 12:52+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr "Dipendenze JDK"
 #: Dependencies.xml:10
 #, no-c-format
 msgid "Seam does not work with JDK 1.4 and requires JDK 5 or above as it uses annotations and other JDK 5.0 features.. Seam has been thoroughly tested using Sun's JDKs. However there are no known issues specific to Seam with other JDK's."
-msgstr "Seam non funziona con JDK 1.5 e richiede JDK 5 o superiore, poiché impiega leannotazioni ed altre caratteristiche di JDK 5.0. Seam è stato testato usando i JDK di Sun. Comunque non ci sono problemi noti con Seam usando altri JDK."
+msgstr "Seam non funziona con JDK 1.4 e richiede JDK 5 o superiore, poiché impiega annotazioni ed altre caratteristiche di JDK 5.0. Seam è stato testato usando i JDK di Sun. Comunque con Seam non ci sono problemi noti usando altri JDK."
 
 #. Tag: title
 #: Dependencies.xml:18
