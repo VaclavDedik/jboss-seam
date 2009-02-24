@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:22+0000\n"
-"PO-Revision-Date: 2009-02-22 11:13+0100\n"
+"PO-Revision-Date: 2009-02-24 22:05+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -526,7 +526,7 @@ msgstr "Componenti per il controllo delle conversazioni."
 #: Components.xml:484
 #, no-c-format
 msgid "The next group of components allow control of conversations by the application or user interface."
-msgstr ""
+msgstr "Il prossimo gruppo di componenti consente il controllo delle conversazioni da parte dell'applicazione o dell'interfaccia utente."
 
 #. Tag: literal
 #: Components.xml:491
@@ -538,7 +538,7 @@ msgstr "org.jboss.seam.core.conversation"
 #: Components.xml:493
 #, no-c-format
 msgid "API for application control of attributes of the current Seam conversation."
-msgstr ""
+msgstr "API per il controllo dell'applicazione degli attributi della conversazione di Seam."
 
 #. Tag: para
 #: Components.xml:498
@@ -581,49 +581,49 @@ msgstr "<literal>setTimeout(int timeout)</literal> &#8212; imposta il timeout de
 #: Components.xml:538
 #, no-c-format
 msgid "<literal>setViewId(String outcome)</literal> &#8212; sets the view id to be used when switching back to the current conversation from the conversation switcher, conversation list, or breadcrumbs."
-msgstr ""
+msgstr "<literal>setViewId(String outcome)</literal> &#8212; imposta l'id della vista da usare quando si torna alla conversazione corrente dallo switcher di conversazione, dalla lista di conversazioni o dai breadcrumbs."
 
 #. Tag: para
 #: Components.xml:545
 #, no-c-format
 msgid "<literal>setDescription(String description)</literal> &#8212; sets the description of the current conversation to be displayed in the conversation switcher, conversation list, or breadcrumbs."
-msgstr ""
+msgstr "<literal>setDescription(String description)</literal> &#8212; imposta la descrizione della conversazione corrente da mostrare nello switcher di conversazione, nella lista di conversazioni o nel breadcrumbs."
 
 #. Tag: para
 #: Components.xml:552
 #, no-c-format
 msgid "<literal>redirect()</literal> &#8212; redirect to the last well-defined view id for this conversation (useful after login challenges)."
-msgstr ""
+msgstr "<literal>redirect()</literal> &#8212; redirige all'ultimo id di vista ben-definito per questa conversazione (utile dopo i login)."
 
 #. Tag: para
 #: Components.xml:558
 #, no-c-format
 msgid "<literal>leave()</literal> &#8212; exit the scope of this conversation, without actually ending the conversation."
-msgstr ""
+msgstr "<literal>leave()</literal> &#8212; esce dallo scope di questa conversazione, senza terminare la conversazione."
 
 #. Tag: para
 #: Components.xml:564
 #, no-c-format
 msgid "<literal>begin()</literal> &#8212; begin a long-running conversation (equivalent to <literal>@Begin</literal>)."
-msgstr ""
+msgstr "<literal>begin()</literal> &#8212; inizia una conversazione long-running (equivalente a <literal>@Begin</literal>)."
 
 #. Tag: para
 #: Components.xml:570
 #, no-c-format
 msgid "<literal>beginPageflow(String pageflowName)</literal> &#8212; begin a long-running conversation with a pageflow (equivalent to <literal>@Begin(pageflow=\"...\")</literal>)."
-msgstr ""
+msgstr "<literal>beginPageflow(String pageflowName)</literal> &#8212; inizia una conversazione long-running con un pageflow (equivalente a <literal>@Begin(pageflow=\"...\")</literal>)."
 
 #. Tag: para
 #: Components.xml:577
 #, no-c-format
 msgid "<literal>end()</literal> &#8212; end a long-running conversation (equivalent to <literal>@End</literal>)."
-msgstr ""
+msgstr "<literal>end()</literal> &#8212; termina una conversazione long-running (equivalente a <literal>@End</literal>)."
 
 #. Tag: para
 #: Components.xml:583
 #, no-c-format
 msgid "<literal>pop()</literal> &#8212; pop the conversation stack, returning to the parent conversation."
-msgstr ""
+msgstr "<literal>pop()</literal> &#8212; estrae dallo stack di conversazione, restituendo la conversazione padre."
 
 #. Tag: para
 #: Components.xml:589
@@ -647,7 +647,7 @@ msgstr "org.jboss.seam.core.conversationList"
 #: Components.xml:606
 #, no-c-format
 msgid "Manager component for the conversation list."
-msgstr ""
+msgstr "Componente gestore per la lista delle conversazioni."
 
 #. Tag: literal
 #: Components.xml:612
@@ -659,7 +659,7 @@ msgstr "org.jboss.seam.core.conversationStack"
 #: Components.xml:614
 #, no-c-format
 msgid "Manager component for the conversation stack (breadcrumbs)."
-msgstr ""
+msgstr "Componente gestore per lo stack delle conversazioni (breadcrumbs)."
 
 #. Tag: literal
 #: Components.xml:620
@@ -701,25 +701,25 @@ msgstr "Controllo API dei pageflow di Seam."
 #: Components.xml:650
 #, no-c-format
 msgid "<literal>isInProcess()</literal> &#8212; returns <literal>true</literal> if there is currently a pageflow in process"
-msgstr ""
+msgstr "<literal>isInProcess()</literal> &#8212; ritorna <literal>true</literal> se c'è un pageflow nel processo"
 
 #. Tag: para
 #: Components.xml:656
 #, no-c-format
 msgid "<literal>getProcessInstance()</literal> &#8212; returns jBPM <literal>ProcessInstance</literal> for the current pageflow"
-msgstr ""
+msgstr "<literal>getProcessInstance()</literal> &#8212; restituisce una <literal>ProcessInstance</literal> jBPM per il pageflow corrente"
 
 #. Tag: para
 #: Components.xml:662
 #, no-c-format
 msgid "<literal>begin(String pageflowName)</literal> &#8212; begin a pageflow in the context of the current conversation"
-msgstr ""
+msgstr "<literal>begin(String pageflowName)</literal> &#8212; inizia un pageflow nel contesto della conversazione corrente"
 
 #. Tag: para
 #: Components.xml:668
 #, no-c-format
 msgid "<literal>reposition(String nodeName)</literal> &#8212; reposition the current pageflow to a particular node"
-msgstr ""
+msgstr "<literal>reposition(String nodeName)</literal> &#8212; riposiziona il pageflow corrente in un particolare nodo"
 
 #. Tag: literal
 #: Components.xml:677
@@ -731,19 +731,19 @@ msgstr "org.jboss.seam.bpm.actor"
 #: Components.xml:679
 #, no-c-format
 msgid "API for application control of attributes of the jBPM actor associated with the current session."
-msgstr ""
+msgstr "API per il controllo dell'applicazione degli attributi dell'attore jBPM associato alla sessione corrente."
 
 #. Tag: para
 #: Components.xml:685
 #, no-c-format
 msgid "<literal>setId(String actorId)</literal> &#8212; sets the jBPM actor id of the current user."
-msgstr ""
+msgstr "<literal>setId(String actorId)</literal> &#8212; imposta l'id dell'attore jBPM dell'utente corrente."
 
 #. Tag: para
 #: Components.xml:691
 #, no-c-format
 msgid "<literal>getGroupActorIds()</literal> &#8212; returns a <literal>Set</literal> to which jBPM actor ids for the current users groups may be added."
-msgstr ""
+msgstr "<literal>getGroupActorIds()</literal> &#8212; ritorna un <literal>Set</literal> a cui gli id degli attori jBPM per i gruppi degli utenti correnti possono essere aggiunti."
 
 #. Tag: literal
 #: Components.xml:701
@@ -755,7 +755,7 @@ msgstr "org.jboss.seam.bpm.transition"
 #: Components.xml:703
 #, no-c-format
 msgid "API for application control of the jBPM transition for the current task."
-msgstr ""
+msgstr "API per il controllo dell'applicazione della transizione jBPM per il task corrente."
 
 #. Tag: para
 #: Components.xml:709
@@ -779,25 +779,25 @@ msgstr ""
 #: Components.xml:727
 #, no-c-format
 msgid "<literal>businessProcess.taskId</literal> &#8212; the id of the task associated with the current conversation."
-msgstr ""
+msgstr "<literal>businessProcess.taskId</literal> &#8212; l'id del task associato alla conversazione corrente."
 
 #. Tag: para
 #: Components.xml:733
 #, no-c-format
 msgid "<literal>businessProcess.processId</literal> &#8212; the id of the process associated with the current conversation."
-msgstr ""
+msgstr "<literal>businessProcess.processId</literal> &#8212; l'id del processo associato alla conversazione corrente."
 
 #. Tag: para
 #: Components.xml:739
 #, no-c-format
 msgid "<literal>businessProcess.hasCurrentTask()</literal> &#8212; is a task instance associated with the current conversation?"
-msgstr ""
+msgstr "<literal>businessProcess.hasCurrentTask()</literal> &#8212; l'istanza del task è associata alla conversazione corrente?"
 
 #. Tag: para
 #: Components.xml:745
 #, no-c-format
 msgid "<literal>businessProcess.hasCurrentProcess()</literal> &#8212; is a process instance associated with the current conversation."
-msgstr ""
+msgstr "<literal>businessProcess.hasCurrentProcess()</literal> &#8212; l'istanza del processo è associata alla conversazione corrente?"
 
 #. Tag: para
 #: Components.xml:751
@@ -833,7 +833,7 @@ msgstr ""
 #: Components.xml:782
 #, no-c-format
 msgid "<literal>transition(String transitionName)</literal> &#8212; trigger the transition."
-msgstr ""
+msgstr "<literal>transition(String transitionName)</literal> &#8212; avvia una transizione."
 
 #. Tag: literal
 #: Components.xml:791
@@ -845,7 +845,7 @@ msgstr "org.jboss.seam.bpm.taskInstance"
 #: Components.xml:793
 #, no-c-format
 msgid "Manager component for the jBPM <literal>TaskInstance</literal>."
-msgstr ""
+msgstr "Componente gestore per la <literal>TaskInstance</literal> jBPM."
 
 #. Tag: literal
 #: Components.xml:799
@@ -1235,7 +1235,7 @@ msgstr "org.jboss.seam.bpm.jbpm"
 #: Components.xml:1127
 #, no-c-format
 msgid "Bootstraps a <literal>JbpmConfiguration</literal>. Install as class <literal>org.jboss.seam.bpm.Jbpm</literal>."
-msgstr ""
+msgstr "Avvia una <literal>JbpmConfiguration</literal>. Installa <literal>org.jboss.seam.bpm.Jbpm</literal> come classe."
 
 #. Tag: para
 #: Components.xml:1133
@@ -1591,7 +1591,7 @@ msgstr ""
 #: Components.xml:1407
 #, no-c-format
 msgid "<emphasis>&lt;session&gt;</emphasis>.sessionFactory &#8212; a value binding expression that evaluates to an instance of <literal>SessionFactory</literal>."
-msgstr ""
+msgstr "<emphasis>&lt;session&gt;</emphasis>.sessionFactory &#8212; un'espressione di binding che valuta un'istanza di <literal>SessionFactory</literal>."
 
 #. Tag: para
 #: Components.xml:1412
@@ -1621,7 +1621,7 @@ msgstr "Gestisce una <literal>SessionFactory</literal> di Hibernate."
 #: Components.xml:1430
 #, no-c-format
 msgid "<literal>&lt;sessionFactory&gt;.cfgResourceName</literal> &#8212; the path to the configuration file. Default to <literal>hibernate.cfg.xml</literal>."
-msgstr ""
+msgstr "<literal>&lt;sessionFactory&gt;.cfgResourceName</literal> &#8212; il percorso al file di configurazione. Di default è <literal>hibernate.cfg.xml</literal>."
 
 #. Tag: emphasis
 #: Components.xml:1442
@@ -1645,7 +1645,7 @@ msgstr ""
 #: Components.xml:1450
 #, no-c-format
 msgid "<emphasis>&lt;managedQueueSender&gt;</emphasis>.queueJndiName &#8212; the JNDI name of the JMS queue."
-msgstr ""
+msgstr "<emphasis>&lt;managedQueueSender&gt;</emphasis>.queueJndiName &#8212; il nome JNDI della coda JMS."
 
 #. Tag: emphasis
 #: Components.xml:1459
