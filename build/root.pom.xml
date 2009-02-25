@@ -390,6 +390,10 @@
             <groupId>org.hibernate</groupId>
             <artifactId>ejb3-persistence</artifactId>
           </exclusion>
+          <exclusion>
+            <groupId>jboss</groupId>
+            <artifactId>javassist</artifactId>
+          </exclusion>
         </exclusions>
       </dependency>
 
