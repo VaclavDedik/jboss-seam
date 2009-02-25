@@ -39,7 +39,7 @@ public class ClassIdentifierStrategy implements IdentifierStrategy
          if (cls.isAnnotationPresent(Identifier.class))
          {
             Identifier identifier = (Identifier) cls.getAnnotation(Identifier.class);
-            if (identifier.name() != null && !"".equals(name.trim()))
+            if (identifier.name() != null && !"".equals(identifier.name().trim()))
             {
                name = identifier.name();
             }
