@@ -57,6 +57,10 @@ public class Validators
       @Override
       public boolean equals(Object other)
       {
+         if (other == null || !(other instanceof Key)) {
+             return false;             
+         }
+         
          Key key = (Key) other;
          return key.validatableClass.equals(validatableClass) && key.locale.equals(locale);
       }
