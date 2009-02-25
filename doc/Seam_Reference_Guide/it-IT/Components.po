@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:22+0000\n"
-"PO-Revision-Date: 2009-02-24 22:05+0100\n"
+"PO-Revision-Date: 2009-02-25 22:53+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -761,7 +761,7 @@ msgstr "API per il controllo dell'applicazione della transizione jBPM per il tas
 #: Components.xml:709
 #, no-c-format
 msgid "<literal>setName(String transitionName)</literal> &#8212; sets the jBPM transition name to be used when the current task is ended via <literal>@EndTask</literal>."
-msgstr ""
+msgstr "<literal>setName(String transitionName)</literal> &#8212; imposta il nome della transizione jBPM da usare quando il task corrente viene terminato tramite <literal>@EndTask</literal>."
 
 #. Tag: literal
 #: Components.xml:719
@@ -773,7 +773,7 @@ msgstr "org.jboss.seam.bpm.businessProcess"
 #: Components.xml:721
 #, no-c-format
 msgid "API for programmatic control of the association between the conversation and business process."
-msgstr ""
+msgstr "API per il controllo programmatico dell'associazione tra la conversazione ed il processo di business."
 
 #. Tag: para
 #: Components.xml:727
@@ -803,31 +803,31 @@ msgstr "<literal>businessProcess.hasCurrentProcess()</literal> &#8212; l'istanza
 #: Components.xml:751
 #, no-c-format
 msgid "<literal>createProcess(String name)</literal> &#8212; create an instance of the named process definition and associate it with the current conversation."
-msgstr ""
+msgstr "<literal>createProcess(String name)</literal> &#8212; crea un'istanza della definizione del processo (con nome) e l'associa alla conversazione corrente."
 
 #. Tag: para
 #: Components.xml:758
 #, no-c-format
 msgid "<literal>startTask()</literal> &#8212; start the task associated with the current conversation."
-msgstr ""
+msgstr "<literal>startTask()</literal> &#8212; avvia il task associato alla conversazione corrente."
 
 #. Tag: para
 #: Components.xml:764
 #, no-c-format
 msgid "<literal>endTask(String transitionName)</literal> &#8212; end the task associated with the current conversation."
-msgstr ""
+msgstr "<literal>endTask(String transitionName)</literal> &#8212; termina il task associato alla conversazione corrente."
 
 #. Tag: para
 #: Components.xml:770
 #, no-c-format
 msgid "<literal>resumeTask(Long id)</literal> &#8212; associate the task with the given id with the current conversation."
-msgstr ""
+msgstr "<literal>resumeTask(Long id)</literal> &#8212; associa il task con l'id dato alla conversazione corrente."
 
 #. Tag: para
 #: Components.xml:776
 #, no-c-format
 msgid "<literal>resumeProcess(Long id)</literal> &#8212; associate the process with the given id with the current conversation."
-msgstr ""
+msgstr "<literal>resumeProcess(Long id)</literal> &#8212; associa il processo con l'id dato alla conversazione corrente."
 
 #. Tag: para
 #: Components.xml:782
@@ -857,7 +857,7 @@ msgstr "org.jboss.seam.bpm.processInstance"
 #: Components.xml:801
 #, no-c-format
 msgid "Manager component for the jBPM <literal>ProcessInstance</literal>."
-msgstr ""
+msgstr "Componente gestore per la <literal>ProcessInstance</literal> jBPM."
 
 #. Tag: literal
 #: Components.xml:807
@@ -869,7 +869,7 @@ msgstr "org.jboss.seam.bpm.jbpmContext"
 #: Components.xml:809
 #, no-c-format
 msgid "Manager component for an event-scoped <literal>JbpmContext</literal>."
-msgstr ""
+msgstr "Componente gestore per il <literal>JbpmContext</literal> con scope evento."
 
 #. Tag: literal
 #: Components.xml:815
@@ -893,7 +893,7 @@ msgstr "org.jboss.seam.bpm.pooledTaskInstanceList"
 #: Components.xml:825
 #, no-c-format
 msgid "Manager component for the jBPM pooled task list."
-msgstr ""
+msgstr "Componente gestore per la lista di task pooled jBPM."
 
 #. Tag: literal
 #: Components.xml:831
@@ -905,7 +905,7 @@ msgstr "org.jboss.seam.bpm.taskInstanceListForType"
 #: Components.xml:833
 #, no-c-format
 msgid "Manager component for the jBPM task lists."
-msgstr ""
+msgstr "Componente gestore per la lista di task jBPM."
 
 #. Tag: literal
 #: Components.xml:839
@@ -917,7 +917,7 @@ msgstr "org.jboss.seam.bpm.pooledTask"
 #: Components.xml:841
 #, no-c-format
 msgid "Action handler for pooled task assignment."
-msgstr ""
+msgstr "Action handler per l'assegnamento del task pooled."
 
 #. Tag: literal
 #: Components.xml:847
@@ -929,7 +929,7 @@ msgstr "org.jboss.seam.bpm.processInstanceFinder"
 #: Components.xml:849
 #, no-c-format
 msgid "Manager for the process instance task list."
-msgstr ""
+msgstr "Manager per la lista di task delle istanze di processo."
 
 #. Tag: literal
 #: Components.xml:855
@@ -947,7 +947,7 @@ msgstr "La lista dei task delle istanze di processo."
 #: Components.xml:864
 #, no-c-format
 msgid "All of these components are installed whenever the component <literal>org.jboss.seam.bpm.jbpm</literal> is installed."
-msgstr ""
+msgstr "Tutti questi componenti vengono installati quando viene installato il componente <literal>org.jboss.seam.bpm.jbpm</literal>."
 
 #. Tag: title
 #: Components.xml:872
@@ -959,7 +959,7 @@ msgstr "Componenti per la sicurezza"
 #: Components.xml:873
 #, no-c-format
 msgid "These components relate to web-tier security."
-msgstr ""
+msgstr "Questi componenti si relazionano alla sicurezza a livello web."
 
 #. Tag: literal
 #: Components.xml:879
@@ -971,7 +971,7 @@ msgstr "org.jboss.seam.web.userPrincipal"
 #: Components.xml:881
 #, no-c-format
 msgid "Manager component for the current user <literal>Principal</literal>."
-msgstr ""
+msgstr "Componente gestore per l'utente corrente <literal>Principal</literal>."
 
 #. Tag: literal
 #: Components.xml:887
@@ -983,7 +983,7 @@ msgstr "org.jboss.seam.web.isUserInRole"
 #: Components.xml:889
 #, no-c-format
 msgid "Allows JSF pages to choose to render a control, depending upon the roles available to the current principal. <literal>&lt;h:commandButton value=\"edit\" rendered=\"#{isUserInRole['admin']}\"/&gt;</literal>."
-msgstr ""
+msgstr "Consente alla pagine JSF di scegliere di generare un controllo, dipendente dai ruoli disponibili al principal corrente. <literal>&lt;h:commandButton value=\"edit\" rendered=\"#{isUserInRole['admin']}\"/&gt;</literal>."
 
 #. Tag: title
 #: Components.xml:900
@@ -995,7 +995,7 @@ msgstr "Componenti per JMS"
 #: Components.xml:901
 #, no-c-format
 msgid "These components are for use with managed <literal>TopicPublisher</literal>s and <literal>QueueSender</literal>s (see below)."
-msgstr ""
+msgstr "Questi componenti sono per l'uso di <literal>TopicPublisher</literal> e <literal>QueueSender</literal> gestite (vedere sotto)."
 
 #. Tag: literal
 #: Components.xml:908
@@ -1031,7 +1031,7 @@ msgstr "Componenti relativi alla Mail"
 #: Components.xml:928
 #, no-c-format
 msgid "These components are for use with Seam's Email support"
-msgstr ""
+msgstr "Questi componenti sono per l'uso del supporto email di Seam"
 
 #. Tag: literal
 #: Components.xml:934
@@ -1115,7 +1115,7 @@ msgstr "org.jboss.seam.core.init"
 #: Components.xml:1001
 #, no-c-format
 msgid "Initialization settings for Seam. Always installed."
-msgstr ""
+msgstr "Impostazioni di inizializzazione per Seam. Sempre installato."
 
 #. Tag: para
 #: Components.xml:1006
