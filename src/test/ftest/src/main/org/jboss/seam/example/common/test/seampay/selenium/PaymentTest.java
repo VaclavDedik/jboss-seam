@@ -27,6 +27,8 @@ import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.Locale;
+
 import org.jboss.seam.example.common.test.selenium.SeamSeleniumTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -124,7 +126,8 @@ public class PaymentTest extends SeamSeleniumTest
 
    protected Double parseBalance(String text) throws ParseException
    {
-      String number = text.replaceAll("\\$", "").trim();
-      return (Double) nf.parse(number);
+      // dirty but can hardly be parsed nicer
+      String number = text.replaceAll("\\$", new String()).replaceAll(" ", new String()).trim();
+      return nf.parse(number).doubleValue();
    }
 }

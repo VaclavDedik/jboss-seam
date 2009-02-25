@@ -55,7 +55,7 @@ public abstract class SeleniumSeamSpaceTest extends SeamSeleniumTest
    public static final String USER_CANCEL = "id=user:cancel";
    public static final String USER_TABLE_ROW_BY_NAME = "xpath=//table[@id=\"threads\"]/tbody/tr[normalize-space(./td[1]/text()) = \"{0}\"]";
    // these locators can only be used catenated with USER_TABLE_ROW_BY_NAME
-   public static final String USER_TABLE_ROLES = "/td[2]/text()";
+   public static final String USER_TABLE_ROLES = "/td[2]";
    public static final String USER_TABLE_CHECKBOX_CHECKED = "/td[3]/div[@class=\"checkmark\"]";
    public static final String USER_TABLE_CHECKBOX_UNCHECKED = "/td[3]/div[@class=\"cross\"]";
    public static final String USER_TABLE_DELETE = "//a[contains(@id, \"delete\")]";
@@ -70,7 +70,7 @@ public abstract class SeleniumSeamSpaceTest extends SeamSeleniumTest
    public static final String ROLE_CANCEL = "id=role:cancel";
    public static final String ROLE_TABLE_ROW_BY_NAME = "xpath=//table[@id=\"threads\"]/tbody/tr[normalize-space(./td[1]/text()) = \"{0}\"]";
    // these locators can only be used catenated with ROLE_TABLE_ROW_BY_NAME
-   public static final String ROLE_TABLE_ROLES = "/td[2]/text()";
+   public static final String ROLE_TABLE_ROLES = "/td[2]";
    public static final String ROLE_TABLE_DELETE = "//a[contains(@id, \"delete\")]";
    public static final String ROLE_TABLE_EDIT = "//a[contains(@id, \"edit\")]";
    
