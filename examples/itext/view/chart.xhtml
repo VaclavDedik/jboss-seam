@@ -10,6 +10,11 @@
     <p:color id="foo" color="#0ff00f"/>
     <p:color id="bar" color="#ff00ff" color2="#00ff00" point="50 50" point2="300 300"/>
 
+    <p:timeserieschart dataset="#{chartseries.dataset}" title="Time Series Chart"
+                       domainAxisLabel="Domain" rangeAxisLabel="Range" foo="bar">
+        <p:series key="foo" />
+    </p:timeserieschart>		     
+
     <p:piechart title="Pie Chart" width="500" height="500" legend="true" 
                borderBackgroundPaint="#ffffff" borderStroke="dot1" borderPaint="blue" borderVisible="false"
                plotBackgroundPaint="#ffffff"  plotBackgroundAlpha="1" plotForegroundAlpha="1"

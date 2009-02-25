@@ -27,7 +27,11 @@
     <path id="build.classpath.extras">
         <fileset refid="seam.pdf.jar" />
     </path>
-                 
 
+    <!-- for itext cjk test
+    <fileset id="war.lib.extras" dir="lib">
+      <include name="**/*.jar" />
+    </fileset>                 
+    -->
 </project>
 
