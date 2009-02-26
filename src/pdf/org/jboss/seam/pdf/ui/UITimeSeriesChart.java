@@ -4,6 +4,8 @@ import javax.faces.context.FacesContext;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.Plot;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.general.Dataset;
 import org.jfree.data.xy.DefaultXYDataset;
 import org.jfree.data.xy.XYDataset;
@@ -12,7 +14,6 @@ public class UITimeSeriesChart
     extends UIChart 
 {
     private String domainAxisLabel;
-    private String domainLabelPosition;
     private String domainAxisPaint;
     private Boolean domainGridlinesVisible;
     private String domainGridlinePaint;
@@ -38,14 +39,6 @@ public class UITimeSeriesChart
 
     public void setRangeAxisLabel(String valueAxisLabel) {
         this.rangeAxisLabel = valueAxisLabel;
-    }
-
-    public String getDomainLabelPosition() {
-        return (String) valueBinding("domainLabelPosition", domainLabelPosition);
-    }
-
-    public void setDomainLabelPosition(String domainLabelPosition) {
-        this.domainLabelPosition = domainLabelPosition;
     }
     
     public String getDomainGridlinePaint() {
@@ -114,6 +107,7 @@ public class UITimeSeriesChart
     public void setRangeAxisPaint(String rangeAxisPaint) {
         this.rangeAxisPaint = rangeAxisPaint;
     }
+
     
     @Override
     public void restoreState(FacesContext context, Object state) {
@@ -139,7 +133,7 @@ public class UITimeSeriesChart
         rangeGridlinesVisible = (Boolean) values[17];
         rangeGridlinePaint = (String) values[18];
         rangeGridlineStroke = (String) values[19];
-        domainLabelPosition = (String) values[20];
+        //domainLabelPosition = (String) values[20];
     }
 
     @Override
@@ -165,7 +159,7 @@ public class UITimeSeriesChart
         values[17] = rangeGridlinesVisible;
         values[18] = rangeGridlinePaint;
         values[19] = rangeGridlineStroke;
-        values[20] = domainLabelPosition;
+        //values[20] = domainLabelPosition;
 
         return values;
     }
@@ -177,9 +171,53 @@ public class UITimeSeriesChart
                   getRangeAxisLabel(), 
                   (XYDataset) getDataset(), 
                   true, false, false);
-       
     }
 
+   @Override
+    public void configurePlot(Plot plot) {
+        super.configurePlot(plot);
+        
+        if (plot instanceof XYPlot) {
+            configureXYPlot((XYPlot) plot);
+        }  
+   }
+   
+   public void configureXYPlot(XYPlot plot) {
+
+        if (getDomainGridlinesVisible() != null) {
+            plot.setDomainGridlinesVisible(getDomainGridlinesVisible());
+        }
+
+        if (findColor(getDomainGridlinePaint()) != null) {
+            plot.setDomainGridlinePaint(findColor(getDomainGridlinePaint()));
+        }
+        
+        if (findStroke(getDomainGridlineStroke()) != null) {
+            plot.setDomainGridlineStroke(findStroke(getDomainGridlineStroke()));
+        }
+        
+        if (findColor(getDomainAxisPaint()) != null) {
+            plot.getDomainAxis().setLabelPaint(findColor(getDomainAxisPaint()));
+        }
+
+        if (getRangeGridlinesVisible() != null) {
+            plot.setRangeGridlinesVisible(getRangeGridlinesVisible());
+        }
+        
+        if (findColor(getRangeGridlinePaint()) != null) {
+            plot.setRangeGridlinePaint(findColor(getRangeGridlinePaint()));
+        }
+        
+        if (findStroke(getRangeGridlineStroke()) != null) {
+            plot.setRangeGridlineStroke(findStroke(getRangeGridlineStroke()));
+        }
+        
+        if (findColor(getRangeAxisPaint()) != null) {
+            plot.getRangeAxis().setLabelPaint(findColor(getRangeAxisPaint()));
+        }
+    } 
+   
+    
     @Override
     public Dataset createDataset() {
         return new DefaultXYDataset();
