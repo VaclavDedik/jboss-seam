@@ -3172,6 +3172,27 @@
          </itemizedlist>
       </section>
    </section>
+   <section id="excel.i18n">
+      <title>Internationalization</title>
+      <para>
+        There are only two resources bundle keys used, both for invalid data format and both take a
+        parameter (the invalid value)
+      </para>
+      <itemizedlist>
+         <listitem>
+         	<para>
+         		<literal>org.jboss.seam.excel.not_a_number</literal>
+                &#8212; When a value thought to be a number could not be treated as such
+            </para>
+          </listitem>
+          <listitem>
+             <para>
+            	<literal>org.jboss.seam.excel.not_a_date</literal>
+                &#8212; When a value thought to be a date could not be treated as such
+            </para>
+         </listitem>
+      </itemizedlist>
+   </section>
    <section id="excel.links">
       <title>Links and further documentation</title>
       <para>

@@ -28,6 +28,7 @@ import jxl.write.WritableSheet;
 import jxl.write.WriteException;
 
 import org.jboss.seam.core.Interpolator;
+import org.jboss.seam.core.ResourceBundle;
 import org.jboss.seam.excel.ExcelWorkbookException;
 import org.jboss.seam.excel.css.CellStyle;
 import org.jboss.seam.excel.css.ColumnStyle;
@@ -123,12 +124,12 @@ public class JXLHelper
     * @return The cell format
     * @throws WriteException if the creation failed
     */
-   public WritableCellFormat createCellFormat(UICell uiCell) throws WriteException
+   public WritableCellFormat createCellFormat(UICell uiCell, CellType cellType) throws WriteException
    {
       WritableCellFormat cellFormat = null;
       CellStyle cellStyle = new CellStyle(parser.getCascadedStyleMap(uiCell));
 
-      CellType cellType = cellStyle.forceType != null ? CellType.valueOf(cellStyle.forceType) : uiCell.getDataType();
+//      CellType cellType = cellStyle.forceType != null ? CellType.valueOf(cellStyle.forceType) : uiCell.getDataType();
       switch (cellType)
       {
       case text:
@@ -479,7 +480,7 @@ public class JXLHelper
       CellInfo cellInfo = new CellInfo();
       cellInfo.setCellFeatures(createCellFeatures(uiCell));
       cellInfo.setCellType(getCellDataType(uiCell));
-      cellInfo.setCellFormat(getCellFormat(uiCell));
+      cellInfo.setCellFormat(getCellFormat(uiCell, cellInfo.getCellType()));
       return cellInfo;
    }
 
@@ -545,7 +546,8 @@ public class JXLHelper
       CellType cellDataType = cellInfoCache.getCachedCellType(uiCell.getId());
       if (cellDataType == null)
       {
-         cellDataType = uiCell.getDataType();
+         CellStyle cellStyle = new CellStyle(parser.getCascadedStyleMap(uiCell));
+         cellDataType = cellStyle.forceType != null ? CellType.valueOf(cellStyle.forceType) : uiCell.getDataType();
          cellInfoCache.setCachedCellType(uiCell.getId(), cellDataType);
       }
       return cellDataType;
@@ -558,7 +560,7 @@ public class JXLHelper
     * @param uiCell The cell to format
     * @return The cell format
     */
-   private WritableCellFormat getCellFormat(UICell uiCell)
+   private WritableCellFormat getCellFormat(UICell uiCell, CellType cellType)
    {
       if (log.isTraceEnabled())
       {
@@ -569,7 +571,7 @@ public class JXLHelper
       {
          try
          {
-            cellFormat = createCellFormat(uiCell);
+            cellFormat = createCellFormat(uiCell, cellType);
          }
          catch (WriteException e)
          {
@@ -687,13 +689,15 @@ public class JXLHelper
           try {
               return new jxl.write.Number(column, row, Double.parseDouble(data.toString()), cellFormat);
           } catch (NumberFormatException e) {
-              return new Label(column, row, "#not a number#", cellFormat);
+              String message = Interpolator.instance().interpolate(ResourceBundle.instance().getString("org.jboss.seam.excel.not_a_number"), data.toString());
+              return new Label(column, row, message, cellFormat);
           }
       case date:
           try {
               return new DateTime(column, row, (Date) data, cellFormat);
           } catch (ClassCastException e) {
-              return new Label(column, row, "#not a date#", cellFormat);
+              String message = Interpolator.instance().interpolate(ResourceBundle.instance().getString("org.jboss.seam.excel.not_a_date"), data.toString());
+              return new Label(column, row, message, cellFormat);
           }
       case formula:
          return new Formula(column, row, data.toString(), cellFormat);
