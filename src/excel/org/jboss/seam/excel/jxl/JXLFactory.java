@@ -233,11 +233,11 @@ public class JXLFactory
    {
       if (log.isTraceEnabled())
       {
-         log.trace("Looking for constant #0 in class #1", fieldName, className);
+         log.trace("Looking for constant #0 in class #1", fieldName.toUpperCase(), className);
       }
       try
       {
-         return Class.forName(className).getField(fieldName).get(null);
+         return Class.forName(className).getField(fieldName.toUpperCase()).get(null);
       }
       catch (NoSuchFieldException e)
       {

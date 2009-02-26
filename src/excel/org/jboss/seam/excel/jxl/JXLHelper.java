@@ -72,6 +72,51 @@ public class JXLHelper
    private CellInfoCache cellInfoCache = new CellInfoCache();
 
    /**
+    * Tries to get a general display format (number first, then date)
+    *  
+    * @param formatMask The format mask to attempt
+    * 
+    * @return The format mask (or null if not possible)
+    */
+   private DisplayFormat getGenericDisplayFormat(String formatMask) {
+        if (formatMask == null) 
+        {
+            return null;
+        }
+        DisplayFormat displayFormat = JXLFactory.createNumberFormat(formatMask);
+        if (displayFormat != null) 
+        {
+            return displayFormat;
+        }
+        displayFormat = JXLFactory.createDateFormat(formatMask);
+        if (displayFormat != null) 
+        {
+            return displayFormat;
+        }
+        try 
+        {
+            displayFormat = new NumberFormat(formatMask);
+        } 
+        catch (IllegalArgumentException e) 
+        {
+            // no-op, it was worth a try;
+        }
+        if (displayFormat != null) 
+        {
+            return displayFormat;
+        }
+        try 
+        {
+            displayFormat = new DateFormat(formatMask);
+        } 
+        catch (IllegalArgumentException e) 
+        {
+            // no-op, it was worth a try;
+        }
+        return displayFormat;
+    }
+   
+   /**
     * Creates a cell format
     * 
     * @param uiCell The cell to model
@@ -153,7 +198,8 @@ public class JXLHelper
          }
          break;
       case formula:
-         cellFormat = new WritableCellFormat();
+         DisplayFormat displayFormat = getGenericDisplayFormat(cellStyle.formatMask); 
+         cellFormat = displayFormat != null ? new WritableCellFormat(displayFormat) : new WritableCellFormat();
          break;
       case bool:
          cellFormat = new WritableCellFormat();
