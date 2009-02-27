@@ -75,13 +75,12 @@ public class RewritingResponse
         return url.getHost().equals(request.getServerName());
     }
     
-    public String rewritePath(String path) {
+    public String rewritePath(String originalPath) {
         String contextPath = request.getContextPath();
 
-        if (path.startsWith(contextPath)) {
-            path = path.substring(contextPath.length());
-        }
-
+        String path = originalPath.startsWith(contextPath) ? 
+                      originalPath.substring(contextPath.length()) : originalPath;
+                      
         for (Pattern pattern: patterns) {
             Rewrite rewrite = pattern.matchOutgoing(path);
             if (rewrite != null) {
@@ -89,10 +88,10 @@ public class RewritingResponse
             }
         }
 
-        return path;
+        return originalPath;
     }
 
-    public String rewriteURL(String originalUrl) {
+    public String rewriteURL(String originalUrl) {        
         if (originalUrl.startsWith("http://") || originalUrl.startsWith("https://")) {
             try {
                 URL url = new URL(originalUrl);
