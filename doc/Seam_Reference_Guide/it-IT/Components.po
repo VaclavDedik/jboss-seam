@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:22+0000\n"
-"PO-Revision-Date: 2009-02-25 22:53+0100\n"
+"PO-Revision-Date: 2009-02-28 15:51+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1103,7 +1103,7 @@ msgstr "Componenti infrastrutturali"
 #: Components.xml:991
 #, no-c-format
 msgid "These components provide critical platform infrastructure. You can install a component which isn't installed by default by setting <literal>install=\"true\"</literal> on the component in <literal>components.xml</literal>."
-msgstr ""
+msgstr "Questi componenti forniscono un'infrastruttura critica di piattaforma. Si può installare un componente che non è installato di default impostando <literal>install=\"true\"</literal> nel componente in <literal>components.xml</literal>."
 
 #. Tag: literal
 #: Components.xml:999
@@ -1127,19 +1127,19 @@ msgstr "<literal>org.jboss.seam.core.init.jndiPattern</literal> &#8212; il patte
 #: Components.xml:1012
 #, no-c-format
 msgid "<literal>org.jboss.seam.core.init.debug</literal> &#8212; enable Seam debug mode. This should be set to false when in production. You may see errors if the system is placed under any load and debug is enabled."
-msgstr ""
+msgstr "<literal>org.jboss.seam.core.init.debug</literal> &#8212; abilita la modalità di debug di Seam. Questo può essere impostato a false in produzione. Si possono vedere gli errori se il sistema è messo sotto carico ed il debug è abilitato."
 
 #. Tag: para
 #: Components.xml:1019
 #, no-c-format
 msgid "<literal>org.jboss.seam.core.init.clientSideConversations</literal> &#8212; if set to <literal>true</literal>, Seam will save conversation context variables in the client instead of in the <literal>HttpSession</literal>."
-msgstr ""
+msgstr "<literal>org.jboss.seam.core.init.clientSideConversations</literal> &#8212; se impostato a <literal>true</literal>, Seam salverà le variabili del contestodi conversazione nel client anziché in <literal>HttpSession</literal>."
 
 #. Tag: para
 #: Components.xml:1026
 #, no-c-format
 msgid "<literal>org.jboss.seam.core.init.userTransactionName</literal> &#8212; the JNDI name to use when looking up the JTA <literal>UserTransaction</literal> object."
-msgstr ""
+msgstr "<literal>org.jboss.seam.core.init.userTransactionName</literal> &#8212; il nome JNDI da usare quando si ricerca l'oggetto <literal>UserTransaction</literal> JTA."
 
 #. Tag: literal
 #: Components.xml:1035
@@ -1151,7 +1151,7 @@ msgstr "org.jboss.seam.core.manager"
 #: Components.xml:1037
 #, no-c-format
 msgid "Internal component for Seam page and conversation context management. Always installed."
-msgstr ""
+msgstr "Il componente interno per la pagina Seam e la gestione del contesto di conversazione. Sempre installato."
 
 #. Tag: para
 #: Components.xml:1043
@@ -1163,25 +1163,25 @@ msgstr "<literal>org.jboss.seam.core.manager.conversationTimeout</literal> &#821
 #: Components.xml:1049
 #, no-c-format
 msgid "<literal>org.jboss.seam.core.manager.concurrentRequestTimeout</literal> &#8212; maximum wait time for a thread attempting to gain a lock on the long-running conversation context."
-msgstr ""
+msgstr "<literal>org.jboss.seam.core.manager.concurrentRequestTimeout</literal> &#8212; massimo tempo di attesa per un thread che tenta di ottenere il locksul contesto di conversazione long-running."
 
 #. Tag: para
 #: Components.xml:1056
 #, no-c-format
 msgid "<literal>org.jboss.seam.core.manager.conversationIdParameter</literal> &#8212; the request parameter used to propagate the conversation id, default to <literal>conversationId</literal>."
-msgstr ""
+msgstr "<literal>org.jboss.seam.core.manager.conversationIdParameter</literal> &#8212; il parametro di richiesta usato per propagare l'id di conversazione, di default è <literal>conversationId</literal>."
 
 #. Tag: para
 #: Components.xml:1063
 #, no-c-format
 msgid "<literal>org.jboss.seam.core.manager.conversationIsLongRunningParameter</literal> &#8212; the request parameter used to propagate information about whether the conversation is long-running, default to <literal>conversationIsLongRunning</literal>."
-msgstr ""
+msgstr "<literal>org.jboss.seam.core.manager.conversationIsLongRunningParameter</literal> &#8212; il parametro di richiesta usato per propagare l'informazione se la conversazione è long-running, di default è <literal>conversationIsLongRunning</literal>."
 
 #. Tag: para
 #: Components.xml:1070
 #, no-c-format
 msgid "<literal>org.jboss.seam.core.manager.defaultFlushMode</literal> &#8212; set the flush mode set by default on any Seam Managed Persistence Context. By default <literal>AUTO</literal>."
-msgstr ""
+msgstr "<literal>org.jboss.seam.core.manager.defaultFlushMode</literal> &#8212; imposta la modalità flush impostata di default su ogni contesto di persistenza gestito da Seam. Di default è <literal>AUTO</literal>."
 
 #. Tag: literal
 #: Components.xml:1080
@@ -1193,37 +1193,37 @@ msgstr "org.jboss.seam.navigation.pages"
 #: Components.xml:1082
 #, no-c-format
 msgid "Internal component for Seam workspace management. Always installed."
-msgstr ""
+msgstr "Componente interno per la gestione del workspace di Seam. Sempre installato."
 
 #. Tag: para
 #: Components.xml:1087
 #, no-c-format
 msgid "<literal>org.jboss.seam.navigation.pages.noConversationViewId</literal> &#8212; global setting for the view id to redirect to when a conversation entry is not found on the server side."
-msgstr ""
+msgstr "<literal>org.jboss.seam.navigation.pages.noConversationViewId</literal> &#8212; impostazione globale per l'id di vista a cui fare redirect quando un'entry di conversazione non viene trovata lato server."
 
 #. Tag: para
 #: Components.xml:1094
 #, no-c-format
 msgid "<literal>org.jboss.seam.navigation.pages.loginViewId</literal> &#8212; global setting for the view id to redirect to when an unauthenticated user tries to access a protected view."
-msgstr ""
+msgstr "<literal>org.jboss.seam.navigation.pages.loginViewId</literal> &#8212; impostazione globale per l'id della vista a cui fare redirect quando un utente non autenticato prova ad accedere ad una vista protetta."
 
 #. Tag: para
 #: Components.xml:1101
 #, no-c-format
 msgid "<literal>org.jboss.seam.navigation.pages.httpPort</literal> &#8212; global setting for the port to use when the http scheme is requested."
-msgstr ""
+msgstr "<literal>org.jboss.seam.navigation.pages.httpPort</literal> &#8212; impostazione globale per la porta da usare quando uno schema http viene richiesto."
 
 #. Tag: para
 #: Components.xml:1108
 #, no-c-format
 msgid "<literal>org.jboss.seam.navigation.pages.httpsPort</literal> &#8212; global setting for the port to use when the https scheme is requested."
-msgstr ""
+msgstr "<literal>org.jboss.seam.navigation.pages.httpsPort</literal> &#8212; impostazione globale per la porta da usare quando uno schema https viene richiesto."
 
 #. Tag: para
 #: Components.xml:1115
 #, no-c-format
 msgid "<literal>org.jboss.seam.navigation.pages.resources</literal> &#8212; a list of resources to search for <literal>pages.xml</literal> style resources. Defaults to <literal>WEB-INF/pages.xml</literal>."
-msgstr ""
+msgstr "<literal>org.jboss.seam.navigation.pages.resources</literal> &#8212; una lista di risorse da cercare per le risorse di stile <literal>pages.xml</literal>. Di default è <literal>WEB-INF/pages.xml</literal>."
 
 #. Tag: literal
 #: Components.xml:1125
@@ -1241,13 +1241,13 @@ msgstr "Avvia una <literal>JbpmConfiguration</literal>. Installa <literal>org.jb
 #: Components.xml:1133
 #, no-c-format
 msgid "<literal>org.jboss.seam.bpm.jbpm.processDefinitions</literal> &#8212; a list of resource names of jPDL files to be used for orchestration of business processes."
-msgstr ""
+msgstr "<literal>org.jboss.seam.bpm.jbpm.processDefinitions</literal> &#8212; una lista di nomi di risorsa di file jPDL da usare per l'orchestrazione dei processi di business."
 
 #. Tag: para
 #: Components.xml:1140
 #, no-c-format
 msgid "<literal>org.jboss.seam.bpm.jbpm.pageflowDefinitions</literal> &#8212; a list of resource names of jPDL files to be used for orchestration of conversation page flows."
-msgstr ""
+msgstr "<literal>org.jboss.seam.bpm.jbpm.pageflowDefinitions</literal> &#8212; una lista di nomi di risorsa di file jPDL da usare per l'orchestrazione dei pageflow di conversazione."
 
 #. Tag: literal
 #: Components.xml:1150
@@ -1259,7 +1259,7 @@ msgstr "org.jboss.seam.core.conversationEntries"
 #: Components.xml:1152
 #, no-c-format
 msgid "Internal session-scoped component recording the active long-running conversations between requests."
-msgstr ""
+msgstr "Componente interno con scope sessione che registra le conversazioni long-running attive tra le richieste."
 
 #. Tag: literal
 #: Components.xml:1159
@@ -1271,7 +1271,7 @@ msgstr "org.jboss.seam.faces.facesPage"
 #: Components.xml:1161
 #, no-c-format
 msgid "Internal page-scoped component recording the conversation context associated with a page."
-msgstr ""
+msgstr "Componente interno con scope pagina che registra il contesto di conversazione associato alla pagina."
 
 #. Tag: literal
 #: Components.xml:1168
@@ -1283,7 +1283,7 @@ msgstr "org.jboss.seam.persistence.persistenceContexts"
 #: Components.xml:1170
 #, no-c-format
 msgid "Internal component recording the persistence contexts which were used in the current conversation."
-msgstr ""
+msgstr "Componente interno che registra i contesti di persistenza usati nell'attuale conversazione."
 
 #. Tag: literal
 #: Components.xml:1177
@@ -1295,7 +1295,7 @@ msgstr "org.jboss.seam.jms.queueConnection"
 #: Components.xml:1179
 #, no-c-format
 msgid "Manages a JMS <literal>QueueConnection</literal>. Installed whenever managed managed <literal>QueueSender</literal> is installed."
-msgstr ""
+msgstr "Gestisce una <literal>QueueConnection</literal> JMS. Installata ogni volta che viene installata una <literal>QueueSender</literal> gestita."
 
 #. Tag: para
 #: Components.xml:1185
@@ -1313,7 +1313,7 @@ msgstr "org.jboss.seam.jms.topicConnection"
 #: Components.xml:1197
 #, no-c-format
 msgid "Manages a JMS <literal>TopicConnection</literal>. Installed whenever managed managed <literal>TopicPublisher</literal> is installed."
-msgstr ""
+msgstr "Gestisce una <literal>TopicConnection</literal> JMS. Installata ogni volta che viene installata una <literal>TopicPublisher</literal> gestita."
 
 #. Tag: para
 #: Components.xml:1203
@@ -1331,7 +1331,7 @@ msgstr "org.jboss.seam.persistence.persistenceProvider"
 #: Components.xml:1215
 #, no-c-format
 msgid "Abstraction layer for non-standardized features of JPA provider."
-msgstr ""
+msgstr "Layer d'astrazione per le funzionalità non standardizzate del provider JPA."
 
 #. Tag: literal
 #: Components.xml:1221
@@ -1343,7 +1343,7 @@ msgstr "org.jboss.seam.core.validators"
 #: Components.xml:1223
 #, no-c-format
 msgid "Caches instances of Hibernate Validator <literal>ClassValidator</literal>."
-msgstr ""
+msgstr "Mette in cache istanze di <literal>ClassValidator</literal> di Hibernate Validator."
 
 #. Tag: literal
 #: Components.xml:1229
@@ -1355,7 +1355,7 @@ msgstr "org.jboss.seam.faces.validation"
 #: Components.xml:1231
 #, no-c-format
 msgid "Allows the application to determine whether validation failed or was successful."
-msgstr ""
+msgstr "Consente all'applicazione di determinare se la validazione ha fallito o ha avuto successo."
 
 #. Tag: literal
 #: Components.xml:1238
@@ -1368,7 +1368,7 @@ msgstr "org.jboss.seam.debug.introspector"
 #: Components.xml:1248
 #, no-c-format
 msgid "Support for the Seam Debug Page."
-msgstr ""
+msgstr "Supporto per la pagina di debug di Seam."
 
 #. Tag: literal
 #: Components.xml:1246
@@ -1386,7 +1386,7 @@ msgstr "org.jboss.seam.exception.exceptions"
 #: Components.xml:1256
 #, no-c-format
 msgid "Internal component for exception handling."
-msgstr ""
+msgstr "Componente interno per la gestione delle eccezioni."
 
 #. Tag: literal
 #: Components.xml:1262
@@ -1398,7 +1398,7 @@ msgstr "org.jboss.seam.transaction.transaction"
 #: Components.xml:1264
 #, no-c-format
 msgid "API for controlling transactions and abstracting the underlying transaction management implementation behind a JTA-compatible interface."
-msgstr ""
+msgstr "API per controllare le transazioni ed astrarre l'implementazione della gestione delle transazioni sottostante dietro all'interfaccia compatibile-JTA."
 
 #. Tag: literal
 #: Components.xml:1272
@@ -1410,7 +1410,7 @@ msgstr "org.jboss.seam.faces.safeActions"
 #: Components.xml:1274
 #, no-c-format
 msgid "Decides if an action expression in an incoming URL is safe. This is done by checking that the action expression exists in the view."
-msgstr ""
+msgstr "Decide se un'espressione d'azione in un URL entrante è sicura. Questo viene fatto controllando che l'espressione d'azione esista nella vista."
 
 #. Tag: title
 #: Components.xml:1284
@@ -1434,7 +1434,7 @@ msgstr "org.jboss.seam.async.dispatcher"
 #: Components.xml:1293
 #, no-c-format
 msgid "Dispatcher stateless session bean for asynchronous methods."
-msgstr ""
+msgstr "Bean di sessione stateless dispatcher per i metodi asincroni."
 
 #. Tag: literal
 #: Components.xml:1302
@@ -1446,13 +1446,13 @@ msgstr "org.jboss.seam.core.image"
 #: Components.xml:1304
 #, no-c-format
 msgid "Image manipulation and interrogation."
-msgstr ""
+msgstr "Manipolazione d'immagine ed interrogazione."
 
 #. Tag: para
 #: Components.xml:1315
 #, no-c-format
 msgid "Manager component for a PojoCache instance."
-msgstr ""
+msgstr "Componente gestore per un'istanza PojoCache."
 
 #. Tag: literal
 #: Components.xml:1324
@@ -1464,7 +1464,7 @@ msgstr "org.jboss.seam.core.uiComponent"
 #: Components.xml:1326
 #, no-c-format
 msgid "Manages a map of UIComponents keyed by component id."
-msgstr ""
+msgstr "Gestisce una mappa per i UIComponent aventi come chiave l'id del componente."
 
 #. Tag: title
 #: Components.xml:1338
@@ -1476,7 +1476,7 @@ msgstr "Componenti speciali"
 #: Components.xml:1339
 #, no-c-format
 msgid "Certain special Seam component classes are installable multiple times under names specified in the Seam configuration. For example, the following lines in <literal>components.xml</literal> install and configure two Seam components:"
-msgstr ""
+msgstr "Alcune classi speciali di componenti Seam sono installabili più volte sotto nomi specificati nella configurazione Seam. Per esempio, le seguenti linee in <literal>components.xml</literal> installano e configurano due componenti Seam:"
 
 #. Tag: programlisting
 #: Components.xml:1345
@@ -1506,7 +1506,7 @@ msgstr ""
 #: Components.xml:1347
 #, no-c-format
 msgid "The Seam component names are <literal>bookingDatabase</literal> and <literal>userDatabase</literal>."
-msgstr ""
+msgstr "I nomi dei componenti Seam sono <literal>bookingDatabase</literal> e <literal>userDatabase</literal>."
 
 #. Tag: emphasis
 #: Components.xml:1354
@@ -1524,7 +1524,7 @@ msgstr "org.jboss.seam.persistence.ManagedPersistenceContext"
 #: Components.xml:1357
 #, no-c-format
 msgid "Manager component for a conversation scoped managed <literal>EntityManager</literal> with an extended persistence context."
-msgstr ""
+msgstr "Componente gestore per un <literal>EntityManager</literal> gestito con scope conversazione con un contesto di persistenza esteso."
 
 #. Tag: para
 #: Components.xml:1363
@@ -1554,7 +1554,7 @@ msgstr "org.jboss.seam.persistence.EntityManagerFactory"
 #: Components.xml:1381
 #, no-c-format
 msgid "Manages a JPA <literal>EntityManagerFactory</literal>. This is most useful when using JPA outside of an EJB 3.0 supporting environment."
-msgstr ""
+msgstr "Gestisce una <literal>EntityManagerFactory</literal> JPA. Questo è utile quando sia usa JPA fuori dall'ambiente EJB3.0."
 
 #. Tag: para
 #: Components.xml:1387
@@ -1567,7 +1567,7 @@ msgstr "<literal>entityManagerFactory.persistenceUnitName</literal> &#8212; il n
 #: Components.xml:1436
 #, no-c-format
 msgid "See the API JavaDoc for further configuration properties."
-msgstr ""
+msgstr "Si vede la API JavaDoc per ulteriori proprietà di configurazione."
 
 #. Tag: emphasis
 #: Components.xml:1399
@@ -1585,7 +1585,7 @@ msgstr "org.jboss.seam.persistence.ManagedSession"
 #: Components.xml:1402
 #, no-c-format
 msgid "Manager component for a conversation scoped managed Hibernate <literal>Session</literal>."
-msgstr ""
+msgstr "Componente gestore per una <literal>Session</literal> HIbernate gestita con scope di conversazione."
 
 #. Tag: para
 #: Components.xml:1407
@@ -1639,7 +1639,7 @@ msgstr "org.jboss.seam.jms.ManagedQueueSender"
 #: Components.xml:1445
 #, no-c-format
 msgid "Manager component for an event scoped managed JMS <literal>QueueSender</literal>."
-msgstr ""
+msgstr "Componente gestore per un <literal>QueueSender</literal> JMS gestito con scope evento."
 
 #. Tag: para
 #: Components.xml:1450
@@ -1663,7 +1663,7 @@ msgstr "org.jboss.seam.jms.ManagedTopicPublisher"
 #: Components.xml:1462
 #, no-c-format
 msgid "Manager component for an event scoped managed JMS <literal>TopicPublisher</literal>."
-msgstr ""
+msgstr "Componente gestore per un <literal>TopicPublisher</literal> JMS gestito con scope evento."
 
 #. Tag: para
 #: Components.xml:1467

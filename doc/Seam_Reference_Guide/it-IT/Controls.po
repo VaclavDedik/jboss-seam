@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:19+0000\n"
-"PO-Revision-Date: 2009-02-23 21:43+0100\n"
+"PO-Revision-Date: 2009-02-28 15:52+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1650,13 +1650,13 @@ msgstr "&lt;s:transformImageSize&gt;"
 #: Controls.xml:1109
 #, no-c-format
 msgid "<literal>width</literal> &#8212; new width of the image"
-msgstr ""
+msgstr "<literal>width</literal> &#8212; nuova larghezza dell'immagine"
 
 #. Tag: para
 #: Controls.xml:1115
 #, no-c-format
 msgid "<literal>height</literal> &#8212; new height of the image"
-msgstr ""
+msgstr "literal>height</literal> &#8212; nuova altezza dell'immagine"
 
 #. Tag: para
 #: Controls.xml:1121
