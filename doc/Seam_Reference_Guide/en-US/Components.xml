@@ -1178,7 +1178,7 @@
                 <listitem>
                     <para>
                         Manages a JMS <literal>QueueConnection</literal>. Installed whenever
-                        managed managed <literal>QueueSender</literal> is installed.
+                        managed <literal>QueueSender</literal> is installed.
                     </para>
                     <itemizedlist>
                         <listitem>
@@ -1196,7 +1196,7 @@
                 <listitem>
                     <para>
                         Manages a JMS <literal>TopicConnection</literal>. Installed whenever
-                        managed managed <literal>TopicPublisher</literal> is installed.
+                        managed <literal>TopicPublisher</literal> is installed.
                     </para>
                     <itemizedlist>
                         <listitem>
