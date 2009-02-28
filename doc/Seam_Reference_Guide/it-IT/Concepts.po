@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-01-20 21:06+0100\n"
+"PO-Revision-Date: 2009-02-28 22:07+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -100,13 +100,13 @@ msgstr "<para>contesto Applicazione</para>"
 #: Concepts.xml:49
 #, no-c-format
 msgid "You will recognize some of these contexts from servlet and related specifications. However, two of them might be new to you: <emphasis>conversation context</emphasis>, and <emphasis>business process context</emphasis>. One reason state management in web applications is so fragile and error-prone is that the three built-in contexts (request, session and application) are not especially meaningful from the point of view of the business logic. A user login session, for example, is a fairly arbitrary construct in terms of the actual application work flow. Therefore, most Seam components are scoped to the conversation or business process contexts, since they are the contexts which are most meaningful in terms of the application."
-msgstr ""
+msgstr "Si riconosceranno alcuni di questi contesti dai servlet e dalle relative specifiche. Comunque due di questi potrebbero risultare nuovi: <emphasis>conversation context</emphasis>, e <emphasis>business process context</emphasis>. La gestione dello stato nelle applicazioni web è così fragile e propenso all'errore che i tre contesti predefiniti (richiesta, sessione ed applicazione) non sono significativi dal punto di vista della logica di business. Una sessione utente di login, per esempio, è praticamente un costrutto arbitrario in termini di workflow dell'applicazione. Quindi la maggior parte dei componenti Seam hanno scope nei contesti di conversazione e business process, poiché sono i contesti più significativi in termini di applicazione."
 
 #. Tag: para
 #: Concepts.xml:60
 #, no-c-format
 msgid "Let's look at each context in turn."
-msgstr ""
+msgstr "Ora si analizza ciascun contesto."
 
 #. Tag: title
 #: Concepts.xml:65
