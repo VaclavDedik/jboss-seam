@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tools\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-02-01 21:19+0000\n"
+"POT-Creation-Date: 2009-02-28 14:06+0000\n"
 "PO-Revision-Date: 2009-01-30 00:41+0900\n"
 "Last-Translator: Daisuke Sano <d-sano@nri.co.jp>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -3448,26 +3448,40 @@ msgstr "xls-column-hidden"
 msgid "Should the column be hidden? Valid values are \"true\" and \"false\"."
 msgstr ""
 
-#. Tag: title
+#. Tag: para
+#: Excel.xml:2779
+#, fuzzy, no-c-format
+msgid "xls-column-export"
+msgstr "xls-column-width"
+
+#. Tag: para
 #: Excel.xml:2782
+#, no-c-format
+msgid ""
+"Should the column be shown in export? Valid values are \"true\" and \"false"
+"\". Default is \"true\"."
+msgstr ""
+
+#. Tag: title
+#: Excel.xml:2792
 #, fuzzy, no-c-format
 msgid "Cell settings"
 msgstr "集合"
 
 #. Tag: para
-#: Excel.xml:2783
+#: Excel.xml:2793
 #, no-c-format
 msgid "This group of XLS-CSS attributes defines the cell properties"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2793
+#: Excel.xml:2803
 #, no-c-format
 msgid "xls-alignment"
 msgstr "xls-alignment"
 
 #. Tag: para
-#: Excel.xml:2796
+#: Excel.xml:2806
 #, no-c-format
 msgid ""
 "The alignment of the cell value (see <ulink url=\"http://jexcelapi."
@@ -3476,13 +3490,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2808
+#: Excel.xml:2818
 #, no-c-format
 msgid "xls-force-type"
 msgstr "xls-force-type"
 
 #. Tag: para
-#: Excel.xml:2811
+#: Excel.xml:2821
 #, no-c-format
 msgid ""
 "The forced type of the cell data. The value is a string that can be one of "
@@ -3491,37 +3505,37 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2820
+#: Excel.xml:2830
 #, no-c-format
 msgid "xls-format-mask"
 msgstr "xls-format-mask"
 
 #. Tag: para
-#: Excel.xml:2823
+#: Excel.xml:2833
 #, no-c-format
 msgid "The format mask of the cell, see"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2830
+#: Excel.xml:2840
 #, no-c-format
 msgid "xls-indentation"
 msgstr "xls-indentation"
 
 #. Tag: para
-#: Excel.xml:2833
+#: Excel.xml:2843
 #, no-c-format
 msgid "The indentation of the cell value. The value is numeric."
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2840
+#: Excel.xml:2850
 #, no-c-format
 msgid "xls-locked"
 msgstr "xls-locked"
 
 #. Tag: para
-#: Excel.xml:2843
+#: Excel.xml:2853
 #, no-c-format
 msgid ""
 "Should the cell be locked. Use with workbook level locked. Valid values are "
@@ -3529,13 +3543,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2851
+#: Excel.xml:2861
 #, no-c-format
 msgid "xls-orientation"
 msgstr "xls-orientation"
 
 #. Tag: para
-#: Excel.xml:2854
+#: Excel.xml:2864
 #, no-c-format
 msgid ""
 "The orientation of the cell value (see <ulink url=\"http://jexcelapi."
@@ -3544,13 +3558,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2866
+#: Excel.xml:2876
 #, no-c-format
 msgid "xls-vertical-alignment"
 msgstr "xls-vertical-alignment"
 
 #. Tag: para
-#: Excel.xml:2869
+#: Excel.xml:2879
 #, no-c-format
 msgid ""
 "The vertical alignment of the cell value (see <ulink url=\"http://jexcelapi."
@@ -3559,13 +3573,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2881
+#: Excel.xml:2891
 #, no-c-format
 msgid "xls-shrink-to-fit"
 msgstr "xls-shrink-to-fit"
 
 #. Tag: para
-#: Excel.xml:2884
+#: Excel.xml:2894
 #, no-c-format
 msgid ""
 "Should the cell values shrink to fit? Valid values are \"true\" and \"false"
@@ -3573,26 +3587,26 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2892
+#: Excel.xml:2902
 #, no-c-format
 msgid "xls-wrap"
 msgstr "xls-wrap"
 
 #. Tag: para
-#: Excel.xml:2895
+#: Excel.xml:2905
 #, no-c-format
 msgid ""
 "Should the cell wrap with newlines? Valid values are \"true\" and \"false\"."
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:2906
+#: Excel.xml:2916
 #, no-c-format
 msgid "The datatable exporter"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2907
+#: Excel.xml:2917
 #, no-c-format
 msgid ""
 "The datatable exporter uses the same xls-css attributes as the xhtml "
@@ -3602,32 +3616,32 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:2915
+#: Excel.xml:2925
 #, fuzzy, no-c-format
 msgid "Layout examples"
 msgstr "サンプルを試そう"
 
 #. Tag: para
-#: Excel.xml:2916
+#: Excel.xml:2926
 #, no-c-format
 msgid "TODO"
 msgstr "TODO"
 
 #. Tag: title
-#: Excel.xml:2921
+#: Excel.xml:2931
 #, fuzzy, no-c-format
 msgid "Limitations"
 msgstr "rotation"
 
 #. Tag: para
-#: Excel.xml:2922
+#: Excel.xml:2932
 #, no-c-format
 msgid ""
 "In the current version there are some known limitations regarding CSS support"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2928
+#: Excel.xml:2938
 #, no-c-format
 msgid ""
 "When using .xhtml documents, stylesheets must be referenced through the "
@@ -3635,7 +3649,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2934
+#: Excel.xml:2944
 #, no-c-format
 msgid ""
 "When using the datatable exporter, CSS must be entered through style-"
@@ -3643,13 +3657,43 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Excel.xml:2943
+#: Excel.xml:2953
+#, no-c-format
+msgid "Internationalization"
+msgstr ""
+
+#. Tag: para
+#: Excel.xml:2954
+#, no-c-format
+msgid ""
+"There are only two resources bundle keys used, both for invalid data format "
+"and both take a parameter (the invalid value)"
+msgstr ""
+
+#. Tag: para
+#: Excel.xml:2960
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.excel.not_a_number</literal> &#8212; When a value "
+"thought to be a number could not be treated as such"
+msgstr ""
+
+#. Tag: para
+#: Excel.xml:2966
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.excel.not_a_date</literal> &#8212; When a value "
+"thought to be a date could not be treated as such"
+msgstr ""
+
+#. Tag: title
+#: Excel.xml:2974
 #, no-c-format
 msgid "Links and further documentation"
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2944
+#: Excel.xml:2975
 #, no-c-format
 msgid ""
 "The core of the &excel; functionality is based on the excellent JExcelAPI "
@@ -3659,7 +3703,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Excel.xml:2950
+#: Excel.xml:2981
 #, no-c-format
 msgid ""
 "If you use the forum or mailing list, please remember that they don't know "
