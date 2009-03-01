@@ -1053,7 +1053,7 @@
       <section id="excel.cells.validation">
          <title>Validation</title>
          <para>
-            Validations are nested inside cells, formulas or cell templates.
+            Validations are nested inside cells or formulas.
             They add constrains for the cell data.
          </para>
          <informaltable>
@@ -1405,12 +1405,8 @@
       <section id="excel.cells.formatmasks">
          <title>Format masks</title>
          <para>
-            Format masks are defined in the mask attribute in cell templates,
-            cells or formulas. <emphasis>Note that when using templates, the 
-            format mask must be placed in the first template</emphasis>
-            to be cascaded since the constructor hierarchy in
-            <literal>JExcelAPI</literal> used for copying cell formats makes 
-            it hard to change the format mask at a later stage. There are two 
+            Format masks are defined in the mask attribute in 
+            cells or formulas. There are two 
             types of format masks, one for numbers and one for dates
          </para>
          <section id="excel.formatmasks.numbers">
@@ -1478,17 +1474,13 @@
       <programlisting role="XML">
          <![CDATA[
             <e:workbook>
-               <e:cellTemplate name="fooTemplate">
-                  <e:font color="red"/>
-               </e:cellTemplate>
                <e:worksheet name="fooSheet">
                   <e:cell column="0" row="0" value="1"/>
                </e:worksheet>
                <e:worksheet name="barSheet">
                   <e:cell column="0" row="0" value="2"/>
                   <e:formula column="0" row="1" 
-                     value="fooSheet!A1+barSheet1!A1" 
-                     templates="fooTemplate">
+                     value="fooSheet!A1+barSheet1!A1">
                      <e:font fontSize="12"/>
                   </e:formula>
                </e:worksheet>
