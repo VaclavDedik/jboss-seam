@@ -1,5 +1,8 @@
 package org.jboss.seam.security.permission;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Used to assert permission requirements into a WorkingMemory when evaluating
  * a @Restrict expression.  The consequence of the rule is responsible for
@@ -16,6 +19,7 @@ public class PermissionCheck
 
    private String action;
    private boolean granted;
+   private Set<String> requirements;
    
    public PermissionCheck(Object target, String action)
    {
@@ -44,6 +48,16 @@ public class PermissionCheck
    {
       return action;
    }
+   
+   public void require(String requirement)
+   {
+      if (requirements == null)
+      {
+         requirements = new HashSet<String>();
+      }
+      
+      requirements.add(requirement);
+   }
 
    public void grant() 
    {
@@ -58,5 +72,15 @@ public class PermissionCheck
    public boolean isGranted() 
    {
       return granted;
+   }
+   
+   public boolean hasRequirements()
+   {
+      return requirements != null && requirements.size() > 0;
+   }
+   
+   public Set<String> getRequirements()
+   {
+      return requirements;
    }
 }

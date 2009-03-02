@@ -164,6 +164,22 @@ public class RuleBasedPermissionResolver implements PermissionResolver, Serializ
          
          try
          {
+            handles.add( securityContext.insert(check));
+            
+            // Check if there are any additional requirements
+            securityContext.fireAllRules();
+            if (check.hasRequirements())
+            {
+               for (String requirement : check.getRequirements())
+               {
+                  Object value = Contexts.lookupInStatefulContexts(requirement);
+                  if (value != null)
+                  {
+                     handles.add (securityContext.insert(value));
+                  }
+               }               
+            }
+            
             synchronizeContext();
 
             handles.add( securityContext.insert(roleCheck));
