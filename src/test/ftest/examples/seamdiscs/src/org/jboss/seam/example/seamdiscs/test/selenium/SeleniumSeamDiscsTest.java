@@ -66,7 +66,7 @@ public abstract class SeleniumSeamDiscsTest extends SeamSeleniumTest
    public static String ARTIST_NTH_DISC_YEAR = ARTIST_NTH_DISC + "/td[3]//input";
    public static String ARTIST_NTH_DISC_DETAIL = ARTIST_NTH_DISC + "/td";
    public static String ARTISTS_FIRST_ARTIST_LINK = "xpath=id(\"artists\")//table/tbody/tr/td/table/tbody/tr[2]/td[2]/a";
-   public static String ARTISTS_NEXT_PAGE_LINK = "xpath=id(\"artists\")//td[1]//td[7]/a";
+   public static String ARTISTS_NEXT_PAGE_LINK = "xpath=id(\"artists\")//td[1]//td[2]//td[5]/a";
    public static String ARTIST_TABLE_ROW_BY_NAME = "xpath=id(\"artists\")//tr[normalize-space(td/a/text())=\"{0}\"]";
    // these locators can only be used catenated with ARTIST_TABLE_ROW_BY_NAME
    public static String ARTIST_TABLE_ROW_LINK = ARTIST_TABLE_ROW_BY_NAME + "/td[2]/a";
@@ -76,13 +76,13 @@ public abstract class SeleniumSeamDiscsTest extends SeamSeleniumTest
    public static String CREATE_DISC_BUTTON = "id=addDisc";
    public static String DISC_DETAIL_TITLE = "xpath=id(\"disc\")//tr//tr[2]/td[2]/input";
    public static String DISC_DETAIL_RELEASE_DATE = "xpath=id(\"disc\")//tr//tr[3]/td[2]//input";
-   public static String DISC_DETAIL_ARTIST = "xpath=id(\"disc\")//tr//tr[5]//select";
+   public static String DISC_DETAIL_ARTIST = "xpath=id(\"disc\")//tr//tr[4]//select";
    public static String DISC_DETAIL_DESCRIPTION = "id=description";
    public static String DISC_DETAIL_UPDATE = "id=update";
    public static String DISC_DETAIL_PERSIST = "id=persist";
    public static String DISC_DETAIL_REMOVE = "id=remove";
    public static String DISC_DETAIL_CANCEL = "id=cancel";
-   public static String DISCS_NEXT_PAGE_LINK = "xpath=id(\"discs\")//td[1]//td[7]/a";
+   public static String DISCS_NEXT_PAGE_LINK = "xpath=id(\"discs\")//td[1]//td[2]//td[5]/a";
    public static String DISC_TABLE_ROW_BY_NAME = "xpath=id(\"discs\")//tr[normalize-space(td/a/text())=\"{0}\"]";
    // these locators can only be used catenated with DISC_TABLE_ROW_BY_NAME
    public static String DISC_TABLE_ROW_LINK = DISC_TABLE_ROW_BY_NAME + "/td[2]/a";

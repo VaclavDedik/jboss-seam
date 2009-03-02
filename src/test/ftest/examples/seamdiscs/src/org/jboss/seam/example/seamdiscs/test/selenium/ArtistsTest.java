@@ -44,12 +44,12 @@ public class ArtistsTest extends SeleniumSeamDiscsTest
       browser.clickAndWait(MANAGE_ARTISTS);
    }
 
- /*  @Test(dependsOnMethods = {"createWithDiscsTest"})
+   @Test(dependsOnMethods = {"createWithDiscsTest"})
    public void paginationTest() 
    {
       findAndClickArtist("Fairport Convention"); // should be on second page
       checkDisc(1, "Liege and Lief", "", "The first folk-rock album ever made in the UK, this was the only studio recording of the classic line up of Sandy Denny, Richard Thompson, Dave Swarbick, Ashley Hutchings and Simon Nicol");
-   }*/
+   }
 
    @Test(dependsOnMethods = {"createWithDiscsTest"})
    public void filterTest() 
