@@ -1,7 +1,6 @@
 package org.jboss.seam.el;
 
-import static org.jboss.seam.util.JSF.DATA_MODEL;
-import static org.jboss.seam.util.JSF.getRowCount;
+import org.jboss.seam.util.JSF;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -46,170 +45,142 @@ public class SeamELResolver extends ELResolver
    }
 
    @Override
-   public Object getValue(ELContext context, Object base, Object property)
+   public Object getValue(ELContext context, Object base, Object property) 
    {
-      if (base==null)
-      {
-         return resolveBase(context, property);
-      }
-      else if ( base instanceof Namespace )
-      {
-         return resolveInNamespace(context, base, property);
-      }
-      else if ( DATA_MODEL.isInstance(base) )
-      {
-         return resolveInDataModel(context, base, property);
-      }
-      else if (base instanceof Collection)
-      {
-         return resolveInCollection(context, base, property);
-      }
-      else if (base instanceof Map)
-      {
-         return resolveInMap(context, base, property);
-      }
-      else if (base instanceof Context)
-      {
-         return resolveInContextObject(context, base, property);
-      }
-      else
-      {
-         return null;
-      }
-   }
+        if (base == null) {
+            return resolveBase(context, property);
+            
+        } else if (base instanceof Namespace) {
+            return resolveInNamespace(context, (Namespace) base, property);
+            
+        } else if (JSF.DATA_MODEL.isInstance(base)) {
+            return resolveInDataModel(context,  base, property);
+            
+        } else if (base instanceof Collection) {
+            return resolveInCollection(context, (Collection) base, property);
+            
+        } else if (base instanceof Map) {
+            return resolveInMap(context, (Map) base, property);
+            
+        } else if (base instanceof Context) {
+            return resolveInContextObject(context, (Context) base, property);
+            
+        } else {
+            return null;
+        }
+    }
 
-   private Object resolveInContextObject(ELContext context, Object base, Object property)
+   private Object resolveInContextObject(ELContext context, Context seamContext, Object property)
    {
-      Context seamContext = (Context) base;
-      if ( seamContext.isSet( (String) property ) )
-      {
-         context.setPropertyResolved(true);
-         return seamContext.get( (String) property );
-      }
-      else
-      {
-         return null;
-      }
-   }
+        if (seamContext.isSet((String) property)) {
+            context.setPropertyResolved(true);
+            return seamContext.get((String) property);
+        } else {
+            return null;
+        }
+    }
 
-   private Object resolveInMap(ELContext context, Object base, Object property)
-   {
-      if ( "size".equals(property) )
-      {
-         context.setPropertyResolved(true);
-         return ( (Map) base ).size();
-      }
-      else if ( "values".equals(property) )
-      {
-         context.setPropertyResolved(true);
-         return ( (Map) base ).values();
-      }
-      else if ( "keySet".equals(property) )
-      {
-         context.setPropertyResolved(true);
-         return ( (Map) base ).keySet();
-      }
-      else if ( "entrySet".equals(property) )
-      {
-         context.setPropertyResolved(true);
-         return ( (Map) base ).entrySet();
-      }
-      else
-      {
-         return null;
-      }
-   }
+   private Object resolveInMap(ELContext context, Map map, Object property) {
+        if (map.containsKey(property)) {
+            return null;            
+        }
+        
+        if ("size".equals(property)) {
+            context.setPropertyResolved(true);
+            return map.size();
+            
+        } else if ("values".equals(property)) {
+            context.setPropertyResolved(true);
+            return map.values();
+        
+        } else if ("keySet".equals(property)) {
+            context.setPropertyResolved(true);
+            return map.keySet();
+        
+        } else if ("entrySet".equals(property)) {
+            context.setPropertyResolved(true);
+            return map.entrySet();
+        
+        } else {
+            return null;
+        }
+    }
 
-   private Object resolveInCollection(ELContext context, Object base, Object property)
+   private Object resolveInCollection(ELContext context, Collection collection, Object property)
    {
-      if ( "size".equals(property) )
-      {
-         context.setPropertyResolved(true);
-         return ( (Collection) base ).size();
-      }
-      else
-      {
-         return null;
-      }
-   }
+        if ("size".equals(property)) {
+            context.setPropertyResolved(true);
+            return collection.size();
+        } else {
+            return null;
+        }
+    }
 
    private Object resolveInDataModel(ELContext context, Object base, Object property)
    {
-      if ( "size".equals(property) )
-      {
-         context.setPropertyResolved(true);
-         return getRowCount(base);
-      }
-      else if ( "empty".equals(property) )
-      {
-         context.setPropertyResolved(true);
-         return getRowCount(base)==0;
-      }
-      else
-      {
-         return null;
-      }
-   }
+        if ("size".equals(property)) {
+            context.setPropertyResolved(true);
+            return JSF.getRowCount(base);
+        } else if ("empty".equals(property)) {
+            context.setPropertyResolved(true);
+            return JSF.getRowCount(base) == 0;
+        } else {
+            return null;
+        }
+    }
 
    private Object resolveBase(ELContext context, Object property)
    {
-      if ( !Contexts.isApplicationContextActive() )
-      {
-         //if no Seam contexts, bypass straight through to JSF
-         return null;
-      }
-      
-      String key = (String) property;
-      Init init = Init.instance();
-      
-      //look for a component in the root namespace
-      Object result = init.getRootNamespace().getComponentInstance(key);
-      if (result!=null)
-      {
-         context.setPropertyResolved(true);
-         return result;
-      }
-      else
-      {
-         //look for a component in the imported namespaces
-         for ( Namespace ns: init.getGlobalImports() )
-         {
-            result = ns.getComponentInstance(key);
-            if (result!=null)
-            {
-               context.setPropertyResolved(true);
-               return result;
+      if (!Contexts.isApplicationContextActive()) {
+            // if no Seam contexts, bypass straight through to JSF
+            return null;
+        }
+
+        String key = (String) property;
+        Init init = Init.instance();
+
+        // look for a component in the root namespace
+        Object result = init.getRootNamespace().getComponentInstance(key);
+        if (result != null) {
+            context.setPropertyResolved(true);
+            return result;
+        } else {
+            // look for a component in the imported namespaces
+            for (Namespace ns : init.getGlobalImports()) {
+                result = ns.getComponentInstance(key);
+                if (result != null) {
+                    context.setPropertyResolved(true);
+                    return result;
+                }
             }
-         }
-      }
-      
-      //look for a namespace
-      Namespace namespace = init.getRootNamespace().getChild(key);
-      if (namespace!=null)
-      {
-         context.setPropertyResolved(true);
-      }
-      return namespace;
-   }
+        }
 
-   private Object resolveInNamespace(ELContext context, Object base, Object property)
-   {
-      Object result = ( (Namespace) base ).get( (String) property );
-      if (result!=null)
-      {
-         context.setPropertyResolved(true);
-      }
-      return result;
-   }
+        // look for a namespace
+        Namespace namespace = init.getRootNamespace().getChild(key);
+        if (namespace != null) {
+            context.setPropertyResolved(true);
+        }
+        return namespace;
+    }
 
-   @Override
-   public boolean isReadOnly(ELContext context, Object base, Object property)
-   {
-      return base!=null && 
-            ( DATA_MODEL.isInstance(base) || (base instanceof Collection) || (base instanceof Map) );
-   }
+    private Object resolveInNamespace(ELContext context, Namespace namespace, Object property) {
+        Object result = namespace.get((String) property);
+        if (result != null) {
+            context.setPropertyResolved(true);
+        }
+        return result;
+    }
 
-   @Override
-   public void setValue(ELContext context, Object base, Object property, Object value) {}
+    @Override
+    public boolean isReadOnly(ELContext context, Object base, Object property) 
+    {
+        return base != null
+                && (JSF.DATA_MODEL.isInstance(base) || (base instanceof Collection) || (base instanceof Map));
+    }
+
+    @Override
+    public void setValue(ELContext context, Object base, Object property, Object value) 
+    {
+    }
 
 }
