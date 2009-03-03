@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-02-28 22:07+0100\n"
+"PO-Revision-Date: 2009-03-03 21:51+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -118,7 +118,7 @@ msgstr "<title>Contesto Stateless</title>"
 #: Concepts.xml:66
 #, no-c-format
 msgid "Components which are truly stateless (stateless session beans, primarily) always live in the stateless context (which is basically the absense of a context since the instance Seam resolves is not stored). Stateless components are not very interesting, and are arguably not very object-oriented. Nevertheless, they do get developed and used and are thus an important part of any Seam application."
-msgstr ""
+msgstr "I componenti che sono stateless (in primo luogo bean di sessione stateless) vivono sempre nel contesto stateless (che è sostanzialmente l'assenza di un contesto poiché l'istanza che Seam risolve non è memorizzata). I componenti stateless non sono molto interessanti e sono non molto object-oriented. Tuttavia, essi vengono sviluppati e usati e sono quindi una parte importante di un'applicazione Seam."
 
 #. Tag: title
 #: Concepts.xml:75
@@ -130,13 +130,13 @@ msgstr "<title>Contesto Evento</title>"
 #: Concepts.xml:76
 #, no-c-format
 msgid "The event context is the \"narrowest\" stateful context, and is a generalization of the notion of the web request context to cover other kinds of events. Nevertheless, the event context associated with the lifecycle of a JSF request is the most important example of an event context, and the one you will work with most often. Components associated with the event context are destroyed at the end of the request, but their state is available and well-defined for at least the lifecycle of the request."
-msgstr ""
+msgstr "Il contesto evento è il contesto stateful \"più ristretto\" ed è una generalizzazione della nozione del contesto di richiesta web per coprire gli altri tipi di eventi. Tuttavia, il contesto evento associato al ciclo di vita di una richiesta JSF è l'esempio più importante di un contesto evento ed è quello con cui si lavorerà più spesso. I componenti associati al contesto evento vengono distrutti alla fine della richiesta, ma il loro stato è disponibile e ben-definito per almeno il ciclo di vita della richiesta."
 
 #. Tag: para
 #: Concepts.xml:83
 #, no-c-format
 msgid "When you invoke a Seam component via RMI, or Seam Remoting, the event context is created and destroyed just for the invocation."
-msgstr ""
+msgstr "Quando si invoca un componente Seam via RMI, o Seam Remoting, il contesto evento viene creato e distrutto solo per l'invocazione."
 
 #. Tag: title
 #: Concepts.xml:90
@@ -202,7 +202,7 @@ msgstr ""
 #: Concepts.xml:142
 #, no-c-format
 msgid "Seam serializes processing of concurrent requests that take place in the same long-running conversation context, in the same process."
-msgstr ""
+msgstr "Seam serializza il processo delle richieste concorrenti che prendono posto nello stesso contesto di conversazione long-running, nello stesso processo."
 
 #. Tag: para
 #: Concepts.xml:146
@@ -232,7 +232,7 @@ msgstr ""
 #: Concepts.xml:164
 #, no-c-format
 msgid "<title>Business process context</title>"
-msgstr ""
+msgstr "<title>Contesto processo di Business</title>"
 
 #. Tag: para
 #: Concepts.xml:165
@@ -244,7 +244,7 @@ msgstr ""
 #: Concepts.xml:176
 #, no-c-format
 msgid "<title>Application context</title>"
-msgstr ""
+msgstr "<title>Contesto Applicazione</title>"
 
 #. Tag: para
 #: Concepts.xml:177
@@ -298,7 +298,7 @@ msgstr ""
 #: Concepts.xml:214
 #, no-c-format
 msgid "Context search priority"
-msgstr ""
+msgstr "Priorità di ricerca del contesto"
 
 #. Tag: para
 #: Concepts.xml:215
@@ -322,7 +322,7 @@ msgstr ""
 #: Concepts.xml:249
 #, no-c-format
 msgid "Concurrency model"
-msgstr ""
+msgstr "Modello di concorrenza"
 
 #. Tag: para
 #: Concepts.xml:250
@@ -370,19 +370,19 @@ msgstr ""
 #: Concepts.xml:300
 #, no-c-format
 msgid "EJB 3.0 stateless session beans"
-msgstr ""
+msgstr "Bean di sessione stateless EJB 3.0"
 
 #. Tag: para
 #: Concepts.xml:303
 #, no-c-format
 msgid "EJB 3.0 stateful session beans"
-msgstr ""
+msgstr "Bean di sessione stateful EJB 3.0"
 
 #. Tag: para
 #: Concepts.xml:306
 #, no-c-format
 msgid "EJB 3.0 entity beans (i.e., JPA entity classes)"
-msgstr ""
+msgstr "Bean entity EJB 3.0 (cioè classi entity JPA)"
 
 #. Tag: para
 #: Concepts.xml:309
@@ -400,13 +400,13 @@ msgstr "EJB 3.0 message-driven beans"
 #: Concepts.xml:315
 #, no-c-format
 msgid "Spring beans (see <xref linkend=\"spring\"/>)"
-msgstr ""
+msgstr "Bean Spring (see <xref linkend=\"spring\"/>)"
 
 #. Tag: title
 #: Concepts.xml:320
 #, no-c-format
 msgid "Stateless session beans"
-msgstr ""
+msgstr "Bean di sessione stateless"
 
 #. Tag: para
 #: Concepts.xml:321
@@ -442,7 +442,7 @@ msgstr ""
 #: Concepts.xml:346
 #, no-c-format
 msgid "Stateful session beans"
-msgstr ""
+msgstr "Bean di sessione stateful"
 
 #. Tag: para
 #: Concepts.xml:347
@@ -836,7 +836,7 @@ msgstr ""
 #: Concepts.xml:559
 #, no-c-format
 msgid "Components with multiple roles"
-msgstr ""
+msgstr "Componenti con ruoli multipli"
 
 #. Tag: para
 #: Concepts.xml:560
@@ -868,7 +868,7 @@ msgstr ""
 #: Concepts.xml:572
 #, no-c-format
 msgid "The <literal>@Roles</literal> annotation lets us specify as many additional roles as we like."
-msgstr ""
+msgstr "L'annotazione <literal>@Roles</literal> consente di specificare tanti ruoli quanti se ne vuole."
 
 #. Tag: programlisting
 #: Concepts.xml:576
@@ -980,7 +980,7 @@ msgstr ""
 #: Concepts.xml:649
 #, no-c-format
 msgid "or into a setter method:"
-msgstr ""
+msgstr "o nel metodo setter:"
 
 #. Tag: programlisting
 #: Concepts.xml:653
@@ -1094,7 +1094,7 @@ msgstr ""
 #: Concepts.xml:696
 #, no-c-format
 msgid "or from a getter method:"
-msgstr ""
+msgstr "o dal metodo getter:"
 
 #. Tag: programlisting
 #: Concepts.xml:700
@@ -1646,7 +1646,7 @@ msgstr ""
 #: Concepts.xml:970
 #, no-c-format
 msgid "Factory and manager components"
-msgstr ""
+msgstr "Componenti factory e manager"
 
 #. Tag: para
 #: Concepts.xml:971

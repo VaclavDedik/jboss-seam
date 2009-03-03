@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:19+0000\n"
-"PO-Revision-Date: 2009-02-28 15:52+0100\n"
+"PO-Revision-Date: 2009-03-03 21:56+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1164,13 +1164,13 @@ msgstr "&lt;s:enumItem&gt;"
 #: Controls.xml:747
 #, no-c-format
 msgid "Creates a <literal>SelectItem</literal> from an enum value."
-msgstr ""
+msgstr "Crea un <literal>SelectItem</literal> da un valore enum."
 
 #. Tag: para
 #: Controls.xml:754
 #, no-c-format
 msgid "<literal>enumValue</literal> &#8212; the string representation of the enum value."
-msgstr ""
+msgstr "<literal>enumValue</literal> &#8212; la rappresentazione stringa di un valore enum."
 
 #. Tag: para
 #: Controls.xml:760
@@ -1214,7 +1214,7 @@ msgstr "&lt;s:selectItems&gt;"
 #: Controls.xml:775
 #, no-c-format
 msgid "Creates a <literal>List&lt;SelectItem&gt;</literal> from a List, Set, DataModel or Array."
-msgstr ""
+msgstr "Crea una <literal>List&lt;SelectItem&gt;</literal> daList, Set, DataModel o Array."
 
 #. Tag: para
 #: Controls.xml:782
@@ -1396,7 +1396,7 @@ msgstr ""
 #: Controls.xml:904
 #, no-c-format
 msgid "The following configuration options for multipart requests may be configured in components.xml:"
-msgstr ""
+msgstr "Le seguenti opzioni di configurazioni per richieste multipart possono essere configurate in components.xml:"
 
 #. Tag: para
 #: Controls.xml:911
@@ -1408,7 +1408,7 @@ msgstr ""
 #: Controls.xml:918
 #, no-c-format
 msgid "<literal>maxRequestSize</literal> &#8212; the maximum size of a file upload request, in bytes."
-msgstr ""
+msgstr "<literal>maxRequestSize</literal> &#8212; dimensione massima della richiesta di upload file, in byte."
 
 #. Tag: para
 #: Controls.xml:925
@@ -1518,19 +1518,19 @@ msgstr ""
 #: Controls.xml:1007
 #, no-c-format
 msgid "<literal>fileName</literal> &#8212; Filename of the file to be served"
-msgstr ""
+msgstr "<literal>fileName</literal> &#8212; Nome del file da servire"
 
 #. Tag: para
 #: Controls.xml:1012
 #, no-c-format
 msgid "<literal>contentType</literal> &#8212; content type of the file to be downloaded"
-msgstr ""
+msgstr "<literal>contentType</literal> &#8212; tipo di contenuto del file da scaricare"
 
 #. Tag: para
 #: Controls.xml:1017
 #, no-c-format
 msgid "<literal>disposition</literal> &#8212; disposition to use. Default is inline"
-msgstr ""
+msgstr "<literal>disposition</literal> &#8212; disposizione da usare. Di default è inline"
 
 #. Tag: para
 #: Controls.xml:1024
@@ -1724,7 +1724,7 @@ msgstr "&lt;s:remote&gt;"
 #: Controls.xml:1192
 #, no-c-format
 msgid "Generates the Javascript stubs required to use Seam Remoting."
-msgstr ""
+msgstr "Genera gli stub Javascript richiesti per usare Seam Remoting."
 
 #. Tag: para
 #: Controls.xml:1199
@@ -1748,7 +1748,7 @@ msgstr "Annotazioni"
 #: Controls.xml:1218
 #, no-c-format
 msgid "Seam also provides annotations to allow you to use Seam components as JSF converters and validators:"
-msgstr ""
+msgstr "Seam fornisce anche annotazioni che permettono di impiegare i componenti Seam come convertitori JSF e validatori:"
 
 #. Tag: literal
 #: Controls.xml:1226
