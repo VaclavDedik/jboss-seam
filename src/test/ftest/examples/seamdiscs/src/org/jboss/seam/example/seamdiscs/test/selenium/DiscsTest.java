@@ -42,11 +42,11 @@ public class DiscsTest extends SeleniumSeamDiscsTest
       browser.clickAndWait(MANAGE_DISCS);
    }
 
-   @Test(dependsOnMethods = {"editDiscsTest"})
+   @Test(dependsOnMethods = {"editDiscTest"})
    public void discPaginationTest() 
    {
       findAndClickDisc("Rock and Roll Heart"); // should not be on the first page
-      checkDiscDetail("Rock and Roll Heart", "1976", "", "Lou Reed");
+      checkDiscDetail("Rock and Roll Heart", "1976", "A sensitive and revealing look into the prince of darkness.", "Lou Reed");
    }
 
 
