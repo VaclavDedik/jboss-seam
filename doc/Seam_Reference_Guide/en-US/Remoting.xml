@@ -693,6 +693,21 @@ public Widget getWidget();</programlisting>
     </section>
 
   </section>
+  
+  <section>
+    <title>Transactional Requests</title>
+    
+    <para>
+      By default there is no active transaction during a remoting request, so if you wish to perform database updates 
+      during a remoting request, you need to annotate the <literal>@WebRemote</literal> method with 
+      <literal>@Transactional</literal>, like so:
+    </para>
+    
+    <programlisting><![CDATA[  @WebRemote @Transactional(TransactionPropagationType.REQUIRED)
+  public void updateOrder(Order order) {
+    entityManager.merge(order);
+  }]]></programlisting>
+  </section>
 
   <section>
     <title>JMS Messaging</title>
