@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-02-19 21:44+0000\n"
-"PO-Revision-Date: 2009-02-19 22:52+0100\n"
+"PO-Revision-Date: 2009-03-05 22:16+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -294,13 +294,13 @@ msgstr "Una conversazione innestata viene creata invocando un metodo marcato con
 #: Conversations.xml:226
 #, no-c-format
 msgid "Nesting a conversation through initializes a context that is stacked on the context of the original, or outer, conversation. The outer conversation is considered the parent."
-msgstr "Innestando una conversazione si inizializza una contesto che viene messo sullo stack del contesto della conversazione originale, o più esterna. La conversazione più esterna è considerata padre. "
+msgstr "Innestando una conversazione si inizializza un contesto che viene messo sullo stack del contesto della conversazione originale, o più esterna. La conversazione più esterna è considerata padre. "
 
 #. Tag: para
 #: Conversations.xml:233
 #, no-c-format
 msgid "Any values outjected or directly set into the nested conversation’s context do not affect the objects accessible in the parent conversation’s context."
-msgstr "Ogni valore messo in outjection o direttamente impostato nel contesto della conversazione ineestata non influenza gli oggetti accessibili nel contesto della conversazione padre."
+msgstr "Ogni valore messo in outjection o direttamente impostato nel contesto della conversazione innestata non influenza gli oggetti accessibili nel contesto della conversazione padre."
 
 #. Tag: para
 #: Conversations.xml:240
