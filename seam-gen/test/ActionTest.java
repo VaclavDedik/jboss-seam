@@ -7,7 +7,7 @@ public class @interfaceName@Test extends SeamTest {
 
 	@Test
 	public void test_@methodName@() throws Exception {
-		new FacesRequest() {
+		new FacesRequest("/@pageName@.xhtml") {
 			@Override
 			protected void invokeApplication() {
 				//call action methods here

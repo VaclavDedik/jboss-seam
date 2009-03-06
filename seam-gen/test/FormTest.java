@@ -7,7 +7,7 @@ public class @interfaceName@Test extends SeamTest {
 
 	@Test
 	public void test_@methodName@() throws Exception {
-		new FacesRequest() {
+		new FacesRequest("/@pageName@.xhtml") {
 			@Override
 			protected void updateModelValues() throws Exception {				
 				//set form input to model attributes
