@@ -795,7 +795,7 @@
       <dependency>
         <groupId>org.jboss.el</groupId>
         <artifactId>jboss-el</artifactId>
-        <version>1.0_02.CR2</version>
+        <version>1.0_02.CR3</version>
       </dependency>
 
       <dependency>
