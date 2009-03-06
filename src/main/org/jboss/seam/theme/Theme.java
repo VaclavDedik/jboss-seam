@@ -34,7 +34,8 @@ public class Theme {
         }
 
         return new AbstractMap<String, String>() {
-            public String lookup(Object key) {
+            @Override
+            public String get(Object key) {
                 if (key instanceof String) {
                     String resourceKey = (String) key;
 
@@ -64,13 +65,14 @@ public class Theme {
                     final String key = keys.nextElement();
                     
                     entrySet.add(new Map.Entry<String, String>() {
-
+                        
                         public String getKey() {
                             return key;
                         }
 
                         public String getValue() {
-                            return lookup(key);
+                            System.out.println("GET VALUE FOR " + key);
+                            return get(key);
                         }
 
                         public String setValue(String arg0) {
