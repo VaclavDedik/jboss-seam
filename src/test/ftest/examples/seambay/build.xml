@@ -22,7 +22,9 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 -->
 <project name="seambay.ftest.build" basedir="." default="build">
 	<property name="example.name" value="seambay" />
-	<property name="jboss.example.ready.check.url" value="seam-bay/home.seam" />
+	<property name="jboss4.context.path" value="/seam-bay" />
+	<property name="jboss-embedded.context.path" value="/jboss-seam-bay" />
+	<property name="tomcat6.context.path" value="/jboss-seam-bay" />
 
 	<import file="../build.xml" />
 </project>

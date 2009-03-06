@@ -56,7 +56,7 @@ public abstract class SeamSeleniumTest {
     @BeforeClass
     @Parameters( { "selenium.host", "selenium.server.port", "selenium.browser",
             "selenium.browser.url", "selenium.speed", "selenium.timeout",
-            "PROPERTY_FILE", "CONTEXT_PATH" })
+            "PROPERTY_FILE", "example.context.path" })
     public void setParameters(String host, String port, String browser,
             String browserUrl, String speed, String timeout, String propertyFile, @Optional("") String contextPath) {
         HOST = host;

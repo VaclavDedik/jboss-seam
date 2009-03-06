@@ -23,7 +23,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 <suite name="Todo example" verbose="2" parallel="false">
    <test name="todo_jboss-embedded">
       <parameter name="PROPERTY_FILE" value="" />
-      <parameter name="CONTEXT_PATH" value="/jboss-seam-todo" />
       <classes>
 		<class name="org.jboss.seam.example.todo.test.selenium.SeleniumTodoTest" />
 	  </classes>

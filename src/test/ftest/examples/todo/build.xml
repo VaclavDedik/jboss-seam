@@ -22,7 +22,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 -->
 <project name="todo.ftest.build" basedir="." default="build">
 	<property name="example.name" value="todo" />
-	<property name="jboss.example.ready.check.url" value="seam-todo/login.seam" />
 
 	<import file="../build.xml" />
 </project>

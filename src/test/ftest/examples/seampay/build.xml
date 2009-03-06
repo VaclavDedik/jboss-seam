@@ -22,7 +22,9 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 -->
 <project name="seampay.ftest.build" basedir="." default="build">
 	<property name="example.name" value="seampay" />
-	<property name="jboss.example.ready.check.url" value="seam-pay/search.seam" />
+	<property name="jboss4.context.path" value="/seam-pay" />
+	<property name="jboss-embedded.context.path" value="/jboss-seam-pay" />
+	<property name="tomcat6.context.path" value="/jboss-seam-pay" />
 
 	<import file="../build.xml" />
 </project>

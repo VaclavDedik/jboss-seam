@@ -22,12 +22,13 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 -->
 <project name="jpa.ftest.build" basedir="." default="build">
 	<property name="example.name" value="jpa" />
-	<property name="jboss.deploy.target" value="jboss" />
-	<property name="jboss.undeploy.target" value="jboss.undeploy" />
-	<property name="jboss.example.ready.check.url" value="jboss-seam-jpa/home.seam" />
+	<property name="jboss4.deploy.target" value="jboss" />
+	<property name="jboss4.undeploy.target" value="jboss.undeploy" />
+	<property name="jboss5.deploy.target" value="jboss5" />
 	<property name="jboss-embedded.deploy.target" value="jboss-embedded" />
 	<property name="jboss-embedded.undeploy.target" value="jboss-embedded.undeploy" />
-	<property name="jboss-embedded.example.ready.check.url" value="jboss-seam-jpa/home.seam" />
+	<property name="jboss4.context.path" value="/jboss-seam-jpa" />
+	
 
 	<import file="../build.xml" />
 </project>

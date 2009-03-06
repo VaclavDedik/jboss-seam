@@ -27,33 +27,36 @@ UNDER DEVELOPMENT NOT COMPLETE
 How To:
 ----------
 * Follow specific instructions for your OS
-* Set jboss.home in $SEAM_HOME/build.properties
-* Set tomcat.home in $SEAM_HOME/build.properties to be able to run tests on Tomcat (with JBoss Embedded)
 * Change to the $SEAM_HOME/src/test/ftest directory
+* Set jboss*.home properties in ftest.properties to point to your application server locations
+* Set tomcat.home in ftest.properties to be able to run tests on plain Tomcat
+* Set jboss-embedded.home in ftest.properties to be able to run tests on Tomcat (with JBoss Embedded)
+
   To run all the functional tests run:
-  * "ant testall" for JBoss AS
+  * "ant testall" for JBoss AS 5
+  * "ant testall.jboss4" for JBoss AS 4.2
   * "ant testall.jboss-embedded" for Tomcat + JBoss Embedded
   * "ant testall.tomcat6" for plain Tomcat6
   To run functional tests for single example run:
-  * "ant test -Dtest=example_name" for JBoss AS
+  * "ant test -Dtest=example_name" for JBoss AS 5
+  * "ant test.jboss4 -Dtest=example_name" for JBoss AS 4.2
   * "ant test.jboss-embedded -Dtest=example_name" for Tomcat + JBoss Embedded
   * "ant test.tomcat6 -Dtest=example_name" for Tomcat6
 
-* Note that testall suite is adjusted for JBoss AS 4.2
-* If you are testing examples on JBoss AS 5 you can use it but:
-  * jpa example tests will be skipped - you need to deploy example using "jboss5" target
-    and run selenium.test in /src/test/ftest/examples/jpa
-  * after the testall suite run tests for jee5-booking example with "ant test -Dtest=jee5/booking" in /src/test/ftest 
-  
 Known Limitations:
 ---------------------
-* Only tested on Linux with Firefox
-* jboss.home must be set in $SEAM_HOME/build.properties
+* Only tested on Firefox and IE
 * Container must be started (preferably with nothing deployed)
 
 Windows Setup
 --------------
-TBD
+* Running testsuite on Firefox
+	* Install firefox browser
+	* Set selenium.browser property to *firefox or *firefoxproxy in ftest.properties
+* Running testsuite on Internet Explorer
+	* Set selenium.browser=*iexploreproxy in ftest.properties
+	* Set selenium.server.cmd.args= -singleWindow in ftest.properties - some tests are behaving unexpectedly in multiwindow mode on IE
+	* Set security and privacy levels to lowest possible and turn off pop-up blocker in Internet options -> Security -> Custom level
 
 Unix/Linux Setup
 -----------------
@@ -66,6 +69,13 @@ Otherwise, you get the message:
 Mac OS Setup
 --------------
 TBD
+
+KNOWN TEST FAILURES
+-------------------
+blog - all tests fail if you don't delete blogindexes folder from application server prior running testsuite
+seambay - testEmptyRegistration - JBSEAM-3893
+wicket - simpleBookingTest, testJBSEAM3288 - JBSEAM-3818
+icefaces - several tests fail on IE
 
 TODO's:
 -------
@@ -83,10 +93,12 @@ TODO's:
   - When the build system is updated these will be removed and dependencies will
     be handled as the rest of the source is.
   - We are trying to keep the ftest builds as separate from seam builds as possible.
-  - FYI selenium versions are "1.0-beta-1" and testng.jar is 5.8-200803291025
+  - FYI selenium versions are "1.0-beta-2" and testng.jar is 5.8-200803291025
 
 OPEN QUESTIONS:
 -----------------
 * I'm not sure I like the package name for the common example test code
 * I don't like how we are using property files for all the variables
-  - Jozef  - can we move them to the values in an interface, or some other way 
+  - Using property files for examples with common test classes and interface/class constants for unique examples
+  - Is there any way to get rid of property files?
+  	- For now, we are using property files for testcases that share test class and constants in Java code for examples that are unique

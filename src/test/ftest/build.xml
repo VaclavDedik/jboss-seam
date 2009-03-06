@@ -43,11 +43,11 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	</path>
 
 	<target name="testall">
-		<antcall target="testall.jboss" />
+		<antcall target="testall.jboss5" />
 	</target>
 
-	<target name="testall.jboss">
-		<property name="container" value="jboss" />
+	<target name="testall.jboss4">
+		<property name="container" value="jboss4" />
 		<antcall target="start.selenium.server" />
 		<!-- Execute tests for all examples jboss-->
 		<testexample name="blog" />
@@ -72,6 +72,41 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<testexample name="rss" />
 		<testexample name="seambay" />
 		<testexample name="seamdiscs" />
+		<testexample name="seampay" />
+		<testexample name="seamspace" />
+		<testexample name="spring" />
+		<testexample name="todo" />
+		<testexample name="ui" />
+		<testexample name="wicket" />
+		<antcall target="stop.selenium.server" />
+	</target>
+	
+	<target name="testall.jboss5">
+		<property name="container" value="jboss5" />
+		<antcall target="start.selenium.server" />
+		<!-- Execute tests for all examples jboss-->
+		<testexample name="blog" />
+		<testexample name="booking" />
+		<testexample name="drools" />
+		<testexample name="dvdstore" />
+		<testexample name="contactlist" />
+		<testexample name="excel" />
+		<testexample name="groovybooking" />
+		<testexample name="hibernate" />
+		<testexample name="icefaces" />
+		<testexample name="itext" />
+		<testexample name="jee5/booking" />
+		<testexample name="jpa" />
+		<testexample name="mail" />
+		<testexample name="messages" />
+		<testexample name="nestedbooking" />
+		<testexample name="numberguess" />
+		<testexample name="openid" />
+		<testexample name="quartz" />
+		<testexample name="registration" />
+		<testexample name="remoting/chatroom" />
+		<testexample name="rss" />
+		<testexample name="seambay" />
 		<testexample name="seampay" />
 		<testexample name="seamspace" />
 		<testexample name="spring" />
@@ -111,11 +146,16 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	</target>
 
 	<target name="test">
-		<antcall target="test.jboss" />
+		<antcall target="test.jboss5" />
 	</target>
 
-	<target name="test.jboss">
-		<property name="container" value="jboss" />
+	<target name="test.jboss4">
+		<property name="container" value="jboss4" />
+		<antcall target="test.single.example" />
+	</target>
+	
+	<target name="test.jboss5">
+		<property name="container" value="jboss5" />
 		<antcall target="test.single.example" />
 	</target>
 
@@ -171,7 +211,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	</target>
 
 	<target name="undeployall">
-		<property name="container" value="jboss" />
+		<property name="container" value="jboss5" />
 		<undeployexample name="blog" />
 		<undeployexample name="booking" />
 		<undeployexample name="drools" />
@@ -251,7 +291,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<attribute name="name" />
 		<attribute name="path" default="examples/@{name}" />
 		<sequential>
-			<callExample path="@{path}" target="undeploy.example.jboss" />
+			<callExample path="@{path}" target="undeploy.example" />
 		</sequential>
 	</macrodef>
 

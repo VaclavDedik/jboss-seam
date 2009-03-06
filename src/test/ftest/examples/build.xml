@@ -38,6 +38,21 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<property name="log.dir" value="log" />
 	<property name="test.report.dir" value="test-report" />
 
+	<!-- default deployment targets -->
+	<property name="jboss4.deploy.target" value="deploy" />
+	<property name="jboss5.deploy.target" value="${jboss4.deploy.target}" />
+	<property name="jboss4.undeploy.target" value="undeploy" />
+	<property name="jboss5.undeploy.target" value="${jboss4.undeploy.target}" />
+	<property name="jboss-embedded.deploy.target" value="tomcat.deploy" />
+	<property name="jboss-embedded.undeploy.target" value="tomcat.undeploy" />
+	<property name="tomcat6.deploy.target" value="tomcat6.deploy" />
+	<property name="tomcat6.undeploy.target" value="tomcat6.undeploy" />
+	<!-- default context paths -->
+	<property name="jboss4.context.path" value="/seam-${example.name}" />
+	<property name="jboss5.context.path" value="${jboss4.context.path}" />
+	<property name="jboss-embedded.context.path" value="/jboss-seam-${example.name}" />
+	<property name="tomcat6.context.path" value="${jboss-embedded.context.path}" />
+
 	<!-- common path setup -->
 
 	<path id="classpath.build">
@@ -80,7 +95,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		</copy>
 	</target>
 
-	<target name="selenium.test" depends="build" description="Run Tests">
+	<target name="selenium.test" depends="build, container.properties" description="Run Tests">
 		<taskdef resource="testngtasks" classpathref="classpath.test" />
 		<mkdir dir="${test.output.dir}" />
 
@@ -93,10 +108,11 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 			<sysproperty key="selenium.browser.url" value="${selenium.browser.url}" />
 			<sysproperty key="selenium.speed" value="${selenium.speed}" />
 			<sysproperty key="selenium.timeout" value="${selenium.timeout}" />
+			<sysproperty key="example.context.path" value="${context.path}" />
 		</testng>
 	</target>
 
-	<target name="test" depends="build" description="Run Tests">
+	<target name="test" depends="build, container.properties" description="Run Tests">
 		<!-- TODO all of these jboss commands must be optional with checks -->
 		<!-- TODO  go get JBoss and extract -->
 
@@ -105,13 +121,13 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="clean" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
 
 		<!-- deploy the example-->
-		<antcall target="deploy.example.${container}" />
+		<antcall target="deploy.example" />
 
 		<!-- execute testng tests -->
 		<antcall target="selenium.test" />
 
 		<!-- undeploy the example -->
-		<antcall target="undeploy.example.${container}" />
+		<antcall target="undeploy.example" />
 
 		<!-- TODO stop jboss -->
 
@@ -131,55 +147,47 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<echo>Report available at ${report.dir}/junit-noframes.html</echo>
 	</target>
 
-	<target name="deploy.example.jboss">
-		<deploy.example target="${jboss.deploy.target}" wait.url="${jboss.example.ready.check.url}" wait.time="${jboss.deploy.waittime}" />
+	<target name="deploy.example" depends="container.properties">
+		<property name="absolute.wait.url" value="${selenium.browser.url}${wait.url}" />
+		<echo>Deploying ${example.name} example to ${container} using ${deploy.target} target</echo>
+		<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${deploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}">
+			<property name="jboss.home" value="${container.home}" />
+			<property name="tomcat.home" value="${container.home}" />
+		</ant>
+		<!-- wait for the application to be active -->
+		<!-- TODO is there a better way? -->
+		<echo>Waiting ${wait.time} seconds for ${absolute.wait.url}</echo>
+		<waitfor maxwait="${wait.time}" maxwaitunit="second">
+			<and>
+				<!-- wait for the application to not throw 404 -->
+				<http url="${absolute.wait.url}" errorsBeginAt="404" />
+			</and>
+		</waitfor>
 	</target>
 
-	<target name="undeploy.example.jboss">
-		<undeploy.example target="${jboss.undeploy.target}" />
+	<target name="undeploy.example" depends="container.properties">
+		<echo>Undeploying example ${example.name} from ${container} using ${undeploy.target} target</echo>
+		<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${undeploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}">
+			<property name="jboss.home" value="${container.home}" />
+			<property name="tomcat.home" value="${container.home}" />
+		</ant>
 	</target>
 
-	<target name="deploy.example.tomcat6">
-		<deploy.example target="${tomcat6.deploy.target}" wait.url="${tomcat6.example.ready.check.url}" wait.time="${tomcat6.deploy.waittime}" />
+	<target name="container.properties">
+		<set.container.properties container="${container}" />
 	</target>
 
-	<target name="undeploy.example.tomcat6">
-		<undeploy.example target="${tomcat6.undeploy.target}" />
-	</target>
-
-	<target name="deploy.example.jboss-embedded">
-		<deploy.example target="${jboss-embedded.deploy.target}" wait.url="${jboss-embedded.example.ready.check.url}" wait.time="${jboss-embedded.deploy.waittime}" />
-	</target>
-
-	<target name="undeploy.example.jboss-embedded">
-		<undeploy.example target="${jboss-embedded.undeploy.target}" />
-	</target>
-
-	<macrodef name="deploy.example">
-		<attribute name="target" />
-		<attribute name="wait.url" />
-		<attribute name="wait.time" />
-		<attribute name="absolute.wait.url" default="${selenium.browser.url}/@{wait.url}"/>
+	<macrodef name="set.container.properties">
+		<attribute name="container" />
 		<sequential>
-			<echo>Deploying ${example.name} example to ${container}</echo>
-			<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="@{target}" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
-			<!-- wait for the application to be active -->
-			<!-- TODO is there a better way? -->
-			<echo>Waiting @{wait.time} seconds for @{absolute.wait.url}</echo>
-			<waitfor maxwait="@{wait.time}" maxwaitunit="second">
-				<and>
-					<!-- wait for the application to not throw 404 -->
-					<http url="@{absolute.wait.url}" errorsBeginAt="404" />
-				</and>
-			</waitfor>
+			<fail unless="@{container}.home" message="@{container}.home property has to be set"/>
+			<property name="container.home" value="${@{container}.home}" />
+			<property name="deploy.target" value="${@{container}.deploy.target}" />
+			<property name="undeploy.target" value="${@{container}.undeploy.target}" />
+			<property name="context.path" value="${@{container}.context.path}" />
+			<property name="wait.url" value="${context.path}" />
+			<property name="wait.time" value="${@{container}.deploy.waittime}" />
 		</sequential>
 	</macrodef>
 
-	<macrodef name="undeploy.example">
-		<attribute name="target" />
-		<sequential>
-			<echo>Undeploying example ${example.name} from ${container}</echo>
-			<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="@{target}" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
-		</sequential>
-	</macrodef>
 </project>

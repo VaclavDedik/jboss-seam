@@ -22,7 +22,9 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 -->
 <project name="seamspace.ftest.build" basedir="." default="build">
 	<property name="example.name" value="seamspace" />
-	<property name="jboss.example.ready.check.url" value="seam-space/home.seam" />
+	<property name="jboss4.context.path" value="/seam-space" />
+	<property name="jboss-embedded.context.path" value="/jboss-seam-space" />
+	<property name="tomcat6.context.path" value="/jboss-seam-space" />
 
 	<import file="../build.xml" />
 </project>

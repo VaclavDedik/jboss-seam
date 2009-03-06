@@ -22,7 +22,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 -->
 <project name="ui.ftest.build" basedir="." default="build">
 	<property name="example.name" value="ui" />
-	<property name="jboss.example.ready.check.url" value="seam-ui/index.seam" />
 
 	<import file="../build.xml" />
 </project>

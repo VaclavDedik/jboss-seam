@@ -22,7 +22,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 -->
 <project name="registration.ftest.build" basedir="." default="build">
 	<property name="example.name" value="registration" />
-	<property name="jboss.example.ready.check.url" value="seam-registration/register.seam" />
 
 	<import file="../build.xml" />
 </project>

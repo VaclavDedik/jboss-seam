@@ -22,7 +22,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 -->
 <project name="booking.ftest.build" basedir="." default="build">
 	<property name="example.name" value="booking" />
-	<property name="jboss.example.ready.check.url" value="seam-booking/home.seam" />
 
 	<import file="../build.xml" />
 </project>

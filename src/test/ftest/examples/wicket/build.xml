@@ -26,44 +26,56 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 	<import file="../build.xml" />
 
-	<target name="test" depends="build" description="Run Tests">
+	<target name="test" depends="build, container.properties" description="Run Tests">
+		<!-- TODO all of these jboss commands must be optional with checks -->
+		<!-- TODO  go get JBoss and extract -->
+
+		<!-- TODO start JBoss -->
 		<!-- clean example -->
 		<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="clean" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
+
 		<!-- deploy the example-->
-		<antcall target="deploy.example.${container}" />
+		<antcall target="deploy.example" />
+
 		<!-- execute testng tests -->
 		<antcall target="selenium.test" />
-		<!-- undeploy the example -->
-		<antcall target="undeploy.example.${container}" />
 
-		<!-- run second time with runtime instrumentation -->
+		<!-- undeploy the example -->
+		<antcall target="undeploy.example" />
+
 		<!-- clean example -->
 		<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="clean" inheritall="false" dir="${seam.dir}/examples/${example.name}" />
-		<!-- deploy the example-->
-		<antcall target="deploy.example.${container}.runtime" />
-		<!-- execute testng tests -->
-		<antcall target="selenium.test.runtime" />
-		<!-- undeploy the example -->
-		<antcall target="undeploy.example.${container}" />
 
+		<!-- deploy the example with runtime instrumentation -->
+		<antcall target="deploy.example.runtime.instrumentation" />
+
+		<!-- execute testng tests -->
+		<antcall target="selenium.test.runtime.instrumentation" />
+
+		<!-- undeploy the example -->
+		<antcall target="undeploy.example" />
 	</target>
 
-	<target name="deploy.example.jboss.runtime">
-		<echo>Deploying JBoss Example - ${example.name} with runtime instrumentation</echo>
-		<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${jboss.deploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}">
+	<target name="deploy.example.runtime.instrumentation" depends="container.properties">
+		<property name="absolute.wait.url" value="${selenium.browser.url}${wait.url}" />
+		<echo>Deploying ${example.name} example to ${container} using ${deploy.target} target</echo>
+		<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${deploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}">
+			<property name="jboss.home" value="${container.home}" />
+			<property name="tomcat.home" value="${container.home}" />
 			<property name="instrumentAtRunTime" value="true" />
 		</ant>
 		<!-- wait for the application to be active -->
 		<!-- TODO is there a better way? -->
-		<waitfor maxwait="${jboss.deploy.waittime}" maxwaitunit="second">
+		<echo>Waiting ${wait.time} seconds for ${absolute.wait.url}</echo>
+		<waitfor maxwait="${wait.time}" maxwaitunit="second">
 			<and>
 				<!-- wait for the application to not throw 404 -->
-				<http url="${selenium.browser.url}/${jboss.example.ready.check.url}" errorsBeginAt="404" />
+				<http url="${absolute.wait.url}" errorsBeginAt="404" />
 			</and>
 		</waitfor>
 	</target>
-
-	<target name="selenium.test.runtime" depends="build" description="Run Tests">
+	
+	<target name="selenium.test.runtime.instrumentation" depends="build, container.properties" description="Run Tests">
 		<taskdef resource="testngtasks" classpathref="classpath.test" />
 		<mkdir dir="${test.output.dir}" />
 
@@ -76,6 +88,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 			<sysproperty key="selenium.browser.url" value="${selenium.browser.url}" />
 			<sysproperty key="selenium.speed" value="${selenium.speed}" />
 			<sysproperty key="selenium.timeout" value="${selenium.timeout}" />
+			<sysproperty key="example.context.path" value="${context.path}" />
 		</testng>
 	</target>
 
