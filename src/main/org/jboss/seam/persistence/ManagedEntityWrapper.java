@@ -192,7 +192,8 @@ public class ManagedEntityWrapper
       }
       else
       {
-         setWrappedData(dataModel, null);
+         // JBSEAM-1814, JBPAPP-1616 Clearing the wrapped data is simply unnecessary. Either we leave it alone, or we set the field to null.
+         //setWrappedData(dataModel, null);
       }
    }
 
