@@ -159,6 +159,10 @@
 	<!-- Seam  pdf, with required dependencies -->
 	<fileset id="seam.pdf.jar" dir="${lib.dir}">
 		<include name="jboss-seam-pdf.jar" if="seam.pdf.lib" />
+	</fileset>
+
+	<!-- Seam  pdf, with required dependencies -->
+	<fileset id="seam.pdf.extra.jar" dir="${lib.dir}">
 		<include name="itext.jar" if="seam.pdf.lib" />
 		<include name="itext-rtf.jar" if="seam.pdf.lib" />
 		<include name="jfreechart.jar" if="seam.pdf.lib" />
@@ -696,6 +700,7 @@
 			<fileset refid="jboss-embedded-api.jar" />
 			<fileset refid="gwt.jar" />
 			<fileset refid="quartz.jar" />
+			<fileset refid="seam.pdf.extra.jar" />
 			<fileset refid="spring.jar" />
 			<fileset refid="jcaptcha.jar" />
 			<fileset refid="antlr.jar" />
@@ -886,6 +891,7 @@
 			<fileset refid="jsf.jar" />
 			<fileset refid="search.jar" />
 			<fileset refid="richfaces-api.jar" />
+			<fileset refid="seam.pdf.extra.jar" />
 			<mapper type="flatten" />
 		</copy>
 		<!-- Copy in resources, with filtering -->
