@@ -1,6 +1,5 @@
 package org.jboss.seam.wicket.ioc;
 
-import org.jboss.seam.wicket.WicketComponent;
 
 
 public class BijectionInterceptor<T> implements StatelessInterceptor<T>
@@ -10,7 +9,6 @@ public class BijectionInterceptor<T> implements StatelessInterceptor<T>
    {
       invocationContext.getComponent().outject(invocationContext.getBean());
       invocationContext.getComponent().disinject(invocationContext.getBean());
-      disinjectEnclosingInstances(invocationContext);
       return result;
    }
 
@@ -19,7 +17,6 @@ public class BijectionInterceptor<T> implements StatelessInterceptor<T>
       try
       {
          invocationContext.getComponent().inject(invocationContext.getBean());
-         injectEnclosingInstances(invocationContext);
       }
       catch (Exception e)
       {
@@ -30,40 +27,6 @@ public class BijectionInterceptor<T> implements StatelessInterceptor<T>
    public Exception handleException(InvocationContext<T> invocationContext, Exception exception)
    {
       return exception;
-   }
-   
-   private static <T> void injectEnclosingInstances(InvocationContext<T> invocationContext)
-   {
-      InstrumentedComponent enclosingInstance = invocationContext.getInstrumentedComponent().getEnclosingInstance();
-      while (enclosingInstance != null)
-      {
-         if (enclosingInstance.getHandler() != null && !enclosingInstance.getHandler().isReentrant())
-         {
-            WicketComponent.getInstance(enclosingInstance.getClass()).inject(enclosingInstance);
-            enclosingInstance = enclosingInstance.getEnclosingInstance();
-         }
-         else
-         {
-            return;
-         }
-      }
-   }
-   
-   private static <T> void disinjectEnclosingInstances(InvocationContext<T> invocationContext)
-   {
-      InstrumentedComponent enclosingInstance = invocationContext.getInstrumentedComponent().getEnclosingInstance();
-      while (enclosingInstance != null)
-      {
-         if (enclosingInstance.getHandler() != null && !enclosingInstance.getHandler().isReentrant())
-         {
-            WicketComponent.getInstance(enclosingInstance.getClass()).disinject(enclosingInstance);
-            enclosingInstance = enclosingInstance.getEnclosingInstance();
-         }
-         else
-         {
-            return;
-         }
-      }
    }
 
 }

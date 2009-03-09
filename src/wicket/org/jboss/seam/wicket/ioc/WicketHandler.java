@@ -67,7 +67,27 @@ public class WicketHandler implements Serializable
          }
       }
       reentrant++;
+      InstrumentedComponent enclosing = getEnclosingInstance(invocationContext.getBean());
+      if (enclosing != null)
+      {
+         enclosing.getHandler().injectEnclosingInstance(enclosing);
+      }
    }
+   
+   protected void injectEnclosingInstance(InstrumentedComponent instance)
+   {
+      if (reentrant == 0)
+      {
+         getComponent().inject(instance);
+      }
+      reentrant++;
+      instance = instance.getEnclosingInstance();
+      if (instance != null)
+      {
+         instance.getHandler().injectEnclosingInstance(instance);
+      }
+   }
+   
    
    public Exception handleException(Object target, Method method, Exception exception)
    {
@@ -94,6 +114,7 @@ public class WicketHandler implements Serializable
    
    private Object doAfterInvoke(InvocationContext invocationContext, Object result)
    {
+      
       reentrant--;
       if (reentrant == 0)
       {
@@ -102,13 +123,35 @@ public class WicketHandler implements Serializable
             result = ((StatelessInterceptor) getComponent().getInterceptors().get(i)).afterInvoke(invocationContext, result);
          }
       }
+      InstrumentedComponent enclosing = getEnclosingInstance(invocationContext.getBean());
+      if (enclosing != null)
+      {
+         enclosing.getHandler().disinjectEnclosingInstance(enclosing);
+      }
+      
       return result;
    }
+   
+   protected void disinjectEnclosingInstance(InstrumentedComponent instance)
+   {
+      reentrant--;
+      if (reentrant == 0)
+      {
+         getComponent().disinject(instance);
+      }
+      instance = instance.getEnclosingInstance();
+      if (instance != null)
+      {
+         instance.getHandler().disinjectEnclosingInstance(instance);
+      }
+   }
+
 
    public boolean isReentrant()
    {
       return reentrant > 0;
    }
+   
    
    public InstrumentedComponent getEnclosingInstance(Object bean)
    {
