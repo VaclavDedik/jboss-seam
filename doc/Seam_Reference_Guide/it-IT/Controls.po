@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:19+0000\n"
-"PO-Revision-Date: 2009-03-03 22:08+0100\n"
+"PO-Revision-Date: 2009-03-09 23:16+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1440,7 +1440,7 @@ msgstr ""
 #: Controls.xml:942
 #, no-c-format
 msgid "<literal>contentType</literal> &#8212; this value binding receives the file's content type (optional)."
-msgstr ""
+msgstr "<literal>contentType</literal> &#8212; questo value binding riceve il contenuto del file (opzionale)."
 
 #. Tag: para
 #: Controls.xml:948
@@ -1668,7 +1668,7 @@ msgstr ""
 #: Controls.xml:1132
 #, no-c-format
 msgid "<literal>factor</literal> &#8212; scale the image by the given factor"
-msgstr ""
+msgstr "<literal>factor</literal> &#8212; scala l'immagine col dato fattore "
 
 #. Tag: literal
 #: Controls.xml:1142
