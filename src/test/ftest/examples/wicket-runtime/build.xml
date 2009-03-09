@@ -20,19 +20,17 @@ License along with this software; if not, write to the Free
 Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
-<project name="groovybooking.ftest.build" basedir="." default="build">
-	<property name="example.name" value="groovybooking" />
-	<property name="jboss4.deploy.target" value="jbosswar.explode" />
-	<property name="jboss4.undeploy.target" value="jbosswar.unexplode" />
-	<property name="jboss4.context.path" value="/jboss-seam-groovybooking" />
+<project name="wicket" basedir="." default="build">
+	<property name="example.name" value="wicket" />
+	<property name="src.dir" value="../wicket/src" />
 
-	<property name="loadPersistenceUnits" value="false" />
+	<property name="instrumentAtRunTime" value="true" />
 
 	<target name="set.deploy.properties">
-		<propertyset id="jboss4.deploy.properties" />
-		<propertyset id="jboss5.deploy.properties">
-			<propertyref name="loadPersistenceUnits" id="loadPersistenceUnits" />
+		<propertyset id="jboss4.deploy.properties">
+			<propertyref name="instrumentAtRunTime" id="instrumentAtRunTime" />
 		</propertyset>
+		<propertyset id="jboss5.deploy.properties" refid="jboss4.deploy.properties" />
 	</target>
 
 	<import file="../build.xml" />

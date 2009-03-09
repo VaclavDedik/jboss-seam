@@ -78,6 +78,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<testexample name="todo" />
 		<testexample name="ui" />
 		<testexample name="wicket" />
+		<testexample name="wicket-runtime" />
 		<antcall target="stop.selenium.server" />
 	</target>
 	
@@ -113,6 +114,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<testexample name="todo" />
 		<testexample name="ui" />
 		<testexample name="wicket" />
+		<testexample name="wicket-runtime" />
 		<antcall target="stop.selenium.server" />
 	</target>
 
@@ -208,6 +210,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<cleanexample name="todo" />
 		<cleanexample name="ui" />
 		<cleanexample name="wicket" />
+		<cleanexample name="wicket-runtime" />
 	</target>
 
 	<target name="undeployall">

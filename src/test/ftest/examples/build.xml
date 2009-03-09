@@ -53,6 +53,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<property name="jboss-embedded.context.path" value="/jboss-seam-${example.name}" />
 	<property name="tomcat6.context.path" value="${jboss-embedded.context.path}" />
 
+
 	<!-- common path setup -->
 
 	<path id="classpath.build">
@@ -76,7 +77,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<target name="build" depends="build.common" description="Compiles the Test">
 		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath.build" debug="true" />
 		<copy todir="${classes.dir}">
-			<fileset dir="src">
+			<fileset dir="${src.dir}">
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
@@ -89,7 +90,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<mkdir dir="${classes.dir}" />
 		<javac srcdir="${common.src.dir}" destdir="${classes.dir}" classpathref="classpath.build" debug="true" />
 		<copy todir="${classes.dir}">
-			<fileset dir="src">
+			<fileset dir="${src.dir}">
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
@@ -153,6 +154,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<ant antfile="${seam.dir}/examples/${example.name}/build.xml" target="${deploy.target}" inheritall="false" dir="${seam.dir}/examples/${example.name}">
 			<property name="jboss.home" value="${container.home}" />
 			<property name="tomcat.home" value="${container.home}" />
+			<propertyset refid="deploy.properties" />
 		</ant>
 		<!-- wait for the application to be active -->
 		<!-- TODO is there a better way? -->
@@ -173,21 +175,31 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		</ant>
 	</target>
 
-	<target name="container.properties">
+	<target name="container.properties" depends="set.deploy.properties">
 		<set.container.properties container="${container}" />
 	</target>
 
 	<macrodef name="set.container.properties">
 		<attribute name="container" />
 		<sequential>
-			<fail unless="@{container}.home" message="@{container}.home property has to be set"/>
+			<fail unless="@{container}.home" message="@{container}.home property has to be set" />
 			<property name="container.home" value="${@{container}.home}" />
 			<property name="deploy.target" value="${@{container}.deploy.target}" />
 			<property name="undeploy.target" value="${@{container}.undeploy.target}" />
 			<property name="context.path" value="${@{container}.context.path}" />
 			<property name="wait.url" value="${context.path}" />
 			<property name="wait.time" value="${@{container}.deploy.waittime}" />
+			<propertyset id="deploy.properties" refid="${container}.deploy.properties" />
 		</sequential>
 	</macrodef>
+
+	<!-- this target sets empty deploy property sets by default -->
+	<!-- override this target in example specific build.xml to specify property sets -->
+	<target name="set.deploy.properties">
+		<propertyset id="jboss4.deploy.properties" />
+		<propertyset id="jboss5.deploy.properties" />
+		<propertyset id="tomcat6.deploy.properties" />
+		<propertyset id="jboss-embedded.deploy.properties" />
+	</target>
 
 </project>
