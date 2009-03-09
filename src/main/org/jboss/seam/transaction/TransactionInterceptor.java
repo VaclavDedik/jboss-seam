@@ -31,6 +31,9 @@ public class TransactionInterceptor extends AbstractInterceptor
 {
    private static final long serialVersionUID = -4364203056333738988L;
    
+   transient
+   private Map<AnnotatedElement,TransactionMetadata> transactionMetadata = new HashMap<AnnotatedElement, TransactionMetadata>();
+
    private class TransactionMetadata
    {
       private boolean annotationPresent;
@@ -81,7 +84,6 @@ public class TransactionInterceptor extends AbstractInterceptor
       return transactionMetadata.get(element);
    }
    
-   private Map<AnnotatedElement,TransactionMetadata> transactionMetadata = new HashMap<AnnotatedElement, TransactionMetadata>();
    
    @AroundInvoke
    public Object aroundInvoke(final InvocationContext invocation) throws Exception
