@@ -844,7 +844,7 @@
 				<exclude name="**/*.jar" />
 			</fileset>
 		</delete>
-		<delete file="${deploy.dir}/${example.name}-ds.xml" failonerror="no" />
+		<delete file="${deploy.dir}/${example.ds}" failonerror="no" />
 		<delete file="${deploy.dir}/${example.name}-service.xml" failonerror="no" />		
 		<delete dir="${ear.deploy.dir}" failonerror="no" />
 		<delete failonerror="no">
@@ -1033,7 +1033,7 @@
 	
 	<target name="jbosswar.unexplode" description="Undeploy the example from JBoss">
 		<delete dir="${deploy.dir}/${example.name}.war" />
-		<delete file="${deploy.dir}/${example.name}-ds.xml" failonerror="no" />
+		<delete file="${deploy.dir}/${example.ds}" failonerror="no" />
 		<delete file="${deploy.dir}/${example.name}-service.xml" failonerror="no" />
 	</target>
 
