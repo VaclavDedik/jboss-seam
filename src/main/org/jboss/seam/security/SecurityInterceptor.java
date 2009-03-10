@@ -154,9 +154,11 @@ public class SecurityInterceptor extends AbstractInterceptor implements Serializ
    {
       Method interfaceMethod = invocation.getMethod();
       
-      Restriction restriction = getRestriction(interfaceMethod);
-      
-      if ( restriction != null ) restriction.check(invocation.getParameters());
+      if (!"hashCode".equals(interfaceMethod.getName()))
+      {
+         Restriction restriction = getRestriction(interfaceMethod);      
+         if ( restriction != null ) restriction.check(invocation.getParameters());
+      }
 
       return invocation.proceed();
    }
