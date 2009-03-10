@@ -4,15 +4,19 @@ import org.apache.wicket.AbortException;
 import org.apache.wicket.Component;
 import org.apache.wicket.Page;
 import org.apache.wicket.RequestCycle;
-import org.apache.wicket.application.IComponentInstantiationListener;
+import org.apache.wicket.application.IComponentOnBeforeRenderListener;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.international.StatusMessages;
 
-public class SeamComponentInstantiationListener implements IComponentInstantiationListener
+/**
+ * A listener registered by SeamWebApplication which ensures that a long-running conversation exists when a page 
+ * annotated with NoConversationPage is rendered 
+ *
+ */
+public class SeamEnforceConversationListener implements IComponentOnBeforeRenderListener
 {
-
-   public void onInstantiation(Component component)
+   public void onBeforeRender(Component component)
    {
       if (!Manager.instance().isLongRunningConversation())
       {
@@ -34,5 +38,4 @@ public class SeamComponentInstantiationListener implements IComponentInstantiati
          }
       }
    }
-
 }

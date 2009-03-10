@@ -3,8 +3,14 @@ package org.jboss.seam.wicket.ioc;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
+import org.apache.wicket.AbortException;
+import org.apache.wicket.Page;
+import org.apache.wicket.RequestCycle;
+import org.apache.wicket.Session;
+import org.jboss.seam.NoConversationException;
 import org.jboss.seam.annotations.ApplicationException;
 import org.jboss.seam.annotations.Begin;
+import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.bpm.BeginTask;
@@ -15,6 +21,8 @@ import org.jboss.seam.core.ConversationEntry;
 import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.international.StatusMessage;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.navigation.ConversationIdParameter;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.pageflow.Pageflow;
@@ -32,11 +40,7 @@ public class ConversationInterceptor<T> implements StatelessInterceptor<T>
             throw new IllegalStateException("begin method invoked from a long-running conversation, try using @Begin(join=true) on method: " + invocationContext.getMember().getName());
          }
          
-         
-         /*if ( redirectToExistingConversation(invocationContext.getMethod()) ) 
-         {
-            return null;
-         }*/
+         checkForConversation(invocationContext);
       }
    }
    
@@ -134,6 +138,31 @@ public class ConversationInterceptor<T> implements StatelessInterceptor<T>
             invocationContext.getAccessibleObject().isAnnotationPresent(StartTask.class) 
          );
    }
+   
+   private void checkForConversation(InvocationContext<T> invocationContext)  
+   {
+      if (!Manager.instance().isLongRunningConversation() && 
+           invocationContext.getAccessibleObject().isAnnotationPresent(Conversational.class))
+      {
+         Class<? extends Page> noConversationPage = invocationContext.getComponent().getNoConversationPage();
+         if (noConversationPage != null)
+         {
+            final RequestCycle cycle = RequestCycle.get();
+            StatusMessages.instance().addFromResourceBundleOrDefault( 
+                  StatusMessage.Severity.WARN, 
+                  "org.jboss.seam.NoConversation", 
+                  "The conversation ended or timed" 
+            );
+            cycle.redirectTo(Session.get().getPageFactory().newPage(noConversationPage));
+            throw new AbortException();
+         }
+         else
+         {
+            throw new NoConversationException( "no long-running conversation for @Conversational wicket component: " + invocationContext.getComponent().getClass().getName());         
+         }
+      }
+   }
+
 
    @SuppressWarnings("deprecation")
    private void beginConversationIfNecessary(InvocationContext invocationContext, Object result)

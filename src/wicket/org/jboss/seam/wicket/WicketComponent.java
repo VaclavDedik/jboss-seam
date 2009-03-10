@@ -21,6 +21,7 @@ import org.jboss.seam.Namespace;
 import org.jboss.seam.RequiredException;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
+import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
@@ -367,7 +368,8 @@ public class WicketComponent<T>
             method.isAnnotationPresent(End.class) || 
             method.isAnnotationPresent(StartTask.class) ||
             method.isAnnotationPresent(BeginTask.class) ||
-            method.isAnnotationPresent(EndTask.class) ) 
+            method.isAnnotationPresent(EndTask.class) ||
+            method.isAnnotationPresent(Conversational.class)) 
        {
           conversationManagementMembers.add(method);
        }
