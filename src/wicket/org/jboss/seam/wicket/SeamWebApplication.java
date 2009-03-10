@@ -2,30 +2,24 @@ package org.jboss.seam.wicket;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.wicket.IRedirectListener;
+import org.apache.wicket.IRequestTarget;
+import org.apache.wicket.MetaDataKey;
+import org.apache.wicket.Page;
 import org.apache.wicket.Request;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.Response;
 import org.apache.wicket.Session;
-import org.apache.wicket.behavior.IBehaviorListener;
-import org.apache.wicket.markup.html.form.IFormSubmitListener;
-import org.apache.wicket.markup.html.form.IOnChangeListener;
-import org.apache.wicket.markup.html.link.ILinkListener;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WebRequest;
 import org.apache.wicket.protocol.http.WebRequestCycle;
 import org.apache.wicket.protocol.http.WebRequestCycleProcessor;
 import org.apache.wicket.protocol.http.WebResponse;
-import org.apache.wicket.protocol.http.WebSession;
-import org.apache.wicket.protocol.http.request.WebRequestCodingStrategy;
-import org.apache.wicket.request.IRequestCodingStrategy;
 import org.apache.wicket.request.IRequestCycleProcessor;
-import org.apache.wicket.request.target.component.IBookmarkablePageRequestTarget;
-import org.apache.wicket.request.target.component.listener.IListenerInterfaceRequestTarget;
+import org.apache.wicket.request.target.component.BookmarkablePageRequestTarget;
+import org.apache.wicket.request.target.component.IPageRequestTarget;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.ServletLifecycle;
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Manager;
@@ -38,7 +32,7 @@ import org.jboss.seam.wicket.international.SeamStatusMessagesListener;
 /**
  * The base class for Seam Web Applications
  * 
- * @author Pete Muir
+ * @author Pete Muir, Clint Popetz
  *
  */
 public abstract class SeamWebApplication extends WebApplication
@@ -66,85 +60,57 @@ public abstract class SeamWebApplication extends WebApplication
    /**
     * Custom session with invalidation override. We can't just let Wicket
     * invalidate the session as Seam might have to do some cleaning up to do.
+    * We provide SeamWebSession as a separate class to allow for user subclasssing.
     */
    @Override
    public Session newSession(Request request, Response response)
    {
-      return new WebSession(request) 
-      {
-
-         @Override
-         public void invalidate() 
-         {
-            org.jboss.seam.web.Session.getInstance().invalidate();
-         }
-
-         @Override
-         public void invalidateNow() 
-         {
-            // sorry, can't support this with Seam
-            org.jboss.seam.web.Session.getInstance().invalidate();
-         }
-      };
+      return new SeamWebSession(request);
    }
+   
+   /**
+    * This is the key we will use to to store the conversation metadata in the wicket page.
+    */
+   private static MetaDataKey CID = new MetaDataKey(String.class) { };
 
-   @Override
+   
    /**
     * Seam's hooks into Wicket. Required for proper functioning
     */
+   @Override
    protected IRequestCycleProcessor newRequestCycleProcessor()
    {
       return new WebRequestCycleProcessor()
       {
+         /**
+          * If a long running conversation has been started, store its id into page metadata
+          */
          @Override
-         protected IRequestCodingStrategy newRequestCodingStrategy()
+         public void respond(RequestCycle requestCycle)
          {
-            return new WebRequestCodingStrategy()
+            super.respond(requestCycle);
+            if (Manager.instance().isLongRunningConversation())
             {
-               @Override
-               protected CharSequence encode(RequestCycle requestCycle, final IListenerInterfaceRequestTarget requestTarget)
+               Page page = RequestCycle.get().getResponsePage();
+               if (page != null)
                {
-                  String name = requestTarget.getRequestListenerInterface().getName();
-                  CharSequence url = super.encode(requestCycle, requestTarget);
-                  if ( Manager.instance().isReallyLongRunningConversation() && (
-                       IFormSubmitListener.INTERFACE.getName().equals(name) || 
-                       ILinkListener.INTERFACE.getName().equals(name) ||
-                       IBehaviorListener.INTERFACE.getName().equals(name) || 
-                       IOnChangeListener.INTERFACE.getName().equals(name) ||
-                       IRedirectListener.INTERFACE.getName().equals(name) ))
-                  {
-                     // TODO Do this nicely
-                     StringBuilder stringBuilder = new StringBuilder(url);
-                     stringBuilder.append("&" + Manager.instance().getConversationIdParameter() + "=" + Conversation.instance().getId());
-                     url = stringBuilder.subSequence(0, stringBuilder.length());
-                  }
-                  
-                  return url;
+                  page.setMetaData(CID, Manager.instance().getCurrentConversationId());
                }
-
-               @Override
-               protected CharSequence encode(RequestCycle requestCycle, IBookmarkablePageRequestTarget requestTarget)
-               {
-                  // TODO Do this nicely
-                  StringBuilder stringBuilder = new StringBuilder(super.encode(requestCycle, requestTarget));
-                  if (Manager.instance().isLongRunningConversation())
-                  {
-                     stringBuilder.append("&" + Manager.instance().getConversationIdParameter() + "=" + Conversation.instance().getId());
-                  }
-                  return stringBuilder.subSequence(0, stringBuilder.length());
-               }
-            };
+            }
          }
       };
    }
 
+   /**
+    * Override to set up seam security, seam status messages, and add the SeamEnforceConversationListener
+    */
    @Override
    protected void init()
    {
       super.init();
       inititializeSeamSecurity();
       initializeSeamStatusMessages();
-      addComponentInstantiationListener(new SeamComponentInstantiationListener());
+      addComponentOnBeforeRenderListener(new SeamEnforceConversationListener());
    }
 
    /**
@@ -160,7 +126,7 @@ public abstract class SeamWebApplication extends WebApplication
    }
 
    /**
-    * Add Seam status message transport support to youur app.
+    * Add Seam status message transport support to your app.
     */
    protected void initializeSeamStatusMessages()
    {
@@ -182,7 +148,6 @@ public abstract class SeamWebApplication extends WebApplication
    /**
     * A WebRequestCycle that sets up seam requests.  Essentially this
     * is similiar to the work of ContextualHttpServletRequest, but using the wicket API
-    * @author cpopetz
     *
     */
    protected static class SeamWebRequestCycle extends WebRequestCycle { 
@@ -192,6 +157,39 @@ public abstract class SeamWebApplication extends WebApplication
          super(application, request, response);
       }
 
+      /**
+       * Override this so that we can pull out the conversation id from page metadata 
+       * when a new page is chosen as the target 
+       */
+      @Override
+      protected void onRequestTargetSet(IRequestTarget target)
+      {
+         super.onRequestTargetSet(target);
+         Page page = null;
+         if (target instanceof  BookmarkablePageRequestTarget) 
+         {
+            page = ((BookmarkablePageRequestTarget)target).getPage();
+         }
+         else if (target instanceof IPageRequestTarget)
+         {
+            page = ((IPageRequestTarget)target).getPage();
+         }
+         if (page != null) 
+         {
+            String cid = (String) page.getMetaData(CID);
+            if (cid != null)
+            {
+               ConversationPropagation cp = ConversationPropagation.instance();
+               cp.setConversationId(cid);
+               Manager.instance().restoreConversation();
+            }
+         }
+      }
+      
+      /**
+       * Override to destroy the old seam contexts if we are destroying lazily and they still exist, and
+       * to set up the new seam contexts.
+       */
       @Override
       protected void onBeginRequest() 
       {
@@ -221,10 +219,12 @@ public abstract class SeamWebApplication extends WebApplication
          Events.instance().raiseEvent("org.jboss.seam.wicket.beforeRequest");
       }  
 
+      /**
+       * Override to tear down seam contexts unless we are destroying lazily
+       */
       @Override
       protected void onEndRequest() 
       {
-         // TODO Auto-generated method stub
          try 
          { 
             super.onEndRequest();
@@ -239,6 +239,9 @@ public abstract class SeamWebApplication extends WebApplication
          }
       }
 
+      /**
+       * The actual work of destroying the seam contexts.
+       */
       private void destroyContexts() 
       {
          try { 
