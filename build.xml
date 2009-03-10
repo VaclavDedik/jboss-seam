@@ -338,10 +338,18 @@
 			<excludes>
 				<exclude name="**/WicketInstrumentationTask*"/>
 			</excludes>
+			<manifestExtras>
+					<attribute name="Premain-Class" value="org.jboss.seam.wicket.ioc.JavassistInstrumentor" />
+			</manifestExtras>
+
 		</archive>
 		<jar jarfile="${lib.dir}/jboss-seam-wicket-ant.jar" basedir="${classes.wicket.dir}">
 			<include name="**/WicketInstrumentationTask*" />
 		</jar>
+    <jar jarfile="${lib.dir}/src/jboss-seam-wicket-ant-sources.jar" basedir="${src.wicket.dir}">
+			  <include name="**/WicketInstrumentationTask.java" />
+	  </jar>
+
 	</target>
 	
 	<!-- ########################### JUL TARGETS ###########################-->
@@ -991,6 +999,7 @@
 		<attribute name="srcdir" />
 		<attribute name="outputdir" default="${lib.dir}" />
 		<element name="excludes" optional="true"/>
+		<element name="manifestExtras" optional="true"/>
 		<sequential>
 			<mkdir dir="@{outputdir}" />
 			<mkdir dir="@{outputdir}/src" />
@@ -1007,6 +1016,7 @@
 					<attribute name="Specification-Vendor" value="JBoss" />
 					<attribute name="Implementation-Title" value="@{module}" />
 					<attribute name="Implementation-Vendor" value="JBoss" />
+					<manifestExtras />
 				</manifest>
 			</jar>
 			<jar jarfile="@{outputdir}/src/@{module}-sources.jar" basedir="@{srcdir}">
