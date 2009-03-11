@@ -60,29 +60,29 @@ public class TransactionInterceptor extends AbstractInterceptor
       }
    }
    
-   private TransactionMetadata lookupTransactionMetadata(AnnotatedElement element)
-   {
-      TransactionMetadata metadata = transactionMetadata.get(element);
-      
-      if (metadata == null)
-      {
-         metadata = loadMetadata(element);
-      }
-      
-      return metadata;
-   }
+   private TransactionMetadata lookupTransactionMetadata(AnnotatedElement element) {
+        if (transactionMetadata == null) {
+            transactionMetadata = new HashMap<AnnotatedElement, TransactionMetadata>();
+        }
+        
+        TransactionMetadata metadata = transactionMetadata.get(element);
+
+        if (metadata == null) {
+            metadata = loadMetadata(element);
+        }
+
+        return metadata;
+    }
    
-   private synchronized TransactionMetadata loadMetadata(AnnotatedElement element)
-   {
-      if (!transactionMetadata.containsKey(element))
-      {
-         TransactionMetadata metadata = new TransactionMetadata(element);
-         transactionMetadata.put(element, metadata);
-         return metadata;
-      }
-      
-      return transactionMetadata.get(element);
-   }
+   private synchronized TransactionMetadata loadMetadata(AnnotatedElement element) {
+        if (!transactionMetadata.containsKey(element)) {
+            TransactionMetadata metadata = new TransactionMetadata(element);
+            transactionMetadata.put(element, metadata);
+            return metadata;
+        }
+
+        return transactionMetadata.get(element);
+    }
    
    
    @AroundInvoke
