@@ -49,6 +49,18 @@ public class WicketInstrumentationTask extends Task
    {
       this.fileset = fileset;
    }
+   
+   private boolean useAnnotations = false;
+
+   public boolean isUseAnnotations()
+   {
+      return useAnnotations;
+   }
+
+   public void setUseAnnotations(boolean useAnnotations)
+   {
+      this.useAnnotations = useAnnotations;
+   }
 
    @Override
    public void execute()
@@ -58,10 +70,10 @@ public class WicketInstrumentationTask extends Task
 
          ClassPool classPool = new ClassPool();
          classPool.insertClassPath(new LoaderClassPath(getProject().createClassLoader(buildPath)));
-
+         
          List<CtClass> instrumentedClasses = new ArrayList<CtClass>();
 
-         JavassistInstrumentor instrumentor = new JavassistInstrumentor(classPool);
+         JavassistInstrumentor instrumentor = new JavassistInstrumentor(classPool,useAnnotations);
 
          for (String file : fileset.getDirectoryScanner(getProject()).getIncludedFiles())
          {

@@ -116,10 +116,21 @@ public class JavassistInstrumentor implements ClassFileTransformer
     */
    private CtClass instrumentedComponent;
 
+   /**
+    * If true, only instrument classes annotated with @WicketComponent and their non-static inner classes.
+    */
+   private boolean scanAnnotations;
    
    public JavassistInstrumentor(ClassPool classPool)
    {
+      this(classPool,false);
+   }
+   
+   public JavassistInstrumentor(ClassPool classPool, boolean scanAnnotations)
+   {
       this.classPool = classPool;
+      this.scanAnnotations = scanAnnotations;
+      
       try
       {
          instrumentedComponent = classPool.get(InstrumentedComponent.class.getName());
@@ -138,10 +149,11 @@ public class JavassistInstrumentor implements ClassFileTransformer
 
    public CtClass instrumentClass(String className) throws NotFoundException, CannotCompileException
    {
-      log.debug("Instrumenting " + className);
+      log.debug("Examining " + className);
       CtClass implementation = classPool.get(className);
       if (isInstrumentable(implementation))
       {
+         log.debug("Instrumenting " + className);
          instrumentClass(implementation);
       }
       return implementation;
@@ -324,7 +336,7 @@ public class JavassistInstrumentor implements ClassFileTransformer
     * @param clazz The class to check
     * @return
     */
-   private boolean isInstrumentable(CtClass clazz)
+   public boolean isInstrumentable(CtClass clazz)
    {
       int modifiers = clazz.getModifiers();
       if (Modifier.isInterface(modifiers) || Modifier.isEnum(modifiers))
@@ -335,8 +347,9 @@ public class JavassistInstrumentor implements ClassFileTransformer
       try
       {
          // do not instrument @Named components or nested non-static classes
-         // inside named components
+         // inside named components.
          CtClass checkName = clazz;
+         boolean hasWicketComponentAnnotation = false;
          do
          {
             for (Object a : checkName.getAnnotations())
@@ -345,11 +358,20 @@ public class JavassistInstrumentor implements ClassFileTransformer
                {
                   return false;
                }
+               else if (scanAnnotations && a instanceof SeamWicketComponent)
+               {
+                  hasWicketComponentAnnotation = true;
+               }
             }
             checkName = Modifier.isStatic(clazz.getModifiers()) ? null : checkName.getDeclaringClass();
          }
          while (checkName != null);
 
+         if (scanAnnotations && !hasWicketComponentAnnotation)
+         {
+            return false;
+         }
+         
          // do not instrument something we've already instrumented.
          // can't use 'isSubtype' because the superclass may be instrumented
          // while we are not
