@@ -305,7 +305,7 @@ td {
 	text-align: left;
 }*/
 
-.errors input, .errors textarea {
+.errors input, .errors textarea, .errors select {
 	border: 1px solid red !important;
 }
 

@@ -116,7 +116,7 @@ img.errors {
 	padding-right: 5px;
 }
 
-.errors input, .errors textarea {
+.errors input, .errors textarea, .errors select {
 	border: 1px solid red !important;
 }
 
