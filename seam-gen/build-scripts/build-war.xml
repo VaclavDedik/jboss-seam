@@ -179,7 +179,7 @@
               overwrite="true"/>
 
         <copy tofile="${war.dir}/WEB-INF/classes/META-INF/persistence.xml" 
-              file="${basedir}/resources/META-INF/persistence-${profile}-war.xml"
+              file="${basedir}/resources/META-INF/persistence-${profile}.xml"
               overwrite="true"/>
         
         <copy tofile="${war.dir}/WEB-INF/classes/import.sql" 
@@ -376,7 +376,7 @@
             <fileset dir="${basedir}/view"/>
         </copy>
         <copy tofile="${test.dir}/META-INF/persistence.xml" 
-              file="${basedir}/resources/META-INF/persistence-test-war.xml"
+              file="${basedir}/resources/META-INF/persistence-test.xml"
               overwrite="true"/>
         <copy tofile="${test.dir}/import.sql" 
               file="${basedir}/resources/import-test.sql"

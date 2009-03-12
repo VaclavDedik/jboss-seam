@@ -679,6 +679,7 @@
             </fileset>
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
+            <globmapper from="*-war.xml" to="*.xml"/>
         </copy>
         <copy todir="${project.home}/src/hot" file="${templates.dir}/resources/seam.properties"/>
         <copy todir="${project.home}/src/main" file="${templates.dir}/resources/seam.properties"/>
