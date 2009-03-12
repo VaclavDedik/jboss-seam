@@ -326,10 +326,66 @@ public class JavassistInstrumentor implements ClassFileTransformer
    }
 
    /**
+    * Does this class alone have the SeamWicketAnnotation?
+    */
+   public boolean hasWicketAnnotation(CtClass clazz) 
+   { 
+      
+      try
+      {
+         for (Object a : clazz.getAnnotations())
+          {
+             if (a instanceof SeamWicketComponent)
+             {
+                return true;
+             }
+          }
+      }
+      catch (ClassNotFoundException e)
+      {
+         throw new RuntimeException(e);
+      }
+      return false;
+   }
+   
+   /**
+    * Does this class, or any of its nonstatic enclosing classes, or any of its superclasses contain
+    * the SeamWicketComponent marker annotation?
+    */
+   public boolean markedInstrumentable(CtClass clazz) 
+   {
+      if (hasWicketAnnotation(clazz))
+      {
+         return true;
+      }
+      try 
+      {
+	      CtClass enclosing = 
+	         Modifier.isStatic(clazz.getModifiers()) ? null : clazz.getDeclaringClass();
+	      if (enclosing != null && markedInstrumentable(enclosing))
+	      {
+	         return true;
+	      }
+	      CtClass superclass = clazz.getSuperclass();
+	      if (superclass != null && markedInstrumentable(superclass))
+	      {
+	         return true;
+	      }
+      }
+      catch (Exception e) 
+      {
+         throw new RuntimeException(e);
+      }
+      return false;
+   }
+      
+
+      
+   /**
     * Returns true if the given class can be instrumented.  This will return false if:
     * <ul>
     * <li> The class is an interface or an enum
-    * <li> The class is annotated with Seam's @Name annotationa or is a non-static inner class of a @Named class
+    * <li> The class is annotated with Seam's @Name annotation or is a non-static inner class of a @Named class
     * <li> The class is already instrumented.  We check this by checking if it already implements the InstrumentedComponent
     * interface
     * </ul>
@@ -349,7 +405,6 @@ public class JavassistInstrumentor implements ClassFileTransformer
          // do not instrument @Named components or nested non-static classes
          // inside named components.
          CtClass checkName = clazz;
-         boolean hasWicketComponentAnnotation = false;
          do
          {
             for (Object a : checkName.getAnnotations())
@@ -358,16 +413,12 @@ public class JavassistInstrumentor implements ClassFileTransformer
                {
                   return false;
                }
-               else if (scanAnnotations && a instanceof SeamWicketComponent)
-               {
-                  hasWicketComponentAnnotation = true;
-               }
             }
             checkName = Modifier.isStatic(clazz.getModifiers()) ? null : checkName.getDeclaringClass();
          }
          while (checkName != null);
 
-         if (scanAnnotations && !hasWicketComponentAnnotation)
+         if (scanAnnotations && !markedInstrumentable(clazz))
          {
             return false;
          }
