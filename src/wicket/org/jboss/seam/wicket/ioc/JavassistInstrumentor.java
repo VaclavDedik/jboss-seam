@@ -141,9 +141,9 @@ public class JavassistInstrumentor implements ClassFileTransformer
       }
    }
 
-   public JavassistInstrumentor(ClassPool classPool, Set<String> packagesToInstrument)
+   public JavassistInstrumentor(ClassPool classPool, Set<String> packagesToInstrument, boolean scanAnnotations)
    {
-      this(classPool);
+      this(classPool,scanAnnotations);
       this.packagesToInstrument = packagesToInstrument;
    }
 
@@ -441,6 +441,8 @@ public class JavassistInstrumentor implements ClassFileTransformer
    {
       Set<String> packagesToInstrument = new HashSet<String>();
       String list = System.getProperty("org.jboss.seam.wicket.instrumented-packages");
+      String scanAnnotationsProperty = System.getProperty("org.jboss.seam.wicket.scanAnnotations");
+      boolean scanAnnotations = scanAnnotationsProperty == null ? false : scanAnnotationsProperty.equals("true");
       if (list == null)
          return;
       for (String packageName : list.split(","))
@@ -450,6 +452,6 @@ public class JavassistInstrumentor implements ClassFileTransformer
 
       ClassPool classPool = new ClassPool();
       classPool.appendSystemPath();
-      instrumentation.addTransformer(new JavassistInstrumentor(classPool, packagesToInstrument));
+      instrumentation.addTransformer(new JavassistInstrumentor(classPool, packagesToInstrument, scanAnnotations));
    }
 }
