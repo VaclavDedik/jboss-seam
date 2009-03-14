@@ -24,7 +24,10 @@
     </condition>
 
     <property file="${seam-gen.properties}"/>
+    <!-- set property defaults for backwards compatibility -->
+    <property name="jboss.domain" value="default"/>
     <property name="glassfish.home" value=""/>
+
     <import file="${seam.dir}/build/common.build.xml"/>
 
     <target name="init">
@@ -61,6 +64,14 @@
         <taskdef name="pathFixer"
             classname="org.jboss.seam.tool.FixPathTask"
             classpathref="seam-gen.lib.path"/>
+
+        <taskdef name="encodePassword"
+            classname="org.jboss.seam.tool.EncodePasswordTask"
+            classpathref="seam-gen.lib.path"/>
+
+        <taskdef name="randomUUID"
+            classname="org.jboss.seam.tool.RandomUUIDTask"
+            classpathref="seam-gen.lib.path"/>
     </target>
 
     <target name="init-properties" depends="init">
@@ -69,6 +80,8 @@
         <packageDirectory property="model.dir" package="main/${model.package}"/>
         <packageDirectory property="test.dir" package="test/${test.package}"/>
         <pathFilename property="driver.file" path="${driver.jar}"/>
+        <encodePassword property="hibernate.connection.password.encoded" password="${hibernate.connection.password}"/>
+        <randomUUID property="hibernate.connection.uuid"/>
 
         <!-- we don't want create because that will destroy their database on the next deploy -->
         <condition property="hibernate.hbm2ddl.auto" value="update">
@@ -141,6 +154,8 @@
             <filter token="dataSourceClass" value="${hibernate.connection.dataSource_class}"/>
             <filter token="username" value="${hibernate.connection.username}"/>
             <filter token="password" value="${hibernate.connection.password}"/>
+            <filter token="encodedPassword" value="${hibernate.connection.password.encoded}"/>
+            <filter token="connectionUUID" value="${hibernate.connection.uuid}"/>
             <filter token="catalogProperty" value="${catalog.property}"/>
             <filter token="schemaProperty" value="${schema.property}"/>
             <filter token="hibernate.dialect" value="${hibernate.dialect}"/>

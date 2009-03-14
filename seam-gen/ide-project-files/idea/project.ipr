@@ -36,10 +36,10 @@
       <option name="DATABASE_URL" value="@jdbcUrl@" />
       <option name="DRIVER_PATH" />
       <option name="DATBASE_USERNAME" value="@username@" />
-      <option name="ENCODED_DATABASE_PASSWORD" value="" />
+      <option name="ENCODED_DATABASE_PASSWORD" value="@encodedPassword@" />
       <option name="DEFAULT_SCHEMA_NAME" />
       <option name="TABLE_PATTERN" value="" />
-      <option name="UUID" value="86c824fb-f41b-4fd1-986c-be634e7b9cfc" />
+      <option name="UUID" value="@connectionUUID@" />
       <option name="NAME" value="@projectName@Datasource" />
       <libraries>
         <library>
