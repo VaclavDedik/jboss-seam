@@ -10,7 +10,7 @@ gf-start - Starts GlassFish
 gf-debug - Starts GlassFish in debug mode
 gf-stop - Stops GlassFish
 gf-reboot - Restarts GlassFish
-gf-datasource - Registers the datasource and connection pool
+gf-deploy-datasource - Deploys the datasource and connection pool to GlassFish
 gf-explode - Deploys the exploded archive to GlassFish (restarts application if already deployed)
 gf-hotdeploy - Hot deploys Java classes, Seam components, and view resources
 gf-deploy - Deploys the packaged archive to GlassFish
@@ -18,4 +18,4 @@ gf-undeploy - Undeploys the exploded or packaged archive from GlassFish
 gf-stage - Prepares an exploded archive targeting GlassFish
 gf-archive - Prepares a packaged archive targeting GlassFish
 gf-prepare - Prepares GlassFish for a seam-gen project deployment (calls gf-deploy-hibernate)
-gf-deploy-hibernate - Deploys Hibernate as a JPA provider to GlassFish
+gf-deploy-hibernate - Deploys Hibernate as a JPA provider on GlassFish

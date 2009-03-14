@@ -47,37 +47,37 @@
         <property name="puJndiName" value="java:comp/env/${project.name}/pu"/>
     </target>
 
-    <target name="gf-start" description="Starts GlassFish">
+    <target name="gf-start" description="Start GlassFish">
         <asadmin cmd="start-domain" args="${glassfish.domain}"/>
     </target>
 
-    <target name="gf-debug" description="Starts GlassFish in debug mode">
+    <target name="gf-debug" description="Start GlassFish in debug mode">
         <asadmin cmd="start-domain" args="--debug=true ${glassfish.domain}"/>
     </target>
 
-    <target name="gf-stop" description="Stops GlassFish">
+    <target name="gf-stop" description="Stop GlassFish">
         <asadmin cmd="stop-domain" args="${glassfish.domain}"/>
     </target>
 
-    <target name="gf-reboot" depends="gf-stop,gf-start" description="Restarts GlassFish"/>
+    <target name="gf-reboot" depends="gf-stop,gf-start" description="Restart GlassFish"/>
 
     <target name="gf-list-components" description="List archives deployed to GlassFish">
         <asadmin cmd="list-components"/>
     </target>
 
-    <target name="gf-list-jdbc-resources" description="List archives deployed to GlassFish">
+    <target name="gf-list-jdbc-resources" description="List JDBC resources deployed to GlassFish">
         <asadmin cmd="list-jdbc-resources"/>
     </target>
 
-    <target name="gf-check-datasource" description="Check if the datasource is registered with GlassFish">
+    <target name="gf-check-datasource" unless="glassfish.datasource.useDefault" description="Check if the datasource is registered with GlassFish">
         <asadmin cmd="list-jdbc-resources" log="false"/>
         <condition property="gf.needs.datasource">
             <not><contains string="${gf.cmd.output}" substring="${project.name}Datasource"/></not>
         </condition>
     </target>
 
-    <target name="gf-datasource" depends="gf-check-datasource" if="gf.needs.datasource"
-        description="Register the datasource in GlassFish">
+    <target name="gf-deploy-datasource" depends="gf-check-datasource" if="gf.needs.datasource"
+        description="Deploy the datasource to GlassFish">
         <asadmin cmd="add-resources" args="${basedir}/resources/glassfish-resources-${profile}.xml"/>
     </target>
 
@@ -88,7 +88,7 @@
                 <include name="META-INF/persistence.xml" if="project.ear"/>
             </fileset>
         </move>
-	</target>
+    </target>
 
     <target name="gf-check-seam-exploded" if="project.ear">
         <!-- This file has to be deleted each time since the exploded directory has a different name (doesn't block it) -->
@@ -106,40 +106,47 @@
         <unjar src="${lib.dir}/jboss-seam.jar" dest="${ear.dir}/jboss-seam_jar"/>
     </target>
 
-    <target name="gf-explode" depends="gf-stage,gf-explode-seam,gf-datasource"
-        description="Deploy the exploded archive to GlassFish">
+    <target name="gf-explode" depends="gf-stage,gf-explode-seam,gf-deploy-datasource"
+        description="Deploy the datasource and exploded archive to GlassFish">
         <asadmin cmd="deploy" args="--name ${project.name} ${exploded.archive.dir}"/>
     </target>
 
     <target name="gf-reexplode" depends="clean,gf-undeploy,gf-explode"
-        description="Clean and deploy the exploded archive to GlassFish"/>
+        description="Clean, undeploy, and deploy the datasource and exploded archive to GlassFish"/>
 
-    <target name="gf-hotdeploy" depends="gf-stage" description="Publish hot deployable artifacts."/>
+    <target name="gf-hotdeploy" depends="gf-stage" description="Publish hot deployable artifacts"/>
 
-    <target name="gf-stage" depends="gf-init,stage" description="Prepare the exploded archive targeting GlassFish.">
-		<antcall target="gf-cleanup-ear"/>
-	</target>
+    <target name="gf-stage" depends="gf-init,stage" description="Prepare the exploded archive targeting GlassFish">
+        <antcall target="gf-cleanup-ear"/>
+    </target>
 
-    <target name="gf-archive" depends="gf-stage,archive" description="Prepare a packaged archive targeting GlassFish."/>
+    <target name="gf-archive" depends="gf-stage,archive" description="Prepare a packaged archive targeting GlassFish"/>
 
-    <target name="gf-deploy" depends="gf-archive,gf-datasource"
-        description="Deploy the packaged archive to GlassFish">
+    <target name="gf-deploy" depends="gf-archive,gf-deploy-datasource"
+        description="Deploy the datasource and packaged archive to GlassFish">
         <asadmin cmd="deploy" args="--name ${project.name} ${packaged.archive}"/>
     </target>
 
     <target name="gf-unexplode" depends="gf-undeploy"/>
 
-    <target name="gf-undeploy" description="Undeploy the archive from GlassFish">
+    <target name="gf-undeploy-archive" description="Undeploy the archive from GlassFish">
         <asadmin cmd="undeploy" args="${project.name}"/>
+    </target>
+
+    <target name="gf-undeploy-datasource" unless="glassfish.datasource.useDefault"
+        description="Undeploy the datasource from GlassFish">
         <asadmin cmd="delete-jdbc-resource" args="${project.name}Datasource"/>
         <asadmin cmd="delete-jdbc-connection-pool" args="${project.name}Pool"/>
         <!-- Duplicate last two lines for each JDBC resource -->
     </target>
 
-    <target name="gf-prepare" depends="gf-stop,gf-deploy-hibernate"
-        description="Prepares GlassFish to run a Seam application"/>
+    <target name="gf-undeploy" depends="gf-undeploy-archive,gf-undeploy-datasource"
+        description="Undeploy the archive and datasource from GlassFish"/>
 
-    <target name="gf-deploy-hibernate" description="Deploys Hibernate to be a JPA provider on GlassFish">
+    <target name="gf-prepare" depends="gf-stop,gf-deploy-hibernate"
+        description="Prepare GlassFish to run a Seam application"/>
+
+    <target name="gf-deploy-hibernate" description="Deploy Hibernate as a JPA provider on GlassFish">
         <fail message="glassfish.home not set" unless="glassfish.home"/>
         <fail message="glassfish.home does not point to a valid GlassFish installation">
             <condition>
