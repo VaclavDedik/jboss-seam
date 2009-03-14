@@ -831,7 +831,7 @@
     <target name="file-copy" depends="file-copy-war,file-copy-ear,setup-filters">
 
         <copy tofile="${project.home}/seam-gen.properties"
-                file="${seam-gen.dir}/build.properties"/>
+                file="${seam-gen.properties}"/>
 
         <copy todir="${project.home}/resources/">
             <fileset dir="${seam-gen.dir}/resources/">
