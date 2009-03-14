@@ -793,10 +793,6 @@
         <copy todir="${project.home}/src/hot" file="${templates.dir}/resources/seam.properties"/>
         <copy todir="${project.home}/src/main" file="${templates.dir}/resources/seam.properties"/>
         -->
-        <copy tofile="${project.home}/src/${action.dir}/Authenticator.java"
-            file="${templates.dir}/src/AuthenticatorJavaBean.java">
-            <filterset refid="filters"/>
-        </copy>
     </target>
 
     <target name="file-copy-ear" unless="project.war">
@@ -1034,10 +1030,15 @@
 
         <copy todir="${project.home}/src/${action.dir}">
             <fileset dir="${templates.dir}/src/">
-                <include name="Authenticator.java" if="project.ear"/>
+                <include name="Authenticator.java" if="project.war"/>
                 <include name="AuthenticatorBean.java" if="project.ear"/>
                 <include name="Timer*.java" if="icefaces.property"/>
             </fileset>
+            <filterset refid="filters"/>
+        </copy>
+
+        <copy tofile="${project.home}/src/${action.dir}/Authenticator.java"
+            file="${templates.dir}/src/AuthenticatorLocal.java">
             <filterset refid="filters"/>
         </copy>
 
