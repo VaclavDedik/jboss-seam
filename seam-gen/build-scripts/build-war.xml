@@ -9,6 +9,8 @@
 
     <!-- set global properties for this build -->
     <property name="project.name" value="@projectName@"/>
+    <property name="project.war" value="true"/>
+    <property name="richfaces.present" value="true"/>
     <property name="dist.dir" value="dist" />
     <property name="src.model.dir" value="src/main" />
     <property name="src.action.dir" value="src/hot" />
@@ -16,6 +18,7 @@
     <property name="lib.dir" value="lib" />
     <property name="endorsed.dir" value="${lib.dir}/endorsed" />
     <property name="war.dir" value="exploded-archives/${project.name}.war" />
+    <property name="exploded.archive.dir" value="${war.dir}" />
     <property name="classes.model.dir" value="${war.dir}/WEB-INF/classes" />
     <property name="action.dir" value="WEB-INF/classes" />
     <property name="classes.action.dir" value="${war.dir}/${action.dir}" />
@@ -24,6 +27,7 @@
     <property name="jboss.domain" value="default"/>
     <property name="deploy.dir" value="${jboss.home}/server/${jboss.domain}/deploy" />
     <property name="war.deploy.dir" value="${deploy.dir}/${project.name}.war" />
+    <property name="packaged.archive" value="${dist.dir}/${project.name}.war"/>
     <property name="testng.jar" value="${basedir}/lib/testng.jar" />
     <property name="javac.debug" value="true" />
     <property name="javac.deprecation" value="false" />
@@ -43,6 +47,9 @@
         <fileset refid="lib" />
     </path>
 
+    <!-- Import GlassFish deployment targets -->
+    <import file="${basedir}/glassfish-build.xml"/>
+
     <target name="init" description="Initialize the build">
 
         <taskdef name="groovyc"
@@ -52,6 +59,29 @@
         <mkdir dir="${classes.model.dir}" />
         <mkdir dir="${classes.action.dir}" />
         <mkdir dir="${dist.dir}" />
+
+        <property name="transactionManagerLookupClass" value="org.hibernate.transaction.JBossTransactionManagerLookup"/>
+        <property name="ejbJndiPattern" value="${project.name}/#{ejbName}/local"/>
+        <condition property="seamBootstrapsPu" value="false" else="true">
+            <available file="${jboss.home}/lib/jboss-vfs.jar"/> <!-- JBoss AS >= 5.0 -->
+        </condition>
+        <condition property="seamEmfRef" value="#{entityManagerFactory}" else="#{null}">
+            <equals arg1="${seamBootstrapsPu}" arg2="true"/>
+        </condition>
+        <condition property="puJndiName" value="#{null}" else="java:comp/env/${project.name}/pu">
+            <equals arg1="${seamBootstrapsPu}" arg2="true"/>
+        </condition>
+
+        <filterset id="persistence">
+            <filter token="transactionManagerLookupClass" value="${transactionManagerLookupClass}"/>
+        </filterset>
+        <filterset id="seam">
+            <filter token="ejbJndiPattern" value="${ejbJndiPattern}"/>
+            <filter token="seamBootstrapsPu" value="${seamBootstrapsPu}"/>
+            <filter token="seamEmfRef" value="${seamEmfRef}"/>
+            <filter token="puJndiName" value="${puJndiName}"/>
+        </filterset>
+
         <!-- if a .groovy file is in model or action, set groovy.present -->
         <available property="groovy.present" value="true" file="" searchparents="true">
             <filepath>
@@ -176,11 +206,15 @@
 
         <copy tofile="${war.dir}/WEB-INF/classes/components.properties" 
               file="${basedir}/resources/components-${profile}.properties"
-              overwrite="true"/>
+              overwrite="true">
+            <filterset refid="seam"/>
+        </copy>
 
         <copy tofile="${war.dir}/WEB-INF/classes/META-INF/persistence.xml" 
               file="${basedir}/resources/META-INF/persistence-${profile}.xml"
-              overwrite="true"/>
+              overwrite="true">
+            <filterset refid="persistence"/>
+        </copy>
         
         <copy tofile="${war.dir}/WEB-INF/classes/import.sql" 
               file="${basedir}/resources/import-${profile}.sql"
@@ -210,25 +244,26 @@
             <fileset dir="${lib.dir}">
                 <includesfile name="deployed-jars.list"/>
                 <exclude name="jboss-seam-gen.jar"/>
+                <exclude name="icefaces-ahs.jar" if="icefaces.present"/>
                 <include name="groovy-*.jar" if="groovy.present"/>
             </fileset>
         </copy>
 
         <copy todir="${war.dir}/WEB-INF/classes">
             <fileset dir="${basedir}/resources"> 
-                <include name="**/*.xcss"/>
+                <include name="**/*.xcss" if="richfaces.present"/>
             </fileset>
             <!-- move XCSS into classpath for now
                  loading from web context only works in JBoss AS 4 -->
             <fileset dir="${basedir}/view"> 
-                <include name="**/*.xcss"/>
+                <include name="**/*.xcss" if="richfaces.present"/>
             </fileset>
         </copy>
         
         <copy todir="${war.dir}/WEB-INF/classes">
             <fileset dir="${basedir}/resources"> 
                 <include name="messages*.properties"/>
-                <include name="*.skin.properties"/>
+                <include name="*.skin.properties" if="ricfaces.present"/>
                 <include name="*_theme.properties"/>
             </fileset>
         </copy>
@@ -441,5 +476,13 @@
         </unjar>
         <ant antfile="validate.xml" target="validateConfiguration"/>
     </target>
-    
+
+    <target name="purge" depends="undeploy" description="Clean out JBoss AS temporary deployment files">
+        <delete dir="${jboss.home}/server/default/tmp/deploy"/>
+        <mkdir dir="${jboss.home}/server/default/tmp/deploy/"/>
+        <delete dir="${jboss.home}/server/default/tmp/sessions"/>
+        <mkdir dir="${jboss.home}/server/default/tmp/sessions"/>
+        <delete dir="${jboss.home}/server/default/work/jboss.web/localhost/${project.name}"/>
+    </target>
+
 </project>

@@ -9,6 +9,8 @@
 
     <!-- set global properties for this build -->
     <property name="project.name" value="@projectName@"/>
+    <property name="project.ear" value="true"/>
+    <property name="richfaces.present" value="true"/>
     <property name="dist.dir" value="dist"/>
     <property name="src.model.dir" value="src/main"/>
     <property name="src.action.dir" value="src/hot"/>
@@ -16,8 +18,9 @@
     <property name="lib.dir" value="lib"/>
     <property name="endorsed.dir" value="${lib.dir}/endorsed"/>
     <property name="ear.dir" value="exploded-archives/${project.name}.ear"/>
-    <property name="jar.dir" value="${ear.dir}/${project.name}.jar"/>
-    <property name="war.dir" value="${ear.dir}/${project.name}.war"/>
+    <property name="exploded.archive.dir" value="${ear.dir}"/>
+    <property name="jar.dir" value="${ear.dir}/${project.name}_jar"/>
+    <property name="war.dir" value="${ear.dir}/${project.name}_war"/>
     <property name="test.dir" value="test-build"/>
     <property name="bootstrap.dir" value="${basedir}/bootstrap"/>
     <property name="jboss.domain" value="default"/>
@@ -25,6 +28,7 @@
     <property name="ear.deploy.dir" value="${deploy.dir}/${project.name}.ear"/>
     <property name="jar.deploy.dir" value="${ear.deploy.dir}/${project.name}.jar"/>
     <property name="war.deploy.dir" value="${ear.deploy.dir}/${project.name}.war"/>
+    <property name="packaged.archive" value="${dist.dir}/${project.name}.ear"/>
     <property name="testng.jar" value="${basedir}/lib/testng.jar"/>
     <property name="javac.debug" value="true"/>
     <property name="javac.deprecation" value="false"/>
@@ -44,6 +48,9 @@
         <fileset refid="lib"/>
     </path>
 
+    <!-- Import GlassFish deployment targets -->
+    <import file="${basedir}/glassfish-build.xml"/>
+
     <target name="init" description="Initialize the build">
         <taskdef name="groovyc"
             classname ="org.codehaus.groovy.ant.Groovyc"
@@ -52,6 +59,25 @@
         <mkdir dir="${ear.dir}"/>
         <mkdir dir="${war.dir}"/>
         <mkdir dir="${dist.dir}"/>
+
+        <property name="transactionManagerLookupClass" value="org.hibernate.transaction.JBossTransactionManagerLookup"/>
+        <property name="ejbJndiPattern" value="${project.name}/#{ejbName}/local"/>
+        <property name="seamBootstrapsPu" value="false"/>
+        <property name="seamEmfRef" value="#{null}"/>
+        <condition property="puJndiName" value="java:comp/env/${project.name}/pu" else="java:/${project.name}EntityManagerFactory">
+            <available file="${jboss.home}/lib/jboss-vfs.jar"/> <!-- JBoss AS >= 5.0 -->
+        </condition>
+
+        <filterset id="persistence">
+            <filter token="transactionManagerLookupClass" value="${transactionManagerLookupClass}"/>
+        </filterset>
+        <filterset id="seam">
+            <filter token="ejbJndiPattern" value="${ejbJndiPattern}"/>
+            <filter token="seamBootstrapsPu" value="${seamBootstrapsPu}"/>
+            <filter token="seamEmfRef" value="${seamEmfRef}"/>
+            <filter token="puJndiName" value="${puJndiName}"/>
+        </filterset>
+
         <!-- if a .groovy file is in model or action, set groovy.present -->
         <available property="groovy.present" value="true" file="" searchparents="true">
             <filepath>
@@ -158,7 +184,9 @@
         </copy>
         <copy tofile="${jar.dir}/META-INF/persistence.xml"
             file="${basedir}/resources/META-INF/persistence-${profile}.xml"
-            overwrite="true"/>
+            overwrite="true">
+            <filterset refid="persistence"/>
+        </copy>
         <copy tofile="${jar.dir}/import.sql"
             file="${basedir}/resources/import-${profile}.sql"
             overwrite="true"/>
@@ -171,7 +199,9 @@
         </copy>
         <copy tofile="${war.dir}/WEB-INF/classes/components.properties"
             file="${basedir}/resources/components-${profile}.properties"
-            overwrite="true"/>
+            overwrite="true">
+            <filterset refid="seam"/>
+        </copy>
         <copy todir="${war.dir}/WEB-INF">
             <fileset dir="${basedir}/resources/WEB-INF">
                 <include name="*.*"/>
@@ -193,18 +223,18 @@
         </copy>
         <copy todir="${war.dir}/WEB-INF/classes">
             <fileset dir="${basedir}/resources">
-                <include name="**/*.xcss"/>
+                <include name="**/*.xcss" if="richfaces.present"/>
             </fileset>
             <!-- move XCSS into classpath for now
                  loading from web context only works in JBoss AS 4 -->
             <fileset dir="${basedir}/view">
-                <include name="**/*.xcss"/>
+                <include name="**/*.xcss" if="richfaces.present"/>
             </fileset>
         </copy>
         <copy todir="${war.dir}/WEB-INF/classes">
             <fileset dir="${basedir}/resources">
                 <include name="messages*.properties"/>
-                <include name="*.skin.properties"/>
+                <include name="*.skin.properties" if="richfaces.present"/>
                 <include name="*_theme.properties"/>
             </fileset>
         </copy>
@@ -224,6 +254,7 @@
         <copy todir="${ear.dir}/lib">
             <fileset dir="${lib.dir}">
                 <includesfile name="deployed-jars-ear.list"/>
+                <exclude name="icefaces-ahs.jar" if="icefaces.present"/>
             </fileset>
         </copy>
         <copy todir="${ear.dir}/META-INF">
@@ -242,8 +273,8 @@
         <jar jarfile="${dist.dir}/${project.name}.war" basedir="${war.dir}"/>
         <jar jarfile="${dist.dir}/${project.name}.ear">
             <fileset dir="${ear.dir}">
-                <exclude name="${project.name}.jar/**"/>
-                <exclude name="${project.name}.war/**"/>
+                <exclude name="${project.name}_jar/**"/>
+                <exclude name="${project.name}_war/**"/>
             </fileset>
             <fileset dir="${dist.dir}">
                 <include name="${project.name}.jar"/>
@@ -263,8 +294,18 @@
         <fail unless="jboss.home">jboss.home not set</fail>
 
         <copy todir="${ear.deploy.dir}">
-            <fileset dir="${ear.dir}"/>
+            <fileset dir="${ear.dir}">
+				<include name="**/*"/>
+				<exclude name="${project.name}_jar/**"/>
+				<exclude name="${project.name}_war/**"/>
+			</fileset>
         </copy>
+		<copy todir="${jar.deploy.dir}">
+			<fileset dir="${jar.dir}"/>
+		</copy>
+		<copy todir="${war.deploy.dir}">
+			<fileset dir="${war.dir}"/>
+		</copy>
     </target>
 
     <target name="unexplode" description="Undeploy the exploded archive">
@@ -441,6 +482,14 @@
             </patternset>
         </unjar>
         <ant antfile="validate.xml" target="validateConfiguration"/>
+    </target>
+
+    <target name="purge" depends="undeploy" description="Clean out JBoss AS temporary deployment files">
+        <delete dir="${jboss.home}/server/default/tmp/deploy"/>
+        <mkdir dir="${jboss.home}/server/default/tmp/deploy/"/>
+        <delete dir="${jboss.home}/server/default/tmp/sessions"/>
+        <mkdir dir="${jboss.home}/server/default/tmp/sessions"/>
+        <delete dir="${jboss.home}/server/default/work/jboss.web/localhost/${project.name}"/>
     </target>
 
 </project>

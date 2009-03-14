@@ -24,6 +24,7 @@
     </condition>
 
     <property file="${seam-gen.properties}"/>
+    <property name="glassfish.home" value=""/>
     <import file="${seam.dir}/build/common.build.xml"/>
 
     <target name="init">
@@ -137,6 +138,7 @@
         <filterset id="jdbc">
             <filter token="jdbcUrl" value="${hibernate.connection.url}"/>
             <filter token="driverClass" value="${hibernate.connection.driver_class}"/>
+            <filter token="dataSourceClass" value="${hibernate.connection.dataSource_class}"/>
             <filter token="username" value="${hibernate.connection.username}"/>
             <filter token="password" value="${hibernate.connection.password}"/>
             <filter token="catalogProperty" value="${catalog.property}"/>
@@ -153,6 +155,7 @@
             <filter token="testPackage" value="${test.package}"/>
             <filter token="deploymentType" value="${project.type}"/>
             <filter token="jbossHome" value="${jboss.home}"/>
+            <filter token="glassfishHome" value="${glassfish.home}"/>
             <filter token="iceHome" value="${icefaces.home}"/>
             <filter token="hbm2ddl" value="${hibernate.hbm2ddl.auto}"/>
             <filter token="driverJar" value="${driver.file}"/>
@@ -258,7 +261,7 @@
         <property name="database.type.default" value="hsql"/>
         <input addproperty="database.type.new"
                    message="What kind of database are you using? [${database.type.default}]"
-                 validargs="hsql,mysql,oracle,postgres,mssql,db2,sybase,enterprisedb,h2"
+                 validargs="hsql,mysql,derby,oracle,postgres,mssql,db2,sybase,enterprisedb,h2"
               defaultvalue="${database.type.default}"/>
 
         <!-- if the database type did not change, default to the previous values -->
@@ -283,6 +286,9 @@
         </condition>
         <condition property="hibernate.dialect.default" value="org.hibernate.dialect.MySQLDialect">
             <equals arg1="${database.type.new}" arg2="mysql"/>
+        </condition>
+        <condition property="hibernate.dialect.default" value="org.hibernate.dialect.DerbyDialect">
+            <equals arg1="${database.type.new}" arg2="derby"/>
         </condition>
         <condition property="hibernate.dialect.default" value="org.hibernate.dialect.OracleDialect">
             <equals arg1="${database.type.new}" arg2="oracle"/>
@@ -311,6 +317,9 @@
         <condition property="hibernate.connection.driver_class.default" value="com.mysql.jdbc.Driver">
             <equals arg1="${database.type.new}" arg2="mysql"/>
         </condition>
+        <condition property="hibernate.connection.driver_class.default" value="org.apache.derby.jdbc.EmbeddedDriver">
+            <equals arg1="${database.type.new}" arg2="derby"/>
+        </condition>
         <condition property="hibernate.connection.driver_class.default" value="oracle.jdbc.driver.OracleDriver">
             <equals arg1="${database.type.new}" arg2="oracle"/>
         </condition>
@@ -329,6 +338,36 @@
         <condition property="hibernate.connection.driver_class.default" value="com.edb.Driver">
             <equals arg1="${database.type.new}" arg2="enterprisedb"/>
         </condition>
+        <condition property="hibernate.connection.dataSource_class.default" value="org.h2.jdbcx.JdbcDataSource">
+            <equals arg1="${database.type.new}" arg2="h2"/>
+        </condition>
+        <condition property="hibernate.connection.dataSource_class.default" value="org.hsqldb.jdbc.jdbcDataSource">
+            <equals arg1="${database.type.new}" arg2="hsql"/>
+        </condition>
+        <condition property="hibernate.connection.dataSource_class.default" value="com.mysql.jdbc.jdbc2.optional.MysqlDataSource">
+            <equals arg1="${database.type.new}" arg2="mysql"/>
+        </condition>
+        <condition property="hibernate.connection.dataSource_class.default" value="org.apache.derby.jdbc.EmbeddedDataSource">
+            <equals arg1="${database.type.new}" arg2="derby"/>
+        </condition>
+        <condition property="hibernate.connection.dataSource_class.default" value="oracle.jdbc.pool.OracleDataSource">
+            <equals arg1="${database.type.new}" arg2="oracle"/>
+        </condition>
+        <condition property="hibernate.connection.dataSource_class.default" value="org.postgresql.jdbc3.Jdbc3ConnectionPool">
+            <equals arg1="${database.type.new}" arg2="postgres"/>
+        </condition>
+        <condition property="hibernate.connection.dataSource_class.default" value="com.microsoft.sqlserver.jdbc.SQLServerDataSource">
+            <equals arg1="${database.type.new}" arg2="mssql"/>
+        </condition>
+        <condition property="hibernate.connection.dataSource_class.default" value="com.ibm.db2.jcc.DB2SimpleDataSource">
+            <equals arg1="${database.type.new}" arg2="db2"/>
+        </condition>
+        <condition property="hibernate.connection.dataSource_class.default" value="com.sybase.jdbc3.jdbc.SybDataSource">
+            <equals arg1="${database.type.new}" arg2="sybase"/>
+        </condition>
+        <condition property="hibernate.connection.dataSource_class.default" value="com.edb.jdbc3.Jdbc3Connection">
+            <equals arg1="${database.type.new}" arg2="enterprisedb"/>
+        </condition>
 
         <condition property="hibernate.connection.url.default" value="jdbc:h2:.">
             <equals arg1="${database.type.new}" arg2="h2"/>
@@ -338,6 +377,9 @@
         </condition>
         <condition property="hibernate.connection.url.default" value="jdbc:mysql:///test">
             <equals arg1="${database.type.new}" arg2="mysql"/>
+        </condition>
+        <condition property="hibernate.connection.url.default" value="jdbc:derby:test;create=true">
+            <equals arg1="${database.type.new}" arg2="derby"/>
         </condition>
         <condition property="hibernate.connection.url.default" value="jdbc:oracle:thin:@localhost:1521:test">
             <equals arg1="${database.type.new}" arg2="oracle"/>
@@ -362,6 +404,7 @@
 
         <property name="hibernate.dialect.default" value="org.hibernate.dialect.HSQLDialect"/>
         <property name="hibernate.connection.driver_class.default" value="org.hsqldb.jdbcDriver"/>
+        <property name="hibernate.connection.dataSource_class.default" value="org.hsqldb.jdbc.jdbcDataSource"/>
         <property name="hibernate.connection.url.default" value="jdbc:hsqldb:."/>
 
         <input addproperty="hibernate.dialect.new"
@@ -376,6 +419,10 @@
         <input addproperty="hibernate.connection.driver_class.new"
                    message="Enter JDBC driver class for your database [${hibernate.connection.driver_class.default}]"
               defaultvalue="${hibernate.connection.driver_class.default}"/>
+
+        <input addproperty="hibernate.connection.dataSource_class.new"
+                   message="Enter JDBC DataSource class for your database [${hibernate.connection.dataSource_class.default}]"
+              defaultvalue="${hibernate.connection.dataSource_class.default}"/>
 
         <input addproperty="hibernate.connection.url.new"
                    message="Enter the JDBC URL for your database [${hibernate.connection.url.default}]"
@@ -455,6 +502,7 @@
             <entry key="driver.jar" value="${driver.jar.new}"/>
             <entry key="hibernate.dialect" value="${hibernate.dialect.new}"/>
             <entry key="hibernate.connection.driver_class" value="${hibernate.connection.driver_class.new}"/>
+            <entry key="hibernate.connection.dataSource_class" value="${hibernate.connection.dataSource_class.new}"/>
             <entry key="hibernate.connection.url" value="${hibernate.connection.url.new}"/>
             <entry key="hibernate.connection.username" value="${hibernate.connection.username.new}"/>
             <entry key="hibernate.connection.password" value="${hibernate.connection.password.new}"/>
@@ -471,11 +519,13 @@
     </target>
 
     <target name="icefaces-staging-copy" if="icefaces.property">
-        <echo message="Set up the icefaces directory"/>
+        <echo message="Setting up the ICEfaces staging directory"/>
+        <delete dir="icefaces-staging"/>
         <copy todir="icefaces-staging">
             <fileset dir="${seam-gen.dir}">
                 <include name="build-scripts/**"/>
                 <include name="ide-project-files/**"/>
+                <include name="ivy/**"/>
                 <include name="hibernatetools/**"/>
                 <include name="lib/**"/>
                 <include name="resources/**"/>
@@ -495,6 +545,48 @@
                 <include name="view/**"/>
             </fileset>
         </copy>
+        <replace dir="icefaces-staging/build-scripts">
+            <include name="build.xml"/>
+            <include name="build-war.xml"/>
+            <replacetoken><![CDATA[<property name="richfaces.present" value="true"/>]]></replacetoken>
+            <replacevalue><![CDATA[<property name="icefaces.present" value="true"/>]]></replacevalue>
+        </replace>
+        <replace dir="icefaces-staging/build-scripts">
+            <include name="build.xml"/>
+            <include name="build-war.xml"/>
+            <replacetoken><![CDATA[</project>]]></replacetoken>
+            <replacevalue><![CDATA[    <target name="freshen" description="Grab fresh ICEfaces jars">
+        <fail message="icefaces.home not set" unless="icefaces.home"/>
+        <fail message="icefaces.home is not a valid directory">
+            <condition>
+                <or>
+                    <length string="${icefaces.home}" trim="true" length="0"/>
+                    <not><available file="${icefaces.home}" type="dir"/></not>
+                </or>
+            </condition>
+        </fail>
+        <copy todir="${lib.dir}">
+            <fileset dir="${icefaces.home}/lib">
+                <include name="icefaces*.jar"/>
+                <include name="backport-util-concurrent.jar"/>
+                <include name="commons-fileupload.jar"/>
+                <include name="commons-digester.jar"/>
+                <exclude name="icefaces-ahs.jar"/>
+            </fileset>
+        </copy>
+    </target>
+
+</project>]]></replacevalue>
+        </replace>
+        <replace dir="icefaces-staging/resources">
+            <include name="WEB-INF/components.xml"/>
+            <include name="WEB-INF/components-war.xml"/>
+            <replacetoken><![CDATA[<core:init debug="@debug@" jndi-pattern="@jndiPattern@"/>]]></replacetoken>
+            <replacevalue><![CDATA[<core:init debug="@debug@" jndi-pattern="@jndiPattern@"/>
+
+   <component name="renderManager" scope="application" class="com.icesoft.faces.async.render.RenderManager" auto-create="true"/>]]></replacevalue>
+        </replace>
+        <echo file="icefaces-staging/build-scripts/build.properties" append="true">icefaces.home=@iceHome@</echo>
     </target>
 
     <target name="action-input" depends="init">
@@ -572,7 +664,6 @@
         <fail unless="entity.present">
             The entity ${entity.name} was not found.  It was expected to be in ${entity.file}.
         </fail>
-
 
         <uncapitalizeProperty name="component.name.default" value="${entity.name}Query"/>
         <input addproperty="component.name"
@@ -658,57 +749,74 @@
     </target>
 
     <target name="file-copy-war" if="project.war">
-        <echo message="Copying resources needed for WAR deployment to the ${project.home}/resources directory..."/>
 
-        <copy tofile="${project.home}/resources/WEB-INF/components.xml"
-                file="${templates.dir}/resources/WEB-INF/components-war.xml">
+        <echo message="Copying build scripts for WAR deployment to the ${project.home} directory..."/>
+        <copy todir="${project.home}">
+            <fileset dir="${templates.dir}/build-scripts">
+                <include name="glassfish-build.xml"/>
+                <include name="build-war.xml"/>
+            </fileset>
             <filterset refid="project"/>
+            <filterset refid="jdbc"/>
+            <filtermapper>
+                <replacestring from="-war.xml" to=".xml"/>
+            </filtermapper>
         </copy>
         <copy tofile="${project.home}/deployed-jars.list"
                 file="${templates.dir}/build-scripts/deployed-jars-war.list"/>
-        <copy tofile="${project.home}/build.xml"
-                file="${templates.dir}/build-scripts/build-war.xml">
-            <filterset refid="project"/>
-        </copy>
         <copy file="${seam.dir}/build/validate.xml" todir="${project.home}" overwrite="true"/>
+
+        <echo message="Copying resources needed for WAR deployment to the ${project.home}/resources directory..."/>
         <copy todir="${project.home}/resources">
-            <fileset dir="${templates.dir}/resources/">
+            <fileset dir="${templates.dir}/resources">
                 <include name="META-INF/orm.xml"/>
                 <include name="META-INF/persistence*-war.xml"/>
+                <include name="WEB-INF/components-war.xml"/>
                 <include name="WEB-INF/jboss-web.xml"/>
             </fileset>
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
-            <globmapper from="*-war.xml" to="*.xml"/>
+            <filtermapper>
+                <replacestring from="-war.xml" to=".xml"/>
+            </filtermapper>
         </copy>
+        <!--
         <copy todir="${project.home}/src/hot" file="${templates.dir}/resources/seam.properties"/>
         <copy todir="${project.home}/src/main" file="${templates.dir}/resources/seam.properties"/>
+        -->
+        <copy tofile="${project.home}/src/${action.dir}/Authenticator.java"
+            file="${templates.dir}/src/AuthenticatorJavaBean.java">
+            <filterset refid="filters"/>
+        </copy>
     </target>
 
     <target name="file-copy-ear" unless="project.war">
-        <echo message="Copying resources needed for EAR deployment to the ${project.home}/resources directory..."/>
 
-        <copy tofile="${project.home}/resources/WEB-INF/components.xml"
-                 file="${templates.dir}/resources/WEB-INF/components.xml">
-             <filterset refid="project"/>
-         </copy>
+        <echo message="Copying build scripts for EAR deployment to the ${project.home} directory..."/>
+        <copy todir="${project.home}">
+            <fileset dir="${templates.dir}/build-scripts">
+                <include name="build.xml"/>
+                <include name="glassfish-build.xml"/>
+            </fileset>
+            <filterset refid="project"/>
+            <filterset refid="jdbc"/>
+        </copy>
         <copy tofile="${project.home}/deployed-jars-ear.list"
                 file="${templates.dir}/build-scripts/deployed-jars-ear.list"/>
         <copy tofile="${project.home}/deployed-jars-war.list"
                 file="${templates.dir}/build-scripts/deployed-jars-ear-war.list"/>
-        <copy tofile="${project.home}/build.xml"
-                file="${templates.dir}/build-scripts/build.xml">
-            <filterset refid="project"/>
-        </copy>
         <copy file="${seam.dir}/build/validate.xml" todir="${project.home}" overwrite="true"/>
+
+        <echo message="Copying resources needed for EAR deployment to the ${project.home}/resources directory..."/>
         <copy todir="${project.home}/resources">
-            <fileset dir="${templates.dir}/resources/">
+            <fileset dir="${templates.dir}/resources">
                 <include name="META-INF/application.xml"/>
-                <include name="META-INF/jboss-app.xml"/>
                 <include name="META-INF/ejb-jar.xml"/>
+                <include name="META-INF/jboss-app.xml"/>
                 <include name="META-INF/orm.xml"/>
                 <include name="META-INF/persistence*.xml"/>
                 <exclude name="META-INF/persistence*-war.xml"/>
+                <include name="WEB-INF/components.xml"/>
             </fileset>
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
@@ -732,6 +840,7 @@
         <copy todir="${project.home}/resources">
             <fileset dir="${templates.dir}/resources/">
                 <exclude name="datasource-ds.xml"/>
+                <exclude name="glassfish-resources.xml"/>
                 <exclude name="import.sql"/>
                 <exclude name="components-*.properties"/>
                 <exclude name="WEB-INF/components*.xml"/>
@@ -744,6 +853,48 @@
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
         </copy>
+
+        <replace dir="${project.home}/resources">
+            <include name="WEB-INF/web.xml" if="project.war"/>
+            <replacetoken><![CDATA[</web-app>]]></replacetoken>
+            <replacevalue><![CDATA[   <persistence-unit-ref>
+      <persistence-unit-ref-name>@projectName@/pu</persistence-unit-ref-name>
+      <persistence-unit-name>@projectName@</persistence-unit-name>
+   </persistence-unit-ref>
+
+</web-app>]]></replacevalue>
+
+        </replace>
+
+        <replace dir="${project.home}/resources">
+            <include name="WEB-INF/web.xml" if="project.ear"/>
+            <replacetoken><![CDATA[</web-app>]]></replacetoken>
+            <replacevalue><![CDATA[   <!-- uncomment <ejb-local-ref> entries when deploying to GlassFish and (optionally) JBoss AS 5 -->
+   <!--
+   <ejb-local-ref>
+      <ejb-ref-name>vehicles/AuthenticatorBean/local</ejb-ref-name>
+      <ejb-ref-type>Session</ejb-ref-type>
+      <local-home/>
+      <local>org.example.vehicles.action.Authenticator</local>
+   </ejb-local-ref>
+   -->
+
+   <!-- Add entries for each EJB session bean which is also a Seam component (not required on JBoss AS) -->
+
+   <persistence-unit-ref>
+      <persistence-unit-ref-name>@projectName@/pu</persistence-unit-ref-name>
+      <!-- The relative reference doesn't work on GlassFish. Instead, set the <persistence-unit-name> to "@projectName@",
+           package persistence.xml in the WAR, and add a <jar-file> element in persistence.xml with value "../../@projectName@.jar". -->
+      <persistence-unit-name>../@projectName@.jar#@projectName@</persistence-unit-name>
+   </persistence-unit-ref>
+
+</web-app>]]></replacevalue>
+
+        </replace>
+
+        <replace file="${project.home}/resources/WEB-INF/web.xml">
+            <replacefilter token="@projectName@" value="${project.name}"/>
+        </replace>
 
         <!-- Eclipse project files -->
         <copy todir="${project.home}">
@@ -821,6 +972,18 @@
             <filterset refid="jdbc"/>
         </copy>
 
+        <copy tofile="${project.home}/resources/glassfish-resources-dev.xml"
+                file="${templates.dir}/resources/glassfish-resources.xml">
+            <filterset refid="project"/>
+            <filterset refid="jdbc"/>
+        </copy>
+
+        <copy tofile="${project.home}/resources/glassfish-resources-prod.xml"
+                file="${templates.dir}/resources/glassfish-resources.xml">
+            <filterset refid="project"/>
+            <filterset refid="jdbc"/>
+        </copy>
+
         <copy tofile="${project.home}/resources/import-dev.sql"
                 file="${templates.dir}/resources/import.sql">
             <filterset refid="project"/>
@@ -862,7 +1025,8 @@
 
         <copy todir="${project.home}/src/${action.dir}">
             <fileset dir="${templates.dir}/src/">
-                <include name="Authenticator.java"/>
+                <include name="Authenticator.java" if="project.ear"/>
+                <include name="AuthenticatorBean.java" if="project.ear"/>
                 <include name="Timer*.java" if="icefaces.property"/>
             </fileset>
             <filterset refid="filters"/>
@@ -874,6 +1038,8 @@
             </fileset>
             <filterset refid="project"/>
         </copy>
+
+        <copy todir="${project.home}" file="${templates.dir}/build-scripts/glassfish-readme.txt"/>
 
         <mkdir dir="${project.home}/src/${model.dir}"/>
         <mkdir dir="${project.home}/src/${action.dir}"/>
@@ -1122,6 +1288,21 @@
         <echo message="Type '${seam.cmd} restart' and go to http://localhost:8080/${project.name}/${masterPage.name}.seam"/>
     </target>
 
+    <target name="add-ivy" depends="validate-project" description="Add Ivy to the project for downloading dependencies">
+        <fail message="Currently the Ivy build is only configured to support RichFaces projects" if="icefaces.property"/>
+        <copy todir="${project.home}">
+            <fileset dir="${templates.dir}/ivy"/>
+            <filterset refid="project"/>
+        </copy>
+        <replace file="${project.home}/build.xml">
+            <replacetoken><![CDATA[<target name="init"]]></replacetoken>
+            <replacevalue><![CDATA[<!-- Import Ivy targets for downloading dependencies -->
+    <import file="${basedir}/ivy-build.xml"/>
+
+    <target name="init"]]></replacevalue>
+        </replace>
+    </target>
+
     <!-- Do not remove generate-entities, netbeans depends on it -->
     <target name="generate-entities" depends="generate"/>
     <target name="generate" depends="validate-project,generate-model,generate-ui"
@@ -1205,6 +1386,7 @@
                     <include name="**/*.war/WEB-INF/classes" if="project.war"/>
                     <include name="**/*.war/WEB-INF/dev" if="project.war"/>
                     <include name="**/*.jar" if="project.ear"/>
+                    <include name="**/*_jar" if="project.ear"/>
                 </dirset>
             </classpath>
             <property key="hibernatetool.util.toolclass" value="org.jboss.seam.tool.Util"/>
@@ -1325,6 +1507,7 @@
         <echo message="Hibernate dialect: ${hibernate.dialect}"/>
         <echo message="JDBC URL: ${hibernate.connection.url}"/>
         <echo message="JDBC driver class: ${hibernate.connection.driver_class}"/>
+        <echo message="JDBC DataSource class: ${hibernate.connection.dataSource_class}"/>
         <echo message="Database username: ${hibernate.connection.username}"/>
         <echo message="Database password: ${hibernate.connection.password}"/>
     </target>

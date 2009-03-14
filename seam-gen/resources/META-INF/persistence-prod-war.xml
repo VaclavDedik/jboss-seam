@@ -7,12 +7,13 @@
              
    <persistence-unit name="@projectName@" transaction-type="JTA">
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
-      <jta-data-source>java:/@projectName@Datasource</jta-data-source>
+      <jta-data-source>@projectName@Datasource</jta-data-source>
       <properties>
          <property name="hibernate.dialect" value="@hibernate.dialect@"/>
          <property name="hibernate.hbm2ddl.auto" value="validate"/>
-         <property name="hibernate.jdbc.batch_size" value="20"/>
-         <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JBossTransactionManagerLookup"/>
+         <property name="hibernate.jdbc.batch_size" value="20"/>@catalogProperty@@schemaProperty@
+         <!-- Only relevant if Seam is loading the persistence unit (Java SE bootstrap) -->
+         <property name="hibernate.transaction.manager_lookup_class" value="@transactionManagerLookupClass@"/>
       </properties>
    </persistence-unit>
     
