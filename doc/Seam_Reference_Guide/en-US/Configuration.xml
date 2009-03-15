@@ -522,8 +522,8 @@ public class AuthenticatorBean implements Authenticator
                 <literal>@In</literal>, it isn't going to be successful looking up the component in JNDI. You cannot
                 simply resolve JNDI names as you please. You have to define those references explicitly. Unlike with the
                 web context, however, you cannot declare EJB references globally for all EJB components. Instead, you
-                have to specify the JNDI resources for a given EJB component one-by-one (this applies to JBoss AS 5 in
-                addition to non-JBoss application servers).</para>
+                have to specify the JNDI resources for a given EJB component one-by-one (this only applies to 
+                non-JBoss application servers of course!).</para>
 
             <para> Let's assume that we have an EJB named RegisterAction (the name is resolved using the three steps
                 mentioned previously). That EJB has the following Seam injection:</para>
