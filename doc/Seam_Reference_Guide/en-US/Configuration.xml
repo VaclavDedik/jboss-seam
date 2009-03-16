@@ -494,13 +494,13 @@ public class AuthenticatorBean implements Authenticator
                 of finding it in JNDI according to the JNDI pattern (or <literal>@JndiName</literal> annotation).
                 </para>
 
-            <para> So what about the rest of the application servers? Well, according to the Java EE spec, which most
+            <para>So what about the rest of the application servers? Well, according to the Java EE spec, which most
                 vendors try to adhere to religiously, you have to declare an EJB reference for your EJB in order for it
                 to be assigned a JNDI name. That requires some XML. It also means that it is up to you to establish a
                 JNDI naming convention so that you can leverage the Seam JNDI pattern. You might find the JBoss
                 convention a good one to follow.</para>
 
-            <para> There are two places you have to define the EJB reference when using Seam on non-JBoss application
+            <para>There are two places you have to define the EJB reference when using Seam on non-JBoss application
                 servers. If you are going to be looking up the Seam EJB component through JSF (in a JSF view or as a JSF
                 action listener) or a Seam JavaBean component, then you must declare the EJB reference in web.xml. Here
                 is the EJB reference for the example component just shown: </para>
@@ -512,18 +512,24 @@ public class AuthenticatorBean implements Authenticator
 </ejb-local-ref>
 ]]></programlisting>
 
-            <para> This reference will cover most uses of the component in a Seam application. However, if you want to
+            <para>This reference will cover most uses of the component in a Seam application. However, if you want to
                 be able to inject a Seam EJB component into another Seam EJB component using <literal>@In</literal>, you
                 need to define this EJB reference in another location. This time, it must be defined in ejb-jar.xml, and
                 it's a bit tricker. </para>
 
-            <para> Within the context of an EJB method call, you have to deal with a somewhat sheltered JNDI context.
+            <para>Within the context of an EJB method call, you have to deal with a somewhat sheltered JNDI context.
                 When Seam attempts to find another Seam EJB component to satisfy an injection point defined using
-                <literal>@In</literal>, it isn't going to be successful looking up the component in JNDI. You cannot
-                simply resolve JNDI names as you please. You have to define those references explicitly. Unlike with the
-                web context, however, you cannot declare EJB references globally for all EJB components. Instead, you
-                have to specify the JNDI resources for a given EJB component one-by-one (this only applies to 
-                non-JBoss application servers of course!).</para>
+                <literal>@In</literal>, whether or not it finds it depends on whether an EJB reference exists in
+                JNDI. Strictly speaking, you cannot simply resolve JNDI names as you please. You have to define
+                the references explicitly. Fortunately, JBoss recognized how aggrevating this would be for the
+                developer and all versions of JBoss automatically register EJBs so they are always available in
+                JNDI, both to the web container and the EJB container. So if you are using JBoss, you can skip the next
+                few paragraphs. However, if you are deploying to GlassFish, pay close attention.</para>
+                
+            <para>For application servers that stubbornly adhere to the EJB specification, EJB references must always be
+                defined explicitly. But unlike with the web context, where a single resource reference covers all
+                uses of the EJB from the web environment, you cannot declare EJB references globally in the EJB container.
+                Instead, you have to specify the JNDI resources for a given EJB component one-by-one.</para>
 
             <para> Let's assume that we have an EJB named RegisterAction (the name is resolved using the three steps
                 mentioned previously). That EJB has the following Seam injection:</para>
