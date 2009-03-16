@@ -279,7 +279,7 @@ public class MyCustomerResource {
 
     @GET
     @Path("/{customerId}")
-    @ProduceMime("text/plain")
+    @Produces("text/plain")
     public String getCustomer(@PathParam("customerId") int id) {
          return ...;
     }
@@ -403,7 +403,7 @@ public class MyCustomerResource {
 
     @GET
     @Path("/{customerId}")
-    @ProduceMime("text/plain")
+    @Produces("text/plain")
     public String getCustomer(@PathParam("customerId") int id) {
          return customerDAO.find(id).getName();
     }
@@ -432,6 +432,54 @@ public class MyCustomerResource {
 
          <para>
             Resources and providers can be EJBs or JavaBeans, like any other Seam component.
+         </para>
+
+      </sect2>
+
+      <sect2>
+         <title>Mapping exceptions to HTTP response status codes</title>
+
+         <para>
+            Section 3.3.4 of the JAX-RS specification defines how checked or unchecked exceptions are handled by the
+            JAX RS implementation. In addition to using an exception mapping provider as defined by JAX-RS, the integration
+            of RESTEasy with Seam allows you to map exceptions to HTTP response codes within Seam's <literal>pages.xml</literal>
+            facility. If you are already using <literal>pages.xml</literal> declarations, this is easier to maintain than
+            potentially many JAX RS exception mapper classes.
+         </para>
+
+         <para>
+            For example, to convert the unchecked <literal>UnsupportedOperationException</literal> thrown by your resource
+            methods to a <literal>501 Not Implemented</literal> HTTP status response, add the following to your
+            <literal>pages.xml</literal> descriptor:
+         </para>
+
+         <programlisting role="JAVA"><![CDATA[<exception class="java.lang.UnsupportedOperationException">
+    <http-error error-code="501">
+        <message>The request operation is not supported</message>
+    </http-error>
+</exception>]]></programlisting>
+
+         <para>
+            Custom or checked exceptions are handled the same:
+         </para>
+
+         <programlisting role="JAVA"><![CDATA[<exception class="my.CustomException">
+    <http-error error-code="503">
+        <message>The service is currently not available</message>
+    </http-error>
+</exception>]]></programlisting>
+
+         <para>
+            You do not have to send an HTTP error to the client if an exception occurs. Seam allows you to map the
+            exception as a redirect to a view of your Seam application. As this feature is typically used for human
+            clients (web browsers) and not for REST API remote clients, you should pay extra attention to conflicting
+            exception mappings in <literal>pages.xml</literal>.
+         </para>
+
+         <para>
+            Note that the HTTP response still passes through the servlet container, so an additional mapping might apply
+            if you have <literal>&lt;error-page&gt;</literal> mappings in your <literal>web.xml</literal> configuration.
+            The HTTP status code would then be mapped to a rendered HTML error page with status <literal>200 OK</literal>!
          </para>
 
       </sect2>

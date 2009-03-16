@@ -25,7 +25,7 @@ import org.jboss.resteasy.spi.ResteasyProviderFactory;
 
 /**
  * An extended version of the RESTEasy dispatcher, configured on Seam application
- * startup with a custom ApplicationConfig instance. Registers custom resource
+ * startup with a custom JAX RS <tt>Application</tt> instance. Registers custom resource
  * and provider lifecycle handlers.
  *
  * @author Christian Bauer
