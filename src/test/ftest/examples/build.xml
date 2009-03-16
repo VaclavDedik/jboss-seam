@@ -20,7 +20,7 @@ License along with this software; if not, write to the Free
 Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
-<project name="ftest.example.common.build" basedir="." default="build">
+<project name="ftest.example.common.build" basedir="." default="build" xmlns:server="http://jboss.org/ns/test/ant/server">
 
 	<!-- Location of Seam -->
 	<dirname property="seam.dir" file="${ant.file.ftest.example.common.build}/../../../../" />
@@ -64,6 +64,10 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<path refid="classpath.build" />
 		<path location="${classes.dir}" />
 	</path>
+
+	<taskdef name="config" classname="org.jboss.ant.taskdefs.server.ConfigManagerTask" uri="http://jboss.org/ns/test/ant/server" loaderref="server.loader" classpathref="classpath.build" />
+	<taskdef name="start" classname="org.jboss.ant.taskdefs.server.StartServerTask" uri="http://jboss.org/ns/test/ant/server" loaderref="server.loader" classpathref="classpath.build" />
+	<taskdef name="stop" classname="org.jboss.ant.taskdefs.server.StopServerTask" uri="http://jboss.org/ns/test/ant/server" loaderref="server.loader" classpathref="classpath.build" />
 
 	<!-- common target definitions -->
 
@@ -175,7 +179,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		</ant>
 	</target>
 
-	<target name="container.properties" depends="set.deploy.properties">
+	<target name="container.properties" depends="set.deploy.properties" unless="container.home">
 		<set.container.properties container="${container}" />
 	</target>
 
@@ -184,12 +188,15 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<sequential>
 			<fail unless="@{container}.home" message="@{container}.home property has to be set" />
 			<property name="container.home" value="${@{container}.home}" />
+			<property name="container.profile" value="${@{container}.profile}" />
+			<property name="container.jvm.arguments" value="${@{container}.jvm.arguments}" />
 			<property name="deploy.target" value="${@{container}.deploy.target}" />
 			<property name="undeploy.target" value="${@{container}.undeploy.target}" />
 			<property name="context.path" value="${@{container}.context.path}" />
 			<property name="wait.url" value="${context.path}" />
 			<property name="wait.time" value="${@{container}.deploy.waittime}" />
 			<propertyset id="deploy.properties" refid="${container}.deploy.properties" />
+			<echo>Container properties set</echo>
 		</sequential>
 	</macrodef>
 
@@ -200,6 +207,16 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<propertyset id="jboss5.deploy.properties" />
 		<propertyset id="tomcat6.deploy.properties" />
 		<propertyset id="jboss-embedded.deploy.properties" />
+	</target>
+
+	<target name="start.container.jboss" depends="container.properties">
+		<server:config javaHome="${java.home}" jbossHome="${container.home}">
+			<server name="${container.profile}">
+				<jvmarg value="${container.jvm.arguments}" />
+				<sysproperty key="java.endorsed.dirs" value="${container.home}/lib/endorsed" />
+			</server>
+		</server:config>
+		<server:start name="${container.profile}" />
 	</target>
 
 </project>
