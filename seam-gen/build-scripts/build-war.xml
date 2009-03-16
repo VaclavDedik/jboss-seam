@@ -263,7 +263,7 @@
         <copy todir="${war.dir}/WEB-INF/classes">
             <fileset dir="${basedir}/resources"> 
                 <include name="messages*.properties"/>
-                <include name="*.skin.properties" if="ricfaces.present"/>
+                <include name="*.skin.properties" if="richfaces.present"/>
                 <include name="*_theme.properties"/>
             </fileset>
         </copy>
