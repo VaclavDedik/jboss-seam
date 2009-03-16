@@ -76,7 +76,6 @@ public class ResteasyResourceAdapter extends AbstractResource
                 {
 
                     HttpHeaders headers = ServletUtil.extractHttpHeaders(request);
-                    String path = PathHelper.getEncodedPathInfo(request.getRequestURI(), request.getContextPath());
                     URI absolutePath;
                     try
                     {
@@ -94,6 +93,8 @@ public class ResteasyResourceAdapter extends AbstractResource
                     {
                         throw new RuntimeException(e);
                     }
+
+                    String path = PathHelper.getEncodedPathInfo(absolutePath.getRawPath(), request.getContextPath());
 
                     Application appConfig = (Application)Component.getInstance(Application.class);
                     if (appConfig.isStripSeamResourcePath()) {
