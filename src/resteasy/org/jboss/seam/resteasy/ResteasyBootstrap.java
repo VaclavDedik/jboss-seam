@@ -101,25 +101,25 @@ public class ResteasyBootstrap
                 if (!seamComponent.getScope().equals(ScopeType.APPLICATION) &&
                         !seamComponent.getScope().equals(ScopeType.STATELESS))
                 {
-                    log.warn("not registering as  provider Seam component, must be APPLICATION or STATELESS scoped: "
-                            + seamComponent.getName());
+                    log.warn("can't add provider Seam component, not APPLICATION or STATELESS scope: " + seamComponent.getName());
+                    log.warn("this provider class will be registered without Seam injection or lifecycle!");
                     seamComponent = null;
                 }
             }
             if (seamComponent != null)
             {
-                log.debug("registering provider Seam component: " + seamComponent.getName());
+                log.debug("adding provider Seam component: " + seamComponent.getName());
             }
             else
             {
-                log.debug("registering provider class: " + providerClass.getName());
+                log.debug("adding provider class: " + providerClass.getName());
             }
             application.addProviderClass(providerClass, seamComponent);
         }
         if (application.getProviderClasses().size() == 0 &&
                 !application.isUseBuiltinProviders())
         {
-            log.info("no RESTEasy provider classes registered");
+            log.info("no RESTEasy provider classes added");
         }
     }
 
@@ -148,11 +148,11 @@ public class ResteasyBootstrap
             if (seamComponents.containsKey(resourceClass))
             {
                 seamComponent = seamComponents.get(resourceClass);
-                log.debug("registering resource Seam component: " + seamComponent.getName());
+                log.debug("adding resource Seam component: " + seamComponent.getName());
             }
             else
             {
-                log.debug("registering resource class with JAX-RS default lifecycle: " + resourceClass.getName());
+                log.debug("adding resource class with JAX-RS default lifecycle: " + resourceClass.getName());
             }
             application.addResourceClass(resourceClass, seamComponent);
         }

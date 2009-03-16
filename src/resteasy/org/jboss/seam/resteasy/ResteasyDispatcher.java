@@ -15,13 +15,11 @@ import org.jboss.resteasy.core.AsynchronousDispatcher;
 import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
 import org.jboss.resteasy.plugins.server.resourcefactory.POJOResourceFactory;
 import org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher;
-import org.jboss.resteasy.spi.HttpRequest;
-import org.jboss.resteasy.spi.HttpResponse;
-import org.jboss.resteasy.spi.InjectorFactory;
-import org.jboss.resteasy.spi.PropertyInjector;
-import org.jboss.resteasy.spi.Registry;
-import org.jboss.resteasy.spi.ResourceFactory;
-import org.jboss.resteasy.spi.ResteasyProviderFactory;
+import org.jboss.resteasy.spi.*;
+import org.jboss.resteasy.util.Types;
+
+import java.lang.reflect.Type;
+import java.lang.reflect.ParameterizedType;
 
 /**
  * An extended version of the RESTEasy dispatcher, configured on Seam application
@@ -47,7 +45,7 @@ public class ResteasyDispatcher extends HttpServletDispatcher
     @Create
     public void onStartup()
     {
-        log.debug("assigning registered RESTEasy resources and providers");
+        log.debug("registering RESTEasy and JAX RS resources and providers");
 
         ResteasyProviderFactory providerFactory = new ResteasyProviderFactory();
         ResteasyProviderFactory.setInstance(providerFactory); // This is really necessary
@@ -55,6 +53,56 @@ public class ResteasyDispatcher extends HttpServletDispatcher
 
         getDispatcher().setLanguageMappings(application.getLanguageMappings());
         getDispatcher().setMediaTypeMappings(application.getMediaTypeMappings());
+
+        // Provider registration
+        if (application.isUseBuiltinProviders())
+        {
+            log.info("registering built-in RESTEasy providers");
+            RegisterBuiltin.register(providerFactory);
+        }
+        for (Class providerClass : application.getProviderClasses())
+        {
+            log.debug("registering JAX RS provider class: " + providerClass.getName());
+            Component seamComponent = application.getProviderClassComponent(providerClass);
+            if (seamComponent != null)
+            {
+                if (ScopeType.STATELESS.equals(seamComponent.getScope()))
+                {
+                    throw new RuntimeException(
+                            "Registration of STATELESS Seam components as RESTEasy providers not implemented!"
+                    );
+                }
+                else if (ScopeType.APPLICATION.equals(seamComponent.getScope()))
+                {
+                    Object providerInstance = Component.getInstance(seamComponent.getName());
+                    boolean isStringConverter = false;
+                    for (Class componentIface : seamComponent.getBusinessInterfaces())
+                    {
+                        if (StringConverter.class.isAssignableFrom(componentIface)) {
+                            isStringConverter = true;
+                            break;
+                        }
+                    }
+                    if (isStringConverter) {
+                        log.error("can't register Seam component as RESTEasy StringConverter, see: https://jira.jboss.org/jira/browse/JBSEAM-4020");
+                        //log.debug("registering Seam component as custom RESTEasy string converter provider: " + seamComponent.getName());
+                        //providerFactory.addStringConverter((StringConverter)providerInstance);
+                    } else {
+                        providerFactory.registerProviderInstance(providerInstance);
+                    }
+                }
+            }
+            else
+            {
+                // Just plain RESTEasy, no Seam component lookup or lifecycle
+                if (StringConverter.class.isAssignableFrom(providerClass)) {
+                    log.debug("registering as custom RESTEasy string converter provider class: " + providerClass);
+                    providerFactory.addStringConverter(providerClass);
+                } else {
+                    providerFactory.registerProvider(providerClass);
+                }
+            }
+        }
 
         // Resource registration
         Registry registry = getDispatcher().getRegistry();
@@ -101,36 +149,6 @@ public class ResteasyDispatcher extends HttpServletDispatcher
             {
                 // JAX-RS default lifecycle
                 registry.addResourceFactory(new POJOResourceFactory(resourceClass));
-            }
-        }
-
-        // Provider registration
-        if (application.isUseBuiltinProviders())
-        {
-            log.info("registering built-in RESTEasy providers");
-            RegisterBuiltin.register(providerFactory);
-        }
-        for (Class providerClass : application.getProviderClasses())
-        {
-            Component seamComponent = application.getProviderClassComponent(providerClass);
-            if (seamComponent != null)
-            {
-                if (ScopeType.STATELESS.equals(seamComponent.getScope()))
-                {
-                    throw new RuntimeException(
-                            "Registration of STATELESS Seam components as RESTEasy providers not implemented!"
-                    );
-                }
-                else if (ScopeType.APPLICATION.equals(seamComponent.getScope()))
-                {
-                    Object providerInstance = Component.getInstance(seamComponent.getName());
-                    providerFactory.registerProviderInstance(providerInstance);
-                }
-            }
-            else
-            {
-                // Just plain RESTEasy, no Seam component lookup or lifecycle
-                providerFactory.registerProvider(providerClass);
             }
         }
 
