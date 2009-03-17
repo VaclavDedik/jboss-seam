@@ -5,7 +5,7 @@
 		<conf name="default" transitive="false"/>
 	</configurations>
 	<dependencies defaultconf="default">
-		<!-- Add your JDBC driver dependence here -->
+		<!-- Add your JDBC driver dependence here if you need it -->
 		<dependency org="com.sun.facelets" name="jsf-facelets" rev="1.1.15.B1">
 			<artifact name="jsf-facelets" type="jar"/>
 			<artifact name="jsf-facelets" type="source" ext="jar" m:classifier="sources"/>
