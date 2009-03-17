@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-12-04 00:58+0000\n"
-"PO-Revision-Date: 2009-02-08 12:29+0100\n"
+"POT-Creation-Date: 2009-03-17 20:35+0000\n"
+"PO-Revision-Date: 2009-03-17 21:41+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,7 @@ msgstr "Seam fornisce un metodo per accedere in modo remoto i componenti da una 
 
 #. Tag: title
 #: Remoting.xml:13
-#: Remoting.xml:587
+#: Remoting.xml:599
 #, no-c-format
 msgid "Configuration"
 msgstr "Configurazione"
@@ -1233,42 +1233,64 @@ msgstr ""
 #. Tag: title
 #: Remoting.xml:580
 #, no-c-format
+msgid "Transactional Requests"
+msgstr "Richieste transazionali"
+
+#. Tag: para
+#: Remoting.xml:582
+#, no-c-format
+msgid "By default there is no active transaction during a remoting request, so if you wish to perform database updates during a remoting request, you need to annotate the <literal>@WebRemote</literal> method with <literal>@Transactional</literal>, like so:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:588
+#, no-c-format
+msgid ""
+"<![CDATA[  @WebRemote @Transactional(TransactionPropagationType.REQUIRED)\n"
+"  public void updateOrder(Order order) {\n"
+"    entityManager.merge(order);\n"
+"  }]]>"
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:592
+#, no-c-format
 msgid "JMS Messaging"
 msgstr "Messaggistica JMS"
 
 #. Tag: para
-#: Remoting.xml:582
+#: Remoting.xml:594
 #, no-c-format
 msgid "Seam Remoting provides experimental support for JMS Messaging. This section describes the JMS support that is currently implemented, but please note that this may change in the future. It is currently not recommended that this feature is used within a production environment."
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:589
+#: Remoting.xml:601
 #, no-c-format
 msgid "Before you can subscribe to a JMS topic, you must first configure a list of the topics that can be subscribed to by Seam Remoting. List the topics under <literal>org.jboss.seam.remoting.messaging.subscriptionRegistry.allowedTopics</literal> in <literal>seam.properties</literal>, <literal>web.xml</literal> or <literal>components.xml</literal>."
 msgstr ""
 
 #. Tag: programlisting
-#: Remoting.xml:594
-#: Remoting.xml:649
+#: Remoting.xml:606
+#: Remoting.xml:661
 #, no-c-format
 msgid "<![CDATA[<remoting:remoting poll-timeout=\"5\" poll-interval=\"1\"/>]]>"
 msgstr "<![CDATA[<remoting:remoting poll-timeout=\"5\" poll-interval=\"1\"/>]]>"
 
 #. Tag: title
-#: Remoting.xml:599
+#: Remoting.xml:611
 #, no-c-format
 msgid "Subscribing to a JMS Topic"
 msgstr "Iscriversi ad un Topic JMS"
 
 #. Tag: para
-#: Remoting.xml:601
+#: Remoting.xml:613
 #, no-c-format
 msgid "The following example demonstrates how to subscribe to a JMS Topic:"
 msgstr ""
 
 #. Tag: programlisting
-#: Remoting.xml:603
+#: Remoting.xml:615
 #, no-c-format
 msgid ""
 "function subscriptionCallback(message)\n"
@@ -1288,79 +1310,79 @@ msgstr ""
 "Seam.Remoting.subscribe(\"topicName\", subscriptionCallback);"
 
 #. Tag: para
-#: Remoting.xml:605
+#: Remoting.xml:617
 #, no-c-format
 msgid "The <literal>Seam.Remoting.subscribe()</literal> method accepts two parameters, the first being the name of the JMS Topic to subscribe to, the second being the callback function to invoke when a message is received."
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:608
+#: Remoting.xml:620
 #, no-c-format
 msgid "There are two types of messages supported, Text messages and Object messages. If you need to test for the type of message that is passed to your callback function you can use the <literal>instanceof</literal> operator to test whether the message is a <literal>Seam.Remoting.TextMessage</literal> or <literal>Seam.Remoting.ObjectMessage</literal>. A <literal>TextMessage</literal> contains the text value in its <literal>text</literal> field (or alternatively call <literal>getText()</literal> on it), while an <literal>ObjectMessage</literal> contains its object value in its <literal>value</literal> field (or call its <literal>getValue()</literal> method)."
 msgstr ""
 
 #. Tag: title
-#: Remoting.xml:618
+#: Remoting.xml:630
 #, no-c-format
 msgid "Unsubscribing from a Topic"
 msgstr "Disiscriversi da un Topic"
 
 #. Tag: para
-#: Remoting.xml:620
+#: Remoting.xml:632
 #, no-c-format
 msgid "To unsubscribe from a topic, call <literal>Seam.Remoting.unsubscribe()</literal> and pass in the topic name:"
 msgstr ""
 
 #. Tag: programlisting
-#: Remoting.xml:623
+#: Remoting.xml:635
 #, no-c-format
 msgid "Seam.Remoting.unsubscribe(\"topicName\");"
 msgstr "Seam.Remoting.unsubscribe(\"topicName\");"
 
 #. Tag: title
-#: Remoting.xml:627
+#: Remoting.xml:639
 #, no-c-format
 msgid "Tuning the Polling Process"
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:629
+#: Remoting.xml:641
 #, no-c-format
 msgid "There are two parameters which you can modify to control how polling occurs. The first one is <literal>Seam.Remoting.pollInterval</literal>, which controls how long to wait between subsequent polls for new messages. This parameter is expressed in seconds, and its default setting is 10."
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:633
+#: Remoting.xml:645
 #, no-c-format
 msgid "The second parameter is <literal>Seam.Remoting.pollTimeout</literal>, and is also expressed as seconds. It controls how long a request to the server should wait for a new message before timing out and sending an empty response. Its default is 0 seconds, which means that when the server is polled, if there are no messages ready for delivery then an empty response will be immediately returned."
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:638
+#: Remoting.xml:650
 #, no-c-format
 msgid "Caution should be used when setting a high <literal>pollTimeout</literal> value; each request that has to wait for a message means that a server thread is tied up until a message is received, or until the request times out. If many such requests are being served simultaneously, it could mean a large number of threads become tied up because of this reason."
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:643
+#: Remoting.xml:655
 #, no-c-format
 msgid "It is recommended that you set these options via components.xml, however they can be overridden via Javascript if desired. The following example demonstrates how to configure the polling to occur much more aggressively. You should set these parameters to suitable values for your application:"
 msgstr ""
 
 #. Tag: para
-#: Remoting.xml:647
+#: Remoting.xml:659
 #, no-c-format
 msgid "Via components.xml:"
 msgstr "Via components.xml:"
 
 #. Tag: para
-#: Remoting.xml:651
+#: Remoting.xml:663
 #, no-c-format
 msgid "Via JavaScript:"
 msgstr "Via JavaScript:"
 
 #. Tag: programlisting
-#: Remoting.xml:653
+#: Remoting.xml:665
 #, no-c-format
 msgid ""
 "// Only wait 1 second between receiving a poll response and sending the next poll request.\n"
