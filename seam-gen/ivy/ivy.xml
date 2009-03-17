@@ -5,9 +5,7 @@
 		<conf name="default" transitive="false"/>
 	</configurations>
 	<dependencies defaultconf="default">
-		<dependency org="com.h2database" name="h2" rev="1.0.72">
-			<artifact name="h2" type="jar"/>
-		</dependency>
+		<!-- Add your JDBC driver dependence here -->
 		<dependency org="com.sun.facelets" name="jsf-facelets" rev="1.1.15.B1">
 			<artifact name="jsf-facelets" type="jar"/>
 			<artifact name="jsf-facelets" type="source" ext="jar" m:classifier="sources"/>
