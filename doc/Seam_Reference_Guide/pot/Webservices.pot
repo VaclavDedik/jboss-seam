@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-02-28 14:06+0000\n"
+"POT-Creation-Date: 2009-03-17 20:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -442,7 +442,7 @@ msgid ""
 "\n"
 "    @GET\n"
 "    @Path(\"/{customerId}\")\n"
-"    @ProduceMime(\"text/plain\")\n"
+"    @Produces(\"text/plain\")\n"
 "    public String getCustomer(@PathParam(\"customerId\") int id) {\n"
 "         return ...;\n"
 "    }\n"
@@ -635,7 +635,7 @@ msgid ""
 "\n"
 "    @GET\n"
 "    @Path(\"/{customerId}\")\n"
-"    @ProduceMime(\"text/plain\")\n"
+"    @Produces(\"text/plain\")\n"
 "    public String getCustomer(@PathParam(\"customerId\") int id) {\n"
 "         return customerDAO.find(id).getName();\n"
 "    }\n"
@@ -680,4 +680,83 @@ msgstr ""
 msgid ""
 "Resources and providers can be EJBs or JavaBeans, like any other Seam "
 "component."
+msgstr ""
+
+#. Tag: title
+#: Webservices.xml:324
+#, no-c-format
+msgid "Mapping exceptions to HTTP response status codes"
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:326
+#, no-c-format
+msgid ""
+"Section 3.3.4 of the JAX-RS specification defines how checked or unchecked "
+"exceptions are handled by the JAX RS implementation. In addition to using an "
+"exception mapping provider as defined by JAX-RS, the integration of RESTEasy "
+"with Seam allows you to map exceptions to HTTP response codes within Seam's "
+"<literal>pages.xml</literal> facility. If you are already using "
+"<literal>pages.xml</literal> declarations, this is easier to maintain than "
+"potentially many JAX RS exception mapper classes."
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:334
+#, no-c-format
+msgid ""
+"For example, to convert the unchecked "
+"<literal>UnsupportedOperationException</literal> thrown by your resource "
+"methods to a <literal>501 Not Implemented</literal> HTTP status response, "
+"add the following to your <literal>pages.xml</literal> descriptor:"
+msgstr ""
+
+#. Tag: programlisting
+#: Webservices.xml:340
+#, no-c-format
+msgid ""
+"<![CDATA[<exception class=\"java.lang.UnsupportedOperationException\">\n"
+"    <http-error error-code=\"501\">\n"
+"        <message>The request operation is not supported</message>\n"
+"    </http-error>\n"
+"</exception>]]>"
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:342
+#, no-c-format
+msgid "Custom or checked exceptions are handled the same:"
+msgstr ""
+
+#. Tag: programlisting
+#: Webservices.xml:346
+#, no-c-format
+msgid ""
+"<![CDATA[<exception class=\"my.CustomException\">\n"
+"    <http-error error-code=\"503\">\n"
+"        <message>The service is currently not available</message>\n"
+"    </http-error>\n"
+"</exception>]]>"
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:348
+#, no-c-format
+msgid ""
+"You do not have to send an HTTP error to the client if an exception occurs. "
+"Seam allows you to map the exception as a redirect to a view of your Seam "
+"application. As this feature is typically used for human clients (web "
+"browsers) and not for REST API remote clients, you should pay extra "
+"attention to conflicting exception mappings in <literal>pages.xml</literal>."
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:355
+#, no-c-format
+msgid ""
+"Note that the HTTP response still passes through the servlet container, so "
+"an additional mapping might apply if you have <literal>&lt;error-page&gt;</"
+"literal> mappings in your <literal>web.xml</literal> configuration. The HTTP "
+"status code would then be mapped to a rendered HTML error page with status "
+"<literal>200 OK</literal>!"
 msgstr ""

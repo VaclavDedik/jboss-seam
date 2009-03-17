@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Remoting\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-02-01 21:19+0000\n"
+"POT-Creation-Date: 2009-03-17 20:35+0000\n"
 "PO-Revision-Date: 2008-12-18 10:57+1000\n"
 "Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -40,7 +40,7 @@ msgstr ""
 "す。"
 
 #. Tag: title
-#: Remoting.xml:13 Remoting.xml:587
+#: Remoting.xml:13 Remoting.xml:599
 #, no-c-format
 msgid "Configuration"
 msgstr "設定"
@@ -1884,12 +1884,38 @@ msgstr ""
 
 #. Tag: title
 #: Remoting.xml:580
+#, fuzzy, no-c-format
+msgid "Transactional Requests"
+msgstr "バッチリクエスト"
+
+#. Tag: para
+#: Remoting.xml:582
+#, no-c-format
+msgid ""
+"By default there is no active transaction during a remoting request, so if "
+"you wish to perform database updates during a remoting request, you need to "
+"annotate the <literal>@WebRemote</literal> method with "
+"<literal>@Transactional</literal>, like so:"
+msgstr ""
+
+#. Tag: programlisting
+#: Remoting.xml:588
+#, no-c-format
+msgid ""
+"<![CDATA[  @WebRemote @Transactional(TransactionPropagationType.REQUIRED)\n"
+"  public void updateOrder(Order order) {\n"
+"    entityManager.merge(order);\n"
+"  }]]>"
+msgstr ""
+
+#. Tag: title
+#: Remoting.xml:592
 #, no-c-format
 msgid "JMS Messaging"
 msgstr "JMS メッセージング"
 
 #. Tag: para
-#: Remoting.xml:582
+#: Remoting.xml:594
 #, no-c-format
 msgid ""
 "Seam Remoting provides experimental support for JMS Messaging. This section "
@@ -1903,7 +1929,7 @@ msgstr ""
 "稼働環境下で使用することは推奨されていません。"
 
 #. Tag: para
-#: Remoting.xml:589
+#: Remoting.xml:601
 #, no-c-format
 msgid ""
 "Before you can subscribe to a JMS topic, you must first configure a list of "
@@ -1920,26 +1946,26 @@ msgstr ""
 "ます。"
 
 #. Tag: programlisting
-#: Remoting.xml:594 Remoting.xml:649
+#: Remoting.xml:606 Remoting.xml:661
 #, no-c-format
 msgid "<![CDATA[<remoting:remoting poll-timeout=\"5\" poll-interval=\"1\"/>]]>"
 msgstr ""
 "<![CDATA[<remoting:remoting poll-timeout=\"5\" poll-interval=\"1\"/>]]>"
 
 #. Tag: title
-#: Remoting.xml:599
+#: Remoting.xml:611
 #, no-c-format
 msgid "Subscribing to a JMS Topic"
 msgstr "JMS Topic にサブスクライブする"
 
 #. Tag: para
-#: Remoting.xml:601
+#: Remoting.xml:613
 #, no-c-format
 msgid "The following example demonstrates how to subscribe to a JMS Topic:"
 msgstr "次の例では JMS Topic へのサブスクライブ方法を示しています。"
 
 #. Tag: programlisting
-#: Remoting.xml:603
+#: Remoting.xml:615
 #, no-c-format
 msgid ""
 "function subscriptionCallback(message)\n"
@@ -1959,7 +1985,7 @@ msgstr ""
 "Seam.Remoting.subscribe(\"topicName\", subscriptionCallback);"
 
 #. Tag: para
-#: Remoting.xml:605
+#: Remoting.xml:617
 #, no-c-format
 msgid ""
 "The <literal>Seam.Remoting.subscribe()</literal> method accepts two "
@@ -1971,7 +1997,7 @@ msgstr ""
 "ジが受け取られると呼び出すコールバック機能になります。"
 
 #. Tag: para
-#: Remoting.xml:608
+#: Remoting.xml:620
 #, no-c-format
 msgid ""
 "There are two types of messages supported, Text messages and Object "
@@ -1997,13 +2023,13 @@ msgstr ""
 "を呼び出す)。"
 
 #. Tag: title
-#: Remoting.xml:618
+#: Remoting.xml:630
 #, no-c-format
 msgid "Unsubscribing from a Topic"
 msgstr "トピックのサブスクライブを中止する"
 
 #. Tag: para
-#: Remoting.xml:620
+#: Remoting.xml:632
 #, no-c-format
 msgid ""
 "To unsubscribe from a topic, call <literal>Seam.Remoting.unsubscribe()</"
@@ -2013,20 +2039,20 @@ msgstr ""
 "</literal> を呼び出してトピック名で渡します。"
 
 #. Tag: programlisting
-#: Remoting.xml:623
+#: Remoting.xml:635
 #, no-c-format
 msgid "Seam.Remoting.unsubscribe(\"topicName\");"
 msgstr "Seam.Remoting.unsubscribe(\"topicName\");"
 
 #. Tag: title
-#: Remoting.xml:627
+#: Remoting.xml:639
 #, no-c-format
 msgid "Tuning the Polling Process"
 msgstr "ポーリングのプロセスを調整する"
 
 # <literal>Seam.Remoting.pollInterval</literal>: en.xml:759 (para)
 #. Tag: para
-#: Remoting.xml:629
+#: Remoting.xml:641
 #, no-c-format
 msgid ""
 "There are two parameters which you can modify to control how polling occurs. "
@@ -2040,7 +2066,7 @@ msgstr ""
 "設定は 10 になります。"
 
 #. Tag: para
-#: Remoting.xml:633
+#: Remoting.xml:645
 #, no-c-format
 msgid ""
 "The second parameter is <literal>Seam.Remoting.pollTimeout</literal>, and is "
@@ -2057,7 +2083,7 @@ msgstr ""
 "が直ちに返されます。"
 
 #. Tag: para
-#: Remoting.xml:638
+#: Remoting.xml:650
 #, no-c-format
 msgid ""
 "Caution should be used when setting a high <literal>pollTimeout</literal> "
@@ -2073,7 +2099,7 @@ msgstr ""
 "が固定される結果になります。"
 
 #. Tag: para
-#: Remoting.xml:643
+#: Remoting.xml:655
 #, no-c-format
 msgid ""
 "It is recommended that you set these options via components.xml, however "
@@ -2087,19 +2113,19 @@ msgstr ""
 "用のアプリケーションに適切な値を設定してください。"
 
 #. Tag: para
-#: Remoting.xml:647
+#: Remoting.xml:659
 #, no-c-format
 msgid "Via components.xml:"
 msgstr "components.xml:"
 
 #. Tag: para
-#: Remoting.xml:651
+#: Remoting.xml:663
 #, no-c-format
 msgid "Via JavaScript:"
 msgstr "JavaScript:"
 
 #. Tag: programlisting
-#: Remoting.xml:653
+#: Remoting.xml:665
 #, no-c-format
 msgid ""
 "// Only wait 1 second between receiving a poll response and sending the next "
