@@ -208,15 +208,22 @@ public class RememberMe implements Serializable
       return Base64.encodeBytes(sb.toString().getBytes());      
    }
    
+   public String getCookiePath()
+   {
+      FacesContext ctx = FacesContext.getCurrentInstance();
+      return ctx != null ? ctx.getExternalContext().getRequestContextPath() : null;
+   }
+   
    @Observer(Credentials.EVENT_INIT_CREDENTIALS)
    public void initCredentials(Credentials credentials)
-   {             
+   {     
+      String cookiePath = getCookiePath();
+      
       if (mode.equals(Mode.usernameOnly))
-      {
-         FacesContext ctx = FacesContext.getCurrentInstance();
-         if (ctx != null)
+      {         
+         if (cookiePath != null)
          {
-            usernameSelector.setCookiePath(ctx.getExternalContext().getRequestContextPath());
+            usernameSelector.setCookiePath(cookiePath);
          }
          
          String username = usernameSelector.getCookieValue();
@@ -230,10 +237,9 @@ public class RememberMe implements Serializable
       }
       else if (mode.equals(Mode.autoLogin))
       {
-         FacesContext ctx = FacesContext.getCurrentInstance();
-         if (ctx != null)
+         if (cookiePath != null)
          {
-            tokenSelector.setCookiePath(ctx.getExternalContext().getRequestContextPath());
+            tokenSelector.setCookiePath(cookiePath);
          }
          
          String token = tokenSelector.getCookieValue();
