@@ -437,7 +437,7 @@ public class MyCustomerResource {
       </sect2>
 
       <sect2>
-         <title>Mapping exceptions to HTTP response status codes</title>
+         <title>Mapping exceptions to HTTP responses</title>
 
          <para>
             Section 3.3.4 of the JAX-RS specification defines how checked or unchecked exceptions are handled by the
@@ -448,12 +448,29 @@ public class MyCustomerResource {
          </para>
 
          <para>
-            For example, to convert the unchecked <literal>UnsupportedOperationException</literal> thrown by your resource
+            Exception handling within Seam requires that the Seam filter is executed for your HTTP request. Ensure that
+            you do filter <emphasis>all</emphasis> requests in your <literal>web.xml</literal>, not - as
+            some Seam examples might show - a request URI pattern that doesn't cover your REST requests. The following
+            example intercepts <emphasis>all</emphasis> HTTP requests and enables Seam exception handling:
+         </para>
+
+         <programlisting role="XML"><![CDATA[<filter>
+    <filter-name>Seam Filter</filter-name>
+    <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>
+</filter>
+
+<filter-mapping>
+    <filter-name>Seam Filter</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>]]></programlisting>
+
+         <para>
+            To convert the unchecked <literal>UnsupportedOperationException</literal> thrown by your resource
             methods to a <literal>501 Not Implemented</literal> HTTP status response, add the following to your
             <literal>pages.xml</literal> descriptor:
          </para>
 
-         <programlisting role="JAVA"><![CDATA[<exception class="java.lang.UnsupportedOperationException">
+         <programlisting role="XML"><![CDATA[<exception class="java.lang.UnsupportedOperationException">
     <http-error error-code="501">
         <message>The request operation is not supported</message>
     </http-error>
@@ -463,9 +480,9 @@ public class MyCustomerResource {
             Custom or checked exceptions are handled the same:
          </para>
 
-         <programlisting role="JAVA"><![CDATA[<exception class="my.CustomException">
+         <programlisting role="XML"><![CDATA[<exception class="my.CustomException">
     <http-error error-code="503">
-        <message>The service is currently not available</message>
+        <message>The service is currently not available: #{org.jboss.seam.handledException.message}</message>
     </http-error>
 </exception>]]></programlisting>
 
