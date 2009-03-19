@@ -205,20 +205,17 @@
         </copy>
 
         <copy tofile="${war.dir}/WEB-INF/classes/components.properties" 
-              file="${basedir}/resources/components-${profile}.properties"
-              overwrite="true">
+              file="${basedir}/resources/components-${profile}.properties">
             <filterset refid="seam"/>
         </copy>
 
         <copy tofile="${war.dir}/WEB-INF/classes/META-INF/persistence.xml" 
-              file="${basedir}/resources/META-INF/persistence-${profile}.xml"
-              overwrite="true">
+              file="${basedir}/resources/META-INF/persistence-${profile}.xml">
             <filterset refid="persistence"/>
         </copy>
         
         <copy tofile="${war.dir}/WEB-INF/classes/import.sql" 
-              file="${basedir}/resources/import-${profile}.sql"
-              overwrite="true"/>
+              file="${basedir}/resources/import-${profile}.sql"/>
         
         <copy todir="${war.dir}">
             <fileset dir="${basedir}/view" />
@@ -279,9 +276,16 @@
         
     </target>
 
+    <target name="clear-profile-artifacts" depends="init"
+        description="Clear compiled cache of profile-specific artifacts in anticipation of a profile change">
+        <delete file="${war.dir}/WEB-INF/classes/META-INF/persistence.xml"/>
+        <delete file="${war.dir}/WEB-INF/classes/import.sql"/>
+        <delete file="${war.dir}/WEB-INF/classes/components.properties"/>
+    </target>
+
     <target name="stage" depends="war"/>
     
-    <target name="archive" depends="stage" 
+    <target name="archive" depends="clear-profile-artifacts,stage" 
             description="Package the WAR archive">
         <jar jarfile="${dist.dir}/${project.name}.war" basedir="${war.dir}"/>
     </target>
@@ -331,7 +335,7 @@
         <antcall target="deploy"/>
     </target>
     
-    <target name="restart" depends="check-deployed,restart-exploded,restart-deployed" description="Restart the exploded archive"/>
+    <target name="restart" depends="check-deployed,clear-profile-artifacts,restart-exploded,restart-deployed" description="Restart the exploded archive"/>
     
     <target name="deploy" depends="archive,datasource" description="Deploy the packaged archive">
         <fail unless="jboss.home">jboss.home not set</fail>
@@ -411,14 +415,11 @@
             <fileset dir="${basedir}/view"/>
         </copy>
         <copy tofile="${test.dir}/META-INF/persistence.xml" 
-              file="${basedir}/resources/META-INF/persistence-test.xml"
-              overwrite="true"/>
+              file="${basedir}/resources/META-INF/persistence-test.xml"/>
         <copy tofile="${test.dir}/import.sql" 
-              file="${basedir}/resources/import-test.sql"
-              overwrite="true"/>
+              file="${basedir}/resources/import-test.sql"/>
         <copy tofile="${test.dir}/components.properties" 
-              file="${basedir}/resources/components-test.properties"
-              overwrite="true"/>
+              file="${basedir}/resources/components-test.properties"/>
         <copy todir="${test.dir}" flatten="true">
             <fileset dir="${src.test.dir}">
                 <include name="**/*Test.xml" />
