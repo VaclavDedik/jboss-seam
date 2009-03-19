@@ -13,7 +13,7 @@ _seam()
     if [ $invalid != 0 ]; then
         COMPREPLY=( $( compgen -W 'help setup' -- $cur ) )
     else
-        COMPREPLY=( $( compgen -W 'help setup create-project update-project delete-project deploy undeploy explode restart unexplode archive clean test new-action new-form new-conversation new-entity new-query generate generate-model generate-ui settings reset' -- $cur ) )
+        COMPREPLY=( $( compgen -W 'help setup create-project update-project update-seam delete-project deploy undeploy redeploy explode unexplode reexplode restart archive clean test new-action new-form new-conversation new-entity new-query new-test generate generate-model generate-ui settings reset add-ivy add-identity-management' -- $cur ) )
     fi
 }
 complete -F _seam seam

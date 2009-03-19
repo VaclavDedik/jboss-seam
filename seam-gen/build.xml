@@ -553,6 +553,7 @@
                 <include name="hibernatetools/**"/>
                 <include name="lib/**"/>
                 <include name="resources/**"/>
+                <exclude name="resources/*identity-management*"/>
                 <include name="pojo/**"/>
                 <include name="src/**"/>
                 <include name="test/**"/>
@@ -565,6 +566,7 @@
                 <include name="build-scripts/**"/>
                 <include name="ide-project-files/**"/>
                 <include name="resources/**"/>
+                <exclude name="resources/*identity-management*"/>
                 <include name="src/**"/>
                 <include name="view/**"/>
             </fileset>
@@ -864,6 +866,7 @@
                 <exclude name="META-INF/jboss-app.xml"/>
                 <exclude name="META-INF/ejb-jar.xml"/>
                 <exclude name="WEB-INF/jboss-web.xml"/>
+                <exclude name="*identity-management*"/>
             </fileset>
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
@@ -1147,6 +1150,60 @@
         description="Delete the project">
         <echo message="Deleting the entire project in ${project.home}"/>
         <delete dir="${project.home}"/>
+    </target>
+
+    <target name="add-identity-management" depends="validate-project" if="project.exists"
+        description="Add Seam's identity management components and views to the project.">
+        <fail message="Currently the identity management is only configured to support RichFaces projects" if="icefaces.property"/>
+        <copy todir="${project.home}/view">
+            <fileset dir="${templates.dir}/view">
+                <include name="useradmin/**"/>
+                <include name="stylesheet/useradmin.css"/>
+                <include name="img/btn*"/>
+                <include name="img/true.png"/>
+                <include name="img/false.png"/>
+            </fileset>
+        </copy>
+        <copy todir="${project.home}/src/${model.dir}">
+            <fileset dir="${templates.dir}/src">
+                <include name="User*.java"/>
+            </fileset> 
+            <filterset refid="project"/>
+        </copy>
+        <replace file="${project.home}/view/layout/menu.xhtml">
+            <replacetoken><![CDATA[<!-- @newMenuItem@ -->]]></replacetoken>
+            <replacevalue><![CDATA[<s:link view="/useradmin/home.xhtml" value="Identity Management" propagation="none" rendered="#{true or identity.hasRole('admin')}"/> <!-- temporarily enabled for all -->
+    <!-- @newMenuItem@ -->]]></replacevalue>
+        </replace>
+        <replace file="${project.home}/resources/WEB-INF/components.xml">
+            <replacetoken><![CDATA[<security:identity authenticate-method="#{authenticator.authenticate}" remember-me="true"/>]]></replacetoken>
+        </replace>
+        <replace file="${project.home}/resources/WEB-INF/components.xml">
+            <replacetoken><![CDATA[</components>]]></replacetoken>
+            <replacevalue><![CDATA[   <security:jpa-identity-store
+      user-class="@modelPackage@.UserAccount"
+      role-class="@modelPackage@.UserRole"/>
+
+   <security:jpa-permission-store user-permission-class="@modelPackage@.UserPermission"/>
+
+   <security:remember-me enabled="true"/>
+
+</components>]]></replacevalue>
+        </replace>
+
+        <replace file="${project.home}/resources/WEB-INF/components.xml">
+            <replacefilter token="@modelPackage@" value="${model.package}"/>
+        </replace>
+        <concat destfile="${project.home}/resources/security.drl" append="true">
+            <fileset file="${templates.dir}/resources/security-identity-management.drl"/>
+        </concat>
+        <concat destfile="${project.home}/resources/import-dev.sql" append="true">
+            <fileset file="${templates.dir}/resources/import-identity-management.sql"/>
+        </concat>
+        <echo message="Identity management has been added to the project!"/>
+        <echo message="Verify the &lt;identity:security> component is no longer defined in resources/WEB-INF/components.xml"/>
+        <echo message="You'll now need to restart the application with hibernate.hbm2ddl.auto set to 'create', 'create-drop' or 'update' for the new tables to be created."/>
+        <echo message="If you use 'update', you will need to manually run the SQL statements appended to resources/import-dev.sql to add the default accounts."/> 
     </target>
 
     <target name="new-action" depends="new-action-ear,new-action-war"
