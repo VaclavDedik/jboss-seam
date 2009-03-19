@@ -119,6 +119,8 @@ public class RememberMe implements Serializable
    private TokenStore tokenStore;
       
    private boolean enabled;
+
+   private int cookieMaxAge = Selector.DEFAULT_MAX_AGE;
    
    private boolean autoLoggedIn;
    
@@ -148,17 +150,27 @@ public class RememberMe implements Serializable
       if (this.enabled != enabled)
       {
          this.enabled = enabled;
-         if (mode.equals(Mode.usernameOnly))
+         // selector is null during component initialization (setup handled in @Create method)
+         if (usernameSelector != null && mode.equals(Mode.usernameOnly))
          {
             usernameSelector.setCookieEnabled(enabled);
             usernameSelector.setDirty();
          }
-         else if (mode.equals(Mode.autoLogin))
+         // selector is null during component initialization (setup handled in @Create method)
+         else if (tokenSelector != null && mode.equals(Mode.autoLogin))
          {
             tokenSelector.setCookieEnabled(enabled);
             tokenSelector.setDirty();
          }
       }      
+   }
+
+   public int getCookieMaxAge() {
+       return cookieMaxAge;
+   }
+
+   public void setCookieMaxAge(int cookieMaxAge) {
+       this.cookieMaxAge = cookieMaxAge;
    }
    
    public TokenStore getTokenStore()
@@ -177,10 +189,12 @@ public class RememberMe implements Serializable
       if (mode.equals(Mode.usernameOnly))
       {      
          usernameSelector = new UsernameSelector();
+         usernameSelector.setCookieEnabled(enabled);
       }
       else if (mode.equals(Mode.autoLogin))
       {
          tokenSelector = new TokenSelector();
+         tokenSelector.setCookieEnabled(enabled);
 
          // Default to JpaTokenStore
          if (tokenStore == null)
@@ -339,8 +353,15 @@ public class RememberMe implements Serializable
          // Password is set to null during authentication, so we set dirty
          usernameSelector.setDirty();
                
-         if ( !enabled ) usernameSelector.clearCookieValue();
-         usernameSelector.setCookieValueIfEnabled( Identity.instance().getCredentials().getUsername() );
+         if ( !enabled )
+         {
+            usernameSelector.clearCookieValue();
+         }
+         else
+         {
+            usernameSelector.setCookieMaxAge(cookieMaxAge);
+            usernameSelector.setCookieValueIfEnabled( Identity.instance().getCredentials().getUsername() );
+         }
       }
       else if (mode.equals(Mode.autoLogin))
       {
@@ -363,6 +384,7 @@ public class RememberMe implements Serializable
             String value = generateTokenValue();
             tokenStore.createToken(identity.getPrincipal().getName(), value);
             tokenSelector.setCookieEnabled(enabled);
+            tokenSelector.setCookieMaxAge(cookieMaxAge);
             tokenSelector.setCookieValueIfEnabled(encodeToken(identity.getPrincipal().getName(), value));            
          }
       }
