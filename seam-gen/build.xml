@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project name="seam-gen" default="help" basedir="." xmlns:artifact="urn:maven-artifact-ant">
 
     <!-- Allow the location of seam-gen and the seam distribution to be overridden -->
@@ -570,14 +570,12 @@
             </fileset>
         </copy>
         <replace dir="icefaces-staging/build-scripts">
-            <include name="build.xml"/>
-            <include name="build-war.xml"/>
+            <include name="build*.xml"/>
             <replacetoken><![CDATA[<property name="richfaces.present" value="true"/>]]></replacetoken>
             <replacevalue><![CDATA[<property name="icefaces.present" value="true"/>]]></replacevalue>
         </replace>
         <replace dir="icefaces-staging/build-scripts">
-            <include name="build.xml"/>
-            <include name="build-war.xml"/>
+            <include name="build*.xml"/>
             <replacetoken><![CDATA[</project>]]></replacetoken>
             <replacevalue><![CDATA[    <target name="freshen" description="Grab fresh ICEfaces jars">
         <fail message="icefaces.home not set" unless="icefaces.home"/>
@@ -603,8 +601,7 @@
 </project>]]></replacevalue>
         </replace>
         <replace dir="icefaces-staging/resources">
-            <include name="WEB-INF/components.xml"/>
-            <include name="WEB-INF/components-war.xml"/>
+            <include name="WEB-INF/components*.xml"/>
             <replacetoken><![CDATA[<core:init debug="@debug@" jndi-pattern="@jndiPattern@"/>]]></replacetoken>
             <replacevalue><![CDATA[<core:init debug="@debug@" jndi-pattern="@jndiPattern@"/>
 
@@ -713,8 +710,6 @@
         <property name="query.file" value="${project.home}/src/${action.dir}/${bean.name}.java"/>
         <property name="page.file" value="${project.home}/view/${page.name}.xhtml"/>
     </target>
-
-
 
     <target name="copy-lib" depends="copyseam, copyseamdependencies, copyjbossembedded, copy-icefaces-home, copy-icefaces-maven">
         <echo message="Copying Seam and dependencies to the ${project.home}/lib directory..."/>
@@ -1074,7 +1069,7 @@
 
     </target>
 
-    <target name="validate-project" depends="init-properties, validate-workspace">
+    <target name="validate-project" depends="init-properties,validate-workspace">
         <fail message="No project name specified (run 'seam setup' first)">
             <condition>
                 <or>
@@ -1126,7 +1121,8 @@
         <echo message="IDEA Users: Open the project using File > Open project... and select the file ${project.home}/${project.name}.ipr"/>
     </target>
 
-    <target name="update-seam" depends="validate-project,copyseam">
+    <target name="update-seam" depends="validate-project,copyseam" if="project.exists"
+        description="Update the project with the latest Seam JARs from the Seam distribution directory.">
         <echo message="Copying Seam to the ${project.home}/lib directory..." />
         <copy todir="${project.home}/lib" overwrite="true">
             <fileset dir="../lib">
@@ -1141,13 +1137,13 @@
         </copy>
     </target>
 
-    <target name="update-project" depends="validate-project,copy-lib"
+    <target name="update-project" depends="validate-project,copy-lib" if="project.exists"
         description="Update project dependencies">
         <echo message="Updated project '${project.name}' with the latest Seam libraries and dependencies"/>
         <echo message="Type '${seam.cmd} restart' to update the exploded deployment"/>
     </target>
 
-    <target name="delete-project" depends="validate-project,unexplode,undeploy"
+    <target name="delete-project" depends="validate-project,unexplode,undeploy" if="project.exists"
         description="Delete the project">
         <echo message="Deleting the entire project in ${project.home}"/>
         <delete dir="${project.home}"/>
@@ -1469,12 +1465,14 @@
         <echo message="Type '${seam.cmd} restart' and go to http://localhost:8080/${project.name}"/>
     </target>
 
-    <target name="archive" depends="validate-project" description="Create the EAR or WAR archive">
+    <target name="archive" depends="validate-project" if="project.exists"
+        description="Create the EAR or WAR archive">
         <echo message="Building ${project.type} archive for '${project.name}'"/>
         <ant antfile="${project.home}/build.xml" target="archive" inheritall="false"/>
     </target>
 
-    <target name="deploy" depends="validate-project" description="Deploy the EAR or WAR">
+    <target name="deploy" depends="validate-project" if="project.exists"
+        description="Deploy the EAR or WAR">
         <echo message="Deploying project '${project.name}' to JBoss AS"/>
         <ant antfile="${project.home}/build.xml" target="deploy" inheritall="false"/>
     </target>
@@ -1485,19 +1483,26 @@
         <ant antfile="${project.home}/build.xml" target="undeploy" inheritall="false"/>
     </target>
 
-    <target name="explode" depends="validate-project"
+    <target name="redeploy" depends="validate-project" if="project.exists"
+        description="Clean, undeploy and deploy the project as a packaged archive">
+        <echo message="Cleaning, undeploying and deploying project '${project.name}' to JBoss AS as a packaged archive"/>
+        <ant antfile="${project.home}/build.xml" target="redeploy" inheritall="false"/>
+    </target>
+
+    <target name="explode" depends="validate-project" if="project.exists"
         description="Deploy the project as an exploded directory">
         <echo message="Deploying project '${project.name}' to JBoss AS as an exploded directory"/>
         <ant antfile="${project.home}/build.xml" target="explode" inheritall="false"/>
     </target>
 
-    <target name="reexplode" depends="validate-project"
+    <target name="reexplode" depends="validate-project" if="project.exists"
         description="Clean, undeploy and deploy the project as an exploded directory">
         <echo message="Cleaning, undeploying and deploying project '${project.name}' to JBoss AS as an exploded directory"/>
         <ant antfile="${project.home}/build.xml" target="reexplode" inheritall="false"/>
     </target>
 
-    <target name="restart" depends="validate-project" description="Restart the exploded directory">
+    <target name="restart" depends="validate-project" if="project.exists"
+        description="Restart the exploded directory">
         <echo message="Restarting project '${project.name}'"/>
         <ant antfile="${project.home}/build.xml" target="restart" inheritall="false"/>
     </target>
@@ -1508,12 +1513,14 @@
         <ant antfile="${project.home}/build.xml" target="unexplode" inheritall="false"/>
     </target>
 
-    <target name="test" depends="validate-project" description="Run the automated tests">
+    <target name="test" depends="validate-project" if="project.exists"
+        description="Run the automated tests">
         <echo message="Running tests for project '${project.name}'"/>
         <ant antfile="${project.home}/build.xml" target="test" inheritall="false"/>
     </target>
 
-    <target name="clean" depends="validate-project" description="Clean the project directory">
+    <target name="clean" depends="validate-project" if="project.exists"
+        description="Clean the project directory">
         <echo message="Cleaning project '${project.name}'"/>
         <ant antfile="${project.home}/build.xml" target="clean" inheritall="false"/>
     </target>
