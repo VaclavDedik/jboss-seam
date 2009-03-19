@@ -66,6 +66,14 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
         return ${componentName};
     }
 
+    public void load()
+    {
+        if (isIdDefined())
+        {
+            wire();
+        }
+    }
+
     public void wire()
     {
         getInstance();
