@@ -17,7 +17,7 @@ msgstr ""
 #: Feedback.xml:6
 #, no-c-format
 msgid "Contribute to Seam"
-msgstr "Seam へのコントリビュート"
+msgstr "Seam に貢献するには"
 
 #. Tag: para
 #: Feedback.xml:7
@@ -25,6 +25,5 @@ msgstr "Seam へのコントリビュート"
 msgid ""
 "Visit <ulink url=\"http://www.seamframework.org/Community/Contribute\"> "
 "SeamFramework.org </ulink> to find out how to contribute to Seam!"
-msgstr "Seam へコントリビュートする方法を知るには <ulink url=\"http://www.seamframework."
-       "org/Community/Contribute\"> SeamFramework.org </ulink> にアクセス"
-       "してください!"
+msgstr "Seam に貢献して頂ける方は <ulink url=\"http://www.seamframework."
+       "org/Community/Contribute\"> SeamFramework.org </ulink> をご覧ください。"

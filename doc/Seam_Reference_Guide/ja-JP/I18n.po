@@ -1,11 +1,11 @@
 # translation of I18n.po to Japanese
-# Noriko Mizumoto <noriko@redhat.com>, 2007, 2008.
+# Noriko Mizumoto <noriko@redhat.com>, 2007, 2008, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: I18n\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 06:41+0000\n"
-"PO-Revision-Date: 2008-12-08 17:17+1000\n"
+"PO-Revision-Date: 2009-02-23 12:46+1000\n"
 "Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -148,7 +148,7 @@ msgstr ""
 "このツールの使い方は <ulink url=\"http://java.sun.com/j2se/1.5.0/"
 "docs/tooldocs/index.html#intl\">Java 5 の場合はここ</ulink> または <ulink url="
 "\"http://java.sun.com/javase/6/docs/technotes/tools/#intl\">Java 6 の場合はここ</"
-"ulink> に記載されています。 たとえば、 あるファイルを UTF-8 から変換するには、"
+"ulink> に記載されています。 たとえば、 あるファイルを UTF-8 から変換するには次のようにします。"
 
 #. Tag: programlisting
 #: I18n.xml:91
@@ -228,7 +228,7 @@ msgid ""
 "<literal>locale</literal>). Under normal circumstances, you won't need to do "
 "any special configuration to set the locale. Seam just delegates to JSF to "
 "determine the active locale:"
-msgstr "各ユーザログインのセッションは、 <literal>java.util.Locale</literal> インスタンスと関連しています (アプリケーションでは、 <literal>locale</literal> という名前のコンポーネントとして扱えます)。 通常の環境では、 ロケールのための特別な設定は不要です。 Seam ではアクティブなロケールの決定は単純に JSF に委譲しています。"
+msgstr "各ユーザーログインのセッションは、 <literal>java.util.Locale</literal> インスタンスと関連しています (アプリケーションでは、 <literal>locale</literal> という名前のコンポーネントとして扱えます)。 通常の環境では、 ロケールのための特別な設定は不要です。 Seam ではアクティブなロケールの決定は単純に JSF に委譲しています。"
 
 #. Tag: para
 #: I18n.xml:136
@@ -238,7 +238,7 @@ msgid ""
 "and that locale is in the list of supported locales from <literal>faces-"
 "config.xml</literal>, use that locale for the rest of the session."
 msgstr ""
-"HTTP リクエストで指定されるロケール (ブラウザのロケール) があり、 そして、 "
+"HTTP 要求で指定されるロケール (ブラウザのロケール) があり、 そして、 "
 "<literal>faces-config.xml</literal> により対応可能なロケールの組み合わせの中"
 "にそのロケールがある場合、 その後のセッションの期間、そのロケールを使用しま"
 "す。"
@@ -280,7 +280,7 @@ msgid ""
 "overriding the locale determined by the algorithm above. All you have to do "
 "is add the following fragment to a form in your JSP or Facelets page:"
 msgstr ""
-"しかし、アプリケーションユーザインタフェースを介して、 ユーザにマニュアルでロ"
+"しかし、アプリケーションユーザーインタフェースを通じて、 ユーザーにマニュアルでロ"
 "ケール設定を可能とさせることは有用です。 Seam は上記のアルゴリズムによって決"
 "定されるロケールをオーバライドする組み込み機能も提供しています。 すべきこと"
 "は、JSP または、Facelet ページのフォームに以下の断片を追加するだけです。"
@@ -391,7 +391,7 @@ msgid ""
 "this approach in Seam applications. Alternatively, you can take advantage of "
 "the Seam <literal> messages</literal> component to display templated labels "
 "with embedded EL expressions."
-msgstr "JSF は、ユーザインタフェースのラベルや説明用テキストの国際化を、 <literal>&lt;f:loadBundle /&gt;</literal> を使用することによって対応しています。 Seam アプリケーションでもこのアプローチが使用可能です。 代わりに、組み込みの EL 式を利用したテンプレート化ラベルの表示に、 Seam <literal> messages</literal> コンポーネントを利用することも可能です。"
+msgstr "JSF は、ユーザーインタフェースのラベルや説明用テキストの国際化を、 <literal>&lt;f:loadBundle /&gt;</literal> を使用することによって対応しています。 Seam アプリケーションでもこのアプローチが使用可能です。 代わりに、組み込みの EL 式を利用したテンプレート化ラベルの表示に、 Seam <literal> messages</literal> コンポーネントを利用することも可能です。"
 
 #. Tag: title
 #: I18n.xml:207
@@ -585,7 +585,7 @@ msgid ""
 "display success or failure messages to the user. The functionality we just "
 "described also works for faces messages:"
 msgstr ""
-"<literal>facesMessages</literal> コンポーネントはユーザに成功か失敗かを表示す"
+"<literal>facesMessages</literal> コンポーネントはユーザーに成功か失敗かを表示す"
 "るとても便利な方法です。 上述した機能は、faces messages にも有効です。"
 
 #. Tag: programlisting
@@ -618,7 +618,7 @@ msgstr ""
 msgid ""
 "This will display <literal>Hello, Gavin King</literal> or <literal>G'day, "
 "Gavin</literal>, depending upon the user's locale."
-msgstr "これは、ユーザのロケールに応じて、<literal>Hello, Gavin King</literal> あるいは、 <literal>G'day, Gavin</literal> と表示されます。"
+msgstr "これは、ユーザーのロケールに応じて、<literal>Hello, Gavin King</literal> あるいは、 <literal>G'day, Gavin</literal> と表示されます。"
 
 #. Tag: title
 #: I18n.xml:297
@@ -648,7 +648,7 @@ msgid ""
 "Seam overrides this behavior, and defaults all dates and times to the Seam "
 "timezone. In addition, Seam provides the <literal> &lt;s:convertDateTime&gt;"
 "</literal> tag which always performs conversions in the Seam timezone."
-msgstr "Seamはこの動作をオーバーライドし、全ての日付と時刻をデフォルトでSeamタイムゾーンにします。 さらにSeamは、Seamタイムゾーンでの変換を常に行う <literal>&lt;s:convertDateTime&gt;</literal> タグを提供します。"
+msgstr "Seamはこの動作をオーバーライドし、すべての日付と時刻をデフォルトでSeamタイムゾーンにします。 さらにSeamは、Seamタイムゾーンでの変換を常に行う <literal>&lt;s:convertDateTime&gt;</literal> タグを提供します。"
 
 #. Tag: title
 #: I18n.xml:317
@@ -665,7 +665,7 @@ msgid ""
 "orthogonal, and some applications support both localization and themes."
 msgstr ""
 "Seamアプリケーションはまた、とても簡単にスキン変更ができます。 テーマAPIは"
-"ローカライゼーションAPIにとても似ていますが、 もちろんこれら２つの関心事は直"
+"ローカライゼーションAPIにとても似ていますが、 もちろんこれら二つの関心事は直"
 "交しており、 ローカライゼーションとテーマの両方をサポートするアプリケーション"
 "もあります。"
 
@@ -800,7 +800,7 @@ msgid ""
 "Just like the locale selector, there is a built-in theme selector to allow "
 "the user to freely switch themes:"
 msgstr ""
-"ちょうどロケールセレクタのように、 ユーザが自由にテーマを変更できるよう、組み"
+"ちょうどロケールセレクタのように、 ユーザーが自由にテーマを変更できるよう、組み"
 "込みのテーマセレクタがあります。"
 
 #. Tag: programlisting
@@ -833,7 +833,7 @@ msgid ""
 "persistence of locale and theme preference to a cookie. Simply set the "
 "<literal>cookie-enabled</literal> property in <literal>components.xml</"
 "literal>:"
-msgstr "ロケールセレクタ、テーマセレクタ、タイムゾーンセレクタは全て、 ロケールとテーマ設定をクッキーに永続化することをサポートしています。 単純に <literal>components.xml</literal> で <literal>cookie-enabled</literal> プロパティを設定します。"
+msgstr "ロケールセレクタ、テーマセレクタ、タイムゾーンセレクタはすべて、 ロケールとテーマ設定をクッキーに永続化することをサポートしています。 単純に <literal>components.xml</literal> で <literal>cookie-enabled</literal> プロパティを設定します。"
 
 #. Tag: programlisting
 #: I18n.xml:369

@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Tools\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 06:41+0000\n"
-"PO-Revision-Date: 2008-12-21 18:03-0500\n"
+"PO-Revision-Date: 2009-02-25 16:53-0500\n"
 "Last-Translator: kojiro miyamoto <kojiro_miyamoto@hotmail.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -23,13 +23,13 @@ msgstr "Groovy インテグレーション"
 #: Groovy.xml:7
 #, no-c-format
 msgid "One aspect of JBoss Seam is its RAD (Rapid Application Development) capability. While not synonymous with RAD, one interesting tool in this space is dynamic languages. Until recently, choosing a dynamic language was required choosing a completely different development platform (a development platform with a set of APIs and a runtime so great that you would no longer want to use you old legacy Java [sic] APIs anymore, which would be lucky because you would be forced to use those proprietary APIs anyway). Dynamic languages built on top of the Java Virtual Machine, and <ulink url=\"http://groovy.codehaus.org\">Groovy</ulink> in particular broke this approach in silos."
-msgstr "JBoss Seamのもう1つの特徴として、RAD（高速アプリケーション開発）機能があります。RADと意味は異なりますが、ここで1つ興味深いのは動的言語です。最近まで、動的言語を取り入れるにはまったく異なる開発プラットフォームが必要でした。（そうした開発プラットフォームは使いやすいAPI一式とランタイムを備えており、古いJava [sic] APIを使う気にはならないでしょう。そしてそれが可能であれば、幸運なことなのです。なぜならそうしたプロプラエタリなAPIをとにかく使わざるを得ないのですから。）　Java バーチャルマシンの最上位に構築された動的言語の中でも、特に<ulink url=\"http://groovy.codehaus.org\">Groovy</ulink>は、これまでの縦割り型手法を一新するものです。"
+msgstr "JBoss Seamのもう一つの特徴として、RAD（高速アプリケーション開発）機能があります。RADと意味は異なりますが、ここで一つ興味深いのは動的言語です。最近まで、動的言語を取り入れるにはまったく異なる開発プラットフォームが必要でした。（そうした開発プラットフォームは使いやすいAPI一式とランタイムを備えているため、もはや古いレガシーJava[原文のまま]の APIを使う気にはなりませんでした。こうしてユーザーは開発プラットフォームごとに独自のAPIを使わざるを得ず、それは開発プラットフォーム側としては幸いな話でした。） Java バーチャルマシンの最上位に構築された動的言語の中でも、特に<ulink url=\"http://groovy.codehaus.org\">Groovy</ulink>は、これまでの縦割り型手法を一新するものです。"
 
 #. Tag: para
 #: Groovy.xml:15
 #, no-c-format
 msgid "JBoss Seam now unites the dynamic language world with the Java EE world by seamlessly integrating both static and dynamic languages. JBoss Seam lets the application developer use the best tool for the task, without context switching. Writing dynamic Seam components is exactly like writing regular Seam components. You use the same annotations, the same APIs, the same everything."
-msgstr "JBoss Seam は静的言語と動的言語をシームレスに融合することで、Java EE の世界と動的言語の世界を一体化させています。JBoss Seam によって、アプリケーション開発者はコンテキストを切り替えることなく、最良のツールを使うことができます。動的な Seam コンポーネントを書くことは、従来のSeam コンポーネントを書くのとまったく同じようなものです。アノテーション、APIなど、これまでとすべて同じものを使うことができます。"
+msgstr "JBoss Seam は静的言語と動的言語をシームレスに融合することで、Java EE の世界と動的言語の世界を一体化させています。JBoss Seam によって、アプリケーション開発者はコンテキストを切り替えることなく、最良のツールを使う使い開発することができます。動的な Seam コンポーネントを書くことは、従来のSeam コンポーネントを書くのとまったく同じようなものです。アノテーション、APIなど、これまでとすべて同じものを使うことができます。"
 
 #. Tag: title
 #: Groovy.xml:21
@@ -41,7 +41,7 @@ msgstr "はじめに"
 #: Groovy.xml:23
 #, no-c-format
 msgid "Groovy is an agile dynamic language based on the Java language but with additional features inspired by Python, Ruby and Smalltalk. The strengths of Groovy are twofold:"
-msgstr "Groovy は、Java言語をベースにしたアジャイル動的言語ですが、Python、Ruby、Smalltalkの特長も取り入れています。Groovy が持つ長所は、次の2点です。"
+msgstr "Groovy は、Java言語をベースにしたアジャイル動的言語ですが、Python、Ruby、Smalltalkによって影響を受けた特徴も取り入れています。Groovy が持つ長所は、次の2点です。"
 
 #. Tag: para
 #: Groovy.xml:28
@@ -53,7 +53,7 @@ msgstr "Java シンタックスをサポートしているので、Groovyのコ�
 #: Groovy.xml:33
 #, no-c-format
 msgid "Groovy objects are Java objects, and Groovy classes are Java classes: Groovy integrates smoothly with existing Java libraries and frameworks."
-msgstr "Groovy のオブジェクトとクラスはJavaと同じなので、既存のJavaのライブラリーやフレームワークをスムースに統合できます。"
+msgstr "Groovy のオブジェクトとクラスはJavaと同じなので、既存のJavaのライブラリやフレームワークをスムースに統合できます。"
 
 #. Tag: para
 #: Groovy.xml:38
@@ -181,7 +181,7 @@ msgstr "Seam コンポーネント"
 #: Groovy.xml:69
 #, no-c-format
 msgid "Writing Seam components in Groovy is in no way different than in Java: annotations are used to mark the class as a Seam component."
-msgstr "SeamコンポーネントをGroovyで記述するのは、Javaで記述するのと同じです。Seamコンポーネントとしてクラスをマークするために、アノテーションを使います。"
+msgstr "SeamコンポーネントをGroovyで記述するのは、Javaで記述するのと同じです。Seamコンポーネントとしてクラスに目印をつけるために、アノテーションを使います。"
 
 #. Tag: programlisting
 #: Groovy.xml:72
@@ -258,7 +258,7 @@ msgstr "seam-gen"
 #: Groovy.xml:81
 #, no-c-format
 msgid "Seam gen has a transparent integration with Groovy. You can write Groovy code in seam-gen backed projects without any additional infrastructure requirement. When writing a Groovy entity, simply place your <filename>.groovy</filename> files in <filename>src/main</filename>. Unsurprisingly, when writing an action, simply place your <filename>.groovy</filename> files in <filename>src/hot</filename>."
-msgstr "seam-gen はGroovyと透過的に統合できます。seam-gen で生成されるプロジェクトでは、開発環境に一切追加することなく、Groovyコードを記述できます。Groovyエンティティを記述する場合には、<filename>.groovy</filename>ファイルを<filename>src/main</filename>に置くだけです。当然ながら、アクションを記述する場合には、<filename>.groovy</filename>ファイルを単純に<filename>src/hot</filename>に置きます。"
+msgstr "seam-gen はGroovyと透過的に統合できます。seam-gen で生成されるプロジェクトでは、開発環境に一切追加することなく、Groovyコードを記述できます。Groovyエンティティを記述する場合には、<filename>.groovy</filename>ファイルを<filename>src/main</filename>に置くだけです。驚くことではないですが、アクションを記述する場合には、<filename>.groovy</filename>ファイルを<filename>src/hot</filename>に置くだけです。"
 
 #. Tag: title
 #: Groovy.xml:90
@@ -270,13 +270,13 @@ msgstr "デプロイ"
 #: Groovy.xml:92
 #, no-c-format
 msgid "Deploying Groovy classes is very much like deploying Java classes (surprisingly, no need to write nor comply with a 3-letter composite specification to support a multi-language component framework)."
-msgstr "Groovyクラスのデプロイは、Javaクラスのデプロイと非常によく似ています。（驚くべきことに、多言語コンポーネントのフレームワークをサポートするよう、3文字のコンポジット指定で記述する必要もなく、それに従う必要もありません。）"
+msgstr "Groovyクラスのデプロイは、Javaクラスのデプロイと非常によく似ています。（驚くべきことに、多言語のコンポーネントフレームワークをサポートするよう、国名3レターコードの複合仕様で記述する必要もなく、それに従う必要もありません。）"
 
 #. Tag: para
 #: Groovy.xml:95
 #, no-c-format
 msgid "Beyond standard deployments, JBoss Seam has the ability, at development time, to redeploy JavaBeans Seam component classes without having to restart the application, saving a lot of time in the development / test cycle. The same support is provided for GroovyBeans Seam components when the <filename>.groovy</filename> files are deployed."
-msgstr "標準的なデプロイだけでなく、開発時にJavaBeans Seamクラスを再デプロイする場合、JBoss Seamではアプリケーションを再起動する必要がありません。これにより、開発/テストのサイクルでかかる時間を大幅に短縮できます。<filename>.groovy</filename>ファイルをデプロイする場合には、GroovyBeans Seamコンポーネントでも同様に再デプロイできます。"
+msgstr "標準的なデプロイだけでなく、開発時にJavaBeansのSeamコンポーネントクラスを再デプロイする場合、JBoss Seamではアプリケーションを再起動する必要がありません。これにより、開発/テストのサイクルでかかる時間を大幅に短縮できます。<filename>.groovy</filename>ファイルをデプロイする場合には、GroovyBeansのSeamコンポーネントでも同様に再デプロイできます。"
 
 #. Tag: title
 #: Groovy.xml:101
@@ -300,7 +300,7 @@ msgstr "開発時のネイティブ .groovy ファイルのデプロイ"
 #: Groovy.xml:113
 #, no-c-format
 msgid "JBoss Seam natively supports the deployment of <literal>.groovy</literal> files (ie without compilation) in incremental hotdeployment mode (development only). This enables a very fast edit/test cycle. To set up .groovy deployments, follow the configuration at <xref linkend=\"gettingstarted-hotdeployment\"/> and deploy your Groovy code (<filename>.groovy</filename> files) into the <filename>WEB-INF/dev</filename> directory. The GroovyBean components will be picked up incrementally with no need to restart the application (and obviously not the application server either)."
-msgstr "JBoss Seamでは元々、増分ホットデプロイメントモード（開発のみ）を使った<literal>.groovy</literal>ファイル（つまりコンパイルされていないもの）のデプロイをサポートしています。これによって、修正／テストサイクルが非常に速くなります。.groovyデプロイメントでは、<xref linkend=\"gettingstarted-hotdeployment\"/>に従って設定し、Groovyコード(<filename>.groovy</filename> ファイル)を<filename>WEB-INF/dev</filename>ディレクトリーにデプロイします。アプリケーションを再起動することなく、GroovyBeanコンポーネントが追加されます。（もちろんアプリケーションサーバーの再起動も不要です。）"
+msgstr "JBoss Seamでは元々、増分ホットデプロイメントモード（開発のみ）を使った<literal>.groovy</literal>ファイル（つまりコンパイルされていないもの）のデプロイをサポートしています。これによって、修正／テストサイクルが非常に速くなります。.groovyデプロイメントでは、<xref linkend=\"gettingstarted-hotdeployment\"/>に従って設定し、Groovyコード(<filename>.groovy</filename> ファイル)を<filename>WEB-INF/dev</filename>ディレクトリにデプロイします。アプリケーションを再起動することなく、GroovyBeanコンポーネントが追加されます。（もちろんアプリケーションサーバーの再起動も不要です。）"
 
 #. Tag: para
 #: Groovy.xml:120

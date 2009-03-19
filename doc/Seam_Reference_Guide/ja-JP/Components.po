@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Components\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-03-17 20:34+0000\n"
+"POT-Creation-Date: 2008-11-06 06:41+0000\n"
 "PO-Revision-Date: 2009-01-05 13:53+1000\n"
 "Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -28,12 +28,7 @@ msgid ""
 "listed in your <literal>components.xml</literal> file, but if you need to "
 "override default properties or specify more than one component of a certain "
 "type, <literal>components.xml</literal> is used."
-msgstr ""
-"本章では Seam の組み込みコンポーネント、 その設定プロパティについて説明してい"
-"きます。 組み込みコンポーネントは <literal>components.xml</literal> ファイル"
-"に記載がなくても作成されますが、 デフォルトのプロパティを上書きするまたは特定"
-"タイプの 1 つ以上のコンポーネントを指定する必要がある場合は "
-"<literal>components.xml</literal> を使用します。"
+msgstr "本章では Seam の組み込みコンポーネント、 その設定プロパティについて説明していきます。 組み込みコンポーネントは <literal>components.xml</literal> ファイルに記載がなくても作成されますが、 デフォルトのプロパティを上書きするまたは特定タイプの 1 つ以上のコンポーネントを指定する必要がある場合は <literal>components.xml</literal> を使用します。"
 
 #. Tag: para
 #: Components.xml:14
@@ -42,10 +37,7 @@ msgid ""
 "Note that you can replace any of the built in components with your own "
 "implementations simply by specifying the name of one of the built in "
 "components on your own class using <literal>@Name</literal>."
-msgstr ""
-"<literal>@Name</literal> を使って独自のクラスで組み込みコンポーネントの名前を"
-"指定すると、 組み込みコンポーネントを独自の実装に簡単に置き換えることができま"
-"す。"
+msgstr "<literal>@Name</literal> を使って独自のクラスで組み込みコンポーネントの名前を指定すると、 組み込みコンポーネントを独自の実装に簡単に置き換えることができます。"
 
 #. Tag: title
 #: Components.xml:22
@@ -84,9 +76,7 @@ msgstr "org.jboss.seam.core.contexts"
 msgid ""
 "Component that provides access to Seam Context objects, for example "
 "<literal>org.jboss.seam.core.contexts.sessionContext['user']</literal>."
-msgstr ""
-"Seam コンテキストのオブジェクトへのアクセスを提供します。 たとえば、 "
-"<literal>org.jboss.seam.core.contexts.sessionContext['user']</literal> など。"
+msgstr "Seam コンテキストのオブジェクトへのアクセスを提供します。 たとえば、 <literal>org.jboss.seam.core.contexts.sessionContext['user']</literal> など。"
 
 #. Tag: literal
 #: Components.xml:43
@@ -143,10 +133,7 @@ msgid ""
 "<literal>add(FacesMessage facesMessage)</literal> &#8212; add a faces "
 "message, which will be displayed during the next render response phase that "
 "occurs in the current conversation."
-msgstr ""
-"<literal>add(FacesMessage facesMessage)</literal> &#8212; faces メッセージを"
-"追加します。 現在の対話内で発生する次の応答のレンダリングフェーズで表示されま"
-"す。"
+msgstr "<literal>add(FacesMessage facesMessage)</literal> &#8212; faces メッセージを追加します。 現在の対話内で発生する次の応答のレンダリングフェーズで表示されます。"
 
 #. Tag: para
 #: Components.xml:81
@@ -154,10 +141,7 @@ msgstr ""
 msgid ""
 "<literal>add(String messageTemplate)</literal> &#8212; add a faces message, "
 "rendered from the given message template which may contain EL expressions."
-msgstr ""
-"<literal>add(String messageTemplate)</literal> &#8212; faces メッセージを追加"
-"します。 EL 式を含むことができる特定のメッセージテンプレートからレンダリング"
-"されます。"
+msgstr "<literal>add(String messageTemplate)</literal> &#8212; faces メッセージを追加します。 EL 式を含むことができる特定のメッセージテンプレートからレンダリングされます。"
 
 #. Tag: para
 #: Components.xml:88
@@ -166,10 +150,7 @@ msgid ""
 "<literal>add(Severity severity, String messageTemplate)</literal> &#8212; "
 "add a faces message, rendered from the given message template which may "
 "contain EL expressions."
-msgstr ""
-"<literal>add(Severity severity, String messageTemplate)</literal> &#8212; "
-"faces メッセージを追加します。 EL 式を含むことができる特定のメッセージテンプ"
-"レートからレンダリングされます。"
+msgstr "<literal>add(Severity severity, String messageTemplate)</literal> &#8212; faces メッセージを追加します。 EL 式を含むことができる特定のメッセージテンプレートからレンダリングされます。"
 
 #. Tag: para
 #: Components.xml:95
@@ -178,10 +159,7 @@ msgid ""
 "<literal>addFromResourceBundle(String key)</literal> &#8212; add a faces "
 "message, rendered from a message template defined in the Seam resource "
 "bundle which may contain EL expressions."
-msgstr ""
-"<literal>addFromResourceBundle(String key)</literal> &#8212; faces メッセージ"
-"を追加します。 EL 式を含むことができる Seam リソースバンドルで定義されたメッ"
-"セージテンプレートからレンダリングされます。"
+msgstr "<literal>addFromResourceBundle(String key)</literal> &#8212; faces メッセージを追加します。 EL 式を含むことができる Seam リソースバンドルで定義されたメッセージテンプレートからレンダリングされます。"
 
 #. Tag: para
 #: Components.xml:102
@@ -192,8 +170,7 @@ msgid ""
 "Seam resource bundle which may contain EL expressions."
 msgstr ""
 "<literal>addFromResourceBundle(Severity severity, String key)</literal> "
-"&#8212; faces メッセージを追加します。 EL 式を含むことができる Seam リソース"
-"バンドルで定義されたメッセージテンプレートからレンダリングされます。"
+"&#8212; faces メッセージを追加します。 EL 式を含むことができる Seam リソースバンドルで定義されたメッセージテンプレートからレンダリングされます。"
 
 #. Tag: para
 #: Components.xml:109
@@ -220,11 +197,8 @@ msgstr ""
 #. Tag: para
 #: Components.xml:125
 #, no-c-format
-msgid ""
-"<literal>redirect.viewId</literal> &#8212; the JSF view id to redirect to."
-msgstr ""
-"<literal>redirect.viewId</literal> &#8212; リダイレクト先となる JSF ビュー "
-"ID です。"
+msgid "<literal>redirect.viewId</literal> &#8212; the JSF view id to redirect to."
+msgstr "<literal>redirect.viewId</literal> &#8212; リダイレクト先となる JSF ビュー ID です。"
 
 #. Tag: para
 #: Components.xml:131
@@ -232,9 +206,7 @@ msgstr ""
 msgid ""
 "<literal>redirect.conversationPropagationEnabled</literal> &#8212; "
 "determines whether the conversation will propagate across the redirect."
-msgstr ""
-"<literal>redirect.conversationPropagationEnabled</literal> &#8212; 対話をリダ"
-"イレクト全体に伝播させるかどうか決定します。"
+msgstr "<literal>redirect.conversationPropagationEnabled</literal> &#8212; 対話をリダイレクト全体に伝播させるかどうか決定します。"
 
 #. Tag: para
 #: Components.xml:138
@@ -242,9 +214,7 @@ msgstr ""
 msgid ""
 "<literal>redirect.parameters</literal> &#8212; a map of request parameter "
 "name to value, to be passed in the redirect request."
-msgstr ""
-"<literal>redirect.parameters</literal> &#8212; 要求パラメータ名と値のマップで"
-"す。 リダイレクト要求に渡されます。"
+msgstr "<literal>redirect.parameters</literal> &#8212; 要求パラメータ名と値のマップです。 リダイレクト要求に渡されます。"
 
 #. Tag: para
 #: Components.xml:145
@@ -259,10 +229,7 @@ msgid ""
 "<literal>captureCurrentRequest()</literal> &#8212; stores the view id and "
 "request parameters of the current GET request (in the conversation context), "
 "for later use by calling <literal>execute()</literal>."
-msgstr ""
-"<literal>captureCurrentRequest()</literal> &#8212; 現在の GET 要求 (対話コン"
-"テキスト内) の要求パラメータとビュー ID を格納します。 <literal>execute()</"
-"literal> の呼び出しで使用されます。"
+msgstr "<literal>captureCurrentRequest()</literal> &#8212; 現在の GET 要求 (対話コンテキスト内) の要求パラメータとビュー ID を格納します。 <literal>execute()</literal> の呼び出しで使用されます。"
 
 #. Tag: literal
 #: Components.xml:162
@@ -299,9 +266,7 @@ msgstr ""
 msgid ""
 "<literal>raiseEvent(String type)</literal> &#8212; raise an event of a "
 "particular type and distribute to all observers."
-msgstr ""
-"<literal>raiseEvent(String type)</literal> &#8212; 特定タイプのイベントを発生"
-"させてすべての監視者に配信します。"
+msgstr "<literal>raiseEvent(String type)</literal> &#8212; 特定タイプのイベントを発生させてすべての監視者に配信します。"
 
 #. Tag: para
 #: Components.xml:186
@@ -309,9 +274,7 @@ msgstr ""
 msgid ""
 "<literal>raiseAsynchronousEvent(String type)</literal> &#8212; raise an "
 "event to be processed asynchronously by the EJB3 timer service."
-msgstr ""
-"<literal>raiseAsynchronousEvent(String type)</literal> &#8212; EJB3 タイマー"
-"サービスで非同期に処理されるイベントを発生させます。"
+msgstr "<literal>raiseAsynchronousEvent(String type)</literal> &#8212; EJB3 タイマーサービスで非同期に処理されるイベントを発生させます。"
 
 #. Tag: para
 #: Components.xml:193
@@ -319,9 +282,7 @@ msgstr ""
 msgid ""
 "<literal>raiseTimedEvent(String type, ....)</literal> &#8212; schedule an "
 "event to be processed asynchronously by the EJB3 timer service."
-msgstr ""
-"<literal>raiseTimedEvent(String type, ....)</literal> &#8212; EJB3 タイマー"
-"サービスで非同期に処理されるイベントをスケジュールします。"
+msgstr "<literal>raiseTimedEvent(String type, ....)</literal> &#8212; EJB3 タイマーサービスで非同期に処理されるイベントをスケジュールします。"
 
 #. Tag: para
 #: Components.xml:200
@@ -329,9 +290,7 @@ msgstr ""
 msgid ""
 "<literal>addListener(String type, String methodBinding)</literal> &#8212; "
 "add an observer for a particular event type."
-msgstr ""
-"<literal>addListener(String type, String methodBinding)</literal> &#8212; 特"
-"定イベントタイプの監視者を追加します。"
+msgstr "<literal>addListener(String type, String methodBinding)</literal> &#8212; 特定イベントタイプの監視者を追加します。"
 
 #. Tag: literal
 #: Components.xml:209
@@ -352,9 +311,7 @@ msgid ""
 "<literal>interpolate(String template)</literal> &#8212; scan the template "
 "for JSF EL expressions of the form <literal>#{...}</literal> and replace "
 "them with their evaluated values."
-msgstr ""
-"<literal>interpolate(String template)</literal> &#8212; <literal>#{...}</"
-"literal> 形式の JSF EL 式のテンプレートをスキャンしてその評価値に置換します。"
+msgstr "<literal>interpolate(String template)</literal> &#8212; <literal>#{...}</literal> 形式の JSF EL 式のテンプレートをスキャンしてその評価値に置換します。"
 
 #. Tag: literal
 #: Components.xml:227
@@ -374,9 +331,7 @@ msgstr "値とメソッドバインティングを作成するための API で�
 msgid ""
 "<literal>createValueBinding(String expression)</literal> &#8212; create a "
 "value binding object."
-msgstr ""
-"<literal>createValueBinding(String expression)</literal> &#8212; 値バインディ"
-"ングオブジェクトを作成します。"
+msgstr "<literal>createValueBinding(String expression)</literal> &#8212; 値バインディングオブジェクトを作成します。"
 
 #. Tag: para
 #: Components.xml:240
@@ -384,9 +339,7 @@ msgstr ""
 msgid ""
 "<literal>createMethodBinding(String expression)</literal> &#8212; create a "
 "method binding object."
-msgstr ""
-"<literal>createMethodBinding(String expression)</literal> &#8212; メソッドバ"
-"インディングオブジェクトを作成します。"
+msgstr "<literal>createMethodBinding(String expression)</literal> &#8212; メソッドバインディングオブジェクトを作成します。"
 
 #. Tag: literal
 #: Components.xml:249 Components.xml:1313
@@ -397,8 +350,7 @@ msgstr "org.jboss.seam.core.pojoCache"
 #. Tag: para
 #: Components.xml:251
 #, no-c-format
-msgid ""
-"Manager component for a JBoss Cache <literal>PojoCache</literal> instance."
+msgid "Manager component for a JBoss Cache <literal>PojoCache</literal> instance."
 msgstr ""
 " JBoss Cache <literal>PojoCache</literal> インスタンスの管理コンポーネントで"
 "す。"
@@ -409,9 +361,7 @@ msgstr ""
 msgid ""
 "<literal>pojoCache.cfgResourceName</literal> &#8212; the name of the "
 "configuration file. Default to <literal>treecache.xml</literal>."
-msgstr ""
-"<literal>pojoCache.cfgResourceName</literal> &#8212; 設定ファイル名です。 デ"
-"フォルトでは <literal>treecache.xml</literal> に設定されます。"
+msgstr "<literal>pojoCache.cfgResourceName</literal> &#8212; 設定ファイル名です。 デフォルトでは <literal>treecache.xml</literal> に設定されます。"
 
 #. Tag: title
 #: Components.xml:273
@@ -426,7 +376,7 @@ msgid ""
 "The next group of components make it easy to build internationalized user "
 "interfaces using Seam."
 msgstr ""
-"次のコンポーネントグループは Seam を使用した国際化ユーザーインターフェースの"
+"次のコンポーネントグループは Seam を使用した国際化ユーザーインタフェースの"
 "ビルドを容易にします。"
 
 #. Tag: literal
@@ -466,10 +416,7 @@ msgid ""
 "The Seam resource bundle. The resource bundle is stateless. The Seam "
 "resource bundle performs a depth-first search for keys in a list of Java "
 "resource bundles."
-msgstr ""
-"Seam リソースバンドルです。 リソースバンドルはステートレスになります。 Seam "
-"リソースバンドルは Java リソースバンドルの一覧内のキーの深さ優先検索を行いま"
-"す。"
+msgstr "Seam リソースバンドルです。 リソースバンドルはステートレスになります。 Seam リソースバンドルは Java リソースバンドルの一覧内のキーの深さ優先検索を行います。"
 
 #. Tag: literal
 #: Components.xml:307
@@ -483,9 +430,7 @@ msgstr "org.jboss.seam.core.resourceLoader"
 msgid ""
 "The resource loader provides access to application resources and resource "
 "bundles."
-msgstr ""
-"リソースローダーはアプリケーションリソースおよびリソースバンドルへのアクセス"
-"を提供します。"
+msgstr "リソースローダーはアプリケーションリソースおよびリソースバンドルへのアクセスを提供します。"
 
 #. Tag: para
 #: Components.xml:314
@@ -494,10 +439,7 @@ msgid ""
 "<literal>resourceLoader.bundleNames</literal> &#8212; the names of the Java "
 "resource bundles to search when the Seam resource bundle is used. Default to "
 "<literal>messages</literal>."
-msgstr ""
-"<literal>resourceLoader.bundleNames</literal> &#8212; Seam リソースバンドルを"
-"使用する場合に検索する Java リソースバンドル名です。 デフォルトは "
-"<literal>messages</literal> になります。"
+msgstr "<literal>resourceLoader.bundleNames</literal> &#8212; Seam リソースバンドルを使用する場合に検索する Java リソースバンドル名です。 デフォルトは <literal>messages</literal> になります。"
 
 #. Tag: literal
 #: Components.xml:324
@@ -527,9 +469,7 @@ msgstr "<literal>select()</literal> &#8212; 指定されたロケールを選択
 msgid ""
 "<literal>localeSelector.locale</literal> &#8212; the actual <literal>java."
 "util.Locale</literal>."
-msgstr ""
-"<literal>localeSelector.locale</literal> &#8212; 実際の <literal>java.util."
-"Locale</literal> です。"
+msgstr "<literal>localeSelector.locale</literal> &#8212; 実際の <literal>java.util.Locale</literal> です。"
 
 #. Tag: para
 #: Components.xml:343
@@ -537,9 +477,7 @@ msgstr ""
 msgid ""
 "<literal>localeSelector.localeString</literal> &#8212; the stringified "
 "representation of the locale."
-msgstr ""
-"<literal>localeSelector.localeString</literal> &#8212; ロケールの文字列表現で"
-"す。"
+msgstr "<literal>localeSelector.localeString</literal> &#8212; ロケールの文字列表現です。"
 
 #. Tag: para
 #: Components.xml:349
@@ -547,9 +485,7 @@ msgstr ""
 msgid ""
 "<literal>localeSelector.language</literal> &#8212; the language for the "
 "specified locale."
-msgstr ""
-"<literal>localeSelector.language</literal> &#8212; 指定されたロケールの言語で"
-"す。"
+msgstr "<literal>localeSelector.language</literal> &#8212; 指定されたロケールの言語です。"
 
 #. Tag: para
 #: Components.xml:355
@@ -557,9 +493,7 @@ msgstr ""
 msgid ""
 "<literal>localeSelector.country</literal> &#8212; the country for the "
 "specified locale."
-msgstr ""
-"<literal>localeSelector.country</literal> &#8212; 指定されたロケールの国で"
-"す。"
+msgstr "<literal>localeSelector.country</literal> &#8212; 指定されたロケールの国です。"
 
 #. Tag: para
 #: Components.xml:361
@@ -567,9 +501,7 @@ msgstr ""
 msgid ""
 "<literal>localeSelector.variant</literal> &#8212; the variant for the "
 "specified locale."
-msgstr ""
-"<literal>localeSelector.variant</literal> &#8212; 指定されたロケールのバリア"
-"ントです。"
+msgstr "<literal>localeSelector.variant</literal> &#8212; 指定されたロケールのバリアントです。"
 
 #. Tag: para
 #: Components.xml:367
@@ -578,10 +510,7 @@ msgid ""
 "<literal>localeSelector.supportedLocales</literal> &#8212; a list of "
 "<literal>SelectItem</literal>s representing the supported locales listed in "
 "<literal>jsf-config.xml</literal>."
-msgstr ""
-"<literal>localeSelector.supportedLocales</literal> &#8212; <literal>jsf-"
-"config.xml</literal> に記載のサポートロケールを表している "
-"<literal>SelectItem</literal> 一覧です。"
+msgstr "<literal>localeSelector.supportedLocales</literal> &#8212; <literal>jsf-config.xml</literal> に記載のサポートロケールを表している <literal>SelectItem</literal> 一覧です。"
 
 #. Tag: para
 #: Components.xml:374
@@ -589,9 +518,7 @@ msgstr ""
 msgid ""
 "<literal>localeSelector.cookieEnabled</literal> &#8212; specifies that the "
 "locale selection should be persisted via a cookie."
-msgstr ""
-"<literal>localeSelector.cookieEnabled</literal> &#8212; ロケール選択がクッ"
-"キーで永続化されることを指定します。"
+msgstr "<literal>localeSelector.cookieEnabled</literal> &#8212; ロケール選択がクッキーで永続化されることを指定します。"
 
 #. Tag: literal
 #: Components.xml:383
@@ -615,9 +542,7 @@ msgstr ""
 msgid ""
 "<literal>timezoneSelector.timezone</literal> &#8212; the actual "
 "<literal>java.util.TimeZone</literal>."
-msgstr ""
-"<literal>timezoneSelector.timezone</literal> &#8212; 実際の <literal>java."
-"util.TimeZone</literal> です。"
+msgstr "<literal>timezoneSelector.timezone</literal> &#8212; 実際の <literal>java.util.TimeZone</literal> です。"
 
 #. Tag: para
 #: Components.xml:402
@@ -625,9 +550,7 @@ msgstr ""
 msgid ""
 "<literal>timezoneSelector.timeZoneId</literal> &#8212; the stringified "
 "representation of the timezone."
-msgstr ""
-"<literal>timezoneSelector.timeZoneId</literal> &#8212; タイムゾーンの文字列表"
-"現です。"
+msgstr "<literal>timezoneSelector.timeZoneId</literal> &#8212; タイムゾーンの文字列表現です。"
 
 #. Tag: para
 #: Components.xml:408
@@ -635,9 +558,7 @@ msgstr ""
 msgid ""
 "<literal>timezoneSelector.cookieEnabled</literal> &#8212; specifies that the "
 "timezone selection should be persisted via a cookie."
-msgstr ""
-"<literal>timezoneSelector.cookieEnabled</literal> &#8212; タイムゾーン選択が"
-"クッキーによって永続化されることを指定します。"
+msgstr "<literal>timezoneSelector.cookieEnabled</literal> &#8212; タイムゾーン選択がクッキーによって永続化されることを指定します。"
 
 #. Tag: literal
 #: Components.xml:417
@@ -667,8 +588,7 @@ msgstr "org.jboss.seam.theme.themeSelector"
 msgid ""
 "Supports selection of the theme either at configuration time, or by the user "
 "at runtime."
-msgstr ""
-"設定時間またはランタイム時のユーザーのいずれかでテーマ選択をサポートします。"
+msgstr "設定時間またはランタイム時のユーザーのいずれかでテーマ選択をサポートします。"
 
 #. Tag: para
 #: Components.xml:434
@@ -679,10 +599,8 @@ msgstr "<literal>select()</literal> &#8212; 指定されたテーマを選択し
 #. Tag: para
 #: Components.xml:439
 #, no-c-format
-msgid ""
-"<literal>theme.availableThemes</literal> &#8212; the list of defined themes."
-msgstr ""
-"<literal>theme.availableThemes</literal> &#8212; 定義されたテーマの一覧です。"
+msgid "<literal>theme.availableThemes</literal> &#8212; the list of defined themes."
+msgstr "<literal>theme.availableThemes</literal> &#8212; 定義されたテーマの一覧です。"
 
 #. Tag: para
 #: Components.xml:445
@@ -696,9 +614,7 @@ msgstr "<literal>themeSelector.theme</literal> &#8212; 選択されたテーマ�
 msgid ""
 "<literal>themeSelector.themes</literal> &#8212; a list of "
 "<literal>SelectItem</literal>s representing the defined themes."
-msgstr ""
-"<literal>themeSelector.themes</literal> &#8212; 定義されたテーマを表している "
-"<literal>SelectItem</literal> の一覧です。"
+msgstr "<literal>themeSelector.themes</literal> &#8212; 定義されたテーマを表している <literal>SelectItem</literal> の一覧です。"
 
 #. Tag: para
 #: Components.xml:458
@@ -706,9 +622,7 @@ msgstr ""
 msgid ""
 "<literal>themeSelector.cookieEnabled</literal> &#8212; specifies that the "
 "theme selection should be persisted via a cookie."
-msgstr ""
-"<literal>themeSelector.cookieEnabled</literal> &#8212; テーマ選択がクッキーで"
-"永続化されることを指定します。"
+msgstr "<literal>themeSelector.cookieEnabled</literal> &#8212; テーマ選択がクッキーで永続化されることを指定します。"
 
 #. Tag: literal
 #: Components.xml:467
@@ -735,7 +649,7 @@ msgid ""
 "The next group of components allow control of conversations by the "
 "application or user interface."
 msgstr ""
-"次のコンポーネントグループを使うとアプリケーションまたはユーザーインター"
+"次のコンポーネントグループを使うとアプリケーションまたはユーザーインタ"
 "フェースにより対話の制御を行うことができるようになります。"
 
 #. Tag: literal
@@ -747,8 +661,7 @@ msgstr "org.jboss.seam.core.conversation"
 #. Tag: para
 #: Components.xml:493
 #, no-c-format
-msgid ""
-"API for application control of attributes of the current Seam conversation."
+msgid "API for application control of attributes of the current Seam conversation."
 msgstr "現在の Seam 対話の属性をアプリケーション制御するための API です。"
 
 #. Tag: para
@@ -763,8 +676,7 @@ msgstr "<literal>getId()</literal> &#8212; 現在の対話 ID を返します。
 msgid ""
 "<literal>isNested()</literal> &#8212; is the current conversation a nested "
 "conversation?"
-msgstr ""
-"<literal>isNested()</literal> &#8212; 現在の対話はネストされている対話ですか?"
+msgstr "<literal>isNested()</literal> &#8212; 現在の対話はネストされている対話ですか?"
 
 #. Tag: para
 #: Components.xml:509
@@ -772,8 +684,7 @@ msgstr ""
 msgid ""
 "<literal>isLongRunning()</literal> &#8212; is the current conversation a "
 "long-running conversation?"
-msgstr ""
-"<literal>isLongRunning()</literal> &#8212; 現在の対話は長期実行の対話ですか?"
+msgstr "<literal>isLongRunning()</literal> &#8212; 現在の対話は長期実行の対話ですか?"
 
 #. Tag: para
 #: Components.xml:520
@@ -797,9 +708,7 @@ msgstr "<literal>getRootId()</literal> &#8212; ルート対話の ID を返し�
 msgid ""
 "<literal>setTimeout(int timeout)</literal> &#8212; sets the timeout for the "
 "current conversation"
-msgstr ""
-"<literal>setTimeout(int timeout)</literal> &#8212; 現在の対話のタイムアウトを"
-"セットします。"
+msgstr "<literal>setTimeout(int timeout)</literal> &#8212; 現在の対話のタイムアウトをセットします。"
 
 #. Tag: para
 #: Components.xml:538
@@ -808,10 +717,7 @@ msgid ""
 "<literal>setViewId(String outcome)</literal> &#8212; sets the view id to be "
 "used when switching back to the current conversation from the conversation "
 "switcher, conversation list, or breadcrumbs."
-msgstr ""
-"<literal>setViewId(String outcome)</literal> &#8212; 対話スイッチャー、 対話"
-"リストまたはブレッドクラムから現在の対話に切り替えて戻した場合に使用する "
-"ビュー ID をセットします。"
+msgstr "<literal>setViewId(String outcome)</literal> &#8212; 対話スイッチャー、 対話リストまたはブレッドクラムから現在の対話に切り替えて戻した場合に使用する ビュー ID をセットします。"
 
 #. Tag: para
 #: Components.xml:545
@@ -820,10 +726,7 @@ msgid ""
 "<literal>setDescription(String description)</literal> &#8212; sets the "
 "description of the current conversation to be displayed in the conversation "
 "switcher, conversation list, or breadcrumbs."
-msgstr ""
-"<literal>setDescription(String description)</literal> &#8212; 対話スイッ"
-"チャー、 対話リストまたはブレッドクラムで表示される現在の対話の詳細をセットし"
-"ます。"
+msgstr "<literal>setDescription(String description)</literal> &#8212; 対話スイッチャー、 対話リストまたはブレッドクラムで表示される現在の対話の詳細をセットします。"
 
 #. Tag: para
 #: Components.xml:552
@@ -831,9 +734,7 @@ msgstr ""
 msgid ""
 "<literal>redirect()</literal> &#8212; redirect to the last well-defined view "
 "id for this conversation (useful after login challenges)."
-msgstr ""
-"<literal>redirect()</literal> &#8212; この対話用に明確に定義された最後の"
-"ビュー ID にリダイレクトします (ログインのチャレンジ後に便利)。"
+msgstr "<literal>redirect()</literal> &#8212; この対話用に明確に定義された最後のビュー ID にリダイレクトします (ログインのチャレンジ後に便利)。"
 
 #. Tag: para
 #: Components.xml:558
@@ -841,9 +742,7 @@ msgstr ""
 msgid ""
 "<literal>leave()</literal> &#8212; exit the scope of this conversation, "
 "without actually ending the conversation."
-msgstr ""
-"<literal>leave()</literal> &#8212; 実際には対話を終了せずにこの対話のスコープ"
-"を終了します。"
+msgstr "<literal>leave()</literal> &#8212; 実際には対話を終了せずにこの対話のスコープを終了します。"
 
 #. Tag: para
 #: Components.xml:564
@@ -851,9 +750,7 @@ msgstr ""
 msgid ""
 "<literal>begin()</literal> &#8212; begin a long-running conversation "
 "(equivalent to <literal>@Begin</literal>)."
-msgstr ""
-"<literal>begin()</literal> &#8212; 長期実行の対話を開始します "
-"(<literal>@Begin</literal> と同等)。"
+msgstr "<literal>begin()</literal> &#8212; 長期実行の対話を開始します (<literal>@Begin</literal> と同等)。"
 
 #. Tag: para
 #: Components.xml:570
@@ -863,9 +760,8 @@ msgid ""
 "running conversation with a pageflow (equivalent to <literal>@Begin(pageflow="
 "\"...\")</literal>)."
 msgstr ""
-"<literal>beginPageflow(String pageflowName)</literal> &#8212; ページフローを"
-"付けて長期実行の対話を開始します (<literal>@Begin(pageflow=\"...\")</"
-"literal> と同等)。"
+"<literal>beginPageflow(String pageflowName)</literal> &#8212; ページフローを付けて長期実行の対話を開始します (<literal>@Begin(pageflow="
+"\"...\")</literal> と同等)。"
 
 #. Tag: para
 #: Components.xml:577
@@ -873,9 +769,7 @@ msgstr ""
 msgid ""
 "<literal>end()</literal> &#8212; end a long-running conversation (equivalent "
 "to <literal>@End</literal>)."
-msgstr ""
-"<literal>end()</literal> &#8212; 長期実行の対話を終了します (<literal>@End</"
-"literal> と同等)。"
+msgstr "<literal>end()</literal> &#8212; 長期実行の対話を終了します (<literal>@End</literal> と同等)。"
 
 #. Tag: para
 #: Components.xml:583
@@ -883,8 +777,7 @@ msgstr ""
 msgid ""
 "<literal>pop()</literal> &#8212; pop the conversation stack, returning to "
 "the parent conversation."
-msgstr ""
-"<literal>pop()</literal> &#8212; 対話スタックをポップして親対話に戻ります。"
+msgstr "<literal>pop()</literal> &#8212; 対話スタックをポップして親対話に戻ります。"
 
 #. Tag: para
 #: Components.xml:589
@@ -900,9 +793,7 @@ msgstr "<literal>root()</literal> &#8212; 対話スタックのルート対話�
 msgid ""
 "<literal>changeFlushMode(FlushModeType flushMode)</literal> &#8212; change "
 "the flush mode of the conversation."
-msgstr ""
-"<literal>changeFlushMode(FlushModeType flushMode)</literal> &#8212; 対話のフ"
-"ラッシュモードを変更します。"
+msgstr "<literal>changeFlushMode(FlushModeType flushMode)</literal> &#8212; 対話のフラッシュモードを変更します。"
 
 #. Tag: literal
 #: Components.xml:604
@@ -970,9 +861,7 @@ msgstr "Seam ページフローの API 制御です。"
 msgid ""
 "<literal>isInProcess()</literal> &#8212; returns <literal>true</literal> if "
 "there is currently a pageflow in process"
-msgstr ""
-"<literal>isInProcess()</literal> &#8212; 現在プロセス中のページフローがある場"
-"合に <literal>true</literal> を返します。"
+msgstr "<literal>isInProcess()</literal> &#8212; 現在プロセス中のページフローがある場合に <literal>true</literal> を返します。"
 
 #. Tag: para
 #: Components.xml:656
@@ -990,9 +879,7 @@ msgstr ""
 msgid ""
 "<literal>begin(String pageflowName)</literal> &#8212; begin a pageflow in "
 "the context of the current conversation"
-msgstr ""
-"<literal>begin(String pageflowName)</literal> &#8212; 現在の対話のコンテキス"
-"ト内でページフローを開始します。"
+msgstr "<literal>begin(String pageflowName)</literal> &#8212; 現在の対話のコンテキスト内でページフローを開始します。"
 
 #. Tag: para
 #: Components.xml:668
@@ -1000,9 +887,7 @@ msgstr ""
 msgid ""
 "<literal>reposition(String nodeName)</literal> &#8212; reposition the "
 "current pageflow to a particular node"
-msgstr ""
-"<literal>reposition(String nodeName)</literal> &#8212; 現在のページフローを特"
-"定ノードに才配置します。"
+msgstr "<literal>reposition(String nodeName)</literal> &#8212; 現在のページフローを特定ノードに才配置します。"
 
 #. Tag: literal
 #: Components.xml:677
@@ -1026,9 +911,7 @@ msgstr ""
 msgid ""
 "<literal>setId(String actorId)</literal> &#8212; sets the jBPM actor id of "
 "the current user."
-msgstr ""
-"<literal>setId(String actorId)</literal> &#8212; 現在のユーザーの jBPM アク"
-"ター ID をセットします。"
+msgstr "<literal>setId(String actorId)</literal> &#8212; 現在のユーザーの jBPM アクター ID をセットします。"
 
 #. Tag: para
 #: Components.xml:691
@@ -1036,9 +919,7 @@ msgstr ""
 msgid ""
 "<literal>getGroupActorIds()</literal> &#8212; returns a <literal>Set</"
 "literal> to which jBPM actor ids for the current users groups may be added."
-msgstr ""
-"<literal>getGroupActorIds()</literal> &#8212; 現在のユーザーグループ群用の "
-"jBPM アクター ID が追加可能なものに <literal>Set</literal> を返します。"
+msgstr "<literal>getGroupActorIds()</literal> &#8212; 現在のユーザーグループ群用の jBPM アクター ID が追加可能なものに <literal>Set</literal> を返します。"
 
 #. Tag: literal
 #: Components.xml:701
@@ -1049,10 +930,8 @@ msgstr "org.jboss.seam.bpm.transition"
 #. Tag: para
 #: Components.xml:703
 #, no-c-format
-msgid ""
-"API for application control of the jBPM transition for the current task."
-msgstr ""
-"現在のタスクに対する jBPM 移行のアプリケーション制御を目的とする API です。"
+msgid "API for application control of the jBPM transition for the current task."
+msgstr "現在のタスクに対する jBPM 移行のアプリケーション制御を目的とする API です。"
 
 #. Tag: para
 #: Components.xml:709
@@ -1061,10 +940,7 @@ msgid ""
 "<literal>setName(String transitionName)</literal> &#8212; sets the jBPM "
 "transition name to be used when the current task is ended via "
 "<literal>@EndTask</literal>."
-msgstr ""
-"<literal>setName(String transitionName)</literal> &#8212; 現在のタスクが "
-"<literal>@EndTask</literal> で終了される場合に使用する jBPM 遷移名をセットし"
-"ます。"
+msgstr "<literal>setName(String transitionName)</literal> &#8212; 現在のタスクが <literal>@EndTask</literal> で終了される場合に使用する jBPM 遷移名をセットします。"
 
 #. Tag: literal
 #: Components.xml:719
@@ -1086,9 +962,7 @@ msgstr "対話とビジネスプロセス間の関連性をプログラム制御
 msgid ""
 "<literal>businessProcess.taskId</literal> &#8212; the id of the task "
 "associated with the current conversation."
-msgstr ""
-"<literal>businessProcess.taskId</literal> &#8212; 現在の対話に関連づけられた"
-"タスクの ID です。"
+msgstr "<literal>businessProcess.taskId</literal> &#8212; 現在の対話に関連づけられたタスクの ID です。"
 
 #. Tag: para
 #: Components.xml:733
@@ -1096,9 +970,7 @@ msgstr ""
 msgid ""
 "<literal>businessProcess.processId</literal> &#8212; the id of the process "
 "associated with the current conversation."
-msgstr ""
-"<literal>businessProcess.processId</literal> &#8212; 現在の対話に関連づけられ"
-"たプロセスの ID です。"
+msgstr "<literal>businessProcess.processId</literal> &#8212; 現在の対話に関連づけられたプロセスの ID です。"
 
 #. Tag: para
 #: Components.xml:739
@@ -1106,9 +978,7 @@ msgstr ""
 msgid ""
 "<literal>businessProcess.hasCurrentTask()</literal> &#8212; is a task "
 "instance associated with the current conversation?"
-msgstr ""
-"<literal>businessProcess.hasCurrentTask()</literal> &#8212; 現在の対話に関連"
-"づけられたタスクインスタンスですか?"
+msgstr "<literal>businessProcess.hasCurrentTask()</literal> &#8212; 現在の対話に関連づけられたタスクインスタンスですか?"
 
 #. Tag: para
 #: Components.xml:745
@@ -1116,9 +986,7 @@ msgstr ""
 msgid ""
 "<literal>businessProcess.hasCurrentProcess()</literal> &#8212; is a process "
 "instance associated with the current conversation."
-msgstr ""
-"<literal>businessProcess.hasCurrentProcess()</literal> &#8212; 現在の対話に関"
-"連づけられたプロセスインスタンスです。"
+msgstr "<literal>businessProcess.hasCurrentProcess()</literal> &#8212; 現在の対話に関連づけられたプロセスインスタンスです。"
 
 #. Tag: para
 #: Components.xml:751
@@ -1126,9 +994,7 @@ msgstr ""
 msgid ""
 "<literal>createProcess(String name)</literal> &#8212; create an instance of "
 "the named process definition and associate it with the current conversation."
-msgstr ""
-"<literal>createProcess(String name)</literal> &#8212; 指定プロセス定義のイン"
-"スタンスを作成し現在の対話に関連付けます。"
+msgstr "<literal>createProcess(String name)</literal> &#8212; 指定プロセス定義のインスタンスを作成し現在の対話に関連付けます。"
 
 #. Tag: para
 #: Components.xml:758
@@ -1136,9 +1002,7 @@ msgstr ""
 msgid ""
 "<literal>startTask()</literal> &#8212; start the task associated with the "
 "current conversation."
-msgstr ""
-"<literal>startTask()</literal> &#8212; 現在の対話に関連づけられたタスクを開始"
-"します。"
+msgstr "<literal>startTask()</literal> &#8212; 現在の対話に関連づけられたタスクを開始します。"
 
 #. Tag: para
 #: Components.xml:764
@@ -1146,9 +1010,7 @@ msgstr ""
 msgid ""
 "<literal>endTask(String transitionName)</literal> &#8212; end the task "
 "associated with the current conversation."
-msgstr ""
-"<literal>endTask(String transitionName)</literal> &#8212; 現在の対話に関連づ"
-"けられたタスクを終了します。"
+msgstr "<literal>endTask(String transitionName)</literal> &#8212; 現在の対話に関連づけられたタスクを終了します。"
 
 #. Tag: para
 #: Components.xml:770
@@ -1156,9 +1018,7 @@ msgstr ""
 msgid ""
 "<literal>resumeTask(Long id)</literal> &#8212; associate the task with the "
 "given id with the current conversation."
-msgstr ""
-"<literal>resumeTask(Long id)</literal> &#8212; 特定の ID を持つタスクを現在の"
-"対話に関連付けます。"
+msgstr "<literal>resumeTask(Long id)</literal> &#8212; 特定の ID を持つタスクを現在の対話に関連付けます。"
 
 #. Tag: para
 #: Components.xml:776
@@ -1166,9 +1026,7 @@ msgstr ""
 msgid ""
 "<literal>resumeProcess(Long id)</literal> &#8212; associate the process with "
 "the given id with the current conversation."
-msgstr ""
-"<literal>resumeProcess(Long id)</literal> &#8212; 特定の ID を持つプロセスを"
-"現在の対話に関連付けます。"
+msgstr "<literal>resumeProcess(Long id)</literal> &#8212; 特定の ID を持つプロセスを現在の対話に関連付けます。"
 
 #. Tag: para
 #: Components.xml:782
@@ -1176,9 +1034,7 @@ msgstr ""
 msgid ""
 "<literal>transition(String transitionName)</literal> &#8212; trigger the "
 "transition."
-msgstr ""
-"<literal>transition(String transitionName)</literal> &#8212; 遷移を引き起こし"
-"ます。"
+msgstr "<literal>transition(String transitionName)</literal> &#8212; 遷移を引き起こします。"
 
 #. Tag: literal
 #: Components.xml:791
@@ -1214,8 +1070,7 @@ msgstr "org.jboss.seam.bpm.jbpmContext"
 #: Components.xml:809
 #, no-c-format
 msgid "Manager component for an event-scoped <literal>JbpmContext</literal>."
-msgstr ""
-"イベントスコープ <literal>JbpmContext</literal> の管理コンポーネントです。"
+msgstr "イベントスコープ <literal>JbpmContext</literal> の管理コンポーネントです。"
 
 #. Tag: literal
 #: Components.xml:815
@@ -1295,9 +1150,7 @@ msgstr "プロセスインスタンスのタスク一覧です。"
 msgid ""
 "All of these components are installed whenever the component <literal>org."
 "jboss.seam.bpm.jbpm</literal> is installed."
-msgstr ""
-"<literal>org.jboss.seam.bpm.jbpm</literal> コンポーネントがインストールされる"
-"とこれらの全コンポーネントが常にインストールされます。"
+msgstr "<literal>org.jboss.seam.bpm.jbpm</literal> コンポーネントがインストールされるとこれらの全コンポーネントが常にインストールされます。"
 
 #. Tag: title
 #: Components.xml:872
@@ -1337,9 +1190,8 @@ msgid ""
 "available to the current principal. <literal>&lt;h:commandButton value=\"edit"
 "\" rendered=\"#{isUserInRole['admin']}\"/&gt;</literal>."
 msgstr ""
-"現在のプリンシパルに使用可能なロールに応じて JSF ページがコントロールのレンダ"
-"リングを選択できるようにします。 <literal>&lt;h:commandButton value=\"edit\" "
-"rendered=\"#{isUserInRole['admin']}\"/&gt;</literal>"
+"現在のプリンシパルに使用可能なロールに応じて JSF ページがコントロールのレンダリングを選択できるようにします。 <literal>&lt;h:commandButton value=\"edit"
+"\" rendered=\"#{isUserInRole['admin']}\"/&gt;</literal>"
 
 #. Tag: title
 #: Components.xml:900
@@ -1407,11 +1259,7 @@ msgid ""
 "be either looked up in the JNDI context (by setting the "
 "<literal>sessionJndiName</literal> property) or it can created from the "
 "configuration options in which case the <literal>host</literal> is mandatory."
-msgstr ""
-"JavaMail <literal>Session</literal> の管理コンポーネントです。 セッションを "
-"JNDI コンテキスト内で検索させるか (<literal>sessionJndiName</literal> プロパ"
-"ティを設定)、設定オプションから作成することができます。 後者の場合、 "
-"<literal>host</literal> は必須となります。"
+msgstr "JavaMail <literal>Session</literal> の管理コンポーネントです。 セッションを JNDI コンテキスト内で検索させるか (<literal>sessionJndiName</literal> プロパティを設定)、設定オプションから作成することができます。 後者の場合、 <literal>host</literal> は必須となります。"
 
 #. Tag: para
 #: Components.xml:945
@@ -1419,9 +1267,7 @@ msgstr ""
 msgid ""
 "<literal>org.jboss.seam.mail.mailSession.host</literal> &#8212; the hostname "
 "of the SMTP server to use"
-msgstr ""
-"<literal>org.jboss.seam.mail.mailSession.host</literal> &#8212; 使用する "
-"SMTP サーバーのホスト名です。"
+msgstr "<literal>org.jboss.seam.mail.mailSession.host</literal> &#8212; 使用する SMTP サーバーのホスト名です。"
 
 #. Tag: para
 #: Components.xml:950
@@ -1429,9 +1275,7 @@ msgstr ""
 msgid ""
 "<literal>org.jboss.seam.mail.mailSession.port</literal> &#8212; the port of "
 "the SMTP server to use"
-msgstr ""
-"<literal>org.jboss.seam.mail.mailSession.port</literal> &#8212; 使用する "
-"SMTP サーバーのポートです。"
+msgstr "<literal>org.jboss.seam.mail.mailSession.port</literal> &#8212; 使用する SMTP サーバーのポートです。"
 
 #. Tag: para
 #: Components.xml:955
@@ -1439,9 +1283,7 @@ msgstr ""
 msgid ""
 "<literal>org.jboss.seam.mail.mailSession.username</literal> &#8212; the "
 "username to use to connect to the SMTP server."
-msgstr ""
-"<literal>org.jboss.seam.mail.mailSession.username</literal> &#8212; SMTP サー"
-"バーの接続に使用するユーザ−名です。"
+msgstr "<literal>org.jboss.seam.mail.mailSession.username</literal> &#8212; SMTP サーバーの接続に使用するユーザー−名です。"
 
 #. Tag: para
 #: Components.xml:960
@@ -1449,9 +1291,7 @@ msgstr ""
 msgid ""
 "<literal>org.jboss.seam.mail.mailSession.password</literal> &#8212; the "
 "password to use to connect to the SMTP server"
-msgstr ""
-"<literal>org.jboss.seam.mail.mailSession.password</literal> &#8212; SMTP サー"
-"バーの接続に使用するパスワードです。"
+msgstr "<literal>org.jboss.seam.mail.mailSession.password</literal> &#8212; SMTP サーバーの接続に使用するパスワードです。"
 
 #. Tag: para
 #: Components.xml:965
@@ -1459,9 +1299,7 @@ msgstr ""
 msgid ""
 "<literal>org.jboss.seam.mail.mailSession.debug</literal> &#8212; enable "
 "JavaMail debugging (very verbose)"
-msgstr ""
-"<literal>org.jboss.seam.mail.mailSession.debug</literal> &#8212; JavaMail の"
-"デバッグ機能を有効にします (かなり冗長)。"
+msgstr "<literal>org.jboss.seam.mail.mailSession.debug</literal> &#8212; JavaMail のデバッグ機能を有効にします (かなり冗長)。"
 
 #. Tag: para
 #: Components.xml:970
@@ -1469,9 +1307,7 @@ msgstr ""
 msgid ""
 "<literal>org.jboss.seam.mail.mailSession.ssl</literal> &#8212; enable SSL "
 "connection to SMTP (will default to port 465)"
-msgstr ""
-"<literal>org.jboss.seam.mail.mailSession.ssl</literal> &#8212; SMTP への SSL "
-"接続を有効にします (デフォルトはポート465)。"
+msgstr "<literal>org.jboss.seam.mail.mailSession.ssl</literal> &#8212; SMTP への SSL 接続を有効にします (デフォルトはポート465)。"
 
 #. Tag: para
 #: Components.xml:973
@@ -1479,9 +1315,7 @@ msgstr ""
 msgid ""
 "<literal>org.jboss.seam.mail.mailSession.tls</literal> &#8212; by default "
 "true, enable TLS support in the mail session"
-msgstr ""
-"<literal>org.jboss.seam.mail.mailSession.tls</literal> &#8212; デフォルトで"
-"は true です。 メールセッションで TLS サポートを有効にします。"
+msgstr "<literal>org.jboss.seam.mail.mailSession.tls</literal> &#8212; デフォルトでは true です。 メールセッションで TLS サポートを有効にします。"
 
 #. Tag: para
 #: Components.xml:978
@@ -1490,10 +1324,7 @@ msgid ""
 "<literal>org.jboss.seam.mail.mailSession.sessionJndiName</literal> &#8212; "
 "name under which a javax.mail.Session is bound to JNDI. If supplied, all "
 "other properties will be ignored."
-msgstr ""
-"<literal>org.jboss.seam.mail.mailSession.sessionJndiName</literal> &#8212; "
-"JNDI にバインドされる javax.mail.Session と同じ名前です。 これを与えると他の"
-"プロパティはすべて無視されます。"
+msgstr "<literal>org.jboss.seam.mail.mailSession.sessionJndiName</literal> &#8212; JNDI にバインドされる javax.mail.Session と同じ名前です。 これを与えると他のプロパティはすべて無視されます。"
 
 #. Tag: title
 #: Components.xml:990
@@ -1508,11 +1339,7 @@ msgid ""
 "These components provide critical platform infrastructure. You can install a "
 "component which isn't installed by default by setting <literal>install=\"true"
 "\"</literal> on the component in <literal>components.xml</literal>."
-msgstr ""
-"これらのコンポーネントは非常に重要なプラットフォームの基盤を提供します。 デ"
-"フォルトではインストールされないコンポーネントは <literal>components.xml</"
-"literal> 内のそのコンポーネントで <literal>install=\"true\"</literal> を設定"
-"するとインストールすることができます。"
+msgstr "これらのコンポーネントは非常に重要なプラットフォームの基盤を提供します。 デフォルトではインストールされないコンポーネントは <literal>components.xml</literal> 内のそのコンポーネントで <literal>install=\"true\"</literal> を設定するとインストールすることができます。"
 
 #. Tag: literal
 #: Components.xml:999
@@ -1532,9 +1359,7 @@ msgstr "Seam の初期化設定です。 常にインストールされます。
 msgid ""
 "<literal>org.jboss.seam.core.init.jndiPattern</literal> &#8212; the JNDI "
 "pattern used for looking up session beans"
-msgstr ""
-"<literal>org.jboss.seam.core.init.jndiPattern</literal> &#8212; セッション "
-"Bean のルックアップに使用される JNDI パターンです。"
+msgstr "<literal>org.jboss.seam.core.init.jndiPattern</literal> &#8212; セッション Bean のルックアップに使用される JNDI パターンです。"
 
 #. Tag: para
 #: Components.xml:1012
@@ -1543,11 +1368,7 @@ msgid ""
 "<literal>org.jboss.seam.core.init.debug</literal> &#8212; enable Seam debug "
 "mode. This should be set to false when in production. You may see errors if "
 "the system is placed under any load and debug is enabled."
-msgstr ""
-"<literal>org.jboss.seam.core.init.debug</literal> &#8212; Seam デバッグモード"
-"を有効にします。 実稼働では false にセットしてください。 デバッグが有効になっ"
-"ている状態でシステムになんらかの負荷がかかるとエラーが表示される場合がありま"
-"す。"
+msgstr "<literal>org.jboss.seam.core.init.debug</literal> &#8212; Seam デバッグモードを有効にします。 実稼働では false にセットしてください。 デバッグが有効になっている状態でシステムになんらかの負荷がかかるとエラーが表示される場合があります。"
 
 #. Tag: para
 #: Components.xml:1019
@@ -1556,11 +1377,7 @@ msgid ""
 "<literal>org.jboss.seam.core.init.clientSideConversations</literal> &#8212; "
 "if set to <literal>true</literal>, Seam will save conversation context "
 "variables in the client instead of in the <literal>HttpSession</literal>."
-msgstr ""
-"<literal>org.jboss.seam.core.init.clientSideConversations</literal> &#8212; "
-"<literal>true</literal> にセットすると Seam は対話コンテキストの変数を "
-"<literal>HttpSession</literal> 内ではなくクライアント内に保存するようになりま"
-"す。"
+msgstr "<literal>org.jboss.seam.core.init.clientSideConversations</literal> &#8212; <literal>true</literal> にセットすると Seam は対話コンテキストの変数を <literal>HttpSession</literal> 内ではなくクライアント内に保存するようになります。"
 
 #. Tag: para
 #: Components.xml:1026
@@ -1569,10 +1386,7 @@ msgid ""
 "<literal>org.jboss.seam.core.init.userTransactionName</literal> &#8212; the "
 "JNDI name to use when looking up the JTA <literal>UserTransaction</literal> "
 "object."
-msgstr ""
-"<literal>org.jboss.seam.core.init.userTransactionName</literal> &#8212; JTA "
-"<literal>UserTransaction</literal> オブジェクトをルックアップする場合に使用す"
-"る JNDI 名です。"
+msgstr "<literal>org.jboss.seam.core.init.userTransactionName</literal> &#8212; JTA <literal>UserTransaction</literal> オブジェクトをルックアップする場合に使用する JNDI 名です。"
 
 #. Tag: literal
 #: Components.xml:1035
@@ -1596,9 +1410,7 @@ msgstr ""
 msgid ""
 "<literal>org.jboss.seam.core.manager.conversationTimeout</literal> &#8212; "
 "the conversation context timeout in milliseconds."
-msgstr ""
-"<literal>org.jboss.seam.core.manager.conversationTimeout</literal> &#8212; ミ"
-"リ秒単位で対話コンテキストのタイムアウトを設定します。"
+msgstr "<literal>org.jboss.seam.core.manager.conversationTimeout</literal> &#8212; ミリ秒単位で対話コンテキストのタイムアウトを設定します。"
 
 #. Tag: para
 #: Components.xml:1049
@@ -1609,8 +1421,7 @@ msgid ""
 "running conversation context."
 msgstr ""
 "<literal>org.jboss.seam.core.manager.concurrentRequestTimeout</literal> "
-"&#8212; 長期実行対話コンテキストでロックの取得を試行しているスレッドの最大待"
-"機時間です。"
+"&#8212; 長期実行対話コンテキストでロックの取得を試行しているスレッドの最大待機時間です。"
 
 #. Tag: para
 #: Components.xml:1056
@@ -1621,8 +1432,7 @@ msgid ""
 "to <literal>conversationId</literal>."
 msgstr ""
 "<literal>org.jboss.seam.core.manager.conversationIdParameter</literal> "
-"&#8212; 対話 ID の電波に使用する要求パラメータです。 デフォルトは "
-"<literal>conversationId</literal> です。"
+"&#8212; 対話 ID の電波に使用する要求パラメータです。 デフォルトは <literal>conversationId</literal> です。"
 
 #. Tag: para
 #: Components.xml:1063
@@ -1634,9 +1444,7 @@ msgid ""
 "<literal>conversationIsLongRunning</literal>."
 msgstr ""
 "<literal>org.jboss.seam.core.manager.conversationIsLongRunningParameter</"
-"literal> &#8212; 対話が長期実行であるかどうかについての情報伝播に使用する要求"
-"パラメータです。 デフォルトは <literal>conversationIsLongRunning</literal> で"
-"す。"
+"literal> &#8212; 対話が長期実行であるかどうかについての情報伝播に使用する要求パラメータです。 デフォルトは <literal>conversationIsLongRunning</literal> です。"
 
 #. Tag: para
 #: Components.xml:1070
@@ -1645,10 +1453,7 @@ msgid ""
 "<literal>org.jboss.seam.core.manager.defaultFlushMode</literal> &#8212; set "
 "the flush mode set by default on any Seam Managed Persistence Context. By "
 "default <literal>AUTO</literal>."
-msgstr ""
-"<literal>org.jboss.seam.core.manager.defaultFlushMode</literal> &#8212; すべ"
-"ての Seam 管理永続コンテキストにデフォルトでセットされるフラッシュモードを設"
-"定します。 デフォルトは <literal>AUTO</literal> です。"
+msgstr "<literal>org.jboss.seam.core.manager.defaultFlushMode</literal> &#8212; すべての Seam 管理永続コンテキストにデフォルトでセットされるフラッシュモードを設定します。 デフォルトは <literal>AUTO</literal> です。"
 
 #. Tag: literal
 #: Components.xml:1080
@@ -1673,8 +1478,7 @@ msgid ""
 "entry is not found on the server side."
 msgstr ""
 "<literal>org.jboss.seam.navigation.pages.noConversationViewId</literal> "
-"&#8212; 対話エントリがサーバー側に見つからない場合のビュー ID リダイレクト先"
-"のグローバル設定です。"
+"&#8212; 対話エントリがサーバー側に見つからない場合のビュー ID リダイレクト先のグローバル設定です。"
 
 #. Tag: para
 #: Components.xml:1094
@@ -1683,10 +1487,7 @@ msgid ""
 "<literal>org.jboss.seam.navigation.pages.loginViewId</literal> &#8212; "
 "global setting for the view id to redirect to when an unauthenticated user "
 "tries to access a protected view."
-msgstr ""
-"<literal>org.jboss.seam.navigation.pages.loginViewId</literal> &#8212; 未承認"
-"ユーザーが保護されたビューにアクセスしようとしている場合のビュー ID リダイレ"
-"クト先のグローバル設定です。"
+msgstr "<literal>org.jboss.seam.navigation.pages.loginViewId</literal> &#8212; 未承認ユーザーが保護されたビューにアクセスしようとしている場合のビュー ID リダイレクト先のグローバル設定です。"
 
 #. Tag: para
 #: Components.xml:1101
@@ -1694,9 +1495,7 @@ msgstr ""
 msgid ""
 "<literal>org.jboss.seam.navigation.pages.httpPort</literal> &#8212; global "
 "setting for the port to use when the http scheme is requested."
-msgstr ""
-"<literal>org.jboss.seam.navigation.pages.httpPort</literal> &#8212; http ス"
-"キームが要求された場合に使用するポートのグローバル設定です。"
+msgstr "<literal>org.jboss.seam.navigation.pages.httpPort</literal> &#8212; http スキームが要求された場合に使用するポートのグローバル設定です。"
 
 #. Tag: para
 #: Components.xml:1108
@@ -1704,9 +1503,7 @@ msgstr ""
 msgid ""
 "<literal>org.jboss.seam.navigation.pages.httpsPort</literal> &#8212; global "
 "setting for the port to use when the https scheme is requested."
-msgstr ""
-"<literal>org.jboss.seam.navigation.pages.httpsPort</literal> &#8212; https ス"
-"キームが要求された場合に使用するポートのグローバル設定です。"
+msgstr "<literal>org.jboss.seam.navigation.pages.httpsPort</literal> &#8212; https スキームが要求された場合に使用するポートのグローバル設定です。"
 
 #. Tag: para
 #: Components.xml:1115
@@ -1715,10 +1512,7 @@ msgid ""
 "<literal>org.jboss.seam.navigation.pages.resources</literal> &#8212; a list "
 "of resources to search for <literal>pages.xml</literal> style resources. "
 "Defaults to <literal>WEB-INF/pages.xml</literal>."
-msgstr ""
-"<literal>org.jboss.seam.navigation.pages.resources</literal> &#8212; "
-"<literal>pages.xml</literal> スタイルのリソースを検索するリソース一覧です。 "
-"デフォルトは <literal>WEB-INF/pages.xml</literal> です。"
+msgstr "<literal>org.jboss.seam.navigation.pages.resources</literal> &#8212; <literal>pages.xml</literal> スタイルのリソースを検索するリソース一覧です。 デフォルトは <literal>WEB-INF/pages.xml</literal> です。"
 
 #. Tag: literal
 #: Components.xml:1125
@@ -1732,9 +1526,7 @@ msgstr "org.jboss.seam.bpm.jbpm"
 msgid ""
 "Bootstraps a <literal>JbpmConfiguration</literal>. Install as class "
 "<literal>org.jboss.seam.bpm.Jbpm</literal>."
-msgstr ""
-"<literal>JbpmConfiguration</literal> をブートストラップします。 クラス "
-"<literal>org.jboss.seam.bpm.Jbpm</literal> としてインストールします。"
+msgstr "<literal>JbpmConfiguration</literal> をブートストラップします。 クラス <literal>org.jboss.seam.bpm.Jbpm</literal> としてインストールします。"
 
 #. Tag: para
 #: Components.xml:1133
@@ -1743,9 +1535,7 @@ msgid ""
 "<literal>org.jboss.seam.bpm.jbpm.processDefinitions</literal> &#8212; a list "
 "of resource names of jPDL files to be used for orchestration of business "
 "processes."
-msgstr ""
-"<literal>org.jboss.seam.bpm.jbpm.processDefinitions</literal> &#8212; ビジネ"
-"スプロセスの編成に使用する jPDL ファイルのリソース名一覧です。"
+msgstr "<literal>org.jboss.seam.bpm.jbpm.processDefinitions</literal> &#8212; ビジネスプロセスの編成に使用する jPDL ファイルのリソース名一覧です。"
 
 #. Tag: para
 #: Components.xml:1140
@@ -1754,9 +1544,7 @@ msgid ""
 "<literal>org.jboss.seam.bpm.jbpm.pageflowDefinitions</literal> &#8212; a "
 "list of resource names of jPDL files to be used for orchestration of "
 "conversation page flows."
-msgstr ""
-"<literal>org.jboss.seam.bpm.jbpm.pageflowDefinitions</literal> &#8212; 対話"
-"ページフローの編成に使用する jPDL ファイルのリソース名一覧です。"
+msgstr "<literal>org.jboss.seam.bpm.jbpm.pageflowDefinitions</literal> &#8212; 対話ページフローの編成に使用する jPDL ファイルのリソース名一覧です。"
 
 #. Tag: literal
 #: Components.xml:1150
@@ -1771,7 +1559,7 @@ msgid ""
 "Internal session-scoped component recording the active long-running "
 "conversations between requests."
 msgstr ""
-"リクエスト間のアクティブな長期の対話を記録するセションスコープの内部コンポー"
+"要求間のアクティブな長期の対話を記録するセッションスコープの内部コンポー"
 "ネントです。"
 
 #. Tag: literal
@@ -1802,8 +1590,7 @@ msgstr "org.jboss.seam.persistence.persistenceContexts"
 msgid ""
 "Internal component recording the persistence contexts which were used in the "
 "current conversation."
-msgstr ""
-"現在の対話に使用された永続コンテキストを記録する内部コンポーネントです。"
+msgstr "現在の対話に使用された永続コンテキストを記録する内部コンポーネントです。"
 
 #. Tag: literal
 #: Components.xml:1177
@@ -1813,10 +1600,10 @@ msgstr "org.jboss.seam.jms.queueConnection"
 
 #. Tag: para
 #: Components.xml:1179
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Manages a JMS <literal>QueueConnection</literal>. Installed whenever managed "
-"<literal>QueueSender</literal> is installed."
+"managed <literal>QueueSender</literal> is installed."
 msgstr ""
 "JMS <literal>QueueConnection</literal> を管理します。 管理 "
 "<literal>QueueSender</literal> がインストールされると必ずインストールされま"
@@ -1831,8 +1618,8 @@ msgid ""
 "literal>. Default to <literal>UIL2ConnectionFactory</literal>"
 msgstr ""
 "<literal>org.jboss.seam.jms.queueConnection.queueConnectionFactoryJndiName</"
-"literal> &#8212; JMS <literal>QueueConnectionFactory</literal> の JNDI 名で"
-"す。 デフォルトは <literal>UIL2ConnectionFactory</literal> です。"
+"literal> &#8212; JMS <literal>QueueConnectionFactory</"
+"literal> の JNDI 名です。 デフォルトは <literal>UIL2ConnectionFactory</literal> です。"
 
 #. Tag: literal
 #: Components.xml:1195
@@ -1842,10 +1629,10 @@ msgstr "org.jboss.seam.jms.topicConnection"
 
 #. Tag: para
 #: Components.xml:1197
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Manages a JMS <literal>TopicConnection</literal>. Installed whenever managed "
-"<literal>TopicPublisher</literal> is installed."
+"managed <literal>TopicPublisher</literal> is installed."
 msgstr ""
 "JMS <literal>TopicConnection</literal> を管理します。 管理 "
 "<literal>TopicPublisher</literal> がインストールされると必ずインストールされ"
@@ -1860,8 +1647,8 @@ msgid ""
 "literal>. Default to <literal>UIL2ConnectionFactory</literal>"
 msgstr ""
 "<literal>org.jboss.seam.jms.topicConnection.topicConnectionFactoryJndiName</"
-"literal> &#8212; JMS <literal>TopicConnectionFactory</literal> の JNDI 名で"
-"す。 デフォルトは <literal>UIL2ConnectionFactory</literal> です。"
+"literal> &#8212; JMS <literal>TopicConnectionFactory</"
+"literal> の JNDI 名です。 デフォルトは <literal>UIL2ConnectionFactory</literal> です。"
 
 #. Tag: literal
 #: Components.xml:1213
@@ -1884,11 +1671,8 @@ msgstr "org.jboss.seam.core.validators"
 #. Tag: para
 #: Components.xml:1223
 #, no-c-format
-msgid ""
-"Caches instances of Hibernate Validator <literal>ClassValidator</literal>."
-msgstr ""
-"Hibernate Validator <literal>ClassValidator</literal> のインスタンスをキャッ"
-"シュします。"
+msgid "Caches instances of Hibernate Validator <literal>ClassValidator</literal>."
+msgstr "Hibernate Validator <literal>ClassValidator</literal> のインスタンスをキャッシュします。"
 
 #. Tag: literal
 #: Components.xml:1229
@@ -1902,8 +1686,7 @@ msgstr "org.jboss.seam.faces.validation"
 msgid ""
 "Allows the application to determine whether validation failed or was "
 "successful."
-msgstr ""
-"検証が失敗したのか成功だったのかアプリケーションが判断できるようになります。"
+msgstr "検証が失敗したのか成功だったのかアプリケーションが判断できるようになります。"
 
 #. Tag: literal
 #: Components.xml:1238
@@ -1947,9 +1730,7 @@ msgstr "org.jboss.seam.transaction.transaction"
 msgid ""
 "API for controlling transactions and abstracting the underlying transaction "
 "management implementation behind a JTA-compatible interface."
-msgstr ""
-"トランザクションを制御し JTA 互換のインターフェースの背後にある基礎となるトラ"
-"ンザクション管理の実装を抽出するための API です。"
+msgstr "トランザクションを制御し JTA 互換のインタフェースの背後にある基礎となるトランザクション管理の実装を抽出するための API です。"
 
 #. Tag: literal
 #: Components.xml:1272
@@ -1963,9 +1744,7 @@ msgstr "org.jboss.seam.faces.safeActions"
 msgid ""
 "Decides if an action expression in an incoming URL is safe. This is done by "
 "checking that the action expression exists in the view."
-msgstr ""
-"着信 URL 内のアクション式が安全かどうかを決定します。 アクション式がビュー内"
-"に存在することを確認することでこれを行います。"
+msgstr "着信 URL 内のアクション式が安全かどうかを決定します。 アクション式がビュー内に存在することを確認することでこれを行います。"
 
 #. Tag: title
 #: Components.xml:1284
@@ -1989,7 +1768,7 @@ msgstr "org.jboss.seam.async.dispatcher"
 #: Components.xml:1293
 #, no-c-format
 msgid "Dispatcher stateless session bean for asynchronous methods."
-msgstr "非同期メソッド用のディスパッチャーステートレスセション Bean"
+msgstr "非同期メソッド用のディスパッチャステートレスセッション Bean"
 
 #. Tag: literal
 #: Components.xml:1302
@@ -2019,8 +1798,7 @@ msgstr "org.jboss.seam.core.uiComponent"
 #: Components.xml:1326
 #, no-c-format
 msgid "Manages a map of UIComponents keyed by component id."
-msgstr ""
-"コンポーネント ID によって与えられる UIComponents のマップを管理します。"
+msgstr "コンポーネント ID によって与えられる UIComponents のマップを管理します。"
 
 #. Tag: title
 #: Components.xml:1338
@@ -2108,10 +1886,7 @@ msgid ""
 "<emphasis>&lt;entityManager&gt;</emphasis>.entityManagerFactory &#8212; a "
 "value binding expression that evaluates to an instance of "
 "<literal>EntityManagerFactory</literal>."
-msgstr ""
-"<emphasis>&lt;entityManager&gt;</emphasis>.entityManagerFactory &#8212; "
-"<literal>EntityManagerFactory</literal> のインスタンスに評価を行う値バイン"
-"ディング式です。"
+msgstr "<emphasis>&lt;entityManager&gt;</emphasis>.entityManagerFactory &#8212; <literal>EntityManagerFactory</literal> のインスタンスに評価を行う値バインディング式です。"
 
 #. Tag: para
 #: Components.xml:1368
@@ -2121,9 +1896,8 @@ msgid ""
 "the JNDI name of the entity manager factory, default to java:/<emphasis>&lt;"
 "managedPersistenceContext&gt;</emphasis>."
 msgstr ""
-"<emphasis>&lt;entityManager&gt;</emphasis>.persistenceUnitJndiName &#8212; エ"
-"ンティティマネージャファクトリの JNDI 名です。 デフォルトは java:/"
-"<emphasis>&lt;managedPersistenceContext&gt;</emphasis> です。"
+"<emphasis>&lt;entityManager&gt;</emphasis>.persistenceUnitJndiName &#8212; エンティティマネージャファクトリの JNDI 名です。 デフォルトは java:/<emphasis>&lt;"
+"managedPersistenceContext&gt;</emphasis> です。"
 
 #. Tag: emphasis
 #: Components.xml:1378
@@ -2153,9 +1927,7 @@ msgstr ""
 msgid ""
 "<literal>entityManagerFactory.persistenceUnitName</literal> &#8212; the name "
 "of the persistence unit."
-msgstr ""
-"<literal>entityManagerFactory.persistenceUnitName</literal> &#8212; 永続ユ"
-"ニット名です。"
+msgstr "<literal>entityManagerFactory.persistenceUnitName</literal> &#8212; 永続ユニット名です。"
 
 #. Tag: para
 #: Components.xml:1393 Components.xml:1436
@@ -2193,9 +1965,8 @@ msgid ""
 "expression that evaluates to an instance of <literal>SessionFactory</"
 "literal>."
 msgstr ""
-"<emphasis>&lt;session&gt;</emphasis>.sessionFactory &#8212; "
-"<literal>SessionFactory</literal> のインスタンスに対して評価する値バインディ"
-"ング式です。"
+"<emphasis>&lt;session&gt;</emphasis>.sessionFactory &#8212; <literal>SessionFactory</"
+"literal> のインスタンスに対して評価する値バインディング式です。"
 
 #. Tag: para
 #: Components.xml:1412
@@ -2205,8 +1976,7 @@ msgid ""
 "name of the session factory, default to java:/<emphasis>&lt;"
 "managedSession&gt;</emphasis>."
 msgstr ""
-"<emphasis>&lt;session&gt;</emphasis>.sessionFactoryJndiName &#8212; セッショ"
-"ンファクトリの JNDI 名です。 デフォルトは java:/<emphasis>&lt;"
+"<emphasis>&lt;session&gt;</emphasis>.sessionFactoryJndiName &#8212; セッションファクトリの JNDI 名です。 デフォルトは java:/<emphasis>&lt;"
 "managedSession&gt;</emphasis> です。"
 
 #. Tag: emphasis
@@ -2233,9 +2003,7 @@ msgstr "Hibernate <literal>SessionFactory</literal> を管理します。"
 msgid ""
 "<literal>&lt;sessionFactory&gt;.cfgResourceName</literal> &#8212; the path "
 "to the configuration file. Default to <literal>hibernate.cfg.xml</literal>."
-msgstr ""
-"<literal>&lt;sessionFactory&gt;.cfgResourceName</literal> &#8212; 設定ファイ"
-"ルへのパスです。デフォルトは <literal>hibernate.cfg.xml</literal> です。"
+msgstr "<literal>&lt;sessionFactory&gt;.cfgResourceName</literal> &#8212; 設定ファイルへのパスです。デフォルトは <literal>hibernate.cfg.xml</literal> です。"
 
 #. Tag: emphasis
 #: Components.xml:1442
@@ -2265,9 +2033,7 @@ msgstr ""
 msgid ""
 "<emphasis>&lt;managedQueueSender&gt;</emphasis>.queueJndiName &#8212; the "
 "JNDI name of the JMS queue."
-msgstr ""
-"<emphasis>&lt;managedQueueSender&gt;</emphasis>.queueJndiName &#8212; JMS "
-"キューの JNDI 名です。"
+msgstr "<emphasis>&lt;managedQueueSender&gt;</emphasis>.queueJndiName &#8212; JMS キューの JNDI 名です。"
 
 #. Tag: emphasis
 #: Components.xml:1459
@@ -2297,9 +2063,7 @@ msgstr ""
 msgid ""
 "<emphasis>&lt;managedTopicPublisher&gt;</emphasis>.topicJndiName &#8212; the "
 "JNDI name of the JMS topic."
-msgstr ""
-"<emphasis>&lt;managedTopicPublisher&gt;</emphasis>.topicJndiName &#8212; JMS "
-"トピックの JMDI 名です。"
+msgstr "<emphasis>&lt;managedTopicPublisher&gt;</emphasis>.topicJndiName &#8212; JMS トピックの JMDI 名です。"
 
 #. Tag: emphasis
 #: Components.xml:1476
@@ -2329,9 +2093,7 @@ msgstr ""
 msgid ""
 "<emphasis>&lt;managedWorkingMemory&gt;</emphasis>.ruleBase &#8212; a value "
 "expression that evaluates to an instance of <literal>RuleBase</literal>."
-msgstr ""
-"<emphasis>&lt;managedWorkingMemory&gt;</emphasis>.ruleBase &#8212; "
-"<literal>RuleBase</literal> のインスタンスに対して評価する値式です。"
+msgstr "<emphasis>&lt;managedWorkingMemory&gt;</emphasis>.ruleBase &#8212; <literal>RuleBase</literal> のインスタンスに対して評価する値式です。"
 
 #. Tag: emphasis
 #: Components.xml:1493
@@ -2354,9 +2116,9 @@ msgid ""
 "usage, since it does not support dynamic installation of new rules.</"
 "emphasis>"
 msgstr ""
-"アプリケーションスコープの Drools <literal>RuleBase</literal> の管理コンポー"
-"ネントです。 <emphasis>新しいルールの動的なインストールには対応しないため、 "
-"実稼働での使用は目的としていないので注意してください。</emphasis>"
+"アプリケーションスコープの Drools <literal>RuleBase</"
+"literal> の管理コンポーネントです。 <emphasis>新しいルールの動的なインストールには対応しないため、 実稼働での使用は目的としていないので注意してください。</"
+"emphasis>"
 
 #. Tag: para
 #: Components.xml:1503
@@ -2364,9 +2126,7 @@ msgstr ""
 msgid ""
 "<emphasis>&lt;ruleBase&gt;</emphasis>.ruleFiles &#8212; a list of files "
 "containing Drools rules."
-msgstr ""
-"<emphasis>&lt;ruleBase&gt;</emphasis>.ruleFiles &#8212; Drools ルールを含む"
-"ファイルの一覧です。"
+msgstr "<emphasis>&lt;ruleBase&gt;</emphasis>.ruleFiles &#8212; Drools ルールを含むファイルの一覧です。"
 
 #. Tag: para
 #: Components.xml:1507
@@ -2374,8 +2134,7 @@ msgstr ""
 msgid ""
 "<emphasis>&lt;ruleBase&gt;</emphasis>.dslFile &#8212; a Drools DSL "
 "definition."
-msgstr ""
-"<emphasis>&lt;ruleBase&gt;</emphasis>.dslFile &#8212; Drools DSL 定義です。"
+msgstr "<emphasis>&lt;ruleBase&gt;</emphasis>.dslFile &#8212; Drools DSL 定義です。"
 
 #. Tag: emphasis
 #: Components.xml:1516
@@ -2424,3 +2183,4 @@ msgstr "&lt;hibernateEntityQuery&gt;"
 #, no-c-format
 msgid "org.jboss.seam.framework.HibernateEntityQuery"
 msgstr "org.jboss.seam.framework.HibernateEntityQuery"
+

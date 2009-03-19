@@ -1,17 +1,17 @@
-# translation of Tools.po to Japanese
-# Noriko Mizumoto <noriko@redhat.com>, 2007.
+# Language es-ES translations for seam package.
+# Automatically generated, 2008.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Tools\n"
+"Project-Id-Version: seam 2_0\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-02-19 21:44+0000\n"
-"PO-Revision-Date: 2009-01-04 23:27+0900\n"
-"Last-Translator: Shinobu NOGAMI <s-nogami@sourceforge.jp>\n"
-"Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
+"PO-Revision-Date: 2009-03-19 18:46+0900\n"
+"Last-Translator: minamoto <minamoto@redhat.com>\n"
+"Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
 
 #. Tag: author
 #: Author_Group.xml:5
@@ -70,12 +70,8 @@ msgstr "<firstname>Dan</firstname> <surname>Allen</surname>"
 #. Tag: author
 #: Author_Group.xml:41
 #, no-c-format
-msgid ""
-"<firstname>Max</firstname> <othername>Rydahl</othername> <surname>Andersen</"
-"surname>"
-msgstr ""
-"<firstname>Max</firstname> <othername>Rydahl</othername> <surname>Andersen</"
-"surname>"
+msgid "<firstname>Max</firstname> <othername>Rydahl</othername> <surname>Andersen</surname>"
+msgstr "<firstname>Max</firstname> <othername>Rydahl</othername> <surname>Andersen</surname>"
 
 #. Tag: author
 #: Author_Group.xml:46
@@ -120,7 +116,8 @@ msgid "<firstname>James</firstname> <surname>Cobb</surname>"
 msgstr "<firstname>James</firstname> <surname>Cobb</surname>"
 
 #. Tag: shortaffil
-#: Author_Group.xml:74 Author_Group.xml:81
+#: Author_Group.xml:74
+#: Author_Group.xml:81
 #, no-c-format
 msgid "Graphic Design"
 msgstr "グラフィックデザイン"
@@ -157,36 +154,38 @@ msgstr "フランス語翻訳"
 
 #. Tag: othercredit
 #: Author_Group.xml:99
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "<firstname>Nicola</firstname> <surname>Benaglia</surname>"
-msgstr "<firstname>Jay</firstname> <surname>Balunas</surname>"
+msgstr "<firstname>Nicola</firstname> <surname>Benaglia</surname>"
 
 #. Tag: shortaffil
-#: Author_Group.xml:103 Author_Group.xml:110
-#, fuzzy, no-c-format
+#: Author_Group.xml:103
+#: Author_Group.xml:110
+#, no-c-format
 msgid "Italian Translation"
-msgstr "フランス語翻訳"
+msgstr "イタリア語翻訳"
 
 #. Tag: othercredit
 #: Author_Group.xml:106
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "<firstname>Stefano</firstname> <surname>Travelli</surname>"
-msgstr "<firstname>Dan</firstname> <surname>Allen</surname>"
+msgstr "<firstname>Stefano</firstname> <surname>Travelli</surname>"
 
 #. Tag: othercredit
 #: Author_Group.xml:113
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "<firstname>Japan</firstname> <surname>JBoss User Group</surname>"
-msgstr "<firstname>Jay</firstname> <surname>Balunas</surname>"
+msgstr "<firstname>Japan</firstname> <surname>JBoss User Group</surname>"
 
 #. Tag: shortaffil
 #: Author_Group.xml:117
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Japanese Translation"
-msgstr "フランス語翻訳"
+msgstr "日本語翻訳"
 
 #. Tag: editor
 #: Author_Group.xml:120
 #, no-c-format
 msgid "<firstname>Samson</firstname> <surname>Kittoli</surname>"
 msgstr "<firstname>Samson</firstname> <surname>Kittoli</surname>"
+

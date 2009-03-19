@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Tools\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 06:41+0000\n"
-"PO-Revision-Date: 2009-01-02 18:08+0900\n"
+"PO-Revision-Date: 2009-02-17 01:42+0900\n"
 "Last-Translator: Takayoshi Osawa <takayoshi.osawa@gmail.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -29,13 +29,13 @@ msgstr "Seam ディストリビューションはコマンドラインユーテ�
 #: Gettingstarted.xml:10
 #, no-c-format
 msgid "This is the easy way to get your feet wet with Seam, and gives you some ammunition for next time you find yourself trapped in an elevator with one of those tedious Ruby guys ranting about how great and wonderful his new toy is for building totally trivial applications that put things in databases."
-msgstr "これは、Seam 入門として良い方法です。 そして、状態をデータベースに保管するとてもつまらないアプリケーションを構築するために、 新しいおもちゃがどれほどすばらしいかを大げさに話す退屈な Ruby 野郎の 1 人に次にエレベータの中で捕まったとわかった時のために、 攻撃材料を与えてくれます。"
+msgstr "これは、Seam 入門として良い方法です。 そして、状態をデータベースに保管するとてもつまらないアプリケーションを構築するために、 新しいおもちゃがどれほどすばらしいかを大げさに話す退屈な Ruby 野郎の一人に次にエレベータの中で捕まったとわかった時のために、 攻撃材料を与えてくれます。"
 
 #. Tag: para
 #: Gettingstarted.xml:14
 #, no-c-format
 msgid "In this release, seam-gen works best for people with JBoss AS. You can use the generated project with other J2EE or Java EE 5 application servers by making a few manual changes to the project configuration."
-msgstr "このリリースでは、seam-gen は JBoss AS で使用するのが最良です。 プロジェクト設定をマニュアルで少し変更するだけで他の J2EE や Java 5 アプリケーションサーバ用に生成されたプロジェクトも使用可能です。"
+msgstr "このリリースでは、seam-gen は JBoss AS で使用するのが最良です。 プロジェクト設定をマニュアルで少し変更するだけで、生成されたプロジェクトを他の J2EE や Java 5 アプリケーションサーバー用にも使用可能です。"
 
 #. Tag: para
 #: Gettingstarted.xml:17
@@ -47,7 +47,7 @@ msgstr "Eclipse がなくても seam-gen は<emphasis>使用可能</emphasis>で
 #: Gettingstarted.xml:21
 #, no-c-format
 msgid "Seam-gen is basically just a big ugly Ant script wrapped around Hibernate Tools, together with some templates. That makes it easy to customize if you need to."
-msgstr "Seam-gen は簡単に言ってしまえばテンプレートと共に Hibernate Tools をラッピングした大きな醜い Ant スクリプトです。 これは必要であれば簡単にカスタマイズできることを意味します。"
+msgstr "Seam-gen は簡単に言ってしまえば、テンプレートと共に提供される Hibernate Tools をラッピングした大きな醜い Ant スクリプトです。 これは必要であれば簡単にカスタマイズできることを意味します。"
 
 #. Tag: title
 #: Gettingstarted.xml:25
@@ -59,13 +59,13 @@ msgstr "始める前に"
 #: Gettingstarted.xml:27
 #, no-c-format
 msgid "Make sure you have JDK 5 or JDK 6 (see <xref linkend=\"jdk_dependencies\"/> for details), JBoss AS 4.2 and Ant 1.6, along with recent versions of Eclipse, the JBoss IDE plugin for Eclipse and the TestNG plugin for Eclipse correctly installed before starting. Add your JBoss installation to the JBoss Server View in Eclipse. Start JBoss in debug mode. Finally, start a command prompt in the directory where you unzipped the Seam distribution."
-msgstr "始める前に、JDK 5 または JDK 6 ( 詳細は <xref linkend=\"jdk_dependencies\"/> 参照 ) とJBoss AS 4.2 と Ant 1.6 そして、それに合う Eclipse 用の JBoss IDE プラグイン と TestNG プラグインがインストールされていることを確認してください。 Eclipse の JBoss サーバビューに JBoss 設定を追加してください。 デバッグモードで JBoss を起動してください。 最後に、Seam ディストリビューションを展開したディレクトリでコマンドプロンプト起動してください。"
+msgstr "始める前に、JDK 5 または JDK 6 ( 詳細は <xref linkend=\"jdk_dependencies\"/> 参照 ) と JBoss AS 4.2 と Ant 1.6 そして、それに合う Eclipse 用の JBoss IDE プラグイン と TestNG プラグインがインストールされていることを確認してください。 Eclipse の JBoss サーバビューに JBoss 設定を追加してください。 デバッグモードで JBoss を起動してください。 最後に、Seam ディストリビューションを展開したディレクトリでコマンドプロンプト起動してください。"
 
 #. Tag: para
 #: Gettingstarted.xml:33
 #, no-c-format
 msgid "JBoss has sophisticated support for hot re-deployment of WARs and EARs. Unfortunately, due to bugs in the JVM, repeated redeployment of an EAR—which is common during development—eventually causes the JVM to run out of perm gen space. For this reason, we recommend running JBoss in a JVM with a large perm gen space at development time. If you're running JBoss from JBoss IDE, you can configure this in the server launch configuration, under \"VM arguments\". We suggest the following values:"
-msgstr "JBoss は優れた WAR や EAR のホット再デプロイメントをサポートします。 残念ながら、 JVM にバグがあるため、 — 開発段階では一般的な — EAR の再デプロイメントを繰り返すと最終的には JVM が perm gen スペースを使い果たしてしまうことになります。 この理由により、デプロイメント時に perm gen space を大きく確保した JVM で JBoss を稼動させることを推奨します。 JBoss IDE から JBoss を稼動させる場合は、 「VM 引数」の下にあるサーバ起動設定でこれを設定することができます。 以下のような値を推奨します。"
+msgstr "JBoss は WAR や EAR の優れたホット再デプロイメントをサポートします。 残念ながら、 JVM にバグがあるため、 — 開発段階では一般的な — EAR の再デプロイメントを繰り返すと最終的には JVM が perm gen スペースを使い果たしてしまうことになります。 この理由により、デプロイメント時に perm gen space を大きく確保した JVM で JBoss を稼動させることを推奨します。 JBoss IDE から JBoss を稼動させる場合は、 「VM 引数」の下にあるサーバ起動設定でこれを設定することができます。 以下のような値を推奨します。"
 
 #. Tag: programlisting
 #: Gettingstarted.xml:39
@@ -116,7 +116,7 @@ msgid ""
 "cd jboss-seam-2.0.x\n"
 "seam setup"
 msgstr ""
-"cd jboss-seam-2.0.x\n"
+"cd jboss-seam-2.1.x\n"
 "seam setup"
 
 #. Tag: para
@@ -249,7 +249,7 @@ msgstr "このツールは気の利いたデフォルト値を提供します。
 #: Gettingstarted.xml:66
 #, no-c-format
 msgid "The most important choice you need to make is between EAR deployment and WAR deployment of your project. EAR projects support EJB 3.0 and require Java EE 5. WAR projects do not support EJB 3.0, but may be deployed to a J2EE environment. The packaging of a WAR is also simpler to understand. If you installed an EJB3-ready application server like JBoss, choose <literal>ear</literal>. Otherwise, choose <literal>war</literal>. We'll assume that you've chosen an EAR deployment for the rest of the tutorial, but you can follow exactly the same steps for a WAR deployment."
-msgstr "決める必要がある重要な選択は、プロジェクトとしてEAR形式デプロイとWAR形式デプロイのどちらにするかです。 EAR プロジェクトは EJB 3.0 に対応し Java EE 5 が必要です。 WAR プロジェクトは EJB 3.0 には対応しませんがおそらく J2EE 環境にデプロイメントが可能でしょう。 WAR は EAR に比べシンプルで理解しやすいパッケージです。 JBoss のような EJB3 が実行可能なアプリケーションサーバにインストールする場合は <literal>ear</literal> を選択してください。 これ以外は <literal>war</literal> を選択してください。 以降、 このチュートリアルでは EAR デプロイメントが選択されたと仮定しますが、 WAR デプロイメントの場合もまったく同じステップで進むことができます。"
+msgstr "決める必要がある重要な選択は、プロジェクトとして EAR 形式デプロイと WAR 形式デプロイのどちらにするかです。 EAR プロジェクトは EJB 3.0 に対応し Java EE 5 が必要です。 WAR プロジェクトは EJB 3.0 には対応しませんが J2EE 環境にデプロイ可能になります。 WAR は EAR に比べシンプルで理解しやすいパッケージです。 JBoss のような EJB3 が実行可能なアプリケーションサーバーにインストールする場合は <literal>ear</literal> を選択してください。 これ以外は <literal>war</literal> を選択してください。 以降、 このチュートリアルでは EAR デプロイメントが選択されたと仮定しますが、 WAR デプロイメントの場合もまったく同じステップで進むことができます。"
 
 #. Tag: para
 #: Gettingstarted.xml:73
@@ -261,7 +261,7 @@ msgstr "既存のデータモデルで作業をしている場合、 データ�
 #: Gettingstarted.xml:76
 #, no-c-format
 msgid "The settings are stored in <literal>seam-gen/build.properties</literal>, but you can also modify them simply by running <literal>seam setup</literal> a second time."
-msgstr "設定は <literal>seam-gen/build.properties</literal> に格納されていますが、 2 度目に <literal>seam setup</literal> を実行することで変更することも可能です。"
+msgstr "設定は <literal>seam-gen/build.properties</literal> に格納されていますが、 二度目に <literal>seam setup</literal> を実行することで変更することも可能です。"
 
 #. Tag: para
 #: Gettingstarted.xml:79
@@ -319,13 +319,13 @@ msgstr "Seam jar、依存する jar そして JDBC ドライバ jar を新しい
 #: Gettingstarted.xml:93
 #, no-c-format
 msgid "If your default JDK in Eclipse is not a Java SE 5 or Java SE 6 JDK, you will need to select a Java SE 5 compliant JDK using <literal>Project -&gt; Properties -&gt; Java Compiler</literal>."
-msgstr "Eclipse のデフォルト JDK が SE 5 あるいは Java SE 6 JDK でなければ、 <literal>プロジェクト -&gt; プロパティ -&gt; Java コンパイラ</literal> の手順で、Java SE 5 互換の JDK を選ぶ必要があります。"
+msgstr "Eclipse のデフォルト JDK が Java SE 5 あるいは Java SE 6 の JDK でなければ、 <literal>プロジェクト -&gt; プロパティ -&gt; Java コンパイラ</literal> の手順で、Java SE 5 互換の JDK を選ぶ必要があります。"
 
 #. Tag: para
 #: Gettingstarted.xml:96
 #, no-c-format
 msgid "Alternatively, you can deploy the project from outside Eclipse by typing <literal>seam explode</literal>."
-msgstr "別の方法として、Eclise の外部から <literal>seam explode</literal> とタイプすることでプロジェクトのデプロイが可能です。 <literal>seam explode</literal>."
+msgstr "別の方法として、Eclise の外部から <literal>seam explode</literal> とタイプすることでプロジェクトのデプロイが可能です。"
 
 #. Tag: para
 #: Gettingstarted.xml:98
@@ -337,13 +337,13 @@ msgstr "welcome page を見るには、<literal>http://localhost:8080/helloworld
 #: Gettingstarted.xml:103
 #, no-c-format
 msgid "Don't get scared by the XML configuration documents that were generated into the project directory. They are mostly standard Java EE stuff, the stuff you need to create once and then never look at again, and they are 90% the same between all Seam projects. (They are so easy to write that even seam-gen can do it.)"
-msgstr "プロジェクトディレクトリに XML 設定ドキュメントが生成されますがびっくりしないでください。 これらのほとんどが標準 Java EE に関するもので、 1 度生成したら 2 度と見る必要のないものです。 全 Seam プロジェクトで 90% は同じものです。 (seam-gen ができるほどですから記述が非常に簡単なドキュメントです。)"
+msgstr "プロジェクトディレクトリに XML 設定ドキュメントが生成されますがびっくりしないでください。 これらのほとんどが標準 Java EE に関するもので、 一度生成したら 二度と見る必要のないものです。 全 Seam プロジェクトで 90% は同じものです。 (seam-gen ができるほどですから記述が非常に簡単なドキュメントです。)"
 
 #. Tag: para
 #: Gettingstarted.xml:107
 #, no-c-format
 msgid "The generated project includes three database and persistence configurations. The <literal>persistence-test.xml</literal> and <literal>import-test.sql</literal> files are used when running the TestNG unit tests against HSQLDB. The database schema and the test data in <literal>import-test.sql</literal> is always exported to the database before running tests. The <literal>myproject-dev-ds.xml</literal>, <literal>persistence-dev.xml</literal>and <literal>import-dev.sql</literal> files are for use when deploying the application to your development database. The schema might be exported automatically at deployment, depending upon whether you told seam-gen that you are working with an existing database. The <literal>myproject-prod-ds.xml</literal>, <literal>persistence-prod.xml</literal>and <literal>import-prod.sql</literal> files are for use when deploying the application to your production database. The schema is not exported automatically at deployment."
-msgstr "生成されたプロジェクトは3つのデータベースと永続性設定を含んでいます。 HSQLDB に対して TestNG ユニットテストを実行するときに <literal>persistence-test.xml</literal> と <literal>import-test.sql</literal> ファイルが使用されます。 <literal>import-test.sql</literal> 中のデータベーススキーマとテストデータは常にテストが実行される前にデータベースにエキスポートされます。 <literal>myproject-dev-ds.xml</literal>、<literal>persistence-dev.xml</literal> と <literal>import-dev.sql</literal> はアプリケーションを開発データベースにデプロイするときに使用します。 seam-gen に既存データベースで作業しているかを伝えるかどうかによってスキーマはデプロイ時に自動的にエキスポートされる場合があります。 <literal>myproject-prod-ds.xml</literal>、 <literal>persistence-prod.xml</literal> と <literal>import-prod.sql</literal> ファイルは、 本番環境データベースにアプリケーションをデプロイするときに使用します。 デプロイ時にスキーマは自動的にエキスポートされません。"
+msgstr "生成されたプロジェクトは三つのデータベースと永続性設定を含んでいます。 HSQLDB に対して TestNG ユニットテストを実行するときに <literal>persistence-test.xml</literal> と <literal>import-test.sql</literal> ファイルが使用されます。 <literal>import-test.sql</literal> 中のデータベーススキーマとテストデータは常にテストが実行される前にデータベースにエキスポートされます。 <literal>myproject-dev-ds.xml</literal>、<literal>persistence-dev.xml</literal> と <literal>import-dev.sql</literal> はアプリケーションを開発データベースにデプロイするときに使用します。 seam-gen に既存データベースで作業しているかを伝えるかどうかによってスキーマはデプロイ時に自動的にエキスポートされる場合があります。 <literal>myproject-prod-ds.xml</literal>、 <literal>persistence-prod.xml</literal> と <literal>import-prod.sql</literal> ファイルは、 本番環境データベースにアプリケーションをデプロイするときに使用します。 デプロイ時にスキーマは自動的にエキスポートされません。"
 
 #. Tag: title
 #: Gettingstarted.xml:121
@@ -577,7 +577,7 @@ msgstr "seam generate-entities"
 #: Gettingstarted.xml:170
 #, no-c-format
 msgid "Restart the deployment, and go to <literal>http://localhost:8080/helloworld</literal>. You can browse the database, edit existing objects, and create new objects. If you look at the generated code, you'll probably be amazed how simple it is! Seam was designed so that data access code is easy to write by hand, even for people who don't want to cheat by using seam-gen."
-msgstr "デプロイを再起動して、 <literal>http://localhost:8080/helloworld</literal> に進んでください。 データベースの参照、 既存オブジェクトの編集、 新しいオブジェクトの生成が可能です。 生成されたコードを見ると、おそらくあまりに簡単なのに驚かれたと思います。 Seam はデータアクセスコードが手作業で簡単に記述できるように設計されているからです。 また seam-gen を使用してずるしたくない人でも大丈夫です。"
+msgstr "デプロイを再起動して、 <literal>http://localhost:8080/helloworld</literal> に進んでください。 データベースの参照、 既存オブジェクトの編集、 新しいオブジェクトの生成が可能です。 生成されたコードを見ると、おそらくあまりに簡単なのに驚かれたと思います。 Seam はデータアクセスコードが手作業で簡単に記述できるように設計されているからです。 また seam-gen を使用したずるをしたくない人でも大丈夫です。"
 
 #. Tag: title
 #: Gettingstarted.xml:177
@@ -607,13 +607,13 @@ msgstr "デプロイメントをリスタートして、<literal>http://localhos
 #: Gettingstarted.xml:187
 #, no-c-format
 msgid "Deploying the application as an EAR"
-msgstr "EAR形式でアプリケーションをデプロイする"
+msgstr "EAR 形式でアプリケーションをデプロイする"
 
 #. Tag: para
 #: Gettingstarted.xml:189
 #, no-c-format
 msgid "Finally, we want to be able to deploy the application using standard Java EE 5 packaging. First, we need to remove the exploded directory by running <literal>seam unexplode</literal>. To deploy the EAR, we can type <literal>seam deploy</literal> at the command prompt, or run the <literal>deploy</literal> target of the generated project build script. You can undeploy using <literal>seam undeploy</literal> or the <literal>undeploy</literal> target."
-msgstr "最後に、 標準の Java EE 5 パッケージングを使用してアプリケーションをデプロイできるようにしたいと思います。 まず、 <literal>seam unexplode</literal> を実行して展開したディレクトリを削除する必要があります。 EAR をデプロイするには、 コマンドプロンプトで <literal>seam deploy</literal> を入力する、 あるいは生成されたプロジェクトの build スクリプトの <literal>deploy</literal> ターゲットを実行します。 <literal>seam undeploy</literal> または <literal>undeploy</literal> ターゲットを使うとアンデプロイができます。"
+msgstr "最後に、 標準の Java EE 5 パッケージングを使用してアプリケーションをデプロイできるようにしたいと思います。 まず、 <literal>seam unexplode</literal> を実行して展開したディレクトリを削除する必要があります。 EAR をデプロイするには、 コマンドプロンプトで <literal>seam deploy</literal> を入力するか、 あるいは生成されたプロジェクトの build スクリプトの <literal>deploy</literal> ターゲットを実行します。 <literal>seam undeploy</literal> または <literal>undeploy</literal> ターゲットを使うとアンデプロイができます。"
 
 #. Tag: para
 #: Gettingstarted.xml:195
@@ -673,7 +673,7 @@ msgstr "<literal>pages.xml</literal> ファイル"
 #: Gettingstarted.xml:229
 #, no-c-format
 msgid "But if we want to change any Java code, we still need to do a full restart of the application. (In JBoss this may be accomplished by touching the top level deployment descriptor: <literal>application.xml</literal> for an EAR deployment, or <literal>web.xml</literal> for a WAR deployment.)"
-msgstr "ただし、 いずれかの Java コードを変更する必要がある場合は、 アプリケーションを完全に再起動する必要があります。 (JBoss ではトップレベルのデプロイメント記述子と関連することでこれを行います。 EAR デプロイメントなら <literal>application.xml</literal>、 WAR デプロイメントなら <literal>web.xml</literal> です。)"
+msgstr "ただし、 いずれかの Java コードを変更する必要がある場合は、 アプリケーションを完全に再起動する必要があります。 (JBoss ではトップレベルのデプロイメント記述子を更新することでこれを行えます。 EAR デプロイメントなら <literal>application.xml</literal>、 WAR デプロイメントなら <literal>web.xml</literal> です。)"
 
 #. Tag: para
 #: Gettingstarted.xml:233
@@ -697,7 +697,7 @@ msgstr "コンポーネントは JavaBean コンポーネントでなければ�
 #: Gettingstarted.xml:247
 #, no-c-format
 msgid "entities can never be hot-deployed"
-msgstr "entities can never be hot-deployed"
+msgstr "エンティティはホットデプロイされることはありません。"
 
 #. Tag: para
 #: Gettingstarted.xml:251
@@ -727,13 +727,13 @@ msgstr "web.xml に Seam フィルタをインストールしなければなり�
 #: Gettingstarted.xml:269
 #, no-c-format
 msgid "You may see errors if the system is placed under any load and debug is enabled."
-msgstr "ロードとデバッグが有効な環境のシステムであればエラーを見るかもしれません。"
+msgstr "ロードとデバッグが有効な環境のシステムであればエラーが発生するかもしれません。"
 
 #. Tag: para
 #: Gettingstarted.xml:274
 #, no-c-format
 msgid "If you create a WAR project using seam-gen, incremental hot deployment is available out of the box for classes in the <literal>src/hot</literal> source directory. However, seam-gen does not support incremental hot deployment for EAR projects."
-msgstr "seam-gen を使用して WAR プロジェクトを生成する場合、 増分ホットデプロイメントは、<literal>src/action</literal> ソースディレクトリにあるクラスにそのまま使用可能です。 しかしならが、 seam-gen は EAR プロジェクトに対する増分ホットデプロイに対応していません。"
+msgstr "seam-gen を使用して WAR プロジェクトを生成する場合、 増分ホットデプロイメントは、<literal>src/hot</literal> ソースディレクトリにあるクラスにそのまま使用可能です。 しかしながら、 seam-gen は EAR プロジェクトに対する増分ホットデプロイに対応していません。"
 
 #. Tag: title
 #: Gettingstarted.xml:280
@@ -769,11 +769,11 @@ msgstr "JSF 1.2 RI のインストール"
 #: Gettingstarted.xml:299
 #, no-c-format
 msgid "The web configuration for JBoss 4.0 can be found in the <literal>server/default/deploy/jbossweb-tomcat55.sar</literal>. You'll need to delete <literal>myfaces-api.jar</literal> any <literal>myfaces-impl.jar</literal> from the <literal>jsf-libs </literal>directory. Then, you'll need to copy <literal>jsf-api.jar</literal>, <literal>jsf-impl.jar</literal>, <literal>el-api.jar</literal>, and <literal>el-ri.jar</literal> to that directory. The JSF JARs can be found in the Seam <literal>lib</literal> directory. The el JARs can be obtained from the Seam 1.2 release."
-msgstr "JBoss 4.0 の Web 設定は <literal>server/default/deploy/jbossweb-tomcat55.sar</literal> にあります。 <literal>jsf-libs </literal> ディレクトリから <literal>myfaces-api.jar</literal> と  <literal>myfaces-impl.jar</literal> を削除する必要があります。 そして、ディレクトリに <literal>jsf-api.jar</literal>、<literal>jsf-impl.jar</literal>、<literal>el-api.jar</literal> と <literal>el-ri.jar</literal> をコピーする必要があります。 JSF の　JAR は Seam <literal>lib</literal> ディレクトリにあります。 el の JAR は Seam 1.2 リリースから取得可能です。"
+msgstr "JBoss 4.0 の Web 設定は <literal>server/default/deploy/jbossweb-tomcat55.sar</literal> にあります。 <literal>jsf-libs </literal> ディレクトリから <literal>myfaces-api.jar</literal> と  <literal>myfaces-impl.jar</literal> を削除する必要があります。 そして、ディレクトリに <literal>jsf-api.jar</literal>、<literal>jsf-impl.jar</literal>、<literal>el-api.jar</literal> と <literal>el-ri.jar</literal> をコピーする必要があります。 JSF の JAR は Seam <literal>lib</literal> ディレクトリにあります。 el の JAR は Seam 1.2 リリースから取得可能です。"
 
 #. Tag: para
 #: Gettingstarted.xml:307
 #, no-c-format
 msgid "You'll also need to edit the <literal>conf/web.xml</literal>, replacing <literal>myfaces-impl.jar</literal> with <literal>jsf-impl.jar</literal>."
-msgstr "さらに <literal>conf/web.xml</literal> を編集する必要があります。 <literal>jsf-impl.jar</literal> を <literal>myfaces-impl.jar</literal> に交換してください。"
+msgstr "さらに <literal>conf/web.xml</literal> を編集する必要があります。  <literal>myfaces-impl.jar</literal> を <literal>jsf-impl.jar</literal> に交換してください。"
 

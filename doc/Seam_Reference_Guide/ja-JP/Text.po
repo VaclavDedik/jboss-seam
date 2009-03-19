@@ -1,11 +1,11 @@
 # translation of Text.po to Japanese
-# Noriko Mizumoto <noriko@redhat.com>, 2007, 2008.
+# Noriko Mizumoto <noriko@redhat.com>, 2007, 2008, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: Text\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 06:41+0000\n"
-"PO-Revision-Date: 2008-12-03 14:41+1000\n"
+"PO-Revision-Date: 2009-02-20 18:34+1000\n"
 "Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgid ""
 "for display of formatted text that conforms to the <emphasis>Seam Text</"
 "emphasis> language. Seam Text is implemented using an ANTLR-based parser. "
 "You don't need to know anything about ANTLR to use it, however."
-msgstr "コラボレーション志向のウェブサイトでは、 フォーラムへの投稿、wikiページ、blog、コメントなどでフォーマット済みテキストを簡単に入力するために人間が扱いやすいマークアップ言語が必要になります。 Seamには <emphasis>Seam Text</emphasis> と呼ばれる言語に従ったフォーマット済みテキストを表示するための <literal>&lt;s:formattedText/&gt;</literal> コントロールがあります。 Seam TextはANTLRベースのパーサを利用して実装されていますが、 Seam Textを利用するにあたってANTLRについての知識は不要なので安心してください。"
+msgstr "多くの人が一緒に作業するウェブサイトでは、 フォーラムへの投稿、wikiページ、blog、コメントなどでフォーマット済みテキストを簡単に入力するために人間が扱いやすいマークアップ言語が必要になります。 Seamには <emphasis>Seam Text</emphasis> と呼ばれる言語に従ったフォーマット済みテキストを Web 表示するための仕組みがあって、 <literal>&lt;s:formattedText/&gt;</literal> によってそれを制御します。 Seam TextはANTLRベースのパーサを利用して実装されていますが、 Seam Textを利用するにあたってANTLRについての知識は不要なので安心してください。 "
 
 #. Tag: title
 #: Text.xml:13
@@ -405,7 +405,7 @@ msgid ""
 "without escaping any of the characters inside the monospace bars. The "
 "downside is that you can't format inline monospace text in any other way "
 "(italics, underscore, and so on)."
-msgstr "その他の方法ではインライン固定スペーステキストをフォーマット化することができないのが弱点となります (斜字体、 下線など)。"
+msgstr "一方、 その他の方法ではインライン固定スペーステキストをフォーマット化することができません (斜字体、 下線など)。"
 
 #. Tag: title
 #: Text.xml:96
@@ -460,7 +460,7 @@ msgid ""
 "Text may even include a certain limited subset of HTML (don't worry, the "
 "subset is chosen to be safe from cross-site scripting attacks). This is "
 "useful for creating links:"
-msgstr "テキストには限定されたHTMLのサブセットを含めることが出来ます (心配しないでください、 クロスサイトスクリプティング攻撃には利用できないようなサブセットを選んでいます)。 これはリンクを作成する際などに便利です。"
+msgstr "テキストには限定されたHTMLのサブセットを含めることができます (心配しないでください、 クロスサイトスクリプティング攻撃には利用できないようなサブセットを選んでいます)。 これはリンクを作成する際などに便利です。"
 
 #. Tag: programlisting
 #: Text.xml:125
@@ -498,5 +498,5 @@ msgstr ""
 #: Text.xml:133
 #, no-c-format
 msgid "But you can do much more if you want!"
-msgstr "あなたがやろうと思えば他にもいろいろできるでしょう!"
+msgstr "やろうと思えば他にもいろいろできるでしょう!"
 

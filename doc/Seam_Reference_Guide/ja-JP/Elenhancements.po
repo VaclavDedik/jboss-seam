@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Elenhancements\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 06:41+0000\n"
-"PO-Revision-Date: 2009-01-05 14:04+1000\n"
+"PO-Revision-Date: 2009-03-10 17:30+1000\n"
 "Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,7 @@ msgstr "標準 EL ではユーザー定義のパラメータでメソッドを�
 #: Elenhancements.xml:22
 #, no-c-format
 msgid "JBoss EL removes this restriction. For example:"
-msgstr "JBoss EL ではこの制約が取り除かれます。 たとえば、"
+msgstr "JBoss EL ではこの制約が取り除かれます。 以下が例です。"
 
 #. Tag: programlisting
 #: Elenhancements.xml:26
@@ -118,7 +118,7 @@ msgstr ""
 #: Elenhancements.xml:45
 #, no-c-format
 msgid "Any value expression may be used as a parameter:"
-msgstr "パラメータには、以下のように、どのような値式も使う事が出来ます。"
+msgstr "パラメータには、以下のように、どのような値式も使う事ができます。"
 
 #. Tag: programlisting
 #: Elenhancements.xml:49
@@ -179,7 +179,7 @@ msgid ""
 "retrieval (get) is needed (e.g. the <literal>rendered</literal> attribute). "
 "Many objects, however, don't have appropriately named property accessors or "
 "require parameters."
-msgstr "Unified EL は値式にも対応し、 フィールドを支えている Bean にバインドするために使用されます。 値式は JavaBean の命名規則を使用し getter と setter の組み合わせを期待します。 JSF は検索 (get) のみを必要とする場合に頻繁に値式を期待します (<literal>rendered</literal> 属性)。 ただし、 多くのオブジェクトは適切な指定プロパティアクセッサを持っていなかったりパラメータを必要としません。"
+msgstr "Unified EL は値式にも対応し、 フィールドを支えている Bean にバインドするために使用されます。 値式は JavaBean の命名規則を使用し getter と setter の組み合わせを期待します。 JSF はしばしば、値の検索 (get) のみを必要とするような場合にも値式を期待します (<literal>rendered</literal> 属性)。 にもかかわらず、 多くのオブジェクトが適切な名前のプロパティアクセッサを持っていなかったり、 要求されたパラメータを持っていなかったりする場合があります。"
 
 #. Tag: para
 #: Elenhancements.xml:82
@@ -187,7 +187,7 @@ msgstr "Unified EL は値式にも対応し、 フィールドを支えている
 msgid ""
 "JBoss EL removes this restriction by allowing values to be retrieved using "
 "the method syntax. For example:"
-msgstr "JBoss EL はメソッド構文を使った値の検索を許可することで制約を取り除きます。 たとえば、 "
+msgstr "JBoss EL はメソッド構文を使った値の検索を許可することで制約を取り除きます。 以下が例です。 "
 
 #. Tag: programlisting
 #: Elenhancements.xml:87
@@ -225,7 +225,7 @@ msgstr "一般的には #{obj.property} 形式の表現は #{obj.getProperty()} 
 msgid ""
 "Parameters are also allowed. The following example calls the "
 "<literal>productsByColorMethod</literal> with a literal string argument:"
-msgstr "パラメータが許可されます。 次の例では文字列リテラルの引数を持つ <literal>productsByColorMethod</literal> を呼び出しています。"
+msgstr "パラメータを使うこともできます。 次の例では文字列リテラルの引数を持つ <literal>productsByColorMethod</literal> を呼び出しています。"
 
 #. Tag: programlisting
 #: Elenhancements.xml:105
@@ -266,7 +266,7 @@ msgid ""
 "<literal>&lt;h:commandButton /&gt;</literal> or <literal>&lt;h:commandLink /"
 "&gt;</literal>:"
 msgstr ""
-"<emphasis>内側の反復コンポーネントを使用</emphasis> &#8212; <literal>&lt;c:forEach /&gt;</literal> や <literal>&lt;ui:repeat /&gt;</"
+"<emphasis>反復コンポーネント内での使用</emphasis> &#8212; <literal>&lt;c:forEach /&gt;</literal> や <literal>&lt;ui:repeat /&gt;</"
 "literal> といったコンポーネントは List またはアレイに渡って反復し一覧内の各アイテムをネストされるコンポーネントに公開します。 <literal>&lt;h:commandButton /&gt;</literal> や <literal>&lt;h:commandLink /&gt;</literal> を使った列を選択している場合に非常に便利です。"
 
 #. Tag: programlisting
@@ -317,7 +317,7 @@ msgid ""
 "used."
 msgstr ""
 "ただし、 <literal>&lt;s:link /&gt;</literal> や <literal>&lt;s:button /&gt;</literal> を使用したい場合はアイテムを <literal>DataModel</literal> として公開して <literal>&lt;"
-"dataTable /&gt;</literal> (または <literal>&lt;rich:dataTable /&gt;</literal> のようなコンポーネントセットからの同等) を使用 <emphasis>しなければなりません</emphasis>。 <literal>&lt;s:link /&gt;</literal> あるいは <literal>&lt;s:button /&gt;</literal> のいずれもフォームをサブミットしない (したがってブックマーク可能なリンクも生成しない) ためアクションメソッドが呼び出された場合にそのアイテムを再度作成するためのマジックパラメータが必要となります。 <literal>DataModel</literal> で支えられるデータテーブルが使用されるとこのマジックパラメータのみが追加可能となります。"
+"dataTable /&gt;</literal> (または <literal>&lt;rich:dataTable /&gt;</literal> のようなコンポーネントセットからの同等) を使用 <emphasis>しなければなりません</emphasis>。 <literal>&lt;s:link /&gt;</literal> あるいは <literal>&lt;s:button /&gt;</literal> のいずれもフォームをサブミットしない (したがってリンクがブックマーク可能となる) ためアクションメソッドが呼び出された場合にそのアイテムを再度作成するためのマジックパラメータが必要となります。 <literal>DataModel</literal> で支えられるデータテーブルが使用されるとこのマジックパラメータのみが追加可能となります。"
 
 #. Tag: para
 #: Elenhancements.xml:154
@@ -331,7 +331,7 @@ msgid ""
 "been evaluated. This has two minor consequences:"
 msgstr ""
 "<emphasis>Java コードから <literal>MethodExpression</literal> を呼び出す</"
-"emphasis> &#8212; 通常、 <literal>MethodExpression</literal> が作成されるとパラメータタイプが JSF によって渡されます。 メソッドのバインディングの場合、 JSF は渡すパラメータがないものとみなします。 この拡張では、 拡張が評価されてからでないとパラメータタイプを知ることができません。 これにより深刻ではありませんが 2 つの結果を招くことになります。"
+"emphasis> &#8212; 通常、 <literal>MethodExpression</literal> が作成されるとパラメータタイプが JSF によって渡されます。 メソッドのバインディングの場合、 JSF は渡すパラメータがないものとみなします。 この拡張では、 式が評価され終わってからでないとパラメータタイプを知ることができません。 これにより深刻ではありませんが 2 つの結果を招くことになります。"
 
 #. Tag: para
 #: Elenhancements.xml:167
@@ -353,7 +353,7 @@ msgid ""
 "you must first invoke the <literal>MethodExpression</literal> before calling "
 "<literal>getParamTypes()</literal>."
 msgstr ""
-"通常、 <literal>methodExpression.getMethodInfo().getParamTypes()</literal> はいつでも安全に呼び出す事が出来ます。 パラメータを伴う式の場合、 まづ "
+"通常、 <literal>methodExpression.getMethodInfo().getParamTypes()</literal> はいつでも安全に呼び出す事ができます。 パラメータを伴う式の場合、 まず "
 "<literal>MethodExpression</literal> を呼び出してから、 <literal>getParamTypes()</literal> を呼び出すようにしてください。"
 
 #. Tag: para
@@ -377,7 +377,7 @@ msgid ""
 "JBoss EL supports a limited projection syntax. A projection expression maps "
 "a sub-expression across a multi-valued (list, set, etc...) expression. For "
 "instance, the expression:"
-msgstr "JBoss EL は限られたプロジェクション構文に対応します。 プロジェクション式はサブとなる式を複数値 (リスト、 セットなど) の式全体にマッピングします。 たとえば、"
+msgstr "JBoss EL は限られたプロジェクション構文に対応します。 プロジェクション式はサブとなる式を複数値 (リスト、 セットなど) の式全体にマッピングします。 以下が例です。"
 
 #. Tag: programlisting
 #: Elenhancements.xml:204
