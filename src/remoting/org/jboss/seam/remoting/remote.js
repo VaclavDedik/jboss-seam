@@ -694,9 +694,10 @@ Seam.Remoting.sendAjaxRequest = function(envelope, path, callback, silent)
         }
       }
       else
-        alert("There was an error processing your request.  Error code: " + asyncReq.status);
-    }
-    
+      {
+        Seam.Remoting.displayError(asyncReq.status);
+      }
+    }    
   }
 
   if (Seam.Remoting.encodedSessionId)
@@ -706,6 +707,11 @@ Seam.Remoting.sendAjaxRequest = function(envelope, path, callback, silent)
     
   asyncReq.open("POST", Seam.Remoting.resourcePath + path, true);
   asyncReq.send(envelope);
+}
+
+Seam.Remoting.displayError = function(code)
+{
+  alert("There was an error processing your request.  Error code: " + code);  
 }
 
 Seam.Remoting.setCallback = function(component, methodName, callback)
