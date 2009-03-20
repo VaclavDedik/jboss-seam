@@ -306,7 +306,7 @@
       <dependency>
          <groupId>org.jboss.resteasy</groupId>
          <artifactId>resteasy-jaxrs</artifactId>
-         <version>1.0.1.GA</version>
+         <version>1.1-RC1</version>
          <exclusions>
              <exclusion>
                <groupId>commons-codec</groupId>
@@ -336,6 +336,14 @@
                <groupId>org.scannotation</groupId>
                <artifactId>scannotation</artifactId>
             </exclusion>
+            <exclusion>
+               <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+             </exclusion>
+             <exclusion>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+             </exclusion>
          </exclusions>
       </dependency>
 

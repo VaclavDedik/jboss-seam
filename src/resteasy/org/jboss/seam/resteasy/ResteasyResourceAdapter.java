@@ -98,7 +98,7 @@ public class ResteasyResourceAdapter extends AbstractResource
 
                     Application appConfig = (Application)Component.getInstance(Application.class);
                     if (appConfig.isStripSeamResourcePath()) {
-                        log.debug("removing SeamResourceServlet url-pattern and dispatcher prefix from request path");
+                        log.trace("removing SeamResourceServlet url-pattern and dispatcher prefix from request path");
                         path = path.substring(path.indexOf(getResourcePath())+getResourcePath().length());
                     }
 

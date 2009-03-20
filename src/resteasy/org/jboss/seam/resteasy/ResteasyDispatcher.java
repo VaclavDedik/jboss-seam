@@ -2,6 +2,7 @@ package org.jboss.seam.resteasy;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.In;
@@ -12,14 +13,11 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.log.Log;
 import org.jboss.resteasy.core.AsynchronousDispatcher;
+import org.jboss.resteasy.core.PropertyInjectorImpl;
 import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
 import org.jboss.resteasy.plugins.server.resourcefactory.POJOResourceFactory;
 import org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher;
 import org.jboss.resteasy.spi.*;
-import org.jboss.resteasy.util.Types;
-
-import java.lang.reflect.Type;
-import java.lang.reflect.ParameterizedType;
 
 /**
  * An extended version of the RESTEasy dispatcher, configured on Seam application
@@ -78,16 +76,20 @@ public class ResteasyDispatcher extends HttpServletDispatcher
                     boolean isStringConverter = false;
                     for (Class componentIface : seamComponent.getBusinessInterfaces())
                     {
-                        if (StringConverter.class.isAssignableFrom(componentIface)) {
+                        if (StringConverter.class.isAssignableFrom(componentIface))
+                        {
                             isStringConverter = true;
                             break;
                         }
                     }
-                    if (isStringConverter) {
+                    if (isStringConverter)
+                    {
                         log.error("can't register Seam component as RESTEasy StringConverter, see: https://jira.jboss.org/jira/browse/JBSEAM-4020");
                         //log.debug("registering Seam component as custom RESTEasy string converter provider: " + seamComponent.getName());
                         //providerFactory.addStringConverter((StringConverter)providerInstance);
-                    } else {
+                    }
+                    else
+                    {
                         providerFactory.registerProviderInstance(providerInstance);
                     }
                 }
@@ -95,10 +97,13 @@ public class ResteasyDispatcher extends HttpServletDispatcher
             else
             {
                 // Just plain RESTEasy, no Seam component lookup or lifecycle
-                if (StringConverter.class.isAssignableFrom(providerClass)) {
+                if (StringConverter.class.isAssignableFrom(providerClass))
+                {
                     log.debug("registering as custom RESTEasy string converter provider class: " + providerClass);
                     providerFactory.addStringConverter(providerClass);
-                } else {
+                }
+                else
+                {
                     providerFactory.registerProvider(providerClass);
                 }
             }
@@ -108,15 +113,15 @@ public class ResteasyDispatcher extends HttpServletDispatcher
         Registry registry = getDispatcher().getRegistry();
         for (final Class resourceClass : application.getClasses())
         {
+            log.debug("registering JAX RS resource class: " + resourceClass);
             final Component seamComponent = application.getResourceClassComponent(resourceClass);
             if (seamComponent != null)
             {
                 // Seam component lookup when call is dispatched to resource
+                log.debug("registering as Seam component resource factory: " + resourceClass);
                 registry.addResourceFactory(
                         new ResourceFactory()
                         {
-
-                            private PropertyInjector propertyInjector;
 
                             public Class<?> getScannableClass()
                             {
@@ -125,14 +130,26 @@ public class ResteasyDispatcher extends HttpServletDispatcher
 
                             public void registered(InjectorFactory factory)
                             {
-                                this.propertyInjector = factory.createPropertyInjector(getScannableClass());
+                                // Wrap the Resteasy PropertyInjectorImpl in a Seam interceptor (for @Context injection)
+                                seamComponent.addInterceptor(
+                                        new ResteasyContextInjectionInterceptor(
+                                                new PropertyInjectorImpl(getScannableClass(), dispatcher.getProviderFactory())
+                                        )
+                                );
+
+                                // NOTE: Adding an interceptor to Component at this stage means that the interceptor is
+                                // always executed last in the chain. The sorting of interceptors of a Component occurs
+                                // only when the Component metadata is instantiated. This is OK in this case, as the
+                                // JAX RS @Context injection can occur last after all other interceptors executed.
+
                             }
 
                             public Object createResource(HttpRequest request, HttpResponse response, InjectorFactory factory)
                             {
-                                Object target = Component.getInstance(seamComponent.getName());
-                                propertyInjector.inject(request, response, target);
-                                return target;
+                                // Push this onto event context so we have it available in ResteasyContextInjectionInterceptor
+                                Contexts.getEventContext().set(ResteasyContextInjectionInterceptor.RE_HTTP_REQUEST_VAR, request);
+                                Contexts.getEventContext().set(ResteasyContextInjectionInterceptor.RE_HTTP_RESPONSE_VAR, response);
+                                return Component.getInstance(seamComponent.getName());
                             }
 
                             public void requestFinished(HttpRequest request, HttpResponse response, Object resource)

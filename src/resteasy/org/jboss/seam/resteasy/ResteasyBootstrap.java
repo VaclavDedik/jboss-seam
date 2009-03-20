@@ -36,7 +36,7 @@ public class ResteasyBootstrap
     @Create
     public void onStartup()
     {
-        log.info("deploying Resteasy providers and resources");
+        log.info("deploying RESTEasy providers and resources");
 
         Collection<Class<?>> annotatedProviderClasses = null;
         Collection<Class<?>> annotatedResourceClasses = null;

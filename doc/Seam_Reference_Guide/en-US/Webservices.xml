@@ -480,7 +480,7 @@ public class MyCustomerResource {
             Custom or checked exceptions are handled the same:
          </para>
 
-         <programlisting role="XML"><![CDATA[<exception class="my.CustomException">
+         <programlisting role="XML"><![CDATA[<exception class="my.CustomException" log="false">
     <http-error error-code="503">
         <message>The service is currently not available: #{org.jboss.seam.handledException.message}</message>
     </http-error>
