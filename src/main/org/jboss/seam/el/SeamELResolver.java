@@ -80,9 +80,13 @@ public class SeamELResolver extends ELResolver
         }
     }
 
-   private Object resolveInMap(ELContext context, Map map, Object property) {
-        if (map.containsKey(property)) {
-            return null;            
+   private Object resolveInMap(ELContext context, Map map, Object property) {       
+        try {
+            if (map.containsKey(property)) {
+                return null;
+            }
+        } catch (UnsupportedOperationException e) {
+            // eat it
         }
         
         if ("size".equals(property)) {

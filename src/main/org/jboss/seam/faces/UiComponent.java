@@ -37,6 +37,12 @@ public class UiComponent
       {
 
          @Override
+         public boolean containsKey(Object key) {
+            return get(key) != null;
+         }
+         
+          
+         @Override
          public Set<Map.Entry<String, UIComponent>> entrySet()
          {
             throw new UnsupportedOperationException();
