@@ -21,7 +21,7 @@ public class WikiUpload<U extends WikiUpload> extends WikiFile<U> {
     private int filesize;
 
     // SchemaExport needs length.. MySQL has "tinyblob", "mediumblob" and other such nonsense types
-    @Lob
+    @org.hibernate.annotations.Type(type = "org.jboss.seam.wiki.util.BinaryBlobType")
     @Column(name = "FILEDATA", nullable = false, length = 10000000)
     @Basic(fetch = FetchType.LAZY) // Lazy loaded through bytecode instrumentation
     private byte[] data;

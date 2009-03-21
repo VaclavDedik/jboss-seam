@@ -9,7 +9,16 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <jta-data-source>java:/wikiDatasource</jta-data-source>
         <properties>
+
+            <!-- Enable the following block for MySQL 5.x support -->
             <property name="hibernate.dialect" value="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
+            <property name="hibernate.binary_or_blob" value="blob"/>
+
+            <!-- Enable the following block for PostgreSQL 8.3 support
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="hibernate.binary_or_blob" value="binary"/>
+            -->
+
             <property name="hibernate.transaction.manager_lookup_class"
                       value="org.hibernate.transaction.JBossTransactionManagerLookup"/>
 

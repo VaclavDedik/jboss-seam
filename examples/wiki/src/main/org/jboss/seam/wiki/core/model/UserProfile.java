@@ -50,7 +50,7 @@ public class UserProfile implements Serializable {
     private String signature;
 
     // SchemaExport needs length.. MySQL has "tinyblob", "mediumblob" and other such nonsense types
-    @Lob
+    @org.hibernate.annotations.Type(type = "org.jboss.seam.wiki.util.BinaryBlobType")
     @Column(name = "IMAGE_DATA", nullable = true, length = 200000)
     @Basic(fetch = FetchType.LAZY) // Lazy loaded through bytecode instrumentation
     private byte[] image;
@@ -59,7 +59,7 @@ public class UserProfile implements Serializable {
     private String imageContentType;
 
     // SchemaExport needs length.. MySQL has "tinyblob", "mediumblob" and other such nonsense types
-    @Lob
+    @org.hibernate.annotations.Type(type = "org.jboss.seam.wiki.util.BinaryBlobType")
     @Column(name = "SMALL_IMAGE_DATA", nullable = true, length = 200000)
     @Basic(fetch = FetchType.LAZY) // Lazy loaded through bytecode instrumentation
     private byte[] smallImage;

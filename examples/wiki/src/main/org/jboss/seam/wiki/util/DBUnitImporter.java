@@ -30,7 +30,7 @@ import java.util.List;
 public class DBUnitImporter {
 
     public enum Database {
-        hsql, mysql
+        hsql, mysql, postgresql
     }
 
     protected Database database;
@@ -82,7 +82,9 @@ public class DBUnitImporter {
             con = getConnection();
             disableReferentialIntegrity(con);
             for (DataSetOperation op : dataSetOperations) {
+                prepareExecution(con, op);
                 op.execute(con);
+                afterExecution(con, op);
             }
             enableReferentialIntegrity(con);
         } finally {
@@ -134,6 +136,8 @@ public class DBUnitImporter {
                 con.getConnection().prepareStatement("set referential_integrity FALSE").execute(); // HSQL DB
             } else if (database.equals(Database.mysql)) {
                 con.getConnection().prepareStatement("set foreign_key_checks=0").execute(); // MySQL > 4.1.1
+            } else if (database.equals(Database.postgresql)) {
+                // See prepareExecution() and afterExecution()
             }
         } catch (Exception ex) {
             throw new RuntimeException(ex);
@@ -201,6 +205,44 @@ public class DBUnitImporter {
             throw new RuntimeException("Could not find full path with classloader of binaryDir: " + getBinaryDir());
         }
         return url.toString();
+    }
+
+    /**
+     * Callback for each operation, useful if extra preparation of data/tables is necessary.
+     *
+     * @param con A DBUnit connection wrapper
+     * @param operation The operation to be executed, call <tt>getDataSet()</tt> to access the data.
+     */
+    protected void prepareExecution(IDatabaseConnection con, DataSetOperation operation) {
+        try {
+            // PostgreSQL has no global switch to turn off foreign key checks, needs to be toggled on each table
+            if (database.equals(Database.postgresql)) {
+                for (String tableName : operation.getDataSet().getTableNames()) {
+                    con.getConnection().prepareStatement("alter table " + tableName + " disable trigger all").execute();
+                }
+            }
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    /**
+     * Callback for each operation, useful if extra preparation of data/tables is necessary.
+     *
+     * @param con A DBUnit connection wrapper
+     * @param operation The operation that was executed, call <tt>getDataSet()</tt> to access the data.
+     */
+    protected void afterExecution(IDatabaseConnection con, DataSetOperation operation) {
+        try {
+            // PostgreSQL has no global switch to turn off foreign key checks, needs to be toggled on each table
+            if (database.equals(Database.postgresql)) {
+                for (String tableName : operation.getDataSet().getTableNames()) {
+                    con.getConnection().prepareStatement("alter table " + tableName + " enable trigger all").execute();
+                }
+            }
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     protected class DataSetOperation {

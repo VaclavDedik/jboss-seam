@@ -19,7 +19,7 @@ INSTALLATION WITH MYSQL (development profile)
 - Upgrade/downgrade the Hibernate libraries to the ones bundled with this application:
   'ant upgradehibernate' will replace the libraries in server/default/lib of JBoss AS 4.2.3
   and also copy the required ehcache.jar.
-  (Sorry, but no other version works currently and the 4.2.2 bundled libraries are too old.)
+  (Sorry, but no other version works currently and the 4.2.3 bundled libraries are too old.)
 
 - Install MySQL 5.x and start it
 
@@ -32,6 +32,19 @@ INSTALLATION WITH MYSQL (development profile)
 
 - Start (if you haven't done so already) JBoss AS and access http://localhost:8080/wiki/ and use the
   default login 'admin' with password 'admin'
+
+
+INSTALLATION WITH POSTGRESQL (development profile)
+==========================================================================================
+
+Follow the installation steps for MySQL but edit the following files and uncomment PostgreSQL 8.3 support:
+
+- src/etc/wiki-dev-ds.xml
+- src/etc/META-INF/components-dev.xml
+- src/etc/META-INF/persistence-dev-war.xml
+- src/main/org/jboss/seam/wiki/core/model/package-info.java
+
+For production packaging (see 'dist' target below), edit the src/etc/**/*-prod* files.
 
 
 INSTALLATION WITH MYSQL (production profile)

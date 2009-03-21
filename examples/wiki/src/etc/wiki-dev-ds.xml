@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <datasources>
 
-    <!-- TODO: Queries are getting too complex for HSQL DB, see ForumQueries.hbm.xml
-    <local-tx-datasource>
-        <jndi-name>wikiDatasource</jndi-name>
-        <connection-url>jdbc:hsqldb:hsql://localhost:9001</connection-url>
-        <driver-class>org.hsqldb.jdbcDriver</driver-class>
-        <user-name>sa</user-name>
-        <password></password>
-    </local-tx-datasource>
-    -->
-
+    <!-- MySQL 5.x -->
     <local-tx-datasource>
 
         <jndi-name>wikiDatasource</jndi-name>
@@ -35,5 +26,23 @@
         <valid-connection-checker-class-name>com.mysql.jdbc.integration.jboss.MysqlValidConnectionChecker</valid-connection-checker-class-name>
 
     </local-tx-datasource>
+
+    <!-- PostgreSQL 8.3 TODO: Validate timeout/pool settings!
+    <local-tx-datasource>
+
+        <jndi-name>wikiDatasource</jndi-name>
+        <connection-url>jdbc:postgresql://localhost/test</connection-url>
+        <driver-class>org.postgresql.Driver</driver-class>
+        <user-name>postgres</user-name>
+        <password>postgres</password>
+
+        <min-pool-size>20</min-pool-size>
+        <max-pool-size>250</max-pool-size>
+
+        <blocking-timeout-millis>5000</blocking-timeout-millis>
+        <idle-timeout-minutes>2</idle-timeout-minutes>
+
+    </local-tx-datasource>
+    -->
 
 </datasources>

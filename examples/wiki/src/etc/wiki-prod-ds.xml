@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <datasources>
 
+    <!-- MySQL 5.x -->
     <local-tx-datasource>
         <jndi-name>wikiDatasource</jndi-name>
         <connection-url>jdbc:mysql://localhost/test?characterEncoding=UTF-8</connection-url>
@@ -24,6 +25,24 @@
         <valid-connection-checker-class-name>com.mysql.jdbc.integration.jboss.MysqlValidConnectionChecker</valid-connection-checker-class-name>
 
     </local-tx-datasource>
+
+    <!-- PostgreSQL 8.3 TODO: Validate timeout/pool settings!
+    <local-tx-datasource>
+
+        <jndi-name>wikiDatasource</jndi-name>
+        <connection-url>jdbc:postgresql://localhost/test</connection-url>
+        <driver-class>org.postgresql.Driver</driver-class>
+        <user-name>postgres</user-name>
+        <password>postgres</password>
+
+        <min-pool-size>20</min-pool-size>
+        <max-pool-size>250</max-pool-size>
+
+        <blocking-timeout-millis>5000</blocking-timeout-millis>
+        <idle-timeout-minutes>2</idle-timeout-minutes>
+
+    </local-tx-datasource>
+    -->
 
 </datasources>
 

@@ -52,7 +52,12 @@
 
     <!-- Some DBUnit datasets we use in unit testing - let's also use them in dev mode when the app is deployed -->
     <component name="dbunitImporter" class="org.jboss.seam.wiki.util.DBUnitImporter" scope="APPLICATION" auto-create="true">
+
         <property name="database">mysql</property>
+        <!--
+        <property name="database">postgresql</property>
+        -->
+
         <property name="datasourceJndiName">java:/wikiDatasource</property>
         <property name="binaryDir">META-INF/testbinaries</property>
         <property name="datasets">

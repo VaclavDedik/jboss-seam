@@ -28,9 +28,8 @@ public class WikiUploadImage extends WikiUpload<WikiUploadImage> {
     @Column(name = "THUMBNAIL")
     private char thumbnail = Thumbnail.MEDIUM.getFlag(); // Medium size thumbnail by default, not attached
 
-    // TODO: SchemaExport needs length.. MySQL has "tinyblob", "mediumblob" and other such nonsense types, this
-    // is a best-guess value
-    @Lob
+    // SchemaExport needs length.. MySQL has "tinyblob", "mediumblob" and other such nonsense types
+    @org.hibernate.annotations.Type(type = "org.jboss.seam.wiki.util.BinaryBlobType")
     @Column(name = "THUMBNAIL_DATA", length = 1000000, nullable = true)
     @Basic(fetch = FetchType.LAZY) // Lazy loaded through bytecode instrumentation
     private byte[] thumbnailData;
