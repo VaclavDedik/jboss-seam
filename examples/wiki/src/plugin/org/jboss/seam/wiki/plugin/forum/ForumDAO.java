@@ -40,7 +40,7 @@ public class ForumDAO implements Serializable {
         Long forumsCount = (Long)
             getSession(true).getNamedQuery("forumsCount")
                 .setParameter("parentDir", forumsDirectory)
-                .setComment("Finding all forums")
+                .setComment("Counting all forums")
                 .uniqueResult();
         return forumsCount > 0l;
     }
@@ -69,7 +69,6 @@ public class ForumDAO implements Serializable {
         getSession(true).getNamedQuery("forumTopicCount")
             .setParameter("parentDir", forumsDirectory)
             .setComment("Finding topic count for all forums")
-            .setCacheable(true)
             .setResultTransformer(
                 new ResultTransformer() {
                     public Object transformTuple(Object[] result, String[] strings) {
@@ -90,7 +89,6 @@ public class ForumDAO implements Serializable {
             .setParameter("parentDirId", forumsDirectory.getId())
             .setParameter("readAccessLevel", currentAccessLevel)
             .setComment("Finding reply count for all forums")
-            .setCacheable(true)
             .setResultTransformer(
                 new ResultTransformer() {
                     public Object transformTuple(Object[] result, String[] strings) {
@@ -112,7 +110,6 @@ public class ForumDAO implements Serializable {
             .setParameter("parentDirId", forumsDirectory.getId())
             .setParameter("readAccessLevel", currentAccessLevel)
             .setComment("Finding last topics for all forums")
-            .setCacheable(true)
             .list();
         for (Object[] lastTopicRow : forumsAndLastTopics) {
             if (forumInfoMap.containsKey((Long)lastTopicRow[0])) {
@@ -126,7 +123,6 @@ public class ForumDAO implements Serializable {
             .setParameter("parentDirId", forumsDirectory.getId())
             .setParameter("readAccessLevel", currentAccessLevel)
             .setComment("Finding last replies for all forums")
-            .setCacheable(true)
             .setResultTransformer(
                 new ResultTransformer() {
                     public Object transformTuple(Object[] result, String[] strings) {

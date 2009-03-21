@@ -15,12 +15,11 @@
     <query name="forumsCount">
         select count(d.id)
         from
-            WikiDirectory d fetch all properties,
+            WikiDirectory d,
             WikiMenuItem m
         where
             d = m.directory
             and d.parent = :parentDir
-        order by m.displayPosition asc
     </query>
 
     <query name="forums">
@@ -95,7 +94,6 @@
                           dlast0.PARENT_NODE_ID = dir0.NODE_ID and dlast0.READ_ACCESS_LEVEL &lt;= :readAccessLevel
                     order by dlast0.CREATED_ON desc limit 1
                 )
-        group by dir0.NODE_ID
     </sql-query>
 
     <sql-query name="forumLastReply">
@@ -370,7 +368,7 @@
                 limit 1
           )
         group by
-            cl1.OBJ_VERSION, cl1.RATING, cl1.AREA_NR, cl1.NAME, cl1.WIKINAME, cl1.MESSAGE_ID, cl1.CREATED_ON, cl1.CREATED_BY_USER_ID, cl1.LAST_MODIFIED_ON,
+            cl1.NODE_ID, cl1.OBJ_VERSION, cl1.RATING, cl1.AREA_NR, cl1.NAME, cl1.WIKINAME, cl1.MESSAGE_ID, cl1.CREATED_ON, cl1.CREATED_BY_USER_ID, cl1.LAST_MODIFIED_ON,
             cl1.LAST_MODIFIED_BY_USER_ID, cl1.WRITE_ACCESS_LEVEL, cl1.READ_ACCESS_LEVEL, cl1.WRITE_PROTECTED, cl1.PARENT_NODE_ID,
             cl0.SUBJECT, cl0.FROM_USER_NAME, cl0.FROM_USER_EMAIL, cl0.FROM_USER_HOMEPAGE, cl0.USE_WIKI_TEXT, cl0.NS_LEFT, cl0.NS_RIGHT, cl0.NS_THREAD,
 
