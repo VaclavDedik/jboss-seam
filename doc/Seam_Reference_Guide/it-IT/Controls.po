@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:19+0000\n"
-"PO-Revision-Date: 2009-03-09 23:16+0100\n"
+"PO-Revision-Date: 2009-03-22 13:43+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -240,13 +240,13 @@ msgstr ""
 #: Controls.xml:204
 #, no-c-format
 msgid "You can specify both <literal>view</literal> and <literal>action</literal> on <literal>&lt;s:link /&gt;</literal>. In this case, the action will be called once the redirect to the specified view has occured."
-msgstr ""
+msgstr "Si possono specificare sia <literal>view</literal> sia <literal>action</literal> in <literal>&lt;s:link /&gt;</literal>. In questo caso, l'azione verrà chiamata non appena avviene il redirect alla vista specificata."
 
 #. Tag: para
 #: Controls.xml:100
 #, no-c-format
 msgid "The use of action listeners (including the default JSF action listener) is not supported with <literal>&lt;s:button /&gt;</literal>."
-msgstr ""
+msgstr "L'uso degli action listener (incluso l'action listener di default JSF) non è supportato da <literal>&lt;s:button /&gt;</literal>."
 
 #. Tag: literal
 #: Controls.xml:108
@@ -258,7 +258,7 @@ msgstr "&lt;s:conversationId&gt;"
 #: Controls.xml:112
 #, no-c-format
 msgid "Add the conversation id to JSF link or button (e.g. <literal>&lt;h:commandLink /&gt;</literal> , <literal>&lt;s:button /&gt;</literal>)."
-msgstr ""
+msgstr "Aggiunge l'id di conversazione al link o bottone JSF (es. <literal>&lt;h:commandLink /&gt;</literal> , <literal>&lt;s:button /&gt;</literal>)."
 
 #. Tag: para
 #: Controls.xml:120
@@ -276,7 +276,7 @@ msgstr "&lt;s:taskId&gt;"
 #: Controls.xml:128
 #, no-c-format
 msgid "Add the task id to an output link (or similar JSF control), when the task is available via <literal>#{task}</literal>."
-msgstr ""
+msgstr "Aggiunge l'id del task all'output link (o controllo JSF simile), quando il task è disponibile via <literal>#{task}</literal>."
 
 #. Tag: para
 #: Controls.xml:134
@@ -307,13 +307,13 @@ msgstr "&lt;s:link&gt;"
 #: Controls.xml:144
 #, no-c-format
 msgid "A link that supports invocation of an action with control over conversation propagation. <emphasis>Does not submit the form.</emphasis>"
-msgstr ""
+msgstr "Un link che supporta l'invocazione di un'azione con controllo sulla propagazione della conversazione. <emphasis>Non esegue il submit della form.</emphasis>"
 
 #. Tag: para
 #: Controls.xml:150
 #, no-c-format
 msgid "The use of action listeners (including the default JSF action listener) is not supported with <literal>&lt;s:link /&gt;</literal>."
-msgstr ""
+msgstr "L'uso degli action listener (incluso l'action listener di default JSF) non è supportato da <literal>&lt;s:link /&gt;</literal>."
 
 #. Tag: para
 #: Controls.xml:193
@@ -342,7 +342,7 @@ msgstr "&lt;s:conversationPropagation&gt;"
 #: Controls.xml:217
 #, no-c-format
 msgid "Customize the conversation propagation for a command link or button (or similar JSF control). <emphasis>Facelets only.</emphasis>"
-msgstr ""
+msgstr "Personalizza la propagazione della conversazione per un command link/button (o controllo JSF simile). <emphasis>Solo Facelets.</emphasis>"
 
 #. Tag: para
 #: Controls.xml:225
@@ -372,19 +372,19 @@ msgstr "&lt;s:defaultAction&gt;"
 #: Controls.xml:253
 #, no-c-format
 msgid "Specify the default action to run when the form is submitted using the enter key."
-msgstr ""
+msgstr "Specifica l'azione di default daeseguire quando viene fatto il submit della form usando il tasto invio."
 
 #. Tag: para
 #: Controls.xml:257
 #, no-c-format
 msgid "Currently you can only nest it inside buttons (e.g. <literal>&lt;h:commandButton /&gt;</literal>, <literal>&lt;a:commandButton /&gt;</literal> or <literal>&lt;tr:commandButton /&gt;</literal>)."
-msgstr ""
+msgstr "Attualmente lo si può innestare solo dentro i pulsanti (es. <literal>&lt;h:commandButton /&gt;</literal>, <literal>&lt;a:commandButton /&gt;</literal> o <literal>&lt;tr:commandButton /&gt;</literal>)."
 
 #. Tag: para
 #: Controls.xml:263
 #, no-c-format
 msgid "You must specify an id on the action source. You can only have one default action per form."
-msgstr ""
+msgstr "Occorre specificare un id sulla sorgente d'azione. Si può avere soltanto un'azione di default per form."
 
 #. Tag: programlisting
 #: Controls.xml:274
@@ -438,13 +438,13 @@ msgstr "&lt;s:convertEntity&gt;"
 #: Controls.xml:300
 #, no-c-format
 msgid "Assigns an entity converter to the current component. This is useful for radio button and dropdown controls."
-msgstr ""
+msgstr "Assegna un entity converter al componente corrente. Questo è utile per pulsanti radio e controlli dropdown."
 
 #. Tag: para
 #: Controls.xml:305
 #, no-c-format
 msgid "The converter works with any managed entity - either simple or composite. The converter should be able to find the items declared in the JSF controls on form submission, otherwise you will receive a validation error."
-msgstr ""
+msgstr "Il converter funziona con qualsiasi entity gestita - sia semplice che composta. Il converter deve essere in grado di trovare gli item dichirati nei controlli JSF durante la sottomissione della form, altrimenti si riceverà un errore di validazione."
 
 #. Tag: emphasis
 #: Controls.xml:315
@@ -458,13 +458,13 @@ msgstr "Configurazione"
 #: Controls.xml:317
 #, no-c-format
 msgid "You must use <emphasis>Seam managed transactions</emphasis> (see <xref linkend=\"persistence.seam-managed-transactions\"/>) with <literal>&lt;s:convertEntity /&gt;</literal>."
-msgstr ""
+msgstr "Si devono usare le <emphasis>transazioni di Seam gestite</emphasis> (vedere <xref linkend=\"persistence.seam-managed-transactions\"/>) con <literal>&lt;s:convertEntity /&gt;</literal>."
 
 #. Tag: para
 #: Controls.xml:323
 #, no-c-format
 msgid "If your <emphasis>Managed Persistence Context</emphasis> isn't called <literal>entityManager</literal>, then you need to set it in components.xml:"
-msgstr ""
+msgstr "Se il <emphasis>Managed Persistence Context</emphasis> non viene chiamato <literal>entityManager</literal>, allora occorre impostarlo in components.xml:"
 
 #. Tag: programlisting
 #: Controls.xml:328
@@ -484,7 +484,7 @@ msgstr ""
 #: Controls.xml:330
 #, no-c-format
 msgid "If you are using a <emphasis>Managed Hibernate Session</emphasis> then you need to set it in components.xml:"
-msgstr ""
+msgstr "Se si usa una <emphasis>Managed Hibernate Session</emphasis> allora occorre impostarla in components.xml:"
 
 #. Tag: programlisting
 #: Controls.xml:334
@@ -504,7 +504,7 @@ msgstr ""
 #: Controls.xml:336
 #, no-c-format
 msgid "If your <emphasis>Managed Hibernate Session</emphasis> isn't called <literal>session</literal>, then you need to set it in components.xml:"
-msgstr ""
+msgstr "Se il <emphasis>Managed Hibernate Session</emphasis> non viene chiamato <literal>session</literal>, allora occorre impostarla in components.xml:"
 
 #. Tag: programlisting
 #: Controls.xml:342
@@ -524,7 +524,7 @@ msgstr ""
 #: Controls.xml:344
 #, no-c-format
 msgid "If you want to use more than one entity manager with the entity converter, you can create a copy of the entity converter for each entity manager in <literal>components.xml</literal> - note how the entity converter delegates to the entity loader to perform persistence operations:"
-msgstr ""
+msgstr "Se si vuole usare più di un entity manager con l'entity converter, si può creare una copia dell'entity converter per ciascun entity manager in <literal>components.xml</literal> - si noti come l'entity converter deleghi all'entity loader l'esecuzione delle operazioni di persistenza:"
 
 #. Tag: programlisting
 #: Controls.xml:352
@@ -596,7 +596,7 @@ msgstr "&lt;s:convertEnum&gt;"
 #: Controls.xml:365
 #, no-c-format
 msgid "Assigns an enum converter to the current component. This is primarily useful for radio button and dropdown controls."
-msgstr ""
+msgstr "Assegna un enum converter al componente corrente. Questo è utile per i pulsanti radio e i controlli dropdown."
 
 #. Tag: programlisting
 #: Controls.xml:374
