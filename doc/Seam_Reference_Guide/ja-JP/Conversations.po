@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Conversations\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-11-06 06:41+0000\n"
+"POT-Creation-Date: 2009-03-22 12:51+0000\n"
 "PO-Revision-Date: 2009-03-06 17:16+1000\n"
 "Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -23,7 +23,8 @@ msgstr "対話とワークスペースの管理"
 #: Conversations.xml:8
 #, no-c-format
 msgid "It's time to understand Seam's conversation model in more detail."
-msgstr "本章では、 そろそろ Seam の対話モデルについて詳細に理解していくことにします。"
+msgstr ""
+"本章では、 そろそろ Seam の対話モデルについて詳細に理解していくことにします。"
 
 #. Tag: para
 #: Conversations.xml:12
@@ -44,10 +45,10 @@ msgid ""
 "to implement workspace management on top of Struts, an experience I pray "
 "never to repeat."
 msgstr ""
-"<emphasis>ワークスペース</emphasis> という思いつき、 これは 2002 年にビクトリア州"
-"政府 (オーストラリア) のプロジェクトで思いつきました。 このプロジェクトで、私"
-"は Struts の上にワークスペース管理を実装せざるを得なくなりました。2 度と繰り"
-"返したいとは思わないような経験でした。"
+"<emphasis>ワークスペース</emphasis> という思いつき、 これは 2002 年にビクトリ"
+"ア州政府 (オーストラリア) のプロジェクトで思いつきました。 このプロジェクト"
+"で、私は Struts の上にワークスペース管理を実装せざるを得なくなりました。2 度"
+"と繰り返したいとは思わないような経験でした。"
 
 #. Tag: para
 #: Conversations.xml:28
@@ -62,7 +63,16 @@ msgid ""
 "persistence context model supported by stateless architectures such as the "
 "Spring framework or the traditional <emphasis>stateless session facade</"
 "emphasis> (anti)pattern in J2EE.)"
-msgstr "楽観的セマンティクスで動作する<emphasis>アプリケーショントランザクション</emphasis>という思いつきに加え、 ステートレスなアーキテクチャをベースとする既存のフレームワークでは拡張された永続コンテキストの効率的な管理は実現できないことを実感した事実でした。 (Hibernate チームは <literal>LazyInitializationException</literal> に対する非難は聞き飽きていましたし、 実際にはこれは Hibernate に問題があるのではなく、 むしろ Spring フレームワークや J2EE における従来の <emphasis>stateless session facade</emphasis> (anti) パターンなどステートレスアーキテクチャでサポートされる極端に限定的な永続コンテキストモデルに問題があったのです。)"
+msgstr ""
+"楽観的セマンティクスで動作する<emphasis>アプリケーショントランザクション</"
+"emphasis>という思いつきに加え、 ステートレスなアーキテクチャをベースとする既"
+"存のフレームワークでは拡張された永続コンテキストの効率的な管理は実現できない"
+"ことを実感した事実でした。 (Hibernate チームは "
+"<literal>LazyInitializationException</literal> に対する非難は聞き飽きていまし"
+"たし、 実際にはこれは Hibernate に問題があるのではなく、 むしろ Spring フレー"
+"ムワークや J2EE における従来の <emphasis>stateless session facade</emphasis> "
+"(anti) パターンなどステートレスアーキテクチャでサポートされる極端に限定的な永"
+"続コンテキストモデルに問題があったのです。)"
 
 #. Tag: para
 #: Conversations.xml:43
@@ -94,7 +104,8 @@ msgstr "Seam の対話モデル"
 msgid ""
 "The examples we have seen so far make use of a very simple conversation "
 "model that follows these rules:"
-msgstr "これまでに見た例は、以下の規則に従う非常に単純な対話モデルを利用します。"
+msgstr ""
+"これまでに見た例は、以下の規則に従う非常に単純な対話モデルを利用します。"
 
 #. Tag: para
 #: Conversations.xml:65
@@ -104,9 +115,9 @@ msgid ""
 "values, process validations, update model values, invoke application and "
 "render response phases of the JSF request lifecycle."
 msgstr ""
-"JSF 要求ライフサイクルである、 要求値の適用、 プロセスの妥当性検"
-"証、 モデル値の更新、 アプリケーションの呼び出し、 応答のレンダリングの"
-"各フェーズの期間、 常にアクティブな対話コンテキストがあります。"
+"JSF 要求ライフサイクルである、 要求値の適用、 プロセスの妥当性検証、 モデル値"
+"の更新、 アプリケーションの呼び出し、 応答のレンダリングの各フェーズの期間、 "
+"常にアクティブな対話コンテキストがあります。"
 
 #. Tag: para
 #: Conversations.xml:73
@@ -116,9 +127,9 @@ msgid ""
 "attempts to restore any previous long-running conversation context. If none "
 "exists, Seam creates a new temporary conversation context."
 msgstr ""
-"JSF 要求ライフサイクルであるビューの復元フェーズの終わりで、 Seam はそ"
-"れまでの長期対話コンテキストの復元を試みます。 存在しなければ、 Seam は新しい"
-"一時的な対話コンテキストを生成します。"
+"JSF 要求ライフサイクルであるビューの復元フェーズの終わりで、 Seam はそれまで"
+"の長期対話コンテキストの復元を試みます。 存在しなければ、 Seam は新しい一時的"
+"な対話コンテキストを生成します。"
 
 #. Tag: para
 #: Conversations.xml:81
@@ -127,8 +138,8 @@ msgid ""
 "When an <literal>@Begin</literal> method is encountered, the temporary "
 "conversation context is promoted to a long running conversation."
 msgstr ""
-"<literal>@Begin</literal> メソッドが出てくると、 一時的な対話コンテキスト"
-"は長期対話に昇格します。"
+"<literal>@Begin</literal> メソッドが出てくると、 一時的な対話コンテキストは長"
+"期対話に昇格します。"
 
 #. Tag: para
 #: Conversations.xml:88
@@ -148,9 +159,9 @@ msgid ""
 "stores the contents of a long running conversation context or destroys the "
 "contents of a temporary conversation context."
 msgstr ""
-"JSF 要求ライフサイクルである応答のレンダリングのフェーズの終わり"
-"で、 Seam は長期対話コンテキストの内容を記憶するか、 一時的な対話コンテキス"
-"トの内容を破棄します。"
+"JSF 要求ライフサイクルである応答のレンダリングのフェーズの終わりで、 Seam は"
+"長期対話コンテキストの内容を記憶するか、 一時的な対話コンテキストの内容を破棄"
+"します。"
 
 #. Tag: para
 #: Conversations.xml:103
@@ -160,19 +171,22 @@ msgid ""
 "By default, non-faces requests (GET requests, for example) do not propagate "
 "the conversation context, but see below for more information on this."
 msgstr ""
-"どのような faces 要求 (JSF ポストバック) でも対話コンテキストを伝播しま"
-"す。 デフォルトでは、 non-faces 要求 (例えば、 GET 要求) は対話コ"
-"ンテキストを伝播しませんが、 これについての詳細は下記を参照してください。"
+"どのような faces 要求 (JSF ポストバック) でも対話コンテキストを伝播します。 "
+"デフォルトでは、 non-faces 要求 (例えば、 GET 要求) は対話コンテキストを伝播"
+"しませんが、 これについての詳細は下記を参照してください。"
 
 #. Tag: para
 #: Conversations.xml:111
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "If the JSF request lifecycle is foreshortened by a redirect, Seam "
-"transparently stores and restores the current conversation context&#8212;"
+"transparently stores and restores the current conversation context &#8212; "
 "unless the conversation was already ended via <literal>@End"
 "(beforeRedirect=true)</literal>."
-msgstr "JSF 要求ライフサイクルがリダイレクトによって短縮される場合、 Seam は透過的に現在の対話コンテキストを保存および復元します (その対話が <literal>@End (beforeRedirect=true) </literal> で既に終了されていない限り)。"
+msgstr ""
+"JSF 要求ライフサイクルがリダイレクトによって短縮される場合、 Seam は透過的に"
+"現在の対話コンテキストを保存および復元します (その対話が <literal>@End "
+"(beforeRedirect=true) </literal> で既に終了されていない限り)。"
 
 #. Tag: para
 #: Conversations.xml:120
@@ -184,7 +198,12 @@ msgid ""
 "request for example) will not propagate the conversation context and will be "
 "processed in a new temporary conversation. This is usually - but not always "
 "- the desired behavior."
-msgstr "Seam は透過的に対話コンテキスト (一時的な対話コンテキストを含む) を JSF ポストパックおよびリダイレクト全体に伝播します。 特に何もしなければ <emphasis>非 faces 要求</emphasis> (たとえば GET 要求など) は対話コンテキストを伝播せず新しい一時的な対話内で処理されます。 常にとは限りませんが、 これが通常求められる動作になります。"
+msgstr ""
+"Seam は透過的に対話コンテキスト (一時的な対話コンテキストを含む) を JSF ポス"
+"トパックおよびリダイレクト全体に伝播します。 特に何もしなければ <emphasis>非 "
+"faces 要求</emphasis> (たとえば GET 要求など) は対話コンテキストを伝播せず新"
+"しい一時的な対話内で処理されます。 常にとは限りませんが、 これが通常求められ"
+"る動作になります。"
 
 #. Tag: para
 #: Conversations.xml:129
@@ -194,9 +213,9 @@ msgid ""
 "need to explicitly code the Seam <emphasis>conversation id</emphasis> as a "
 "request parameter:"
 msgstr ""
-"non-faces 要求全体に Seam 対話を伝播させたい場合、 要求パラメータ"
-"として Seam <emphasis>対話 ID (conversation id)</emphasis> を明示的にコード化する必要がありま"
-"す。"
+"non-faces 要求全体に Seam 対話を伝播させたい場合、 要求パラメータとして Seam "
+"<emphasis>対話 ID (conversation id)</emphasis> を明示的にコード化する必要があ"
+"ります。"
 
 #. Tag: programlisting
 #: Conversations.xml:135
@@ -257,8 +276,8 @@ msgid ""
 "If you wish to disable propagation of the conversation context for a "
 "postback, a similar trick is used:"
 msgstr ""
-"ポストバック用の対話コンテキストの伝播を無効にしたい場合は、 同様のトリック"
-"が使えます。"
+"ポストバック用の対話コンテキストの伝播を無効にしたい場合は、 同様のトリックが"
+"使えます。"
 
 #. Tag: programlisting
 #: Conversations.xml:154
@@ -378,9 +397,9 @@ msgid ""
 "access to the state of the outer conversation."
 msgstr ""
 "対話には、 連続的に実行したり同時に実行することもある多くの小さな単位のユー"
-"ザーインタラクションも含まれます。 より小さい <emphasis>ネストされた対話 (nested conversation)</"
-"emphasis> には単独の対話状態セットがあり、 また外側の対話状態へのアクセスもあ"
-"ります。"
+"ザーインタラクションも含まれます。 より小さい <emphasis>ネストされた対話 "
+"(nested conversation)</emphasis> には単独の対話状態セットがあり、 また外側の"
+"対話状態へのアクセスもあります。"
 
 #. Tag: para
 #: Conversations.xml:200
@@ -410,7 +429,13 @@ msgid ""
 "read-only within a nested conversation, but because objects are obtained by "
 "reference, changes to the objects themselves will be reflected in the outer "
 "context."
-msgstr "ネストされた対話は既存の対話のスコープ内で <literal>@Begin(nested=true)</literal> とマークされたメソッドを呼び出すことによって作成されます。 ネストされた対話はそれ自体の対話コンテキストを持っていますが、 外側の対話のコンテキストから値を読み取ることができます。 オブジェクトは参照により取得されるため外側の対話のコンテキストはネストされた対話内では読み取り専用となりますが、 オブジェクト自体への変更はその外側のコンテキストに反映されます。"
+msgstr ""
+"ネストされた対話は既存の対話のスコープ内で <literal>@Begin(nested=true)</"
+"literal> とマークされたメソッドを呼び出すことによって作成されます。 ネストさ"
+"れた対話はそれ自体の対話コンテキストを持っていますが、 外側の対話のコンテキス"
+"トから値を読み取ることができます。 オブジェクトは参照により取得されるため外側"
+"の対話のコンテキストはネストされた対話内では読み取り専用となりますが、 オブ"
+"ジェクト自体への変更はその外側のコンテキストに反映されます。"
 
 #. Tag: para
 #: Conversations.xml:226
@@ -419,7 +444,9 @@ msgid ""
 "Nesting a conversation through initializes a context that is stacked on the "
 "context of the original, or outer, conversation. The outer conversation is "
 "considered the parent."
-msgstr "対話をネストするとオリジナルの対話または外側の対話のコンテキストに積み重ねられるコンテキストを初期化します。 外側の対話が親とみなされます。"
+msgstr ""
+"対話をネストするとオリジナルの対話または外側の対話のコンテキストに積み重ねら"
+"れるコンテキストを初期化します。 外側の対話が親とみなされます。"
 
 #. Tag: para
 #: Conversations.xml:233
@@ -427,7 +454,10 @@ msgstr "対話をネストするとオリジナルの対話または外側の対
 msgid ""
 "Any values outjected or directly set into the nested conversation’s context "
 "do not affect the objects accessible in the parent conversation’s context."
-msgstr "ネストされた対話のコンテキストに直接セットされるまたはアウトジェクトされる値はすべて親となる対話のコンテキスト内にアクセス可能なオブジェクトに影響は与えません。"
+msgstr ""
+"ネストされた対話のコンテキストに直接セットされるまたはアウトジェクトされる値"
+"はすべて親となる対話のコンテキスト内にアクセス可能なオブジェクトに影響は与え"
+"ません。"
 
 #. Tag: para
 #: Conversations.xml:240
@@ -437,7 +467,10 @@ msgid ""
 "lookup the value in the current conversation context and, if no value is "
 "found, will proceed down the conversation stack if the conversation is "
 "nested. As you will see in moment, this behavior can be overriden."
-msgstr "対話コンテキストからのコンテキスト検索やインジェクションはまず現在の対話コンテキストにある値を検索し、 値がみつかならないと対話がネストされている場合はその対話スタックに進みます。 このあとわかるように、 この動作は上書き可能です。"
+msgstr ""
+"対話コンテキストからのコンテキスト検索やインジェクションはまず現在の対話コン"
+"テキストにある値を検索し、 値がみつかならないと対話がネストされている場合はそ"
+"の対話スタックに進みます。 このあとわかるように、 この動作は上書き可能です。"
 
 #. Tag: para
 #: Conversations.xml:250
@@ -447,7 +480,10 @@ msgid ""
 "conversation will be destroyed, and the outer conversation will resume, by "
 "\"popping\" the conversation stack. Conversations may be nested to any "
 "arbitrary depth."
-msgstr "次に <literal>@End</literal> が出てくると、 対話スタックから「ポップ(Pop)」されることで、 その取り出された対話は破棄されます。 対話は任意の深さにネストすることができます。"
+msgstr ""
+"次に <literal>@End</literal> が出てくると、 対話スタックから「ポップ(Pop)」さ"
+"れることで、 その取り出された対話は破棄されます。 対話は任意の深さにネストす"
+"ることができます。"
 
 #. Tag: para
 #: Conversations.xml:257
@@ -474,7 +510,10 @@ msgid ""
 "conversation. Destroying this conversation always destroy all of its "
 "descendents. You can achieve this declaratively by specifying <literal>@End"
 "(root=true)</literal>."
-msgstr "対話スタックの最下位にある対話がルートの対話になります。 この対話を破棄すると常に派生した対話はすべて破棄されます。 <literal>@End(root=true)</literal> を指定すると宣言的にこれを行うことができます。"
+msgstr ""
+"対話スタックの最下位にある対話がルートの対話になります。 この対話を破棄すると"
+"常に派生した対話はすべて破棄されます。 <literal>@End(root=true)</literal> を"
+"指定すると宣言的にこれを行うことができます。"
 
 #. Tag: para
 #: Conversations.xml:274
@@ -487,9 +526,9 @@ msgid ""
 "management."
 msgstr ""
 "対話は<emphasis>継続可能な状態</emphasis>と見なすことができます。 ネストされ"
-"た対話により、 ユーザーとの交信でのさまざまなポイントにおいてアプリ"
-"ケーションは一貫した継続可能な状態を捕らえることができるようになります。 従っ"
-"て、 戻るボタンを押すことやワークスペース管理に対して正しい動作を保証します。"
+"た対話により、 ユーザーとの交信でのさまざまなポイントにおいてアプリケーション"
+"は一貫した継続可能な状態を捕らえることができるようになります。 従って、 戻る"
+"ボタンを押すことやワークスペース管理に対して正しい動作を保証します。"
 
 #. Tag: para
 #: Conversations.xml:282
@@ -503,11 +542,11 @@ msgid ""
 "this behavior by annotating the component <literal>@PerNestedConversation</"
 "literal>."
 msgstr ""
-"前述した通り、 現在ネストされている対話の親となる対話にコンポーネントが存在する場"
-"合、 このネストされている対話は同じインスタンスを使用します。ときには、 親と"
-"なる対話内に存在するコンポーネントインスタンスがその子となる対話からは見えな"
-"くなるように、 ネストされるそれぞれの対話内に別々のインスタンスを持たせると便"
-"利なことがあります。 コンポーネントに <literal>@PerNestedConversation</"
+"前述した通り、 現在ネストされている対話の親となる対話にコンポーネントが存在す"
+"る場合、 このネストされている対話は同じインスタンスを使用します。ときには、 "
+"親となる対話内に存在するコンポーネントインスタンスがその子となる対話からは見"
+"えなくなるように、 ネストされるそれぞれの対話内に別々のインスタンスを持たせる"
+"と便利なことがあります。 コンポーネントに <literal>@PerNestedConversation</"
 "literal> アノテーションを付けるとこれを行うことができます。"
 
 #. Tag: title
@@ -525,10 +564,10 @@ msgid ""
 "This can occur if the user bookmarks the page, or if we navigate to the page "
 "via an <literal>&lt;h:outputLink&gt;</literal>."
 msgstr ""
-"ページが non-faces 要求 (例、 HTTP GET 要求) 経由でアクセスされる"
-"場合、 JSF は起動されるアクションリスナーを全く定義しません。 ユーザーがその"
-"ページをブックマークする、あるいは <literal>&lt;h:outputLink&gt;</literal> か"
-"らそのページに行き着く場合などに発生します。"
+"ページが non-faces 要求 (例、 HTTP GET 要求) 経由でアクセスされる場合、 JSF "
+"は起動されるアクションリスナーを全く定義しません。 ユーザーがそのページをブッ"
+"クマークする、あるいは <literal>&lt;h:outputLink&gt;</literal> からそのページ"
+"に行き着く場合などに発生します。"
 
 #. Tag: para
 #: Conversations.xml:303
@@ -537,7 +576,10 @@ msgid ""
 "Sometimes we want to begin a conversation immediately the page is accessed. "
 "Since there is no JSF action method, we can't solve the problem in the usual "
 "way, by annotating the action with <literal>@Begin</literal>."
-msgstr "ページがアクセスされたら直ちに対話を開始したい場合があります。 JSF アクションメソッドがないため、 アクションに <literal>@Begin</literal> アノテーションを付けるという普通の方法では問題を解決することができません。"
+msgstr ""
+"ページがアクセスされたら直ちに対話を開始したい場合があります。 JSF アクション"
+"メソッドがないため、 アクションに <literal>@Begin</literal> アノテーションを"
+"付けるという普通の方法では問題を解決することができません。"
 
 #. Tag: para
 #: Conversations.xml:309
@@ -548,7 +590,12 @@ msgid ""
 "state is held in a Seam component, we can fetch the state in a "
 "<literal>@Create</literal> method. If not, we can define a "
 "<literal>@Factory</literal> method for the context variable."
-msgstr "このページが状態をコンテキスト変数にフェッチする必要がある場合、 さらなる問題が発生します。 すでに、2 つの問題解決方法を見てきました。 Seam コンポーネントにその状態が保持される場合、 <literal>@Create</literal> メソッドでその状態をフェッチできます。 保持されていなければ、 コンテキスト変数に対して <literal>@Factory</literal> メソッドを定義することができます。"
+msgstr ""
+"このページが状態をコンテキスト変数にフェッチする必要がある場合、 さらなる問題"
+"が発生します。 すでに、2 つの問題解決方法を見てきました。 Seam コンポーネント"
+"にその状態が保持される場合、 <literal>@Create</literal> メソッドでその状態を"
+"フェッチできます。 保持されていなければ、 コンテキスト変数に対して "
+"<literal>@Factory</literal> メソッドを定義することができます。"
 
 #. Tag: para
 #: Conversations.xml:317
@@ -584,11 +631,10 @@ msgid ""
 "null outcome, Seam will process any appropriate JSF and Seam navigation "
 "rules, possibly resulting in a completely different page being rendered."
 msgstr ""
-"ページがレンダリングされるようとするときは常に、 応答のレンダリング"
-"フェーズの冒頭でこのアクションメソッドが呼び出されます。 ページアクションが "
-"null 以外の結果を返す場合、 Seam は適切な JSF および Seam ナビゲーションの規則"
-"を処理するので、 まったく異なるページがレンダリングさることになるかもしれませ"
-"ん。"
+"ページがレンダリングされるようとするときは常に、 応答のレンダリングフェーズの"
+"冒頭でこのアクションメソッドが呼び出されます。 ページアクションが null 以外の"
+"結果を返す場合、 Seam は適切な JSF および Seam ナビゲーションの規則を処理する"
+"ので、 まったく異なるページがレンダリングさることになるかもしれません。"
 
 #. Tag: para
 #: Conversations.xml:333
@@ -598,8 +644,8 @@ msgid ""
 "begin a conversation, you could use a built-in action method that does just "
 "that:"
 msgstr ""
-"ページのレンダリング前に行いたいことが対話の開始だけなら、 組み込みアクショ"
-"ンメソッドを次のように使用できます。"
+"ページのレンダリング前に行いたいことが対話の開始だけなら、 組み込みアクション"
+"メソッドを次のように使用できます。"
 
 #. Tag: programlisting
 #: Conversations.xml:339
@@ -623,9 +669,9 @@ msgid ""
 "similarly, you can use <literal>#{conversation.end}</literal> to end "
 "conversations."
 msgstr ""
-"また、 この組み込みアクションは JSF コントロールからも呼び出すことができ、 "
-"同様に <literal>#{conversation.end}</literal> を使って対話を終了することがで"
-"きます。"
+"また、 この組み込みアクションは JSF コントロールからも呼び出すことができ、 同"
+"様に <literal>#{conversation.end}</literal> を使って対話を終了することができ"
+"ます。"
 
 #. Tag: para
 #: Conversations.xml:347
@@ -661,7 +707,8 @@ msgstr ""
 #: Conversations.xml:356
 #, no-c-format
 msgid "There is also an <literal>&lt;end-conversation&gt;</literal> element."
-msgstr "また、 <literal>&lt;end-conversation&gt;</literal> エレメントもあります。"
+msgstr ""
+"また、 <literal>&lt;end-conversation&gt;</literal> エレメントもあります。"
 
 #. Tag: programlisting
 #: Conversations.xml:361
@@ -690,7 +737,8 @@ msgstr "1 番目の問題を解決するには、 現在 5 つのオプション
 #. Tag: para
 #: Conversations.xml:369
 #, no-c-format
-msgid "Annotate the <literal>@Create</literal> method with <literal>@Begin</literal>"
+msgid ""
+"Annotate the <literal>@Create</literal> method with <literal>@Begin</literal>"
 msgstr ""
 " <literal>@Create</literal> メソッドに <literal>@Begin</literal> アノテーショ"
 "ンを追加する"
@@ -726,7 +774,8 @@ msgstr ""
 #. Tag: para
 #: Conversations.xml:393
 #, no-c-format
-msgid "Use <literal>#{conversation.begin}</literal> as the Seam page action method"
+msgid ""
+"Use <literal>#{conversation.begin}</literal> as the Seam page action method"
 msgstr ""
 "<literal>#{conversation.begin}</literal> を Seam ページアクションメソッドとし"
 "て使用する"
@@ -750,7 +799,12 @@ msgid ""
 "feature. In plain JSF, you need to use an <literal>&lt;h:outputLink&gt;</"
 "literal> if you need this functionality. But there are two major limitations "
 "to <literal>&lt;h:outputLink&gt;</literal>."
-msgstr "JSF コマンドリンクは常に JavaScript でフォームサブミットを行います。 これによりウェブブラウザの「新しいウィンドウで開く」または「新しいタブで開く」機能を動作させなくしてしまいます。 プレーンの JFS でこの機能が必要な場合は、  <literal>&lt;h:outputLink&gt;</literal> を使用する必要があります。 ただし、 <literal>&lt;h:outputLink&gt;</literal> には重要な制限が 2 つあります。"
+msgstr ""
+"JSF コマンドリンクは常に JavaScript でフォームサブミットを行います。 これによ"
+"りウェブブラウザの「新しいウィンドウで開く」または「新しいタブで開く」機能を"
+"動作させなくしてしまいます。 プレーンの JFS でこの機能が必要な場合は、  "
+"<literal>&lt;h:outputLink&gt;</literal> を使用する必要があります。 ただし、 "
+"<literal>&lt;h:outputLink&gt;</literal> には重要な制限が 2 つあります。"
 
 #. Tag: para
 #: Conversations.xml:415
@@ -774,19 +828,28 @@ msgstr ""
 
 #. Tag: para
 #: Conversations.xml:428
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "Seam provides the notion of a <emphasis>page action</emphasis> to help solve "
 "the first problem, but this does nothing to help us with the second problem. "
 "We <emphasis>could</emphasis> work around this by using the RESTful approach "
 "of passing a request parameter and requerying for the selected object on the "
-"server side. In some cases&#8212;such as the Seam blog example "
-"application&#8212;this is indeed the best approach. The RESTful style "
-"supports bookmarking, since it does not require server-side state. In other "
-"cases, where we don't care about bookmarks, the use of <literal>@DataModel</"
+"server side. In some cases &#8212; such as the Seam blog example application "
+"&#8212; this is indeed the best approach. The RESTful style supports "
+"bookmarking, since it does not require server-side state. In other cases, "
+"where we don't care about bookmarks, the use of <literal>@DataModel</"
 "literal> and <literal>@DataModelSelection</literal> is just so convenient "
 "and transparent!"
-msgstr "Seam は 1 番目の問題解決に対しては <emphasis>ページアクション</emphasis>という概念を提供していますが、 これは 2 番目の問題についてはまったく役に立ちません。 これについては要求パラメータを渡すという RESTful 方法を使ってサーバー側にある選択オブジェクトに再問い合わせを行うことで<emphasis>回避できました</emphasis>。 Seam ブログサンプルアプリケーションなどの場合には、 実際にこれが最適の手段となります。 RESTful スタイルはサーバー側の状態を必要としないためブックマーク機能をサポートします。 ブックマークはあまり必要ないなどこれ以外の場合は、 <literal>@DataModel</literal> および <literal>@DataModelSelection</literal> を使用すると非常に便利で透過的になります。"
+msgstr ""
+"Seam は 1 番目の問題解決に対しては <emphasis>ページアクション</emphasis>とい"
+"う概念を提供していますが、 これは 2 番目の問題についてはまったく役に立ちませ"
+"ん。 これについては要求パラメータを渡すという RESTful 方法を使ってサーバー側"
+"にある選択オブジェクトに再問い合わせを行うことで<emphasis>回避できました</"
+"emphasis>。 Seam ブログサンプルアプリケーションなどの場合には、 実際にこれが"
+"最適の手段となります。 RESTful スタイルはサーバー側の状態を必要としないため"
+"ブックマーク機能をサポートします。 ブックマークはあまり必要ないなどこれ以外の"
+"場合は、 <literal>@DataModel</literal> および <literal>@DataModelSelection</"
+"literal> を使用すると非常に便利で透過的になります。"
 
 #. Tag: para
 #: Conversations.xml:441
@@ -834,7 +897,10 @@ msgid ""
 "If you specify <emphasis>both</emphasis> a JSF view id and an action method, "
 "the 'view' will be used <emphasis>unless</emphasis> the action method "
 "returns a non-null outcome:"
-msgstr "JSF ビュー ID とアクションメソッドの<emphasis>両方</emphasis>を指定すると、 <emphasis>アクションメソッドが null 以外の結果を返さない限り</emphasis>「ビュー」が使用されます。"
+msgstr ""
+"JSF ビュー ID とアクションメソッドの<emphasis>両方</emphasis>を指定すると、 "
+"<emphasis>アクションメソッドが null 以外の結果を返さない限り</emphasis>"
+"「ビュー」が使用されます。"
 
 #. Tag: programlisting
 #: Conversations.xml:466
@@ -900,7 +966,8 @@ msgstr ""
 msgid ""
 "If the link begins a conversation, you can even specify a pageflow to be "
 "used:"
-msgstr "リンクが対話を開始すると、 使用されるページプローを指定することもできます。"
+msgstr ""
+"リンクが対話を開始すると、 使用されるページプローを指定することもできます。"
 
 #. Tag: programlisting
 #: Conversations.xml:491
@@ -917,8 +984,10 @@ msgstr ""
 #. Tag: para
 #: Conversations.xml:493
 #, no-c-format
-msgid "The <literal>taskInstance</literal> attribute if for use in jBPM task lists:"
-msgstr "jBPM タスクリストを使用する場合の <literal>taskInstance</literal> 属性です。"
+msgid ""
+"The <literal>taskInstance</literal> attribute if for use in jBPM task lists:"
+msgstr ""
+"jBPM タスクリストを使用する場合の <literal>taskInstance</literal> 属性です。"
 
 #. Tag: programlisting
 #: Conversations.xml:497
@@ -1027,9 +1096,9 @@ msgid ""
 "temporary conversation contexts across redirects."
 msgstr ""
 "<literal>facesMessages</literal> に追加されるメッセージはすべてすぐ次のフェー"
-"スである応答レンダリングフェーズで現在の対話に対して使用されます。 これ"
-"は Seam がリダイレクト全体に一時的な対話コンテキストを維持するので長期実行の"
-"対話がない場合でも機能します。"
+"スである応答レンダリングフェーズで現在の対話に対して使用されます。 これは "
+"Seam がリダイレクト全体に一時的な対話コンテキストを維持するので長期実行の対話"
+"がない場合でも機能します。"
 
 #. Tag: para
 #: Conversations.xml:538
@@ -1040,8 +1109,10 @@ msgstr "JSF EL 式を faces メッセージサマリーに含ませることも�
 #. Tag: programlisting
 #: Conversations.xml:542
 #, no-c-format
-msgid "<![CDATA[facesMessages.add(\"Document #{document.title} was updated\");]]>"
-msgstr "<![CDATA[facesMessages.add(\"Document #{document.title} was updated\");]]>"
+msgid ""
+"<![CDATA[facesMessages.add(\"Document #{document.title} was updated\");]]>"
+msgstr ""
+"<![CDATA[facesMessages.add(\"Document #{document.title} was updated\");]]>"
 
 #. Tag: para
 #: Conversations.xml:544
@@ -1068,7 +1139,9 @@ msgid ""
 "When working with conversations that deal with persistent objects, it may be "
 "desirable to use the natural business key of the object instead of the "
 "standard, \"surrogate\" conversation id:"
-msgstr "永続オブジェクトを処理する対話を作業する場合は標準のサロゲート対話 ID ではなくそのオブジェクトのナチュラルキーを使用する方が望ましい場合があります。"
+msgstr ""
+"永続オブジェクトを処理する対話を作業する場合は標準のサロゲート対話 ID ではな"
+"くそのオブジェクトのナチュラルキーを使用する方が望ましい場合があります。"
 
 #. Tag: emphasis
 #: Conversations.xml:561
@@ -1087,16 +1160,26 @@ msgid ""
 "enter your payment details but you can't remember their address. You "
 "accidentally reuse the same browser window finding out their address. Now "
 "you need to return to the payment for the item. </quote>"
-msgstr "ユーザーが同じ操作を 2 回要求する場合は既存の対話にリダイレクトすると便利な場合があります。 例をあげてみます。 <quote> 「ebay で両親へのクリスマスプレゼントを獲得しそのアイテムの支払いプロセスが途中まで進んでいます。 ここでこのアイテムが直接両親に配達されるようにしようと思います。 支払い詳細は入力しましたが両親の明確な住所を思い出すことができません。 住所を検索しようとして誤って同じブラウザウィンドウを使ってしまいました。 もう一度さっきのアイテムの支払いに戻る必要があります。」 </quote>"
+msgstr ""
+"ユーザーが同じ操作を 2 回要求する場合は既存の対話にリダイレクトすると便利な場"
+"合があります。 例をあげてみます。 <quote> 「ebay で両親へのクリスマスプレゼン"
+"トを獲得しそのアイテムの支払いプロセスが途中まで進んでいます。 ここでこのアイ"
+"テムが直接両親に配達されるようにしようと思います。 支払い詳細は入力しましたが"
+"両親の明確な住所を思い出すことができません。 住所を検索しようとして誤って同じ"
+"ブラウザウィンドウを使ってしまいました。 もう一度さっきのアイテムの支払いに戻"
+"る必要があります。」 </quote>"
 
 #. Tag: para
 #: Conversations.xml:576
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"With a natural conversation its really easy to have the user rejoin the "
+"With a natural conversation it's really easy to have the user rejoin the "
 "existing conversation, and pick up where they left off - just have them to "
 "rejoin the payForItem conversation with the itemId as the conversation id."
-msgstr "ナチュラル対話では既存の対話にユーザーを再度参加させて中断したところからまた始めさせることが非常に簡単です。 対話 ID として itemId を使い payForItem 対話に再度参加させるだけです。"
+msgstr ""
+"ナチュラル対話では既存の対話にユーザーを再度参加させて中断したところからまた"
+"始めさせることが非常に簡単です。 対話 ID として itemId を使い payForItem 対話"
+"に再度参加させるだけです。"
 
 #. Tag: emphasis
 #: Conversations.xml:584
@@ -1112,19 +1195,29 @@ msgid ""
 "url) and a meaningful URL (like this Wiki uses - so don't identify things by "
 "random ids). For some applications user friendly URLs are less important, of "
 "course."
-msgstr "個人的には操作可能な階層と (URL を編集しながら操作可能) 意味のある URL (この Wiki に見られるようにランダムな ID での識別を行わない) で構成されているように見えますが、 アプリケーションユーザーにとってはフレンドリーな URL はそれほど重要ではない場合もあるでしょう。"
+msgstr ""
+"個人的には操作可能な階層と (URL を編集しながら操作可能) 意味のある URL (この "
+"Wiki に見られるようにランダムな ID での識別を行わない) で構成されているように"
+"見えますが、 アプリケーションユーザーにとってはフレンドリーな URL はそれほど"
+"重要ではない場合もあるでしょう。"
 
 #. Tag: para
 #: Conversations.xml:595
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"With a natural conversations, when you are building your hotel booking "
-"system (or, of course, whatever your app is) you can generate a URL like "
+"With a natural conversation, when you are building your hotel booking system "
+"(or, of course, whatever your app is) you can generate a URL like "
 "<literal>http://seam-hotels/book.seam?hotel=BestWesternAntwerpen</literal> "
 "(of course, whatever parameter <literal>hotel</literal> maps to on your "
 "domain model must be unique) and with URLRewrite easily transform this to "
 "http://seam-hotels/book/BestWesternAntwerpen."
-msgstr "ナチュラル対話では、 ホテル予約システム (あるいはどのようなアプリケーションであれ) を構築している場合に <literal>http://seam-hotels/book.seam?hotel=BestWesternAntwerpen</literal> (ドメインモデルでマッピングを行うパラメータ <literal>hotel</literal> は何であれ固有でなければならない) のような URL を生成し、 URLRewrite でこれを容易に http://seam-hotels/book/BestWesternAntwerpen に変換することができます。"
+msgstr ""
+"ナチュラル対話では、 ホテル予約システム (あるいはどのようなアプリケーションで"
+"あれ) を構築している場合に <literal>http://seam-hotels/book.seam?"
+"hotel=BestWesternAntwerpen</literal> (ドメインモデルでマッピングを行うパラ"
+"メータ <literal>hotel</literal> は何であれ固有でなければならない) のような "
+"URL を生成し、 URLRewrite でこれを容易に http://seam-hotels/book/"
+"BestWesternAntwerpen に変換することができます。"
 
 #. Tag: para
 #: Conversations.xml:606
@@ -1165,7 +1258,10 @@ msgid ""
 "identifies this particular named conversation, and is used by the "
 "<literal>page</literal> definition to identify a named conversation to "
 "participate in."
-msgstr "上記の定義でまず判るのは対話に名前があることです。 この場合 <literal>PlaceBid</literal> になります。 名前は特定の指定対話を固有に識別するため <literal>page</literal> 定義により参加する指定対話の識別に使用されます。"
+msgstr ""
+"上記の定義でまず判るのは対話に名前があることです。 この場合 "
+"<literal>PlaceBid</literal> になります。 名前は特定の指定対話を固有に識別する"
+"ため <literal>page</literal> 定義により参加する指定対話の識別に使用されます。"
 
 #. Tag: para
 #: Conversations.xml:627
@@ -1177,7 +1273,13 @@ msgid ""
 "name</literal> is <literal>auctionId</literal>. This means that instead of a "
 "conversation parameter like <literal>cid=123</literal> appearing in the URL "
 "for your page, it will contain <literal>auctionId=765432</literal> instead."
-msgstr "次の属性 <literal>parameter-name</literal> はデフォルトの対話 ID パラメータの代わりにナチュラル対話の ID を含む要求パラメータを定義します。 この例では <literal>parameter-name</literal> は <literal>auctionId</literal> になります。 つまり、 ページの URL 内に出現する <literal>cid=123</literal> のような対話パラメータの代わりに <literal>auctionId=765432</literal> を含むようになります。"
+msgstr ""
+"次の属性 <literal>parameter-name</literal> はデフォルトの対話 ID パラメータの"
+"代わりにナチュラル対話の ID を含む要求パラメータを定義します。 この例では "
+"<literal>parameter-name</literal> は <literal>auctionId</literal> になりま"
+"す。 つまり、 ページの URL 内に出現する <literal>cid=123</literal> のような対"
+"話パラメータの代わりに <literal>auctionId=765432</literal> を含むようになりま"
+"す。"
 
 #. Tag: para
 #: Conversations.xml:636
@@ -1188,7 +1290,11 @@ msgid ""
 "business key to use as the conversation id. In this example, the "
 "conversation id will be the primary key value of the <literal>auction</"
 "literal> instance currently in scope."
-msgstr "上記の設定の最後の属性 <literal>parameter-value</literal> は対話 ID として使用するナチュラルビジネスキーの値の評価に使用される EL 式を定義します。 この例では対話 ID は現在範囲内の <literal>auction</literal> のプライマリーキー値になります。"
+msgstr ""
+"上記の設定の最後の属性 <literal>parameter-value</literal> は対話 ID として使"
+"用するナチュラルビジネスキーの値の評価に使用される EL 式を定義します。 この例"
+"では対話 ID は現在範囲内の <literal>auction</literal> のプライマリーキー値に"
+"なります。"
 
 #. Tag: para
 #: Conversations.xml:643
@@ -1197,7 +1303,9 @@ msgid ""
 "Next, we define which pages will participate in the named conversation. This "
 "is done by specifying the <literal>conversation</literal> attribute for a "
 "<literal>page</literal> definition:"
-msgstr "次に指定対話に参加するページを定義します。 <literal>page</literal> 定義の <literal>conversation</literal> 属性を指定してこれを行います。"
+msgstr ""
+"次に指定対話に参加するページを定義します。 <literal>page</literal> 定義の "
+"<literal>conversation</literal> 属性を指定してこれを行います。"
 
 #. Tag: programlisting
 #: Conversations.xml:649
@@ -1240,7 +1348,9 @@ msgid ""
 "When starting, or redirecting to, a natural conversation there are a number "
 "of options for specifying the natural conversation name. Let's start by "
 "looking at the following page definition:"
-msgstr "ナチュラル対話を開始またはリダイレクトする場合、 ナチュラル対話名を指定するいくつかのオプションがあります。 次のページ定義をまず見てみることにします。"
+msgstr ""
+"ナチュラル対話を開始またはリダイレクトする場合、 ナチュラル対話名を指定するい"
+"くつかのオプションがあります。 次のページ定義をまず見てみることにします。"
 
 #. Tag: programlisting
 #: Conversations.xml:662
@@ -1273,8 +1383,11 @@ msgid ""
 "natural conversation <literal>PlaceBid</literal>. The declaration for our "
 "action method looks like this:"
 msgstr ""
-"auction ビューからアクション <literal>#{bidAction.placeBid}"
-"</literal> を呼び出していること (これらのサンプルはすべて Seam にある seamBay から取得している)、 前述のようにナチュラル対話 <literal>PlaceBid</literal> で設定される <literal>/bid.xhtml</literal> にリダイレクトしていることがわかります。 アクションメソッドの宣言は以下のようになります。"
+"auction ビューからアクション <literal>#{bidAction.placeBid}</literal> を呼び"
+"出していること (これらのサンプルはすべて Seam にある seamBay から取得してい"
+"る)、 前述のようにナチュラル対話 <literal>PlaceBid</literal> で設定される "
+"<literal>/bid.xhtml</literal> にリダイレクトしていることがわかります。 アク"
+"ションメソッドの宣言は以下のようになります。"
 
 #. Tag: programlisting
 #: Conversations.xml:672
@@ -1298,12 +1411,13 @@ msgid ""
 "to specify the conversation name when the action is invoked. One way of "
 "doing this is by using the <literal>s:conversationName</literal> tag:"
 msgstr ""
-"名前が付けられた対話が <literal>&lt;page/&gt;</literal> エレメントに指定される場合、 その名前の対話へのリダイレクトはアクションメソッドが完全に呼び出された後でナビ"
-"ゲーションルールの一部として発生します。 既存の対話にリダイレクトする場合はア"
-"クションメソッドが呼び出される前にリダイレクトが発生する必要があるため問題と"
-"なってきます。 したがってアクションが呼び出される場合は対話名を指定する必要が"
-"あります。 <literal>s:conversationName</literal> タグを使って行うのがその方法"
-"のひとつとなります。"
+"名前が付けられた対話が <literal>&lt;page/&gt;</literal> エレメントに指定され"
+"る場合、 その名前の対話へのリダイレクトはアクションメソッドが完全に呼び出され"
+"た後でナビゲーションルールの一部として発生します。 既存の対話にリダイレクトす"
+"る場合はアクションメソッドが呼び出される前にリダイレクトが発生する必要がある"
+"ため問題となってきます。 したがってアクションが呼び出される場合は対話名を指定"
+"する必要があります。 <literal>s:conversationName</literal> タグを使って行うの"
+"がその方法のひとつとなります。"
 
 #. Tag: programlisting
 #: Conversations.xml:684
@@ -1326,7 +1440,10 @@ msgid ""
 "Another alternative is to specify the <literal>conversationName</literal> "
 "attribute when using either <literal>s:link</literal> or <literal>s:button</"
 "literal>:"
-msgstr "もうひとつの方法は <literal>s:link</literal> または <literal>s:button</literal> のどちらかを使用するときに <literal>conversationName</literal> を指定する方法です。"
+msgstr ""
+"もうひとつの方法は <literal>s:link</literal> または <literal>s:button</"
+"literal> のどちらかを使用するときに <literal>conversationName</literal> を指"
+"定する方法です。"
 
 #. Tag: programlisting
 #: Conversations.xml:691
@@ -1570,8 +1687,8 @@ msgid ""
 "together with two additional items that let the user begin a new "
 "conversation."
 msgstr ""
-"この例では、 ユーザーに新しい対話を開始させる 2 つの追加アイテムに加えて、 各対"
-"話のためのアイテムを含むメニューがあります。"
+"この例では、 ユーザーに新しい対話を開始させる 2 つの追加アイテムに加えて、 各"
+"対話のためのアイテムを含むメニューがあります。"
 
 #. Tag: para
 #: Conversations.xml:780
@@ -1579,7 +1696,9 @@ msgstr ""
 msgid ""
 "Only conversations with a description (specified in <literal>pages.xml</"
 "literal>) will be included in the drop-down menu."
-msgstr "詳細を持つ対話 (<literal>pages.xml</literal> で指定) のみがドロップダウンメニューに含まれます。"
+msgstr ""
+"詳細を持つ対話 (<literal>pages.xml</literal> で指定) のみがドロップダウンメ"
+"ニューに含まれます。"
 
 #. Tag: title
 #: Conversations.xml:798
@@ -1658,7 +1777,8 @@ msgstr ""
 #. Tag: para
 #: Conversations.xml:807
 #, no-c-format
-msgid "We imagine that you will want to customize this for your own application."
+msgid ""
+"We imagine that you will want to customize this for your own application."
 msgstr ""
 "恐らく、 多くの方が独自のアプリケーションに合うようカスタマイズを希望するだろ"
 "うと思います。"
@@ -1732,8 +1852,8 @@ msgstr ""
 "ないという制限が対話型コンポーネントにはあります。 (一般的には、 アプリケー"
 "ション論理からビューに対する強い依存関係を作ってしまうため、 絶対的に必要でな"
 "い限り一般的にはこの JSF の機能は使用しないようにした方がよいでしょう。) "
-"postback 要求で、 Seam 対話コンテキストが復元される前、 ビューの復元"
-"フェーズ中にコンポーネントのバインディングは更新されます。"
+"postback 要求で、 Seam 対話コンテキストが復元される前、 ビューの復元フェーズ"
+"中にコンポーネントのバインディングは更新されます。"
 
 #. Tag: para
 #: Conversations.xml:865
@@ -1802,18 +1922,26 @@ msgid ""
 "Also, you can't inject a conversation scoped component into an event scoped "
 "component which you bind a JSF control to. This includes Seam built in "
 "components like <literal>facesMessages</literal>."
-msgstr "また、 対話スコープのコンポーネントを JSF コントロールのバインド先となるイベントスコープのコンポーネントにはインジェクトできません。 これには <literal>facesMessages</literal> のようなコンポーネント内での Seam 構築が含まれます。"
+msgstr ""
+"また、 対話スコープのコンポーネントを JSF コントロールのバインド先となるイベ"
+"ントスコープのコンポーネントにはインジェクトできません。 これには "
+"<literal>facesMessages</literal> のようなコンポーネント内での Seam 構築が含ま"
+"れます。"
 
 #. Tag: para
 #: Conversations.xml:881
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "Alternatively, you can access the JSF component tree through the implicit "
 "<literal>uiComponent</literal> handle. The following example accesses "
-"<literal>getRowIndex()</literal>of the <literal>UIData</literal> component "
+"<literal>getRowIndex()</literal> of the <literal>UIData</literal> component "
 "which backs the data table during iteration, it prints the current row "
 "number:"
-msgstr "代わりに暗示的な <literal>uiComponent</literal> ハンドルで JSF コンポーネントツリーにアクセスすることができます。 次の例では反復の間にデータテーブルを戻す <literal>UIData</literal> コンポーネントの <literal>getRowIndex()</literal> にアクセスしています。 現在の列番号を出力します。"
+msgstr ""
+"代わりに暗示的な <literal>uiComponent</literal> ハンドルで JSF コンポーネント"
+"ツリーにアクセスすることができます。 次の例では反復の間にデータテーブルを戻"
+"す <literal>UIData</literal> コンポーネントの <literal>getRowIndex()</"
+"literal> にアクセスしています。 現在の列番号を出力します。"
 
 #. Tag: programlisting
 #: Conversations.xml:888
@@ -1840,8 +1968,11 @@ msgstr ""
 #. Tag: para
 #: Conversations.xml:890
 #, no-c-format
-msgid "JSF UI components are available with their client identifier in this map."
-msgstr "JSF UI のコンポーネントはこのマップ内のクライアント識別子で使用可能になります。"
+msgid ""
+"JSF UI components are available with their client identifier in this map."
+msgstr ""
+"JSF UI のコンポーネントはこのマップ内のクライアント識別子で使用可能になりま"
+"す。"
 
 #. Tag: title
 #: Conversations.xml:897
@@ -1860,7 +1991,12 @@ msgid ""
 "options that a Ajax client library should provide to control events "
 "originating at the client &#8212; and we'll look at the options RichFaces "
 "gives you."
-msgstr "Seam コンポーネントへの並列コールに関する全般は <xref linkend=\"concurrency\"/> でご覧ください。 ここでは並列が発生する最も一般的な状況について説明しています (AJAX 要求から対話的コンポーネントにアクセスする)。 クライアントで発生したイベントの制御に Ajax クライアントライブラリが提供すべきオプションについて説明してから RichFaces で提供されるオプションについて見ていきます。"
+msgstr ""
+"Seam コンポーネントへの並列コールに関する全般は <xref linkend=\"concurrency"
+"\"/> でご覧ください。 ここでは並列が発生する最も一般的な状況について説明して"
+"います (AJAX 要求から対話的コンポーネントにアクセスする)。 クライアントで発生"
+"したイベントの制御に Ajax クライアントライブラリが提供すべきオプションについ"
+"て説明してから RichFaces で提供されるオプションについて見ていきます。"
 
 #. Tag: para
 #: Conversations.xml:909
@@ -1881,7 +2017,8 @@ msgstr ""
 "ん。 まず、 メソッドがなんらかの理由で完了に長時間かかっている場合、 クライア"
 "ントが要求を生成するたび繰り返してそれを実行するのはよくありません (サービス"
 "妨害攻撃の可能性)。 また、 ユーザーに対するステータスのクィックアップデート"
-"に AJAX が頻繁に使用されるためアクションを長時間実行し続けるのは実用的ではありません。"
+"に AJAX が頻繁に使用されるためアクションを長時間実行し続けるのは実用的ではあ"
+"りません。"
 
 #. Tag: para
 #: Conversations.xml:921
@@ -1893,7 +2030,12 @@ msgid ""
 "conversation and prints out a message to the user to let them know what's "
 "going on. It's therefore very important not to flood the server with AJAX "
 "events!"
-msgstr "したがって、 長時間実行の対話の内側で作業する場合は Seam は一定期間アクションイベントを待ち行列に入れます (並列要求タイムアウト)。 時間通りにイベントを処理できないと一時的な対話を作成してユーザーに状況を知らせるメッセージを出力します。 このため、 AJAX イベントでサーバーを溢れさせないようにすることが非常に重要となります。"
+msgstr ""
+"したがって、 長時間実行の対話の内側で作業する場合は Seam は一定期間アクション"
+"イベントを待ち行列に入れます (並列要求タイムアウト)。 時間通りにイベントを処"
+"理できないと一時的な対話を作成してユーザーに状況を知らせるメッセージを出力し"
+"ます。 このため、 AJAX イベントでサーバーを溢れさせないようにすることが非常に"
+"重要となります。"
 
 #. Tag: para
 #: Conversations.xml:930
@@ -1901,7 +2043,9 @@ msgstr "したがって、 長時間実行の対話の内側で作業する場�
 msgid ""
 "We can set a sensible default for the concurrent request timeout (in ms) in "
 "components.xml:"
-msgstr "components.xml で並列要求のタイムアウトにミリ秒単位で適当なデフォルトを設定することができます。"
+msgstr ""
+"components.xml で並列要求のタイムアウトにミリ秒単位で適当なデフォルトを設定す"
+"ることができます。"
 
 #. Tag: programlisting
 #: Conversations.xml:935
@@ -1912,7 +2056,8 @@ msgstr "<![CDATA[<core:manager concurrent-request-timeout=\"500\" />]]>"
 #. Tag: para
 #: Conversations.xml:937
 #, no-c-format
-msgid "We can also fine tune the concurrent request timeout on a page-by-page basis:"
+msgid ""
+"We can also fine tune the concurrent request timeout on a page-by-page basis:"
 msgstr "また、 ページごとに並列要求のタイムアウトを微調整することもできます。"
 
 #. Tag: programlisting
@@ -1939,7 +2084,13 @@ msgid ""
 "is lightweight (the methods called are simple e.g. calculating the sum of a "
 "column of numbers). But what if we need to do a complex computation thats "
 "going to take a minute?"
-msgstr "ここまではユーザーに対して連続的に出現する AJAX 要求について説明してきました。 クライアントはサーバーにイベントが発生したことを伝え、 その結果に応じてページの一部を表示します。 この方法は AJAX が軽量である場合には最適となります (1 コラム内の数字の合計を計算するなど呼び出されるメソッドがシンプルである場合)。 しかし、 計算に 1 分を要するような複雑な計算が必要な場合はどうでしょう。"
+msgstr ""
+"ここまではユーザーに対して連続的に出現する AJAX 要求について説明してきまし"
+"た。 クライアントはサーバーにイベントが発生したことを伝え、 その結果に応じて"
+"ページの一部を表示します。 この方法は AJAX が軽量である場合には最適となりま"
+"す (1 コラム内の数字の合計を計算するなど呼び出されるメソッドがシンプルである"
+"場合)。 しかし、 計算に 1 分を要するような複雑な計算が必要な場合はどうでしょ"
+"う。"
 
 #. Tag: para
 #: Conversations.xml:953
@@ -1951,7 +2102,13 @@ msgid ""
 "the client then polls the server for updates. This is good approach when you "
 "have a long-running action for which it is important that every action "
 "executes (you don't want some to timeout)."
-msgstr "重量のある計算にはポーリングベースの方法を使用してください。 クライアントがサーバーに AJAX 要求を送信し、 これによりサーバーで非同期にアクションが実行され (クライアントへの応答が即時となる)、 クライアントは次にサーバーに更新をポーリングします。 それぞれのアクションがすべて実行する (いずれもタイムアウトしない) ことが重要となるような長時間実行のアクションがある場合に適した方法となります。"
+msgstr ""
+"重量のある計算にはポーリングベースの方法を使用してください。 クライアントが"
+"サーバーに AJAX 要求を送信し、 これによりサーバーで非同期にアクションが実行さ"
+"れ (クライアントへの応答が即時となる)、 クライアントは次にサーバーに更新を"
+"ポーリングします。 それぞれのアクションがすべて実行する (いずれもタイムアウト"
+"しない) ことが重要となるような長時間実行のアクションがある場合に適した方法と"
+"なります。"
 
 #. Tag: title
 #: Conversations.xml:963
@@ -1965,7 +2122,9 @@ msgstr "対話的 AJAX アプリケーションを設計する"
 msgid ""
 "Well first, you need to decide whether you want to use the simpler \"serial"
 "\" request or whether you want to use a polling approach."
-msgstr "まず、 簡単な「連続」要求を使用するのかどうか、 あるいはポーリングの方法を使用するのかどうかを決める必要があります。"
+msgstr ""
+"まず、 簡単な「連続」要求を使用するのかどうか、 あるいはポーリングの方法を使"
+"用するのかどうかを決める必要があります。"
 
 #. Tag: para
 #: Conversations.xml:970
@@ -1980,7 +2139,15 @@ msgid ""
 "of the client is not a priority you should set a request delay on the client "
 "side. When working out your request delay, factor in that the event may also "
 "be queued on the server side."
-msgstr "「連続」要求を選択する場合は要求が完了する長さを推測する必要があります。 並列要求のタイムアウトに比べ十分に短い時間で完了するかどうか推測してみます。 不十分な場合はこのページの並列要求のタイムアウトを変更します (前述の通り)。 サーバーを要求で溢れさせないようにするためクライアント側で行列待ちをさせた方がよいでしょう。 イベントが頻繁に発生し (入力フィールドの keypress や onblur など) クライアントの即時更新が優先事項ではない場合はクライアント側で要求の遅延をセットしてください。 要求遅延の作業を行う場合、 イベントがサーバー側でも行列待ちできるようにすることを考慮に入れてください。"
+msgstr ""
+"「連続」要求を選択する場合は要求が完了する長さを推測する必要があります。 並列"
+"要求のタイムアウトに比べ十分に短い時間で完了するかどうか推測してみます。 不十"
+"分な場合はこのページの並列要求のタイムアウトを変更します (前述の通り)。 サー"
+"バーを要求で溢れさせないようにするためクライアント側で行列待ちをさせた方がよ"
+"いでしょう。 イベントが頻繁に発生し (入力フィールドの keypress や onblur な"
+"ど) クライアントの即時更新が優先事項ではない場合はクライアント側で要求の遅延"
+"をセットしてください。 要求遅延の作業を行う場合、 イベントがサーバー側でも行"
+"列待ちできるようにすることを考慮に入れてください。"
 
 #. Tag: para
 #: Conversations.xml:983
@@ -1988,7 +2155,9 @@ msgstr "「連続」要求を選択する場合は要求が完了する長さを
 msgid ""
 "Finally, the client library may provide an option to abort unfinished "
 "duplicate requests in favor of the most recent."
-msgstr "最後に、 クライアントライブラリは未完了の重複要求を最新のものを残してすべて停止するオプションを提供することができます。"
+msgstr ""
+"最後に、 クライアントライブラリは未完了の重複要求を最新のものを残してすべて停"
+"止するオプションを提供することができます。"
 
 #. Tag: para
 #: Conversations.xml:988
@@ -1997,7 +2166,10 @@ msgid ""
 "Using a poll-style design requires less fine-tuning. You just mark your "
 "action method <literal>@Asynchronous</literal> and decide on a polling "
 "interval:"
-msgstr "ポールスタイルのデザインを使用する場合は細かな調整があまり必要ありません。 アクションメソッド <literal>@Asynchronous</literal> をマークしてポーリングの間隔を決定するだけです。"
+msgstr ""
+"ポールスタイルのデザインを使用する場合は細かな調整があまり必要ありません。 ア"
+"クションメソッド <literal>@Asynchronous</literal> をマークしてポーリングの間"
+"隔を決定するだけです。"
 
 #. Tag: programlisting
 #: Conversations.xml:994
@@ -2050,14 +2222,20 @@ msgid ""
 "timeout</literal>. In this case Seam will throw a "
 "<literal>ConcurrentRequestTimeoutException</literal> which can be handled in "
 "<literal>pages.xml</literal>. We recommend sending an HTTP 503 error:"
-msgstr "並列要求を対話的コンポーネントに対して行列待ちに入れるよう十分注意をしてアプリケーションを設定しても、 サーバー側がオーバーロードとなり要求処理にかかる時間が <literal>concurrent-request-timeout</literal> を越えるまでに全要求を処理できなくなる危険性があります。 こうした場合、 Seam は <literal>pages.xml</literal> で処理が可能な <literal>ConcurrentRequestTimeoutException</literal> を送出します。 HTTP 503 エラーの送信をお勧めします。"
+msgstr ""
+"並列要求を対話的コンポーネントに対して行列待ちに入れるよう十分注意をしてアプ"
+"リケーションを設定しても、 サーバー側がオーバーロードとなり要求処理にかかる時"
+"間が <literal>concurrent-request-timeout</literal> を越えるまでに全要求を処理"
+"できなくなる危険性があります。 こうした場合、 Seam は <literal>pages.xml</"
+"literal> で処理が可能な <literal>ConcurrentRequestTimeoutException</literal> "
+"を送出します。 HTTP 503 エラーの送信をお勧めします。"
 
 #. Tag: programlisting
 #: Conversations.xml:1011
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "<![CDATA[   <exception class=\"org.jboss.seam."
-"ConcurrentRequestTimeoutException\" logLevel=\"trace\">\n"
+"ConcurrentRequestTimeoutException\" log-level=\"trace\">\n"
 "      <http-error error-code=\"503\" />\n"
 "   </exception>]]>"
 msgstr ""
@@ -2079,7 +2257,9 @@ msgid ""
 "The server is currently unable to handle the request due to a temporary "
 "overloading or maintenance of the server. The implication is that this is a "
 "temporary condition which will be alleviated after some delay."
-msgstr "サーバーは現在、 一時的な過負荷またはメンテナンスのため要求を処理することができません。 しばらく待つと緩和されるであろう一時的な状態であることを指します。"
+msgstr ""
+"サーバーは現在、 一時的な過負荷またはメンテナンスのため要求を処理することがで"
+"きません。 しばらく待つと緩和されるであろう一時的な状態であることを指します。"
 
 #. Tag: para
 #: Conversations.xml:1024
@@ -2089,10 +2269,10 @@ msgstr "代わりにエラーページにリダイレクトすることができ
 
 #. Tag: programlisting
 #: Conversations.xml:1028
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"org.jboss.seam.ConcurrentRequestTimeoutException"
-"\" logLevel=\"trace\">\n"
+"\" log-level=\"trace\">\n"
 "   <end-conversation/>\n"
 "   <redirect view-id=\"/error.xhtml\">\n"
 "      <message>The server is too busy to process your request, please try "
@@ -2111,14 +2291,20 @@ msgstr ""
 
 #. Tag: para
 #: Conversations.xml:1030
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "ICEfaces, RichFaces Ajax and Seam Remoting can all handle HTTP error codes. "
 "Seam Remoting will pop up a dialog box showing the HTTP error and ICEfaces "
-"will indicate the error in it's connection status component. RichFaces Ajax "
+"will indicate the error in its connection status component. RichFaces Ajax "
 "provides the most complete support for handling HTTP errors by providing a "
 "user definable callback. For example, to show the error message to the user:"
-msgstr "ICEfaces、 RichFaces Ajax、 Seam Remoting はいずれも HTTP エラーのコードを処理することができます。 Seam Remoting は HTTP エラーを示すダイアログボックスをポップアップします。 ICEfaces はその接続ステータスのコンポーネントでエラーを示します。 RichFaces Ajax はユーザー定義が可能なコールバックを提供することで HTTP エラー処理にほぼ完全に対応します。 たとえば、 ユーザーにエラーメッセージを表示するには、"
+msgstr ""
+"ICEfaces、 RichFaces Ajax、 Seam Remoting はいずれも HTTP エラーのコードを処"
+"理することができます。 Seam Remoting は HTTP エラーを示すダイアログボックスを"
+"ポップアップします。 ICEfaces はその接続ステータスのコンポーネントでエラーを"
+"示します。 RichFaces Ajax はユーザー定義が可能なコールバックを提供することで "
+"HTTP エラー処理にほぼ完全に対応します。 たとえば、 ユーザーにエラーメッセージ"
+"を表示するには、"
 
 #. Tag: programlisting
 #: Conversations.xml:1039
@@ -2148,29 +2334,40 @@ msgstr "RichFaces Ajax"
 msgid ""
 "RichFaces Ajax is the AJAX library most commonly used with Seam, and "
 "provides all the controls discussed above:"
-msgstr "RichFaces Ajax は Seam で使用される最も一般的な AJAX ライブラリであり、 上述したような制御をすべて提供します。"
+msgstr ""
+"RichFaces Ajax は Seam で使用される最も一般的な AJAX ライブラリであり、 上述"
+"したような制御をすべて提供します。"
 
 #. Tag: para
 #: Conversations.xml:1053
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"<literal>eventsQueue</literal> &#8212; provide a queue in which events are "
+"<literal>eventsQueue</literal> &#8212; provides a queue in which events are "
 "placed. All events are queued and requests are sent to the server serially. "
-"This is useful if the request can to the server can take some time to "
-"execute (e.g. heavy computation, retrieving information from a slow source) "
-"as the server isn't flooded."
-msgstr "<literal>eventsQueue</literal> &#8212; イベントが配置されるキューを提供します。 すべてのイベントは待ち行列に配置され、 要求は連続的にサーバーに送信されます。 サーバーへの要求の実行に時間がかかる可能性がある場合に便利です (複雑な計算、 遅いソースからの情報の読み出し)。 これを使用することによりサーバーが要求で溢れないようにすることができます。"
+"This is useful if the request to the server can take some time to execute (e."
+"g. heavy computation, retrieving information from a slow source) as the "
+"server isn't flooded."
+msgstr ""
+"<literal>eventsQueue</literal> &#8212; イベントが配置されるキューを提供しま"
+"す。 すべてのイベントは待ち行列に配置され、 要求は連続的にサーバーに送信され"
+"ます。 サーバーへの要求の実行に時間がかかる可能性がある場合に便利です (複雑な"
+"計算、 遅いソースからの情報の読み出し)。 これを使用することによりサーバーが要"
+"求で溢れないようにすることができます。"
 
 #. Tag: para
 #: Conversations.xml:1063
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"<literal>ignoreDupResponses</literal> &#8212; ignore the response produced "
+"<literal>ignoreDupResponses</literal> &#8212; ignores the response produced "
 "by the request if a more recent 'similar' request is already in the queue. "
-"ignoreDupResponses=\"true\" does <emphasis>not cancel</emphasis> the the "
+"ignoreDupResponses=\"true\" does <emphasis>not cancel</emphasis> the "
 "processing of the request on the server side &#8212; just prevents "
 "unnecessary updates on the client side."
-msgstr "<literal>ignoreDupResponses</literal> &#8212; より新しい「同様の」要求が既にキューにある場合は要求によって生成される応答を無視します。 ignoreDupResponses=\"true\" はサーバー側での要求の処理を <emphasis>取り消すわけではありません</emphasis>。 クライアント側で不必要な更新を避けるだけです。"
+msgstr ""
+"<literal>ignoreDupResponses</literal> &#8212; より新しい「同様の」要求が既に"
+"キューにある場合は要求によって生成される応答を無視します。 "
+"ignoreDupResponses=\"true\" はサーバー側での要求の処理を <emphasis>取り消すわ"
+"けではありません</emphasis>。 クライアント側で不必要な更新を避けるだけです。"
 
 #. Tag: para
 #: Conversations.xml:1070
@@ -2178,7 +2375,9 @@ msgstr "<literal>ignoreDupResponses</literal> &#8212; より新しい「同様�
 msgid ""
 "This option should be used with care with Seam's conversations as it allows "
 "multiple concurrent requests to be made."
-msgstr "このオプションは複数の並列要求が作成されるのを許可するため、 Seam の対話で使用する際は注意が必要です。"
+msgstr ""
+"このオプションは複数の並列要求が作成されるのを許可するため、 Seam の対話で使"
+"用する際は注意が必要です。"
 
 #. Tag: para
 #: Conversations.xml:1076
@@ -2189,7 +2388,11 @@ msgid ""
 "by after this time the request will be sent (regardless of whether a "
 "response has been received) or discarded (if there is a more recent similar "
 "event on the queue)."
-msgstr "<literal>requestDelay</literal> &#8212; 要求がキューに残っている時間を定義します (ミリ秒単位)。 要求がこの時間を過ぎても処理されないと要求は送信されるか (応答が受信されているかどうかにかかわらず) 破棄 (より新しい同様のイベントがキューにある場合) されます。"
+msgstr ""
+"<literal>requestDelay</literal> &#8212; 要求がキューに残っている時間を定義し"
+"ます (ミリ秒単位)。 要求がこの時間を過ぎても処理されないと要求は送信されるか "
+"(応答が受信されているかどうかにかかわらず) 破棄 (より新しい同様のイベントが"
+"キューにある場合) されます。"
 
 #. Tag: para
 #: Conversations.xml:1083
@@ -2199,7 +2402,10 @@ msgid ""
 "multiple concurrent requests to be made. You need to be sure that the delay "
 "you set (in combination with the concurrent request timeout) is longer than "
 "the action will take to execute."
-msgstr "このオプションは複数の並列要求が作成されるのを許可するため、 Seam の対話で使用する場合は注意が必要です。 アクションが実行に要する時間よりセットした遅延 (並列要求のタイムアウトと併用) の方が長いことを確認する必要があります。"
+msgstr ""
+"このオプションは複数の並列要求が作成されるのを許可するため、 Seam の対話で使"
+"用する場合は注意が必要です。 アクションが実行に要する時間よりセットした遅延 "
+"(並列要求のタイムアウトと併用) の方が長いことを確認する必要があります。"
 
 #. Tag: para
 #: Conversations.xml:1091
@@ -2210,4 +2416,3 @@ msgid ""
 msgstr ""
 "<literal>&lt;a:poll reRender=\"total\" interval=\"1000\" /&gt;</literal> "
 "&#8212; サーバーにポーリングを行い必要に応じてエリアを表示します。"
-

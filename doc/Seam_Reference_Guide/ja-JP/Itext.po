@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Itext\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-11-06 06:41+0000\n"
+"POT-Creation-Date: 2009-03-22 12:51+0000\n"
 "PO-Revision-Date: 2009-02-23 12:39+1000\n"
 "Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -21,12 +21,15 @@ msgstr "iText PDF 生成"
 
 #. Tag: para
 #: Itext.xml:3
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "Seam now includes a component set for generating documents using iText. The "
 "primary focus of Seam's iText document support is for the generation of PDF "
-"doucuments, but Seam also offers basic support for RTF document generation."
-msgstr "Seam は iText を使ったドキュメント生成用コンポーネント一式を含むようになります。 Seam の iText ドキュメントサポートの主目的は PDF ドキュメントの生成になりますが、 Seam は RTF ドキュメント生成の基本的なサポートも提供しています。"
+"documents, but Seam also offers basic support for RTF document generation."
+msgstr ""
+"Seam は iText を使ったドキュメント生成用コンポーネント一式を含むようになりま"
+"す。 Seam の iText ドキュメントサポートの主目的は PDF ドキュメントの生成にな"
+"りますが、 Seam は RTF ドキュメント生成の基本的なサポートも提供しています。"
 
 #. Tag: title
 #: Itext.xml:8
@@ -36,16 +39,23 @@ msgstr "PDF サポートを使う"
 
 #. Tag: para
 #: Itext.xml:9
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "iText support is provided by <literal>jboss-seam-pdf.jar</literal>. This JAR "
 "contains the iText JSF controls, which are used to construct views that can "
 "render to PDF, and the DocumentStore component, which serves the rendered "
-"documents to the user. To include PDF support in your application, included "
+"documents to the user. To include PDF support in your application, put "
 "<literal>jboss-seam-pdf.jar</literal> in your <literal>WEB-INF/lib</literal> "
 "directory along with the iText JAR file. There is no further configuration "
-"needed to use Seam's iText supportfon."
-msgstr "iText サポートは <literal>jboss-seam-pdf.jar</literal> によって提供されます。 この JAR には PDF にレンダリング可能なビューの構成に使用される iText コントロールやレンダリングされたドキュメントをユーザーに提供する DocumentStore コンポーネントが含まれます。 PDF サポートをアプリケーションに含ませるには iText JAR ファイルと一緒に <literal>WEB-INF/lib</literal> ディレクトリに <literal>jboss-seam-pdf.jar</literal> を含ませます。 Seam の iText サポートを使用するのに必要な設定はこれだけです。"
+"needed to use Seam's iText support."
+msgstr ""
+"iText サポートは <literal>jboss-seam-pdf.jar</literal> によって提供されま"
+"す。 この JAR には PDF にレンダリング可能なビューの構成に使用される iText コ"
+"ントロールやレンダリングされたドキュメントをユーザーに提供する DocumentStore "
+"コンポーネントが含まれます。 PDF サポートをアプリケーションに含ませるには "
+"iText JAR ファイルと一緒に <literal>WEB-INF/lib</literal> ディレクトリに "
+"<literal>jboss-seam-pdf.jar</literal> を含ませます。 Seam の iText サポートを"
+"使用するのに必要な設定はこれだけです。"
 
 #. Tag: para
 #: Itext.xml:14
@@ -88,9 +98,9 @@ msgstr "&lt;p:document&gt;"
 #: Itext.xml:42 Itext.xml:184 Itext.xml:256 Itext.xml:291 Itext.xml:324
 #: Itext.xml:374 Itext.xml:397 Itext.xml:528 Itext.xml:592 Itext.xml:654
 #: Itext.xml:694 Itext.xml:749 Itext.xml:852 Itext.xml:939 Itext.xml:1080
-#: Itext.xml:1308 Itext.xml:1504 Itext.xml:1700 Itext.xml:1843 Itext.xml:1914
-#: Itext.xml:1975 Itext.xml:2022 Itext.xml:2102 Itext.xml:2214 Itext.xml:2264
-#: Itext.xml:2324
+#: Itext.xml:1308 Itext.xml:1515 Itext.xml:1721 Itext.xml:1864 Itext.xml:1935
+#: Itext.xml:1996 Itext.xml:2043 Itext.xml:2123 Itext.xml:2235 Itext.xml:2285
+#: Itext.xml:2345
 #, no-c-format
 msgid "Description"
 msgstr "詳細"
@@ -105,14 +115,19 @@ msgid ""
 "document. The <literal>document</literal> tag prepares Seam to generate a "
 "document into the DocumentStore and renders an HTML redirect to that stored "
 "content."
-msgstr "ドキュメントは <literal>http://jboss.com/products/seam/pdf</literal> 名前空間にあるタグを使い facelet XHTML で生成されます。 ドキュメントにはそのルートに必ず <literal>document</literal> タグがあるはずです。 <literal>document</literal> タグは Seam がドキュメントを DocumentStore に生成しその格納コンテントに HTML リダイレクトをレンダリングするための準備を行います。"
+msgstr ""
+"ドキュメントは <literal>http://jboss.com/products/seam/pdf</literal> 名前空間"
+"にあるタグを使い facelet XHTML で生成されます。 ドキュメントにはそのルートに"
+"必ず <literal>document</literal> タグがあるはずです。 <literal>document</"
+"literal> タグは Seam がドキュメントを DocumentStore に生成しその格納コンテン"
+"トに HTML リダイレクトをレンダリングするための準備を行います。"
 
 #. Tag: emphasis
 #: Itext.xml:51 Itext.xml:190 Itext.xml:264 Itext.xml:298 Itext.xml:330
 #: Itext.xml:415 Itext.xml:535 Itext.xml:599 Itext.xml:704 Itext.xml:796
-#: Itext.xml:857 Itext.xml:944 Itext.xml:1085 Itext.xml:1312 Itext.xml:1508
-#: Itext.xml:1704 Itext.xml:1848 Itext.xml:1918 Itext.xml:1980 Itext.xml:2026
-#: Itext.xml:2107 Itext.xml:2219 Itext.xml:2269 Itext.xml:2329
+#: Itext.xml:857 Itext.xml:944 Itext.xml:1085 Itext.xml:1312 Itext.xml:1519
+#: Itext.xml:1725 Itext.xml:1869 Itext.xml:1939 Itext.xml:2001 Itext.xml:2047
+#: Itext.xml:2128 Itext.xml:2240 Itext.xml:2290 Itext.xml:2350
 #, no-c-format
 msgid "Attributes"
 msgstr "属性"
@@ -125,7 +140,11 @@ msgid ""
 "Valid values are <literal>PDF</literal>, <literal>RTF</literal> and "
 "<literal>HTML</literal> modes. Seam defaults to PDF generation, and many of "
 "the features only work correctly when generating PDF documents."
-msgstr "<literal>type</literal> &#8212; 生成されるドキュメントのタイプです。 有効な値は <literal>PDF</literal>、 <literal>RTF</literal>、 <literal>HTML</literal> の各モードになります。 Seam は PDF 生成にデフォルト設定するため多くの機能は PDF ドキュメント生成時にのみ正しく動作します。"
+msgstr ""
+"<literal>type</literal> &#8212; 生成されるドキュメントのタイプです。 有効な値"
+"は <literal>PDF</literal>、 <literal>RTF</literal>、 <literal>HTML</literal> "
+"の各モードになります。 Seam は PDF 生成にデフォルト設定するため多くの機能は "
+"PDF ドキュメント生成時にのみ正しく動作します。"
 
 #. Tag: para
 #: Itext.xml:65
@@ -137,7 +156,12 @@ msgid ""
 "<literal>com.lowagie.text.PageSize</literal> class. Alternatively, pageSize "
 "can provide the width and height of the page directly. The value \"612 792"
 "\", for example, is equivalent to the LETTER page size."
-msgstr "<literal>pageSize</literal> &#8212; 生成されるページのサイズです。 最も一般的に使用される値は <literal>LETTER</literal> と <literal>A4</literal> でしょう。 対応ページサイズの全一覧は <literal>com.lowagie.text.PageSize</literal> クラスにあります。 代わりに pageSize でページの幅と高さを直接与えることもできます。 たとえば、 「612 792」は LETTER ページサイズと同じになります。"
+msgstr ""
+"<literal>pageSize</literal> &#8212; 生成されるページのサイズです。 最も一般的"
+"に使用される値は <literal>LETTER</literal> と <literal>A4</literal> でしょ"
+"う。 対応ページサイズの全一覧は <literal>com.lowagie.text.PageSize</literal> "
+"クラスにあります。 代わりに pageSize でページの幅と高さを直接与えることもでき"
+"ます。 たとえば、 「612 792」は LETTER ページサイズと同じになります。"
 
 #. Tag: para
 #: Itext.xml:74
@@ -146,7 +170,10 @@ msgid ""
 "<literal>orientation</literal> &#8212; The orientation of the page. Valid "
 "values are <literal>portrait</literal> and <literal>landscape</literal>. In "
 "landscape mode, the height and width page size values are reversed."
-msgstr "<literal>orientation</literal> &#8212; ページの向きです。 有効な値は <literal>portrait</literal> と <literal>landscape</literal> です。 landscape モードではページの高さと幅のサイズ値が逆になります。"
+msgstr ""
+"<literal>orientation</literal> &#8212; ページの向きです。 有効な値は "
+"<literal>portrait</literal> と <literal>landscape</literal> です。 landscape "
+"モードではページの高さと幅のサイズ値が逆になります。"
 
 #. Tag: para
 #: Itext.xml:83
@@ -162,7 +189,9 @@ msgstr "<literal>margins</literal> &#8212; 左、 右、 上、 下の余白の�
 msgid ""
 "<literal>marginMirroring</literal> &#8212; Indicates that margin settings "
 "should be reversed an alternating pages."
-msgstr "<literal>marginMirroring</literal> &#8212; 余白の設定が交互のページで逆になることを示します。"
+msgstr ""
+"<literal>marginMirroring</literal> &#8212; 余白の設定が交互のページで逆になる"
+"ことを示します。"
 
 #. Tag: para
 #: Itext.xml:94
@@ -174,7 +203,13 @@ msgid ""
 "the document should be displayed in the browser window if possible, and "
 "<literal>attachment</literal>, which indicates that the document should be "
 "treated as a download. The default value is <literal>inline</literal>."
-msgstr "<literal>disposition</literal> &#8212; ウェブブラウザで PDF を生成する場合にドキュメントの HTTP <literal>Content-Disposition</literal> を判断します。 有効な値は可能であればブラウザウィンドウ内にドキュメントを表示させることを表す <literal>inline</literal> とドキュメントをダウンロードとして処理することを表す <literal>attachment</literal> になります。 デフォルト値は <literal>inline</literal> です。"
+msgstr ""
+"<literal>disposition</literal> &#8212; ウェブブラウザで PDF を生成する場合に"
+"ドキュメントの HTTP <literal>Content-Disposition</literal> を判断します。 有"
+"効な値は可能であればブラウザウィンドウ内にドキュメントを表示させることを表す "
+"<literal>inline</literal> とドキュメントをダウンロードとして処理することを表"
+"す <literal>attachment</literal> になります。 デフォルト値は "
+"<literal>inline</literal> です。"
 
 #. Tag: para
 #: Itext.xml:102
@@ -182,7 +217,9 @@ msgstr "<literal>disposition</literal> &#8212; ウェブブラウザで PDF を�
 msgid ""
 "<literal>fileName</literal> &#8212; For attachments, this value overrides "
 "the downloaded file name."
-msgstr "<literal>fileName</literal> &#8212; 添付用です。 この値はダウンロードしたファイル名を上書きします。"
+msgstr ""
+"<literal>fileName</literal> &#8212; 添付用です。 この値はダウンロードしたファ"
+"イル名を上書きします。"
 
 #. Tag: emphasis
 #: Itext.xml:111
@@ -224,8 +261,8 @@ msgstr "creator"
 #: Itext.xml:143 Itext.xml:242 Itext.xml:276 Itext.xml:309 Itext.xml:359
 #: Itext.xml:382 Itext.xml:510 Itext.xml:558 Itext.xml:640 Itext.xml:660
 #: Itext.xml:733 Itext.xml:838 Itext.xml:899 Itext.xml:1065 Itext.xml:1241
-#: Itext.xml:1490 Itext.xml:1686 Itext.xml:1829 Itext.xml:1900 Itext.xml:1958
-#: Itext.xml:2008 Itext.xml:2068 Itext.xml:2182 Itext.xml:2349
+#: Itext.xml:1501 Itext.xml:1707 Itext.xml:1850 Itext.xml:1921 Itext.xml:1979
+#: Itext.xml:2029 Itext.xml:2089 Itext.xml:2203 Itext.xml:2370
 #, no-c-format
 msgid "Usage"
 msgstr "使い方"
@@ -254,7 +291,7 @@ msgstr "基本的なテキストのエレメント"
 
 #. Tag: para
 #: Itext.xml:160
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "Useful documents will need to contain more than just text; however, the "
 "standard UI components are geared towards HTML generation and are not useful "
@@ -262,7 +299,7 @@ msgid ""
 "for generating suitable PDF content. Tags like <literal>&lt;p:image&gt;</"
 "literal> and <literal>&lt;p:paragraph&gt;</literal> are the basic "
 "foundations of simple documents. Tags like <literal>&lt;p:font&gt;</literal> "
-"provide style information to all the content surrounging them."
+"provide style information to all the content surrounding them."
 msgstr ""
 "役に立つドキュメントにはテキスト以外のものも含まれる必要があります。 ただ"
 "し、 標準 UI コンポーネントは HTML 生成に対して適合されるので、 PDF コンテン"
@@ -318,7 +355,9 @@ msgstr "multipliedLeading"
 msgid ""
 "<literal>spacingBefore</literal> &#8212; The blank space to be inserted "
 "before the element."
-msgstr "<literal>spacingBefore</literal> &#8212; エレメントの前に空白スペースが挿入されます。"
+msgstr ""
+"<literal>spacingBefore</literal> &#8212; エレメントの前に空白スペースが挿入さ"
+"れます。"
 
 #. Tag: para
 #: Itext.xml:220 Itext.xml:467 Itext.xml:1031
@@ -326,7 +365,9 @@ msgstr "<literal>spacingBefore</literal> &#8212; エレメントの前に空白�
 msgid ""
 "<literal>spacingAfter</literal> &#8212; The blank space to be inserted after "
 "the element."
-msgstr "<literal>spacingAfter</literal> &#8212; エレメントの後に空白スペースが挿入されます。"
+msgstr ""
+"<literal>spacingAfter</literal> &#8212; エレメントの後に空白スペースが挿入さ"
+"れます。"
 
 #. Tag: literal
 #: Itext.xml:226 Itext.xml:453
@@ -371,7 +412,11 @@ msgid ""
 "The <literal>text</literal> tag allows text fragments to be produced from "
 "application data using normal JSF converter mechanisms. It is very similar "
 "to the <literal>outputText</literal> tag used when rendering HTML documents."
-msgstr "<literal>text</literal> タグにより通常の JSF 変換メカニズムを使ってアプリケーションデータからテキストの断片を生成することができます。 HTML ドキュメントをレンダリングする際に使用される <literal>outputText</literal> によく似ています。"
+msgstr ""
+"<literal>text</literal> タグにより通常の JSF 変換メカニズムを使ってアプリケー"
+"ションデータからテキストの断片を生成することができます。 HTML ドキュメントを"
+"レンダリングする際に使用される <literal>outputText</literal> によく似ていま"
+"す。"
 
 #. Tag: para
 #: Itext.xml:270
@@ -379,7 +424,9 @@ msgstr "<literal>text</literal> タグにより通常の JSF 変換メカニズ�
 msgid ""
 "<literal>value</literal> &#8212; The value to be displayed. This will "
 "typically be a value binding expression."
-msgstr "<literal>value</literal> &#8212; 表示される値です。 一般的には値バインディング式になります。"
+msgstr ""
+"<literal>value</literal> &#8212; 表示される値です。 一般的には値バインディン"
+"グ式になります。"
 
 #. Tag: programlisting
 #: Itext.xml:279
@@ -407,7 +454,8 @@ msgstr "&lt;p:html&gt;"
 #: Itext.xml:294
 #, no-c-format
 msgid "The <literal>html</literal> tag renders HTML content into the PDF."
-msgstr "<literal>html</literal> タグは HTML コンテントを PDF にレンダリングします。"
+msgstr ""
+"<literal>html</literal> タグは HTML コンテントを PDF にレンダリングします。"
 
 #. Tag: para
 #: Itext.xml:304
@@ -462,8 +510,11 @@ msgstr "&lt;p:font&gt;"
 #. Tag: para
 #: Itext.xml:327
 #, no-c-format
-msgid "The font tag defines the default font to be used for all text inside of it."
-msgstr "フォントタグはその中のすべてのテキストに使用されるデフォルトフォントを定義します。"
+msgid ""
+"The font tag defines the default font to be used for all text inside of it."
+msgstr ""
+"フォントタグはその中のすべてのテキストに使用されるデフォルトフォントを定義し"
+"ます。"
 
 #. Tag: para
 #: Itext.xml:336
@@ -474,7 +525,8 @@ msgid ""
 "ROMAN</literal>, <literal>SYMBOL</literal> or <literal>ZAPFDINGBATS</"
 "literal>."
 msgstr ""
-"<literal>name</literal> &#8212; フォント名です。 たとえば、 <literal>COURIER</literal>、 <literal>HELVETICA</literal>、 <literal>TIMES-"
+"<literal>name</literal> &#8212; フォント名です。 たとえば、 "
+"<literal>COURIER</literal>、 <literal>HELVETICA</literal>、 <literal>TIMES-"
 "ROMAN</literal>、 <literal>SYMBOL</literal>、 <literal>ZAPFDINGBATS</"
 "literal> などです。"
 
@@ -492,7 +544,11 @@ msgid ""
 "<literal>NORMAL</literal>, <literal>BOLD</literal>, <literal>ITALIC</"
 "literal>, <literal>OBLIQUE</literal>, <literal>UNDERLINE</literal>, "
 "<literal>LINE-THROUGH</literal>"
-msgstr "<literal>style</literal> &#8212; フォントのスタイルです。 いずれを組み合わせることもできます。 <literal>NORMAL</literal>、 <literal>BOLD</literal>、 <literal>ITALIC</literal>、 <literal>OBLIQUE</literal>、 <literal>UNDERLINE</literal>、 <literal>LINE-THROUGH</literal>"
+msgstr ""
+"<literal>style</literal> &#8212; フォントのスタイルです。 いずれを組み合わせ"
+"ることもできます。 <literal>NORMAL</literal>、 <literal>BOLD</literal>、 "
+"<literal>ITALIC</literal>、 <literal>OBLIQUE</literal>、 <literal>UNDERLINE</"
+"literal>、 <literal>LINE-THROUGH</literal>"
 
 #. Tag: para
 #: Itext.xml:355
@@ -538,12 +594,15 @@ msgstr "&lt;p:image&gt;"
 
 #. Tag: para
 #: Itext.xml:401
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "<literal>p:image</literal> inserts an image into the document. Images can be "
-"be loaded from the classpath or from the web application context using the "
+"loaded from the classpath or from the web application context using the "
 "<literal>value</literal> attribute."
-msgstr "<literal>p:image</literal> はドキュメントにイメージを挿入します。 イメージは <literal>value</literal> 属性を使ってウェブアプリケーションコンテキストまたはクラスパスからロード可能です。"
+msgstr ""
+"<literal>p:image</literal> はドキュメントにイメージを挿入します。 イメージは "
+"<literal>value</literal> 属性を使ってウェブアプリケーションコンテキストまたは"
+"クラスパスからロード可能です。"
 
 #. Tag: para
 #: Itext.xml:407
@@ -563,12 +622,15 @@ msgstr ""
 msgid ""
 "<literal>value</literal> &#8212; A resource name or a method expression "
 "binding to an application-generated image."
-msgstr "<literal>value</literal> &#8212; アプリケーション生成のイメージにバインドするメソッド式またはリソース名です。"
+msgstr ""
+"<literal>value</literal> &#8212; アプリケーション生成のイメージにバインドする"
+"メソッド式またはリソース名です。"
 
 #. Tag: para
 #: Itext.xml:426
 #, no-c-format
-msgid "<literal>rotation</literal> &#8212; The rotation of the image in degrees."
+msgid ""
+"<literal>rotation</literal> &#8212; The rotation of the image in degrees."
 msgstr "<literal>rotation</literal> &#8212; 角度単位のイメージ回転です。"
 
 #. Tag: para
@@ -590,13 +652,14 @@ msgid ""
 "<literal>alignment</literal>&#8212; The alignment of the image. (see <xref "
 "linkend=\"itext.alignment\"/> for possible values)"
 msgstr ""
-"<literal>alignment</literal>&#8212; イメージの位置です。 (可能な値については<xref "
-"linkend=\"itext.alignment\"/> を参照)"
+"<literal>alignment</literal>&#8212; イメージの位置です。 (可能な値については"
+"<xref linkend=\"itext.alignment\"/> を参照)"
 
 #. Tag: para
 #: Itext.xml:447
 #, no-c-format
-msgid "<literal>alt</literal> &#8212; Alternative text representation for the image."
+msgid ""
+"<literal>alt</literal> &#8212; Alternative text representation for the image."
 msgstr "<literal>alt</literal> &#8212; イメージの代替となるテキスト表示です。"
 
 #. Tag: literal
@@ -624,7 +687,10 @@ msgid ""
 "<literal>scalePercent</literal> &#8212; The scaling factor (as a percentage) "
 "to use for the image. This can be expressed as a single percentage value or "
 "as two percentage values representing separate x and y scaling percentages."
-msgstr "<literal>scalePercent</literal> &#8212; イメージに使用する倍率です (パーセンテージ)。 x と y の倍率を表す単一のパーセンテージ値または 2 つのパーセンテージ値で表すことができます。"
+msgstr ""
+"<literal>scalePercent</literal> &#8212; イメージに使用する倍率です (パーセン"
+"テージ)。 x と y の倍率を表す単一のパーセンテージ値または 2 つのパーセンテー"
+"ジ値で表すことができます。"
 
 #. Tag: literal
 #: Itext.xml:499
@@ -676,14 +742,19 @@ msgstr "<literal>name</literal> &#8212; ドキュメント内アンカーの行�
 
 #. Tag: para
 #: Itext.xml:548
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "<literal>reference</literal> &#8212; The destination the link refers to. "
 "Links to other points in the document should begin with a \"#\". For "
-"example, \"#link1\" to refer to an anchor postion with a <literal>name</"
+"example, \"#link1\" to refer to an anchor position with a <literal>name</"
 "literal> of <literal>link1</literal>. Links may also be a full URL to point "
 "to a resource outside of the document."
-msgstr "<literal>reference</literal> &#8212; リンクの参照先となる目的地です。 ドキュメント内の他のポイントへのリンクは \"#\" で始まります。 たとえば、 \"#link1\" は <literal>link1</literal> の <literal>name</literal> を持つアンカー位置を参照します。 リンクはドキュメントの外側にあるリソースをポイントする完全な URL でも構いません。"
+msgstr ""
+"<literal>reference</literal> &#8212; リンクの参照先となる目的地です。 ドキュ"
+"メント内の他のポイントへのリンクは \"#\" で始まります。 たとえば、 \"#link1"
+"\" は <literal>link1</literal> の <literal>name</literal> を持つアンカー位置"
+"を参照します。 リンクはドキュメントの外側にあるリソースをポイントする完全な "
+"URL でも構いません。"
 
 #. Tag: programlisting
 #: Itext.xml:560
@@ -734,8 +805,9 @@ msgid ""
 "generated document. Header and footer declarations should appear at the "
 "beginning of a document."
 msgstr ""
-"<literal>p:header</literal> と <literal>p:footer</literal> コンポーネント"
-"は生成されたドキュメントの各ページにヘッダーとフッターのテキストを配置する機能を提供します。 ヘッダーとフッターの宣言はドキュメントの冒頭に表されます。"
+"<literal>p:header</literal> と <literal>p:footer</literal> コンポーネントは生"
+"成されたドキュメントの各ページにヘッダーとフッターのテキストを配置する機能を"
+"提供します。 ヘッダーとフッターの宣言はドキュメントの冒頭に表されます。"
 
 #. Tag: para
 #: Itext.xml:607 Itext.xml:712 Itext.xml:865
@@ -743,7 +815,9 @@ msgstr ""
 msgid ""
 "<literal>alignment</literal> &#8212; The alignment of the header/footer box "
 "section. (see <xref linkend=\"itext.alignment\"/> for alignment values)"
-msgstr "<literal>alignment</literal> &#8212; ヘッダーとフッターのボックスセクションの位置です (位置の値については <xref linkend=\"itext.alignment\"/> を参照)。"
+msgstr ""
+"<literal>alignment</literal> &#8212; ヘッダーとフッターのボックスセクションの"
+"位置です (位置の値については <xref linkend=\"itext.alignment\"/> を参照)。"
 
 #. Tag: para
 #: Itext.xml:614
@@ -751,7 +825,9 @@ msgstr "<literal>alignment</literal> &#8212; ヘッダーとフッターのボ�
 msgid ""
 "<literal>backgroundColor</literal> &#8212; The background color of the "
 "header/footer box. (see <xref linkend=\"itext.colors\"/> for color values)"
-msgstr "<literal>backgroundColor</literal> &#8212; ヘッダーとフッターボックスの背景色です (色の値については <xref linkend=\"itext.colors\"/>  を参照)。"
+msgstr ""
+"<literal>backgroundColor</literal> &#8212; ヘッダーとフッターボックスの背景色"
+"です (色の値については <xref linkend=\"itext.colors\"/>  を参照)。"
 
 #. Tag: para
 #: Itext.xml:623
@@ -762,17 +838,26 @@ msgid ""
 "literal>, <literal>borderColorRight</literal>, <literal>borderColorTop</"
 "literal> and <literal>borderColorBottom</literal>.(see <xref linkend=\"itext."
 "colors\"/> for color values)"
-msgstr "<literal>borderColor</literal> &#8212; ヘッダーとフッターボックスの境界線の色です。 <literal>borderColorLeft</literal>、 <literal>borderColorRight</literal>、 <literal>borderColorTop</literal>、 <literal>borderColorBottom</literal> を使って境界線ごとに指定が可能です (色の値については <xref linkend=\"itext.colors\"/> を参照)。"
+msgstr ""
+"<literal>borderColor</literal> &#8212; ヘッダーとフッターボックスの境界線の色"
+"です。 <literal>borderColorLeft</literal>、 <literal>borderColorRight</"
+"literal>、 <literal>borderColorTop</literal>、 <literal>borderColorBottom</"
+"literal> を使って境界線ごとに指定が可能です (色の値については <xref linkend="
+"\"itext.colors\"/> を参照)。"
 
 #. Tag: para
 #: Itext.xml:631
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"<literal>borderWidth</literal> &#8212; The width of the border. Inidvidual "
+"<literal>borderWidth</literal> &#8212; The width of the border. Individual "
 "border sides can be specified using <literal>borderWidthLeft</literal>, "
 "<literal>borderWidthRight</literal>, <literal>borderWidthTop</literal> and "
 "<literal>borderWidthBottom</literal>."
-msgstr "<literal>borderWidth</literal> &#8212; 境界線の幅です。 <literal>borderWidthLeft</literal>、 <literal>borderWidthRight</literal>、 <literal>borderWidthTop</literal>、 <literal>borderWidthBottom</literal> を使って境界線ごとに指定が可能です。"
+msgstr ""
+"<literal>borderWidth</literal> &#8212; 境界線の幅です。 "
+"<literal>borderWidthLeft</literal>、 <literal>borderWidthRight</literal>、 "
+"<literal>borderWidthTop</literal>、 <literal>borderWidthBottom</literal> を"
+"使って境界線ごとに指定が可能です。"
 
 #. Tag: programlisting
 #: Itext.xml:642
@@ -811,8 +896,8 @@ msgid ""
 "the context of a header or footer and can only be used once."
 msgstr ""
 "現在のページ番号は <literal>p:pageNumber</literal> タグを使うとヘッダーまたは"
-"フッターの内側に配置することができます。 このページ番号タグはヘッダーまたはフッター"
-"のコンテキスト内で 1 度だけ使用することができます。"
+"フッターの内側に配置することができます。 このページ番号タグはヘッダーまたは"
+"フッターのコンテキスト内で 1 度だけ使用することができます。"
 
 #. Tag: programlisting
 #: Itext.xml:662
@@ -868,19 +953,26 @@ msgstr ""
 msgid ""
 "<literal>number</literal> &#8212; The chapter number. Every chapter should "
 "be assigned a chapter number."
-msgstr "<literal>number</literal> &#8212; 章番号です。 各章すべてに章番号を割り当ててください。"
+msgstr ""
+"<literal>number</literal> &#8212; 章番号です。 各章すべてに章番号を割り当てて"
+"ください。"
 
 #. Tag: para
 #: Itext.xml:724
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "<literal>numberDepth</literal> &#8212; The depth of numbering for section. "
 "All sections are numbered relative to their surrounding chapter/sections. "
-"The fourth section of of the first section of chapter three would be section "
+"The fourth section of the first section of chapter three would be section "
 "3.1.4, if displayed at the default number depth of three. To omit the "
 "chapter number, a number depth of 2 should be used. In that case, the "
 "section number would be displayed as 1.4."
-msgstr "<literal>numberDepth</literal> &#8212; セクション番号付けの深さです。 すべてのセクションは前後の章やセクションに相対的に番号付けが行われます。 デフォルトの深さの 3 で表示すると、 第 3 章の第 1 節、 第 4 項はセクション 3.1.4 になります。 章番号を省略するには番号の深さ 2 を使用してください。 この場合セクション番号は 1.4 などのように表示されます。"
+msgstr ""
+"<literal>numberDepth</literal> &#8212; セクション番号付けの深さです。 すべて"
+"のセクションは前後の章やセクションに相対的に番号付けが行われます。 デフォルト"
+"の深さの 3 で表示すると、 第 3 章の第 1 節、 第 4 項はセクション 3.1.4 になり"
+"ます。 章番号を省略するには番号の深さ 2 を使用してください。 この場合セクショ"
+"ン番号は 1.4 などのように表示されます。"
 
 #. Tag: programlisting
 #: Itext.xml:736
@@ -936,19 +1028,19 @@ msgstr "リスト"
 
 #. Tag: para
 #: Itext.xml:767
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "List structures can be displayed using the <literal>p:list</literal> and "
 "<literal>p:listItem</literal> tags. Lists may contain arbitrarily-nested "
-"sublists. List items may not be used outside of a list. he following "
+"sublists. List items may not be used outside of a list. The following "
 "document uses the <literal>ui:repeat</literal> tag to to display a list of "
 "values retrieved from a Seam component."
 msgstr ""
-"リストの構成は <literal>p:list</literal> と <literal>p:listItem</literal> のタ"
-"グを使って表示させることができます。 リストには適宜、 ネストされたサブリストを"
-"含ませることもできます。 リストのアイテムはリストの外側では使用できません。 次の"
-"ドキュメントは <literal>ui:repeat</literal> タグを使って Seam コンポーネント"
-"から取得した値のリストを表示しています。"
+"リストの構成は <literal>p:list</literal> と <literal>p:listItem</literal> の"
+"タグを使って表示させることができます。 リストには適宜、 ネストされたサブリス"
+"トを含ませることもできます。 リストのアイテムはリストの外側では使用できませ"
+"ん。 次のドキュメントは <literal>ui:repeat</literal> タグを使って Seam コン"
+"ポーネントから取得した値のリストを表示しています。"
 
 #. Tag: programlisting
 #: Itext.xml:772
@@ -990,8 +1082,11 @@ msgid ""
 "literal>, <literal>ZAPFDINGBATS_NUMBER</literal>. If no style is given, the "
 "list items are bulleted."
 msgstr ""
-"<literal>style</literal> &#8212; リストの箇条書き／番号付けのスタイルです。 <literal>NUMBERED</literal>、 <literal>LETTERED</literal>、 "
-"<literal>GREEK</literal>、 <literal>ROMAN</literal>、 <literal>ZAPFDINGBATS</literal>、 <literal>ZAPFDINGBATS_NUMBER</literal> のいずれかになります。 スタイルの指定がない場合は中黒になります。"
+"<literal>style</literal> &#8212; リストの箇条書き／番号付けのスタイルです。 "
+"<literal>NUMBERED</literal>、 <literal>LETTERED</literal>、 <literal>GREEK</"
+"literal>、 <literal>ROMAN</literal>、 <literal>ZAPFDINGBATS</literal>、 "
+"<literal>ZAPFDINGBATS_NUMBER</literal> のいずれかになります。 スタイルの指定"
+"がない場合は中黒になります。"
 
 #. Tag: para
 #: Itext.xml:809
@@ -999,7 +1094,9 @@ msgstr ""
 msgid ""
 "<literal>listSymbol</literal> &#8212; For bulleted lists, specifies the "
 "bullet symbol."
-msgstr "<literal>listSymbol</literal> &#8212; 箇条書きリストの場合、 その黒点を指定します。"
+msgstr ""
+"<literal>listSymbol</literal> &#8212; 箇条書きリストの場合、 その黒点を指定し"
+"ます。"
 
 #. Tag: para
 #: Itext.xml:814
@@ -1013,7 +1110,9 @@ msgstr "<literal>indent</literal> &#8212; リストの字下げのレベルで�
 msgid ""
 "<literal>lowerCase</literal> &#8212; For list styles using letters, "
 "indicates whether the letters should be lower case."
-msgstr "<literal>lowerCase</literal> &#8212; letters を使ったリストのスタイルの場合、 その文字を小文字にするかどうかを示します。"
+msgstr ""
+"<literal>lowerCase</literal> &#8212; letters を使ったリストのスタイルの場"
+"合、 その文字を小文字にするかどうかを示します。"
 
 #. Tag: para
 #: Itext.xml:826
@@ -1021,7 +1120,9 @@ msgstr "<literal>lowerCase</literal> &#8212; letters を使ったリストのス
 msgid ""
 "<literal>charNumber</literal> &#8212; For ZAPFDINGBATS, indicates the "
 "character code of the bullet character."
-msgstr "<literal>charNumber</literal> &#8212; ZAPFDINGBATS の場合、 箇条書きに使用する符号の符号コードを示します。"
+msgstr ""
+"<literal>charNumber</literal> &#8212; ZAPFDINGBATS の場合、 箇条書きに使用す"
+"る符号の符号コードを示します。"
 
 #. Tag: para
 #: Itext.xml:832
@@ -1029,7 +1130,9 @@ msgstr "<literal>charNumber</literal> &#8212; ZAPFDINGBATS の場合、 箇条�
 msgid ""
 "<literal>numberType</literal> &#8212; For ZAPFDINGBATS_NUMBER, indicates the "
 "numbering style."
-msgstr "<literal>numberType</literal> &#8212; ZAPFDINGBATS_NUMBER の場合、 番号付けのスタイルを示します。"
+msgstr ""
+"<literal>numberType</literal> &#8212; ZAPFDINGBATS_NUMBER の場合、 番号付けの"
+"スタイルを示します。"
 
 #. Tag: programlisting
 #: Itext.xml:840
@@ -1065,7 +1168,9 @@ msgstr "<literal>p:listItem</literal> は次の属性をサポートしていま
 msgid ""
 "<literal>alignment</literal> &#8212; The alignment of the list item. (See "
 "<xref linkend=\"itext.alignment\"/> for possible values)"
-msgstr "<literal>alignment</literal> &#8212; リストアイテムの位置です (可能な値については <xref linkend=\"itext.alignment\"/> を参照)。"
+msgstr ""
+"<literal>alignment</literal> &#8212; リストアイテムの位置です (可能な値につい"
+"ては <xref linkend=\"itext.alignment\"/> を参照)。"
 
 #. Tag: para
 #: Itext.xml:878
@@ -1076,7 +1181,8 @@ msgstr "<literal>indentationLeft</literal> &#8212; 左字下げの分量です�
 #. Tag: para
 #: Itext.xml:885
 #, no-c-format
-msgid "<literal>indentationRight</literal> &#8212; The right indentation amount."
+msgid ""
+"<literal>indentationRight</literal> &#8212; The right indentation amount."
 msgstr "<literal>indentationRight</literal> &#8212; 右字下げの分量です。"
 
 #. Tag: para
@@ -1085,7 +1191,9 @@ msgstr "<literal>indentationRight</literal> &#8212; 右字下げの分量です�
 msgid ""
 "<literal>listSymbol</literal> &#8212; Overrides the default list symbol for "
 "this list item."
-msgstr "<literal>listSymbol</literal> &#8212; このリストアイテム用のデフォルトリスト記号を上書きします。"
+msgstr ""
+"<literal>listSymbol</literal> &#8212; このリストアイテム用のデフォルトリスト"
+"記号を上書きします。"
 
 #. Tag: programlisting
 #: Itext.xml:901
@@ -1133,7 +1241,8 @@ msgstr "<literal>p:table</literal> は次の属性をサポートしています
 msgid ""
 "<literal>columns</literal> &#8212; The number of columns (cells) that make "
 "up a table row."
-msgstr "<literal>columns</literal> &#8212; 表の列を構成するコラム (セル) の数です。"
+msgstr ""
+"<literal>columns</literal> &#8212; 表の列を構成するコラム (セル) の数です。"
 
 #. Tag: para
 #: Itext.xml:958
@@ -1143,7 +1252,10 @@ msgid ""
 "should be one value for each column. For example: widths=\"2 1 1\" would "
 "indicate that there are 3 columns and the first column should be twice the "
 "size of the second and third column."
-msgstr "<literal>widths</literal> &#8212; 各コラムの相対幅です。 各コラムに対して値は 1 つとなります。 たとえば、 widths=\"2 1 1\" の場合コラムは 3 つあり 1 番目のコラムが 2 番目と 3 番目のコラムの 2 倍の大きさになることを示しています。"
+msgstr ""
+"<literal>widths</literal> &#8212; 各コラムの相対幅です。 各コラムに対して値"
+"は 1 つとなります。 たとえば、 widths=\"2 1 1\" の場合コラムは 3 つあり 1 番"
+"目のコラムが 2 番目と 3 番目のコラムの 2 倍の大きさになることを示しています。"
 
 #. Tag: para
 #: Itext.xml:967
@@ -1152,7 +1264,9 @@ msgid ""
 "<literal>headerRows</literal> &#8212; The initial number of rows which are "
 "considered to be headers or footer rows and should be repeated if the table "
 "spans multiple pages."
-msgstr "<literal>headerRows</literal> &#8212; ヘッダーまたはフッターの列とみなされる列の初期の列数で、 表が複数のページをスパンする場合は繰り返されます。"
+msgstr ""
+"<literal>headerRows</literal> &#8212; ヘッダーまたはフッターの列とみなされる"
+"列の初期の列数で、 表が複数のページをスパンする場合は繰り返されます。"
 
 #. Tag: para
 #: Itext.xml:975
@@ -1163,7 +1277,12 @@ msgid ""
 "literal> value. If document has 2 rows which make up the header and one row "
 "that makes up the footer, <literal>headerRows</literal> should be set to 3 "
 "and <literal>footerRows</literal> should be set to 1"
-msgstr "<literal>footerRows</literal> &#8212; フッターの列とみなされる列の列数です。 この値は <literal>headerRows</literal> 値から差し引かれます。 ヘッダーを構成する列が 2 列とフッターを構成する列が 1 列のドキュメントの場合、 <literal>headerRows</literal> は 3 で <literal>footerRows</literal> は 1 にセットされます。"
+msgstr ""
+"<literal>footerRows</literal> &#8212; フッターの列とみなされる列の列数です。 "
+"この値は <literal>headerRows</literal> 値から差し引かれます。 ヘッダーを構成"
+"する列が 2 列とフッターを構成する列が 1 列のドキュメントの場合、 "
+"<literal>headerRows</literal> は 3 で <literal>footerRows</literal> は 1 に"
+"セットされます。"
 
 #. Tag: para
 #: Itext.xml:986
@@ -1171,7 +1290,8 @@ msgstr "<literal>footerRows</literal> &#8212; フッターの列とみなされ�
 msgid ""
 "<literal>widthPercentage</literal> &#8212; The percentage of the page width "
 "that the table spans."
-msgstr "<literal>widthPercentage</literal> &#8212; 表がスパンするページ幅の割合です。"
+msgstr ""
+"<literal>widthPercentage</literal> &#8212; 表がスパンするページ幅の割合です。"
 
 #. Tag: para
 #: Itext.xml:991
@@ -1179,7 +1299,9 @@ msgstr "<literal>widthPercentage</literal> &#8212; 表がスパンするペー�
 msgid ""
 "<literal>horizontalAlignment</literal> &#8212; The horizontal alignment of "
 "the table. (See <xref linkend=\"itext.alignment\"/> for possible values)"
-msgstr "<literal>horizontalAlignment</literal> &#8212; 表の水平位置です (可能な値については <xref linkend=\"itext.alignment\"/> を参照)。"
+msgstr ""
+"<literal>horizontalAlignment</literal> &#8212; 表の水平位置です (可能な値につ"
+"いては <xref linkend=\"itext.alignment\"/> を参照)。"
 
 #. Tag: literal
 #: Itext.xml:998
@@ -1268,7 +1390,10 @@ msgid ""
 "<literal>colspan</literal> &#8212; Cells can span more than one column by "
 "declaring a <literal>colspan</literal> greater than 1. Tables do not have "
 "the ability to span across multiple rows."
-msgstr "<literal>colspan</literal> &#8212; <literal>colspan</literal> を 1 を越える値に宣言するとセルが複数のコラムをスパンできるようになります。 表には複数列に渡ったスパンを行う機能はありません。"
+msgstr ""
+"<literal>colspan</literal> &#8212; <literal>colspan</literal> を 1 を越える値"
+"に宣言するとセルが複数のコラムをスパンできるようになります。 表には複数列に"
+"渡ったスパンを行う機能はありません。"
 
 #. Tag: para
 #: Itext.xml:1101
@@ -1276,7 +1401,9 @@ msgstr "<literal>colspan</literal> &#8212; <literal>colspan</literal> を 1 を�
 msgid ""
 "<literal>horizontalAlignment</literal> &#8212; The horizontal alignment of "
 "the cell. (see <xref linkend=\"itext.alignment\"/> for possible values)"
-msgstr "<literal>horizontalAlignment</literal> &#8212; セルの水平位置です (可能な値は <xref linkend=\"itext.alignment\"/> を参照)。"
+msgstr ""
+"<literal>horizontalAlignment</literal> &#8212; セルの水平位置です (可能な値"
+"は <xref linkend=\"itext.alignment\"/> を参照)。"
 
 #. Tag: para
 #: Itext.xml:1109
@@ -1284,7 +1411,9 @@ msgstr "<literal>horizontalAlignment</literal> &#8212; セルの水平位置で�
 msgid ""
 "<literal>verticalAlignment</literal> &#8212; The vertical alignment of the "
 "cell. (see <xref linkend=\"itext.alignment\"/> for possible values)"
-msgstr "<literal>verticalAlignment</literal> &#8212; セルの垂直位置です (可能な値は <xref linkend=\"itext.alignment\"/> を参照)。"
+msgstr ""
+"<literal>verticalAlignment</literal> &#8212; セルの垂直位置です (可能な値は "
+"<xref linkend=\"itext.alignment\"/> を参照)。"
 
 #. Tag: para
 #: Itext.xml:1116
@@ -1293,7 +1422,11 @@ msgid ""
 "<literal>padding</literal> &#8212; Padding on a given side can also be "
 "specified using <literal>paddingLeft</literal>, <literal>paddingRight</"
 "literal>, <literal>paddingTop</literal> and <literal>paddingBottom</literal>."
-msgstr "<literal>padding</literal> &#8212; <literal>paddingLeft</literal>、 <literal>paddingRight</literal>、 <literal>paddingTop</literal>、 <literal>paddingBottom</literal> を使って特定サイドの詰めを指定することもできます。"
+msgstr ""
+"<literal>padding</literal> &#8212; <literal>paddingLeft</literal>、 "
+"<literal>paddingRight</literal>、 <literal>paddingTop</literal>、 "
+"<literal>paddingBottom</literal> を使って特定サイドの詰めを指定することもでき"
+"ます。"
 
 #. Tag: literal
 #: Itext.xml:1126
@@ -1391,7 +1524,8 @@ msgstr "ドキュメントの定数"
 msgid ""
 "This section documents some of the constants shared by attributes on "
 "multiple tags."
-msgstr "本セクションでは複数のタグで属性により共有される定数のいくつか説明します。"
+msgstr ""
+"本セクションでは複数のタグで属性により共有される定数のいくつか説明します。"
 
 #. Tag: title
 #: Itext.xml:1260
@@ -1459,8 +1593,12 @@ msgid ""
 "<literal>WEB-INF/lib</literal> directory. Three types of charts are "
 "currently supported: pie charts, bar charts and line charts."
 msgstr ""
-"グラフのサポートも <literal>jboss-seam-pdf.jar</"
-"literal> で提供されます。 グラフは PDF ドキュメントで使用できます。 また、 イメージとして HTML ページでも使用可能です。 グラフの作成には JFreeChart ライブラリ (<literal>jfreechart.jar</literal> と <literal>jcommon.jar</literal>) を <literal>WEB-INF/lib</literal> ディレクトリに追加する必要があります。 円グラフ、 棒グラフ、 折れ線グラフの 3 種類が現在サポートされています。"
+"グラフのサポートも <literal>jboss-seam-pdf.jar</literal> で提供されます。 グ"
+"ラフは PDF ドキュメントで使用できます。 また、 イメージとして HTML ページでも"
+"使用可能です。 グラフの作成には JFreeChart ライブラリ (<literal>jfreechart."
+"jar</literal> と <literal>jcommon.jar</literal>) を <literal>WEB-INF/lib</"
+"literal> ディレクトリに追加する必要があります。 円グラフ、 棒グラフ、 折れ線"
+"グラフの 3 種類が現在サポートされています。"
 
 #. Tag: literal
 #: Itext.xml:1303
@@ -1475,43 +1613,66 @@ msgid "Displays a bar chart."
 msgstr "棒グラフを表示します。"
 
 #. Tag: para
-#: Itext.xml:1317 Itext.xml:1513
+#: Itext.xml:1317 Itext.xml:1524
 #, no-c-format
 msgid ""
 "<literal>borderVisible</literal> &#8212; Controls whether or not a border is "
 "displayed around the entire chart."
-msgstr "<literal>borderVisible</literal> &#8212; グラフ全体を囲む境界線を表示するかどうかを制御します。"
+msgstr ""
+"<literal>borderVisible</literal> &#8212; グラフ全体を囲む境界線を表示するかど"
+"うかを制御します。"
 
 #. Tag: para
-#: Itext.xml:1323 Itext.xml:1519
+#: Itext.xml:1323 Itext.xml:1530
 #, no-c-format
-msgid "<literal>borderPaint</literal> &#8212; The color of the border, if visible;"
-msgstr "<literal>borderPaint</literal> &#8212; 境界線を表示させる場合の色になります。"
+msgid ""
+"<literal>borderPaint</literal> &#8212; The color of the border, if visible;"
+msgstr ""
+"<literal>borderPaint</literal> &#8212; 境界線を表示させる場合の色になります。"
 
 #. Tag: para
-#: Itext.xml:1328 Itext.xml:1524
+#: Itext.xml:1328 Itext.xml:1535
 #, no-c-format
 msgid ""
 "<literal>borderBackgroundPaint</literal> &#8212; The default background "
 "color of the chart."
-msgstr "<literal>borderBackgroundPaint</literal> &#8212; グラフのデフォルト背景色です。"
+msgstr ""
+"<literal>borderBackgroundPaint</literal> &#8212; グラフのデフォルト背景色で"
+"す。"
 
 #. Tag: para
-#: Itext.xml:1333 Itext.xml:1529
+#: Itext.xml:1333 Itext.xml:1540
 #, no-c-format
 msgid "<literal>borderStroke</literal> &#8212;"
 msgstr "<literal>borderStroke</literal> &#8212;"
 
 #. Tag: para
-#: Itext.xml:1339 Itext.xml:1535
+#: Itext.xml:1339 Itext.xml:1546
 #, no-c-format
 msgid ""
 "<literal>domainAxisLabel</literal> &#8212; The text label for the domain "
 "axis."
-msgstr "<literal>domainAxisLabel</literal> &#8212; 領域軸のテキストラベルです。"
+msgstr ""
+"<literal>domainAxisLabel</literal> &#8212; 領域軸のテキストラベルです。"
 
 #. Tag: para
-#: Itext.xml:1344 Itext.xml:1540
+#: Itext.xml:1346 Itext.xml:1552
+#, fuzzy, no-c-format
+msgid ""
+"<literal>domainLabelPosition</literal> &#8212; The angle of the domain axis "
+"category labels. Valid values are <literal>STANDARD</literal>, "
+"<literal>UP_45</literal>, <literal>UP_90</literal>, <literal>DOWN_45</"
+"literal> and <literal>DOWN_90</literal>. Alternatively, the value can the "
+"positive or negative angle in radians."
+msgstr ""
+"<literal>style</literal> &#8212; リストの箇条書き／番号付けのスタイルです。 "
+"<literal>NUMBERED</literal>、 <literal>LETTERED</literal>、 <literal>GREEK</"
+"literal>、 <literal>ROMAN</literal>、 <literal>ZAPFDINGBATS</literal>、 "
+"<literal>ZAPFDINGBATS_NUMBER</literal> のいずれかになります。 スタイルの指定"
+"がない場合は中黒になります。"
+
+#. Tag: para
+#: Itext.xml:1355 Itext.xml:1561
 #, no-c-format
 msgid ""
 "<literal>domainAxisPaint</literal> &#8212; The color of the domain axis "
@@ -1519,91 +1680,108 @@ msgid ""
 msgstr "<literal>domainAxisPaint</literal> &#8212; 領域軸ラベルの色です。"
 
 #. Tag: para
-#: Itext.xml:1350 Itext.xml:1546
+#: Itext.xml:1361 Itext.xml:1567
 #, no-c-format
 msgid ""
 "<literal>domainGridlinesVisible</literal>&#8212; Controls whether or not "
 "gridlines for the domain axis are shown on the chart."
-msgstr "<literal>domainGridlinesVisible</literal>&#8212; 領域軸のグリッド線をグラフに表示させるかどうかを制御します。"
+msgstr ""
+"<literal>domainGridlinesVisible</literal>&#8212; 領域軸のグリッド線をグラフに"
+"表示させるかどうかを制御します。"
 
 #. Tag: para
-#: Itext.xml:1355 Itext.xml:1551
+#: Itext.xml:1366 Itext.xml:1572
 #, no-c-format
 msgid ""
 "<literal>domainGridlinePaint</literal>&#8212; The color of the domain "
 "gridlines, if visible."
-msgstr "<literal>domainGridlinePaint</literal>&#8212; 領域グリッド線を表示させる場合の色です。"
+msgstr ""
+"<literal>domainGridlinePaint</literal>&#8212; 領域グリッド線を表示させる場合"
+"の色です。"
 
 #. Tag: para
-#: Itext.xml:1360 Itext.xml:1556
-#, no-c-format
+#: Itext.xml:1371 Itext.xml:1577
+#, fuzzy, no-c-format
 msgid ""
 "<literal>domainGridlineStroke</literal> &#8212; The stroke style of the "
-"domain gridleines, if visible."
-msgstr "<literal>domainGridlineStroke</literal> &#8212; 領域グリッド線を表示する場合の線スタイルです。"
+"domain gridlines, if visible."
+msgstr ""
+"<literal>domainGridlineStroke</literal> &#8212; 領域グリッド線を表示する場合"
+"の線スタイルです。"
 
 #. Tag: para
-#: Itext.xml:1366 Itext.xml:1562
+#: Itext.xml:1377 Itext.xml:1583
 #, no-c-format
 msgid "<literal>height</literal> &#8212; The height of the chart."
 msgstr "<literal>height</literal> &#8212; グラフの高さです。"
 
 #. Tag: para
-#: Itext.xml:1371 Itext.xml:1484 Itext.xml:1567 Itext.xml:1680
+#: Itext.xml:1382 Itext.xml:1495 Itext.xml:1588 Itext.xml:1701
 #, no-c-format
 msgid "<literal>width</literal> &#8212; The width of the chart."
 msgstr "<literal>width</literal> &#8212; グラフの幅です。"
 
 #. Tag: para
-#: Itext.xml:1376 Itext.xml:1572
+#: Itext.xml:1387 Itext.xml:1593
 #, no-c-format
 msgid ""
 "<literal>is3D</literal> &#8212; A boolean value indicating that the chart "
 "should be rendered in 3D instead of 2D."
-msgstr "<literal>is3D</literal> &#8212; グラフを 2D ではなく 3D で表示させること示す boolean 値です。"
+msgstr ""
+"<literal>is3D</literal> &#8212; グラフを 2D ではなく 3D で表示させること示す "
+"boolean 値です。"
 
 #. Tag: para
-#: Itext.xml:1382 Itext.xml:1578
+#: Itext.xml:1393 Itext.xml:1599
 #, no-c-format
 msgid ""
 "<literal>legend</literal> &#8212; A boolean value indicating whether or not "
 "the chart should include a legend."
-msgstr "<literal>legend</literal> &#8212; グラフに説明文を含ませるかどうかを示す boolean 値です。"
+msgstr ""
+"<literal>legend</literal> &#8212; グラフに説明文を含ませるかどうかを示す "
+"boolean 値です。"
 
 #. Tag: para
-#: Itext.xml:1388 Itext.xml:1584
+#: Itext.xml:1399
 #, no-c-format
 msgid ""
 "<literal>legendItemPaint</literal>&#8212; The default color of the text "
 "labels in the legend."
-msgstr "<literal>legendItemPaint</literal>&#8212; 説明文内のテキストラベルのデフォルト色です。"
+msgstr ""
+"<literal>legendItemPaint</literal>&#8212; 説明文内のテキストラベルのデフォル"
+"ト色です。"
 
 #. Tag: para
-#: Itext.xml:1394 Itext.xml:1590
+#: Itext.xml:1405
 #, no-c-format
 msgid ""
 "<literal>legendItemBackgoundPaint</literal>&#8212; The background color for "
 "the legend, if different from the chart background color."
-msgstr "<literal>legendItemBackgoundPaint</literal>&#8212; グラフの背景色とは異なる色にする場合の説明文の背景色です。"
+msgstr ""
+"<literal>legendItemBackgoundPaint</literal>&#8212; グラフの背景色とは異なる色"
+"にする場合の説明文の背景色です。"
 
 #. Tag: para
-#: Itext.xml:1400 Itext.xml:1596
+#: Itext.xml:1411
 #, no-c-format
 msgid ""
 "<literal>legendOutlinePaint</literal>&#8212; The color of the border around "
 "the legend."
-msgstr "<literal>legendOutlinePaint</literal>&#8212; 説明文を囲む境界線の色です。"
+msgstr ""
+"<literal>legendOutlinePaint</literal>&#8212; 説明文を囲む境界線の色です。"
 
 #. Tag: para
-#: Itext.xml:1406 Itext.xml:1602
+#: Itext.xml:1417 Itext.xml:1623
 #, no-c-format
 msgid ""
 "<literal>orientation</literal> &#8212; The orientation of the plot, either "
 "<code>vertical</code> (the default) or <code>horizontal</code>."
-msgstr "<literal>orientation</literal> &#8212; 図表の向きで、 <code>vertical</code> (デフォルト) または <code>horizontal</code> になります。"
+msgstr ""
+"<literal>orientation</literal> &#8212; 図表の向きで、 <code>vertical</code> "
+"(デフォルト) または <code>horizontal</code> になります。"
 
 #. Tag: para
-#: Itext.xml:1412 Itext.xml:1608
+#: Itext.xml:1423
 #, no-c-format
 msgid ""
 "<literal>plotBackgroundPaint</literal>&#8212; The color of the plot "
@@ -1611,97 +1789,116 @@ msgid ""
 msgstr "<literal>plotBackgroundPaint</literal>&#8212; 図表背景の色です。"
 
 #. Tag: para
-#: Itext.xml:1418 Itext.xml:1614
+#: Itext.xml:1429
 #, no-c-format
 msgid ""
 "<literal>plotBackgroundAlpha</literal>&#8212; The alpha (transparency) level "
 "of the plot background. It should be a number between 0 (completely "
 "transparent) and 1 (completely opaque)."
-msgstr "<literal>plotBackgroundAlpha</literal>&#8212; 図表背景のアルファ (透明度) レベルです。 0 (完全に透明) から 1 (完全に不透明) の間の数字になります。"
+msgstr ""
+"<literal>plotBackgroundAlpha</literal>&#8212; 図表背景のアルファ (透明度) レ"
+"ベルです。 0 (完全に透明) から 1 (完全に不透明) の間の数字になります。"
 
 #. Tag: para
-#: Itext.xml:1425 Itext.xml:1621
+#: Itext.xml:1436
 #, no-c-format
 msgid ""
 "<literal>plotForegroundAlpha</literal>&#8212; The alpha (transparency) level "
 "of the plot. It should be a number between 0 (completely transparent) and 1 "
 "(completely opaque)."
-msgstr "<literal>plotForegroundAlpha</literal>&#8212; 図表のアルファ (透明度) レベルです。 0 (完全に透明) から 1 (完全に不透明) の間の数字になります。"
+msgstr ""
+"<literal>plotForegroundAlpha</literal>&#8212; 図表のアルファ (透明度) レベル"
+"です。 0 (完全に透明) から 1 (完全に不透明) の間の数字になります。"
 
 #. Tag: para
-#: Itext.xml:1432 Itext.xml:1628
+#: Itext.xml:1443
 #, no-c-format
 msgid ""
 "<literal>plotOutlinePaint</literal>&#8212; The color of the range gridlines, "
 "if visible."
-msgstr "<literal>plotOutlinePaint</literal>&#8212; その範囲のグリッド線を表示させる場合の色です。"
+msgstr ""
+"<literal>plotOutlinePaint</literal>&#8212; その範囲のグリッド線を表示させる場"
+"合の色です。"
 
 #. Tag: para
-#: Itext.xml:1437 Itext.xml:1633
-#, no-c-format
+#: Itext.xml:1448 Itext.xml:1654
+#, fuzzy, no-c-format
 msgid ""
 "<literal>plotOutlineStroke</literal> &#8212; The stroke style of the range "
-"gridleines, if visible."
-msgstr "<literal>plotOutlineStroke</literal> &#8212; その範囲のグリッド線を表示させる場合の線スタイルです。"
+"gridlines, if visible."
+msgstr ""
+"<literal>plotOutlineStroke</literal> &#8212; その範囲のグリッド線を表示させる"
+"場合の線スタイルです。"
 
 #. Tag: para
-#: Itext.xml:1443 Itext.xml:1639
+#: Itext.xml:1454 Itext.xml:1660
 #, no-c-format
-msgid "<literal>rangeAxisLabel</literal> &#8212; The text label for the range axis."
-msgstr "<literal>rangeAxisLabel</literal> &#8212; 範囲軸用のテキストラベルです。"
+msgid ""
+"<literal>rangeAxisLabel</literal> &#8212; The text label for the range axis."
+msgstr ""
+"<literal>rangeAxisLabel</literal> &#8212; 範囲軸用のテキストラベルです。"
 
 #. Tag: para
-#: Itext.xml:1448 Itext.xml:1644
+#: Itext.xml:1459 Itext.xml:1665
 #, no-c-format
-msgid "<literal>rangeAxisPaint</literal> &#8212; The color of the range axis label."
+msgid ""
+"<literal>rangeAxisPaint</literal> &#8212; The color of the range axis label."
 msgstr "<literal>rangeAxisPaint</literal> &#8212; 範囲軸ラベルの色です。"
 
 #. Tag: para
-#: Itext.xml:1454 Itext.xml:1650
+#: Itext.xml:1465
 #, no-c-format
 msgid ""
 "<literal>rangeGridlinesVisible</literal>&#8212; Controls whether or not "
 "gridlines for the range axis are shown on the chart."
-msgstr "<literal>rangeGridlinesVisible</literal>&#8212; 範囲軸のグリッド線をグラフに表示させるかどうかを制御します。"
+msgstr ""
+"<literal>rangeGridlinesVisible</literal>&#8212; 範囲軸のグリッド線をグラフに"
+"表示させるかどうかを制御します。"
 
 #. Tag: para
-#: Itext.xml:1459 Itext.xml:1655
+#: Itext.xml:1470
 #, no-c-format
 msgid ""
 "<literal>rangeGridlinePaint</literal>&#8212; The color of the range "
 "gridlines, if visible."
-msgstr "<literal>rangeGridlinePaint</literal>&#8212; 範囲グリッド線を表示させる場合の色です。"
+msgstr ""
+"<literal>rangeGridlinePaint</literal>&#8212; 範囲グリッド線を表示させる場合の"
+"色です。"
 
 #. Tag: para
-#: Itext.xml:1464 Itext.xml:1660
-#, no-c-format
+#: Itext.xml:1475 Itext.xml:1681
+#, fuzzy, no-c-format
 msgid ""
 "<literal>rangeGridlineStroke</literal> &#8212; The stroke style of the range "
-"gridleines, if visible."
-msgstr "<literal>rangeGridlineStroke</literal> &#8212; 範囲グリッド線を表示させる場合の線スタイルです。"
+"gridlines, if visible."
+msgstr ""
+"<literal>rangeGridlineStroke</literal> &#8212; 範囲グリッド線を表示させる場合"
+"の線スタイルです。"
 
 #. Tag: para
-#: Itext.xml:1470 Itext.xml:1666
+#: Itext.xml:1481 Itext.xml:1687 Itext.xml:1731
 #, no-c-format
 msgid "<literal>title</literal> &#8212; The chart title text."
 msgstr "<literal>title</literal> &#8212; グラフタイトルのテキストです。"
 
 #. Tag: para
-#: Itext.xml:1474 Itext.xml:1670
+#: Itext.xml:1485
 #, no-c-format
 msgid "<literal>titlePaint</literal>&#8212; The color of the chart title text."
 msgstr "<literal>titlePaint</literal>&#8212; グラフタイトルのテキスト色です。"
 
 #. Tag: para
-#: Itext.xml:1479 Itext.xml:1675
+#: Itext.xml:1490
 #, no-c-format
 msgid ""
 "<literal>titleBackgroundPaint</literal>&#8212; The background color around "
 "the chart title."
-msgstr "<literal>titleBackgroundPaint</literal>&#8212; グラフタイトルを囲む背景色です。"
+msgstr ""
+"<literal>titleBackgroundPaint</literal>&#8212; グラフタイトルを囲む背景色で"
+"す。"
 
 #. Tag: programlisting
-#: Itext.xml:1492
+#: Itext.xml:1503
 #, no-c-format
 msgid ""
 "<![CDATA[<p:barchart title=\"Bar Chart\" legend=\"true\"\n"
@@ -1727,19 +1924,125 @@ msgstr ""
 "</p:barchart>]]>"
 
 #. Tag: literal
-#: Itext.xml:1499
+#: Itext.xml:1510
 #, no-c-format
 msgid "&lt;p:linechart&gt;"
 msgstr "&lt;p:linechart&gt;"
 
 #. Tag: para
-#: Itext.xml:1506
+#: Itext.xml:1517
 #, no-c-format
 msgid "Displays a line chart."
 msgstr "折れ線グラフを表示します。"
 
+#. Tag: para
+#: Itext.xml:1605
+#, fuzzy, no-c-format
+msgid ""
+"<literal>legendItemPaint</literal> &#8212; The default color of the text "
+"labels in the legend."
+msgstr ""
+"<literal>legendItemPaint</literal>&#8212; 説明文内のテキストラベルのデフォル"
+"ト色です。"
+
+#. Tag: para
+#: Itext.xml:1611
+#, fuzzy, no-c-format
+msgid ""
+"<literal>legendItemBackgoundPaint</literal> &#8212; The background color for "
+"the legend, if different from the chart background color."
+msgstr ""
+"<literal>legendItemBackgoundPaint</literal>&#8212; グラフの背景色とは異なる色"
+"にする場合の説明文の背景色です。"
+
+#. Tag: para
+#: Itext.xml:1617
+#, fuzzy, no-c-format
+msgid ""
+"<literal>legendOutlinePaint</literal> &#8212; The color of the border around "
+"the legend."
+msgstr ""
+"<literal>legendOutlinePaint</literal>&#8212; 説明文を囲む境界線の色です。"
+
+#. Tag: para
+#: Itext.xml:1629
+#, fuzzy, no-c-format
+msgid ""
+"<literal>plotBackgroundPaint</literal> &#8212; The color of the plot "
+"background."
+msgstr "<literal>plotBackgroundPaint</literal>&#8212; 図表背景の色です。"
+
+#. Tag: para
+#: Itext.xml:1635
+#, fuzzy, no-c-format
+msgid ""
+"<literal>plotBackgroundAlpha</literal> &#8212; The alpha (transparency) "
+"level of the plot background. It should be a number between 0 (completely "
+"transparent) and 1 (completely opaque)."
+msgstr ""
+"<literal>plotBackgroundAlpha</literal>&#8212; 図表背景のアルファ (透明度) レ"
+"ベルです。 0 (完全に透明) から 1 (完全に不透明) の間の数字になります。"
+
+#. Tag: para
+#: Itext.xml:1642
+#, fuzzy, no-c-format
+msgid ""
+"<literal>plotForegroundAlpha</literal> &#8212; The alpha (transparency) "
+"level of the plot. It should be a number between 0 (completely transparent) "
+"and 1 (completely opaque)."
+msgstr ""
+"<literal>plotForegroundAlpha</literal>&#8212; 図表のアルファ (透明度) レベル"
+"です。 0 (完全に透明) から 1 (完全に不透明) の間の数字になります。"
+
+#. Tag: para
+#: Itext.xml:1649
+#, fuzzy, no-c-format
+msgid ""
+"<literal>plotOutlinePaint</literal> &#8212; The color of the range "
+"gridlines, if visible."
+msgstr ""
+"<literal>plotOutlinePaint</literal>&#8212; その範囲のグリッド線を表示させる場"
+"合の色です。"
+
+#. Tag: para
+#: Itext.xml:1671
+#, fuzzy, no-c-format
+msgid ""
+"<literal>rangeGridlinesVisible</literal> &#8212; Controls whether or not "
+"gridlines for the range axis are shown on the chart."
+msgstr ""
+"<literal>rangeGridlinesVisible</literal>&#8212; 範囲軸のグリッド線をグラフに"
+"表示させるかどうかを制御します。"
+
+#. Tag: para
+#: Itext.xml:1676
+#, fuzzy, no-c-format
+msgid ""
+"<literal>rangeGridlinePaint</literal> &#8212; The color of the range "
+"gridlines, if visible."
+msgstr ""
+"<literal>rangeGridlinePaint</literal>&#8212; 範囲グリッド線を表示させる場合の"
+"色です。"
+
+#. Tag: para
+#: Itext.xml:1691
+#, fuzzy, no-c-format
+msgid ""
+"<literal>titlePaint</literal> &#8212; The color of the chart title text."
+msgstr "<literal>titlePaint</literal>&#8212; グラフタイトルのテキスト色です。"
+
+#. Tag: para
+#: Itext.xml:1696
+#, fuzzy, no-c-format
+msgid ""
+"<literal>titleBackgroundPaint</literal> &#8212; The background color around "
+"the chart title."
+msgstr ""
+"<literal>titleBackgroundPaint</literal>&#8212; グラフタイトルを囲む背景色で"
+"す。"
+
 #. Tag: programlisting
-#: Itext.xml:1688
+#: Itext.xml:1709
 #, no-c-format
 msgid ""
 "<![CDATA[<p:linechart title=\"Line Chart\"\n"
@@ -1765,196 +2068,232 @@ msgstr ""
 "</p:linechart>]]>"
 
 #. Tag: literal
-#: Itext.xml:1695
+#: Itext.xml:1716
 #, no-c-format
 msgid "&lt;p:piechart&gt;"
 msgstr "&lt;p:piechart&gt;"
 
 #. Tag: para
-#: Itext.xml:1702
+#: Itext.xml:1723
 #, no-c-format
 msgid "Displays a pie chart."
 msgstr "円グラフを表示します。"
 
 #. Tag: para
-#: Itext.xml:1710
-#, no-c-format
-msgid "<literal>title</literal>&#8212; The chart title text."
-msgstr "<literal>title</literal>&#8212; グラフタイトルのテキストです。"
-
-#. Tag: para
-#: Itext.xml:1714
-#, no-c-format
-msgid "<literal>label</literal>&#8212; The default label text for pie sections."
-msgstr "<literal>label</literal>&#8212; パイセンクションののデフォルトラベルのテキストです。"
-
-#. Tag: para
-#: Itext.xml:1719
-#, no-c-format
+#: Itext.xml:1735
+#, fuzzy, no-c-format
 msgid ""
-"<literal>legend</literal>&#8212; A boolean value indicating whether or not "
+"<literal>label</literal> &#8212; The default label text for pie sections."
+msgstr ""
+"<literal>label</literal>&#8212; パイセンクションののデフォルトラベルのテキス"
+"トです。"
+
+#. Tag: para
+#: Itext.xml:1740
+#, fuzzy, no-c-format
+msgid ""
+"<literal>legend</literal> &#8212; A boolean value indicating whether or not "
 "the chart should include a legend. Default value is true"
-msgstr "<literal>legend</literal>&#8212; グラフに説明文を含ませるかどうかを示す boolean 値です。 デフォルト値は true です。"
-
-#. Tag: para
-#: Itext.xml:1724
-#, no-c-format
-msgid ""
-"<literal>is3D</literal>&#8212;A boolean value indicating that the chart "
-"should be rendered in 3D instead of 2D."
-msgstr "<literal>is3D</literal>&#8212; グラフを 2D ではなく 3D で表示されることを示す boolean 値です。"
-
-#. Tag: para
-#: Itext.xml:1729
-#, no-c-format
-msgid "<literal>labelLinkMargin</literal>&#8212; The link margin for labels."
-msgstr "<literal>labelLinkMargin</literal>&#8212; ラベルのリンク余白です。"
-
-#. Tag: para
-#: Itext.xml:1734
-#, no-c-format
-msgid ""
-"<literal>labelLinkPaint</literal>&#8212; The paint used for the label "
-"linking lines."
-msgstr "<literal>labelLinkPaint</literal>&#8212; ラベルリンク行に使用するペイントです。"
-
-#. Tag: para
-#: Itext.xml:1739
-#, no-c-format
-msgid ""
-"<literal>labelLinkStroke</literal>&#8212; he stroke used for the label "
-"linking lines."
-msgstr "<literal>labelLinkStroke</literal>&#8212; ラベルリンク行に使用する線です。"
+msgstr ""
+"<literal>legend</literal>&#8212; グラフに説明文を含ませるかどうかを示す "
+"boolean 値です。 デフォルト値は true です。"
 
 #. Tag: para
 #: Itext.xml:1745
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"<literal>labelLinksVisible</literal>&#8212; A flag that controls whether or "
-"not the label links are drawn."
-msgstr "<literal>labelLinksVisible</literal>&#8212; ラベルリンクを描画するかどうかを制御するフラグです。"
+"<literal>is3D</literal> &#8212;A boolean value indicating that the chart "
+"should be rendered in 3D instead of 2D."
+msgstr ""
+"<literal>is3D</literal> &#8212; グラフを 2D ではなく 3D で表示させること示す "
+"boolean 値です。"
 
 #. Tag: para
 #: Itext.xml:1750
-#, no-c-format
-msgid ""
-"<literal>labelOutlinePaint</literal>&#8212; The paint used to draw the "
-"outline of the section labels."
-msgstr "<literal>labelOutlinePaint</literal>&#8212; セクションラベルの輪郭を描くのに使用するペイントです。"
+#, fuzzy, no-c-format
+msgid "<literal>labelLinkMargin</literal> &#8212; The link margin for labels."
+msgstr "<literal>labelLinkMargin</literal>&#8212; ラベルのリンク余白です。"
 
 #. Tag: para
 #: Itext.xml:1755
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"<literal>labelOutlineStroke</literal>&#8212; The stroke used to draw the "
-"outline of the section labels."
-msgstr "<literal>labelOutlineStroke</literal>&#8212; セクションラベルの輪郭を描くのに使用する線です。"
+"<literal>labelLinkPaint</literal> &#8212; The paint used for the label "
+"linking lines."
+msgstr ""
+"<literal>labelLinkPaint</literal>&#8212; ラベルリンク行に使用するペイントで"
+"す。"
 
 #. Tag: para
 #: Itext.xml:1760
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"<literal>labelShadowPaint</literal>&#8212; The paint used to draw the shadow "
-"for the section labels."
-msgstr "<literal>labelShadowPaint</literal>&#8212; セクションラベルの影を描くのに使用するペイントです。"
+"<literal>labelLinkStroke</literal> &#8212; he stroke used for the label "
+"linking lines."
+msgstr ""
+"<literal>labelLinkStroke</literal>&#8212; ラベルリンク行に使用する線です。"
 
 #. Tag: para
-#: Itext.xml:1765
-#, no-c-format
+#: Itext.xml:1766
+#, fuzzy, no-c-format
 msgid ""
-"<literal>labelPaint</literal>&#8212; The color used to draw the section "
+"<literal>labelLinksVisible</literal> &#8212; A flag that controls whether or "
+"not the label links are drawn."
+msgstr ""
+"<literal>labelLinksVisible</literal>&#8212; ラベルリンクを描画するかどうかを"
+"制御するフラグです。"
+
+#. Tag: para
+#: Itext.xml:1771
+#, fuzzy, no-c-format
+msgid ""
+"<literal>labelOutlinePaint</literal> &#8212; The paint used to draw the "
+"outline of the section labels."
+msgstr ""
+"<literal>labelOutlinePaint</literal>&#8212; セクションラベルの輪郭を描くのに"
+"使用するペイントです。"
+
+#. Tag: para
+#: Itext.xml:1776
+#, fuzzy, no-c-format
+msgid ""
+"<literal>labelOutlineStroke</literal> &#8212; The stroke used to draw the "
+"outline of the section labels."
+msgstr ""
+"<literal>labelOutlineStroke</literal>&#8212; セクションラベルの輪郭を描くのに"
+"使用する線です。"
+
+#. Tag: para
+#: Itext.xml:1781
+#, fuzzy, no-c-format
+msgid ""
+"<literal>labelShadowPaint</literal> &#8212; The paint used to draw the "
+"shadow for the section labels."
+msgstr ""
+"<literal>labelShadowPaint</literal>&#8212; セクションラベルの影を描くのに使用"
+"するペイントです。"
+
+#. Tag: para
+#: Itext.xml:1786
+#, fuzzy, no-c-format
+msgid ""
+"<literal>labelPaint</literal> &#8212; The color used to draw the section "
 "labels"
-msgstr "<literal>labelPaint</literal>&#8212; セクションラベルを描くのに使用する色です。"
+msgstr ""
+"<literal>labelPaint</literal>&#8212; セクションラベルを描くのに使用する色で"
+"す。"
 
 #. Tag: para
-#: Itext.xml:1770
-#, no-c-format
+#: Itext.xml:1791
+#, fuzzy, no-c-format
 msgid ""
-"<literal>labelGap</literal>&#8212; The gap between the labels and the plot "
+"<literal>labelGap</literal> &#8212; The gap between the labels and the plot "
 "as a percentage of the plot width."
-msgstr "<literal>labelGap</literal>&#8212; 図表幅の割合によるラベルと図表の間隔です。"
+msgstr ""
+"<literal>labelGap</literal>&#8212; 図表幅の割合によるラベルと図表の間隔です。"
 
 #. Tag: para
-#: Itext.xml:1775
-#, no-c-format
+#: Itext.xml:1796
+#, fuzzy, no-c-format
 msgid ""
-"<literal>labelBackgroundPaint</literal>&#8212; The color used to draw the "
+"<literal>labelBackgroundPaint</literal> &#8212; The color used to draw the "
 "background of the section labels. If this is null, the background is not "
 "filled."
-msgstr "<literal>labelBackgroundPaint</literal>&#8212; セクションラベルの背景を描くのに使用する色です。 null にすると背景は埋められません。"
+msgstr ""
+"<literal>labelBackgroundPaint</literal>&#8212; セクションラベルの背景を描くの"
+"に使用する色です。 null にすると背景は埋められません。"
 
 #. Tag: para
-#: Itext.xml:1782
-#, no-c-format
-msgid "<literal>startAngle</literal>&#8212; The starting angle of the first section."
-msgstr "<literal>startAngle</literal>&#8212; 1 番目のセクションの開始角度です。"
-
-#. Tag: para
-#: Itext.xml:1787
-#, no-c-format
+#: Itext.xml:1803
+#, fuzzy, no-c-format
 msgid ""
-"<literal>circular</literal>&#8212; A boolean value indicating that the chart "
-"should be drawn as a circle. If false, the chart is drawn as an ellipse. The "
-"default is true."
-msgstr "<literal>circular</literal>&#8212; グラフを円で描くことを示す boolean 値です。 false にするとグラフは楕円で描かれます。 デフォルトは true です。"
+"<literal>startAngle</literal> &#8212; The starting angle of the first "
+"section."
+msgstr ""
+"<literal>startAngle</literal>&#8212; 1 番目のセクションの開始角度です。"
 
 #. Tag: para
-#: Itext.xml:1793
-#, no-c-format
+#: Itext.xml:1808
+#, fuzzy, no-c-format
 msgid ""
-"<literal>direction</literal>&#8212; The direction the pie section are drawn. "
-"One of: <literal>clockwise</literal> or <literal>anticlockwise</literal>. "
-"The default is <literal>clockwise</literal>."
-msgstr "<literal>direction</literal>&#8212; パイセクションが描かれる方向です。 <literal>clockwise</literal> か <literal>anticlockwise</literal> のどちらかになります。 デフォルトは <literal>clockwise</literal> です。"
-
-#. Tag: para
-#: Itext.xml:1799
-#, no-c-format
-msgid ""
-"<literal>sectionOutlinePaint</literal>&#8212; The outline paint for all "
-"sections."
-msgstr "<literal>sectionOutlinePaint</literal>&#8212; 全セクションの輪郭ペイントです。"
-
-#. Tag: para
-#: Itext.xml:1804
-#, no-c-format
-msgid ""
-"<literal>sectionOutlineStroke</literal>&#8212; The outline stroke for all "
-"sections"
-msgstr "<literal>sectionOutlineStroke</literal>&#8212; 全セクションの輪郭線です。"
-
-#. Tag: para
-#: Itext.xml:1809
-#, no-c-format
-msgid ""
-"<literal>sectionOutlinesVisible</literal>&#8212; Indicates whether an "
-"outline is drawn for each section in the plot."
-msgstr "<literal>sectionOutlinesVisible</literal>&#8212; 図表内の各セクションにそれぞれ輪郭を描くかどうかを示します。"
+"<literal>circular</literal> &#8212; A boolean value indicating that the "
+"chart should be drawn as a circle. If false, the chart is drawn as an "
+"ellipse. The default is true."
+msgstr ""
+"<literal>circular</literal>&#8212; グラフを円で描くことを示す boolean 値で"
+"す。 false にするとグラフは楕円で描かれます。 デフォルトは true です。"
 
 #. Tag: para
 #: Itext.xml:1814
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"<literal>baseSectionOutlinePaint</literal>&#8212; The base section outline "
+"<literal>direction</literal> &#8212; The direction the pie section are "
+"drawn. One of: <literal>clockwise</literal> or <literal>anticlockwise</"
+"literal>. The default is <literal>clockwise</literal>."
+msgstr ""
+"<literal>direction</literal>&#8212; パイセクションが描かれる方向です。 "
+"<literal>clockwise</literal> か <literal>anticlockwise</literal> のどちらかに"
+"なります。 デフォルトは <literal>clockwise</literal> です。"
+
+#. Tag: para
+#: Itext.xml:1820
+#, fuzzy, no-c-format
+msgid ""
+"<literal>sectionOutlinePaint</literal> &#8212; The outline paint for all "
+"sections."
+msgstr ""
+"<literal>sectionOutlinePaint</literal>&#8212; 全セクションの輪郭ペイントで"
+"す。"
+
+#. Tag: para
+#: Itext.xml:1825
+#, fuzzy, no-c-format
+msgid ""
+"<literal>sectionOutlineStroke</literal> &#8212; The outline stroke for all "
+"sections"
+msgstr ""
+"<literal>sectionOutlineStroke</literal>&#8212; 全セクションの輪郭線です。"
+
+#. Tag: para
+#: Itext.xml:1830
+#, fuzzy, no-c-format
+msgid ""
+"<literal>sectionOutlinesVisible</literal> &#8212; Indicates whether an "
+"outline is drawn for each section in the plot."
+msgstr ""
+"<literal>sectionOutlinesVisible</literal>&#8212; 図表内の各セクションにそれぞ"
+"れ輪郭を描くかどうかを示します。"
+
+#. Tag: para
+#: Itext.xml:1835
+#, fuzzy, no-c-format
+msgid ""
+"<literal>baseSectionOutlinePaint</literal> &#8212; The base section outline "
 "paint."
-msgstr "<literal>baseSectionOutlinePaint</literal>&#8212; ベースとなるセクションの輪郭ペイントです。"
+msgstr ""
+"<literal>baseSectionOutlinePaint</literal>&#8212; ベースとなるセクションの輪"
+"郭ペイントです。"
 
 #. Tag: para
-#: Itext.xml:1819
-#, no-c-format
-msgid "<literal>baseSectionPaint</literal>&#8212; The base section paint."
-msgstr "<literal>baseSectionPaint</literal>&#8212; ベースとなるセクションのペイントです。"
+#: Itext.xml:1840
+#, fuzzy, no-c-format
+msgid "<literal>baseSectionPaint</literal> &#8212; The base section paint."
+msgstr ""
+"<literal>baseSectionPaint</literal>&#8212; ベースとなるセクションのペイントで"
+"す。"
 
 #. Tag: para
-#: Itext.xml:1823
-#, no-c-format
+#: Itext.xml:1844
+#, fuzzy, no-c-format
 msgid ""
-"<literal>baseSectionOutlineStroke</literal>&#8212; The base section outline "
+"<literal>baseSectionOutlineStroke</literal> &#8212; The base section outline "
 "stroke."
-msgstr "<literal>baseSectionOutlineStroke</literal>&#8212; ベースとなるセクションの輪郭線です。"
+msgstr ""
+"<literal>baseSectionOutlineStroke</literal>&#8212; ベースとなるセクションの輪"
+"郭線です。"
 
 #. Tag: programlisting
-#: Itext.xml:1831
+#: Itext.xml:1852
 #, no-c-format
 msgid ""
 "<![CDATA[<p:piechart title=\"Pie Chart\" circular=\"false\" direction="
@@ -1982,66 +2321,78 @@ msgstr ""
 "</p:piechart>]]>"
 
 #. Tag: literal
-#: Itext.xml:1838
+#: Itext.xml:1859
 #, no-c-format
 msgid "&lt;p:series&gt;"
 msgstr "&lt;p:series&gt;"
 
 #. Tag: para
-#: Itext.xml:1845
+#: Itext.xml:1866
 #, no-c-format
 msgid ""
 "Category data can be broken down into series. The series tag is used to "
 "categorize a set of data with a series and apply styling to the entire "
 "series."
-msgstr "カテゴリデータはシリーズに分割できます。 シリーズタグを使ってデータセットをシリーズで分類しそのシリーズ全体にスタイリングを適用します。"
+msgstr ""
+"カテゴリデータはシリーズに分割できます。 シリーズタグを使ってデータセットをシ"
+"リーズで分類しそのシリーズ全体にスタイリングを適用します。"
 
 #. Tag: para
-#: Itext.xml:1854
+#: Itext.xml:1875
 #, no-c-format
 msgid "<literal>key</literal> &#8212; The series name."
 msgstr "<literal>key</literal> &#8212; シリーズ名です。"
 
 #. Tag: para
-#: Itext.xml:1865
+#: Itext.xml:1886
 #, no-c-format
-msgid "<literal>seriesPaint</literal> &#8212; The color of each item in the series"
-msgstr "<literal>seriesPaint</literal> &#8212; シリーズ内の各アイテムの色です。"
+msgid ""
+"<literal>seriesPaint</literal> &#8212; The color of each item in the series"
+msgstr ""
+"<literal>seriesPaint</literal> &#8212; シリーズ内の各アイテムの色です。"
 
 #. Tag: para
-#: Itext.xml:1871
+#: Itext.xml:1892
 #, no-c-format
 msgid ""
 "<literal>seriesOutlinePaint</literal> &#8212; The outline color for each "
 "item in the series."
-msgstr "<literal>seriesOutlinePaint</literal> &#8212; シリーズ内の各アイテムの輪郭色です。"
+msgstr ""
+"<literal>seriesOutlinePaint</literal> &#8212; シリーズ内の各アイテムの輪郭色"
+"です。"
 
 #. Tag: para
-#: Itext.xml:1876
+#: Itext.xml:1897
 #, no-c-format
 msgid ""
 "<literal>seriesOutlineStroke</literal> &#8212; The stroke used to draw each "
 "item in the series."
-msgstr "<literal>seriesOutlineStroke</literal> &#8212; シリーズ内の各アイテムを描くのに使用する線です。"
+msgstr ""
+"<literal>seriesOutlineStroke</literal> &#8212; シリーズ内の各アイテムを描くの"
+"に使用する線です。"
 
 #. Tag: para
-#: Itext.xml:1888
+#: Itext.xml:1909
 #, no-c-format
 msgid ""
 "<literal>seriesVisible</literal> &#8212; A boolean indicating if the series "
 "should be displayed."
-msgstr "<literal>seriesVisible</literal> &#8212; シリーズを表示させるかどうかを示す boolean です。"
+msgstr ""
+"<literal>seriesVisible</literal> &#8212; シリーズを表示させるかどうかを示す "
+"boolean です。"
 
 #. Tag: para
-#: Itext.xml:1893
-#, no-c-format
+#: Itext.xml:1914
+#, fuzzy, no-c-format
 msgid ""
-"<literal>seriesVisibleInLegend</literal> &#8212; A boolean indiciating if "
-"the series should be listed in the legend."
-msgstr "<literal>seriesVisibleInLegend</literal> &#8212; 説明文内にシリーズを記載するかどうかを示す boolean です。"
+"<literal>seriesVisibleInLegend</literal> &#8212; A boolean indicating if the "
+"series should be listed in the legend."
+msgstr ""
+"<literal>seriesVisibleInLegend</literal> &#8212; 説明文内にシリーズを記載する"
+"かどうかを示す boolean です。"
 
 #. Tag: programlisting
-#: Itext.xml:1902
+#: Itext.xml:1923
 #, no-c-format
 msgid ""
 "<![CDATA[<p:series key=\"data1\">\n"
@@ -2057,63 +2408,71 @@ msgstr ""
 "</p:series>]]>"
 
 #. Tag: literal
-#: Itext.xml:1909
+#: Itext.xml:1930
 #, no-c-format
 msgid "&lt;p:data&gt;"
 msgstr "&lt;p:data&gt;"
 
 #. Tag: para
-#: Itext.xml:1916
+#: Itext.xml:1937
 #, no-c-format
 msgid "The data tag describes each data point to be displayed in the graph."
 msgstr "データタグはグラフ内で表示される各データポイントを表現します。"
 
 #. Tag: para
-#: Itext.xml:1923
+#: Itext.xml:1944
 #, no-c-format
 msgid "<literal>key</literal> &#8212; The name of the data item."
 msgstr "<literal>key</literal> &#8212; データアイテム名です。"
 
 #. Tag: para
-#: Itext.xml:1927
+#: Itext.xml:1948
 #, no-c-format
 msgid ""
 "<literal>series</literal> &#8212; The series name, when not embedded inside "
 "a <code>&lt;p:series&gt;</code>."
-msgstr "<literal>series</literal> &#8212; <code>&lt;p:series&gt;</code> の内側に埋め込まれない場合のシリーズ名です。"
+msgstr ""
+"<literal>series</literal> &#8212; <code>&lt;p:series&gt;</code> の内側に埋め"
+"込まれない場合のシリーズ名です。"
 
 #. Tag: para
-#: Itext.xml:1932
+#: Itext.xml:1953
 #, no-c-format
 msgid "<literal>value</literal> &#8212; The numeric data value."
 msgstr "<literal>value</literal> &#8212; 数値データです。"
 
 #. Tag: para
-#: Itext.xml:1936
+#: Itext.xml:1957
 #, no-c-format
 msgid ""
 "<literal>explodedPercent</literal> &#8212; For pie charts, indicates how "
 "exploded a from the pie a piece is."
-msgstr "<literal>explodedPercent</literal> &#8212; 円グラフの場合、 explodedPercent 属性はグラフの一片がどのように展開されるかを示します。"
+msgstr ""
+"<literal>explodedPercent</literal> &#8212; 円グラフの場合、 explodedPercent "
+"属性はグラフの一片がどのように展開されるかを示します。"
 
 #. Tag: para
-#: Itext.xml:1942
+#: Itext.xml:1963
 #, no-c-format
 msgid ""
 "<literal>sectionOutlinePaint</literal> &#8212; For bar charts, the color of "
 "the section outline."
-msgstr "<literal>sectionOutlinePaint</literal> &#8212; 棒グラフの場合のセクション輪郭の色です。"
+msgstr ""
+"<literal>sectionOutlinePaint</literal> &#8212; 棒グラフの場合のセクション輪郭"
+"の色です。"
 
 #. Tag: para
-#: Itext.xml:1947
+#: Itext.xml:1968
 #, no-c-format
 msgid ""
 "<literal>sectionOutlineStroke</literal> &#8212; For bar charts, the stroke "
 "type for the section outline."
-msgstr "<literal>sectionOutlineStroke</literal> &#8212; 棒グラフの場合のセクション輪郭の線タイプです。"
+msgstr ""
+"<literal>sectionOutlineStroke</literal> &#8212; 棒グラフの場合のセクション輪"
+"郭の線タイプです。"
 
 #. Tag: para
-#: Itext.xml:1952
+#: Itext.xml:1973
 #, no-c-format
 msgid ""
 "<literal>sectionPaint</literal> &#8212; For bar charts, the color of the "
@@ -2121,7 +2480,7 @@ msgid ""
 msgstr "<literal>sectionPaint</literal> &#8212; 棒グラフのセクションの色です。"
 
 #. Tag: programlisting
-#: Itext.xml:1963
+#: Itext.xml:1984
 #, no-c-format
 msgid ""
 "<![CDATA[<p:data key=\"foo\" value=\"20\" sectionPaint=\"#111111\" \n"
@@ -2137,37 +2496,43 @@ msgstr ""
 "        sectionOutlineStroke=\"my-dot-style\" />]]>"
 
 #. Tag: literal
-#: Itext.xml:1970
+#: Itext.xml:1991
 #, no-c-format
 msgid "&lt;p:color&gt;"
 msgstr "&lt;p:color&gt;"
 
 #. Tag: para
-#: Itext.xml:1977
+#: Itext.xml:1998
 #, no-c-format
 msgid ""
 "The color component declares a color or gradient than can be referenced when "
 "drawing filled shapes."
-msgstr "色コンポーネントは色埋めされた形を描く場合に参照できる色または階調を宣言します。"
+msgstr ""
+"色コンポーネントは色埋めされた形を描く場合に参照できる色または階調を宣言しま"
+"す。"
 
 #. Tag: para
-#: Itext.xml:1986
+#: Itext.xml:2007
 #, no-c-format
 msgid ""
 "<literal>color</literal> &#8212; The color value. For gradient colors, this "
 "the starting color."
-msgstr "<literal>color</literal> &#8212; 色の値です。 階調色の場合はこの色が開始色となります。"
+msgstr ""
+"<literal>color</literal> &#8212; 色の値です。 階調色の場合はこの色が開始色と"
+"なります。"
 
 #. Tag: para
-#: Itext.xml:1992
+#: Itext.xml:2013
 #, no-c-format
 msgid ""
 "<literal>color2</literal> &#8212; For gradient colors, this is the color "
 "that ends the gradient."
-msgstr "<literal>color2</literal> &#8212; 階調色の場合はこの色が階調の最終となります。"
+msgstr ""
+"<literal>color2</literal> &#8212; 階調色の場合はこの色が階調の最終となりま"
+"す。"
 
 #. Tag: para
-#: Itext.xml:1997
+#: Itext.xml:2018
 #, no-c-format
 msgid ""
 "<literal>point</literal> &#8212; The co-ordinates where the gradient color "
@@ -2175,7 +2540,7 @@ msgid ""
 msgstr "<literal>point</literal> &#8212; 階調色開始点の座標です。"
 
 #. Tag: para
-#: Itext.xml:2002
+#: Itext.xml:2023
 #, no-c-format
 msgid ""
 "<literal>point2</literal> &#8212; The co-ordinates where the gradient color "
@@ -2183,7 +2548,7 @@ msgid ""
 msgstr "<literal>point2</literal> &#8212; 階調色終了点の座標です。"
 
 #. Tag: programlisting
-#: Itext.xml:2010
+#: Itext.xml:2031
 #, no-c-format
 msgid ""
 "<![CDATA[<p:color id=\"foo\" color=\"#0ff00f\"/>\n"
@@ -2195,68 +2560,78 @@ msgstr ""
 "                  point=\"50 50\" point2=\"300 300\"/>]]>"
 
 #. Tag: literal
-#: Itext.xml:2017
+#: Itext.xml:2038
 #, no-c-format
 msgid "&lt;p:stroke&gt;"
 msgstr "&lt;p:stroke&gt;"
 
 #. Tag: para
-#: Itext.xml:2024
+#: Itext.xml:2045
 #, no-c-format
 msgid "Describes a stroke used to draw lines in a chart."
 msgstr "グラフ内に先途を描くのに使用する線を表します。"
 
 #. Tag: para
-#: Itext.xml:2032
+#: Itext.xml:2053
 #, no-c-format
 msgid "<literal>width</literal> &#8212; The width of the stroke."
 msgstr "<literal>width</literal> &#8212; 線の幅です。"
 
 #. Tag: para
-#: Itext.xml:2037
+#: Itext.xml:2058
 #, no-c-format
 msgid ""
 "<literal>cap</literal> &#8212; The line cap type. Valid values are "
 "<literal>butt</literal>, <literal>round</literal> and <literal>square</"
 "literal>"
-msgstr "<literal>cap</literal> &#8212; 先端のタイプです。 有効な値は <literal>butt</literal>、 <literal>round</literal>、 <literal>square</literal> です。"
+msgstr ""
+"<literal>cap</literal> &#8212; 先端のタイプです。 有効な値は <literal>butt</"
+"literal>、 <literal>round</literal>、 <literal>square</literal> です。"
 
 #. Tag: para
-#: Itext.xml:2043
+#: Itext.xml:2064
 #, no-c-format
 msgid ""
 "<literal>join</literal> &#8212; The line join type. Valid values are "
 "<literal>miter</literal>, <literal>round</literal> and <literal>bevel</"
 "literal>"
-msgstr "<literal>join</literal> &#8212; 接合部分のタイプです。 有効な値は <literal>miter</literal>、 <literal>round</literal>、 <literal>bevel</literal> です。"
+msgstr ""
+"<literal>join</literal> &#8212; 接合部分のタイプです。 有効な値は "
+"<literal>miter</literal>、 <literal>round</literal>、 <literal>bevel</"
+"literal> です。"
 
 #. Tag: para
-#: Itext.xml:2049
+#: Itext.xml:2070
 #, no-c-format
 msgid ""
 "<literal>miterLimit</literal> &#8212; For miter joins, this value is the "
 "limit of the size of the join."
-msgstr "<literal>miterLimit</literal> &#8212; 巻いたージョイントの場合のジョイントの制限サイズです。"
+msgstr ""
+"<literal>miterLimit</literal> &#8212; 巻いたージョイントの場合のジョイントの"
+"制限サイズです。"
 
 #. Tag: para
-#: Itext.xml:2055
+#: Itext.xml:2076
 #, no-c-format
 msgid ""
 "<literal>dash</literal> &#8212; The dash value sets the dash pattern to be "
 "used to draw the line. The space separated integers indicate the length of "
 "each alternating drawn and undrawn segments."
-msgstr "<literal>dash</literal> &#8212; この値は線を描くのに使用する点線パターンを設定します。 空白で区切られた整数は交互に描かれる箇所と描かれない箇所の長さを示します。"
+msgstr ""
+"<literal>dash</literal> &#8212; この値は線を描くのに使用する点線パターンを設"
+"定します。 空白で区切られた整数は交互に描かれる箇所と描かれない箇所の長さを示"
+"します。"
 
 #. Tag: para
-#: Itext.xml:2062
-#, no-c-format
+#: Itext.xml:2083
+#, fuzzy, no-c-format
 msgid ""
 "<literal>dashPhase</literal> &#8212; The dash phase indicates the offset "
-"into the dash pattern that the the line should be drawn with."
+"into the dash pattern that the line should be drawn with."
 msgstr "<literal>dashPhase</literal> &#8212; 点線を引く場合の補正を示します。"
 
 #. Tag: programlisting
-#: Itext.xml:2070
+#: Itext.xml:2091
 #, no-c-format
 msgid ""
 "<![CDATA[<p:stroke id=\"dot2\" width=\"2\" cap=\"round\" join=\"bevel\" dash="
@@ -2266,13 +2641,13 @@ msgstr ""
 "\"2 3\" />]]>"
 
 #. Tag: title
-#: Itext.xml:2082
+#: Itext.xml:2103
 #, no-c-format
 msgid "Bar codes"
 msgstr "バーコード"
 
 #. Tag: para
-#: Itext.xml:2083
+#: Itext.xml:2104
 #, no-c-format
 msgid ""
 "Seam can use iText to generate barcodes in a wide variety of formats. These "
@@ -2282,23 +2657,23 @@ msgid ""
 msgstr ""
 "Seam は iText を使って幅広い種類の形式でバーコードを生成することができます。 "
 "こうしたバーコードは PDF ドキュメントに埋め込んだり、 Web ページにイメージと"
-"して表示させたりすることができます。 HTML イメージを使用している場合、 現在バー"
-"コードはバーコード内でバーコードテキストを表示することができません。"
+"して表示させたりすることができます。 HTML イメージを使用している場合、 現在"
+"バーコードはバーコード内でバーコードテキストを表示することができません。"
 
 #. Tag: literal
-#: Itext.xml:2097
+#: Itext.xml:2118
 #, no-c-format
 msgid "&lt;p:barCode&gt;"
 msgstr "&lt;p:barCode&gt;"
 
 #. Tag: para
-#: Itext.xml:2104
+#: Itext.xml:2125
 #, no-c-format
 msgid "Displays a barcode image."
 msgstr "バーコードイメージを表示します。"
 
 #. Tag: para
-#: Itext.xml:2113
+#: Itext.xml:2134
 #, no-c-format
 msgid ""
 "<literal>type</literal> &#8212; A barcode type supported by iText. Valid "
@@ -2308,191 +2683,223 @@ msgid ""
 "literal>, <literal>CODE128</literal>, <literal>CODE128_UCC</literal>, "
 "<literal>CODE128_RAW</literal> and <literal>CODABAR</literal>."
 msgstr ""
-"<literal>type</literal> &#8212; iText が対応できるバーコードタイプです。有効な値には、 <literal>EAN13</literal>、 <literal>EAN8</literal>、 <literal>UPCA</literal>、 <literal>UPCE</literal>、 <literal>SUPP2</literal>、 "
-"<literal>SUPP5</literal>、 <literal>POSTNET</literal>、 <literal>PLANET</"
-"literal>、 <literal>CODE128</literal>、 <literal>CODE128_UCC</literal>、 "
-"<literal>CODE128_RAW</literal>、 <literal>CODABAR</literal> などが含まれます。"
+"<literal>type</literal> &#8212; iText が対応できるバーコードタイプです。有効"
+"な値には、 <literal>EAN13</literal>、 <literal>EAN8</literal>、 "
+"<literal>UPCA</literal>、 <literal>UPCE</literal>、 <literal>SUPP2</"
+"literal>、 <literal>SUPP5</literal>、 <literal>POSTNET</literal>、 "
+"<literal>PLANET</literal>、 <literal>CODE128</literal>、 "
+"<literal>CODE128_UCC</literal>、 <literal>CODE128_RAW</literal>、 "
+"<literal>CODABAR</literal> などが含まれます。"
 
 #. Tag: para
-#: Itext.xml:2123
-#, no-c-format
-msgid "<literal>code</literal>&#8212; The value to be encoded by the barcode."
-msgstr "<literal>code</literal>&#8212; バーコードによってコード化される値です。"
+#: Itext.xml:2144
+#, fuzzy, no-c-format
+msgid "<literal>code</literal> &#8212; The value to be encoded by the barcode."
+msgstr ""
+"<literal>code</literal>&#8212; バーコードによってコード化される値です。"
 
 #. Tag: para
-#: Itext.xml:2128
-#, no-c-format
+#: Itext.xml:2149
+#, fuzzy, no-c-format
 msgid ""
-"<literal>xpos</literal>&#8212; For PDFs, the absolute y position of the "
+"<literal>xpos</literal> &#8212; For PDFs, the absolute y position of the "
 "barcode on the page."
-msgstr "<literal>xpos</literal>&#8212; PDF の場合、 ページ上のバーコードの絶対 x 位置です。"
+msgstr ""
+"<literal>xpos</literal>&#8212; PDF の場合、 ページ上のバーコードの絶対 x 位置"
+"です。"
 
 #. Tag: para
-#: Itext.xml:2133
-#, no-c-format
+#: Itext.xml:2154
+#, fuzzy, no-c-format
 msgid ""
-"<literal>ypos</literal>&#8212; For PDFs, the absolute y position of the "
+"<literal>ypos</literal> &#8212; For PDFs, the absolute y position of the "
 "barcode on the page."
-msgstr "<literal>ypos</literal>&#8212; PDF の場合、 ページ上のバーコードの絶対 y 位置です。"
+msgstr ""
+"<literal>ypos</literal>&#8212; PDF の場合、 ページ上のバーコードの絶対 y 位置"
+"です。"
 
 #. Tag: para
-#: Itext.xml:2138
+#: Itext.xml:2159
 #, no-c-format
 msgid ""
 "<literal>rotDegrees</literal> &#8212; For PDFs, the rotation factor of the "
 "barcode in degrees."
-msgstr "<literal>rotDegrees</literal> &#8212; PDF の場合のバーコードの角度による回転係数です。"
+msgstr ""
+"<literal>rotDegrees</literal> &#8212; PDF の場合のバーコードの角度による回転"
+"係数です。"
 
 #. Tag: para
-#: Itext.xml:2143
+#: Itext.xml:2164
 #, no-c-format
-msgid "<literal>barHeight</literal> &#8212; The height of the bars in the barCode"
+msgid ""
+"<literal>barHeight</literal> &#8212; The height of the bars in the barCode"
 msgstr "<literal>barHeight</literal> &#8212; barCode 内のバーの高さです。"
 
 #. Tag: para
-#: Itext.xml:2149
+#: Itext.xml:2170
 #, no-c-format
 msgid "<literal>minBarWidth</literal> &#8212; The minimum bar width."
 msgstr "<literal>minBarWidth</literal> &#8212; バーの最小幅です。"
 
 #. Tag: para
-#: Itext.xml:2153
+#: Itext.xml:2174
 #, no-c-format
 msgid ""
 "<literal>barMultiplier</literal> &#8212; The bar multiplier for wide bars or "
 "the distance between bars for <literal>POSTNET</literal> and "
 "<literal>PLANET</literal> code."
-msgstr "<literal>barMultiplier</literal> &#8212; 幅広のバーに対するバー乗数、 または <literal>POSTNET</literal> と <literal>PLANET</literal> コードのバー間の距離になります。"
+msgstr ""
+"<literal>barMultiplier</literal> &#8212; 幅広のバーに対するバー乗数、 または "
+"<literal>POSTNET</literal> と <literal>PLANET</literal> コードのバー間の距離"
+"になります。"
 
 #. Tag: para
-#: Itext.xml:2159
+#: Itext.xml:2180
 #, no-c-format
 msgid "<literal>barColor</literal> &#8212; The color to draw the bars."
 msgstr "<literal>barColor</literal> &#8212; バーを描く色です。"
 
 #. Tag: para
-#: Itext.xml:2164
+#: Itext.xml:2185
 #, no-c-format
-msgid "<literal>textColor</literal> &#8212; The color of any text on the barcode."
+msgid ""
+"<literal>textColor</literal> &#8212; The color of any text on the barcode."
 msgstr "<literal>textColor</literal> &#8212; バーコード上のテキスト色です。"
 
 #. Tag: para
-#: Itext.xml:2169
-#, no-c-format
-msgid "<literal>textSize</literal> &#8212; The size of the barcode text, if any."
-msgstr "<literal>textSize</literal> &#8212; バーコードテキストがある場合のサイズです。"
-
-#. Tag: para
-#: Itext.xml:2174
+#: Itext.xml:2190
 #, no-c-format
 msgid ""
-"<literal>altText</literal> &#8212; The <literal>alt</literal> text for HTML "
-"image links."
-msgstr "<literal>altText</literal> &#8212; HTML イメージリンクの <literal>alt</literal> テキストです。"
-
-#. Tag: programlisting
-#: Itext.xml:2184
-#, no-c-format
-msgid ""
-"<![CDATA[<p:barCode type=\"code128\" \n"
-"           barHeight=\"80\" \n"
-"           textSize=\"20\" \n"
-"           code=\"(10)45566(17)040301\" \n"
-"           codeType=\"code128_ucc\" \n"
-"           altText=\"My BarCode\" />]]>"
+"<literal>textSize</literal> &#8212; The size of the barcode text, if any."
 msgstr ""
-"<![CDATA[<p:barCode type=\"code128\" \n"
-"           barHeight=\"80\" \n"
-"           textSize=\"20\" \n"
-"           code=\"(10)45566(17)040301\" \n"
-"           codeType=\"code128_ucc\" \n"
-"           altText=\"My BarCode\" />]]>"
-
-#. Tag: title
-#: Itext.xml:2194
-#, no-c-format
-msgid "Fill-in-forms"
-msgstr "入力フォーム"
+"<literal>textSize</literal> &#8212; バーコードテキストがある場合のサイズで"
+"す。"
 
 #. Tag: para
 #: Itext.xml:2195
 #, no-c-format
 msgid ""
+"<literal>altText</literal> &#8212; The <literal>alt</literal> text for HTML "
+"image links."
+msgstr ""
+"<literal>altText</literal> &#8212; HTML イメージリンクの <literal>alt</"
+"literal> テキストです。"
+
+#. Tag: programlisting
+#: Itext.xml:2205
+#, no-c-format
+msgid ""
+"<![CDATA[<p:barCode type=\"code128\" \n"
+"           barHeight=\"80\" \n"
+"           textSize=\"20\" \n"
+"           code=\"(10)45566(17)040301\" \n"
+"           codeType=\"code128_ucc\" \n"
+"           altText=\"My BarCode\" />]]>"
+msgstr ""
+"<![CDATA[<p:barCode type=\"code128\" \n"
+"           barHeight=\"80\" \n"
+"           textSize=\"20\" \n"
+"           code=\"(10)45566(17)040301\" \n"
+"           codeType=\"code128_ucc\" \n"
+"           altText=\"My BarCode\" />]]>"
+
+#. Tag: title
+#: Itext.xml:2215
+#, no-c-format
+msgid "Fill-in-forms"
+msgstr "入力フォーム"
+
+#. Tag: para
+#: Itext.xml:2216
+#, fuzzy, no-c-format
+msgid ""
 "If you have a complex, pre-generated PDF with named fields, you can easily "
-"fill in the values from you application and present it to the user."
-msgstr "指定フィールドを持つ事前生成の複雑な PDF がある場合、 アプリケーションから値を入力してユーザーに提示することが簡単にできます。"
+"fill in the values from your application and present it to the user."
+msgstr ""
+"指定フィールドを持つ事前生成の複雑な PDF がある場合、 アプリケーションから値"
+"を入力してユーザーに提示することが簡単にできます。"
 
 #. Tag: literal
-#: Itext.xml:2209
+#: Itext.xml:2230
 #, no-c-format
 msgid "&lt;p:form&gt;"
 msgstr "&lt;p:form&gt;"
 
 #. Tag: para
-#: Itext.xml:2216
+#: Itext.xml:2237
 #, no-c-format
 msgid "Defines a form template to populate"
 msgstr "移植するフォームテンプレートを定義します。"
 
 #. Tag: para
-#: Itext.xml:2224
+#: Itext.xml:2245
 #, no-c-format
 msgid ""
 "<literal>URL</literal> &#8212; An URL pointing to the PDF file to use as a "
 "template. If the value has no protocol part (://), the file is read locally."
-msgstr "<literal>URL</literal> &#8212; てんぷれーとして使用する PDF ファイルをポイントする URL です。 値にプロトコル部分 (://) がない場合そのファイルはローカルに読み込まれます。"
+msgstr ""
+"<literal>URL</literal> &#8212; てんぷれーとして使用する PDF ファイルをポイン"
+"トする URL です。 値にプロトコル部分 (://) がない場合そのファイルはローカルに"
+"読み込まれます。"
 
 #. Tag: para
-#: Itext.xml:2231
+#: Itext.xml:2252
 #, no-c-format
 msgid ""
 "<literal>filename</literal> &#8212; The filename to use for the generated "
 "PDF file."
-msgstr "<literal>filename</literal> &#8212; 生成される PDF ファイルに使用するファイル名です。"
+msgstr ""
+"<literal>filename</literal> &#8212; 生成される PDF ファイルに使用するファイル"
+"名です。"
 
 #. Tag: para
-#: Itext.xml:2237
+#: Itext.xml:2258
 #, no-c-format
 msgid ""
 "<literal>exportKey</literal> &#8212; Place the generated PDF file in a "
 "DocumentData object under the specified key in the event context. If set, no "
 "redirect will occur."
-msgstr "<literal>exportKey</literal> &#8212; イベントコンテキスト内の指定キー配下の DocumentData オブジェクトに生成される PDF ファイルを配置します。 セットされるとリダイレクトが起こらなくなります。"
+msgstr ""
+"<literal>exportKey</literal> &#8212; イベントコンテキスト内の指定キー配下の "
+"DocumentData オブジェクトに生成される PDF ファイルを配置します。 セットされる"
+"とリダイレクトが起こらなくなります。"
 
 #. Tag: literal
-#: Itext.xml:2259
+#: Itext.xml:2280
 #, no-c-format
 msgid "&lt;p:field&gt;"
 msgstr "&lt;p:field&gt;"
 
 #. Tag: para
-#: Itext.xml:2266
+#: Itext.xml:2287
 #, no-c-format
 msgid "Connects a field name to its value"
 msgstr "フィールド名をその値に接続します。"
 
 #. Tag: para
-#: Itext.xml:2275
+#: Itext.xml:2296
 #, no-c-format
 msgid "<literal>name</literal> &#8212; The name of the field"
 msgstr "<literal>name</literal> &#8212; フィールド名です。"
 
 #. Tag: para
-#: Itext.xml:2281
+#: Itext.xml:2302
 #, no-c-format
 msgid "<literal>value</literal> &#8212; The value of the field"
 msgstr "<literal>value</literal> &#8212; フィールドの値です。"
 
 #. Tag: para
-#: Itext.xml:2287
+#: Itext.xml:2308
 #, no-c-format
 msgid ""
 "<literal>readOnly</literal> &#8212; Should the field be read-only? Defaults "
 "to true."
-msgstr "<literal>readOnly</literal> &#8212; フィールドは読み取り専用です。 デフォルトは true です。"
+msgstr ""
+"<literal>readOnly</literal> &#8212; フィールドは読み取り専用です。 デフォルト"
+"は true です。"
 
 #. Tag: programlisting
-#: Itext.xml:2299
+#: Itext.xml:2320
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -2518,68 +2925,78 @@ msgstr ""
 "                        ]]>"
 
 #. Tag: title
-#: Itext.xml:2304
+#: Itext.xml:2325
 #, no-c-format
 msgid "Rendering Swing/AWT components"
 msgstr "Swing/AWT コンポーネントをレンダリングする"
 
 #. Tag: para
-#: Itext.xml:2305
+#: Itext.xml:2326
 #, no-c-format
 msgid ""
 "Seam now provides experimental support for rendering Swing components to "
 "into a PDF image. Some Swing look and feels supports, notably ones that use "
 "native widgets, will not render correctly."
-msgstr "Seam は Swing コンポーネントを PDF イメージにレンダリングするサポートを実験的に提供するようになります。 いくつかの外観サポート、 特にネイティブウィジェットを使用するものは正しいレンダリングを行いません。"
+msgstr ""
+"Seam は Swing コンポーネントを PDF イメージにレンダリングするサポートを実験的"
+"に提供するようになります。 いくつかの外観サポート、 特にネイティブウィジェッ"
+"トを使用するものは正しいレンダリングを行いません。"
 
 #. Tag: literal
-#: Itext.xml:2319
+#: Itext.xml:2340
 #, no-c-format
 msgid "&lt;p:swing&gt;"
 msgstr "&lt;p:swing&gt;"
 
 #. Tag: para
-#: Itext.xml:2327
+#: Itext.xml:2348
 #, no-c-format
 msgid "Renders a Swing component into a PDF document."
 msgstr "Swing コンポーネントを PDF ドキュメントにレンダリングします。"
 
 #. Tag: para
-#: Itext.xml:2335
-#, no-c-format
-msgid "<literal>width</literal> &#8212; The width of the component to be rendered."
-msgstr "<literal>width</literal> &#8212; レンダリングされるコンポーネントの幅です。"
-
-#. Tag: para
-#: Itext.xml:2339
+#: Itext.xml:2356
 #, no-c-format
 msgid ""
-"<literal>height</literal> &#8212; ..The height of the component to be "
-"rendered."
-msgstr "<literal>height</literal> &#8212; レンダリングされるコンポーネントの高さです。"
+"<literal>width</literal> &#8212; The width of the component to be rendered."
+msgstr ""
+"<literal>width</literal> &#8212; レンダリングされるコンポーネントの幅です。"
 
 #. Tag: para
-#: Itext.xml:2343
+#: Itext.xml:2360
+#, fuzzy, no-c-format
+msgid ""
+"<literal>height</literal> &#8212; The height of the component to be rendered."
+msgstr ""
+"<literal>height</literal> &#8212; レンダリングされるコンポーネントの高さで"
+"す。"
+
+#. Tag: para
+#: Itext.xml:2364
 #, no-c-format
 msgid ""
 "<literal>component</literal> &#8212; An expression whose value is a Swing or "
 "AWT component."
-msgstr "<literal>component</literal> &#8212; Swing または AWT コンポーネントが値となる式です。"
+msgstr ""
+"<literal>component</literal> &#8212; Swing または AWT コンポーネントが値とな"
+"る式です。"
 
 #. Tag: programlisting
-#: Itext.xml:2351
+#: Itext.xml:2372
 #, no-c-format
-msgid "<![CDATA[<p:swing width=\"310\" height=\"120\" component=\"#{aButton}\" />]]>"
-msgstr "<![CDATA[<p:swing width=\"310\" height=\"120\" component=\"#{aButton}\" />]]>"
+msgid ""
+"<![CDATA[<p:swing width=\"310\" height=\"120\" component=\"#{aButton}\" />]]>"
+msgstr ""
+"<![CDATA[<p:swing width=\"310\" height=\"120\" component=\"#{aButton}\" />]]>"
 
 #. Tag: title
-#: Itext.xml:2362
+#: Itext.xml:2383
 #, no-c-format
 msgid "Configuring iText"
 msgstr "iText を設定する"
 
 #. Tag: para
-#: Itext.xml:2364
+#: Itext.xml:2385
 #, no-c-format
 msgid ""
 "Document generation works out of the box with no additional configuration "
@@ -2591,7 +3008,7 @@ msgstr ""
 "かあります。"
 
 #. Tag: para
-#: Itext.xml:2367
+#: Itext.xml:2388
 #, no-c-format
 msgid ""
 "The default implementation serves PDF documents from a generic URL, "
@@ -2600,10 +3017,16 @@ msgid ""
 "literal>. This capability requires some configuration. To serve PDF files, "
 "all <literal>*.pdf</literal> resources should be mapped to the "
 "DocumentStoreServlet:"
-msgstr "デフォルト実装では汎用 URL <literal>/seam-doc.seam</literal> から PDF ドキュメントを提供します。 ブラウザの多くは <literal>/myDocument.pdf</literal> などのように実際の PDF 名を含んでいる URL を表示する傾向にあり、 またユーザーもそれを好みます。 これを行うにはいくつかの設定を必要とします。 PDF ファイルを提供するにはすべての <literal>*.pdf</literal> リソースが DocumentStoreServlet にマッピングされなければなりません。"
+msgstr ""
+"デフォルト実装では汎用 URL <literal>/seam-doc.seam</literal> から PDF ドキュ"
+"メントを提供します。 ブラウザの多くは <literal>/myDocument.pdf</literal> など"
+"のように実際の PDF 名を含んでいる URL を表示する傾向にあり、 またユーザーもそ"
+"れを好みます。 これを行うにはいくつかの設定を必要とします。 PDF ファイルを提"
+"供するにはすべての <literal>*.pdf</literal> リソースが DocumentStoreServlet "
+"にマッピングされなければなりません。"
 
 #. Tag: programlisting
-#: Itext.xml:2372
+#: Itext.xml:2393
 #, no-c-format
 msgid ""
 "<![CDATA[<servlet>\n"
@@ -2629,31 +3052,36 @@ msgstr ""
 "</servlet-mapping>]]>"
 
 #. Tag: para
-#: Itext.xml:2374
+#: Itext.xml:2395
 #, no-c-format
 msgid ""
 "The <literal>use-extensions</literal> option on the document store component "
 "completes the functionality by instructing the document store to generate "
 "URLs with the correct filename extension for the document type being "
 "generated."
-msgstr "ドキュメントストアのコンポーネントにある <literal>use-extensions</literal> オプションはドキュメントストアに生成されるドキュメントタイプの正しいファイル名拡張子を付けて URL を生成するよう指示することでこれを行います。"
+msgstr ""
+"ドキュメントストアのコンポーネントにある <literal>use-extensions</literal> オ"
+"プションはドキュメントストアに生成されるドキュメントタイプの正しいファイル名"
+"拡張子を付けて URL を生成するよう指示することでこれを行います。"
 
 #. Tag: programlisting
-#: Itext.xml:2378
+#: Itext.xml:2399
 #, no-c-format
 msgid ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/document\"\n"
-"            xmlns:pdf=\"http://jboss.com/products/seam/document\">\n"
-"    <document:document-store use-extensions=\"true\" />\n"
+"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
+"    xmlns:document=\"http://jboss.com/products/seam/document\"\n"
+"    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"    xsi:schemaLocation=\"\n"
+"        http://jboss.com/products/seam/document http://jboss.com/products/"
+"seam/document-2.1.xsd\n"
+"        http://jboss.com/products/seam/components http://jboss.com/products/"
+"seam/components-2.1.xsd\">\n"
+"    <document:document-store use-extensions=\"true\"/>\n"
 "</components>]]>"
 msgstr ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/document\"\n"
-"            xmlns:pdf=\"http://jboss.com/products/seam/document\">\n"
-"    <document:document-store use-extensions=\"true\" />\n"
-"</components>]]>"
 
 #. Tag: para
-#: Itext.xml:2380
+#: Itext.xml:2401
 #, no-c-format
 msgid ""
 "The document store stores documents in conversation scope, and documents "
@@ -2661,10 +3089,15 @@ msgid ""
 "document will be invalid. You can specify a default view to be shown when a "
 "document does not exist using the <literal>error-page</literal> property of "
 "the <literal>documentStore</literal>."
-msgstr "ドキュメントストアは対話スコープにドキュメントを格納し、 対話が終了するとドキュメントが終了します。 この時点でドキュメントへの参照は無効になります。 <literal>documentStore</literal> の <literal>error-page</literal> プロパティを使ってドキュメントが存在しない場合にデフォルトのビューが表示されるよう指定することができます。"
+msgstr ""
+"ドキュメントストアは対話スコープにドキュメントを格納し、 対話が終了するとド"
+"キュメントが終了します。 この時点でドキュメントへの参照は無効になります。 "
+"<literal>documentStore</literal> の <literal>error-page</literal> プロパティ"
+"を使ってドキュメントが存在しない場合にデフォルトのビューが表示されるよう指定"
+"することができます。"
 
 #. Tag: programlisting
-#: Itext.xml:2383
+#: Itext.xml:2404
 #, no-c-format
 msgid ""
 "<![CDATA[<document:document-store use-extensions=\"true\" error-page=\"/"
@@ -2674,26 +3107,46 @@ msgstr ""
 "documentMissing.seam\" />]]>"
 
 #. Tag: title
-#: Itext.xml:2387
+#: Itext.xml:2408
 #, no-c-format
 msgid "Further documentation"
 msgstr "その他のドキュメント"
 
 #. Tag: para
-#: Itext.xml:2389
+#: Itext.xml:2410
 #, no-c-format
 msgid "For further information on iText, see:"
 msgstr "iText に関する詳細は、 次を参照してください。"
 
 #. Tag: ulink
-#: Itext.xml:2394
+#: Itext.xml:2415
 #, no-c-format
 msgid "iText Home Page"
 msgstr "iText ホームページ"
 
 #. Tag: ulink
-#: Itext.xml:2399
+#: Itext.xml:2420
 #, no-c-format
 msgid "iText in Action"
 msgstr "iText in Action (実行可能なデモ) "
 
+#~ msgid "<literal>title</literal>&#8212; The chart title text."
+#~ msgstr "<literal>title</literal>&#8212; グラフタイトルのテキストです。"
+
+#~ msgid ""
+#~ "<literal>is3D</literal>&#8212;A boolean value indicating that the chart "
+#~ "should be rendered in 3D instead of 2D."
+#~ msgstr ""
+#~ "<literal>is3D</literal>&#8212; グラフを 2D ではなく 3D で表示されることを"
+#~ "示す boolean 値です。"
+
+#~ msgid ""
+#~ "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/document\"\n"
+#~ "            xmlns:pdf=\"http://jboss.com/products/seam/document\">\n"
+#~ "    <document:document-store use-extensions=\"true\" />\n"
+#~ "</components>]]>"
+#~ msgstr ""
+#~ "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/document\"\n"
+#~ "            xmlns:pdf=\"http://jboss.com/products/seam/document\">\n"
+#~ "    <document:document-store use-extensions=\"true\" />\n"
+#~ "</components>]]>"

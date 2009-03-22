@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-03-17 20:35+0000\n"
+"POT-Creation-Date: 2009-03-22 12:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -685,7 +685,7 @@ msgstr ""
 #. Tag: title
 #: Webservices.xml:324
 #, no-c-format
-msgid "Mapping exceptions to HTTP response status codes"
+msgid "Mapping exceptions to HTTP responses"
 msgstr ""
 
 #. Tag: para
@@ -705,14 +705,41 @@ msgstr ""
 #: Webservices.xml:334
 #, no-c-format
 msgid ""
-"For example, to convert the unchecked "
-"<literal>UnsupportedOperationException</literal> thrown by your resource "
-"methods to a <literal>501 Not Implemented</literal> HTTP status response, "
-"add the following to your <literal>pages.xml</literal> descriptor:"
+"Exception handling within Seam requires that the Seam filter is executed for "
+"your HTTP request. Ensure that you do filter <emphasis>all</emphasis> "
+"requests in your <literal>web.xml</literal>, not - as some Seam examples "
+"might show - a request URI pattern that doesn't cover your REST requests. "
+"The following example intercepts <emphasis>all</emphasis> HTTP requests and "
+"enables Seam exception handling:"
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:340
+#: Webservices.xml:341
+#, no-c-format
+msgid ""
+"<![CDATA[<filter>\n"
+"    <filter-name>Seam Filter</filter-name>\n"
+"    <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>\n"
+"</filter>\n"
+"\n"
+"<filter-mapping>\n"
+"    <filter-name>Seam Filter</filter-name>\n"
+"    <url-pattern>/*</url-pattern>\n"
+"</filter-mapping>]]>"
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:343
+#, no-c-format
+msgid ""
+"To convert the unchecked <literal>UnsupportedOperationException</literal> "
+"thrown by your resource methods to a <literal>501 Not Implemented</literal> "
+"HTTP status response, add the following to your <literal>pages.xml</literal> "
+"descriptor:"
+msgstr ""
+
+#. Tag: programlisting
+#: Webservices.xml:349
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"java.lang.UnsupportedOperationException\">\n"
@@ -723,24 +750,25 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:342
+#: Webservices.xml:351
 #, no-c-format
 msgid "Custom or checked exceptions are handled the same:"
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:346
+#: Webservices.xml:355
 #, no-c-format
 msgid ""
-"<![CDATA[<exception class=\"my.CustomException\">\n"
+"<![CDATA[<exception class=\"my.CustomException\" log=\"false\">\n"
 "    <http-error error-code=\"503\">\n"
-"        <message>The service is currently not available</message>\n"
+"        <message>The service is currently not available: #{org.jboss.seam."
+"handledException.message}</message>\n"
 "    </http-error>\n"
 "</exception>]]>"
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:348
+#: Webservices.xml:357
 #, no-c-format
 msgid ""
 "You do not have to send an HTTP error to the client if an exception occurs. "
@@ -751,7 +779,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:355
+#: Webservices.xml:364
 #, no-c-format
 msgid ""
 "Note that the HTTP response still passes through the servlet container, so "

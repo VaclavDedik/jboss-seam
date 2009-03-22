@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Framework\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-11-06 06:41+0000\n"
+"POT-Creation-Date: 2009-03-22 12:51+0000\n"
 "PO-Revision-Date: 2009-02-20 17:56+1000\n"
 "Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -29,7 +29,13 @@ msgid ""
 "further, by providing a set of pre-built components which can be re-used "
 "either by configuration in <literal>components.xml</literal> (for very "
 "simple cases) or extension."
-msgstr "Seam は特殊なインタフェースやスーパークラスを拡張することなく、 純粋な Java クラスにアノテーションを付記することにより簡単にアプリケーションを作成することができます。 しかし、 <literal>components.xml</literal>の設定 (簡単な場合には) や機能の拡張により再利用する事ができる既成のコンポーネントを提供することで、 お決まりのプログラムについてさらに簡単に作成できるようにすることができます。"
+msgstr ""
+"Seam は特殊なインタフェースやスーパークラスを拡張することなく、 純粋な Java "
+"クラスにアノテーションを付記することにより簡単にアプリケーションを作成するこ"
+"とができます。 しかし、 <literal>components.xml</literal>の設定 (簡単な場合に"
+"は) や機能の拡張により再利用する事ができる既成のコンポーネントを提供すること"
+"で、 お決まりのプログラムについてさらに簡単に作成できるようにすることができま"
+"す。"
 
 #. Tag: para
 #: Framework.xml:18
@@ -38,17 +44,24 @@ msgid ""
 "The <emphasis>Seam Application Framework</emphasis> can reduce the amount of "
 "code you need to write when doing basic database access in a web "
 "application, using either Hibernate or JPA."
-msgstr "<emphasis>Seamアプリケーションフレームワーク</emphasis>は、 JPA やHibernae を使ったデータベースへのアクセスに関わる基本的なプログラムのコード量を削減することができます。"
+msgstr ""
+"<emphasis>Seamアプリケーションフレームワーク</emphasis>は、 JPA やHibernae を"
+"使ったデータベースへのアクセスに関わる基本的なプログラムのコード量を削減する"
+"ことができます。"
 
 #. Tag: para
 #: Framework.xml:24
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "We should emphasize that the framework is extremely simple, just a handful "
 "of simple classes that are easy to understand and extend. The \"magic\" is "
-"in Seam itself&#8212;the same magic you use when creating any Seam "
+"in Seam itself &#8212; the same magic you use when creating any Seam "
 "application even without using this framework."
-msgstr "このフレームワークは理解も容易で、拡張し易く簡単ないくつかのクラスから構成されています。 Seam そのものが「マジック」なのです &#8212; このフレームワークを使わなくても Seam アプリケーションを作成するときには同様のマジックを使用しているのです。"
+msgstr ""
+"このフレームワークは理解も容易で、拡張し易く簡単ないくつかのクラスから構成さ"
+"れています。 Seam そのものが「マジック」なのです &#8212; このフレームワークを"
+"使わなくても Seam アプリケーションを作成するときには同様のマジックを使用して"
+"いるのです。"
 
 #. Tag: title
 #: Framework.xml:33
@@ -67,7 +80,14 @@ msgid ""
 "following fragment from <literal>components.xml</literal> installs a "
 "component which can perform basic CRUD operations for a <literal>Person</"
 "literal> entity:"
-msgstr "Seam アプリケーションフレームワークの提供するコンポーネントは、 二つの使い方のいずれかで利用することができます。 第一の方法は、 他の Seam の組み込みコンポーネントで行っているように、 <literal>components.xml</literal> でコンポーネントのインスタンスをインストールし設定する方法です。 たとえば、 以下の <literal>components.xml</literal> 設定の一部では <literal>Person</literal> エンティティに対する基本的な CRUD 操作を実行できる 1 コンポーネントをインストールしています。"
+msgstr ""
+"Seam アプリケーションフレームワークの提供するコンポーネントは、 二つの使い方"
+"のいずれかで利用することができます。 第一の方法は、 他の Seam の組み込みコン"
+"ポーネントで行っているように、 <literal>components.xml</literal> でコンポーネ"
+"ントのインスタンスをインストールし設定する方法です。 たとえば、 以下の "
+"<literal>components.xml</literal> 設定の一部では <literal>Person</literal> エ"
+"ンティティに対する基本的な CRUD 操作を実行できる 1 コンポーネントをインストー"
+"ルしています。"
 
 #. Tag: programlisting
 #: Framework.xml:47
@@ -91,7 +111,9 @@ msgstr ""
 msgid ""
 "If that looks a bit too much like \"programming in XML\" for your taste, you "
 "can use extension instead:"
-msgstr "上記が「XML でのプログラミング」に偏重しているように思える場合は、 代りにコードを拡張して使用することもできます。"
+msgstr ""
+"上記が「XML でのプログラミング」に偏重しているように思える場合は、 代りにコー"
+"ドを拡張して使用することもできます。"
 
 #. Tag: programlisting
 #: Framework.xml:54
@@ -138,7 +160,11 @@ msgid ""
 "A second advantage is that your classes may be EJB stateful session beans, "
 "if you like. (They do not have to be, they can be plain JavaBean components "
 "if you prefer.) If you are using JBoss AS, you'll need 4.2.2.GA or later:"
-msgstr "また、 必要に応じてクラスを EJB のステートフルセッション Bean にできるというメリットもあります。 (必ずEJBにする必要はなく、好みで、プレーンなJavaBeanとすることもできます。) JBoss AS を使用される場合、4.2.2.GAあるいはそれ以降のバージョンが必須です。"
+msgstr ""
+"また、 必要に応じてクラスを EJB のステートフルセッション Bean にできるという"
+"メリットもあります。 (必ずEJBにする必要はなく、好みで、プレーンなJavaBeanとす"
+"ることもできます。) JBoss AS を使用される場合、4.2.2.GAあるいはそれ以降のバー"
+"ジョンが必須です。"
 
 #. Tag: programlisting
 #: Framework.xml:70
@@ -165,7 +191,10 @@ msgid ""
 "You can also make your classes stateless session beans. In this case you "
 "<emphasis>must</emphasis> use injection to provide the persistence context, "
 "even if it is called <literal>entityManager</literal>:"
-msgstr "クラスをステートレスセッション Bean にすることもできます。 この場合、 その名前が <literal>entityManager</literal> であってもインジェクションを使って永続コンテキストを<emphasis>提供しなければなりません</emphasis>。"
+msgstr ""
+"クラスをステートレスセッション Bean にすることもできます。 この場合、 その名"
+"前が <literal>entityManager</literal> であってもインジェクションを使って永続"
+"コンテキストを<emphasis>提供しなければなりません</emphasis>。"
 
 #. Tag: programlisting
 #: Framework.xml:79
@@ -205,7 +234,12 @@ msgid ""
 "components: <literal>EntityHome</literal> and <literal>HibernateEntityHome</"
 "literal> for CRUD, along with <literal>EntityQuery</literal> and "
 "<literal>HibernateEntityQuery</literal> for queries."
-msgstr "現時点で、Seamアプリケーションフレームワークは、CRUD 用に<literal>EntityHome</literal> と<literal>HibernateEntityHome</literal>、それにQueryのための<literal>EntityQuery</literal> と <literal>HibernateEntityQuery</literal>の4つの組み込みメインコンポーネントを提供しています。"
+msgstr ""
+"現時点で、Seamアプリケーションフレームワークは、CRUD 用に"
+"<literal>EntityHome</literal> と<literal>HibernateEntityHome</literal>、それ"
+"にQueryのための<literal>EntityQuery</literal> と "
+"<literal>HibernateEntityQuery</literal>の4つの組み込みメインコンポーネントを"
+"提供しています。"
 
 #. Tag: para
 #: Framework.xml:89
@@ -278,8 +312,8 @@ msgid ""
 "We can define a <literal>personHome</literal> component either via "
 "configuration:"
 msgstr ""
-"構成ファイルで、下のように<literal>personHome</literal>コンポーネン"
-"トを定義することができます。"
+"構成ファイルで、下のように<literal>personHome</literal>コンポーネントを定義す"
+"ることができます。"
 
 #. Tag: programlisting
 #: Framework.xml:118
@@ -319,9 +353,10 @@ msgid ""
 "literal> method."
 msgstr ""
 "Home オブジェクトは <literal>persist()</literal>、 <literal>remove()</"
-"literal>、 <literal>update()</literal>、 <literal>getInstance()</"
-"literal> の オペレーションを提供します。 <literal>remove()</"
-"literal>、あるいは <literal>update()</literal> を呼び出す前にまず <literal>setId()</literal> メソッドを用いて対象のオブジェクトの識別子をセットする必要があります。"
+"literal>、 <literal>update()</literal>、 <literal>getInstance()</literal> の "
+"オペレーションを提供します。 <literal>remove()</literal>、あるいは "
+"<literal>update()</literal> を呼び出す前にまず <literal>setId()</literal> メ"
+"ソッドを用いて対象のオブジェクトの識別子をセットする必要があります。"
 
 #. Tag: para
 #: Framework.xml:135
@@ -364,7 +399,10 @@ msgid ""
 "Usually, it is much nicer to be able to refer to the <literal>Person</"
 "literal> merely as <literal>person</literal>, so let's make that possible by "
 "adding a line to <literal>components.xml</literal>:"
-msgstr "通常、<literal>Person</literal>は<literal>person</literal>で参照できた方が便利ですので、<literal>components.xml</literal>に下のように一行加えて、そのようにしましょう。"
+msgstr ""
+"通常、<literal>Person</literal>は<literal>person</literal>で参照できた方が便"
+"利ですので、<literal>components.xml</literal>に下のように一行加えて、そのよう"
+"にしましょう。"
 
 #. Tag: programlisting
 #: Framework.xml:147
@@ -389,8 +427,8 @@ msgid ""
 "(If we are using configuration.) Or by adding a <literal>@Factory</literal> "
 "method to <literal>PersonHome</literal>:"
 msgstr ""
-"(構成ファイルを使用している場合、) <literal>PersonHome</literal> "
-"に <literal>@Factory</literal> を追加します。"
+"(構成ファイルを使用している場合、) <literal>PersonHome</literal> に "
+"<literal>@Factory</literal> を追加します。"
 
 #. Tag: programlisting
 #: Framework.xml:154
@@ -456,11 +494,11 @@ msgid ""
 "database, we need to be able to pass the entry identifier to the "
 "<literal>PersonHome</literal>. Page parameters are a great way to do that:"
 msgstr ""
-"これで、<literal>Person</literal>の新しいエントリを作成することができるよう"
-"になります。 はい、これですべてです。 次に、表示、更新、それに削除機能を既存の"
+"これで、<literal>Person</literal>の新しいエントリを作成することができるように"
+"なります。 はい、これですべてです。 次に、表示、更新、それに削除機能を既存の"
 "データベースの <literal>Person</literal>エントリ操作に追加するためには、"
-"<literal>PersonHome</literal>に対象のエントリを特定する識別子を伝える必要が"
-"あります。 下のように、ページパラメータを使って、これを行います。"
+"<literal>PersonHome</literal>に対象のエントリを特定する識別子を伝える必要があ"
+"ります。 下のように、ページパラメータを使って、これを行います。"
 
 #. Tag: programlisting
 #: Framework.xml:172
@@ -535,9 +573,9 @@ msgid ""
 "<literal>personId</literal> request parameter, it will be an \"Edit Person\" "
 "page."
 msgstr ""
-"要求パラメータ無しでページにリンクした場合、「Person作成」としてページ"
-"が表示され、<literal>personId</literal> を要求パラメータとして渡した場"
-"合には、「Person編集」としてページが表示されます。"
+"要求パラメータ無しでページにリンクした場合、「Person作成」としてページが表示"
+"され、<literal>personId</literal> を要求パラメータとして渡した場合には、"
+"「Person編集」としてページが表示されます。"
 
 #. Tag: para
 #: Framework.xml:187
@@ -545,7 +583,10 @@ msgstr ""
 msgid ""
 "Suppose we need to create <literal>Person</literal> entries with their "
 "nationality initialized. We can do that easily, via configuration:"
-msgstr "<literal>Person</literal> エントリの nationality を初期化して作成しなければならない場合を考えてみましょう。これも簡単にできます。 構成ファイルを使う場合は；"
+msgstr ""
+"<literal>Person</literal> エントリの nationality を初期化して作成しなければな"
+"らない場合を考えてみましょう。これも簡単にできます。 構成ファイルを使う場合"
+"は；"
 
 #. Tag: programlisting
 #: Framework.xml:192
@@ -620,8 +661,9 @@ msgid ""
 "Of course, the <literal>Country</literal> could be an object managed by "
 "another Home object, for example, <literal>CountryHome</literal>."
 msgstr ""
-"もちろん、<literal>Country</literal>オブジェクトは、例えば<literal>CountryHome</"
-"literal>という別の Home オブジェクトの管理下のオブジェクトとすることもできます。"
+"もちろん、<literal>Country</literal>オブジェクトは、例えば"
+"<literal>CountryHome</literal>という別の Home オブジェクトの管理下のオブジェ"
+"クトとすることもできます。"
 
 #. Tag: para
 #: Framework.xml:205
@@ -690,7 +732,16 @@ msgid ""
 "when a particular entity is persited, updated or removed we can observe the "
 "<literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> event "
 "(where <literal>&lt;name&gt;</literal> is the name of the entity)."
-msgstr "Home オブジェクトはトランザクションが成功すると (<literal>persist()</literal>、 <literal>update()</literal> または <literal>remove()</literal> への呼び出しが成功する) <literal>org.jboss.seam.afterTransactionSuccess</literal> イベントを引き起こします。 このイベントを監視することで基礎となるエンティティが変更される場合にクエリーをリフレッシュすることができます。 特定のエンティティが永続化された、 更新された、または削除されたときに特定のクエリーだけをリフレッシュしたい場合、 <literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> イベントを監視することができます (<literal>&lt;name&gt;</literal> はエンティティ名になります)。"
+msgstr ""
+"Home オブジェクトはトランザクションが成功すると (<literal>persist()</"
+"literal>、 <literal>update()</literal> または <literal>remove()</literal> へ"
+"の呼び出しが成功する) <literal>org.jboss.seam.afterTransactionSuccess</"
+"literal> イベントを引き起こします。 このイベントを監視することで基礎となるエ"
+"ンティティが変更される場合にクエリーをリフレッシュすることができます。 特定の"
+"エンティティが永続化された、 更新された、または削除されたときに特定のクエリー"
+"だけをリフレッシュしたい場合、 <literal>org.jboss.seam."
+"afterTransactionSuccess.&lt;name&gt;</literal> イベントを監視することができま"
+"す (<literal>&lt;name&gt;</literal> はエンティティ名になります)。"
 
 #. Tag: para
 #: Framework.xml:223
@@ -700,8 +751,7 @@ msgid ""
 "successful. To customize these messages we can, again, use configuration:"
 msgstr ""
 "Homeオブジェクトは操作が成功したときに自動的にフェースメッセージを表示しま"
-"す。 これを、カスタマイズするには、下のように構成を設定しま"
-"す。"
+"す。 これを、カスタマイズするには、下のように構成を設定します。"
 
 #. Tag: programlisting
 #: Framework.xml:228
@@ -829,8 +879,8 @@ msgid ""
 "This enables internationalization, and keeps your code and configuration "
 "clean of presentation concerns."
 msgstr ""
-"この方法を使えば、国際化に対応することができますし、コードや構成"
-"ファイルとプレゼンテーション層とを切り離すことができます。"
+"この方法を使えば、国際化に対応することができますし、コードや構成ファイルとプ"
+"レゼンテーション層とを切り離すことができます。"
 
 #. Tag: para
 #: Framework.xml:249
@@ -839,7 +889,10 @@ msgid ""
 "The final step is to add validation functionality to the page, using "
 "<literal>&lt;s:validateAll&gt;</literal> and <literal>&lt;s:decorate&gt;</"
 "literal>, but I'll leave that for you to figure out."
-msgstr "最後のステップは<literal>&lt;s:validateAll&gt;</literal> と<literal>&lt;s:decorate&gt;</literal>を使って、ページにバリデーション機能を追加することですが、これは皆さんへの宿題としておきましょう。"
+msgstr ""
+"最後のステップは<literal>&lt;s:validateAll&gt;</literal> と<literal>&lt;s:"
+"decorate&gt;</literal>を使って、ページにバリデーション機能を追加することです"
+"が、これは皆さんへの宿題としておきましょう。"
 
 #. Tag: title
 #: Framework.xml:258
@@ -854,8 +907,8 @@ msgid ""
 "If we need a list of all <literal>Person</literal> instance in the database, "
 "we can use a Query object. For example:"
 msgstr ""
-"データベース中の<literal>Person</literal>のすべてのインスタンスのリストが必要な"
-"場合、Queryオブジェクトを使って、下のようにすることができます。"
+"データベース中の<literal>Person</literal>のすべてのインスタンスのリストが必要"
+"な場合、Queryオブジェクトを使って、下のようにすることができます。"
 
 #. Tag: programlisting
 #: Framework.xml:265
@@ -1019,8 +1072,8 @@ msgid ""
 msgstr ""
 "実用的な検索スクリーンでは、絞りこんだ検索結果を得るために、多くの検索のクラ"
 "イテリアをユーザーに入力してもらう必要があります。 この重要なユースケースをサ"
-"ポートするために、Queryオブジェクトはオプションとして制約を設定することができま"
-"す。"
+"ポートするために、Queryオブジェクトはオプションとして制約を設定することができ"
+"ます。"
 
 #. Tag: programlisting
 #: Framework.xml:298
@@ -1106,7 +1159,9 @@ msgstr ""
 msgid ""
 "To refresh the query when the underlying entities change we observe the "
 "<literal>org.jboss.seam.afterTransactionSuccess</literal> event:"
-msgstr "基礎となるエンティティが変化する場合にリフレッシュするには <literal>org.jboss.seam.afterTransactionSuccess</literal> イベントを監視します。"
+msgstr ""
+"基礎となるエンティティが変化する場合にリフレッシュするには <literal>org."
+"jboss.seam.afterTransactionSuccess</literal> イベントを監視します。"
 
 #. Tag: programlisting
 #: Framework.xml:311
@@ -1126,7 +1181,10 @@ msgstr ""
 msgid ""
 "Or, to just refresh the query when the person entity is persisted, updated "
 "or removed through <literal>PersonHome</literal>:"
-msgstr "または、 <literal>PersonHome</literal> で person エンティティの永続化、 更新、 あるいは削除が行われた場合にクエリーをリフレッシュするだけなら次のようにします。"
+msgstr ""
+"または、 <literal>PersonHome</literal> で person エンティティの永続化、 更"
+"新、 あるいは削除が行われた場合にクエリーをリフレッシュするだけなら次のように"
+"します。"
 
 #. Tag: programlisting
 #: Framework.xml:318
@@ -1148,7 +1206,11 @@ msgid ""
 "emphasis> queries - the use of pagination with these queries is not "
 "recomended, and you'll have to implement your own method of calculating the "
 "total number of results (by overriding <literal>getCountEjbql()</literal>."
-msgstr "残念ながらクエリーのオブジェクトは <emphasis>join fetch</emphasis> クエリーでは正常に動作しません。 こうしたクエリーでのページネーションの使用は推奨しません。 <literal>getCountEjbql()</literal> を上書きして結果の合計数の計算に独自のメソッドを実装しなければならなくなります。"
+msgstr ""
+"残念ながらクエリーのオブジェクトは <emphasis>join fetch</emphasis> クエリーで"
+"は正常に動作しません。 こうしたクエリーでのページネーションの使用は推奨しませ"
+"ん。 <literal>getCountEjbql()</literal> を上書きして結果の合計数の計算に独自"
+"のメソッドを実装しなければならなくなります。"
 
 #. Tag: para
 #: Framework.xml:328
@@ -1157,8 +1219,8 @@ msgid ""
 "The examples in this section have all shown reuse by configuration. However, "
 "reuse by extension is equally possible for Query objects."
 msgstr ""
-"このセクションの例では構成による再利用を示していますが、Queryオブジェ"
-"クトの再利用は機能を拡張して行う事も同様に可能です。"
+"このセクションの例では構成による再利用を示していますが、Queryオブジェクトの再"
+"利用は機能を拡張して行う事も同様に可能です。"
 
 #. Tag: title
 #: Framework.xml:336
@@ -1179,8 +1241,14 @@ msgid ""
 "keystrokes (characters can add up!) and provide a great launchpad for new "
 "users to explore the rich functionality built in to Seam."
 msgstr ""
-"Seamアプリケーションフレームワークのオプショナルなクラスとして、<literal>Controller</literal>と、そのサブクラスとして、 <literal>EntityController</literal>、 <literal>HibernateEntityController</literal> と<literal>BusinessProcessController</literal>があります。 よく使用される組み込みのコンポーネントへのアクセスに便利なメソッドや組み込みコンポーネントのメソッドを提供しています。"
-"これらは、新しいユーザーがSeamに組み込まれた豊富な機能を探検するための出発点を提供し、また若干のコード量の削減に貢献します。"
+"Seamアプリケーションフレームワークのオプショナルなクラスとして、"
+"<literal>Controller</literal>と、そのサブクラスとして、 "
+"<literal>EntityController</literal>、 <literal>HibernateEntityController</"
+"literal> と<literal>BusinessProcessController</literal>があります。 よく使用"
+"される組み込みのコンポーネントへのアクセスに便利なメソッドや組み込みコンポー"
+"ネントのメソッドを提供しています。これらは、新しいユーザーがSeamに組み込まれ"
+"た豊富な機能を探検するための出発点を提供し、また若干のコード量の削減に貢献し"
+"ます。"
 
 #. Tag: para
 #: Framework.xml:349
@@ -1259,4 +1327,3 @@ msgstr ""
 #, no-c-format
 msgid "As you can see, its not an earthshattering improvement..."
 msgstr "ご覧のように、びっくりするような改善にはなりません。"
-

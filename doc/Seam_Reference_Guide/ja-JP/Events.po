@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tools\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-11-06 06:41+0000\n"
+"POT-Creation-Date: 2009-03-22 12:51+0000\n"
 "PO-Revision-Date: 2009-02-22 15:51+0900\n"
 "Last-Translator: Shinobu NOGAMI <s-nogami@sourceforge.jp>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -14,79 +14,113 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 
 #. Tag: title
-#: Events.xml:6
+#: Events.xml:5
 #, no-c-format
 msgid "Events, interceptors and exception handling"
 msgstr "イベント、インタセプタ、例外処理"
 
 #. Tag: para
-#: Events.xml:8
+#: Events.xml:7
 #, no-c-format
-msgid "Complementing the contextual component model, there are two further basic concepts that facilitate the extreme loose-coupling that is the distinctive feature of Seam applications. The first is a strong event model where events may be mapped to event listeners via JSF-like method binding expressions. The second is the pervasive use of annotations and interceptors to apply cross-cutting concerns to components which implement business logic."
-msgstr "コンテキスト依存コンポーネントモデルを補完するものとして、Seamアプリケーションの特徴となっている極度の疎結合を促進させる二つの基本概念が存在します。 最初のものは、イベントがJSFライクなメソッドバインディング式（method binding expression) を通じてイベントリスナーへマップできるような強力なイベントモデルです。 二番目のものは、ビジネスロジックを実装するコンポーネントに対して横断的関心事 (cross-cutting concerns) を適用するためにアノテーションやインタセプタを広範囲に使用しているということです。"
+msgid ""
+"Complementing the contextual component model, there are two further basic "
+"concepts that facilitate the extreme loose-coupling that is the distinctive "
+"feature of Seam applications. The first is a strong event model where events "
+"may be mapped to event listeners via JSF-like method binding expressions. "
+"The second is the pervasive use of annotations and interceptors to apply "
+"cross-cutting concerns to components which implement business logic."
+msgstr ""
+"コンテキスト依存コンポーネントモデルを補完するものとして、Seamアプリケーショ"
+"ンの特徴となっている極度の疎結合を促進させる二つの基本概念が存在します。 最初"
+"のものは、イベントがJSFライクなメソッドバインディング式（method binding "
+"expression) を通じてイベントリスナーへマップできるような強力なイベントモデル"
+"です。 二番目のものは、ビジネスロジックを実装するコンポーネントに対して横断的"
+"関心事 (cross-cutting concerns) を適用するためにアノテーションやインタセプタ"
+"を広範囲に使用しているということです。"
 
 #. Tag: title
-#: Events.xml:18
+#: Events.xml:17
 #, no-c-format
 msgid "Seam events"
 msgstr "Seamイベント"
 
 #. Tag: para
-#: Events.xml:19
+#: Events.xml:18
 #, no-c-format
-msgid "The Seam component model was developed for use with <emphasis>event-driven applications</emphasis>, specifically to enable the development of fine-grained, loosely-coupled components in a fine-grained eventing model. Events in Seam come in several types, most of which we have already seen:"
-msgstr "Seamコンポーネントモデルは<emphasis>イベント駆動アプリケーション</emphasis> で使うために開発されました。特に、細粒度イベントモデル (fine-grained eventing model) での細粒度かつ疎結合コンポーネント開発を可能にします。 Seamでのイベントは、すでにご存知のように、いくつかのタイプがあります。"
+msgid ""
+"The Seam component model was developed for use with <emphasis>event-driven "
+"applications</emphasis>, specifically to enable the development of fine-"
+"grained, loosely-coupled components in a fine-grained eventing model. Events "
+"in Seam come in several types, most of which we have already seen:"
+msgstr ""
+"Seamコンポーネントモデルは<emphasis>イベント駆動アプリケーション</emphasis> "
+"で使うために開発されました。特に、細粒度イベントモデル (fine-grained "
+"eventing model) での細粒度かつ疎結合コンポーネント開発を可能にします。 Seamで"
+"のイベントは、すでにご存知のように、いくつかのタイプがあります。"
 
 #. Tag: para
-#: Events.xml:28
+#: Events.xml:27
 #, no-c-format
 msgid "JSF events"
 msgstr "JSFイベント"
 
 #. Tag: para
-#: Events.xml:31
+#: Events.xml:30
 #, no-c-format
 msgid "jBPM transition events"
 msgstr "jBPM状態遷移イベント"
 
 #. Tag: para
-#: Events.xml:34
+#: Events.xml:33
 #, no-c-format
 msgid "Seam page actions"
 msgstr "Seamページアクション"
 
 #. Tag: para
-#: Events.xml:37
+#: Events.xml:36
 #, no-c-format
 msgid "Seam component-driven events"
 msgstr "Seamコンポーネント駆動イベント"
 
 #. Tag: para
-#: Events.xml:40
+#: Events.xml:39
 #, no-c-format
 msgid "Seam contextual events"
 msgstr "Seamコンテキスト依存イベント"
 
 #. Tag: para
-#: Events.xml:44
+#: Events.xml:43
 #, no-c-format
-msgid "All of these various kinds of events are mapped to Seam components via JSF EL method binding expressions. For a JSF event, this is defined in the JSF template:"
-msgstr "これらの多様なイベントすべてはJSF ELメソッドバインディング式を通じてSeamコンポーネントへマップされます。JSFイベントは、JSFテンプレートで次のように定義されます。"
+msgid ""
+"All of these various kinds of events are mapped to Seam components via JSF "
+"EL method binding expressions. For a JSF event, this is defined in the JSF "
+"template:"
+msgstr ""
+"これらの多様なイベントすべてはJSF ELメソッドバインディング式を通じてSeamコン"
+"ポーネントへマップされます。JSFイベントは、JSFテンプレートで次のように定義さ"
+"れます。"
 
 #. Tag: programlisting
-#: Events.xml:49
+#: Events.xml:48
 #, no-c-format
-msgid "<![CDATA[<h:commandButton value=\"Click me!\" action=\"#{helloWorld.sayHello}\"/>]]>"
-msgstr "<![CDATA[<h:commandButton value=\"Click me!\" action=\"#{helloWorld.sayHello}\"/>]]>"
+msgid ""
+"<![CDATA[<h:commandButton value=\"Click me!\" action=\"#{helloWorld.sayHello}"
+"\"/>]]>"
+msgstr ""
+"<![CDATA[<h:commandButton value=\"Click me!\" action=\"#{helloWorld.sayHello}"
+"\"/>]]>"
 
 #. Tag: para
-#: Events.xml:53
+#: Events.xml:52
 #, no-c-format
-msgid "For a jBPM transition event, it is specified in the jBPM process definition or pageflow definition:"
-msgstr "jBPM遷移イベントは、jBPMプロセス定義またはページフロー定義で規定されます。"
+msgid ""
+"For a jBPM transition event, it is specified in the jBPM process definition "
+"or pageflow definition:"
+msgstr ""
+"jBPM遷移イベントは、jBPMプロセス定義またはページフロー定義で規定されます。"
 
 #. Tag: programlisting
-#: Events.xml:58
+#: Events.xml:57
 #, no-c-format
 msgid ""
 "<![CDATA[<start-page name=\"hello\" view-id=\"/hello.jsp\">\n"
@@ -102,25 +136,37 @@ msgstr ""
 "</start-page>]]>"
 
 #. Tag: para
-#: Events.xml:60
+#: Events.xml:59
 #, no-c-format
-msgid "You can find out more information about JSF events and jBPM events elsewhere. Let's concentrate for now upon the two additional kinds of events defined by Seam."
-msgstr "JSF イベントや jPBM イベントの詳細については本ガイド以外でも見つけることができるので、 ここでは Seam によって定義される別の二種類のイベントについて見ていきます。"
+msgid ""
+"You can find out more information about JSF events and jBPM events "
+"elsewhere. Let's concentrate for now upon the two additional kinds of events "
+"defined by Seam."
+msgstr ""
+"JSF イベントや jPBM イベントの詳細については本ガイド以外でも見つけることがで"
+"きるので、 ここでは Seam によって定義される別の二種類のイベントについて見てい"
+"きます。"
 
 #. Tag: title
-#: Events.xml:67
+#: Events.xml:66
 #, no-c-format
 msgid "Page actions"
 msgstr "ページアクション"
 
 #. Tag: para
-#: Events.xml:69
+#: Events.xml:68
 #, no-c-format
-msgid "A Seam page action is an event that occurs just before we render a page. We declare page actions in <literal>WEB-INF/pages.xml</literal>. We can define a page action for either a particular JSF view id:"
-msgstr "Seamページアクションはページのレンダリングの直前に発生するイベントです。 ページアクションは<literal>WEB-INF/pages.xml</literal>で宣言します。 特定のJSFビューidのためのページアクションを定義することも可能です。"
+msgid ""
+"A Seam page action is an event that occurs just before we render a page. We "
+"declare page actions in <literal>WEB-INF/pages.xml</literal>. We can define "
+"a page action for either a particular JSF view id:"
+msgstr ""
+"Seamページアクションはページのレンダリングの直前に発生するイベントです。 ペー"
+"ジアクションは<literal>WEB-INF/pages.xml</literal>で宣言します。 特定のJSF"
+"ビューidのためのページアクションを定義することも可能です。"
 
 #. Tag: programlisting
-#: Events.xml:75
+#: Events.xml:74
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -132,13 +178,18 @@ msgstr ""
 "</pages>]]>"
 
 #. Tag: para
-#: Events.xml:77
+#: Events.xml:76
 #, no-c-format
-msgid "Or we can use a <literal>*</literal> wildcard as a suffix to the <literal>view-id</literal> to specify an action that applies to all view ids that match the pattern:"
-msgstr "あるいは、 <literal>*</literal> ワイルドカードを使ってパターンに一致するすべての<literal>ビュー ID</literal>を指定することもできます。"
+msgid ""
+"Or we can use a <literal>*</literal> wildcard as a suffix to the "
+"<literal>view-id</literal> to specify an action that applies to all view ids "
+"that match the pattern:"
+msgstr ""
+"あるいは、 <literal>*</literal> ワイルドカードを使ってパターンに一致するすべ"
+"ての<literal>ビュー ID</literal>を指定することもできます。"
 
 #. Tag: programlisting
-#: Events.xml:83
+#: Events.xml:82
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -150,100 +201,145 @@ msgstr ""
 "</pages>]]>"
 
 #. Tag: para
-#: Events.xml:85
+#: Events.xml:84
 #, no-c-format
-msgid "If multiple wildcarded page actions match the current view-id, Seam will call all the actions, in order of least-specific to most-specific."
-msgstr "複数のワイルドカード化されたページアクションがカレントビューidに一致するなら、 Seamは曖昧な指定から明確な指定への順 (least-specific to most-specific) で、 それらすべてのアクションを呼び出します。"
+msgid ""
+"If multiple wildcarded page actions match the current view-id, Seam will "
+"call all the actions, in order of least-specific to most-specific."
+msgstr ""
+"複数のワイルドカード化されたページアクションがカレントビューidに一致するな"
+"ら、 Seamは曖昧な指定から明確な指定への順 (least-specific to most-specific) "
+"で、 それらすべてのアクションを呼び出します。"
 
 #. Tag: para
-#: Events.xml:90
+#: Events.xml:89
 #, no-c-format
-msgid "The page action method can return a JSF outcome. If the outcome is non-null, Seam will use the defined navigation rules to navigate to a view."
-msgstr "ページアクションのメソッドはJSF outcomeを返すことができます。もしも、そのoutcome がnullでなければ、Seamはビューをナビゲートするためその定義済みナビゲーション規則を使います。"
+msgid ""
+"The page action method can return a JSF outcome. If the outcome is non-null, "
+"Seam will use the defined navigation rules to navigate to a view."
+msgstr ""
+"ページアクションのメソッドはJSF outcomeを返すことができます。もしも、その"
+"outcome がnullでなければ、Seamはビューをナビゲートするためその定義済みナビ"
+"ゲーション規則を使います。"
 
 #. Tag: para
-#: Events.xml:95
+#: Events.xml:94
 #, no-c-format
-msgid "Furthermore, the view id mentioned in the <literal>&lt;page&gt;</literal> element need not correspond to a real JSP or Facelets page! So, we can reproduce the functionality of a traditional action-oriented framework like Struts or WebWork using page actions. For example:"
-msgstr "さらに、<literal>&lt;page&gt;</literal>要素で指定されたビューidは、実際のJSPやFacelets に対応する必要はないのです！ そこで、ページアクションを使用したStrutsやWebWorkのような 伝統的なアクション指向フレームワークの機能を再現することもできます。"
+msgid ""
+"Furthermore, the view id mentioned in the <literal>&lt;page&gt;</literal> "
+"element need not correspond to a real JSP or Facelets page! So, we can "
+"reproduce the functionality of a traditional action-oriented framework like "
+"Struts or WebWork using page actions. For example:"
+msgstr ""
+"さらに、<literal>&lt;page&gt;</literal>要素で指定されたビューidは、実際のJSP"
+"やFacelets に対応する必要はないのです！ そこで、ページアクションを使用した"
+"StrutsやWebWorkのような 伝統的なアクション指向フレームワークの機能を再現する"
+"こともできます。"
 
 #. Tag: programlisting
-#: Events.xml:102
+#: Events.xml:101
 #, no-c-format
 msgid "<![CDATA[TODO: translate struts action into page action]]>"
 msgstr "<![CDATA[TODO: translate struts action into page action]]>"
 
 #. Tag: para
-#: Events.xml:105
+#: Events.xml:104
 #, no-c-format
-msgid "This is quite useful if you want to do complex things in response to non-faces requests (for example, HTTP GET requests)."
-msgstr "non-faces要求 (たとえば、 HTTP Get 要求) に対する応答で複雑な処理をしたい場合などに非常に便利です。"
+msgid ""
+"This is quite useful if you want to do complex things in response to non-"
+"faces requests (for example, HTTP GET requests)."
+msgstr ""
+"non-faces要求 (たとえば、 HTTP Get 要求) に対する応答で複雑な処理をしたい場合"
+"などに非常に便利です。"
 
 # 2.1
 #. Tag: para
-#: Events.xml:110
+#: Events.xml:109
 #, no-c-format
-msgid "Multiple or conditional page actions my be specified using the <literal>&lt;action&gt;</literal> tag:"
-msgstr "複数または条件付きのページアクションは<literal>&lt;action&gt;</literal>タグを使って指定できます。"
+msgid ""
+"Multiple or conditional page actions my be specified using the <literal>&lt;"
+"action&gt;</literal> tag:"
+msgstr ""
+"複数または条件付きのページアクションは<literal>&lt;action&gt;</literal>タグを"
+"使って指定できます。"
 
 #. Tag: programlisting
-#: Events.xml:115
+#: Events.xml:114
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
 "    <page view-id=\"/hello.jsp\">\n"
-"        <action execute=\"#{helloWorld.sayHello}\" if=\"#{not validation.failed}\"/>\n"
+"        <action execute=\"#{helloWorld.sayHello}\" if=\"#{not validation."
+"failed}\"/>\n"
 "        <action execute=\"#{hitCount.increment}\"/>\n"
 "    </page>\n"
 "</pages>]]>"
 msgstr ""
 "<![CDATA[<pages>\n"
 "    <page view-id=\"/hello.jsp\">\n"
-"        <action execute=\"#{helloWorld.sayHello}\" if=\"#{not validation.failed}\"/>\n"
+"        <action execute=\"#{helloWorld.sayHello}\" if=\"#{not validation."
+"failed}\"/>\n"
 "        <action execute=\"#{hitCount.increment}\"/>\n"
 "    </page>\n"
 "</pages>]]>"
 
 #. Tag: title
-#: Events.xml:121
+#: Events.xml:120
 #, no-c-format
 msgid "Page parameters"
 msgstr "ページパラメータ"
 
 #. Tag: para
-#: Events.xml:123
+#: Events.xml:122
 #, no-c-format
-msgid "A JSF faces request (a form submission) encapsulates both an \"action\" (a method binding) and \"parameters\" (input value bindings). A page action might also needs parameters!"
-msgstr "JSF faces 要求 (フォーム送信) は「アクション」 (メソッドバインディング) と「パラメータ」 (入力値バインディング) の両方をカプセル化します。 ページアクションにもパラメータが必要かもしれません。"
+msgid ""
+"A JSF faces request (a form submission) encapsulates both an \"action\" (a "
+"method binding) and \"parameters\" (input value bindings). A page action "
+"might also needs parameters!"
+msgstr ""
+"JSF faces 要求 (フォーム送信) は「アクション」 (メソッドバインディング) と"
+"「パラメータ」 (入力値バインディング) の両方をカプセル化します。 ページアク"
+"ションにもパラメータが必要かもしれません。"
 
 #. Tag: para
-#: Events.xml:129
+#: Events.xml:128
 #, no-c-format
-msgid "Since GET requests are bookmarkable, page parameters are passed as human-readable request parameters. (Unlike JSF form inputs, which are anything but!)"
-msgstr "GET 要求はブックマーク可能なので、 ページパラメータは人間が読める要求パラメータとして引き渡されます (JSF フォーム入力とは異なるもの)。"
+msgid ""
+"Since GET requests are bookmarkable, page parameters are passed as human-"
+"readable request parameters. (Unlike JSF form inputs, which are anything "
+"but!)"
+msgstr ""
+"GET 要求はブックマーク可能なので、 ページパラメータは人間が読める要求パラメー"
+"タとして引き渡されます (JSF フォーム入力とは異なるもの)。"
 
 # 2.1
 #. Tag: para
-#: Events.xml:135
+#: Events.xml:134
 #, no-c-format
 msgid "You can use page parameters with or without an action method."
-msgstr "アクションメソッドを指定する、あるいは指定しないページパラメータを使うことができます。"
+msgstr ""
+"アクションメソッドを指定する、あるいは指定しないページパラメータを使うことが"
+"できます。"
 
 # 2.1
 #. Tag: title
-#: Events.xml:140
+#: Events.xml:139
 #, no-c-format
 msgid "Mapping request parameters to the model"
 msgstr "要求パラメータからモデルへのマッピング"
 
 #. Tag: para
-#: Events.xml:142
+#: Events.xml:141
 #, no-c-format
-msgid "Seam lets us provide a value binding that maps a named request parameter to an attribute of a model object."
-msgstr "Seamでは、名前付き要求パラメータをモデルオブジェクトの属性を対応させる値バインディングが可能です。"
+msgid ""
+"Seam lets us provide a value binding that maps a named request parameter to "
+"an attribute of a model object."
+msgstr ""
+"Seamでは、名前付き要求パラメータをモデルオブジェクトの属性を対応させる値バイ"
+"ンディングが可能です。"
 
 #. Tag: programlisting
-#: Events.xml:147
+#: Events.xml:146
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -261,58 +357,105 @@ msgstr ""
 "  </pages>]]>"
 
 #. Tag: para
-#: Events.xml:149
+#: Events.xml:148
 #, no-c-format
-msgid "The <literal>&lt;param&gt;</literal> declaration is bidirectional, just like a value binding for a JSF input:"
-msgstr "<literal>&lt;param&gt;</literal>宣言は双方向で、まさにJSF入力の値バインディングのようです。"
+msgid ""
+"The <literal>&lt;param&gt;</literal> declaration is bidirectional, just like "
+"a value binding for a JSF input:"
+msgstr ""
+"<literal>&lt;param&gt;</literal>宣言は双方向で、まさにJSF入力の値バインディン"
+"グのようです。"
 
 #. Tag: para
-#: Events.xml:156
+#: Events.xml:155
 #, no-c-format
-msgid "When a non-faces (GET) request for the view id occurs, Seam sets the value of the named request parameter onto the model object, after performing appropriate type conversions."
-msgstr "指定されたビューidに対するnon-faces (GET) 要求が発生するとき、 Seamは、適切な型変換を施した後に、名前付きパラメータの値をそのモデルオブジェクトに設定します。"
+msgid ""
+"When a non-faces (GET) request for the view id occurs, Seam sets the value "
+"of the named request parameter onto the model object, after performing "
+"appropriate type conversions."
+msgstr ""
+"指定されたビューidに対するnon-faces (GET) 要求が発生するとき、 Seamは、適切な"
+"型変換を施した後に、名前付きパラメータの値をそのモデルオブジェクトに設定しま"
+"す。"
 
 #. Tag: para
-#: Events.xml:163
+#: Events.xml:162
 #, no-c-format
-msgid "Any <literal>&lt;s:link&gt;</literal> or <literal>&lt;s:button&gt;</literal> transparently includes the request parameter. The value of the parameter is determined by evaluating the value binding during the render phase (when the <literal>&lt;s:link&gt;</literal> is rendered)."
-msgstr "任意の <literal>&lt;s:link&gt;</literal> や <literal>&lt;s:button&gt;</literal> は透過的に要求パラメータを含みます。 パラメータ値は、 レンダリングフェーズの間に (<literal>&lt;s:link&gt;</literal> がレンダリングされるとき) 値バインディングを評価することによって決定されます。"
+msgid ""
+"Any <literal>&lt;s:link&gt;</literal> or <literal>&lt;s:button&gt;</literal> "
+"transparently includes the request parameter. The value of the parameter is "
+"determined by evaluating the value binding during the render phase (when the "
+"<literal>&lt;s:link&gt;</literal> is rendered)."
+msgstr ""
+"任意の <literal>&lt;s:link&gt;</literal> や <literal>&lt;s:button&gt;</"
+"literal> は透過的に要求パラメータを含みます。 パラメータ値は、 レンダリング"
+"フェーズの間に (<literal>&lt;s:link&gt;</literal> がレンダリングされるとき) "
+"値バインディングを評価することによって決定されます。"
 
 #. Tag: para
-#: Events.xml:171
+#: Events.xml:170
 #, no-c-format
-msgid "Any navigation rule with a <literal>&lt;redirect/&gt;</literal> to the view id transparently includes the request parameter. The value of the parameter is determined by evaluating the value binding at the end of the invoke application phase."
-msgstr "ビューidに対する<literal>&lt;redirect/&gt;</literal>の任意のナビゲーションルールは要求パラメータを透過的に含みます。パラメータの値はアプリケーションフェーズの最後に値バインディングを評価することで決定されます。"
+msgid ""
+"Any navigation rule with a <literal>&lt;redirect/&gt;</literal> to the view "
+"id transparently includes the request parameter. The value of the parameter "
+"is determined by evaluating the value binding at the end of the invoke "
+"application phase."
+msgstr ""
+"ビューidに対する<literal>&lt;redirect/&gt;</literal>の任意のナビゲーション"
+"ルールは要求パラメータを透過的に含みます。パラメータの値はアプリケーション"
+"フェーズの最後に値バインディングを評価することで決定されます。"
 
 # 2.1
 #. Tag: para
-#: Events.xml:179
+#: Events.xml:178
 #, no-c-format
-msgid "The value is transparently propagated with any JSF form submission for the page with the given view id. This means that view parameters behave like <literal>PAGE</literal>-scoped context variables for faces requests."
-msgstr "その値は透過的にビューidで指定されたページへのJSFフォーム送信に伝播します。 これはビューパラメータはfaces要求のための<literal>PAGE</literal>スコープのコンテキスト変数のように振舞うことを意味します。"
+msgid ""
+"The value is transparently propagated with any JSF form submission for the "
+"page with the given view id. This means that view parameters behave like "
+"<literal>PAGE</literal>-scoped context variables for faces requests."
+msgstr ""
+"その値は透過的にビューidで指定されたページへのJSFフォーム送信に伝播します。 "
+"これはビューパラメータはfaces要求のための<literal>PAGE</literal>スコープのコ"
+"ンテキスト変数のように振舞うことを意味します。"
 
 #. Tag: para
-#: Events.xml:188
+#: Events.xml:187
 #, no-c-format
-msgid "The essential idea behind all this is that <emphasis>however</emphasis> we get from any other page to <literal>/hello.jsp</literal> (or from <literal>/hello.jsp</literal> back to <literal>/hello.jsp</literal>), the value of the model attribute referred to in the value binding is \"remembered\", without the need for a conversation (or other server-side state)."
-msgstr "この背後にある本質的な考えは、他の任意のページから <literal>/hello.jsp</literal> への (または <literal>/hello.jsp</literal> から <literal>/hello.jsp</literal> へ戻るような) 遷移があるにも<emphasis>かかわらず</emphasis>、 値バインディングで参照されるモデル属性の値は対話 (または他のサーバ側の状態) を必要とせずに「記録されている」ということです。"
+msgid ""
+"The essential idea behind all this is that <emphasis>however</emphasis> we "
+"get from any other page to <literal>/hello.jsp</literal> (or from <literal>/"
+"hello.jsp</literal> back to <literal>/hello.jsp</literal>), the value of the "
+"model attribute referred to in the value binding is \"remembered\", without "
+"the need for a conversation (or other server-side state)."
+msgstr ""
+"この背後にある本質的な考えは、他の任意のページから <literal>/hello.jsp</"
+"literal> への (または <literal>/hello.jsp</literal> から <literal>/hello."
+"jsp</literal> へ戻るような) 遷移があるにも<emphasis>かかわらず</emphasis>、 "
+"値バインディングで参照されるモデル属性の値は対話 (または他のサーバ側の状態) "
+"を必要とせずに「記録されている」ということです。"
 
 # 2.1
 #. Tag: title
-#: Events.xml:201
+#: Events.xml:200
 #, no-c-format
 msgid "Propagating request parameters"
 msgstr "要求パラメータの伝播"
 
 # 2.1
 #. Tag: para
-#: Events.xml:203
+#: Events.xml:202
 #, no-c-format
-msgid "If just the <literal>name</literal> attribute is specified then the request parameter is propagated using the <literal>PAGE</literal> context (it isn't mapped to model property)."
-msgstr "もし <literal>name</literal> 属性が指定されていたら、要求パラメータは <literal>PAGE</literal> コンテキストを使って伝播します（モデルプロパティへはマッピングされません）。"
+msgid ""
+"If just the <literal>name</literal> attribute is specified then the request "
+"parameter is propagated using the <literal>PAGE</literal> context (it isn't "
+"mapped to model property)."
+msgstr ""
+"もし <literal>name</literal> 属性が指定されていたら、要求パラメータは "
+"<literal>PAGE</literal> コンテキストを使って伝播します（モデルプロパティへは"
+"マッピングされません）。"
 
 #. Tag: programlisting
-#: Events.xml:209
+#: Events.xml:208
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -331,47 +474,92 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:212
+#: Events.xml:211
 #, no-c-format
-msgid "Propagation of page parameters is especially useful if you want to build multi-layer master-detail CRUD pages. You can use it to \"remember\" which view you were previously on (e.g. when pressing the Save button), and which entity you were editing."
-msgstr "ページパラメータの伝播は、マスターから詳細画面に遷移するようなマルチレイヤのCRUDページを作成したいときには特に便利です。それは以前操作していた（例えば、保存ボタンを押したときの）ビューや編集していたビューを「覚えておく」のに使えます。"
+msgid ""
+"Propagation of page parameters is especially useful if you want to build "
+"multi-layer master-detail CRUD pages. You can use it to \"remember\" which "
+"view you were previously on (e.g. when pressing the Save button), and which "
+"entity you were editing."
+msgstr ""
+"ページパラメータの伝播は、マスターから詳細画面に遷移するようなマルチレイヤの"
+"CRUDページを作成したいときには特に便利です。それは以前操作していた（例えば、"
+"保存ボタンを押したときの）ビューや編集していたビューを「覚えておく」のに使え"
+"ます。"
 
 # 2.1
 #. Tag: para
-#: Events.xml:219
+#: Events.xml:218
 #, no-c-format
-msgid "Any <literal>&lt;s:link&gt;</literal> or <literal>&lt;s:button&gt;</literal> transparently propagates the request parameter if that parameter is listed as a page parameter for the view."
-msgstr "任意の <literal>&lt;s:link&gt;</literal> や <literal>&lt;s:button&gt;</literal> は、要求パラメータがビューのページパラメータとして記入されていれば、透過的にそのパラメータを伝播します。"
+msgid ""
+"Any <literal>&lt;s:link&gt;</literal> or <literal>&lt;s:button&gt;</literal> "
+"transparently propagates the request parameter if that parameter is listed "
+"as a page parameter for the view."
+msgstr ""
+"任意の <literal>&lt;s:link&gt;</literal> や <literal>&lt;s:button&gt;</"
+"literal> は、要求パラメータがビューのページパラメータとして記入されていれば、"
+"透過的にそのパラメータを伝播します。"
 
 #. Tag: para
-#: Events.xml:226
+#: Events.xml:225
 #, no-c-format
-msgid "The value is transparently propagated with any JSF form submission for the page with the given view id. (This means that view parameters behave like <literal>PAGE</literal>-scoped context variables for faces requests."
-msgstr "その値は透過的にビューidで指定されたページへのJSFフォーム送信に伝播します。 （これはビューパラメータはfaces要求のための<literal>PAGE</literal>スコープのコンテキスト変数のように振舞います）。"
+msgid ""
+"The value is transparently propagated with any JSF form submission for the "
+"page with the given view id. (This means that view parameters behave like "
+"<literal>PAGE</literal>-scoped context variables for faces requests."
+msgstr ""
+"その値は透過的にビューidで指定されたページへのJSFフォーム送信に伝播します。 "
+"（これはビューパラメータはfaces要求のための<literal>PAGE</literal>スコープの"
+"コンテキスト変数のように振舞います）。"
 
 # 2.1
 #. Tag: para
-#: Events.xml:235
+#: Events.xml:234
 #, no-c-format
-msgid "This all sounds pretty complex, and you're probably wondering if such an exotic construct is really worth the effort. Actually, the idea is very natural once you \"get it\". It is definitely worth taking the time to understand this stuff. Page parameters are the most elegant way to propagate state across a non-faces request. They are especially cool for problems like search screens with bookmarkable results pages, where we would like to be able to write our application code to handle both POST and GET requests with the same code. Page parameters eliminate repetitive listing of request parameters in the view definition and make redirects much easier to code."
-msgstr "これらすべてはかなり複雑に聞こえますし、そのような変わった概念を努力して使う価値があるのかと疑問に思うことでしょう。実際は、そのアイディアは一旦「理解」してしまえばとても自然なものです。時間をかけてこれを理解することは絶対に価値があります。ページパラメータはnon-faces要求をまたがって状態を伝播するのに最も洗練された方法です。それらは検索結果をブックマーク可能な検索画面にするような問題にとって特に素晴らしい方法です。そのような問題では、同じコードでPOSTとGET要求の両方を処理できるようなアプリケーションコードを書けるようにしたいと望むでしょう。ページパラメータを使えば、ビュー定義内で要求パラメータのリストを繰り返し書く必要がなくなり、リダイレクトをもっと簡単にコーディングできるようになります。"
+msgid ""
+"This all sounds pretty complex, and you're probably wondering if such an "
+"exotic construct is really worth the effort. Actually, the idea is very "
+"natural once you \"get it\". It is definitely worth taking the time to "
+"understand this stuff. Page parameters are the most elegant way to propagate "
+"state across a non-faces request. They are especially cool for problems like "
+"search screens with bookmarkable results pages, where we would like to be "
+"able to write our application code to handle both POST and GET requests with "
+"the same code. Page parameters eliminate repetitive listing of request "
+"parameters in the view definition and make redirects much easier to code."
+msgstr ""
+"これらすべてはかなり複雑に聞こえますし、そのような変わった概念を努力して使う"
+"価値があるのかと疑問に思うことでしょう。実際は、そのアイディアは一旦「理解」"
+"してしまえばとても自然なものです。時間をかけてこれを理解することは絶対に価値"
+"があります。ページパラメータはnon-faces要求をまたがって状態を伝播するのに最も"
+"洗練された方法です。それらは検索結果をブックマーク可能な検索画面にするような"
+"問題にとって特に素晴らしい方法です。そのような問題では、同じコードでPOSTとGET"
+"要求の両方を処理できるようなアプリケーションコードを書けるようにしたいと望む"
+"でしょう。ページパラメータを使えば、ビュー定義内で要求パラメータのリストを繰"
+"り返し書く必要がなくなり、リダイレクトをもっと簡単にコーディングできるように"
+"なります。"
 
 # 2.1
 #. Tag: title
-#: Events.xml:251
+#: Events.xml:250
 #, no-c-format
 msgid "URL rewriting with page parameters"
 msgstr "ページパラメータを伴うURL書き換え"
 
 # 2.1
 #. Tag: para
-#: Events.xml:252
+#: Events.xml:251
 #, no-c-format
-msgid "Rewriting occurs based on rewrite patterns found for views in <literal>pages.xml</literal>. Seam URL rewriting does both incoming and outgoing URL rewriting based on the same pattern. Here's a simple pattern:"
-msgstr "書き換えは<literal>pages.xml</literal>内のビューで発見される書き換えパターンを元に発生します。SeamのURL書き換えは同一のパターンに基づいて入力方向と出力方向の両方をURL書き換えを実施します。"
+msgid ""
+"Rewriting occurs based on rewrite patterns found for views in <literal>pages."
+"xml</literal>. Seam URL rewriting does both incoming and outgoing URL "
+"rewriting based on the same pattern. Here's a simple pattern:"
+msgstr ""
+"書き換えは<literal>pages.xml</literal>内のビューで発見される書き換えパターン"
+"を元に発生します。SeamのURL書き換えは同一のパターンに基づいて入力方向と出力方"
+"向の両方をURL書き換えを実施します。"
 
 #. Tag: programlisting
-#: Events.xml:259
+#: Events.xml:258
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -388,20 +576,38 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:261
+#: Events.xml:260
 #, no-c-format
-msgid "In this case, any incoming request for <literal>/home</literal> will be sent to <literal>/home.xhtml</literal>. More interestingly, any link generated that would normally point to <literal>/home.seam</literal> will instead be rewritten as <literal>/home</literal>. Rewrite patterns only match the portion of the URL before the query parameters. So, <literal>/home.seam?conversationId=13</literal> and <literal>/home.seam?color=red</literal> will both be matched by this rewrite rule."
-msgstr "この場合は、 <literal>/home</literal> のための任意の入力要求は <literal>/home.xhtml</literal> に送られます。さらに興味深いことには、通常 <literal>/home.seam</literal> を指し示す任意のリンクは <literal>/home</literal> に書き換えられます。書き換えパターンはクエリーパラメータの前のURL部分にのみマッチします。それゆえ、 <literal>/home.seam?conversationId=13</literal> と <literal>/home.seam?color=red</literal> は両方ともこの書き換え規則にマッチします。"
+msgid ""
+"In this case, any incoming request for <literal>/home</literal> will be sent "
+"to <literal>/home.xhtml</literal>. More interestingly, any link generated "
+"that would normally point to <literal>/home.seam</literal> will instead be "
+"rewritten as <literal>/home</literal>. Rewrite patterns only match the "
+"portion of the URL before the query parameters. So, <literal>/home.seam?"
+"conversationId=13</literal> and <literal>/home.seam?color=red</literal> will "
+"both be matched by this rewrite rule."
+msgstr ""
+"この場合は、 <literal>/home</literal> のための任意の入力要求は <literal>/"
+"home.xhtml</literal> に送られます。さらに興味深いことには、通常 <literal>/"
+"home.seam</literal> を指し示す任意のリンクは <literal>/home</literal> に書き"
+"換えられます。書き換えパターンはクエリーパラメータの前のURL部分にのみマッチし"
+"ます。それゆえ、 <literal>/home.seam?conversationId=13</literal> と "
+"<literal>/home.seam?color=red</literal> は両方ともこの書き換え規則にマッチし"
+"ます。"
 
 # 2.1
 #. Tag: para
-#: Events.xml:271
+#: Events.xml:270
 #, no-c-format
-msgid "Rewrite rules can take these query paramters into consideration, as shown with the following rules."
-msgstr "書き換え規則は、以下の規則に示すように、これらのクエリーパラメータを考慮することができます。"
+msgid ""
+"Rewrite rules can take these query paramters into consideration, as shown "
+"with the following rules."
+msgstr ""
+"書き換え規則は、以下の規則に示すように、これらのクエリーパラメータを考慮する"
+"ことができます。"
 
 #. Tag: programlisting
-#: Events.xml:274
+#: Events.xml:273
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -420,20 +626,38 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:276
+#: Events.xml:275
 #, no-c-format
-msgid "In this case, an incoming request for <literal>/home/red</literal> will be served as if it were a request for <literal>/home.seam?color=red</literal>. Similarly, if color is a page parameter an outgoing URL that would normally show as <literal>/home.seam?color=blue</literal> would instead be output as <literal>/home/blue</literal>. Rules are processed in order, so it is important to list more specific rules before more general rules."
-msgstr "この場合、 <literal>/home/red</literal> の入力要求はあたかも <literal>/home.seam?color=red</literal> のように振る舞います。同様に、もしcolor がページパラメータなら  <literal>/home.seam?color=blue</literal> と通常表示される出力URLは、代わりに <literal>/home/blue</literal> と出力されます。"
+msgid ""
+"In this case, an incoming request for <literal>/home/red</literal> will be "
+"served as if it were a request for <literal>/home.seam?color=red</literal>. "
+"Similarly, if color is a page parameter an outgoing URL that would normally "
+"show as <literal>/home.seam?color=blue</literal> would instead be output as "
+"<literal>/home/blue</literal>. Rules are processed in order, so it is "
+"important to list more specific rules before more general rules."
+msgstr ""
+"この場合、 <literal>/home/red</literal> の入力要求はあたかも <literal>/home."
+"seam?color=red</literal> のように振る舞います。同様に、もしcolor がページパラ"
+"メータなら  <literal>/home.seam?color=blue</literal> と通常表示される出力URL"
+"は、代わりに <literal>/home/blue</literal> と出力されます。"
 
 # 2.1
 #. Tag: para
-#: Events.xml:286
+#: Events.xml:285
 #, no-c-format
-msgid "Default Seam query parameters can also be mapped using URL rewriting, allowing for another option for hiding Seam's fingerprints. In the following example, <literal>/search.seam?conversationId=13</literal> would be written as <literal>/search-13</literal>."
-msgstr "Seamのフィンガープリントを隠す別のオプションを指定することで、デフォルトのSeamクエリーパラメータもURL書き換えを使ってマップ可能です。次の例では、<literal>/search.seam?conversationId=13</literal>は<literal>/search-13</literal>と書き換えられます。"
+msgid ""
+"Default Seam query parameters can also be mapped using URL rewriting, "
+"allowing for another option for hiding Seam's fingerprints. In the following "
+"example, <literal>/search.seam?conversationId=13</literal> would be written "
+"as <literal>/search-13</literal>."
+msgstr ""
+"Seamのフィンガープリントを隠す別のオプションを指定することで、デフォルトの"
+"SeamクエリーパラメータもURL書き換えを使ってマップ可能です。次の例では、"
+"<literal>/search.seam?conversationId=13</literal>は<literal>/search-13</"
+"literal>と書き換えられます。"
 
 #. Tag: programlisting
-#: Events.xml:291
+#: Events.xml:290
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -452,42 +676,57 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:293
+#: Events.xml:292
 #, no-c-format
-msgid "Seam URL rewriting provides simple, bidirectional rewriting on a per-view basis. For more complex rewriting rules that cover non-seam components, Seam applications can continue to use the <literal>org.tuckey URLRewriteFilter </literal>or apply rewriting rules at the web server."
-msgstr "Seam URL書き換えは、ビュー単位での単純で双方向の書き換えを提供します。非Seamコンポーネントをカバーするより複雑な書き換え規則のためには、Seamアプリケーションは継続して <literal>org.tuckey URLRewriteFilter </literal> を使う、あるいはWebサーバでの書き換え規則を適用することが可能です。"
+msgid ""
+"Seam URL rewriting provides simple, bidirectional rewriting on a per-view "
+"basis. For more complex rewriting rules that cover non-seam components, Seam "
+"applications can continue to use the <literal>org.tuckey URLRewriteFilter </"
+"literal>or apply rewriting rules at the web server."
+msgstr ""
+"Seam URL書き換えは、ビュー単位での単純で双方向の書き換えを提供します。非Seam"
+"コンポーネントをカバーするより複雑な書き換え規則のためには、Seamアプリケー"
+"ションは継続して <literal>org.tuckey URLRewriteFilter </literal> を使う、ある"
+"いはWebサーバでの書き換え規則を適用することが可能です。"
 
 # 2.1
 # フィルタとフィルタの混在
 #. Tag: para
-#: Events.xml:299
+#: Events.xml:298
 #, no-c-format
-msgid "URL rewriting requires the Seam rewrite filter to be enable. Rewrite filter configuration is discussed in <xref linkend=\"configuration.filters.rewrite\"/>."
-msgstr "URL書き換えはSeamに書き換えフィルタを有効にすることを要求します。書き換えフィルタについては<xref linkend=\"configuration.filters.rewrite\"/>で説明します。"
+msgid ""
+"URL rewriting requires the Seam rewrite filter to be enable. Rewrite filter "
+"configuration is discussed in <xref linkend=\"configuration.filters.rewrite"
+"\"/>."
+msgstr ""
+"URL書き換えはSeamに書き換えフィルタを有効にすることを要求します。書き換えフィ"
+"ルタについては<xref linkend=\"configuration.filters.rewrite\"/>で説明します。"
 
 # 2.1
 #. Tag: title
-#: Events.xml:307
+#: Events.xml:306
 #, no-c-format
 msgid "Conversion and Validation"
 msgstr "変換と妥当性検証"
 
 # 2.1
 #. Tag: para
-#: Events.xml:309
+#: Events.xml:308
 #, no-c-format
 msgid "You can specify a JSF converter for complex model propreties:"
-msgstr "複雑なモデルのプロパティのためにJSFコンバータを指定することも可能です。"
+msgstr ""
+"複雑なモデルのプロパティのためにJSFコンバータを指定することも可能です。"
 
 #. Tag: programlisting
-#: Events.xml:313
+#: Events.xml:312
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
 "   <page view-id=\"/calculator.jsp\" action=\"#{calculator.calculate}\">\n"
 "      <param name=\"x\" value=\"#{calculator.lhs}\"/>\n"
 "      <param name=\"y\" value=\"#{calculator.rhs}\"/>\n"
-"      <param name=\"op\" converterId=\"com.my.calculator.OperatorConverter\" value=\"#{calculator.op}\"/>\n"
+"      <param name=\"op\" converterId=\"com.my.calculator.OperatorConverter\" "
+"value=\"#{calculator.op}\"/>\n"
 "   </page>\n"
 "</pages>]]>"
 msgstr ""
@@ -495,26 +734,27 @@ msgstr ""
 "   <page view-id=\"/calculator.jsp\" action=\"#{calculator.calculate}\">\n"
 "      <param name=\"x\" value=\"#{calculator.lhs}\"/>\n"
 "      <param name=\"y\" value=\"#{calculator.rhs}\"/>\n"
-"      <param name=\"op\" converterId=\"com.my.calculator.OperatorConverter\" value=\"#{calculator.op}\"/>\n"
+"      <param name=\"op\" converterId=\"com.my.calculator.OperatorConverter\" "
+"value=\"#{calculator.op}\"/>\n"
 "   </page>\n"
 "</pages>]]>"
 
 #. Tag: para
-#: Events.xml:315
-#: Events.xml:328
+#: Events.xml:314 Events.xml:327
 #, no-c-format
 msgid "Alternatively:"
 msgstr "あるいは代わりに次のようにすることもできます。"
 
 #. Tag: programlisting
-#: Events.xml:319
+#: Events.xml:318
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
 "   <page view-id=\"/calculator.jsp\" action=\"#{calculator.calculate}\">\n"
 "      <param name=\"x\" value=\"#{calculator.lhs}\"/>\n"
 "      <param name=\"y\" value=\"#{calculator.rhs}\"/>\n"
-"      <param name=\"op\" converter=\"#{operatorConverter}\" value=\"#{calculator.op}\"/>\n"
+"      <param name=\"op\" converter=\"#{operatorConverter}\" value=\"#"
+"{calculator.op}\"/>\n"
 "   </page>\n"
 "</pages>]]>"
 msgstr ""
@@ -522,19 +762,23 @@ msgstr ""
 "   <page view-id=\"/calculator.jsp\" action=\"#{calculator.calculate}\">\n"
 "      <param name=\"x\" value=\"#{calculator.lhs}\"/>\n"
 "      <param name=\"y\" value=\"#{calculator.rhs}\"/>\n"
-"      <param name=\"op\" converter=\"#{operatorConverter}\" value=\"#{calculator.op}\"/>\n"
+"      <param name=\"op\" converter=\"#{operatorConverter}\" value=\"#"
+"{calculator.op}\"/>\n"
 "   </page>\n"
 "</pages>]]>"
 
 # 2.1
 #. Tag: para
-#: Events.xml:322
+#: Events.xml:321
 #, no-c-format
-msgid "JSF validators, and <literal>required=\"true\"</literal> may also be used:"
-msgstr "次のように、JSFバリデータと <literal>required=\"true\"</literal> も使用できます。"
+msgid ""
+"JSF validators, and <literal>required=\"true\"</literal> may also be used:"
+msgstr ""
+"次のように、JSFバリデータと <literal>required=\"true\"</literal> も使用できま"
+"す。"
 
 #. Tag: programlisting
-#: Events.xml:326
+#: Events.xml:325
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -556,7 +800,7 @@ msgstr ""
 "</pages>]]>"
 
 #. Tag: programlisting
-#: Events.xml:332
+#: Events.xml:331
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -579,63 +823,88 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:334
+#: Events.xml:333
 #, no-c-format
-msgid "Even better, model-based Hibernate validator annotations are automatically recognized and validated."
-msgstr "さらに良いことには、モデルベースのHiberanteバリデータアノテーションは自動的に認識されて妥当性の検証をします。"
+msgid ""
+"Even better, model-based Hibernate validator annotations are automatically "
+"recognized and validated."
+msgstr ""
+"さらに良いことには、モデルベースのHiberanteバリデータアノテーションは自動的に"
+"認識されて妥当性の検証をします。"
 
 # 2.1
 #. Tag: para
-#: Events.xml:339
+#: Events.xml:338
 #, no-c-format
-msgid "When type conversion or validation fails, a global <literal>FacesMessage</literal> is added to the <literal>FacesContext</literal>."
-msgstr "型変換や妥当性検証が失敗したなら、グローバルな <literal>FacesMessage</literal> が<literal>FacesContext</literal>に追加されます。"
+msgid ""
+"When type conversion or validation fails, a global <literal>FacesMessage</"
+"literal> is added to the <literal>FacesContext</literal>."
+msgstr ""
+"型変換や妥当性検証が失敗したなら、グローバルな <literal>FacesMessage</"
+"literal> が<literal>FacesContext</literal>に追加されます。"
 
 #. Tag: title
-#: Events.xml:347
+#: Events.xml:346
 #, no-c-format
 msgid "Navigation"
 msgstr "ナビゲーション"
 
 #. Tag: para
-#: Events.xml:349
+#: Events.xml:348
 #, no-c-format
-msgid "You can use standard JSF navigation rules defined in <literal>faces-config.xml</literal> in a Seam application. However, JSF navigation rules have a number of annoying limitations:"
-msgstr "Seamアプリケーションでは<literal>faces-config.xml</literal>で定義される標準のJSFナビゲーション規則を使用できます。しかし、JSFナビゲーション規則は厄介な制限があります。"
+msgid ""
+"You can use standard JSF navigation rules defined in <literal>faces-config."
+"xml</literal> in a Seam application. However, JSF navigation rules have a "
+"number of annoying limitations:"
+msgstr ""
+"Seamアプリケーションでは<literal>faces-config.xml</literal>で定義される標準の"
+"JSFナビゲーション規則を使用できます。しかし、JSFナビゲーション規則は厄介な制"
+"限があります。"
 
 #. Tag: para
-#: Events.xml:357
+#: Events.xml:356
 #, no-c-format
-msgid "It is not possible to specify request parameters to be used when redirecting."
+msgid ""
+"It is not possible to specify request parameters to be used when redirecting."
 msgstr "リダイレクトで使われるときに要求パラメータを指定できません。"
 
 #. Tag: para
-#: Events.xml:362
+#: Events.xml:361
 #, no-c-format
 msgid "It is not possible to begin or end conversations from a rule."
 msgstr "規則から対話 (conversation) の開始や終了ができません。"
 
 #. Tag: para
-#: Events.xml:367
+#: Events.xml:366
 #, no-c-format
-msgid "Rules work by evaluating the return value of the action method; it is not possible to evaluate an arbitrary EL expression."
-msgstr "規則はアクションメソッドの戻り値の評価によって動作します。 つまり、任意のEL式を評価することはできません。"
+msgid ""
+"Rules work by evaluating the return value of the action method; it is not "
+"possible to evaluate an arbitrary EL expression."
+msgstr ""
+"規則はアクションメソッドの戻り値の評価によって動作します。 つまり、任意のEL式"
+"を評価することはできません。"
 
 # 2.1
 #. Tag: para
-#: Events.xml:374
+#: Events.xml:373
 #, no-c-format
-msgid "A further problem is that \"orchestration\" logic gets scattered between <literal>pages.xml</literal> and <literal>faces-config.xml</literal>. It's better to unify this logic into <literal>pages.xml</literal>."
-msgstr "さらに<literal>pages.xml</literal> と <literal>faces-config.xml</literal> の間に「オーケストレーション」ロジックが分散してしまうという問題があります。このロジックは <literal>pages.xml</literal> に統合した方が良いでしょう。"
+msgid ""
+"A further problem is that \"orchestration\" logic gets scattered between "
+"<literal>pages.xml</literal> and <literal>faces-config.xml</literal>. It's "
+"better to unify this logic into <literal>pages.xml</literal>."
+msgstr ""
+"さらに<literal>pages.xml</literal> と <literal>faces-config.xml</literal> の"
+"間に「オーケストレーション」ロジックが分散してしまうという問題があります。こ"
+"のロジックは <literal>pages.xml</literal> に統合した方が良いでしょう。"
 
 #. Tag: para
-#: Events.xml:379
+#: Events.xml:378
 #, no-c-format
 msgid "This JSF navigation rule:"
 msgstr "このJSFナビゲーション規則は、"
 
 #. Tag: programlisting
-#: Events.xml:383
+#: Events.xml:382
 #, no-c-format
 msgid ""
 "<![CDATA[<navigation-rule>\n"
@@ -663,13 +932,13 @@ msgstr ""
 "</navigation-rule>]]>"
 
 #. Tag: para
-#: Events.xml:385
+#: Events.xml:384
 #, no-c-format
 msgid "Can be rewritten as follows:"
 msgstr "次のように書き直すことができます。"
 
 #. Tag: programlisting
-#: Events.xml:389
+#: Events.xml:388
 #, no-c-format
 msgid ""
 "<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
@@ -694,13 +963,19 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:391
+#: Events.xml:390
 #, no-c-format
-msgid "But it would be even nicer if we didn't have to pollute our <literal>DocumentEditor</literal> component with string-valued return values (the JSF outcomes). So Seam lets us write:"
-msgstr "しかし、<literal>DocumentEditor</literal> コンポーネントが文字列の戻り値（JSFの結果）を持つような汚いコードを書かなくてすめばさらに良くなるでしょう。Seamでは次のように書くことができます。"
+msgid ""
+"But it would be even nicer if we didn't have to pollute our "
+"<literal>DocumentEditor</literal> component with string-valued return values "
+"(the JSF outcomes). So Seam lets us write:"
+msgstr ""
+"しかし、<literal>DocumentEditor</literal> コンポーネントが文字列の戻り値（JSF"
+"の結果）を持つような汚いコードを書かなくてすめばさらに良くなるでしょう。Seam"
+"では次のように書くことができます。"
 
 #. Tag: programlisting
-#: Events.xml:396
+#: Events.xml:395
 #, no-c-format
 msgid ""
 "<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
@@ -726,13 +1001,13 @@ msgstr ""
 "</page>]]>"
 
 #. Tag: para
-#: Events.xml:398
+#: Events.xml:397
 #, no-c-format
 msgid "Or even:"
 msgstr "または、次のようにすら書くことができます。"
 
 #. Tag: programlisting
-#: Events.xml:402
+#: Events.xml:401
 #, no-c-format
 msgid ""
 "<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
@@ -756,19 +1031,29 @@ msgstr ""
 "</page>]]>"
 
 #. Tag: para
-#: Events.xml:404
+#: Events.xml:403
 #, no-c-format
-msgid "The first form evaluates a value binding to determine the outcome value to be used by the subsequent rules. The second approach ignores the outcome and evaluates a value binding for each possible rule."
-msgstr "最初の形式は後続の規則によって使用されるようにcoutcomeの値を決定する値バインディングを評価します。 二番目のアプローチはoutcomeを無視し、各々の規則の値バインディングを評価します。"
+msgid ""
+"The first form evaluates a value binding to determine the outcome value to "
+"be used by the subsequent rules. The second approach ignores the outcome and "
+"evaluates a value binding for each possible rule."
+msgstr ""
+"最初の形式は後続の規則によって使用されるようにcoutcomeの値を決定する値バイン"
+"ディングを評価します。 二番目のアプローチはoutcomeを無視し、各々の規則の値バ"
+"インディングを評価します。"
 
 #. Tag: para
-#: Events.xml:411
+#: Events.xml:410
 #, no-c-format
-msgid "Of course, when an update succeeds, we probably want to end the current conversation. We can do that like this:"
-msgstr "もちろん、更新が成功したなら、現在の対話 (conversation) を終了させたいことでしょう。 これには、次のようにします。"
+msgid ""
+"Of course, when an update succeeds, we probably want to end the current "
+"conversation. We can do that like this:"
+msgstr ""
+"もちろん、更新が成功したなら、現在の対話 (conversation) を終了させたいことで"
+"しょう。 これには、次のようにします。"
 
 #. Tag: programlisting
-#: Events.xml:416
+#: Events.xml:415
 #, no-c-format
 msgid ""
 "<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
@@ -795,13 +1080,19 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:418
+#: Events.xml:417
 #, no-c-format
-msgid "As we've ended conversation any subsequent requests won't know which document we are interested in. We can pass the document id as a request parameter which also makes the view bookmarkable:"
-msgstr "対話が終了してしまうと、後続の要求は関心があるのがどのドキュメントであるのか知ることができません。要求パラメータとしてドキュメントIDを渡すことができます。そして、それはビューをブックマーク可能にもしてくれます。"
+msgid ""
+"As we've ended conversation any subsequent requests won't know which "
+"document we are interested in. We can pass the document id as a request "
+"parameter which also makes the view bookmarkable:"
+msgstr ""
+"対話が終了してしまうと、後続の要求は関心があるのがどのドキュメントであるのか"
+"知ることができません。要求パラメータとしてドキュメントIDを渡すことができま"
+"す。そして、それはビューをブックマーク可能にもしてくれます。"
 
 #. Tag: programlisting
-#: Events.xml:424
+#: Events.xml:423
 #, no-c-format
 msgid ""
 "<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
@@ -810,7 +1101,8 @@ msgid ""
 "        <rule if=\"#{documentEditor.errors.empty}\">\n"
 "            <end-conversation/>\n"
 "            <redirect view-id=\"/viewDocument.xhtml\">\n"
-"                <param name=\"documentId\" value=\"#{documentEditor.documentId}\"/>\n"
+"                <param name=\"documentId\" value=\"#{documentEditor."
+"documentId}\"/>\n"
 "            </redirect>\n"
 "        </rule>\n"
 "    </navigation>\n"
@@ -823,7 +1115,8 @@ msgstr ""
 "        <rule if=\"#{documentEditor.errors.empty}\">\n"
 "            <end-conversation/>\n"
 "            <redirect view-id=\"/viewDocument.xhtml\">\n"
-"                <param name=\"documentId\" value=\"#{documentEditor.documentId}\"/>\n"
+"                <param name=\"documentId\" value=\"#{documentEditor."
+"documentId}\"/>\n"
 "            </redirect>\n"
 "        </rule>\n"
 "    </navigation>\n"
@@ -831,13 +1124,20 @@ msgstr ""
 "</page>]]>"
 
 #. Tag: para
-#: Events.xml:426
+#: Events.xml:425
 #, no-c-format
-msgid "Null outcomes are a special case in JSF. The null outcome is interpreted to mean \"redisplay the page\". The following navigation rule matches any non-null outcome, but <emphasis>not</emphasis> the null outcome:"
-msgstr "outcomeがnullとなるのはJSFでは特別なケースです。coucomeがnullは「そのページを再表示する」 という意味に解釈されます。次のナビゲーション規則はnullではないoutcomeに適合しますが、outcomeがnullのものには<emphasis>適合しません</emphasis>。"
+msgid ""
+"Null outcomes are a special case in JSF. The null outcome is interpreted to "
+"mean \"redisplay the page\". The following navigation rule matches any non-"
+"null outcome, but <emphasis>not</emphasis> the null outcome:"
+msgstr ""
+"outcomeがnullとなるのはJSFでは特別なケースです。coucomeがnullは「そのページを"
+"再表示する」 という意味に解釈されます。次のナビゲーション規則はnullではない"
+"outcomeに適合しますが、outcomeがnullのものには<emphasis>適合しません</"
+"emphasis>。"
 
 #. Tag: programlisting
-#: Events.xml:432
+#: Events.xml:431
 #, no-c-format
 msgid ""
 "<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
@@ -861,13 +1161,17 @@ msgstr ""
 "</page>]]>"
 
 #. Tag: para
-#: Events.xml:434
+#: Events.xml:433
 #, no-c-format
-msgid "If you want to perform navigation when a null outcome occurs, use the following form instead:"
-msgstr "outcomeがnullの場合にナビゲーションをしたいのであれば、 代わりに次の形式を使います。"
+msgid ""
+"If you want to perform navigation when a null outcome occurs, use the "
+"following form instead:"
+msgstr ""
+"outcomeがnullの場合にナビゲーションをしたいのであれば、 代わりに次の形式を使"
+"います。"
 
 #. Tag: programlisting
-#: Events.xml:439
+#: Events.xml:438
 #, no-c-format
 msgid ""
 "<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
@@ -888,13 +1192,13 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:441
+#: Events.xml:440
 #, no-c-format
 msgid "The view-id may be given as a JSF EL expression:"
 msgstr "ビューidはJSF EL式として与えることができます。"
 
 #. Tag: programlisting
-#: Events.xml:445
+#: Events.xml:444
 #, no-c-format
 msgid ""
 "<![CDATA[<page view-id=\"/editDocument.xhtml\">\n"
@@ -918,53 +1222,83 @@ msgstr ""
 "</page>]]>"
 
 #. Tag: title
-#: Events.xml:450
+#: Events.xml:449
 #, no-c-format
-msgid "Fine-grained files for definition of navigation, page actions and parameters"
-msgstr "ナビゲーション、ページアクション、パラメータの定義用に細分化したファイル"
+msgid ""
+"Fine-grained files for definition of navigation, page actions and parameters"
+msgstr ""
+"ナビゲーション、ページアクション、パラメータの定義用に細分化したファイル"
 
 #. Tag: para
-#: Events.xml:452
+#: Events.xml:451
 #, no-c-format
-msgid "If you have a lot of different page actions and page parameters, or even just a lot of navigation rules, you will almost certainly want to split the declarations up over multiple files. You can define actions and parameters for a page with the view id <literal>/calc/calculator.jsp</literal> in a resource named <literal>calc/calculator.page.xml</literal>. The root element in this case is the <literal>&lt;page&gt;</literal> element, and the view id is implied:"
-msgstr "もしも、大量のページアクション、ページパラメータ、ナビゲーション規則が あるなら、それらの定義を複数のファイルに分割したいことでしょう。 ビューidが<literal>/calc/calculator.jsp</literal>のアクションやパラメータは <literal>calc/calculator.page.xml</literal> という名前のリソースに定義可能です。 この場合のルート要素は<literal>&lt;page&gt;</literal>要素で、ビューidは暗に指定されます。"
+msgid ""
+"If you have a lot of different page actions and page parameters, or even "
+"just a lot of navigation rules, you will almost certainly want to split the "
+"declarations up over multiple files. You can define actions and parameters "
+"for a page with the view id <literal>/calc/calculator.jsp</literal> in a "
+"resource named <literal>calc/calculator.page.xml</literal>. The root element "
+"in this case is the <literal>&lt;page&gt;</literal> element, and the view id "
+"is implied:"
+msgstr ""
+"もしも、大量のページアクション、ページパラメータ、ナビゲーション規則が あるな"
+"ら、それらの定義を複数のファイルに分割したいことでしょう。 ビューidが"
+"<literal>/calc/calculator.jsp</literal>のアクションやパラメータは "
+"<literal>calc/calculator.page.xml</literal> という名前のリソースに定義可能で"
+"す。 この場合のルート要素は<literal>&lt;page&gt;</literal>要素で、ビューidは"
+"暗に指定されます。"
 
 #. Tag: programlisting
-#: Events.xml:463
+#: Events.xml:462
 #, no-c-format
 msgid ""
 "<![CDATA[<page action=\"#{calculator.calculate}\">\n"
 "    <param name=\"x\" value=\"#{calculator.lhs}\"/>\n"
 "    <param name=\"y\" value=\"#{calculator.rhs}\"/>\n"
-"    <param name=\"op\" converter=\"#{operatorConverter}\" value=\"#{calculator.op}\"/>\n"
+"    <param name=\"op\" converter=\"#{operatorConverter}\" value=\"#"
+"{calculator.op}\"/>\n"
 "</page>]]>"
 msgstr ""
 "<![CDATA[<page action=\"#{calculator.calculate}\">\n"
 "    <param name=\"x\" value=\"#{calculator.lhs}\"/>\n"
 "    <param name=\"y\" value=\"#{calculator.rhs}\"/>\n"
-"    <param name=\"op\" converter=\"#{operatorConverter}\" value=\"#{calculator.op}\"/>\n"
+"    <param name=\"op\" converter=\"#{operatorConverter}\" value=\"#"
+"{calculator.op}\"/>\n"
 "</page>]]>"
 
 #. Tag: title
-#: Events.xml:470
+#: Events.xml:469
 #, no-c-format
 msgid "Component-driven events"
 msgstr "コンポーネント駆動イベント"
 
 #. Tag: para
-#: Events.xml:472
+#: Events.xml:471
 #, no-c-format
-msgid "Seam components can interact by simply calling each others methods. Stateful components may even implement the observer/observable pattern. But to enable components to interact in a more loosely-coupled fashion than is possible when the components call each others methods directly, Seam provides <emphasis>component-driven events</emphasis>."
-msgstr "Seamコンポーネント同士は互いのメソッドを呼ぶことだけでやりとりができます。 ステートフルコンポーネントはobserver/observableパターンを実装することすらできます。 しかし、コンポーネントが互いにメソッドを直接呼ぶとき、より疎結合な方法でやりとりできるために、Seamは<emphasis>コンポーネント駆動イベント</emphasis>を提供します。"
+msgid ""
+"Seam components can interact by simply calling each others methods. Stateful "
+"components may even implement the observer/observable pattern. But to enable "
+"components to interact in a more loosely-coupled fashion than is possible "
+"when the components call each others methods directly, Seam provides "
+"<emphasis>component-driven events</emphasis>."
+msgstr ""
+"Seamコンポーネント同士は互いのメソッドを呼ぶことだけでやりとりができます。 ス"
+"テートフルコンポーネントはobserver/observableパターンを実装することすらできま"
+"す。 しかし、コンポーネントが互いにメソッドを直接呼ぶとき、より疎結合な方法で"
+"やりとりできるために、Seamは<emphasis>コンポーネント駆動イベント</emphasis>を"
+"提供します。"
 
 #. Tag: para
-#: Events.xml:480
+#: Events.xml:479
 #, no-c-format
-msgid "We specify event listeners (observers) in <literal>components.xml</literal>."
-msgstr "イベントリスナー (observers) を<literal>components.xml</literal>に指定します。"
+msgid ""
+"We specify event listeners (observers) in <literal>components.xml</literal>."
+msgstr ""
+"イベントリスナー (observers) を<literal>components.xml</literal>に指定しま"
+"す。"
 
 #. Tag: programlisting
-#: Events.xml:484
+#: Events.xml:483
 #, no-c-format
 msgid ""
 "<![CDATA[<components>\n"
@@ -982,19 +1316,26 @@ msgstr ""
 "</components>]]>"
 
 #. Tag: para
-#: Events.xml:486
+#: Events.xml:485
 #, no-c-format
 msgid "Where the <emphasis>event type</emphasis> is just an arbitrary string."
 msgstr "ここで<emphasis>event type</emphasis> は単なる任意の文字列です。"
 
 #. Tag: para
-#: Events.xml:490
+#: Events.xml:489
 #, no-c-format
-msgid "When an event occurs, the actions registered for that event will be called in the order they appear in <literal>components.xml</literal>. How does a component raise an event? Seam provides a built-in component for this."
-msgstr "イベントが発生するとき、そのイベント用に登録されたアクションは<literal>components.xml</literal> に出現した順番で呼び出されます。コンポーネントはどのようにイベントを発行するのでしょうか。Seamはこのために組み込みコンポーネントを提供します。"
+msgid ""
+"When an event occurs, the actions registered for that event will be called "
+"in the order they appear in <literal>components.xml</literal>. How does a "
+"component raise an event? Seam provides a built-in component for this."
+msgstr ""
+"イベントが発生するとき、そのイベント用に登録されたアクションは"
+"<literal>components.xml</literal> に出現した順番で呼び出されます。コンポーネ"
+"ントはどのようにイベントを発行するのでしょうか。Seamはこのために組み込みコン"
+"ポーネントを提供します。"
 
 #. Tag: programlisting
-#: Events.xml:496
+#: Events.xml:495
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"helloWorld\")\n"
@@ -1014,13 +1355,13 @@ msgstr ""
 "}]]>"
 
 #. Tag: para
-#: Events.xml:498
+#: Events.xml:497
 #, no-c-format
 msgid "Or you can use an annotation."
 msgstr "あるいは、アノテーションを使うことも可能です。"
 
 #. Tag: programlisting
-#: Events.xml:502
+#: Events.xml:501
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"helloWorld\")\n"
@@ -1040,13 +1381,19 @@ msgstr ""
 "}]]>"
 
 #. Tag: para
-#: Events.xml:504
+#: Events.xml:503
 #, no-c-format
-msgid "Notice that this event producer has no dependency upon event consumers. The event listener may now be implemented with absolutely no dependency upon the producer:"
-msgstr "このイベントプロデューサはイベントコンシューマになんら依存していないことに注意してください。 そのイベントリスナーはまったくプロデューサと依存関係がないように実装できるのです。"
+msgid ""
+"Notice that this event producer has no dependency upon event consumers. The "
+"event listener may now be implemented with absolutely no dependency upon the "
+"producer:"
+msgstr ""
+"このイベントプロデューサはイベントコンシューマになんら依存していないことに注"
+"意してください。 そのイベントリスナーはまったくプロデューサと依存関係がないよ"
+"うに実装できるのです。"
 
 #. Tag: programlisting
-#: Events.xml:510
+#: Events.xml:509
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"helloListener\")\n"
@@ -1065,13 +1412,21 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:512
+#: Events.xml:511
 #, no-c-format
-msgid "The method binding defined in <literal>components.xml</literal> above takes care of mapping the event to the consumer. If you don't like futzing about in the <literal>components.xml</literal> file, you can use an annotation instead:"
-msgstr "上記の <literal>components.xml</literal> で定義されたメソッドバインディングは、コンシューマへのイベントのマップを扱います。もし <literal>components.xml</literal> ファイルを編集するのが嫌ならば、その代わりにアノテーションを使うこともできます。"
+msgid ""
+"The method binding defined in <literal>components.xml</literal> above takes "
+"care of mapping the event to the consumer. If you don't like futzing about "
+"in the <literal>components.xml</literal> file, you can use an annotation "
+"instead:"
+msgstr ""
+"上記の <literal>components.xml</literal> で定義されたメソッドバインディング"
+"は、コンシューマへのイベントのマップを扱います。もし <literal>components."
+"xml</literal> ファイルを編集するのが嫌ならば、その代わりにアノテーションを使"
+"うこともできます。"
 
 #. Tag: programlisting
-#: Events.xml:519
+#: Events.xml:518
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"helloListener\")\n"
@@ -1092,20 +1447,31 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:521
+#: Events.xml:520
 #, no-c-format
-msgid "You might wonder why I've not mentioned anything about event objects in this discussion. In Seam, there is no need for an event object to propagate state between event producer and listener. State is held in the Seam contexts, and is shared between components. However, if you really want to pass an event object, you can:"
-msgstr "なぜイベントオブジェクトについて今まで何も言及してこなかったのか疑問を思われるかもしれません。Seamでは、イベントプロデューサとリスナーの間の状態の伝播のためのイベントオブジェクトは必要ではありません。状態はSeamコンテキストで保持され、コンポーネント間で共有されます。しかし、もしイベントオブジェクトを渡したいのであれば、次のようにすることも可能です。"
+msgid ""
+"You might wonder why I've not mentioned anything about event objects in this "
+"discussion. In Seam, there is no need for an event object to propagate state "
+"between event producer and listener. State is held in the Seam contexts, and "
+"is shared between components. However, if you really want to pass an event "
+"object, you can:"
+msgstr ""
+"なぜイベントオブジェクトについて今まで何も言及してこなかったのか疑問を思われ"
+"るかもしれません。Seamでは、イベントプロデューサとリスナーの間の状態の伝播の"
+"ためのイベントオブジェクトは必要ではありません。状態はSeamコンテキストで保持"
+"され、コンポーネント間で共有されます。しかし、もしイベントオブジェクトを渡し"
+"たいのであれば、次のようにすることも可能です。"
 
 #. Tag: programlisting
-#: Events.xml:529
+#: Events.xml:528
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"helloWorld\")\n"
 "public class HelloWorld {\n"
 "    private String name;\n"
 "    public void sayHello() {\n"
-"        FacesMessages.instance().add(\"Hello World, my name is #0.\", name);\n"
+"        FacesMessages.instance().add(\"Hello World, my name is #0.\", "
+"name);\n"
 "        Events.instance().raiseEvent(\"hello\", name);\n"
 "    }\n"
 "}]]>"
@@ -1114,13 +1480,14 @@ msgstr ""
 "public class HelloWorld {\n"
 "    private String name;\n"
 "    public void sayHello() {\n"
-"        FacesMessages.instance().add(\"Hello World, my name is #0.\", name);\n"
+"        FacesMessages.instance().add(\"Hello World, my name is #0.\", "
+"name);\n"
 "        Events.instance().raiseEvent(\"hello\", name);\n"
 "    }\n"
 "}]]>"
 
 #. Tag: programlisting
-#: Events.xml:531
+#: Events.xml:530
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"helloListener\")\n"
@@ -1140,514 +1507,840 @@ msgstr ""
 "}]]>"
 
 #. Tag: title
-#: Events.xml:536
+#: Events.xml:535
 #, no-c-format
 msgid "Contextual events"
 msgstr "コンテキスト依存イベント"
 
 #. Tag: para
-#: Events.xml:537
+#: Events.xml:536
 #, no-c-format
-msgid "Seam defines a number of built-in events that the application can use to perform special kinds of framework integration. The events are:"
-msgstr "Seamは特殊なフレームワークの統合のためにアプリケーションが利用可能な多くの組み込みイベントを定義します。そのイベントとは次のようなものです。"
+msgid ""
+"Seam defines a number of built-in events that the application can use to "
+"perform special kinds of framework integration. The events are:"
+msgstr ""
+"Seamは特殊なフレームワークの統合のためにアプリケーションが利用可能な多くの組"
+"み込みイベントを定義します。そのイベントとは次のようなものです。"
+
+# 2.1
+#. Tag: para
+#: Events.xml:542
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.validationFailed</literal> &#8212; called when JSF "
+"validation fails"
+msgstr ""
+"<literal>org.jboss.seam.validationFailed</literal> &#8212; JSFバリデーション"
+"が失敗したときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:543
 #, no-c-format
-msgid "<literal>org.jboss.seam.validationFailed</literal> &#8212; called when JSF validation fails"
-msgstr "<literal>org.jboss.seam.validationFailed</literal> &#8212; JSFバリデーションが失敗したときに呼ばれます"
+msgid ""
+"<literal>org.jboss.seam.noConversation</literal> &#8212; called when there "
+"is no long running conversation and a long running conversation is required"
+msgstr ""
+"<literal>org.jboss.seam.noConversation</literal> &#8212; 長期対話が存在しない"
+"状態で長期対話が要求されたときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:544
 #, no-c-format
-msgid "<literal>org.jboss.seam.noConversation</literal> &#8212; called when there is no long running conversation and a long running conversation is required"
-msgstr "<literal>org.jboss.seam.noConversation</literal> &#8212; 長期対話が存在しない状態で長期対話が要求されたときに呼ばれます"
+msgid ""
+"<literal>org.jboss.seam.preSetVariable.&lt;name&gt;</literal> &#8212; called "
+"when the context variable &lt;name&gt; is set"
+msgstr ""
+"<literal>org.jboss.seam.preSetVariable.&lt;name&gt;</literal> &#8212; コンテ"
+"キスト変数 &lt;name&gt; 設定されたときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:545
 #, no-c-format
-msgid "<literal>org.jboss.seam.preSetVariable.&lt;name&gt;</literal> &#8212; called when the context variable &lt;name&gt; is set"
-msgstr "<literal>org.jboss.seam.preSetVariable.&lt;name&gt;</literal> &#8212; コンテキスト変数 &lt;name&gt; 設定されたときに呼ばれます"
+msgid ""
+"<literal>org.jboss.seam.postSetVariable.&lt;name&gt;</literal> &#8212; "
+"called when the context variable &lt;name&gt; is set"
+msgstr ""
+"<literal>org.jboss.seam.postSetVariable.&lt;name&gt;</literal> &#8212; コンテ"
+"キスト変数 &lt;name&gt; が設定されたときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:546
 #, no-c-format
-msgid "<literal>org.jboss.seam.postSetVariable.&lt;name&gt;</literal> &#8212; called when the context variable &lt;name&gt; is set"
-msgstr "<literal>org.jboss.seam.postSetVariable.&lt;name&gt;</literal> &#8212; コンテキスト変数 &lt;name&gt; が設定されたときに呼ばれます"
+msgid ""
+"<literal>org.jboss.seam.preRemoveVariable.&lt;name&gt;</literal> &#8212; "
+"called when the context variable &lt;name&gt; is unset"
+msgstr ""
+"<literal>org.jboss.seam.preRemoveVariable.&lt;name&gt;</literal> &#8212; コン"
+"テキスト変数 &lt;name&gt; が設定されなくなったら呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:547
 #, no-c-format
-msgid "<literal>org.jboss.seam.preRemoveVariable.&lt;name&gt;</literal> &#8212; called when the context variable &lt;name&gt; is unset"
-msgstr "<literal>org.jboss.seam.preRemoveVariable.&lt;name&gt;</literal> &#8212; コンテキスト変数 &lt;name&gt; が設定されなくなったら呼ばれます"
-
-# 2.1
-#. Tag: para
-#: Events.xml:548
-#, no-c-format
-msgid "<literal>org.jboss.seam.postRemoveVariable.&lt;name&gt;</literal> &#8212; called when the context variable &lt;name&gt; is unset"
-msgstr "<literal>org.jboss.seam.postRemoveVariable.&lt;name&gt;</literal> &#8212; コンテキスト変数 &lt;name&gt; が設定されなくなったら呼ばれます"
+msgid ""
+"<literal>org.jboss.seam.postRemoveVariable.&lt;name&gt;</literal> &#8212; "
+"called when the context variable &lt;name&gt; is unset"
+msgstr ""
+"<literal>org.jboss.seam.postRemoveVariable.&lt;name&gt;</literal> &#8212; コ"
+"ンテキスト変数 &lt;name&gt; が設定されなくなったら呼ばれます"
 
 #  2.1
 #. Tag: para
+#: Events.xml:548
+#, no-c-format
+msgid ""
+"<literal>org.jboss.seam.preDestroyContext.&lt;SCOPE&gt;</literal> &#8212; "
+"called before the &lt;SCOPE&gt; context is destroyed"
+msgstr ""
+"<literal>org.jboss.seam.preDestroyContext.&lt;SCOPE&gt;</literal> &#8212; "
+"&lt;SCOPE&gt; コンテキストが破壊される前に呼ばれます"
+
+# 2.1
+#. Tag: para
 #: Events.xml:549
 #, no-c-format
-msgid "<literal>org.jboss.seam.preDestroyContext.&lt;SCOPE&gt;</literal> &#8212; called before the &lt;SCOPE&gt; context is destroyed"
-msgstr "<literal>org.jboss.seam.preDestroyContext.&lt;SCOPE&gt;</literal> &#8212; &lt;SCOPE&gt; コンテキストが破壊される前に呼ばれます"
+msgid ""
+"<literal>org.jboss.seam.postDestroyContext.&lt;SCOPE&gt;</literal> &#8212; "
+"called after the &lt;SCOPE&gt; context is destroyed"
+msgstr ""
+"<literal>org.jboss.seam.postDestroyContext.&lt;SCOPE&gt;</literal> &#8212; "
+"&lt;SCOPE&gt; コンテキストが破壊された後に呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:550
-#, no-c-format
-msgid "<literal>org.jboss.seam.postDestroyContext.&lt;SCOPE&gt;</literal> &#8212; called after the &lt;SCOPE&gt; context is destroyed"
-msgstr "<literal>org.jboss.seam.postDestroyContext.&lt;SCOPE&gt;</literal> &#8212; &lt;SCOPE&gt; コンテキストが破壊された後に呼ばれます"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.beginConversation </literal> &#8212; called whenever "
+"a long-running conversation begins"
+msgstr ""
+"<literal>org.jboss.seam.beginConversation </literal>&#8212; 長期対話が開始す"
+"るときにはいつでも呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:551
-#, no-c-format
-msgid "<literal>org.jboss.seam.beginConversation </literal>&#8212; called whenever a long-running conversation begins"
-msgstr "<literal>org.jboss.seam.beginConversation </literal>&#8212; 長期対話が開始するときにはいつでも呼ばれます"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.endConversation </literal> &#8212; called whenever a "
+"long-running conversation ends"
+msgstr ""
+"<literal>org.jboss.seam.endConversation </literal>&#8212; 長期対話が終了する"
+"ときはいつでも呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:552
-#, no-c-format
-msgid "<literal>org.jboss.seam.endConversation </literal>&#8212; called whenever a long-running conversation ends"
-msgstr "<literal>org.jboss.seam.endConversation </literal>&#8212; 長期対話が終了するときはいつでも呼ばれます"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.conversationTimeout</literal> &#8212; called when a "
+"conversation timeout occurs. The conversation id is passed as a parameter."
+msgstr ""
+"<literal>org.jboss.seam.conversationTimeout</literal>&#8212; 対話タイムアウト"
+"が発生するときに呼ばれます。対話IDはパラメータとして渡されます。"
 
 # 2.1
 #. Tag: para
 #: Events.xml:553
-#, no-c-format
-msgid "<literal>org.jboss.seam.conversationTimeout</literal>&#8212; called when a conversation timeout occurs. The conversation id is passed as a parameter."
-msgstr "<literal>org.jboss.seam.conversationTimeout</literal>&#8212; 対話タイムアウトが発生するときに呼ばれます。対話IDはパラメータとして渡されます。"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.beginPageflow </literal> &#8212; called when a "
+"pageflow begins"
+msgstr ""
+"<literal>org.jboss.seam.beginPageflow </literal>&#8212; ページフローが開始す"
+"るときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:554
-#, no-c-format
-msgid "<literal>org.jboss.seam.beginPageflow </literal>&#8212; called when a pageflow begins"
-msgstr "<literal>org.jboss.seam.beginPageflow </literal>&#8212; ページフローが開始するときに呼ばれます"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.beginPageflow.&lt;name&gt; </literal> &#8212; called "
+"when the pageflow &lt;name&gt; begins"
+msgstr ""
+"<literal>org.jboss.seam.beginPageflow.&lt;name&gt; </literal>&#8212; ページフ"
+"ロー &lt;name&gt; が開始するときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:555
-#, no-c-format
-msgid "<literal>org.jboss.seam.beginPageflow.&lt;name&gt; </literal>&#8212; called when the pageflow &lt;name&gt; begins"
-msgstr "<literal>org.jboss.seam.beginPageflow.&lt;name&gt; </literal>&#8212; ページフロー &lt;name&gt; が開始するときに呼ばれます"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.endPageflow </literal> &#8212; called when a "
+"pageflow ends"
+msgstr ""
+"<literal>org.jboss.seam.endPageflow </literal>&#8212; ページフローが終了する"
+"ときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:556
-#, no-c-format
-msgid "<literal>org.jboss.seam.endPageflow </literal>&#8212; called when a pageflow ends"
-msgstr "<literal>org.jboss.seam.endPageflow </literal>&#8212; ページフローが終了するときに呼ばれます"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.endPageflow.&lt;name&gt; </literal> &#8212; called "
+"when the pageflow &lt;name&gt; ends"
+msgstr ""
+"<literal>org.jboss.seam.endPageflow.&lt;name&gt; </literal>&#8212; ページフ"
+"ロー &lt;name&gt; が終了するときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:557
-#, no-c-format
-msgid "<literal>org.jboss.seam.endPageflow.&lt;name&gt; </literal>&#8212; called when the pageflow &lt;name&gt; ends"
-msgstr "<literal>org.jboss.seam.endPageflow.&lt;name&gt; </literal>&#8212; ページフロー &lt;name&gt; が終了するときに呼ばれます"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.createProcess.&lt;name&gt; </literal> &#8212; called "
+"when the process &lt;name&gt; is created"
+msgstr ""
+"<literal>org.jboss.seam.createProcess.&lt;name&gt; </literal>&#8212; プロセ"
+"ス &lt;name&gt; が生成されるときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:558
-#, no-c-format
-msgid "<literal>org.jboss.seam.createProcess.&lt;name&gt; </literal>&#8212; called when the process &lt;name&gt; is created"
-msgstr "<literal>org.jboss.seam.createProcess.&lt;name&gt; </literal>&#8212; プロセス &lt;name&gt; が生成されるときに呼ばれます"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.endProcess.&lt;name&gt; </literal> &#8212; called "
+"when the process &lt;name&gt; ends"
+msgstr ""
+"<literal>org.jboss.seam.endProcess.&lt;name&gt; </literal>&#8212; プロセス "
+"&lt;name&gt; が終了するとき呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:559
-#, no-c-format
-msgid "<literal>org.jboss.seam.endProcess.&lt;name&gt; </literal>&#8212; called when the process &lt;name&gt; ends"
-msgstr "<literal>org.jboss.seam.endProcess.&lt;name&gt; </literal>&#8212; プロセス &lt;name&gt; が終了するとき呼ばれます"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.initProcess.&lt;name&gt; </literal> &#8212; called "
+"when the process &lt;name&gt; is associated with the conversation"
+msgstr ""
+"<literal>org.jboss.seam.initProcess.&lt;name&gt; </literal>&#8212; プロセス "
+"&lt;name&gt; が対話と関連づけられるときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:560
-#, no-c-format
-msgid "<literal>org.jboss.seam.initProcess.&lt;name&gt; </literal>&#8212; called when the process &lt;name&gt; is associated with the conversation"
-msgstr "<literal>org.jboss.seam.initProcess.&lt;name&gt; </literal>&#8212; プロセス &lt;name&gt; が対話と関連づけられるときに呼ばれます"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.initTask.&lt;name&gt; </literal> &#8212; called when "
+"the task &lt;name&gt; is associated with the conversation"
+msgstr ""
+"<literal>org.jboss.seam.initTask.&lt;name&gt; </literal>&#8212; タスク &lt;"
+"name&gt; が対話と関連付けられるときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:561
-#, no-c-format
-msgid "<literal>org.jboss.seam.initTask.&lt;name&gt; </literal>&#8212; called when the task &lt;name&gt; is associated with the conversation"
-msgstr "<literal>org.jboss.seam.initTask.&lt;name&gt; </literal>&#8212; タスク &lt;name&gt; が対話と関連付けられるときに呼ばれます"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.startTask.&lt;name&gt; </literal> &#8212; called "
+"when the task &lt;name&gt; is started"
+msgstr ""
+"<literal>org.jboss.seam.startTask.&lt;name&gt; </literal>&#8212; タスク &lt;"
+"name&gt; が開始させられるときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:562
-#, no-c-format
-msgid "<literal>org.jboss.seam.startTask.&lt;name&gt; </literal>&#8212; called when the task &lt;name&gt; is started"
-msgstr "<literal>org.jboss.seam.startTask.&lt;name&gt; </literal>&#8212; タスク &lt;name&gt; が開始させられるときに呼ばれます"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.endTask.&lt;name&gt; </literal> &#8212; called when "
+"the task &lt;name&gt; is ended"
+msgstr ""
+"<literal>org.jboss.seam.endTask.&lt;name&gt; </literal>&#8212; タスク &lt;"
+"name&gt; が終了させられるときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:563
-#, no-c-format
-msgid "<literal>org.jboss.seam.endTask.&lt;name&gt; </literal>&#8212; called when the task &lt;name&gt; is ended"
-msgstr "<literal>org.jboss.seam.endTask.&lt;name&gt; </literal>&#8212; タスク &lt;name&gt; が終了させられるときに呼ばれます"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.postCreate.&lt;name&gt; </literal> &#8212; called "
+"when the component &lt;name&gt; is created"
+msgstr ""
+"<literal>org.jboss.seam.postCreate.&lt;name&gt; </literal>&#8212; コンポーネ"
+"ント &lt;name&gt; が生成されたときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:564
-#, no-c-format
-msgid "<literal>org.jboss.seam.postCreate.&lt;name&gt; </literal>&#8212; called when the component &lt;name&gt; is created"
-msgstr "<literal>org.jboss.seam.postCreate.&lt;name&gt; </literal>&#8212; コンポーネント &lt;name&gt; が生成されたときに呼ばれます"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.preDestroy.&lt;name&gt; </literal> &#8212; called "
+"when the component &lt;name&gt; is destroyed"
+msgstr ""
+"<literal>org.jboss.seam.preDestroy.&lt;name&gt; </literal>&#8212; コンポーネ"
+"ント &lt;name&gt; が破壊されるときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:565
-#, no-c-format
-msgid "<literal>org.jboss.seam.preDestroy.&lt;name&gt; </literal>&#8212; called when the component &lt;name&gt; is destroyed"
-msgstr "<literal>org.jboss.seam.preDestroy.&lt;name&gt; </literal>&#8212; コンポーネント &lt;name&gt; が破壊されるときに呼ばれます"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.beforePhase </literal> &#8212; called before the "
+"start of a JSF phase"
+msgstr ""
+"<literal>org.jboss.seam.beforePhase </literal>&#8212; JSFフェーズの開始前に呼"
+"ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:566
-#, no-c-format
-msgid "<literal>org.jboss.seam.beforePhase </literal>&#8212; called before the start of a JSF phase"
-msgstr "<literal>org.jboss.seam.beforePhase </literal>&#8212; JSFフェーズの開始前に呼ばれます"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.afterPhase </literal> &#8212; called after the end "
+"of a JSF phase"
+msgstr ""
+"<literal>org.jboss.seam.afterPhase </literal>&#8212; JSFフェーズの終了後に呼"
+"ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:567
-#, no-c-format
-msgid "<literal>org.jboss.seam.afterPhase </literal>&#8212; called after the end of a JSF phase"
-msgstr "<literal>org.jboss.seam.afterPhase </literal>&#8212; JSFフェーズの終了後に呼ばれます"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.postInitialization </literal> &#8212; called when "
+"Seam has initialized and started up all components"
+msgstr ""
+"<literal>org.jboss.seam.postInitialization </literal>&#8212; Seamが初期化完了"
+"し、すべてのコンポーネントを起動するときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:568
-#, no-c-format
-msgid "<literal>org.jboss.seam.postInitialization </literal>&#8212; called when Seam has initialized and started up all components"
-msgstr "<literal>org.jboss.seam.postInitialization </literal>&#8212; Seamが初期化完了し、すべてのコンポーネントを起動するときに呼ばれます"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.postReInitialization </literal> &#8212; called when "
+"Seam has re-initialized and started up all components after a redeploy"
+msgstr ""
+"<literal>org.jboss.seam.postReInitialization </literal>&#8212; Seamが再初期化"
+"を完了し、再デプロイ後にすべてのコンポーネントを起動するときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:569
 #, no-c-format
-msgid "<literal>org.jboss.seam.postReInitialization </literal>&#8212; called when Seam has re-initialized and started up all components after a redeploy"
-msgstr "<literal>org.jboss.seam.postReInitialization </literal>&#8212; Seamが再初期化を完了し、再デプロイ後にすべてのコンポーネントを起動するときに呼ばれます"
+msgid ""
+"<literal>org.jboss.seam.exceptionHandled.&lt;type&gt;</literal> &#8212; "
+"called when an uncaught exception is handled by Seam"
+msgstr ""
+"<literal>org.jboss.seam.exceptionHandled.&lt;type&gt;</literal> &#8212; "
+"キャッチされなかった例外がSeamによって処理されるときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:570
 #, no-c-format
-msgid "<literal>org.jboss.seam.postAuthenticate.&lt;name&gt; </literal>&#8212; called after a user is authenticated"
-msgstr "<literal>org.jboss.seam.postAuthenticate.&lt;name&gt; </literal>&#8212; ユーザーが認証された後に呼ばれます"
+msgid ""
+"<literal>org.jboss.seam.exceptionHandled</literal> &#8212; called when an "
+"uncaught exception is handled by Seam"
+msgstr ""
+"<literal>org.jboss.seam.exceptionHandled</literal> &#8212; キャッチされなかっ"
+"た例外がSeamによって処理されるときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:571
 #, no-c-format
-msgid "<literal>org.jboss.seam.preAuthenticate.&lt;name&gt; </literal>&#8212; called before attempting to authenticate a user"
-msgstr "<literal>org.jboss.seam.preAuthenticate.&lt;name&gt; </literal>&#8212; ユーザーを認証しようとする前に呼ばれます"
+msgid ""
+"<literal>org.jboss.seam.exceptionNotHandled</literal> &#8212; called when "
+"there was no handler for an uncaught exception"
+msgstr ""
+"<literal>org.jboss.seam.exceptionNotHandled</literal> &#8212; キャッチされな"
+"かった例外のためのハンドラが存在しなかったときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:572
 #, no-c-format
-msgid "<literal>org.jboss.seam.notLoggedIn</literal> &#8212; called there is no authenticated user and authentication is required"
-msgstr "<literal>org.jboss.seam.notLoggedIn</literal> &#8212; 認証されたユーザーが存在しないところで認証が要求されるときに呼ばれます"
+msgid ""
+"<literal>org.jboss.seam.afterTransactionSuccess</literal> &#8212; called "
+"when a transaction succeeds in the Seam Application Framework"
+msgstr ""
+"<literal>org.jboss.seam.afterTransactionSuccess</literal> &#8212; Seamアプリ"
+"ケーションフレームワークでトランザクションが成功するときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:573
 #, no-c-format
-msgid "<literal>org.jboss.seam.rememberMe</literal> &#8212; occurs when Seam security detects the username in a cookie"
-msgstr "<literal>org.jboss.seam.rememberMe</literal> &#8212; Seamセキュリティがクッキー内にユーザー名を検出したときに発生します"
+msgid ""
+"<literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> "
+"&#8212; called when a transaction succeeds in the Seam Application Framework "
+"which manages an entity called <literal>&lt;name&gt;</literal>"
+msgstr ""
+"<literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> "
+"&#8212; <literal>&lt;name&gt;</literal>という名前のエンティティを管理するSeam"
+"アプリケーションフレームワークでトランザクションが成功するときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:574
-#, no-c-format
-msgid "<literal>org.jboss.seam.exceptionHandled.&lt;type&gt;</literal> &#8212; called when an uncaught exception is handled by Seam"
-msgstr "<literal>org.jboss.seam.exceptionHandled.&lt;type&gt;</literal> &#8212; キャッチされなかった例外がSeamによって処理されるときに呼ばれます"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.security.loggedOut</literal> &#8212; called when a "
+"user logs out"
+msgstr ""
+"<literal>org.jboss.seam.beginPageflow </literal>&#8212; ページフローが開始す"
+"るときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:575
-#, no-c-format
-msgid "<literal>org.jboss.seam.exceptionHandled</literal> &#8212; called when an uncaught exception is handled by Seam"
-msgstr "<literal>org.jboss.seam.exceptionHandled</literal> &#8212; キャッチされなかった例外がSeamによって処理されるときに呼ばれます"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.security.loginFailed</literal> &#8212; called when a "
+"user authentication attempt fails"
+msgstr ""
+"<literal>org.jboss.seam.validationFailed</literal> &#8212; JSFバリデーション"
+"が失敗したときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:576
-#, no-c-format
-msgid "<literal>org.jboss.seam.exceptionNotHandled</literal> &#8212; called when there was no handler for an uncaught exception"
-msgstr "<literal>org.jboss.seam.exceptionNotHandled</literal> &#8212; キャッチされなかった例外のためのハンドラが存在しなかったときに呼ばれます"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.security.loginSuccessful</literal> &#8212; called "
+"when a user is successfully authenticated"
+msgstr ""
+"<literal>org.jboss.seam.postAuthenticate.&lt;name&gt; </literal>&#8212; ユー"
+"ザーが認証された後に呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:577
-#, no-c-format
-msgid "<literal>org.jboss.seam.afterTransactionSuccess</literal> &#8212; called when a transaction succeeds in the Seam Application Framework"
-msgstr "<literal>org.jboss.seam.afterTransactionSuccess</literal> &#8212; Seamアプリケーションフレームワークでトランザクションが成功するときに呼ばれます"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.security.notAuthorized</literal> &#8212; called when "
+"an authorization check fails"
+msgstr ""
+"<literal>org.jboss.seam.validationFailed</literal> &#8212; JSFバリデーション"
+"が失敗したときに呼ばれます"
 
 # 2.1
 #. Tag: para
 #: Events.xml:578
-#, no-c-format
-msgid "<literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> &#8212; called when a transaction succeeds in the Seam Application Framework which manages an entity called <literal>&lt;name&gt;</literal>"
-msgstr "<literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> &#8212; <literal>&lt;name&gt;</literal>という名前のエンティティを管理するSeamアプリケーションフレームワークでトランザクションが成功するときに呼ばれます"
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.security.notLoggedIn</literal> &#8212; called there "
+"is no authenticated user and authentication is required"
+msgstr ""
+"<literal>org.jboss.seam.notLoggedIn</literal> &#8212; 認証されたユーザーが存"
+"在しないところで認証が要求されるときに呼ばれます"
+
+# 2.1
+#. Tag: para
+#: Events.xml:579
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.security.postAuthenticate.</literal> &#8212; called "
+"after a user is authenticated"
+msgstr ""
+"<literal>org.jboss.seam.postAuthenticate.&lt;name&gt; </literal>&#8212; ユー"
+"ザーが認証された後に呼ばれます"
+
+# 2.1
+#. Tag: para
+#: Events.xml:580
+#, fuzzy, no-c-format
+msgid ""
+"<literal>org.jboss.seam.security.preAuthenticate</literal> &#8212; called "
+"before attempting to authenticate a user"
+msgstr ""
+"<literal>org.jboss.seam.preAuthenticate.&lt;name&gt; </literal>&#8212; ユー"
+"ザーを認証しようとする前に呼ばれます"
 
 #. Tag: para
-#: Events.xml:581
+#: Events.xml:583
 #, no-c-format
-msgid "Seam components may observe any of these events in just the same way they observe any other component-driven events."
-msgstr "Seamコンポーネントは、他のコンポーネント駆動イベントを観察する (observe) のとまったく同様に これらのどのイベントでも観察することが可能です。"
+msgid ""
+"Seam components may observe any of these events in just the same way they "
+"observe any other component-driven events."
+msgstr ""
+"Seamコンポーネントは、他のコンポーネント駆動イベントを観察する (observe) のと"
+"まったく同様に これらのどのイベントでも観察することが可能です。"
 
 #. Tag: title
-#: Events.xml:590
+#: Events.xml:592
 #, no-c-format
 msgid "Seam interceptors"
 msgstr "Seamインタセプタ"
 
 #. Tag: para
-#: Events.xml:592
-#, no-c-format
-msgid "EJB 3.0 introduced a standard interceptor model for session bean components. To add an interceptor to a bean, you need to write a class with a method annotated <literal>@AroundInvoke</literal> and annotate the bean with an <literal>@Interceptors</literal> annotation that specifies the name of the interceptor class. For example, the following interceptor checks that the user is logged in before allowing invoking an action listener method:"
-msgstr "EJB 3.0 はセッション Bean コンポーネントに対して標準的なインタセプタモデルを導入しました。 Bean にインタセプタを追加するには、 <literal>@AroundInvoke</literal> というアノテーションが付加されたメソッドの付いたクラスを記述して、 その Bean に対してインタセプタのクラス名を指定する <literal>@Interceptors</literal> のアノテーションを付ける必要があります。"
-
-#. Tag: programlisting
-#: Events.xml:601
+#: Events.xml:594
 #, no-c-format
 msgid ""
-"<![CDATA[public class LoggedInInterceptor {\n"
-"\n"
-"   @AroundInvoke\n"
-"   public Object checkLoggedIn(InvocationContext invocation) throws Exception {\n"
-"   \n"
-"      boolean isLoggedIn = Contexts.getSessionContext().get(\"loggedIn\")!=null;\n"
-"      if (isLoggedIn) {\n"
-"         //the user is already logged in\n"
-"         return invocation.proceed();\n"
-"      }\n"
-"      else {\n"
-"         //the user is not logged in, fwd to login page\n"
-"         return \"login\";\n"
-"      }\n"
-"   }\n"
-"\n"
-"}]]>"
+"EJB 3.0 introduced a standard interceptor model for session bean components. "
+"To add an interceptor to a bean, you need to write a class with a method "
+"annotated <literal>@AroundInvoke</literal> and annotate the bean with an "
+"<literal>@Interceptors</literal> annotation that specifies the name of the "
+"interceptor class. For example, the following interceptor checks that the "
+"user is logged in before allowing invoking an action listener method:"
 msgstr ""
-"<![CDATA[public class LoggedInInterceptor {\n"
-"\n"
-"   @AroundInvoke\n"
-"   public Object checkLoggedIn(InvocationContext invocation) throws Exception {\n"
-"   \n"
-"      boolean isLoggedIn = Contexts.getSessionContext().get(\"loggedIn\")!=null;\n"
-"      if (isLoggedIn) {\n"
-"         //the user is already logged in\n"
-"         return invocation.proceed();\n"
-"      }\n"
-"      else {\n"
-"         //the user is not logged in, fwd to login page\n"
-"         return \"login\";\n"
-"      }\n"
-"   }\n"
-"\n"
-"}]]>"
+"EJB 3.0 はセッション Bean コンポーネントに対して標準的なインタセプタモデルを"
+"導入しました。 Bean にインタセプタを追加するには、 <literal>@AroundInvoke</"
+"literal> というアノテーションが付加されたメソッドの付いたクラスを記述して、 "
+"その Bean に対してインタセプタのクラス名を指定する <literal>@Interceptors</"
+"literal> のアノテーションを付ける必要があります。"
 
-# 2.1
-#. Tag: para
+#. Tag: programlisting
 #: Events.xml:603
 #, no-c-format
-msgid "To apply this interceptor to a session bean which acts as an action listener, we must annotate the session bean <literal>@Interceptors(LoggedInInterceptor.class)</literal>. This is a somewhat ugly annotation. Seam builds upon the interceptor framework in EJB3 by allowing you to use <literal>@Interceptors</literal> as a meta-annotation for class level interceptors (those annotated <literal>@Target(TYPE)</literal>). In our example, we would create an <literal>@LoggedIn</literal> annotation, as follows:"
-msgstr "このインタセプタをアクションリスナーとして動作するセッションBeanに対して適用するためには、そのセッションBeanに <literal>@Interceptors(LoggedInInterceptor.class)</literal> というアノテーションを付加しなければなりません。これはちょっと見栄えの悪いアノテーションです。Seamはクラスレベルインタセプタのためのメタアノテーションとして <literal>@Interceptors</literal> を使えるようにEJB3のインタセプタフレームワーク上に構築されています。例えば、以下では、 <literal>@LoggedIn</literal> アノテーションを生成します。"
-
-#. Tag: programlisting
-#: Events.xml:612
-#, no-c-format
 msgid ""
-"<![CDATA[@Target(TYPE)\n"
-"@Retention(RUNTIME)\n"
-"@Interceptors(LoggedInInterceptor.class)\n"
-"public @interface LoggedIn {}]]>"
-msgstr ""
-"<![CDATA[@Target(TYPE)\n"
-"@Retention(RUNTIME)\n"
-"@Interceptors(LoggedInInterceptor.class)\n"
-"public @interface LoggedIn {}]]>"
-
-#. Tag: para
-#: Events.xml:614
-#, no-c-format
-msgid "We can now simply annotate our action listener bean with <literal>@LoggedIn</literal> to apply the interceptor."
-msgstr "こうして、 このインタセプタを適用するのにアクションリスナー Bean に<literal>@LoggedIn</literal> アノテーションだけを付加すればよくなりました。"
-
-#. Tag: programlisting
-#: Events.xml:619
-#, no-c-format
-msgid ""
-"<![CDATA[@Stateless\n"
-"@Name(\"changePasswordAction\")\n"
-"@LoggedIn\n"
-"@Interceptors(SeamInterceptor.class)\n"
-"public class ChangePasswordAction implements ChangePassword { \n"
-"    \n"
-"    ...\n"
-"    \n"
-"    public String changePassword() { ... }\n"
-"    \n"
+"<![CDATA[public class LoggedInInterceptor {\n"
+"\n"
+"   @AroundInvoke\n"
+"   public Object checkLoggedIn(InvocationContext invocation) throws "
+"Exception {\n"
+"   \n"
+"      boolean isLoggedIn = Contexts.getSessionContext().get(\"loggedIn\")!"
+"=null;\n"
+"      if (isLoggedIn) {\n"
+"         //the user is already logged in\n"
+"         return invocation.proceed();\n"
+"      }\n"
+"      else {\n"
+"         //the user is not logged in, fwd to login page\n"
+"         return \"login\";\n"
+"      }\n"
+"   }\n"
+"\n"
 "}]]>"
 msgstr ""
-"<![CDATA[@Stateless\n"
-"@Name(\"changePasswordAction\")\n"
-"@LoggedIn\n"
-"@Interceptors(SeamInterceptor.class)\n"
-"public class ChangePasswordAction implements ChangePassword { \n"
-"    \n"
-"    ...\n"
-"    \n"
-"    public String changePassword() { ... }\n"
-"    \n"
+"<![CDATA[public class LoggedInInterceptor {\n"
+"\n"
+"   @AroundInvoke\n"
+"   public Object checkLoggedIn(InvocationContext invocation) throws "
+"Exception {\n"
+"   \n"
+"      boolean isLoggedIn = Contexts.getSessionContext().get(\"loggedIn\")!"
+"=null;\n"
+"      if (isLoggedIn) {\n"
+"         //the user is already logged in\n"
+"         return invocation.proceed();\n"
+"      }\n"
+"      else {\n"
+"         //the user is not logged in, fwd to login page\n"
+"         return \"login\";\n"
+"      }\n"
+"   }\n"
+"\n"
 "}]]>"
-
-#. Tag: para
-#: Events.xml:621
-#, no-c-format
-msgid "If interceptor ordering is important (it usually is), you can add <literal>@Interceptor</literal> annotations to your interceptor classes to specify a partial order of interceptors."
-msgstr "インタセプタの順番が重要な場合 (通常は重要となる)、 インタセプタクラスに対して <literal>@Interceptor</literal> アノテーションを追加しインタセプタの半順序を指定することが可能です。"
-
-#. Tag: programlisting
-#: Events.xml:627
-#, no-c-format
-msgid ""
-"<![CDATA[@Interceptor(around={BijectionInterceptor.class,\n"
-"                     ValidationInterceptor.class,\n"
-"                     ConversationInterceptor.class},\n"
-"             within=RemoveInterceptor.class)\n"
-"public class LoggedInInterceptor\n"
-"{\n"
-"    ...\n"
-"}]]>"
-msgstr ""
-"<![CDATA[@Interceptor(around={BijectionInterceptor.class,\n"
-"                     ValidationInterceptor.class,\n"
-"                     ConversationInterceptor.class},\n"
-"             within=RemoveInterceptor.class)\n"
-"public class LoggedInInterceptor\n"
-"{\n"
-"    ...\n"
-"}]]>"
-
-#. Tag: para
-#: Events.xml:629
-#, no-c-format
-msgid "You can even have a \"client-side\" interceptor, that runs around any of the built-in functionality of EJB3:"
-msgstr "「クライアント側」インタセプタを持つこともできます。 EJB3 のいずれの組み込み機能とでも併用することができます。"
-
-#. Tag: programlisting
-#: Events.xml:634
-#, no-c-format
-msgid ""
-"<![CDATA[@Interceptor(type=CLIENT)\n"
-"public class LoggedInInterceptor\n"
-"{\n"
-"    ...\n"
-"}]]>"
-msgstr ""
-"<![CDATA[@Interceptor(type=CLIENT)\n"
-"public class LoggedInInterceptor\n"
-"{\n"
-"    ...\n"
-"}]]>"
-
-#. Tag: para
-#: Events.xml:636
-#, no-c-format
-msgid "EJB interceptors are stateful, with a lifecycle that is the same as the component they intercept. For interceptors which do not need to maintain state, Seam lets you get a performance optimization by specifying <literal>@Interceptor(stateless=true)</literal>."
-msgstr "EJB インタセプタはステートフルで、 インタセプトする対象となるコンポーネントと同じライフルサイクルに従います。 状態を維持する必要がないインタセプタの場合、 Seam では <literal>@Interceptor(stateless=true)</literal> を指定することでパフォーマンス最適化ができるようになります。"
 
 # 2.1
 #. Tag: para
-#: Events.xml:643
+#: Events.xml:605
 #, no-c-format
-msgid "Much of the functionality of Seam is implemented as a set of built-in Seam interceptors, including the interceptors named in the previous example. You don't have to explicitly specify these interceptors by annotating your components; they exist for all interceptable Seam components."
-msgstr "Seamの多くの機能は、前の例で登場したようなインタセプタを含む組み込みのSeamインタセプタによって実装されています。コンポーネントにアノテーションを付加することによってこれらのインタセプタを明示的に指定する必要はありませんが、インタセプタを適用可能なすべてのSeamコンポーネントのために存在しているのです。"
+msgid ""
+"To apply this interceptor to a session bean which acts as an action "
+"listener, we must annotate the session bean <literal>@Interceptors"
+"(LoggedInInterceptor.class)</literal>. This is a somewhat ugly annotation. "
+"Seam builds upon the interceptor framework in EJB3 by allowing you to use "
+"<literal>@Interceptors</literal> as a meta-annotation for class level "
+"interceptors (those annotated <literal>@Target(TYPE)</literal>). In our "
+"example, we would create an <literal>@LoggedIn</literal> annotation, as "
+"follows:"
+msgstr ""
+"このインタセプタをアクションリスナーとして動作するセッションBeanに対して適用"
+"するためには、そのセッションBeanに <literal>@Interceptors"
+"(LoggedInInterceptor.class)</literal> というアノテーションを付加しなければな"
+"りません。これはちょっと見栄えの悪いアノテーションです。Seamはクラスレベルイ"
+"ンタセプタのためのメタアノテーションとして <literal>@Interceptors</literal> "
+"を使えるようにEJB3のインタセプタフレームワーク上に構築されています。例えば、"
+"以下では、 <literal>@LoggedIn</literal> アノテーションを生成します。"
+
+#. Tag: programlisting
+#: Events.xml:614
+#, no-c-format
+msgid ""
+"<![CDATA[@Target(TYPE)\n"
+"@Retention(RUNTIME)\n"
+"@Interceptors(LoggedInInterceptor.class)\n"
+"public @interface LoggedIn {}]]>"
+msgstr ""
+"<![CDATA[@Target(TYPE)\n"
+"@Retention(RUNTIME)\n"
+"@Interceptors(LoggedInInterceptor.class)\n"
+"public @interface LoggedIn {}]]>"
 
 #. Tag: para
-#: Events.xml:650
+#: Events.xml:616
 #, no-c-format
-msgid "You can even use Seam interceptors with JavaBean components, not just EJB3 beans!"
-msgstr "Seam インタセプタは EJB3 Bean だけでなく JavaBean コンポーネントにも使うことができます。"
+msgid ""
+"We can now simply annotate our action listener bean with <literal>@LoggedIn</"
+"literal> to apply the interceptor."
+msgstr ""
+"こうして、 このインタセプタを適用するのにアクションリスナー Bean に"
+"<literal>@LoggedIn</literal> アノテーションだけを付加すればよくなりました。"
+
+#. Tag: programlisting
+#: Events.xml:621
+#, no-c-format
+msgid ""
+"<![CDATA[@Stateless\n"
+"@Name(\"changePasswordAction\")\n"
+"@LoggedIn\n"
+"@Interceptors(SeamInterceptor.class)\n"
+"public class ChangePasswordAction implements ChangePassword { \n"
+"    \n"
+"    ...\n"
+"    \n"
+"    public String changePassword() { ... }\n"
+"    \n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Stateless\n"
+"@Name(\"changePasswordAction\")\n"
+"@LoggedIn\n"
+"@Interceptors(SeamInterceptor.class)\n"
+"public class ChangePasswordAction implements ChangePassword { \n"
+"    \n"
+"    ...\n"
+"    \n"
+"    public String changePassword() { ... }\n"
+"    \n"
+"}]]>"
 
 #. Tag: para
-#: Events.xml:654
+#: Events.xml:623
 #, no-c-format
-msgid "EJB defines interception not only for business methods (using <literal>@AroundInvoke</literal>), but also for the lifecycle methods <literal>@PostConstruct</literal>, <literal>@PreDestroy</literal>, <literal>@PrePassivate</literal> and <literal>@PostActive</literal>. Seam supports all these lifecycle methods on both component and interceptor not only for EJB3 beans, but also for JavaBean components (except <literal>@PreDestroy</literal> which is not meaningful for JavaBean components)."
-msgstr "EJB は、 インタセプションを (<literal>@AroundInvoke</literal> を使った) ビジネスメソッドだけでなく、 ライフサイクルメソッド <literal>@PostConstruct</literal>、 <literal>@PreDestroy</literal>、 <literal>@PrePassivate</literal> そして <literal>@PostActive</literal> に対しても定義します。 Seam は、 コンポーネントとインタセプタに対するこれらすべてのライフサイクルメソッドを EJB3 Bean だけでなく JavaBean コンポーネントに対してもサポートします (JavaBean コンポーネントにとって意味のない <literal>@PreDestroy</literal> は除きます)。"
+msgid ""
+"If interceptor ordering is important (it usually is), you can add "
+"<literal>@Interceptor</literal> annotations to your interceptor classes to "
+"specify a partial order of interceptors."
+msgstr ""
+"インタセプタの順番が重要な場合 (通常は重要となる)、 インタセプタクラスに対し"
+"て <literal>@Interceptor</literal> アノテーションを追加しインタセプタの半順序"
+"を指定することが可能です。"
+
+#. Tag: programlisting
+#: Events.xml:629
+#, no-c-format
+msgid ""
+"<![CDATA[@Interceptor(around={BijectionInterceptor.class,\n"
+"                     ValidationInterceptor.class,\n"
+"                     ConversationInterceptor.class},\n"
+"             within=RemoveInterceptor.class)\n"
+"public class LoggedInInterceptor\n"
+"{\n"
+"    ...\n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Interceptor(around={BijectionInterceptor.class,\n"
+"                     ValidationInterceptor.class,\n"
+"                     ConversationInterceptor.class},\n"
+"             within=RemoveInterceptor.class)\n"
+"public class LoggedInInterceptor\n"
+"{\n"
+"    ...\n"
+"}]]>"
+
+#. Tag: para
+#: Events.xml:631
+#, no-c-format
+msgid ""
+"You can even have a \"client-side\" interceptor, that runs around any of the "
+"built-in functionality of EJB3:"
+msgstr ""
+"「クライアント側」インタセプタを持つこともできます。 EJB3 のいずれの組み込み"
+"機能とでも併用することができます。"
+
+#. Tag: programlisting
+#: Events.xml:636
+#, no-c-format
+msgid ""
+"<![CDATA[@Interceptor(type=CLIENT)\n"
+"public class LoggedInInterceptor\n"
+"{\n"
+"    ...\n"
+"}]]>"
+msgstr ""
+"<![CDATA[@Interceptor(type=CLIENT)\n"
+"public class LoggedInInterceptor\n"
+"{\n"
+"    ...\n"
+"}]]>"
+
+#. Tag: para
+#: Events.xml:638
+#, no-c-format
+msgid ""
+"EJB interceptors are stateful, with a lifecycle that is the same as the "
+"component they intercept. For interceptors which do not need to maintain "
+"state, Seam lets you get a performance optimization by specifying "
+"<literal>@Interceptor(stateless=true)</literal>."
+msgstr ""
+"EJB インタセプタはステートフルで、 インタセプトする対象となるコンポーネントと"
+"同じライフルサイクルに従います。 状態を維持する必要がないインタセプタの場"
+"合、 Seam では <literal>@Interceptor(stateless=true)</literal> を指定すること"
+"でパフォーマンス最適化ができるようになります。"
+
+# 2.1
+#. Tag: para
+#: Events.xml:645
+#, no-c-format
+msgid ""
+"Much of the functionality of Seam is implemented as a set of built-in Seam "
+"interceptors, including the interceptors named in the previous example. You "
+"don't have to explicitly specify these interceptors by annotating your "
+"components; they exist for all interceptable Seam components."
+msgstr ""
+"Seamの多くの機能は、前の例で登場したようなインタセプタを含む組み込みのSeamイ"
+"ンタセプタによって実装されています。コンポーネントにアノテーションを付加する"
+"ことによってこれらのインタセプタを明示的に指定する必要はありませんが、インタ"
+"セプタを適用可能なすべてのSeamコンポーネントのために存在しているのです。"
+
+#. Tag: para
+#: Events.xml:652
+#, no-c-format
+msgid ""
+"You can even use Seam interceptors with JavaBean components, not just EJB3 "
+"beans!"
+msgstr ""
+"Seam インタセプタは EJB3 Bean だけでなく JavaBean コンポーネントにも使うこと"
+"ができます。"
+
+#. Tag: para
+#: Events.xml:656
+#, no-c-format
+msgid ""
+"EJB defines interception not only for business methods (using "
+"<literal>@AroundInvoke</literal>), but also for the lifecycle methods "
+"<literal>@PostConstruct</literal>, <literal>@PreDestroy</literal>, "
+"<literal>@PrePassivate</literal> and <literal>@PostActive</literal>. Seam "
+"supports all these lifecycle methods on both component and interceptor not "
+"only for EJB3 beans, but also for JavaBean components (except "
+"<literal>@PreDestroy</literal> which is not meaningful for JavaBean "
+"components)."
+msgstr ""
+"EJB は、 インタセプションを (<literal>@AroundInvoke</literal> を使った) ビジ"
+"ネスメソッドだけでなく、 ライフサイクルメソッド <literal>@PostConstruct</"
+"literal>、 <literal>@PreDestroy</literal>、 <literal>@PrePassivate</literal> "
+"そして <literal>@PostActive</literal> に対しても定義します。 Seam は、 コン"
+"ポーネントとインタセプタに対するこれらすべてのライフサイクルメソッドを EJB3 "
+"Bean だけでなく JavaBean コンポーネントに対してもサポートします (JavaBean コ"
+"ンポーネントにとって意味のない <literal>@PreDestroy</literal> は除きます)。"
 
 #. Tag: title
-#: Events.xml:666
+#: Events.xml:668
 #, no-c-format
 msgid "Managing exceptions"
 msgstr "例外を管理する"
 
 #. Tag: para
-#: Events.xml:668
+#: Events.xml:670
 #, no-c-format
-msgid "JSF is surprisingly limited when it comes to exception handling. As a partial workaround for this problem, Seam lets you define how a particular class of exception is to be treated by annotating the exception class, or declaring the exception class in an XML file. This facility is meant to be combined with the EJB 3.0-standard <literal>@ApplicationException</literal> annotation which specifies whether the exception should cause a transaction rollback."
-msgstr "JSF は例外処理に関しては驚くほど制限があります。 この問題の部分的な回避策として、 Seam は例外クラスにアノテーションを付けるか XML ファイルに例外クラスを宣言することで例外となる特定クラスを処理する方法を定義することができます。 この機能は、 指定された例外がトランザクションロールバックの原因になるべきか否かを指定するのに EJB 3.0 標準の <literal>@ApplicationException</literal> アノテーションと一緒に使われることが意図されていています。"
+msgid ""
+"JSF is surprisingly limited when it comes to exception handling. As a "
+"partial workaround for this problem, Seam lets you define how a particular "
+"class of exception is to be treated by annotating the exception class, or "
+"declaring the exception class in an XML file. This facility is meant to be "
+"combined with the EJB 3.0-standard <literal>@ApplicationException</literal> "
+"annotation which specifies whether the exception should cause a transaction "
+"rollback."
+msgstr ""
+"JSF は例外処理に関しては驚くほど制限があります。 この問題の部分的な回避策とし"
+"て、 Seam は例外クラスにアノテーションを付けるか XML ファイルに例外クラスを宣"
+"言することで例外となる特定クラスを処理する方法を定義することができます。 この"
+"機能は、 指定された例外がトランザクションロールバックの原因になるべきか否かを"
+"指定するのに EJB 3.0 標準の <literal>@ApplicationException</literal> アノテー"
+"ションと一緒に使われることが意図されていています。"
 
 #. Tag: title
-#: Events.xml:678
+#: Events.xml:680
 #, no-c-format
 msgid "Exceptions and transactions"
 msgstr "例外およびトランザクション"
 
 #. Tag: para
-#: Events.xml:680
+#: Events.xml:682
 #, no-c-format
-msgid "EJB specifies well-defined rules that let us control whether an exception immediately marks the current transaction for rollback when it is thrown by a business method of the bean: <emphasis>system exceptions</emphasis> always cause a transaction rollback, <emphasis>application exceptions</emphasis> do not cause a rollback by default, but they do if <literal>@ApplicationException(rollback=true)</literal> is specified. (An application exception is any checked exception, or any unchecked exception annotated <literal>@ApplicationException</literal>. A system exception is any unchecked exception without an <literal>@ApplicationException</literal> annotation.)"
-msgstr "Bean のビジネスメソッドによって例外がスローされると、 その例外は現在のトランザクションに直ちにロールバックが必要として印を付けるかどうかを制御できるよう明確な規則を EJB は定義しています。 <emphasis>システム例外</emphasis> は常にトランザクションロールバックとなり、 <emphasis>アプリケーション例外</emphasis> はデフォルトではロールバックとはなりませんが <literal>@ApplicationException(rollback=true)</literal> が指定されるとロールバックとなります。 (アプリケーション例外とは、 チェックの付いた例外、 または <literal>@ApplicationException</literal> アノテーションが付いたチェックのない例外です。 システム例外とは、 <literal>@ApplicationException</literal> アノテーションもチェックも付いていない例外です。)"
+msgid ""
+"EJB specifies well-defined rules that let us control whether an exception "
+"immediately marks the current transaction for rollback when it is thrown by "
+"a business method of the bean: <emphasis>system exceptions</emphasis> always "
+"cause a transaction rollback, <emphasis>application exceptions</emphasis> do "
+"not cause a rollback by default, but they do if "
+"<literal>@ApplicationException(rollback=true)</literal> is specified. (An "
+"application exception is any checked exception, or any unchecked exception "
+"annotated <literal>@ApplicationException</literal>. A system exception is "
+"any unchecked exception without an <literal>@ApplicationException</literal> "
+"annotation.)"
+msgstr ""
+"Bean のビジネスメソッドによって例外がスローされると、 その例外は現在のトラン"
+"ザクションに直ちにロールバックが必要として印を付けるかどうかを制御できるよう"
+"明確な規則を EJB は定義しています。 <emphasis>システム例外</emphasis> は常に"
+"トランザクションロールバックとなり、 <emphasis>アプリケーション例外</"
+"emphasis> はデフォルトではロールバックとはなりませんが "
+"<literal>@ApplicationException(rollback=true)</literal> が指定されるとロール"
+"バックとなります。 (アプリケーション例外とは、 チェックの付いた例外、 または "
+"<literal>@ApplicationException</literal> アノテーションが付いたチェックのない"
+"例外です。 システム例外とは、 <literal>@ApplicationException</literal> アノ"
+"テーションもチェックも付いていない例外です。)"
 
 #. Tag: para
-#: Events.xml:693
+#: Events.xml:695
 #, no-c-format
-msgid "Note that there is a difference between marking a transaction for rollback, and actually rolling it back. The exception rules say that the transaction should be marked rollback only, but it may still be active after the exception is thrown."
-msgstr "ロールバック用にトランザクションに印を付けるのと、 実際にロールバックを行うのとは異なります。 例外規則にはトランザクションにロールバックが必要であると印が付けられることだけしか言及していませんが、 例外がスローされた後でもそれはアクティブのままである可能性があるということに注意してください。"
+msgid ""
+"Note that there is a difference between marking a transaction for rollback, "
+"and actually rolling it back. The exception rules say that the transaction "
+"should be marked rollback only, but it may still be active after the "
+"exception is thrown."
+msgstr ""
+"ロールバック用にトランザクションに印を付けるのと、 実際にロールバックを行うの"
+"とは異なります。 例外規則にはトランザクションにロールバックが必要であると印が"
+"付けられることだけしか言及していませんが、 例外がスローされた後でもそれはアク"
+"ティブのままである可能性があるということに注意してください。"
 
 #. Tag: para
-#: Events.xml:700
+#: Events.xml:702
 #, no-c-format
-msgid "Seam applies the EJB 3.0 exception rollback rules also to Seam JavaBean components."
-msgstr "Seam は EJB 3.0 例外のロールバック規則を Seam JavaBean コンポーネントに対しても適用します。"
+msgid ""
+"Seam applies the EJB 3.0 exception rollback rules also to Seam JavaBean "
+"components."
+msgstr ""
+"Seam は EJB 3.0 例外のロールバック規則を Seam JavaBean コンポーネントに対して"
+"も適用します。"
 
 #. Tag: para
-#: Events.xml:705
+#: Events.xml:707
 #, no-c-format
-msgid "But these rules only apply in the Seam component layer. What about an exception that is uncaught and propagates out of the Seam component layer, and out of the JSF layer? Well, it is always wrong to leave a dangling transaction open, so Seam rolls back any active transaction when an exception occurs and is uncaught in the Seam component layer."
-msgstr "しかし、 これらの規則は Seam コンポーネント層でのみ適用されるます。 では、 例外がキャッチされることなく Seam コンポーネント層の外部に伝播し、 さらに JSF 層の外に伝播したらどうなるでしょうか。 仕掛かり中のトランザクションをオープンしたままで放置するのは間違いなので、 例外が発生し Seam コンポーネント層でキャッチされないと Seam はアクティブトランザクションを必ずロールバックします。"
+msgid ""
+"But these rules only apply in the Seam component layer. What about an "
+"exception that is uncaught and propagates out of the Seam component layer, "
+"and out of the JSF layer? Well, it is always wrong to leave a dangling "
+"transaction open, so Seam rolls back any active transaction when an "
+"exception occurs and is uncaught in the Seam component layer."
+msgstr ""
+"しかし、 これらの規則は Seam コンポーネント層でのみ適用されるます。 では、 例"
+"外がキャッチされることなく Seam コンポーネント層の外部に伝播し、 さらに JSF "
+"層の外に伝播したらどうなるでしょうか。 仕掛かり中のトランザクションをオープン"
+"したままで放置するのは間違いなので、 例外が発生し Seam コンポーネント層で"
+"キャッチされないと Seam はアクティブトランザクションを必ずロールバックしま"
+"す。"
 
 #. Tag: title
-#: Events.xml:715
+#: Events.xml:717
 #, no-c-format
 msgid "Enabling Seam exception handling"
 msgstr "Seam 例外処理を有効にする"
 
 # 2.1
 #. Tag: para
-#: Events.xml:717
+#: Events.xml:719
 #, no-c-format
-msgid "To enable Seam's exception handling, we need to make sure we have the master servlet filter declared in <literal>web.xml</literal>:"
-msgstr "Seamの例外処理を有効にするには、主となるサーブレットフィルタを<literal>web.xml</literal>で宣言したことを確認する必要があります。"
+msgid ""
+"To enable Seam's exception handling, we need to make sure we have the master "
+"servlet filter declared in <literal>web.xml</literal>:"
+msgstr ""
+"Seamの例外処理を有効にするには、主となるサーブレットフィルタを<literal>web."
+"xml</literal>で宣言したことを確認する必要があります。"
 
 #. Tag: programlisting
-#: Events.xml:722
+#: Events.xml:724
 #, no-c-format
 msgid ""
 "<![CDATA[<filter>\n"
@@ -1672,25 +2365,39 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:724
+#: Events.xml:726
 #, no-c-format
-msgid "You need to disable Facelets development mode in <literal>web.xml</literal> and Seam debug mode in <literal>components.xml</literal> if you want your exception handlers to fire."
-msgstr "例外ハンドラを機能させる場合は、 <literal>web.xml</literal> の Facelets 開発モードおよび <literal>components.xml</literal> の Seam デバッグモードも無効にする必要があります。"
+msgid ""
+"You need to disable Facelets development mode in <literal>web.xml</literal> "
+"and Seam debug mode in <literal>components.xml</literal> if you want your "
+"exception handlers to fire."
+msgstr ""
+"例外ハンドラを機能させる場合は、 <literal>web.xml</literal> の Facelets 開発"
+"モードおよび <literal>components.xml</literal> の Seam デバッグモードも無効に"
+"する必要があります。"
 
 #. Tag: title
-#: Events.xml:733
+#: Events.xml:735
 #, no-c-format
 msgid "Using annotations for exception handling"
 msgstr "例外処理に対してアノテーションを使用する"
 
 #. Tag: para
-#: Events.xml:735
+#: Events.xml:737
 #, no-c-format
-msgid "The following exception results in a HTTP 404 error whenever it propagates out of the Seam component layer. It does not roll back the current transaction immediately when thrown, but the transaction will be rolled back if it the exception is not caught by another Seam component."
-msgstr "次の例外は Seam コンポーネント層の外部に伝播すると必ず HTTP 404 エラーになります。 スローされてもすぐには現在のトランザクションをロールバックしませんが、 別の Seam コンポーネントによって例外がキャッチされないとこのトランザクションはロールバックされます。"
+msgid ""
+"The following exception results in a HTTP 404 error whenever it propagates "
+"out of the Seam component layer. It does not roll back the current "
+"transaction immediately when thrown, but the transaction will be rolled back "
+"if it the exception is not caught by another Seam component."
+msgstr ""
+"次の例外は Seam コンポーネント層の外部に伝播すると必ず HTTP 404 エラーになり"
+"ます。 スローされてもすぐには現在のトランザクションをロールバックしません"
+"が、 別の Seam コンポーネントによって例外がキャッチされないとこのトランザク"
+"ションはロールバックされます。"
 
 #. Tag: programlisting
-#: Events.xml:742
+#: Events.xml:744
 #, no-c-format
 msgid ""
 "<![CDATA[@HttpError(errorCode=404)\n"
@@ -1700,45 +2407,68 @@ msgstr ""
 "public class ApplicationException extends Exception { ... }]]>"
 
 #. Tag: para
-#: Events.xml:744
+#: Events.xml:746
 #, no-c-format
-msgid "This exception results in a browser redirect whenever it propagates out of the Seam component layer. It also ends the current conversation. It causes an immediate rollback of the current transaction."
-msgstr "この例外は Seam コンポーネント層の外部に伝播すると必ずブラウザリダイレクトになります。 また、 現在の対話も終了させます。 これにより現在のトランザクションを即時ロールバックさせることになります。"
+msgid ""
+"This exception results in a browser redirect whenever it propagates out of "
+"the Seam component layer. It also ends the current conversation. It causes "
+"an immediate rollback of the current transaction."
+msgstr ""
+"この例外は Seam コンポーネント層の外部に伝播すると必ずブラウザリダイレクトに"
+"なります。 また、 現在の対話も終了させます。 これにより現在のトランザクション"
+"を即時ロールバックさせることになります。"
 
 #. Tag: programlisting
-#: Events.xml:750
+#: Events.xml:752
 #, no-c-format
 msgid ""
 "<![CDATA[@Redirect(viewId=\"/failure.xhtml\", end=true)\n"
 "@ApplicationException(rollback=true)\n"
-"public class UnrecoverableApplicationException extends RuntimeException { ... }]]>"
+"public class UnrecoverableApplicationException extends RuntimeException "
+"{ ... }]]>"
 msgstr ""
 "<![CDATA[@Redirect(viewId=\"/failure.xhtml\", end=true)\n"
 "@ApplicationException(rollback=true)\n"
-"public class UnrecoverableApplicationException extends RuntimeException { ... }]]>"
+"public class UnrecoverableApplicationException extends RuntimeException "
+"{ ... }]]>"
 
 # 2.1
 #. Tag: note
-#: Events.xml:752
+#: Events.xml:754
 #, no-c-format
-msgid "It is important to note that Seam cannot handle exceptions that occur during JSF's RENDER_RESPONSE phase, as it is not possible to perform a redirect once the response has started being written to."
-msgstr "SeamはJSFの応答のレンダリングフェーズの間に発生する例外を処理することができないことを注意しなくてはいけません。一度応答の出力が開始するとリダイレクトを実行することができないからです。"
+msgid ""
+"It is important to note that Seam cannot handle exceptions that occur during "
+"JSF's RENDER_RESPONSE phase, as it is not possible to perform a redirect "
+"once the response has started being written to."
+msgstr ""
+"SeamはJSFの応答のレンダリングフェーズの間に発生する例外を処理することができな"
+"いことを注意しなくてはいけません。一度応答の出力が開始するとリダイレクトを実"
+"行することができないからです。"
 
 # 2.1
 #. Tag: para
-#: Events.xml:758
+#: Events.xml:760
 #, no-c-format
-msgid "You can also use EL to specify the <literal>viewId</literal> to redirect to."
-msgstr "ELを使ってリダイレクト先の <literal>ビューid</literal> を指定することも可能です。"
+msgid ""
+"You can also use EL to specify the <literal>viewId</literal> to redirect to."
+msgstr ""
+"ELを使ってリダイレクト先の <literal>ビューid</literal> を指定することも可能で"
+"す。"
 
 #. Tag: para
-#: Events.xml:762
+#: Events.xml:764
 #, no-c-format
-msgid "This exception results in a redirect, along with a message to the user, when it propagates out of the Seam component layer. It also immediately rolls back the current transaction."
-msgstr "この例外は Seam コンポーネント層の外部に伝播すると必ずユーザーへのメッセージを付けてリダイレクトされます。 また、 現在のトランザクションも即時ロールバックさせます。"
+msgid ""
+"This exception results in a redirect, along with a message to the user, when "
+"it propagates out of the Seam component layer. It also immediately rolls "
+"back the current transaction."
+msgstr ""
+"この例外は Seam コンポーネント層の外部に伝播すると必ずユーザーへのメッセージ"
+"を付けてリダイレクトされます。 また、 現在のトランザクションも即時ロールバッ"
+"クさせます。"
 
 #. Tag: programlisting
-#: Events.xml:768
+#: Events.xml:770
 #, no-c-format
 msgid ""
 "<![CDATA[@Redirect(viewId=\"/error.xhtml\", message=\"Unexpected error\")\n"
@@ -1748,87 +2478,107 @@ msgstr ""
 "public class SystemException extends RuntimeException { ... }]]>"
 
 #. Tag: title
-#: Events.xml:773
+#: Events.xml:775
 #, no-c-format
 msgid "Using XML for exception handling"
 msgstr "例外処理に XML を使用する"
 
 # 2.1
 #. Tag: para
-#: Events.xml:775
-#, no-c-format
-msgid "Since we can't add annotations to all the exception classes we are interested in, Seam also lets us specify this functionality in <literal>pages.xml</literal>."
-msgstr "関心のあるすべての例外クラスへアノテーションを付加することは不可能なので、Seamはこの機能を <literal>pages.xml</literal> でも指定できるようにしています。"
-
-#. Tag: programlisting
-#: Events.xml:780
+#: Events.xml:777
 #, no-c-format
 msgid ""
-"<![CDATA[<pages>\n"
-"   \n"
-"   <exception class=\"javax.persistence.EntityNotFoundException\">\n"
-"      <http-error error-code=\"404\"/>\n"
-"   </exception>\n"
-"   \n"
-"   <exception class=\"javax.persistence.PersistenceException\">\n"
-"      <end-conversation/>\n"
-"      <redirect view-id=\"/error.xhtml\">\n"
-"          <message>Database access failed</message>\n"
-"      </redirect>\n"
-"   </exception>\n"
-"   \n"
-"   <exception>\n"
-"      <end-conversation/>\n"
-"      <redirect view-id=\"/error.xhtml\">\n"
-"          <message>Unexpected failure</message>\n"
-"      </redirect>\n"
-"   </exception>\n"
-"   \n"
-"</pages>]]>"
+"Since we can't add annotations to all the exception classes we are "
+"interested in, Seam also lets us specify this functionality in "
+"<literal>pages.xml</literal>."
 msgstr ""
-"<![CDATA[<pages>\n"
-"   \n"
-"   <exception class=\"javax.persistence.EntityNotFoundException\">\n"
-"      <http-error error-code=\"404\"/>\n"
-"   </exception>\n"
-"   \n"
-"   <exception class=\"javax.persistence.PersistenceException\">\n"
-"      <end-conversation/>\n"
-"      <redirect view-id=\"/error.xhtml\">\n"
-"          <message>Database access failed</message>\n"
-"      </redirect>\n"
-"   </exception>\n"
-"   \n"
-"   <exception>\n"
-"      <end-conversation/>\n"
-"      <redirect view-id=\"/error.xhtml\">\n"
-"          <message>Unexpected failure</message>\n"
-"      </redirect>\n"
-"   </exception>\n"
-"   \n"
-"</pages>]]>"
+"関心のあるすべての例外クラスへアノテーションを付加することは不可能なので、"
+"Seamはこの機能を <literal>pages.xml</literal> でも指定できるようにしていま"
+"す。"
 
-#. Tag: para
+#. Tag: programlisting
 #: Events.xml:782
 #, no-c-format
-msgid "The last <literal>&lt;exception&gt;</literal> declaration does not specify a class, and is a catch-all for any exception for which handling is not otherwise specified via annotations or in <literal>pages.xml</literal>."
-msgstr "最後の <literal>&lt;exception&gt;</literal> 宣言はクラスを指定していないので、 アノテーションまたは <literal>pages.xml</literal> で指定されているもの以外すべての例外をキャッチします。"
+msgid ""
+"<![CDATA[<pages>\n"
+"   \n"
+"   <exception class=\"javax.persistence.EntityNotFoundException\">\n"
+"      <http-error error-code=\"404\"/>\n"
+"   </exception>\n"
+"   \n"
+"   <exception class=\"javax.persistence.PersistenceException\">\n"
+"      <end-conversation/>\n"
+"      <redirect view-id=\"/error.xhtml\">\n"
+"          <message>Database access failed</message>\n"
+"      </redirect>\n"
+"   </exception>\n"
+"   \n"
+"   <exception>\n"
+"      <end-conversation/>\n"
+"      <redirect view-id=\"/error.xhtml\">\n"
+"          <message>Unexpected failure</message>\n"
+"      </redirect>\n"
+"   </exception>\n"
+"   \n"
+"</pages>]]>"
+msgstr ""
+"<![CDATA[<pages>\n"
+"   \n"
+"   <exception class=\"javax.persistence.EntityNotFoundException\">\n"
+"      <http-error error-code=\"404\"/>\n"
+"   </exception>\n"
+"   \n"
+"   <exception class=\"javax.persistence.PersistenceException\">\n"
+"      <end-conversation/>\n"
+"      <redirect view-id=\"/error.xhtml\">\n"
+"          <message>Database access failed</message>\n"
+"      </redirect>\n"
+"   </exception>\n"
+"   \n"
+"   <exception>\n"
+"      <end-conversation/>\n"
+"      <redirect view-id=\"/error.xhtml\">\n"
+"          <message>Unexpected failure</message>\n"
+"      </redirect>\n"
+"   </exception>\n"
+"   \n"
+"</pages>]]>"
+
+#. Tag: para
+#: Events.xml:784
+#, no-c-format
+msgid ""
+"The last <literal>&lt;exception&gt;</literal> declaration does not specify a "
+"class, and is a catch-all for any exception for which handling is not "
+"otherwise specified via annotations or in <literal>pages.xml</literal>."
+msgstr ""
+"最後の <literal>&lt;exception&gt;</literal> 宣言はクラスを指定していないの"
+"で、 アノテーションまたは <literal>pages.xml</literal> で指定されているもの以"
+"外すべての例外をキャッチします。"
 
 # 2.1
 #. Tag: para
-#: Events.xml:788
+#: Events.xml:790
 #, no-c-format
-msgid "You can also use EL to specify the <literal>view-id</literal> to redirect to."
-msgstr "ELを使ってリダイレクト先の <literal>view-id</literal> を指定することもできます。"
+msgid ""
+"You can also use EL to specify the <literal>view-id</literal> to redirect to."
+msgstr ""
+"ELを使ってリダイレクト先の <literal>view-id</literal> を指定することもできま"
+"す。"
 
 #. Tag: para
-#: Events.xml:792
+#: Events.xml:794
 #, no-c-format
-msgid "You can also access the handled exception instance through EL, Seam places it in the conversation context, e.g. to access the message of the exception:"
-msgstr "EL によってキャッチした例外インスタンスにアクセスすることができます。 Seamはそれを対話コンテキストに置きます。例外のメッセージにアクセスする例は次の通り。"
+msgid ""
+"You can also access the handled exception instance through EL, Seam places "
+"it in the conversation context, e.g. to access the message of the exception:"
+msgstr ""
+"EL によってキャッチした例外インスタンスにアクセスすることができます。 Seamは"
+"それを対話コンテキストに置きます。例外のメッセージにアクセスする例は次の通"
+"り。"
 
 #. Tag: programlisting
-#: Events.xml:797
+#: Events.xml:799
 #, no-c-format
 msgid ""
 "<![CDATA[...\n"
@@ -1839,7 +2589,8 @@ msgid ""
 "    <exception class=\"org.jboss.seam.security.AuthorizationException\">\n"
 "        <end-conversation/>\n"
 "        <redirect view-id=\"/error.xhtml\">\n"
-"            <message severity=\"WARN\">#{org.jboss.seam.handledException.message}</message>\n"
+"            <message severity=\"WARN\">#{org.jboss.seam.handledException."
+"message}</message>\n"
 "        </redirect>\n"
 "    </exception>\n"
 "\n"
@@ -1853,7 +2604,8 @@ msgstr ""
 "    <exception class=\"org.jboss.seam.security.AuthorizationException\">\n"
 "        <end-conversation/>\n"
 "        <redirect view-id=\"/error.xhtml\">\n"
-"            <message severity=\"WARN\">#{org.jboss.seam.handledException.message}</message>\n"
+"            <message severity=\"WARN\">#{org.jboss.seam.handledException."
+"message}</message>\n"
 "        </redirect>\n"
 "    </exception>\n"
 "\n"
@@ -1861,87 +2613,131 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:799
+#: Events.xml:801
 #, no-c-format
-msgid "<literal>org.jboss.seam.handledException</literal> holds the nested exception that was actually handled by an exception handler. The outermost (wrapper) exception is also available, as <literal>org.jboss.seam.caughtException</literal>."
-msgstr "<literal>org.jboss.seam.handledException</literal> は例外ハンドラによって実際に処理されたネストされた例外を保持します。その最も外側の（ラッパーの）例外は<literal>org.jboss.seam.caughtException</literal>によって取得可能です。"
+msgid ""
+"<literal>org.jboss.seam.handledException</literal> holds the nested "
+"exception that was actually handled by an exception handler. The outermost "
+"(wrapper) exception is also available, as <literal>org.jboss.seam."
+"caughtException</literal>."
+msgstr ""
+"<literal>org.jboss.seam.handledException</literal> は例外ハンドラによって実際"
+"に処理されたネストされた例外を保持します。その最も外側の（ラッパーの）例外は"
+"<literal>org.jboss.seam.caughtException</literal>によって取得可能です。"
 
 # 2.1
 #. Tag: title
-#: Events.xml:806
+#: Events.xml:808
 #, no-c-format
 msgid "Suppressing exception logging"
 msgstr "例外のロギングを抑制する"
 
 #  2.1
 #. Tag: para
-#: Events.xml:808
-#, no-c-format
-msgid "For the exception handlers defined in <literal>pages.xml</literal>, it is possible to declare the logging level at which the exception will be logged, or to even suppress the exception being logged altogether. The attributes <literal>log</literal> and <literal>logLevel</literal> can be used to control exception logging. By setting <literal>log=\"false\"</literal> as per the following example, then no log message will be generated when the specified exception occurs:"
-msgstr "<literal>pages.xml</literal> で定義された例外ハンドラについて、どの例外がログに記録されるかのログレベルを宣言できますし、ログに記録される例外を抑えることもできます。属性 <literal>log</literal> と <literal>logLevel</literal> は例外のロギングを制御するために使用できます。次の例のように <literal>log=\"false\"</literal> と設定すると、指定された例外が発生するときにログメッセージは何も出力されません。"
+#: Events.xml:810
+#, fuzzy, no-c-format
+msgid ""
+"For the exception handlers defined in <literal>pages.xml</literal>, it is "
+"possible to declare the logging level at which the exception will be logged, "
+"or to even suppress the exception being logged altogether. The attributes "
+"<literal>log</literal> and <literal>log-level</literal> can be used to "
+"control exception logging. By setting <literal>log=\"false\"</literal> as "
+"per the following example, then no log message will be generated when the "
+"specified exception occurs:"
+msgstr ""
+"<literal>pages.xml</literal> で定義された例外ハンドラについて、どの例外がログ"
+"に記録されるかのログレベルを宣言できますし、ログに記録される例外を抑えること"
+"もできます。属性 <literal>log</literal> と <literal>logLevel</literal> は例外"
+"のロギングを制御するために使用できます。次の例のように <literal>log=\"false"
+"\"</literal> と設定すると、指定された例外が発生するときにログメッセージは何も"
+"出力されません。"
 
 #. Tag: programlisting
-#: Events.xml:817
-#, no-c-format
-msgid ""
-"<![CDATA[    <exception class=\"org.jboss.seam.security.NotLoggedInException\" log=\"false\">\n"
-"        <redirect view-id=\"/register.xhtml\">\n"
-"            <message severity=\"warn\">You must be a member to use this feature</message>\n"
-"        </redirect>\n"
-"    </exception>]]>"
-msgstr ""
-"<![CDATA[    <exception class=\"org.jboss.seam.security.NotLoggedInException\" log=\"false\">\n"
-"        <redirect view-id=\"/register.xhtml\">\n"
-"            <message severity=\"warn\">You must be a member to use this feature</message>\n"
-"        </redirect>\n"
-"    </exception>]]>"
-
-# 2.1
-#. Tag: para
 #: Events.xml:819
 #, no-c-format
-msgid "If the <literal>log</literal> attribute is not specified, then it defaults to <literal>true</literal> (i.e. the exception will be logged). Alternatively, you can specify the <literal>logLevel</literal> to control at which log level the exception will be logged:"
-msgstr "もし <literal>log</literal> 属性が指定されなければ、 <literal>true</literal>がデフォルトになります（つまり、例外はログに記録されます）。別の方法として、例外がログに記録されるレベルを制御する <literal>logLevel</literal> を指定することも可能です。"
-
-#. Tag: programlisting
-#: Events.xml:825
-#, no-c-format
 msgid ""
-"<![CDATA[    <exception class=\"org.jboss.seam.security.NotLoggedInException\" logLevel=\"info\">\n"
+"<![CDATA[    <exception class=\"org.jboss.seam.security.NotLoggedInException"
+"\" log=\"false\">\n"
 "        <redirect view-id=\"/register.xhtml\">\n"
-"            <message severity=\"warn\">You must be a member to use this feature</message>\n"
+"            <message severity=\"warn\">You must be a member to use this "
+"feature</message>\n"
 "        </redirect>\n"
 "    </exception>]]>"
 msgstr ""
-"<![CDATA[    <exception class=\"org.jboss.seam.security.NotLoggedInException\" logLevel=\"info\">\n"
+"<![CDATA[    <exception class=\"org.jboss.seam.security.NotLoggedInException"
+"\" log=\"false\">\n"
 "        <redirect view-id=\"/register.xhtml\">\n"
-"            <message severity=\"warn\">You must be a member to use this feature</message>\n"
+"            <message severity=\"warn\">You must be a member to use this "
+"feature</message>\n"
 "        </redirect>\n"
 "    </exception>]]>"
 
 # 2.1
 #. Tag: para
+#: Events.xml:821
+#, fuzzy, no-c-format
+msgid ""
+"If the <literal>log</literal> attribute is not specified, then it defaults "
+"to <literal>true</literal> (i.e. the exception will be logged). "
+"Alternatively, you can specify the <literal>log-level</literal> to control "
+"at which log level the exception will be logged:"
+msgstr ""
+"もし <literal>log</literal> 属性が指定されなければ、 <literal>true</literal>"
+"がデフォルトになります（つまり、例外はログに記録されます）。別の方法として、"
+"例外がログに記録されるレベルを制御する <literal>logLevel</literal> を指定する"
+"ことも可能です。"
+
+#. Tag: programlisting
 #: Events.xml:827
-#, no-c-format
-msgid "The acceptable values for <literal>logLevel</literal> are: <literal>fatal, error, warn, info, debug</literal> or <literal>trace</literal>. If the <literal>logLevel</literal> is not specified, or if an invalid value is configured, then it will default to <literal>error</literal>."
-msgstr "<literal>logLevel</literal> に指定可能な値は、<literal>fatal, error, warn, info, debug</literal> または <literal>trace</literal> です。もし <literal>logLevel</literal> が指定されていない、もしくは、不正な値が設定されていれば、その値は <literal>error</literal> がデフォルトになります。"
+#, fuzzy, no-c-format
+msgid ""
+"<![CDATA[    <exception class=\"org.jboss.seam.security.NotLoggedInException"
+"\" log-level=\"info\">\n"
+"        <redirect view-id=\"/register.xhtml\">\n"
+"            <message severity=\"warn\">You must be a member to use this "
+"feature</message>\n"
+"        </redirect>\n"
+"    </exception>]]>"
+msgstr ""
+"<![CDATA[    <exception class=\"org.jboss.seam.security.NotLoggedInException"
+"\" logLevel=\"info\">\n"
+"        <redirect view-id=\"/register.xhtml\">\n"
+"            <message severity=\"warn\">You must be a member to use this "
+"feature</message>\n"
+"        </redirect>\n"
+"    </exception>]]>"
+
+# 2.1
+#. Tag: para
+#: Events.xml:829
+#, fuzzy, no-c-format
+msgid ""
+"The acceptable values for <literal>log-level</literal> are: <literal>fatal, "
+"error, warn, info, debug</literal> or <literal>trace</literal>. If the "
+"<literal>log-level</literal> is not specified, or if an invalid value is "
+"configured, then it will default to <literal>error</literal>."
+msgstr ""
+"<literal>logLevel</literal> に指定可能な値は、<literal>fatal, error, warn, "
+"info, debug</literal> または <literal>trace</literal> です。もし "
+"<literal>logLevel</literal> が指定されていない、もしくは、不正な値が設定され"
+"ていれば、その値は <literal>error</literal> がデフォルトになります。"
 
 # 2.1
 #. Tag: title
-#: Events.xml:838
+#: Events.xml:840
 #, no-c-format
 msgid "Some common exceptions"
 msgstr "共通の例外"
 
 # 2.1
 #. Tag: para
-#: Events.xml:840
+#: Events.xml:842
 #, no-c-format
 msgid "If you are using JPA:"
 msgstr "もしJPAを使っている場合"
 
 #. Tag: programlisting
-#: Events.xml:844
+#: Events.xml:846
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"javax.persistence.EntityNotFoundException\">\n"
@@ -1953,7 +2749,8 @@ msgid ""
 "<exception class=\"javax.persistence.OptimisticLockException\">\n"
 "   <end-conversation/>\n"
 "   <redirect view-id=\"/error.xhtml\">\n"
-"      <message>Another user changed the same data, please try again</message>\n"
+"      <message>Another user changed the same data, please try again</"
+"message>\n"
 "   </redirect>\n"
 "</exception>]]>"
 msgstr ""
@@ -1966,28 +2763,31 @@ msgstr ""
 "<exception class=\"javax.persistence.OptimisticLockException\">\n"
 "   <end-conversation/>\n"
 "   <redirect view-id=\"/error.xhtml\">\n"
-"      <message>Another user changed the same data, please try again</message>\n"
+"      <message>Another user changed the same data, please try again</"
+"message>\n"
 "   </redirect>\n"
 "</exception>]]>"
 
 # 2.1
 #. Tag: para
-#: Events.xml:846
+#: Events.xml:848
 #, no-c-format
 msgid "If you are using the Seam Application Framework:"
 msgstr "もしSeamアプリケーションフレームワークを使っている場合"
 
 #. Tag: programlisting
-#: Events.xml:850
+#: Events.xml:852
 #, no-c-format
 msgid ""
-"<![CDATA[<exception class=\"org.jboss.seam.framework.EntityNotFoundException\">\n"
+"<![CDATA[<exception class=\"org.jboss.seam.framework.EntityNotFoundException"
+"\">\n"
 "   <redirect view-id=\"/error.xhtml\">\n"
 "      <message>Not found</message>\n"
 "   </redirect>\n"
 "</exception>]]>"
 msgstr ""
-"<![CDATA[<exception class=\"org.jboss.seam.framework.EntityNotFoundException\">\n"
+"<![CDATA[<exception class=\"org.jboss.seam.framework.EntityNotFoundException"
+"\">\n"
 "   <redirect view-id=\"/error.xhtml\">\n"
 "      <message>Not found</message>\n"
 "   </redirect>\n"
@@ -1995,16 +2795,17 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:852
+#: Events.xml:854
 #, no-c-format
 msgid "If you are using Seam Security:"
 msgstr "もしSeamセキュリティを使っている場合"
 
 #. Tag: programlisting
-#: Events.xml:856
+#: Events.xml:858
 #, no-c-format
 msgid ""
-"<![CDATA[<exception class=\"org.jboss.seam.security.AuthorizationException\">\n"
+"<![CDATA[<exception class=\"org.jboss.seam.security.AuthorizationException"
+"\">\n"
 "   <redirect>\n"
 "      <message>You don't have permission to do this</message>\n"
 "   </redirect>\n"
@@ -2016,7 +2817,8 @@ msgid ""
 "   </redirect>\n"
 "</exception>]]>"
 msgstr ""
-"<![CDATA[<exception class=\"org.jboss.seam.security.AuthorizationException\">\n"
+"<![CDATA[<exception class=\"org.jboss.seam.security.AuthorizationException"
+"\">\n"
 "   <redirect>\n"
 "      <message>You don't have permission to do this</message>\n"
 "   </redirect>\n"
@@ -2030,13 +2832,13 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:858
+#: Events.xml:860
 #, no-c-format
 msgid "And, for JSF:"
 msgstr "そして、JSFの場合"
 
 #. Tag: programlisting
-#: Events.xml:862
+#: Events.xml:864
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"javax.faces.application.ViewExpiredException\">\n"
@@ -2053,8 +2855,54 @@ msgstr ""
 
 # 2.1
 #. Tag: para
-#: Events.xml:864
+#: Events.xml:866
 #, no-c-format
-msgid "A <literal>ViewExpiredException</literal> occurs if the user posts back to a page once their session has expired. <literal>no-conversation-view-id</literal> and <literal>conversation-required</literal> give you finer grained control over session expiration if you are inside a conversation."
-msgstr "<literal>ViewExpiredException</literal> はセッションの有効期限が切れたときにポストバックをページに送信しようとすると発生します。もし対話の中で操作中であれば<literal>no-conversation-view-id</literal> と <literal>conversation-required</literal> を使えば細かなセッションの有効期限の制御が可能になります。"
+msgid ""
+"A <literal>ViewExpiredException</literal> occurs if the user posts back to a "
+"page once their session has expired. <literal>no-conversation-view-id</"
+"literal> and <literal>conversation-required</literal> give you finer grained "
+"control over session expiration if you are inside a conversation."
+msgstr ""
+"<literal>ViewExpiredException</literal> はセッションの有効期限が切れたときに"
+"ポストバックをページに送信しようとすると発生します。もし対話の中で操作中であ"
+"れば<literal>no-conversation-view-id</literal> と <literal>conversation-"
+"required</literal> を使えば細かなセッションの有効期限の制御が可能になります。"
 
+#. Tag: title
+#: Events.xml:876
+#, no-c-format
+msgid "conversation-required"
+msgstr ""
+
+#. Tag: para
+#: Events.xml:878
+#, no-c-format
+msgid ""
+"When specified as the attribute of a <literal>page</literal> element in "
+"<literal>pages.xml</literal>, this setting controls whether a page requires "
+"an active long-running or nested conversation before being rendered. If "
+"there is not an active long-running or nested conversation when trying to "
+"access the page, you will be redirected to the <literal>no-conversation-view-"
+"id</literal> view (which is specified in the root <literal>pages</literal> "
+"element) instead."
+msgstr ""
+
+#. Tag: programlisting
+#: Events.xml:886
+#, fuzzy, no-c-format
+msgid ""
+"<![CDATA[  <page view-id=\"/foo.xhtml\" conversation-required=\"true\"/>]]>"
+msgstr ""
+"<![CDATA[\n"
+"<page view-id=\"/home.xhtml\">\n"
+"    <rewrite pattern=\"/home\" />\n"
+"</page>\n"
+"]]>"
+
+# 2.1
+#~ msgid ""
+#~ "<literal>org.jboss.seam.rememberMe</literal> &#8212; occurs when Seam "
+#~ "security detects the username in a cookie"
+#~ msgstr ""
+#~ "<literal>org.jboss.seam.rememberMe</literal> &#8212; Seamセキュリティが"
+#~ "クッキー内にユーザー名を検出したときに発生します"
