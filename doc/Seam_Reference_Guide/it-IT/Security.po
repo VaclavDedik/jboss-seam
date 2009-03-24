@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: Security\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-04 00:58+0000\n"
-"PO-Revision-Date: 2009-02-22 11:27+0100\n"
-"Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
+"PO-Revision-Date: 2009-03-24 09:12+0100\n"
+"Last-Translator: \n"
 "Language-Team: Italian <stefano.travelli@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3874,7 +3874,7 @@ msgstr "Guardando il corpo della definizione della regola si possono notare due 
 #: Security.xml:2981
 #, no-c-format
 msgid "If we look at the LHS of the rule, we see two conditions listed there. Let's examine the first condition:"
-msgstr ""
+msgstr "Se guardiamo la parte sinistra della regola vediamo che ci sono due condizioni. Esaminiamo la prima condizione:"
 
 #. Tag: programlisting
 #: Security.xml:2985
@@ -3886,31 +3886,31 @@ msgstr "<![CDATA[c: PermissionCheck(target == \"customer\", action == \"delete\"
 #: Security.xml:2987
 #, no-c-format
 msgid "In plain english, this condition is stating that there must exist a <literal>PermissionCheck</literal> object with a <literal>target</literal> property equal to \"customer\", and an <literal>action</literal> property equal to \"delete\" within the working memory."
-msgstr ""
+msgstr "Letta in inglese questa condizione dice che all'interno della working memory deve esistere un oggetto <literal>PermissionCheck</literal> con una proprietà <literal>target</literal> uguale a \"customer\" e una proprietà <literal>action</literal> uguale a \"delete\"."
 
 #. Tag: para
 #: Security.xml:2993
 #, no-c-format
 msgid "So what is the working memory? Also known as a \"stateful session\" in Drools terminology, the working memory is a session-scoped object that contains the contextual information that is required by the rules engine to make a decision about a permission check. Each time the <literal>hasPermission()</literal> method is called, a temporary <literal>PermissionCheck</literal> object, or <emphasis>Fact</emphasis>, is inserted into the working memory. This <literal>PermissionCheck</literal> corresponds exactly to the permission that is being checked, so for example if you call <literal>hasPermission(\"account\", \"create\")</literal> then a <literal>PermissionCheck</literal> object with a <literal>target</literal> equal to \"account\" and <literal>action</literal> equal to \"create\" will be inserted into the working memory for the duration of the permission check."
-msgstr ""
+msgstr "Dunque cos'è la working memory? Nota anche come \"stateful session\" nella terminologia Drools, la working memory è un oggetto collegato alla sessione che contiene le informazioni contestuali che sono richieste dal motore di regole per prendere una decisione sul controllo di permesso. Ogni volta che il metodo <literal>hasPermission()</literal> viene chiamato, viene creato un oggetto, o <emphasis>Fatto</emphasis>, temporaneo <literal>PermissionCheck</literal>, e viene inserito nella working memory. Questo <literal>PermissionCheck</literal> corrisponde esattamente al permesso che si sta controllando, così, ad esempio, se viene chiamato <literal>hasPermission(\"account\", \"create\")</literal> allora verrà inserito nella working memory un oggetto <literal>PermissionCheck</literal> con <literal>target</literal> uguale a \"account\" e <literal>action</literal> uguale a \"create\", per la durata del controllo di permesso."
 
 #. Tag: para
 #: Security.xml:3005
 #, no-c-format
 msgid "Besides the <literal>PermissionCheck</literal> facts, there is also a <literal>org.jboss.seam.security.Role</literal> fact for each of the roles that the authenticated user is a member of. These <literal>Role</literal> facts are synchronized with the user's authenticated roles at the beginning of every permission check. As a consequence, any <literal>Role</literal> object that is inserted into the working memory during the course of a permission check will be removed before the next permission check occurs, if the authenticated user is not actually a member of that role. Besides the <literal>PermissionCheck</literal> and <literal>Role</literal> facts, the working memory also contains the <literal>java.security.Principal</literal> object that was created as a result of the authentication process."
-msgstr ""
+msgstr "Accanto al fatto <literal>PermissionCheck</literal> c'è anche un fatto <literal>org.jboss.seam.security.Role</literal> per ogni ruolo di cui l'utente autenticato è membro. Questi fatti <literal>Role</literal> sono sincronizzati con i ruoli dell'utente autenticato all'inizio di ogni controllo di permesso. Di conseguenza qualsiasi oggetto <literal>Role</literal> che venisse inserito nella working memory nel corso del controllo di permesso sarebbe rimosso prima che il controllo di permesso successivo avvenga, a meno che l'utente autenticato non sia effettivamente membro di quel ruolo. Insieme ai fatti <literal>PermissionCheck</literal> e <literal>Role</literal> la working memory contiene anche l'oggetto <literal>java.security.Principal</literal> che era stato creato come risultato del processo di autentifica."
 
 #. Tag: para
 #: Security.xml:3016
 #, no-c-format
 msgid "It is also possible to insert additional long-lived facts into the working memory by calling <literal>RuleBasedPermissionResolver.instance().getSecurityContext().insert()</literal>, passing the object as a parameter. The exception to this is <literal>Role</literal> objects, which as already discussed are synchronized at the start of each permission check."
-msgstr ""
+msgstr "E' anche possibile inserire ulteriori fatti nella working memory chiamando <literal>RuleBasedPermissionResolver.instance().getSecurityContext().insert()</literal>, passando l'oggetto come parametro. Fanno eccezione a questo gli oggetti <literal>Role</literal> che, come già detto, sono sincronizzati all'inizio di ciascun controllo di permesso."
 
 #. Tag: para
 #: Security.xml:3023
 #, no-c-format
 msgid "Getting back to our simple example, we can also notice that the first line of our LHS is prefixed with <literal>c:</literal>. This is a variable binding, and is used to refer back to the object that is matched by the condition (in this case, the <literal>PermissionCheck</literal>). Moving on to the second line of our LHS, we see this:"
-msgstr ""
+msgstr "Tornando al nostro esempio, possiamo anche notare che la prima linea della nostra parte sinistra ha il prefisso <literal>c:</literal>. Questa è una dichiarazione di variabile ed è usata per fare riferimento all'oggetto rilevato dalla condizione (in questo caso il <literal>PermissionCheck</literal>). Passando alla seconda linea della nostra parte sinistra vediamo questo:"
 
 #. Tag: programlisting
 #: Security.xml:3030
@@ -3922,13 +3922,13 @@ msgstr "<![CDATA[Role(name == \"admin\")]]>"
 #: Security.xml:3032
 #, no-c-format
 msgid "This condition simply states that there must be a <literal>Role</literal> object with a <literal>name</literal> of \"admin\" within the working memory. As already mentioned, user roles are inserted into the working memory at the beginning of each permission check. So, putting both conditions together, this rule is essentially saying \"I will fire if you are checking for the <literal>customer:delete</literal> permission and the user is a member of the <literal>admin</literal> role\"."
-msgstr ""
+msgstr "Questa condizione dichiara semplicemente che ci deve essere un oggetto <literal>Role</literal> con un <literal>name</literal> uguale ad \"admin\" nella working memory. Come già menzionato, i ruoli dell'utente sono inseriti nella working memory all'inizio di ogni controllo di permesso. Così, mettendo insieme entrambe le condizioni, questa regola in pratica dice \"mi attiverò quando ci sarà un controllo per il permesso <literal>customer:delete</literal> e l'utente è un membro del ruolo <literal>admin</literal>\"."
 
 #. Tag: para
 #: Security.xml:3040
 #, no-c-format
 msgid "So what is the consequence of the rule firing? Let's take a look at the RHS of the rule:"
-msgstr ""
+msgstr "Quindi qual è la conseguenza dell'attivazione della regola? Diamo un'occhiata alla parte destra della regola:"
 
 #. Tag: programlisting
 #: Security.xml:3044
@@ -3940,19 +3940,19 @@ msgstr "<![CDATA[c.grant()]]>"
 #: Security.xml:3046
 #, no-c-format
 msgid "The RHS consists of Java code, and in this case is invoking the <literal>grant()</literal> method of the <literal>c</literal> object, which as already mentioned is a variable binding for the <literal>PermissionCheck</literal> object. Besides the <literal>name</literal> and <literal>action</literal> properties of the <literal>PermissionCheck</literal> object, there is also a <literal>granted</literal> property which is initially set to <literal>false</literal>. Calling <literal>grant()</literal> on a <literal>PermissionCheck</literal> sets the <literal>granted</literal> property to <literal>true</literal>, which means that the permission check was successful, allowing the user to carry out whatever action the permission check was intended for."
-msgstr ""
+msgstr "La parte destra è costituita da codice Java e, in questo caso, esso invoca il metodo <literal>grant()</literal> dell'oggetto <literal>c</literal> il quale, come già detto, è una variabile che rappresenta l'oggetto <literal>PermissionCheck</literal>. Insieme alle proprietà <literal>name</literal> e <literal>action</literal>, nell'oggetto <literal>PermissionCheck</literal> c'è anche una proprietà <literal>granted</literal> che inizialmente è impostata a <literal>false</literal>. Chiamando <literal>grant()</literal> su un <literal>PermissionCheck</literal> la proprietà <literal>granted</literal> viene impostata a <literal>true</literal>, il che significa che il controllo di permesso è andato a buon fine, consentendo all'utente di portare avanti qualsiasi azione per cui il controlo di permesso era stato inteso."
 
 #. Tag: title
 #: Security.xml:3060
 #, no-c-format
 msgid "Non-String permission targets"
-msgstr ""
+msgstr "Permessi con obiettivi non stringa"
 
 #. Tag: para
 #: Security.xml:3062
 #, no-c-format
 msgid "So far we have only seen permission checks for String-literal permission targets. It is of course also possible to write security rules for permission targets of more complex types. For example, let's say that you wish to write a security rule to allow your users to create blog comments. The following rule demonstrates how this may be expressed, by requiring the target of the permission check to be an instance of <literal>MemberBlog</literal>, and also requiring that the currently authenticated user is a member of the <literal>user</literal> role:"
-msgstr ""
+msgstr "Finora abbiamo visto solo controlli di permesso per obiettivi di tipo stringa. E' naturalmente possibile scrivere regole di sicurezza anche per obiettivi del permesso di tipo più complesso. Ad esempio, supponiamo che si voglia scrivere una regola di sicurezza che consenta agli utenti di creare un commento in un blog. La seguente regola mostra come questo possa essere espresso, richiedendo che l'obiettivo del controllo di permesso sia un'istanza di <literal>MemberBlog</literal> e anche che l'utente correntemente autenticato sia un membro del ruolo <literal>user</literal>:"
 
 #. Tag: programlisting
 #: Security.xml:3071
@@ -3986,13 +3986,13 @@ msgstr ""
 #: Security.xml:3076
 #, no-c-format
 msgid "Wildcard permission checks"
-msgstr ""
+msgstr "Controlli di permesso "
 
 #. Tag: para
 #: Security.xml:3078
 #, no-c-format
 msgid "It is possible to implement a wildcard permission check (which allows all actions for a given permission target), by omitting the <literal>action</literal> constraint for the <literal>PermissionCheck</literal> in your rule, like this:"
-msgstr ""
+msgstr "E' possibile realizzare dei controlli di permesso (che consentono l'accesso a tutte le funzioni per un determinato obiettivo) basati su wildcard omettendo il vincolo <literal>action</literal> per il <literal>PermissionCheck</literal> nella regola, in questo modo:"
 
 #. Tag: programlisting
 #: Security.xml:3084
@@ -4020,7 +4020,7 @@ msgstr ""
 #: Security.xml:3086
 #, no-c-format
 msgid "This rule allows users with the <literal>admin</literal> role to perform <emphasis>any</emphasis> action for any <literal>customer</literal> permission check."
-msgstr ""
+msgstr "Questa regola consente agli utenti con il ruolo <literal>admin</literal> di eseguire <emphasis>qualsiasi</emphasis> azione per qualsiasi controllo di permesso su <literal>customer</literal>."
 
 #. Tag: title
 #: Security.xml:3096
@@ -4032,7 +4032,7 @@ msgstr "PersistentPermissionResolver"
 #: Security.xml:3098
 #, no-c-format
 msgid "Another built-in permission resolver provided by Seam, <literal>PersistentPermissionResolver</literal> allows permissions to be loaded from persistent storage, such as a relational database. This permission resolver provides ACL style instance-based security, allowing for specific object permissions to be assigned to individual users and roles. It also allows for persistent, arbitrarily-named permission targets (not necessarily object/class based) to be assigned in the same way."
-msgstr ""
+msgstr "Un altro risolutore di permessi incluso in Seam, il <literal>PersistentPermissionResolver</literal> consente di caricare i permessi da un dispositivo di memorizzazione persistente, come una database relazionale. Questo risolutore di permessi fornisce una sicurezza orientata alle istanze in stile ACL (Access Control List), permettendo di assegnare specifici permessi sull'oggetto a utenti e ruoli. Allo stesso modo permette inoltre di assegnare in modo persistente permessi con un nome arbitrario (non necessariamente basato sull'oggetto o la classe). "
 
 #. Tag: para
 #: Security.xml:3109
