@@ -10,9 +10,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.international.Messages;
 import org.jboss.seam.international.StatusMessages;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.*;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.wiki.core.action.prefs.CommentsPreferences;
 import org.jboss.seam.wiki.core.action.prefs.DocumentEditorPreferences;
@@ -430,5 +428,13 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
 
     public WikiTextEditor getTextEditor() {
         return textEditor;
+    }
+
+    /* TODO: Performance Optimizations */
+
+    @org.jboss.seam.annotations.Observer(value = {"Comment.persisted", "Comment.removed"}, create = false)
+    public void updateLastComment() {
+        getWikiNodeDAO().updateWikiDocumentLastComment(getInstance());
+        getEntityManager().flush();
     }
 }

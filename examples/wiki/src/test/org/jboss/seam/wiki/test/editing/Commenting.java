@@ -9,14 +9,13 @@ package org.jboss.seam.wiki.test.editing;
 import org.dbunit.operation.DatabaseOperation;
 import org.jboss.seam.wiki.core.action.CommentHome;
 import org.jboss.seam.wiki.core.action.CommentQuery;
-import org.jboss.seam.wiki.core.model.User;
-import org.jboss.seam.wiki.core.model.WikiDocument;
-import org.jboss.seam.wiki.core.model.WikiDirectory;
-import org.jboss.seam.wiki.core.model.WikiComment;
+import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
 import org.jboss.seam.contexts.Contexts;
 import org.testng.annotations.Test;
+
+import javax.persistence.EntityManager;
 
 public class Commenting extends DBUnitSeamTest {
 
@@ -74,7 +73,11 @@ public class Commenting extends DBUnitSeamTest {
 
                 assert commentQuery.getComments().get(6).getName().matches("One\\.Comment[0-9]+");
                 assert !commentQuery.getComments().get(6).getWikiname().contains(" ");
-                
+
+                EntityManager em = (EntityManager)getInstance("entityManager");
+                WikiDocumentLastComment lastComment = em.find(WikiDocumentLastComment.class, 6l);
+                assert lastComment != null;
+                assert lastComment.getLastCommentId().equals(commentQuery.getComments().get(6).getId());
             }
 
         }.run();
@@ -131,6 +134,10 @@ public class Commenting extends DBUnitSeamTest {
                 assert commentQuery.getComments().get(6).getName().matches("One\\.Comment[0-9]+");
                 assert !commentQuery.getComments().get(6).getWikiname().contains(" ");
 
+                EntityManager em = (EntityManager)getInstance("entityManager");
+                WikiDocumentLastComment lastComment = em.find(WikiDocumentLastComment.class, 6l);
+                assert lastComment != null;
+                assert lastComment.getLastCommentId().equals(commentQuery.getComments().get(6).getId());
             }
 
         }.run();
@@ -152,7 +159,7 @@ public class Commenting extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                invokeMethod("#{commentHome.remove(12)}");
+                invokeMethod("#{commentHome.remove(14)}");
             }
 
             protected void renderResponse() throws Exception {
@@ -162,10 +169,16 @@ public class Commenting extends DBUnitSeamTest {
                 assert commentQuery.getComments().get(0).getLevel().equals(1l);
                 assert commentQuery.getComments().get(1).getId().equals(11l);
                 assert commentQuery.getComments().get(1).getLevel().equals(2l);
-                assert commentQuery.getComments().get(2).getId().equals(14l);
-                assert commentQuery.getComments().get(2).getLevel().equals(1l);
-                assert commentQuery.getComments().get(3).getId().equals(15l);
-                assert commentQuery.getComments().get(3).getLevel().equals(2l);
+                assert commentQuery.getComments().get(2).getId().equals(12l);
+                assert commentQuery.getComments().get(2).getLevel().equals(2l);
+                assert commentQuery.getComments().get(3).getId().equals(13l);
+                assert commentQuery.getComments().get(3).getLevel().equals(3l);
+
+                EntityManager em = (EntityManager)getInstance("entityManager");
+                WikiDocumentLastComment lastComment = em.find(WikiDocumentLastComment.class, 6l);
+                assert lastComment != null;
+                assert lastComment.getLastCommentId().equals(13l);
+
             }
 
         }.run();

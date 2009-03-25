@@ -119,22 +119,22 @@ public class ForumDAO implements Serializable {
         }
 
         // Append last reply WikiComment
-        getSession(true).getNamedQuery("forumLastReply")
-            .setParameter("parentDirId", forumsDirectory.getId())
-            .setParameter("readAccessLevel", currentAccessLevel)
-            .setComment("Finding last replies for all forums")
-            .setResultTransformer(
-                new ResultTransformer() {
-                    public Object transformTuple(Object[] result, String[] strings) {
-                        if (forumInfoMap.containsKey((Long)result[0]))
-                            forumInfoMap.get( (Long)result[0] ).setLastComment( (WikiComment)result[1] );
-                        return null;
-                    }
-                    public List transformList(List list) { return list; }
-                }
-            )
-            .list();
-
+        for (final Long forumId : forumInfoMap.keySet()) {
+            getSession(true).getNamedQuery("forumLastReply")
+                    .setParameter("parentDirId", forumId)
+                    .setParameter("readAccessLevel", currentAccessLevel)
+                    .setComment("Finding last replies for forum : " + forumId)
+                    .setResultTransformer(
+                        new ResultTransformer() {
+                            public Object transformTuple(Object[] result, String[] strings) {
+                                forumInfoMap.get(forumId).setLastComment( (WikiComment)result[0] );
+                                return null;
+                            }
+                            public List transformList(List list) { return list; }
+                        }
+                    )
+                    .list();
+        }
         return forumInfoMap;
     }
 

@@ -659,6 +659,37 @@ public class WikiNodeDAO {
         nestedSetQuery.list(); // Append all children hierarchically to the transformers rootWrapper
     }
 
+    public void updateWikiDocumentLastComment(WikiDocument document) {
+        // TODO: This probably is vulnerable to a race condition if we don't lock the whole WIKI_DOCUMENT_LAST_COMMENT table
+
+        Long lastCommentId = (Long)
+            getSession(true).getNamedQuery("findLastCommentOfDocument")
+                .setParameter("documentId", document.getId())
+                .setComment("Finding last comment of document: " + document.getId())
+                .uniqueResult();
+
+        WikiComment lastComment = null;
+        if (lastCommentId!= null) {
+            lastComment = restrictedEntityManager.find(WikiComment.class, lastCommentId);
+        }
+
+        WikiDocumentLastComment existingLastCommentEntry
+                = restrictedEntityManager.find(WikiDocumentLastComment.class, document.getId());
+
+        if (existingLastCommentEntry != null && lastComment == null) {
+            restrictedEntityManager.remove(existingLastCommentEntry);
+        } else if (existingLastCommentEntry != null) {
+            existingLastCommentEntry.setLastCommentId(lastComment.getId());
+            existingLastCommentEntry.setLastCommentCreatedOn(lastComment.getCreatedOn());
+        } else if (lastComment != null){
+            existingLastCommentEntry = new WikiDocumentLastComment();
+            existingLastCommentEntry.setDocumentId(document.getId());
+            existingLastCommentEntry.setLastCommentId(lastComment.getId());
+            existingLastCommentEntry.setLastCommentCreatedOn(lastComment.getCreatedOn());
+            restrictedEntityManager.persist(existingLastCommentEntry);
+        }
+    }
+
     private Session getSession(boolean restricted) {
         if (restricted) {
             return ((Session)((org.jboss.seam.persistence.EntityManagerProxy) restrictedEntityManager).getDelegate());

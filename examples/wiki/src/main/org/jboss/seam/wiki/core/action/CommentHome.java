@@ -174,6 +174,7 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
             remove();
             getEntityManager().clear();
+            Events.instance().raiseEvent("Comment.removed");
             Events.instance().raiseEvent("Comment.commentListRefresh");
         }
 
