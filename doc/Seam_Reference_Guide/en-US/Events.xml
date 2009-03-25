@@ -90,6 +90,12 @@
 </pages>]]></programlisting>
 
         <para>
+            Keep in mind that if the <literal>&lt;page&gt;</literal> element is defined in
+            a fine-grained page descriptor, the <literal>view-id</literal> attribute
+            can be left off since it is implied.
+        </para>
+
+        <para>
             If multiple wildcarded page actions match the current view-id, Seam
             will call all the actions, in order of least-specific to most-specific.
         </para>
@@ -103,15 +109,9 @@
             Furthermore, the view id mentioned in the <literal>&lt;page&gt;</literal>
             element need not correspond to a real JSP or Facelets page! So, we can
             reproduce the functionality of a traditional action-oriented framework
-            like Struts or WebWork using page actions. For example:
-        </para> 
-        
-        <programlisting><![CDATA[TODO: translate struts action into page action]]></programlisting>
-
-
-        <para>
-            This is quite useful if you want to do complex things in response to non-faces
-            requests (for example, HTTP GET requests).
+            like Struts or WebWork using page actions. This is quite useful if you want
+            to do complex things in response to non-faces requests (for example, HTTP GET
+            requests).
         </para>
         
         <para>
@@ -126,6 +126,40 @@
     </page>
 </pages>]]></programlisting>
 
+        <para>
+            Page actions are executed on both an initial (non-faces) request and a postback (faces) request.
+            If you are using the page action to load data, this operation may conflict with the standard JSF
+            action(s) being executed on a postback. One way to disable the page action is to setup a condition
+            that resolves to true only on an initial request.
+        </para> 
+
+        <programlisting role="XML"><![CDATA[<pages>
+    <page view-id="/dashboard.xhtml">
+        <action execute="#{dashboard.loadData}"
+            if="#{not facesContext.renderKit.responseStateManager.isPostback(facesContext)}"/>
+    </page>
+</pages>]]></programlisting>
+
+        <para>
+            This condition consults the <literal>ResponseStateManager#isPostback(FacesContext)</literal> to
+            determine if the request is a postback. The ResponseStateManager is accessed using
+            <literal>FacesContext.getCurrentInstance().getRenderKit().getResponseStateManager()</literal>.
+        <para>
+            To save you from the verbosity of JSF's API, Seam offers a built-in condition that allows you to
+            accomplish the same result with a heck of a lot less typing. You can disable a page action on postback
+            by simply setting the <literal>on-postback</literal> to <literal>false</literal>:
+        </para>
+
+        <programlisting role="XML"><![CDATA[<pages>
+    <page view-id="/dashboard.xhtml">
+        <action execute="#{dashboard.loadData}" on-postback="false"/>
+    </page>
+</pages>]]></programlisting>
+
+        <para>
+            For backwards compatibility reasons, the default value of the <literal>on-postback</literal> attribute
+            is true, though likely you will end up using the opposite setting more often.
+        </para>
 
 </section>
 	
