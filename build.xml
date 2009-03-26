@@ -458,6 +458,7 @@
 		<cleanexample name="seamdiscs" />
 		<cleanexample name="icefaces" />
 		<cleanexample name="seambay" />
+		<cleanexample name="restbay" />
 		<cleanexample name="nestedbooking" />
 		<cleanexample name="wicket" />
 	</target>
@@ -492,6 +493,7 @@
 		<undeployexample name="seamdiscs" />
 		<undeployexample name="icefaces" />
 		<undeployexample name="seambay" />
+		<undeployexample name="restbay" />
 		<undeployexample name="nestedbooking" />
 		<undeployexample name="wicket" />
 	</target>
@@ -508,6 +510,7 @@
 		<testexample name="blog" />
 		<testexample name="seamdiscs" />
 		<testexample name="seambay" />
+		<testexample name="restbay" />
 		<testexample name="seamspace" />
 		<testexample name="drools" />
 		<testexample name="mail" />
@@ -557,6 +560,7 @@
 		<ant dir="examples/remoting/progressbar" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/rss" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/seambay" target="validateConfiguration" inheritall="false" />
+		<ant dir="examples/restbay" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/seamdiscs" target="validateConfiguration" inheritall="false" />
 		<!--<ant dir="examples/seampay" target="validateConfiguration" inheritall="false" />-->
 		<ant dir="examples/seamspace" target="validateConfiguration" inheritall="false" />
@@ -648,6 +652,7 @@
 				<include name="excel/**/*" />
 				<include name="rss/**/*" />
 				<include name="seambay/**/*" />
+				<include name="restbay/**/*" />
 				<include name="seampay/**/*" />
 				<include name="seamspace/**/*" />
 				<include name="mail/**/*" />

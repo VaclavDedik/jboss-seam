@@ -73,11 +73,11 @@ public class AbstractSeamTest
 
    private Application application;
    private ApplicationFactory applicationFactory;
-   private ServletContext servletContext;
+   protected ServletContext servletContext;
    private static SeamPhaseListener phases;
-   private MockHttpSession session;
+   protected MockHttpSession session;
    private Map<String, Map> conversationViewRootAttributes;
-   private Filter seamFilter;
+   protected Filter seamFilter;
    
    static 
    {

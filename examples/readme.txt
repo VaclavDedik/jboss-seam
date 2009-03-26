@@ -70,6 +70,8 @@ remoting/helloworld/  A trivial example using Ajax.
                       
 remoting/progressbar/ An example of an Ajax progress bar.
 
+restbay/              An example of using Seam with JAX-RS plain HTTP Web Services.
+
 seambay/              An example of using Seam with Web Services.
 
 seamdiscs/            Demonstrates Seam, Trinidad, Ajax4jsf and Richfaces.

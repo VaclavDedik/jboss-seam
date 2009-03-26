@@ -222,12 +222,21 @@
 		<include name="slf4j-log4j12.jar" if="seam.wicket.lib" />
 	</fileset>
 
+	<!-- Seam RESTEasy integration, with required dependencies -->
+	<fileset id="seam.resteasy.jar" dir="${lib.dir}">
+		<include name="jboss-seam-resteasy.jar" if="seam.resteasy.lib" />
+		<include name="jaxrs-api.jar" if="seam.resteasy.lib" />
+		<include name="resteasy-jaxrs.jar" if="seam.resteasy.lib" />
+		<include name="slf4j-api.jar" if="seam.resteasy.lib" />
+		<include name="slf4j-log4j12.jar" if="seam.resteasy.lib" />
+	</fileset>
+
 	<!-- jboss-el -->
 	<fileset id="jboss-el.jar" dir="${lib.dir}">
 		<include name="jboss-el.jar" />
 	</fileset>
 
-	<!-- Dependencies for using Seam with JSF - only needed if the server 
+	<!-- Dependencies for using Seam with JSF - only needed if the server
 	     doesn't come with JSF! -->
 	<fileset id="jsf.jar" dir="${lib.dir}">
 		<include name="jsf-api.jar" />
@@ -708,6 +717,7 @@
 			<fileset refid="wicket-extensions.jar" />
 			<fileset refid="wicket-datetime.jar" />
 			<fileset refid="seam.wicket.jar" />
+			<fileset refid="seam.resteasy.jar" />
 			<fileset refid="seam.remoting.jar" />
 			<fileset refid="el-ri.jar" />
 			<fileset refid="trinidad-api.jar" />
@@ -960,6 +970,7 @@
 			<fileset refid="wicket-extensions.jar" />
 			<fileset refid="wicket-datetime.jar" />
 			<fileset refid="seam.wicket.jar" />
+         <fileset refid="seam.resteasy.jar" />
 			<fileset refid="trinidad-api.jar" />
 			<fileset refid="el-ri.jar"/>
 			<mapper type="flatten" />
