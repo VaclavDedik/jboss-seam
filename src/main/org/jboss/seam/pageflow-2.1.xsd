@@ -54,7 +54,7 @@
 				<xs:element ref="exception-handler" />
 			</xs:choice>
 			<xs:attribute name="name" type="xs:string" />
-            <xs:attribute name="binding" type="bindingType" />
+            
 		</xs:complexType>
 	</xs:element>
 
@@ -62,7 +62,7 @@
 		<xs:complexType>
 			<xs:attribute name="name" type="xs:string" use="required" />
             <xs:attribute name="version" type="xs:integer" />
-            
+			<xs:attribute name="binding" type="bindingType" />
 		</xs:complexType>
 	</xs:element>
 
