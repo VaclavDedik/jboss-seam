@@ -49,7 +49,7 @@ public class MockViewHandler extends ViewHandler {
       }
       else
       {
-         return contextPath + viewId;
+         return contextPath + (servletPath!=null?servletPath : "") + viewId;
       }
    }
 
