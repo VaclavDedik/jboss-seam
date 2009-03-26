@@ -1435,6 +1435,10 @@ public class Component extends Model
 
    protected Object instantiateJavaBean() throws Exception
    {
+      if (name.equals("slowpoke")) {
+          System.out.println("!instantiate " + name);
+      }
+          
       Object bean = getBeanClass().newInstance();
      
       if (interceptionEnabled) {
@@ -2084,27 +2088,28 @@ public class Component extends Model
       }
    }
 
-   private static Object handleFactoryMethodResult(String name, Component component, Object result, ScopeType scope)
-   {
-      Object value = Contexts.lookupInStatefulContexts(name); //see if a value was outjected by the factory method
-      if (value==null) //usually a factory method returning a value
-      {
-         ScopeType outScope = getOutScope(scope, component);
-         if ( outScope!=STATELESS )
-         {
-            outScope.getContext().set(name, result);
-         }
-         return result;
-      }
-      else //usually a factory method with a void return type
-      {
-         if (scope!=UNSPECIFIED)
-         {
-            throw new IllegalArgumentException("factory method with defined scope outjected a value: " + name);
-         }
-         return value;
-      }
-   }
+   private static Object handleFactoryMethodResult(String name, Component component, Object result, ScopeType scope) {
+        // see if a value was outjected by the factory method
+        Object value = Contexts.lookupInStatefulContexts(name);
+        if (value == null) {
+            // usually a factory method returning a value
+            ScopeType outScope = getOutScope(scope, component);
+            if (outScope != STATELESS) {
+                // the null check is for page scope, which doesn't handle setting a null value
+                if (result != null) {
+                    outScope.getContext().set(name, result);
+                }
+                // shouldn't need to call remove since there wasn't previously a value
+            }
+            return result;
+        } else { 
+            // usually a factory method with a void return type
+            if (scope != UNSPECIFIED) {
+                throw new IllegalArgumentException("factory method with defined scope outjected a value: " + name);
+            }
+            return value;
+        }
+    }
 
    public Object newInstance()
    {
