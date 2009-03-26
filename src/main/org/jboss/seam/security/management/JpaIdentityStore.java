@@ -666,7 +666,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
 
       List<String> groups = new ArrayList<String>();
       
-      if (roleGroupsProperty != null)
+      if (roleGroupsProperty.isSet())
       {
          Collection roleGroups = (Collection) roleGroupsProperty.getValue(role);
          if (roleGroups != null)
@@ -914,7 +914,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    
    private List<String> listRoleMembers(String role)
    {                
-      if (roleGroupsProperty != null)
+      if (roleGroupsProperty.isSet())
       {
          Object roleEntity = lookupRole(role);                  
          
