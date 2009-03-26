@@ -145,7 +145,7 @@
 </#if>
             </s:link>
             ${'#'}{' '}
-            <s:link view="/${pageName}Edit.xhtml"
+            <s:link view="/${editPageName}.xhtml"
                    value="Edit"
              propagation="none"
                       id="${componentName}Edit"

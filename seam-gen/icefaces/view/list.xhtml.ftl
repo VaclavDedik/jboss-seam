@@ -158,9 +158,10 @@
 </#if>
             </s:link>
 			${'#'}{' '}
-            <s:link view="/${'#'}{empty from ? '${pageName}' : from}.xhtml" 
+            <s:link view="/${editPageName}.xhtml" 
                    value="Edit" 
-                      id="list${componentName}EditId">
+                      id="list${componentName}EditId"
+                rendered="${'#'}{empty from}">
 <#if pojo.isComponent(pojo.identifierProperty)>
 <#foreach componentProperty in pojo.identifierProperty.value.propertyIterator>
                 <f:param name="${componentName}${componentProperty.name?cap_first}" 
