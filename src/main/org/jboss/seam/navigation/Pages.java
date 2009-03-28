@@ -244,23 +244,7 @@ public class Pages
    
    private Page getCachedPage(String viewId)
    {
-      Page result = pagesByViewId.get(viewId);
-      if (result==null)
-      {
-         //workaround for what I believe is a bug in the JSF RI
-         viewId = replaceExtension( viewId, getSuffix() );
-         if (viewId!=null)
-         {
-            result = pagesByViewId.get(viewId);
-         }
-      }
-      return result;
-   }
-   
-   private static String replaceExtension(String viewId, String suffix)
-   {
-      int loc = viewId.lastIndexOf('.');
-      return loc<0 ? null : viewId.substring(0, loc) + suffix;
+      return pagesByViewId.get(viewId);
    }
    
    /**
