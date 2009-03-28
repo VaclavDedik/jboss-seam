@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:19+0000\n"
-"PO-Revision-Date: 2009-03-25 20:44+0100\n"
+"PO-Revision-Date: 2009-03-28 15:41+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1128,7 +1128,7 @@ msgstr "&lt;s:formattedText&gt;"
 #: Controls.xml:707
 #, no-c-format
 msgid "Outputs <emphasis>Seam Text</emphasis>, a rich text markup useful for blogs, wikis and other applications that might use rich text. See the Seam Text chapter for full usage."
-msgstr ""
+msgstr "Mostra come output <emphasis>Seam Text</emphasis>, un markup di testo utile per blog, wiki ed altre applicazioni che possono usare rich text. Vedere il capitolo di Seam Text per ulteriori informazioni."
 
 #. Tag: para
 #: Controls.xml:716
@@ -1232,13 +1232,13 @@ msgstr "<literal>var</literal>&#8212; definisce il nome della variabile locale c
 #: Controls.xml:795
 #, no-c-format
 msgid "<literal>label</literal> &#8212; the label to be used when rendering the <literal>SelectItem</literal>. Can reference the <literal>var</literal> variable."
-msgstr ""
+msgstr "<literal>label</literal> &#8212; l'etichetta da usare per generare <literal>SelectItem</literal>. Può fare riferimento alla variabile <literal>var</literal>."
 
 #. Tag: para
 #: Controls.xml:802
 #, no-c-format
 msgid "<literal>itemValue</literal> &#8212; Value to return to the server if this option is selected. Optional, by default the <literal>var</literal> object is used. Can reference the <literal>var</literal> variable."
-msgstr ""
+msgstr "<literal>itemValue</literal> &#8212; Il valore da restituire al server se quest'opzione è selezionata. E' opzionale, di default viene usato l'oggetto <literal>var</literal>. Può fare riferimento alla variabile <literal>var</literal>."
 
 #. Tag: para
 #: Controls.xml:811
@@ -1250,13 +1250,13 @@ msgstr "<literal>disabled</literal> &#8212; se true il <literal>SelectItem</lite
 #: Controls.xml:819
 #, no-c-format
 msgid "<literal>noSelectionLabel</literal> &#8212; specifies the (optional) label to place at the top of list (if <literal>required=\"true\"</literal> is also specified then selecting this value will cause a validation error)."
-msgstr ""
+msgstr "<literal>noSelectionLabel</literal> &#8212; specifica l'etichetta (opzionale) da mettere in cima alla lista (se è specificato anche <literal>required=\"true\"</literal> allora selezionando questo valore può causare una validazione d'errore)."
 
 #. Tag: para
 #: Controls.xml:827
 #, no-c-format
 msgid "<literal>hideNoSelectionLabel</literal> &#8212; if true, the <literal>noSelectionLabel</literal> will be hidden when a value is selected"
-msgstr ""
+msgstr "<literal>hideNoSelectionLabel</literal> &#8212; se true, <literal>noSelectionLabel</literal>verrà nascosto quando viene selezionato il valore."
 
 #. Tag: programlisting
 #: Controls.xml:835
@@ -1288,19 +1288,19 @@ msgstr "&lt;s:cache&gt;"
 #: Controls.xml:847
 #, no-c-format
 msgid "Cache the rendered page fragment using JBoss Cache. Note that <literal>&lt;s:cache&gt;</literal> actually uses the instance of JBoss Cache managed by the built-in <literal>pojoCache</literal> component."
-msgstr ""
+msgstr "Mette nella cache il frammento di pagina renderizzato usando JBoss Cache. Si noti che <literal>&lt;s:cache&gt;</literal> in verità usa l'istanza di JBoss Cache gestita dal componente predefinito <literal>pojoCache</literal>."
 
 #. Tag: para
 #: Controls.xml:856
 #, no-c-format
 msgid "<literal>key</literal> &#8212; the key to cache rendered content, often a value expression. For example, if we were caching a page fragment that displays a document, we might use <literal>key=\"Document-#{document.id}\"</literal>."
-msgstr ""
+msgstr "<literal>key</literal> &#8212; la chiave per memorizzare (cache) il contenuto renderizzato, spesso un'espressione di valore. Per esempio, se si mette nella cache un frammento di pagina che mostra un documento, si può usare <literal>key</literal> &#8212;"
 
 #. Tag: para
 #: Controls.xml:864
 #, no-c-format
 msgid "<literal>enabled</literal> &#8212; a value expression that determines if the cache should be used."
-msgstr ""
+msgstr "<literal>enabled</literal> &#8212; un'espressione di valore che determina se la cache debba essere usata."
 
 #. Tag: para
 #: Controls.xml:870
@@ -1354,7 +1354,7 @@ msgstr "&lt;s:fileUpload&gt;"
 #: Controls.xml:887
 #, no-c-format
 msgid "Renders a file upload control. This control must be used within a form with an encoding type of <literal>multipart/form-data</literal>, i.e:"
-msgstr ""
+msgstr "Renderizza un controllo per l'upload del file. Questo controllo deve essere usato dentro la form con tipo di codifica <literal>multipart/form-data</literal>, cioè:"
 
 #. Tag: programlisting
 #: Controls.xml:893
@@ -1366,7 +1366,7 @@ msgstr "<![CDATA[<h:form enctype=\"multipart/form-data\">]]>"
 #: Controls.xml:895
 #, no-c-format
 msgid "For multipart requests, the Seam Multipart servlet filter must also be configured in <literal>web.xml</literal>:"
-msgstr ""
+msgstr "Per richieste multiple, in <literal>web.xml</literal> deve essere configurato il filtro servlet Seam Multipart :"
 
 #. Tag: programlisting
 #: Controls.xml:900
@@ -1402,7 +1402,7 @@ msgstr "Le seguenti opzioni di configurazioni per richieste multipart possono es
 #: Controls.xml:911
 #, no-c-format
 msgid "<literal>createTempFiles</literal> &#8212; if this option is set to true, uploaded files are streamed to a temporary file instead of in memory."
-msgstr ""
+msgstr "<literal>createTempFiles</literal> &#8212; se quest'opzione è impostata a true, i file caricati vengono accodati in un file temporaneo invece che in memoria."
 
 #. Tag: para
 #: Controls.xml:918
@@ -1434,7 +1434,7 @@ msgstr ""
 #: Controls.xml:934
 #, no-c-format
 msgid "<literal>data</literal> &#8212; this value binding receives the binary file data. The receiving field should be declared as a <literal>byte[]</literal> or <literal>InputStream</literal> (required)."
-msgstr ""
+msgstr "<literal>data</literal> &#8212; questo value binding riceve i dati binari. Il campo ricevente deve essere dichiarato come <literal>byte[]</literal> o <literal>InputStream</literal> (richiesto)."
 
 #. Tag: para
 #: Controls.xml:942
@@ -1446,7 +1446,7 @@ msgstr "<literal>contentType</literal> &#8212; questo value binding riceve il co
 #: Controls.xml:948
 #, no-c-format
 msgid "<literal>fileName</literal> &#8212; this value binding receives the filename (optional)."
-msgstr ""
+msgstr "<literal>fileName</literal> &#8212; questo value binding riceve il nome del file (opzionale)."
 
 #. Tag: para
 #: Controls.xml:954
@@ -1458,7 +1458,7 @@ msgstr "<literal>fileSize</literal> &#8212; questo valore di binding riceve la d
 #: Controls.xml:960
 #, no-c-format
 msgid "<literal>accept</literal> &#8212; a comma-separated list of content types to accept, may not be supported by the browser. E.g. <literal>\"images/png,images/jpg\"</literal>, <literal>\"images/*\"</literal>."
-msgstr ""
+msgstr "<literal>accept</literal> &#8212; una lista separata da virgola con i tipi di contenuto da accettare, può non essere supportata dal browser. Esempio: <literal>\"images/png,images/jpg\"</literal>, <literal>\"images/*\"</literal>."
 
 #. Tag: programlisting
 #: Controls.xml:980
@@ -1482,7 +1482,7 @@ msgstr "&lt;s:resource&gt;"
 #: Controls.xml:988
 #, no-c-format
 msgid "A tag that acts a file download provider. It must be alone in the JSF page. To be able to use this contol, web.xml must be set up as follows."
-msgstr ""
+msgstr "Un tag che agisce come fornitore di download dei file. Deve essere il solo nella pagina JSF. Per essere in grado di usare questo controllo, web.xml deve essere impostato come segue."
 
 #. Tag: programlisting
 #: Controls.xml:995
@@ -1560,7 +1560,7 @@ msgstr ""
 #: Controls.xml:1027
 #, no-c-format
 msgid "The bean named <literal>resources</literal> is some backing bean that given some request parameters servers a specific file, see <literal>s:download</literal>."
-msgstr ""
+msgstr "Il bean chiamato <literal>resources</literal> fornisce al file i parametri di richiesta del server, si veda <literal>s:download</literal>."
 
 #. Tag: literal
 #: Controls.xml:1032
@@ -1572,7 +1572,7 @@ msgstr "&lt;s:download&gt;"
 #: Controls.xml:1034
 #, no-c-format
 msgid "Builds a RESTful link to a <literal>&lt;s:resource&gt;</literal>. Nested <literal>f:param</literal> build up the url."
-msgstr ""
+msgstr "Costruisce un link RESTful a <literal>&lt;s:resource&gt;</literal>. <literal>f:param</literal> innestati costruiscono l'url."
 
 #. Tag: para
 #: Controls.xml:1041
@@ -1608,7 +1608,7 @@ msgstr "&lt;s:graphicImage&gt;"
 #: Controls.xml:1060
 #, no-c-format
 msgid "An extended <literal>&lt;h:graphicImage&gt;</literal> that allows the image to be created in a Seam Component; further transforms can be applied to the image."
-msgstr ""
+msgstr "Un <literal>&lt;h:graphicImage&gt;</literal> esteso che consente all'immagine di essere creata in un componente Seam; possono essere applicate all'immagine altre trasformazioni."
 
 #. Tag: para
 #: Controls.xml:1065
@@ -1626,7 +1626,7 @@ msgstr "<literal>value</literal> &#8212; immagine da visualizzare. Può essere u
 #: Controls.xml:1086
 #, no-c-format
 msgid "<literal>fileName</literal> &#8212; if not specified the served image will have a generated file name. If you want to name your file, you should specify it here. This name should be unique"
-msgstr ""
+msgstr "<literal>fileName</literal> &#8212; se non specificato l'immagine servita avrà un nome di file generato. Se si vuole nominare il file, occorre specificarlo in questo attributo. Il nome deve essere univoco."
 
 #. Tag: emphasis
 #: Controls.xml:1095
@@ -1638,7 +1638,7 @@ msgstr "Trasformazioni"
 #: Controls.xml:1096
 #, no-c-format
 msgid "To apply a transform to the image, you would nest a tag specifying the transform to apply. Seam currently supports these transforms:"
-msgstr ""
+msgstr "Per applicare una trasformazione all'immagine, occorre innestare un tag specificando la trasformazione da applicare. Seam attualmente supporta queste trasformazioni:"
 
 #. Tag: literal
 #: Controls.xml:1104
@@ -1662,7 +1662,7 @@ msgstr "<literal>height</literal> &#8212; nuova altezza dell'immagine"
 #: Controls.xml:1121
 #, no-c-format
 msgid "<literal>maintainRatio</literal> &#8212; if <literal>true</literal>, and <emphasis>one</emphasis> of <literal>width</literal>/<literal>height</literal> are specified, the image will be resized with the dimension not specified being calculated to maintain the aspect ratio."
-msgstr ""
+msgstr "<literal>maintainRatio</literal> &#8212; se vengono specificati <literal>true</literal>, ed <emphasis>uno</emphasis> fra <literal>width</literal>/<literal>height</literal>, l'immagine sarà ridimensionata con la dimensione non specificata che viene calcolata per mantenere l'aspect ratio."
 
 #. Tag: para
 #: Controls.xml:1132
@@ -1698,7 +1698,7 @@ msgstr "<literal>contentType</literal> &#8212; modifica il tipo d'immagine in <l
 #: Controls.xml:1174
 #, no-c-format
 msgid "It's easy to create your own transform - create a <literal>UIComponent</literal> which implements <literal>org.jboss.seam.ui.graphicImage.ImageTransform</literal>. Inside the <literal>applyTransform()</literal>method use <literal>image.getBufferedImage()</literal> to get the original image and <literal>image.setBufferedImage()</literal> to set your transformed image. Transforms are applied in the order specified in the view."
-msgstr ""
+msgstr "E' facile creare una trasformazione - si crei un <literal>UIComponent</literal> che implementi <literal>org.jboss.seam.ui.graphicImage.ImageTransform</literal>. Dentro il metodo <literal>applyTransform()</literal> si usi <literal>image.getBufferedImage()</literal> per recuperare l'immagine originale e <literal>image.setBufferedImage()</literal> per impostare l'immagine trasformata. Le trasformazioni sono applicare nell'ordine specificato nella vista."
 
 #. Tag: programlisting
 #: Controls.xml:1185
