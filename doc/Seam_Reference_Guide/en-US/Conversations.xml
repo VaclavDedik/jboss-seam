@@ -1204,26 +1204,48 @@ public int getTotal() {
         
         <para>
            ICEfaces, RichFaces Ajax and Seam Remoting can all handle HTTP error
-           codes. Seam Remoting will pop up a dialog box showing the HTTP error
-           and ICEfaces will indicate the error in its connection status 
-           component. RichFaces Ajax provides the most complete support for
-           handling HTTP errors by providing a user definable callback. For
-           example, to show the error message to the user: 
+           codes. Seam Remoting will pop up a dialog box showing the HTTP
+           error. ICEfaces will indicate the error in its connection status
+           component. RichFaces provides the most complete support for handling
+           HTTP errors by providing a user definable callback. For example, to
+           show the error message to the user: 
         </para>
         
         <programlisting><![CDATA[<script type="text/javascript">
    A4J.AJAX.onError = function(req,status,message) { 
-      alert("message");    
+      alert("An error occurred");
    };
 </script>]]></programlisting>
+
+        <para>
+           If instead of an error code, the server reports that the view has expired,
+           perhaps because the session timed out, you use a separate callback function
+           in RichFaces to handle this scenario.
+        </para>
+
+        <programlisting><![CDATA[<script type="text/javascript">
+   A4J.AJAX.onExpired = function(loc,message) { 
+      alert("View expired");
+   };
+</script>]]></programlisting>
+
+        <para>
+           Alternatively, you can allow RichFaces handle the error, in which
+           case the user will be presented with a prompt that reads "View state
+           could't be restored - reload page?" You can customize this message
+           globally by setting the following message key in an application
+           resource bundle.
+        </para>
+
+        <programlisting><![CDATA[AJAX_VIEW_EXPIRED=View expired. Please reload the page.]]></programlisting>
         
       </section>
     
       <section>
-        <title>RichFaces Ajax</title>
+        <title>RichFaces (Ajax4jsf)</title>
     
         <para>
-           RichFaces Ajax is the AJAX library most commonly used with Seam, and
+           RichFaces (Ajax4jsf) is the Ajax library most commonly used with Seam, and
           provides all the controls discussed above:
         </para>
       
