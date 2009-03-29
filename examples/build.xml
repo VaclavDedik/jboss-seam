@@ -377,6 +377,20 @@
 	<fileset id="trinidad-impl.jar" dir="${lib.dir}">
 		<include name="trinidad-impl.jar" if="trinidad.lib" />
 	</fileset>
+
+	<!-- Dependencies for Metawidget -->
+	
+	<fileset id="metawidget.jar" dir="${lib.dir}">
+		<include name="metawidget.jar" if="metawidget-war.lib" />
+	</fileset>
+
+	<fileset id="metawidget-frontend.jar" dir="${lib.dir}">
+		<include name="metawidget-frontend.jar" if="metawidget-ear.lib" />
+	</fileset>
+	
+	<fileset id="metawidget-backend.jar" dir="${lib.dir}">
+		<include name="metawidget-backend.jar" if="metawidget-ear.lib" />
+	</fileset>
 	
 	<!-- Dependencies if el-ri is needed -->
 	
@@ -560,7 +574,22 @@
 		<mkdir dir="${dist.dir}" />
 	</target>
 	
-	<target name="copyextradependencies" depends="gettrinidad, getelri"/>
+	<target name="copyextradependencies" depends="gettrinidad, getmetawidget, getelri"/>
+
+   <target name="getmetawidget" depends="getmetawidget-war,getmetawidget-ear"/>
+
+   <target name="getmetawidget-war" if="metawidget-war.lib">
+		<copyInlineDependencies id="metawidget" scope="runtime" todir="${lib.dir}">
+			<dependency groupId="org.metawidget" artifactId="metawidget" version="0.7"/>
+		</copyInlineDependencies>
+   </target>
+
+   <target name="getmetawidget-ear" if="metawidget-ear.lib">
+		<copyInlineDependencies id="metawidget" scope="runtime" todir="${lib.dir}">
+			<dependency groupId="org.metawidget" artifactId="metawidget-frontend" version="0.7"/>
+			<dependency groupId="org.metawidget" artifactId="metawidget-backend" version="0.7"/>
+		</copyInlineDependencies>
+   </target>
 	
 	<target name="gettrinidad" if="trinidad.lib">
 		<copyInlineDependencies id="trinidad" scope="runtime" todir="${lib.dir}">
@@ -640,6 +669,7 @@
 			<fileset refid="urlrewrite.jar" />
 			<fileset refid="richfaces-impl.jar" />
 			<fileset refid="trinidad-impl.jar" />
+			<fileset refid="metawidget-frontend.jar" />
 			<fileset refid="jboss-common-core.jar" />
 			<fileset refid="war.lib.extras" />
 			<fileset refid="tomcat-standard-tag.jar" />
@@ -721,6 +751,7 @@
 			<fileset refid="seam.remoting.jar" />
 			<fileset refid="el-ri.jar" />
 			<fileset refid="trinidad-api.jar" />
+			<fileset refid="metawidget-backend.jar" />
 			<fileset refid="jboss-common-core.jar" />
 			<fileset refid="openid.jar" />
 			<mapper type="flatten" />
@@ -972,6 +1003,7 @@
 			<fileset refid="seam.wicket.jar" />
          <fileset refid="seam.resteasy.jar" />
 			<fileset refid="trinidad-api.jar" />
+			<fileset refid="metawidget.jar" />
 			<fileset refid="el-ri.jar"/>
 			<mapper type="flatten" />
 		</copy>

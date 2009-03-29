@@ -8,8 +8,8 @@ JBoss AS as an EAR and Tomcat with Embedded JBoss as a WAR.
 example.name=dvdstore
 
 The source files in this example are just the overrides needed to utilize
-metawidget. Before you can deploy the example, you have to merge these
-overrides with the original groovybooking source code in a staging directory.
-That is done using the following command:
+metawidget. Before the example is built, these overrides are merged with the
+original dvdstore source code in a staging directory. This step is performed
+by following command, which is automatically called on any Ant build:
 
-  ant build
+  ant stage

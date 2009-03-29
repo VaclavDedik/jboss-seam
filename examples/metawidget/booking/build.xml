@@ -20,12 +20,16 @@
     <property name="seam.debug.lib" value="yes"/>
     <property name="facelets.lib" value="yes"/>
     <property name="richfaces.lib" value="yes"/>
-    <!--<property name="metawidget-ear.lib"   value="yes"/>-->
+    <property name="metawidget-ear.lib" value="yes"/>
     
     <!-- Datasource -->
     <property name="example.ds" value="jboss-seam-metawidget-booking-ds.xml"/>
 
-    <target name="build">
+    <target name="init" depends="stage">
+        <antcall target="SeamExample.init"/>
+    </target>
+
+    <target name="stage">
 
         <!-- Copy the original Seam booking example -->
         <copy todir="${staging.dir}">
@@ -50,6 +54,9 @@
     
     <import file="${basedir}/../../build.xml"/>
 
+    <!-- Enable the following overrides if you want to use your own JAR metawidget JAR files -->
+    <!-- Don't forget to set <property name="metawidget-ear.lib" value="no" above -->
+    <!--
     <path id="build.classpath.extras">
         <fileset dir="${basedir}/..">
             <include name="metawidget.jar"/>
@@ -63,5 +70,6 @@
     <fileset id="war.lib.extras" dir="${basedir}/..">
         <include name="metawidget-frontend.jar"/>
     </fileset>
+    -->
 
 </project>

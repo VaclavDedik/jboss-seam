@@ -11,11 +11,11 @@ Please note that you need to uncomment the loadPersistenceUnits=true property
 in build.properties when deploying to JBoss AS 5.
 
 The source files in this example are just the overrides needed to utilize
-metawidget. Before you can deploy the example, you have to merge these
-overrides with the original groovybooking source code in a staging directory.
-That is done using the following command:
+metawidget. Before the example is built, these overrides are merged with the
+original groovybooking source code in a staging directory. This step is performed
+by following command, which is automatically called on any Ant build:
 
-  ant build
+  ant stage
 
 When editing Groovy files from the src/action directory, you can run "ant
 build jbosswar.explode" to see your changes take effect.  When editing Groovy files
