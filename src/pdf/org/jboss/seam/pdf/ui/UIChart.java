@@ -28,422 +28,378 @@ import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.pdf.AsianFontMapper;
 
-public abstract class UIChart extends ITextComponent
-{
-   private Image image = null;
-   private JFreeChart chart = null;
-   
-   private byte[] imageData;
+public abstract class UIChart extends ITextComponent {
+    private Image image = null;
+    private JFreeChart chart = null;
 
-   private int height = 300;
-   private int width = 400;
+    private byte[] imageData;
 
-   private boolean legend;
-   private boolean is3D = false;
-   
-   private String title;
-   private String borderBackgroundPaint;
-   private String borderPaint;
-   private String borderStroke;
-   private boolean borderVisible = true;
+    private int height = 300;
+    private int width = 400;
 
-   private String plotBackgroundPaint;
-   private Float plotBackgroundAlpha;
-   private Float plotForegroundAlpha;
-   private String plotOutlineStroke;
-   private String plotOutlinePaint;
+    private boolean legend;
+    private boolean is3D = false;
 
-   protected Dataset dataset;
-   
-   
+    private String title;
+    private String borderBackgroundPaint;
+    private String borderPaint;
+    private String borderStroke;
+    private boolean borderVisible = true;
 
-   public void setTitle(String title) {
-       this.title = title;
-   }
+    private String plotBackgroundPaint;
+    private Float plotBackgroundAlpha;
+    private Float plotForegroundAlpha;
+    private String plotOutlineStroke;
+    private String plotOutlinePaint;
 
-   public String getTitle() {
-       return (String) valueBinding("title", title);
-   }
+    protected Dataset dataset;
 
-   public void setHeight(int height)
-   {
-      this.height = height;
-   }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-   public int getHeight()
-   {
-      return (Integer) valueBinding(FacesContext.getCurrentInstance(), "height", height);
-   }
+    public String getTitle() {
+        return (String) valueBinding("title", title);
+    }
 
-   public void setWidth(int width)
-   {
-      this.width = width;
-   }
+    public void setHeight(int height) {
+        this.height = height;
+    }
 
-   public int getWidth()
-   {
-      return (Integer) valueBinding(FacesContext.getCurrentInstance(), "width", width);
-   }
-   
-   public void setLegend(boolean legend) {
-       this.legend = legend;
-   }
+    public int getHeight() {
+        return (Integer) valueBinding(FacesContext.getCurrentInstance(),
+                "height", height);
+    }
 
-   public boolean getLegend() {
-       return (Boolean) valueBinding("legend", legend);
-   }
+    public void setWidth(int width) {
+        this.width = width;
+    }
 
-   public void setIs3D(boolean is3D) {
-       this.is3D = true;
-   }
+    public int getWidth() {
+        return (Integer) valueBinding(FacesContext.getCurrentInstance(),
+                "width", width);
+    }
 
-   public boolean getIs3D() {
-       return (Boolean) valueBinding("is3D", is3D);
-   }
+    public void setLegend(boolean legend) {
+        this.legend = legend;
+    }
 
+    public boolean getLegend() {
+        return (Boolean) valueBinding("legend", legend);
+    }
 
-   public void setBorderBackgroundPaint(String backgroundPaint)
-   {
-      this.borderBackgroundPaint = backgroundPaint;
-   }
+    public void setIs3D(boolean is3D) {
+        this.is3D = true;
+    }
 
-   public String getBorderBackgroundPaint()
-   {
-      return (String) valueBinding(FacesContext.getCurrentInstance(), "borderBackgroundPaint", borderBackgroundPaint);
-   }
+    public boolean getIs3D() {
+        return (Boolean) valueBinding("is3D", is3D);
+    }
 
-   public void setBorderPaint(String borderPaint)
-   {
-      this.borderPaint = borderPaint;
-   }
+    public void setBorderBackgroundPaint(String backgroundPaint) {
+        this.borderBackgroundPaint = backgroundPaint;
+    }
 
-   public String getBorderPaint()
-   {
-      return (String) valueBinding(FacesContext.getCurrentInstance(), "borderPaint", borderPaint);
-   }
+    public String getBorderBackgroundPaint() {
+        return (String) valueBinding(FacesContext.getCurrentInstance(),
+                "borderBackgroundPaint", borderBackgroundPaint);
+    }
 
-   public void setBorderStroke(String borderStroke)
-   {
-      this.borderStroke = borderStroke;
-   }
+    public void setBorderPaint(String borderPaint) {
+        this.borderPaint = borderPaint;
+    }
 
-   public String getBorderStroke()
-   {
-      return (String) valueBinding(FacesContext.getCurrentInstance(), "borderStroke", borderStroke);
-   }
+    public String getBorderPaint() {
+        return (String) valueBinding(FacesContext.getCurrentInstance(),
+                "borderPaint", borderPaint);
+    }
 
-   public void setBorderVisible(boolean borderVisible)
-   {
-      this.borderVisible = borderVisible;
-   }
+    public void setBorderStroke(String borderStroke) {
+        this.borderStroke = borderStroke;
+    }
 
-   public boolean getBorderVisible()
-   {
-      return (Boolean) valueBinding(FacesContext.getCurrentInstance(), "borderVisible", borderVisible);
-   }
+    public String getBorderStroke() {
+        return (String) valueBinding(FacesContext.getCurrentInstance(),
+                "borderStroke", borderStroke);
+    }
 
-   public void setPlotBackgroundAlpha(Float plotBackgroundAlpha)
-   {
-      this.plotBackgroundAlpha = plotBackgroundAlpha;
-   }
+    public void setBorderVisible(boolean borderVisible) {
+        this.borderVisible = borderVisible;
+    }
 
-   public Float getPlotBackgroundAlpha()
-   {
-      return (Float) valueBinding(FacesContext.getCurrentInstance(), "plotBackgroundAlpha", plotBackgroundAlpha);
-   }
+    public boolean getBorderVisible() {
+        return (Boolean) valueBinding(FacesContext.getCurrentInstance(),
+                "borderVisible", borderVisible);
+    }
 
-   public void setPlotBackgroundPaint(String plotBackgroundPaint)
-   {
-      this.plotBackgroundPaint = plotBackgroundPaint;
-   }
+    public void setPlotBackgroundAlpha(Float plotBackgroundAlpha) {
+        this.plotBackgroundAlpha = plotBackgroundAlpha;
+    }
 
-   public String getPlotBackgroundPaint()
-   {
-      return (String) valueBinding(FacesContext.getCurrentInstance(), "plotBackgroundPaint", plotBackgroundPaint);
-   }
+    public Float getPlotBackgroundAlpha() {
+        return (Float) valueBinding(FacesContext.getCurrentInstance(),
+                "plotBackgroundAlpha", plotBackgroundAlpha);
+    }
 
-   public void setPlotForegroundAlpha(Float plotForegroundAlpha)
-   {
-      this.plotForegroundAlpha = plotForegroundAlpha;
-   }
+    public void setPlotBackgroundPaint(String plotBackgroundPaint) {
+        this.plotBackgroundPaint = plotBackgroundPaint;
+    }
 
-   public Float getPlotForegroundAlpha()
-   {
-      return (Float) valueBinding(FacesContext.getCurrentInstance(), "plotForegroundAlpha", plotForegroundAlpha);
-   }
+    public String getPlotBackgroundPaint() {
+        return (String) valueBinding(FacesContext.getCurrentInstance(),
+                "plotBackgroundPaint", plotBackgroundPaint);
+    }
 
-   public void setPlotOutlinePaint(String plotOutlinePaint)
-   {
-      this.plotOutlinePaint = plotOutlinePaint;
-   }
+    public void setPlotForegroundAlpha(Float plotForegroundAlpha) {
+        this.plotForegroundAlpha = plotForegroundAlpha;
+    }
 
-   public String getPlotOutlinePaint()
-   {
-      return (String) valueBinding(FacesContext.getCurrentInstance(), "plotOutlinePaint", plotOutlinePaint);
-   }
+    public Float getPlotForegroundAlpha() {
+        return (Float) valueBinding(FacesContext.getCurrentInstance(),
+                "plotForegroundAlpha", plotForegroundAlpha);
+    }
 
-   public void setPlotOutlineStroke(String plotOutlineStroke)
-   {
-      this.plotOutlineStroke = plotOutlineStroke;
-   }
+    public void setPlotOutlinePaint(String plotOutlinePaint) {
+        this.plotOutlinePaint = plotOutlinePaint;
+    }
 
-   public String getPlotOutlineStroke()
-   {
-      return (String) valueBinding(FacesContext.getCurrentInstance(), "plotOutlineStroke", plotOutlineStroke);
-   }
+    public String getPlotOutlinePaint() {
+        return (String) valueBinding(FacesContext.getCurrentInstance(),
+                "plotOutlinePaint", plotOutlinePaint);
+    }
 
-   public void setDataset(Dataset dataset) {
+    public void setPlotOutlineStroke(String plotOutlineStroke) {
+        this.plotOutlineStroke = plotOutlineStroke;
+    }
+
+    public String getPlotOutlineStroke() {
+        return (String) valueBinding(FacesContext.getCurrentInstance(),
+                "plotOutlineStroke", plotOutlineStroke);
+    }
+
+    public void setDataset(Dataset dataset) {
         this.dataset = dataset;
-   }
+    }
 
-   public Dataset getDataset() {
-       return (Dataset) valueBinding(FacesContext.getCurrentInstance(), "dataset", dataset);
-   }
-   
-   @Override
-   public void restoreState(FacesContext context, Object state)
-   {
-      Object[] values = (Object[]) state;
-      super.restoreState(context, values[0]);
+    public Dataset getDataset() {
+        return (Dataset) valueBinding(FacesContext.getCurrentInstance(),
+                "dataset", dataset);
+    }
 
-      height = (Integer) values[1];
-      width = (Integer) values[2];
-      borderBackgroundPaint = (String) values[3];
-      borderPaint = (String) values[4];
-      borderStroke = (String) values[5];
-      borderVisible = (Boolean) values[6];
-      plotBackgroundPaint = (String) values[7];
-      plotBackgroundAlpha = (Float) values[8];
-      plotForegroundAlpha = (Float) values[9];
-      plotOutlineStroke = (String) values[10];
-      plotOutlinePaint = (String) values[11];
-      title = (String) values[12];
-      is3D = (Boolean) values[13];
-      legend = (Boolean) values[14];
-   }
+    @Override
+    public void restoreState(FacesContext context, Object state) {
+        Object[] values = (Object[]) state;
+        super.restoreState(context, values[0]);
 
-   @Override
-   public Object saveState(FacesContext context)
-   {
-      Object[] values = new Object[15];
+        height = (Integer) values[1];
+        width = (Integer) values[2];
+        borderBackgroundPaint = (String) values[3];
+        borderPaint = (String) values[4];
+        borderStroke = (String) values[5];
+        borderVisible = (Boolean) values[6];
+        plotBackgroundPaint = (String) values[7];
+        plotBackgroundAlpha = (Float) values[8];
+        plotForegroundAlpha = (Float) values[9];
+        plotOutlineStroke = (String) values[10];
+        plotOutlinePaint = (String) values[11];
+        title = (String) values[12];
+        is3D = (Boolean) values[13];
+        legend = (Boolean) values[14];
+    }
 
-      values[0] = super.saveState(context);
-      values[1] = height;
-      values[2] = width;
-      values[3] = borderBackgroundPaint;
-      values[4] = borderPaint;
-      values[5] = borderStroke;
-      values[6] = borderVisible;
-      values[7] = plotBackgroundPaint;
-      values[8] = plotBackgroundAlpha;
-      values[9] = plotForegroundAlpha;
-      values[10] = plotOutlineStroke;
-      values[11] = plotOutlinePaint;
-      values[12] = title;
-      values[13] = is3D;
-      values[14] = legend;
-      
-      return values;
-   }
+    @Override
+    public Object saveState(FacesContext context) {
+        Object[] values = new Object[15];
 
-   public static Paint findColor(String name)
-   {
-      if (name == null || name.length() == 0)
-      {
-         return null;
-      }
-      UIComponent component = FacesContext.getCurrentInstance().getViewRoot().findComponent(name);
+        values[0] = super.saveState(context);
+        values[1] = height;
+        values[2] = width;
+        values[3] = borderBackgroundPaint;
+        values[4] = borderPaint;
+        values[5] = borderStroke;
+        values[6] = borderVisible;
+        values[7] = plotBackgroundPaint;
+        values[8] = plotBackgroundAlpha;
+        values[9] = plotForegroundAlpha;
+        values[10] = plotOutlineStroke;
+        values[11] = plotOutlinePaint;
+        values[12] = title;
+        values[13] = is3D;
+        values[14] = legend;
 
-      if (component != null)
-      {
-         if (component instanceof UIColor)
-         {
-            return ((UIColor) component).getPaint();
-         }
-         else
-         {
+        return values;
+    }
+
+    public static Paint findColor(String name) {
+        if (name == null || name.length() == 0) {
+            return null;
+        }
+        UIComponent component = FacesContext.getCurrentInstance().getViewRoot()
+                .findComponent(name);
+
+        if (component != null) {
+            if (component instanceof UIColor) {
+                return ((UIColor) component).getPaint();
+            } else {
+                throw new RuntimeException();
+            }
+        }
+
+        return ITextUtils.colorValue(name);
+    }
+
+    public static Stroke findStroke(String id) {
+        if (id == null || id.length() == 0) {
+            return null;
+        }
+
+        UIComponent component = FacesContext.getCurrentInstance().getViewRoot()
+                .findComponent(id);
+
+        if (component instanceof UIStroke) {
+            return ((UIStroke) component).getStroke();
+        } else {
             throw new RuntimeException();
-         }
-      }
 
-      return ITextUtils.colorValue(name);
-   }
+        }
+    }
 
-   public static Stroke findStroke(String id)
-   {
-      if (id == null || id.length() == 0)
-      {
-         return null;
-      }
+    public abstract JFreeChart createChart(FacesContext context);
 
-      UIComponent component = FacesContext.getCurrentInstance().getViewRoot().findComponent(id);
+    public JFreeChart getChart() {
+        return chart;
+    }
 
-      if (component instanceof UIStroke)
-      {
-         return ((UIStroke) component).getStroke();
-      }
-      else
-      {
-         throw new RuntimeException();
+    @Override
+    public void createITextObject(FacesContext context) {
 
-      }
-   }
+        if (getBorderBackgroundPaint() != null) {
+            chart.setBackgroundPaint(findColor(getBorderBackgroundPaint()));
+        }
 
-   public abstract JFreeChart createChart(FacesContext context);
+        if (getBorderPaint() != null) {
+            chart.setBorderPaint(findColor(getBorderPaint()));
+        }
 
-   public JFreeChart getChart()
-   {
-      return chart;
-   }
+        if (getBorderStroke() != null) {
+            chart.setBorderStroke(findStroke(getBorderStroke()));
+        }
 
-   @Override
-   public void createITextObject(FacesContext context)
-   {
+        chart.setBorderVisible(getBorderVisible());
 
-      if (getBorderBackgroundPaint() != null)
-      {
-         chart.setBackgroundPaint(findColor(getBorderBackgroundPaint()));
-      }
+        configurePlot(chart.getPlot());
 
-      if (getBorderPaint() != null)
-      {
-         chart.setBorderPaint(findColor(getBorderPaint()));
-      }
+        try {
+            UIDocument doc = (UIDocument) findITextParent(getParent(),
+                    UIDocument.class);
+            if (doc != null) {
+                PdfWriter writer = (PdfWriter) doc.getWriter();
+                PdfContentByte cb = writer.getDirectContent();
+                PdfTemplate tp = cb.createTemplate(getWidth(), getHeight());
 
-      if (getBorderStroke() != null)
-      {
-         chart.setBorderStroke(findStroke(getBorderStroke()));
-      }
+                UIFont font = (UIFont) findITextParent(this, UIFont.class);
 
-      chart.setBorderVisible(getBorderVisible());
+                DefaultFontMapper fontMapper;
+                if (font == null) {
+                    fontMapper = new DefaultFontMapper();
+                } else {
+                    fontMapper = new AsianFontMapper(font.getName(), font.getEncoding());
+                }
 
-      configurePlot(chart.getPlot());
+                Graphics2D g2 = tp.createGraphics(getWidth(), getHeight(), fontMapper);
+                chart.draw(g2, new Rectangle2D.Double(0, 0, getWidth(), getHeight()));
+                g2.dispose();
 
-      try
-      {
-         UIDocument doc = (UIDocument) findITextParent(getParent(), UIDocument.class);
-         if (doc != null) {
-            PdfWriter writer = (PdfWriter) doc.getWriter();
-            PdfContentByte cb = writer.getDirectContent();
-            PdfTemplate tp = cb.createTemplate(getWidth(), getHeight());
+                image = new ImgTemplate(tp);
+            } else {
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                ChartUtilities.writeChartAsJPEG(stream, chart, getWidth(),
+                        getHeight());
 
+                imageData = stream.toByteArray();
+                stream.close();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	    UIFont font = (UIFont) findITextParent(this, UIFont.class);
+    public void configurePlot(Plot plot) {
+        if (getPlotBackgroundAlpha() != null) {
+            plot.setBackgroundAlpha(getPlotBackgroundAlpha());
+        }
+        if (getPlotForegroundAlpha() != null) {
+            plot.setForegroundAlpha(getPlotForegroundAlpha());
+        }
+        if (getPlotBackgroundPaint() != null) {
+            plot.setBackgroundPaint(findColor(getPlotBackgroundPaint()));
+        }
+        if (getPlotOutlinePaint() != null) {
+            plot.setOutlinePaint(findColor(getPlotOutlinePaint()));
+        }
+        if (getPlotOutlineStroke() != null) {
+            plot.setOutlineStroke(findStroke(getPlotOutlineStroke()));
+        }
+    }
 
-	    DefaultFontMapper fontMapper;
-	    if (font == null) { 
-		fontMapper = new DefaultFontMapper();
-	    } else {
-		fontMapper = new AsianFontMapper(font.getName(), font.getEncoding());
-	    }
+    public PlotOrientation plotOrientation(String orientation) {
+        if (orientation != null && orientation.equalsIgnoreCase("horizontal")) {
+            return PlotOrientation.HORIZONTAL;
+        } else {
+            return PlotOrientation.VERTICAL;
+        }
+    }
 
-	    Graphics2D g2 = tp.createGraphics(getWidth(), getHeight(), fontMapper);
-            chart.draw(g2, new Rectangle2D.Double(0, 0, getWidth(), getHeight()));
-            g2.dispose();
+    @Override
+    public void encodeBegin(FacesContext context) throws IOException {
+        dataset = getDataset();
+        // bypass super to avoid createITextObject() before the chart is ready
+        if (dataset == null) {
+            dataset = createDataset();
+        }
+        chart = createChart(context);
+    }
 
-            image = new ImgTemplate(tp);
-         } else {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            ChartUtilities.writeChartAsJPEG(stream, chart, getWidth(), getHeight());
+    @Override
+    public void encodeEnd(FacesContext context) throws IOException {
+        // call create here so that we'll have a valid chart
+        createITextObject(context);
 
-            imageData = stream.toByteArray();
-            stream.close();
-         }
-      } catch (Exception e) {
-         throw new RuntimeException(e);
-      }
-   }
+        if (imageData != null) {
+            ResponseWriter response = context.getResponseWriter();
+            response.startElement("img", null);
+            GraphicImageStore store = GraphicImageStore.instance();
+            String key = store.put(new ImageWrapper(imageData, Type.IMAGE_JPEG));
+            String url = context.getExternalContext().getRequestContextPath()
+                    + GraphicImageResource.GRAPHIC_IMAGE_RESOURCE_PATH + "/"
+                    + key + Type.IMAGE_JPEG.getExtension();
 
-   public void configurePlot(Plot plot)
-   {
-      if (getPlotBackgroundAlpha() != null)
-      {
-         plot.setBackgroundAlpha(getPlotBackgroundAlpha());
-      }
-      if (getPlotForegroundAlpha() != null)
-      {
-         plot.setForegroundAlpha(getPlotForegroundAlpha());
-      }
-      if (getPlotBackgroundPaint() != null)
-      {
-         plot.setBackgroundPaint(findColor(getPlotBackgroundPaint()));
-      }
-      if (getPlotOutlinePaint() != null)
-      {
-         plot.setOutlinePaint(findColor(getPlotOutlinePaint()));
-      }
-      if (getPlotOutlineStroke() != null)
-      {
-         plot.setOutlineStroke(findStroke(getPlotOutlineStroke()));
-      }
-   }
+            response.writeAttribute("src", url, null);
 
-   public PlotOrientation plotOrientation(String orientation)
-   {
-      if (orientation != null && orientation.equalsIgnoreCase("horizontal"))
-      {
-         return PlotOrientation.HORIZONTAL;
-      }
-      else
-      {
-         return PlotOrientation.VERTICAL;
-      }
-   }
+            response.writeAttribute("height", getHeight(), null);
+            response.writeAttribute("width", getWidth(), null);
 
-   @Override
-   public void encodeBegin(FacesContext context) throws IOException
-   {
-      dataset = getDataset();
-      // bypass super to avoid createITextObject() before the chart is ready
-      if (dataset == null) {
-          dataset = createDataset();
-      }
-      chart = createChart(context);
-   }
+            response.endElement("img");
+        }
 
-   @Override
-   public void encodeEnd(FacesContext context) throws IOException
-   {
-      // call create here so that we'll have a valid chart
-      createITextObject(context);
+        super.encodeEnd(context);
+    }
 
-      if (imageData != null)
-      {
-         ResponseWriter response = context.getResponseWriter();
-         response.startElement("img", null);
-         GraphicImageStore store = GraphicImageStore.instance();
-         String key = store.put(new ImageWrapper(imageData, Type.IMAGE_JPEG));
-         String url = context.getExternalContext().getRequestContextPath() + GraphicImageResource.GRAPHIC_IMAGE_RESOURCE_PATH + "/" + key + Type.IMAGE_JPEG.getExtension();
+    @Override
+    public Object getITextObject() {
+        return image;
+    }
 
-         response.writeAttribute("src", url, null);
+    @Override
+    public void handleAdd(Object arg0) {
+        throw new RuntimeException("No children allowed");
+    }
 
-         response.writeAttribute("height", getHeight(), null);
-         response.writeAttribute("width", getWidth(), null);
+    @Override
+    public void removeITextObject() {
+        image = null;
+        chart = null;
+    }
 
-         response.endElement("img");
-      }
-
-      super.encodeEnd(context);
-   }
-
-   @Override
-   public Object getITextObject()
-   {
-      return image;
-   }
-
-   @Override
-   public void handleAdd(Object arg0)
-   {
-      throw new RuntimeException("No children allowed");
-   }
-
-   @Override
-   public void removeITextObject()
-   {
-      image = null;
-      chart = null;
-   }
-
-   public abstract Dataset createDataset();
+    public abstract Dataset createDataset();
 }
