@@ -144,6 +144,8 @@
             This condition consults the <literal>ResponseStateManager#isPostback(FacesContext)</literal> to
             determine if the request is a postback. The ResponseStateManager is accessed using
             <literal>FacesContext.getCurrentInstance().getRenderKit().getResponseStateManager()</literal>.
+        </para>
+
         <para>
             To save you from the verbosity of JSF's API, Seam offers a built-in condition that allows you to
             accomplish the same result with a heck of a lot less typing. You can disable a page action on postback
