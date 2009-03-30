@@ -23,12 +23,12 @@ public class ${entityName}List extends EntityQuery<${entityName}>
 <#if c2j.isComponent(property)>
 <#foreach componentProperty in property.value.propertyIterator>
 <#if isString(componentProperty)>
-        "lower(${componentName}.${property.name}.${componentProperty.name}) like concat(lower(${'#'}{${listName}.${componentName}.${property.name}.${componentProperty.name}}),'%')",
+        "lower(${componentName}.${property.name}.${componentProperty.name}) like lower(concat(${'#'}{${listName}.${componentName}.${property.name}.${componentProperty.name}},'%'))",
 </#if>
 </#foreach>
 <#else>
 <#if isString(property)>
-        "lower(${componentName}.${property.name}) like concat(lower(${'#'}{${listName}.${componentName}.${property.name}}),'%')",
+        "lower(${componentName}.${property.name}) like lower(concat(${'#'}{${listName}.${componentName}.${property.name}},'%'))",
 </#if>
 </#if>
 </#if>

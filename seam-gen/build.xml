@@ -205,7 +205,7 @@
         description="Prompt for settings" depends="init">
         <property file="${seam-gen.properties}" prefix="old"/>
 
-        <echo message="Welcome to seam-gen :-)"/>
+        <echo message="Welcome to seam-gen ${complete.version} :-)"/>
         <echo message="Answer each question or hit ENTER to accept the default (in brackets)"/>
         <echo message=""/>
         <property name="old.workspace.home" value="C:/Projects"/>
@@ -263,17 +263,24 @@
                  validargs="ear,war"
               defaultvalue="${old.project.type}"/>
 
-        <property name="old.action.package" value="com.mydomain.${project.name.new}"/>
+        <property name="old.project.package" value="com.mydomain.${project.name.new}"/>
+        <input addproperty="project.package.new"
+                   message="Enter the base package name for your Java classes [${old.project.package}]"
+              defaultvalue="${old.project.package}"/>
+
+        <!-- Should we just skip the fine-grained questions about the packages? -->
+
+        <property name="old.action.package" value="${project.package.new}.action"/>
         <input addproperty="action.package.new"
                    message="Enter the Java package name for your session beans [${old.action.package}]"
               defaultvalue="${old.action.package}"/>
 
-        <property name="old.model.package" value="${action.package.new}"/>
+        <property name="old.model.package" value="${project.package.new}.model"/>
         <input addproperty="model.package.new"
                    message="Enter the Java package name for your entity beans [${old.model.package}]"
               defaultvalue="${old.model.package}"/>
 
-        <property name="old.test.package" value="${action.package.new}.test"/>
+        <property name="old.test.package" value="${project.package.new}.test"/>
         <input addproperty="test.package.new"
                    message="Enter the Java package name for your test cases [${old.test.package}]"
               defaultvalue="${old.test.package}"/>
@@ -296,6 +303,9 @@
             <equals arg1="${old.database.type}" arg2="${database.type.new}"/>
         </condition>
         <condition property="hibernate.connection.driver_class.default" value="${old.hibernate.connection.driver_class}">
+            <equals arg1="${old.database.type}" arg2="${database.type.new}"/>
+        </condition>
+        <condition property="driver.jar.default" value="${old.driver.jar}">
             <equals arg1="${old.database.type}" arg2="${database.type.new}"/>
         </condition>
 
@@ -352,7 +362,7 @@
         <condition property="hibernate.connection.driver_class.default" value="com.microsoft.sqlserver.jdbc.SQLServerDriver">
             <equals arg1="${database.type.new}" arg2="mssql"/>
         </condition>
-        <condition property="hibernate.connection.driver_class.default" value="COM.ibm.db2.jdbc.app.DB2Driver">
+        <condition property="hibernate.connection.driver_class.default" value="com.ibm.db2.jcc.DB2Driver">
             <equals arg1="${database.type.new}" arg2="db2"/>
         </condition>
         <condition property="hibernate.connection.driver_class.default" value="com.sybase.jdbc2.jdbc.SybDriver">
@@ -395,6 +405,9 @@
         <condition property="hibernate.connection.url.default" value="jdbc:h2:.">
             <equals arg1="${database.type.new}" arg2="h2"/>
         </condition>
+        <condition property="driver.jar.default" value="${seam.dir}/lib/hsqldb.jar">
+            <equals arg1="${database.type.new}" arg2="hsql"/>
+        </condition>
         <condition property="hibernate.connection.url.default" value="jdbc:hsqldb:.">
             <equals arg1="${database.type.new}" arg2="hsql"/>
         </condition>
@@ -430,14 +443,28 @@
         <property name="hibernate.connection.dataSource_class.default" value="org.hsqldb.jdbc.jdbcDataSource"/>
         <property name="hibernate.connection.url.default" value="jdbc:hsqldb:."/>
 
+        <property name="driver.jar.default" value=""/>
+        <input addproperty="driver.jar.new"
+                   message="Enter the filesystem path to the JDBC driver jar [${driver.jar.default}]"
+              defaultvalue="${driver.jar.default}"/>
+                
+        <!-- clear extra driver jar name if database isn't DB2
+             ask for license jar if it is -->
+
+        <condition property="driver.license.jar.new" value="">
+            <not>
+                <equals arg1="${database.type.new}" arg2="db2"/>
+            </not>
+        </condition>
+
+        <property name="old.driver.license.jar" value=""/>
+        <input addproperty="driver.license.jar.new" 
+                   message="Enter the filesystem path to the license jar [${old.driver.license.jar}]"
+              defaultvalue="${old.driver.license.jar}"/>
+
         <input addproperty="hibernate.dialect.new"
                    message="Enter the Hibernate dialect for your database [${hibernate.dialect.default}]"
               defaultvalue="${hibernate.dialect.default}"/>
-
-        <property name="old.driver.jar" value="${seam.dir}/lib/hsqldb.jar"/>
-        <input addproperty="driver.jar.new"
-                   message="Enter the filesystem path to the JDBC driver jar [${old.driver.jar}]"
-              defaultvalue="${old.driver.jar}"/>
 
         <input addproperty="hibernate.connection.driver_class.new"
                    message="Enter the JDBC driver class for your database [${hibernate.connection.driver_class.default}]"
@@ -466,7 +493,7 @@
             <equals arg1="${database.type.new}" arg2="mysql"/>
         </condition>
         <input addproperty="hibernate.default_schema.entered"
-                   message="Enter the database schema name (it is OK to leave this blank) [${old.hibernate.default_schema}]"
+                   message="Enter the database schema name (Enter - to clear value) [${old.hibernate.default_schema}]"
               defaultvalue="${old.hibernate.default_schema}"/>
         <uppercaseProperty name="hibernate.default_schema.uppercase" value="${hibernate.default_schema.entered}"/>
         <condition property="hibernate.default_schema.new" value="${hibernate.default_schema.uppercase}" else="${hibernate.default_schema.entered}">
@@ -474,11 +501,11 @@
         </condition>
 
         <property name="old.hibernate.default_catalog" value=""/>
-        <condition property="hibernate.default_catalog.new" value="">
+        <condition property="hibernate.default_catalog.entered" value="">
             <equals arg1="${database.type.new}" arg2="oracle"/>
         </condition>
-        <input addproperty="hibernate.default_catalog.new"
-                   message="Enter the database catalog name (it is OK to leave this blank) [${old.hibernate.default_catalog}]"
+        <input addproperty="hibernate.default_catalog.entered"
+                   message="Enter the database catalog name (Enter - to clear value) [${old.hibernate.default_catalog}]"
               defaultvalue="${old.hibernate.default_catalog}"/>
 
         <property name="old.database.exists" value="n"/>
@@ -493,6 +520,10 @@
                  validargs="y,n"
               defaultvalue="${old.database.drop}"/>
 
+        <condition property="hibernate.default_schema.new" value="">
+          <equals arg1="${hibernate.default_schema.entered}" arg2="-"/>
+        </condition>
+        <property name="hibernate.default_schema.new" value="${hibernate.default_schema.test}"/>
         <condition property="hibernate.default_schema.key" value="hibernate.default_schema">
             <not><equals arg1="${hibernate.default_schema.new}" arg2=""/></not>
         </condition>
@@ -500,6 +531,10 @@
             <equals arg1="${hibernate.default_schema.new}" arg2=""/>
         </condition>
 
+        <condition property="hibernate.default_catalog.new" value="">
+          <equals arg1="${hibernate.default_catalog.entered}" arg2="-"/>
+        </condition>
+        <property name="hibernate.default_catalog.new" value="${hibernate.default_catalog.entered}"/>
         <condition property="hibernate.default_catalog.key" value="hibernate.default_catalog">
             <not><equals arg1="${hibernate.default_catalog.new}" arg2=""/></not>
         </condition>
@@ -524,6 +559,7 @@
             <entry key="database.exists" value="${database.exists.new}"/>
             <entry key="database.drop" value="${database.drop.new}"/>
             <entry key="driver.jar" value="${driver.jar.new}"/>
+            <entry key="driver.license.jar" value="${driver.license.jar.new}"/>
             <entry key="hibernate.dialect" value="${hibernate.dialect.new}"/>
             <entry key="hibernate.connection.driver_class" value="${hibernate.connection.driver_class.new}"/>
             <entry key="hibernate.connection.dataSource_class" value="${hibernate.connection.dataSource_class.new}"/>
@@ -537,7 +573,18 @@
         </propertyfile>
 
         <echo message="Installing JDBC driver jar to JBoss AS"/>
-        <copy file="${driver.jar.new}" todir="${jboss.home.new}/server/${jboss.domain.new}/lib"/>
+        <condition property="has.license.jar">
+            <not><equals arg1="${driver.license.jar.new}" arg2=""/></not>
+        </condition>
+        <copy todir="${jboss.home.new}/server/${jboss.domain.new}/lib" overwrite="true">
+            <fileset file="${driver.jar.new}">
+                <include name="${driver.jar.new}"/>
+            </fileset>
+            <fileset file="${driver.license.jar.new}">
+                <include name="${driver.license.jar.new}" if="has.license.jar"/>
+                <exclude name="**/*" unless="has.license.jar"/>
+            </fileset>
+        </copy>
 
         <echo message="Type '${seam.cmd} create-project' to create the new project"/>
     </target>
@@ -1412,6 +1459,7 @@
             <pathelement path="${seam.dir}/lib/jboss-common-core.jar"/>
             <pathelement path="${seam.dir}/lib/concurrent.jar"/>
             <pathelement path="${driver.jar}"/>
+            <pathelement path="${driver.license.jar}"/>
             <pathelement path="${seam.dir}/lib/gen/jboss-seam-gen.jar"/>
         </path>
         <taskdef name="hibernate" classname="org.hibernate.tool.ant.HibernateToolTask" classpathref="htools.classpath"/>
