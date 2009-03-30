@@ -47,13 +47,16 @@
 		<dependency org="net.sourceforge.jexcelapi" name="jxl" rev="2.6.8-seam">
 			<artifact name="jxl" type="jar"/>
 		</dependency>
-		<dependency org="org.antlr" name="antlr-runtime" rev="3.0">
+		<dependency org="org.antlr" name="antlr-runtime" rev="3.1.1">
 			<artifact name="antlr-runtime" type="jar"/>
 		</dependency>
-		<dependency org="org.drools" name="drools-compiler" rev="4.0.7">
+		<dependency org="org.drools" name="drools-api" rev="5.0.0.CR1">
+			<artifact name="drools-api" type="jar"/>
+		</dependency>
+		<dependency org="org.drools" name="drools-compiler" rev="5.0.0.CR1">
 			<artifact name="drools-compiler" type="jar"/>
 		</dependency>
-		<dependency org="org.drools" name="drools-core" rev="4.0.7">
+		<dependency org="org.drools" name="drools-core" rev="5.0.0.CR1">
 			<artifact name="drools-core" type="jar"/>
 		</dependency>
 		<dependency org="org.eclipse.jdt" name="core" rev="3.2.3.v_686_R32x">
@@ -111,8 +114,8 @@
 		<dependency org="org.jbpm" name="jbpm-jpdl" rev="3.2.2">
 			<artifact name="jbpm-jpdl" type="jar"/>
 		</dependency>
-		<dependency org="org.mvel" name="mvel" rev="1.3.1-java1.5">
-			<artifact name="mvel" type="jar"/>
+		<dependency org="org.mvel" name="mvel2" rev="2.0.8pre1">
+			<artifact name="mvel2" type="jar"/>
 		</dependency>
 		<dependency org="org.richfaces.framework" name="richfaces-api" rev="${richfaces.version}">
 			<artifact name="richfaces-api" type="jar"/>
