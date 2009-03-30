@@ -348,6 +348,22 @@
       </dependency>
 
       <dependency>
+         <groupId>org.jboss.resteasy</groupId>
+         <artifactId>resteasy-jaxb-provider</artifactId>
+         <version>1.1-RC1</version>
+         <exclusions>
+            <exclusion>
+               <groupId>com.sun.xml.bind</groupId>
+               <artifactId>jaxb-impl</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.codehaus.jettison</groupId>
+               <artifactId>jettison</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+
+      <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate</artifactId>
         <version>3.2.4.sp1</version>

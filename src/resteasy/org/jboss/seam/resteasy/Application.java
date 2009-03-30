@@ -23,9 +23,9 @@ import java.util.*;
 public class Application extends javax.ws.rs.core.Application
 {
 
-    private Map<Class<?>, Component> providerClasses = new HashMap<Class<?>, Component>();
-    private Map<Class<?>, Component> resourceClasses = new HashMap<Class<?>, Component>();
-
+   private Map<Class<?>, Set<Component>> providerClasses = new HashMap<Class<?>, Set<Component>>();
+   private Map<Class<?>, Set<Component>> resourceClasses = new HashMap<Class<?>, Set<Component>>();
+   
     private List<String> providerClassNames = new ArrayList<String>();
     private List<String> resourceClassNames = new ArrayList<String>();
 
@@ -55,35 +55,57 @@ public class Application extends javax.ws.rs.core.Application
         return resourceClasses.keySet();
     }
 
-    public void addProviderClass(Class<?> clazz, Component component)
-    {
-        providerClasses.put(clazz, component);
-    }
+   public void addProviderClass(Class<?> clazz)
+   {
+      providerClasses.put(clazz, null);
+   }
+
+   public void addProviderClass(Class<?> clazz, Component component)
+   {
+      Set<Component> components = providerClasses.get(clazz);
+      if (components == null)
+      {
+         components = new HashSet<Component>();
+         providerClasses.put(clazz, components);
+      }
+      components.add(component);
+   }
 
     public void removeProviderClass(Class<?> clazz)
     {
         providerClasses.remove(clazz);
     }
 
-    public void addResourceClass(Class<?> clazz, Component component)
-    {
-        resourceClasses.put(clazz, component);
-    }
+   public void addResourceClass(Class<?> clazz)
+   {
+      resourceClasses.put(clazz, null);
+   }
+
+   public void addResourceClass(Class<?> clazz, Set<Component> newComponents)
+   {
+      Set<Component> components = resourceClasses.get(clazz);
+      if (components == null)
+      {
+         components = new HashSet<Component>();
+         resourceClasses.put(clazz, components);
+      }
+      components.addAll(newComponents);
+   }
 
     public void removeResourceClass(Class<?> clazz)
     {
         resourceClasses.remove(clazz);
     }
 
-    public Component getProviderClassComponent(Class clazz)
-    {
-        return providerClasses.get(clazz) != null ? providerClasses.get(clazz) : null;
-    }
+   public Set<Component> getProviderClassComponent(Class clazz)
+   {
+      return providerClasses.get(clazz) != null ? providerClasses.get(clazz) : null;
+   }
 
-    public Component getResourceClassComponent(Class clazz)
-    {
-        return resourceClasses.get(clazz) != null ? resourceClasses.get(clazz) : null;
-    }
+   public Set<Component> getResourceClassComponent(Class clazz)
+   {
+      return resourceClasses.get(clazz) != null ? resourceClasses.get(clazz) : null;
+   }
 
     public Map<String, MediaType> getMediaTypeMappings()
     {

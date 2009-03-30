@@ -51,6 +51,34 @@
        </xs:complexType>
    </xs:element>
 
+	<xs:element name="resource-home">
+		<xs:annotation>
+			<xs:documentation>
+				Allows you to expose an entity home component as a
+				REST resource.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attributeGroup ref="components:attlist.component" />
+			<xs:attributeGroup ref="resteasy:attlist.resourceHome" />
+			<xs:attributeGroup ref="resteasy:attlist.abstractResource" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="resource-query">
+		<xs:annotation>
+			<xs:documentation>
+				Allows you to expose an entity query component as a
+				REST resource.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attributeGroup ref="components:attlist.component" />
+			<xs:attributeGroup ref="resteasy:attlist.resourceQuery" />
+			<xs:attributeGroup ref="resteasy:attlist.abstractResource" />
+		</xs:complexType>
+	</xs:element>
+
    <xs:attributeGroup name="attlist.application">
        <xs:attribute name="scan-providers" type="components:boolean">
            <xs:annotation>
@@ -92,5 +120,67 @@
           </xs:annotation>
       </xs:attribute>
    </xs:attributeGroup>
+   
+   	<xs:attributeGroup name="attlist.abstractResource">
+		<xs:attribute name="path" type="xs:string" use="required" >
+			<xs:annotation>
+				<xs:documentation>
+					Location of the resource. For example /user
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="media-types" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Media type this resource will operate on. Defaults to application/xml.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
 
+	<xs:attributeGroup name="attlist.resourceHome">
+		<xs:attribute name="entity-id-class" type="xs:string"
+			use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Entity identifier class.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="entity-home" type="components:elType"
+			use="required">
+			<xs:annotation>
+				<xs:documentation>
+					EntityHome component that will be used for operating database.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="readonly" type="xs:boolean" default="false">
+			<xs:annotation>
+				<xs:documentation>
+					Disable "write" operations on this resource. Resource will only allow GET
+					method.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="attlist.resourceQuery">
+		<xs:attribute name="entity-class" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Entity class.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="entity-query" type="components:elType">
+			<xs:annotation>
+				<xs:documentation>
+					EntityQuery component that will be used for
+					listing operation (GET on path). If not set, it will be created
+					automatically.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
 </xs:schema>

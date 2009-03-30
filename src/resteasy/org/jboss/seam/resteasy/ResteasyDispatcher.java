@@ -1,5 +1,7 @@
 package org.jboss.seam.resteasy;
 
+import java.util.Set;
+
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.contexts.Contexts;
@@ -60,38 +62,40 @@ public class ResteasyDispatcher extends HttpServletDispatcher
         }
         for (Class providerClass : application.getProviderClasses())
         {
-            log.debug("registering JAX RS provider class: " + providerClass.getName());
-            Component seamComponent = application.getProviderClassComponent(providerClass);
-            if (seamComponent != null)
+            Set<Component> seamComponents = application.getProviderClassComponent(providerClass);
+            if (seamComponents != null)
             {
-                if (ScopeType.STATELESS.equals(seamComponent.getScope()))
+                for (Component seamComponent : seamComponents)
                 {
-                    throw new RuntimeException(
-                            "Registration of STATELESS Seam components as RESTEasy providers not implemented!"
-                    );
-                }
-                else if (ScopeType.APPLICATION.equals(seamComponent.getScope()))
-                {
-                    Object providerInstance = Component.getInstance(seamComponent.getName());
-                    boolean isStringConverter = false;
-                    for (Class componentIface : seamComponent.getBusinessInterfaces())
-                    {
-                        if (StringConverter.class.isAssignableFrom(componentIface))
-                        {
+                   if (ScopeType.STATELESS.equals(seamComponent.getScope()))
+                   {
+                      throw new RuntimeException(
+                               "Registration of STATELESS Seam components as RESTEasy providers not implemented!"
+                      );
+                   }
+                   else if (ScopeType.APPLICATION.equals(seamComponent.getScope()))
+                   {
+                      Object providerInstance = Component.getInstance(seamComponent.getName());
+                      boolean isStringConverter = false;
+                      for (Class componentIface : seamComponent.getBusinessInterfaces())
+                      {
+                         if (StringConverter.class.isAssignableFrom(componentIface))
+                         {
                             isStringConverter = true;
                             break;
-                        }
-                    }
-                    if (isStringConverter)
-                    {
-                        log.error("can't register Seam component as RESTEasy StringConverter, see: https://jira.jboss.org/jira/browse/JBSEAM-4020");
-                        //log.debug("registering Seam component as custom RESTEasy string converter provider: " + seamComponent.getName());
-                        //providerFactory.addStringConverter((StringConverter)providerInstance);
-                    }
-                    else
-                    {
-                        providerFactory.registerProviderInstance(providerInstance);
-                    }
+                         }
+                      }
+                      if (isStringConverter)
+                      {
+                         log.error("can't register Seam component as RESTEasy StringConverter, see: https://jira.jboss.org/jira/browse/JBSEAM-4020");
+                         //log.debug("registering Seam component as custom RESTEasy string converter provider: " + seamComponent.getName());
+                         //providerFactory.addStringConverter((StringConverter)providerInstance);
+                      }
+                      else
+                      {
+                         providerFactory.registerProviderInstance(providerInstance);
+                      }
+                   }
                 }
             }
             else
@@ -114,13 +118,15 @@ public class ResteasyDispatcher extends HttpServletDispatcher
         for (final Class resourceClass : application.getClasses())
         {
             log.debug("registering JAX RS resource class: " + resourceClass);
-            final Component seamComponent = application.getResourceClassComponent(resourceClass);
-            if (seamComponent != null)
+            Set<Component> components = application.getResourceClassComponent(resourceClass);
+            if (components != null)
             {
-                // Seam component lookup when call is dispatched to resource
-                log.debug("registering as Seam component resource factory: " + resourceClass);
-                registry.addResourceFactory(
-                        new ResourceFactory()
+                log.debug("registering all {0} components of {1}", components.size(), resourceClass);
+                // Register every component
+                for (final Component seamComponent : components)
+                {
+                    // Seam component lookup when call is dispatched to resource
+                    ResourceFactory factory = new ResourceFactory()
                         {
 
                             public Class<?> getScannableClass()
@@ -159,12 +165,39 @@ public class ResteasyDispatcher extends HttpServletDispatcher
                             public void unregistered()
                             {
                             }
-                        }
-                );
+                        };
+                    // Register on specific path if component has it's path property set to not-null value
+                    if (AbstractResource.class.isAssignableFrom(seamComponent.getBeanClass()))
+                    {
+                       // TODO get the path some other way - it may not be possible to create a instance at this time
+                       AbstractResource instance = (AbstractResource) seamComponent.newInstance();
+                       String path = instance.getPath();
+                       if (instance.getPath() != null)
+                       {
+                          log.debug("registering resource {0} on path {1}", seamComponent.getName(), path);
+                          registry.addResourceFactory(factory, path);
+                       }
+                       else
+                       {
+                          log.debug("registering resource {0}", seamComponent.getName());
+                          registry.addResourceFactory(factory);
+                       }
+                    }
+                    else
+                    {
+                       log.debug("registering resource {0}", seamComponent.getName());
+                       registry.addResourceFactory(factory);
+                    }
+                }
             }
             else
             {
+               // ResourceHome and ResourceQuery won't be registered if not declared as a component
+               if (ResourceHome.class.equals(resourceClass) || ResourceQuery.class.equals(resourceClass))
+                  continue;
+               
                 // JAX-RS default lifecycle
+                log.info("registering resource {0} with default JAX-RS lifecycle", resourceClass);
                 registry.addResourceFactory(new POJOResourceFactory(resourceClass));
             }
         }

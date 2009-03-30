@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Scans annoated JAX-RS resources and providers, optionally registers them as Seam components.
@@ -53,7 +54,7 @@ public class ResteasyBootstrap
         }
 
         log.debug("finding all Seam component classes");
-        Map<Class, Component> seamComponents = new HashMap<Class, Component>();
+        Map<Class, Set<Component>> seamComponents = new HashMap<Class, Set<Component>>();
         String[] applicationContextNames = Contexts.getApplicationContext().getNames();
         for (String applicationContextName : applicationContextNames)
         {
@@ -62,7 +63,12 @@ public class ResteasyBootstrap
                 Component seamComponent =
                         (Component) Component.getInstance(applicationContextName, ScopeType.APPLICATION);
                 // TODO: This should consider EJB components/annotations on interfaces somehow?
-                seamComponents.put(seamComponent.getBeanClass(), seamComponent);
+                Class beanClass = seamComponent.getBeanClass();
+                if (!seamComponents.containsKey(beanClass))
+                {
+                   seamComponents.put(beanClass, new HashSet<Component>());
+                }
+                seamComponents.get(beanClass).add(seamComponent);
             }
         }
 
@@ -71,7 +77,7 @@ public class ResteasyBootstrap
     }
 
     // Load all provider classes, either scanned or through explicit configuration
-    protected void registerProviders(Map<Class, Component> seamComponents, Collection annotatedProviderClasses)
+    protected void registerProviders(Map<Class, Set<Component>> seamComponents, Collection annotatedProviderClasses)
     {
         Collection<Class> providerClasses = new HashSet<Class>();
         try
@@ -92,30 +98,37 @@ public class ResteasyBootstrap
             // Ignore built-in providers, we register them manually later
             if (providerClass.getName().startsWith("org.jboss.resteasy.plugins.providers")) continue;
 
-            Component seamComponent = null;
             // Check if this is also a Seam component bean class
             if (seamComponents.containsKey(providerClass))
             {
-                seamComponent = seamComponents.get(providerClass);
-                // Needs to be APPLICATION or STATELESS
-                if (!seamComponent.getScope().equals(ScopeType.APPLICATION) &&
+               for (Component seamComponent : seamComponents.get(providerClass))
+               {
+                  // Needs to be APPLICATION or STATELESS
+                  if (!seamComponent.getScope().equals(ScopeType.APPLICATION) &&
                         !seamComponent.getScope().equals(ScopeType.STATELESS))
-                {
-                    log.warn("can't add provider Seam component, not APPLICATION or STATELESS scope: " + seamComponent.getName());
-                    log.warn("this provider class will be registered without Seam injection or lifecycle!");
-                    seamComponent = null;
-                }
-            }
-            if (seamComponent != null)
-            {
-                log.debug("adding provider Seam component: " + seamComponent.getName());
+                  {
+                     log.warn("can't add provider Seam component, not APPLICATION or STATELESS scope: " + seamComponent.getName());
+                     log.warn("this provider class will be registered without Seam injection or lifecycle!");
+                     seamComponent = null;
+                  }
+                  if (seamComponent != null)
+                  {
+                     log.debug("adding provider Seam component: " + seamComponent.getName());
+                     application.addProviderClass(providerClass, seamComponent);
+                  }
+                  else
+                  {
+                     log.debug("adding provider class: " + providerClass.getName());
+                     application.addProviderClass(providerClass);
+                  }
+               }
             }
             else
             {
-                log.debug("adding provider class: " + providerClass.getName());
+               log.debug("adding provider class: " + providerClass.getName());
+               application.addProviderClass(providerClass);
             }
-            application.addProviderClass(providerClass, seamComponent);
-        }
+         }
         if (application.getProviderClasses().size() == 0 &&
                 !application.isUseBuiltinProviders())
         {
@@ -124,7 +137,7 @@ public class ResteasyBootstrap
     }
 
     // Load all resource classes, either scanned or through explicit configuration
-    protected void registerResources(Map<Class, Component> seamComponents, Collection annotatedResourceClasses)
+    protected void registerResources(Map<Class, Set<Component>> seamComponents, Collection annotatedResourceClasses)
     {
         Collection<Class> resourceClasses = new HashSet<Class>();
         try
@@ -142,19 +155,18 @@ public class ResteasyBootstrap
         }
         for (Class<Object> resourceClass : resourceClasses)
         {
-
-            Component seamComponent = null;
             // Check if this is also a Seam component bean class
             if (seamComponents.containsKey(resourceClass))
             {
-                seamComponent = seamComponents.get(resourceClass);
-                log.debug("adding resource Seam component: " + seamComponent.getName());
+                Set<Component> components = seamComponents.get(resourceClass);
+                log.debug("adding resource Seam components {0} for class {1}", components, resourceClass);
+                application.addResourceClass(resourceClass, components);
             }
             else
             {
                 log.debug("adding resource class with JAX-RS default lifecycle: " + resourceClass.getName());
+                application.addResourceClass(resourceClass);
             }
-            application.addResourceClass(resourceClass, seamComponent);
         }
         if (application.getClasses().size() == 0)
             log.info("no JAX-RS resource classes registered");
