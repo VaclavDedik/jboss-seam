@@ -1435,10 +1435,6 @@ public class Component extends Model
 
    protected Object instantiateJavaBean() throws Exception
    {
-      if (name.equals("slowpoke")) {
-          System.out.println("!instantiate " + name);
-      }
-          
       Object bean = getBeanClass().newInstance();
      
       if (interceptionEnabled) {
