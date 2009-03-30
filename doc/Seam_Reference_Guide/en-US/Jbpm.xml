@@ -298,10 +298,10 @@
         no-conversation-view-id="/main.xhtml"/>]]></programlisting>
 	    
 	    <para>
-	        On the other hand, in the stateful model, backbuttoning is 
+	        On the other hand, in the stateful model, using the back button is 
 	        interpreted as an undefined transition back to a previous state.
 	        Since the stateful model enforces a defined set of transitions
-	        from the current state, back buttoning is by default disallowed 
+	        from the current state, the back button is not permitted by default
 	        in the stateful model! Seam transparently detects the use of the
 	        back button, and blocks any attempt to perform an action from
 	        a previous, "stale" page, and simply redirects the user to 
@@ -322,10 +322,19 @@
 </page>]]></programlisting>
 
         <para>
-            This allows backbuttoning <emphasis>from</emphasis> the
-            <literal>checkout</literal> state to <emphasis>any previous
+            This allows navigation via the back button <emphasis>from</emphasis>
+            the <literal>checkout</literal> state to <emphasis>any previous
             state!</emphasis>
         </para>
+
+        <note>
+           If a page is set to redirect after a transition, it is not possible
+           to use the back button to return to that page even when back is
+           enabled on a page later in the flow. The reason is because Seam
+           stores information about the pageflow in the page scope and the back
+           button must result in a POST for that information to be restored
+           (i.e., a Faces request). A redirect severs this linkage.
+        </note>
         
         <para>
             Of course, we still need to define what happens if a request 
