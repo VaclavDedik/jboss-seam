@@ -240,6 +240,9 @@ public class ConversationInterceptor extends AbstractInterceptor
    {
       if ( !pageflowName.equals("") )
       {
+         if ( !Init.instance().isJbpmInstalled() ) {
+            throw new IllegalArgumentException("attempting to begin pageflow but required org.jboss.seam.bpm.jbpm component is not installed");
+         }
          Pageflow.instance().begin(pageflowName);
       }
    }
