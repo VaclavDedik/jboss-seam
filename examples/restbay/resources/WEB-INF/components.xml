@@ -7,6 +7,7 @@
             xmlns:async="http://jboss.com/products/seam/async"
             xmlns:web="http://jboss.com/products/seam/web"
             xmlns:resteasy="http://jboss.com/products/seam/resteasy"
+            xmlns:framework="http://jboss.com/products/seam/framework"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation=
                 "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd
@@ -15,8 +16,10 @@
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.1.xsd
                  http://jboss.com/products/seam/async http://jboss.com/products/seam/async-2.1.xsd
                  http://jboss.com/products/seam/web http://jboss.com/products/seam/web-2.1.xsd
-                 http://jboss.com/products/seam/resteasy http://jboss.com/products/seam/resteasy-2.1.xsd
+                 http://jboss.com/products/seam/resteasy /home/jharting/jboss/workspace/Seam_trunk_working_copy/src/resteasy/org/jboss/seam/resteasy/resteasy-2.1.xsd
+                 http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.1.xsd
                  http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.1.xsd">
+                 <!-- TODO change back the reference -->
 
     <core:init jndi-pattern="@jndiPattern@" debug="true"/>
  
@@ -29,7 +32,19 @@
 
     <async:quartz-dispatcher/>
 
+    <framework:entity-home name="categoryHome"
+    entity-class="org.jboss.seam.example.restbay.Category"
+    auto-create="true" />
+    
     <resteasy:application resource-path-prefix="/restv1">
     </resteasy:application>
+    
+	<resteasy:resource-home path="/configuredCategory" name="configuredCategoryResourceHome"
+	entity-home="#{categoryHome}" entity-id-class="java.lang.Integer"
+	media-types="application/xml application/json" />
+	
+	<resteasy:resource-query path="/configuredCategory" name="configuredCategoryResourceQuery"
+	entity-class="org.jboss.seam.example.restbay.Category"
+	media-types="application/xml application/json"/>
 
 </components>
