@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:19+0000\n"
-"PO-Revision-Date: 2009-03-28 15:41+0100\n"
+"PO-Revision-Date: 2009-03-30 21:38+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1806,7 +1806,7 @@ msgstr "<![CDATA[<h:inputText value=\"#{shop.item}\" converter=\"itemConverter\"
 #: Controls.xml:1233
 #, no-c-format
 msgid "Registers the Seam component as a JSF converter. Shown here is a converter which is able to access the JPA EntityManager inside a JTA transaction, when converting the value back to it's object representation."
-msgstr ""
+msgstr "Registra il componente Seam come converter JSF. Qua è mostrato un converter capace di accedere all'EntityManager JPA dentro ad una transazione JTA, quando converte il valore legato alla rappresentazione del suo oggetto."
 
 #. Tag: literal
 #: Controls.xml:1243
@@ -1858,5 +1858,5 @@ msgstr "<![CDATA[<h:inputText value=\"#{shop.item}\" validator=\"itemValidator\"
 #: Controls.xml:1249
 #, no-c-format
 msgid "Registers the Seam component as a JSF validator. Shown here is a validator which injects another Seam component; the injected component is used to validate the value."
-msgstr ""
+msgstr "Registra il componente Seam come validatore JSF. Qua è mostrato un validatore che inietta un altro componente Seam; il componente iniettato è usato per validare il valore."
 
