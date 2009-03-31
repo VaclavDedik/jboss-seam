@@ -21,8 +21,8 @@ import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Reflections;
 
 /**
- * Implementation of CacheProvider backed by JBoss Cache 2.x.
- * for simple objects.
+ * Implementation of CacheProvider backed by JBoss Cache 2.x. for simple
+ * objects.
  * 
  * @author Sebastian Hennebrueder
  * @author Pete Muir
@@ -31,99 +31,83 @@ import org.jboss.seam.util.Reflections;
 @Name("org.jboss.seam.cache.cacheProvider")
 @Scope(APPLICATION)
 @BypassInterceptors
-@Install(value=false, precedence = BUILT_IN, classDependencies={"org.jboss.cache.Cache", "org.jgroups.MembershipListener"})
+@Install(value = false, precedence = BUILT_IN, classDependencies = {"org.jboss.cache.Cache", "org.jgroups.MembershipListener"})
 @AutoCreate
-public class JbossCache2Provider extends AbstractJBossCacheProvider<Cache>
+public class JbossCache2Provider 
+    extends AbstractJBossCacheProvider<Cache> 
 {
-   
-   private static Method GET;
-   private static Method PUT;
-   private static Method REMOVE;
-   private static Method REMOVE_NODE;
-   
-   static
-   {
-      try
-      {
-         GET = Cache.class.getDeclaredMethod("get", Fqn.class, String.class);
-         PUT = Cache.class.getDeclaredMethod("put", Fqn.class, String.class, Object.class);
-         REMOVE = Cache.class.getDeclaredMethod("remove", Fqn.class, String.class);
-         REMOVE_NODE = Cache.class.getDeclaredMethod("removeNode", Fqn.class);
-      }
-      catch (Exception e)
-      {
-         throw new IllegalStateException("Unable to use JBoss Cache 2", e);
-      }
-   }
 
-   private org.jboss.cache.Cache cache;
+    private org.jboss.cache.Cache cache;
 
-   private static final LogProvider log = Logging.getLogProvider(JbossCache2Provider.class);
+    private static final LogProvider log = Logging.getLogProvider(JbossCache2Provider.class);
 
-   @Create
-   public void create()
-   {
-      log.debug("Starting JBoss Cache");
+    private static Method GET;
+    private static Method PUT;
+    private static Method REMOVE;
+    private static Method REMOVE_NODE;
 
-      try
-      {
-         CacheFactory factory = new DefaultCacheFactory();
-         cache = factory.createCache(getConfigurationAsStream());
+    static {
+        try {
+            GET = Cache.class.getDeclaredMethod("get", Fqn.class, Object.class);
+            PUT = Cache.class.getDeclaredMethod("put", Fqn.class, Object.class, Object.class);
+            REMOVE = Cache.class.getDeclaredMethod("remove", Fqn.class, Object.class);
+            REMOVE_NODE = Cache.class.getDeclaredMethod("removeNode", Fqn.class);
+        } catch (Exception e) {
+            throw new IllegalStateException("Unable to use JBoss Cache 2", e);
+        }
+    }
 
-         cache.create();
-         cache.start();
-      }
-      catch (Exception e)
-      {
-         log.error(e, e);
-         throw new IllegalStateException("Error starting JBoss Cache", e);
-      }
-   }
+    @Create
+    public void create() {
+        log.debug("Starting JBoss Cache");
 
-   @Destroy
-   public void destroy()
-   {
-      log.debug("Stopping JBoss Cache");
-      try
-      {
-         cache.stop();
-         cache.destroy();
-         cache = null;
-      }
-      catch (Exception e)
-      {
-         throw new IllegalStateException("Error stopping JBoss Cache", e);
-      }
-   }
+        try {
+            CacheFactory factory = new DefaultCacheFactory();
+            cache = factory.createCache(getConfigurationAsStream());
 
-   @Override
-   public Object get(String region, String key)
-   {
-      return Reflections.invokeAndWrap(GET, cache, getFqn(region), key);
-   }
+            cache.create();
+            cache.start();
+        } catch (Exception e) {
+            log.error(e, e);
+            throw new IllegalStateException("Error starting JBoss Cache", e);
+        }
+    }
 
-   @Override
-   public void put(String region, String key, Object object)
-   {
-      Reflections.invokeAndWrap(PUT, cache, getFqn(region), key, object);
-   }
+    @Destroy
+    public void destroy() {
+        log.debug("Stopping JBoss Cache");
+        try {
+            cache.stop();
+            cache.destroy();
+            cache = null;
+        } catch (Exception e) {
+            throw new IllegalStateException("Error stopping JBoss Cache", e);
+        }
+    }
 
-   @Override
-   public void remove(String region, String key)
-   {
-      Reflections.invokeAndWrap(REMOVE, cache, getFqn(region), key);
-   }
+    @Override
+    public Object get(String region, String key) {
+        return Reflections.invokeAndWrap(GET, cache, getFqn(region), key);
+    }
 
-   @Override
-   public void clear()
-   {
-      Reflections.invokeAndWrap(REMOVE_NODE, cache, getFqn(null));
-   }
+    @Override
+    public void put(String region, String key, Object object) {
+        Reflections.invokeAndWrap(PUT, cache, getFqn(region), key, object);
+    }
 
-   @Override
-   public Cache getDelegate()
-   {
-      return cache;
-   }
+    @Override
+    public void remove(String region, String key) {
+        Reflections.invokeAndWrap(REMOVE, cache, getFqn(region), key);
+    }
+
+    @Override
+    public void clear() {
+        Reflections.invokeAndWrap(REMOVE_NODE, cache, getFqn(null));
+    }
+
+    @Override
+    public Cache getDelegate() {
+        return cache;
+    }
 
 }
