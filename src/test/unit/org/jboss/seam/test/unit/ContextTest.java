@@ -8,6 +8,7 @@ import javax.faces.context.ExternalContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.Namespace;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.ApplicationContext;
 import org.jboss.seam.contexts.Context;
@@ -31,6 +32,7 @@ import org.jboss.seam.servlet.ServletRequestSessionMap;
 import org.jboss.seam.web.Parameters;
 import org.jboss.seam.web.ServletContexts;
 import org.jboss.seam.web.Session;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class ContextTest {
@@ -159,6 +161,14 @@ public class ContextTest {
         assert seamVariableResolver.getValue(elContext, null, "bar") == bar;
         assert seamVariableResolver.getValue(elContext, null, "foo") == foo;
 
+        // JBSEAM-3077
+        assert EL.EL_RESOLVER.getValue(elContext, new Namespace("org.jboss.seam.core."), "conversationEntries") instanceof ConversationEntries;
+        try {
+            assert EL.EL_RESOLVER.getValue(elContext, new Namespace("org.jboss.seam."), "caughtException") == null;
+        } catch (Exception e) {
+            Assert.fail("An exception should not be thrown when a qualified name resolves to null", e);
+        }
+
         /*
          * assert jbpmVariableResolver.resolveVariable("zzz").equals("bar");
          * assert jbpmVariableResolver.resolveVariable("xxx").equals("yyy");
@@ -174,7 +184,7 @@ public class ContextTest {
         assert !Contexts.isConversationContextActive();
         assert !Contexts.isApplicationContextActive();
         assert ((MockHttpSession) externalContext.getSession(false))
-                .getAttributes().size() == 2;
+                .getAttributes().size() == 3; // foo, zzz, org.jboss.seam.core.conversationEntries
         assert ((MockServletContext) externalContext.getContext())
                 .getAttributes().size() == 10;
 
