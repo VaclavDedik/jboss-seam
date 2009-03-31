@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Conversations\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-03-22 12:51+0000\n"
+"POT-Creation-Date: 2009-03-31 09:07+0000\n"
 "PO-Revision-Date: 2009-03-06 17:16+1000\n"
 "Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -2294,10 +2294,10 @@ msgstr ""
 #, fuzzy, no-c-format
 msgid ""
 "ICEfaces, RichFaces Ajax and Seam Remoting can all handle HTTP error codes. "
-"Seam Remoting will pop up a dialog box showing the HTTP error and ICEfaces "
-"will indicate the error in its connection status component. RichFaces Ajax "
-"provides the most complete support for handling HTTP errors by providing a "
-"user definable callback. For example, to show the error message to the user:"
+"Seam Remoting will pop up a dialog box showing the HTTP error. ICEfaces will "
+"indicate the error in its connection status component. RichFaces provides "
+"the most complete support for handling HTTP errors by providing a user "
+"definable callback. For example, to show the error message to the user:"
 msgstr ""
 "ICEfaces、 RichFaces Ajax、 Seam Remoting はいずれも HTTP エラーのコードを処"
 "理することができます。 Seam Remoting は HTTP エラーを示すダイアログボックスを"
@@ -2308,11 +2308,11 @@ msgstr ""
 
 #. Tag: programlisting
 #: Conversations.xml:1039
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "<![CDATA[<script type=\"text/javascript\">\n"
 "   A4J.AJAX.onError = function(req,status,message) { \n"
-"      alert(\"message\");    \n"
+"      alert(\"An error occurred\");\n"
 "   };\n"
 "</script>]]>"
 msgstr ""
@@ -2322,24 +2322,65 @@ msgstr ""
 "   };\n"
 "</script>]]>"
 
-#. Tag: title
-#: Conversations.xml:1044
+#. Tag: para
+#: Conversations.xml:1041
 #, no-c-format
-msgid "RichFaces Ajax"
+msgid ""
+"If instead of an error code, the server reports that the view has expired, "
+"perhaps because the session timed out, you use a separate callback function "
+"in RichFaces to handle this scenario."
+msgstr ""
+
+#. Tag: programlisting
+#: Conversations.xml:1047
+#, fuzzy, no-c-format
+msgid ""
+"<![CDATA[<script type=\"text/javascript\">\n"
+"   A4J.AJAX.onExpired = function(loc,message) { \n"
+"      alert(\"View expired\");\n"
+"   };\n"
+"</script>]]>"
+msgstr ""
+"<![CDATA[<script type=\"text/javascript\">\n"
+"   A4J.AJAX.onError = function(req,status,message) { \n"
+"      alert(\"message\");    \n"
+"   };\n"
+"</script>]]>"
+
+#. Tag: para
+#: Conversations.xml:1049
+#, no-c-format
+msgid ""
+"Alternatively, you can allow RichFaces handle the error, in which case the "
+"user will be presented with a prompt that reads \"View state could't be "
+"restored - reload page?\" You can customize this message globally by setting "
+"the following message key in an application resource bundle."
+msgstr ""
+
+#. Tag: programlisting
+#: Conversations.xml:1057
+#, no-c-format
+msgid "<![CDATA[AJAX_VIEW_EXPIRED=View expired. Please reload the page.]]>"
+msgstr ""
+
+#. Tag: title
+#: Conversations.xml:1062
+#, fuzzy, no-c-format
+msgid "RichFaces (Ajax4jsf)"
 msgstr "RichFaces Ajax"
 
 #. Tag: para
-#: Conversations.xml:1046
-#, no-c-format
+#: Conversations.xml:1064
+#, fuzzy, no-c-format
 msgid ""
-"RichFaces Ajax is the AJAX library most commonly used with Seam, and "
+"RichFaces (Ajax4jsf) is the Ajax library most commonly used with Seam, and "
 "provides all the controls discussed above:"
 msgstr ""
 "RichFaces Ajax は Seam で使用される最も一般的な AJAX ライブラリであり、 上述"
 "したような制御をすべて提供します。"
 
 #. Tag: para
-#: Conversations.xml:1053
+#: Conversations.xml:1071
 #, fuzzy, no-c-format
 msgid ""
 "<literal>eventsQueue</literal> &#8212; provides a queue in which events are "
@@ -2355,7 +2396,7 @@ msgstr ""
 "求で溢れないようにすることができます。"
 
 #. Tag: para
-#: Conversations.xml:1063
+#: Conversations.xml:1081
 #, fuzzy, no-c-format
 msgid ""
 "<literal>ignoreDupResponses</literal> &#8212; ignores the response produced "
@@ -2370,7 +2411,7 @@ msgstr ""
 "けではありません</emphasis>。 クライアント側で不必要な更新を避けるだけです。"
 
 #. Tag: para
-#: Conversations.xml:1070
+#: Conversations.xml:1088
 #, no-c-format
 msgid ""
 "This option should be used with care with Seam's conversations as it allows "
@@ -2380,7 +2421,7 @@ msgstr ""
 "用する際は注意が必要です。"
 
 #. Tag: para
-#: Conversations.xml:1076
+#: Conversations.xml:1094
 #, no-c-format
 msgid ""
 "<literal>requestDelay</literal> &#8212; defines the time (in ms.) that the "
@@ -2395,7 +2436,7 @@ msgstr ""
 "キューにある場合) されます。"
 
 #. Tag: para
-#: Conversations.xml:1083
+#: Conversations.xml:1101
 #, no-c-format
 msgid ""
 "This option should be used with care with Seam's conversations as it allows "
@@ -2408,7 +2449,7 @@ msgstr ""
 "(並列要求のタイムアウトと併用) の方が長いことを確認する必要があります。"
 
 #. Tag: para
-#: Conversations.xml:1091
+#: Conversations.xml:1109
 #, no-c-format
 msgid ""
 "<literal>&lt;a:poll reRender=\"total\" interval=\"1000\" /&gt;</literal> "

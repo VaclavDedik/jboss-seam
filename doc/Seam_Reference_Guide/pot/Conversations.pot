@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-03-22 12:51+0000\n"
+"POT-Creation-Date: 2009-03-31 09:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -1713,10 +1713,10 @@ msgstr ""
 #, no-c-format
 msgid ""
 "ICEfaces, RichFaces Ajax and Seam Remoting can all handle HTTP error codes. "
-"Seam Remoting will pop up a dialog box showing the HTTP error and ICEfaces "
-"will indicate the error in its connection status component. RichFaces Ajax "
-"provides the most complete support for handling HTTP errors by providing a "
-"user definable callback. For example, to show the error message to the user:"
+"Seam Remoting will pop up a dialog box showing the HTTP error. ICEfaces will "
+"indicate the error in its connection status component. RichFaces provides "
+"the most complete support for handling HTTP errors by providing a user "
+"definable callback. For example, to show the error message to the user:"
 msgstr ""
 
 #. Tag: programlisting
@@ -1725,27 +1725,63 @@ msgstr ""
 msgid ""
 "<![CDATA[<script type=\"text/javascript\">\n"
 "   A4J.AJAX.onError = function(req,status,message) { \n"
-"      alert(\"message\");    \n"
+"      alert(\"An error occurred\");\n"
 "   };\n"
 "</script>]]>"
 msgstr ""
 
-#. Tag: title
-#: Conversations.xml:1044
+#. Tag: para
+#: Conversations.xml:1041
 #, no-c-format
-msgid "RichFaces Ajax"
+msgid ""
+"If instead of an error code, the server reports that the view has expired, "
+"perhaps because the session timed out, you use a separate callback function "
+"in RichFaces to handle this scenario."
+msgstr ""
+
+#. Tag: programlisting
+#: Conversations.xml:1047
+#, no-c-format
+msgid ""
+"<![CDATA[<script type=\"text/javascript\">\n"
+"   A4J.AJAX.onExpired = function(loc,message) { \n"
+"      alert(\"View expired\");\n"
+"   };\n"
+"</script>]]>"
 msgstr ""
 
 #. Tag: para
-#: Conversations.xml:1046
+#: Conversations.xml:1049
 #, no-c-format
 msgid ""
-"RichFaces Ajax is the AJAX library most commonly used with Seam, and "
+"Alternatively, you can allow RichFaces handle the error, in which case the "
+"user will be presented with a prompt that reads \"View state could't be "
+"restored - reload page?\" You can customize this message globally by setting "
+"the following message key in an application resource bundle."
+msgstr ""
+
+#. Tag: programlisting
+#: Conversations.xml:1057
+#, no-c-format
+msgid "<![CDATA[AJAX_VIEW_EXPIRED=View expired. Please reload the page.]]>"
+msgstr ""
+
+#. Tag: title
+#: Conversations.xml:1062
+#, no-c-format
+msgid "RichFaces (Ajax4jsf)"
+msgstr ""
+
+#. Tag: para
+#: Conversations.xml:1064
+#, no-c-format
+msgid ""
+"RichFaces (Ajax4jsf) is the Ajax library most commonly used with Seam, and "
 "provides all the controls discussed above:"
 msgstr ""
 
 #. Tag: para
-#: Conversations.xml:1053
+#: Conversations.xml:1071
 #, no-c-format
 msgid ""
 "<literal>eventsQueue</literal> &#8212; provides a queue in which events are "
@@ -1756,7 +1792,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Conversations.xml:1063
+#: Conversations.xml:1081
 #, no-c-format
 msgid ""
 "<literal>ignoreDupResponses</literal> &#8212; ignores the response produced "
@@ -1767,7 +1803,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Conversations.xml:1070
+#: Conversations.xml:1088
 #, no-c-format
 msgid ""
 "This option should be used with care with Seam's conversations as it allows "
@@ -1775,7 +1811,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Conversations.xml:1076
+#: Conversations.xml:1094
 #, no-c-format
 msgid ""
 "<literal>requestDelay</literal> &#8212; defines the time (in ms.) that the "
@@ -1786,7 +1822,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Conversations.xml:1083
+#: Conversations.xml:1101
 #, no-c-format
 msgid ""
 "This option should be used with care with Seam's conversations as it allows "
@@ -1796,7 +1832,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Conversations.xml:1091
+#: Conversations.xml:1109
 #, no-c-format
 msgid ""
 "<literal>&lt;a:poll reRender=\"total\" interval=\"1000\" /&gt;</literal> "

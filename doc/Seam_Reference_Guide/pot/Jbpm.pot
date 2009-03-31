@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-03-22 12:51+0000\n"
+"POT-Creation-Date: 2009-03-31 09:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -396,17 +396,17 @@ msgstr ""
 #: Jbpm.xml:229
 #, no-c-format
 msgid ""
-"On the other hand, in the stateful model, backbuttoning is interpreted as an "
-"undefined transition back to a previous state. Since the stateful model "
-"enforces a defined set of transitions from the current state, back buttoning "
-"is by default disallowed in the stateful model! Seam transparently detects "
-"the use of the back button, and blocks any attempt to perform an action from "
-"a previous, \"stale\" page, and simply redirects the user to the \"current\" "
-"page (and displays a faces message). Whether you consider this a feature or "
-"a limitation of the stateful model depends upon your point of view: as an "
-"application developer, it is a feature; as a user, it might be frustrating! "
-"You can enable backbutton navigation from a particular page node by setting "
-"<literal>back=\"enabled\"</literal>."
+"On the other hand, in the stateful model, using the back button is "
+"interpreted as an undefined transition back to a previous state. Since the "
+"stateful model enforces a defined set of transitions from the current state, "
+"the back button is not permitted by default in the stateful model! Seam "
+"transparently detects the use of the back button, and blocks any attempt to "
+"perform an action from a previous, \"stale\" page, and simply redirects the "
+"user to the \"current\" page (and displays a faces message). Whether you "
+"consider this a feature or a limitation of the stateful model depends upon "
+"your point of view: as an application developer, it is a feature; as a user, "
+"it might be frustrating! You can enable backbutton navigation from a "
+"particular page node by setting <literal>back=\"enabled\"</literal>."
 msgstr ""
 
 #. Tag: programlisting
@@ -426,12 +426,24 @@ msgstr ""
 #: Jbpm.xml:247
 #, no-c-format
 msgid ""
-"This allows backbuttoning <emphasis>from</emphasis> the <literal>checkout</"
-"literal> state to <emphasis>any previous state!</emphasis>"
+"This allows navigation via the back button <emphasis>from</emphasis> the "
+"<literal>checkout</literal> state to <emphasis>any previous state!</emphasis>"
+msgstr ""
+
+#. Tag: note
+#: Jbpm.xml:253
+#, no-c-format
+msgid ""
+"If a page is set to redirect after a transition, it is not possible to use "
+"the back button to return to that page even when back is enabled on a page "
+"later in the flow. The reason is because Seam stores information about the "
+"pageflow in the page scope and the back button must result in a POST for "
+"that information to be restored (i.e., a Faces request). A redirect severs "
+"this linkage."
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:253
+#: Jbpm.xml:262
 #, no-c-format
 msgid ""
 "Of course, we still need to define what happens if a request originates from "
@@ -441,7 +453,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:261
+#: Jbpm.xml:270
 #, no-c-format
 msgid ""
 "<![CDATA[<page name=\"checkout\" \n"
@@ -455,7 +467,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:264
+#: Jbpm.xml:273
 #, no-c-format
 msgid ""
 "In practice, both navigation models have their place, and you'll quickly "
@@ -463,19 +475,19 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Jbpm.xml:273
+#: Jbpm.xml:282
 #, no-c-format
 msgid "Using jPDL pageflows"
 msgstr ""
 
 #. Tag: title
-#: Jbpm.xml:276
+#: Jbpm.xml:285
 #, no-c-format
 msgid "Installing pageflows"
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:278
+#: Jbpm.xml:287
 #, no-c-format
 msgid ""
 "We need to install the Seam jBPM-related components, and place the pageflow "
@@ -485,13 +497,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:285
+#: Jbpm.xml:294
 #, no-c-format
 msgid "<![CDATA[<bpm:jbpm />]]>"
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:287
+#: Jbpm.xml:296
 #, no-c-format
 msgid ""
 "We can also explicitly tell Seam where to find our pageflow definition. We "
@@ -499,7 +511,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:292
+#: Jbpm.xml:301
 #, no-c-format
 msgid ""
 "<![CDATA[<bpm:jbpm>\n"
@@ -510,13 +522,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Jbpm.xml:297
+#: Jbpm.xml:306
 #, no-c-format
 msgid "Starting pageflows"
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:299
+#: Jbpm.xml:308
 #, no-c-format
 msgid ""
 "We \"start\" a jPDL-based pageflow by specifying the name of the process "
@@ -525,7 +537,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:306
+#: Jbpm.xml:315
 #, no-c-format
 msgid ""
 "<![CDATA[@Begin(pageflow=\"numberguess\")\n"
@@ -533,13 +545,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:308
+#: Jbpm.xml:317
 #, no-c-format
 msgid "Alternatively we can start a pageflow using pages.xml:"
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:310
+#: Jbpm.xml:319
 #, no-c-format
 msgid ""
 "<![CDATA[<page>\n"
@@ -548,7 +560,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:312
+#: Jbpm.xml:321
 #, no-c-format
 msgid ""
 "If we are beginning the pageflow during the <literal>RENDER_RESPONSE</"
@@ -560,7 +572,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:320
+#: Jbpm.xml:329
 #, no-c-format
 msgid ""
 "But if the pageflow is begun as the result of an action listener invocation, "
@@ -571,7 +583,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:328
+#: Jbpm.xml:337
 #, no-c-format
 msgid ""
 "<![CDATA[<pageflow-definition name=\"viewEditDocument\">\n"
@@ -596,13 +608,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Jbpm.xml:333
+#: Jbpm.xml:342
 #, no-c-format
 msgid "Page nodes and transitions"
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:335
+#: Jbpm.xml:344
 #, no-c-format
 msgid ""
 "Each <literal>&lt;page&gt;</literal> node represents a state where the "
@@ -610,7 +622,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:340
+#: Jbpm.xml:349
 #, no-c-format
 msgid ""
 "<![CDATA[<page name=\"displayGuess\" view-id=\"/numberGuess.jsp\">\n"
@@ -622,7 +634,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:342
+#: Jbpm.xml:351
 #, no-c-format
 msgid ""
 "The <literal>view-id</literal> is the JSF view id. The <literal>&lt;redirect/"
@@ -634,7 +646,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:351
+#: Jbpm.xml:360
 #, no-c-format
 msgid ""
 "The transition name is the name of a JSF outcome triggered by clicking a "
@@ -642,7 +654,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:356
+#: Jbpm.xml:365
 #, no-c-format
 msgid ""
 "<![CDATA[<h:commandButton type=\"submit\" value=\"Guess\" action=\"guess\"/"
@@ -650,7 +662,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:358
+#: Jbpm.xml:367
 #, no-c-format
 msgid ""
 "When the transition is triggered by clicking this button, jBPM will activate "
@@ -664,7 +676,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:369
+#: Jbpm.xml:378
 #, no-c-format
 msgid ""
 "In the case of a null outcome (for example, a command button with no "
@@ -675,19 +687,19 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:376
+#: Jbpm.xml:385
 #, no-c-format
 msgid "<![CDATA[<h:commandButton type=\"submit\" value=\"Guess\"/>]]>"
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:378
+#: Jbpm.xml:387
 #, no-c-format
 msgid "Would fire the following un-named transition:"
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:382
+#: Jbpm.xml:391
 #, no-c-format
 msgid ""
 "<![CDATA[<page name=\"displayGuess\" view-id=\"/numberGuess.jsp\">\n"
@@ -699,7 +711,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:384
+#: Jbpm.xml:393
 #, no-c-format
 msgid ""
 "It is even possible to have the button call an action method, in which case "
@@ -707,7 +719,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:389
+#: Jbpm.xml:398
 #, no-c-format
 msgid ""
 "<![CDATA[<h:commandButton type=\"submit\" value=\"Guess\" action=\"#"
@@ -715,7 +727,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:391
+#: Jbpm.xml:400
 #, no-c-format
 msgid ""
 "<![CDATA[<page name=\"displayGuess\" view-id=\"/numberGuess.jsp\">\n"
@@ -725,7 +737,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:393
+#: Jbpm.xml:402
 #, no-c-format
 msgid ""
 "However, this is considered an inferior style, since it moves responsibility "
@@ -735,13 +747,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Jbpm.xml:402
+#: Jbpm.xml:411
 #, no-c-format
 msgid "Controlling the flow"
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:404
+#: Jbpm.xml:413
 #, no-c-format
 msgid ""
 "Usually, we don't need the more powerful features of jPDL when defining "
@@ -749,7 +761,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:409
+#: Jbpm.xml:418
 #, no-c-format
 msgid ""
 "<![CDATA[<decision name=\"evaluateGuess\" expression=\"#{numberGuess."
@@ -760,20 +772,20 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:411
+#: Jbpm.xml:420
 #, no-c-format
 msgid ""
 "A decision is made by evaluating a JSF EL expression in the Seam contexts."
 msgstr ""
 
 #. Tag: title
-#: Jbpm.xml:418
+#: Jbpm.xml:427
 #, no-c-format
 msgid "Ending the flow"
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:420
+#: Jbpm.xml:429
 #, no-c-format
 msgid ""
 "We end the conversation using <literal>&lt;end-conversation&gt;</literal> or "
@@ -782,7 +794,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:426
+#: Jbpm.xml:435
 #, no-c-format
 msgid ""
 "<![CDATA[<page name=\"win\" view-id=\"/win.jsp\">\n"
@@ -792,7 +804,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:428
+#: Jbpm.xml:437
 #, no-c-format
 msgid ""
 "Optionally, we can end a task, specify a jBPM <literal>transition</literal> "
@@ -801,7 +813,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:434
+#: Jbpm.xml:443
 #, no-c-format
 msgid ""
 "<![CDATA[<page name=\"win\" view-id=\"/win.jsp\">\n"
@@ -811,13 +823,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Jbpm.xml:439
+#: Jbpm.xml:448
 #, no-c-format
 msgid "Pageflow composition"
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:440
+#: Jbpm.xml:449
 #, no-c-format
 msgid ""
 "It is possible to compose pageflows and have one pageflow pause pause while "
@@ -826,7 +838,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:447
+#: Jbpm.xml:456
 #, no-c-format
 msgid ""
 "<![CDATA[<process-state name=\"cheat\">\n"
@@ -836,7 +848,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:449
+#: Jbpm.xml:458
 #, no-c-format
 msgid ""
 "The inner flow begins executing at a <literal>&lt;start-state&gt;</literal> "
@@ -847,13 +859,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Jbpm.xml:462
+#: Jbpm.xml:471
 #, no-c-format
 msgid "Business process management in Seam"
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:463
+#: Jbpm.xml:472
 #, no-c-format
 msgid ""
 "A business process is a well-defined set of tasks that must be performed by "
@@ -867,7 +879,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:475
+#: Jbpm.xml:484
 #, no-c-format
 msgid ""
 "A simple business process definition looks much the same as a page flow "
@@ -878,7 +890,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:484
+#: Jbpm.xml:493
 #, no-c-format
 msgid ""
 "<![CDATA[<process-definition name=\"todo\">\n"
@@ -900,7 +912,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:496
+#: Jbpm.xml:505
 #, no-c-format
 msgid ""
 "It is perfectly possible that we might have both jPDL business process "
@@ -911,19 +923,19 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Jbpm.xml:507
+#: Jbpm.xml:516
 #, no-c-format
 msgid "Using jPDL business process definitions"
 msgstr ""
 
 #. Tag: title
-#: Jbpm.xml:510
+#: Jbpm.xml:519
 #, no-c-format
 msgid "Installing process definitions"
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:512
+#: Jbpm.xml:521
 #, no-c-format
 msgid ""
 "We need to install jBPM, and tell it where to find the business process "
@@ -931,7 +943,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:517
+#: Jbpm.xml:526
 #, no-c-format
 msgid ""
 "<![CDATA[<bpm:jbpm>\n"
@@ -942,7 +954,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:519
+#: Jbpm.xml:528
 #, no-c-format
 msgid ""
 "As jBPM processes are persistent across application restarts, when using "
@@ -954,13 +966,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Jbpm.xml:532
+#: Jbpm.xml:541
 #, no-c-format
 msgid "Initializing actor ids"
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:534
+#: Jbpm.xml:543
 #, no-c-format
 msgid ""
 "We always need to know what user is currently logged in. jBPM \"knows\" "
@@ -970,7 +982,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:542
+#: Jbpm.xml:551
 #, no-c-format
 msgid ""
 "<![CDATA[@In Actor actor;\n"
@@ -984,13 +996,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Jbpm.xml:547
+#: Jbpm.xml:556
 #, no-c-format
 msgid "Initiating a business process"
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:549
+#: Jbpm.xml:558
 #, no-c-format
 msgid ""
 "To initiate a business process instance, we use the <literal>@CreateProcess</"
@@ -998,7 +1010,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:554
+#: Jbpm.xml:563
 #, no-c-format
 msgid ""
 "<![CDATA[@CreateProcess(definition=\"todo\")\n"
@@ -1006,13 +1018,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:556
+#: Jbpm.xml:565
 #, no-c-format
 msgid "Alternatively we can initiate a business process using pages.xml:"
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:558
+#: Jbpm.xml:567
 #, no-c-format
 msgid ""
 "<![CDATA[<page>\n"
@@ -1021,13 +1033,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Jbpm.xml:563
+#: Jbpm.xml:572
 #, no-c-format
 msgid "Task assignment"
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:565
+#: Jbpm.xml:574
 #, no-c-format
 msgid ""
 "When a process reaches a task node, task instances are created. These must "
@@ -1036,7 +1048,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:571
+#: Jbpm.xml:580
 #, no-c-format
 msgid ""
 "<![CDATA[<task name=\"todo\" description=\"#{todoList.description}\">\n"
@@ -1045,7 +1057,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:573
+#: Jbpm.xml:582
 #, no-c-format
 msgid ""
 "In this case, we have simply assigned the task to the current user. We can "
@@ -1053,7 +1065,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:578
+#: Jbpm.xml:587
 #, no-c-format
 msgid ""
 "<![CDATA[<task name=\"todo\" description=\"#{todoList.description}\">\n"
@@ -1062,13 +1074,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Jbpm.xml:583
+#: Jbpm.xml:592
 #, no-c-format
 msgid "Task lists"
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:585
+#: Jbpm.xml:594
 #, no-c-format
 msgid ""
 "Several built-in Seam components make it easy to display task lists. The "
@@ -1077,7 +1089,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:591
+#: Jbpm.xml:600
 #, no-c-format
 msgid ""
 "<![CDATA[<h:dataTable value=\"#{pooledTaskInstanceList}\" var=\"task\">\n"
@@ -1093,7 +1105,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:593
+#: Jbpm.xml:602
 #, no-c-format
 msgid ""
 "Note that instead of <literal>&lt;s:link&gt;</literal> we could have used a "
@@ -1101,7 +1113,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:598
+#: Jbpm.xml:607
 #, no-c-format
 msgid ""
 "<![CDATA[<h:commandLink action=\"#{pooledTask.assignToCurrentActor}\"> \n"
@@ -1110,7 +1122,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:600
+#: Jbpm.xml:609
 #, no-c-format
 msgid ""
 "The <literal>pooledTask</literal> component is a built-in component that "
@@ -1118,7 +1130,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:605
+#: Jbpm.xml:614
 #, no-c-format
 msgid ""
 "The <literal>taskInstanceListForType</literal> component includes tasks of a "
@@ -1126,7 +1138,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:610
+#: Jbpm.xml:619
 #, no-c-format
 msgid ""
 "<![CDATA[<h:dataTable value=\"#{taskInstanceListForType['todo']}\" var=\"task"
@@ -1143,13 +1155,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Jbpm.xml:615
+#: Jbpm.xml:624
 #, no-c-format
 msgid "Performing a task"
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:617
+#: Jbpm.xml:626
 #, no-c-format
 msgid ""
 "To begin work on a task, we use either <literal>@StartTask</literal> or "
@@ -1157,7 +1169,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:622
+#: Jbpm.xml:631
 #, no-c-format
 msgid ""
 "<![CDATA[@StartTask\n"
@@ -1165,13 +1177,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:624
+#: Jbpm.xml:633
 #, no-c-format
 msgid "Alternatively we can begin work on a task using pages.xml:"
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:626
+#: Jbpm.xml:635
 #, no-c-format
 msgid ""
 "<![CDATA[<page>\n"
@@ -1180,7 +1192,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:628
+#: Jbpm.xml:637
 #, no-c-format
 msgid ""
 "These annotations begin a special kind of conversation that has significance "
@@ -1189,7 +1201,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:635
+#: Jbpm.xml:644
 #, no-c-format
 msgid ""
 "If we end the conversation using <literal>@EndTask</literal>, Seam will "
@@ -1197,7 +1209,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:640
+#: Jbpm.xml:649
 #, no-c-format
 msgid ""
 "<![CDATA[@EndTask(transition=\"completed\")\n"
@@ -1205,13 +1217,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:642
+#: Jbpm.xml:651
 #, no-c-format
 msgid "Alternatively we can use pages.xml:"
 msgstr ""
 
 #. Tag: programlisting
-#: Jbpm.xml:644
+#: Jbpm.xml:653
 #, no-c-format
 msgid ""
 "<![CDATA[<page>\n"
@@ -1220,13 +1232,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:646
+#: Jbpm.xml:655
 #, no-c-format
 msgid "You can also use EL to specify the transition in pages.xml."
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:650
+#: Jbpm.xml:659
 #, no-c-format
 msgid ""
 "At this point, jBPM takes over and continues executing the business process "
@@ -1235,7 +1247,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Jbpm.xml:656
+#: Jbpm.xml:665
 #, no-c-format
 msgid ""
 "Please refer to the jBPM documentation for a more thorough overview of the "
