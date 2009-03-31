@@ -14,7 +14,7 @@ import java.text.ParseException;
 @Provider
 public class CalendarConverter implements StringConverter<GregorianCalendar>
 {
-   public static final String ISO_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+   public static final String ISO_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
 
    public GregorianCalendar fromString(String s)
    {

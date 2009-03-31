@@ -208,8 +208,8 @@ public class BasicServiceTest extends ResourceSeamTest
    @Test
    public void testStringConverter() throws Exception
    {
-      final String ISO_DATE = "2007-07-10T14:54:56-05:00";
-      final String ISO_DATE_MILLIS = "1184072096000";
+      final String ISO_DATE = "2007-07-10T14:54:56-0500";
+      final String ISO_DATE_MILLIS = "1184097296000";
 
       new ResourceRequest(Method.GET, "/restv1/test/foo/" + ISO_DATE)
       {
