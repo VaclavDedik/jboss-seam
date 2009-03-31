@@ -169,7 +169,7 @@ public class SeamELResolver extends ELResolver
 
     private Object resolveInNamespace(ELContext context, Namespace namespace, Object property) {
         Object result = namespace.get((String) property);
-        // if the result is null, it means that there is no component instance bound to this qualified name
+        // JBSEAM-3077 if the result is null, it means that there is no component instance bound to this qualified name
         context.setPropertyResolved(true);
         return result;
     }
