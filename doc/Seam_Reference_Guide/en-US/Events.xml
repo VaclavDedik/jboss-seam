@@ -431,7 +431,8 @@
 
          <para>
             Even better, model-based Hibernate validator annotations are automatically
-            recognized and validated.
+            recognized and validated. Seam also provides a default date converter to
+            convert a string parameter value to a date and back.
          </para>
 
          <para>

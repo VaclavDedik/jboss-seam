@@ -1437,6 +1437,8 @@ public class TodoList
     </h:inputText>
 </h:column>]]></programlisting>
 
+            <note>Seam provides a default JSF date converter for converting a string to a date (no time).
+            Thus, the converter is not necessary for the field bound to <literal>#{task.dueDate}</literal>.</note>
 
             <para> This button ends the task by calling the action method annotated <literal>@StartTask
                 @EndTask</literal>. It passes the task id to Seam as a request parameter: </para>

@@ -55,14 +55,40 @@
         </para>
 
     </section>
-    
+
     <section>
-        <title>Utility components</title>
+        <title>JSF-related components</title>
         <para>
-            These components are merely useful.
+            The following set of components are provided to supplement JSF.
         </para>
-        
-         <variablelist>
+
+        <variablelist>
+            <varlistentry>
+                <term><literal>org.jboss.seam.faces.dateConverter</literal></term>
+                <listitem>
+                    <para>
+                        Provides a default JSF converter for properties of type
+                        <literal>java.util.Date</literal>.
+                    </para>
+
+                    <para>
+                        This converter is automatically registered with JSF. It
+                        is provided to save a developer from having to specify
+                        a DateTimeConverter on an input field or page
+                        parameter. By default, it assumes the type to be a date
+                        (as opposed to a time or date plus time) and uses the
+                        short input style adjusted to the Locale of the user.
+                        For Locale.US, the input pattern is mm/DD/yy. However,
+                        to comply with Y2K, the year is changed from two digits
+                        to four (e.g., mm/DD/yyyy).
+                    </para>
+                    <para>
+                        It's possible to override the input pattern globally
+                        using component configuration. Consult the JavaDoc for
+                        this class to see examples.
+                    </para>
+                </listitem>
+            </varlistentry>
             <varlistentry>
                 <term><literal>org.jboss.seam.faces.facesMessages</literal></term>
                 <listitem>
@@ -166,6 +192,21 @@
                     </para>
                 </listitem>
              </varlistentry>
+        </variablelist>
+
+        <para>
+            These components are installed when the class <literal>javax.faces.context.FacesContext</literal>
+            is available on the classpath.
+        </para>
+    </section>
+    
+    <section>
+        <title>Utility components</title>
+        <para>
+            These components are merely useful.
+        </para>
+        
+         <variablelist>
             <varlistentry>
                 <term><literal>org.jboss.seam.core.events</literal></term>
                 <listitem>

@@ -336,6 +336,11 @@ public class HelloBean implements Hello {
     the Seam timezone. In addition, Seam provides the <literal>
     &lt;s:convertDateTime&gt;</literal> tag which always performs conversions
     in the Seam timezone.</para>
+
+    <para>Seam also provides a default date converter to convert a string value
+    to a date. This saves you from having to specify a converter on input fields
+    that are simply capturing a date. The pattern is selected according the
+    the user's locale and the time zone is selected as described above.</para>
   </section>
 
   <section>
