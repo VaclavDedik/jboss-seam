@@ -13,7 +13,7 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
 <#assign parentHomeName = parentPojo.shortName?uncap_first + "Home">
     @${pojo.importType("org.jboss.seam.annotations.In")}(create=true)
-    ${parentPojo.shortName}Home ${parentHomeName};
+    <#if parentPojo.packageName!="">${pojo.importType("${parentPojo.packageName}.${parentPojo.shortName}")}<#else>${parentPojo.shortName}</#if>Home ${parentHomeName};
 </#if>
 </#foreach>
 
@@ -113,7 +113,7 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
 <#assign getter = pojo.getGetterSignature(property)>
 <#if c2h.isOneToManyCollection(property)>
 <#assign childPojo = c2j.getPOJOClass(property.value.element.associatedClass)>
-    public ${pojo.importType("java.util.List")}<${childPojo.shortName}> ${getter}() {
+    public ${pojo.importType("java.util.List")}<<#if childPojo.packageName!="">${pojo.importType("${childPojo.packageName}.${childPojo.shortName}")}<#else>${childPojo.shortName}</#if>> ${getter}() {
         return getInstance() == null ?
             null : new ${pojo.importType("java.util.ArrayList")}<${childPojo.shortName}>( getInstance().${getter}() );
     }
@@ -124,7 +124,7 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
 </#assign>
 
 <#if pojo.packageName != "">
-import ${pojo.packageName}.*;
+import ${pojo.packageName}.*;<#-- This import is necessary because we're using a different package than Hibernate Tools expects -->
 </#if>
 ${pojo.generateImports()}
 ${classbody}

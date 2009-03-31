@@ -5,7 +5,7 @@
 package ${actionPackage};
 
 <#if pojo.packageName != "">
-import ${pojo.packageName}.*;
+import ${pojo.packageName}.*;<#-- This import is necessary because we're using a different package than Hibernate Tools expects -->
 </#if>
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityQuery;
