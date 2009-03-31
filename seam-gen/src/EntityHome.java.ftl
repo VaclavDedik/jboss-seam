@@ -8,12 +8,16 @@ package ${actionPackage};
 public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framework.EntityHome")}<${entityName}>
 {
 
+<#assign parentHomeNames = []>
 <#foreach property in pojo.allPropertiesIterator>
 <#if isToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
 <#assign parentHomeName = parentPojo.shortName?uncap_first + "Home">
+<#if !parentHomeNames?seq_contains(parentHomeName)><#-- This doesn't fix the functionality, just allows compilation to work -->
+<#assign parentHomeNames = parentHomeNames + [parentHomeName]>
     @${pojo.importType("org.jboss.seam.annotations.In")}(create=true)
     <#if parentPojo.packageName!="">${pojo.importType("${parentPojo.packageName}.${parentPojo.shortName}")}<#else>${parentPojo.shortName}</#if>Home ${parentHomeName};
+</#if>
 </#if>
 </#foreach>
 
