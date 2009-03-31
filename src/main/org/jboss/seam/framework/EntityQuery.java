@@ -11,6 +11,8 @@ import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.persistence.QueryParser;
 import org.jboss.seam.transaction.Transaction;
 
+import org.jboss.seam.util.Reflections;
+
 /**
  * A Query object for JPA.
  * 
@@ -37,6 +39,11 @@ public class EntityQuery<E> extends Query<EntityManager, E>
       if ( getEntityManager()==null )
       {
          throw new IllegalStateException("entityManager is null");
+      }
+      
+      Object delegate = getEntityManager().getDelegate();
+      if (!(Reflections.isClassAvailable("org.hibernate.Session") && delegate instanceof org.hibernate.Session)) {
+          setUseCompliantCountQuerySubject(true);
       }
    }
 

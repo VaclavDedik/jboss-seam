@@ -28,7 +28,7 @@ import org.jboss.seam.persistence.QueryParser;
 public abstract class Query<T, E> 
       extends PersistenceController<T> //TODO: extend MutableController!
 {
-   private static final Pattern SUBJECT_PATTERN = Pattern.compile("^select (\\w+(\\.\\w+)*)\\s+from", Pattern.CASE_INSENSITIVE);
+   private static final Pattern SUBJECT_PATTERN = Pattern.compile("^select (\\w+((\\s+|\\.)\\w+)*)\\s+from", Pattern.CASE_INSENSITIVE);
    private static final Pattern FROM_PATTERN = Pattern.compile("(^|\\s)(from)\\s",       Pattern.CASE_INSENSITIVE);
    private static final Pattern WHERE_PATTERN = Pattern.compile("\\s(where)\\s",         Pattern.CASE_INSENSITIVE);
    private static final Pattern ORDER_PATTERN = Pattern.compile("\\s(order)(\\s)+by\\s", Pattern.CASE_INSENSITIVE);
@@ -48,6 +48,7 @@ public abstract class Query<T, E>
    
    private String groupBy;
    
+   private boolean useCompliantCountQuerySubject = false;
    private DataModel dataModel;
    
    private String parsedEjbql;
@@ -292,13 +293,15 @@ public abstract class Query<T, E>
       int whereLoc = whereMatcher.find() ? whereMatcher.start(1) : orderLoc;
 
       String subject = "*";
-      // TODO to be JPA-compliant, we need to make this query like "select count(u) from User u"
+      // to be JPA-compliant, we need to make this query like "select count(u) from User u"
       // however, Hibernate produces queries some databases cannot run when the primary key is composite
-//      Matcher subjectMatcher = SUBJECT_PATTERN.matcher(ejbql);
-//      if ( subjectMatcher.find() )
-//      {
-//         subject = subjectMatcher.group(1);
-//      }
+      if (useCompliantCountQuerySubject) {
+          Matcher subjectMatcher = SUBJECT_PATTERN.matcher(ejbql);
+          if ( subjectMatcher.find() )
+          {
+             subject = subjectMatcher.group(1);
+          }
+      }
       
       return new StringBuilder(ejbql.length() + 15).append("select count(").append(subject).append(") ").
          append(ejbql.substring(fromLoc, whereLoc).replace("join fetch", "join")).
@@ -565,6 +568,14 @@ public abstract class Query<T, E>
       {
          return results;
       }
+   }
+
+   protected boolean isUseCompliantCountQuerySubject() {
+      return useCompliantCountQuerySubject;
+   }
+
+   protected void setUseCompliantCountQuerySubject(boolean useCompliantCountQuerySubject) {
+       this.useCompliantCountQuerySubject = useCompliantCountQuerySubject;
    }
 
 }

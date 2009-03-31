@@ -41,6 +41,11 @@ public class QueryTest
       query.parseEjbql();
       // TODO this should eventually become count(v.person)
       assertEquals(query.getCountEjbql(), "select count(*) from Vehicle v left join v.person");
+
+      query = new CompliantUnitQuery();
+      query.setEjbql("select p from Person p");
+      query.parseEjbql();
+      assertEquals(query.getCountEjbql(), "select count(p) from Person p");
    }
 
    class UnitQuery extends EntityQuery {
@@ -61,6 +66,14 @@ public class QueryTest
       protected String getCountEjbql()
       {
          return super.getCountEjbql();
+      }
+      
+   }
+
+   class CompliantUnitQuery extends UnitQuery {
+
+      public CompliantUnitQuery() {
+         setUseCompliantCountQuerySubject(true);
       }
       
    }
