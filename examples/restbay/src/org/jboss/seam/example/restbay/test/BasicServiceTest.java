@@ -4,6 +4,7 @@ import org.jboss.seam.example.restbay.test.fwk.ResourceSeamTest;
 import org.jboss.seam.example.restbay.test.fwk.MockHttpServletResponse;
 import org.jboss.seam.example.restbay.test.fwk.MockHttpServletRequest;
 import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
 
 import javax.servlet.http.Cookie;
 import javax.ws.rs.core.MediaType;
@@ -217,7 +218,7 @@ public class BasicServiceTest extends ResourceSeamTest
          protected void onResponse(MockHttpServletResponse response)
          {
             assert response.getStatus() == 200;
-            assert response.getContentAsString().equals(ISO_DATE_MILLIS);
+            assertEquals(response.getContentAsString(), ISO_DATE_MILLIS);
          }
 
       }.run();
