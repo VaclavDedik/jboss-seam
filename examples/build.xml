@@ -227,6 +227,7 @@
 		<include name="jboss-seam-resteasy.jar" if="seam.resteasy.lib" />
 		<include name="jaxrs-api.jar" if="seam.resteasy.lib" />
 		<include name="resteasy-jaxrs.jar" if="seam.resteasy.lib" />
+		<include name="resteasy-jaxb-provider.jar" if="seam.resteasy.lib" />
 		<include name="slf4j-api.jar" if="seam.resteasy.lib" />
 		<include name="slf4j-log4j12.jar" if="seam.resteasy.lib" />
 	</fileset>
