@@ -2,12 +2,16 @@ package org.jboss.seam.ui.facelet;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.lang.ref.WeakReference;
 import java.net.URL;
 
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 
 import org.jboss.seam.core.ResourceLoader;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.jsf.DelegatingFacesContext;
 import org.jboss.seam.mock.MockHttpServletRequest;
 import org.jboss.seam.mock.MockHttpServletResponse;
@@ -19,61 +23,78 @@ import com.sun.facelets.impl.DefaultResourceResolver;
 
 public class RendererRequest
 {
-   
+   private static final LogProvider log = Logging.getLogProvider(RendererRequest.class);
+
    private FacesContext originalFacesContext;
    private FacesContext facesContext;
-   
+
    private MockHttpServletRequest request;
    private MockHttpServletResponse response;
-   
+
    private StringWriter writer;
-   
+
    private String viewId;
-   
+
+   private ClassLoader originalClassLoader;
+
    public RendererRequest(String viewId)
    {
       this.viewId = viewId;
    }
-   
+
    private void init()
    {
       request = new MockHttpServletRequest(HttpSessionManager.instance());
       response = new MockHttpServletResponse();
-      
+
       // Generate the FacesContext from the JSF FacesContextFactory
       originalFacesContext = FacesContext.getCurrentInstance();
       facesContext = RendererFacesContextFactory.instance().getFacesContext(request, response);
       DelegatingFacesContext.setCurrentInstance(facesContext);
-      
+
       // Create the viewRoot
       UIViewRoot newRoot = facesContext.getApplication().getViewHandler().createView(facesContext, viewId);
       facesContext.setViewRoot(newRoot);
-      
+
       // Set the responseWriter to write to a buffer
       writer = new StringWriter();
       facesContext.setResponseWriter(facesContext.getRenderKit().createResponseWriter(writer,
       null, null));
+
+      // Set the context classloader to the cached one
+      originalClassLoader = Thread.currentThread().getContextClassLoader();
+      ServletContext ctx = request.getSession().getServletContext();
+      WeakReference<ClassLoader> ref = (WeakReference<ClassLoader>)ctx.getAttribute("seam.context.classLoader");
+      if (ref == null || ref.get() == null) {
+          log.warn("Failed to bootstrap context classloader. Facelets may not work properly from MDBs");
+      } else {
+          Thread.currentThread().setContextClassLoader(ref.get());
+      }
    }
-   
+
    private void cleanup()
    {
+      if (originalClassLoader != null) {
+          Thread.currentThread().setContextClassLoader(originalClassLoader);
+          originalClassLoader = null;
+      }
+
       facesContext.release();
       DelegatingFacesContext.setCurrentInstance(originalFacesContext);
-      
-      
+
       originalFacesContext = null;
       facesContext = null;
       request = null;
       response = null;
    }
-   
+
    public void run() throws IOException
    {
       init();
       renderFacelet(facesContext, faceletForViewId(viewId));
       cleanup();
    }
-   
+
    public String getOutput()
    {
       return writer.getBuffer().toString();

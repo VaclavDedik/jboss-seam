@@ -6,6 +6,7 @@
  */
 package org.jboss.seam.contexts;
 
+import java.lang.ref.WeakReference;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,7 +24,7 @@ import org.jboss.seam.web.Session;
 /**
  * Methods for setup and teardown of Seam contexts at the
  * beginning and end of servlet requests.
- * 
+ *
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  */
@@ -40,7 +41,7 @@ public class ServletLifecycle
       return servletContext;
    }
 
-   public static void beginRequest(HttpServletRequest request) 
+   public static void beginRequest(HttpServletRequest request)
    {
       log.debug( ">>> Begin web request" );
       Contexts.eventContext.set( new EventContext( new ServletRequestMap(request) ) );
@@ -112,7 +113,7 @@ public class ServletLifecycle
       Contexts.startup(ScopeType.APPLICATION);
       
       Events.instance().raiseEvent("org.jboss.seam.postInitialization");
-      
+
       // Clean up contexts used during initialization
       Contexts.destroy( Contexts.getConversationContext() );
       Contexts.conversationContext.set(null);
@@ -120,12 +121,17 @@ public class ServletLifecycle
       Contexts.eventContext.set(null);
       Contexts.sessionContext.set(null);
       Contexts.applicationContext.set(null);
-      
+
       log.debug("<<< End initialization");
    }
 
-   public static void beginApplication(ServletContext context) 
+   public static void beginApplication(ServletContext context)
    {
+      // caching the classloader to servletContext
+      WeakReference<ClassLoader> ref = new WeakReference<ClassLoader>(Thread.currentThread().getContextClassLoader());
+      context.setAttribute("seam.context.classLoader",ref);
+      log.info("Cached the context classloader in servletContext as 'seam.context.classLoader'");
+
       servletContext = context;
       Lifecycle.beginApplication( new ServletApplicationMap(context) );
    }
