@@ -3,7 +3,10 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.OptimisticLockException;
 import javax.transaction.Synchronization;
@@ -34,6 +37,34 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 @Install(precedence=BUILT_IN, classDependencies="javax.persistence.EntityManager")
 public class PersistenceProvider
 {
+   public enum Feature {
+      /**
+       * Identifies whether this JPA provider supports using a wildcard as the subject of a count query.
+       *
+       * <p>Here's a count query that uses a wildcard as the subject.</p>
+       * <pre>select count(*) from Vehicle v</pre>
+       * <p>Per the JPA 1.0 spec, using a wildcard as a subject of a count query is not permitted. Instead,
+       * the subject must be the entity or the alias, as in this count query:</p>
+       * <pre>select count(v) from Vehciel v</pre>
+       * <p>Hibernate supports the wildcard syntax as an vendor extension. Furthermore, Hibernate produces
+       * an invalid SQL query when using the compliant subject if the entity has a composite primary key.
+       * Therefore, we prefer to use the wildcard syntax if it is supported.</p>
+       */
+      WILDCARD_AS_COUNT_QUERY_SUBJECT
+   }
+
+   protected Set<Feature> featureSet = new HashSet<Feature>();
+
+   @PostConstruct // @Create method not called on stateless components
+   public void init() {}
+   
+   /**
+    * Indicate whether this JPA provider supports the feature defined by the provided Feature enum value.
+    */
+   public boolean supportsFeature(Feature feature) {
+       return featureSet.contains(feature);
+   }
+
    /**
     *  Set the flush mode to manual-only flushing. Called when
     *  an atomic persistence context is required.

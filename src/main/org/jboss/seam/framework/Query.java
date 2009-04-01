@@ -48,7 +48,7 @@ public abstract class Query<T, E>
    
    private String groupBy;
    
-   private boolean useCompliantCountQuerySubject = false;
+   private boolean useWildcardAsCountQuerySubject = true;
    private DataModel dataModel;
    
    private String parsedEjbql;
@@ -295,7 +295,7 @@ public abstract class Query<T, E>
       String subject = "*";
       // to be JPA-compliant, we need to make this query like "select count(u) from User u"
       // however, Hibernate produces queries some databases cannot run when the primary key is composite
-      if (useCompliantCountQuerySubject) {
+      if (!useWildcardAsCountQuerySubject) {
           Matcher subjectMatcher = SUBJECT_PATTERN.matcher(ejbql);
           if ( subjectMatcher.find() )
           {
@@ -570,12 +570,12 @@ public abstract class Query<T, E>
       }
    }
 
-   protected boolean isUseCompliantCountQuerySubject() {
-      return useCompliantCountQuerySubject;
+   protected boolean isUseWildcardAsCountQuerySubject() {
+      return useWildcardAsCountQuerySubject;
    }
 
-   protected void setUseCompliantCountQuerySubject(boolean useCompliantCountQuerySubject) {
-       this.useCompliantCountQuerySubject = useCompliantCountQuerySubject;
+   protected void setUseWildcardAsCountQuerySubject(boolean useCompliantCountQuerySubject) {
+       this.useWildcardAsCountQuerySubject = useCompliantCountQuerySubject;
    }
 
 }

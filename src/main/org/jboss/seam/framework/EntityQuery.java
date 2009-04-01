@@ -8,10 +8,10 @@ import javax.persistence.NonUniqueResultException;
 import javax.transaction.SystemException;
 
 import org.jboss.seam.annotations.Transactional;
+import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.persistence.QueryParser;
+import org.jboss.seam.persistence.PersistenceProvider.Feature;
 import org.jboss.seam.transaction.Transaction;
-
-import org.jboss.seam.util.Reflections;
 
 /**
  * A Query object for JPA.
@@ -41,9 +41,8 @@ public class EntityQuery<E> extends Query<EntityManager, E>
          throw new IllegalStateException("entityManager is null");
       }
       
-      Object delegate = getEntityManager().getDelegate();
-      if (!(Reflections.isClassAvailable("org.hibernate.Session") && delegate instanceof org.hibernate.Session)) {
-          setUseCompliantCountQuerySubject(true);
+      if (!PersistenceProvider.instance().supportsFeature(Feature.WILDCARD_AS_COUNT_QUERY_SUBJECT)) {
+         setUseWildcardAsCountQuerySubject(false);
       }
    }
 

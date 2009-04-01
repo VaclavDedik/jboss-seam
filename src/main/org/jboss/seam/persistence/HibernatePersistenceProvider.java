@@ -83,6 +83,13 @@ public class HibernatePersistenceProvider extends PersistenceProvider
          log.debug("no Hibernate Search, sorry :-(", e);
       }
    }
+
+   @Override
+   public void init()
+   {
+      super.init();
+      featureSet.add(Feature.WILDCARD_AS_COUNT_QUERY_SUBJECT);
+   }
    
    /**
     * Wrap the Hibernate Session in a proxy that supports HQL

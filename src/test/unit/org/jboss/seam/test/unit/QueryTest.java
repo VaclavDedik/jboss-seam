@@ -73,7 +73,7 @@ public class QueryTest
    class CompliantUnitQuery extends UnitQuery {
 
       public CompliantUnitQuery() {
-         setUseCompliantCountQuerySubject(true);
+         setUseWildcardAsCountQuerySubject(false);
       }
       
    }
