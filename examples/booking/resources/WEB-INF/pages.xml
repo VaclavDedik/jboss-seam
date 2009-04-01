@@ -39,7 +39,7 @@
           login-required="true">
     
         <navigation>
-            <rule if="#{changePassword.changed}">
+            <rule if="#{identity.loggedIn and changePassword.changed}">
                 <redirect view-id="/main.xhtml"/>
             </rule>
         </navigation>
@@ -59,9 +59,9 @@
         
     </page>
     
-	<page view-id="/hotel.xhtml" 
-	      conversation-required="true" 
-	      login-required="true">
+    <page view-id="/hotel.xhtml" 
+          conversation-required="true" 
+          login-required="true">
           
         <description>View hotel: #{hotel.name}</description>
         
@@ -71,9 +71,9 @@
         
     </page>
 
-	<page view-id="/book.xhtml" 
-	      conversation-required="true" 
-	      login-required="true">
+    <page view-id="/book.xhtml" 
+          conversation-required="true" 
+          login-required="true">
           
         <description>Book hotel: #{hotel.name}</description>
         
@@ -85,9 +85,9 @@
         
     </page>
 
-	<page view-id="/confirm.xhtml" 
-	      conversation-required="true" 
-	      login-required="true">
+    <page view-id="/confirm.xhtml" 
+          conversation-required="true" 
+          login-required="true">
           
         <description>Confirm booking: #{booking.description}</description>
         
@@ -97,8 +97,7 @@
         
     </page>
     
-    <page view-id="*">
-    
+    <page view-id="*">    
         <navigation from-action="#{identity.logout}">
             <redirect view-id="/home.xhtml"/>
         </navigation>
