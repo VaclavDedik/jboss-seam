@@ -111,6 +111,8 @@
         <asadmin cmd="deploy" args="--name ${project.name} ${exploded.archive.dir}"/>
     </target>
 
+    <target name="gf-restart" depends="gf-explode"/>
+
     <target name="gf-reexplode" depends="clean,gf-undeploy,gf-explode"
         description="Clean, undeploy, and deploy the datasource and exploded archive to GlassFish"/>
 
