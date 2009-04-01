@@ -41,6 +41,9 @@ public class Seam
    private static final Map<Class, EjbDescriptor> EJB_DESCRIPTOR_CACHE = new ConcurrentHashMap<Class, EjbDescriptor>();
    private static final Set<ClassLoader> CLASSLOADERS_LOADED = new HashSet<ClassLoader>(); 
 
+   // application-scoped property in which the Seam version is stored
+   public static final String VERSION = "org.jboss.seam.version";
+
    public static EjbDescriptor getEjbDescriptor(Class clazz)
    {
       EjbDescriptor info = EJB_DESCRIPTOR_CACHE.get(clazz);

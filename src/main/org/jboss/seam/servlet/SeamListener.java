@@ -31,6 +31,7 @@ public class SeamListener implements ServletContextListener, HttpSessionListener
    public void contextInitialized(ServletContextEvent event) 
    {
       log.info( "Welcome to Seam " + Seam.getVersion() );
+      event.getServletContext().setAttribute( Seam.VERSION, Seam.getVersion() );
       ServletLifecycle.beginApplication( event.getServletContext() );
       new Initialization( event.getServletContext() ).create().init();
    }
