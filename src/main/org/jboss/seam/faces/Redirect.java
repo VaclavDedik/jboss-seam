@@ -94,10 +94,11 @@ public class Redirect extends AbstractMutable implements Serializable
    }
    
    /**
-    * Capture the view id and page parameters from the
-    * current request and squirrel them away so we can
-    * return here later in the conversation. If no
-    * conversation is active, begin a conversation.
+    * Capture the view id, request parameters and page parameters (which take
+    * precedence) from the current request and squirrel them away so we can
+    * return here later in the conversation. If no conversation is active,
+    * begin a conversation. The conversation is terminated by {@link
+    * Redirect#returnToCapturedView()} if begun by this method.
     * 
     * @see Redirect#returnToCapturedView()
     */
@@ -108,12 +109,16 @@ public class Redirect extends AbstractMutable implements Serializable
       // If this isn't a faces request then just return
       if (context == null) return;
       
-      parameters = Pages.instance().getStringValuesFromPageContext(context);
+      // first capture all request parameters
+      parameters.putAll( context.getExternalContext().getRequestParameterMap() );
+      // then preserve page parameters, overwriting request parameters with same names
+      parameters.putAll( Pages.instance().getStringValuesFromPageContext(context) );
       
-      if (context.getExternalContext().getRequestParameterMap().containsKey("actionMethod"))
-      {
-         parameters.put("actionMethod", context.getExternalContext().getRequestParameterMap().get("actionMethod"));
-      }
+      // special case only needed for actionMethod if decide not to capture all request parameters
+      //if (context.getExternalContext().getRequestParameterMap().containsKey("actionMethod"))
+      //{
+      //   parameters.put("actionMethod", context.getExternalContext().getRequestParameterMap().get("actionMethod"));
+      //}
       
       viewId = Pages.getViewId(context);
       conversationBegun = Conversation.instance().begin(true, false);
