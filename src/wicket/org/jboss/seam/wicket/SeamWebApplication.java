@@ -179,9 +179,20 @@ public abstract class SeamWebApplication extends WebApplication
             String cid = (String) page.getMetaData(CID);
             if (cid != null)
             {
-               ConversationPropagation cp = ConversationPropagation.instance();
-               cp.setConversationId(cid);
-               Manager.instance().restoreConversation();
+               Manager manager = Manager.instance();
+               if (manager.isLongRunningConversation()) 
+               {
+                  if (!cid.equals(manager.getCurrentConversationId()))
+                  {
+                     manager.switchConversation(cid);
+                  }
+               }
+               else 
+               {
+                  ConversationPropagation cp = ConversationPropagation.instance();
+                  cp.setConversationId(cid);
+                  manager.restoreConversation();
+               }
             }
          }
       }
