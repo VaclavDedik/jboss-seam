@@ -37,21 +37,21 @@
 </#if>
 
    <navigation from-action="${'#'}{${homeName}.persist}">
-       <rule>
+       <rule if-outcome="persisted">
           <end-conversation/>
           <redirect view-id="/${pageName}.xhtml"/>
        </rule>
    </navigation>
    
    <navigation from-action="${'#'}{${homeName}.update}">
-       <rule>
+       <rule if-outcome="updated">
           <end-conversation/>
           <redirect view-id="/${pageName}.xhtml"/>
        </rule>
    </navigation>
    
    <navigation from-action="${'#'}{${homeName}.remove}">
-       <rule>
+       <rule if-outcome="removed">
           <end-conversation/>
           <redirect view-id="/${masterPageName}.xhtml"/>
        </rule>
