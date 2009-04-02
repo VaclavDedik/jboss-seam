@@ -1,4 +1,4 @@
-package com.jboss.seam.international;
+package org.jboss.seam.international;
 
 import java.util.ArrayList;
 import java.util.Collections;
