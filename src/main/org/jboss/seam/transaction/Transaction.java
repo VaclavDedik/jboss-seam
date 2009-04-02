@@ -31,6 +31,9 @@ import org.jboss.seam.util.Naming;
 @BypassInterceptors
 public class Transaction
 {
+   // Event keys
+   public static final String TRANSACTION_FAILED = "org.jboss.seam.transaction.transactionFailed";
+
    public static UserTransaction instance()
    {
       return (UserTransaction) Component.getInstance(Transaction.class, ScopeType.EVENT);

@@ -11,6 +11,7 @@ import static javax.faces.event.PhaseId.INVOKE_APPLICATION;
 import static javax.faces.event.PhaseId.PROCESS_VALIDATIONS;
 import static javax.faces.event.PhaseId.RENDER_RESPONSE;
 import static javax.faces.event.PhaseId.RESTORE_VIEW;
+import static org.jboss.seam.transaction.Transaction.TRANSACTION_FAILED;
 
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -43,6 +44,7 @@ import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.pageflow.Pageflow;
 import org.jboss.seam.persistence.PersistenceContexts;
 import org.jboss.seam.transaction.Transaction;
+import org.jboss.seam.transaction.UserTransaction;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.web.ServletContexts;
 
@@ -361,7 +363,7 @@ public class SeamPhaseListener implements PhaseListener
    {
       if ( Init.instance().isTransactionManagementEnabled() ) 
       {
-         addTransactionFailedMessage();
+         raiseTransactionFailedEvent();
       }
    }
 
@@ -436,19 +438,16 @@ public class SeamPhaseListener implements PhaseListener
    }
    
    /**
-    * Add a faces message when Seam-managed transactions fail.
+    * Raise an event so that an observer may add a faces message when Seam-managed transactions fail.
     */
-   protected void addTransactionFailedMessage()
+   protected void raiseTransactionFailedEvent()
    {
       try
       {
-         if ( Transaction.instance().isRolledBackOrMarkedRollback() )
+         UserTransaction tx = Transaction.instance();
+         if ( tx.isRolledBackOrMarkedRollback() )
          {
-            FacesMessages.instance().addFromResourceBundleOrDefault(
-                     StatusMessage.Severity.WARN, 
-                     "org.jboss.seam.TransactionFailed", 
-                     "Transaction failed"
-                  );
+            if (Events.exists()) Events.instance().raiseEvent(TRANSACTION_FAILED, tx.getStatus());
          }
       }
       catch (Exception e) {} //swallow silently, not important
