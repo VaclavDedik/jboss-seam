@@ -167,21 +167,29 @@ public class Remoting extends AbstractResource
       {                  
          InputStream in = this.getClass().getClassLoader().getResourceAsStream(
                "org/jboss/seam/remoting/" + resourceName);
-
-         if (in != null)
+         try
          {
-            response.setContentType("text/javascript");
-            
-            byte[] buffer = new byte[1024];
-            int read = in.read(buffer);
-            while (read != -1)
+            if (in != null)
             {
-               response.getOutputStream().write(buffer, 0, read);
-               read = in.read(buffer);
+               response.setContentType("text/javascript");
+               
+               byte[] buffer = new byte[1024];
+               int read = in.read(buffer);
+               while (read != -1)
+               {
+                  response.getOutputStream().write(buffer, 0, read);
+                  read = in.read(buffer);
+               }
+            }
+            else
+            {
+               log.error(String.format("Resource [%s] not found.", resourceName));
             }
          }
-         else
-            log.error(String.format("Resource [%s] not found.", resourceName));
+         finally
+         {
+            if (in != null) in.close();
+         }
       }
    }   
    
