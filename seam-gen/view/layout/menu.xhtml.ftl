@@ -9,12 +9,17 @@
         <h:outputText value="${'#'}{projectName}:"/>
         <s:link view="/home.xhtml" value="Home" propagation="none"/>
     </rich:toolBarGroup>
+    <rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
+        <f:facet name="label">Browse data</f:facet>
 <#foreach entity in c2j.getPOJOIterator(cfg.classMappings)>
-    <s:link view="/${entity.shortName}List.xhtml"
-           value="${entity.shortName} List"
-includePageParams="false"
-     propagation="none"/>
+        <rich:menuItem>
+            <s:link view="/${entity.shortName}List.xhtml"
+                   value="${entity.shortName} List"
+       includePageParams="false"
+             propagation="none"/>
+        </rich:menuItem>
 </#foreach>
+    </rich:dropDownMenu>
     <!-- @newMenuItem@ -->
     <rich:toolBarGroup location="right">
         <h:outputText value="signed in as: ${'#'}{credentials.username}" rendered="${'#'}{identity.loggedIn}"/>
