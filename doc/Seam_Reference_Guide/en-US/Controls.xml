@@ -850,7 +850,48 @@
       </section> 
       
       <section>
-         <title>Dropdowns</title>
+         <title>Form support</title>
+
+         <section>
+            <title><literal>&lt;s:token&gt;</literal></title>
+
+            <para><emphasis>Description</emphasis></para>
+            <para>
+              Produces a random token that is inserted into a hidden form field
+              to help to secure JSF form posts against cross-site request
+              forgery (XSRF) attacks. Note that the browser must have cookies
+              enabled to submit forms that include this component.
+            </para>
+
+            <para><emphasis>Attributes</emphasis></para>
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>requireSession</literal> &#8212; indicates
+                     whether the session id should be included in the form
+                     signature, hence binding the token to the session. This
+                     value can be set to false if the "build before restore"
+                     mode of Facelets is activated (the default in JSF 2.0).
+                     (default: false)
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>enableCookieNotice</literal> &#8212; indicates
+                     that a JavaScript check should be inserted into the page
+                     to verify that cookies are enabled in the browser.  If
+                     cookies are not enabled, present a notice to the user that
+                     form posts will not work.
+                     (default: false)
+                  </para>
+               </listitem>
+            </itemizedlist>
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<h:form>
+   <s:token enableCookieNotice="true" requireSession="false"/>
+   ...
+</h:form>]]></programlisting>
+         </section>
          
          <section>
             <title><literal>&lt;s:enumItem&gt;</literal></title>
@@ -958,65 +999,6 @@
   <s:selectItems value="#{ages}" var="age" label="#{age}" />
 </h:selectOneMenu>]]></programlisting>
          </section>
-         
-      </section>
-      
-      <section>
-         <title>Other</title>
-         
-         <section>
-            <title><literal>&lt;s:cache&gt;</literal></title>
-
-            <para><emphasis>Description</emphasis></para>
-            <para>
-               Cache the rendered page fragment using JBoss Cache. Note that
-               <literal>&lt;s:cache&gt;</literal> actually uses the instance
-               of JBoss Cache managed by the built-in 
-               <literal>pojoCache</literal> component.
-            </para>
-            <para><emphasis>Attributes</emphasis></para>
-            <itemizedlist>
-               <listitem>
-                  <para>
-                     <literal>key</literal> &#8212; the key to cache rendered 
-                     content, often a value expression. For example, if we were 
-                     caching a page fragment that displays a document, we might 
-                     use <literal>key="Document-#{document.id}"</literal>.
-                  </para>
-               </listitem>
-               <listitem>
-                  <para>
-                     <literal>enabled</literal> &#8212; a value expression that 
-                     determines if the cache should be used.
-                  </para>
-               </listitem>
-               <listitem>
-                  <para>
-                     <literal>region</literal> &#8212; a JBoss Cache node to use
-                     (different nodes can have different expiry policies).
-                 </para>
-               </listitem>
-            </itemizedlist>
-            
-            <para><emphasis>Usage</emphasis></para>
-            <programlisting role="XHTML"><![CDATA[<s:cache key="entry-#{blogEntry.id}" region="pageFragments">
-  <div class="blogEntry">
-    <h3>#{blogEntry.title}</h3>
-    <div>
-      <s:formattedText value="#{blogEntry.body}"/>
-    </div>
-    <p>
-      [Posted on&#160;
-      <h:outputText value="#{blogEntry.date}">
-        <f:convertDateTime timezone="#{blog.timeZone}" locale="#{blog.locale}" 
-                           type="both"/>
-      </h:outputText>]
-    </p>
-  </div>
-</s:cache>]]></programlisting>
-          
-         </section>
-
 		 
          <section>
             <title><literal>&lt;s:fileUpload&gt;</literal></title>
@@ -1131,6 +1113,65 @@
               contentType="#{register.pictureContentType}" />]]></programlisting>
               
          </section>
+         
+      </section>
+      
+      <section>
+         <title>Other</title>
+         
+         <section>
+            <title><literal>&lt;s:cache&gt;</literal></title>
+
+            <para><emphasis>Description</emphasis></para>
+            <para>
+               Cache the rendered page fragment using JBoss Cache. Note that
+               <literal>&lt;s:cache&gt;</literal> actually uses the instance
+               of JBoss Cache managed by the built-in 
+               <literal>pojoCache</literal> component.
+            </para>
+            <para><emphasis>Attributes</emphasis></para>
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>key</literal> &#8212; the key to cache rendered 
+                     content, often a value expression. For example, if we were 
+                     caching a page fragment that displays a document, we might 
+                     use <literal>key="Document-#{document.id}"</literal>.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>enabled</literal> &#8212; a value expression that 
+                     determines if the cache should be used.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>region</literal> &#8212; a JBoss Cache node to use
+                     (different nodes can have different expiry policies).
+                 </para>
+               </listitem>
+            </itemizedlist>
+            
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting role="XHTML"><![CDATA[<s:cache key="entry-#{blogEntry.id}" region="pageFragments">
+  <div class="blogEntry">
+    <h3>#{blogEntry.title}</h3>
+    <div>
+      <s:formattedText value="#{blogEntry.body}"/>
+    </div>
+    <p>
+      [Posted on&#160;
+      <h:outputText value="#{blogEntry.date}">
+        <f:convertDateTime timezone="#{blog.timeZone}" locale="#{blog.locale}" 
+                           type="both"/>
+      </h:outputText>]
+    </p>
+  </div>
+</s:cache>]]></programlisting>
+          
+         </section>
+
 
          <section>
             <title><literal>&lt;s:resource&gt;</literal></title>
