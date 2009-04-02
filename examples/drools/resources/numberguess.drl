@@ -3,7 +3,7 @@ package org.jboss.seam.example.numberguess
 import org.jboss.seam.drools.Decision
 
 global Decision decision
-global Integer randomNumber
+global int randomNumber
 global Game game
 
 rule High

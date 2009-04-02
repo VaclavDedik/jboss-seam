@@ -3,7 +3,6 @@ backport-util-concurrent.jar
 commons-digester.jar
 commons-fileupload.jar
 core.jar
-drools-api.jar
 drools-compiler.jar
 drools-core.jar
 groovy-all.jar
@@ -13,4 +12,4 @@ icefaces-facelets.jar
 janino.jar
 jboss-el.jar
 jbpm-jpdl.jar
-mvel2.jar
+mvel14.jar

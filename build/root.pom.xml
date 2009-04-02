@@ -33,20 +33,14 @@
       <id>snapshots.jboss.org</id>
       <name>JBoss Snapshot Repository</name>
       <url>http://snapshots.jboss.org/maven2</url>
-    </repository>
-  <!--  <repository>
-      <snapshots />
-      <id>maven_repo</id>
-      <name>Apache Maven Repository</name>
-      <url>http://repo1.maven.org/maven2</url>
-    </repository> -->    
+    </repository> 
   </repositories>
   
   <!-- Externalize some version numbers here -->
   <properties>
     <version.richfaces>3.3.0.GA</version.richfaces>
     <version.wicket>1.3-SNAPSHOT</version.wicket>
-    <version.drools>5.0.0.CR1</version.drools>
+    <version.drools>4.0.4</version.drools>
   </properties>
 
   <dependencyManagement>

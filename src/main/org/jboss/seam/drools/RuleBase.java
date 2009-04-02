@@ -8,7 +8,7 @@ import org.drools.RuleBaseFactory;
 import org.drools.compiler.DroolsError;
 import org.drools.compiler.PackageBuilder;
 import org.drools.compiler.PackageBuilderConfiguration;
-import org.drools.compiler.RuleBuildError;
+import org.drools.compiler.RuleError;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Scope;
@@ -68,9 +68,9 @@ public class RuleBase
                log.error("errors parsing rules in: " + ruleFile);               
                for ( DroolsError error: builder.getErrors().getErrors() )
                {
-                  if (error instanceof RuleBuildError)
+                  if (error instanceof RuleError)
                   {
-                     RuleBuildError ruleError = (RuleBuildError) error;
+                     RuleError ruleError = (RuleError) error;
                      log.error( ruleError.getMessage() + " (" + ruleFile + ':' + ruleError.getLine() + ')' );                     
                   }
                   else

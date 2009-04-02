@@ -4,7 +4,6 @@ commons-beanutils.jar
 commons-digester.jar
 commons-fileupload.jar
 core.jar
-drools-api.jar
 drools-compiler.jar
 drools-core.jar
 icefaces.jar
@@ -15,4 +14,4 @@ jboss-el.jar
 jboss-seam.jar
 jboss-seam-*.jar
 jbpm-jpdl.jar
-mvel2.jar
+mvel14.jar

@@ -315,10 +315,9 @@
 		<include name="antlr-runtime.jar" if="drools.lib" />
 		<include name="core.jar" if="drools.lib" />
 		<include name="janino.jar" if="drools.lib" />
-		<include name="mvel2.jar" if="drools.lib" />
+		<include name="mvel14.jar" if="drools.lib" />
 		<include name="drools-core.jar" if="drools.lib" />
 		<include name="drools-compiler.jar" if="drools.lib" />
-		<include name="drools-api.jar" if="drools.lib" />
 	</fileset>
 
 	<!-- Dependencies for using Spring with Cglib -->
