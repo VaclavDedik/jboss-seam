@@ -47,6 +47,8 @@ public class RendererRequest
       request = new MockHttpServletRequest(HttpSessionManager.instance());
       response = new MockHttpServletResponse();
 
+      setContextClassLoader();
+
       // Generate the FacesContext from the JSF FacesContextFactory
       originalFacesContext = FacesContext.getCurrentInstance();
       facesContext = RendererFacesContextFactory.instance().getFacesContext(request, response);
@@ -60,25 +62,10 @@ public class RendererRequest
       writer = new StringWriter();
       facesContext.setResponseWriter(facesContext.getRenderKit().createResponseWriter(writer,
       null, null));
-
-      // Set the context classloader to the cached one
-      originalClassLoader = Thread.currentThread().getContextClassLoader();
-      ServletContext ctx = request.getSession().getServletContext();
-      WeakReference<ClassLoader> ref = (WeakReference<ClassLoader>)ctx.getAttribute("seam.context.classLoader");
-      if (ref == null || ref.get() == null) {
-          log.warn("Failed to bootstrap context classloader. Facelets may not work properly from MDBs");
-      } else {
-          Thread.currentThread().setContextClassLoader(ref.get());
-      }
    }
 
    private void cleanup()
    {
-      if (originalClassLoader != null) {
-          Thread.currentThread().setContextClassLoader(originalClassLoader);
-          originalClassLoader = null;
-      }
-
       facesContext.release();
       DelegatingFacesContext.setCurrentInstance(originalFacesContext);
 
@@ -88,11 +75,36 @@ public class RendererRequest
       response = null;
    }
 
+   protected void setContextClassLoader() {
+       // JBSEAM-3555 Quick fix
+       // Set the context classloader to the cached one
+       originalClassLoader = Thread.currentThread().getContextClassLoader();
+       ServletContext ctx = request.getSession().getServletContext();
+       WeakReference<ClassLoader> ref = (WeakReference<ClassLoader>)ctx.getAttribute("seam.context.classLoader");
+       if (ref == null || ref.get() == null) {
+           log.warn("Failed to bootstrap context classloader. Facelets may not work properly from MDBs");
+       } else {
+           Thread.currentThread().setContextClassLoader(ref.get());
+       }    
+   }
+
+   protected void resetContextClassLoader() {
+       // JBSEAM-3555 Quick fix
+       if (originalClassLoader != null) {
+           Thread.currentThread().setContextClassLoader(originalClassLoader);
+           originalClassLoader = null;
+       }
+   }
+   
    public void run() throws IOException
    {
-      init();
-      renderFacelet(facesContext, faceletForViewId(viewId));
-      cleanup();
+      try {
+          init();
+          renderFacelet(facesContext, faceletForViewId(viewId));
+          cleanup();
+      } finally {
+          resetContextClassLoader();
+      }      
    }
 
    public String getOutput()
