@@ -881,7 +881,19 @@
                      that a JavaScript check should be inserted into the page
                      to verify that cookies are enabled in the browser.  If
                      cookies are not enabled, present a notice to the user that
-                     form posts will not work.
+                     form posts will not work. (default: false)
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>allowMultiplePosts</literal> &#8212; indicates
+                     whether to allow the same form to be submitted multiple
+                     times with the same signature (as long as the view does
+                     not change). This is a common need if the form is perform
+                     Ajax calls but not rerendering itself or, at the very
+                     least, the UIToken component. The preferred approach is to
+                     have the UIToken component rerendered on any Ajax call
+                     where the UIToken component would be processed.
                      (default: false)
                   </para>
                </listitem>

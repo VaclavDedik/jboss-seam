@@ -89,7 +89,7 @@ public class TokenRendererBase extends RendererBase
             throw new UnauthorizedCommandException(viewId, "No form signature provided");
          }
 
-         if (!requestedViewSig.equals(generateViewSignature(context, form, token.isRequireSession(), clientToken)))
+         if (!requestedViewSig.equals(generateViewSignature(context, form, !token.isAllowMultiplePosts(), token.isRequireSession(), clientToken)))
          {
             throw new UnauthorizedCommandException(viewId, "Form signature invalid");
          }
@@ -115,7 +115,7 @@ public class TokenRendererBase extends RendererBase
       writer.startElement(HTML.INPUT_ELEM, component);
       writer.writeAttribute(HTML.TYPE_ATTR, HTML.INPUT_TYPE_HIDDEN, HTML.TYPE_ATTR);
       writer.writeAttribute(HTML.NAME_ATTR, FORM_SIGNATURE_PARAM, HTML.NAME_ATTR);
-      writer.writeAttribute(HTML.VALUE_ATTR, generateViewSignature(context, form, token.isRequireSession(), token.getClientUidSelector().getClientUid()), HTML.VALUE_ATTR);
+      writer.writeAttribute(HTML.VALUE_ATTR, generateViewSignature(context, form, !token.isAllowMultiplePosts(), token.isRequireSession(), token.getClientUidSelector().getClientUid()), HTML.VALUE_ATTR);
       writer.endElement(HTML.INPUT_ELEM);
    }
 
@@ -136,9 +136,13 @@ public class TokenRendererBase extends RendererBase
       }
    }
 
-   private String generateViewSignature(FacesContext context, UIForm form, boolean useSessionId, String saltPhrase)
+   private String generateViewSignature(FacesContext context, UIForm form, boolean useRenderStamp, boolean useSessionId, String saltPhrase)
    {
-      String rawViewSignature = context.getExternalContext().getRequestContextPath() + "," + context.getViewRoot().getViewId() + "," + form.getClientId(context) + "," + form.getAttributes().get(RENDER_STAMP_ATTR);
+      String rawViewSignature = context.getExternalContext().getRequestContextPath() + "," + context.getViewRoot().getViewId() + "," + form.getClientId(context);
+      if (useRenderStamp)
+      {
+         rawViewSignature += "," + form.getAttributes().get(RENDER_STAMP_ATTR);
+      }
       if (useSessionId)
       {
          rawViewSignature += "," + ((HttpSession) context.getExternalContext().getSession(true)).getId();

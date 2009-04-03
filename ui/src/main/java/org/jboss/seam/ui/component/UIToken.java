@@ -72,7 +72,7 @@ public abstract class UIToken extends UIOutput
     * Indicates whether the session id should be included in the form signature,
     * hence binding the token to the session. This value can be set to false
     * if the "build before restore" mode of Facelets is activated (the
-    * default in JSF 2.0).
+    * default in JSF 2.0). The default value is false.
     */
    public abstract boolean isRequireSession();
    
@@ -82,10 +82,23 @@ public abstract class UIToken extends UIOutput
     * Indicates whether a JavaScript check should be inserted into the page to
     * verify that cookies are enabled in the browser. If cookies are not
     * enabled, present a notice to the user that form posts will not work.
+    * The default value is false.
     */
    public abstract boolean isEnableCookieNotice();
    
    public abstract void setEnableCookieNotice(boolean state);
+
+   /**
+    * Indicates whether to allow the same form to be submitted multiple times
+    * with the same signature (as long as the view does not change). This is a
+    * common need if the form is perform Ajax calls but not rerendering itself
+    * or, at the very least, the UIToken component. The preferred approach is to
+    * have the UIToken component rerendered on any Ajax call where the UIToken
+    * component would be processed. The default value is false.
+    */
+   public abstract boolean isAllowMultiplePosts();
+   
+   public abstract void setAllowMultiplePosts(boolean allow);
    
    /**
     * Return the selector that controls the unique browser identifier cookie.
