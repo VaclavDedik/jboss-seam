@@ -80,6 +80,7 @@ public class Converters {
 
     @Name("accessLevelConverter")
     @org.jboss.seam.annotations.faces.Converter(forClass = Role.AccessLevel.class)
+    @BypassInterceptors
     public static class AccessLevelConverter implements Converter, Serializable {
 
         public Object getAsObject(FacesContext arg0,
