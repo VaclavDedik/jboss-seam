@@ -10,7 +10,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.servlet.http.HttpSession;
 
-import org.jboss.seam.ui.ClientUidSelector;
 import org.jboss.seam.ui.UnauthorizedCommandException;
 import org.jboss.seam.ui.component.UIToken;
 import org.jboss.seam.ui.util.HTML;
