@@ -1,5 +1,6 @@
 package org.jboss.seam.ui.component;
 
+import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
 import javax.faces.component.UIOutput;
 
@@ -112,10 +113,12 @@ public abstract class UIToken extends UIOutput
    }
    
    public UIForm getParentForm() {
-      while (getParent() != null) {
-         if (getParent() instanceof UIForm) {
-            return (UIForm) getParent();
+      UIComponent parent = getParent();
+      while (parent != null) {
+         if (parent instanceof UIForm) {
+            return (UIForm) parent;
          }
+         parent = parent.getParent();
       }
       
       return null;
