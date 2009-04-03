@@ -133,7 +133,7 @@
 
 <#if parentPojo.shortName!=pojo.shortName>
         <div class="actionButtons">
-            <s:button value="${'#'}{${homeName}.instance.${property.name} != null ? 'Change' : 'Select'} ${property.name}"
+            <s:button id="${'#'}{${homeName}.instance.${property.name} != null ? 'changeParent' : 'selectParent'}" value="${'#'}{${homeName}.instance.${property.name} != null ? 'Change' : 'Select'} ${property.name}"
                        view="/${parentPageName}List.xhtml">
                 <f:param name="from" value="${pageName}Edit"/>
             </s:button>

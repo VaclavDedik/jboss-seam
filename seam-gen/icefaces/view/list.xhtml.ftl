@@ -19,7 +19,7 @@
                        
 <ui:define name="body">
     
-    <ice:form id="list${componentName}FormId" styleClass="edit">
+    <ice:form id="${componentName}Search" styleClass="edit">
       <ice:panelGroup  id="searchGroup" styleClass="formBorderHighlight">
           <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
@@ -37,7 +37,7 @@
 <#if isString(componentProperty)>
             <s:decorate id="${componentProperty.name}decId" template="layout/display.xhtml">
                 <ui:define name="label">${label(componentProperty.name)}</ui:define>
-                  <ice:inputText id="${componentProperty.name}TextId" 
+                  <ice:inputText id="${componentProperty.name}" 
                           value="${'#'}{${listName}.${componentName}.${property.name}.${componentProperty.name}}"
 				  partialSubmit="true"/>
             </s:decorate>
@@ -48,7 +48,7 @@
 <#if isString(property)>
             <s:decorate id="${property.name}decId" template="layout/display.xhtml">
                 <ui:define name="label">${label(property.name)}</ui:define>
-                <ice:inputText id="list${property.name}TextId" 
+                <ice:inputText id="${property.name}" 
                           value="${'#'}{${listName}.${componentName}.${property.name}}"
 				  partialSubmit="true"/>
             </s:decorate>
@@ -63,7 +63,7 @@
   
         
         <div class="actionButtons">
-            <ice:commandButton id="listSearchButtonId" value="Search" action="/${listPageName}.xhtml"/>
+            <ice:commandButton id="search" value="Search" action="/${listPageName}.xhtml"/>
         </div>
       </ice:panelGroup> 
     </ice:form>
@@ -76,7 +76,7 @@
     <ice:outputText value="The ${componentName} search returned no results." 
                rendered="${'#'}{empty ${listName}.resultList}"/>
                
-    <ice:dataTable id="${listName}TableId" 
+    <ice:dataTable id="${listName}" 
                   var="${componentName}"
                 value="${'#'}{${listName}.resultList}" 
             resizable="true"
@@ -146,7 +146,7 @@
             <f:facet name="header">Action</f:facet>
             <s:link view="/${'#'}{empty from ? '${pageName}' : from}.xhtml" 
                    value="${'#'}{empty from ? 'View' : 'Select'}" 
-                      id="list${componentName}ViewId">
+                      id="${componentName}">
 <#if pojo.isComponent(pojo.identifierProperty)>
 <#foreach componentProperty in pojo.identifierProperty.value.propertyIterator>
                 <f:param name="${componentName}${componentProperty.name?cap_first}" 
@@ -158,10 +158,10 @@
 </#if>
             </s:link>
 			${'#'}{' '}
-            <s:link view="/${editPageName}.xhtml" 
+            <s:link view="/${editPageName}.xhtml"
                    value="Edit" 
-                      id="list${componentName}EditId"
-                rendered="${'#'}{empty from}">
+                      id="${componentName}Edit"
+                      rendered="${'#'}{empty from}">
 <#if pojo.isComponent(pojo.identifierProperty)>
 <#foreach componentProperty in pojo.identifierProperty.value.propertyIterator>
                 <f:param name="${componentName}${componentProperty.name?cap_first}" 
@@ -215,7 +215,7 @@
     
     <s:div styleClass="actionButtons" rendered="${'#'}{empty from}">
         <s:button view="/${editPageName}.xhtml"
-                    id="listCreate${componentName}Id" 
+                    id="create" 
                  value="Create ${componentName}">
 <#assign idName = componentName + pojo.identifierProperty.name?cap_first>
 <#if c2j.isComponent(pojo.identifierProperty)>

@@ -16,7 +16,7 @@
                        
 <ui:define name="body">
     
-    <ice:form id="${componentName}editForm" styleClass="edit">
+    <ice:form id="${componentName}" styleClass="edit">
      <ice:panelGroup  id="edit${componentName}GroupId" styleClass="formBorderHighlight">
           <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
@@ -39,24 +39,24 @@
                   
        <div class="actionButtons">
         
-            <ice:commandButton id="save${homeName}" 
+            <ice:commandButton id="save" 
                           value="Save" 
                          action="${'#'}{${homeName}.persist}"
                        disabled="${'#'}{!${homeName}.wired}"
                        rendered="${'#'}{!${homeName}.managed}"/>  
                           			  
-            <ice:commandButton id="update${homeName}" 
+            <ice:commandButton id="update" 
                           value="Save" 
                          action="${'#'}{${homeName}.update}"
                        rendered="${'#'}{${homeName}.managed}"/>
                         			  
-            <ice:commandButton id="delete${homeName}" 
+            <ice:commandButton id="delete" 
                           value="Delete" 
                          action="${'#'}{${homeName}.remove}"
                       immediate="true"
                        rendered="${'#'}{${homeName}.managed}"/>
                     
-            <s:button id="cancelEdit${homeName}" styleClass="iceCmdBtn"
+            <s:button id="cancelEdit" styleClass="iceCmdBtn"
                    value="Cancel"
              propagation="end"
                     view="/${pageName}.xhtml"
@@ -157,7 +157,7 @@
 <#if parentPojo.shortName!=pojo.shortName>
         <div class="actionButtons">
             <s:button value="Select ${property.name}"
-	              id="editSelectButton${property.name}Id"
+	              id="selectParent"
                       view="/${parentPageName}List.xhtml">
                 <f:param name="from" value="${pageName}Edit"/>
             </s:button>

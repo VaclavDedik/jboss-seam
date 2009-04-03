@@ -10,7 +10,7 @@
 
 <ui:define name="body">
     
- <ice:form id="loginFormId">
+ <ice:form id="loginForm">
       <ice:panelGroup  id="loginPanelGroupId" styleClass="formBorderHighlight">
           <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
@@ -39,7 +39,7 @@
   
       </ice:panelGroup>
          <div class="actionButtons">
-            <ice:commandButton id="loginButtonId" value="Login" action="#{identity.login}"/>
+            <ice:commandButton id="submit" value="Login" action="#{identity.login}"/>
         </div>
           
   </ice:form>      

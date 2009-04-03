@@ -10,7 +10,7 @@
             <s:decorate id="${componentProperty.name}Field" template="layout/edit.xhtml">
                 <ui:define name="label">${label(componentProperty.name)}</ui:define>
 <#if isDate(componentProperty)>
-                        <ice:selectInputDate id="${componentProperty.name}Id" 
+                        <ice:selectInputDate id="${componentProperty.name}" 
                               renderAsPopup="true"
 <#if propertyIsId>
                        disabled="${'#'}{${homeName}.managed}"
@@ -22,7 +22,7 @@
                                <s:convertDateTime type="date"/>                                                          
                            </ice:selectInputDate>
 <#elseif isTime(componentProperty)>
-                        <ice:inputText id="${componentProperty.name}Id" 
+                        <ice:inputText id="${componentProperty.name}" 
                                    size="5"
 <#if !column.nullable>
                        required="true"
@@ -31,7 +31,7 @@
                     <s:convertDateTime type="time"/>
                         </ice:inputText>
 <#elseif isTimestamp(componentProperty)>
-                        <ice:inputText id="${componentProperty.name}Id" 
+                        <ice:inputText id="${componentProperty.name}" 
                                    size="16"
 <#if !column.nullable>
                        required="true"
@@ -40,7 +40,7 @@
                              <s:convertDateTime type="both" dateStyle="short"/>
                         </ice:inputText>
 <#elseif isBigDecimal(componentProperty)>
-                        <ice:inputText id="${componentProperty.name}Id" 
+                        <ice:inputText id="${componentProperty.name}" 
                               partialSubmit="true"
 <#if !column.nullable>
                        required="true"
@@ -49,7 +49,7 @@
                            size="${column.precision+7}">
                         </ice:inputText>
 <#elseif isBigInteger(componentProperty)>
-                        <ice:inputText id="${componentProperty.name}Id" 
+                        <ice:inputText id="${componentProperty.name}" 
 					partialSubmit="true"
 <#if propertyIsId>
                        disabled="${'#'}{${homeName}.managed}"
@@ -125,7 +125,7 @@
             <s:decorate id="${property.name}Field" template="layout/edit.xhtml">
                 <ui:define name="label">${label(property.name)}</ui:define>
 <#if isDate(property)>
-                           <ice:selectInputDate id="${property.name}Id" 
+                           <ice:selectInputDate id="${property.name}" 
                               renderAsPopup="true"
 
 <#if propertyIsId>
@@ -138,7 +138,7 @@
                                     <s:convertDateTime type="date"/> 
                          </ice:selectInputDate>
 <#elseif isTime(property)>
-                        <ice:inputText id="${property.name}Id" 
+                        <ice:inputText id="${property.name}" 
                                    size="5"
 					partialSubmit="true"
 <#if !column.nullable>
@@ -148,7 +148,7 @@
                             <s:convertDateTime type="time"/>
                         </ice:inputText>
 <#elseif isTimestamp(property)>
-                        <ice:inputText id="${property.name}Id" 
+                        <ice:inputText id="${property.name}" 
                                      size="16"
 			    partialSubmit="true"
 <#if !column.nullable>
@@ -158,7 +158,7 @@
                             <s:convertDateTime type="both" dateStyle="short"/>
                         </ice:inputText>
 <#elseif isBigDecimal(property)>
-                        <ice:inputText id="${property.name}Id" 
+                        <ice:inputText id="${property.name}" 
 			    partialSubmit="true"
 <#if !column.nullable>
                                  required="true"
@@ -167,7 +167,7 @@
                                      size="${column.precision+7}">
                         </ice:inputText>
 <#elseif isBigInteger(property)>
-                        <ice:inputText id="${property.name}Id"
+                        <ice:inputText id="${property.name}"
 			                partialSubmit="true"
 <#if propertyIsId>
                        disabled="${'#'}{${homeName}.managed}"
@@ -178,7 +178,7 @@
                           value="${'#'}{${homeName}.instance.${property.name}}"
                            size="${column.precision+6}"/>
 <#elseif isBoolean(property)>
-                        <ice:selectBooleanCheckbox id="${property.name}Id"
+                        <ice:selectBooleanCheckbox id="${property.name}"
 					partialSubmit="true"
 <#if !column.nullable>
                                    required="true"
@@ -210,7 +210,7 @@
 <#else>
 <#assign size = column.length>
 </#if>
-                        <ice:inputText id="${property.name}Id" 
+                        <ice:inputText id="${property.name}" 
 			    partialSubmit="true"
 <#if propertyIsId>
                        disabled="${'#'}{${homeName}.managed}"
@@ -224,7 +224,7 @@
                         </ice:inputText>
 </#if>
 <#else>
-                        <ice:inputText id="${property.name}Id"
+                        <ice:inputText id="${property.name}"
 			    partialSubmit="true"
 <#if !column.nullable>
                        required="true"

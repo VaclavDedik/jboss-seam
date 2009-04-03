@@ -133,7 +133,7 @@
             <s:link view="/${'#'}{empty from ? '${pageName}' : from}.xhtml"
                    value="${'#'}{empty from ? 'View' : 'Select'}"
              propagation="${'#'}{empty from ? 'none' : 'default'}"
-                      id="${componentName}">
+                      id="${componentName}ViewId">
 <#if pojo.isComponent(pojo.identifierProperty)>
 <#foreach componentProperty in pojo.identifierProperty.value.propertyIterator>
                 <f:param name="${componentName}${componentProperty.name?cap_first}"

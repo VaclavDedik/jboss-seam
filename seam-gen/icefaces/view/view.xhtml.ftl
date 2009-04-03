@@ -39,11 +39,11 @@
     <div id="view${editPageName}searchButtons" class="actionButtons">      
 
         <s:button view="/${editPageName}.xhtml" 
-                    id="viewEdit${editPageName}" styleClass="iceCmdBtn"
+                    id="edit" styleClass="iceCmdBtn"
                  value="Edit"/>
 
         <s:button view="/${'#'}{empty ${componentName}From ? '${masterPageName}' : ${componentName}From}.xhtml"
-                    id="viewDone${editPageName}" styleClass="iceCmdBtn"
+                    id="done" styleClass="iceCmdBtn"
                  value="Done"/>
 
     </div>

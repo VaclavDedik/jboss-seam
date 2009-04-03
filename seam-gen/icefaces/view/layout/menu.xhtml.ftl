@@ -26,7 +26,7 @@
                  <ice:panelGroup id="rightMenuId">
                                 <h:outputText id="menuWelcomeId" value="signed in as: ${'#'}{credentials.username}" rendered="${'#'}{identity.loggedIn}"/>
                                 <s:link view="/login.xhtml" id="menuLoginId" value="Login" rendered="${'#'}{not identity.loggedIn}" propagation="none"/>
-                                <s:link view="/home.xhtml" id="menulogoutId" action="${'#'}{identity.logout}" value="Logout" rendered="${'#'}{identity.loggedIn}" propagation="none"/>
+                                <s:link view="/home.xhtml" id="menuLogoutId" action="${'#'}{identity.logout}" value="Logout" rendered="${'#'}{identity.loggedIn}" propagation="none"/>
                 </ice:panelGroup>
             </ice:panelGrid>
          </td>
