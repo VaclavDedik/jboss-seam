@@ -102,3 +102,11 @@ table.useradmin tr.even {
 td.enabled {
   text-align: center;
 }
+
+fieldset.roles .roles {
+  border: none;
+}
+
+table.iceSelMnyCb td {
+  text-align: left;
+}

@@ -600,7 +600,6 @@
                 <include name="hibernatetools/**"/>
                 <include name="lib/**"/>
                 <include name="resources/**"/>
-                <exclude name="resources/*identity-management*"/>
                 <include name="pojo/**"/>
                 <include name="src/**"/>
                 <include name="test/**"/>
@@ -613,7 +612,6 @@
                 <include name="build-scripts/**"/>
                 <include name="ide-project-files/**"/>
                 <include name="resources/**"/>
-                <exclude name="resources/*identity-management*"/>
                 <include name="src/**"/>
                 <include name="view/**"/>
             </fileset>
@@ -1201,7 +1199,6 @@
 
     <target name="add-identity-management" depends="validate-project" if="project.exists"
         description="Add Seam's identity management components and views to the project.">
-        <fail message="Currently the identity management is only configured to support RichFaces projects" if="icefaces.property"/>
         <copy todir="${project.home}/view">
             <fileset dir="${templates.dir}/view">
                 <include name="useradmin/**"/>
