@@ -358,7 +358,7 @@ public class Pages
     * Look for a DataModel row selection in the request parameters,
     * and apply it to the DataModel.
     */
-   private void selectDataModelRow(FacesContext facesContext)
+   protected void selectDataModelRow(FacesContext facesContext)
    {
       String dataModelSelection = facesContext.getExternalContext()
                .getRequestParameterMap().get("dataModelSelection");
@@ -473,7 +473,7 @@ public class Pages
             !Identity.instance().isLoggedIn();
    }
    
-   public static String getRequestScheme(FacesContext facesContext)
+   public String getRequestScheme(FacesContext facesContext)
    {
       String requestUrl = getRequestUrl(facesContext);
       if (requestUrl==null)

@@ -54,7 +54,7 @@ public class FacesLifecycle
       Contexts.applicationContext.set( new ApplicationContext( externalContext.getApplicationMap() ) );
       Contexts.sessionContext.set( new SessionContext( externalContext.getSessionMap() ) );
       Session session = Session.getInstance();
-      if ( session!=null && session.isInvalidDueToNewScheme( Pages.getRequestScheme( FacesContext.getCurrentInstance() ) ) )
+      if ( session!=null && session.isInvalidDueToNewScheme( Pages.instance().getRequestScheme( FacesContext.getCurrentInstance() ) ) )
       {
          invalidateSession(externalContext);
       }
