@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-03-17 20:34+0000\n"
-"PO-Revision-Date: 2009-03-31 23:31+0100\n"
+"PO-Revision-Date: 2009-04-05 17:57+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -746,13 +746,13 @@ msgstr ""
 #: Configuration.xml:393
 #, no-c-format
 msgid "The simple name of the bean class"
-msgstr ""
+msgstr "Il semplice nome della classe bean"
 
 #. Tag: para
 #: Configuration.xml:397
 #, no-c-format
 msgid "Let's look at an example. Assume that you have the following EJB bean and interface defined."
-msgstr ""
+msgstr "Guardiamo un esempio. Si assuma di avere definiti il seguente bean EJB ed un'interfaccia."
 
 #. Tag: programlisting
 #: Configuration.xml:399

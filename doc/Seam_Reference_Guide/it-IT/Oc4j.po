@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:23+0000\n"
-"PO-Revision-Date: 2009-02-22 11:30+0100\n"
+"PO-Revision-Date: 2009-04-05 18:01+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -95,7 +95,7 @@ msgstr ""
 #: Oc4j.xml:72
 #, no-c-format
 msgid "The <literal>jee5/booking</literal> example"
-msgstr ""
+msgstr "L'esempio <literal>jee5/booking</literal>"
 
 #. Tag: para
 #: Oc4j.xml:74
@@ -107,7 +107,7 @@ msgstr ""
 #: Oc4j.xml:81
 #, no-c-format
 msgid "Booking Example Dependencies"
-msgstr ""
+msgstr "Dipendenze dell'esempio Prenotazione"
 
 #. Tag: para
 #: Oc4j.xml:83
@@ -167,7 +167,7 @@ msgstr ""
 #: Oc4j.xml:126
 #, no-c-format
 msgid "Extra dependencies"
-msgstr ""
+msgstr "Extra dipendenze"
 
 #. Tag: para
 #: Oc4j.xml:129
@@ -299,19 +299,19 @@ msgstr ""
 #: Oc4j.xml:235
 #, no-c-format
 msgid "<literal>lucene-core.jar</literal> &#8212; needed for hibernate search"
-msgstr ""
+msgstr "<literal>lucene-core.jar</literal> &#8212; occorre a hibernate search"
 
 #. Tag: simpara
 #: Oc4j.xml:240
 #, no-c-format
 msgid "<literal>antlr.jar</literal> &#8212; needed for Seam Text"
-msgstr ""
+msgstr "<literal>antlr.jar</literal> &#8212; occorra a Seam Text"
 
 #. Tag: simpara
 #: Oc4j.xml:244
 #, no-c-format
 msgid "<literal>jbpm-jpdl.jar</literal> &#8212; needed for Seam's JBPM"
-msgstr ""
+msgstr "<literal>jbpm-jpdl.jar</literal> &#8212; occorre a JBPM di Seam"
 
 #. Tag: literal
 #: Oc4j.xml:248
@@ -1562,7 +1562,7 @@ msgstr "<![CDATA[@PersistenceContext private EntityManager entityManager;]]>"
 #: Oc4j.xml:875
 #, no-c-format
 msgid "Implement authenticate:"
-msgstr ""
+msgstr "Implementa authenticate:"
 
 #. Tag: programlisting
 #: Oc4j.xml:878

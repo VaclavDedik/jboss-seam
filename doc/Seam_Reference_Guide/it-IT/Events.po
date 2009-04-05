@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-03-31 09:07+0000\n"
-"PO-Revision-Date: 2009-03-31 11:18+0100\n"
+"PO-Revision-Date: 2009-04-05 17:58+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -694,7 +694,7 @@ msgstr ""
 #: Events.xml:412
 #, no-c-format
 msgid "Can be rewritten as follows:"
-msgstr ""
+msgstr "Può essere riscritto come segue:"
 
 #. Tag: programlisting
 #: Events.xml:416
@@ -1166,7 +1166,7 @@ msgstr ""
 #: Events.xml:563
 #, no-c-format
 msgid "Contextual events"
-msgstr ""
+msgstr "Eventi contestuali"
 
 #. Tag: para
 #: Events.xml:564
@@ -1922,13 +1922,13 @@ msgstr ""
 #: Events.xml:868
 #, no-c-format
 msgid "Some common exceptions"
-msgstr ""
+msgstr "Alcune eccezioni comuni"
 
 #. Tag: para
 #: Events.xml:870
 #, no-c-format
 msgid "If you are using JPA:"
-msgstr ""
+msgstr "Se si usa JPA:"
 
 #. Tag: programlisting
 #: Events.xml:874
@@ -1964,7 +1964,7 @@ msgstr ""
 #: Events.xml:876
 #, no-c-format
 msgid "If you are using the Seam Application Framework:"
-msgstr ""
+msgstr "Se si usa il Seam Application Framework:"
 
 #. Tag: programlisting
 #: Events.xml:880
@@ -1986,7 +1986,7 @@ msgstr ""
 #: Events.xml:882
 #, no-c-format
 msgid "If you are using Seam Security:"
-msgstr ""
+msgstr "Se si usa Seam Security:"
 
 #. Tag: programlisting
 #: Events.xml:886
