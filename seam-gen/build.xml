@@ -975,6 +975,11 @@
             <filterset refid="project"/>
         </copy>
 
+        <copy tofile="${project.home}/debug-glassfish-${project.name}.launch"
+                file="${templates.dir}/ide-project-files/eclipse/debug-glassfish.launch">
+            <filterset refid="project"/>
+        </copy>
+
         <copy tofile="${project.home}/${project.name}.launch"
                 file="${templates.dir}/hibernatetools/hibernate-console.launch">
             <filterset refid="project"/>
