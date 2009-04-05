@@ -14,6 +14,7 @@ import javax.transaction.Synchronization;
 import org.jboss.seam.Component;
 import org.jboss.seam.Entity;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -71,8 +72,27 @@ public class PersistenceProvider
     */
    public void setFlushModeManual(EntityManager entityManager)
    {
-      throw new UnsupportedOperationException("For use of FlushMode.MANUAL, please use Hibernate as the persistence provider or use a custom PersistenceProvider");
+      throw new UnsupportedOperationException("Use of FlushMode.MANUAL requires Hibernate as the persistence provider. Please use Hibernate, a custom persistenceProvider, or remove the MANUAL flush mode setting.");
    }
+
+   /**
+    * <p>
+    * Set the FlushMode the persistence contexts should use during rendering by
+    * calling {@link PersistenceContexts#changeFlushMode(FlushModeType)}. The
+    * actual changing of the flush mode is handled by the
+    * {@link PersistenceContexts} instance.
+    * </p>
+    * <p>
+    * Ideally, this should be MANUAL since changes should never flush to the
+    * database while in render response and the cost of a dirty check can be
+    * avoided. However, since the MANUAL mode is not officially part of the JPA
+    * specification, the default implementation will perform no operation.
+    * </p>
+    */
+   public void setRenderFlushMode() {
+      // no-op in default implementation
+   }
+   
    /**
     * Does the persistence context have unflushed changes? If
     * it does not, persistence context replication can be
@@ -131,7 +151,7 @@ public class PersistenceProvider
       }
       if ( !equal )
       {
-         throw new OptimisticLockException("current database version number does not match passivated version number");
+         throw new OptimisticLockException("Current database version number does not match passivated version number");
       }
    }
    /**
@@ -141,7 +161,7 @@ public class PersistenceProvider
     */
    public void enableFilter(Filter filter, EntityManager entityManager)
    {
-      throw new UnsupportedOperationException("For filters, please use Hibernate as the persistence provider");
+      throw new UnsupportedOperationException("Use of filters requires Hibernate as the persistence provider. Please use Hibernate or remove the filters configuration.");
    }
    
    /**

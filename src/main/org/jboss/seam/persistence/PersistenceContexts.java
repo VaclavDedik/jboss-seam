@@ -18,13 +18,15 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.AbstractMutable;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 /**
- * Maintains the set of persistence contexts that have been
- * touched in a conversation.
+ * Maintains the set of persistence contexts that have been touched in a
+ * conversation. Also controls the flush mode used by the persistence contexts
+ * during the render phase.
  * 
  * @author Gavin King
- *
  */
 @Name("org.jboss.seam.persistence.persistenceContexts")
 @Scope(ScopeType.CONVERSATION)
@@ -33,6 +35,7 @@ import org.jboss.seam.core.Manager;
 public class PersistenceContexts extends AbstractMutable implements Serializable
 {
    private static final long serialVersionUID = -4897350516435283182L;
+   private static final LogProvider log = Logging.getLogProvider(PersistenceContexts.class);
    private Set<String> set = new HashSet<String>();
    private FlushModeType flushMode;
    private FlushModeType actualFlushMode;
@@ -52,7 +55,6 @@ public class PersistenceContexts extends AbstractMutable implements Serializable
          actualFlushMode = FlushModeType.AUTO;
       }
    }
-   
    
    public FlushModeType getFlushMode()
    {
@@ -104,8 +106,10 @@ public class PersistenceContexts extends AbstractMutable implements Serializable
             {
                pcm.changeFlushMode(flushMode);
             }
-            catch (UnsupportedOperationException uoe) { 
-               //swallow 
+            catch (UnsupportedOperationException uoe)
+            {
+               // we won't be nasty and throw and exception, but we'll log a warning to the developer
+               log.warn(uoe.getMessage());
             }
          }
       }
@@ -113,7 +117,9 @@ public class PersistenceContexts extends AbstractMutable implements Serializable
    
    public void beforeRender()
    {
-      flushMode = FlushModeType.MANUAL;
+      // some JPA providers may not support MANUAL flushing
+      // defer the decision to the provider manager component
+      PersistenceProvider.instance().setRenderFlushMode();
       changeFlushModes();
    }
    

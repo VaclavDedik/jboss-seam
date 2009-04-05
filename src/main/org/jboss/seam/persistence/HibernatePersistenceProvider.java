@@ -23,6 +23,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.Entity;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Entity.NotEntityException;
+import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -149,6 +150,12 @@ public class HibernatePersistenceProvider extends PersistenceProvider
        }
    }
    
+   @Override
+   public void setRenderFlushMode()
+   {
+      PersistenceContexts.instance().changeFlushMode(FlushModeType.MANUAL);
+   }
+
    @Override
    public boolean isDirty(EntityManager entityManager)
    {
