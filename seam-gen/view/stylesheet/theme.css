@@ -169,6 +169,14 @@ select {
 	text-decoration: none;
 }
 
+.rich-toolbar-item a:hover, .rich-ddmenu-label-select {
+	text-decoration: underline;
+}
+
+.rich-toolbar-item .rich-menu-item a:hover {
+	text-decoration: none;
+}
+
 .rich-datalist {
 	list-style: square;
 	margin: 6px 0 1px 0;
