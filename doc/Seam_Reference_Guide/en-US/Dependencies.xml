@@ -9,9 +9,9 @@
     
     <para>
       Seam does not work with JDK 1.4 and requires JDK 5 or above as it uses 
-      annotations and other JDK 5.0 features..  Seam has been thoroughly tested 
+      annotations and other JDK 5.0 features. Seam has been thoroughly tested 
       using Sun's JDKs.  However there are no known issues specific to Seam with
-      other JDK's.
+      other JDKs.
     </para>
     
     <section id="jdk6_dependencies">
