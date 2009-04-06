@@ -634,6 +634,21 @@
                      to use to decorate the component
                 </para>
               </listitem>
+              <listitem>
+                  <para>
+                     <literal>enclose</literal> &#8212; if true, the template 
+                     	 used to decorate the input field is enclosed by the 
+                     	 element specified with the "element" attribute. By 
+                     	 default this is a div element.
+                </para>
+              </listitem>
+              <listitem>
+                  <para>
+                     <literal>element</literal> &#8212; the element to enclose 
+                         the template used to decorate the input field.  By default, 
+                         the template is enclosed with a div element.
+                </para>
+              </listitem>
             </itemizedlist>
             <para>
                <literal>#{invalid}</literal> and <literal>#{required}</literal> 

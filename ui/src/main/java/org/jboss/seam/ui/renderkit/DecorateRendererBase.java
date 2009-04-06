@@ -75,16 +75,19 @@ public class DecorateRendererBase extends RendererBase
 
       boolean hasMessage = decorate.hasMessage();
 
-      writer.startElement("div", decorate);
-      if (decorate.getStyleClass() != null)
+      if (decorate.isEnclose())
       {
-         writer.writeAttribute(HTML.CLASS_ATTR, decorate.getStyleClass(), HTML.CLASS_ATTR);
+          writer.startElement(decorate.getElement(), decorate);
+          if (decorate.getStyleClass() != null)
+          {
+             writer.writeAttribute(HTML.CLASS_ATTR, decorate.getStyleClass(), HTML.CLASS_ATTR);
+          }
+          if (decorate.getStyle() != null)
+          {
+             writer.writeAttribute(HTML.STYLE_ATTR, decorate.getStyle(), HTML.STYLE_ATTR);
+          }
+          writer.writeAttribute("id", decorate.getClientId(context), "id");
       }
-      if (decorate.getStyle() != null)
-      {
-         writer.writeAttribute(HTML.STYLE_ATTR, decorate.getStyle(), HTML.STYLE_ATTR);
-      }
-      writer.writeAttribute("id", decorate.getClientId(context), "id");
 
       UIComponent aroundDecoration = decorate.getDecoration("aroundField");
       UIComponent aroundInvalidDecoration = decorate.getDecoration("aroundInvalidField");
@@ -118,7 +121,10 @@ public class DecorateRendererBase extends RendererBase
          aroundInvalidDecoration.setParent(decorate);
          aroundInvalidDecoration.encodeEnd(context);
       }
-      context.getResponseWriter().endElement("div");
+      if (decorate.isEnclose())
+      {
+          context.getResponseWriter().endElement(decorate.getElement());
+      }
 
       restoreOriginalValues(storeOriginals, Contexts.getEventContext());
    }
