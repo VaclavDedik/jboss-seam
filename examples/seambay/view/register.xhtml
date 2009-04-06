@@ -43,30 +43,32 @@
       </div>
      
       <h:form id="registration">
-        <p>
-          <b>seamBay User ID</b><br/>
-          <h:inputText id="username" value="#{newuser.username}"/>
-          <div class="validationError"><h:message id="usernameMessage" for="username"/></div>
-        </p>        
-
-        <p>
-          <b>Password</b><br/>
-          <h:inputSecret id="password" value="#{newuser.password}"/>
-          <div class="validationError"><h:message id="passwordMessage" for="password"/></div>
-        </p>              
-        
-        <p>
-          <b>Confirm Password</b><br/>
-          <h:inputSecret id="confirm" value="#{registerAction.confirm}"/>
-          <div class="validationError"><h:message id="confirmMessage" for="confirm"/></div>
-        </p>
-
-        <p>
-          <b>Location</b><br/>
-          <h:inputText id="location" class="location" value="#{newuser.account.location}"/>
-          <div class="validationError"><h:message id="locationMessage" for="location"/></div>
-        </p>
-        
+        <s:validateAll>
+          <p>
+            <b>seamBay User ID</b><br/>
+            <h:inputText id="username" value="#{newuser.username}" required="true"/>
+            <div class="validationError"><h:message id="usernameMessage" for="username"/></div>
+          </p>        
+  
+          <p>
+            <b>Password</b><br/>
+            <h:inputSecret id="password" value="#{newuser.password}" required="true"/>
+            <div class="validationError"><h:message id="passwordMessage" for="password"/></div>
+          </p>              
+          
+          <p>
+            <b>Confirm Password</b><br/>
+            <h:inputSecret id="confirm" value="#{registerAction.confirm}" required="true"/>
+            <div class="validationError"><h:message id="confirmMessage" for="confirm"/></div>
+          </p>
+  
+          <p>
+            <b>Location</b><br/>
+            <h:inputText id="location" class="location" value="#{newuser.account.location}" required="true"/>
+            <div class="validationError"><h:message id="locationMessage" for="location"/></div>
+          </p>
+        </s:validateAll>
+          
         <h:commandButton id="submit" value="Register >" action="#{registerAction.register}"/>
         
       </h:form>
