@@ -1255,11 +1255,11 @@
         <echo message="If you use 'update', you will need to manually run the SQL statements appended to resources/import-dev.sql to add the default accounts."/> 
     </target>
 
-    <target name="new-action" depends="new-action-ear,new-action-war"
+    <target name="new-action" depends="new-action-ear,new-action-war,insert-menu-item"
         description="Create a new action"/>
-    <target name="new-form" depends="new-form-ear,new-form-war"
+    <target name="new-form" depends="new-form-ear,new-form-war,insert-menu-item"
         description="Create a new form action"/>
-    <target name="new-conversation" depends="new-conversation-ear,new-conversation-war"
+    <target name="new-conversation" depends="new-conversation-ear,new-conversation-war,insert-menu-item"
         description="Create a new conversation controller"/>
 
     <target name="new-action-ear" depends="validate-project,action-input,setup-filters" unless="project.war">
@@ -1336,6 +1336,17 @@
         <echo message="Type '${seam.cmd} restart' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
     </target>
 
+    <target name="insert-menu-item">
+        <replace file="${project.home}/view/layout/menu.xhtml">
+            <replacetoken><![CDATA[<!-- @newMenuItem@ -->]]></replacetoken>
+            <replacevalue><![CDATA[<s:link view="/@pageName@.xhtml" value="@pageName@" propagation="none"/>
+    <!-- @newMenuItem@ -->]]></replacevalue>
+        </replace>
+        <replace file="${project.home}/view/layout/menu.xhtml">
+            <replacefilter token="@pageName@" value="${page.name}"/>
+        </replace>
+    </target>
+
     <!-- FIXME: we ask the user for information that isn't needed for this target -->
     <target name="new-test" depends="validate-project,action-input,setup-filters" description="Create a new test">
         <echo message="Creating a new SeamTest subclass for the specified Seam component"/>
@@ -1357,6 +1368,7 @@
             <filterset refid="filters"/>
         </copy>
 
+        <antcall target="insert-menu-item"/>
         <echo message="Type '${seam.cmd} restart' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
     </target>
 
