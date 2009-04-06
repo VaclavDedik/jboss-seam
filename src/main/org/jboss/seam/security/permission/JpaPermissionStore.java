@@ -575,12 +575,12 @@ public class JpaPermissionStore implements PermissionStore, Serializable
       
       if (identityStore != null)
       {
-         if (isUser && identityStore.getUserClass().equals(principal.getClass()))
+         if (isUser && identityStore.getUserClass().isAssignableFrom(principal.getClass()))
          {
             return new SimplePrincipal(identityStore.getUserName(principal));
          }
          
-         if (!isUser && identityStore.getRoleClass().equals(principal.getClass()))
+         if (!isUser && identityStore.getRoleClass().isAssignableFrom(principal.getClass()))
          {
             String name = identityStore.getRoleName(principal);
             return new Role(name, identityStore.isRoleConditional(name));
