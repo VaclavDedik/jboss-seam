@@ -161,7 +161,7 @@ How to Build and Deploy the Example on Tomcat
    install of Tomcat.
    
 2. Install Embedded JBoss as described in the "Configuration" chapter of the
-   Seam reerence documentation. 
+   Seam reference documentation. 
    
 3. Make sure you have an up to date version of Seam: 
 
