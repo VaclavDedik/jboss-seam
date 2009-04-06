@@ -526,7 +526,7 @@
         pageflow="EditDocument"/>]]></programlisting>
         
         <para>
-            The <literal>taskInstance</literal> attribute if for use in jBPM task lists:
+            The <literal>taskInstance</literal> attribute is for use in jBPM task lists:
         </para>
         
         <programlisting role="XHTML"><![CDATA[<s:link action="#{documentApproval.approveOrReject}" taskInstance="#{task}"/>]]></programlisting>
