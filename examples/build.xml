@@ -664,6 +664,7 @@
 			<fileset refid="seam.excel.jar" />
 			<fileset refid="seam.rss.jar" />
 			<fileset refid="seam.pdf.jar" />
+			<fileset refid="seam.remoting.jar" />
 			<fileset refid="seam.ui.jar" />
 			<fileset refid="facelets.jar" />
 			<fileset refid="urlrewrite.jar" />
