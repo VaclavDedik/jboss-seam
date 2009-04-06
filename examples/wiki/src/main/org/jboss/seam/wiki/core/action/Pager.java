@@ -14,6 +14,7 @@ import java.io.Serializable;
 @AutoCreate
 public class Pager implements Serializable {
 
+    private String pagerEventName = "Pager";
     private Long numOfRecords = 0l;
     private Integer page = 0;
     private Long pageSize = 15l;
@@ -21,6 +22,15 @@ public class Pager implements Serializable {
     public Pager() {}
 
     public Pager(Long pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public Pager(String pagerEventName) {
+        this.pagerEventName = pagerEventName;
+    }
+
+    public Pager(String pagerEventName, Long pageSize) {
+        this.pagerEventName = pagerEventName;
         this.pageSize = pageSize;
     }
 
@@ -103,22 +113,22 @@ public class Pager implements Serializable {
 
     public void setFirstPage() {
         setPage(getFirstPage());
-        Events.instance().raiseEvent("Pager.pageChanged");
+        Events.instance().raiseEvent(pagerEventName + "pageChanged");
     }
 
     public void setPreviousPage() {
         setPage(getPreviousPage());
-        Events.instance().raiseEvent("Pager.pageChanged");
+        Events.instance().raiseEvent(pagerEventName + ".pageChanged");
     }
 
     public void setNextPage() {
         setPage(getNextPage());
-        Events.instance().raiseEvent("Pager.pageChanged");
+        Events.instance().raiseEvent(pagerEventName + ".pageChanged");
     }
 
     public void setLastPage() {
         setPage(new Long(getLastPage()).intValue());
-        Events.instance().raiseEvent("Pager.pageChanged");
+        Events.instance().raiseEvent(pagerEventName + ".pageChanged");
     }
 
     public String toString() {

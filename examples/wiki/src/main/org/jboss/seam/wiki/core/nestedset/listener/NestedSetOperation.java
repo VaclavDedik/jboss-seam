@@ -43,8 +43,6 @@ import java.util.Iterator;
  * for the deprecated <tt>Session#connection()</tt> method.
  * </p>
  *
- * TODO: We should lock the tables! Instead we are using the NestedSetMonitor as a workaround...
- *
  * @author Christian Bauer
  */
 public class NestedSetOperation {

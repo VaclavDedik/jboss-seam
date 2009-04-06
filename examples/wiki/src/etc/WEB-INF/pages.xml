@@ -335,6 +335,21 @@
         </redirect>
     </exception>
 
+    <exception class="org.jboss.seam.wiki.core.nestedset.listener.NestedSetLockTimeoutException">
+        <end-conversation/>
+        <redirect view-id="/wiki.xhtml">
+            <message severity="WARN">#{messages['lacewiki.msg.LockTimeoutError']}</message>
+        </redirect>
+    </exception>
+
+    <!-- This occurs on concurrent delete of comments -->
+    <exception class="javax.persistence.EntityNotFoundException">
+        <end-conversation/>
+        <redirect view-id="/wiki.xhtml">
+            <message severity="WARN">#{messages['lacewiki.msg.EntityNotFound']}</message>
+        </redirect>
+    </exception>
+
     <exception class="org.jboss.seam.security.AuthorizationException">
         <end-conversation/>
         <redirect view-id="/message.xhtml">

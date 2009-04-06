@@ -59,7 +59,7 @@
         <p>
         <b>Manual Recursion</b>: Select all the children of node <tt>C</tt>, and if these nodes have children, recursively
         query until the whole subtree is loaded. This can be implemented with a stored procedure in SQL or by
-        recursively exeucting <tt>SELECT</tt> statements in the application language. This strategy does not scale.
+        recursively executing <tt>SELECT</tt> statements in the application language. This strategy does not scale.
         </p>
     </li>
     <li>
@@ -201,7 +201,7 @@
 </pre>
 
 <p>
-    This implementation is based on mix-in and delegates. The <tt>ITEM</tt> table of the <tt>Item</tt> class will
+    This implementation is based on mix-in and delegates. The <tt>ITEM</tt> table of the <tt>Item</tt> class
     does not carry the left, right, and thread values. This job is delegated to an additional
     <tt>ItemNestedSetDelegate</tt> class:
 </p>
@@ -280,11 +280,12 @@
     &lt;persistence-unit ...>
         ...
         &lt;properties>
+            &lt;property name="hibernate.ejb.event.flush"
+                      value="nestedset.NestedSetFlushEventListener"/>
             &lt;property name="hibernate.ejb.event.post-insert"
                       value="nestedset.NestedSetPostInsertEventListener"/>
             &lt;property name="hibernate.ejb.event.post-delete"
                       value="nestedset.NestedSetPostDeleteEventListener"/>
-
         &lt;/properties>
     &lt;/persistence-unit>
 </pre>
@@ -293,6 +294,12 @@
     Consult the Hibernate documentation if you want to configure them in a different environment. Note that these
     new listeners <i>extend</i> the Hibernate EntityManager listeners and that all classes require JDK 5.0. You
     can however rewrite the code easily to make it work with plain Hibernate Core in JDK 1.4.
+</p>
+
+<p>
+    Note that concurrent nested set tree modifications need to be serialized. This implementation locks flush events
+    in-memory with a <tt>ReentrantLock</tt> and a timeout of 15 seconds. See <tt>NestedSetFlushEventListener.java</tt>
+    for more information.
 </p>
 
 <p>

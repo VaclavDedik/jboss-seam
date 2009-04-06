@@ -26,10 +26,7 @@ public class NestedSetPostInsertEventListener extends EJB3PostInsertEventListene
 
         if ( NestedSetNode.class.isAssignableFrom(event.getEntity().getClass())) {
             log.debug("executing nested set insert operation, recalculating the tree");
-            NestedSetMonitor.executeOperation(
-                new InsertNestedSetOperation((NestedSetNode)event.getEntity()),
-                event.getSession()
-            );
+            new InsertNestedSetOperation((NestedSetNode)event.getEntity()).execute(event.getSession());
         }
     }
 

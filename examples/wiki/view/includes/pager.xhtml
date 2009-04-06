@@ -48,10 +48,10 @@
         </s:fragment>
 
         <s:fragment>
-            <h:outputText value="#{messages['lacewiki.label.dirDisplay.PagerShowing']}
-                                    #{pager.firstRecord} #{messages['lacewiki.label.dirDisplay.PagerTo']}
-                                    #{pager.lastRecord} #{messages['lacewiki.label.dirDisplay.PagerOf']}
-                                    #{pager.numOfRecords} #{messages['lacewiki.label.dirDisplay.PagerElements']}"/>
+            <h:outputText value="#{pager.firstRecord} #{messages['lacewiki.label.pagerTo']}
+                                 #{pager.lastRecord} #{messages['lacewiki.label.pagerOf']}
+                                 #{pager.numOfRecords}
+                                 #{pager.numOfRecords > 1 ? pagerPluralLabel : pagerSingularLabel}"/>
         </s:fragment>
 
         <s:fragment>
