@@ -836,8 +836,7 @@
         <copy todir="${project.home}/resources">
             <fileset dir="${templates.dir}/resources">
                 <include name="META-INF/orm.xml"/>
-                <include name="META-INF/persistence*-war.xml"/>
-                <include name="WEB-INF/components-war.xml"/>
+                <include name="META-INF/persistence-*-war.xml"/>
                 <include name="WEB-INF/jboss-web.xml"/>
             </fileset>
             <filterset refid="project"/>
@@ -846,10 +845,14 @@
                 <replacestring from="-war.xml" to=".xml"/>
             </filtermapper>
         </copy>
-        <!--
-        <copy todir="${project.home}/src/hot" file="${templates.dir}/resources/seam.properties"/>
-        <copy todir="${project.home}/src/main" file="${templates.dir}/resources/seam.properties"/>
-        -->
+        <replace file="${project.home}/resources/META-INF/persistence-dev.xml">
+            <replacefilter token="org.hibernate.transaction.JBossTransactionManagerLookup" value="@transactionManagerLookupClass@"/>
+        </replace>
+        <copy tofile="${project.home}/resources/WEB-INF/components.xml"
+                file="${templates.dir}/resources/WEB-INF/components-war-tokenized.xml">
+            <filterset refid="project"/>
+            <filterset refid="jdbc"/>
+        </copy>
     </target>
 
     <target name="file-copy-ear" unless="project.war">
@@ -876,13 +879,16 @@
                 <include name="META-INF/ejb-jar.xml"/>
                 <include name="META-INF/jboss-app.xml"/>
                 <include name="META-INF/orm.xml"/>
-                <include name="META-INF/persistence*.xml"/>
-                <exclude name="META-INF/persistence*-war.xml"/>
+                <include name="META-INF/persistence-*.xml"/>
+                <exclude name="META-INF/persistence-*-war.xml"/>
                 <include name="WEB-INF/components.xml"/>
             </fileset>
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
         </copy>
+        <replace file="${project.home}/resources/WEB-INF/components.xml">
+            <replacefilter token="java:/${project.name}EntityManagerFactory" value="@puJndiName@"/>
+        </replace>
     </target>
 
     <target name="file-copy" depends="file-copy-war,file-copy-ear,setup-filters">
@@ -1009,12 +1015,6 @@
                 file="${templates.dir}/ide-project-files/idea/module.iml">
             <filterset refid="project"/>
         </copy>
-        <!--
-        <copy tofile="${project.home}/${project.name}.iws"
-                file="${templates.dir}/ide-project-files/idea/workspace.iws">
-            <filterset refid="project"/>
-        </copy>
-        -->
 
         <!-- NetBeans project files -->
         <mkdir dir="${project.home}/nbproject"/>

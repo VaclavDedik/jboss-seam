@@ -14,7 +14,7 @@
          <property name="hibernate.show_sql" value="true"/>
          <property name="hibernate.format_sql" value="true"/>@catalogProperty@@schemaProperty@
          <!-- Only relevant if Seam is loading the persistence unit (Java SE bootstrap) -->
-         <property name="hibernate.transaction.manager_lookup_class" value="@transactionManagerLookupClass@"/>
+         <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JBossTransactionManagerLookup"/>
       </properties>
    </persistence-unit>
     

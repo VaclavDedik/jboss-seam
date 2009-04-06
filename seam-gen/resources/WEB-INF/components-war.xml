@@ -29,12 +29,10 @@
    <web:hot-deploy-filter url-pattern="*.seam"/>
 
    <persistence:entity-manager-factory name="entityManagerFactory"
-                      persistence-unit-name="@projectName@"
-                                  installed="@seamBootstrapsPu@"/>
+                      persistence-unit-name="@projectName@"/>
 
    <persistence:managed-persistence-context name="entityManager" auto-create="true"
-                          entity-manager-factory="@seamEmfRef@"
-                      persistence-unit-jndi-name="@puJndiName@"/>
+                          entity-manager-factory="#{entityManagerFactory}"/>
 
    <drools:rule-base name="securityRules">
       <drools:rule-files><value>/security.drl</value></drools:rule-files>
