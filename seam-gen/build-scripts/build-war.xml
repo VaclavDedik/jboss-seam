@@ -207,6 +207,7 @@
         <copy tofile="${war.dir}/WEB-INF/classes/components.properties" 
               file="${basedir}/resources/components-${profile}.properties">
             <filterset refid="seam"/>
+            <filterset refid="profile"/>
         </copy>
 
         <copy tofile="${war.dir}/WEB-INF/classes/META-INF/persistence.xml" 

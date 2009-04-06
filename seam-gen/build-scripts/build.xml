@@ -205,6 +205,7 @@
         <copy tofile="${war.dir}/WEB-INF/classes/components.properties"
             file="${basedir}/resources/components-${profile}.properties">
             <filterset refid="seam"/>
+            <filterset refid="profile"/>
         </copy>
         <copy todir="${war.dir}/WEB-INF">
             <fileset dir="${basedir}/resources/WEB-INF">
