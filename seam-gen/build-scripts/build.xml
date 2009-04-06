@@ -28,6 +28,9 @@
         <property name="javac.debug" value="true" />
         <property name="javac.deprecation" value="false" />
         <property name="debug" value="false" />
+        <condition property="is.debug" value="true">
+            <istrue value="${debug}"/>
+        </condition>
     
         <!--Properties for validating configuration files -->
         <property name="validate.resources.dir" value="${basedir}/exploded-archives" />
@@ -124,6 +127,7 @@
                         <fileset dir="${lib.dir}">
                                 <includesfile name="deployed-jars-war.list" />
                                 <exclude name="jboss-seam-gen.jar" />
+                                <exclude name="jboss-seam-debug.jar" unless="is.debug"/>
                         </fileset>
                 </copy>
                 <copy todir="${war.dir}/WEB-INF/classes">

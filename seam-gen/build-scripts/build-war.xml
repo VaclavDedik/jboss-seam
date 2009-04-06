@@ -27,6 +27,9 @@
     <property name="javac.debug" value="true" />
     <property name="javac.deprecation" value="false" />
     <property name="debug" value="false" />
+    <condition property="is.debug">
+        <istrue value="${debug}"/>
+    </condition>
     
     <fileset id="lib" dir="${lib.dir}">
         <include name="*.jar" />
@@ -182,6 +185,7 @@
             <fileset dir="${lib.dir}">
                 <includesfile name="deployed-jars.list"/>
                 <exclude name="jboss-seam-gen.jar"/>
+                <exclude name="jboss-seam-debug.jar" unless="is.debug"/>
                 <include name="groovy-*.jar" if="groovy.present"/>
             </fileset>
         </copy>
