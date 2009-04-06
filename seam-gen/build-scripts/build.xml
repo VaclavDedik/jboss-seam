@@ -28,13 +28,13 @@
         <property name="javac.debug" value="true" />
         <property name="javac.deprecation" value="false" />
         <property name="debug" value="false" />
-	
-		<!--Properties for validating configuration files -->
-		<property name="validate.resources.dir" value="${basedir}/exploded-archives" />
-		<property name="schema.dir" value="${basedir}/exploded-archives/schemas" />
-		<property name="src.schema.dir" value="${schema.dir}/org/jboss/seam"/>
-		<property name="schema.version" value="@schemaVersion@" />
-	
+    
+        <!--Properties for validating configuration files -->
+        <property name="validate.resources.dir" value="${basedir}/exploded-archives" />
+        <property name="schema.dir" value="${basedir}/exploded-archives/schemas" />
+        <property name="src.schema.dir" value="${schema.dir}/org/jboss/seam"/>
+        <property name="schema.version" value="@schemaVersion@" />
+    
         <fileset id="lib" dir="${lib.dir}">
                 <include name="*.jar" />
         </fileset>
@@ -142,9 +142,9 @@
                                 <include name="*hibernate.cfg.xml" />
                                 <include name="jbpm.cfg.xml" />
                         </fileset>
-                		<fileset dir="${lib.dir}">
-                				<include name="jboss-seam.jar" />
-                		</fileset>
+                        <fileset dir="${lib.dir}">
+                                <include name="jboss-seam.jar" />
+                        </fileset>
                  </copy>
                  <copy todir="${ear.dir}/lib">
                         <fileset dir="${lib.dir}">
@@ -235,7 +235,7 @@
                 <delete dir="${ear.dir}"/>
                 <delete dir="${war.dir}"/>
                 <delete dir="${jar.dir}"/>
-        		<delete dir="${src.schema.dir}" failonerror="no"/>
+                <delete dir="${src.schema.dir}" failonerror="no"/>
                 <delete dir="${basedir}/test-report"/>
                 <delete dir="${basedir}/test-output"/>
                 <delete failonerror="no" includeemptydirs="true">
@@ -301,29 +301,29 @@
 
         <target name="test" depends="buildtest" description="Run the tests">            
                 <taskdef resource="testngtasks" classpath="${testng.jar}" />
-        		<path id="test.path">
-        			<path path="${test.dir}" />
-        			<fileset dir="${lib.dir}/test">
-        				<include name="*.jar"/>
-        			</fileset>
-        			<path path="${bootstrap.dir}" />
-        			<path refid="build.classpath" />
-        		</path>
+                <path id="test.path">
+                    <path path="${test.dir}" />
+                    <fileset dir="${lib.dir}/test">
+                        <include name="*.jar"/>
+                    </fileset>
+                    <path path="${bootstrap.dir}" />
+                    <path refid="build.classpath" />
+                </path>
                 <testng outputdir="${basedir}/test-report">
                     <classpath refid="test.path" />
                     <xmlfileset dir="${test.dir}" includes="*Test.xml" />
                 </testng>
         </target>
-	
-	<target name="validateConfiguration" depends="war,ear,jar" description="Validate the xml configuration files">
-		<mkdir dir="${schema.dir}"/>
-		<unjar src="${lib.dir}/jboss-seam.jar" dest="${schema.dir}">
-			<patternset>
-				<include name="org/jboss/seam/*.xsd"/>
-				<include name="org/jboss/seam/*.dtd"/>
-			</patternset>
-		</unjar>
-		<ant antfile="validate.xml" target="validateConfiguration" />
-	</target>
+    
+    <target name="validateConfiguration" depends="war,ear,jar" description="Validate the xml configuration files">
+        <mkdir dir="${schema.dir}"/>
+        <unjar src="${lib.dir}/jboss-seam.jar" dest="${schema.dir}">
+            <patternset>
+                <include name="org/jboss/seam/*.xsd"/>
+                <include name="org/jboss/seam/*.dtd"/>
+            </patternset>
+        </unjar>
+        <ant antfile="validate.xml" target="validateConfiguration" />
+    </target>
         
 </project>

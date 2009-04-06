@@ -328,15 +328,15 @@
     
     <target name="test" depends="buildtest" description="Run the tests">            
         <taskdef resource="testngtasks" classpath="${testng.jar}" />
-    	<path id="test.path">
-			<path path="${test.dir}" />
-			<fileset dir="${lib.dir}/test">
-				<include name="*.jar"/>
-			</fileset>
-			<path path="${bootstrap.dir}" />
-			<path refid="build.classpath" />
-		</path>
-    	<testng outputdir="${basedir}/test-report">
+        <path id="test.path">
+            <path path="${test.dir}" />
+            <fileset dir="${lib.dir}/test">
+                <include name="*.jar"/>
+            </fileset>
+            <path path="${bootstrap.dir}" />
+            <path refid="build.classpath" />
+        </path>
+        <testng outputdir="${basedir}/test-report">
             <classpath refid="test.path" />
             <xmlfileset dir="${test.dir}" includes="*Test.xml" />
         </testng>
