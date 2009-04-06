@@ -65,7 +65,7 @@
 
    <context-param>
       <param-name>facelets.DEVELOPMENT</param-name>
-      <param-value>true</param-value>
+      <param-value>@debug@</param-value>
    </context-param>
 
    <!-- JSF -->
