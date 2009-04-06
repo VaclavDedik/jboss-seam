@@ -14,6 +14,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.InterceptorType;
 import org.jboss.seam.annotations.intercept.PostActivate;
+import org.jboss.seam.annotations.intercept.PostConstruct;
 import org.jboss.seam.annotations.intercept.PrePassivate;
 import org.jboss.seam.util.Reflections;
 
@@ -131,7 +132,7 @@ public final class Interceptor extends Reflections
          {
             aroundInvokeMethod = method;
          }
-         if ( method.isAnnotationPresent(POST_CONSTRUCT) )
+         if ( method.isAnnotationPresent(POST_CONSTRUCT) || method.isAnnotationPresent(PostConstruct.class))
          {
             postConstructMethod = method;
          }

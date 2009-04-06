@@ -3,13 +3,13 @@ package org.jboss.seam.persistence;
 import static org.jboss.seam.ComponentType.STATEFUL_SESSION_BEAN;
 import static org.jboss.seam.ComponentType.STATELESS_SESSION_BEAN;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.PostActivate;
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.Component.BijectedAttribute;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
+import org.jboss.seam.annotations.intercept.PostActivate;
+import org.jboss.seam.annotations.intercept.PostConstruct;
 import org.jboss.seam.intercept.AbstractInterceptor;
 import org.jboss.seam.intercept.InvocationContext;
 
