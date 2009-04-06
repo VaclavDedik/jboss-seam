@@ -168,12 +168,13 @@
     <target name="jar" depends="compile,copyclasses"
         description="Build the JAR structure in a staging directory">
         <copy todir="${jar.dir}">
+            <fileset dir="${src.model.dir}">
+                <include name="**/*.component.xml" />
+            </fileset>
             <fileset dir="${basedir}/resources">
                 <include name="seam.properties"/>
                 <include name="*.drl"/>
-            </fileset>
-            <fileset dir="${src.model.dir}">
-                <include name="**/*.component.xml" />
+                <include name="META-INF/*.drl"/>
             </fileset>
         </copy>
         <copy todir="${jar.dir}/META-INF">
@@ -202,14 +203,7 @@
         <copy todir="${war.dir}/WEB-INF">
             <fileset dir="${basedir}/resources/WEB-INF">
                 <include name="*.*"/>
-                <include name="classes/**/*.*"/>
-                <exclude name="classes/**/*.class"/>
-            </fileset>
-        </copy>
-        <copy todir="${war.dir}/WEB-INF">
-            <fileset dir="${basedir}/resources/WEB-INF">
                 <include name="lib/*.*"/>
-                <include name="classes/**/*.class"/>
             </fileset>
         </copy>
         <copy todir="${war.dir}/WEB-INF/lib">
@@ -220,19 +214,15 @@
         </copy>
         <copy todir="${war.dir}/WEB-INF/classes">
             <fileset dir="${basedir}/resources">
+                <include name="messages*.properties"/>
+                <include name="*.skin.properties" if="richfaces.present"/>
+                <include name="*_theme.properties"/>
                 <include name="**/*.xcss" if="richfaces.present"/>
             </fileset>
             <!-- move XCSS into classpath for now
                  loading from web context only works in JBoss AS 4 -->
             <fileset dir="${basedir}/view">
                 <include name="**/*.xcss" if="richfaces.present"/>
-            </fileset>
-        </copy>
-        <copy todir="${war.dir}/WEB-INF/classes">
-            <fileset dir="${basedir}/resources">
-                <include name="messages*.properties"/>
-                <include name="*.skin.properties" if="richfaces.present"/>
-                <include name="*_theme.properties"/>
             </fileset>
         </copy>
     </target>
@@ -299,17 +289,17 @@
 
         <copy todir="${ear.deploy.dir}">
             <fileset dir="${ear.dir}">
-				<include name="**/*"/>
-				<exclude name="${project.name}_jar/**"/>
-				<exclude name="${project.name}_war/**"/>
-			</fileset>
+                <include name="**/*"/>
+                <exclude name="${project.name}_jar/**"/>
+                <exclude name="${project.name}_war/**"/>
+            </fileset>
         </copy>
-		<copy todir="${jar.deploy.dir}">
-			<fileset dir="${jar.dir}"/>
-		</copy>
-		<copy todir="${war.deploy.dir}">
-			<fileset dir="${war.dir}"/>
-		</copy>
+        <copy todir="${jar.deploy.dir}">
+            <fileset dir="${jar.dir}"/>
+        </copy>
+        <copy todir="${war.deploy.dir}">
+            <fileset dir="${war.dir}"/>
+        </copy>
     </target>
 
     <target name="unexplode" description="Undeploy the exploded archive">
@@ -435,7 +425,7 @@
     </target>
 
     <target name="test" depends="buildtest" description="Run the tests">
-        <condition property="incompatible.jdk">
+        <condition property="incompatible.jdk" value="true">
             <and>
                 <equals arg1="${ant.java.version}" arg2="1.6"/>
                 <not><available classname="javax.xml.bind.JAXB"/></not>
