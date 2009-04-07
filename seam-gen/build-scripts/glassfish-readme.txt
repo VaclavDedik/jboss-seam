@@ -1,12 +1,31 @@
+The GlassFish home directory and domain are set in the build.properties file adjacent to this readme.
+
+First, you must prepare GlassFish for a seam-gen project (i.e., deploy Hibernate as a JPA provider)
+
+  ant gf-prepare
+
+Next, you need to start GlassFish:
+
+  ant gf-start
+
+Finally, you can deploy the project:
+
+  ant gf-explode
+
 GlassFish deployment works out of the box for WAR projects. To deploy an EAR project, make the following changes:
 
   1. Uncomment the <ejb-local-ref> entries in resources/WEB-INF/web.xml (include additional entries as necessary)
   2. Strip the contents up to and including the # in the element <persistence-unit-name> in resources/WEB-INF/web.xml
   3. Uncomment the <jar-file> element in resources/META-INF/persistence-dev.xml & resources/META-INF/persistence-prod.xml
 
-If you plan to use the default Derby datasource in GlassFish, named jdbc/__default, then uncomment the following property in the build.properties file at the root of the project:
+If you plan to use the default Derby datasource in GlassFish, named jdbc/__default, then uncomment the following property
+in the build.properties file at the root of the project to prevent the gf-deploy-datasource target from executing:
 
   glassfish.datasource.useDefault=true
+
+When switching back and forth between a JBoss AS deployment and a GlassFish deployment, be sure to clean the project:
+
+  ant clean
 
 GlassFish command reference:
 
