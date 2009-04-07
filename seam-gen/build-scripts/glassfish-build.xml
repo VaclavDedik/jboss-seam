@@ -14,7 +14,14 @@
                 <condition>
                     <or>
                         <length string="${glassfish.home}" trim="true" length="0"/>
-                        <not><available file="${glassfish.home}/bin/asadmin"/></not>
+                        <and>
+                            <not><os family="windows"/></not>
+                            <not><available file="${glassfish.home}/bin/asadmin"/></not>
+                        </and>
+                        <and>
+                            <os family="windows"/>
+                            <not><available file="${glassfish.home}/bin/asadmin.bat"/></not>
+                        </and>
                     </or>
                 </condition>
             </fail>
@@ -31,7 +38,17 @@
                 </condition>
             </fail>
             <pre-conditions/>
-            <exec executable="${glassfish.home}/bin/asadmin">
+			<!-- Windows batch files (.bat) cannot be executed directly. Must be executed using the command shell (cmd.exe) with the /c switch. -->
+            <condition property="asadmin.cmd" value="cmd.exe">
+                <os family="windows"/>
+            </condition>
+            <condition property="asadmin.arg1" value="/c ${glassfish.home}/bin/asadmin">
+                <os family="windows"/>
+            </condition>
+            <property name="asadmin.cmd" value="${glassfish.home}/bin/asadmin"/>
+            <property name="asadmin.arg1" value=""/>
+            <exec executable="${asadmin.cmd}">
+                <arg line="${asadmin.arg1}"/>
                 <arg value="@{cmd}"/>
                 <arg line="@{args}"/>
                 <redirector outputproperty="gf.cmd.output" alwayslog="@{log}"/>
