@@ -503,7 +503,7 @@ public abstract class Query<T, E>
    private String sanitizeRestrictionLogicOperator(String operator) {
       if (operator == null || operator.trim().length() == 0)
       {
-         return "and";
+         return LOGIC_OPERATOR_AND;
       }
       if (!(LOGIC_OPERATOR_AND.equals(operator) || LOGIC_OPERATOR_OR.equals(operator)))
       {
