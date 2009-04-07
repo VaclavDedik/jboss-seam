@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: JBoss Seam - Italian Version\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-03-31 09:07+0000\n"
-"PO-Revision-Date: 2009-04-07 14:44+0100\n"
+"PO-Revision-Date: 2009-04-07 15:38+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1570,7 +1570,7 @@ msgstr ""
 #: Conversations.xml:1049
 #, no-c-format
 msgid "Alternatively, you can allow RichFaces handle the error, in which case the user will be presented with a prompt that reads \"View state could't be restored - reload page?\" You can customize this message globally by setting the following message key in an application resource bundle."
-msgstr "In alternativa si può consentire a RichFaces di gestire quest'errore, nel qual caso all'utente verrà presentato un prompt che chiede \"Lo stato della vista non può essere ripristinato - ricaricare la pagina?\ Si può personalizzare questo messaggio impostando la seguente chiave in un resource bundle dell'applicazione."
+msgstr "In alternativa si può consentire a RichFaces di gestire quest'errore, nel qual caso all'utente verrà presentato un prompt che chiede \"Lo stato della vista non può essere ripristinato - ricaricare la pagina?\" Si può personalizzare questo messaggio impostando la seguente chiave in un resource bundle dell'applicazione."
 
 #. Tag: programlisting
 #: Conversations.xml:1057
