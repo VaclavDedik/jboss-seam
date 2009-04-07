@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-03-31 09:07+0000\n"
-"PO-Revision-Date: 2009-03-31 11:12+0100\n"
+"POT-Creation-Date: 2009-04-07 12:40+0000\n"
+"PO-Revision-Date: 2009-04-07 14:46+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -4210,8 +4210,8 @@ msgstr "L'annotazione <link linkend=\"end-annotation\"> <literal>@End</literal> 
 #. Tag: para
 #: Tutorial.xml:1596
 #, no-c-format
-msgid "When we being a nested conversation it is pushed onto the conversation stack. In the <varname>nestedbooking</varname> example, the conversation stack consists of the outer long-running conversation (the booking) and each of the nested conversations (room selections)."
-msgstr "Quando si è in una conversazione innestata, questa viene messa nello stack delle conversazioni. Nell'esempio <varname>nestedbooking</varname>, lo stack consiste in una conversazione long-running più esterna (la prenotazione) e ciascuna delle conversazini innestate (selezione camere)."
+msgid "When we begin a nested conversation it is pushed onto the conversation stack. In the <varname>nestedbooking</varname> example, the conversation stack consists of the outer long-running conversation (the booking) and each of the nested conversations (room selections)."
+msgstr "Quando si inizia una conversazione innestata, questa viene messa nello stack delle conversazioni. Nell'esempio <varname>nestedbooking</varname>, lo stack consiste in una conversazione long-running più esterna (la prenotazione) e ciascuna delle conversazioni innestate (selezione camere)."
 
 #. Tag: title
 #: Tutorial.xml:1601

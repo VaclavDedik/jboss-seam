@@ -3,15 +3,17 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: JBoss Seam - Italian Version\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-01-05 00:19+0000\n"
-"PO-Revision-Date: 2009-02-24 12:52+0100\n"
+"POT-Creation-Date: 2009-04-07 12:39+0000\n"
+"PO-Revision-Date: 2009-04-07 14:46+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
-"Language-Team: none\n"
+"Language-Team: none <nico.benaz@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Italian\n"
+"X-Poedit-Country: ITALY\n"
 
 #. Tag: title
 #: Dependencies.xml:5
@@ -28,7 +30,7 @@ msgstr "Dipendenze JDK"
 #. Tag: para
 #: Dependencies.xml:10
 #, no-c-format
-msgid "Seam does not work with JDK 1.4 and requires JDK 5 or above as it uses annotations and other JDK 5.0 features.. Seam has been thoroughly tested using Sun's JDKs. However there are no known issues specific to Seam with other JDK's."
+msgid "Seam does not work with JDK 1.4 and requires JDK 5 or above as it uses annotations and other JDK 5.0 features. Seam has been thoroughly tested using Sun's JDKs. However there are no known issues specific to Seam with other JDKs."
 msgstr "Seam non funziona con JDK 1.4 e richiede JDK 5 o superiore, poiché impiega annotazioni ed altre caratteristiche di JDK 5.0. Seam è stato testato usando i JDK di Sun. Comunque con Seam non ci sono problemi noti usando altri JDK."
 
 #. Tag: title
