@@ -18,6 +18,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 
 /**
@@ -32,6 +33,8 @@ import org.jboss.seam.core.Init;
 @Startup
 public class PermissionMapper implements Serializable
 {
+   public static final String DEFAULT_RESOLVER_CHAIN_CREATED = "org.jboss.seam.security.defaultResolverChainCreated";
+   
    private Map<Class,Map<String,String>> resolverChains = new HashMap<Class,Map<String,String>>();
    
    private String defaultResolverChain;
@@ -160,6 +163,7 @@ public class PermissionMapper implements Serializable
          }
          
          Contexts.getSessionContext().set(DEFAULT_RESOLVER_CHAIN, chain);
+         if (Events.exists()) Events.instance().raiseEvent(DEFAULT_RESOLVER_CHAIN_CREATED, chain);
       }
       
       return chain;
