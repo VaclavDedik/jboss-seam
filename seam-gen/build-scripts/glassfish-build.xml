@@ -122,7 +122,7 @@
         <antcall target="gf-cleanup-ear"/>
     </target>
 
-    <target name="gf-archive" depends="gf-stage,archive" description="Prepare a packaged archive targeting GlassFish"/>
+    <target name="gf-archive" depends="gf-init,archive" description="Prepare a packaged archive targeting GlassFish"/>
 
     <target name="gf-deploy" depends="gf-archive,gf-deploy-datasource"
         description="Deploy the datasource and packaged archive to GlassFish">
