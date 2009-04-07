@@ -32,6 +32,7 @@ public abstract class Query<T, E>
    private static final Pattern FROM_PATTERN = Pattern.compile("(^|\\s)(from)\\s",       Pattern.CASE_INSENSITIVE);
    private static final Pattern WHERE_PATTERN = Pattern.compile("\\s(where)\\s",         Pattern.CASE_INSENSITIVE);
    private static final Pattern ORDER_PATTERN = Pattern.compile("\\s(order)(\\s)+by\\s", Pattern.CASE_INSENSITIVE);
+   private static final Pattern GROUP_PATTERN = Pattern.compile("\\s(group)(\\s)+by\\s", Pattern.CASE_INSENSITIVE);
 
    private static final Pattern ORDER_COLUMN_PATTERN = Pattern.compile("^\\w+(\\.\\w+)*$");
 
@@ -287,27 +288,41 @@ public abstract class Query<T, E>
          throw new IllegalArgumentException("no from clause found in query");
       }
       int fromLoc = fromMatcher.start(2);
-
+      
+      // TODO can we just create a protected method that builds the query w/o the order by and group by clauses?
       Matcher orderMatcher = ORDER_PATTERN.matcher(ejbql);
       int orderLoc = orderMatcher.find() ? orderMatcher.start(1) : ejbql.length();
 
-      Matcher whereMatcher = WHERE_PATTERN.matcher(ejbql);
-      int whereLoc = whereMatcher.find() ? whereMatcher.start(1) : orderLoc;
+      Matcher groupMatcher = GROUP_PATTERN.matcher(ejbql);
+      int groupLoc = groupMatcher.find() ? groupMatcher.start(1) : orderLoc;
 
-      String subject = "*";
+      Matcher whereMatcher = WHERE_PATTERN.matcher(ejbql);
+      int whereLoc = whereMatcher.find() ? whereMatcher.start(1) : groupLoc;
+
+      String subject;
+      if (getGroupBy() != null) {
+         subject = "distinct " + getGroupBy();
+      }
+      else if (useWildcardAsCountQuerySubject) {
+         subject = "*";
+      }
       // to be JPA-compliant, we need to make this query like "select count(u) from User u"
       // however, Hibernate produces queries some databases cannot run when the primary key is composite
-      if (!useWildcardAsCountQuerySubject) {
+      else {
           Matcher subjectMatcher = SUBJECT_PATTERN.matcher(ejbql);
           if ( subjectMatcher.find() )
           {
              subject = subjectMatcher.group(1);
           }
+          else
+          {
+             throw new IllegalStateException("invalid select clause for query");
+          }
       }
       
       return new StringBuilder(ejbql.length() + 15).append("select count(").append(subject).append(") ").
          append(ejbql.substring(fromLoc, whereLoc).replace("join fetch", "join")).
-         append(ejbql.substring(whereLoc, orderLoc)).toString().trim();
+         append(ejbql.substring(whereLoc, groupLoc)).toString().trim();
    }
    
    public String getEjbql()
@@ -347,6 +362,14 @@ public abstract class Query<T, E>
     */
    public abstract boolean isNextExists();
 
+   /**
+    * Returns true if the query is paginated, revealing
+    * whether navigation controls are needed.
+    */
+   public boolean isPaginated() {
+      return isNextExists() || isPreviousExists();
+   }
+   
    /**
     * Set the index at which the page to display should start
     */
