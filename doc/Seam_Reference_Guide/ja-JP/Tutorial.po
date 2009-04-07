@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tools\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-03-31 09:07+0000\n"
+"POT-Creation-Date: 2009-04-07 12:40+0000\n"
 "PO-Revision-Date: 2009-02-19 21:11+0900\n"
 "Last-Translator: Takayoshi Osawa <takayoshi.osawa@gmail.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -5881,9 +5881,9 @@ msgstr ""
 
 #. Tag: para
 #: Tutorial.xml:1596
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"When we being a nested conversation it is pushed onto the conversation "
+"When we begin a nested conversation it is pushed onto the conversation "
 "stack. In the <varname>nestedbooking</varname> example, the conversation "
 "stack consists of the outer long-running conversation (the booking) and each "
 "of the nested conversations (room selections)."

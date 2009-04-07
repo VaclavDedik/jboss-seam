@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dependencies\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-03-22 12:51+0000\n"
+"POT-Creation-Date: 2009-04-07 12:39+0000\n"
 "PO-Revision-Date: 2009-03-06 15:59+1000\n"
 "Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -27,12 +27,12 @@ msgstr "JDK の依存性"
 
 #. Tag: para
 #: Dependencies.xml:10
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "Seam does not work with JDK 1.4 and requires JDK 5 or above as it uses "
-"annotations and other JDK 5.0 features.. Seam has been thoroughly tested "
+"annotations and other JDK 5.0 features. Seam has been thoroughly tested "
 "using Sun's JDKs. However there are no known issues specific to Seam with "
-"other JDK's."
+"other JDKs."
 msgstr ""
 "Seam は JDK 1.4 とは動作しないため、 アノテーションや他の JDK 5 機能を使用す"
 "る JDK 5 またはそれ以降が必要となります。 Seam は Sun の JDK を使い全体的にテ"
