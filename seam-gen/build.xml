@@ -611,7 +611,8 @@
             </fileset>
         </copy>
 
-        <antcall target="settings"/>
+        <!-- Invoke Ant file again so that properties are reset -->
+        <ant antfile="${ant.file}" target="settings" inheritAll="false"/>
         <echo/>
         <echo message="Type '${seam.cmd} create-project' to create the new project"/>
     </target>
