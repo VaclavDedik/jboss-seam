@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:23+0000\n"
-"PO-Revision-Date: 2009-01-14 11:30+0100\n"
+"PO-Revision-Date: 2009-04-07 15:28+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,7 @@ msgstr "Si <emphasis>può</emphasis> usare seam-gen senza Eclipse, ma in questo 
 #: Gettingstarted.xml:21
 #, no-c-format
 msgid "Seam-gen is basically just a big ugly Ant script wrapped around Hibernate Tools, together with some templates. That makes it easy to customize if you need to."
-msgstr "Seam-gen è essenzialmente uno script Ant avvolto aattorno a Hibernate Tools, assieme a qualche template. Questo facilita la sua personalizzazione nel caso ce ne sia bisogno."
+msgstr "Seam-gen è essenzialmente uno script Ant avvolto attorno a Hibernate Tools, assieme a qualche template. Questo facilita la sua personalizzazione nel caso ce ne sia bisogno."
 
 #. Tag: title
 #: Gettingstarted.xml:25
@@ -249,7 +249,7 @@ msgstr "Il tool fornisce dei valori di default, che possono essere accettati sem
 #: Gettingstarted.xml:66
 #, no-c-format
 msgid "The most important choice you need to make is between EAR deployment and WAR deployment of your project. EAR projects support EJB 3.0 and require Java EE 5. WAR projects do not support EJB 3.0, but may be deployed to a J2EE environment. The packaging of a WAR is also simpler to understand. If you installed an EJB3-ready application server like JBoss, choose <literal>ear</literal>. Otherwise, choose <literal>war</literal>. We'll assume that you've chosen an EAR deployment for the rest of the tutorial, but you can follow exactly the same steps for a WAR deployment."
-msgstr "La scelta pià importante da fare è tra il deploy EAR e il deploy WAR del progetto. I progetti EAR supportano EJB 3.0 e richiedono Java EE 5. I progetti WAR non supportano EJB 3.0, ma possono essere deployati in ambienti J2EE. L'impacchettamento di un WAR è più semplice da capire. Se si installa un application server predisposto per EJB3, come JBoss, si scelga <literal>ear</literal>. Altrimenti si scelga <literal>war</literal>. Assumeremo per il resto del tutorial che la scelta sia il deploy EAR, ma si potranno compiere gli stessi passi per il deploy WAR."
+msgstr "La scelta più importante da fare è tra il deploy EAR e il deploy WAR del progetto. I progetti EAR supportano EJB 3.0 e richiedono Java EE 5. I progetti WAR non supportano EJB 3.0, ma possono essere deployati in ambienti J2EE. L'impacchettamento di un WAR è più semplice da capire. Se si installa un application server predisposto per EJB3, come JBoss, si scelga <literal>ear</literal>. Altrimenti si scelga <literal>war</literal>. Assumeremo per il resto del tutorial che la scelta sia il deploy EAR, ma si potranno compiere gli stessi passi per il deploy WAR."
 
 #. Tag: para
 #: Gettingstarted.xml:73
@@ -337,7 +337,7 @@ msgstr "Si vada in <literal>http://localhost:8080/helloworld</literal> per veder
 #: Gettingstarted.xml:103
 #, no-c-format
 msgid "Don't get scared by the XML configuration documents that were generated into the project directory. They are mostly standard Java EE stuff, the stuff you need to create once and then never look at again, and they are 90% the same between all Seam projects. (They are so easy to write that even seam-gen can do it.)"
-msgstr "Non si abbia paura dell'XML, i documenti di configurazione generati nella directory di progetto. Sono per la maggiore parti standard per Java EE, parti che servono per creare la prima volta e poi non si guarderanno più, ed al 90% sono sempre le stesse per ogni progetto Seam. (Sono così facili da scrivere che anche seam-gen può farlo.)"
+msgstr "Non si abbia paura dell'XML, i documenti di configurazione generati nella directory di progetto. Per la maggiore parte delle volte sono standard per Java EE, parti che servono per creare la prima volta e poi non si guarderanno più, ed al 90% sono sempre le stesse per ogni progetto Seam. (Sono così facili da scrivere che anche seam-gen può farlo.)"
 
 #. Tag: para
 #: Gettingstarted.xml:107
@@ -355,7 +355,7 @@ msgstr "Creazione di una nuova azione"
 #: Gettingstarted.xml:123
 #, no-c-format
 msgid "If you're used to traditional action-style web frameworks, you're probably wondering how you can create a simple web page with a stateless action method in Java. If you type:"
-msgstr "Se si è abituati ad usare framework web action-style, ci si domanderà come in Java sia possibile creare una semplice pagina web con un metodo d'azione stateless. Se si digita:"
+msgstr "Se si è abituati ad usare un framework web action-style, ci si domanderà come in Java sia possibile creare una semplice pagina web con un metodo d'azione stateless. Se si digita:"
 
 #. Tag: programlisting
 #: Gettingstarted.xml:126
@@ -613,7 +613,7 @@ msgstr "Eseguire il deploy dell'applicazione come EAR"
 #: Gettingstarted.xml:189
 #, no-c-format
 msgid "Finally, we want to be able to deploy the application using standard Java EE 5 packaging. First, we need to remove the exploded directory by running <literal>seam unexplode</literal>. To deploy the EAR, we can type <literal>seam deploy</literal> at the command prompt, or run the <literal>deploy</literal> target of the generated project build script. You can undeploy using <literal>seam undeploy</literal> or the <literal>undeploy</literal> target."
-msgstr "Infine si vuole essere in gradi di eseguire il deploy dell'applicazione usando l'impacchettamento standard di Java EE 5. In primo luogo occorre rimuovere la directory esplosa eseguendo <literal>seam unexplode</literal>. Per fare il deploy dell'EAR, si può digitare da linea di comando <literal>seam deploy</literal>, od eseguire il target <literal>deploy</literal> dello script di build del progetto generato. L'undeploy può essere eseguito usando <literal>seam undeploy</literal> od il target <literal>undeploy</literal>."
+msgstr "Infine si vuole essere in grado di eseguire il deploy dell'applicazione usando l'impacchettamento standard di Java EE 5. In primo luogo occorre rimuovere la directory esplosa eseguendo <literal>seam unexplode</literal>. Per fare il deploy dell'EAR, si può digitare da linea di comando <literal>seam deploy</literal>, od eseguire il target <literal>deploy</literal> dello script di build del progetto generato. L'undeploy può essere eseguito usando <literal>seam undeploy</literal> od il target <literal>undeploy</literal>."
 
 #. Tag: para
 #: Gettingstarted.xml:195
@@ -758,7 +758,7 @@ msgstr "Install JBoss 4.0"
 #: Gettingstarted.xml:290
 #, no-c-format
 msgid "JBoss 4.0 does not ship a default configuration compatible with Seam. To run Seam, you must install JBoss 4.0.5 using the JEMS 1.2 installer with the ejb3 profile selected. Seam will not run with an installation that doesn't include EJB3 support. The JEMS installer can be downloaded from <ulink url=\"http://labs.jboss.com/jemsinstaller/downloads\">http://labs.jboss.com/jemsinstaller/downloads</ulink>."
-msgstr "JBoss 4.0 non porta con sé una configurazione di default compatibile con Seam. Per eseguire Seam, occorre installare JBoss 4.0.5 usando l'installer JEMS 1.2 con il profile ejb3 selezionato. Seam non funzionerà con un'installazione che non include il suppoer EJB3. L'installer JEMS può essere scaricato da <ulink url=\"http://labs.jboss.com/jemsinstaller/downloads\">http://labs.jboss.com/jemsinstaller/downloads</ulink>."
+msgstr "JBoss 4.0 non porta con sé una configurazione di default compatibile con Seam. Per eseguire Seam, occorre installare JBoss 4.0.5 usando l'installer JEMS 1.2 con il profile ejb3 selezionato. Seam non funzionerà con un'installazione che non include il supporto EJB3. L'installer JEMS può essere scaricato da <ulink url=\"http://labs.jboss.com/jemsinstaller/downloads\">http://labs.jboss.com/jemsinstaller/downloads</ulink>."
 
 #. Tag: title
 #: Gettingstarted.xml:297

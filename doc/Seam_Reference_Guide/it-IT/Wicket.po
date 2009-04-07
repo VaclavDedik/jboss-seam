@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Seam_Reference_Guide\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-27 11:29+0000\n"
-"PO-Revision-Date: 2008-12-27 12:47+0100\n"
+"PO-Revision-Date: 2009-04-07 15:43+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: Italian <stefano.travelli@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -351,7 +351,7 @@ msgstr ""
 #: Wicket.xml:230
 #, no-c-format
 msgid "Seam automatically installs the Wicket filter for you (ensuring that it is inserted in the correct place for you). But you still need to tell Wicket which <code>WebApplication</code> class to use."
-msgstr "Seam installa automaticamente il filtro Wicket (assicurando che sia inserito nella posizione corretta), ma è ancora necessario indircare a Wicket quale classe <code>WebApplication</code> usare:"
+msgstr "Seam installa automaticamente il filtro Wicket (assicurando che sia inserito nella posizione corretta), ma è ancora necessario indicare a Wicket quale classe <code>WebApplication</code> usare:"
 
 #. Tag: programlisting
 #: Wicket.xml:236
