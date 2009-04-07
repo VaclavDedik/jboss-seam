@@ -36,8 +36,10 @@ gf-reboot - Restarts GlassFish
 gf-deploy-datasource - Deploys the datasource and connection pool to GlassFish
 gf-explode - Deploys the exploded archive to GlassFish (restarts application if already deployed)
 gf-hotdeploy - Hot deploys Java classes, Seam components, and view resources
+gf-reexplode - Cleans, undeploys, and deploys the exploded archive to GlassFish
 gf-deploy - Deploys the packaged archive to GlassFish
 gf-undeploy - Undeploys the exploded or packaged archive from GlassFish
+gf-redeploy - Cleans, undeploys, and deploys the packaged archive to GlassFish
 gf-stage - Prepares an exploded archive targeting GlassFish
 gf-archive - Prepares a packaged archive targeting GlassFish
 gf-prepare - Prepares GlassFish for a seam-gen project deployment (calls gf-deploy-hibernate)

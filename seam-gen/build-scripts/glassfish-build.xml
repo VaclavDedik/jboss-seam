@@ -116,6 +116,9 @@
     <target name="gf-reexplode" depends="clean,gf-undeploy,gf-explode"
         description="Clean, undeploy, and deploy the datasource and exploded archive to GlassFish"/>
 
+    <target name="gf-redeploy" depends="clean,gf-undeploy,gf-deploy"
+        description="Clean, undeploy, and deploy the datasource and packaged archive to GlassFish"/>
+
     <target name="gf-hotdeploy" depends="gf-stage" description="Publish hot deployable artifacts"/>
 
     <target name="gf-stage" depends="gf-init,stage" description="Prepare the exploded archive targeting GlassFish">
