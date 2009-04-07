@@ -1,16 +1,22 @@
 package @actionPackage@;
 
+import @modelPackage@.@entityName@;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.framework.EntityQuery;
+import java.util.Arrays;
 
 @Name("@componentName@")
-public class @beanName@ extends EntityQuery
+public class @beanName@ extends EntityQuery<@entityName@>
 {
-    @Override
-    public String getEjbql()
+    private static final String EJBQL = "@query@";
+    private static final String[] RESTRICTIONS = {};
+
+    public @beanName@()
     {
-        return "@query@";
+        setEjbql(EJBQL);
+        setRestrictionExpressionStrings(Arrays.asList(RESTRICTIONS));
+        setMaxResults(25);
     }
 
     @RequestParameter
@@ -18,10 +24,4 @@ public class @beanName@ extends EntityQuery
     public void setFirstResult(Integer firstResult) {
         super.setFirstResult(firstResult);
     }
-
-    @Override
-    public Integer getMaxResults() {
-        return 25;
-    }
-
 }
