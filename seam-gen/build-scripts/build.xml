@@ -438,6 +438,11 @@
     </target>
 
     <target name="test" depends="buildtest" description="Run the tests">
+        <fail message="Cannot run tests because path to project contains spaces.">
+            <condition>
+                <contains string="${basedir}" substring=" "/>
+            </condition>
+        </fail>
         <condition property="incompatible.jdk" value="true">
             <and>
                 <equals arg1="${ant.java.version}" arg2="1.6"/>

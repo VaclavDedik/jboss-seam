@@ -222,7 +222,7 @@
         <echo message=""/>
         <property name="old.workspace.home" value="${workspace.home}"/>
         <input addproperty="workspace.home.new"
-                   message="Enter your project workspace (the directory that contains your Seam projects) [${old.workspace.home}]"
+                   message="Enter the directory where you want the project to be created (should not contain spaces) [${old.workspace.home}]"
               defaultvalue="${old.workspace.home}"/>
         <pathFixer property="workspace.home.new"/>
 
@@ -1662,6 +1662,14 @@
 
     <target name="test" depends="validate-project" if="project.exists"
         description="Run the automated tests">
+        <fail message="Cannot run tests because path to project contains spaces">
+            <condition>
+                <or>
+                    <contains string="${workspace.home}" substring=" "/>
+                    <contains string="${project.name}" substring=" "/>
+                </or>
+            </condition>
+        </fail>
         <echo message="Running tests for project '${project.name}'"/>
         <ant antfile="${project.home}/build.xml" target="test" inheritall="false"/>
     </target>
