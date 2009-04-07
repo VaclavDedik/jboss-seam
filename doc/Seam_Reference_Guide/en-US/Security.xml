@@ -3235,59 +3235,68 @@ public @interface User {
           A <literal>ResolverChain</literal> contains an ordered list of <literal>PermissionResolver</literal>s, for the
           purpose of resolving object permissions for a particular object class or permission target.
         </para>
+        
+        <para>
+          The default <literal>ResolverChain</literal> consists of all permission resolvers discovered during
+          application deployment.  The <literal>org.jboss.seam.security.defaultResolverChainCreated</literal>
+          event is raised (and the <literal>ResolverChain</literal> instance passed as an event parameter) 
+          when the default <literal>ResolverChain</literal> is created.  This allows additional resolvers that
+          for some reason were not discovered during deployment to be added, or for resolvers that are in the 
+          chain to be re-ordered or removed.
+        </para>
       
-      <para>
-        The following sequence diagram shows the interaction between the components of the permission framework during a
-        permission check (explanation follows).  A permission check can originate from a number of possible sources,
-        for example - the security interceptor, the <literal>s:hasPermission</literal> EL function, or via an API
-        call to <literal>Identity.checkPermission</literal>:
-      </para>
+        <para>
+          The following sequence diagram shows the interaction between the components of the permission framework during a
+          permission check (explanation follows).  A permission check can originate from a number of possible sources,
+          for example - the security interceptor, the <literal>s:hasPermission</literal> EL function, or via an API
+          call to <literal>Identity.checkPermission</literal>:
+        </para>
+        
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/security-permission-sequence.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="images/security-permission-sequence.png" align="center"/>
+          </imageobject>
+        </mediaobject>         
       
-      <mediaobject>
-        <imageobject role="fo">
-          <imagedata fileref="images/security-permission-sequence.png" align="center"/>
-        </imageobject>
-        <imageobject role="html">
-          <imagedata fileref="images/security-permission-sequence.png" align="center"/>
-        </imageobject>
-      </mediaobject>         
-      
-      <itemizedlist>
-        <listitem>
-          <para>
-            1. A permission check is initiated somewhere (either in code or via an EL
-            expression) resulting in a call to <literal>Identity.hasPermission()</literal>.
-          </para>          
-        </listitem>
-        <listitem>
-          <para>
-            1.1. <literal>Identity</literal> invokes 
-            <literal>PermissionMapper.resolvePermission()</literal>, passing in the
-            permission to be resolved.
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-            1.1.1. <literal>PermissionMapper</literal> maintains a <literal>Map</literal> of 
-            <literal>ResolverChain</literal> instances, keyed by class.  It uses this map
-            to locate the correct <literal>ResolverChain</literal> for the permission's
-            target object.  Once it has the correct <literal>ResolverChain</literal>, it
-            retrieves the list of <literal>PermissionResolver</literal>s it contains via
-            a call to <literal>ResolverChain.getResolvers()</literal>.
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-            1.1.2. For each <literal>PermissionResolver</literal> in the <literal>ResolverChain</literal>,
-            the <literal>PermissionMapper</literal> invokes its <literal>hasPermission()</literal> method,
-            passing in the permission instance to be checked.  If any of the <literal>PermissionResolver</literal>s
-            return <literal>true</literal>, then the permission check has succeeded and the 
-            <literal>PermissionMapper</literal> also returns <literal>true</literal> to <literal>Identity</literal>.
-            If none of the <literal>PermissionResolver</literal>s return true, then the permission check
-            has failed.
-          </para>
-        </listitem>      
-      </itemizedlist>
+        <itemizedlist>
+          <listitem>
+            <para>
+              1. A permission check is initiated somewhere (either in code or via an EL
+              expression) resulting in a call to <literal>Identity.hasPermission()</literal>.
+            </para>          
+          </listitem>
+          <listitem>
+            <para>
+              1.1. <literal>Identity</literal> invokes 
+              <literal>PermissionMapper.resolvePermission()</literal>, passing in the
+              permission to be resolved.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              1.1.1. <literal>PermissionMapper</literal> maintains a <literal>Map</literal> of 
+              <literal>ResolverChain</literal> instances, keyed by class.  It uses this map
+              to locate the correct <literal>ResolverChain</literal> for the permission's
+              target object.  Once it has the correct <literal>ResolverChain</literal>, it
+              retrieves the list of <literal>PermissionResolver</literal>s it contains via
+              a call to <literal>ResolverChain.getResolvers()</literal>.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              1.1.2. For each <literal>PermissionResolver</literal> in the <literal>ResolverChain</literal>,
+              the <literal>PermissionMapper</literal> invokes its <literal>hasPermission()</literal> method,
+              passing in the permission instance to be checked.  If any of the <literal>PermissionResolver</literal>s
+              return <literal>true</literal>, then the permission check has succeeded and the 
+              <literal>PermissionMapper</literal> also returns <literal>true</literal> to <literal>Identity</literal>.
+              If none of the <literal>PermissionResolver</literal>s return true, then the permission check
+              has failed.
+            </para>
+          </listitem>      
+        </itemizedlist>
       </sect3>
       
     </sect2>
