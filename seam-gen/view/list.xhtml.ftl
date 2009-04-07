@@ -65,7 +65,7 @@
     </h:form>
 
     <rich:panel>
-        <f:facet name="header">${entityName} Search Results</f:facet>
+        <f:facet name="header">${entityName} Search Results (${'#'}{empty ${listName}.resultList ? 0 : (${listName}.paginated ? ${listName}.resultCount : ${listName}.resultList.size)})</f:facet>
     <div class="results" id="${componentName}List">
 
     <h:outputText value="The ${componentName} search returned no results."
