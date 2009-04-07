@@ -16,35 +16,33 @@
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.1.xsd
                  http://jboss.com/products/seam/async http://jboss.com/products/seam/async-2.1.xsd
                  http://jboss.com/products/seam/web http://jboss.com/products/seam/web-2.1.xsd
-                 http://jboss.com/products/seam/resteasy /home/jharting/jboss/workspace/Seam_trunk_working_copy/src/resteasy/org/jboss/seam/resteasy/resteasy-2.1.xsd
+                 http://jboss.com/products/seam/resteasy http://jboss.com/products/seam/resteasy-2.1.xsd
                  http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.1.xsd
                  http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.1.xsd">
-                 <!-- TODO change back the reference -->
 
     <core:init jndi-pattern="@jndiPattern@" debug="true"/>
- 
-    <core:manager conversation-timeout="120000" 
+
+    <core:manager conversation-timeout="120000"
                   concurrent-request-timeout="500"
                   conversation-id-parameter="cid"/>
-    
+
     <persistence:managed-persistence-context name="entityManager" auto-create="true"
-                persistence-unit-jndi-name="java:/restbayEntityManagerFactory"/>
+                                             persistence-unit-jndi-name="java:/restbayEntityManagerFactory"/>
 
     <async:quartz-dispatcher/>
 
     <framework:entity-home name="categoryHome"
-    entity-class="org.jboss.seam.example.restbay.Category"
-    auto-create="true" />
-    
-    <resteasy:application resource-path-prefix="/restv1">
-    </resteasy:application>
-    
-	<resteasy:resource-home path="/configuredCategory" name="configuredCategoryResourceHome"
-	entity-home="#{categoryHome}" entity-id-class="java.lang.Integer"
-	media-types="application/xml application/json" />
-	
-	<resteasy:resource-query path="/configuredCategory" name="configuredCategoryResourceQuery"
-	entity-class="org.jboss.seam.example.restbay.Category"
-	media-types="application/xml application/json"/>
+                           entity-class="org.jboss.seam.example.restbay.Category"
+                           auto-create="true"/>
+
+    <resteasy:application resource-path-prefix="/restv1"/>
+
+    <resteasy:resource-home path="/configuredCategory" name="configuredCategoryResourceHome"
+                            entity-home="#{categoryHome}" entity-id-class="java.lang.Integer"
+                            media-types="application/xml application/json"/>
+
+    <resteasy:resource-query path="/configuredCategory" name="configuredCategoryResourceQuery"
+                             entity-class="org.jboss.seam.example.restbay.Category"
+                             media-types="application/xml application/json"/>
 
 </components>
