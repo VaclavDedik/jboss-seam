@@ -10,6 +10,7 @@
    <param name="firstResult" value="${'#'}{${listName}.firstResult}"/>
    <param name="sort" value="${'#'}{${listName}.orderColumn}"/>
    <param name="dir" value="${'#'}{${listName}.orderDirection}"/>
+   <param name="logic" value="${'#'}{${listName}.restrictionLogicOperator}"/>
 
    <param name="from"/>
 <#foreach property in pojo.allPropertiesIterator>

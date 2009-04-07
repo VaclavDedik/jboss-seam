@@ -209,3 +209,15 @@ td.action a {
 	padding-left: 1px;
 	padding-right: 1px;
 }
+
+table.radio {
+   border: 0;
+}
+
+table.radio td {
+   padding: 0 2px;
+}
+
+table.radio input[type=radio] {
+   vertical-align: bottom;
+}

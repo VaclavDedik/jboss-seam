@@ -37,6 +37,8 @@ public abstract class Query<T, E>
 
    private static final String DIR_ASC = "asc";
    private static final String DIR_DESC = "desc";
+   private static final String LOGIC_OPERATOR_AND = "and";
+   private static final String LOGIC_OPERATOR_OR = "or";
 
    private String ejbql;
    private Integer firstResult;
@@ -45,7 +47,7 @@ public abstract class Query<T, E>
    private String order;
    private String orderColumn;
    private String orderDirection;
-   
+   private String restrictionLogicOperator;
    private String groupBy;
    
    private boolean useWildcardAsCountQuerySubject = true;
@@ -244,7 +246,7 @@ public abstract class Query<T, E>
          {
             if ( WHERE_PATTERN.matcher(builder).find() )
             {
-               builder.append(" and ");
+               builder.append(" ").append(getRestrictionLogicOperator()).append(" ");
             }
             else
             {
@@ -488,6 +490,30 @@ public abstract class Query<T, E>
        }
    }
    
+   public String getRestrictionLogicOperator()
+   {
+      return restrictionLogicOperator != null ? restrictionLogicOperator : LOGIC_OPERATOR_AND;
+   }
+   
+   public void setRestrictionLogicOperator(String operator)
+   {
+      restrictionLogicOperator = sanitizeRestrictionLogicOperator(operator);
+   }
+   
+   private String sanitizeRestrictionLogicOperator(String operator) {
+      if (operator == null || operator.trim().length() == 0)
+      {
+         return "and";
+      }
+      if (!(LOGIC_OPERATOR_AND.equals(operator) || LOGIC_OPERATOR_OR.equals(operator)))
+      {
+         throw new IllegalArgumentException("Invalid restriction logic operator: " + operator);
+      }
+      else
+      {
+         return operator;
+      }  
+   }
    protected List<ValueExpression> getQueryParameters()
    {
       return queryParameters;
