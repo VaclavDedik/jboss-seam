@@ -670,6 +670,7 @@
         </copy>
         <copy todir="${project.home}/resources">
             <fileset dir="${base.dir}/resources/">
+            	<include name="META-INF/orm.xml"/>
             	<include name="META-INF/persistence*-war.xml"/>
             	<include name="WEB-INF/jboss-web.xml"/>
             </fileset>
@@ -703,6 +704,7 @@
             	<include name="META-INF/application.xml"/>
             	<include name="META-INF/jboss-app.xml"/>
             	<include name="META-INF/ejb-jar.xml"/>
+            	<include name="META-INF/orm.xml"/>
             	<include name="META-INF/persistence*.xml"/>
             	<exclude name="META-INF/persistence*-war.xml"/>
             </fileset>
@@ -887,6 +889,16 @@
     	<echo message="Type 'seam explode' and go to http://localhost:8080/${project.name}"/>
     	<echo message="Eclipse Users: Add the project into Eclipse using File > New > Project and select General > Project (not Java Project)"/>
     	<echo message="NetBeans Users: Open the project in NetBeans"/>
+    </target>
+
+    <target name="update-seam" depends="validate-project,copyseam">
+        <echo message="Copying Seam to the ${project.home}/lib directory..." />
+        <copy todir="${project.home}/lib" overwrite="true">
+            <fileset dir="../lib">
+                <include name="jboss-seam.jar"/>
+                <include name="jboss-seam-*.jar"/>
+            </fileset>
+        </copy>
     </target>
 
     <target name="update-project" depends="validate-project,copy-lib"
