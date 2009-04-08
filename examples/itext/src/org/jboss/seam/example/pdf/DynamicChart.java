@@ -307,12 +307,11 @@ public class DynamicChart {
     }
     
     public void removeSeries(String id) {
-        System.out.println("REMOVE: " + id);
+        // System.out.println("REMOVE: " + id);
     }
     
     public void newSeries() {
         String newId = findUniqueSeriesId();
-        System.out.println("** series " + newId);
         Data set = new Data();
         set.setId(newId);
         

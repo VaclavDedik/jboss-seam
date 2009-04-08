@@ -16,8 +16,6 @@ public class SwingComponent
         } catch(Exception e) {
             System.out.println("Error setting Java LAF: " + e);
         }
-        
-        //System.out.println("** " + UIManager.getLookAndFeel());
     }
     
     public Component getLabel1() {
