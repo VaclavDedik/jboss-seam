@@ -41,8 +41,10 @@
         }
 
         function resetSessionTimeoutCheck() {
-            stopSessionTimeoutCheck();
-            startSessionTimeoutCheck();
+            if (sessionTimeoutInterval != null) {
+                stopSessionTimeoutCheck();
+                startSessionTimeoutCheck();
+            }
         }
 
         function alertTimeout(newSession) {
