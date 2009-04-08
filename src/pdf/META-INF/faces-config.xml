@@ -110,6 +110,10 @@
     </component>
 
     <component>
+        <component-type>org.jboss.seam.pdf.ui.UIAnyChart</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UIAnyChart</component-class>
+    </component>
+    <component>
         <component-type>org.jboss.seam.pdf.ui.UIBarChart</component-type>
         <component-class>org.jboss.seam.pdf.ui.UIBarChart</component-class>
     </component>

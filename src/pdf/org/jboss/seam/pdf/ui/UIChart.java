@@ -67,8 +67,7 @@ public abstract class UIChart extends ITextComponent {
     }
 
     public int getHeight() {
-        return (Integer) valueBinding(FacesContext.getCurrentInstance(),
-                "height", height);
+        return (Integer) valueBinding(FacesContext.getCurrentInstance(), "height", height);
     }
 
     public void setWidth(int width) {
@@ -76,8 +75,7 @@ public abstract class UIChart extends ITextComponent {
     }
 
     public int getWidth() {
-        return (Integer) valueBinding(FacesContext.getCurrentInstance(),
-                "width", width);
+        return (Integer) valueBinding(FacesContext.getCurrentInstance(), "width", width);
     }
 
     public void setLegend(boolean legend) {
@@ -101,8 +99,7 @@ public abstract class UIChart extends ITextComponent {
     }
 
     public String getBorderBackgroundPaint() {
-        return (String) valueBinding(FacesContext.getCurrentInstance(),
-                "borderBackgroundPaint", borderBackgroundPaint);
+        return (String) valueBinding(FacesContext.getCurrentInstance(), "borderBackgroundPaint", borderBackgroundPaint);
     }
 
     public void setBorderPaint(String borderPaint) {
@@ -110,8 +107,7 @@ public abstract class UIChart extends ITextComponent {
     }
 
     public String getBorderPaint() {
-        return (String) valueBinding(FacesContext.getCurrentInstance(),
-                "borderPaint", borderPaint);
+        return (String) valueBinding(FacesContext.getCurrentInstance(), "borderPaint", borderPaint);
     }
 
     public void setBorderStroke(String borderStroke) {
@@ -119,8 +115,7 @@ public abstract class UIChart extends ITextComponent {
     }
 
     public String getBorderStroke() {
-        return (String) valueBinding(FacesContext.getCurrentInstance(),
-                "borderStroke", borderStroke);
+        return (String) valueBinding(FacesContext.getCurrentInstance(), "borderStroke", borderStroke);
     }
 
     public void setBorderVisible(boolean borderVisible) {
@@ -128,8 +123,7 @@ public abstract class UIChart extends ITextComponent {
     }
 
     public boolean getBorderVisible() {
-        return (Boolean) valueBinding(FacesContext.getCurrentInstance(),
-                "borderVisible", borderVisible);
+        return (Boolean) valueBinding(FacesContext.getCurrentInstance(), "borderVisible", borderVisible);
     }
 
     public void setPlotBackgroundAlpha(Float plotBackgroundAlpha) {
@@ -137,8 +131,7 @@ public abstract class UIChart extends ITextComponent {
     }
 
     public Float getPlotBackgroundAlpha() {
-        return (Float) valueBinding(FacesContext.getCurrentInstance(),
-                "plotBackgroundAlpha", plotBackgroundAlpha);
+        return (Float) valueBinding(FacesContext.getCurrentInstance(), "plotBackgroundAlpha", plotBackgroundAlpha);
     }
 
     public void setPlotBackgroundPaint(String plotBackgroundPaint) {
@@ -146,8 +139,7 @@ public abstract class UIChart extends ITextComponent {
     }
 
     public String getPlotBackgroundPaint() {
-        return (String) valueBinding(FacesContext.getCurrentInstance(),
-                "plotBackgroundPaint", plotBackgroundPaint);
+        return (String) valueBinding(FacesContext.getCurrentInstance(), "plotBackgroundPaint", plotBackgroundPaint);
     }
 
     public void setPlotForegroundAlpha(Float plotForegroundAlpha) {
@@ -155,8 +147,7 @@ public abstract class UIChart extends ITextComponent {
     }
 
     public Float getPlotForegroundAlpha() {
-        return (Float) valueBinding(FacesContext.getCurrentInstance(),
-                "plotForegroundAlpha", plotForegroundAlpha);
+        return (Float) valueBinding(FacesContext.getCurrentInstance(), "plotForegroundAlpha", plotForegroundAlpha);
     }
 
     public void setPlotOutlinePaint(String plotOutlinePaint) {
@@ -164,8 +155,7 @@ public abstract class UIChart extends ITextComponent {
     }
 
     public String getPlotOutlinePaint() {
-        return (String) valueBinding(FacesContext.getCurrentInstance(),
-                "plotOutlinePaint", plotOutlinePaint);
+        return (String) valueBinding(FacesContext.getCurrentInstance(), "plotOutlinePaint", plotOutlinePaint);
     }
 
     public void setPlotOutlineStroke(String plotOutlineStroke) {
@@ -173,8 +163,7 @@ public abstract class UIChart extends ITextComponent {
     }
 
     public String getPlotOutlineStroke() {
-        return (String) valueBinding(FacesContext.getCurrentInstance(),
-                "plotOutlineStroke", plotOutlineStroke);
+        return (String) valueBinding(FacesContext.getCurrentInstance(), "plotOutlineStroke", plotOutlineStroke);
     }
 
     public void setDataset(Dataset dataset) {
@@ -182,10 +171,17 @@ public abstract class UIChart extends ITextComponent {
     }
 
     public Dataset getDataset() {
-        return (Dataset) valueBinding(FacesContext.getCurrentInstance(),
-                "dataset", dataset);
+        return (Dataset) valueBinding(FacesContext.getCurrentInstance(), "dataset", dataset);
     }
+    
+    public void setChart(JFreeChart chart) {
+       this.chart = chart;
+   }
 
+   public JFreeChart getChart() {
+       return (JFreeChart) valueBinding(FacesContext.getCurrentInstance(), "chart", chart);
+   }
+    
     @Override
     public void restoreState(FacesContext context, Object state) {
         Object[] values = (Object[]) state;
@@ -253,8 +249,7 @@ public abstract class UIChart extends ITextComponent {
             return null;
         }
 
-        UIComponent component = FacesContext.getCurrentInstance().getViewRoot()
-                .findComponent(id);
+        UIComponent component = FacesContext.getCurrentInstance().getViewRoot().findComponent(id);
 
         if (component instanceof UIStroke) {
             return ((UIStroke) component).getStroke();
@@ -265,10 +260,6 @@ public abstract class UIChart extends ITextComponent {
     }
 
     public abstract JFreeChart createChart(FacesContext context);
-
-    public JFreeChart getChart() {
-        return chart;
-    }
 
     @Override
     public void createITextObject(FacesContext context) {
@@ -357,7 +348,11 @@ public abstract class UIChart extends ITextComponent {
         if (dataset == null) {
             dataset = createDataset();
         }
-        chart = createChart(context);
+        
+        chart = getChart();
+        if (chart == null) {
+            chart = createChart(context);
+        }
     }
 
     @Override
