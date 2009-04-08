@@ -197,6 +197,7 @@ public class EventsTest extends DBUnitSeamTest
                 @Override
                 protected void renderResponse() throws Exception 
                 {
+		    Thread.sleep(1000);
                     assert ((Boolean)getValue("#{accountHome.idDefined}"));                
                     Account account = (Account) getValue("#{selectedAccount}");                
                     assert account !=null;
