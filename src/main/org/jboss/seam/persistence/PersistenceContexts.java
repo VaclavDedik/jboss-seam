@@ -36,7 +36,7 @@ public class PersistenceContexts extends AbstractMutable implements Serializable
    private static final LogProvider log = Logging.getLogProvider(PersistenceContexts.class);
    private Set<String> set = new HashSet<String>();
    private FlushModeType flushMode = FlushModeType.AUTO;
-   private FlushModeType actualFlushMode = FlushModeType.AUTO;
+   private FlushModeType originalFlushMode;
  
    public FlushModeType getFlushMode()
    {
@@ -69,11 +69,18 @@ public class PersistenceContexts extends AbstractMutable implements Serializable
          return null;
       }
    }
-   
+
    public void changeFlushMode(FlushModeType flushMode)
    {
+     changeFlushMode(flushMode, false);
+   }
+   
+   public void changeFlushMode(FlushModeType flushMode, boolean temporary)
+   {
+      if (temporary) {
+         this.originalFlushMode = this.flushMode;
+      }
       this.flushMode = flushMode;
-      this.actualFlushMode = flushMode;
       changeFlushModes();   
    }
 
@@ -102,13 +109,14 @@ public class PersistenceContexts extends AbstractMutable implements Serializable
       // some JPA providers may not support MANUAL flushing
       // defer the decision to the provider manager component
       PersistenceProvider.instance().setRenderFlushMode();
-      changeFlushModes();
    }
    
    public void afterRender()
    {
-      flushMode = actualFlushMode;
-      changeFlushModes();
+      if (originalFlushMode != null && originalFlushMode != flushMode) {
+         flushMode = originalFlushMode;
+         changeFlushModes();
+      }
    }
    
 }
