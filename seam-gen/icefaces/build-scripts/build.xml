@@ -81,6 +81,7 @@
                 <copy todir="${jar.dir}">
                         <fileset dir="${basedir}/resources">
                                 <include name="seam.properties" />
+                                <include name="*.drl" />
                         </fileset>
                 </copy>
                 <copy todir="${jar.dir}/META-INF">
@@ -137,9 +138,8 @@
                 <copy todir="${ear.dir}">
                         <fileset dir="${basedir}/resources">
                                 <include name="*jpdl.xml" />
-                                <include name="hibernate.cfg.xml" />
+                                <include name="*hibernate.cfg.xml" />
                                 <include name="jbpm.cfg.xml" />
-                                <include name="*.drl" />
                         </fileset>
                         <fileset dir="${lib.dir}">
                                 <include name="jboss-seam.jar" />
