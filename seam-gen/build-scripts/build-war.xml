@@ -441,7 +441,6 @@
             <path refid="build.classpath" />
         </path>
         <testng outputdir="${basedir}/test-report">
-            <jvmarg line="-Djava.endorsed.dirs=${endorsed.dir}"/>
             <jvmarg line="-Dsun.lang.ClassLoader.allowArraySyntax=true"/>
             <classpath refid="test.path" />
             <xmlfileset dir="${test.dir}" includes="*Test.xml" />
