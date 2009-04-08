@@ -181,8 +181,17 @@ public class WikiHttpSessionManager implements Serializable {
 
                 // Try to get the session with the smallest idle time
                 if (onlineUsernames.containsKey(username)) {
-                    if (session.getLastAccessedTime() > onlineUsernames.get(username).getLastAccessedTime()) {
-                        onlineUsernames.put(username, session);
+                    try {
+                        if (session.getLastAccessedTime() > onlineUsernames.get(username).getLastAccessedTime()) {
+                            onlineUsernames.put(username, session);
+                        }
+                    } catch (IllegalStateException ex) {
+                        // Just ignore that:
+                        /*
+                        Caused by: java.lang.IllegalStateException: getLastAccessedTime: Session already invalidated
+                        at org.apache.catalina.session.StandardSession.getLastAccessedTime(StandardSession.java:439)
+                        at org.apache.catalina.session.StandardSessionFacade.getLastAccessedTime(StandardSessionFacade.java:84)
+                         */
                     }
                 } else {
                     onlineUsernames.put(username, session);
