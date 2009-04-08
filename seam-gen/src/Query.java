@@ -19,6 +19,7 @@ public class @beanName@ extends EntityQuery<@entityName@>
         setMaxResults(25);
     }
 
+    // FIXME this causes the query to run over and over again
     @RequestParameter
     @Override
     public void setFirstResult(Integer firstResult) {
