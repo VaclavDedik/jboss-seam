@@ -42,11 +42,12 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		</fileset>
 	</path>
 
-	<target name="testall">
-		<antcall target="testall.jboss5" />
+	<target name="testall" description="Run functional testsuite based on container property">
+		<fail unless="container">Please set container property.</fail>
+		<antcall target="testall.${container}" />
 	</target>
 
-	<target name="testall.jboss4">
+	<target name="testall.jboss4" description="Run functional testsuite for JBoss 4">
 		<property name="container" value="jboss4" />
 		<antcall target="start.container.before.suite" />
 		<antcall target="start.selenium.server" />
@@ -83,7 +84,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<antcall target="stop.selenium.server" />
 	</target>
 	
-	<target name="testall.jboss5">
+	<target name="testall.jboss5" description="Run functional testsuite for JBoss 5">
 		<property name="container" value="jboss5" />
 		<antcall target="start.container.before.suite" />
 		<antcall target="start.selenium.server" />
@@ -120,7 +121,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<antcall target="stop.selenium.server" />
 	</target>
 
-	<target name="testall.jboss-embedded">
+	<target name="testall.jboss-embedded" description="Run functional testsuite for JBoss Embedded">
 		<property name="container" value="jboss-embedded" />
 		<antcall target="start.selenium.server" />
 		<!-- Execute tests for all examples on jboss-embedded -->
@@ -138,7 +139,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<antcall target="stop.selenium.server" />
 	</target>
 
-	<target name="testall.tomcat6">
+	<target name="testall.tomcat6" description="Run functional testsuite for Tomcat 6">
 
 		<property name="container" value="tomcat6" />
 		<antcall target="start.selenium.server" />
@@ -149,26 +150,27 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<antcall target="stop.selenium.server" />
 	</target>
 
-	<target name="test">
-		<antcall target="test.jboss5" />
+	<target name="test" description="Run tests for single example. Container selection is based on the value of container property">
+		<fail unless="container">Please set container property.</fail>
+		<antcall target="test.${container}" />
 	</target>
 
-	<target name="test.jboss4">
+	<target name="test.jboss4" description="Run tests for single example on JBoss 4">
 		<property name="container" value="jboss4" />
 		<antcall target="test.single.example" />
 	</target>
 	
-	<target name="test.jboss5">
+	<target name="test.jboss5" description="Run tests for single example on JBoss 5">
 		<property name="container" value="jboss5" />
 		<antcall target="test.single.example" />
 	</target>
 
-	<target name="test.tomcat6">
+	<target name="test.tomcat6" description="Run tests for single example on Tomcat 6">
 		<property name="container" value="tomcat6" />
 		<antcall target="test.single.example" />
 	</target>
 
-	<target name="test.jboss-embedded">
+	<target name="test.jboss-embedded" description="Run tests for single example on JBoss Embedded">
 		<property name="container" value="jboss-embedded" />
 		<antcall target="test.single.example" />
 	</target>
