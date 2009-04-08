@@ -1249,7 +1249,7 @@
         </copy>
         <replace file="${project.home}/view/layout/menu.xhtml">
             <replacetoken><![CDATA[<!-- @newMenuItem@ -->]]></replacetoken>
-            <replacevalue><![CDATA[<s:link view="/useradmin/home.xhtml" id="identityManagement" value="Identity Management" propagation="none" rendered="#{true or identity.hasRole('admin')}"/> <!-- temporarily enabled for all -->
+            <replacevalue><![CDATA[<s:link view="/useradmin/home.xhtml" id="identityManagement" value="Identity Management" propagation="none" rendered="#{true or identity.hasRole('admin')}"/><ui:remove><!-- temporarily enabled for all --></ui:remove>
     <!-- @newMenuItem@ -->]]></replacevalue>
         </replace>
         <replace file="${project.home}/resources/WEB-INF/components.xml">
