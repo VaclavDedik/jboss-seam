@@ -196,13 +196,18 @@
                 <term><literal>org.jboss.seam.ui.renderStampStore</literal></term>
                 <listitem>
                     <para>
-                        A component (session-scoped by default) responsible for maintaining
-                        a collection of render stamps. A render stamp is an indicator as
-                        to whether a form which was rendered has been submitted. This store
-                        is useful when the client-side state saving method of JSF is being
-                        used because it puts the determination of whether a form has been
-                        posted in the control of the server rather than in the component tree
-                        which is maintained on the client.
+                        A component (session-scoped by default) responsible for maintaining a
+                        collection of render stamps. A render stamp is an indicator as to whether a
+                        form which was rendered has been submitted. This store is useful when the
+                        client-side state saving method of JSF is being used because it puts the
+                        determination of whether a form has been posted in the control of the server
+                        rather than in the component tree which is maintained on the client.
+                    </para>
+                    <para>
+                        To unbind this check from the session (which is one of the main design goals
+                        of client-side state saving) an implementation must be provided that stores
+                        the render stamps in the application (valid as long as the application is
+                        running) or the database (valid across server restarts).
                     </para>
                     <itemizedlist>
                         <listitem>
