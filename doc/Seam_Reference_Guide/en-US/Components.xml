@@ -192,6 +192,28 @@
                     </para>
                 </listitem>
              </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.ui.renderStampStore</literal></term>
+                <listitem>
+                    <para>
+                        A component (session-scoped by default) responsible for maintaining
+                        a collection of render stamps. A render stamp is an indicator as
+                        to whether a form which was rendered has been submitted. This store
+                        is useful when the client-side state saving method of JSF is being
+                        used because it puts the determination of whether a form has been
+                        posted in the control of the server rather than in the component tree
+                        which is maintained on the client.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>maxSize</literal> &#8212; The maximum number of stamps
+                            to be kept in the store. Default: 100
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+             </varlistentry>
         </variablelist>
 
         <para>

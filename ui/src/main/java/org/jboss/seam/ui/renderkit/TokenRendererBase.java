@@ -10,6 +10,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.servlet.http.HttpSession;
 
+import org.jboss.seam.ui.RenderStampStore;
 import org.jboss.seam.ui.UnauthorizedCommandException;
 import org.jboss.seam.ui.component.UIToken;
 import org.jboss.seam.ui.util.HTML;
@@ -20,7 +21,10 @@ import org.jboss.seam.util.RandomStringUtils;
 /**
  * <p>
  * The <strong>TokenRendererBase</strong> renders the form's signature as a
- * hidden form field for the UIToken component.
+ * hidden form field for the UIToken component. If the renderStampStore
+ * component is enabled, the actually signature will be stored in the session
+ * and the key to this token store in the hidden form field, providing the same
+ * guarantee for client-side state saving as with server-side state saving.
  * </p>
  * 
  * <p>
@@ -41,18 +45,30 @@ import org.jboss.seam.util.RandomStringUtils;
  * sha1(signature = contextPath + viewId + &quot;,&quot; + formClientId + &quot;,&quot; + random alphanum + sessionId, salt = clientUid)
  * </pre>
  * 
- * <p>The decode method performs the following steps:</p>
+ * <p>
+ * The decode method performs the following steps:
+ * </p>
  * <ol>
- * <li>check if this is a postback, otherwise skip the check</li>
- * <li>check that this form was the one that was submitted, otherwise skip the check</li>
- * <li>get the unique client identifier (from cookie), otherwise throw an exception that the browser must have unique identifier</li>
- * <li>get the javax.faces.FormSignature request parameter, otherwise throw an exception that the form signature is missing</li>
- * <li>generate the hash as before and verify that it equals the value of the javax.faces.FormSignature request parameter, otherwise throw an exception</li>
+ * <li>Check if this is a postback, otherwise skip the check</li>
+ * <li>Check that this form was the one that was submitted, otherwise skip the
+ * check</li>
+ * <li>Get the unique client identifier (from cookie), otherwise throw an
+ * exception that the browser must have unique identifier</li>
+ * <li>Get the javax.faces.FormSignature request parameter, otherwise throw an
+ * exception that the form signature is missing</li>
+ * <li>If the renderStampStore component is enabled, retrieve the render stamp
+ * from the store using the key stored in the render stamp attribute of the form.</li>
+ * <li>Generate the hash as before and verify that it equals the value of the
+ * javax.faces.FormSignature request parameter, otherwise throw an exception</li>
  * </ol>
  * 
- * <p>If all of that passes, we are okay to process the form (advance to validate phase as decode() is called in apply request values).</p>
+ * <p>
+ * If all of that passes, we are okay to process the form (advance to validate
+ * phase as decode() is called in apply request values).
+ * </p>
  * 
  * @author Dan Allen
+ * @author Stuart Douglas
  * @see UnauthorizedCommandException
  */
 public class TokenRendererBase extends RendererBase
@@ -60,7 +76,7 @@ public class TokenRendererBase extends RendererBase
    public static final String FORM_SIGNATURE_PARAM = "javax.faces.FormSignature";
 
    public static final String RENDER_STAMP_ATTR = "javax.faces.RenderStamp";
-   
+
    private static final String COOKIE_CHECK_SCRIPT_KEY = "org.jboss.seam.ui.COOKIE_CHECK_SCRIPT";
 
    @Override
@@ -93,7 +109,12 @@ public class TokenRendererBase extends RendererBase
          {
             throw new UnauthorizedCommandException(viewId, "Form signature invalid");
          }
-
+         RenderStampStore store = RenderStampStore.instance();
+         if (store != null)
+         {
+            // remove the key from the store if we are using it
+            store.removeStamp(String.valueOf(form.getAttributes().get(RENDER_STAMP_ATTR)));
+         }
          form.getAttributes().remove(RENDER_STAMP_ATTR);
       }
    }
@@ -107,11 +128,23 @@ public class TokenRendererBase extends RendererBase
       {
          throw new IllegalStateException("UIToken must be inside a UIForm.");
       }
-      
+
+      String renderStamp = RandomStringUtils.randomAlphanumeric(50);
+      RenderStampStore store = RenderStampStore.instance();
+      if (store != null)
+      {
+         // if the store is not null we store the key
+         // instead of the actual stamp; this puts the
+         // server in control of this value rather than
+         // the component tree, which is owned by the client
+         // when using client-side state saving
+         renderStamp = store.storeStamp(renderStamp);
+      }
+
       writeCookieCheckScript(context, writer, token);
 
       token.getClientUidSelector().seed();
-      form.getAttributes().put(RENDER_STAMP_ATTR, RandomStringUtils.randomAlphanumeric(50));
+      form.getAttributes().put(RENDER_STAMP_ATTR, renderStamp);
       writer.startElement(HTML.INPUT_ELEM, component);
       writer.writeAttribute(HTML.TYPE_ATTR, HTML.INPUT_TYPE_HIDDEN, HTML.TYPE_ATTR);
       writer.writeAttribute(HTML.NAME_ATTR, FORM_SIGNATURE_PARAM, HTML.NAME_ATTR);
@@ -141,7 +174,16 @@ public class TokenRendererBase extends RendererBase
       String rawViewSignature = context.getExternalContext().getRequestContextPath() + "," + context.getViewRoot().getViewId() + "," + form.getClientId(context);
       if (useRenderStamp)
       {
-         rawViewSignature += "," + form.getAttributes().get(RENDER_STAMP_ATTR);
+         String renderStamp = form.getAttributes().get(RENDER_STAMP_ATTR).toString();
+         RenderStampStore store = RenderStampStore.instance();
+         if (store != null)
+         {
+            // if we are using the RenderStampStore the key to access the render
+            // stamp
+            // is stored in the view root instead of the actual render stamp
+            renderStamp = store.getStamp(renderStamp);
+         }
+         rawViewSignature += "," + renderStamp;
       }
       if (useSessionId)
       {
@@ -164,5 +206,5 @@ public class TokenRendererBase extends RendererBase
          return null;
       }
    }
-   
+
 }
