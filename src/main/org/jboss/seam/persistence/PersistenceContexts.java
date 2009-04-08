@@ -38,7 +38,8 @@ public class PersistenceContexts extends AbstractMutable implements Serializable
    private static final LogProvider log = Logging.getLogProvider(PersistenceContexts.class);
    private Set<String> set = new HashSet<String>();
    private FlushModeType flushMode;
-   private FlushModeType actualFlushMode;
+   // the real flush mode is a backup of the flush mode when doing a temporary switch (such as during render)
+   private FlushModeType realFlushMode;
  
    @Create
    public void create()
@@ -47,12 +48,10 @@ public class PersistenceContexts extends AbstractMutable implements Serializable
       if (defaultFlushMode != null)
       {
          flushMode = defaultFlushMode;
-         actualFlushMode = defaultFlushMode;
       }
       else
       {
          flushMode = FlushModeType.AUTO;
-         actualFlushMode = FlushModeType.AUTO;
       }
    }
    
@@ -90,9 +89,28 @@ public class PersistenceContexts extends AbstractMutable implements Serializable
    
    public void changeFlushMode(FlushModeType flushMode)
    {
+      changeFlushMode(flushMode, false);   
+   }
+
+   public void changeFlushMode(FlushModeType flushMode, boolean temporary)
+   {
+      if (temporary) {
+         realFlushMode = this.flushMode;
+      }
       this.flushMode = flushMode;
-      this.actualFlushMode = flushMode;
-      changeFlushModes();   
+      changeFlushModes();
+   }
+
+   /**
+    * Restore the previous flush mode if the current flush mode is marked 
+    * as temporary.
+    */
+   public void restoreFlushMode() {
+      if (realFlushMode != null && realFlushMode != flushMode) {
+         flushMode = realFlushMode;
+         realFlushMode = null;
+         changeFlushModes();
+      }
    }
 
    private void changeFlushModes()
@@ -120,13 +138,11 @@ public class PersistenceContexts extends AbstractMutable implements Serializable
       // some JPA providers may not support MANUAL flushing
       // defer the decision to the provider manager component
       PersistenceProvider.instance().setRenderFlushMode();
-      changeFlushModes();
    }
    
    public void afterRender()
    {
-      flushMode = actualFlushMode;
-      changeFlushModes();
+      restoreFlushMode();
    }
    
 }

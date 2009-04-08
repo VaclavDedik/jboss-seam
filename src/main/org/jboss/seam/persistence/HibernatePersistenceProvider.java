@@ -153,7 +153,7 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    @Override
    public void setRenderFlushMode()
    {
-      PersistenceContexts.instance().changeFlushMode(FlushModeType.MANUAL);
+      PersistenceContexts.instance().changeFlushMode(FlushModeType.MANUAL, true);
    }
 
    @Override

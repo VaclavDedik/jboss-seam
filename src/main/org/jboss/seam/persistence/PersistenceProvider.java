@@ -78,9 +78,11 @@ public class PersistenceProvider
    /**
     * <p>
     * Set the FlushMode the persistence contexts should use during rendering by
-    * calling {@link PersistenceContexts#changeFlushMode(FlushModeType)}. The
+    * calling {@link PersistenceContexts#changeFlushMode(FlushModeType, true)}. The
     * actual changing of the flush mode is handled by the
-    * {@link PersistenceContexts} instance.
+    * {@link PersistenceContexts} instance. The boolean argument should be true
+    * to indicate that this is a temporary change and that the old flush mode
+    * should be restored after render.
     * </p>
     * <p>
     * Ideally, this should be MANUAL since changes should never flush to the
