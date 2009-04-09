@@ -13,7 +13,7 @@ import org.jboss.seam.core.AbstractMutable;
  * Controls HttpSession invalidation in any
  * servlet or JSF environment. Since Seam
  * keeps internal state in the HttpSession,
- * is is illegal to call HttpSession.invalidate()
+ * it is illegal to call HttpSession.invalidate()
  * while Seam contexts are active.
  * 
  * Applications using Seam security should call
