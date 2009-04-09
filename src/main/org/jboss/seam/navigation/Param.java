@@ -264,7 +264,7 @@ public final class Param
             FacesMessage.SEVERITY_ERROR,
             INVALID_MESSAGE_ID,
             "'" + name + "' parameter is invalid: " + invalidValues[0].getMessage(),
-            new Object[] { invalidValues[0], name}
+            new Object[] { invalidValues[0], name }
       );
    }
 
