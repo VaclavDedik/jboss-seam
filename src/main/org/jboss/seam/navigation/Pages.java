@@ -1485,6 +1485,12 @@ public class Pages
          param.setValidatorValueExpression(Expressions.instance().createValueExpression(validatorExpression));
       }
       param.setRequired( Boolean.parseBoolean( element.attributeValue("required") ) );
+      String validateModelStr = element.attributeValue("validateModel");
+      if (validateModelStr != null)
+      {
+         param.setValidateModel(Boolean.parseBoolean(validateModelStr));
+      }
+      
       return param;
    }
    

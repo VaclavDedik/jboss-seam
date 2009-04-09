@@ -143,6 +143,7 @@
         <xs:attribute name="validator" type="xs:token" />
         <xs:attribute name="validatorId" type="xs:token" />
         <xs:attribute name="required" type="pages:tf-boolean"/>
+        <xs:attribute name="validateModel" default="true" type="pages:tf-boolean"/>
     </xs:attributeGroup>
     
     <xs:element name="header">

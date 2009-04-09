@@ -21,6 +21,10 @@
         <param name="personName" value="#{person.name}" required="true"/>
     </page>
 
+    <page view-id="/pageWithValidateModelDisabledParameter.xhtml">
+        <param name="personName" value="#{person.name}" validateModel="false"/>
+    </page>
+
     <exception class="org.jboss.seam.framework.EntityNotFoundException">
         <redirect view-id="/error.xhtml">
             <message>Not found</message>

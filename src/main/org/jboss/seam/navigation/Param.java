@@ -1,7 +1,6 @@
 package org.jboss.seam.navigation;
 
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import javax.el.ELContext;
 import javax.el.ELException;
@@ -13,7 +12,6 @@ import javax.faces.validator.ValidatorException;
 
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.SeamResourceBundle;
 import org.jboss.seam.core.Validators;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.faces.FacesMessages;
@@ -30,10 +28,14 @@ public final class Param
 {
    private static final LogProvider log = Logging.getLogProvider(Param.class);
    
+   public static final String INVALID_MESSAGE_ID = "org.jboss.seam.param.Invalid";
+   public static final String REQUIRED_MESSAGE_ID = "org.jboss.seam.param.Required";
+   
    private final String name;
    private ValueExpression valueExpression;
    
    private boolean required;
+   private boolean validateModel = true;
    
    private ValueExpression converterValueExpression;
    private String converterId;
@@ -233,7 +235,7 @@ public final class Param
          validator.validate( facesContext, facesContext.getViewRoot(), value );
       }
       
-      if (valueExpression!=null)
+      if (valueExpression!=null && validateModel)
       {
          //TODO: note that this code is duplicated from ModelValidator!!
          ELContext elContext = facesContext.getELContext();
@@ -258,22 +260,33 @@ public final class Param
 
    private FacesMessage createMessage(InvalidValue[] invalidValues)
    {
-      return FacesMessages.createFacesMessage( FacesMessage.SEVERITY_ERROR, invalidValues[0].getMessage() );
+      return FacesMessages.createFacesMessage(
+            FacesMessage.SEVERITY_ERROR,
+            INVALID_MESSAGE_ID,
+            "'" + name + "' parameter is invalid: " + invalidValues[0].getMessage(),
+            new Object[] { invalidValues[0], name}
+      );
    }
 
    private FacesMessage createMessage(Throwable cause)
    {
-      return new FacesMessage(FacesMessage.SEVERITY_ERROR, "model validation failed:" + cause, null);
+      return FacesMessages.createFacesMessage(
+            FacesMessage.SEVERITY_ERROR,
+            INVALID_MESSAGE_ID,
+            "'" + name + "' parameter is invalid: " + cause.getMessage(),
+            new Object[] { cause.getMessage(), name }
+      );
    }
 
    private void addRequiredMessage(FacesContext facesContext)
    {
-      ResourceBundle resourceBundle = SeamResourceBundle.getBundle();
-      throw new ValidatorException( new FacesMessage(
-               FacesMessage.SEVERITY_ERROR, 
-               resourceBundle.getString("javax.faces.component.UIInput.REQUIRED"), 
-               null
-            ) );
+      throw new ValidatorException(
+            FacesMessages.createFacesMessage(
+                FacesMessage.SEVERITY_ERROR,
+                REQUIRED_MESSAGE_ID,
+                "'" + name + "' parameter is required",
+                name)
+      );
    }
 
    public String getValidatorId()
@@ -304,6 +317,16 @@ public final class Param
    public void setRequired(boolean required)
    {
       this.required = required;
+   }
+
+   public boolean isValidateModel()
+   {
+      return validateModel;
+   }
+
+   public void setValidateModel(boolean validateModel)
+   {
+      this.validateModel = validateModel;
    }
    
 }

@@ -12,6 +12,7 @@ import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Interpolator;
+import org.jboss.seam.core.Locale;
 import org.jboss.seam.core.ResourceLoader;
 import org.jboss.seam.mock.MockApplication;
 import org.jboss.seam.mock.MockExternalContext;
@@ -74,6 +75,7 @@ public abstract class AbstractPageTest
       installComponent(appContext, Expressions.class);
       installComponent(appContext, Pages.class);
       installComponent(appContext, Interpolator.class);
+      installComponent(appContext, Locale.class);
    }
 
    /**
