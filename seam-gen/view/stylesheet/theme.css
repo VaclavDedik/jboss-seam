@@ -17,14 +17,18 @@ h1 {
 }
 
 input[type=submit], input[type=button] {
-	font-size: 10px;
+	font-size: 11px;
 	margin: 5px 5px 5px 0;
 	cursor: pointer;
 }
 
 input[type=text], input[type=password], textarea {
-	font-size: 11px;
+	font-size: 12px;
 	padding-left: 1px;
+}
+
+select {
+	font-size: 13px;
 }
 
 .tableControl, .actionButtons {
@@ -52,11 +56,6 @@ input[type=text], input[type=password], textarea {
 .body {
 	padding: 30px;
 }
-
-.columnHeader:hover {
-	color: #FF6600;
-}
-
 .message {
 	padding: 5px;
 	list-style: none;
@@ -108,7 +107,7 @@ input[type=text], input[type=password], textarea {
 }
 
 .errors {
-	color: red;
+	color: #FF0000;
 	vertical-align: middle;
 }
 
@@ -121,7 +120,7 @@ img.errors {
 }
 
 .required {
-	color: red;
+	color: #FF0000;
 	padding-left: 2px;
 }
 
@@ -130,15 +129,11 @@ img.errors {
 } 
 
 /* the specificity here is necessary to override the defaults */
+/*
 .rich-panel .rich-panel-header,
 .rich-stglpanel .rich-stglpanel-header {
 	padding: 2px 3px;
-}
-
-
-select {
-	font-size: 12px;
-}
+}*/
 
 .rich-panel input[type=submit], .rich-panel input[type=button],
 .rich-tabpanel input[type=submit], .rich-tabpanel input[type=button] {

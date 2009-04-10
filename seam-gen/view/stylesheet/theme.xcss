@@ -71,11 +71,9 @@
 	<u:selector name=".rich-toolbar a:hover">
 		<u:style name="color" skin="generalTextColor"/>
 	</u:selector>
-	<!--
-	<u:selector name=".rich-table-subheadercell a:link, .rich-table-subheadercell a:visited, .rich-table-subheadercell a:active">
-		<u:style name="color" skin="generalTextColor"/>
+	<u:selector name=".rich-toolbar .rich-menu-item, .rich-toolbar .rich-menu-item a, .rich-toolbar .rich-menu-item a:hover, .rich-toolbar .rich-menu-item a:visited">
+		<u:style name="color" skin="generalTextColor" />
 	</u:selector>
-	-->
 	<u:selector name=".rich-table-subheadercell a:hover">
 		<u:style name="color" skin="calendarHolidaysTextColor"/>
 	</u:selector>
