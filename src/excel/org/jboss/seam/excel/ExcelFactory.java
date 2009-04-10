@@ -6,6 +6,7 @@ import java.util.Map;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
@@ -21,6 +22,7 @@ import org.jboss.seam.util.Strings;
 @Name("org.jboss.seam.excel.excelFactory")
 @Scope(ScopeType.STATELESS)
 @AutoCreate
+@Install(precedence=Install.BUILT_IN)
 @BypassInterceptors
 public class ExcelFactory
 {
