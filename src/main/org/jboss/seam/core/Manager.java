@@ -765,12 +765,25 @@ public class Manager
    }
 
    /**
-    * Switch to another long-running conversation.
+    * Switch to another long-running conversation and mark the conversation as long-running,
+    * overriding a previous call in the same thread to demote a long-running conversation.
     * 
     * @param id the id of the conversation to switch to
     * @return true if the conversation exists
     */
    public boolean switchConversation(String id)
+   {
+      return switchConversation(id, true);
+   }
+
+   /**
+    * Switch to another long-running conversation.
+    * 
+    * @param id the id of the conversation to switch to
+    * @param promote promote the current conversation to long-running, overriding any previous demotion
+    * @return true if the conversation exists
+    */
+   public boolean switchConversation(String id, boolean promote)
    {
       ConversationEntry ce = ConversationEntries.instance().getConversationEntry(id);
       if (ce!=null)
@@ -780,7 +793,10 @@ public class Manager
             unlockConversation();
             setCurrentConversationId(id);
             setCurrentConversationIdStack( ce.getConversationIdStack() );
-            setLongRunningConversation(true);
+            if (promote)
+            {
+               setLongRunningConversation(true);
+            }
             return true;
          }
          else

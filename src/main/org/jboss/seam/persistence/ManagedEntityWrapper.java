@@ -233,7 +233,7 @@ public class ManagedEntityWrapper
          if (!currentCid.equals(residentCid))
          {
             Contexts.getConversationContext().flush();
-            Manager.instance().switchConversation(residentCid);
+            Manager.instance().switchConversation(residentCid, false);
             return currentCid;
          }
       }
@@ -246,7 +246,7 @@ public class ManagedEntityWrapper
       if (oldCid != null)
       {
          Contexts.getConversationContext().flush();
-         Manager.instance().switchConversation(oldCid);
+         Manager.instance().switchConversation(oldCid, false);
       }
    }
    
