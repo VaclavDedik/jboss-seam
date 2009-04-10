@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-03-03 21:51+0100\n"
+"PO-Revision-Date: 2009-04-10 11:17+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -148,7 +148,7 @@ msgstr "<title>Contesto Pagina</title>"
 #: Concepts.xml:91
 #, no-c-format
 msgid "The page context allows you to associate state with a particular instance of a rendered page. You can initialize state in your event listener, or while actually rendering the page, and then have access to it from any event that originates from that page. This is especially useful for functionality like clickable lists, where the list is backed by changing data on the server side. The state is actually serialized to the client, so this construct is extremely robust with respect to multi-window operation and the back button."
-msgstr ""
+msgstr "Il contesto pagina consente di associare lo stato con una particolare istanza di una pagina renderizzata. Si può inizializzare lo stato nell'event listener, o durante il rendering della pagina, e poi avere ad esso accesso da qualsiasi evento che ha origine dalla pagina. Questo è utile per funzionalità quali le liste cliccabili, dove dietro alla lista sono associati dati che cambiamo lato server. Lo stato è in verità serializzato al client, e quindi questo costrutto è estremamente robusto rispetto alle operazioni multi-finestra e al pulsante indietro."
 
 #. Tag: title
 #: Concepts.xml:102
@@ -160,7 +160,7 @@ msgstr "<title>Contesto Conversazione</title>"
 #: Concepts.xml:103
 #, no-c-format
 msgid "The conversation context is a truly central concept in Seam. A <emphasis>conversation</emphasis> is a unit of work from the point of view of the user. It might span several interactions with the user, several requests, and several database transactions. But to the user, a conversation solves a single problem. For example, \"book hotel\", \"approve contract\", \"create order\" are all conversations. You might like to think of a conversation implementing a single \"use case\" or \"user story\", but the relationship is not necessarily quite exact."
-msgstr ""
+msgstr "Il contesto conversazione è un concetto fondamentale in Seam. Una <emphasis>conversazione</emphasis> è una unità di lavoro dal punto di vista dell'utente. Può dar vita a diverse interazioni con l'utente, diverse richieste, e diverse transazioni di database. Ma per l'utente, una conversazione risolve un singolo problema. Per esempio, \"Prenota hotel\", \"Approva contratto\", \"Crea ordine\" sono tutte conversazioni. Si può pensare alla conversazione come all'implementazione di un singolo \"caso d'uso\" o \"user story\", ma la relazione non è esattamente uguale."
 
 #. Tag: para
 #: Concepts.xml:111
