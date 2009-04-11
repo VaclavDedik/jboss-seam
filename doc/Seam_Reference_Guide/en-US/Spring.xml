@@ -5,7 +5,7 @@
 
     <title>Spring Framework integration</title>
 
-    <para>The Spring integration module allows easy migration of Spring-based projects to Seam and allows Spring
+    <para>The Spring integration (part of the Seam IoC module) allows easy migration of Spring-based projects to Seam and allows Spring
         applications to take advantage of key Seam features like conversations and Seam's more sophisticated persistence
         context management.</para>
 
