@@ -10,6 +10,10 @@ example.name=dvdstore
 The source files in this example are just the overrides needed to utilize
 metawidget. Before the example is built, these overrides are merged with the
 original dvdstore source code in a staging directory. This step is performed
-by following command, which is automatically called on any Ant build:
+by following command:
 
   ant stage
+
+The stage command is automatically called on any Ant build, so you can simply run:
+
+  ant explode
