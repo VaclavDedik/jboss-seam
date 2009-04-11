@@ -31,6 +31,7 @@
     <xi:include href="Remoting.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="Gwt.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="Spring.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="Guice.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="Hsearch.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="Configuration.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="Annotations.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />

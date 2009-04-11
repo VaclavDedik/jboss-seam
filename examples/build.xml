@@ -232,6 +232,12 @@
 		<include name="slf4j-log4j12.jar" if="seam.resteasy.lib" />
 	</fileset>
 
+    <!-- Seam IoC Guice, with required dependencies -->
+    <fileset id="seam.ioc-guice.jar" dir="${lib.dir}">
+        <include name="jboss-seam-ioc.jar" if="seam.ioc-guice.lib" />
+        <include name="guice.jar" if="seam.ioc-guice.lib" />
+    </fileset>
+
 	<!-- jboss-el -->
 	<fileset id="jboss-el.jar" dir="${lib.dir}">
 		<include name="jboss-el.jar" />
@@ -749,6 +755,7 @@
 			<fileset refid="seam.wicket.jar" />
 			<fileset refid="seam.resteasy.jar" />
 			<fileset refid="seam.remoting.jar" />
+			<fileset refid="seam.ioc-guice.jar" />
 			<fileset refid="el-ri.jar" />
 			<fileset refid="trinidad-api.jar" />
 			<fileset refid="metawidget-backend.jar" />

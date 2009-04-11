@@ -53,6 +53,12 @@
       <scope>provided</scope>
     </dependency>
 
+    <dependency>
+      <groupId>com.google.code.guice</groupId>
+      <artifactId>guice</artifactId>
+      <optional>true</optional>
+    </dependency>
+
    <!-- Microcontainer stuff isn't done -->
 
     <!-- <dependency>

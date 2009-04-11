@@ -461,6 +461,7 @@
 		<cleanexample name="restbay" />
 		<cleanexample name="nestedbooking" />
 		<cleanexample name="wicket" />
+		<cleanexample name="guice" />
 	</target>
 
 	<target name="undeployexamples" description="Undeploy all examples">
@@ -496,6 +497,7 @@
 		<undeployexample name="restbay" />
 		<undeployexample name="nestedbooking" />
 		<undeployexample name="wicket" />
+		<undeployexample name="guice" />
 	</target>
 
 	<target name="testexamples" description="Run the example tests">
@@ -522,6 +524,7 @@
 		<testexample name="hibernate" />
 		<testexample name="jpa" />
 		<testexample name="quartz" />
+		<testexample name="guice" />
 		<ant dir="examples/wiki" target="test" inheritall="false">
 			<property name="test.output.dir" value="${test.dir}/wiki" />
 		</ant>
@@ -567,6 +570,7 @@
 		<ant dir="examples/todo" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/ui" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/wicket" target="validateConfiguration" inheritall="false" />		
+		<ant dir="examples/guice" target="validateConfiguration" inheritall="false" />		
 		
 	</target>
 
