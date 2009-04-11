@@ -1,45 +1,42 @@
 package org.jboss.seam.example.ui;
 
-import java.io.Serializable;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
 import javax.persistence.EntityManager;
 
-import org.jboss.seam.annotations.In;
+import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Transactional;
+import org.jboss.seam.annotations.faces.Converter;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 
 @Name("filmConverter")
-@org.jboss.seam.annotations.faces.Converter(forClass=Film.class)
+@Converter(forClass = Film.class)
 @BypassInterceptors
-public class FilmConverter implements Converter, Serializable
+public class FilmConverter implements javax.faces.convert.Converter
 {
    
-   @In
-   private EntityManager entityManager;
-
-   @Transactional
    public Object getAsObject(FacesContext context, UIComponent component, String value)
    {
+      
+      EntityManager entityManager = (EntityManager) Component.getInstance("entityManager");
+      
       if (value != null)
       {
-         try 
+         try
          {
             Integer id = Integer.parseInt(value);
             if (id != null)
             {
                return entityManager.find(Film.class, id);
             }
-         } 
-         catch (NumberFormatException e) {
+         }
+         catch (NumberFormatException e)
+         {
          }
       }
-      return null;     
+      return null;
    }
-
+   
    public String getAsString(FacesContext context, UIComponent component, Object value)
    {
       if (value instanceof Film)
@@ -52,5 +49,5 @@ public class FilmConverter implements Converter, Serializable
          return null;
       }
    }
-
+   
 }
