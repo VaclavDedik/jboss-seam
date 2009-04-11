@@ -319,9 +319,13 @@ public class Initialization
 			   }
 
 			   try {
-				   //get the class implied by the namespaced XML element name
-				   Class<Object> clazz = Reflections.classForName(className);
-				   Name nameAnnotation = clazz.getAnnotation(Name.class);
+               Class<Object> clazz = null;
+               Name nameAnnotation = null;
+               if (className != null) {
+				       //get the class implied by the namespaced XML element name
+				       clazz = Reflections.classForName(className);
+				       nameAnnotation = clazz.getAnnotation(Name.class);
+               }
 
 				   //if the name attribute is not explicitly specified in the XML,
 				   //imply the name from the @Name annotation on the class implied
