@@ -5,7 +5,7 @@ drools-core.jar
 groovy-all.jar
 janino.jar
 jboss-el.jar
+jboss-seam-remoting.jar
 jbpm-jpdl.jar
 mvel14.jar
 richfaces-api.jar
-jboss-seam-remoting.jar

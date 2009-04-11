@@ -70,6 +70,27 @@
          <scope>runtime</scope>
       </dependency>
 
+      <dependency>
+         <groupId>org.richfaces.samples</groupId>
+         <artifactId>darkX</artifactId>
+         <scope>runtime</scope>
+         <version>${version.richfaces}</version>
+      </dependency>
+
+      <dependency>
+         <groupId>org.richfaces.samples</groupId>
+         <artifactId>glassX</artifactId>
+         <scope>runtime</scope>
+         <version>${version.richfaces}</version>
+      </dependency>
+
+      <dependency>
+         <groupId>org.richfaces.samples</groupId>
+         <artifactId>laguna</artifactId>
+         <scope>runtime</scope>
+         <version>${version.richfaces}</version>
+      </dependency>
+
    </dependencies>
 
 
