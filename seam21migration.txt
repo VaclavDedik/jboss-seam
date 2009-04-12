@@ -73,15 +73,54 @@ Security
 --------
 
 If you are using rule-based security in your project, the configuration for the 
-security rules in components.xml has changed.  Previously, the rules were configured
-as a property of the Identity component as such:
+security rules in components.xml has changed. Previously, the rules were configured
+as a property of the identity component as such:
 
   <security:identity security-rules="#{securityRules}" authenticate-method="#{authenticator.authenticate}"/>
   
-In Seam 2.1, rule-based permission checks are now carried out by the RuleBasedPermissionResolver,
-requiring that it is configured with the security rules instead of Identity:
+In Seam 2.1, rule-based permission checks are now carried out by the ruleBasedPermissionResolver
+component. You must activate this component and register the security rules with it instead of the
+identity component:
 
   <security:rule-based-permission-resolver security-rules="#{securityRules}"/>
+
+IMPORTANT! The definition of a permission has also changed. Prior to Seam 2.1, a permission
+consisted of three elements:
+
+ * name
+ * action
+ * contextual object (optional)
+
+The name would typically be the Seam component name, entity class, or view ID. The action would be
+the method name, the JSF phase (restore or render), or an assigned term representing the intent of
+the activity. Finally, one or more contextual objects could be inserted directly into the working
+memory to help make the decision, typically the target of the activity.
+
+For example: s:hasPermission('userManager', 'edit', user)
+
+In Seam 2.1, a permission has been simplified to just two elements:
+
+ * target
+ * action
+
+In place of the nebulous name element, the target becomes the focus of the permission. The action
+continues to communicate the intent of the activity being secured. Inside the rules file, most of the
+checking now revolves around the target object.
+
+For example: s:hasPermission(user, 'edit')
+
+This change makes the rules more generally applicable. It also allows Seam to consult a persistent
+permission resolver (ACL) in addition to the rule-based resolver.
+
+Be aware that existing rules may behave oddly. That's because given the following permission check:
+
+  s:hasPermission('userManager', 'edit', user)
+
+Seam will transpose as follows to bring it inline with the new design.
+
+  s:hasPemrission(user, 'edit')
+
+Please read the new chapter on security for all the details about this new design.
   
 Identity.isLoggedIn()
 ---------------------
