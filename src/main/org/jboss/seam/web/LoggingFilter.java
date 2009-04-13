@@ -17,6 +17,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.web.Filter;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.Credentials;
 
 /**
  * This filter adds the authenticated user name to the log4j
@@ -47,7 +48,8 @@ public class LoggingFilter extends AbstractFilter
          if (attribute instanceof Identity) 
          {
              Identity identity = (Identity) attribute;
-             String username = identity.getUsername();
+             Credentials credentials = identity.getCredentials();
+             String username = credentials != null ? credentials.getUsername() : null;
              if (username != null) 
              {
                  MDC.put("username", username);
