@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-03-31 09:07+0000\n"
-"PO-Revision-Date: 2009-03-31 11:16+0100\n"
+"PO-Revision-Date: 2009-04-13 22:30+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -96,7 +96,7 @@ msgstr "I due modelli di navigazione"
 #: Jbpm.xml:88
 #, no-c-format
 msgid "The stateless model defines a mapping from a set of named, logical outcomes of an event directly to the resulting page of the view. The navigation rules are entirely oblivious to any state held by the application other than what page was the source of the event. This means that your action listener methods must sometimes make decisions about the page flow, since only they have access to the current state of the application."
-msgstr "Il modello stateless definisce una mappatura tra un set di esiti di un evento e la pagina della vista. Le regole di navigazione sono interamente senza memoria rispetto alla stato mantenuto dall'applicazione oltre che alla pagina origine dell'evento. Questo significa che i metodi dell'action listener devono di tanto in tanto prendere decisioni sul pageflow, poiché solo loro hanno accesso allo stato corrente dell'applicazione."
+msgstr "Il modello stateless definisce una mappatura tra un set di esiti di un evento e la pagina della vista. Le regole di navigazione sono interamente senza memoria rispetto allo stato mantenuto dall'applicazione oltre che alla pagina origine dell'evento. Questo significa che i metodi dell'action listener devono di tanto in tanto prendere decisioni sul pageflow, poiché solo loro hanno accesso allo stato corrente dell'applicazione."
 
 #. Tag: para
 #: Jbpm.xml:98

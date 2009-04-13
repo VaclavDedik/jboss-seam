@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-01-18 16:22+0100\n"
+"PO-Revision-Date: 2009-04-13 22:31+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -25,12 +25,11 @@ msgstr "Asincronicità e messaggistica"
 msgid "Seam makes it very easy to perform work asynchronously from a web request. When most people think of asynchronicity in Java EE, they think of using JMS. This is certainly one way to approach the problem in Seam, and is the right way when you have strict and well-defined quality of service requirements. Seam makes it easy to send and receive JMS messages using Seam components."
 msgstr "Seam semplifica molto l'esecuzione di lavori asincroni da richiesta web. Quando la maggior parte delle persone pensa all'asincronicità in Java EE, pensano all'uso di JMS. Questo è certamente un modo per approcciare il problema in Seam, ed è quello giusto quando si hanno dei requisiti di qualità di servizio molto stringenti e ben definiti. Seam semplifica l'invio e la ricezione di messaggi JMS usando i componenti Seam."
 
-# rivedere la frase.
 #. Tag: para
 #: Jms.xml:11
 #, no-c-format
 msgid "But for many use cases, JMS is overkill. Seam layers a simple asynchronous method and event facility over your choice of <emphasis>dispatchers</emphasis>:"
-msgstr "Ma per molti casi d'uso, JMS è eccessivo. Seam aggiunge come nuovo layer un semplice metodo asincrono ed un meccanismo d'eventi sulla scelta del <emphasis>dispatcher</emphasis>:"
+msgstr "Ma per molti casi d'uso, JMS è eccessivo. Seam aggiunge come nuovo layer un semplice metodo asincrono ed un meccanismo d'eventi nella scelta del <emphasis>dispatcher</emphasis>:"
 
 #. Tag: para
 #: Jms.xml:18
