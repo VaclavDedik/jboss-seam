@@ -33,7 +33,15 @@
          installed before starting.
       </para>
 
-      <para>TODO - detail where the update sites are.</para>
+      <para>
+         Please see the official <ulink
+         url="http://www.jboss.org/tools/download/installation">JBoss Tools
+         installation</para> page for the quickest way to get JBoss Tools setup
+         in Eclipse. You can also check out the <ulink
+         url="http://www.jboss.org/community/wiki/InstallingJBossTools">Installing
+         JBoss Tools</ulink> page on the JBoss community wiki for the gory
+         details and a set of alternative installation approaches.
+      </para>
 
    </section>
 
