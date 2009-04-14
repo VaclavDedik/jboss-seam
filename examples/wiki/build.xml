@@ -111,7 +111,10 @@
 
     <!-- ################## SETUP ####################### -->
 
-    <target name="init" depends="copyseam,copyseamdependencies" description="Initialize the project build">
+    <target name="initseam" depends="copyseam,copyseamdependencies"
+            description="Copy seam dependencies/libs"/>
+
+    <target name="init" description="Initialize the project build">
         <mkdir dir="${classes.dir}"/>
         <mkdir dir="${testclasses.dir}"/>
         <mkdir dir="${exploded.war.dir}"/>
@@ -155,7 +158,7 @@
 
     <!-- ################## COMPILE ####################### -->
 
-    <target name="compileclasses" depends="init"
+    <target name="compileclasses"
             description="Compile the main Java source code">
 
         <javac classpathref="build.classpath"
@@ -192,31 +195,14 @@
 
     <!-- ################## EXPLODE ####################### -->
 
-    <target name="explodewar" depends="explodehotdeploy, exploderesources, copydatasets"
+    <target name="explodewar" depends="explodeclasses, exploderesources, copydatasets"
             description="Creates a hot-redeployable exploded WAR directory">
     </target>
 
-    <target name="explodehotdeploy" depends="compileclasses">
+    <target name="explodeclasses" depends="compileclasses">
 
         <mkdir dir="${exploded.war.dir}/WEB-INF/classes"/>
         <mkdir dir="${exploded.war.dir}/WEB-INF/dev"/>
-
-        <!-- ########## Classes ########### -->
-        <copy todir="${exploded.war.dir}/WEB-INF/classes">
-            <fileset dir="${classes.dir}" excludes="${hotdeploy.classes}"/>
-        </copy>
-        <copy todir="${exploded.war.dir}/WEB-INF/dev">
-            <fileset dir="${classes.dir}" includes="${hotdeploy.classes}"/>
-        </copy>
-
-        <!-- ########## XHTML ########### -->
-        <copy todir="${exploded.war.dir}">
-            <fileset dir="${view.dir}"/>
-        </copy>
-
-    </target>
-
-    <target name="exploderegular" depends="compileclasses">
 
         <!-- ########## Classes ########### -->
         <copy todir="${exploded.war.dir}/WEB-INF/classes">
@@ -324,24 +310,8 @@
 
     <!-- ################## DEPLOYMENT ####################### -->
 
-    <target name="hotdeploy" depends="explodehotdeploy"
-            description="Deploys only hotdeployable resources (call in IDE after compile)">
-        <fail unless="jboss.home">jboss.home not set</fail>
-
-        <!-- ######## Classes ######## -->
-        <copy todir="${deploy.war.dir}/WEB-INF/dev">
-            <fileset dir="${exploded.war.dir}/WEB-INF/dev"/>
-        </copy>
-
-        <!-- ######## XHTML ######## -->
-        <copy todir="${deploy.war.dir}">
-            <fileset dir="${exploded.war.dir}" excludes="WEB-INF/**"/>
-        </copy>
-
-    </target>
-
-    <target name="deploy" depends="explodewar"
-            description="Deploy datasource and exploded WAR to JBoss AS">
+    <target name="deploynoseaminit" depends="init, explodewar"
+            description="Deploy without copying Seam dependencies">
         <fail unless="jboss.home">jboss.home not set</fail>
 
         <!-- ######## Datasoure ######## -->
@@ -358,6 +328,9 @@
 
     </target>
 
+    <target name="deploy" depends="initseam, deploynoseaminit"
+            description="Deploy datasource and exploded WAR to JBoss AS"/>
+
     <target name="undeploy"
             description="Undeploy datasource and exploded WAR">
         <fail unless="jboss.home">jboss.home not set</fail>
@@ -367,7 +340,7 @@
 
     </target>
 
-    <target name="redeploy" depends="deploy" description="Deploy and restart the WAR">
+    <target name="redeploy" depends="deploynoseaminit" description="Deploy and restart the WAR">
         <touch file="${deploy.war.dir}/WEB-INF/web.xml"/>
     </target>
 
@@ -376,8 +349,8 @@
 
     <!-- ######################## DISTRIBUTION ################## -->
 
-    <target name="dist" depends="clean, exploderegular, exploderesources"
-            description="Package a (non-hotdeploy) WAR archive">
+    <target name="dist" depends="clean, init, explodeclasses, exploderesources"
+            description="Package a WAR archive">
 
         <delete dir="${wiki.dist.dir}"/>
         <mkdir dir="${wiki.dist.dir}"/>
@@ -416,7 +389,7 @@
 
     <!-- ######################## TESTS ################## -->
 
-    <target name="compiletests" depends="clean, compileclasses, copyjbossembedded,getemma"
+    <target name="compiletests" depends="clean, initseam, init, compileclasses, copyjbossembedded,getemma"
             description="Compile the test Java source code">
 
         <javac classpathref="test.classpath"
