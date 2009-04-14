@@ -130,15 +130,6 @@ public class JavassistInstrumentor implements ClassFileTransformer
    {
       this.classPool = classPool;
       this.scanAnnotations = scanAnnotations;
-      
-      try
-      {
-         instrumentedComponent = classPool.get(InstrumentedComponent.class.getName());
-      }
-      catch (NotFoundException e)
-      {
-         throw new RuntimeException(e);
-      }
    }
 
    public JavassistInstrumentor(ClassPool classPool, Set<String> packagesToInstrument, boolean scanAnnotations)
@@ -197,7 +188,7 @@ public class JavassistInstrumentor implements ClassFileTransformer
 
       CtClass exception = classPool.get(Exception.class.getName());
 
-      implementation.addInterface(instrumentedComponent);
+      implementation.addInterface(getInstrumentedComponentInterface());
       CtMethod getHandlerMethod = CtNewMethod.getter("getHandler", handlerField);
       CtMethod getEnclosingInstance = CtNewMethod.make("public " + InstrumentedComponent.class.getName() + " getEnclosingInstance() { return handler == null ? null : handler.getEnclosingInstance(this); }", implementation);
       implementation.addMethod(getEnclosingInstance);
@@ -427,7 +418,7 @@ public class JavassistInstrumentor implements ClassFileTransformer
          // can't use 'isSubtype' because the superclass may be instrumented
          // while we are not
          for (String inf : clazz.getClassFile2().getInterfaces())
-            if (inf.equals(instrumentedComponent.getName()))
+            if (inf.equals(getInstrumentedComponentInterface().getName()))
                return false;
       }
       catch (Exception e)
@@ -439,6 +430,26 @@ public class JavassistInstrumentor implements ClassFileTransformer
    }
 
    /**
+    * We have to look this up lazily because when our constructor is called we may not have the appropriate paths added to our ClassPool,
+    * particularly if we are doing runtime instrumentation using WEB-INF/wicket
+    */
+   private CtClass getInstrumentedComponentInterface() 
+   {
+      if (instrumentedComponent == null)
+      {
+         try
+         {
+            instrumentedComponent = classPool.get(InstrumentedComponent.class.getName());
+         }
+         catch (NotFoundException e)
+         {
+            throw new RuntimeException(e);
+         }
+      }
+      return instrumentedComponent;
+   }
+   
+   /**
     * This is the implementation of the ClassFileTransformer interface.  
     * @see java.lang.instrument.ClassFileTransformer
     */
@@ -448,22 +459,35 @@ public class JavassistInstrumentor implements ClassFileTransformer
       if (index < 1)
          return null;
       String packageName = className.substring(0, index);
-      if (!packagesToInstrument.contains(packageName) || className.contains("_javassist_"))
-      {
-         return null;
-      }
-      try
-      {
-         CtClass result = instrumentClass(classfileBuffer);
-         if (result == null)
-            return null;
-         else
-            return result.toBytecode();
-      }
-      catch (Exception e)
-      {
-         throw new RuntimeException(e);
-      }
+      do 
+      { 
+         if (packagesToInstrument.contains(packageName) && !className.contains("_javassist_"))
+         {
+            try
+            {
+               CtClass result = instrumentClass(classfileBuffer);
+               if (result == null)
+                  return null;
+               else
+                  return result.toBytecode();
+            }
+            catch (Exception e)
+            {
+               throw new RuntimeException(e);
+            }
+         }
+         index = packageName.lastIndexOf('/');
+         if (index < 1)
+         {
+            packageName = "";
+         }
+         else 
+         {
+            packageName = packageName.substring(0,index);
+         }
+      } while (packageName.length() > 0);
+      
+      return null;
    }
 
    /**
