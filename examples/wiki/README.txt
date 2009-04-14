@@ -85,37 +85,15 @@ to change this setting, unpack the WAR and change the META-INF/persistence.xml c
 INSTALLATION WITH UNICODE SUPPORT ON MYSQL
 ==========================================================================================
 
-If you want to use any non-latin characters, create the MySQL database you want to use (or
-drop and recreate the default 'test' database) with the following options:
-
-      CREATE DATABASE test CHARACTER SET utf8 COLLATE utf8_general_ci;
-
-Your database should at least have the 'character_set_database' variable set to 'utf8':
-
-  mysql> show variables like '%character%';
-  +--------------------------+------------------------------------------------------------+
-  | Variable_name            | Value                                                      |
-  +--------------------------+------------------------------------------------------------+
-  | character_set_client     | latin1                                                     |
-  | character_set_connection | latin1                                                     |
-  | character_set_database   | utf8                                                       |
-  | character_set_filesystem | binary                                                     |
-  | character_set_results    | latin1                                                     |
-  | character_set_server     | latin1                                                     |
-  | character_set_system     | utf8                                                       |
-  | character_sets_dir       | /usr/local/mysql-5.0.45-osx10.4-i686/share/mysql/charsets/ |
-  +--------------------------+------------------------------------------------------------+
-
-If you keep the default latin1 encoding, exceptions will be thrown by the application as
-soon as you try to store any non-latin character.
+The database tables in wiki-ddl.sql are automatically created with UTF8 support.
 
 Note that due to URL rewriting rules, stored wiki items (documents, uploaded files) MUST have
 at least three latin1 characters in their name! The application will prompt you with a validation
 error message when you forget that limitation and enter only non-latin1 characters in a form.
 
-The wiki search engine passes search terms as request parameters in the URI. If you require
-unicode support for search terms, you need to set an option in Tomcat to enable the correct
-decoding of URL-encoded request parameter values to UTF-8. To do that, edit
+Furthermore, the wiki search engine passes search terms as request parameters in the URI and allows bookmarking
+of search terms. If you  require unicode support for search terms, you need to set an option in Tomcat to
+enable the correct decoding of URL-encoded request parameter values to UTF-8. To do that, edit
 
   ${JBOSS_HOME}/server/(default)/deploy/jboss-web.deployer/server.xml
 
@@ -124,5 +102,4 @@ and add
   URIEncoding="UTF-8"
 
 to the <connector> declaration.
-
 
