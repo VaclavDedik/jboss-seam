@@ -43,7 +43,6 @@ public class CommentQuery implements Serializable {
     }
 
     @Observer(value = {
-            "PersistenceContext.filterReset",
             "PreferenceComponent.refresh.commentsPreferences",
             "Comment.commentListRefresh"
             }, create = false)

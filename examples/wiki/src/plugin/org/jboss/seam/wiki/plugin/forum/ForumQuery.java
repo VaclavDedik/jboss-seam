@@ -63,7 +63,7 @@ public class ForumQuery implements Serializable {
         return forumsAvailable;
     }
 
-    @Observer(value = {"Forum.forumListRefresh", "PersistenceContext.filterReset"}, create = false)
+    @Observer(value = {"Forum.forumListRefresh"}, create = false)
     public void loadForumsAvailability() {
         // The whole point of this is so that we can use it as a cheaper query in the mess that is the rendered="true/false"
         // attribute evaluation in JSF. It is called completely randomly, at any phase in the request, on any component in
@@ -77,7 +77,7 @@ public class ForumQuery implements Serializable {
         return forums;
     }
 
-    @Observer(value = {"Forum.forumListRefresh", "PersistenceContext.filterReset"}, create = false)
+    @Observer(value = {"Forum.forumListRefresh"}, create = false)
     public void loadForums() {
         log.debug("loading forums");
         Map<Long, ForumInfo> forumInfo = forumDAO.findForums(currentDirectory);
@@ -154,7 +154,7 @@ public class ForumQuery implements Serializable {
         topics.addAll(topicInfo.values());
     }
 
-    @Observer(value = {"Forum.topicListRefresh", "PersistenceContext.filterReset"}, create = false)
+    @Observer(value = {"Forum.topicListRefresh"}, create = false)
     public void refreshTopics() {
         countTopics();
         loadTopics();

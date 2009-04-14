@@ -31,6 +31,16 @@
             persistence-unit-jndi-name="java:/entityManagerFactories/wiki">
     </persistence:managed-persistence-context>
 
+    <persistence:managed-persistence-context
+            name="restrictedEntityManager"
+            auto-create="true"
+            entity-manager-factory="#{wikiEntityManagerFactory}"
+            persistence-unit-jndi-name="java:/entityManagerFactories/wiki">
+        <persistence:filters>
+            <value>#{accessLevelFilter}</value>
+        </persistence:filters>
+    </persistence:managed-persistence-context>
+
     <persistence:filter name="accessLevelFilter">
         <persistence:name>accessLevelFilter</persistence:name>
         <persistence:parameters>
@@ -38,13 +48,6 @@
             <value>#{currentAccessLevel}</value>
         </persistence:parameters>
     </persistence:filter>
-
-    <component name="restrictedEntityManager" auto-create="true" scope="CONVERSATION"
-               class="org.jboss.seam.wiki.core.dao.WikiManagedPersistenceContext">
-        <property name="entityManagerFactory">#{wikiEntityManagerFactory}</property>
-        <property name="persistenceUnitJndiName">java:/entityManagerFactories/wiki</property>
-        <property name="filters"><value>#{accessLevelFilter}</value></property>
-    </component>
 
     <!-- JSF entity instance from/to string converters for select lists -->
 
@@ -106,9 +109,6 @@
             <value>default</value>
             <value>sfwkorg</value>
             <value>inrelationto</value>
-            <!--
-            <value>openremote</value>
-            -->
         </property>
     </component>
 

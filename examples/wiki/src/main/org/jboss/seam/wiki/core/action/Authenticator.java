@@ -7,10 +7,8 @@
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.web.ServletContexts;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.Events;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.Credentials;
@@ -24,7 +22,6 @@ import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.util.Hash;
 import org.jboss.seam.wiki.util.WikiUtil;
-import org.jboss.seam.wiki.WikiInit;
 import org.jboss.seam.wiki.preferences.Preferences;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,8 +29,6 @@ import java.util.Date;
 
 @Name("authenticator")
 public class Authenticator {
-
-    protected final static String REGULAR_SESSION_MAX_INACTIVE_SECONDS = "regularSessionMaxInactiveInterval";
 
     @Logger
     Log log;
@@ -67,7 +62,6 @@ public class Authenticator {
         User user = getUserForCredentials(username, password);
         if (user == null) return false;
         setRolesAndAccessLevels(user);
-        Events.instance().raiseEvent("User.loggedInBasicHttp", user);
         return true;
     }
 
@@ -83,7 +77,6 @@ public class Authenticator {
         user.setPreviousLastLoginOn(user.getLastLoginOn());
         user.setLastLoginOn(new Date());
 
-        Events.instance().raiseEvent("User.loggedIn", user);
         return true;
     }
 
@@ -107,6 +100,10 @@ public class Authenticator {
         Role bestRole = (Role)Component.getInstance("guestRole");
         for (Role role : user.getRoles()) {
             if (role.getAccessLevel() > bestRole.getAccessLevel()) bestRole = role;
+        }
+
+        if (user.getMemberHome() != null && user.getMemberHome().getName() != null) {
+            log.debug("initializing users member home instance before detaching currentUser into HTTP session");
         }
 
         // Outject current user and access level
@@ -184,31 +181,4 @@ public class Authenticator {
         return "loggedOut";
     }
 
-    @Observer("org.jboss.seam.security.loginSuccessful")
-    public void extendSessionTime() {
-        // Store the regular session timeout value, so we can set it back later on logout
-        int regularSessionTimeout = ServletContexts.getInstance().getRequest().getSession().getMaxInactiveInterval();
-        Contexts.getSessionContext().set(REGULAR_SESSION_MAX_INACTIVE_SECONDS, regularSessionTimeout);
-        WikiInit init = (WikiInit)Component.getInstance(WikiInit.class);
-        if (init.getAuthenticatedSessionTimeoutMinutes() != 0) {
-            log.debug("setting timeout of authenticated user session to minutes: " + init.getAuthenticatedSessionTimeoutMinutes());
-            ServletContexts.getInstance().getRequest().getSession().setMaxInactiveInterval(
-                init.getAuthenticatedSessionTimeoutMinutes()*60
-            );
-        }
-    }
-
-    @Observer("org.jboss.seam.security.loggedOut")
-    public void resetSessionTime() {
-        // Don't rely on that, do a null check - this should never be null but sometimes it is... *sigh*
-        Object o = Contexts.getSessionContext().get(REGULAR_SESSION_MAX_INACTIVE_SECONDS);
-        if (o != null) {
-            int regularSessionTimeout = (Integer) o;
-            log.debug("resetting timeout of user session after logout to minutes: " + regularSessionTimeout/60);
-            ServletContexts.getInstance().getRequest().getSession().setMaxInactiveInterval(regularSessionTimeout);
-        } else {
-            // Safety, reset to a low value, 10 minutes
-            ServletContexts.getInstance().getRequest().getSession().setMaxInactiveInterval(600);
-        }
-    }
 }

@@ -69,6 +69,10 @@ import org.jboss.seam.international.StatusMessage;
 @AutoCreate
 public class WikiRequestResolver {
 
+    public static final String SESSION_MSG = "lacewiki.Session.Message";
+    public static final String SESSION_MSG_SEVERITY = "lacewiki.Session.MessageSeverity";
+    public static final String SESSION_MSG_DATA = "lacewiki.Session.MessageData";
+
     @Logger
     static Log log;
 
@@ -76,6 +80,7 @@ public class WikiRequestResolver {
     protected WikiNodeDAO wikiNodeDAO;
 
     protected Long nodeId;
+
     public Long getNodeId() { return nodeId; }
     public void setNodeId(Long nodeId) { this.nodeId = nodeId; }
     
@@ -117,6 +122,28 @@ public class WikiRequestResolver {
                 }
             }
             StatusMessages.instance().addFromResourceBundle(msgSeverity, getMessageKey());
+        }
+
+        // Queue a message if requested in the session (for message passing across conversations)
+        String msgKey = (String)Contexts.getSessionContext().get(SESSION_MSG);
+        if (msgKey != null) {
+            log.debug("session contained message: " + msgKey);
+
+            StatusMessage.Severity msgSeverity = StatusMessage.Severity.INFO;
+            StatusMessage.Severity sessionMessageSeverity =
+                    (StatusMessage.Severity)Contexts.getSessionContext().get(SESSION_MSG_SEVERITY);
+            if (sessionMessageSeverity != null) {
+                msgSeverity = sessionMessageSeverity;
+            }
+            Object msgData = Contexts.getSessionContext().get(SESSION_MSG_DATA);
+            if (msgData != null) {
+                StatusMessages.instance().addFromResourceBundle(msgSeverity, msgKey, msgData);
+            } else {
+                StatusMessages.instance().addFromResourceBundle(msgSeverity, msgKey);
+            }
+            Contexts.getSessionContext().remove(SESSION_MSG);
+            Contexts.getSessionContext().remove(SESSION_MSG_SEVERITY);
+            Contexts.getSessionContext().remove(SESSION_MSG_DATA);
         }
 
         // Have we been called with a nodeId request parameter, must be a document

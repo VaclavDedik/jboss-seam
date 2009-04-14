@@ -8,6 +8,7 @@ package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
+import org.jboss.seam.security.Identity;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
@@ -21,8 +22,6 @@ import java.io.Serializable;
 
 /**
  * Holds the nodes that are displayed in the site menu
- *
- * TODO: Caches the menu in the session, better would be a page fragment cache.
  *
  * @author Christian Bauer
  */
@@ -47,18 +46,6 @@ public class Menu implements Serializable {
         return root;
     }
 
-    @Observer(value = { "Node.updated", "Node.removed", "PersistenceContext.filterReset" }, create = false)
-    public void refreshRoot() {
-        log.debug("Loading menu items tree");
-        WikiPreferences wikiPreferences = Preferences.instance().get(WikiPreferences.class);
-        root = WikiNodeDAO.instance().findMenuItemTree(
-                (WikiDirectory)Component.getInstance("wikiRoot"),
-                wikiPreferences.getMainMenuDepth(), 
-                wikiPreferences.getMainMenuLevels(),
-                wikiPreferences.isMainMenuShowAdminOnly()
-        );
-    }
-
     public String getCacheRegion() {
         return CACHE_REGION;
     }
@@ -67,9 +54,22 @@ public class Menu implements Serializable {
         return CACHE_KEY + currentAccessLevel;
     }
 
-    @Observer(value = { "Node.updated", "Node.removed"})
+    // Logout invalidates the session context, so we don't need to refresh afterwards
+    @Observer(value = { "Node.updated", "Node.removed", Identity.EVENT_LOGIN_SUCCESSFUL})
     public void invalidateCache() {
+        log.debug("invaliding menu items tree cache");
         PageFragmentCache.instance().removeAll(CACHE_REGION);
+        root = null;
     }
 
+    private void refreshRoot() {
+        log.debug("Loading menu items tree");
+        WikiPreferences wikiPreferences = Preferences.instance().get(WikiPreferences.class);
+        root = WikiNodeDAO.instance().findMenuItemTree(
+                (WikiDirectory)Component.getInstance("wikiRoot"),
+                wikiPreferences.getMainMenuDepth(),
+                wikiPreferences.getMainMenuLevels(),
+                wikiPreferences.isMainMenuShowAdminOnly()
+        );
+    }
 }

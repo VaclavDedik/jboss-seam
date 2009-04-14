@@ -97,7 +97,6 @@ public class BlogDirectory implements Serializable {
         return blogEntries;
     }
 
-    @Observer(value = {"PersistenceContext.filterReset"}, create = false)
     public void loadBlogEntries() {
         if (pager == null) throw new IllegalStateException("Need to call getBlogEntries(currentMacro) first!");
 
@@ -141,7 +140,6 @@ public class BlogDirectory implements Serializable {
         return archivedEntries;
     }
 
-    @Observer(value = {"PersistenceContext.filterReset"}, create = false)
     public void loadArchivedEntries() {
         log.debug("loading blog entries and counting/aggregating them by year and month");
         archivedEntries =
@@ -164,7 +162,6 @@ public class BlogDirectory implements Serializable {
     private Map<Date, List<BlogEntry>> recentBlogEntries;
 
     @Factory(value = "recentBlogEntries")
-    @Observer(value = {"PersistenceContext.filterReset"}, create = false)
     public void loadRecentBlogEntries() {
         // TODO: This is supposed to use the currentMacro parameter to get the INSTANCE prefs value... how?
         BlogPreferences prefs = Preferences.instance().get(BlogPreferences.class);
