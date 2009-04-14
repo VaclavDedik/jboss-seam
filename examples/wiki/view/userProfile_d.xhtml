@@ -32,6 +32,7 @@
 
     <s:div>
         <c:forEach var="pm" items="#{pluginRegistry.profilePluginModulesAsList}">
+            <c:set value="#{pm}" var="currentPluginModule"/>
             <ui:include src="/#{pm.plugin.getPackageDefaultTemplatePath(pm.template)}"/>
             <br/>
         </c:forEach>

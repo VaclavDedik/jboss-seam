@@ -2,9 +2,11 @@ package org.jboss.seam.wiki.plugin.forum;
 
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.WikiComment;
+import org.jboss.seam.wiki.core.model.WikiDirectory;
 
 public class TopicInfo {
 
+    private WikiDirectory forum;
     private WikiDocument topic;
     private boolean unread;
     private boolean sticky;
@@ -17,12 +19,21 @@ public class TopicInfo {
         this.replies = replies;
     }
 
+    public TopicInfo(WikiDocument topic) {
+        this.forum = (WikiDirectory) topic.getParent();
+        this.topic = topic;
+    }
+
     public void setTopic(WikiDocument topic) {
         this.topic = topic;
     }
 
     public WikiDocument getTopic() {
         return topic;
+    }
+
+    public WikiDirectory getForum() {
+        return forum;
     }
 
     public boolean isUnread() {

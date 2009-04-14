@@ -126,20 +126,6 @@ public class MacroPluginModule extends PluginModule {
         return Collections.unmodifiableList(new ArrayList(parameters));
     }
 
-    public String getRequestImagePath() {
-        return Plugin.GENERATE_RESOURCE_PATH_THEME
-                + "/" + getPlugin().getKey()
-                + "/" + getKey()
-                + "/" + Plugin.PACKAGE_THEMES_IMG;
-    }
-
-    public String getRequestCSSPath() {
-        return Plugin.GENERATE_RESOURCE_PATH_THEME
-                + "/" + getPlugin().getKey()
-                + "/" + getKey() 
-                + "/" + Plugin.PACKAGE_THEMES_CSS;
-    }
-
     // TODO: This is only used in the Administration UI
     public String getModuleTypeLabel() {
         return "Macro";

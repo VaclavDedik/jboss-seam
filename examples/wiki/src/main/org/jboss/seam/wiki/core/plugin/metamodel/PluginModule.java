@@ -109,5 +109,19 @@ public abstract class PluginModule implements Serializable {
         return getFullyQualifiedKey() + "." + name;
     }
 
+    public String getImagePath() {
+        return Plugin.GENERATE_RESOURCE_PATH_THEME
+                + "/" + getPlugin().getKey()
+                + "/" + getKey()
+                + "/" + Plugin.PACKAGE_THEMES_IMG;
+    }
+
+    public String getStylesheetPath() {
+        return Plugin.GENERATE_RESOURCE_PATH_THEME
+                + "/" + getPlugin().getKey()
+                + "/" + getKey()
+                + "/" + Plugin.PACKAGE_THEMES_CSS;
+    }
+
     public abstract String getModuleTypeLabel();
 }

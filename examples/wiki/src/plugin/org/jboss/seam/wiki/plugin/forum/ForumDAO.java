@@ -2,7 +2,6 @@ package org.jboss.seam.wiki.plugin.forum;
 
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
@@ -29,6 +28,69 @@ public class ForumDAO implements Serializable {
 
     @In
     Integer currentAccessLevel;
+
+    public List<WikiDirectory> findForumDirectories() {
+        return getSession(true).getNamedQuery("forumDirectories")
+                .setComment("Finding forum directories")
+                .list();
+    }
+
+    public Long findForumPostingsCount(List<WikiDirectory> forumDirectories, User user) {
+        return (Long) getSession(true).getNamedQuery("forumTopicsForUserCount")
+                .setParameterList("parentDirectories", forumDirectories)
+                .setParameter("user", user)
+                .setComment("Finding forum topcis count for user: " + user)
+                .uniqueResult();
+    }
+
+    public List<TopicInfo> findForumPostings(List<WikiDirectory> forumDirectories, User user, int firstResult, int maxResults) {
+
+        final Map<Long, TopicInfo> topicInfoMap = new LinkedHashMap();
+
+        getSession(true).getNamedQuery("forumTopicsForUser")
+                .setParameterList("parentDirectories", forumDirectories)
+                .setParameter("user", user)
+                .setComment("Finding forum topcis for user: " + user)
+                .setResultTransformer(
+                        new ResultTransformer() {
+                            public Object transformTuple(Object[] result, String[] strings) {
+                                WikiDocument doc = (WikiDocument) result[0];
+                                topicInfoMap.put(
+                                        doc.getId(),
+                                        new TopicInfo(doc)
+                                );
+                                return null;
+                            }
+                            public List transformList(List list) { return list; }
+                        }
+                )
+                .setFirstResult(firstResult)
+                .setMaxResults(maxResults)
+                .list();
+
+        if (topicInfoMap.size() > 0) {
+            getSession(true).getNamedQuery("forumTopicsReplies")
+                .setParameterList("topicIds", topicInfoMap.keySet())
+                .setComment("Retrieving forum topic replies")
+                .setResultTransformer(
+                    new ResultTransformer() {
+                        public Object transformTuple(Object[] result, String[] strings) {
+                            if (topicInfoMap.containsKey((Long)result[1])) {
+                                TopicInfo info = topicInfoMap.get( (Long)result[1] );
+                                info.setNumOfReplies((Long)result[2]);
+                                info.setLastComment((WikiComment)result[0]);
+                            }
+                            return null;
+                        }
+                        public List transformList(List list) { return list; }
+                    }
+                )
+                .list();
+        }
+
+        return new ArrayList(topicInfoMap.values());
+    }
+
 
     public List<WikiMenuItem> findForumsMenuItems(WikiDirectory forumsDirectory) {
         return getSession(true).getNamedQuery("forumsMenuItems")

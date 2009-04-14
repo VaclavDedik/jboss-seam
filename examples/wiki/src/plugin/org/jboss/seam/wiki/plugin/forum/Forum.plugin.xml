@@ -98,5 +98,11 @@
         </skins>
     </macro>
 
+    <profile key="postingHistory" template="postingHistory" priority="110">
+        <skins>
+            <skin name="d"/>
+        </skins>
+    </profile>
+
 </plugin>
 

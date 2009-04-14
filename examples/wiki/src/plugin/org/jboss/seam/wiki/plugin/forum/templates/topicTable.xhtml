@@ -18,7 +18,7 @@
     <s:div styleClass="box">
 
     <h:dataTable id="topicTable"
-                 var="t"
+                 var="topicInfo"
                  value="#{forumQuery.topics}"
                  styleClass="datatable topLeftBottomBorder topicTable"
                  headerClass="regularHeader rightBorder alignCenter smallFont"
@@ -30,29 +30,29 @@
 
         <h:column>
             <f:facet name="header">&#160;</f:facet>
-            <h:graphicImage value="#{currentMacro.requestImagePath}/icon.#{t.iconName}.gif" width="22" height="26"/>
+            <h:graphicImage value="#{currentMacro.requestImagePath}/icon.#{topicInfo.iconName}.gif" width="22" height="26"/>
         </h:column>
 
         <h:column>
             <f:facet name="header">Topic</f:facet>
 
-            <h:outputLink value="#{wikiURLRenderer.renderURL(t.topic)}" tabindex="1">
-                <h:outputText value="#{wiki:truncateString(t.topic.name, 60, '...')}"/>
+            <h:outputLink value="#{wikiURLRenderer.renderURL(topicInfo.topic)}" tabindex="1">
+                <h:outputText value="#{wiki:truncateString(topicInfo.topic.name, 60, '...')}"/>
             </h:outputLink>
 
         </h:column>
 
         <h:column>
             <f:facet name="header">Replies</f:facet>
-            <h:outputText value="#{t.numOfReplies}" rendered="#{t.numOfReplies != 0}"/>
-            <h:outputText value="-" rendered="#{t.numOfReplies == 0}"/>
+            <h:outputText value="#{topicInfo.numOfReplies}" rendered="#{topicInfo.numOfReplies != 0}"/>
+            <h:outputText value="-" rendered="#{topicInfo.numOfReplies == 0}"/>
         </h:column>
 
         <h:column>
             <f:facet name="header">Author</f:facet>
 
             <ui:include src="/includes/userProfileLink.xhtml">
-                <ui:param name="user" value="#{t.topic.createdBy}"/>
+                <ui:param name="user" value="#{topicInfo.topic.createdBy}"/>
             </ui:include>
 
         </h:column>
@@ -60,30 +60,30 @@
         <h:column>
             <f:facet name="header">Last Post</f:facet>
 
-            <s:fragment rendered="#{not empty t.lastComment}">
-                <h:outputLink value="#{wikiURLRenderer.renderURL(t.lastComment)}" tabindex="1">
-                    <h:outputText value="#{t.lastComment.createdOn}">
+            <s:fragment rendered="#{not empty topicInfo.lastComment}">
+                <h:outputLink value="#{wikiURLRenderer.renderURL(topicInfo.lastComment)}" tabindex="1">
+                    <h:outputText value="#{topicInfo.lastComment.createdOn}">
                         <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                     </h:outputText>
                     <h:graphicImage styleClass="topicGotoIcon" value="#{currentMacro.requestImagePath}/icon.posting_goto.gif" width="18" height="9"/>
                 </h:outputLink>
 
                 <ui:include src="/includes/userProfileLink.xhtml">
-                    <ui:param name="user" value="#{t.lastComment.createdBy}"/>
+                    <ui:param name="user" value="#{topicInfo.lastComment.createdBy}"/>
                 </ui:include>
 
             </s:fragment>
 
-            <s:fragment rendered="#{empty t.lastComment}">
-                <h:outputLink value="#{wikiURLRenderer.renderURL(t.topic)}" tabindex="1">
-                    <h:outputText value="#{t.topic.createdOn}">
+            <s:fragment rendered="#{empty topicInfo.lastComment}">
+                <h:outputLink value="#{wikiURLRenderer.renderURL(topicInfo.topic)}" tabindex="1">
+                    <h:outputText value="#{topicInfo.topic.createdOn}">
                         <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                     </h:outputText>
                     <h:graphicImage styleClass="topicGotoIcon" value="#{currentMacro.requestImagePath}/icon.posting_goto.gif" width="18" height="9"/>
                 </h:outputLink>
 
                 <ui:include src="/includes/userProfileLink.xhtml">
-                    <ui:param name="user" value="#{t.topic.createdBy}"/>
+                    <ui:param name="user" value="#{topicInfo.topic.createdBy}"/>
                 </ui:include>
 
             </s:fragment>

@@ -19,7 +19,6 @@ import org.jboss.seam.wiki.util.Hash;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.UUID;
 import java.util.Date;
 
 /**
@@ -121,11 +120,11 @@ public class WikiPluginMacro extends WikiTextMacro implements Serializable {
     }
 
     public String getRequestImagePath() {
-        return getRequestPathPrefix() + getMetadata().getRequestImagePath();
+        return getRequestPathPrefix() + getMetadata().getImagePath();
     }
 
-    public String getRequestCSSPath() {
-        return getRequestPathPrefix() + getMetadata().getRequestCSSPath();
+    public String getRequestStylesheetPath() {
+        return getRequestPathPrefix() + getMetadata().getStylesheetPath();
     }
 
     private String getRequestPathPrefix() {

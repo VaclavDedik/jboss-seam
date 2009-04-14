@@ -16,10 +16,8 @@ import org.jboss.seam.servlet.ContextualHttpServletRequest;
 import org.jboss.seam.util.Resources;
 import org.jboss.seam.web.AbstractResource;
 import org.jboss.seam.wiki.core.plugin.PluginRegistry;
-import org.jboss.seam.wiki.core.plugin.WikiPluginMacro;
 import org.jboss.seam.wiki.core.plugin.metamodel.Plugin;
-import org.jboss.seam.wiki.core.plugin.metamodel.MacroPluginModule;
-import org.jboss.seam.wiki.core.model.WikiTextMacro;
+import org.jboss.seam.wiki.core.plugin.metamodel.PluginModule;
 import org.jboss.seam.core.Expressions;
 
 import javax.servlet.ServletException;
@@ -41,9 +39,9 @@ import java.util.regex.Pattern;
  * <p>
  * It is primarily used for serving up plugin CSS and image files. It can also interpolate
  * EL expressions in certain resources, configured with <tt>interpolatedResourcesExtensions</tt>.
- * The default is to parse resources with <tt>css</tt> extension. A temporary
- * <tt>WikiPluginMacro</tt> instance is available in these expressions as <tt>currentMacro</tt>,
- * you can utilize this to access the metadata (e.g. paths) of the plugin.
+ * The default is to parse resources with <tt>css</tt> extension. A <tt>PluginModule</tt> instance
+ * is always available as variable <tt>currentPluginModule</tt>, which allows direct access to metadata
+ * and path information such as <tt>imagePath</tt> and <tt>styleSheetPath</tt>.
  * </p>
  *
  * @author Christian Bauer
@@ -57,7 +55,7 @@ public class WikiPluginThemeResource extends AbstractResource {
 
     private static final Pattern EL_PATTERN = Pattern.compile("#" + Pattern.quote("{") + "(.*)" + Pattern.quote("}"));
 
-    // Resources URIs end with /<pluginKey/<pluginMacroModuleKey>/<themeResourceName>.<themeResourceExtension>
+    // Resources URIs end with /<pluginKey/<pluginModuleKey>/<themeResourceName>.<themeResourceExtension>
     public static Pattern PLUGIN_RESOURCE_PATTERN =
             Pattern.compile("^/(" + Plugin.KEY_PATTERN + ")/(" + Plugin.KEY_PATTERN + ")/(.+?)\\.([a-z]+)$");
 
@@ -97,19 +95,19 @@ public class WikiPluginThemeResource extends AbstractResource {
         String pathInfo = request.getPathInfo().substring(getResourcePath().length());
 
         String pluginKey = null;
-        String pluginMacroModuleKey = null;
+        String pluginModuleKey = null;
         String themeResourceName = null;
         String themeResourceExtension = null;
 
         Matcher matcher = PLUGIN_RESOURCE_PATTERN.matcher(pathInfo);
         if (matcher.find()) {
             pluginKey = matcher.group(1);
-            pluginMacroModuleKey = matcher.group(2);
+            pluginModuleKey = matcher.group(2);
             themeResourceName = matcher.group(3);
             themeResourceExtension = matcher.group(4);
             log.debug("request for resource,"
                     + " plugin key '" + pluginKey + "'"
-                    + " plugin macro module key '" + pluginMacroModuleKey + "'"
+                    + " plugin module key '" + pluginModuleKey + "'"
                     + " theme resource name '" + themeResourceName + "'"
                     + " theme resource ext '" + themeResourceExtension + "'"
             );
@@ -118,8 +116,8 @@ public class WikiPluginThemeResource extends AbstractResource {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Plugin key not found");
             return;
         }
-        if (pluginMacroModuleKey == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Plugin macro module key not found");
+        if (pluginModuleKey == null) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Plugin module key not found");
             return;
         }
         if (themeResourceName == null) {
@@ -130,28 +128,16 @@ public class WikiPluginThemeResource extends AbstractResource {
         PluginRegistry registry = PluginRegistry.instance();
         Plugin plugin = registry.getPlugin(pluginKey);
         if (plugin == null) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Plugin key not found in registry: " + pluginKey);
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Plugin not found in registry: " + pluginKey);
+            return;
+        }
+        PluginModule pluginModule = plugin.getModuleByKey(pluginModuleKey);
+        if (pluginModule == null) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Plugin module not found: " + pluginKey+"."+pluginModuleKey);
             return;
         }
 
-        // First, check the registry if we have the fully qualified name as a macro plugin module
-        MacroPluginModule macroPluginModule =
-                registry.getMacroPluginModulesByKey().get(plugin.getKey() + "." + pluginMacroModuleKey);
-
-        // Then also check if it's a module of the given plugin
-        if (macroPluginModule == null || plugin.getModuleByKey(pluginMacroModuleKey) == null) {
-            response.sendError(
-                HttpServletResponse.SC_NOT_FOUND,
-                "Plugin macro module key not found in registry or not available for plugin: " + pluginMacroModuleKey
-            );
-            return;
-        }
-
-        // Create a new WikiPluginMacro instance which will be available during interpolation as 'currentMacro'
-        WikiPluginMacro pluginMacro = registry.createWikiPluginMacro(
-                new WikiTextMacro(macroPluginModule.getName())
-        );
-        org.jboss.seam.contexts.Contexts.getEventContext().set(WikiPluginMacro.CURRENT_MACRO_EL_VARIABLE, pluginMacro);
+        org.jboss.seam.contexts.Contexts.getEventContext().set("currentPluginModule", pluginModule);
 
         String resourcePath = plugin.getPackageThemePath() + "/" + themeResourceName + "." + themeResourceExtension;
         InputStream in = Resources.getResourceAsStream(resourcePath, getServletContext());

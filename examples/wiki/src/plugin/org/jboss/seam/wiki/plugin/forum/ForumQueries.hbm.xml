@@ -12,6 +12,40 @@
 
 <hibernate-mapping>
 
+    <query name="forumDirectories">
+        select
+            dir
+        from
+            WikiDirectory dir, WikiDocument doc
+        where
+            dir = doc.parent
+            and doc.contentMacrosString like '%forumTopics%'
+    </query>
+
+    <query name="forumTopicsForUserCount">
+        select
+            count(t)
+        from
+            WikiDocument t
+        where
+            t.parent in (:parentDirectories)
+            and (t.headerMacrosString like '%forumPosting%' or t.headerMacrosString like '%forumStickyPosting%')
+            and t.createdBy = :user
+    </query>
+
+    <query name="forumTopicsForUser">
+        select
+            t
+        from
+            WikiDocument t
+        where
+            t.parent in (:parentDirectories)
+            and (t.headerMacrosString like '%forumPosting%' or t.headerMacrosString like '%forumStickyPosting%')
+            and t.createdBy = :user
+        order by
+            t.createdOn desc
+    </query>
+
     <query name="forumsCount">
         select count(d.id)
         from

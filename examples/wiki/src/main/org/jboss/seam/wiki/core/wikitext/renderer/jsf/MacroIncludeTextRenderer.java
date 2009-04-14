@@ -222,7 +222,7 @@ public class MacroIncludeTextRenderer extends NullWikiTextRenderer {
         String cssPath = "/" + pluginMacro.getMetadata().getPlugin().getPackageCSSPath() + "/" + pluginMacro.getName() + ".css";
         log.debug("trying to load CSS resource from classpath: " + cssPath);
         if (ResourceLoader.instance().getResource(cssPath) != null) {
-            String cssRequestURIPath = pluginMacro.getRequestCSSPath() + "/" + pluginMacro.getName() + ".css";
+            String cssRequestURIPath = pluginMacro.getRequestStylesheetPath() + "/" + pluginMacro.getName() + ".css";
             log.debug("including macro CSS file, rendering URI for document head: " + cssRequestURIPath);
 
             // Use Ajax4JSF loader, it can do what we want - add a CSS <link> to the HTML <head>
