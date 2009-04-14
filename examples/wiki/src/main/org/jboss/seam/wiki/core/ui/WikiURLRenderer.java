@@ -7,11 +7,9 @@
 package org.jboss.seam.wiki.core.ui;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.AutoCreate;
+import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.model.WikiNode;
@@ -34,6 +32,9 @@ import java.io.Serializable;
 @Scope(ScopeType.CONVERSATION)
 @AutoCreate
 public class WikiURLRenderer implements Serializable {
+
+    @Logger
+    Log log;
 
     @In
     String contextPath;
@@ -138,8 +139,11 @@ public class WikiURLRenderer implements Serializable {
     }
 
     public String renderPermURL(WikiNode node, boolean usePrefsPath) {
+        log.debug("rendering perm URL for node: " + node);
         if (node == null || node.getId() == null) return "";
-        return (usePrefsPath ? prefs.getBaseUrl() : contextPath) + "/" + node.getPermURL(prefs.getPermlinkSuffix());
+        String url = (usePrefsPath ? prefs.getBaseUrl() : contextPath) + "/" + node.getPermURL(prefs.getPermlinkSuffix());
+        log.debug("rendered URL: " + url);
+        return url;
     }
 
     public String renderWikiURL(WikiNode node) {
@@ -147,8 +151,11 @@ public class WikiURLRenderer implements Serializable {
     }
 
     public String renderWikiURL(WikiNode node, boolean usePrefsPath) {
+        log.debug("rendering wiki URL for node: " + node);
         if (node == null || node.getId() == null) return "";
-        return (usePrefsPath ? prefs.getBaseUrl() : contextPath) + "/" + node.getWikiURL();
+        String url = (usePrefsPath ? prefs.getBaseUrl() : contextPath) + "/" + node.getWikiURL();
+        log.debug("rendered URL: " + url);
+        return url;
     }
 
     // TODO: We need more methods here, rendering year/month/day/tag/etc. on WikiURL (not perm url)

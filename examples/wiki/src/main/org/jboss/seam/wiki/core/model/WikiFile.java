@@ -84,7 +84,6 @@ public abstract class WikiFile<N extends WikiFile> extends WikiNode<N> implement
 
     public void rollback(WikiFile revision) {
         this.name = revision.name;
-        this.wikiname = revision.wikiname;
     }
 
     public List<String> getTagsAsList() {

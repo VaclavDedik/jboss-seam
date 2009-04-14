@@ -80,7 +80,7 @@ public class NestedSetFlushEventListener extends EJB3FlushEventListener {
 
         if (eventSource.getActionQueue().areInsertionsOrDeletionsQueued()) {
             try {
-                log.debug("######################### trying to obtain exclusive lock for " + LOCK_TIMEOUT_SECONDS +
+                log.debug("trying to obtain exclusive lock for " + LOCK_TIMEOUT_SECONDS +
                           " seconds before performing database modifications during flush");
                 if (lock.tryLock(LOCK_TIMEOUT_SECONDS, TimeUnit.SECONDS)) {
                     log.debug("successfully obtained lock, executing flush");

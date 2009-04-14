@@ -25,6 +25,7 @@ import org.jboss.seam.wiki.core.template.WikiDocumentTemplate;
 import org.jboss.seam.wiki.core.template.WikiDocumentEditorDefaults;
 import org.jboss.seam.wiki.core.wikitext.editor.WikiTextEditor;
 import org.jboss.seam.wiki.preferences.Preferences;
+import org.jboss.seam.wiki.util.WikiUtil;
 
 import static org.jboss.seam.international.StatusMessage.Severity.INFO;
 
@@ -150,7 +151,9 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
         if (documentHistory != null && documentHistory.getSelectedHistoricalFile() != null) {
             getLog().debug("rolling back to revision: " + documentHistory.getSelectedHistoricalFile().getRevision());
             // TODO: Avoid cast, make history polymorphic
-            doc.rollback((WikiDocument)documentHistory.getSelectedHistoricalFile());
+            WikiDocument oldRevision = (WikiDocument)documentHistory.getSelectedHistoricalFile();
+            doc.rollback(oldRevision);
+            doc.setWikiname(WikiUtil.convertToWikiName(doc.getName()));
         }
 
         isOnSiteFeed = feedDAO.isOnSiteFeed(doc);
@@ -430,11 +433,4 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
         return textEditor;
     }
 
-    /* TODO: Performance Optimizations */
-
-    @org.jboss.seam.annotations.Observer(value = {"Comment.persisted", "Comment.removed"}, create = false)
-    public void updateLastComment() {
-        getWikiNodeDAO().updateWikiDocumentLastComment(getInstance());
-        getEntityManager().flush();
-    }
 }

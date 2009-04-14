@@ -211,9 +211,11 @@ public class WikiHttpSessionManager implements Serializable {
                 )
             );
         }
+
+        Collections.sort(onlineMembers);
     }
 
-    public static class OnlineUser {
+    public static class OnlineUser implements Comparable {
         private User user;
         private long lastAccessedTime;
 
@@ -240,6 +242,12 @@ public class WikiHttpSessionManager implements Serializable {
 
         public String getIdleTime() {
             return WikiUtil.getTimeDifferenceToCurrent(WikiUtil.toDate(lastAccessedTime));
+        }
+
+        public int compareTo(Object o) {
+            OnlineUser other = (OnlineUser) o;
+            if (getLastAccessedTime() > other.getLastAccessedTime()) return -1;
+            return (getLastAccessedTime() == other.getLastAccessedTime() ? 0 : 1);
         }
     }
 

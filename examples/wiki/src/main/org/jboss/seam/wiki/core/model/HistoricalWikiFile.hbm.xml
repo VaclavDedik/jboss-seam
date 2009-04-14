@@ -25,7 +25,7 @@ Maps only properties of WikiFile subclasses we want to keep a history of.
         <property name="lastModifiedByUsername" column="LAST_MODIFIED_BY_USERNAME" not-null="false"/>
 
         <!-- Optional WikiFile subclass properties -->
-        <property name="content" column="CONTENT" length="32767"/>
+        <property name="content" column="CONTENT" length="32767" lazy="true"/>
 
     </class>
 

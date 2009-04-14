@@ -5,7 +5,12 @@
         <locale-config>
             <default-locale>en</default-locale>
         </locale-config>
+
+        <view-handler>org.jboss.seam.wiki.core.ui.WikiFaceletViewHandler</view-handler>
+        <!-- Better exception handling overrides
         <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+        -->
+
     </application>
 
     <!-- Needed because WikiFormattedTextHandler instantiates these, asking the JSF infrastructure -->

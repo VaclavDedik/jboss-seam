@@ -197,7 +197,7 @@ public class DocumentHistory implements Serializable {
         displayedHistoricalFile = null;
 
         if (historicalFileId == null) return;
-        selectedHistoricalFile = wikiNodeDAO.findHistoricalFile(getCurrentFile().getHistoricalEntityName(), historicalFileId);
+        selectedHistoricalFile = wikiNodeDAO.findHistoricalDocumentAndDetach(getCurrentFile().getHistoricalEntityName(), historicalFileId);
         if (selectedHistoricalFile == null) {
             statusMessages.addFromResourceBundleOrDefault(
                 ERROR,

@@ -1,5 +1,5 @@
 .justABox {
-    background: #fff url(#{currentMacro.requestImagePath}/background.gif) 0 0 repeat-x;
+    background: #fff url(#{request.contextPath}#{currentPluginModule.imagePath}/background.gif) 0 0 repeat-x;
     border: 1px solid green;
     margin: 20px;
 }

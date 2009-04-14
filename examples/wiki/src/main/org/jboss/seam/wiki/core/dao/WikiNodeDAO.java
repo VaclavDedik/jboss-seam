@@ -484,11 +484,22 @@ public class WikiNodeDAO {
         return null;
     }
 
+    // TODO: This method is a mess...
     // Returns a detached object
-    public WikiFile findHistoricalFile(String entityName, Long historyId) {
-        WikiFile historicalFile = (WikiFile)getSession(true).get(entityName, historyId);
-        getSession(true).evict(historicalFile);
-        return historicalFile;
+    public WikiDocument findHistoricalDocumentAndDetach(String entityName, Long historyId) {
+        // Initialize bytecode-enhanced fields with 'fetch all properties'!
+        log.debug("fetching WikiFile historical revision with id: " + historyId + " and initializing all properties");
+        WikiDocument historicalFile = (WikiDocument)
+                getSession(true).createQuery("select f from " + entityName + " f fetch all properties where f.historicalFileId = :id")
+                .setParameter("id", historyId)
+                .uniqueResult();
+        if (historicalFile != null) {
+            historicalFile.getContent(); // TODO: the fetch all properties doesn't work for some reason..
+            getSession(true).evict(historicalFile);
+            return historicalFile;
+        } else {
+            return null;
+        }
     }
 
     public List<WikiFile> findHistoricalFiles(WikiFile file) {

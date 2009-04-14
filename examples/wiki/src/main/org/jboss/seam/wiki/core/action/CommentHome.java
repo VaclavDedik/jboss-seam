@@ -144,6 +144,10 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
                 getEntityManager().flush();
             }
 
+            getLog().debug("updating last comment aggregation for: " + documentHome.getInstance());
+            getWikiNodeDAO().updateWikiDocumentLastComment(documentHome.getInstance());
+            getEntityManager().flush();
+
             Events.instance().raiseEvent("Comment.persisted");
             endConversation();
             WikiRedirect.instance()
@@ -174,7 +178,12 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
             remove();
             getEntityManager().clear();
-            Events.instance().raiseEvent("Comment.removed");
+
+            getLog().debug("updating last comment aggregation for: " + documentHome.getInstance());
+            getWikiNodeDAO().updateWikiDocumentLastComment(documentHome.getInstance());
+            getEntityManager().flush();
+
+            getEntityManager().clear();
             Events.instance().raiseEvent("Comment.commentListRefresh");
         }
 
