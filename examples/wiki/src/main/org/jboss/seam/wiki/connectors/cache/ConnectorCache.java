@@ -28,7 +28,7 @@ import java.util.*;
  * @author Christian Bauer
  */
 @Scope(ScopeType.APPLICATION)
-@Synchronized
+@Synchronized(timeout = 5000)
 public abstract class ConnectorCache<T, K> {
 
     @Logger

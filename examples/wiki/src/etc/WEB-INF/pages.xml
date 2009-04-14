@@ -262,6 +262,11 @@
 
         <navigation>
 
+            <!-- More complex rules decide what to do after login, encapsulated in UserLogin -->
+            <rule if-outcome="loggedIn">
+                <redirect url="#{userLogin.loginRedirectURL}"/>
+            </rule>
+
             <!-- Go to start page on logout because the session has been invalidated -->
             <rule if-outcome="loggedOut">
                 <end-conversation before-redirect="true"/>
@@ -327,24 +332,23 @@
         <description>#{messages['lacewiki.label.userList.MemberList']} (#{messages['lacewiki.label.userList.Results']}: #{userSearch.rowCount})</description>
     </page>
 
-
-    <exception class="javax.faces.application.ViewExpiredException">
-        <end-conversation/>
+    <exception class="javax.faces.application.ViewExpiredException" log="false">
+        <end-conversation before-redirect="true"/>
         <redirect view-id="/wiki.xhtml">
             <message severity="WARN">#{messages['lacewiki.msg.SessionTimeoutOccured']}</message>
         </redirect>
     </exception>
 
     <exception class="org.jboss.seam.wiki.core.nestedset.listener.NestedSetLockTimeoutException">
-        <end-conversation/>
+        <end-conversation before-redirect="true"/>
         <redirect view-id="/wiki.xhtml">
             <message severity="WARN">#{messages['lacewiki.msg.LockTimeoutError']}</message>
         </redirect>
     </exception>
 
     <!-- This occurs on concurrent delete of comments -->
-    <exception class="javax.persistence.EntityNotFoundException">
-        <end-conversation/>
+    <exception class="javax.persistence.EntityNotFoundException" log="false">
+        <end-conversation before-redirect="true"/>
         <redirect view-id="/wiki.xhtml">
             <message severity="WARN">#{messages['lacewiki.msg.EntityNotFound']}</message>
         </redirect>
@@ -365,19 +369,26 @@
         </redirect>
     </exception>
 
-    <exception class="org.jboss.seam.framework.EntityNotFoundException">
+    <exception class="org.jboss.seam.core.LockTimeoutException">
+        <end-conversation before-redirect="true"/>
+        <redirect view-id="/wiki.xhtml">
+            <message severity="WARN">#{messages['lacewiki.msg.LockTimeoutError']}</message>
+        </redirect>
+    </exception>
+
+    <exception class="org.jboss.seam.framework.EntityNotFoundException" log="false">
         <end-conversation/>
         <http-error error-code="404"/>
     </exception>
 
-    <exception class="org.jboss.seam.wiki.core.exception.InvalidWikiRequestException">
+    <exception class="org.jboss.seam.wiki.core.exception.InvalidWikiRequestException" log="false">
         <end-conversation/>
         <http-error error-code="400">
             <message>#{org.jboss.seam.handledException.message}</message>
         </http-error>
     </exception>
 
-    <exception class="javax.faces.validator.ValidatorException">
+    <exception class="javax.faces.validator.ValidatorException" log="false">
         <end-conversation/>
         <http-error error-code="400">
             <message>#{messages['lacewiki.msg.RequestError']}</message>
