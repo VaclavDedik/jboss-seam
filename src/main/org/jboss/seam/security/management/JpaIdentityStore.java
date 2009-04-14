@@ -6,7 +6,9 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.security.GeneralSecurityException;
 import java.security.Principal;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -22,6 +24,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.annotations.security.management.PasswordSalt;
 import org.jboss.seam.annotations.security.management.RoleConditional;
 import org.jboss.seam.annotations.security.management.RoleGroups;
 import org.jboss.seam.annotations.security.management.RoleName;
@@ -41,6 +44,7 @@ import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.Role;
 import org.jboss.seam.security.SimplePrincipal;
 import org.jboss.seam.util.AnnotatedBeanProperty;
+import org.jboss.seam.util.Base64;
 import org.jboss.seam.util.TypedBeanProperty;
 
 /**
@@ -76,6 +80,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    
    private AnnotatedBeanProperty<UserPrincipal> userPrincipalProperty;
    private AnnotatedBeanProperty<UserPassword> userPasswordProperty;
+   private AnnotatedBeanProperty<PasswordSalt> passwordSaltProperty;
    private AnnotatedBeanProperty<UserRoles> userRolesProperty;
    private AnnotatedBeanProperty<UserEnabled> userEnabledProperty;
    private AnnotatedBeanProperty<UserFirstName> userFirstNameProperty;
@@ -126,6 +131,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    {
       userPrincipalProperty = new AnnotatedBeanProperty(userClass, UserPrincipal.class);
       userPasswordProperty = new AnnotatedBeanProperty(userClass, UserPassword.class);
+      passwordSaltProperty = new AnnotatedBeanProperty(userClass, PasswordSalt.class);
       userRolesProperty = new AnnotatedBeanProperty(userClass, UserRoles.class);
       userEnabledProperty = new AnnotatedBeanProperty(userClass, UserEnabled.class);
       userFirstNameProperty = new AnnotatedBeanProperty(userClass, UserFirstName.class);
@@ -217,8 +223,8 @@ public class JpaIdentityStore implements IdentityStore, Serializable
             if (userEnabledProperty.isSet()) userEnabledProperty.setValue(user, false);
          }
          else
-         {            
-            userPasswordProperty.setValue(user, generatePasswordHash(password, getUserAccountSalt(user)));
+         {  
+            setUserPassword(user, password);
             if (userEnabledProperty.isSet()) userEnabledProperty.setValue(user, true);
          }
          
@@ -243,10 +249,36 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       }      
    }
    
-   protected String getUserAccountSalt(Object user)
+   protected void setUserPassword(Object user, String password)
    {
+      if (passwordSaltProperty.isSet())
+      {
+         byte[] salt = generateUserSalt(user);               
+         passwordSaltProperty.setValue(user, Base64.encodeBytes(salt));
+         userPasswordProperty.setValue(user, generatePasswordHash(password, salt));
+      }
+      else
+      {
+         userPasswordProperty.setValue(user, generatePasswordHash(password, getUserAccountSalt(user)));
+      }
+   }
+   
+   /**
+    * @deprecated Use JpaIdentityStore.generateRandomSalt(Object) instead
+    */
+   @Deprecated
+   protected String getUserAccountSalt(Object user)
+   {      
       // By default, we'll use the user's username as the password salt
       return userPrincipalProperty.getValue(user).toString();
+   }
+   
+   /**
+    * Generates a 64 bit random salt value
+    */
+   public byte[] generateUserSalt(Object user)
+   {
+      return PasswordHash.instance().generateRandomSalt();
    }
    
    public boolean createUser(String username, String password)
@@ -361,8 +393,6 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          }
       }
       
-      mergeEntity(user);
-      
       return true;
    }   
    
@@ -399,8 +429,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
             }
          }
       }
-      
-      if (success) mergeEntity(user);
+
       return success;
    }
    
@@ -420,7 +449,6 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          throw new NoSuchRoleException("Could not grant role, group '" + group + "' does not exist");
       }
       
-
       Collection roleGroups = (Collection) roleGroupsProperty.getValue(targetRole); 
       if (roleGroups == null)
       {
@@ -452,7 +480,6 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       }
 
       ((Collection) roleGroupsProperty.getValue(targetRole)).add(targetGroup);
-      mergeEntity(targetRole);
       
       return true;
    }
@@ -474,8 +501,6 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       }      
        
       boolean success = ((Collection) roleGroupsProperty.getValue(roleToRemove)).remove(targetGroup);
-      
-      if (success) mergeEntity(roleToRemove);
       return success;
    }      
    
@@ -565,8 +590,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          return false;
       }
       
-      userEnabledProperty.setValue(user, true);
-      mergeEntity(user);      
+      userEnabledProperty.setValue(user, true);   
       return true;
    }
    
@@ -590,9 +614,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          return false;
       }          
       
-      userEnabledProperty.setValue(user, false);
-      mergeEntity(user);
-      
+      userEnabledProperty.setValue(user, false);     
       return true;
    }
    
@@ -604,8 +626,8 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          throw new NoSuchUserException("Could not change password, user '" + username + "' does not exist");
       }
       
-      userPasswordProperty.setValue(user, generatePasswordHash(password, getUserAccountSalt(user)));
-      mergeEntity(user);
+      setUserPassword(user, password);
+      
       return true;
    }
    
@@ -723,8 +745,33 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       }
    }
    
-   protected String generatePasswordHash(String password, String salt)
+   public String generatePasswordHash(String password, byte[] salt)
    {
+      if (passwordSaltProperty.isSet())
+      {
+         try
+         {
+            return PasswordHash.instance().createPasswordKey(password.toCharArray(), salt, 
+                  userPasswordProperty.getAnnotation().iterations());
+         }
+         catch (GeneralSecurityException ex)
+         {
+            throw new IdentityManagementException("Exception generating password hash", ex);
+         }
+      }
+      else
+      {
+         return generatePasswordHash(password, new String(salt));
+      }
+   }
+   
+   /**
+    * 
+    * @deprecated Use JpaIdentityStore.generatePasswordHash(String, byte[]) instead
+    */
+   @Deprecated
+   protected String generatePasswordHash(String password, String salt)
+   {    
       String algorithm = userPasswordProperty.getAnnotation().hash();
       
       if (algorithm == null || "".equals(algorithm))
@@ -752,7 +799,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          {
             return PasswordHash.instance().generateSaltedHash(password, salt, algorithm);
          }
-      }      
+      }
    }
    
    public boolean authenticate(String username, String password)
@@ -763,7 +810,25 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          return false;
       }
       
-      String passwordHash = generatePasswordHash(password, getUserAccountSalt(user)); 
+      String passwordHash = null;
+      
+      if (passwordSaltProperty.isSet())
+      {
+         String encodedSalt = (String) passwordSaltProperty.getValue(user);
+         if (encodedSalt == null)
+         {
+            throw new IdentityManagementException("A @PasswordSalt property was found on entity " + user + 
+                  ", but it contains no value");
+         }
+         
+         passwordHash = generatePasswordHash(password, Base64.decode(encodedSalt));
+      }
+      else
+      {
+         passwordHash = generatePasswordHash(password, getUserAccountSalt(user));   
+      }
+      
+       
       boolean success = passwordHash.equals(userPasswordProperty.getValue(user));
             
       if (success && Events.exists())

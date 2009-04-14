@@ -10,23 +10,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Flags an entity field or method as representing the password for a user
- *  
+ * The salt value used to produce the password hash 
+ * 
  * @author Shane Bryzak
  */
 @Target({METHOD,FIELD})
 @Documented
 @Retention(RUNTIME)
 @Inherited
-public @interface UserPassword
-{   
-   /**
-    * The hash algorithm, only used if there is no @PasswordSalt property specified
-    */
-   String hash() default "";
-   
-   /**
-    * Number of iterations for generating the password hash
-    */
-   int iterations() default 1000;
+public @interface PasswordSalt
+{
+      
 }
