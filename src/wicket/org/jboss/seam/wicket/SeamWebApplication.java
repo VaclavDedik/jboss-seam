@@ -194,6 +194,14 @@ public abstract class SeamWebApplication extends WebApplication
                   manager.restoreConversation();
                }
             }
+            else 
+            {
+               Manager manager = Manager.instance();
+               if (manager.isLongRunningConversation()) 
+               {
+                  page.setMetaData(CID, Manager.instance().getCurrentConversationId());
+               }
+            }
          }
       }
       
