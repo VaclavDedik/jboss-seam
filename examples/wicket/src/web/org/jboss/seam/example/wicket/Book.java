@@ -122,7 +122,7 @@ public class Book extends WebPage
          hotelBooking.setBookingDetails();
          if (hotelBooking.isBookingValid())
          {
-            setResponsePage(Confirm.class);
+            setResponsePage(new Confirm(new PageParameters()));
          }
       }
 

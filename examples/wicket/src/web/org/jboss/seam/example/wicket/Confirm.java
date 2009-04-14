@@ -41,7 +41,7 @@ public class Confirm extends WebPage
          @Override
          public void onClick()
          {
-            setResponsePage(Book.class);
+            setResponsePage(new Book(new PageParameters()));
          }
       });
       body.add(new Link("confirm")

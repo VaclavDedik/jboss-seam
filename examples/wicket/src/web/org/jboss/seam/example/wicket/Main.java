@@ -37,9 +37,12 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.PropertyModel;
-import org.jboss.seam.annotations.Begin;
+import org.apache.wicket.PageParameters;
+import org.jboss.seam.wicket.annotations.Begin;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.security.Restrict;
+import org.jboss.seam.core.Conversation;
+import org.jboss.seam.core.Manager;
 import org.jboss.seam.example.wicket.action.Booking;
 import org.jboss.seam.example.wicket.action.BookingList;
 import org.jboss.seam.example.wicket.action.Hotel;
@@ -127,12 +130,12 @@ public class Main extends WebPage
             item.add(new Link("viewHotel")
             {
 
+							 @Begin
                @Override
-               @Begin
                public void onClick()
                {
                   hotelBooking.selectHotel(hotel);
-                  setResponsePage(org.jboss.seam.example.wicket.Hotel.class);
+                  setResponsePage(new org.jboss.seam.example.wicket.Hotel(new PageParameters()));
                }
             
             });

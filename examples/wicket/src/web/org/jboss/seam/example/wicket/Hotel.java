@@ -31,7 +31,7 @@ public class Hotel extends WebPage
 	      public void onClick()
 	      {
 	         hotelBooking.bookHotel();
-	         setResponsePage(Book.class);
+	         setResponsePage(new Book(new PageParameters()));
 	      }
 	   });
 	   body.add(new Link("cancel")
