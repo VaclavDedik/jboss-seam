@@ -18,17 +18,17 @@
         use it in conjunction with Eclipse for debugging and integration testing. If you don't want to install Eclipse,
         you can still follow along with this tutorial—all steps can be performed from the command line.</para>
 
-    <para>Seam-gen is basically just a big ugly Ant script wrapped around Hibernate Tools, together with some templates.
+    <para>seam-gen is basically just an intricate Ant script wrapped around Hibernate Tools, together with some templates.
         That makes it easy to customize if you need to.</para>
 
     <section>
         <title>Before you start</title>
 
         <para>Make sure you have JDK 5 or JDK 6 (see <xref
-                           linkend="jdk_dependencies"/> for details), JBoss AS 4.2 and Ant 1.6, along with recent versions of Eclipse, the
-            JBoss IDE plugin for Eclipse and the TestNG plugin for Eclipse correctly installed before starting. Add your
-            JBoss installation to the JBoss Server View in Eclipse. Start JBoss in debug mode. Finally, start a command
-            prompt in the directory where you unzipped the Seam distribution.</para>
+            linkend="jdk_dependencies"/> for details), JBoss AS 4.2 or 5.0 and Ant 1.7.0, along with recent versions of
+            Eclipse, the JBoss IDE plugin for Eclipse and the TestNG plugin for Eclipse correctly installed before
+            starting. Add your JBoss installation to the JBoss Server View in Eclipse. Start JBoss in debug mode.
+            Finally, start a command prompt in the directory where you unzipped the Seam distribution.</para>
 
         <para>JBoss has sophisticated support for hot re-deployment of WARs and EARs. Unfortunately, due to bugs in the
             JVM, repeated redeployment of an EAR—which is common during development—eventually causes the JVM to run out
@@ -410,11 +410,11 @@ C:\Projects\jboss-seam&gt;</programlisting>
     <section>
         <title>Using Seam with JBoss 4.0</title>
 
-        <para> Seam 2.0 was developed for JavaServer Faces 1.2. When using JBoss AS, we recommend using JBoss 4.2, which
-            bundles the JSF 1.2 reference implementation. However, it is still possible to use Seam 2.0 on the JBoss 4.0
-            platform. There are two basic steps required to do this: install an EJB3-enabled version of JBoss 4.0 and
-            replace MyFaces with the JSF 1.2 reference implementation.  Once you complete these steps, Seam 2.0 
-            applications can be deployed to JBoss 4.0.</para>
+        <para> Seam 2.0 was developed for JavaServer Faces 1.2. When using JBoss AS, we recommend using JBoss 4.2 or
+            JBoss 5.0, both of which bundle the JSF 1.2 reference implementation. However, it is still possible to use
+            Seam 2.0 on the JBoss 4.0 platform. There are two basic steps required to do this: install an EJB3-enabled
+            version of JBoss 4.0 and replace MyFaces with the JSF 1.2 reference implementation.  Once you complete these
+            steps, Seam 2.0 applications can be deployed to JBoss 4.0.</para>
 
         <section>
             <title>Install JBoss 4.0</title>

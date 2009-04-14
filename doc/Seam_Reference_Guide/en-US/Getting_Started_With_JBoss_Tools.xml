@@ -27,10 +27,10 @@
       <title>Before you start</title>
 
       <para>
-         Make sure you have JDK 5, JBoss AS 4.2, Eclipse 3.3, the JBoss Tools
-         plugins (at least Seam Tools, the Visual Page Editor, jBPM Tools and
-         JBoss AS Tools) and the TestNG plugin for Eclipse correctly installed
-         before starting.
+         Make sure you have JDK 5, JBoss AS 4.2 or 5.0, Eclipse 3.3, the JBoss
+         Tools plugins (at least Seam Tools, the Visual Page Editor, jBPM Tools
+         and JBoss AS Tools) and the TestNG plugin for Eclipse correctly
+         installed before starting.
       </para>
 
       <para>TODO - detail where the update sites are.</para>
@@ -69,9 +69,10 @@
 
 
       <para>
-         Now, we need to tell JBoss Tools about JBoss AS. This is a two stage
-         process, first we need to define a runtime, make sure you select JBoss
-         AS 4.2:
+         Now, we need to tell JBoss Tools about JBoss AS. In this example we
+         are using JBoss AS 4.2, though you can certainly use JBoss AS 5.0 as
+         well. Selecting JBoss AS is a two step process. First we need to
+         define a runtime. Again, we'll choose JBoss AS 4.2 in this case:
       </para>
 
       <mediaobject>

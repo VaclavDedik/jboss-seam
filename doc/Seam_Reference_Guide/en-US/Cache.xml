@@ -119,7 +119,7 @@
       <variablelist>
          <varlistentry>
             <term>
-               JBoss Cache 1.x (suitable for use in JBoss 4.2.x and other
+               JBoss Cache 1.x (suitable for use in JBoss 4.2.x or later and other
                containers)
             </term>
             <listitem>
@@ -141,7 +141,7 @@
          </varlistentry>
          <varlistentry>
             <term>
-               JBoss POJO Cache 1.x (suitable for use in JBoss 4.2.x and other
+               JBoss POJO Cache 1.x (suitable for use in JBoss 4.2.x or later and other
                containers)
             </term>
             <listitem>

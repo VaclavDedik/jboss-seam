@@ -54,7 +54,7 @@
 </persistence-unit>]]></programlisting>
 
     <para>If you plan to target Hibernate Annotations or EntityManager 3.2.x
-    (embedded into JBoss AS 4.2.GA), you also need to configure the
+    (embedded into JBoss AS 4.2.x and later), you also need to configure the
     appropriate event listeners.</para>
 
    <programlisting role="XML"><![CDATA[<persistence-unit name="sample">

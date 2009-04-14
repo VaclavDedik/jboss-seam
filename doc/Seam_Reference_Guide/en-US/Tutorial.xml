@@ -44,7 +44,7 @@
         <section>
             <title>Running the examples on JBoss AS</title>
 
-            <para>The examples are configured for use on JBoss 4.2. You'll need to set <literal>jboss.home</literal>,
+            <para>The examples are configured for use on JBoss AS 4.2 or 5.0. You'll need to set <literal>jboss.home</literal>,
                 in the shared <literal>build.properties</literal> file in the root folder of your Seam 
                 installation, to the location of your JBoss AS installation.</para>
 

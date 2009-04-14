@@ -1166,7 +1166,7 @@ Authenticator authenticator;
 
         <para> The default HTTP session timeout can be modified in
                 <literal>server/default/deploy/jbossweb-tomcat55.sar/conf/web.xml</literal> for JBoss 4.0.x, or in
-                <literal>server/default/deploy/jboss-web.deployer/conf/web.xml</literal> for JBoss 4.2.x. The following
+                <literal>server/default/deploy/jboss-web.deployer/conf/web.xml</literal> for JBoss 4.2.x or later. The following
             entry in this file controls the default session timeout for all web applications: </para>
 
         <programlisting role="XML"><![CDATA[<session-config>

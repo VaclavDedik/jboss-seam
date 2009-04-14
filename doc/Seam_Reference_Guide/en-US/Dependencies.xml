@@ -48,7 +48,7 @@
       type is listed as <literal>war</literal>, the library should be placed in 
       the <literal>/WEB-INF/lib</literal> directory of your application's war
       file.  The scope of the dependency is either all, runtime or provided (by
-      JBoss AS 4.2).
+      JBoss AS 4.2 or 5.0).
     </para>
     
     <para>
