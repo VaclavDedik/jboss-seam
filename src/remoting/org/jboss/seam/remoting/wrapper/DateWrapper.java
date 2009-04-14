@@ -11,73 +11,82 @@ import java.util.Date;
 
 /**
  * Handles date conversions
- *
+ * 
  * @author Shane Bryzak
  */
 public class DateWrapper extends BaseWrapper implements Wrapper
 {
-  private static final byte[] DATE_TAG_OPEN = "<date>".getBytes();
-  private static final byte[] DATE_TAG_CLOSE = "</date>".getBytes();
-  private static final DateFormat df = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-
-  public void marshal(OutputStream out) throws IOException
-  {
-    out.write(DATE_TAG_OPEN);
-    if (Date.class.isAssignableFrom(value.getClass()))
-    {
-       out.write(df.format(value).getBytes());
-    }
-    else if (Calendar.class.isAssignableFrom(value.getClass()))
-    {
-       out.write(df.format(((Calendar) value).getTime()).getBytes());
-    }
-    out.write(DATE_TAG_CLOSE);
-  }
-
-  public Object convert(Type type)
-      throws ConversionException
-  {
-    if ((type instanceof Class && Date.class.isAssignableFrom((Class) type)) ||
-        type.equals(Object.class))
-    {
-      try {
-        value = df.parse(element.getStringValue());
-      }
-      catch (ParseException ex) 
+   private static final byte[] DATE_TAG_OPEN = "<date>".getBytes();
+   private static final byte[] DATE_TAG_CLOSE = "</date>".getBytes();
+   
+   private static final String DATE_FORMAT = "yyyyMMddHHmmssSSS";
+   
+   private DateFormat getDateFormat()
+   {
+      return new SimpleDateFormat(DATE_FORMAT);
+   }
+   
+   public void marshal(OutputStream out) throws IOException
+   {
+      out.write(DATE_TAG_OPEN);
+      if (Date.class.isAssignableFrom(value.getClass()))
       {
-        throw new ConversionException(String.format(
-            "Date value [%s] is not in a valid format.", element.getStringValue()));
+         out.write(getDateFormat().format(value).getBytes());
       }
-    }
-    else if ((type instanceof Class && Calendar.class.isAssignableFrom((Class) type)))
-    {
-       try
-       {
-          Calendar cal = Calendar.getInstance();
-          cal.setTime(df.parse(element.getStringValue()));
-          value = cal;
-       }
-       catch (ParseException ex)
-       {
-          throw new ConversionException(String.format(
-                "Date value [%s] is not in a valid format.", element.getStringValue()));
-       }
-    }
-    else
-      throw new ConversionException(String.format(
-        "Value [%s] cannot be converted to type [%s].", element.getStringValue(),
-        type));
-
-    return value;
-  }
-
-  public ConversionScore conversionScore(Class cls)
-  {
-    if (Date.class.isAssignableFrom(cls) || Calendar.class.isAssignableFrom(cls))
-      return ConversionScore.exact;
-    else if (cls.equals(Object.class))
-      return ConversionScore.compatible;
-    else
-      return ConversionScore.nomatch;
-  }
+      else if (Calendar.class.isAssignableFrom(value.getClass()))
+      {
+         out.write(getDateFormat().format(((Calendar) value).getTime()).getBytes());
+      }
+      out.write(DATE_TAG_CLOSE);
+   }
+   
+   public Object convert(Type type) throws ConversionException
+   {
+      if ((type instanceof Class && Date.class.isAssignableFrom((Class) type)) || type.equals(Object.class))
+      {
+         try
+         {
+            value = getDateFormat().parse(element.getStringValue());
+         }
+         catch (ParseException ex)
+         {
+            throw new ConversionException(String.format("Date value [%s] is not in a valid format.", element.getStringValue()));
+         }
+      }
+      else if ((type instanceof Class && Calendar.class.isAssignableFrom((Class) type)))
+      {
+         try
+         {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(getDateFormat().parse(element.getStringValue()));
+            value = cal;
+         }
+         catch (ParseException ex)
+         {
+            throw new ConversionException(String.format("Date value [%s] is not in a valid format.", element.getStringValue()));
+         }
+      }
+      else
+      {
+         throw new ConversionException(String.format("Value [%s] cannot be converted to type [%s].", element.getStringValue(), type));
+      }
+      
+      return value;
+   }
+   
+   public ConversionScore conversionScore(Class cls)
+   {
+      if (Date.class.isAssignableFrom(cls) || Calendar.class.isAssignableFrom(cls))
+      {
+         return ConversionScore.exact;
+      }
+      else if (cls.equals(Object.class))
+      {
+         return ConversionScore.compatible;
+      }
+      else
+      {
+         return ConversionScore.nomatch;
+      }
+   }
 }
