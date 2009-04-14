@@ -447,10 +447,6 @@ div.registerHeader {
   padding: 8px 4px 8px 12px;
 }
 
-div.formRow {
-  padding: 3px 4px 3px 2px;
-}
-
 form.register label {
   float: left;
   display: block;
@@ -507,8 +503,7 @@ quote {
 /* General form styles */
 
 div.formRow {
-  padding-top: 2px;
-  padding-bottom: 2px;
+  padding: 3px 4px 3px 2px;  
   clear: both;
 }
 

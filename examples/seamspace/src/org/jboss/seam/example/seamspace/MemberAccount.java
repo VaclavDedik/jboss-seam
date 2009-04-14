@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.validator.NotNull;
+import org.jboss.seam.annotations.security.management.PasswordSalt;
 import org.jboss.seam.annotations.security.management.UserEnabled;
 import org.jboss.seam.annotations.security.management.UserPassword;
 import org.jboss.seam.annotations.security.management.UserPrincipal;
@@ -28,6 +29,7 @@ public class MemberAccount implements Serializable
    private Integer accountId;
    private String username;
    private String passwordHash;
+   private String passwordSalt;
    private boolean enabled;   
    
    private Set<MemberRole> roles;
@@ -55,7 +57,7 @@ public class MemberAccount implements Serializable
       this.username = username;
    }
    
-   @UserPassword(hash = "MD5")
+   @UserPassword
    public String getPasswordHash()
    {
       return passwordHash;
@@ -64,7 +66,18 @@ public class MemberAccount implements Serializable
    public void setPasswordHash(String passwordHash)
    {
       this.passwordHash = passwordHash;      
-   }      
+   }
+   
+   @PasswordSalt
+   public String getPasswordSalt()
+   {
+      return passwordSalt;
+   }
+   
+   public void setPasswordSalt(String passwordSalt)
+   {
+      this.passwordSalt = passwordSalt;
+   }
    
    @UserEnabled
    public boolean isEnabled()

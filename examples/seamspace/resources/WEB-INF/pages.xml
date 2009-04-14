@@ -6,12 +6,9 @@
 
     <page view-id="/home.xhtml">
         <navigation from-action="#{identity.login}">
-            <!--rule if-outcome="loggedIn">
-                <redirect view-id="/profile.xhtml"/>
-            </rule-->
-            <rule if="#{identity.loggedIn and authenticatedMember ne null}">
-              <redirect view-id="/profile.xhtml"/>
-            </rule>
+          <rule if="#{identity.loggedIn and authenticatedMember ne null}">
+            <redirect view-id="/profile.xhtml"/>
+          </rule>
         </navigation>
         <navigation from-action="#{register.start}">
           <redirect view-id="/register.xhtml"/>
