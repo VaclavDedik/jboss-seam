@@ -73,8 +73,6 @@ public abstract class WikiNode<N extends WikiNode> implements Comparable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CREATED_BY_USER_ID", nullable = false)
     @org.hibernate.annotations.ForeignKey(name = "FK_WIKI_NODE_CREATED_BY_USER_ID")
-    @org.hibernate.search.annotations.IndexedEmbedded(prefix = "createdBy_")
-    @Searchable(description = "Created By", type = SearchableType.STRING, embeddedProperty = "username")
     protected User createdBy;
 
     @Column(name = "LAST_MODIFIED_ON", nullable = true)
@@ -89,8 +87,6 @@ public abstract class WikiNode<N extends WikiNode> implements Comparable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LAST_MODIFIED_BY_USER_ID", nullable = true)
     @org.hibernate.annotations.ForeignKey(name = "FK_WIKI_NODE_LAST_MODIFIED_BY")
-    @org.hibernate.search.annotations.IndexedEmbedded(prefix = "lastModifiedBy_")
-    @Searchable(description = "Last Modified By", type = SearchableType.STRING, embeddedProperty = "username")
     protected User lastModifiedBy;
 
     @Column(name = "WRITE_ACCESS_LEVEL", nullable = false)
