@@ -68,7 +68,7 @@ public class WicketHandler implements Serializable
       }
       reentrant++;
       InstrumentedComponent enclosing = getEnclosingInstance(invocationContext.getBean());
-      if (enclosing != null)
+      if (enclosing != null && enclosing.getHandler() != null)
       {
          enclosing.getHandler().injectEnclosingInstance(enclosing);
       }
@@ -124,7 +124,7 @@ public class WicketHandler implements Serializable
          }
       }
       InstrumentedComponent enclosing = getEnclosingInstance(invocationContext.getBean());
-      if (enclosing != null)
+      if (enclosing != null && enclosing.getHandler() != null)
       {
          enclosing.getHandler().disinjectEnclosingInstance(enclosing);
       }
