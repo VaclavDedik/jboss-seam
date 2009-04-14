@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2009-04-12 01:20-0400\n"
-"PO-Revision-Date: 2009-04-13 22:25+0100\n"
+"PO-Revision-Date: 2009-04-14 07:05+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -11,11 +11,11 @@ msgstr ""
 
 #: doc/Seam_Reference_Guide/en-US/Guice.xml:6(title)
 msgid "Guice integration"
-msgstr "Integrazione Guice"
+msgstr "Integrazione con Guice"
 
 #: doc/Seam_Reference_Guide/en-US/Guice.xml:8(para)
 msgid "Google Guice is a library that provides lightweight dependency injection through type-safe resolution. The Guice integration (part of the Seam IoC module) allows use of Guice injection for all Seam components annotated with the <literal>@Guice</literal> annotation. In addition to the regular bijection that Seam performs (which becomes optional), Seam also delegates to known Guice injectors to satisify the dependencies of the component. Guice may be useful to tie non-Seam parts of large or legacy applications together with Seam."
-msgstr "Google Guice è una libreria che fornisce dependency injection leggera attraverso una risoluzione type-safe. L'integrazioneGuice (parte del modulo Seam IoC) consente l'uso dell'iniezione Guice per tutti i componenti Seam annotati con l'annotazione <literal>@Guice</literal>. In aggiunta alla regolare bijection che Seam fornisce (che diviene opzionale), Seam delega a injector Guice noti di soddisfare le dipendenze del componente. Guice può essere utile per unire parte non-Seam di applicazione grosse o legacy assieme a Seam."
+msgstr "Google Guice è una libreria che fornisce una dependency injection leggera attraverso la risoluzione type-safe. L'integrazione con Guice (parte del modulo Seam IoC) consente l'uso dell'iniezione Guice per tutti i componenti Seam annotati con l'annotazione <literal>@Guice</literal>. In aggiunta alla regolare bijection, fornita da Seam (che diviene opzionale), Seam delega agli injector Guice noti di soddisfare le dipendenze del componente. Guice può essere utile per legare parti non-Seam di applicazione grosse o legacy assieme a Seam."
 
 #: doc/Seam_Reference_Guide/en-US/Guice.xml:17(note)
 msgid "The Guice integration is bundled in the jboss-seam-ioc library. This dependency is required for all integration techniques covered in this chapter. You will also need the Guice JAR file on the classpath."
