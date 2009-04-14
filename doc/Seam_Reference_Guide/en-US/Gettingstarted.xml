@@ -50,10 +50,10 @@
     </section>
 
     <section>
-        <title>Setting up a new Eclipse project</title>
+        <title>Setting up a new project</title>
 
         <para>The first thing we need to do is configure seam-gen for your environment: JBoss AS installation directory,
-            Eclipse workspace, and database connection. It's easy, just type:</para>
+            project workspace, and database connection. It's easy, just type:</para>
 
         <programlisting>cd jboss-seam-2.0.x
 seam setup</programlisting>
@@ -67,10 +67,10 @@ init:
 
 setup:
      [echo] Welcome to seam-gen :-)
-    [input] Enter your Java project workspace (the directory that contains your Seam projects) [C:/Projects] [C:/Projects]
+    [input] Enter your project workspace (the directory that contains your Seam projects) [C:/Projects] [C:/Projects]
 /Users/pmuir/workspace
-    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.2.GA] [C:/Program Files/jboss-4.2.2.GA]
-/Applications/jboss-4.2.2.GA
+    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.3.GA] [C:/Program Files/jboss-4.2.3.GA]
+/Applications/jboss-4.2.3.GA
     [input] Enter the project name [myproject] [myproject]
 helloworld
      [echo] Accepted project name as: helloworld
@@ -164,7 +164,7 @@ C:\Projects\jboss-seam&gt;</programlisting>
 
         <para>Go to <literal>http://localhost:8080/helloworld</literal> to see a welcome page. This is a facelets page,
                 <literal>view/home.xhtml</literal>, using the template <literal>view/layout/template.xhtml</literal>.
-            You can edit this page, or the template, in eclipse, and see the results <emphasis>immediately</emphasis>,
+            You can edit this page, or the template, in Eclipse, and see the results <emphasis>immediately</emphasis>,
             by clicking refresh in your browser.</para>
 
         <para>Don't get scared by the XML configuration documents that were generated into the project directory. They
