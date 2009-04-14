@@ -19,6 +19,7 @@
 	http://jboss.com/products/seam/pdf ${seam.dir}/src/pdf/org/jboss/seam/pdf/pdf-${schema.version}.xsd 
 	http://jboss.com/products/seam/persistence ${src.schema.dir}/persistence-${schema.version}.xsd 
 	http://jboss.com/products/seam/remoting ${src.schema.dir}/remoting-${schema.version}.xsd 
+	http://jboss.com/products/seam/resteasy ${seam.dir}/src/resteasy/org/jboss/seam/resteasy/resteasy-${schema.version}.xsd
 	http://jboss.com/products/seam/security ${src.schema.dir}/security-${schema.version}.xsd 
 	http://jboss.com/products/seam/theme ${src.schema.dir}/theme-${schema.version}.xsd 
 	http://jboss.com/products/seam/transaction ${src.schema.dir}/transaction-${schema.version}.xsd 
