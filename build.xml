@@ -672,6 +672,7 @@
 				<!--<include name="portal/**/*" />-->
 				<include name="drools/**/*" />
 				<include name="nestedbooking/**/*" />
+				<include name="metawidget/**/*" />
 				<include name="wicket/**/*" />
 				<include name="remoting/chatroom/**/*" />
 				<include name="remoting/helloworld/**/*" />

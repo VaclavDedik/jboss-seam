@@ -51,6 +51,9 @@ mail/                 The Seam mail example demonstrating use of
 
 messages/             The Seam message list example demonstrating use 
                       of the @DataModel annotation.
+
+metawidget/           The Seam booking, groovybooking, dvdstore examples implemented
+                      using metawidget to define the UI forms.
                       
 nestedbooking/        The booking example modified to show the use of nested
                       conversations.
