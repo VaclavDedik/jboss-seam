@@ -12,6 +12,7 @@ import org.jboss.seam.security.Identity;
  */
 public abstract class DigestAuthenticator
 {
+   @SuppressWarnings("deprecation")
    protected boolean validatePassword(String password)
    {
       Context ctx = Contexts.getSessionContext();

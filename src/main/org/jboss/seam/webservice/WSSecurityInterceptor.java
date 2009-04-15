@@ -14,7 +14,7 @@ import org.jboss.seam.security.SecurityInterceptor;
          around=AsynchronousInterceptor.class)
 public class WSSecurityInterceptor extends SecurityInterceptor
 {
-
+   @Override
    public boolean isInterceptorEnabled()
    {
       return getComponent().isSecure() && getComponent().beanClassHasAnnotation("javax.jws.WebService");

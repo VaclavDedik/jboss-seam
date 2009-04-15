@@ -33,7 +33,7 @@ public class SecurityInterceptor extends AbstractInterceptor implements Serializ
    
    /**
     * You may encounter a JVM bug where the field initializer is not evaluated for a transient field after deserialization.
-    * @see http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6252102
+    * @see "http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6252102"
     */
    private transient volatile Map<Method,Restriction> restrictions = new HashMap<Method,Restriction>();
    

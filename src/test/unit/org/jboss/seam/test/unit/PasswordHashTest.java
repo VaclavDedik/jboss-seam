@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 
 public class PasswordHashTest
 {   
+   @SuppressWarnings("deprecation")
    @Test
    public void testMd5Hash()
    {
@@ -13,6 +14,7 @@ public class PasswordHashTest
       assert hash.equals("Xr4ilOzQ4PCOq3aQ0qbuaQ==");
    }
    
+   @SuppressWarnings("deprecation")
    @Test
    public void testShaHash()
    {

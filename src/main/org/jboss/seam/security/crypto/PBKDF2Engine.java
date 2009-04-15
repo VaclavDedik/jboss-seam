@@ -1,9 +1,6 @@
 package org.jboss.seam.security.crypto;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 
 /**
  * Copied from Matthias Gartner's PKCS#5 implementation - see
