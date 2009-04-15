@@ -13,7 +13,7 @@ public class RegisterTest extends SeamTest
    public void testLogin() throws Exception
    {
             
-      new FacesRequest("/register.jspx") {
+      new FacesRequest("/register.xhtml") {
 
          @Override
          protected void processValidations() throws Exception
@@ -35,8 +35,8 @@ public class RegisterTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            assert invokeMethod("#{register.register}").equals("/registered.jspx");
-            setOutcome("/registered.jspx");
+            assert invokeMethod("#{register.register}").equals("/registered.xhtml");
+            setOutcome("/registered.xhtml");
          }
          
          @Override
@@ -48,7 +48,7 @@ public class RegisterTest extends SeamTest
          
       }.run();
       
-      new NonFacesRequest("/registered.jspx")
+      new NonFacesRequest("/registered.xhtml")
       {
 
          @Override
@@ -61,7 +61,7 @@ public class RegisterTest extends SeamTest
          
       }.run();
       
-      new FacesRequest("/register.jspx") {
+      new FacesRequest("/register.xhtml") {
 
          @Override
          protected void processValidations() throws Exception
