@@ -38,11 +38,21 @@ public class Credentials implements Serializable
    
    private boolean initialized;
    
+   public boolean isInitialized()
+   {
+      return initialized;
+   }
+   
+   public void setInitialized(boolean initialized)
+   {
+      this.initialized = initialized;
+   }
+   
    public String getUsername()
    {
-      if (!initialized && Events.exists())
+      if (!isInitialized() && Events.exists())
       {
-         initialized = true;
+         setInitialized(true);
          Events.instance().raiseEvent(EVENT_INIT_CREDENTIALS, this);
       }
       
