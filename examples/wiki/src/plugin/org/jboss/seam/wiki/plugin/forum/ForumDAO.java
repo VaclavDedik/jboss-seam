@@ -36,16 +36,24 @@ public class ForumDAO implements Serializable {
     }
 
     public Long findForumPostingsCount(List<WikiDirectory> forumDirectories, User user) {
-        return (Long) getSession(true).getNamedQuery("forumTopicsForUserCount")
-                .setParameterList("parentDirectories", forumDirectories)
-                .setParameter("user", user)
-                .setComment("Finding forum topcis count for user: " + user)
-                .uniqueResult();
+        if (forumDirectories == null || forumDirectories.size() == 0) {
+            return 0l;
+        } else {
+            return (Long) getSession(true).getNamedQuery("forumTopicsForUserCount")
+                    .setParameterList("parentDirectories", forumDirectories)
+                    .setParameter("user", user)
+                    .setComment("Finding forum topcis count for user: " + user)
+                    .uniqueResult();
+        }
     }
 
     public List<TopicInfo> findForumPostings(List<WikiDirectory> forumDirectories, User user, int firstResult, int maxResults) {
 
         final Map<Long, TopicInfo> topicInfoMap = new LinkedHashMap();
+
+        if (forumDirectories == null || forumDirectories.size() == 0) {
+            return Collections.EMPTY_LIST;
+        }
 
         getSession(true).getNamedQuery("forumTopicsForUser")
                 .setParameterList("parentDirectories", forumDirectories)

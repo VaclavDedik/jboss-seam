@@ -36,6 +36,6 @@ public class WikiMySQL5HibernateDialect extends MySQL5InnoDBDialect {
     // Create all tables as default UTF8!
     @Override
     public String getTableTypeString() {
-        return " ENGINE=InnoDB DEFAULT CHARSET=utf8";
+        return " ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_general_ci";
     }
 }
