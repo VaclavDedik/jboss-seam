@@ -204,12 +204,21 @@ public class WikiHttpSessionManager implements Serializable {
 
         for (User userInstance : userInstances) {
             // Now fill the OnlineUser DTO which is needed by the UI
-            onlineMembers.add(
-                new OnlineUser(
-                    userInstance,
-                    onlineUsernames.get(userInstance.getUsername()).getLastAccessedTime()
-                )
-            );
+            try {
+                onlineMembers.add(
+                    new OnlineUser(
+                        userInstance,
+                        onlineUsernames.get(userInstance.getUsername()).getLastAccessedTime()
+                    )
+                );
+            } catch (IllegalStateException ex) {
+                // Just ignore that:
+                /*
+                Caused by: java.lang.IllegalStateException: getLastAccessedTime: Session already invalidated
+                at org.apache.catalina.session.StandardSession.getLastAccessedTime(StandardSession.java:439)
+                at org.apache.catalina.session.StandardSessionFacade.getLastAccessedTime(StandardSessionFacade.java:84)
+                 */
+            }
         }
 
         Collections.sort(onlineMembers);
