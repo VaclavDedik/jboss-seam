@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dependencies\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-04-07 12:39+0000\n"
+"POT-Creation-Date: 2009-04-15 13:51+0000\n"
 "PO-Revision-Date: 2009-03-06 15:59+1000\n"
 "Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -88,7 +88,7 @@ msgstr "プロジェクトの依存性"
 
 #. Tag: para
 #: Dependencies.xml:44
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "This section both lists the compile-time and runtime dependencies for Seam. "
 "Where the type is listed as <literal>ear</literal>, the library should be "
@@ -96,7 +96,7 @@ msgid ""
 "type is listed as <literal>war</literal>, the library should be placed in "
 "the <literal>/WEB-INF/lib</literal> directory of your application's war "
 "file. The scope of the dependency is either all, runtime or provided (by "
-"JBoss AS 4.2)."
+"JBoss AS 4.2 or 5.0)."
 msgstr ""
 "本セクションでは Seam のコンパイルタイムとランタイムの両方の依存性を列挙しま"
 "す。 タイプが <literal>ear</literal> と記載されている場合、 ライブラリがアプ"

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tools\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-03-22 12:50+0000\n"
+"POT-Creation-Date: 2009-04-15 13:51+0000\n"
 "PO-Revision-Date: 2009-02-22 18:05+0900\n"
 "Last-Translator: rto <reiko.ohtsuka@gmail.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -209,8 +209,10 @@ msgstr ""
 
 #. Tag: term
 #: Cache.xml:121
-#, no-c-format
-msgid "JBoss Cache 1.x (suitable for use in JBoss 4.2.x and other containers)"
+#, fuzzy, no-c-format
+msgid ""
+"JBoss Cache 1.x (suitable for use in JBoss 4.2.x or later and other "
+"containers)"
 msgstr "JBoss Cache 1.x （JBoss 4.2.xや他のコンテナでの利用に適している）"
 
 #. Tag: literal
@@ -233,9 +235,10 @@ msgstr "org.jboss.cache.Cache"
 
 #. Tag: term
 #: Cache.xml:143
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"JBoss POJO Cache 1.x (suitable for use in JBoss 4.2.x and other containers)"
+"JBoss POJO Cache 1.x (suitable for use in JBoss 4.2.x or later and other "
+"containers)"
 msgstr "JBoss POJO Cache 1.x （JBoss 4.2.xや他のコンテナでの利用に適している）"
 
 #. Tag: literal

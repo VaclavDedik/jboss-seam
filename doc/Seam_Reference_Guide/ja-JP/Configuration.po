@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Configuration\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-03-22 12:51+0000\n"
+"POT-Creation-Date: 2009-04-15 13:51+0000\n"
 "PO-Revision-Date: 2009-03-09 10:38+1000\n"
 "Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -2704,13 +2704,13 @@ msgstr ""
 
 #. Tag: para
 #: Configuration.xml:854
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "The default HTTP session timeout can be modified in <literal>server/default/"
 "deploy/jbossweb-tomcat55.sar/conf/web.xml</literal> for JBoss 4.0.x, or in "
 "<literal>server/default/deploy/jboss-web.deployer/conf/web.xml</literal> for "
-"JBoss 4.2.x. The following entry in this file controls the default session "
-"timeout for all web applications:"
+"JBoss 4.2.x or later. The following entry in this file controls the default "
+"session timeout for all web applications:"
 msgstr ""
 "デフォルトの HTTP セッションタイムアウトは、 JBoss 4.0.x なら "
 "<literal>server/default/deploy/jbossweb-tomcat55.sar/conf/web.xml</literal> "

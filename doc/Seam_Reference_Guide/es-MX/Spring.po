@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seam_-_Contextual_Components VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-12-04 00:59+0000\n"
+"POT-Creation-Date: 2009-04-15 13:52+0000\n"
 "PO-Revision-Date: 2008-11-06 00:09+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -23,10 +23,10 @@ msgstr ""
 #: Spring.xml:8
 #, no-c-format
 msgid ""
-"The Spring integration module allows easy migration of Spring-based projects "
-"to Seam and allows Spring applications to take advantage of key Seam "
-"features like conversations and Seam's more sophisticated persistence "
-"context management."
+"The Spring integration (part of the Seam IoC module) allows easy migration "
+"of Spring-based projects to Seam and allows Spring applications to take "
+"advantage of key Seam features like conversations and Seam's more "
+"sophisticated persistence context management."
 msgstr ""
 
 #. Tag: para

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-04-09 13:04+0000\n"
+"POT-Creation-Date: 2009-04-15 13:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -159,7 +159,9 @@ msgstr ""
 #. Tag: term
 #: Cache.xml:121
 #, no-c-format
-msgid "JBoss Cache 1.x (suitable for use in JBoss 4.2.x and other containers)"
+msgid ""
+"JBoss Cache 1.x (suitable for use in JBoss 4.2.x or later and other "
+"containers)"
 msgstr ""
 
 #. Tag: literal
@@ -184,7 +186,8 @@ msgstr ""
 #: Cache.xml:143
 #, no-c-format
 msgid ""
-"JBoss POJO Cache 1.x (suitable for use in JBoss 4.2.x and other containers)"
+"JBoss POJO Cache 1.x (suitable for use in JBoss 4.2.x or later and other "
+"containers)"
 msgstr ""
 
 #. Tag: literal

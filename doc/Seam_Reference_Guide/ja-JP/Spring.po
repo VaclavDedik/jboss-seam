@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Spring\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-03-22 12:51+0000\n"
+"POT-Creation-Date: 2009-04-15 13:52+0000\n"
 "PO-Revision-Date: 2009-03-06 11:51+1000\n"
 "Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -21,12 +21,12 @@ msgstr "Spring Framework 統合"
 
 #. Tag: para
 #: Spring.xml:8
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"The Spring integration module allows easy migration of Spring-based projects "
-"to Seam and allows Spring applications to take advantage of key Seam "
-"features like conversations and Seam's more sophisticated persistence "
-"context management."
+"The Spring integration (part of the Seam IoC module) allows easy migration "
+"of Spring-based projects to Seam and allows Spring applications to take "
+"advantage of key Seam features like conversations and Seam's more "
+"sophisticated persistence context management."
 msgstr ""
 "Spring 統合モジュールにより Seam への Spring ベースとするプロジェクトの移植が"
 "容易になり、 Spring アプリケーションは対話や Seam の高度な永続コンテキスト管"
