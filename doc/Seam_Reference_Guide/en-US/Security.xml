@@ -3225,6 +3225,18 @@ public @interface User {
             </tgroup>
           </table>       
           
+          <note>
+            <para>
+              As they are cached in the user's session, any custom <literal>PermissionResolver</literal> 
+              implementations must adhere to a couple of restrictions.  Firstly, they may not contain any 
+              state that is finer-grained than session scope (and the scope of the component itself should
+              either be application or session).  Secondly, they must not use dependency 
+              injection as they may be accessed from multiple threads simultaneously.  In fact, for
+              performance reasons it is recommended that they are annotated with 
+              <literal>@BypassInterceptors</literal> to bypass Seam's interceptor stack altogether.
+            </para>
+          </note>
+          
         </sect4>
       </sect3>
       
