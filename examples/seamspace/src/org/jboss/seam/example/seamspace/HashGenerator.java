@@ -4,9 +4,9 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.security.crypto.BinTools;
 import org.jboss.seam.security.management.JpaIdentityStore;
 import org.jboss.seam.security.management.PasswordHash;
-import org.jboss.seam.util.Base64;
 
 @Scope(ScopeType.EVENT)
 @Name("hashgenerator")
@@ -50,8 +50,29 @@ public class HashGenerator
    
    public void generate()
    {
-      byte[] salt = PasswordHash.instance().generateRandomSalt();
-      passwordSalt = Base64.encodeBytes(salt);
+      byte[] salt;
+      
+      if (passwordSalt == null || "".equals(passwordSalt.trim()))
+      {
+         salt = PasswordHash.instance().generateRandomSalt();
+         passwordSalt = BinTools.bin2hex(salt);
+      }
+      else
+      {
+         salt = BinTools.hex2bin(passwordSalt);
+      }
+      
       passwordHash = identityStore.generatePasswordHash(password, salt);
+   }
+   
+   public String getSql()
+   {
+      StringBuilder sb = new StringBuilder();
+      sb.append("INSERT INTO USER_ACCOUNT (username, password_hash, password_salt) values ('johnsmith', '");
+      sb.append(passwordHash);
+      sb.append("', '");
+      sb.append(passwordSalt);
+      sb.append("');");      
+      return sb.toString();
    }
 }

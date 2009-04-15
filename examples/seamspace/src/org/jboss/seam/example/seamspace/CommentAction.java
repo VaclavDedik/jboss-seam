@@ -10,11 +10,13 @@ import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.security.Insert;
 import org.jboss.seam.core.Conversation;
 
 @Scope(CONVERSATION)
 @Name("commentAction")
+@Transactional
 public class CommentAction 
 {
    @In

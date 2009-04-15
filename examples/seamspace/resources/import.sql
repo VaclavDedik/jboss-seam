@@ -7,10 +7,10 @@ insert into MemberRole (roleid, name, conditional) values (1, 'user', false);
 insert into MemberRole (roleid, name, conditional) values (2, 'admin', false);
 insert into MemberRole (roleid, name, conditional) values (3, 'friends', true);
 
-insert into MemberAccount (accountid, username, passwordhash, passwordsalt, enabled, member_id) values (1, 'demo', 'Lb9y5+2nJZ6M4dI9d1Fjy60G21jn9SCY3mpWu4AodsI=', 'dNrc6UsJxXo=', 1, 1);
-insert into MemberAccount (accountid, username, passwordhash, passwordsalt, enabled, member_id) values (2, 'duke', 'Ci9yZp93B/Ig/ElmuBjbq7ldpLp5Dh0Qh4YTP7iquKY=', 'lyEG5QdmTME=', 1, 2);
-insert into MemberAccount (accountid, username, passwordhash, passwordsalt, enabled, member_id) values (3, 'shadowman', 'vNY1tLpId6KQLeTXEB4yShDAyAlwV4BvfPq11HpBHzM=', 'kKBf7ZH3DDk=', 1, 3);
-insert into MemberAccount (accountid, username, passwordhash, passwordsalt, enabled, member_id) values (4, 'mona', 'Vgt0PPvkzacu4qeLYF3USIpN79blPo5TR2JYm0Ak9xA=', 'BM0mitVT6Gg=', 1, 4);
+insert into MemberAccount (accountid, username, passwordhash, passwordsalt, enabled, member_id) values (1, 'demo', '70D33A98C7E76C7365A7C58F88CA8A89373B6EB5', 'C0FA5E59FC18E1E1', 1, 1);
+insert into MemberAccount (accountid, username, passwordhash, passwordsalt, enabled, member_id) values (2, 'duke', '8D18E5D7DB472FF8AA3E3984F16BFDDA2B265598', '576EF3D383B00897', 1, 2);
+insert into MemberAccount (accountid, username, passwordhash, passwordsalt, enabled, member_id) values (3, 'shadowman', '1D70EA4F262D46525F38DA0C1A130FFF1CA02149', '727D5C9995088913', 1, 3);
+insert into MemberAccount (accountid, username, passwordhash, passwordsalt, enabled, member_id) values (4, 'mona', 'CDF580AB2AFC6F7FBCF5A1F114E383DB0DF9E309', '7D804DD05067750C', 1, 4);
 
 insert into AccountMembership (accountid, memberof) values (1, 2);
 insert into AccountMembership (accountid, memberof) values (2, 1);
