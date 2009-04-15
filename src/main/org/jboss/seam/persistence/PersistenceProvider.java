@@ -14,7 +14,6 @@ import javax.transaction.Synchronization;
 import org.jboss.seam.Component;
 import org.jboss.seam.Entity;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -46,7 +45,7 @@ public class PersistenceProvider
        * <pre>select count(*) from Vehicle v</pre>
        * <p>Per the JPA 1.0 spec, using a wildcard as a subject of a count query is not permitted. Instead,
        * the subject must be the entity or the alias, as in this count query:</p>
-       * <pre>select count(v) from Vehciel v</pre>
+       * <pre>select count(v) from Vehicle v</pre>
        * <p>Hibernate supports the wildcard syntax as an vendor extension. Furthermore, Hibernate produces
        * an invalid SQL query when using the compliant subject if the entity has a composite primary key.
        * Therefore, we prefer to use the wildcard syntax if it is supported.</p>
