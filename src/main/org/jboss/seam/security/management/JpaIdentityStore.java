@@ -43,8 +43,8 @@ import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.Role;
 import org.jboss.seam.security.SimplePrincipal;
+import org.jboss.seam.security.crypto.BinTools;
 import org.jboss.seam.util.AnnotatedBeanProperty;
-import org.jboss.seam.util.Base64;
 import org.jboss.seam.util.TypedBeanProperty;
 
 /**
@@ -254,7 +254,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       if (passwordSaltProperty.isSet())
       {
          byte[] salt = generateUserSalt(user);               
-         passwordSaltProperty.setValue(user, Base64.encodeBytes(salt));
+         passwordSaltProperty.setValue(user, BinTools.bin2hex(salt));
          userPasswordProperty.setValue(user, generatePasswordHash(password, salt));
       }
       else
@@ -821,7 +821,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
                   ", but it contains no value");
          }
          
-         passwordHash = generatePasswordHash(password, Base64.decode(encodedSalt));
+         passwordHash = generatePasswordHash(password, BinTools.hex2bin(encodedSalt));
       }
       else
       {
