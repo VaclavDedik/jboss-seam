@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-11-06 00:23+0000\n"
-"PO-Revision-Date: 2009-04-07 15:28+0100\n"
+"POT-Creation-Date: 2009-04-15 13:51+0000\n"
+"PO-Revision-Date: 2009-04-15 16:03+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -46,8 +46,8 @@ msgstr "Si <emphasis>può</emphasis> usare seam-gen senza Eclipse, ma in questo 
 #. Tag: para
 #: Gettingstarted.xml:21
 #, no-c-format
-msgid "Seam-gen is basically just a big ugly Ant script wrapped around Hibernate Tools, together with some templates. That makes it easy to customize if you need to."
-msgstr "Seam-gen è essenzialmente uno script Ant avvolto attorno a Hibernate Tools, assieme a qualche template. Questo facilita la sua personalizzazione nel caso ce ne sia bisogno."
+msgid "seam-gen is basically just an intricate Ant script wrapped around Hibernate Tools, together with some templates. That makes it easy to customize if you need to."
+msgstr "Seam-gen è essenzialmente uno script Ant avvolto attorno a Hibernate Tools, assieme a qualche template. Questo facilita la sua personalizzazione in caso di bisogno."
 
 #. Tag: title
 #: Gettingstarted.xml:25
@@ -58,8 +58,8 @@ msgstr "Prima di iniziare"
 #. Tag: para
 #: Gettingstarted.xml:27
 #, no-c-format
-msgid "Make sure you have JDK 5 or JDK 6 (see <xref linkend=\"jdk_dependencies\"/> for details), JBoss AS 4.2 and Ant 1.6, along with recent versions of Eclipse, the JBoss IDE plugin for Eclipse and the TestNG plugin for Eclipse correctly installed before starting. Add your JBoss installation to the JBoss Server View in Eclipse. Start JBoss in debug mode. Finally, start a command prompt in the directory where you unzipped the Seam distribution."
-msgstr "Assicurarsi di avere JDK 5 o JDK 6 (vedere <xref linkend=\"jdk_dependencies\"/> per maggiori dettagli), JBoss AS 4.2 e Ant 1.6, con una versione recente di Eclipse, il plugin JBoss IDE di Eclipse ed il plugin TestNG per Eclipse correttamente installati prima di avviare. Aggiungere l'installazione di JBoss alla vista di JBoss Server in Eclipse. Avviare JBoss in modalità debug. Infine, avviare da comando all'interno della directory dove si è scompattato la distribuzione Seam."
+msgid "Make sure you have JDK 5 or JDK 6 (see <xref linkend=\"jdk_dependencies\"/> for details), JBoss AS 4.2 or 5.0 and Ant 1.7.0, along with recent versions of Eclipse, the JBoss IDE plugin for Eclipse and the TestNG plugin for Eclipse correctly installed before starting. Add your JBoss installation to the JBoss Server View in Eclipse. Start JBoss in debug mode. Finally, start a command prompt in the directory where you unzipped the Seam distribution."
+msgstr "Assicurarsi di avere JDK 5 o JDK 6 (vedere <xref linkend=\"jdk_dependencies\"/> per maggiori dettagli), JBoss AS 4.2 o 5.0 e Ant 1.7.0, con una versione recente di Eclipse, il plugin JBoss IDE di Eclipse ed il plugin TestNG per Eclipse correttamente installati prima di avviare. Aggiungere l'installazione di JBoss alla vista di JBoss Server in Eclipse. Avviare JBoss in modalità debug. Infine, avviare da comando all'interno della directory dove si è scompattato la distribuzione Seam."
 
 #. Tag: para
 #: Gettingstarted.xml:33
@@ -100,14 +100,14 @@ msgstr "Se non si vuole avere a che fare con queste cose adesso, si lasci stare�
 #. Tag: title
 #: Gettingstarted.xml:53
 #, no-c-format
-msgid "Setting up a new Eclipse project"
-msgstr "Comfigurare un nuovo progetto Eclipse"
+msgid "Setting up a new project"
+msgstr "Comfigurare un nuovo progetto"
 
 #. Tag: para
 #: Gettingstarted.xml:55
 #, no-c-format
-msgid "The first thing we need to do is configure seam-gen for your environment: JBoss AS installation directory, Eclipse workspace, and database connection. It's easy, just type:"
-msgstr "La prima cosa da fare è configurare seam-gen per il proprio ambiente: la directory di installazione JBoss AS, il workspace di Eclipse, e la connessione del database. E' facile, si digiti:"
+msgid "The first thing we need to do is configure seam-gen for your environment: JBoss AS installation directory, project workspace, and database connection. It's easy, just type:"
+msgstr "La prima cosa da fare è configurare seam-gen per il proprio ambiente: la directory di installazione JBoss AS, il workspace, e la connessione del database. E' facile, si digiti:"
 
 #. Tag: programlisting
 #: Gettingstarted.xml:58
@@ -136,10 +136,10 @@ msgid ""
 "\n"
 "setup:\n"
 "     [echo] Welcome to seam-gen :-)\n"
-"    [input] Enter your Java project workspace (the directory that contains your Seam projects) [C:/Projects] [C:/Projects]\n"
+"    [input] Enter your project workspace (the directory that contains your Seam projects) [C:/Projects] [C:/Projects]\n"
 "/Users/pmuir/workspace\n"
-"    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.2.GA] [C:/Program Files/jboss-4.2.2.GA]\n"
-"/Applications/jboss-4.2.2.GA\n"
+"    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.3.GA] [C:/Program Files/jboss-4.2.3.GA]\n"
+"/Applications/jboss-4.2.3.GA\n"
 "    [input] Enter the project name [myproject] [myproject]\n"
 "helloworld\n"
 "     [echo] Accepted project name as: helloworld\n"
@@ -191,10 +191,10 @@ msgstr ""
 "\n"
 "setup:\n"
 "     [echo] Welcome to seam-gen :-)\n"
-"    [input] Enter your Java project workspace (the directory that contains your Seam projects) [C:/Projects] [C:/Projects]\n"
+"    [input] Enter your project workspace (the directory that contains your Seam projects) [C:/Projects] [C:/Projects]\n"
 "/Users/pmuir/workspace\n"
-"    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.2.GA] [C:/Program Files/jboss-4.2.2.GA]\n"
-"/Applications/jboss-4.2.2.GA\n"
+"    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.3.GA] [C:/Program Files/jboss-4.2.3.GA]\n"
+"/Applications/jboss-4.2.3.GA\n"
 "    [input] Enter the project name [myproject] [myproject]\n"
 "helloworld\n"
 "     [echo] Accepted project name as: helloworld\n"
@@ -330,7 +330,7 @@ msgstr "in alternativa, si può eseguire il deploy del progetto dal di fuori di 
 #. Tag: para
 #: Gettingstarted.xml:98
 #, no-c-format
-msgid "Go to <literal>http://localhost:8080/helloworld</literal> to see a welcome page. This is a facelets page, <literal>view/home.xhtml</literal>, using the template <literal>view/layout/template.xhtml</literal>. You can edit this page, or the template, in eclipse, and see the results <emphasis>immediately</emphasis>, by clicking refresh in your browser."
+msgid "Go to <literal>http://localhost:8080/helloworld</literal> to see a welcome page. This is a facelets page, <literal>view/home.xhtml</literal>, using the template <literal>view/layout/template.xhtml</literal>. You can edit this page, or the template, in Eclipse, and see the results <emphasis>immediately</emphasis>, by clicking refresh in your browser."
 msgstr "Si vada in <literal>http://localhost:8080/helloworld</literal> per vedere la pagina di benvenuto. Questa è una pagina facelets, <literal>view/home.xhtml</literal>, che utilizza il template <literal>view/layout/template.xhtml</literal>. In Eclipse si può modificare questa pagina, oppure il template, e vedere <emphasis>immediatamente</emphasis> i risultati, cliccando il pulsante aggiorna del browser."
 
 #. Tag: para
@@ -745,8 +745,8 @@ msgstr "Uso di Seam con JBoss 4.0"
 #. Tag: para
 #: Gettingstarted.xml:282
 #, no-c-format
-msgid "Seam 2.0 was developed for JavaServer Faces 1.2. When using JBoss AS, we recommend using JBoss 4.2, which bundles the JSF 1.2 reference implementation. However, it is still possible to use Seam 2.0 on the JBoss 4.0 platform. There are two basic steps required to do this: install an EJB3-enabled version of JBoss 4.0 and replace MyFaces with the JSF 1.2 reference implementation. Once you complete these steps, Seam 2.0 applications can be deployed to JBoss 4.0."
-msgstr "Seam 2.0 è stato sviluppato per JavaServer Faces 1.2. Usando JBoss AS, si raccomanda di usare JBoss 4.2, che incorpora l'implementazione di riferimento JSF 1.2. Comunque è possibile usare Seam 2.0 su piattaforma JBoss 4.0. Ci sono due passi base richiesti per farlo: installare la versione JBoss 4.0 con EJB3 abilitato e sostituire MyFaces con l'implementazione di riferimento JSF 1.2. Una volta completati questi passi, le applicazioni Seam 2.0 possono essere deployate in JBoss 4.0."
+msgid "Seam 2.0 was developed for JavaServer Faces 1.2. When using JBoss AS, we recommend using JBoss 4.2 or JBoss 5.0, both of which bundle the JSF 1.2 reference implementation. However, it is still possible to use Seam 2.0 on the JBoss 4.0 platform. There are two basic steps required to do this: install an EJB3-enabled version of JBoss 4.0 and replace MyFaces with the JSF 1.2 reference implementation. Once you complete these steps, Seam 2.0 applications can be deployed to JBoss 4.0."
+msgstr "Seam 2.0 è stato sviluppato per JavaServer Faces 1.2. Usando JBoss AS, si raccomanda di usare JBoss 4.2 o JBoss 5.0, che incorpora l'implementazione di riferimento JSF 1.2. Comunque è possibile usare Seam 2.0 su piattaforma JBoss 4.0. Ci sono due passi base richiesti per farlo: installare la versione JBoss 4.0 con EJB3 abilitato e sostituire MyFaces con l'implementazione di riferimento JSF 1.2. Una volta completati questi passi, le applicazioni Seam 2.0 possono essere deployate in JBoss 4.0."
 
 #. Tag: title
 #: Gettingstarted.xml:289

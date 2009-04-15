@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: JBoss Seam - Italian Version\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-04-07 12:39+0000\n"
-"PO-Revision-Date: 2009-04-07 14:46+0100\n"
+"POT-Creation-Date: 2009-04-15 13:51+0000\n"
+"PO-Revision-Date: 2009-04-15 15:58+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none <nico.benaz@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -60,8 +60,8 @@ msgstr "Dipendenze del progetto"
 #. Tag: para
 #: Dependencies.xml:44
 #, no-c-format
-msgid "This section both lists the compile-time and runtime dependencies for Seam. Where the type is listed as <literal>ear</literal>, the library should be included in the /lib directory of your application's ear file. Where the type is listed as <literal>war</literal>, the library should be placed in the <literal>/WEB-INF/lib</literal> directory of your application's war file. The scope of the dependency is either all, runtime or provided (by JBoss AS 4.2)."
-msgstr "Questa sezione elenca le dipendenze di Seam sia a compile-time sia a runtime. Laddove il tipo viene elencato come <literal>ear</literal>, la libreria deve essere inclusa nella directory /lib del proprio ear dell'applicazione. Laddove il tipo viene elencato come <literal>war</literal>, la libreria deve essere collocata nella directory <literal>/WEB-INF/lib</literal> del proprio file war. Lo scope della dipendenze è tutto, runtime o provided (da JBoss AS 4.2)."
+msgid "This section both lists the compile-time and runtime dependencies for Seam. Where the type is listed as <literal>ear</literal>, the library should be included in the /lib directory of your application's ear file. Where the type is listed as <literal>war</literal>, the library should be placed in the <literal>/WEB-INF/lib</literal> directory of your application's war file. The scope of the dependency is either all, runtime or provided (by JBoss AS 4.2 or 5.0)."
+msgstr "Questa sezione elenca le dipendenze di Seam sia a compile-time sia a runtime. Laddove il tipo viene elencato come <literal>ear</literal>, la libreria deve essere inclusa nella directory /lib del proprio ear dell'applicazione. Laddove il tipo viene elencato come <literal>war</literal>, la libreria deve essere collocata nella directory <literal>/WEB-INF/lib</literal> del proprio file war. Lo scope della dipendenze è tutto, runtime o provided (da JBoss AS 4.2 o 5.0)."
 
 #. Tag: para
 #: Dependencies.xml:54

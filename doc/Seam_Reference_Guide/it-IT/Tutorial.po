@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-04-07 12:40+0000\n"
-"PO-Revision-Date: 2009-04-07 14:46+0100\n"
+"POT-Creation-Date: 2009-04-15 13:52+0000\n"
+"PO-Revision-Date: 2009-04-15 16:05+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -70,8 +70,8 @@ msgstr "Eseguire gli esempi in JBoss AS"
 #. Tag: para
 #: Tutorial.xml:47
 #, no-c-format
-msgid "The examples are configured for use on JBoss 4.2. You'll need to set <literal>jboss.home</literal>, in the shared <literal>build.properties</literal> file in the root folder of your Seam installation, to the location of your JBoss AS installation."
-msgstr "Gli esempi sono configurati per usare JBoss 4.2. Dovrai impostare la variabile <literal>jboss.home</literal> affinché punti alla locazione dell'installazione di JBoss AS. Questa variabile si trova nel file condiviso  <literal>build.properties</literal> nella cartella radice dell'installazione di Seam."
+msgid "The examples are configured for use on JBoss AS 4.2 or 5.0. You'll need to set <literal>jboss.home</literal>, in the shared <literal>build.properties</literal> file in the root folder of your Seam installation, to the location of your JBoss AS installation."
+msgstr "Gli esempi sono configurati per usare JBoss 4.2 o 5.0. Dovrai impostare la variabile <literal>jboss.home</literal> affinché punti alla locazione dell'installazione di JBoss AS. Questa variabile si trova nel file condiviso  <literal>build.properties</literal> nella cartella radice dell'installazione di Seam."
 
 #. Tag: para
 #: Tutorial.xml:51
