@@ -11,7 +11,7 @@ import org.jboss.seam.core.Init;
  * @author Gavin King
  *
  */
-class SeamGlobalResolver implements GlobalResolver
+public class SeamGlobalResolver implements GlobalResolver
 {
    private GlobalResolver delegate;
    

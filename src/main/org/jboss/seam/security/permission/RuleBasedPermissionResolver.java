@@ -27,6 +27,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.drools.SeamGlobalResolver;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.Identity;
@@ -70,6 +71,7 @@ public class RuleBasedPermissionResolver implements PermissionResolver, Serializ
       if (getSecurityRules() != null)
       {
          setSecurityContext(getSecurityRules().newStatefulSession(false));
+         getSecurityContext().setGlobalResolver(new SeamGlobalResolver(getSecurityContext().getGlobalResolver()));
       }
       
       if (getSecurityContext() == null)
