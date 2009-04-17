@@ -1,6 +1,7 @@
 //$Id$
 package org.jboss.seam.contexts;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -51,16 +52,15 @@ public class BasicContext implements Context
 
    public String[] getNames()
    {
-      //yes, I know about the toArray() method,
-      //but there is a bug in the RI!
-      Set<String> keySet = map.keySet();
-      String[] array = new String[ keySet.size() ];
-      int i=0;
-      for (String key: keySet)
+      // yes, I know about the toArray() method,
+      // but there is a bug in the RI!
+      // XXX - what bug?
+      ArrayList<String> keys = new ArrayList<String>();
+      for (String key : map.keySet())
       {
-         array[i++] = key;
+         keys.add(key);
       }
-      return array;
+      return keys.toArray(new String[keys.size()]);
    }
 
    public boolean isSet(String name)
