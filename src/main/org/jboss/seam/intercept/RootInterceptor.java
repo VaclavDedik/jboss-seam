@@ -21,6 +21,9 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Mutable;
 import org.jboss.seam.util.EJB;
+import org.jboss.seam.util.Reflections;
+
+import com.sun.tools.javac.jvm.Target;
 
 /**
  * Abstract superclass of all controller interceptors
@@ -198,10 +201,28 @@ public class RootInterceptor implements Serializable
 
    private boolean isProcessInterceptors(Method method, Object bean)
    {
-      return isSeamComponent && 
+      boolean res = isSeamComponent && 
             getComponent().isInterceptionEnabled() &&
             !isBypassed(method) &&
             !isClearDirtyMethod(method, bean);
+      
+      if (componentName.equals("hotelSearch") && method !=null) { 
+          System.out.println("*********** BYPASS?[" + res + "] " + componentName + ":" + method);
+          System.out.println("-" + method.isAnnotationPresent(BypassInterceptors.class));
+          if (method.getName().equals("hashCode")) {
+              
+              try {
+              System.out.println("*A " + bean.getClass().getMethod("hashCode"));
+              
+              System.out.println("*B " + bean.getClass().getDeclaredMethod("hashCode"));
+              } catch (Exception e) {}
+
+              return false;
+          }
+
+      }
+
+      return res;
    }
 
    private boolean isBypassed(Method method)
