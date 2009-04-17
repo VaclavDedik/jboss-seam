@@ -4,7 +4,6 @@ package org.jboss.seam.contexts;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
