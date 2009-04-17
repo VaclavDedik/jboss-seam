@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-04-10 11:17+0100\n"
+"PO-Revision-Date: 2009-04-17 10:54+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -166,37 +166,37 @@ msgstr "Il contesto conversazione è un concetto fondamentale in Seam. Una <emph
 #: Concepts.xml:111
 #, no-c-format
 msgid "A conversation holds state associated with \"what the user is doing now, in this window\". A single user may have multiple conversations in progress at any point in time, usually in multiple windows. The conversation context allows us to ensure that state from the different conversations does not collide and cause bugs."
-msgstr ""
+msgstr "Una conversazione mantiene lo stato associato a \"cosa l'utente sta facendo adesso, in questa finestra\". Un singolo utente potrebbe avere più conversazioni in corso in ogni momento, solitamente in più finestre. Il contesto conversazione assicura che lo stato delle diverse conversazioni non collida e non causi problemi."
 
 #. Tag: para
 #: Concepts.xml:117
 #, no-c-format
 msgid "It might take you some time to get used to thinking of applications in terms of conversations. But once you get used to it, we think you'll love the notion, and never be able to not think in terms of conversations again!"
-msgstr ""
+msgstr "Potrebbe volerci un pò di tempo prima di abituarsi a pensare applicazioni in termini di conversazione, ma una volta abituati, pensiamo che ci si appassionerà e non si riuscirà più a non pensare in altri termini!"
 
 #. Tag: para
 #: Concepts.xml:122
 #, no-c-format
 msgid "Some conversations last for just a single request. Conversations that span multiple requests must be demarcated using annotations provided by Seam."
-msgstr ""
+msgstr "Alcune conversazioni durano solo una singola richiesta. Le conversazioni che si prolungano attraverso più richieste devono essere marcate usando le annotazioni previste da Seam."
 
 #. Tag: para
 #: Concepts.xml:126
 #, no-c-format
 msgid "Some conversations are also <emphasis>tasks</emphasis>. A task is a conversation that is significant in terms of a long-running business process, and has the potential to trigger a business process state transition when it is successfully completed. Seam provides a special set of annotations for task demarcation."
-msgstr ""
+msgstr "Alcune conversazioni sono anche <emphasis>task</emphasis>. Un task è una conversazione che è significativa in termini di processo di business long-running, ed ha il potenziale per lanciare una transizione di stato per il processo di business quando completa con successo. Seam fornisce uno speciale set di annotazioni per la demarcazione dei task."
 
 #. Tag: para
 #: Concepts.xml:132
 #, no-c-format
 msgid "Conversations may be <emphasis>nested</emphasis>, with one conversation taking place \"inside\" a wider conversation. This is an advanced feature."
-msgstr ""
+msgstr "Le conversazioni possono essere <emphasis>inestate</emphasis>, con una conversazione che ha posto \"dentro\" una conversazione più ampia. Questa è una caretteristica avanzata."
 
 #. Tag: para
 #: Concepts.xml:136
 #, no-c-format
 msgid "Usually, conversation state is actually held by Seam in the servlet session between requests. Seam implements configurable <emphasis>conversation timeout</emphasis>, automatically destroying inactive conversations, and thus ensuring that the state held by a single user login session does not grow without bound if the user abandons conversations."
-msgstr ""
+msgstr "Solitamente lo stato della conversazione è mantenuto da Seam in una sessione servlet tra le richieste. Seam implementa dei <emphasis>timeout di conversazione</emphasis> configurabili, che automaticamente distruggono le conversazioni inattive, e quindi assicurano che lo stato mantenuto da una singola sessione utente non cresca senza limiti se l'utente abbandona le conversazioni."
 
 #. Tag: para
 #: Concepts.xml:142
@@ -208,7 +208,7 @@ msgstr "Seam serializza il processo delle richieste concorrenti che prendono pos
 #: Concepts.xml:146
 #, no-c-format
 msgid "Alternatively, Seam may be configured to keep conversational state in the client browser."
-msgstr ""
+msgstr "In alternativa Seam può essere configurato per mantenere lo stato conversazionale nel browser."
 
 #. Tag: title
 #: Concepts.xml:152
@@ -220,13 +220,13 @@ msgstr "<title>Contesto Sessione</title>"
 #: Concepts.xml:153
 #, no-c-format
 msgid "A session context holds state associated with the user login session. While there are some cases where it is useful to share state between several conversations, we generally frown on the use of session context for holding components other than global information about the logged in user."
-msgstr ""
+msgstr "Un contesto di sessione mantiene lo stato associato alla sessione utente. Mentre ci sono alcuni casi in cui è utile condividere lo stato tra più conversazioni, noi disapproviamo l'uso dei contesti di sessione per mantenere altri componenti diversi da quelli contenenti le informazioni globali sull'utente connesso."
 
 #. Tag: para
 #: Concepts.xml:158
 #, no-c-format
 msgid "In a JSR-168 portal environment, the session context represents the portlet session."
-msgstr ""
+msgstr "In ambiente portal JSR-168 il contesto sessione rappresenta la sessione portlet."
 
 #. Tag: title
 #: Concepts.xml:164
@@ -238,7 +238,7 @@ msgstr "<title>Contesto processo di Business</title>"
 #: Concepts.xml:165
 #, no-c-format
 msgid "The business process context holds state associated with the long running business process. This state is managed and made persistent by the BPM engine (JBoss jBPM). The business process spans multiple interactions with multiple users, so this state is shared between multiple users, but in a well-defined manner. The current task determines the current business process instance, and the lifecycle of the business process is defined externally using a <emphasis>process definition language</emphasis>, so there are no special annotations for business process demarcation."
-msgstr ""
+msgstr "Il contesto business process mantiene lo stato associato al processo di business long running. Questo stato è gestito e reso persistente dal motore BPM (JBoss jBPM). Il processo di business si prolunga attraverso più interazioni con diversi utenti, quindi questo stato è condiviso tra più utenti, ma in maniera ben definita. Il task corrente determina l'istanza corrente del processo di business, ed il ciclo di vita del processo di business è definito esternamente usando un <emphasis>linguaggio di definizione di processo</emphasis>, quindi non ci sono speciali annotazioni per la demarcazione del processo di business."
 
 #. Tag: title
 #: Concepts.xml:176
@@ -800,7 +800,7 @@ msgstr ""
 #: Concepts.xml:543
 #, no-c-format
 msgid "Defining the component scope"
-msgstr ""
+msgstr "Definire lo scope di un componente"
 
 #. Tag: para
 #: Concepts.xml:544
@@ -1480,7 +1480,7 @@ msgstr ""
 #: Concepts.xml:916
 #, no-c-format
 msgid "The <literal>Mutable</literal> interface and <literal>@ReadOnly</literal>"
-msgstr ""
+msgstr "L'interfaccia <literal>Mutable</literal> e <literal>@ReadOnly</literal>"
 
 #. Tag: para
 #: Concepts.xml:917

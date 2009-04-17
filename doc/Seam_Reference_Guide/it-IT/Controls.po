@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-04-07 12:39+0000\n"
-"PO-Revision-Date: 2009-04-07 14:49+0100\n"
+"PO-Revision-Date: 2009-04-17 11:03+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1179,25 +1179,25 @@ msgstr "&lt;s:token&gt;"
 #: Controls.xml:762
 #, no-c-format
 msgid "Produces a random token that is inserted into a hidden form field to help to secure JSF form posts against cross-site request forgery (XSRF) attacks. Note that the browser must have cookies enabled to submit forms that include this component."
-msgstr ""
+msgstr "Produce un token casuale che viene inserito in un campo di form nascosta per aiutare rendere sicuro i post della form JSF contro attacchi cross-site request forgery (XSRF). Si noti che il browser deve avere abilitati i cookie per poter eseguire il submit delle form che includono questo componente."
 
 #. Tag: para
 #: Controls.xml:772
 #, no-c-format
 msgid "<literal>requireSession</literal> &#8212; indicates whether the session id should be included in the form signature, hence binding the token to the session. This value can be set to false if the \"build before restore\" mode of Facelets is activated (the default in JSF 2.0). (default: false)"
-msgstr ""
+msgstr "<literal>requireSession</literal> &#8212; indica se l'id di sessione debba essere incluso nella signature della form, da qui il binding del token alla sessione. Questo valore può essere impostato a false se viene attivata la modalità \"build before restore\" dei Facelets (di default in JSF 2.0). (Default: false)"
 
 #. Tag: para
 #: Controls.xml:782
 #, no-c-format
 msgid "<literal>enableCookieNotice</literal> &#8212; indicates that a JavaScript check should be inserted into the page to verify that cookies are enabled in the browser. If cookies are not enabled, present a notice to the user that form posts will not work. (default: false)"
-msgstr ""
+msgstr "<literal>enableCookieNotice</literal> &#8212; indica che deve essere inserito nella pagina un check JavaScript per verificare che i cookie siano abilitati nel browser. Se i cookie non sono abilitati, viene presentata all'utente una nota riportante che l'invio della form non è avvenuto. (Default: false)"
 
 #. Tag: para
 #: Controls.xml:791
 #, no-c-format
 msgid "<literal>allowMultiplePosts</literal> &#8212; indicates whether to allow the same form to be submitted multiple times with the same signature (as long as the view does not change). This is a common need if the form is perform Ajax calls but not rerendering itself or, at the very least, the UIToken component. The preferred approach is to have the UIToken component rerendered on any Ajax call where the UIToken component would be processed. (default: false)"
-msgstr ""
+msgstr "<literal>allowMultiplePosts</literal> &#8212; indica se consentire che la stessa form venga inviata più volte con la stessa signature (finché non cambia la vista). Questa è una necessità comune se la form esegue chiamate Ajax ma non rigenera se stessa o, almeno, il componente UIToken. L'approccio migliore è avere il componente UIToken rigenerato su ogni chiamata Ajax in cui il componente UIToken viene processato. (Default: false) "
 
 #. Tag: programlisting
 #: Controls.xml:805
