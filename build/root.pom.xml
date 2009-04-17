@@ -39,7 +39,7 @@
   <!-- Externalize some version numbers here -->
   <properties>
     <version.richfaces>3.3.0.GA</version.richfaces>
-    <version.wicket>1.3-SNAPSHOT</version.wicket>
+    <version.wicket>1.3.5.jboss1</version.wicket>
     <version.drools>4.0.4</version.drools>
   </properties>
 
