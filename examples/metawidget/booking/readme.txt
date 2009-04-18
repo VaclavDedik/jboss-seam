@@ -3,7 +3,7 @@ Seam Metawidget Booking Example
 
 This example demonstrates the use of Seam in a Java EE 5 environment.
 Transaction and persistence context management is handled by the EJB container.
-Forms are generated dynamically using Metawidget.
+Forms are generated dynamically at runtime using Metawidget.
 
 The source files in this example are just the overrides needed to utilize
 metawidget. Before the example is built, these overrides are merged with the

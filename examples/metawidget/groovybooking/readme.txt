@@ -2,7 +2,7 @@ Seam Metawidget GroovyBooking Example
 =====================================
 
 This is the Hotel Booking example implemented in Groovy Beans and Hibernate JPA
-and uses Metawidget to dynamically generate the forms.
+and uses Metawidget to dynamically generate the forms at runtime.
 
 This application runs on JBoss AS, but is deployed as a WAR rather than an EAR.
 Thus, you prefix all the typical targets (explode, restart, unexplode) with
