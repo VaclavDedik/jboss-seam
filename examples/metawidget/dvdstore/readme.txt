@@ -2,8 +2,8 @@ Seam Metawidget DVD Store Example
 =================================
 
 This example demonstrates the use of Seam with jBPM pageflow and business
-process management. It uses metawidget to layout the forms. The example runs on
-JBoss AS as an EAR and Tomcat with Embedded JBoss as a WAR.
+process management. It uses metawidget to dynamically generate the forms. The
+example runs on JBoss AS as an EAR and Tomcat with Embedded JBoss as a WAR.
 
 example.name=dvdstore
 
@@ -17,3 +17,7 @@ by following command:
 The stage command is automatically called on any Ant build, so you can simply run:
 
   ant explode
+
+Access the application at http://localhost:8080/jboss-metawidget-dvdstore
+
+For further Metawidget documentation see http://metawidget.org/documentation.html.

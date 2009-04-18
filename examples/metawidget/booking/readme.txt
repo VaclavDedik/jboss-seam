@@ -3,7 +3,7 @@ Seam Metawidget Booking Example
 
 This example demonstrates the use of Seam in a Java EE 5 environment.
 Transaction and persistence context management is handled by the EJB container.
-Forms are layed out using Metawidget.
+Forms are generated dynamically using Metawidget.
 
 The source files in this example are just the overrides needed to utilize
 metawidget. Before the example is built, these overrides are merged with the
@@ -36,3 +36,6 @@ You can also toggle Seam's ManagedEntityInterceptor for any deployment with the 
 
  -Ddistributable=false
 
+Access the application at http://localhost:8080/jboss-metawidget-booking
+
+For further Metawidget documentation see http://metawidget.org/documentation.html.
