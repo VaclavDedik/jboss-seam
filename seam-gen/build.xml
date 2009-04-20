@@ -1710,6 +1710,10 @@
         <echo message="Database password: ${hibernate.connection.password}"/>
     </target>
 
+    <target name="version" depends="init">
+        <echo>Seam version: ${complete.version}</echo>
+    </target>
+
     <target name="help" depends="init">
         <print file="${seam-gen.dir}/README"/>
     </target>
