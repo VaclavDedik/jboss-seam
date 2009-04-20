@@ -6,7 +6,7 @@
    
    <local-tx-datasource>
       <jndi-name>@projectName@Datasource</jndi-name>
-      <use-java-context>false</use-java-context>
+      <use-java-context>true</use-java-context>
       <connection-url>@jdbcUrl@</connection-url>
       <driver-class>@driverClass@</driver-class>
       <user-name>@username@</user-name>

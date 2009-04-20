@@ -875,6 +875,7 @@
         </copy>
         <replace file="${project.home}/resources/META-INF/persistence-dev.xml">
             <replacefilter token="org.hibernate.transaction.JBossTransactionManagerLookup" value="@transactionManagerLookupClass@"/>
+            <replacefilter token="&lt;jta-data-source&gt;java:/" value="&lt;jta-data-source&gt;"/>
         </replace>
         <copy tofile="${project.home}/resources/WEB-INF/components.xml"
                 file="${templates.dir}/resources/WEB-INF/components-war-tokenized.xml">
@@ -1067,6 +1068,12 @@
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
         </copy>
+
+        <replace dir="${project.home}/resources">
+            <include name="*-ds.xml"/>
+            <replacetoken><![CDATA[<use-java-context>true</use-java-context>]]></replacetoken>
+            <replacevalue><![CDATA[<use-java-context>false</use-java-context>]]></replacevalue>
+        </replace>
 
         <copy tofile="${project.home}/resources/glassfish-resources-dev.xml"
                 file="${templates.dir}/resources/glassfish-resources.xml">

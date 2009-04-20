@@ -7,7 +7,7 @@
              
    <persistence-unit name="@projectName@">
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
-      <jta-data-source>@projectName@Datasource</jta-data-source>
+      <jta-data-source>java:/@projectName@Datasource</jta-data-source>
       <!-- The <jar-file> element is necessary if you put the persistence.xml in the WAR and the classes in the JAR -->
       <!--
       <jar-file>../../vehicles.jar</jar-file>
