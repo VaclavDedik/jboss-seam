@@ -17,7 +17,6 @@ import org.jboss.seam.annotations.security.RoleCheck;
 import org.jboss.seam.async.AsynchronousInterceptor;
 import org.jboss.seam.intercept.AbstractInterceptor;
 import org.jboss.seam.intercept.InvocationContext;
-import org.jboss.seam.transaction.RollbackInterceptor;
 import org.jboss.seam.util.Strings;
 
 /**
@@ -26,7 +25,7 @@ import org.jboss.seam.util.Strings;
  * @author Shane Bryzak
  */
 @Interceptor(type=InterceptorType.CLIENT, 
-         around=AsynchronousInterceptor.class, within = RollbackInterceptor.class)
+         around=AsynchronousInterceptor.class)
 public class SecurityInterceptor extends AbstractInterceptor implements Serializable
 {
    private static final long serialVersionUID = -6567750187000766925L;
