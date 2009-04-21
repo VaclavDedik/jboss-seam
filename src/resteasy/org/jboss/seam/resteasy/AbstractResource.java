@@ -18,7 +18,7 @@
  * License along with this software; if not, write to the Free
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- */ 
+ */
 package org.jboss.seam.resteasy;
 
 import java.lang.reflect.ParameterizedType;
@@ -52,8 +52,13 @@ public abstract class AbstractResource<T>
       mediaTypes = new MediaType[] { MediaType.APPLICATION_XML_TYPE };
    }
 
-   public MediaType[] getMediaTypes()
+   public String[] getMediaTypes()
    {
+      String[] mediaTypes = new String[this.mediaTypes.length];
+      for (int i = 0; i < mediaTypes.length; i++)
+      {
+         mediaTypes[i] = this.mediaTypes[i].toString();
+      }
       return mediaTypes;
    }
 
@@ -64,11 +69,6 @@ public abstract class AbstractResource<T>
       {
          this.mediaTypes[i] = MediaType.valueOf(mediaTypes[i]);
       }
-   }
-
-   public void setMediaTypes(MediaType[] mediaTypes)
-   {
-      this.mediaTypes = mediaTypes;
    }
 
    public void setEntityClass(Class entityClass)
