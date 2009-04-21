@@ -71,7 +71,6 @@ public class Theme {
                         }
 
                         public String getValue() {
-                            System.out.println("GET VALUE FOR " + key);
                             return get(key);
                         }
 
