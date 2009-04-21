@@ -296,6 +296,8 @@ public class UIDocument extends ITextComponent
    @Override
    public void encodeEnd(FacesContext context) throws IOException
    {
+      document.resetHeader();
+      document.resetFooter();
       document.close();
 
       byte[] bytes = stream.toByteArray();
