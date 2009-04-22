@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-04-17 10:54+0100\n"
+"PO-Revision-Date: 2009-04-22 12:42+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -250,7 +250,7 @@ msgstr "<title>Contesto Applicazione</title>"
 #: Concepts.xml:177
 #, no-c-format
 msgid "The application context is the familiar servlet context from the servlet spec. Application context is mainly useful for holding static information such as configuration data, reference data or metamodels. For example, Seam stores its own configuration and metamodel in the application context."
-msgstr ""
+msgstr "Il contesto applicazione è il familiare contesto servlet da specifiche servlet. Il contesto applicazione è principalmente utile per mantenere le informazioni statiche quali dati di configurazione, dati di riferimento i metamodelli. Per esempio, Seam memorizza la sua configurazione ed il metamodello nel contesto applicazione."
 
 #. Tag: title
 #: Concepts.xml:185
@@ -262,13 +262,13 @@ msgstr "Variabili di contesto"
 #: Concepts.xml:186
 #, no-c-format
 msgid "A context defines a namespace, a set of <emphasis>context variables</emphasis>. These work much the same as session or request attributes in the servlet spec. You may bind any value you like to a context variable, but usually we bind Seam component instances to context variables."
-msgstr ""
+msgstr "Un contesto definisce un namespace, un set di <emphasis>variabili di contesto</emphasis>. Queste lavorano come gli attributi di sessione o richiesta nella specifica servlet. Si può associare qualsiasi valore si voglia alla variabile di contesto, ma solitamente si associano le istanze componenti di Seam alle variabili di contesto."
 
 #. Tag: para
 #: Concepts.xml:192
 #, no-c-format
 msgid "So, within a context, a component instance is identified by the context variable name (this is usually, but not always, the same as the component name). You may programatically access a named component instance in a particular scope via the <literal>Contexts</literal> class, which provides access to several thread-bound instances of the <literal>Context</literal> interface:"
-msgstr ""
+msgstr "Quindi all'interno di un contesto un'istanza di componente è identificata dal nome della variabile di contesto (questo è solitamente, ma non sempre, lo stesso del nome del componente). Si può accedere in modo programmatico all'istanza del componente con nome in un particolare scope tramite la classe <literal>Contexts</literal>, che fornisce accesso a parecchie istanze legate al thread dell'interfaccia <literal>Context</literal>:"
 
 #. Tag: programlisting
 #: Concepts.xml:199
@@ -280,7 +280,7 @@ msgstr "<![CDATA[User user = (User) Contexts.getSessionContext().get(\"user\");]
 #: Concepts.xml:201
 #, no-c-format
 msgid "You may also set or change the value associated with a name:"
-msgstr ""
+msgstr "Si può anche impostare o cambiare il valore associato al nome:"
 
 #. Tag: programlisting
 #: Concepts.xml:205
@@ -292,7 +292,7 @@ msgstr "<![CDATA[Contexts.getSessionContext().set(\"user\", user);]]>"
 #: Concepts.xml:207
 #, no-c-format
 msgid "Usually, however, we obtain components from a context via injection, and put component instances into a context via outjection."
-msgstr ""
+msgstr "Solitamente, comunque, si ottengono i componenti da un contesto via injection e si mettono le istanza in un contesto via outjection."
 
 #. Tag: title
 #: Concepts.xml:214
@@ -304,7 +304,7 @@ msgstr "Priorità di ricerca del contesto"
 #: Concepts.xml:215
 #, no-c-format
 msgid "Sometimes, as above, component instances are obtained from a particular known scope. Other times, all stateful scopes are searched, in <emphasis>priority order</emphasis>. The order is as follows:"
-msgstr ""
+msgstr "A volte, come sopra, le istanze di un componente sono ottenute da un particolare scope noto. Altre volte, vengono ricercati tutti gli scope stateful in <emphasis>ordine di priorità</emphasis>. Quest'ordine è il seguente:"
 
 #. Tag: para
 #: Concepts.xml:222
@@ -316,7 +316,7 @@ msgstr "<para>Contesto Evento</para>"
 #: Concepts.xml:241
 #, no-c-format
 msgid "You can perform a priority search by calling <literal>Contexts.lookupInStatefulContexts()</literal>. Whenever you access a component by name from a JSF page, a priority search occurs."
-msgstr ""
+msgstr "Si può eseguire una ricerca prioritaria chiamando <literal>Contexts.lookupInStatefulContexts()</literal>. Quando si accede ad un componente via nome da una pagina JSF, serve una priorità di ricerca."
 
 #. Tag: title
 #: Concepts.xml:249
@@ -352,7 +352,7 @@ msgstr ""
 #: Concepts.xml:281
 #, no-c-format
 msgid "This concurrency model means that AJAX clients can safely use volatile session and conversational state, without the need for any special work on the part of the developer."
-msgstr ""
+msgstr "Questo modello di concorrenza signifca che i client AJAX possono usare in modo sicuro le sessioni volatili e lo stato conversazionale, senza il bisogno di alcun lavoro speciale da parte dello sviluppatore."
 
 #. Tag: title
 #: Concepts.xml:290
@@ -1070,7 +1070,7 @@ msgstr ""
 #: Concepts.xml:689
 #, no-c-format
 msgid "The <literal>@Out</literal> annotation specifies that an attribute should be outjected, either from an instance variable:"
-msgstr ""
+msgstr "L'annotazione <literal>@Out</literal> specifica che occorre eseguire l'outjection di un attributo, oppure da una variabile d'istanza:"
 
 #. Tag: programlisting
 #: Concepts.xml:694
@@ -1130,7 +1130,7 @@ msgstr ""
 #: Concepts.xml:702
 #, no-c-format
 msgid "An attribute may be both injected and outjected:"
-msgstr ""
+msgstr "Di un attributo si può fare sia l'injection sia l'outjection:"
 
 #. Tag: programlisting
 #: Concepts.xml:706
@@ -1278,31 +1278,31 @@ msgstr ""
 #: Concepts.xml:794
 #, no-c-format
 msgid "<literal>BUILT_IN</literal> &#8212; the lowest precedece components are the components built in to Seam."
-msgstr ""
+msgstr "<literal>BUILT_IN</literal> &#8212; i componenti con più bassa precedenza sono i componenti predefiniti in Seam."
 
 #. Tag: para
 #: Concepts.xml:800
 #, no-c-format
 msgid "<literal>FRAMEWORK</literal> &#8212; components defined by third-party frameworks may override built-in components, but are overridden by application components."
-msgstr ""
+msgstr "<literal>FRAMEWORK</literal> &#8212; i componenti definiti da framework di terze parti possono sovrascrivere i componenti predefiniti, ma vengono sovrascritti dai componenti applicazione."
 
 #. Tag: para
 #: Concepts.xml:807
 #, no-c-format
 msgid "<literal>APPLICATION</literal> &#8212; the default precedence. This is appropriate for most application components."
-msgstr ""
+msgstr "<literal>APPLICATION</literal> &#8212; la precedenza di default. Questo è appropriato per i componenti delle applicazioni più comuni."
 
 #. Tag: para
 #: Concepts.xml:813
 #, no-c-format
 msgid "<literal>DEPLOYMENT</literal> &#8212; for application components which are deployment-specific."
-msgstr ""
+msgstr "<literal>DEPLOYMENT</literal> &#8212; per i componenti applicazione che sono specifici per un deploy."
 
 #. Tag: para
 #: Concepts.xml:819
 #, no-c-format
 msgid "<literal>MOCK</literal> &#8212; for mock objects used in testing."
-msgstr ""
+msgstr "<literal>MOCK</literal> &#8212; per gli oggetti mock usati in fase di test."
 
 #. Tag: para
 #: Concepts.xml:825
