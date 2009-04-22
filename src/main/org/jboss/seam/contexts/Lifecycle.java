@@ -8,12 +8,14 @@ package org.jboss.seam.contexts;
 
 import java.util.Map;
 import java.util.Set;
+import javax.servlet.ServletContext;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.servlet.ServletApplicationMap;
 
 /**
  * Methods for setup and teardown of Seam contexts.
@@ -175,7 +177,7 @@ public class Lifecycle
       Contexts.destroyConversationContext(session, conversationId);
    }
 
-   public static void beginSession(Map<String, Object> session)
+   public static void beginSession(Map<String, Object> session, ServletContext appCtx)
    {
       log.debug("Session started");
       
@@ -187,8 +189,17 @@ public class Lifecycle
       boolean conversationContextActive = Contexts.isConversationContextActive();
 
       if ( !applicationContextActive )
-      {
-         Context tempApplicationContext = new ApplicationContext( getApplication() );
+      {         
+         Context tempApplicationContext = null;
+         if(appCtx == null)
+         {
+            tempApplicationContext = new ApplicationContext( getApplication() );
+         }
+         else
+         {
+            tempApplicationContext = new ApplicationContext( new ServletApplicationMap(appCtx) );
+         }                  
+         
          Contexts.applicationContext.set(tempApplicationContext);
       }
       Context oldSessionContext = Contexts.sessionContext.get();
