@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
@@ -30,7 +31,12 @@ public class ThreadPoolDispatcher extends AbstractDispatcher<Future, TimerSchedu
 {
    private int threadPoolSize = 10; 
    
-   private ScheduledExecutorService executor = Executors.newScheduledThreadPool(threadPoolSize);
+   private ScheduledExecutorService executor;
+   
+   @Create
+   public void startup() {
+       executor = Executors.newScheduledThreadPool(threadPoolSize);
+   }
     
    public Future scheduleAsynchronousEvent(String type, Object... parameters)
    {  
