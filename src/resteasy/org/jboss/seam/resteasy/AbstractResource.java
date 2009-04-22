@@ -104,8 +104,7 @@ public abstract class AbstractResource<T>
    }
 
    /**
-    * Retrieve a suffix of this resource's URI. This property does not have to
-    * be set. @Path annotation can be used insted to set the URI.
+    * Retrieve a suffix of this resource's URI. See {@link #setPath(String path)}
     * 
     * @see javax.ws.rs.Path
     * @return path
@@ -116,7 +115,9 @@ public abstract class AbstractResource<T>
    }
 
    /**
-    * see {@link #getPath()}
+    * Set the path this resource will operate on. This method is intended to be
+    * used only by Seam to create a resource configured in component descriptor.
+    * To specify the path in other cases, use @Path annotation. See
     * 
     * @param path
     */

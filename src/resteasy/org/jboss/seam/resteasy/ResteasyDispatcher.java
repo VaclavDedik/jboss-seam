@@ -166,21 +166,17 @@ public class ResteasyDispatcher extends HttpServletDispatcher
                             {
                             }
                         };
-                    // Register on specific path if component has it's path property set to not-null value
-                    if (AbstractResource.class.isAssignableFrom(seamComponent.getBeanClass()))
+                    // Register component on specific path if the component is a ResourceHome or ResourceQuery component configured in components.xml
+                    if (seamComponent.getBeanClass().equals(ResourceHome.class) || seamComponent.getBeanClass().equals(ResourceQuery.class))
                     {
-                       // TODO get the path some other way - it may not be possible to create a instance at this time
                        AbstractResource instance = (AbstractResource) seamComponent.newInstance();
                        String path = instance.getPath();
                        if (instance.getPath() != null)
                        {
                           log.debug("registering resource {0} on path {1}", seamComponent.getName(), path);
                           registry.addResourceFactory(factory, path);
-                       }
-                       else
-                       {
-                          log.debug("registering resource {0}", seamComponent.getName());
-                          registry.addResourceFactory(factory);
+                       } else {
+                          log.warn("Unable to  register {0} resource on null path.", seamComponent.getName());
                        }
                     }
                     else
