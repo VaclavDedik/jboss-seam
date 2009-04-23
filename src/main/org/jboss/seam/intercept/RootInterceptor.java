@@ -202,22 +202,6 @@ public class RootInterceptor implements Serializable
             getComponent().isInterceptionEnabled() &&
             !isBypassed(method) &&
             !isClearDirtyMethod(method, bean);
-      
-      if (componentName.equals("hotelSearch") && method !=null) { 
-          System.out.println("*********** BYPASS?[" + res + "] " + componentName + ":" + method);
-          System.out.println("-" + method.isAnnotationPresent(BypassInterceptors.class));
-          if (method.getName().equals("hashCode")) {
-              
-              try {
-              System.out.println("*A " + bean.getClass().getMethod("hashCode"));
-              
-              System.out.println("*B " + bean.getClass().getDeclaredMethod("hashCode"));
-              } catch (Exception e) {}
-
-              return false;
-          }
-
-      }
 
       return res;
    }
