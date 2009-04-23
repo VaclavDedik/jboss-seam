@@ -144,7 +144,7 @@ public class ServletLifecycle
 
    public static void beginSession(HttpSession session)
    {
-      Lifecycle.beginSession( new ServletSessionMap(session), session.getServletContext() );
+      Lifecycle.beginSession( new ServletSessionMap(session) );
    }
 
    public static void endSession(HttpSession session)
