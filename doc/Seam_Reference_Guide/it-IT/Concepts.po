@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-04-23 14:46+0100\n"
+"PO-Revision-Date: 2009-04-23 20:57+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -346,7 +346,7 @@ msgstr "I contesti Seam di sessione e applicazione sono multithread. Seam lascia
 #: Concepts.xml:270
 #, no-c-format
 msgid "Since the session context is multithreaded, and often contains volatile state, session scope components are always protected by Seam from concurrent access so long as the Seam interceptors are not disabled for that component. If interceptors are disabled, then any thread-safety that is required must be implemented by the component itself. Seam serializes requests to session scope session beans and JavaBeans by default (and detects and breaks any deadlocks that occur). This is not the default behaviour for application scoped components however, since application scoped components do not usually hold volatile state and because synchronization at the global level is <emphasis>extremely</emphasis> expensive. However, you can force a serialized threading model on any session bean or JavaBean component by adding the <literal>@Synchronized</literal> annotation."
-msgstr ""
+msgstr "Poiché il contesto sessione è multithread, e spesso contiene uno stato volatile, i componenti con scope sessione sono sempre protetti da Seam verso accessi concorrenti fintantoché gli interceptor Seam non vengano disabilitati per quel componente. Se gli interceptor sono disabilitati, allora ogni sicurezza di thread che viene richiesta deve essere implementata dal componente stesso. Seam serializza di default le richieste a bean con scope sessione e JavaBean (e rileva e rompe ogni deadlock che sopravviene). Questo non è il comportamento di default per i componenti con scope applicazione, poiché tali componenti solitamente non mantengono uno stato volatile e poiché la sincronizzazione a livello globale è <emphasis>estremamente</emphasis> dispensiosa. Comunque si può forzare il modello di thread serializzato su un qualsiasi session bean o componente JavaBean aggiungendo l'annotazione <literal>@Synchronized</literal>."
 
 #. Tag: para
 #: Concepts.xml:281
@@ -364,7 +364,7 @@ msgstr "Componenti di Seam"
 #: Concepts.xml:291
 #, no-c-format
 msgid "Seam components are POJOs (Plain Old Java Objects). In particular, they are JavaBeans or EJB 3.0 enterprise beans. While Seam does not require that components be EJBs and can even be used without an EJB 3.0 compliant container, Seam was designed with EJB 3.0 in mind and includes deep integration with EJB 3.0. Seam supports the following <emphasis>component types</emphasis>."
-msgstr ""
+msgstr "I componenti Seam sono POJO (Plain Old Java Objects). In particolare sono JavaBean o bean enterprise EJB 3.0. Mentre Seam non richiede che i componenti siano EJB e possono anche essere usati senza un container EJB 3.0, Seam è stato progettato con EJB 3.0 in mente ed realizza una profonda integrazione con EJB 3.0. Seam supporta i seguenti <emphasis>tipi di componenti</emphasis>."
 
 #. Tag: para
 #: Concepts.xml:300
@@ -412,31 +412,31 @@ msgstr "Bean di sessione stateless"
 #: Concepts.xml:321
 #, no-c-format
 msgid "Stateless session bean components are not able to hold state across multiple invocations. Therefore, they usually work by operating upon the state of other components in the various Seam contexts. They may be used as JSF action listeners, but cannot provide properties to JSF components for display."
-msgstr ""
+msgstr "I componenti bean di sessione stateless non sono in grado di mantenere lo stato lungo le diverse invocazioni. Quindi solitamente lavorano operando sullo statto di altri componenti in vari contesti Seam. Possono essere usati come action listener JSF, ma non forniscono proprietà ai componenti JSF da mostrare."
 
 #. Tag: para
 #: Concepts.xml:326
 #, no-c-format
 msgid "Stateless session beans always live in the stateless context."
-msgstr ""
+msgstr "I bean di sessione stateless vivono sempre nel contesto stateless."
 
 #. Tag: para
 #: Concepts.xml:329
 #, no-c-format
 msgid "Stateless session beans can be accessed concurrently as a new instance is used for each request. Assigning the instance to the request is the responsibility of the EJB3 container (normally instances will be allocated from a reusable pool meaning that you may find any instance variables contain data from previous uses of the bean)."
-msgstr ""
+msgstr "Si può accedere ai bean di sessione stateless in modo concorrente poiché viene usata una nuova istanza ad ogni richiesta. L'assegnazione di un'istanza alla richiesta è responsabilità del container EJB3 (normalmente le istanze vengono allocate da un pool riutilizzabile, ciò significa che si possono trovare variabili d'istanza contenenti dati da precedenti utilizzi del bean)."
 
 #. Tag: para
 #: Concepts.xml:335
 #, no-c-format
 msgid "Stateless session beans are the least interesting kind of Seam component."
-msgstr ""
+msgstr "I bean di sessione stateless sono i tipi di componenti Seam meno interessanti."
 
 #. Tag: para
 #: Concepts.xml:338
 #, no-c-format
 msgid "Seam stateless session bean components may be instantiated using <literal>Component.getInstance()</literal> or <literal>@In(create=true)</literal>. They should not be directly instantiated via JNDI lookup or the <literal>new</literal> operator."
-msgstr ""
+msgstr "I bean di sessione stateless Seam possono essere istanziati usando <literal>Component.getInstance()</literal> o <literal>@In(create=true)</literal>. Non dovrebbero essere istanziati direttamente tramite ricerca JNDI o tramite operatore <literal>new</literal>."
 
 #. Tag: title
 #: Concepts.xml:346
@@ -448,31 +448,31 @@ msgstr "Bean di sessione stateful"
 #: Concepts.xml:347
 #, no-c-format
 msgid "Stateful session bean components are able to hold state not only across multiple invocations of the bean, but also across multiple requests. Application state that does not belong in the database should usually be held by stateful session beans. This is a major difference between Seam and many other web application frameworks. Instead of sticking information about the current conversation directly in the <literal>HttpSession</literal>, you should keep it in instance variables of a stateful session bean that is bound to the conversation context. This allows Seam to manage the lifecycle of this state for you, and ensure that there are no collisions between state relating to different concurrent conversations."
-msgstr ""
+msgstr "I componenti bean di sessione stateful sono in grado di mantenere lo stato non solo lungo più invocazioni del bean, ma anche attraverso richieste multiple. Lo stato dell'applicazione che non appartiene al database dovrebbe essere mantenuto dai bean di sessione stateful. Questa è la grande differenza tra Seam e molti altri framework per applicazioni web. Invece di mettere informazioni sulla conversazione corrente direttamente nella <literal>HttpSession</literal>, si dovrebbe mantenerla nelle variabili d'istanza di un bean di sessione stateful, che è legato al contesto conversazione. Questo consente a Seam di gestire il ciclo di vita di questo stato per voi e di assicurare che non ci siano collisioni tra lo stato delle diverse conversazioni concorrenti."
 
 #. Tag: para
 #: Concepts.xml:357
 #, no-c-format
 msgid "Stateful session beans are often used as JSF action listener, and as backing beans that provide properties to JSF components for display or form submission."
-msgstr ""
+msgstr "I bean di sessione stateful sono spesso usati come action listener JSF ed in qualità di backing bean forniscono proprietà ai componenti JSF da mostrare o per l'invio di form."
 
 #. Tag: para
 #: Concepts.xml:361
 #, no-c-format
 msgid "By default, stateful session beans are bound to the conversation context. They may never be bound to the page or stateless contexts."
-msgstr ""
+msgstr "Di default i bean di sessione stateful sono legati al contesto conversazione. Non possono mai essere legati ai contesti pagina o stateless."
 
 #. Tag: para
 #: Concepts.xml:365
 #, no-c-format
 msgid "Concurrent requests to session-scoped stateful session beans are always serialized by Seam as long as the Seam interceptors are not disabled for the bean."
-msgstr ""
+msgstr "Richieste concorrenti a bean di sessione stateful con scope sessione sono sempre serializzati da Seam fintantoché gli interceptor di Seam non vengono disabilitati per tale bean."
 
 #. Tag: para
 #: Concepts.xml:370
 #, no-c-format
 msgid "Seam stateful session bean components may be instantiated using <literal>Component.getInstance()</literal> or <literal>@In(create=true)</literal>. They should not be directly instantiated via JNDI lookup or the <literal>new</literal> operator."
-msgstr ""
+msgstr "I bean di sessione stateful Seam possono essere istanziati usando <literal>Component.getInstance()</literal> o <literal>@In(create=true)</literal>. Non dovrebbero essere istanziati direttamente tramite ricerca JNDI o tramite operatore <literal>new</literal>."
 
 #. Tag: title
 #: Concepts.xml:378
@@ -484,7 +484,7 @@ msgstr "Entity bean"
 #: Concepts.xml:379
 #, no-c-format
 msgid "Entity beans may be bound to a context variable and function as a seam component. Because entities have a persistent identity in addition to their contextual identity, entity instances are usually bound explicitly in Java code, rather than being instantiated implicitly by Seam."
-msgstr ""
+msgstr "Gli entity bean possono essere associati ad una variabile di contesto e funzionare come componenti Seam. Poiché gli entity hanno un'identità persistente in aggiunta alla loro identità contestuale, le istanze entity sono solitamente associate esplicitamente nel codice Java, piuttosto che essere istanziate implicitamente da Seam. "
 
 #. Tag: para
 #: Concepts.xml:384
@@ -538,7 +538,7 @@ msgstr ""
 #: Concepts.xml:423
 #, no-c-format
 msgid "By default, JavaBeans are bound to the event context."
-msgstr ""
+msgstr "Di default i JavaBean sono legati al contesto evento."
 
 #. Tag: para
 #: Concepts.xml:426
@@ -550,7 +550,7 @@ msgstr ""
 #: Concepts.xml:429
 #, no-c-format
 msgid "Seam JavaBean components may be instantiated using <literal>Component.getInstance()</literal> or <literal>@In(create=true)</literal>. They should not be directly instantiated using the <literal>new</literal> operator."
-msgstr ""
+msgstr "I componenti JavaBean di Seam possono essere istanziati usando <literal>Component.getInstance()</literal> o <literal>@In(create=true)</literal>. Non dovrebbero essere istanziati direttamente tramite operatore <literal>new</literal>."
 
 #. Tag: title
 #: Concepts.xml:437

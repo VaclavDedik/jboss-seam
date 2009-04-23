@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Seam_Reference_Guide\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-27 11:29+0000\n"
-"PO-Revision-Date: 2008-12-27 12:50+0100\n"
+"PO-Revision-Date: 2009-04-23 20:44+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -217,7 +217,7 @@ msgstr ""
 #: Glassfish.xml:238
 #, no-c-format
 msgid "Select the <literal>OK</literal> button."
-msgstr ""
+msgstr "Selezionare il pulsante <literal>OK</literal>."
 
 #. Tag: para
 #: Glassfish.xml:164
@@ -331,7 +331,7 @@ msgstr ""
 #: Glassfish.xml:271
 #, no-c-format
 msgid "<para>Configuration file changes</para>"
-msgstr ""
+msgstr "<para>Cambiamenti al file di configurazione</para>"
 
 #. Tag: para
 #: Glassfish.xml:276
@@ -367,7 +367,7 @@ msgstr ""
 #: Glassfish.xml:316
 #, no-c-format
 msgid "Running <literal>seam-gen</literal> Setup"
-msgstr ""
+msgstr "Eseguire il setup in <literal>seam-gen</literal>"
 
 #. Tag: para
 #: Glassfish.xml:318
@@ -559,7 +559,7 @@ msgstr ""
 #: Glassfish.xml:342
 #, no-c-format
 msgid "<title>Configuration file changes</title>"
-msgstr ""
+msgstr "<title>Cambiamenti al file di configurazione</title>"
 
 #. Tag: literal
 #: Glassfish.xml:347
@@ -871,7 +871,7 @@ msgstr ""
 #: Glassfish.xml:565
 #, no-c-format
 msgid "Add Hibernate dependencies"
-msgstr ""
+msgstr "Aggiungere dipendenze Hibernate"
 
 #. Tag: programlisting
 #: Glassfish.xml:566
@@ -897,7 +897,7 @@ msgstr ""
 #: Glassfish.xml:569
 #, no-c-format
 msgid "Add third party dependencies."
-msgstr ""
+msgstr "Aggiungere dipendenze di terze parti"
 
 #. Tag: programlisting
 #: Glassfish.xml:570
@@ -999,5 +999,5 @@ msgstr ""
 #: Glassfish.xml:604
 #, no-c-format
 msgid "Checkout the app at <literal>http://localhost:8081/seamgen_example/</literal>"
-msgstr ""
+msgstr "Controllare l'applicazione all'indirizzo <literal>http://localhost:8081/seamgen_example/</literal>"
 
