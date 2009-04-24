@@ -42,7 +42,6 @@ import javax.ws.rs.ext.MessageBodyReader;
 
 import org.jboss.resteasy.core.Headers;
 import org.jboss.resteasy.core.StringParameterInjector;
-import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import org.jboss.seam.Entity;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.framework.Home;
@@ -59,7 +58,9 @@ import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
  * @param <T> Entity class
  * @param <T2> Entity id class
  */
-@Path("")
+// Empty @Path because it's ignored by second-stage bootstrap if not subclassed or in components.xml
+// but we need it as a marker so we'll find components.xml declarations during first stage of bootstrap.
+@Path("") 
 public class ResourceHome<T, T2> extends AbstractResource<T>
 {
    private EntityHomeWrapper<T> entityHome = null;
@@ -263,7 +264,7 @@ public class ResourceHome<T, T2> extends AbstractResource<T>
    private T unmarshallEntity(InputStream is)
    {
       Class<T> entityClass = getEntityClass();
-      MessageBodyReader<T> reader = ResteasyProviderFactory.getInstance().getMessageBodyReader(entityClass, entityClass, entityClass.getAnnotations(), requestContentType);
+      MessageBodyReader<T> reader = SeamResteasyProviderFactory.getInstance().getMessageBodyReader(entityClass, entityClass, entityClass.getAnnotations(), requestContentType);
       if (reader == null)
       {
          throw new RuntimeException("Unable to find MessageBodyReader for content type " + requestContentType);
@@ -288,7 +289,7 @@ public class ResourceHome<T, T2> extends AbstractResource<T>
     */
    private T2 unmarshallId(String id)
    {
-      StringParameterInjector injector = new StringParameterInjector(getEntityIdClass(), getEntityIdClass(), "id", PathParam.class, null, null, ResteasyProviderFactory.getInstance());
+      StringParameterInjector injector = new StringParameterInjector(getEntityIdClass(), getEntityIdClass(), "id", PathParam.class, null, null, SeamResteasyProviderFactory.getInstance());
       return (T2) injector.extractValue(id);
    }
 

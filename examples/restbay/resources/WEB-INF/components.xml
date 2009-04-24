@@ -35,7 +35,11 @@
                            entity-class="org.jboss.seam.example.restbay.Category"
                            auto-create="true"/>
 
-    <resteasy:application resource-path-prefix="/restv1"/>
+    <resteasy:application resource-path-prefix="/restv1">
+        <resteasy:resource-class-names>
+            <value>org.jboss.seam.example.restbay.resteasy.StatelessEjbTestResourceBean</value>
+        </resteasy:resource-class-names>
+    </resteasy:application>
 
     <resteasy:resource-home path="/configuredCategory" name="configuredCategoryResourceHome"
                             entity-home="#{categoryHome}" entity-id-class="java.lang.Integer"

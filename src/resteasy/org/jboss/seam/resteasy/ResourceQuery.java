@@ -48,6 +48,8 @@ import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
  * 
  * @param <T> entity type
  */
+// Empty @Path because it's ignored by second-stage bootstrap if not subclassed or in components.xml
+// but we need it as a marker so we'll find components.xml declarations during first stage of bootstrap.
 @Path("")
 public class ResourceQuery<T> extends AbstractResource<T>
 {
@@ -109,8 +111,7 @@ public class ResourceQuery<T> extends AbstractResource<T>
 
          public Type[] getActualTypeArguments()
          {
-            Type[] types = { getEntityClass() };
-            return types;
+            return new Type[] { getEntityClass() };
          }
       };
       return Response.ok(new GenericEntity(result, responseType)

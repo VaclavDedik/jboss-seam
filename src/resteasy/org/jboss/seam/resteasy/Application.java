@@ -23,8 +23,8 @@ import java.util.*;
 public class Application extends javax.ws.rs.core.Application
 {
 
-   private Map<Class<?>, Set<Component>> providerClasses = new HashMap<Class<?>, Set<Component>>();
-   private Map<Class<?>, Set<Component>> resourceClasses = new HashMap<Class<?>, Set<Component>>();
+   final private Map<Class<?>, Set<Component>> providerClasses = new HashMap<Class<?>, Set<Component>>();
+   final private Map<Class<?>, Set<Component>> resourceClasses = new HashMap<Class<?>, Set<Component>>();
    
     private List<String> providerClassNames = new ArrayList<String>();
     private List<String> resourceClassNames = new ArrayList<String>();

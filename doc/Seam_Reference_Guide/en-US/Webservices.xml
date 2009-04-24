@@ -340,6 +340,7 @@ public class MyCustomerResource {
      <resteasy:resource-class-names>
          <value>org.foo.MyCustomerResource</value>
          <value>org.foo.MyOrderResource</value>
+         <value>org.foo.MyStatelessEJBImplementation</value>
      </resteasy:resource-class-names>
 
      <resteasy:provider-class-names>
@@ -347,6 +348,18 @@ public class MyCustomerResource {
      </resteasy:provider-class-names>
 
  </resteasy:application>]]></programlisting>
+
+         <para>
+            RESTEasy supports plain EJBs (EJBs that are not Seam components) as resources. Instead of configuring the
+            JNDI names in a non-portable fashion in <literal>web.xml</literal> (see RESTEasy documentation), you can
+            simply list the EJB implementation classes, not the business interfaces, in <literal>components.xml</literal>
+            as shown above. Note that you have to annotate the <literal>@Local</literal> interface of the EJB with
+            <literal>@Path</literal>, <literal>@GET</literal>, and so on - not the bean implementation class. This allows
+            you to keep your application deployment-portable with the global Seam <literal>jndi-pattern</literal> switch
+            on <literal>&lt;core:init/&gt;</literal>. Note that EJB resources will not be found even if scanning of
+            resources is enabled, you always have to list them manually. Again, this is only relevant for EJB resources
+            that are not also Seam components and that do not have a <literal>@Name</literal> annotation.
+         </para>
 
          <para>
             The <literal>use-built-in-providers</literal> switch enables (default) or disables the RESTEasy built-in

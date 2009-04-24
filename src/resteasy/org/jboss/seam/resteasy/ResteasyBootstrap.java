@@ -2,12 +2,21 @@ package org.jboss.seam.resteasy;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.annotations.AutoCreate;
+import org.jboss.seam.annotations.Install;
+import org.jboss.seam.annotations.Logger;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Create;
 import org.jboss.seam.deployment.AnnotationDeploymentHandler;
 import org.jboss.seam.deployment.DeploymentStrategy;
-import org.jboss.seam.annotations.*;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.util.Reflections;
+import org.jboss.seam.util.EJB;
+import org.jboss.resteasy.core.ThreadLocalResteasyProviderFactory;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -17,6 +26,8 @@ import java.util.Set;
 
 /**
  * Scans annoated JAX-RS resources and providers, optionally registers them as Seam components.
+ * It does so by populating the <tt>Application</tt> instance, which is then processed further
+ * by the <tt>ResteasyDispatcher</tt> during startup.
  *
  * @author Christian Bauer
  */
@@ -24,7 +35,7 @@ import java.util.Set;
 @Scope(ScopeType.APPLICATION)
 @Startup
 @AutoCreate
-@Install(classDependencies = "org.jboss.resteasy.core.Dispatcher")
+@Install(classDependencies = "org.jboss.resteasy.spi.ResteasyProviderFactory")
 public class ResteasyBootstrap
 {
 
@@ -34,10 +45,22 @@ public class ResteasyBootstrap
     @In
     protected Application application;
 
-    @Create
-    public void onStartup()
+    private SeamResteasyProviderFactory providerFactory;
+    public SeamResteasyProviderFactory getProviderFactory()
     {
-        log.info("deploying RESTEasy providers and resources");
+        return providerFactory;
+    }
+
+    @Create
+    public void init()
+    {
+        log.info("starting RESTEasy with custom SeamResteasyProviderFactory");
+        providerFactory = new SeamResteasyProviderFactory();
+
+        // Always use the "deployment sensitive" factory - that means it is handled through ThreadLocal, not static
+        SeamResteasyProviderFactory.setInstance(new ThreadLocalResteasyProviderFactory(getProviderFactory()));
+
+        log.info("deploying JAX-RS application");
 
         Collection<Class<?>> annotatedProviderClasses = null;
         Collection<Class<?>> annotatedResourceClasses = null;
@@ -162,9 +185,16 @@ public class ResteasyBootstrap
                 log.debug("adding resource Seam components {0} for class {1}", components, resourceClass);
                 application.addResourceClass(resourceClass, components);
             }
+            // Check if it is a @Path annotated EJB interface
+            else if (resourceClass.isAnnotationPresent(EJB.LOCAL) ||
+                    resourceClass.isAnnotationPresent(EJB.REMOTE))
+            {
+                log.debug("ignoring @Path annotated EJB interface, add the bean " +
+                          "implementation to <resteasy:resource-class-names/>: " + resourceClass.getName());
+            }
             else
             {
-                log.debug("adding resource class with JAX-RS default lifecycle: " + resourceClass.getName());
+                log.debug("adding resource class: " + resourceClass.getName());
                 application.addResourceClass(resourceClass);
             }
         }
