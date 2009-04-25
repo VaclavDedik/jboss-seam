@@ -311,10 +311,6 @@
                <artifactId>jaxb-impl</artifactId>
             </exclusion>
             <exclusion>
-               <groupId>org.codehaus.jettison</groupId>
-               <artifactId>jettison</artifactId>
-            </exclusion>
-            <exclusion>
                <groupId>javax.annotation</groupId>
                <artifactId>jsr250-api</artifactId>
             </exclusion>
@@ -349,10 +345,6 @@
             <exclusion>
                <groupId>com.sun.xml.bind</groupId>
                <artifactId>jaxb-impl</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>org.codehaus.jettison</groupId>
-               <artifactId>jettison</artifactId>
             </exclusion>
          </exclusions>
       </dependency>
