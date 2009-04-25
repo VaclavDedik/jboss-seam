@@ -207,17 +207,18 @@ public class ResourceHome<T, T2> extends AbstractResource<T>
          return Response.status(BAD_REQUEST).build();
       }
 
-      updateEntity(entity);
+      updateEntity(entity, id);
       return Response.noContent().build();
    }
 
    /**
     * Merge the state of the database entity with the entity passed as a
-    * parameter.
+    * parameter. Override to customize the update strategy - for instance to
+    * update specific fields only instead of a full merge.
     * 
     * @param entity
     */
-   public void updateEntity(T entity)
+   public void updateEntity(T entity, T2 id)
    {
       entityHome.merge(entity);
    }
