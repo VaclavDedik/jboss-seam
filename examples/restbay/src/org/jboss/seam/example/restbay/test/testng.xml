@@ -25,4 +25,10 @@
         <class name="org.jboss.seam.example.restbay.test.ResourceQueryTest"/>
       </classes>
     </test>
+    
+    <!-- <test name="RestBay: Security">
+      <classes>
+        <class name="org.jboss.seam.example.restbay.test.SecurityTest"/>
+      </classes>
+    </test>-->
 </suite>

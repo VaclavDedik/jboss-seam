@@ -13,9 +13,9 @@
                 "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd
                  http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.1.xsd 
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd
-                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.1.xsd
                  http://jboss.com/products/seam/async http://jboss.com/products/seam/async-2.1.xsd
                  http://jboss.com/products/seam/web http://jboss.com/products/seam/web-2.1.xsd
+                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.1.xsd
                  http://jboss.com/products/seam/resteasy http://jboss.com/products/seam/resteasy-2.1.xsd
                  http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.1.xsd
                  http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.1.xsd">
@@ -48,5 +48,10 @@
     <resteasy:resource-query path="/configuredCategory" name="configuredCategoryResourceQuery"
                              entity-class="org.jboss.seam.example.restbay.Category"
                              media-types="application/xml application/json"/>
+                             
+	<web:authentication-filter url-pattern="/seam/resource/restv1/secured/*"
+	auth-type="basic" realm="Seam RestBay Application" />
+	
+	<security:identity authenticate-method="#{authenticator.authenticate}" />
 
 </components>
