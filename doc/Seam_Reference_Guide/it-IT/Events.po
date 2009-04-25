@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-03-31 09:07+0000\n"
-"PO-Revision-Date: 2009-04-05 17:58+0100\n"
+"PO-Revision-Date: 2009-04-25 20:11+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -503,13 +503,13 @@ msgstr ""
 #: Events.xml:333
 #, no-c-format
 msgid "Conversion and Validation"
-msgstr ""
+msgstr "Conversione e validazione"
 
 #. Tag: para
 #: Events.xml:335
 #, no-c-format
 msgid "You can specify a JSF converter for complex model propreties:"
-msgstr ""
+msgstr "Si può specificare un convertitore JSF per proprietà di modelli complessi:"
 
 #. Tag: programlisting
 #: Events.xml:339
@@ -636,13 +636,13 @@ msgstr ""
 #: Events.xml:384
 #, no-c-format
 msgid "It is not possible to specify request parameters to be used when redirecting."
-msgstr ""
+msgstr "Non è possibile specificare i parametri di richiesta da usare in caso di redirection."
 
 #. Tag: para
 #: Events.xml:389
 #, no-c-format
 msgid "It is not possible to begin or end conversations from a rule."
-msgstr ""
+msgstr "Non è possibile iniziare o terminare le conversazione da una regola."
 
 #. Tag: para
 #: Events.xml:394
@@ -986,7 +986,7 @@ msgstr ""
 #: Events.xml:507
 #, no-c-format
 msgid "We specify event listeners (observers) in <literal>components.xml</literal>."
-msgstr ""
+msgstr "Si specificano gli event listener (observer) in <literal>components.xml</literal>."
 
 #. Tag: programlisting
 #: Events.xml:511
@@ -1010,7 +1010,7 @@ msgstr ""
 #: Events.xml:513
 #, no-c-format
 msgid "Where the <emphasis>event type</emphasis> is just an arbitrary string."
-msgstr ""
+msgstr "Dove il <emphasis>tipo di evento</emphasis> è solo una stringa arbitraria."
 
 #. Tag: para
 #: Events.xml:517

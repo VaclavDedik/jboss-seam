@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-04-23 20:57+0100\n"
+"PO-Revision-Date: 2009-04-25 20:06+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -490,31 +490,31 @@ msgstr "Gli entity bean possono essere associati ad una variabile di contesto e 
 #: Concepts.xml:384
 #, no-c-format
 msgid "Entity bean components do not support bijection or context demarcation. Nor does invocation of an entity bean trigger validation."
-msgstr ""
+msgstr "I componenti entity bean non supportano la bijection o la demarcazione di contesto. E neppure l'invocazione della validazione dell'entity bean (trigger)."
 
 #. Tag: para
 #: Concepts.xml:388
 #, no-c-format
 msgid "Entity beans are not usually used as JSF action listeners, but do often function as backing beans that provide properties to JSF components for display or form submission. In particular, it is common to use an entity as a backing bean, together with a stateless session bean action listener to implement create/update/delete type functionality."
-msgstr ""
+msgstr "Gli entity bean non sono solitamente usati come action listener JSF, ma spesso funzionano come backing bean che forniscono proprietà ai componenti JSF per la visualizzazione o la sottomissione di una form. In particolare è comune usare un entity come backing bean, assieme ad un action listener bean di sessione stateless per implementare funzionalità di tipo crea/aggiorna/cancella."
 
 #. Tag: para
 #: Concepts.xml:394
 #, no-c-format
 msgid "By default, entity beans are bound to the conversation context. They may never be bound to the stateless context."
-msgstr ""
+msgstr "Di default gli entity bean sono associati al contesto conversazione. Non possono mai essere associati al contesto stateless."
 
 #. Tag: para
 #: Concepts.xml:398
 #, no-c-format
 msgid "Note that it in a clustered environment is somewhat less efficient to bind an entity bean directly to a conversation or session scoped Seam context variable than it would be to hold a reference to the entity bean in a stateful session bean. For this reason, not all Seam applications define entity beans to be Seam components."
-msgstr ""
+msgstr "Si noti che in un ambiente cluster è meno efficiente associare un entity bean direttamente ad una variabile di contesto con scope conversazione o sessione rispetto a come sarebbe mantenere un riferimento all'entity bean in un bean di sessione stateful. PEr questa ragione non tutte le applicazioni Seam definiscono entity bean come componenti Seam."
 
 #. Tag: para
 #: Concepts.xml:404
 #, no-c-format
 msgid "Seam entity bean components may be instantiated using <literal>Component.getInstance()</literal>, <literal>@In(create=true)</literal> or directly using the <literal>new</literal> operator."
-msgstr ""
+msgstr "I componenti entity bean di Seam possono essere istanziati usando  <literal>Component.getInstance()</literal>, <literal>@In(create=true)</literal> o direttamente usando l'operatore <literal>new</literal>."
 
 #. Tag: title
 #: Concepts.xml:411
