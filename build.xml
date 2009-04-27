@@ -144,6 +144,7 @@
 		<!-- include everything we want in the src directory
             that we didn't want in the jar itself -->
 		<include name="**/*.java" />
+		<include name="**/*.sql" />
 	</patternset>
 
 	<patternset id="refdoc.files">
