@@ -30,7 +30,7 @@
                  </xs:annotation>
              </xs:element>
              <xs:element minOccurs="0" maxOccurs="1"
-                         name="media-type-mappings" type="components:multiValuedProperty">
+                         name="media-type-mappings" type="components:mapProperty">
                  <xs:annotation>
                     <xs:documentation>
                         Maps media type URI extensions to Accept header, see RESTEasy documentation and JAX-RS (JSR 311).
@@ -38,7 +38,7 @@
                  </xs:annotation>
              </xs:element>
              <xs:element minOccurs="0" maxOccurs="1"
-                         name="language-mappings" type="components:multiValuedProperty">
+                         name="language-mappings" type="components:mapProperty">
                  <xs:annotation>
                     <xs:documentation>
                         Maps language URI extension to Accept header, see RESTEasy documentation and JAX-RS (JSR 311).
