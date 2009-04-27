@@ -59,6 +59,9 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="1" name="media-types" type="components:multiValuedProperty"/>
+			</xs:sequence>
 			<xs:attributeGroup ref="components:attlist.component" />
 			<xs:attributeGroup ref="resteasy:attlist.resourceHome" />
 			<xs:attributeGroup ref="resteasy:attlist.abstractResource" />
@@ -73,6 +76,9 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="1" name="media-types" type="components:multiValuedProperty"/>
+			</xs:sequence>
 			<xs:attributeGroup ref="components:attlist.component" />
 			<xs:attributeGroup ref="resteasy:attlist.resourceQuery" />
 			<xs:attributeGroup ref="resteasy:attlist.abstractResource" />
