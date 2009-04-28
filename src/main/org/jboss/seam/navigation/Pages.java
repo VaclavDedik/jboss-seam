@@ -736,10 +736,12 @@ public class Pages
          {
             if ( !overridden.contains( pageParameter.getName() ) )
             {
-               String value;
+               String value = null;
                if ( pageParameter.getValueExpression()==null )
-               {
-                  value = (String) Contexts.getPageContext().get( pageParameter.getName() );
+               {                  
+                  if (Contexts.isPageContextActive()) {
+                      value = (String) Contexts.getPageContext().get(pageParameter.getName());
+                  }
                }
                else
                {
