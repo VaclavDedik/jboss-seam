@@ -32,6 +32,11 @@
       </dependency>
       
       <dependency>
+         <groupId>org.jboss.resteasy</groupId>
+         <artifactId>resteasy-atom-provider</artifactId>
+      </dependency>
+      
+      <dependency>
          <groupId>javax.servlet</groupId>
          <artifactId>servlet-api</artifactId>
          <scope>provided</scope>
