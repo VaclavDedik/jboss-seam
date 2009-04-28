@@ -25,8 +25,7 @@ import javax.ws.rs.Path;
 
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.security.Admin;
-import org.jboss.seam.example.tasks.UserHome;
+import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.example.tasks.entity.User;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.resteasy.ResourceHome;
@@ -41,7 +40,7 @@ import org.jboss.seam.resteasy.ResourceHome;
  */
 @Path("/auth/user")
 @Name("userResourceHome")
-@Admin
+@Restrict("#{s:hasRole('admin')}")
 public class UserResourceHome extends ResourceHome<User, String>
 {
 
@@ -50,8 +49,8 @@ public class UserResourceHome extends ResourceHome<User, String>
       setMediaTypes(new String[] { "application/xml", "application/json", "application/fastinfoset" });
    }
 
-   @In
-   private UserHome userHome;
+   @In()
+   private EntityHome<User> userHome;
 
    @Override
    public EntityHome getEntityHome()
