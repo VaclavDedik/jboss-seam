@@ -42,7 +42,7 @@ public class ResourceQueryTest extends ResourceSeamTest
          @Override
          protected void onResponse(MockHttpServletResponse response)
          {
-            String expectedResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><resteasy:collection xmlns:resteasy=\"http://jboss.org/resteasy\"><category><categoryId>3</categoryId><name>Books</name></category><category><categoryId>4</categoryId><name>Cameras and Photography</name></category></resteasy:collection>";
+            String expectedResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><collection><category><categoryId>3</categoryId><name>Books</name></category><category><categoryId>4</categoryId><name>Cameras and Photography</name></category></collection>";
             assertEquals(response.getContentAsString(), expectedResponse, "Unexpected response.");
          }
 
