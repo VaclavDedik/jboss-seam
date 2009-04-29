@@ -714,7 +714,7 @@ msgstr ""
 #: Itext.xml:642
 #, no-c-format
 msgid ""
-"<![CDATA[<p:facet name=\"header\">\n"
+"<![CDATA[<f:facet name=\"header\">\n"
 "  <p:font size=\"12\">\n"
 "    <p:footer borderWidthTop=\"1\" borderColorTop=\"blue\" \n"
 "              borderWidthBottom=\"0\" alignment=\"center\">\n"

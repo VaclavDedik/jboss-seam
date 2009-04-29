@@ -668,7 +668,7 @@
                                 <para>
                                     <emphasis>Usage</emphasis>
                                 </para>
-                                <programlisting role="XHTML"><![CDATA[<p:facet name="header">
+                                <programlisting role="XHTML"><![CDATA[<f:facet name="header">
   <p:font size="12">
     <p:footer borderWidthTop="1" borderColorTop="blue" 
               borderWidthBottom="0" alignment="center">
