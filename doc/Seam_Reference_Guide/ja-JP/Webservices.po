@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tools\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-03-22 12:51+0000\n"
+"POT-Creation-Date: 2009-04-29 12:40+0000\n"
 "PO-Revision-Date: 2009-02-20 10:58-0500\n"
 "Last-Translator: kojiro miyamoto <kojiro_miyamoto@hotmail.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -759,6 +759,7 @@ msgid ""
 "     <resteasy:resource-class-names>\n"
 "         <value>org.foo.MyCustomerResource</value>\n"
 "         <value>org.foo.MyOrderResource</value>\n"
+"         <value>org.foo.MyStatelessEJBImplementation</value>\n"
 "     </resteasy:resource-class-names>\n"
 "\n"
 "     <resteasy:provider-class-names>\n"
@@ -787,6 +788,25 @@ msgstr ""
 #: Webservices.xml:259
 #, no-c-format
 msgid ""
+"RESTEasy supports plain EJBs (EJBs that are not Seam components) as "
+"resources. Instead of configuring the JNDI names in a non-portable fashion "
+"in <literal>web.xml</literal> (see RESTEasy documentation), you can simply "
+"list the EJB implementation classes, not the business interfaces, in "
+"<literal>components.xml</literal> as shown above. Note that you have to "
+"annotate the <literal>@Local</literal> interface of the EJB with "
+"<literal>@Path</literal>, <literal>@GET</literal>, and so on - not the bean "
+"implementation class. This allows you to keep your application deployment-"
+"portable with the global Seam <literal>jndi-pattern</literal> switch on "
+"<literal>&lt;core:init/&gt;</literal>. Note that EJB resources will not be "
+"found even if scanning of resources is enabled, you always have to list them "
+"manually. Again, this is only relevant for EJB resources that are not also "
+"Seam components and that do not have a <literal>@Name</literal> annotation."
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:271
+#, no-c-format
+msgid ""
 "The <literal>use-built-in-providers</literal> switch enables (default) or "
 "disables the RESTEasy built-in providers. We recommend you leave them "
 "enabled, as they provide plaintext, JSON, and JAXB marshalling out of the "
@@ -797,13 +817,13 @@ msgstr ""
 "のままで整列化できるので、この機能は有効にしておくと良いでしょう。"
 
 #. Tag: para
-#: Webservices.xml:265
+#: Webservices.xml:277
 #, no-c-format
 msgid "Finally, you can configure media type and language URI extensions:"
 msgstr "最後に、メディアタイプと言語のURI拡張子を設定できます。"
 
 #. Tag: programlisting
-#: Webservices.xml:269
+#: Webservices.xml:281
 #, fuzzy, no-c-format
 msgid ""
 "<![CDATA[<resteasy:application>\n"
@@ -831,7 +851,7 @@ msgstr ""
 "</resteasy:application-config>]]>"
 
 #. Tag: para
-#: Webservices.xml:271
+#: Webservices.xml:283
 #, no-c-format
 msgid ""
 "This definition would map the URI suffix of <literal>.txt.deutsch</literal> "
@@ -845,13 +865,13 @@ msgstr ""
 "ることができます。"
 
 #. Tag: title
-#: Webservices.xml:280
+#: Webservices.xml:292
 #, no-c-format
 msgid "Resources and providers as Seam components"
 msgstr "Seam コンポーネントとしてのリソースとプロバイダ"
 
 #. Tag: para
-#: Webservices.xml:282
+#: Webservices.xml:294
 #, no-c-format
 msgid ""
 "Any resource and provider instances are managed by RESTEasy by default. That "
@@ -868,7 +888,7 @@ msgstr ""
 "定されています。"
 
 #. Tag: para
-#: Webservices.xml:289
+#: Webservices.xml:301
 #, no-c-format
 msgid ""
 "You can write resources and providers as Seam components and benefit from "
@@ -881,7 +901,7 @@ msgstr ""
 "ポーネントにするのは簡単で、以下のようにします。"
 
 #. Tag: programlisting
-#: Webservices.xml:295
+#: Webservices.xml:307
 #, fuzzy, no-c-format
 msgid ""
 "<![CDATA[@Name(\"customerResource\")\n"
@@ -917,7 +937,7 @@ msgstr ""
 "}]]>"
 
 #. Tag: para
-#: Webservices.xml:297
+#: Webservices.xml:309
 #, no-c-format
 msgid ""
 "An instance of <literal>customerResource</literal> is now handled by Seam "
@@ -942,7 +962,7 @@ msgstr ""
 "ます。"
 
 #. Tag: para
-#: Webservices.xml:307
+#: Webservices.xml:319
 #, no-c-format
 msgid ""
 "Conversation-scoped resource components and mapping of conversations is "
@@ -952,7 +972,7 @@ msgstr ""
 "ませんが、間もなく利用できるようになる予定です。"
 
 #. Tag: para
-#: Webservices.xml:312
+#: Webservices.xml:324
 #, no-c-format
 msgid ""
 "Provider classes can also be Seam components, they must be "
@@ -963,7 +983,7 @@ msgstr ""
 "る必要があります。"
 
 #. Tag: para
-#: Webservices.xml:317
+#: Webservices.xml:329
 #, no-c-format
 msgid ""
 "Resources and providers can be EJBs or JavaBeans, like any other Seam "
@@ -973,13 +993,13 @@ msgstr ""
 "とができます。"
 
 #. Tag: title
-#: Webservices.xml:324
+#: Webservices.xml:336
 #, no-c-format
 msgid "Mapping exceptions to HTTP responses"
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:326
+#: Webservices.xml:338
 #, no-c-format
 msgid ""
 "Section 3.3.4 of the JAX-RS specification defines how checked or unchecked "
@@ -992,7 +1012,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:334
+#: Webservices.xml:346
 #, no-c-format
 msgid ""
 "Exception handling within Seam requires that the Seam filter is executed for "
@@ -1004,7 +1024,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:341
+#: Webservices.xml:353
 #, no-c-format
 msgid ""
 "<![CDATA[<filter>\n"
@@ -1019,7 +1039,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:343
+#: Webservices.xml:355
 #, no-c-format
 msgid ""
 "To convert the unchecked <literal>UnsupportedOperationException</literal> "
@@ -1029,7 +1049,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:349
+#: Webservices.xml:361
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"java.lang.UnsupportedOperationException\">\n"
@@ -1040,13 +1060,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:351
+#: Webservices.xml:363
 #, no-c-format
 msgid "Custom or checked exceptions are handled the same:"
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:355
+#: Webservices.xml:367
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"my.CustomException\" log=\"false\">\n"
@@ -1058,7 +1078,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:357
+#: Webservices.xml:369
 #, no-c-format
 msgid ""
 "You do not have to send an HTTP error to the client if an exception occurs. "
@@ -1069,7 +1089,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:364
+#: Webservices.xml:376
 #, no-c-format
 msgid ""
 "Note that the HTTP response still passes through the servlet container, so "

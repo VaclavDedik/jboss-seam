@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Framework\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-03-22 12:51+0000\n"
+"POT-Creation-Date: 2009-04-29 12:40+0000\n"
 "PO-Revision-Date: 2009-02-20 17:56+1000\n"
 "Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -722,14 +722,14 @@ msgstr ""
 
 #. Tag: para
 #: Framework.xml:212
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "The Home object raises an <literal>org.jboss.seam.afterTransactionSuccess</"
 "literal> event when a transaction succeeds (a call to <literal>persist()</"
 "literal>, <literal>update()</literal> or <literal>remove()</literal> "
 "succeeds). By observing this event we can refresh our queries when the "
 "underlying entities are changed. If we only want to refresh certain queries "
-"when a particular entity is persited, updated or removed we can observe the "
+"when a particular entity is persisted, updated or removed we can observe the "
 "<literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> event "
 "(where <literal>&lt;name&gt;</literal> is the name of the entity)."
 msgstr ""
@@ -1200,11 +1200,11 @@ msgstr ""
 
 #. Tag: para
 #: Framework.xml:320
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "Unfortunately Query objects don't work well with <emphasis>join fetch</"
 "emphasis> queries - the use of pagination with these queries is not "
-"recomended, and you'll have to implement your own method of calculating the "
+"recommended, and you'll have to implement your own method of calculating the "
 "total number of results (by overriding <literal>getCountEjbql()</literal>."
 msgstr ""
 "残念ながらクエリーのオブジェクトは <emphasis>join fetch</emphasis> クエリーで"

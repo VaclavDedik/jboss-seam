@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-04-15 13:51+0000\n"
+"POT-Creation-Date: 2009-04-29 12:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -1191,7 +1191,7 @@ msgid "User Entity Annotations"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:630 Security.xml:764 Security.xml:3370 Security.xml:3533
+#: Security.xml:630 Security.xml:764 Security.xml:3382 Security.xml:3545
 #, no-c-format
 msgid "Annotation"
 msgstr ""
@@ -1204,8 +1204,8 @@ msgstr ""
 
 #. Tag: para
 #: Security.xml:636 Security.xml:770 Security.xml:966 Security.xml:1418
-#: Security.xml:2147 Security.xml:2756 Security.xml:3159 Security.xml:3376
-#: Security.xml:3539 Security.xml:3780 Security.xml:4217
+#: Security.xml:2147 Security.xml:2756 Security.xml:3171 Security.xml:3388
+#: Security.xml:3551 Security.xml:3792 Security.xml:4229
 #, no-c-format
 msgid "Description"
 msgstr ""
@@ -2229,8 +2229,8 @@ msgid "Identity Management API"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:1412 Security.xml:1828 Security.xml:2753 Security.xml:3156
-#: Security.xml:3777 Security.xml:3946
+#: Security.xml:1412 Security.xml:1828 Security.xml:2753 Security.xml:3168
+#: Security.xml:3789 Security.xml:3958
 #, no-c-format
 msgid "Method"
 msgstr ""
@@ -2251,9 +2251,9 @@ msgstr ""
 #: Security.xml:1433 Security.xml:1452 Security.xml:1471 Security.xml:1490
 #: Security.xml:1509 Security.xml:1529 Security.xml:1548 Security.xml:1567
 #: Security.xml:1586 Security.xml:1606 Security.xml:1626 Security.xml:1740
-#: Security.xml:1762 Security.xml:1780 Security.xml:2766 Security.xml:3227
-#: Security.xml:3246 Security.xml:3265 Security.xml:3283 Security.xml:3828
-#: Security.xml:3847 Security.xml:3866 Security.xml:3885
+#: Security.xml:1762 Security.xml:1780 Security.xml:2766 Security.xml:3239
+#: Security.xml:3258 Security.xml:3277 Security.xml:3295 Security.xml:3840
+#: Security.xml:3859 Security.xml:3878 Security.xml:3897
 #, no-c-format
 msgid "boolean"
 msgstr ""
@@ -2559,13 +2559,13 @@ msgid "Identity Management Security Permissions"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:1831 Security.xml:3949
+#: Security.xml:1831 Security.xml:3961
 #, no-c-format
 msgid "Permission Target"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:1834 Security.xml:3952
+#: Security.xml:1834 Security.xml:3964
 #, no-c-format
 msgid "Permission Action"
 msgstr ""
@@ -3807,7 +3807,7 @@ msgid "PermissionResolver interface"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2750 Security.xml:3153 Security.xml:3774
+#: Security.xml:2750 Security.xml:3165 Security.xml:3786
 #, no-c-format
 msgid "Return type"
 msgstr ""
@@ -3850,14 +3850,29 @@ msgid ""
 "literal> method with the same <literal>action</literal> parameter value."
 msgstr ""
 
+#. Tag: para
+#: Security.xml:2809
+#, no-c-format
+msgid ""
+"As they are cached in the user's session, any custom "
+"<literal>PermissionResolver</literal> implementations must adhere to a "
+"couple of restrictions. Firstly, they may not contain any state that is "
+"finer-grained than session scope (and the scope of the component itself "
+"should either be application or session). Secondly, they must not use "
+"dependency injection as they may be accessed from multiple threads "
+"simultaneously. In fact, for performance reasons it is recommended that they "
+"are annotated with <literal>@BypassInterceptors</literal> to bypass Seam's "
+"interceptor stack altogether."
+msgstr ""
+
 #. Tag: title
-#: Security.xml:2812
+#: Security.xml:2824
 #, no-c-format
 msgid "ResolverChain"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2814
+#: Security.xml:2826
 #, no-c-format
 msgid ""
 "A <literal>ResolverChain</literal> contains an ordered list of "
@@ -3866,7 +3881,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2819
+#: Security.xml:2831
 #, no-c-format
 msgid ""
 "The default <literal>ResolverChain</literal> consists of all permission "
@@ -3880,7 +3895,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2828
+#: Security.xml:2840
 #, no-c-format
 msgid ""
 "The following sequence diagram shows the interaction between the components "
@@ -3892,7 +3907,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2846
+#: Security.xml:2858
 #, no-c-format
 msgid ""
 "1. A permission check is initiated somewhere (either in code or via an EL "
@@ -3901,7 +3916,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2852
+#: Security.xml:2864
 #, no-c-format
 msgid ""
 "1.1. <literal>Identity</literal> invokes <literal>PermissionMapper."
@@ -3909,7 +3924,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2859
+#: Security.xml:2871
 #, no-c-format
 msgid ""
 "1.1.1. <literal>PermissionMapper</literal> maintains a <literal>Map</"
@@ -3921,7 +3936,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2869
+#: Security.xml:2881
 #, no-c-format
 msgid ""
 "1.1.2. For each <literal>PermissionResolver</literal> in the "
@@ -3936,13 +3951,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:2885
+#: Security.xml:2897
 #, no-c-format
 msgid "RuleBasedPermissionResolver"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2887
+#: Security.xml:2899
 #, no-c-format
 msgid ""
 "One of the built-in permission resolvers provided by Seam, "
@@ -3955,13 +3970,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:2896
+#: Security.xml:2908
 #, no-c-format
 msgid "Requirements"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2898
+#: Security.xml:2910
 #, no-c-format
 msgid ""
 "If using the rule-based permission features provided by Seam Security, the "
@@ -3970,43 +3985,43 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2905
+#: Security.xml:2917
 #, no-c-format
 msgid "drools-compiler.jar"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2908
+#: Security.xml:2920
 #, no-c-format
 msgid "drools-core.jar"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2911
+#: Security.xml:2923
 #, no-c-format
 msgid "janino.jar"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2914
+#: Security.xml:2926
 #, no-c-format
 msgid "antlr-runtime.jar"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2917
+#: Security.xml:2929
 #, no-c-format
 msgid "mvel14.jar"
 msgstr ""
 
 #. Tag: title
-#: Security.xml:2924 Security.xml:3116
+#: Security.xml:2936 Security.xml:3128
 #, no-c-format
 msgid "Configuration"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2926
+#: Security.xml:2938
 #, no-c-format
 msgid ""
 "The configuration for <literal>RuleBasedPermissionResolver</literal> "
@@ -4016,7 +4031,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:2932
+#: Security.xml:2944
 #, no-c-format
 msgid ""
 "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
@@ -4044,7 +4059,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2934
+#: Security.xml:2946
 #, no-c-format
 msgid ""
 "The default rule base name can be overridden by specifying the "
@@ -4053,7 +4068,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:2939
+#: Security.xml:2951
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -4062,7 +4077,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2941
+#: Security.xml:2953
 #, no-c-format
 msgid ""
 "Once the <literal>RuleBase</literal> component is configured, it's time to "
@@ -4070,13 +4085,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:2947
+#: Security.xml:2959
 #, no-c-format
 msgid "Writing Security Rules"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2949
+#: Security.xml:2961
 #, no-c-format
 msgid ""
 "The first step to writing security rules is to create a new rule file in the "
@@ -4087,7 +4102,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2956
+#: Security.xml:2968
 #, no-c-format
 msgid ""
 "So what should the security rules file contain? At this stage it might be a "
@@ -4096,7 +4111,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:2961
+#: Security.xml:2973
 #, no-c-format
 msgid ""
 "<![CDATA[package MyApplicationPermissions;\n"
@@ -4114,7 +4129,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2963
+#: Security.xml:2975
 #, no-c-format
 msgid ""
 "Let's break this down step by step. The first thing we see is the package "
@@ -4124,7 +4139,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2969
+#: Security.xml:2981
 #, no-c-format
 msgid ""
 "The next thing we can notice is a couple of import statements for the "
@@ -4134,7 +4149,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2975
+#: Security.xml:2987
 #, no-c-format
 msgid ""
 "Finally we have the code for the rule. Each rule within a package should be "
@@ -4144,7 +4159,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2981
+#: Security.xml:2993
 #, no-c-format
 msgid ""
 "Looking at the body of the rule definition we can notice two distinct "
@@ -4159,7 +4174,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2990
+#: Security.xml:3002
 #, no-c-format
 msgid ""
 "If we look at the LHS of the rule, we see two conditions listed there. Let's "
@@ -4167,14 +4182,14 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:2994
+#: Security.xml:3006
 #, no-c-format
 msgid ""
 "<![CDATA[c: PermissionCheck(target == \"customer\", action == \"delete\")]]>"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:2996
+#: Security.xml:3008
 #, no-c-format
 msgid ""
 "In plain english, this condition is stating that there must exist a "
@@ -4184,7 +4199,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3002
+#: Security.xml:3014
 #, no-c-format
 msgid ""
 "So what is the working memory? Also known as a \"stateful session\" in "
@@ -4202,7 +4217,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3014
+#: Security.xml:3026
 #, no-c-format
 msgid ""
 "Besides the <literal>PermissionCheck</literal> facts, there is also a "
@@ -4219,7 +4234,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3025
+#: Security.xml:3037
 #, no-c-format
 msgid ""
 "It is also possible to insert additional long-lived facts into the working "
@@ -4230,7 +4245,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3032
+#: Security.xml:3044
 #, no-c-format
 msgid ""
 "Getting back to our simple example, we can also notice that the first line "
@@ -4241,13 +4256,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:3039
+#: Security.xml:3051
 #, no-c-format
 msgid "<![CDATA[Role(name == \"admin\")]]>"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3041
+#: Security.xml:3053
 #, no-c-format
 msgid ""
 "This condition simply states that there must be a <literal>Role</literal> "
@@ -4260,7 +4275,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3049
+#: Security.xml:3061
 #, no-c-format
 msgid ""
 "So what is the consequence of the rule firing? Let's take a look at the RHS "
@@ -4268,13 +4283,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:3053
+#: Security.xml:3065
 #, no-c-format
 msgid "<![CDATA[c.grant()]]>"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3055
+#: Security.xml:3067
 #, no-c-format
 msgid ""
 "The RHS consists of Java code, and in this case is invoking the "
@@ -4291,13 +4306,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:3069
+#: Security.xml:3081
 #, no-c-format
 msgid "Non-String permission targets"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3071
+#: Security.xml:3083
 #, no-c-format
 msgid ""
 "So far we have only seen permission checks for String-literal permission "
@@ -4311,7 +4326,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:3080
+#: Security.xml:3092
 #, no-c-format
 msgid ""
 "<![CDATA[rule CanCreateBlogComment\n"
@@ -4329,13 +4344,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:3085
+#: Security.xml:3097
 #, no-c-format
 msgid "Wildcard permission checks"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3087
+#: Security.xml:3099
 #, no-c-format
 msgid ""
 "It is possible to implement a wildcard permission check (which allows all "
@@ -4345,7 +4360,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:3093
+#: Security.xml:3105
 #, no-c-format
 msgid ""
 "<![CDATA[rule CanDoAnythingToCustomersIfYouAreAnAdmin\n"
@@ -4359,7 +4374,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3095
+#: Security.xml:3107
 #, no-c-format
 msgid ""
 "This rule allows users with the <literal>admin</literal> role to perform "
@@ -4368,13 +4383,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:3105
+#: Security.xml:3117
 #, no-c-format
 msgid "PersistentPermissionResolver"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3107
+#: Security.xml:3119
 #, no-c-format
 msgid ""
 "Another built-in permission resolver provided by Seam, "
@@ -4387,7 +4402,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3118
+#: Security.xml:3130
 #, no-c-format
 msgid ""
 "Before it can be used, <literal>PersistentPermissionResolver</literal> must "
@@ -4400,7 +4415,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:3126
+#: Security.xml:3138
 #, no-c-format
 msgid ""
 "<![CDATA[  <security:persistent-permission-resolver permission-store=\"#"
@@ -4408,13 +4423,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:3131
+#: Security.xml:3143
 #, no-c-format
 msgid "Permission Stores"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3133
+#: Security.xml:3145
 #, no-c-format
 msgid ""
 "A permission store is required for <literal>PersistentPermissionResolver</"
@@ -4427,26 +4442,26 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:3143
+#: Security.xml:3155
 #, no-c-format
 msgid "PermissionStore interface"
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3169 Security.xml:3188 Security.xml:3207 Security.xml:3790
-#: Security.xml:3809
+#: Security.xml:3181 Security.xml:3200 Security.xml:3219 Security.xml:3802
+#: Security.xml:3821
 #, no-c-format
 msgid "List&lt;Permission&gt;"
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3174 Security.xml:3814
+#: Security.xml:3186 Security.xml:3826
 #, no-c-format
 msgid "listPermissions(Object target)"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3178
+#: Security.xml:3190
 #, no-c-format
 msgid ""
 "This method should return a <literal>List</literal> of <literal>Permission</"
@@ -4455,13 +4470,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3193 Security.xml:3795
+#: Security.xml:3205 Security.xml:3807
 #, no-c-format
 msgid "listPermissions(Object target, String action)"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3197
+#: Security.xml:3209
 #, no-c-format
 msgid ""
 "This method should return a <literal>List</literal> of <literal>Permission</"
@@ -4470,13 +4485,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3212
+#: Security.xml:3224
 #, no-c-format
 msgid "listPermissions(Set&lt;Object&gt; targets, String action)"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3216
+#: Security.xml:3228
 #, no-c-format
 msgid ""
 "This method should return a <literal>List</literal> of <literal>Permission</"
@@ -4485,13 +4500,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3232
+#: Security.xml:3244
 #, no-c-format
 msgid "grantPermission(Permission)"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3236
+#: Security.xml:3248
 #, no-c-format
 msgid ""
 "This method should persist the specified <literal>Permission</literal> "
@@ -4499,13 +4514,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3251 Security.xml:3852
+#: Security.xml:3263 Security.xml:3864
 #, no-c-format
 msgid "grantPermissions(List&lt;Permission&gt; permissions)"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3255
+#: Security.xml:3267
 #, no-c-format
 msgid ""
 "This method should persist all of the <literal>Permission</literal> objects "
@@ -4514,13 +4529,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3270 Security.xml:3871
+#: Security.xml:3282 Security.xml:3883
 #, no-c-format
 msgid "revokePermission(Permission permission)"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3274
+#: Security.xml:3286
 #, no-c-format
 msgid ""
 "This method should remove the specified <literal>Permission</literal> object "
@@ -4528,13 +4543,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3288 Security.xml:3890
+#: Security.xml:3300 Security.xml:3902
 #, no-c-format
 msgid "revokePermissions(List&lt;Permission&gt; permissions)"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3292
+#: Security.xml:3304
 #, no-c-format
 msgid ""
 "This method should remove all of the <literal>Permission</literal> objects "
@@ -4542,19 +4557,19 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3302 Security.xml:3904
+#: Security.xml:3314 Security.xml:3916
 #, no-c-format
 msgid "List&lt;String&gt;"
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3307 Security.xml:3909
+#: Security.xml:3319 Security.xml:3921
 #, no-c-format
 msgid "listAvailableActions(Object target)"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3311
+#: Security.xml:3323
 #, no-c-format
 msgid ""
 "This method should return a list of all the available actions (as Strings) "
@@ -4564,13 +4579,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:3325
+#: Security.xml:3337
 #, no-c-format
 msgid "JpaPermissionStore"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3327
+#: Security.xml:3339
 #, no-c-format
 msgid ""
 "This is the default <literal>PermissionStore</literal> implementation (and "
@@ -4583,7 +4598,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3335
+#: Security.xml:3347
 #, no-c-format
 msgid ""
 "If you wish to use the same entity (i.e. a single database table) to store "
@@ -4595,7 +4610,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3342
+#: Security.xml:3354
 #, no-c-format
 msgid ""
 "For example, to configure a single entity class to store both user and role "
@@ -4603,7 +4618,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:3344
+#: Security.xml:3356
 #, no-c-format
 msgid ""
 "<![CDATA[  <security:jpa-permission-store user-permission-class=\"com.acme."
@@ -4611,14 +4626,14 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3346
+#: Security.xml:3358
 #, no-c-format
 msgid ""
 "To configure separate entity classes for storing user and role permissions:"
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:3348
+#: Security.xml:3360
 #, no-c-format
 msgid ""
 "<![CDATA[  <security:jpa-permission-store user-permission-class=\"com.acme."
@@ -4627,13 +4642,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:3351
+#: Security.xml:3363
 #, no-c-format
 msgid "Permission annotations"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3353
+#: Security.xml:3365
 #, no-c-format
 msgid ""
 "As mentioned, the entity classes that contain the user and role permissions "
@@ -4644,32 +4659,32 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:3360
+#: Security.xml:3372
 #, no-c-format
 msgid "Entity Permission annotations"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3373 Security.xml:3536
+#: Security.xml:3385 Security.xml:3548
 #, no-c-format
 msgid "Target"
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3386
+#: Security.xml:3398
 #, no-c-format
 msgid "@PermissionTarget"
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3391 Security.xml:3410 Security.xml:3429 Security.xml:3448
-#: Security.xml:3467
+#: Security.xml:3403 Security.xml:3422 Security.xml:3441 Security.xml:3460
+#: Security.xml:3479
 #, no-c-format
 msgid "FIELD,METHOD"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3395
+#: Security.xml:3407
 #, no-c-format
 msgid ""
 "This annotation identifies the property of the entity that will contain the "
@@ -4678,13 +4693,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3405
+#: Security.xml:3417
 #, no-c-format
 msgid "@PermissionAction"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3414
+#: Security.xml:3426
 #, no-c-format
 msgid ""
 "This annotation identifies the property of the entity that will contain the "
@@ -4693,13 +4708,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3424
+#: Security.xml:3436
 #, no-c-format
 msgid "@PermissionUser"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3433
+#: Security.xml:3445
 #, no-c-format
 msgid ""
 "This annotation identifies the property of the entity that will contain the "
@@ -4708,13 +4723,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3443
+#: Security.xml:3455
 #, no-c-format
 msgid "@PermissionRole"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3452
+#: Security.xml:3464
 #, no-c-format
 msgid ""
 "This annotation identifies the property of the entity that will contain the "
@@ -4723,13 +4738,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3462
+#: Security.xml:3474
 #, no-c-format
 msgid "@PermissionDiscriminator"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3471
+#: Security.xml:3483
 #, no-c-format
 msgid ""
 "This annotation should be used when the same entity/table is used to store "
@@ -4746,20 +4761,20 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:3481
+#: Security.xml:3493
 #, no-c-format
 msgid ""
 "<![CDATA[  @PermissionDiscriminator(userValue = \"u\", roleValue = \"r\")]]>"
 msgstr ""
 
 #. Tag: title
-#: Security.xml:3492
+#: Security.xml:3504
 #, no-c-format
 msgid "Example Entity"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3494
+#: Security.xml:3506
 #, no-c-format
 msgid ""
 "Here is an example of an entity class that is used to store both user and "
@@ -4768,7 +4783,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:3499
+#: Security.xml:3511
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -4829,7 +4844,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3501
+#: Security.xml:3513
 #, no-c-format
 msgid ""
 "As can be seen in the above example, the <literal>getDiscriminator()</"
@@ -4846,13 +4861,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:3514
+#: Security.xml:3526
 #, no-c-format
 msgid "Class-specific Permission Configuration"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3516
+#: Security.xml:3528
 #, no-c-format
 msgid ""
 "A further set of class-specific annotations can be used to configure a "
@@ -4862,25 +4877,25 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:3523
+#: Security.xml:3535
 #, no-c-format
 msgid "Class Permission Annotations"
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3549
+#: Security.xml:3561
 #, no-c-format
 msgid "@Permissions"
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3554 Security.xml:3572
+#: Security.xml:3566 Security.xml:3584
 #, no-c-format
 msgid "TYPE"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3558
+#: Security.xml:3570
 #, no-c-format
 msgid ""
 "A container annotation, this annotation may contain an array of "
@@ -4888,13 +4903,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3567
+#: Security.xml:3579
 #, no-c-format
 msgid "@Permission"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3576
+#: Security.xml:3588
 #, no-c-format
 msgid ""
 "This annotation defines a single allowable permission action for the target "
@@ -4905,7 +4920,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3588
+#: Security.xml:3600
 #, no-c-format
 msgid ""
 "Here's an example of the above annotations in action. The following class "
@@ -4913,7 +4928,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:3592
+#: Security.xml:3604
 #, no-c-format
 msgid ""
 "<![CDATA[@Permissions({\n"
@@ -4925,7 +4940,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3594
+#: Security.xml:3606
 #, no-c-format
 msgid ""
 "This example demonstrates how two allowable permission actions, "
@@ -4934,13 +4949,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:3602
+#: Security.xml:3614
 #, no-c-format
 msgid "Permission masks"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3604
+#: Security.xml:3616
 #, no-c-format
 msgid ""
 "By default, multiple permissions for the same target object and recipient "
@@ -4952,7 +4967,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3611
+#: Security.xml:3623
 #, no-c-format
 msgid ""
 "For example, if recipient \"Bob\" is granted both the <literal>view</"
@@ -4965,7 +4980,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:3618
+#: Security.xml:3630
 #, no-c-format
 msgid ""
 "<![CDATA[@Permissions({\n"
@@ -4977,7 +4992,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3620
+#: Security.xml:3632
 #, no-c-format
 msgid ""
 "The <literal>action</literal> property will instead simply contain \"3"
@@ -4987,7 +5002,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3626
+#: Security.xml:3638
 #, no-c-format
 msgid ""
 "Obviously, it is very important that the <literal>mask</literal> values "
@@ -4995,13 +5010,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:3632
+#: Security.xml:3644
 #, no-c-format
 msgid "Identifier Policy"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3634
+#: Security.xml:3646
 #, no-c-format
 msgid ""
 "When storing or looking up permissions, <literal>JpaPermissionStore</"
@@ -5015,7 +5030,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3642
+#: Security.xml:3654
 #, no-c-format
 msgid ""
 "The <literal>IdentifierStrategy</literal> interface is very simple, "
@@ -5023,7 +5038,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:3646
+#: Security.xml:3658
 #, no-c-format
 msgid ""
 "<![CDATA[public interface IdentifierStrategy {\n"
@@ -5033,7 +5048,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3648
+#: Security.xml:3660
 #, no-c-format
 msgid ""
 "The first method, <literal>canIdentify()</literal> simply returns "
@@ -5044,7 +5059,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3654
+#: Security.xml:3666
 #, no-c-format
 msgid ""
 "Seam provides two <literal>IdentifierStrategy</literal> implementations, "
@@ -5053,7 +5068,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3659
+#: Security.xml:3671
 #, no-c-format
 msgid ""
 "To explicitly configure a specific identifier strategy to use for a "
@@ -5066,13 +5081,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:3669
+#: Security.xml:3681
 #, no-c-format
 msgid "ClassIdentifierStrategy"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3671
+#: Security.xml:3683
 #, no-c-format
 msgid ""
 "This identifier strategy is used to generate unique identifiers for classes, "
@@ -5086,7 +5101,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:3680
+#: Security.xml:3692
 #, no-c-format
 msgid ""
 "<![CDATA[@Identifier(name = \"customer\")\n"
@@ -5094,7 +5109,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3682
+#: Security.xml:3694
 #, no-c-format
 msgid ""
 "The identifier for the following class will be \"<literal>customerAction</"
@@ -5102,7 +5117,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:3686
+#: Security.xml:3698
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"customerAction\")\n"
@@ -5110,7 +5125,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3688
+#: Security.xml:3700
 #, no-c-format
 msgid ""
 "Finally, the identifier for the following class will be \"<literal>Customer</"
@@ -5118,19 +5133,19 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:3692
+#: Security.xml:3704
 #, no-c-format
 msgid "<![CDATA[public class Customer { ]]>"
 msgstr ""
 
 #. Tag: title
-#: Security.xml:3697
+#: Security.xml:3709
 #, no-c-format
 msgid "EntityIdentifierStrategy"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3699
+#: Security.xml:3711
 #, no-c-format
 msgid ""
 "This identifier strategy is used to generate unique identifiers for entity "
@@ -5147,7 +5162,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:3710
+#: Security.xml:3722
 #, no-c-format
 msgid ""
 "<![CDATA[@Identifier(value = EntityIdentifierStrategy.class)\n"
@@ -5155,7 +5170,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3712
+#: Security.xml:3724
 #, no-c-format
 msgid ""
 "For an example of the type of identifier values generated, assume we have "
@@ -5163,7 +5178,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:3716
+#: Security.xml:3728
 #, no-c-format
 msgid ""
 "<![CDATA[@Entity\n"
@@ -5186,7 +5201,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3718
+#: Security.xml:3730
 #, no-c-format
 msgid ""
 "For a <literal>Customer</literal> instance with an <literal>id</literal> "
@@ -5196,7 +5211,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:3724
+#: Security.xml:3736
 #, no-c-format
 msgid ""
 "<![CDATA[@Entity\n"
@@ -5205,7 +5220,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3726
+#: Security.xml:3738
 #, no-c-format
 msgid ""
 "Then a <literal>Customer</literal> with an <literal>id</literal> value of "
@@ -5214,13 +5229,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:3739
+#: Security.xml:3751
 #, no-c-format
 msgid "Permission Management"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3741
+#: Security.xml:3753
 #, no-c-format
 msgid ""
 "In much the same way that Seam Security provides an Identity Management API "
@@ -5230,13 +5245,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:3748
+#: Security.xml:3760
 #, no-c-format
 msgid "PermissionManager"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3750
+#: Security.xml:3762
 #, no-c-format
 msgid ""
 "The <literal>PermissionManager</literal> component is an application-scoped "
@@ -5249,7 +5264,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:3757
+#: Security.xml:3769
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -5259,7 +5274,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3759
+#: Security.xml:3771
 #, no-c-format
 msgid ""
 "The following table describes each of the available methods provided by "
@@ -5267,13 +5282,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:3764
+#: Security.xml:3776
 #, no-c-format
 msgid "PermissionManager API methods"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3799 Security.xml:3818
+#: Security.xml:3811 Security.xml:3830
 #, no-c-format
 msgid ""
 "Returns a list of <literal>Permission</literal> objects representing all of "
@@ -5281,13 +5296,13 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3833
+#: Security.xml:3845
 #, no-c-format
 msgid "grantPermission(Permission permission)"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3837
+#: Security.xml:3849
 #, no-c-format
 msgid ""
 "Persists (grants) the specified <literal>Permission</literal> to the backend "
@@ -5295,7 +5310,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3856
+#: Security.xml:3868
 #, no-c-format
 msgid ""
 "Persists (grants) the specified list of <literal>Permission</literal>s to "
@@ -5303,7 +5318,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3875
+#: Security.xml:3887
 #, no-c-format
 msgid ""
 "Removes (revokes) the specified <literal>Permission</literal> from the "
@@ -5311,7 +5326,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3894
+#: Security.xml:3906
 #, no-c-format
 msgid ""
 "Removes (revokes) the specified list of <literal>Permission</literal>s from "
@@ -5319,7 +5334,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3913
+#: Security.xml:3925
 #, no-c-format
 msgid ""
 "Returns a list of the available actions for the specified target object. The "
@@ -5328,13 +5343,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:3928
+#: Security.xml:3940
 #, no-c-format
 msgid "Permission checks for PermissionManager operations"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3930
+#: Security.xml:3942
 #, no-c-format
 msgid ""
 "Invoking the methods of <literal>PermissionManager</literal> requires that "
@@ -5344,37 +5359,37 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:3937
+#: Security.xml:3949
 #, no-c-format
 msgid "Permission Management Security Permissions"
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3961
+#: Security.xml:3973
 #, no-c-format
 msgid "listPermissions()"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3965
+#: Security.xml:3977
 #, no-c-format
 msgid "The specified <literal>target</literal>"
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3971
+#: Security.xml:3983
 #, no-c-format
 msgid "seam.read-permissions"
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3979 Security.xml:3999
+#: Security.xml:3991 Security.xml:4011
 #, no-c-format
 msgid "grantPermission()"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:3983
+#: Security.xml:3995
 #, no-c-format
 msgid ""
 "The target of the specified <literal>Permission</literal>, or each of the "
@@ -5383,56 +5398,56 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:3991 Security.xml:4009 Security.xml:4027
+#: Security.xml:4003 Security.xml:4021 Security.xml:4039
 #, no-c-format
 msgid "seam.grant-permission"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4003 Security.xml:4039
+#: Security.xml:4015 Security.xml:4051
 #, no-c-format
 msgid "The target of the specified <literal>Permission</literal>."
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:4017
+#: Security.xml:4029
 #, no-c-format
 msgid "grantPermissions()"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4021 Security.xml:4057
+#: Security.xml:4033 Security.xml:4069
 #, no-c-format
 msgid ""
 "Each of the targets of the specified list of <literal>Permission</literal>s."
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:4035
+#: Security.xml:4047
 #, no-c-format
 msgid "revokePermission()"
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:4045 Security.xml:4063
+#: Security.xml:4057 Security.xml:4075
 #, no-c-format
 msgid "seam.revoke-permission"
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:4053
+#: Security.xml:4065
 #, no-c-format
 msgid "revokePermissions()"
 msgstr ""
 
 #. Tag: title
-#: Security.xml:4076
+#: Security.xml:4088
 #, no-c-format
 msgid "SSL Security"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4078
+#: Security.xml:4090
 #, no-c-format
 msgid ""
 "Seam includes basic support for serving sensitive pages via the HTTPS "
@@ -5443,13 +5458,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:4085
+#: Security.xml:4097
 #, no-c-format
 msgid "<![CDATA[<page view-id=\"/login.xhtml\" scheme=\"https\"/>]]>"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4087
+#: Security.xml:4099
 #, no-c-format
 msgid ""
 "This configuration is automatically extended to both <literal>s:link</"
@@ -5461,13 +5476,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:4094
+#: Security.xml:4106
 #, no-c-format
 msgid "<![CDATA[<s:link view=\"/login.xhtml\" value=\"Login\"/>]]>"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4096
+#: Security.xml:4108
 #, no-c-format
 msgid ""
 "Browsing directly to a view when using the <emphasis>incorrect</emphasis> "
@@ -5478,7 +5493,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4103
+#: Security.xml:4115
 #, no-c-format
 msgid ""
 "It is also possible to configure a <emphasis>default scheme</emphasis> for "
@@ -5492,13 +5507,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:4112
+#: Security.xml:4124
 #, no-c-format
 msgid "<![CDATA[<page view-id=\"*\" scheme=\"http\" />]]>"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4114
+#: Security.xml:4126
 #, no-c-format
 msgid ""
 "Of course, if <emphasis>none</emphasis> of the pages in your application use "
@@ -5506,7 +5521,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4119
+#: Security.xml:4131
 #, no-c-format
 msgid ""
 "You may configure Seam to automatically invalidate the current HTTP session "
@@ -5515,13 +5530,13 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:4124
+#: Security.xml:4136
 #, no-c-format
 msgid "<![CDATA[<web:session invalidate-on-scheme-change=\"true\"/>]]>"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4126
+#: Security.xml:4138
 #, no-c-format
 msgid ""
 "This option helps make your system less vulnerable to sniffing of the "
@@ -5530,13 +5545,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:4132
+#: Security.xml:4144
 #, no-c-format
 msgid "Overriding the default ports"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4134
+#: Security.xml:4146
 #, no-c-format
 msgid ""
 "If you wish to configure the HTTP and HTTPS ports manually, they may be "
@@ -5546,7 +5561,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:4140
+#: Security.xml:4152
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -5562,13 +5577,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:4146
+#: Security.xml:4158
 #, no-c-format
 msgid "CAPTCHA"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4148
+#: Security.xml:4160
 #, no-c-format
 msgid ""
 "Though strictly not part of the security API, Seam provides a built-in "
@@ -5580,13 +5595,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:4156
+#: Security.xml:4168
 #, no-c-format
 msgid "Configuring the CAPTCHA Servlet"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4157
+#: Security.xml:4169
 #, no-c-format
 msgid ""
 "To get up and running, it is necessary to configure the Seam Resource "
@@ -5595,7 +5610,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:4162
+#: Security.xml:4174
 #, no-c-format
 msgid ""
 "<![CDATA[<servlet>\n"
@@ -5611,20 +5626,20 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:4167
+#: Security.xml:4179
 #, no-c-format
 msgid "Adding a CAPTCHA to a form"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4169
+#: Security.xml:4181
 #, no-c-format
 msgid ""
 "Adding a CAPTCHA challenge to a form is extremely easy. Here's an example:"
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:4173
+#: Security.xml:4185
 #, no-c-format
 msgid ""
 "<![CDATA[<h:graphicImage value=\"/seam/resource/captcha\"/>\n"
@@ -5636,7 +5651,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4175
+#: Security.xml:4187
 #, no-c-format
 msgid ""
 "That's all there is to it. The <literal>graphicImage</literal> control "
@@ -5646,20 +5661,20 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:4184
+#: Security.xml:4196
 #, no-c-format
 msgid "Customising the CAPTCHA algorithm"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4186
+#: Security.xml:4198
 #, no-c-format
 msgid ""
 "You may customize the CAPTCHA algorithm by overriding the built-in component:"
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:4190
+#: Security.xml:4202
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"org.jboss.seam.captcha.captcha\")\n"
@@ -5686,13 +5701,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:4197 Security.xml:4205
+#: Security.xml:4209 Security.xml:4217
 #, no-c-format
 msgid "Security Events"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4199
+#: Security.xml:4211
 #, no-c-format
 msgid ""
 "The following table describes a number of events (see <xref linkend=\"events"
@@ -5700,68 +5715,68 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4214
+#: Security.xml:4226
 #, no-c-format
 msgid "Event Key"
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:4227
+#: Security.xml:4239
 #, no-c-format
 msgid "org.jboss.seam.security.loginSuccessful"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4231
+#: Security.xml:4243
 #, no-c-format
 msgid "Raised when a login attempt is successful."
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:4239
+#: Security.xml:4251
 #, no-c-format
 msgid "org.jboss.seam.security.loginFailed"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4243
+#: Security.xml:4255
 #, no-c-format
 msgid "Raised when a login attempt fails."
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:4251
+#: Security.xml:4263
 #, no-c-format
 msgid "org.jboss.seam.security.alreadyLoggedIn"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4255
+#: Security.xml:4267
 #, no-c-format
 msgid ""
 "Raised when a user that is already authenticated attempts to log in again."
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:4263
+#: Security.xml:4275
 #, no-c-format
 msgid "org.jboss.seam.security.notLoggedIn"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4267
+#: Security.xml:4279
 #, no-c-format
 msgid "Raised when a security check fails when the user is not logged in."
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:4275
+#: Security.xml:4287
 #, no-c-format
 msgid "org.jboss.seam.security.notAuthorized"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4279
+#: Security.xml:4291
 #, no-c-format
 msgid ""
 "Raised when a security check fails when the user is logged in however "
@@ -5769,73 +5784,73 @@ msgid ""
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:4287
+#: Security.xml:4299
 #, no-c-format
 msgid "org.jboss.seam.security.preAuthenticate"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4291
+#: Security.xml:4303
 #, no-c-format
 msgid "Raised just prior to user authentication."
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:4299
+#: Security.xml:4311
 #, no-c-format
 msgid "org.jboss.seam.security.postAuthenticate"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4303
+#: Security.xml:4315
 #, no-c-format
 msgid "Raised just after user authentication."
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:4311
+#: Security.xml:4323
 #, no-c-format
 msgid "org.jboss.seam.security.loggedOut"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4315
+#: Security.xml:4327
 #, no-c-format
 msgid "Raised after the user has logged out."
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:4323
+#: Security.xml:4335
 #, no-c-format
 msgid "org.jboss.seam.security.credentialsUpdated"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4327
+#: Security.xml:4339
 #, no-c-format
 msgid "Raised when the user's credentials have been changed."
 msgstr ""
 
 #. Tag: literal
-#: Security.xml:4335
+#: Security.xml:4347
 #, no-c-format
 msgid "org.jboss.seam.security.rememberMe"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4339
+#: Security.xml:4351
 #, no-c-format
 msgid "Raised when the Identity's rememberMe property is changed."
 msgstr ""
 
 #. Tag: title
-#: Security.xml:4352
+#: Security.xml:4364
 #, no-c-format
 msgid "Run As"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4354
+#: Security.xml:4366
 #, no-c-format
 msgid ""
 "Sometimes it may be necessary to perform certain operations with elevated "
@@ -5847,7 +5862,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4362
+#: Security.xml:4374
 #, no-c-format
 msgid ""
 "The following code example demonstrates how <literal>RunAsOperation</"
@@ -5858,7 +5873,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:4369
+#: Security.xml:4381
 #, no-c-format
 msgid ""
 "<![CDATA[    new RunAsOperation() {       \n"
@@ -5870,7 +5885,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4371
+#: Security.xml:4383
 #, no-c-format
 msgid ""
 "In a similar way, the <literal>getPrincipal()</literal> or "
@@ -5881,13 +5896,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:4382
+#: Security.xml:4394
 #, no-c-format
 msgid "Extending the Identity component"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4384
+#: Security.xml:4396
 #, no-c-format
 msgid ""
 "Sometimes it might be necessary to extend the Identity component if your "
@@ -5900,7 +5915,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:4392
+#: Security.xml:4404
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"org.jboss.seam.security.identity\")\n"
@@ -5935,7 +5950,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4395
+#: Security.xml:4407
 #, no-c-format
 msgid ""
 "Note that an <literal>Identity</literal> component must be marked "
@@ -5945,13 +5960,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:4407
+#: Security.xml:4419
 #, no-c-format
 msgid "OpenID"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4409
+#: Security.xml:4421
 #, no-c-format
 msgid ""
 "OpenID is a community standard for external web-based authentication. The "
@@ -5964,7 +5979,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4418
+#: Security.xml:4430
 #, no-c-format
 msgid ""
 "When using OpenID, the user selects an OpenID provider, and the provider "
@@ -5981,7 +5996,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4427
+#: Security.xml:4439
 #, no-c-format
 msgid ""
 "It's important to realize at this point that authentication does not imply "
@@ -5994,13 +6009,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:4437
+#: Security.xml:4449
 #, no-c-format
 msgid "Configuring OpenID"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4438
+#: Security.xml:4450
 #, no-c-format
 msgid ""
 "Seam uses the openid4java package and requires four additional JARs to make "
@@ -6010,7 +6025,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4444
+#: Security.xml:4456
 #, no-c-format
 msgid ""
 "OpenID processing requires the use of the <literal>OpenIdPhaseListener</"
@@ -6020,7 +6035,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:4450
+#: Security.xml:4462
 #, no-c-format
 msgid ""
 "&lt;lifecycle&gt;\n"
@@ -6030,7 +6045,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4453
+#: Security.xml:4465
 #, no-c-format
 msgid ""
 "With this configuration, OpenID support is available to your application. "
@@ -6040,13 +6055,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:4461
+#: Security.xml:4473
 #, no-c-format
 msgid "Presenting an OpenIdDLogin form"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4463
+#: Security.xml:4475
 #, no-c-format
 msgid ""
 "To initiate an OpenID login, you can present a simply form to the user "
@@ -6056,7 +6071,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:4468
+#: Security.xml:4480
 #, no-c-format
 msgid ""
 "&lt;h:form&gt;\n"
@@ -6067,7 +6082,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4470
+#: Security.xml:4482
 #, no-c-format
 msgid ""
 "When the user submits the login form, he will be redirected to his OpenID "
@@ -6079,13 +6094,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:4479
+#: Security.xml:4491
 #, no-c-format
 msgid "Logging in immediately"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4481
+#: Security.xml:4493
 #, no-c-format
 msgid ""
 "The simplest strategy is to simply login the user immediately. The following "
@@ -6094,7 +6109,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:4485
+#: Security.xml:4497
 #, no-c-format
 msgid ""
 "&lt;page view-id=&quot;/openid.xhtml&quot;&gt;\n"
@@ -6114,7 +6129,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4487
+#: Security.xml:4499
 #, no-c-format
 msgid ""
 "Thie <literal>loginImmediately()</literal> action checks to see if the "
@@ -6128,13 +6143,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:4498
+#: Security.xml:4510
 #, no-c-format
 msgid "Deferring login"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4500
+#: Security.xml:4512
 #, no-c-format
 msgid ""
 "You may not want the user to be immediately logged in to your application. "
@@ -6151,13 +6166,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Security.xml:4514
+#: Security.xml:4526
 #, no-c-format
 msgid "Logging out"
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4516
+#: Security.xml:4528
 #, no-c-format
 msgid ""
 "Logging out (forgetting an OpenID association) is done by calling <literal>#"
@@ -6168,7 +6183,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Security.xml:4523
+#: Security.xml:4535
 #, no-c-format
 msgid ""
 "&lt;event type=&quot;org.jboss.seam.security.loggedOut&quot;&gt;\n"
@@ -6177,7 +6192,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Security.xml:4525
+#: Security.xml:4537
 #, no-c-format
 msgid ""
 "It's important that you do not leave this out or the user will not be able "
