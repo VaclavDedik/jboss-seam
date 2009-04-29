@@ -330,7 +330,7 @@ public class PersonHome extends EntityHome<Person> {
 			event when a transaction succeeds (a call to <literal>persist()</literal>, 
 			<literal>update()</literal> or <literal>remove()</literal> succeeds).  By observing 
 			this event we can refresh our queries when the underlying entities are changed.  If
-			we only want to refresh certain queries when a particular entity is persited, 
+			we only want to refresh certain queries when a particular entity is persisted, 
 			updated or removed we can observe the 
 			<literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> 
 			event (where <literal>&lt;name&gt;</literal> is the name of the entity).
@@ -533,7 +533,7 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
       <para>
          Unfortunately Query objects don't work well with 
          <emphasis>join fetch</emphasis> queries - the use of pagination with
-         these queries is not recomended, and you'll have to implement your own
+         these queries is not recommended, and you'll have to implement your own
          method of calculating the total number of results (by overriding 
          <literal>getCountEjbql()</literal>.
       </para>
