@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-04-15 13:52+0000\n"
-"PO-Revision-Date: 2009-04-15 16:05+0100\n"
+"PO-Revision-Date: 2009-05-02 19:53+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1174,7 +1174,7 @@ msgstr "Quando la form viene inviata, JSF chiede a Seam di risolvere la variabil
 #: Tutorial.xml:492
 #, no-c-format
 msgid "The form input values are now validated against the Hibernate Validator constraints specified on the <literal>User</literal> entity. If the constraints are violated, JSF redisplays the page. Otherwise, JSF binds the form input values to properties of the <literal>User</literal> entity bean."
-msgstr "I valori di input della form vengono ora validati dai vincoli di Hibernate Validator specificati nell'entity <literal>User</literal>. Se i vincoli vengono violati, JSF rivisualizza la pagina, Altrimenti, JSF associa i valori di input alle proprietò dell'entity bean <literal>User</literal>."
+msgstr "I valori di input della form vengono ora validati dai vincoli di Hibernate Validator specificati nell'entity <literal>User</literal>. Se i vincoli vengono violati, JSF rivisualizza la pagina, Altrimenti, JSF associa i valori di input alle proprietà dell'entity bean <literal>User</literal>."
 
 #. Tag: para
 #: Tutorial.xml:495

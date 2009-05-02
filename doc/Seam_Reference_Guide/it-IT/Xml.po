@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:01+0000\n"
-"PO-Revision-Date: 2009-01-18 16:26+0100\n"
+"PO-Revision-Date: 2009-05-02 19:54+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -603,7 +603,7 @@ msgstr ""
 #: Xml.xml:242
 #, no-c-format
 msgid "When configuring multi-valued properties, by default, Seam will preserve the order in which you place the attributes in <literal>components.xml</literal> (unless you use a <literal>SortedSet</literal>/<literal>SortedMap</literal> then Seam will use <literal>TreeMap</literal>/<literal>TreeSet</literal>). If the property has a concrete type (for example <literal>LinkedList</literal>) Seam will use that type."
-msgstr "Quando si configurano le proprietò multi valore, di default Seam preserverà l'ordine in cui vengono messi gli attributi in <literal>components.xml</literal> (amenoché venga usato <literal>SortedSet</literal>/<literal>SortedMap</literal> allora Seam userà <literal>TreeMap</literal>/<literal>TreeSet</literal>). Se la proprietò ha un tipo concreto (per esempio <literal>LinkedList</literal>) Seam userà quel tipo."
+msgstr "Quando si configurano le proprietà multivalore, Seam preserverà di default l'ordine in cui vengono messi gli attributi in <literal>components.xml</literal> (amenoché venga usato <literal>SortedSet</literal>/<literal>SortedMap</literal> allora Seam userà <literal>TreeMap</literal>/<literal>TreeSet</literal>). Se la proprietà ha un tipo concreto (per esempio <literal>LinkedList</literal>) Seam userà quel tipo."
 
 #. Tag: para
 #: Xml.xml:248
