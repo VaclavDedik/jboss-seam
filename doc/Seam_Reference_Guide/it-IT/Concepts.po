@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-04-25 20:06+0100\n"
+"PO-Revision-Date: 2009-05-03 21:08+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -526,13 +526,13 @@ msgstr "<title>JavaBeans</title>"
 #: Concepts.xml:412
 #, no-c-format
 msgid "Javabeans may be used just like a stateless or stateful session bean. However, they do not provide the functionality of a session bean (declarative transaction demarcation, declarative security, efficient clustered state replication, EJB 3.0 persistence, timeout methods, etc)."
-msgstr ""
+msgstr "I Javabean possono essere usati solo come bean di sessione stateless o stateful. Comunque essi non forniscono la funzionalità di un session bean (demarcazione dichiarativa delle transazioni, sicurezza dichiarativa, replicazione clustered efficiente dello stato, persistenza EJB 3.0, metodi timeout, ecc.)"
 
 #. Tag: para
 #: Concepts.xml:417
 #, no-c-format
 msgid "In a later chapter, we show you how to use Seam and Hibernate without an EJB container. In this use case, components are JavaBeans instead of session beans. Note, however, that in many application servers it is somewhat less efficient to cluster conversation or session scoped Seam JavaBean components than it is to cluster stateful session bean components."
-msgstr ""
+msgstr "In un capitolo successivo si mostrerà come impiegare Seam ed Hibernate senza un container EJB. In questo caso i componenti sono JavaBean invece di session bean. Si noti comunque che in molti application server è talvolta meno efficiente clusterizzare la conversazione od i componenti Seam Javabean con scope sessione piuttosto che clusterizzare i componenti session bean stateful. "
 
 #. Tag: para
 #: Concepts.xml:423
@@ -544,7 +544,7 @@ msgstr "Di default i JavaBean sono legati al contesto evento."
 #: Concepts.xml:426
 #, no-c-format
 msgid "Concurrent requests to session-scoped JavaBeans are always serialized by Seam."
-msgstr ""
+msgstr "Le richieste concorrenti a Javabean con scope sessione vengono sempre serializzate da Seam."
 
 #. Tag: para
 #: Concepts.xml:429
@@ -562,19 +562,19 @@ msgstr "Message-driven bean"
 #: Concepts.xml:438
 #, no-c-format
 msgid "Message-driven beans may function as a seam component. However, message-driven beans are called quite differently to other Seam components - instead of invoking them via the context variable, they listen for messages sent to a JMS queue or topic."
-msgstr ""
+msgstr "I bean message-driven possono funzionare come componenti Seam. Comunque i bean message-driven sono chiamati in modo diverso rispetto agli altri componenti Seam - invece di invocarli tramite variabile di contesto, essi ascoltano i messaggi inviati ad una coda o topic JMS."
 
 #. Tag: para
 #: Concepts.xml:443
 #, no-c-format
 msgid "Message-driven beans may not be bound to a Seam context. Nor do they have access to the session or conversation state of their \"caller\". However, they do support bijection and some other Seam functionality."
-msgstr ""
+msgstr "I bean message-driven possono non essere associati ad un contesto Seam. E possono non avere accesso allo stato di sessione o conversazione del loro \"chiamante\". Comunque essi non supportano la bijection e altre funzionalità di Seam."
 
 #. Tag: para
 #: Concepts.xml:448
 #, no-c-format
 msgid "Message-driven beans are never instantiated by the application. They are instantiated by the EJB container when a message is received."
-msgstr ""
+msgstr "I bean message-driven non vengono mai istanziati dall'applicazione. Essi vengono istanziati dal container EJB quando viene ricevuto un messaggio."
 
 #. Tag: title
 #: Concepts.xml:455
@@ -586,7 +586,7 @@ msgstr "Intercettazione"
 #: Concepts.xml:456
 #, no-c-format
 msgid "In order to perform its magic (bijection, context demarcation, validation, etc), Seam must intercept component invocations. For JavaBeans, Seam is in full control of instantiation of the component, and no special configuration is needed. For entity beans, interception is not required since bijection and context demarcation are not defined. For session beans, we must register an EJB interceptor for the session bean component. We could use an annotation, as follows:"
-msgstr ""
+msgstr "Per eseguire le sue magie (bijection, demarcazione di contesto, validazione, ecc.) Seam deve intercettare le invocazioni dei componenti. Per i JavaBean, Seam è nel pieno controllo dell'istanziazione del componente e non ha bisogno di alcuna speciale configurazione. Per gli entity bean, l'intercettazione non è richiesta poiché bijection e demarcazione di contesto non sono definite. Per i session bean occorre registrare un interceptor EJB per il componente bean di sessione. Si può impiegare un'annotazione come segue:"
 
 #. Tag: programlisting
 #: Concepts.xml:464
@@ -608,7 +608,7 @@ msgstr ""
 #: Concepts.xml:466
 #, no-c-format
 msgid "But a much better way is to define the interceptor in <literal>ejb-jar.xml</literal>."
-msgstr ""
+msgstr "Ma il miglio modo è definire l'interceptor in <literal>ejb-jar.xml</literal>."
 
 #. Tag: programlisting
 #: Concepts.xml:470
@@ -650,7 +650,7 @@ msgstr "Nomi dei componenti"
 #: Concepts.xml:476
 #, no-c-format
 msgid "All seam components need a name. We can assign a name to a component using the <literal>@Name</literal> annotation:"
-msgstr ""
+msgstr "Tutti i componenti Seam devono avere un nome. Si può assegnare un nome al componente usando l'annotazione <literal>@Name</literal>:"
 
 #. Tag: programlisting
 #: Concepts.xml:481
@@ -672,13 +672,13 @@ msgstr ""
 #: Concepts.xml:483
 #, no-c-format
 msgid "This name is the <emphasis>seam component name</emphasis> and is not related to any other name defined by the EJB specification. However, seam component names work just like JSF managed bean names and you can think of the two concepts as identical."
-msgstr ""
+msgstr "Questo nome è il <emphasis>nome del componente Seam</emphasis> e non è relazionato a nessun altro nome definito dalla specifica EJB. Comunque i nomi dei componenti Seam funzionano solo come nomi per i bean gestiti da JSF e si possono ritenere questi due concetti come identici."
 
 #. Tag: para
 #: Concepts.xml:489
 #, no-c-format
 msgid "<literal>@Name</literal> is not the only way to define a component name, but we always need to specify the name <emphasis>somewhere</emphasis>. If we don't, then none of the other Seam annotations will function."
-msgstr ""
+msgstr "<literal>@Name</literal> non è il solo modo per definire un nome di componente, ma occorre sempre specificare il nome <emphasis>da qualche parte</emphasis>. Altrimenti nessun'altra annotazione di Seam funzionerà."
 
 #. Tag: para
 #: Concepts.xml:495
@@ -690,7 +690,7 @@ msgstr ""
 #: Concepts.xml:506
 #, no-c-format
 msgid "For very large applications, and for built-in seam components, qualified component names are often used to avoid naming conflicts."
-msgstr ""
+msgstr "Per applicazioni estese e per i componenti predefiniti di seam, vengono spesso impiegati i nomi qualificati dei componenti per evitare conflitti di nome."
 
 #. Tag: programlisting
 #: Concepts.xml:511
