@@ -703,6 +703,7 @@
 	<target name="extras" depends="dependencyReport">
 		<copy file="readme.txt" todir="${dist.dir}" />
 		<copy file="lgpl.txt" todir="${dist.dir}" />
+		<copy file="copyright.txt" todir="${dist.dir}" />
 		<copy file="changelog.txt" todir="${dist.dir}" />
 		<propertyfile file="${dist.dir}/build.properties" comment="See build/sample.build.properties for properties you might want to set">
 			<entry key="mavenized" value="false" />
