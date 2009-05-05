@@ -20,7 +20,7 @@ jguglielmin                          Judy Guglielmin
 jharting                             Jozef Hartinger
 theute                               Thomas Heute
 alesj                                Ales Justin
-nickarls                             Nickla Karlsson
+nickarls                             Nicklas Karlsson
 manaRH                               Marek Novotny
 jacob.orshalick                      Jacob Orshalick
 cpopetz                              Clint Popetz
