@@ -17,9 +17,6 @@
         <para> The <literal>examples/itext</literal> project contains an example of the PDF support in action. It
             demonstrates proper deployment packaging, and it contains a number examples that demonstrate the key PDF
             generation features current supported. </para>
-      
-        
-        
 
         <section id="itext.document">
             <title>Creating a document</title>
@@ -1361,15 +1358,61 @@
         <para> Charting support is also provided with <literal>jboss-seam-pdf.jar</literal>. Charts can be used in PDF
             documents or can be used as images in an HTML page. Charting requires the JFreeChart library
                 (<literal>jfreechart.jar</literal> and <literal>jcommon.jar</literal>) to be added to the
-                <literal>WEB-INF/lib</literal> directory. Three types of charts are currently supported: pie charts, bar
-            charts and line charts. </para>
+                <literal>WEB-INF/lib</literal> directory. 
+            Four types of charts are currently supported: pie charts, bar
+            charts and line charts. Where greater variety or control is needed, it is possible to construct charts 
+        using Java code.</para>
 
-        <informaltable id="itext.barchart">
+
+
+        <informaltable id="itext.charttags">
             <tgroup cols="2">
                 <colspec colnum="1" colwidth="1*"/>
                 <colspec colnum="2" colwidth="3*"/>
 
                 <tbody>
+                    <row>
+                        <entry valign="top">
+                            <para>
+                                <literal>&lt;p:chart&gt;</literal>
+                            </para>
+                        </entry>
+                        <entry valign="top">
+                            <para>
+                                <emphasis>Description</emphasis>
+                            </para>
+                            <para>Displays a chart created in Java by a Seam component.</para>
+                            <para>
+                                <emphasis>Attributes</emphasis>
+                            </para>
+                            
+                            <itemizedlist>
+                                <listitem>
+                                    <para>
+                                        <literal>chart</literal> &#8212; The chart object to display. </para>
+                                </listitem>
+                                
+                                <listitem>
+                                    <para>
+                                        <literal>height</literal> &#8212; The height of the chart. </para>
+                                </listitem>
+                                
+                                <listitem>
+                                    <para>
+                                        <literal>width</literal> &#8212; The width of the chart. </para>
+                                </listitem>
+                                
+                            </itemizedlist>
+                            <para>
+                            <emphasis>Usage</emphasis>
+                        </para>
+                        <programlisting role="XHTML"><![CDATA[<p:chart chart="#{mycomponent.chart}" width="500" height="500" />
+         ]]></programlisting>
+                            
+                        </entry>                        
+                    </row>
+                    
+                    
                     <row>
                         <entry valign="top">
                             <para>
@@ -1386,6 +1429,19 @@
                             </para>
 
                             <itemizedlist>
+                                <listitem>
+                                    <para>
+                                        <literal>chart</literal> &#8212; The chart object to display, if programmatic
+                                        chart creation is being used.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>dataset</literal> &#8212; The dataset to be displayed, if programmatic
+                                        dataset is being used.
+                                    </para>
+                                </listitem>
+                                
                                 <listitem>
                                     <para>
                                         <literal>borderVisible</literal> &#8212; Controls whether or not a border is
@@ -1602,6 +1658,19 @@
                             </para>
 
                             <itemizedlist>
+                                <listitem>
+                                    <para>
+                                        <literal>chart</literal> &#8212; The chart object to display, if programmatic
+                                        chart creation is being used.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>dataset</literal> &#8212; The dataset to be displayed, if programmatic
+                                        dataset is being used.
+                                    </para>
+                                </listitem>
+                                
                                 <listitem>
                                     <para>
                                         <literal>borderVisible</literal> &#8212; Controls whether or not a border is
@@ -1824,6 +1893,18 @@
                                 </listitem>
                                 <listitem>
                                     <para>
+                                        <literal>chart</literal> &#8212; The chart object to display, if programmatic
+                                        chart creation is being used.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>dataset</literal> &#8212; The dataset to be displayed, if programmatic
+                                        dataset is being used.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
                                         <literal>label</literal> &#8212; The default label text for pie sections.
                                     </para>
                                 </listitem>
@@ -1953,6 +2034,9 @@
 
                         </entry>
                     </row>
+                    
+                    
+                                     
                     <row>
                         <entry valign="top">
                             <para>
@@ -2205,9 +2289,11 @@
                 </tbody>
             </tgroup>
         </informaltable>
-
-
     </section>
+
+
+
+
 
     <section id="itext.barcodes">
         <title>Bar codes</title>
