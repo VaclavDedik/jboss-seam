@@ -1179,7 +1179,7 @@
 		<dependenciesWithSources id="ui" scope="compile" pom="${ui.pom}" />
 	</target>
 	
-	<target name="eclipseclasspath" depends="init, jargen" description="Update eclipse classpath">
+	<target name="eclipseclasspath" depends="init, jargen,antlr" description="Update eclipse classpath">
 		<path id="seam-gen.path" path="${seam.dir}/lib/gen/jboss-seam-gen.jar" />
 
 	    <taskdef name="eclipseClasspath" 
