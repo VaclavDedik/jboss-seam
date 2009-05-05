@@ -32,7 +32,7 @@ import org.jboss.seam.resteasy.ResourceHome;
 
 /**
  * This resource demonstrates use of ResourceHome component together with Seam
- * security. This resource exposes user management as a web service, howeve only
+ * security. This resource exposes user management as a web service, however only
  * users with admin permission are allowed to access it.
  * 
  * @author Jozef Hartinger

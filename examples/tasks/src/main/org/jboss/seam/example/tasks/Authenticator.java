@@ -60,7 +60,7 @@ public class Authenticator
    public boolean authenticate()
    {
       user = entityManager.find(User.class, credentials.getUsername());
-      if ((user != null) || (user.getPassword().equals(credentials.getPassword())))
+      if ((user != null) && (user.getPassword().equals(credentials.getPassword())))
       {
          if (user.isAdmin())
          {

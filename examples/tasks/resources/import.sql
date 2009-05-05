@@ -1,5 +1,6 @@
 insert into User (username, password, admin) values ('demo', 'demo', false)
 insert into User (username, password, admin) values ('admin', 'password', true)
+
 insert into Context (id, name, owner_username) values (1, 'School', 'demo')
 	insert into Task (id, name, resolved, created, updated, context_id) values (2, 'Build the Turing machine', false, '2009-04-19 16:11:05', null, 1)
 	insert into Task (id, name, resolved, created, updated, context_id) values (3, 'Finish the RESTEasy-Seam integration example', false, '2009-04-19 16:11:05', null, 1)
@@ -18,3 +19,6 @@ insert into Context (id, name, owner_username) values (4, 'Other stuff', 'demo')
 	insert into Task (id, name, resolved, created, updated, context_id) values (12, 'Visit grandma', false, '2009-04-19 16:11:05', null, 4)
 	insert into Task (id, name, resolved, created, updated, context_id) values (13, 'Extend passport', false, '2009-04-19 16:11:05', null, 4)
 	insert into Task (id, name, resolved, created, updated, context_id) values (14, 'Get a haircut', false, '2009-04-19 16:11:05', null, 4)
+
+insert into Context (id, name, owner_username) values (5, 'Administration', 'admin')
+insert into Task (id, name, resolved, created, updated, context_id) values (15, 'Ban demo user :-)', false, '2009-05-04 12:35:13', null, 5)
