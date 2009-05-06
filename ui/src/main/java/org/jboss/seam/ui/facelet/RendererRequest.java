@@ -101,8 +101,8 @@ public class RendererRequest
       try {
           init();
           renderFacelet(facesContext, faceletForViewId(viewId));
-          cleanup();
       } finally {
+          cleanup();
           resetContextClassLoader();
       }      
    }
