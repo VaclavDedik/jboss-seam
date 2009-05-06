@@ -27,6 +27,18 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.codehaus.cargo.container.ContainerType;
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.jboss.JBoss42xInstalledLocalContainer;
+import org.codehaus.cargo.container.jboss.JBoss5xInstalledLocalContainer;
+import org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration;
+import org.codehaus.cargo.container.jboss.JBossStandaloneLocalConfiguration;
+import org.codehaus.cargo.generic.DefaultContainerFactory;
+import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
+import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 import org.jboss.seam.test.functional.seamgen.utils.SeamGenAdapter;
 import org.openqa.selenium.server.RemoteControlConfiguration;
 import org.openqa.selenium.server.SeleniumServer;
@@ -39,6 +51,7 @@ import org.testng.annotations.Parameters;
 
 /**
  * Base class for seam-gen functional tests.
+ * 
  * @author Jozef Hartinger
  */
 public class SeamGenTest
@@ -83,34 +96,53 @@ public class SeamGenTest
 
    // Selenium server instance
    protected static SeleniumServer seleniumServer;
+   // Container instance
+   protected static LocalContainer container;
 
    @BeforeSuite
    @Parameters("seam.dir")
-   public void beforeSuite(@Optional(".") String seamDir) throws Exception {
+   public void beforeSuite(@Optional(".") String seamDir) throws Exception
+   {
       // Seam location
       SEAM_DIR = seamDir;
-      SEAM_FTEST_PROPERTIES_FILE = SEAM_DIR + "/src/test/ftest/ftest.properties";
+
+      // ftest configuration file
+      String relativeLocation = System.getProperty("ftest.config.location");
+      if (relativeLocation.equals("${ftest.config.location}"))
+      {
+         SEAM_FTEST_PROPERTIES_FILE = SEAM_DIR + "/src/test/ftest/ftest.properties";
+      }
+      else
+      {
+         SEAM_FTEST_PROPERTIES_FILE = SEAM_DIR + "/" + relativeLocation;
+      }
       SEAMGEN_BUILDFILE = SEAM_DIR + "/seam-gen/build.xml";
       SEAMGEN_PROPERTIES_FILE = SEAM_DIR + "/seam-gen/build.properties";
-      OUTPUT_DIR =  SEAM_DIR + "/test-output/functional-framework/";
-      
+      OUTPUT_DIR = SEAM_DIR + "/test-output/functional-framework/";
+
       loadFtestProperties();
       createOutputDir();
       startSeleniumServer();
+      container = startContainer(CONTAINER, CONTAINER_LOCATION);
    }
-   
+
    @AfterSuite
-   public void afterSuite() {
+   public void afterSuite()
+   {
       seleniumServer.stop();
+      if (container != null)
+      {
+         stopContainer(container);
+      }
    }
-   
+
    @BeforeTest
    @Parameters( { "icefaces", "type", "suffix", "explode" })
    public void setUp(@Optional("false") boolean icefaces, @Optional("ear") String type, @Optional("") String suffix, @Optional("true") boolean explode) throws Exception
    {
       ICEFACES = icefaces;
       WAR = type.equalsIgnoreCase("war");
-      APP_NAME = "seamGenTestApp" + (ICEFACES ? "Ice" : "Rich") + (WAR ? "War" : "Ear") + (explode? "E" : "D") + suffix;
+      APP_NAME = "seamGenTestApp" + (ICEFACES ? "Ice" : "Rich") + (WAR ? "War" : "Ear") + (explode ? "E" : "D") + suffix;
       HOME_PAGE = "/" + APP_NAME + "/home.seam";
 
       setSeamGenProperties();
@@ -159,8 +191,8 @@ public class SeamGenTest
    private void setSeamGenProperties()
    {
       seamGenProperties = new Properties();
-      
-      String[] propertiesToCopy = { "database.type", "database.exists", "database.drop", "driver.jar", "driver.license.jar", "hibernate.connection.username", "hibernate.connection.password", "hibernate.connection.driver_class", "hibernate.connection.dataSource_class", "hibernate.cache.provider_class", "hibernate.default_catalog.null", "hibernate.default_schema.null", "hibernate.dialect", "hibernate.connection.url", "model.package", "action.package", "test.package", "richfaces.skin", "icefaces.home", "jboss.home" };
+
+      String[] propertiesToCopy = { "database.type", "database.exists", "database.drop", "driver.jar", "driver.license.jar", "hibernate.connection.username", "hibernate.connection.password", "hibernate.connection.driver_class", "hibernate.connection.dataSource_class", "hibernate.cache.provider_class", "hibernate.default_catalog.null", "hibernate.default_schema.null", "hibernate.dialect", "hibernate.connection.url", "model.package", "action.package", "test.package", "richfaces.skin", "icefaces.home", "jboss.domain" };
 
       for (String property : propertiesToCopy)
       {
@@ -194,5 +226,36 @@ public class SeamGenTest
       {
          dir.mkdir();
       }
+   }
+
+   public LocalContainer startContainer(String containerName, String containerHome)
+   {
+
+      LocalConfiguration configuration = new JBossExistingLocalConfiguration(containerHome + "/server/default");
+
+      InstalledLocalContainer container;
+
+      if (containerName.equals("jboss4"))
+      {
+         container = new JBoss42xInstalledLocalContainer(configuration);
+
+      }
+      else if (containerName.equals("jboss5"))
+      {
+         container = new JBoss5xInstalledLocalContainer(configuration);
+      }
+      else
+      {
+         throw new RuntimeException("Unknown container");
+      }
+      container.setHome(containerHome);
+
+      container.start();
+      return container;
+   }
+
+   public void stopContainer(LocalContainer container)
+   {
+      container.stop();
    }
 }

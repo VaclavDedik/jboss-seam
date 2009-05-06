@@ -87,7 +87,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 		<run.selenium.test suite="icefaces" />
 	</target>
 
-	<target name="seam-gen.smoke.testsuite" description="Run smoke testsuite">
+	<target name="seam-gen.smoke.testsuite" depends="build" description="Run smoke testsuite">
 		<run.selenium.test suite="smoke" />
 	</target>
 
@@ -100,6 +100,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 			<testng haltonfailure="false" outputdir="${test.output.dir}" classpathref="classpath.test">
 				<xmlfileset file="@{suite}.xml" />
 				<sysproperty key="seam.dir" value="${seam.dir}" />
+				<sysproperty key="ftest.config.location" value="${ftest.config.location}" />
 			</testng>
 		</sequential>
 	</macrodef>
