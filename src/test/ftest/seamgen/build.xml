@@ -94,7 +94,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<macrodef name="run.selenium.test">
 		<attribute name="suite" />
 		<sequential>
-			<!--<ant antfile="${seam.dir}/build.xml" target="copyseam"/>-->
+			<ant antfile="${seam.dir}/build.xml" target="copyseam"/>
+			<ant antfile="${seam.dir}/build.xml" target="copyseamdependencies"/>
 			<taskdef resource="testngtasks" classpathref="classpath.test" />
 			<!-- execute testng tests -->
 			<testng haltonfailure="false" outputdir="${test.output.dir}" classpathref="classpath.test">
