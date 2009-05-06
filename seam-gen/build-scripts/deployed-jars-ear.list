@@ -1,4 +1,5 @@
 antlr-runtime.jar
+commons-beanutils.jar
 core.jar
 drools-compiler.jar
 drools-core.jar
