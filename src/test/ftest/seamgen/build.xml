@@ -34,7 +34,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<property name="test.output.dir" value="${seam.dir}/test-output" />
 	<property name="ftest.lib.dir" value="${ftest.dir}/lib" />
 
-	<property file="${seam.dir}/src/test/ftest/ftest.properties" />
+	<property file="${seam.dir}/${ftest.config.location}" />
 	
 	<!-- common path setup -->
 
