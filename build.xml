@@ -667,6 +667,7 @@
 				<include name="todo/**/*" />
 				<include name="numberguess/**/*" />
 				<include name="groovybooking/**/*" />
+				<include name="guice/**/*" />
 				<include name="seamdiscs/**/*" />
 				<include name="quartz/**/*" />
 				<include name="wiki/**/*" />
