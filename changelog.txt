@@ -1,6 +1,69 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - Seam - Version 2.1.2.CR2
+
+** Bug
+    * [JBSEAM-2523] - Identity component should be scoped to the WAR module
+    * [JBSEAM-2873] - Add ui for getting feed with or without comments
+    * [JBSEAM-3597] - hibernate-validator not copied to lib folder on Vista
+    * [JBSEAM-3698] - Error during rendering of an EMail in an event listener causes failure in rendering of next page
+    * [JBSEAM-3743] - Renderer gets confuesed when sending of email throws exception
+    * [JBSEAM-3845] - NullPointerException in org.jboss.seam.exception.Exceptions.parse
+    * [JBSEAM-3882] - PermissionResolvers can't use injections
+    * [JBSEAM-3915] - RESTEasy GET request:  java.lang.RuntimeException: Bad arguments passed to public java.lang.String method
+    * [JBSEAM-3944] - Chatroom example - messages not delivered
+    * [JBSEAM-4021] - ArrayIndexOutOfBoundsException in SessionContext.getNames() when concurrent access from same user
+    * [JBSEAM-4053] - Can't resolve EL Function which serialized to ViewState
+    * [JBSEAM-4093] - TypeNotPresentException (PostConstruct) in org.jboss.seam.persistence.persistenceProvider
+    * [JBSEAM-4095] - restbay's components.xml validation does not pass
+    * [JBSEAM-4097] - seam-gen testsuite is missing files in dist (*.sql)
+    * [JBSEAM-4098] - Slow login procedure on wiki
+    * [JBSEAM-4102] - LoggingFilter throws NPE
+    * [JBSEAM-4104] - FilmConverter having @In => NPE
+    * [JBSEAM-4106] - EmptyStackException on ViewExpiredException
+    * [JBSEAM-4109] - Typo "Vehciel" in PersistenceProvider comments
+    * [JBSEAM-4113] - ui example - numbers.txt empty
+    * [JBSEAM-4114] - registration example - 404 instead of registered page
+    * [JBSEAM-4116] - Issues with reference documentation
+    * [JBSEAM-4120] - pages-2.1.xsd doesn't allow parameterized from-action
+    * [JBSEAM-4123] - threadPoolSize on ThreadPoolDispatcher cannot be configured
+    * [JBSEAM-4128] - Regression: page parameters broken
+    * [JBSEAM-4130] - NullPointerException is thrown after redirect from exception handler for ViewExpiredException to any view with a component with @In or @RequestParameter
+    * [JBSEAM-4131] - Regression: EL expressions in messages not working anymore
+    * [JBSEAM-4132] - AbstractResource has ambiguous setter methods
+    * [JBSEAM-4137] - Seam-gen should put commons-beanutils.jar into EAR/lib
+    * [JBSEAM-4138] - anchor in pdf header/footer fails
+    * [JBSEAM-4140] - ResteasyDispatches instantiates resources even if they are not instantiable at that time.
+    * [JBSEAM-4143] - Testing code left in RootInterceptor
+    * [JBSEAM-4153] - media-type-mappings and language-mappings have incorrect types in resteasy-2.1.xsd
+    * [JBSEAM-4154] - Remove core.init.userTransactionName
+    * [JBSEAM-4155] - Reference doc typos
+    * [JBSEAM-4156] - Typo in sample code in documentation, chapter 18.1.3. Use tag<p:facet> instead of <f:facet>
+
+** Feature Request
+    * [JBSEAM-2629] - looking up content by user on seamframework.org
+    * [JBSEAM-3044] - Seam and Google Guice Integration
+    * [JBSEAM-3299] - use ice:selectInputDate to edit Timestamp data
+    * [JBSEAM-3437] - Create protected isInitialized() and setInitialized( boolean ) methods in Credentials
+    * [JBSEAM-3449] - Upgrade to latest RESTEasy
+    * [JBSEAM-3877] - Use SeamGlobalResolver in the RuleBasedPermissionResolver as it is in ManagedWorkingMemory
+    * [JBSEAM-4009] - Email me when a message is posted in a forum thread I did posts
+    * [JBSEAM-4091] - model validation on page param should be optional
+    * [JBSEAM-4122] - "ant eclipseclasspath" should build Text package via Antlr
+    * [JBSEAM-4150] - Support plain EJB resources with RESTEasy integration
+
+** Patch
+    * [JBSEAM-4056] - "value required" message for missing page param should give name of missing parameter
+
+** Task
+    * [JBSEAM-3824] - Chapter 29.10 should be updated being DeploymentHandler has been re-factored.
+    * [JBSEAM-4040] - Nicer error message on sfwk.org for LockTimeoutException
+    * [JBSEAM-4086] - Migrate sfwk.org production database to UTF8
+    * [JBSEAM-4099] - Simplify wiki login procedure
+    * [JBSEAM-4157] - document new charting and dataset tags
+
+
 Release Notes - Seam - Version 2.1.2.CR1
 
 ** Bug
