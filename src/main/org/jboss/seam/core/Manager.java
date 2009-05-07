@@ -100,7 +100,7 @@ public class Manager
                   || !getCurrentConversationIdStack().contains(
                         conversationEntry.getId()))
             {
-               log.info("Kill all other conversations, executed: kill conversation id = "
+               log.debug("Kill all other conversations, executed: kill conversation id = "
                            + conversationEntry.getId());
 
                boolean locked = conversationEntry.lockNoWait(); // we had better
@@ -412,7 +412,7 @@ public class Manager
                      //      after we check the timeout - but in practice this would be extremely rare, 
                      //      and that request will get an IllegalMonitorStateException when it tries to 
                      //      unlock() the CE
-                     log.info("destroying conversation with garbage lock: " + conversationEntry.getId());
+                     log.debug("destroying conversation with garbage lock: " + conversationEntry.getId());
                   }
                   if ( Events.exists() ) 
                   {

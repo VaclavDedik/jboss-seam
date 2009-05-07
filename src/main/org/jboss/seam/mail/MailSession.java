@@ -90,11 +90,11 @@ public class MailSession extends AbstractMutable implements Serializable
     {
         if (getPort() != null)
         {
-           log.info("Creating JavaMail Session (" + getHost() + ':' + getPort() + ")");
+           log.debug("Creating JavaMail Session (" + getHost() + ':' + getPort() + ")");
         }
         else
         {
-           log.info("Creating JavaMail Session (" + getHost() + ")");
+           log.debug("Creating JavaMail Session (" + getHost() + ")");
         }
 
         Properties properties = new Properties();
@@ -179,7 +179,7 @@ public class MailSession extends AbstractMutable implements Serializable
         session = javax.mail.Session.getInstance(properties, authenticator);
         session.setDebug(isDebug());
 
-        log.info("connected to mail server");
+        log.debug("connected to mail server");
     }
 
     public String getPassword()

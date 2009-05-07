@@ -65,7 +65,7 @@ public abstract class AbstractScanner implements Scanner
                   }
                   else
                   {
-                     log.info("skipping class " + name + " because it cannot be loaded (may reference a type which is not available on the classpath)");
+                     log.debug("skipping class " + name + " because it cannot be loaded (may reference a type which is not available on the classpath)");
                   }
                }
             }

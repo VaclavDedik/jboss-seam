@@ -130,7 +130,7 @@ public class ServletLifecycle
       // caching the classloader to servletContext
       WeakReference<ClassLoader> ref = new WeakReference<ClassLoader>(Thread.currentThread().getContextClassLoader());
       context.setAttribute("seam.context.classLoader",ref);
-      log.info("Cached the context classloader in servletContext as 'seam.context.classLoader'");
+      log.debug("Cached the context classloader in servletContext as 'seam.context.classLoader'");
 
       servletContext = context;
       Lifecycle.beginApplication( new ServletApplicationMap(context) );

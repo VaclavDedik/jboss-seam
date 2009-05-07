@@ -157,11 +157,11 @@ public class WicketComponent<T>
       this.enclosingType = type.getEnclosingClass();
       if (this.enclosingType != null)
       {
-         log.info("Class: " + type + ", enclosed by " + enclosingType);
+         log.debug("Class: " + type + ", enclosed by " + enclosingType);
       }
       else
       {
-         log.info("Class: " + type);
+         log.debug("Class: " + type);
       }
       
       scan();

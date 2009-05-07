@@ -691,7 +691,7 @@ public class Initialization
    
    public Initialization init()
    {
-      log.info("initializing Seam");
+      log.debug("initializing Seam");
       if (standardDeploymentStrategy == null)
       {
          throw new IllegalStateException("No deployment strategy!");
@@ -738,7 +738,7 @@ public class Initialization
       }
       
       ServletLifecycle.endInitialization();
-      log.info("done initializing Seam");
+      log.debug("done initializing Seam");
       return this;
    }
 
@@ -780,7 +780,7 @@ public class Initialization
                
                if (hotDeploymentStrategy.getTimestamp() > init.getTimestamp())
                {
-                  log.info("redeploying components");
+                  log.debug("redeploying components");
                   Seam.clearComponentNameCache();
                   for ( String name: init.getHotDeployableComponents() )
                   {
@@ -800,7 +800,7 @@ public class Initialization
                   init.getHotDeployableComponents().clear();
                   installHotDeployableComponents();
                   installComponents(init);
-                  log.info("done redeploying components");
+                  log.debug("done redeploying components");
                }
                // update the timestamp outside of the second timestamp check to be sure we don't cause an unnecessary scan
                // the second scan checks annotations (the slow part) which might happen to exclude the most recent file
@@ -823,7 +823,7 @@ public class Initialization
                warRootDeploymentStrategy.scan();
                if (warRootDeploymentStrategy.getTimestamp() > init.getWarTimestamp())
                {
-                  log.info("redeploying page descriptors...");
+                  log.debug("redeploying page descriptors...");
                   Pages pages = (Pages) ServletLifecycle.getServletContext().getAttribute(Seam.getComponentName(Pages.class));
                   if (pages != null) {
                      // application context is needed for creating expressions
@@ -833,7 +833,7 @@ public class Initialization
                   }
                   ServletLifecycle.getServletContext().removeAttribute(Seam.getComponentName(Exceptions.class));
                   init.setWarTimestamp(warRootDeploymentStrategy.getTimestamp());
-                  log.info("done redeploying page descriptors");
+                  log.debug ("done redeploying page descriptors");
                }
             }
          }
@@ -981,7 +981,7 @@ public class Initialization
 	   if (pkg != null) {
 		   Namespace ns = pkg.getAnnotation(Namespace.class);
 		   if (ns != null) {
-			   log.info("Namespace: " + ns.value() + ", package: " + pkg.getName() + 
+			   log.debug("Namespace: " + ns.value() + ", package: " + pkg.getName() + 
 					   ", prefix: " + ns.prefix());
 
 			   NamespaceDescriptor descriptor = namespaceMap.get(ns.value());
@@ -1103,7 +1103,7 @@ public class Initialization
 
    private void installComponents(Init init)
    {
-      log.info("Installing components...");
+      log.debug("Installing components...");
       Context context = Contexts.getApplicationContext();
 
       DependencyManager manager = new DependencyManager(componentDescriptors);

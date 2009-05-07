@@ -138,7 +138,7 @@ public class Jbpm
          }
          catch (HibernateException he)
          {
-            log.info("could not set JNDI properties for jBPM persistence: " + he.getMessage());
+            log.warn("could not set JNDI properties for jBPM persistence: " + he.getMessage());
          }
       }
    }

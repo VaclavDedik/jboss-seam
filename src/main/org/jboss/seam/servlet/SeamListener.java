@@ -52,7 +52,7 @@ public class SeamListener implements ServletContextListener, HttpSessionListener
       if (monitor != null && monitor.failover())
       {
          // If application is unfarmed or all nodes shutdown simultaneously, cluster cache may still fail to retrieve SFSBs to destroy
-         log.info("Detected fail-over, not destroying session context");
+         log.debug("Detected fail-over, not destroying session context");
       }
       else
       {

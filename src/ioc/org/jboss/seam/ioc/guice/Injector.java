@@ -46,7 +46,7 @@ public class Injector implements Serializable
          throw new IllegalArgumentException("No Guice module specified.");
       }
 
-      log.info("Creating injector '" +
+      log.debug("Creating injector '" +
                "'from modules: " + Arrays.toString(modules));
 
       final List<Module> moduleList = getModuleList(modules);

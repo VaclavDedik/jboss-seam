@@ -210,7 +210,7 @@ public abstract class AbstractDBUnitSeamTest extends AbstractSeamTest
 
         public DataSetOperation(String dataSetLocation, String dtdLocation, DatabaseOperation operation) 
         {
-           log.info(">>> Preparing dataset: " + dataSetLocation + " <<<");
+           log.debug(">>> Preparing dataset: " + dataSetLocation + " <<<");
 
            // Load the base dataset file
            InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(dataSetLocation);

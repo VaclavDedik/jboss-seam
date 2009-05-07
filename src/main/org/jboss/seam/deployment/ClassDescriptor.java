@@ -32,7 +32,7 @@ public class ClassDescriptor extends FileDescriptor
       }
       catch (ClassNotFoundException cnfe) 
       {
-         log.info("could not load class: " + classname, cnfe);
+         log.debug("could not load class: " + classname, cnfe);
       }
       catch (NoClassDefFoundError ncdfe) 
       {

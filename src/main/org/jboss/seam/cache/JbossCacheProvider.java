@@ -39,7 +39,7 @@ public class JbossCacheProvider extends AbstractJBossCacheProvider<TreeCache>
    @Create
    public void create()
    {
-      log.info("Starting JBoss Treecache 1.x");
+      log.debug("Starting JBoss Treecache 1.x");
 
       try
       {
@@ -58,7 +58,7 @@ public class JbossCacheProvider extends AbstractJBossCacheProvider<TreeCache>
    @Destroy
    public void destroy()
    {
-      log.info("Stopping JBoss Treecache 1.x");
+      log.debug("Stopping JBoss Treecache 1.x");
 
       try
       {

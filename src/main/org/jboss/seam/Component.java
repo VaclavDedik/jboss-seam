@@ -2014,7 +2014,7 @@ public class Component extends Model
            if (component==null)
            {
               //needed when this method is called by JSF
-              if ( log.isDebugEnabled() ) log.debug("Seam component not found: " + name);
+              if ( log.isTraceEnabled() ) log.trace("Seam component not found: " + name);
            }
            else if ( component.getScope().isContextActive() )
            {

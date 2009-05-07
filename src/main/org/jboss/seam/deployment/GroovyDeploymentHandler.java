@@ -121,10 +121,10 @@ public class GroovyDeploymentHandler extends AbstractDeploymentHandler
             log.debug("could not load groovy file: " + classname, ioe);
          }
          catch( CompilationFailedException e) {
-            log.info("Compilation error in Groovy file:" + classname, e);
+            log.debug("Compilation error in Groovy file:" + classname, e);
          }
          catch(GroovyRuntimeException e) {
-            log.info("Unknown error reading Groovy file:" + classname, e);
+            log.debug("Unknown error reading Groovy file:" + classname, e);
          }
          finally
          {

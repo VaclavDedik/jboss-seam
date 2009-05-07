@@ -98,12 +98,12 @@ public abstract class DeploymentStrategy
          Scanner scanner = instantiateScanner(className);
          if (scanner != null)
          {
-            log.debug("Using " + scanner.toString());
+            log.trace("Using " + scanner.toString());
             this.scanner = scanner;
             return;
          }        
       }
-      log.debug("Using default URLScanner");
+      log.trace("Using default URLScanner");
       this.scanner = new URLScanner(this);
    }
    
@@ -167,7 +167,7 @@ public abstract class DeploymentStrategy
       DeploymentHandler deploymentHandler = instantiateDeploymentHandler(className);
       if (deploymentHandler != null)
       {
-         log.debug("Adding " + deploymentHandler + " as a deployment handler");
+         log.trace("Adding " + deploymentHandler + " as a deployment handler");
          deploymentHandlers.put(deploymentHandler.getName(), deploymentHandler);
       }
    }

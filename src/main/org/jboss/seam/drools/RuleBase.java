@@ -44,7 +44,7 @@ public class RuleBase
       {
          for (String ruleFile: ruleFiles)
          {
-            log.info("parsing rules: " + ruleFile);
+            log.debug("parsing rules: " + ruleFile);
             InputStream stream = ResourceLoader.instance().getResourceAsStream(ruleFile);
             if (stream==null)
             {
