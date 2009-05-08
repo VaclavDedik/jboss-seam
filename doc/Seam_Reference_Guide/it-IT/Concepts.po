@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-05-03 21:08+0100\n"
+"PO-Revision-Date: 2009-05-08 20:24+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -684,7 +684,7 @@ msgstr "<literal>@Name</literal> non è il solo modo per definire un nome di com
 #: Concepts.xml:495
 #, no-c-format
 msgid "Whenever Seam instantiates a component, it binds the new instance to a variable in the scope configured for the component that matches the component name. This behavior is identical to how JSF managed beans work, except that Seam allows you to configure this mapping using annotations rather than XML. You can also programmatically bind a component to a context variable. This is useful if a particular component serves more than one role in the system. For example, the currently logged in <literal>User</literal> might be bound to the <literal>currentUser</literal> session context variable, while a <literal>User</literal> that is the subject of some administration functionality might be bound to the <literal>user</literal> conversation context variable. Be careful, though, because through a programmatic assignment, it's possible to overwrite a context variable that has a reference to a Seam component, potentially confusing matters."
-msgstr ""
+msgstr "Quando Seam istanzia un componente associa la nuova istanza ad una variabile nello scope configurato per il componente che corrisponde al nome del componente. Questo comportamento è identico al modo in cui funzionano i bean gestiti da JSF, tranne che Seam consente di configurare questa mappatura usando le annotazioni anziché XML. Si può anche associare via codice un componente ad una variabile di contesto. Questo è utile se un particolare componente serve più di un ruolo nel sistema. Per esempio lo <literal>User</literal> correntemente loggato può essere associato alla variabile di contesto sessione <literal>currentUser</literal>, mentre uno <literal>User</literal> che è soggetto ad alcune funzionalità di amministrazione può essere associato alla variabile di contesto conversazione <literal>user</literal>. Attenzione poiché attraverso l'assegnamento programmatico è possibile sovrascrivere la variabile di contesto che ha un riferimento ad un componente Seam, cosa che può creare parecchi problemi."
 
 #. Tag: para
 #: Concepts.xml:506
@@ -712,7 +712,7 @@ msgstr ""
 #: Concepts.xml:513
 #, no-c-format
 msgid "We may use the qualified component name both in Java code and in JSF's expression language:"
-msgstr ""
+msgstr "Si può utilizzare un nome qualificato di componente sia nel codice Java sia nell'expression language JSF:"
 
 #. Tag: programlisting
 #: Concepts.xml:517
@@ -728,7 +728,7 @@ msgstr ""
 #: Concepts.xml:519
 #, no-c-format
 msgid "Since this is noisy, Seam also provides a means of aliasing a qualified name to a simple name. Add a line like this to the <literal>components.xml</literal> file:"
-msgstr ""
+msgstr "Poiché questo è noioso, Seam fornisce anche un modo per nominare in altro modo un nome qualificato in un nome semplice. Si aggiunga una linea come questa al file <literal>components.xml</literal>:"
 
 #. Tag: programlisting
 #: Concepts.xml:524
@@ -740,7 +740,7 @@ msgstr "<![CDATA[<factory name=\"loginAction\" scope=\"STATELESS\" value=\"#{com
 #: Concepts.xml:526
 #, no-c-format
 msgid "All of the built-in Seam components have qualified names but can be accessed through their unqualified names due to the namespace import feature of Seam. The <literal>components.xml</literal> file included in the Seam JAR defines the following namespaces."
-msgstr ""
+msgstr "Tutti i componenti Seam predefiniti hanno nomi qualificati ma possono essere acceduti attraverso i loro nomi non qualificati grazie alla funzionalità di Seam dell'importazione del namespace. Il file <literal>components.xml</literal> incluso nei jar di Seam definisce i seguenti namespace."
 
 #. Tag: programlisting
 #: Concepts.xml:533
@@ -794,7 +794,7 @@ msgstr ""
 #: Concepts.xml:535
 #, no-c-format
 msgid "When attempting to resolve an unqualified name, Seam will check each of those namespaces, in order. You can include additional namespaces in your application's <literal>components.xml</literal> file for application-specific namespaces."
-msgstr ""
+msgstr "Quando si tenta di risolvere un nome non qualificato, Seam controlla in ordine ciascuno dei namespace. Si possono includere namespace addizionali nel file <literal>components.xml</literal> per namespace specifici dell'applicazione."
 
 #. Tag: title
 #: Concepts.xml:543
@@ -806,7 +806,7 @@ msgstr "Definire lo scope di un componente"
 #: Concepts.xml:544
 #, no-c-format
 msgid "We can override the default scope (context) of a component using the <literal>@Scope</literal> annotation. This lets us define what context a component instance is bound to, when it is instantiated by Seam."
-msgstr ""
+msgstr "Si può sovrascrivere lo scope di default (contesto) di un componente usando l'annotazione <literal>@Scope</literal>. Questo consente di definire a quale contesto è associata un'istanza di componente, quando questo viene istanziato da Seam."
 
 #. Tag: programlisting
 #: Concepts.xml:550
@@ -956,7 +956,7 @@ msgstr ""
 #: Concepts.xml:642
 #, no-c-format
 msgid "The <literal>@In</literal> annotation specifies that a value should be injected, either into an instance variable:"
-msgstr ""
+msgstr "L'annotazione <literal>@In</literal> specifica che un valore venga iniettato, sia in una variabile istanza:"
 
 #. Tag: programlisting
 #: Concepts.xml:647
@@ -1212,13 +1212,13 @@ msgstr ""
 #: Concepts.xml:727
 #, no-c-format
 msgid "The <literal>@Create</literal> method is called after Seam instantiates a component. Components may define only one <literal>@Create</literal> method."
-msgstr ""
+msgstr "Il metodo <literal>@Create</literal> viene chiamato dopo che Seam istanzia un componente. I componenti possono definire solo un metodo <literal>@Create</literal>."
 
 #. Tag: para
 #: Concepts.xml:732
 #, no-c-format
 msgid "The <literal>@Destroy</literal> method is called when the context that the Seam component is bound to ends. Components may define only one <literal>@Destroy</literal> method."
-msgstr ""
+msgstr "Il metodo <literal>@Destroy</literal> viene chiamato quando termina il contesto a cui è legato il componente Seam. I componenti possono definire solo un metodo <literal>@Destroy</literal>."
 
 #. Tag: para
 #: Concepts.xml:737
@@ -1242,7 +1242,7 @@ msgstr "Installazione condizionale"
 #: Concepts.xml:755
 #, no-c-format
 msgid "The <literal>@Install</literal> annotation lets you control conditional installation of components that are required in some deployment scenarios and not in others. This is useful if:"
-msgstr ""
+msgstr "L'annotazione <literal>@Install</literal> consente di controllare l'installazione condizionale di componenti che sono richiesti in alcuni scenari di deploy e non i altri. Questa è utile se:"
 
 #. Tag: para
 #: Concepts.xml:762
@@ -1266,7 +1266,7 @@ msgstr ""
 #: Concepts.xml:780
 #, no-c-format
 msgid "<literal>@Install</literal> works by letting you specify <emphasis>precedence</emphasis> and <emphasis>dependencies</emphasis>."
-msgstr ""
+msgstr "<literal>@Install</literal> funziona consentendo di specificare <emphasis>precedence</emphasis> e <emphasis>dependencies</emphasis>."
 
 #. Tag: para
 #: Concepts.xml:785
@@ -1828,5 +1828,5 @@ msgstr ""
 #: Concepts.xml:1024
 #, no-c-format
 msgid "Here the managed component observes many events which change the underlying object. The component manages these actions itself, and because the object is unwrapped on every access, a consistent view is provided."
-msgstr ""
+msgstr "Qua il componente gestito osserva diversi eventi che cambiano l'oggetto sottostante. Il componente stesso gestisce queste azioni, e poiché l'oggetto è unwrap ad ogni accesso, viene fornita una vista consistente."
 
