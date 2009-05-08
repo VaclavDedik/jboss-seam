@@ -10,6 +10,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.servlet.ContextualHttpServletRequest;
 import org.jboss.seam.web.AbstractResource;
+import org.jboss.seam.web.Session;
 import org.jboss.resteasy.core.SynchronousDispatcher;
 import org.jboss.resteasy.core.ThreadLocalResteasyProviderFactory;
 import org.jboss.resteasy.plugins.server.servlet.HttpServletInputMessage;
@@ -65,8 +66,7 @@ public class ResteasyResourceAdapter extends AbstractResource
     @Override
     public String getResourcePath()
     {
-        Application appConfig = (Application) Component.getInstance(Application.class);
-        return appConfig.getResourcePathPrefix();
+        return application.getResourcePathPrefix();
     }
 
     @Override
@@ -111,6 +111,15 @@ public class ResteasyResourceAdapter extends AbstractResource
                     );
 
                     dispatcher.getDispatcher().invoke(in, theResponse);
+
+                    // Prevent anemic sessions clog up the server
+                    if (request.getSession().isNew()
+                            && application.isDestroySessionAfterRequest()
+                            && !Session.instance().isInvalid())
+                    {
+                        log.debug("Destroying HttpSession after REST request");
+                        Session.instance().invalidate();
+                    }
                 }
             }.run();
 

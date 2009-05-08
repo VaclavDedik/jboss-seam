@@ -232,7 +232,7 @@ public class AuctionService implements AuctionServiceRemote
          <para>
             First, get the RESTEasy libraries and the <literal>jaxrs-api.jar</literal>, deploy them with the
             other libraries of your application. Also deploy the integration library,
-            <literal>jboss-seam-resteasy.jar</literal>
+            <literal>jboss-seam-resteasy.jar</literal>.
          </para>
 
          <para>
@@ -350,6 +350,12 @@ public class MyCustomerResource {
  </resteasy:application>]]></programlisting>
 
          <para>
+            The <literal>use-built-in-providers</literal> switch enables (default) or disables the RESTEasy built-in
+            providers. We recommend you leave them enabled, as they provide plaintext, JSON, and JAXB marshalling
+            out of the box.
+         </para>
+
+         <para>
             RESTEasy supports plain EJBs (EJBs that are not Seam components) as resources. Instead of configuring the
             JNDI names in a non-portable fashion in <literal>web.xml</literal> (see RESTEasy documentation), you can
             simply list the EJB implementation classes, not the business interfaces, in <literal>components.xml</literal>
@@ -359,12 +365,6 @@ public class MyCustomerResource {
             on <literal>&lt;core:init/&gt;</literal>. Note that EJB resources will not be found even if scanning of
             resources is enabled, you always have to list them manually. Again, this is only relevant for EJB resources
             that are not also Seam components and that do not have a <literal>@Name</literal> annotation.
-         </para>
-
-         <para>
-            The <literal>use-built-in-providers</literal> switch enables (default) or disables the RESTEasy built-in
-            providers. We recommend you leave them enabled, as they provide plaintext, JSON, and JAXB marshalling
-            out of the box.
          </para>
 
          <para>
@@ -426,25 +426,52 @@ public class MyCustomerResource {
          <para>
             An instance of <literal>customerResource</literal> is now handled by Seam when a request hits the
             server. This is a Seam JavaBean component that is <literal>EVENT</literal>-scoped, hence no different
-            than the default JAX-RS lifecycle. However, you get full Seam injection support and all other Seam
-            components and contexts are available to you. Currently also supported are <literal>SESSION</literal>,
-            <literal>APPLICATION</literal>, and <literal>STATELESS</literal> resource components. Remember that any
-            HTTP request has to transmit a valid session identifier (cookie, URI path parameter) for correct handling
-            of the server-side session context.
+            than the default JAX-RS lifecycle. You get full Seam injection support and all other Seam
+            components and contexts are available to you. Currently also supported are <literal>APPLICATION</literal>
+            and <literal>STATELESS</literal> resource Seam components. These scopes allow you to create an effectively
+            stateless Seam middle-tier HTTP request-processing application.
          </para>
 
          <para>
-            Conversation-scoped resource components and mapping of conversations is currently not supported but will
-            be available soon.
+           You can use <literal>SESSION</literal>-scoped Seam components. By default, the session will however be shortened
+           to a single request. In other words, when an HTTP request is being processed by the RESTEasy integration code,
+           an HTTP session will be created so that Seam components can utilize that context. When the request has
+           been processed, Seam will look at the session and decide if the session was created only to serve that
+           single request (no session identifier has been provided with the request, or no session existed for the request).
+           If the session has been created only to serve this request, the session will be destroyed after the request!
+           Assuming that your Seam application only uses event, application, or stateless components, this procedure
+           prevents exhaustion of available HTTP sessions on the server. The RESTEasy integration with Seam assumes
+           by default that sessions are not used, hence anemic sessions would add up as every REST request would start
+           a session that will only be removed when timed out.
          </para>
 
          <para>
-            Provider classes can also be Seam components, they must be <literal>APPLICATION</literal>-scoped
-            or <literal>STATELESS</literal>.
+            If your RESTful Seam application has to preserve session state across REST HTTP requests, disable this
+            behavior in your configuration file:
+         </para>
+
+         <programlisting role="XML"><![CDATA[<resteasy:application destroy-session-after-request="false"/>]]></programlisting>
+
+         <para>
+             Every RESTful HTTP request will now create a new session that will only be removed by timeout or explicit
+             invalidation in your code through <literal>Session.instance().invalidate()</literal>.
+             It is your responsibility to pass a valid session identifier along with your HTTP requests, if you want
+             to utilize the session context across requests.
          </para>
 
          <para>
-            Resources and providers can be EJBs or JavaBeans, like any other Seam component.
+            <literal>CONVERSATION</literal>-scoped resource components and mapping of conversations to temporary HTTP
+            resources and paths is planned but currently not supported.
+         </para>
+
+          <para>
+             EJB Seam components are currently <emphasis>NOT</emphasis> supported! However, as explained above, you
+             can map plain stateless EJBs (with no Seam lifecycle or injection) as REST resources.
+          </para>
+
+         <para>
+            Provider classes can also be Seam components, currently only <literal>APPLICATION</literal>-scoped
+            provider components are supported.
          </para>
 
       </sect2>
@@ -463,8 +490,8 @@ public class MyCustomerResource {
          <para>
             Exception handling within Seam requires that the Seam filter is executed for your HTTP request. Ensure that
             you do filter <emphasis>all</emphasis> requests in your <literal>web.xml</literal>, not - as
-            some Seam examples might show - a request URI pattern that doesn't cover your REST requests. The following
-            example intercepts <emphasis>all</emphasis> HTTP requests and enables Seam exception handling:
+            some Seam examples might show - a request URI pattern that doesn't cover your REST request paths.
+            The following example intercepts <emphasis>all</emphasis> HTTP requests and enables Seam exception handling:
          </para>
 
          <programlisting role="XML"><![CDATA[<filter>
@@ -485,7 +512,7 @@ public class MyCustomerResource {
 
          <programlisting role="XML"><![CDATA[<exception class="java.lang.UnsupportedOperationException">
     <http-error error-code="501">
-        <message>The request operation is not supported</message>
+        <message>The requested operation is not supported</message>
     </http-error>
 </exception>]]></programlisting>
 
@@ -495,7 +522,7 @@ public class MyCustomerResource {
 
          <programlisting role="XML"><![CDATA[<exception class="my.CustomException" log="false">
     <http-error error-code="503">
-        <message>The service is currently not available: #{org.jboss.seam.handledException.message}</message>
+        <message>Service not available: #{org.jboss.seam.handledException.message}</message>
     </http-error>
 </exception>]]></programlisting>
 

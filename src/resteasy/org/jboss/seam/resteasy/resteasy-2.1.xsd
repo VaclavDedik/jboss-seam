@@ -107,6 +107,14 @@
               </xs:documentation>
           </xs:annotation>
       </xs:attribute>
+       <xs:attribute name="destroy-session-after-request" type="components:boolean">
+           <xs:annotation>
+               <xs:documentation>
+                   Destroy the HttpSession after a REST request if it was created for that request (it is a
+                   new session), defaults to 'true'.
+               </xs:documentation>
+           </xs:annotation>
+       </xs:attribute>
       <xs:attribute name="resource-path-prefix" type="components:string">
           <xs:annotation>
               <xs:documentation>

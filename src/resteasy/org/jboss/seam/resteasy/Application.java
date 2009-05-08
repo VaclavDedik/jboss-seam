@@ -35,6 +35,7 @@ public class Application extends javax.ws.rs.core.Application
     private boolean scanProviders = true;
     private boolean scanResources = true;
     private boolean useBuiltinProviders = true;
+    private boolean destroySessionAfterRequest = true;
 
     private String resourcePathPrefix = "/rest";
     private boolean stripSeamResourcePath = true;
@@ -181,6 +182,16 @@ public class Application extends javax.ws.rs.core.Application
     public void setUseBuiltinProviders(boolean useBuiltinProviders)
     {
         this.useBuiltinProviders = useBuiltinProviders;
+    }
+
+    public boolean isDestroySessionAfterRequest()
+    {
+        return destroySessionAfterRequest;
+    }
+
+    public void setDestroySessionAfterRequest(boolean destroySessionAfterRequest)
+    {
+        this.destroySessionAfterRequest = destroySessionAfterRequest;
     }
 
     public String getResourcePathPrefix()
