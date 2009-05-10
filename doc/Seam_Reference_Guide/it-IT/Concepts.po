@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-05-08 20:24+0100\n"
+"PO-Revision-Date: 2009-05-10 12:15+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -842,7 +842,7 @@ msgstr "Componenti con ruoli multipli"
 #: Concepts.xml:560
 #, no-c-format
 msgid "Some Seam component classes can fulfill more than one role in the system. For example, we often have a <literal>User</literal> class which is usually used as a session-scoped component representing the current user but is used in user administration screens as a conversation-scoped component. The <literal>@Role</literal> annotation lets us define an additional named role for a component, with a different scope &#8212; it lets us bind the same component class to different context variables. (Any Seam component <emphasis>instance</emphasis> may be bound to multiple context variables, but this lets us do it at the class level, and take advantage of auto-instantiation.)"
-msgstr ""
+msgstr "Alcune classi componenti Seam possono svolgere più di un ruolo nel sistema. Per esempio si haspesso la classe <literal>User</literal> che viene usata come componente con scope sessione e che rappresenta l'utente corrente, ma nelle schermate di amministrazione utente viene usato come componente con scope conversazione. L'annotazione <literal>@Role</literal> consente di definire un ruolo addizionale per un componente, con scope differente &#8212; consente di associare la stessa classe componente a variabili di contesto differenti. (Qualsiasi <emphasis>istanza</emphasis> componente Seam può essere associata a variabili di contesto multiple, ma questo è consentito a livello di classe e per sfruttare l'autoistanziamento.)"
 
 #. Tag: programlisting
 #: Concepts.xml:570
@@ -902,7 +902,7 @@ msgstr "Componenti predefiniti"
 #: Concepts.xml:582
 #, no-c-format
 msgid "Like many good frameworks, Seam eats its own dogfood and is implemented mostly as a set of built-in Seam interceptors (see later) and Seam components. This makes it easy for applications to interact with built-in components at runtime or even customize the basic functionality of Seam by replacing the built-in components with custom implementations. The built-in components are defined in the Seam namespace <literal>org.jboss.seam.core</literal> and the Java package of the same name."
-msgstr ""
+msgstr "Come molti buoni framework, Seam si nutre del proprio cibo ed è implementato come set di interceptor (vedere più avanti) predefiniti e di componenti Seam. Questo consente facilmente alle applicazioni di interagire a runtime con i componenti predefiniti o anche personalizzare le funzionalità base di Seam sostituendo i componenti predefiniti con implementazioni ad hoc. I componenti predefiniti sono definiti nel namespace di Seam <literal>org.jboss.seam.core</literal> e nel pacchetto Java con lo stesso nome."
 
 #. Tag: para
 #: Concepts.xml:589
@@ -926,31 +926,31 @@ msgstr "Bijection"
 #: Concepts.xml:600
 #, no-c-format
 msgid "<emphasis>Dependency injection</emphasis> or <emphasis>inversion of control</emphasis> is by now a familiar concept to most Java developers. Dependency injection allows a component to obtain a reference to another component by having the container \"inject\" the other component to a setter method or instance variable. In all dependency injection implementations that we have seen, injection occurs when the component is constructed, and the reference does not subsequently change for the lifetime of the component instance. For stateless components, this is reasonable. From the point of view of a client, all instances of a particular stateless component are interchangeable. On the other hand, Seam emphasizes the use of stateful components. So traditional dependency injection is no longer a very useful construct. Seam introduces the notion of <emphasis>bijection</emphasis> as a generalization of injection. In contrast to injection, bijection is:"
-msgstr ""
+msgstr "<emphasis>Dependency injection</emphasis> o <emphasis>inversione del controllo</emphasis> è ora un concetto familiare allamaggior parte degli sviluppatori Java. La dependency injection consente ad un componente di ottenere un riferimento ad un altro componente facendo \"iniettare\" dal container l'altro componente in un metodo setter o variabile istanza. In tutte le implementazioni di dependency injection che abbiamo visto, l'injection avviene quando viene costruito il componente, ed il riferimento non cambia durante il ciclo di vita dell'istanza del componente. Per i componenti stateless questo è ragionevole. Dal punto di vista del client tutte le istanzedi un particolare componente stateless sono intercambiabili. Dall'altro lato Seam enfatizza l'uso di componenti stateful. Quindi la tradizionale dependency injection non è più un costrutto utile. Seam introduce la nozione di <emphasis>bijection</emphasis> come generalizzazione dell'injection. In contrasto all'injection, la bijection è:"
 
 #. Tag: para
 #: Concepts.xml:614
 #, no-c-format
 msgid "<emphasis>contextual</emphasis> - bijection is used to assemble stateful components from various different contexts (a component from a \"wider\" context may even have a reference to a component from a \"narrower\" context)"
-msgstr ""
+msgstr "<emphasis>contestuale</emphasis> - la bijection è usata per assemblare i componenti stateful da vari contesti differenti (un componente da un contesto più \"ampio\" può anche fare riferimento ad un componente di un contesto più \"ristretto\")"
 
 #. Tag: para
 #: Concepts.xml:621
 #, no-c-format
 msgid "<emphasis>bidirectional</emphasis> - values are injected from context variables into attributes of the component being invoked, and also <emphasis>outjected</emphasis> from the component attributes back out to the context, allowing the component being invoked to manipulate the values of contextual variables simply by setting its own instance variables"
-msgstr ""
+msgstr "<emphasis>bidirezionale</emphasis> - i valori sono iniettati da variabili di contesto negli attributi del componente invocato, ed anche <emphasis>outjected</emphasis> da attributi di componenti nel contesto, consentendo al componente di essere invocato per manipolare i valori delle variabili contestuali semplicemente impostando le proprie variabili d'istanza"
 
 #. Tag: para
 #: Concepts.xml:629
 #, no-c-format
 msgid "<emphasis>dynamic</emphasis> - since the value of contextual variables changes over time, and since Seam components are stateful, bijection takes place every time a component is invoked"
-msgstr ""
+msgstr "<emphasis>dimanica</emphasis> - poiché il valore delle variabili contestuali cambia neltempo, e poiché i componenti Seam sono stateful, la bijection avviene ogni volta che viene invocato il componente"
 
 #. Tag: para
 #: Concepts.xml:636
 #, no-c-format
 msgid "In essence, bijection lets you alias a context variable to a component instance variable, by specifying that the value of the instance variable is injected, outjected, or both. Of course, we use annotations to enable bijection."
-msgstr ""
+msgstr "In sostanza la bijection consente di rinominare le variabili di contesto in variabili istanza del componente, specificando che il valore della variabile d'istanza sia iniettata, outjected o entrambe, Certamente vengono usate annotazioni per abilitare la bijection."
 
 #. Tag: para
 #: Concepts.xml:642
@@ -1016,19 +1016,19 @@ msgstr ""
 #: Concepts.xml:656
 #, no-c-format
 msgid "By default, Seam will do a priority search of all contexts, using the name of the property or instance variable that is being injected. You may wish to specify the context variable name explicitly, using, for example, <literal>@In(\"currentUser\")</literal>."
-msgstr ""
+msgstr "Di default Seam esegue una ricerca prioritaria di tutti i contesti, usando il nome della proprietà o variabile d'istanza che viene iniettata. Si può specificare esplicitamente il nome della varibile di contesto, usando, per esempio, <literal>@In(\"currentUser\")</literal>."
 
 #. Tag: para
 #: Concepts.xml:662
 #, no-c-format
 msgid "If you want Seam to create an instance of the component when there is no existing component instance bound to the named context variable, you should specify <literal>@In(create=true)</literal>. If the value is optional (it can be null), specify <literal>@In(required=false)</literal>."
-msgstr ""
+msgstr "Se si vuole che Seam crei un'istanza del componente quando non esiste un'istanza di componente associata alla variabile di contesto, occorre specificare <literal>@In(create=true)</literal>. Se il valore è opzionale (può essere null), specificare <literal>@In(required=false)</literal>."
 
 #. Tag: para
 #: Concepts.xml:668
 #, no-c-format
 msgid "For some components, it can be repetitive to have to specify <literal>@In(create=true)</literal> everywhere they are used. In such cases, you can annotate the component <literal>@AutoCreate</literal>, and then it will always be created, whenever needed, even without the explicit use of <literal>create=true</literal>."
-msgstr ""
+msgstr "Per alcuni componenti può essere ripetitivo dove specificare <literal>@In(create=true)</literal> ogni volta che sono usati. In questi casi si può annotare il componente con <literal>@AutoCreate</literal>, e quindi questo verrà creato, quando necessario, senza dover escplicitare <literal>create=true</literal>."
 
 #. Tag: para
 #: Concepts.xml:674
@@ -1064,7 +1064,7 @@ msgstr "I valori iniettati sono disiniettati (cioè impostati a <literal>null</l
 #: Concepts.xml:685
 #, no-c-format
 msgid "(There is much more information about component lifecycle and injection in the next chapter.)"
-msgstr ""
+msgstr "(Maggiori informazioni sul ciclo di vita dei componenti e su injection nel prossimo capitolo.)"
 
 #. Tag: para
 #: Concepts.xml:689
@@ -1450,7 +1450,7 @@ msgstr ""
 #: Concepts.xml:901
 #, no-c-format
 msgid "If <literal>User</literal> and <literal>Product</literal> are Seam components available in the current contexts, it gets even better:"
-msgstr ""
+msgstr "Se <literal>User</literal> e <literal>Product</literal> sono componenti Seam disponibili nei contesti correnti, funziona ancora meglio:"
 
 #. Tag: programlisting
 #: Concepts.xml:906
