@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-04-29 12:40+0000\n"
-"PO-Revision-Date: 2009-04-29 14:52+0100\n"
+"POT-Creation-Date: 2009-05-10 10:19+0000\n"
+"PO-Revision-Date: 2009-05-10 12:27+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -346,7 +346,7 @@ msgstr ""
 #. Tag: para
 #: Webservices.xml:172
 #, no-c-format
-msgid "First, get the RESTEasy libraries and the <literal>jaxrs-api.jar</literal>, deploy them with the other libraries of your application. Also deploy the integration library, <literal>jboss-seam-resteasy.jar</literal>"
+msgid "First, get the RESTEasy libraries and the <literal>jaxrs-api.jar</literal>, deploy them with the other libraries of your application. Also deploy the integration library, <literal>jboss-seam-resteasy.jar</literal>."
 msgstr ""
 
 #. Tag: para
@@ -520,13 +520,13 @@ msgstr ""
 #. Tag: para
 #: Webservices.xml:259
 #, no-c-format
-msgid "RESTEasy supports plain EJBs (EJBs that are not Seam components) as resources. Instead of configuring the JNDI names in a non-portable fashion in <literal>web.xml</literal> (see RESTEasy documentation), you can simply list the EJB implementation classes, not the business interfaces, in <literal>components.xml</literal> as shown above. Note that you have to annotate the <literal>@Local</literal> interface of the EJB with <literal>@Path</literal>, <literal>@GET</literal>, and so on - not the bean implementation class. This allows you to keep your application deployment-portable with the global Seam <literal>jndi-pattern</literal> switch on <literal>&lt;core:init/&gt;</literal>. Note that EJB resources will not be found even if scanning of resources is enabled, you always have to list them manually. Again, this is only relevant for EJB resources that are not also Seam components and that do not have a <literal>@Name</literal> annotation."
+msgid "The <literal>use-built-in-providers</literal> switch enables (default) or disables the RESTEasy built-in providers. We recommend you leave them enabled, as they provide plaintext, JSON, and JAXB marshalling out of the box."
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:271
+#: Webservices.xml:265
 #, no-c-format
-msgid "The <literal>use-built-in-providers</literal> switch enables (default) or disables the RESTEasy built-in providers. We recommend you leave them enabled, as they provide plaintext, JSON, and JAXB marshalling out of the box."
+msgid "RESTEasy supports plain EJBs (EJBs that are not Seam components) as resources. Instead of configuring the JNDI names in a non-portable fashion in <literal>web.xml</literal> (see RESTEasy documentation), you can simply list the EJB implementation classes, not the business interfaces, in <literal>components.xml</literal> as shown above. Note that you have to annotate the <literal>@Local</literal> interface of the EJB with <literal>@Path</literal>, <literal>@GET</literal>, and so on - not the bean implementation class. This allows you to keep your application deployment-portable with the global Seam <literal>jndi-pattern</literal> switch on <literal>&lt;core:init/&gt;</literal>. Note that EJB resources will not be found even if scanning of resources is enabled, you always have to list them manually. Again, this is only relevant for EJB resources that are not also Seam components and that do not have a <literal>@Name</literal> annotation."
 msgstr ""
 
 #. Tag: para
@@ -626,47 +626,71 @@ msgstr ""
 #. Tag: para
 #: Webservices.xml:309
 #, no-c-format
-msgid "An instance of <literal>customerResource</literal> is now handled by Seam when a request hits the server. This is a Seam JavaBean component that is <literal>EVENT</literal>-scoped, hence no different than the default JAX-RS lifecycle. However, you get full Seam injection support and all other Seam components and contexts are available to you. Currently also supported are <literal>SESSION</literal>, <literal>APPLICATION</literal>, and <literal>STATELESS</literal> resource components. Remember that any HTTP request has to transmit a valid session identifier (cookie, URI path parameter) for correct handling of the server-side session context."
+msgid "An instance of <literal>customerResource</literal> is now handled by Seam when a request hits the server. This is a Seam JavaBean component that is <literal>EVENT</literal>-scoped, hence no different than the default JAX-RS lifecycle. You get full Seam injection support and all other Seam components and contexts are available to you. Currently also supported are <literal>APPLICATION</literal> and <literal>STATELESS</literal> resource Seam components. These scopes allow you to create an effectively stateless Seam middle-tier HTTP request-processing application."
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:319
+#: Webservices.xml:318
 #, no-c-format
-msgid "Conversation-scoped resource components and mapping of conversations is currently not supported but will be available soon."
+msgid "You can use <literal>SESSION</literal>-scoped Seam components. By default, the session will however be shortened to a single request. In other words, when an HTTP request is being processed by the RESTEasy integration code, an HTTP session will be created so that Seam components can utilize that context. When the request has been processed, Seam will look at the session and decide if the session was created only to serve that single request (no session identifier has been provided with the request, or no session existed for the request). If the session has been created only to serve this request, the session will be destroyed after the request! Assuming that your Seam application only uses event, application, or stateless components, this procedure prevents exhaustion of available HTTP sessions on the server. The RESTEasy integration with Seam assumes by default that sessions are not used, hence anemic sessions would add up as every REST request would start a session that will only be removed when timed out."
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:324
+#: Webservices.xml:331
 #, no-c-format
-msgid "Provider classes can also be Seam components, they must be <literal>APPLICATION</literal>-scoped or <literal>STATELESS</literal>."
+msgid "If your RESTful Seam application has to preserve session state across REST HTTP requests, disable this behavior in your configuration file:"
+msgstr ""
+
+#. Tag: programlisting
+#: Webservices.xml:336
+#, no-c-format
+msgid "<![CDATA[<resteasy:application destroy-session-after-request=\"false\"/>]]>"
+msgstr "<![CDATA[<resteasy:application destroy-session-after-request=\"false\"/>]]>"
+
+#. Tag: para
+#: Webservices.xml:338
+#, no-c-format
+msgid "Every RESTful HTTP request will now create a new session that will only be removed by timeout or explicit invalidation in your code through <literal>Session.instance().invalidate()</literal>. It is your responsibility to pass a valid session identifier along with your HTTP requests, if you want to utilize the session context across requests."
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:329
+#: Webservices.xml:345
 #, no-c-format
-msgid "Resources and providers can be EJBs or JavaBeans, like any other Seam component."
+msgid "<literal>CONVERSATION</literal>-scoped resource components and mapping of conversations to temporary HTTP resources and paths is planned but currently not supported."
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:350
+#, no-c-format
+msgid "EJB Seam components are currently <emphasis>NOT</emphasis> supported! However, as explained above, you can map plain stateless EJBs (with no Seam lifecycle or injection) as REST resources."
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:355
+#, no-c-format
+msgid "Provider classes can also be Seam components, currently only <literal>APPLICATION</literal>-scoped provider components are supported."
 msgstr ""
 
 #. Tag: title
-#: Webservices.xml:336
+#: Webservices.xml:363
 #, no-c-format
 msgid "Mapping exceptions to HTTP responses"
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:338
+#: Webservices.xml:365
 #, no-c-format
 msgid "Section 3.3.4 of the JAX-RS specification defines how checked or unchecked exceptions are handled by the JAX RS implementation. In addition to using an exception mapping provider as defined by JAX-RS, the integration of RESTEasy with Seam allows you to map exceptions to HTTP response codes within Seam's <literal>pages.xml</literal> facility. If you are already using <literal>pages.xml</literal> declarations, this is easier to maintain than potentially many JAX RS exception mapper classes."
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:346
+#: Webservices.xml:373
 #, no-c-format
-msgid "Exception handling within Seam requires that the Seam filter is executed for your HTTP request. Ensure that you do filter <emphasis>all</emphasis> requests in your <literal>web.xml</literal>, not - as some Seam examples might show - a request URI pattern that doesn't cover your REST requests. The following example intercepts <emphasis>all</emphasis> HTTP requests and enables Seam exception handling:"
+msgid "Exception handling within Seam requires that the Seam filter is executed for your HTTP request. Ensure that you do filter <emphasis>all</emphasis> requests in your <literal>web.xml</literal>, not - as some Seam examples might show - a request URI pattern that doesn't cover your REST request paths. The following example intercepts <emphasis>all</emphasis> HTTP requests and enables Seam exception handling:"
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:353
+#: Webservices.xml:380
 #, no-c-format
 msgid ""
 "<![CDATA[<filter>\n"
@@ -690,57 +714,57 @@ msgstr ""
 "</filter-mapping>]]>"
 
 #. Tag: para
-#: Webservices.xml:355
+#: Webservices.xml:382
 #, no-c-format
 msgid "To convert the unchecked <literal>UnsupportedOperationException</literal> thrown by your resource methods to a <literal>501 Not Implemented</literal> HTTP status response, add the following to your <literal>pages.xml</literal> descriptor:"
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:361
+#: Webservices.xml:388
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"java.lang.UnsupportedOperationException\">\n"
 "    <http-error error-code=\"501\">\n"
-"        <message>The request operation is not supported</message>\n"
+"        <message>The requested operation is not supported</message>\n"
 "    </http-error>\n"
 "</exception>]]>"
 msgstr ""
 "<![CDATA[<exception class=\"java.lang.UnsupportedOperationException\">\n"
 "    <http-error error-code=\"501\">\n"
-"        <message>The request operation is not supported</message>\n"
+"        <message>The requested operation is not supported</message>\n"
 "    </http-error>\n"
 "</exception>]]>"
 
 #. Tag: para
-#: Webservices.xml:363
+#: Webservices.xml:390
 #, no-c-format
 msgid "Custom or checked exceptions are handled the same:"
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:367
+#: Webservices.xml:394
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"my.CustomException\" log=\"false\">\n"
 "    <http-error error-code=\"503\">\n"
-"        <message>The service is currently not available: #{org.jboss.seam.handledException.message}</message>\n"
+"        <message>Service not available: #{org.jboss.seam.handledException.message}</message>\n"
 "    </http-error>\n"
 "</exception>]]>"
 msgstr ""
 "<![CDATA[<exception class=\"my.CustomException\" log=\"false\">\n"
 "    <http-error error-code=\"503\">\n"
-"        <message>The service is currently not available: #{org.jboss.seam.handledException.message}</message>\n"
+"        <message>Service not available: #{org.jboss.seam.handledException.message}</message>\n"
 "    </http-error>\n"
 "</exception>]]>"
 
 #. Tag: para
-#: Webservices.xml:369
+#: Webservices.xml:396
 #, no-c-format
 msgid "You do not have to send an HTTP error to the client if an exception occurs. Seam allows you to map the exception as a redirect to a view of your Seam application. As this feature is typically used for human clients (web browsers) and not for REST API remote clients, you should pay extra attention to conflicting exception mappings in <literal>pages.xml</literal>."
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:376
+#: Webservices.xml:403
 #, no-c-format
 msgid "Note that the HTTP response still passes through the servlet container, so an additional mapping might apply if you have <literal>&lt;error-page&gt;</literal> mappings in your <literal>web.xml</literal> configuration. The HTTP status code would then be mapped to a rendered HTML error page with status <literal>200 OK</literal>!"
 msgstr ""
