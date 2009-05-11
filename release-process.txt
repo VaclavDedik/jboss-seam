@@ -221,7 +221,6 @@ Example verification
   - remoting/chatroom
   - remoting/gwt
   - remoting/helloworld
-  - remoting/progressbar
   - seambay
   - seamdiscs
   - seampay
