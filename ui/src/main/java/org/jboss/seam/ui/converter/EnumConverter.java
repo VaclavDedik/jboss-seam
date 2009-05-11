@@ -40,8 +40,14 @@ public class EnumConverter implements javax.faces.convert.Converter
                }
                else if (val instanceof Collection)
                {
-                  t = ((Collection) val).iterator().next().getClass();
-                  return Enum.valueOf(t, value);
+                  Object firstItem = ((Collection) val).iterator().next();
+                  if (firstItem instanceof Enum) {
+                     t = ((Enum) firstItem).getDeclaringClass();
+                  } else {
+                     t = firstItem.getClass();
+                  }
+                  
+                  return Enum.valueOf(t, value);                  
                }
             }
          }
