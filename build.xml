@@ -447,7 +447,7 @@
 		<cleanexample name="drools" />
 		<cleanexample name="remoting/helloworld" />
 		<cleanexample name="remoting/chatroom" />
-		<cleanexample name="remoting/progressbar" />
+		<!--<cleanexample name="remoting/progressbar" />-->
 		<cleanexample name="remoting/gwt" />
 		<cleanexample name="hibernate" />
 		<cleanexample name="jpa" />
@@ -487,7 +487,7 @@
 		<undeployexample name="drools" />
 		<undeployexample name="remoting/helloworld" />
 		<undeployexample name="remoting/chatroom" />
-		<undeployexample name="remoting/progressbar" />
+		<!--<undeployexample name="remoting/progressbar" />-->
 		<undeployexample name="remoting/gwt" />
 		<undeployexampleNoTomcat name="groovybooking" />
 		<undeployexample name="quartz" />
@@ -561,7 +561,7 @@
 		<ant dir="examples/remoting/chatroom" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/remoting/gwt" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/remoting/helloworld" target="validateConfiguration" inheritall="false" />
-		<ant dir="examples/remoting/progressbar" target="validateConfiguration" inheritall="false" />
+		<!--<ant dir="examples/remoting/progressbar" target="validateConfiguration" inheritall="false" />-->
 		<ant dir="examples/rss" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/seambay" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/restbay" target="validateConfiguration" inheritall="false" />
@@ -678,7 +678,7 @@
 				<include name="wicket/**/*" />
 				<include name="remoting/chatroom/**/*" />
 				<include name="remoting/helloworld/**/*" />
-				<include name="remoting/progressbar/**/*" />
+				<!--<include name="remoting/progressbar/**/*" />-->
 				<include name="remoting/gwt/**/*" />
 				<include name="readme.txt" />
 				<include name="seam-examples.html" />
