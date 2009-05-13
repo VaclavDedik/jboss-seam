@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-05-10 10:18+0000\n"
-"PO-Revision-Date: 2009-05-10 12:27+0100\n"
+"PO-Revision-Date: 2009-05-13 10:29+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1328,7 +1328,7 @@ msgstr "<literal>chart</literal> &#8212; L'oggetto grafico da visualizzare, se v
 #: Itext.xml:1809
 #, no-c-format
 msgid "<literal>dataset</literal> &#8212; The dataset to be displayed, if programmatic dataset is being used."
-msgstr "literal>dataset</literal> &#8212;  Il dataset da visualizzare, se viene usato un dataset via codice."
+msgstr "<literal>dataset</literal> &#8212;  Il dataset da visualizzare, se viene usato un dataset via codice."
 
 #. Tag: para
 #: Itext.xml:1372

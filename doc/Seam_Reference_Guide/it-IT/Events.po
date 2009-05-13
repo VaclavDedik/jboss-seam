@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-03-31 09:07+0000\n"
-"PO-Revision-Date: 2009-04-25 20:11+0100\n"
+"PO-Revision-Date: 2009-05-13 10:54+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr "Eventi, interceptor e gestione delle eccezioni"
 #: Events.xml:7
 #, no-c-format
 msgid "Complementing the contextual component model, there are two further basic concepts that facilitate the extreme loose-coupling that is the distinctive feature of Seam applications. The first is a strong event model where events may be mapped to event listeners via JSF-like method binding expressions. The second is the pervasive use of annotations and interceptors to apply cross-cutting concerns to components which implement business logic."
-msgstr ""
+msgstr "A complemento del modello contestuale a componenti, ci sono due ulteriori concetti base che facilitano il disaccoppiamento estremo, caratteristica distintiva delle applicazioni Seam. Il primo è un forte modello a eventi in cui gli eventi possono essere mappati su degli event listener attraverso espressioni di method binding stile JSF. Il secondo è l'uso pervasivo di annotazioni ed interceptor per applicare concern incrociati ai componenti che implementano la business logic."
 
 #. Tag: title
 #: Events.xml:17
@@ -35,7 +35,7 @@ msgstr "Eventi di Seam"
 #: Events.xml:18
 #, no-c-format
 msgid "The Seam component model was developed for use with <emphasis>event-driven applications</emphasis>, specifically to enable the development of fine-grained, loosely-coupled components in a fine-grained eventing model. Events in Seam come in several types, most of which we have already seen:"
-msgstr ""
+msgstr "Il modello a componenti di Seam è stato sviluppato per l'uso con <emphasis>applicazioni event-driven</emphasis>, specificatamente per consentire lo sviluppo di componenti a granularità fine, disaccoppiati in un modello a eventi a granularità fine. Gli eventi in Seam avvengono in parecchi modi, la maggior parte dei quali è già stata vista:"
 
 #. Tag: para
 #: Events.xml:27
@@ -71,7 +71,7 @@ msgstr "Eventi contestuali Seam"
 #: Events.xml:43
 #, no-c-format
 msgid "All of these various kinds of events are mapped to Seam components via JSF EL method binding expressions. For a JSF event, this is defined in the JSF template:"
-msgstr ""
+msgstr "Tutti questi vari tipi di eventi sono mappati sui componenti Seam tramite espressioni di method binding JSF EL. Per un evento JSF, questo è definito nel template JSF:"
 
 #. Tag: programlisting
 #: Events.xml:48
@@ -83,7 +83,7 @@ msgstr "<![CDATA[<h:commandButton value=\"Click me!\" action=\"#{helloWorld.sayH
 #: Events.xml:52
 #, no-c-format
 msgid "For a jBPM transition event, it is specified in the jBPM process definition or pageflow definition:"
-msgstr ""
+msgstr "Per un evento di transizione jBPM, è specificato nella definizione di processo o nella definizione di pageflow:"
 
 #. Tag: programlisting
 #: Events.xml:57
@@ -105,7 +105,7 @@ msgstr ""
 #: Events.xml:59
 #, no-c-format
 msgid "You can find out more information about JSF events and jBPM events elsewhere. Let's concentrate for now upon the two additional kinds of events defined by Seam."
-msgstr ""
+msgstr "In altri luoghi si possono trovare maggiori informazioni sugli eventi JSF e sugli eventi jBPM. Concentriamoci ora sui due tipi di evento aggiuntivi definiti da Seam."
 
 #. Tag: title
 #: Events.xml:66
@@ -117,7 +117,7 @@ msgstr "Azioni di pagina"
 #: Events.xml:68
 #, no-c-format
 msgid "A Seam page action is an event that occurs just before we render a page. We declare page actions in <literal>WEB-INF/pages.xml</literal>. We can define a page action for either a particular JSF view id:"
-msgstr ""
+msgstr "Un'azione di pagina Seam è un evento che avviene appena prima che la pagina viene renderizzata. Si dichiarano le azioni di pagina in <literal>WEB-INF/pages.xml</literal>.  Si può definire un'azione di pagina anche per un particolare id di vista JSF:"
 
 #. Tag: programlisting
 #: Events.xml:74
@@ -135,7 +135,7 @@ msgstr ""
 #: Events.xml:76
 #, no-c-format
 msgid "Or we can use a <literal>*</literal> wildcard as a suffix to the <literal>view-id</literal> to specify an action that applies to all view ids that match the pattern:"
-msgstr ""
+msgstr "Oppure si può usare il wildcard <literal>*</literal> come suffisso a <literal>view-id</literal> per specificare un'azione che si applica a tutti gli id di vista che corrispondono al pattern:"
 
 #. Tag: programlisting
 #: Events.xml:82
@@ -153,19 +153,19 @@ msgstr ""
 #: Events.xml:84
 #, no-c-format
 msgid "Keep in mind that if the <literal>&lt;page&gt;</literal> element is defined in a fine-grained page descriptor, the <literal>view-id</literal> attribute can be left off since it is implied."
-msgstr ""
+msgstr "Si tenga presente che se l'elemento <literal>&lt;page&gt;</literal> è definito in un descrittore di pagina a granularità fine, l'attributo <literal>view-id</literal> può essere tralasciato poiché implicito."
 
 #. Tag: para
 #: Events.xml:90
 #, no-c-format
 msgid "If multiple wildcarded page actions match the current view-id, Seam will call all the actions, in order of least-specific to most-specific."
-msgstr ""
+msgstr "Se più azioni di pagina con wildcard corrispondono al corrente id di vista, Seam chiamerà tutte le azioni, nell'ordine dal meno al più specifico."
 
 #. Tag: para
 #: Events.xml:95
 #, no-c-format
 msgid "The page action method can return a JSF outcome. If the outcome is non-null, Seam will use the defined navigation rules to navigate to a view."
-msgstr ""
+msgstr "Il metodo di azione di pagine può restituire un esito JSF. Se l'esito è non-null, Seam userà le regole di navigazione definite per andare verso una vista."
 
 #. Tag: para
 #: Events.xml:100
@@ -277,19 +277,19 @@ msgstr ""
 #: Events.xml:161
 #, no-c-format
 msgid "You can use page parameters with or without an action method."
-msgstr ""
+msgstr "Si possono usare i parametri di pagina con o senza metodo d'azione."
 
 #. Tag: title
 #: Events.xml:166
 #, no-c-format
 msgid "Mapping request parameters to the model"
-msgstr ""
+msgstr "Mappatura dei parametri di richiesta sul modello"
 
 #. Tag: para
 #: Events.xml:168
 #, no-c-format
 msgid "Seam lets us provide a value binding that maps a named request parameter to an attribute of a model object."
-msgstr ""
+msgstr "Seam lascia fornire un valore di binding che mappa un parametro di richiesta su un attributo di un oggetto del modello."
 
 #. Tag: programlisting
 #: Events.xml:173
@@ -313,13 +313,13 @@ msgstr ""
 #: Events.xml:175
 #, no-c-format
 msgid "The <literal>&lt;param&gt;</literal> declaration is bidirectional, just like a value binding for a JSF input:"
-msgstr ""
+msgstr "La dichiarazione <literal>&lt;param&gt;</literal> è bidirezionale, proprio come un valore di binding per un input JSF:"
 
 #. Tag: para
 #: Events.xml:182
 #, no-c-format
 msgid "When a non-faces (GET) request for the view id occurs, Seam sets the value of the named request parameter onto the model object, after performing appropriate type conversions."
-msgstr ""
+msgstr "Quando avviene una richiesta non-faces (GET) per un id di vista, Seam imposta il valore del parametro di richiesta sull'oggetto del modello, dopo aver operato le dovute conversioni sul tipo."
 
 #. Tag: para
 #: Events.xml:189
@@ -385,7 +385,7 @@ msgstr ""
 #: Events.xml:245
 #, no-c-format
 msgid "Any <literal>&lt;s:link&gt;</literal> or <literal>&lt;s:button&gt;</literal> transparently propagates the request parameter if that parameter is listed as a page parameter for the view."
-msgstr ""
+msgstr "Qualsiasi <literal>&lt;s:link&gt;</literal> o <literal>&lt;s:button&gt;</literal> propaga in modo trasparente il parametro di richiesta se tale parametro è elencato come parametro di pagina per la vista."
 
 #. Tag: para
 #: Events.xml:252
@@ -1866,7 +1866,7 @@ msgstr ""
 #: Events.xml:836
 #, no-c-format
 msgid "Suppressing exception logging"
-msgstr ""
+msgstr "Soppressione del log delle eccezioni"
 
 #. Tag: para
 #: Events.xml:838
@@ -1894,7 +1894,7 @@ msgstr ""
 #: Events.xml:849
 #, no-c-format
 msgid "If the <literal>log</literal> attribute is not specified, then it defaults to <literal>true</literal> (i.e. the exception will be logged). Alternatively, you can specify the <literal>log-level</literal> to control at which log level the exception will be logged:"
-msgstr ""
+msgstr "Se l'attributo <literal>log</literal> non è specificato, allora il suo default è <literal>true</literal> (cioè l'eccezione viene loggata). in alternativa, si può specificare il <literal>log-level</literal> per controllare a quale livello verrà loggata l'eccezione:"
 
 #. Tag: programlisting
 #: Events.xml:855
