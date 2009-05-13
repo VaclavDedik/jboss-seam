@@ -970,10 +970,10 @@
             <replacevalue><![CDATA[   <!-- uncomment <ejb-local-ref> entries when deploying to GlassFish and (optionally) JBoss AS 5 -->
    <!--
    <ejb-local-ref>
-      <ejb-ref-name>vehicles/AuthenticatorBean/local</ejb-ref-name>
+      <ejb-ref-name>@projectName@/AuthenticatorBean/local</ejb-ref-name>
       <ejb-ref-type>Session</ejb-ref-type>
       <local-home/>
-      <local>org.example.vehicles.action.Authenticator</local>
+      <local>@actionPackage@.Authenticator</local>
    </ejb-local-ref>
    -->
 
@@ -991,6 +991,7 @@
         </replace>
 
         <replace file="${project.home}/resources/WEB-INF/web.xml">
+            <replacefilter token="@actionPackage@" value="${action.package}"/>
             <replacefilter token="@projectName@" value="${project.name}"/>
         </replace>
 
