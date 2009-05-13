@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-05-05 12:31+0000\n"
-"PO-Revision-Date: 2009-05-05 14:36+0100\n"
+"PO-Revision-Date: 2009-05-13 22:31+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -301,13 +301,13 @@ msgstr "<literal>disabled</literal> &#8212; Usato per disabilitare il filtro pre
 #: Configuration.xml:131
 #, no-c-format
 msgid "Note that the patterns are matched against the URI path of the request (see <literal>HttpServletRequest.getURIPath()</literal>) and that the name of the servlet context is removed before matching."
-msgstr ""
+msgstr "Si noti che i pattern corrispondono al percorso URI della richiesta (si veda <literal>HttpServletRequest.getURIPath()</literal>) e che il nome del contesto servlet viene rimosso prima del matching."
 
 #. Tag: para
 #: Configuration.xml:137
 #, no-c-format
 msgid "Adding the master filter enables the following built-in filters."
-msgstr ""
+msgstr "L'aggiunta del filtro master abilita i seguenti filtri predefiniti."
 
 #. Tag: title
 #: Configuration.xml:140
@@ -319,13 +319,13 @@ msgstr "Gestione delle eccezioni."
 #: Configuration.xml:141
 #, no-c-format
 msgid "This filter provides the exception mapping functionality in <literal>pages.xml</literal> (almost all applications will need this). It also takes care of rolling back uncommitted transactions when uncaught exceptions occur. (According to the Java EE specification, the web container should do this automatically, but we've found that this behavior cannot be relied upon in all application servers. And it is certainly not required of plain servlet engines like Tomcat.)"
-msgstr ""
+msgstr "Questo filtro fornisce la funzionalità di mappaturadelle eccezioni in <literal>pages.xml</literal> (quasi tutte le applicazioni ne hanno bisogno). Inoltre il filtro si preoccupa del rolling back delle transazioni non eseguite quando avviene un'eccezione non catturata. (In accordo alle specifiche Java EE, il web container dovrebbe fare questo in modo automatico, ma noi abbiamo visto che questo comportamento non può essere dato per scontato su tutti gli application server. E certamente non è richiesto sugli engine servlet come Tomcat.)"
 
 #. Tag: para
 #: Configuration.xml:147
 #, no-c-format
 msgid "By default, the exception handling filter will process all requests, however this behavior may be adjusted by adding a <literal>&lt;web:exception-filter&gt;</literal> entry to <literal>components.xml</literal>, as shown in this example:"
-msgstr ""
+msgstr "Di default il filtro di gestione eccezioni processerà tutte le richieste, comunque questo comportamento può essere sistemato aggiungendo una riga <literal>&lt;web:exception-filter&gt;</literal> a <literal>components.xml</literal>, come mostrato in quest'esempio:"
 
 #. Tag: programlisting
 #: Configuration.xml:151
@@ -355,13 +355,13 @@ msgstr "Propagazione delle conversazioni con i redirect"
 #: Configuration.xml:158
 #, no-c-format
 msgid "This filter allows Seam to propagate the conversation context across browser redirects. It intercepts any browser redirects and adds a request parameter that specifies the Seam conversation identifier."
-msgstr ""
+msgstr "Questo filtro consente a Seam di propagare il contesto conversazione attraverso i redirect del browser. Intercetta qualsiasi redirect ed aggiunge un parametro di richiesta che specifica l'identificatore della conversazione di Seam."
 
 #. Tag: para
 #: Configuration.xml:162
 #, no-c-format
 msgid "The redirect filter will process all requests by default, but this behavior can also be adjusted in <literal>components.xml</literal>:"
-msgstr ""
+msgstr "Il filtro redirect processerà tutte le richieste di default, ma questo comportamento può essere aggiustato in <literal>components.xml</literal>:"
 
 #. Tag: programlisting
 #: Configuration.xml:165
@@ -379,7 +379,7 @@ msgstr "Riscrittura dell'URL"
 #: Configuration.xml:171
 #, no-c-format
 msgid "This filter allows Seam to apply URL rewriting for views based on configuration in the <literal>pages.xml</literal> file. This filter is not activate by default, but can be activated by adding the configuration to <literal>components.xml</literal>:"
-msgstr ""
+msgstr "Questo filtro consente aSeam di applicare la riscrittura URL per le viste basate sulla configurazione nel file <literal>pages.xml</literal>. Questo filtro non è attivato di default, ma può essere attivato aggiungendo la configurazione in <literal>components.xml</literal>:"
 
 #. Tag: programlisting
 #: Configuration.xml:176
@@ -439,14 +439,14 @@ msgstr "Codifica dei caratteri"
 #: Configuration.xml:212
 #, no-c-format
 msgid "Sets the character encoding of submitted form data."
-msgstr ""
+msgstr "Imposta la codifica caratteri dei dati della form inviata."
 
 #. Tag: para
 #: Configuration.xml:214
 #: Configuration.xml:309
 #, no-c-format
 msgid "This filter is not installed by default and requires an entry in <literal>components.xml</literal> to enable it:"
-msgstr ""
+msgstr "Questo filtro non è installato di default e richiede una riga in <literal>components.xml</literal> per essere abilitato:"
 
 #. Tag: programlisting
 #: Configuration.xml:217
@@ -600,7 +600,7 @@ msgstr ""
 #: Configuration.xml:326
 #, no-c-format
 msgid "Adding custom filters"
-msgstr ""
+msgstr "Aggiunta di filtri personalizzati"
 
 #. Tag: para
 #: Configuration.xml:327
@@ -636,7 +636,7 @@ msgstr ""
 #: Configuration.xml:343
 #, no-c-format
 msgid "Integrating Seam with your EJB container"
-msgstr ""
+msgstr "Integrazione di Seam con l'EJB container"
 
 #. Tag: para
 #: Configuration.xml:345
@@ -686,13 +686,13 @@ msgstr ""
 #: Configuration.xml:357
 #, no-c-format
 msgid "Seam needs to know where to go to find session beans in JNDI. One way to do this is specify the <literal>@JndiName</literal> annotation on every session bean Seam component. However, this is quite tedious. A better approach is to specify a pattern that Seam can use to calculate the JNDI name from the EJB name. Unfortunately, there is no standard mapping to global JNDI defined in the EJB3 specification, so this mapping is vendor-specific (and may depend on your own naming conventions as well). We usually specify this option in <literal>components.xml</literal>."
-msgstr ""
+msgstr "Seam necessita di sapere dove trovare i session bean in JNDI. Un modo per farlo è specificare l'annotazione <literal>@JndiName</literal> su ogni componente session bean. Comunque questa modalità è abbastanza noiosa. Un approccio migliore è specificare un pattern che Seam usa per calcolare il nome JNDI dal nome EJB. Sfortunatamente nella specifica EJB3 non è definita una mappatura standard al JNDI globale, quindi questa mappatura è specificata dal venditore (e può dipendere anche dalle proprie convenzioni di nome). Solitamente si specifica quest'opzione in <literal>components.xml</literal>."
 
 #. Tag: para
 #: Configuration.xml:364
 #, no-c-format
 msgid "For JBoss AS, the following pattern is correct:"
-msgstr ""
+msgstr "Per JBoss AS ilseguente pattern è corretto:"
 
 #. Tag: programlisting
 #: Configuration.xml:366
@@ -740,7 +740,7 @@ msgstr ""
 #: Configuration.xml:390
 #, no-c-format
 msgid "The value of the <literal>name</literal> attribute in the @Stateless or @Stateful annotation"
-msgstr ""
+msgstr "Il valore dell'attributo <literal>name</literal> nell'annotazione @Stateless o @Stateful"
 
 #. Tag: para
 #: Configuration.xml:393
@@ -1084,7 +1084,7 @@ msgstr "Packaging"
 #: Configuration.xml:563
 #, no-c-format
 msgid "Once you've packaged all this stuff together into an EAR, the archive structure will look something like this:"
-msgstr ""
+msgstr "Una volta impacchettato assieme tutte queste cose in un EAR, la struttura dell'archivio apparirà così:"
 
 #. Tag: programlisting
 #: Configuration.xml:566
@@ -1170,13 +1170,13 @@ msgstr ""
 #: Configuration.xml:573
 #, no-c-format
 msgid "If you want to use jBPM or Drools, you must include the needed jars in the EAR's lib directory."
-msgstr ""
+msgstr "Se si vuole usare jBPM o Drools, occorre includere i jar necessari nella directory lib di EAR."
 
 #. Tag: para
 #: Configuration.xml:575
 #, no-c-format
 msgid "If you want to use facelets (our recommendation), you must include <literal>jsf-facelets.jar</literal> in the <literal>WEB-INF/lib</literal> directory of the WAR."
-msgstr ""
+msgstr "Se si vuole usare facelets (consigliato), occorre includere <literal>jsf-facelets.jar</literal> nella directory <literal>WEB-INF/lib</literal> del WAR."
 
 #. Tag: para
 #: Configuration.xml:578

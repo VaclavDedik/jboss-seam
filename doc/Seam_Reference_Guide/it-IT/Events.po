@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-03-31 09:07+0000\n"
-"PO-Revision-Date: 2009-05-13 10:54+0100\n"
+"PO-Revision-Date: 2009-05-13 22:27+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -177,7 +177,7 @@ msgstr ""
 #: Events.xml:109
 #, no-c-format
 msgid "Multiple or conditional page actions my be specified using the <literal>&lt;action&gt;</literal> tag:"
-msgstr ""
+msgstr "Azioni di pagina multiple o condizionali possono essere specificate usando il tag <literal>&lt;action&gt;</literal>:"
 
 #. Tag: programlisting
 #: Events.xml:114
@@ -225,7 +225,7 @@ msgstr ""
 #: Events.xml:125
 #, no-c-format
 msgid "This condition consults the <literal>ResponseStateManager#isPostback(FacesContext)</literal> to determine if the request is a postback. The ResponseStateManager is accessed using <literal>FacesContext.getCurrentInstance().getRenderKit().getResponseStateManager()</literal>."
-msgstr ""
+msgstr "Questa condizione consulta <literal>ResponseStateManager#isPostback(FacesContext)</literal>per determinare sela richiesta è un postback. Il ResponseStateManager viene acceduto usando <literal>FacesContext.getCurrentInstance().getRenderKit().getResponseStateManager()</literal>."
 
 #. Tag: para
 #: Events.xml:131
@@ -403,7 +403,7 @@ msgstr ""
 #: Events.xml:277
 #, no-c-format
 msgid "URL rewriting with page parameters"
-msgstr ""
+msgstr "Riscrittura URL con parametri di pagina"
 
 #. Tag: para
 #: Events.xml:278
@@ -916,7 +916,7 @@ msgstr ""
 #: Events.xml:468
 #, no-c-format
 msgid "The view-id may be given as a JSF EL expression:"
-msgstr ""
+msgstr "Il view-id può essere assegnato come espressione JSF EL:"
 
 #. Tag: programlisting
 #: Events.xml:472
@@ -1586,7 +1586,7 @@ msgstr ""
 #: Events.xml:680
 #, no-c-format
 msgid "You can even use Seam interceptors with JavaBean components, not just EJB3 beans!"
-msgstr ""
+msgstr "Si possono usare gli interceptor Seam anche con i componenti JavaBean, non solo bean EJB3!"
 
 #. Tag: para
 #: Events.xml:684
@@ -1728,7 +1728,7 @@ msgstr ""
 #: Events.xml:788
 #, no-c-format
 msgid "You can also use EL to specify the <literal>viewId</literal> to redirect to."
-msgstr ""
+msgstr "Si può anche usare EL per specificare il <literal>viewId</literal> a cui reindirizzare."
 
 #. Tag: para
 #: Events.xml:792
@@ -1860,7 +1860,7 @@ msgstr ""
 #: Events.xml:829
 #, no-c-format
 msgid "<literal>org.jboss.seam.handledException</literal> holds the nested exception that was actually handled by an exception handler. The outermost (wrapper) exception is also available, as <literal>org.jboss.seam.caughtException</literal>."
-msgstr ""
+msgstr "<literal>org.jboss.seam.handledException</literal> mantiene l'eccezione annidata che è stata gestita dall'exception handler. L'eccezione più esterna (wrapper) è disponibile, come <literal>org.jboss.seam.caughtException</literal>."
 
 #. Tag: title
 #: Events.xml:836
@@ -2042,7 +2042,7 @@ msgstr ""
 #: Events.xml:894
 #, no-c-format
 msgid "A <literal>ViewExpiredException</literal> occurs if the user posts back to a page once their session has expired. <literal>no-conversation-view-id</literal> and <literal>conversation-required</literal> give you finer grained control over session expiration if you are inside a conversation."
-msgstr ""
+msgstr "Avviene una <literal>ViewExpiredException</literal> se l'utente invia una pagina quando la sessione è scaduta. <literal>no-conversation-view-id</literal> e <literal>conversation-required</literal> consentono un controllo più fine sulla scadenza della sessione se si è all'interno di una conversazione."
 
 #. Tag: title
 #: Events.xml:904
