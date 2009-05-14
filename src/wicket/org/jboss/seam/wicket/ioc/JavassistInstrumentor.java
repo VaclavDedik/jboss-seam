@@ -120,6 +120,11 @@ public class JavassistInstrumentor implements ClassFileTransformer
     * If true, only instrument classes annotated with @WicketComponent and their non-static inner classes.
     */
    private boolean scanAnnotations;
+
+   /**
+    * If we're only instrumenting a specific set of classes, these are the names of those classes
+    */
+   private Set<String> onlyTheseClasses;
    
    public JavassistInstrumentor(ClassPool classPool)
    {
@@ -173,13 +178,32 @@ public class JavassistInstrumentor implements ClassFileTransformer
     */
    public void instrumentClass(CtClass implementation) throws NotFoundException, CannotCompileException
    {
+      
       String className = implementation.getName();
       CtClass handlerClass = classPool.get(WicketHandler.class.getName());
       CtClass componentClass = classPool.get(WicketComponent.class.getName());
 
-      CtField handlerField = new CtField(handlerClass, "handler", implementation);
-      Initializer handlerInitializer = Initializer.byCall(handlerClass, "create");
-      implementation.addField(handlerField, handlerInitializer);
+      /*
+       * We only want one WicketHandler field per bean, so don't add that field to classes whose
+       * parent has been or is to be be instrumented.
+       */
+      CtClass superclass = implementation.getSuperclass();
+      if (!isInstrumented(superclass)) { 
+         if (!isInstrumentable(superclass)) {
+            //we're the top-most instrumentable class, so add the handler field
+	         CtField handlerField = new CtField(handlerClass, "handler", implementation);
+	         handlerField.setModifiers(Modifier.PROTECTED);
+	         Initializer handlerInitializer = Initializer.byCall(handlerClass, "create");
+	         implementation.addField(handlerField, handlerInitializer);
+	         CtMethod getHandlerMethod = CtNewMethod.getter("getHandler", handlerField);
+	         implementation.addMethod(getHandlerMethod);
+         }
+         else { 
+            //in order for the below code to make reference to the handler instance we need to 
+            //recursively instrument until we reach the top of the instrumentable class tree
+            instrumentClass(superclass);
+         }
+      }
 
       CtField wicketComponentField = new CtField(componentClass, "component", implementation);
       wicketComponentField.setModifiers(Modifier.STATIC);
@@ -189,10 +213,8 @@ public class JavassistInstrumentor implements ClassFileTransformer
       CtClass exception = classPool.get(Exception.class.getName());
 
       implementation.addInterface(getInstrumentedComponentInterface());
-      CtMethod getHandlerMethod = CtNewMethod.getter("getHandler", handlerField);
-      CtMethod getEnclosingInstance = CtNewMethod.make("public " + InstrumentedComponent.class.getName() + " getEnclosingInstance() { return handler == null ? null : handler.getEnclosingInstance(this); }", implementation);
+      CtMethod getEnclosingInstance = CtNewMethod.make("public " + InstrumentedComponent.class.getName() + " getEnclosingInstance() { return getHandler() == null ? null : getHandler().getEnclosingInstance(this); }", implementation);
       implementation.addMethod(getEnclosingInstance);
-      implementation.addMethod(getHandlerMethod);
 
       for (CtMethod method : implementation.getDeclaredMethods())
       {
@@ -216,9 +238,9 @@ public class JavassistInstrumentor implements ClassFileTransformer
          {
             {
                String constructorObject = createConstructorObject(className, constructor);
-               constructor.insertBeforeBody(constructorObject + "handler.beforeInvoke(this, constructor);");
-               constructor.addCatch("{" + constructorObject + "throw new RuntimeException(handler.handleException(this, constructor, e));}", exception, "e");
-               constructor.insertAfter(constructorObject + "handler.afterInvoke(this, constructor);");
+               constructor.insertBeforeBody(constructorObject + "getHandler().beforeInvoke(this, constructor);");
+               constructor.addCatch("{" + constructorObject + "throw new RuntimeException(getHandler().handleException(this, constructor, e));}", exception, "e");
+               constructor.insertAfter(constructorObject + "getHandler().afterInvoke(this, constructor);");
                log.trace("instrumented constructor " + constructor.getName());
             }
          }
@@ -235,7 +257,7 @@ public class JavassistInstrumentor implements ClassFileTransformer
     */
    private static String createBody(CtClass clazz, CtMethod method, CtMethod newMethod) throws NotFoundException
    {
-      String src = "{" + createMethodObject(clazz, method) + "if (this.handler != null) this.handler.beforeInvoke(this, method);" + createMethodDelegation(newMethod) + "if (this.handler != null) result = ($r) this.handler.afterInvoke(this, method, ($w) result); return ($r) result;}";
+      String src = "{" + createMethodObject(clazz, method) + "if (getHandler() != null) getHandler().beforeInvoke(this, method);" + createMethodDelegation(newMethod) + "if (this.handler != null) result = ($r) this.handler.afterInvoke(this, method, ($w) result); return ($r) result;}";
 
       log.trace("Creating method " + clazz.getName() + "." + newMethod.getName() + "(" + newMethod.getSignature() + ")" + src);
       return src;
@@ -269,7 +291,7 @@ public class JavassistInstrumentor implements ClassFileTransformer
     */
    private static String wrapInExceptionHandler(String src)
    {
-      return "try {" + src + "} catch (Exception e) { throw new RuntimeException(this.handler == null ? e : this.handler.handleException(this, method, e)); }";
+      return "try {" + src + "} catch (Exception e) { throw new RuntimeException(getHandler() == null ? e : getHandler().handleException(this, method, e)); }";
    }
 
    /**
@@ -390,6 +412,10 @@ public class JavassistInstrumentor implements ClassFileTransformer
       {
          return false;
       }
+      if (onlyTheseClasses != null && !onlyTheseClasses.contains(clazz.getName()))
+      {
+         return false;
+      }
 
       try
       {
@@ -417,9 +443,8 @@ public class JavassistInstrumentor implements ClassFileTransformer
          // do not instrument something we've already instrumented.
          // can't use 'isSubtype' because the superclass may be instrumented
          // while we are not
-         for (String inf : clazz.getClassFile2().getInterfaces())
-            if (inf.equals(getInstrumentedComponentInterface().getName()))
-               return false;
+         if (isInstrumented(clazz))
+            return false;
       }
       catch (Exception e)
       {
@@ -427,6 +452,14 @@ public class JavassistInstrumentor implements ClassFileTransformer
       }
 
       return true;
+   }
+
+   private boolean isInstrumented(CtClass clazz)
+   {
+      for (String inf : clazz.getClassFile2().getInterfaces())
+         if (inf.equals(getInstrumentedComponentInterface().getName()))
+            return true;
+      return false;
    }
 
    /**
@@ -465,14 +498,18 @@ public class JavassistInstrumentor implements ClassFileTransformer
          {
             try
             {
-               CtClass result = instrumentClass(classfileBuffer);
-               if (result == null)
+               CtClass clazz = classPool.get(className);
+               if (clazz.isModified())
+                  return clazz.toBytecode();
+               clazz = instrumentClass(classfileBuffer);
+               if (clazz == null)
                   return null;
                else
-                  return result.toBytecode();
+                  return clazz.toBytecode();
             }
             catch (Exception e)
             {
+               e.printStackTrace();
                throw new RuntimeException(e);
             }
          }
@@ -528,5 +565,33 @@ public class JavassistInstrumentor implements ClassFileTransformer
       ClassPool classPool = new ClassPool();
       classPool.appendSystemPath();
       instrumentation.addTransformer(new JavassistInstrumentor(classPool, packagesToInstrument, scanAnnotations));
+   }
+
+   /**
+    * This instruments a specific set of classes and writes their classes to the specified directory, if that
+    * directory is non-null
+    * @param toInstrument the set of class names to instrument
+    * @param path where to write the modified classes, or null to not write anything
+    * @throws CannotCompileException 
+    * @throws NotFoundException 
+    */
+   public void instrumentClassSet(Set<String> toInstrument, String path) throws CannotCompileException, NotFoundException 
+   {
+      this.onlyTheseClasses = toInstrument;
+      for (String className : toInstrument) 
+      {
+         CtClass clazz = instrumentClass(className);
+         if (path != null && clazz.isModified())
+         {
+            try 
+            { 
+               clazz.writeFile(path);
+            }
+            catch (IOException e) 
+            {
+               throw new RuntimeException(e);
+            }
+         }
+      }
    }
 }

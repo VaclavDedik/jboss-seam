@@ -2,7 +2,9 @@ package org.jboss.seam.wicket.ioc;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javassist.ClassPool;
 import javassist.CtClass;
@@ -75,18 +77,15 @@ public class WicketInstrumentationTask extends Task
 
          JavassistInstrumentor instrumentor = new JavassistInstrumentor(classPool,useAnnotations);
 
+         Set<String> toInstrument = new HashSet<String>();
          for (String file : fileset.getDirectoryScanner(getProject()).getIncludedFiles())
          {
             if (file.endsWith(".class"))
             {
-               instrumentedClasses.add(instrumentor.instrumentClass(filenameToClassname(file)));
+               toInstrument.add(filenameToClassname(file));
             }
          }
-
-         for (CtClass clazz : instrumentedClasses)
-         {
-            clazz.writeFile(outputDirectory.getPath());
-         }
+         instrumentor.instrumentClassSet(toInstrument,outputDirectory.getPath());
       }
       catch (Exception e)
       {

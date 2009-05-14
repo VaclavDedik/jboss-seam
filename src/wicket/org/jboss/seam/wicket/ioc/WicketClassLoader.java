@@ -5,8 +5,8 @@ import static org.jboss.seam.deployment.ClassDescriptor.filenameToClassname;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javassist.CannotCompileException;
 import javassist.ClassPool;
@@ -22,7 +22,7 @@ public class WicketClassLoader extends Loader
    
    private static LogProvider log = Logging.getLogProvider(WicketClassLoader.class);
    
-   private List<String> classes;
+   private Set<String> classes;
    private File wicketComponentDirectory;
    private ClassPool classPool;
    private ClassLoader parentLoader;
@@ -33,7 +33,7 @@ public class WicketClassLoader extends Loader
    public WicketClassLoader(ClassLoader parent, ClassPool classPool, File wicketComponentDirectory)
    {
       super(parent, classPool);
-      this.classes = new ArrayList<String>();
+      this.classes = new HashSet<String>();
       this.wicketComponentDirectory = wicketComponentDirectory;
       this.classPool = classPool;
       this.parentLoader = parent;
@@ -48,7 +48,8 @@ public class WicketClassLoader extends Loader
       // Scan for classes
       if (wicketComponentDirectory.exists()) 
       { 
-         handleDirectory(wicketComponentDirectory, null);
+         handleDirectory(wicketComponentDirectory, null, classes);
+         instrumentor.instrumentClassSet(classes,null);
       }
 
       // Ensure classes' static initializers have run, to register the classes
@@ -60,7 +61,15 @@ public class WicketClassLoader extends Loader
       return this;
    }
 
-   private void handleDirectory(File file, String path) throws NotFoundException, CannotCompileException
+   /**
+    * Recursively collect all class names for class files found in this directory.
+    * @param file which directory
+    * @param path parent path
+    * @param collectedClasses where to store the classes
+    * @throws NotFoundException
+    * @throws CannotCompileException
+    */
+   private void handleDirectory(File file, String path, Set<String> collectedClasses) throws NotFoundException, CannotCompileException
    {
       log.trace("directory: " + file);
       for (File child : file.listFiles())
@@ -68,22 +77,18 @@ public class WicketClassLoader extends Loader
          String newPath = path == null ? child.getName() : path + '/' + child.getName();
          if (child.isDirectory())
          {
-            handleDirectory(child, newPath);
+            handleDirectory(child, newPath, collectedClasses);
          }
          else
          {
-            handleItem(newPath);
+            if (newPath.endsWith(".class"))
+            {
+               collectedClasses.add(filenameToClassname(newPath));
+            }
          }
       }
    }
 
-   private void handleItem(String path) throws NotFoundException, CannotCompileException
-   {
-      if (path.endsWith(".class"))
-      {
-         classes.add(instrumentor.instrumentClass(filenameToClassname(path)).getName());
-      }
-   }
 
    @Override
    protected Class loadClassByDelegation(String name) throws ClassNotFoundException
