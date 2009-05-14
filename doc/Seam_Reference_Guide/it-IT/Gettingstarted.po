@@ -715,7 +715,7 @@ msgstr "i componenti deployabili a caldo non saranno visibili alle classi deploy
 #: Gettingstarted.xml:260
 #, no-c-format
 msgid "Seam debug mode must be enabled and <literal>jboss-seam-debug.jar</literal> must be in <literal>WEB-INF/lib</literal>"
-msgstr "La modalità di degub di Seam deve essere abilitata e <literal>jboss-seam-debug.jar</literal> deve trovarsi in <literal>WEB-INF/lib</literal>"
+msgstr "La modalità di debug di Seam deve essere abilitata e <literal>jboss-seam-debug.jar</literal> deve trovarsi in <literal>WEB-INF/lib</literal>"
 
 #. Tag: para
 #: Gettingstarted.xml:265
