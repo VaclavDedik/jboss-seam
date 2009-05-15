@@ -6,7 +6,7 @@
 	  			xmlns:s="http://jboss.com/products/seam/taglib"
                 xmlns:a="http://richfaces.org/a4j"
                 xmlns:rich="http://richfaces.org/rich"
-                xmlns:m="http://metawidget.org/faces/richfaces"
+                xmlns:m="http://metawidget.org/faces"
 				template="template.xhtml">
 
 <!-- content -->
@@ -28,9 +28,7 @@
 	
 		<s:validateAll>
 	
-			<m:metawidget value="#{booking}" rendererType="div" validatorClass="org.metawidget.faces.component.validator.RequiredValidator">
-				<f:param name="divStyleClasses" value="entry,label,required,input,error errors"/>
-			</m:metawidget>
+			<m:metawidget value="#{booking}" validatorClass="org.metawidget.faces.component.validator.RequiredValidator"/>
 			
 		</s:validateAll>			
 		

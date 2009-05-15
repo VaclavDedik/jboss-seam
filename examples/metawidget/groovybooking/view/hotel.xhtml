@@ -4,7 +4,7 @@
 	  			xmlns:h="http://java.sun.com/jsf/html"
 	  			xmlns:f="http://java.sun.com/jsf/core"
 				xmlns:s="http://jboss.com/products/seam/taglib"
-				xmlns:m="http://metawidget.org/faces/richfaces"
+				xmlns:m="http://metawidget.org/faces"
 				template="template.xhtml">
 
 <!-- content -->
@@ -14,9 +14,7 @@
 </div>
 <div class="section">
 
-	<m:metawidget value="#{hotel}" rendererType="div" readOnly="#{true}">
-		<f:param name="divStyleClasses" value="entry,label,required,output"/>
-	</m:metawidget>
+	<m:metawidget value="#{hotel}" readOnly="#{true}"/>
 
 </div>
 <div class="section">
