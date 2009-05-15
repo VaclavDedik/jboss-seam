@@ -638,6 +638,11 @@
 	</target>
 
 	<target name="copyexamples">
+      <ant dir="examples" target="copyextradependencies" inheritall="false">
+         <property name="lib.dir" value="../${dist.lib.dir}"/>
+         <property name="metawidget-war.lib" value="true"/>
+         <property name="metawidget-ear.lib" value="true"/>
+      </ant>
 		<copy todir="${dist.dir}/examples">
 			<fileset dir="${basedir}/examples">
 				<include name="booking/**/*" />
