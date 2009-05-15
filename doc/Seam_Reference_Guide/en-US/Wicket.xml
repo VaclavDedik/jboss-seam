@@ -190,14 +190,70 @@ public class Hotel extends WebPage {]]></programlisting>
       
       <para>
          Seam needs to instrument the bytecode of your Wicket classes to be able
-         to intercept the annotations you use. Seam provides two ways to do 
-         this.The first is to place your classes in <code>WEB-INF/wicket</code>.
-         Seam will look for classes placed in this directory at startup and 
-         instrument them.  An alternative approach, which can be used alongside
-         the first, is to use an ant task for instrumention. Seam provides such
-         a task; it is packaged in <literal>jboss-seam-wicket-ant.jar </literal>,
-         and can be used in the following manner:
-      </para>
+         to intercept the annotations you use. The first decision to make is: do
+         you want your code instrumented at runtime as your app is running, or 
+         at compile time?  The former requires no integration
+         with your build environment, but has a performance penalty when loading each
+         instrumented class for the first time.  The latter is faster, but requires 
+         you to integrate this instrumentation into your build environment.
+         </para>
+      	 <section>
+      	   <title>Runtime instrumentation</title>
+      	   <para>
+      	    There are two ways to achieve runtime instrumentation.  One relies on  
+      	    placing wicket components to be instrumented in a special folder in your WAR
+      	    deployment.  If this is not acceptable or possible, you can also use an
+      	    instrumentation "agent," which you specify in the command line for launching
+      	    your container.
+      	    </para>
+      	    <section>
+      	    	<title>Location-specific instrumentation</title>
+      	    	<para>
+      	    	Any classes placed in the <literal>WEB-INF/wicket</literal> folder within your
+      	    	WAR deployment will be automatically instrumented by the seam-wicket runtime.
+      	    	You can arrange to place your wicket pages and components here by specifying
+      	    	a separate output folder for those classes in your IDE, or through the use of 
+      	    	ant scripts.
+      	    	</para>
+      	    </section>
+      	    <section>
+      	    <title>Runtime instrumentation agent</title>
+  	    	<para>The jar file <literal>jboss-seam-wicket.jar</literal> can be used as an iinstrumentation 
+  	    	agent through the Java Instrumentation api.  This is accomplished through the following
+  	    	steps:</para>
+  	    	<itemizedlist>
+	  	    	<listitem>
+		  	    	<para>Arrange for the <literal>jboss-seam-wicket.jar</literal> file to live in a 
+		  	    	location for which you have an absolute path, as the Java Instrumentation API does 
+		  	    	not allow relative paths when  specifying the location of an agent lib. </para>
+	  	    	</listitem>
+	  	    	<listitem>
+		  	    	<para>Add <literal>javaagent:/path/to/jboss-seam-wicket.jar</literal> to the command line options 
+		  	    	when launching your webapp container:</para>
+	  	    	</listitem>
+	  	    	<listitem>
+		  	    	<para> In addition, you will need to add an environment variable that specifies 
+		  	    	packages that the agent should instrument.  This is accomplished by a comma separated
+		  	    	list of package names:</para>
+		  	    	<programlisting>-Dorg.jboss.seam.wicket.instrumented-packages=my.package.one,my.other.package</programlisting>
+		  	    	<para>Note that if a package A is specified, classes in subpackages of A are also examined.  The 
+		  	    	classes chosen for instrumentation can be further limited by specifying:
+		  	    	<programlisting>-Dorg.jboss.seam.wicket.scanAnnotations=true</programlisting>
+		  	    	and then marking instrumentable classes with the <literal>@SeamWicketComponent</literal>
+		  	    	annotation, see <xref linkend="SeamWicketComponent"/>.</para>
+	  	    	</listitem>
+  	    	</itemizedlist>
+      	   </section>
+      	 </section>
+      	 <section>
+      	   <title>Compile-time instrumentation</title>
+      	   <para>
+      	   Seam supports instrumentation at compile time through either Apache Ant or Apache Maven.</para>
+      	   <section>
+      	   <title> Instrumenting with ant</title>
+      	   <para>
+      	   Seam provides an ant task in the <literal>jboss-seam-wicket-ant.jar </literal>.  This is used
+      	   in the following manner:
       <programlisting role="XML"><![CDATA[<taskdef name="instrumentWicket" 
    classname="org.jboss.seam.wicket.ioc.WicketInstrumentationTask">
   <classpath>
@@ -208,23 +264,78 @@ public class Hotel extends WebPage {]]></programlisting>
   </classpath>
 </taskdef>
 
-<instrumentWicket outputDirectory="${build.instrumented}">
+<instrumentWicket outputDirectory="${build.instrumented}" useAnnotations="true">
   <classpath refid="build.classpath"/>
   <fileset dir="${build.classes}" includes="**/*.class"/>
 </instrumentWicket>]]></programlisting>
+			</para>
       <para> 
-		   Then have ant copy the instrumented classes in
-         <literal>${build.instrumented}</literal> into 
-		   <literal>WEB-INF/classes</literal>. If you want to hot deploy the 
-         Wicket components, you can copy the instrumented classes to 
+		   This results in the instrumented classes being placed in the directory
+		   specified by <literal>${build.instrumented}</literal>.  You will then
+		   need to instruct ant to copy these classes into <literal>WEB-INF/classes</literal>. 
+		   If you want to hot deploy the  Wicket components, you can copy the instrumented classes to 
          <literal>WEB-INF/dev</literal>; if you use hot deploy, make sure that
          your <literal>WicketApplication</literal> class is also hot-deployed.
          Upon a reload of hot-deployed classes, the entire WicketApplication 
          instance has to be  re-initialized, in order to pick up new references 
 		   to the classes of mounted pages.
       </para>
-    
-     
+      <para> The <literal>useAnnotations</literal> attribute is used to make the ant task only include
+      classes that have been marked with the <literal>@SeamWicketComponent</literal> annotation, 
+      see  <xref linkend="SeamWicketComponent"/>.
+      </para>
+     </section>
+     <section>
+     <title>Instrumenting with maven</title>
+     <para>
+     	The jboss maven repository <literal>repository.jboss.org</literal> provides a plugin named
+     	<literal>seam-instrument-wicket</literal> with a <literal>process-classes</literal> mojo.  An
+     	example configuration in your pom.xml might look like: 
+     	<programlisting role="XML"><![CDATA[<build>
+		<plugins>
+		 <plugin>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>seam-instrument-wicket</artifactId>
+			<version>2.1.2</version>
+			<configuration>
+				<scanAnnotations>true</scanAnnotations>
+				<includes>
+					<include>your.package.name</include>
+				</includes>
+			</configuration>
+			<executions>
+				<execution>
+					<id>instrument</id>
+					<phase>process-classes</phase>
+					<goals>
+						<goal>instrument</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+	</plugins>
+</build>]]></programlisting>
+		The above example illustrates that the instrumentation is limited to classes specified by
+		the <literal>includes</literal> element.  In this example, the <literal>scanAnnotations</literal>
+		is specified, see  <xref linkend="SeamWicketComponent"/>.
+	</para>
+	</section>
+	</section>
+	<section id="SeamWicketComponent">
+	<title>The <literal>@SeamWicketComponent</literal> annotation</title>
+	<para>
+		Classes placed in WEB-INF/wicket will unconditionally be instrumented.  The other instrumentation 
+		mechanisms all allow you to specify that instrumentation should only be applied to classes 
+		annotated with the <literal>@SeamWicketComponent</literal> annotation.  This annotation is inherited,
+		which means all subclasses of an annotated class will also be instrumented.  An example usage is:
+         <programlisting role="JAVA"><![CDATA[import org.jboss.seam.wicket.ioc.SeamWicketComponent;
+@SeamWicketComponent
+public class MyPage extends WebPage{
+ ...
+}]]></programlisting>
+	</para>
+	</section>
+     	
       
       <section>
          <title>Defining the Application</title>
