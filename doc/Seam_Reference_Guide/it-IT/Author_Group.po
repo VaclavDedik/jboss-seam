@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: seam 2_0\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-02-19 21:44+0000\n"
-"PO-Revision-Date: 2009-02-19 22:52+0100\n"
+"POT-Creation-Date: 2009-05-16 19:18+0000\n"
+"PO-Revision-Date: 2009-05-16 21:24+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -161,6 +161,7 @@ msgstr "<firstname>Nicola</firstname> <surname>Benaglia</surname>"
 #. Tag: shortaffil
 #: Author_Group.xml:103
 #: Author_Group.xml:110
+#: Author_Group.xml:117
 #, no-c-format
 msgid "Italian Translation"
 msgstr "Traduzione in italiano"
@@ -174,17 +175,23 @@ msgstr "<firstname>Stefano</firstname> <surname>Travelli</surname>"
 #. Tag: othercredit
 #: Author_Group.xml:113
 #, no-c-format
+msgid "<firstname>Francesco</firstname> <surname>Milesi</surname>"
+msgstr "<firstname>Francesco</firstname> <surname>Milesi</surname>"
+
+#. Tag: othercredit
+#: Author_Group.xml:120
+#, no-c-format
 msgid "<firstname>Japan</firstname> <surname>JBoss User Group</surname>"
 msgstr "<firstname>Japan</firstname> <surname>JBoss User Group</surname>"
 
 #. Tag: shortaffil
-#: Author_Group.xml:117
+#: Author_Group.xml:124
 #, no-c-format
 msgid "Japanese Translation"
 msgstr "Traduzione in giapponese"
 
 #. Tag: editor
-#: Author_Group.xml:120
+#: Author_Group.xml:127
 #, no-c-format
 msgid "<firstname>Samson</firstname> <surname>Kittoli</surname>"
 msgstr "<firstname>Samson</firstname> <surname>Kittoli</surname>"
