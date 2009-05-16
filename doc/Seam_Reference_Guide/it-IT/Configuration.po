@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-05-05 12:31+0000\n"
-"PO-Revision-Date: 2009-05-13 22:31+0100\n"
+"PO-Revision-Date: 2009-05-16 21:14+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -391,7 +391,7 @@ msgstr "<![CDATA[<web:rewrite-filter view-mapping=\"*.seam\"/>]]>"
 #: Configuration.xml:179
 #, no-c-format
 msgid "The <literal>view-mapping</literal> parameter must match the servlet mapping defined for the Faces Servlet in the <literal>web.xml</literal> file. If ommitted, the rewrite filter assumes the pattern <literal>*.seam</literal>."
-msgstr ""
+msgstr "Il parametro <literal>view-mapping</literal>deve corrispondere alla mappatura del servlet definita per Faces Servlet nel file <literal>web.xml</literal>. Se omesso, il filtro rewrite assume il pattern <literal>*.seam</literal>."
 
 #. Tag: title
 #: Configuration.xml:186
@@ -403,7 +403,7 @@ msgstr "Invio di form multipart"
 #: Configuration.xml:187
 #, no-c-format
 msgid "This feature is necessary when using the Seam file upload JSF control. It detects multipart form requests and processes them according to the multipart/form-data specification (RFC-2388). To override the default settings, add the following entry to <literal>components.xml</literal>:"
-msgstr ""
+msgstr "Questa caratteristica è necessaria per usare il controllo JSF di upload dei file. Esso rileva le richieste form multipart e le processa in accordo con la specifica multipart/form-data (RFC-2388). Per sovrascrivere queste impostazioni di default si aggiunga la seguente riga a <literal>components.xml</literal>:"
 
 #. Tag: programlisting
 #: Configuration.xml:191
@@ -421,13 +421,13 @@ msgstr ""
 #: Configuration.xml:195
 #, no-c-format
 msgid "<literal>create-temp-files</literal> &#8212; If set to <literal>true</literal>, uploaded files are written to a temporary file (instead of held in memory). This may be an important consideration if large file uploads are expected. The default setting is <literal>false</literal>."
-msgstr ""
+msgstr "<literal>create-temp-files</literal> &#8212; Se impostato a <literal>true</literal>, i file caricati vengono scritti in un file temporaneo (invece di essere mantenuti in memoria). Questa può essere una considerazione importante se ci si aspettano upload di file grandi. L'impostazione di default è <literal>false</literal>."
 
 #. Tag: para
 #: Configuration.xml:202
 #, no-c-format
 msgid "<literal>max-request-size</literal> &#8212; If the size of a file upload request (determined by reading the <literal>Content-Length</literal> header in the request) exceeds this value, the request will be aborted. The default setting is 0 (no size limit)."
-msgstr ""
+msgstr "<literal>max-request-size</literal> &#8212; Se la dimensione della richiesta di file upload (determinata leggendo l'intestazione <literal>Content-Length</literal> nella richiesta) eccede questo valore, la richiesta verrà annullata. L'impostazione di default è 0 (nessun limite di dimensioni)."
 
 #. Tag: title
 #: Configuration.xml:211
@@ -470,7 +470,7 @@ msgstr "<literal>encoding</literal> &#8212; La codifica da usare."
 #: Configuration.xml:225
 #, no-c-format
 msgid "<literal>override-client</literal> &#8212; If this is set to <literal>true</literal>, the request encoding will be set to whatever is specified by <literal>encoding</literal> no matter whether the request already specifies an encoding or not. If set to <literal>false</literal>, the request encoding will only be set if the request doesn't already specify an encoding. The default setting is <literal>false</literal>."
-msgstr ""
+msgstr "<literal>override-client</literal> &#8212; Se questo è impostato a <literal>true</literal>, la codifica della richiesta sarà impostata a ciò che è specificato da <literal>encoding</literal> non importa se la richiesta già specifica una codifica o no. Se impostato a <literal>false</literal>, la codifica della richiesta sarà impostata solo se la richiesta non specifica già una codifica. L'impostazione di default è <literal>false</literal>."
 
 #. Tag: title
 #: Configuration.xml:236
@@ -482,19 +482,19 @@ msgstr "RichFaces"
 #: Configuration.xml:238
 #, no-c-format
 msgid "If RichFaces is used in your project, Seam will install the RichFaces Ajax filter for you, making sure to install it before all other built-in filters. You don't need to install the RichFaces Ajax filter in <literal>web.xml</literal> yourself."
-msgstr ""
+msgstr "Se RichFaces viene usato nel progetto, Seam installerà il filtro RichFaces Ajax, assicurandosi di installarlo prima di tutti gli altri filtri predefiniti. Non occorre che voi installiate il filtro RichFaces Ajax in <literal>web.xml</literal>."
 
 #. Tag: para
 #: Configuration.xml:246
 #, no-c-format
 msgid "The RichFaces Ajax filter is only installed if the RichFaces jars are present in your project."
-msgstr ""
+msgstr "Il filtro RichFaces Ajax è installato solo se i jar di RichFaces sono presenti nel progetto."
 
 #. Tag: para
 #: Configuration.xml:251
 #, no-c-format
 msgid "To override the default settings, add the following entry to <literal>components.xml</literal>. The options are the same as those specified in the RichFaces Developer Guide:"
-msgstr ""
+msgstr "Per sovrascrivere le impostazioni di default aggiungere la seguente riga a <literal>components.xml</literal>. Le opzioni sono le stesse di quelle specificate nella guida RichFaces Developer:"
 
 #. Tag: programlisting
 #: Configuration.xml:254
