@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tools\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-03-22 12:51+0000\n"
+"POT-Creation-Date: 2009-05-16 19:19+0000\n"
 "PO-Revision-Date: 2009-02-26 14:10+0900\n"
 "Last-Translator: Daisuke Sano <d-sano@nri.co.jp>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -207,7 +207,7 @@ msgstr ""
 "\"security\"/>を参照して下さい。"
 
 #. Tag: para
-#: Wicket.xml:109 Wicket.xml:136 Wicket.xml:211
+#: Wicket.xml:109 Wicket.xml:136 Wicket.xml:295
 #, no-c-format
 msgid "For example:"
 msgstr "例:"
@@ -348,17 +348,139 @@ msgstr "プロジェクトのセットアップ"
 #, no-c-format
 msgid ""
 "Seam needs to instrument the bytecode of your Wicket classes to be able to "
-"intercept the annotations you use. Seam provides two ways to do this.The "
-"first is to place your classes in <code>WEB-INF/wicket</code>. Seam will "
-"look for classes placed in this directory at startup and instrument them. An "
-"alternative approach, which can be used alongside the first, is to use an "
-"ant task for instrumention. Seam provides such a task; it is packaged in "
-"<literal>jboss-seam-wicket-ant.jar </literal>, and can be used in the "
-"following manner:"
+"intercept the annotations you use. The first decision to make is: do you "
+"want your code instrumented at runtime as your app is running, or at compile "
+"time? The former requires no integration with your build environment, but "
+"has a performance penalty when loading each instrumented class for the first "
+"time. The latter is faster, but requires you to integrate this "
+"instrumentation into your build environment."
+msgstr ""
+
+#. Tag: title
+#: Wicket.xml:186
+#, no-c-format
+msgid "Runtime instrumentation"
+msgstr ""
+
+#. Tag: para
+#: Wicket.xml:187
+#, no-c-format
+msgid ""
+"There are two ways to achieve runtime instrumentation. One relies on placing "
+"wicket components to be instrumented in a special folder in your WAR "
+"deployment. If this is not acceptable or possible, you can also use an "
+"instrumentation \"agent,\" which you specify in the command line for "
+"launching your container."
+msgstr ""
+
+#. Tag: title
+#: Wicket.xml:195
+#, no-c-format
+msgid "Location-specific instrumentation"
+msgstr ""
+
+#. Tag: para
+#: Wicket.xml:196
+#, no-c-format
+msgid ""
+"Any classes placed in the <literal>WEB-INF/wicket</literal> folder within "
+"your WAR deployment will be automatically instrumented by the seam-wicket "
+"runtime. You can arrange to place your wicket pages and components here by "
+"specifying a separate output folder for those classes in your IDE, or "
+"through the use of ant scripts."
+msgstr ""
+
+#. Tag: title
+#: Wicket.xml:205
+#, no-c-format
+msgid "Runtime instrumentation agent"
+msgstr ""
+
+#. Tag: para
+#: Wicket.xml:206
+#, no-c-format
+msgid ""
+"The jar file <literal>jboss-seam-wicket.jar</literal> can be used as an "
+"iinstrumentation agent through the Java Instrumentation api. This is "
+"accomplished through the following steps:"
+msgstr ""
+
+#. Tag: para
+#: Wicket.xml:211
+#, no-c-format
+msgid ""
+"Arrange for the <literal>jboss-seam-wicket.jar</literal> file to live in a "
+"location for which you have an absolute path, as the Java Instrumentation "
+"API does not allow relative paths when specifying the location of an agent "
+"lib."
+msgstr ""
+
+#. Tag: para
+#: Wicket.xml:216
+#, no-c-format
+msgid ""
+"Add <literal>javaagent:/path/to/jboss-seam-wicket.jar</literal> to the "
+"command line options when launching your webapp container:"
+msgstr ""
+
+#. Tag: para
+#: Wicket.xml:220
+#, no-c-format
+msgid ""
+"In addition, you will need to add an environment variable that specifies "
+"packages that the agent should instrument. This is accomplished by a comma "
+"separated list of package names:"
 msgstr ""
 
 #. Tag: programlisting
-#: Wicket.xml:186
+#: Wicket.xml:223
+#, no-c-format
+msgid ""
+"-Dorg.jboss.seam.wicket.instrumented-packages=my.package.one,my.other.package"
+msgstr ""
+
+#. Tag: para
+#: Wicket.xml:224
+#, no-c-format
+msgid ""
+"Note that if a package A is specified, classes in subpackages of A are also "
+"examined. The classes chosen for instrumentation can be further limited by "
+"specifying: <programlisting>-Dorg.jboss.seam.wicket.scanAnnotations=true</"
+"programlisting> and then marking instrumentable classes with the "
+"<literal>@SeamWicketComponent</literal> annotation, see <xref linkend="
+"\"SeamWicketComponent\"/>."
+msgstr ""
+
+#. Tag: title
+#: Wicket.xml:234
+#, no-c-format
+msgid "Compile-time instrumentation"
+msgstr ""
+
+#. Tag: para
+#: Wicket.xml:235
+#, no-c-format
+msgid ""
+"Seam supports instrumentation at compile time through either Apache Ant or "
+"Apache Maven."
+msgstr ""
+
+#. Tag: title
+#: Wicket.xml:238
+#, no-c-format
+msgid "Instrumenting with ant"
+msgstr ""
+
+#. Tag: para
+#: Wicket.xml:239
+#, no-c-format
+msgid ""
+"Seam provides an ant task in the <literal>jboss-seam-wicket-ant.jar </"
+"literal>. This is used in the following manner:"
+msgstr ""
+
+#. Tag: programlisting
+#: Wicket.xml:242
 #, no-c-format
 msgid ""
 "<![CDATA[<taskdef name=\"instrumentWicket\" \n"
@@ -371,34 +493,118 @@ msgid ""
 "  </classpath>\n"
 "</taskdef>\n"
 "\n"
-"<instrumentWicket outputDirectory=\"${build.instrumented}\">\n"
+"<instrumentWicket outputDirectory=\"${build.instrumented}\" useAnnotations="
+"\"true\">\n"
 "  <classpath refid=\"build.classpath\"/>\n"
 "  <fileset dir=\"${build.classes}\" includes=\"**/*.class\"/>\n"
 "</instrumentWicket>]]>"
 msgstr ""
 
 #. Tag: para
-#: Wicket.xml:187
+#: Wicket.xml:244
 #, no-c-format
 msgid ""
-"Then have ant copy the instrumented classes in <literal>${build.instrumented}"
-"</literal> into <literal>WEB-INF/classes</literal>. If you want to hot "
-"deploy the Wicket components, you can copy the instrumented classes to "
-"<literal>WEB-INF/dev</literal>; if you use hot deploy, make sure that your "
-"<literal>WicketApplication</literal> class is also hot-deployed. Upon a "
-"reload of hot-deployed classes, the entire WicketApplication instance has to "
-"be re-initialized, in order to pick up new references to the classes of "
-"mounted pages."
+"This results in the instrumented classes being placed in the directory "
+"specified by <literal>${build.instrumented}</literal>. You will then need to "
+"instruct ant to copy these classes into <literal>WEB-INF/classes</literal>. "
+"If you want to hot deploy the Wicket components, you can copy the "
+"instrumented classes to <literal>WEB-INF/dev</literal>; if you use hot "
+"deploy, make sure that your <literal>WicketApplication</literal> class is "
+"also hot-deployed. Upon a reload of hot-deployed classes, the entire "
+"WicketApplication instance has to be re-initialized, in order to pick up new "
+"references to the classes of mounted pages."
+msgstr ""
+
+#. Tag: para
+#: Wicket.xml:255
+#, no-c-format
+msgid ""
+"The <literal>useAnnotations</literal> attribute is used to make the ant task "
+"only include classes that have been marked with the "
+"<literal>@SeamWicketComponent</literal> annotation, see <xref linkend="
+"\"SeamWicketComponent\"/>."
 msgstr ""
 
 #. Tag: title
-#: Wicket.xml:202
+#: Wicket.xml:261
+#, no-c-format
+msgid "Instrumenting with maven"
+msgstr ""
+
+#. Tag: para
+#: Wicket.xml:262
+#, no-c-format
+msgid ""
+"The jboss maven repository <literal>repository.jboss.org</literal> provides "
+"a plugin named <literal>seam-instrument-wicket</literal> with a "
+"<literal>process-classes</literal> mojo. An example configuration in your "
+"pom.xml might look like: <programlisting role=\"XML\"><![CDATA[<build>\n"
+"                <plugins>\n"
+"                 <plugin>\n"
+"                        <groupId>org.jboss.seam</groupId>\n"
+"                        <artifactId>seam-instrument-wicket</artifactId>\n"
+"                        <version>2.1.2</version>\n"
+"                        <configuration>\n"
+"                                <scanAnnotations>true</scanAnnotations>\n"
+"                                <includes>\n"
+"                                        <include>your.package.name</"
+"include>\n"
+"                                </includes>\n"
+"                        </configuration>\n"
+"                        <executions>\n"
+"                                <execution>\n"
+"                                        <id>instrument</id>\n"
+"                                        <phase>process-classes</phase>\n"
+"                                        <goals>\n"
+"                                                <goal>instrument</goal>\n"
+"                                        </goals>\n"
+"                                </execution>\n"
+"                        </executions>\n"
+"                </plugin>\n"
+"        </plugins>\n"
+"</build>]]></programlisting> The above example illustrates that the "
+"instrumentation is limited to classes specified by the <literal>includes</"
+"literal> element. In this example, the <literal>scanAnnotations</literal> is "
+"specified, see <xref linkend=\"SeamWicketComponent\"/>."
+msgstr ""
+
+#. Tag: title
+#: Wicket.xml:274
+#, no-c-format
+msgid "The <literal>@SeamWicketComponent</literal> annotation"
+msgstr ""
+
+#. Tag: para
+#: Wicket.xml:275
+#, no-c-format
+msgid ""
+"Classes placed in WEB-INF/wicket will unconditionally be instrumented. The "
+"other instrumentation mechanisms all allow you to specify that "
+"instrumentation should only be applied to classes annotated with the "
+"<literal>@SeamWicketComponent</literal> annotation. This annotation is "
+"inherited, which means all subclasses of an annotated class will also be "
+"instrumented. An example usage is:"
+msgstr ""
+
+#. Tag: programlisting
+#: Wicket.xml:280
+#, no-c-format
+msgid ""
+"<![CDATA[import org.jboss.seam.wicket.ioc.SeamWicketComponent;\n"
+"@SeamWicketComponent\n"
+"public class MyPage extends WebPage{\n"
+" ...\n"
+"}]]>"
+msgstr ""
+
+#. Tag: title
+#: Wicket.xml:286
 #, no-c-format
 msgid "Defining the Application"
 msgstr "アプリケーションの定義"
 
 #. Tag: para
-#: Wicket.xml:204
+#: Wicket.xml:288
 #, no-c-format
 msgid ""
 "A Wicket web application which uses Seam should use "
@@ -412,7 +618,7 @@ msgstr ""
 "必要です。また、ページにステータスメッセージを付加します。"
 
 #. Tag: para
-#: Wicket.xml:215
+#: Wicket.xml:299
 #, no-c-format
 msgid ""
 "The <code>SeamAuthorizationStrategy</code> delegates authorization to Seam "
@@ -428,7 +634,7 @@ msgstr ""
 "ページを指定することができます。"
 
 #. Tag: para
-#: Wicket.xml:223
+#: Wicket.xml:307
 #, no-c-format
 msgid ""
 "You'll also need to set the home page of the application by implementing the "
@@ -438,7 +644,7 @@ msgstr ""
 "ムページを指定することができます。"
 
 #. Tag: programlisting
-#: Wicket.xml:228
+#: Wicket.xml:312
 #, no-c-format
 msgid ""
 "<![CDATA[public class WicketBookingApplication extends SeamWebApplication {\n"
@@ -472,7 +678,7 @@ msgstr ""
 "]]>"
 
 #. Tag: para
-#: Wicket.xml:230
+#: Wicket.xml:314
 #, fuzzy, no-c-format
 msgid ""
 "Seam automatically installs the Wicket filter for you (ensuring that it is "
@@ -483,7 +689,7 @@ msgstr ""
 "<code>WebApplication</code>クラスがどれなのかは教えてあげる必要があります。"
 
 #. Tag: programlisting
-#: Wicket.xml:236
+#: Wicket.xml:320
 #, fuzzy, no-c-format
 msgid ""
 "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
@@ -505,7 +711,7 @@ msgstr ""
 "</components]]>"
 
 #. Tag: para
-#: Wicket.xml:238
+#: Wicket.xml:322
 #, no-c-format
 msgid ""
 "In addition, if you plan to use JSF-based pages in the same application as "
@@ -514,7 +720,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Wicket.xml:243
+#: Wicket.xml:327
 #, no-c-format
 msgid ""
 "<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
@@ -531,7 +737,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Wicket.xml:247
+#: Wicket.xml:331
 #, no-c-format
 msgid ""
 "Take a look at the Wicket documentation for more on authorization strategies "

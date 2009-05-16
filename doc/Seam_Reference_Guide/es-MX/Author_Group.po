@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seam_-_Contextual_Components VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-02-19 21:44+0000\n"
+"POT-Creation-Date: 2009-05-16 19:18+0000\n"
 "PO-Revision-Date: 2008-11-06 00:08+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -160,7 +160,7 @@ msgid "<firstname>Nicola</firstname> <surname>Benaglia</surname>"
 msgstr ""
 
 #. Tag: shortaffil
-#: Author_Group.xml:103 Author_Group.xml:110
+#: Author_Group.xml:103 Author_Group.xml:110 Author_Group.xml:117
 #, no-c-format
 msgid "Italian Translation"
 msgstr ""
@@ -174,17 +174,23 @@ msgstr ""
 #. Tag: othercredit
 #: Author_Group.xml:113
 #, no-c-format
+msgid "<firstname>Francesco</firstname> <surname>Milesi</surname>"
+msgstr ""
+
+#. Tag: othercredit
+#: Author_Group.xml:120
+#, no-c-format
 msgid "<firstname>Japan</firstname> <surname>JBoss User Group</surname>"
 msgstr ""
 
 #. Tag: shortaffil
-#: Author_Group.xml:117
+#: Author_Group.xml:124
 #, no-c-format
 msgid "Japanese Translation"
 msgstr ""
 
 #. Tag: editor
-#: Author_Group.xml:120
+#: Author_Group.xml:127
 #, no-c-format
 msgid "<firstname>Samson</firstname> <surname>Kittoli</surname>"
 msgstr ""
