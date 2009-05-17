@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Security\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-04-29 12:40+0000\n"
-"PO-Revision-Date: 2009-05-17 21:35+0100\n"
+"PO-Revision-Date: 2009-05-17 22:21+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: Italian <stefano.travelli@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -2989,7 +2989,7 @@ msgstr "La sicurezza nell'interfaccia utente"
 #: Security.xml:2402
 #, no-c-format
 msgid "One indication of a well designed user interface is that the user is not presented with options for which they don't have the necessary privileges to use. Seam Security allows conditional rendering of either 1) sections of a page or 2) individual controls, based upon the privileges of the user, using the very same EL expressions that are used for component security."
-msgstr "Una degli indici di un'interfaccia utente ben progettata è quando agli utenti non vengono presentate opzioni per le quali non hanno i permessi necessari per usarle. La sicurezza di Seam consente la visualizzazione condizionale sia di sezioni di una pagina che di singoli controlli, basata sui privilegi dell'utente, usando esattamente le stesse espressioni EL che sono usate nella sicurezza dei componenti."
+msgstr "Uno degli indici di interfaccia utente ben progettata è quando agli utenti non vengono presentate opzioni per le quali essi non hanno i permessi necessari. La sicurezza di Seam consente la visualizzazione condizionale sia di sezioni di una pagina che di singoli controlli, basata sui privilegi dell'utente, usando esattamente le stesse espressioni EL usate nella sicurezza dei componenti."
 
 #. Tag: para
 #: Security.xml:2409
@@ -3083,7 +3083,7 @@ msgstr "Rendere sicure le pagine"
 #: Security.xml:2446
 #, no-c-format
 msgid "Page security requires that the application is using a <literal>pages.xml</literal> file, however is extremely simple to configure. Simply include a <literal>&lt;restrict/&gt;</literal> element within the <literal>page</literal> elements that you wish to secure. If no explicit restriction is specified by the <literal>restrict</literal> element, an implied permission of <literal>/viewId.xhtml:render</literal> will be checked when the page is accessed via a non-faces (GET) request, and a permission of <literal>/viewId.xhtml:restore</literal> will be required when any JSF postback (form submission) originates from the page. Otherwise, the specified restriction will be evaluated as a standard security expression. Here's a couple of examples:"
-msgstr "La sicurezza delle pagine richiede che l'applicazione usi un file <literal>pages.xml</literal>. Comunque è molto semplice da configurare. Basta includere un elemento <literal>&gt;restrict&lt;</literal> all'interno degli elementi <literal>page</literal> che si vogliono rendere sicuri. Se tramite l'elemento <literal>restrict</literal> non viene indicata esplicitamente una restrizione, verrà controllato implicitamente il permesso <literal>/viewId.xhtml:render</literal> quando la richiesta della pagina avviene in modo non-faces (GET), e il permesso<literal>/viewId.xhtml:restore</literal> quando un JSF postback (il submit della form) viene originato dalla pagina. Altrimenti viene la restrizione specificata verrà valutata come una normale espressione di sicurezza. Ecco un paio di esempi:"
+msgstr "La sicurezza delle pagine richiede che l'applicazione usi un file <literal>pages.xml</literal>. Comunque è molto semplice da configurare. Basta includere un elemento <literal>&lt;restrict&gt;</literal> all'interno degli elementi <literal>page</literal> che si vogliono rendere sicuri. Se tramite l'elemento <literal>restrict</literal> non viene indicata esplicitamente una restrizione, verrà controllato implicitamente il permesso <literal>/viewId.xhtml:render</literal> quando la richiesta della pagina avviene in modo non-faces (GET), e il permesso<literal>/viewId.xhtml:restore</literal> quando un JSF postback (il submit della form) viene originato dalla pagina. Altrimenti viene la restrizione specificata verrà valutata come una normale espressione di sicurezza. Ecco un paio di esempi:"
 
 #. Tag: programlisting
 #: Security.xml:2457
