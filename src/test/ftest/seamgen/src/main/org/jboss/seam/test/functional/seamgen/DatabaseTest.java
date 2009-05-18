@@ -47,7 +47,7 @@ public class DatabaseTest extends SeleniumSeamGenTest
       {
          Class.forName(ftestProperties.getProperty("hibernate.connection.driver_class"));
          String url = ftestProperties.getProperty("hibernate.connection.url");
-         conn = DriverManager.getConnection(url, ftestProperties.getProperty("hibernate.connection.username"), ftestProperties.getProperty("hibernate.connection.username"));
+         conn = DriverManager.getConnection(url, ftestProperties.getProperty("hibernate.connection.username"), ftestProperties.getProperty("hibernate.connection.password"));
          BufferedReader reader = new BufferedReader(new InputStreamReader(is));
          String line = reader.readLine();
          while (line != null)
