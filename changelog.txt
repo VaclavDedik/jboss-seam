@@ -40,6 +40,7 @@ Release Notes - Seam - Version 2.1.2.CR2
     * [JBSEAM-4154] - Remove core.init.userTransactionName
     * [JBSEAM-4155] - Reference doc typos
     * [JBSEAM-4156] - Typo in sample code in documentation, chapter 18.1.3. Use tag<p:facet> instead of <f:facet>
+    * [JBSEAM-4183] - seam-gen generates persistence-dev.xml with an error
 
 ** Feature Request
     * [JBSEAM-2629] - looking up content by user on seamframework.org
