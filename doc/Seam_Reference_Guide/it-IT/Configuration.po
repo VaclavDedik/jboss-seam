@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-05-05 12:31+0000\n"
-"PO-Revision-Date: 2009-05-16 21:14+0100\n"
+"PO-Revision-Date: 2009-05-18 06:47+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -734,7 +734,7 @@ msgstr ""
 #: Configuration.xml:387
 #, no-c-format
 msgid "The value of the <literal>&lt;ejb-name&gt;</literal> element in ejb-jar.xml"
-msgstr ""
+msgstr "Il valore dell'elemento <literal>&lt;ejb-name&gt;</literal> in ejb-jar.xml"
 
 #. Tag: para
 #: Configuration.xml:390
@@ -878,7 +878,7 @@ msgstr ""
 #: Configuration.xml:444
 #, no-c-format
 msgid "In order for this injection to work, the link must be established in the ejb-jar.xml file as follows:"
-msgstr ""
+msgstr "Per fare funzionare quest'injection, il link deve essere messo nel file ejb-jar.xml come mostrato:"
 
 #. Tag: programlisting
 #: Configuration.xml:446
@@ -1960,7 +1960,7 @@ msgstr ""
 #: Configuration.xml:880
 #, no-c-format
 msgid "Deploying custom resources"
-msgstr ""
+msgstr "Deploy di risorse personalizzate"
 
 #. Tag: para
 #: Configuration.xml:882
@@ -1984,11 +1984,12 @@ msgstr ""
 "<![CDATA[# A colon-separated list of annotation types to handle\n"
 "org.jboss.seam.deployment.annotationTypes=com.acme.Foo:com.acme.Bar]]>"
 
+# can get hold = ?
 #. Tag: para
 #: Configuration.xml:898
 #, no-c-format
 msgid "Then, during application startup you can get hold of all classes annotated with <literal>@Foo</literal>:"
-msgstr ""
+msgstr "Poi durante l'avvio dell'applicazione si può comunicare con tutte le classi annotate con <literal>@Foo</literal>:"
 
 #. Tag: programlisting
 #: Configuration.xml:903
