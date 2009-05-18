@@ -915,6 +915,10 @@
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
         </copy>
+        <replace file="${project.home}/resources/META-INF/persistence-dev.xml">
+            <replacefilter token="org.hibernate.transaction.JBossTransactionManagerLookup" value="@transactionManagerLookupClass@"/>
+            <replacefilter token="&lt;jta-data-source&gt;java:/" value="&lt;jta-data-source&gt;"/>
+        </replace>
         <replace file="${project.home}/resources/WEB-INF/components.xml">
             <replacefilter token="java:/${project.name}EntityManagerFactory" value="@puJndiName@"/>
         </replace>
