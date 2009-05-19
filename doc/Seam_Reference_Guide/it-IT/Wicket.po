@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Seam_Reference_Guide\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-05-16 19:19+0000\n"
-"PO-Revision-Date: 2009-05-18 06:42+0100\n"
+"PO-Revision-Date: 2009-05-19 21:56+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: Italian <stefano.travelli@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -260,13 +260,13 @@ msgstr "Instrumentazione a runtime"
 #: Wicket.xml:187
 #, no-c-format
 msgid "There are two ways to achieve runtime instrumentation. One relies on placing wicket components to be instrumented in a special folder in your WAR deployment. If this is not acceptable or possible, you can also use an instrumentation \"agent,\" which you specify in the command line for launching your container."
-msgstr ""
+msgstr "Ci sono due modi per ottenere l'instrumentazione a runtime. Uno colloca i componenti wicket da instrumentare in una speciale cartella nel deploy WAR. Se questo non è accettabile o possibile, si può usare l'\"agente\" di instrumentazione, che si specifica tramite linea di comando quando si lancia il container."
 
 #. Tag: title
 #: Wicket.xml:195
 #, no-c-format
 msgid "Location-specific instrumentation"
-msgstr ""
+msgstr "Instrumentazione specifica per la locazione"
 
 #. Tag: para
 #: Wicket.xml:196
