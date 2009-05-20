@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-03-31 09:07+0000\n"
-"PO-Revision-Date: 2009-05-19 21:58+0100\n"
+"PO-Revision-Date: 2009-05-20 22:26+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -171,7 +171,7 @@ msgstr "Il metodo di azione di pagine può restituire un esito JSF. Se l'esito �
 #: Events.xml:100
 #, no-c-format
 msgid "Furthermore, the view id mentioned in the <literal>&lt;page&gt;</literal> element need not correspond to a real JSP or Facelets page! So, we can reproduce the functionality of a traditional action-oriented framework like Struts or WebWork using page actions. This is quite useful if you want to do complex things in response to non-faces requests (for example, HTTP GET requests)."
-msgstr ""
+msgstr "Inoltre l'id della vista menzionato nell'elemento <literal>&lt;page&gt;</literal> non occorre che corrisponda alla vera pagina JSP o Facelets! Quindi si può riprodurre la funzionalità di un tradizionale framework action-oriented come Struts o WebWork usando le azioni di pagina. Questo è abbastanza utile se si vogliono fare cose complesse in risposta a richieste non-faces (per esempio, richieste HTTP GET)."
 
 #. Tag: para
 #: Events.xml:109
@@ -201,7 +201,7 @@ msgstr ""
 #: Events.xml:116
 #, no-c-format
 msgid "Page actions are executed on both an initial (non-faces) request and a postback (faces) request. If you are using the page action to load data, this operation may conflict with the standard JSF action(s) being executed on a postback. One way to disable the page action is to setup a condition that resolves to true only on an initial request."
-msgstr ""
+msgstr "Le azioni di pagina vengono eseguite sia su una richiesta iniziale (non-faces) sia su una richiesta di postback (faces). Se si usa l'azione di pagina per caricare i dati, quest'operazione può confliggere con le azioni standard JSF che vengono eseguite su un postback. Un modo per disabilitare l'azione di pagina è di impostare una condizione che risolva a true solo su una richiesta iniziale."
 
 #. Tag: programlisting
 #: Events.xml:123
@@ -231,7 +231,7 @@ msgstr "Questa condizione consulta <literal>ResponseStateManager#isPostback(Face
 #: Events.xml:131
 #, no-c-format
 msgid "To save you from the verbosity of JSF's API, Seam offers a built-in condition that allows you to accomplish the same result with a heck of a lot less typing. You can disable a page action on postback by simply setting the <literal>on-postback</literal> to <literal>false</literal>:"
-msgstr ""
+msgstr "Per risparmiare dalla verbosità dell'API di JSF, Seam offre una condizione predefinita che consente di raggiungere lo stesso risultato con molto meno codice scritto. Si può disabilitare l'azione di pagina su un postback semplicemente impostando il <literal>on-postback</literal> a <literal>false</literal>:"
 
 #. Tag: programlisting
 #: Events.xml:137
@@ -253,7 +253,7 @@ msgstr ""
 #: Events.xml:139
 #, no-c-format
 msgid "For backwards compatibility reasons, the default value of the <literal>on-postback</literal> attribute is true, though likely you will end up using the opposite setting more often."
-msgstr ""
+msgstr "Per ragioni di retro-compatibilità, il valore di default dell'attributo <literal>on-postback</literal> è true, sebbene la maggior parte delle volte si usa l'impostazione contraria."
 
 #. Tag: title
 #: Events.xml:147
@@ -265,13 +265,13 @@ msgstr "Parametri di pagina"
 #: Events.xml:149
 #, no-c-format
 msgid "A JSF faces request (a form submission) encapsulates both an \"action\" (a method binding) and \"parameters\" (input value bindings). A page action might also needs parameters!"
-msgstr ""
+msgstr "Una richiesta JSF faces (sottomissione di una form) incapsula sia un'\"azione\" (un metodo di binding) e \"parametri\" (valore di binding di input). Un'azionedi pagine può anche necessitare di parametri!"
 
 #. Tag: para
 #: Events.xml:155
 #, no-c-format
 msgid "Since GET requests are bookmarkable, page parameters are passed as human-readable request parameters. (Unlike JSF form inputs, which are anything but!)"
-msgstr ""
+msgstr "Poiché le richieste GET sono memorizzabili come segnalibro, i parametri di pagine vengono passati come parametri di richiesta human-readable. (A differenza degli input di form JSF, che sono tutto tranne!)"
 
 #. Tag: para
 #: Events.xml:161
@@ -325,25 +325,25 @@ msgstr "Quando avviene una richiesta non-faces (GET) per un id di vista, Seam im
 #: Events.xml:189
 #, no-c-format
 msgid "Any <literal>&lt;s:link&gt;</literal> or <literal>&lt;s:button&gt;</literal> transparently includes the request parameter. The value of the parameter is determined by evaluating the value binding during the render phase (when the <literal>&lt;s:link&gt;</literal> is rendered)."
-msgstr ""
+msgstr "Qualsiasi <literal>&lt;s:link&gt;</literal> o <literal>&lt;s:button&gt;</literal> include in modo trasparente il parametro di richiesta. Il valore del parametro viene determinato valutando il valore di binding durante la fase di render (quando <literal>&lt;s:link&gt;</literal> viene renderizzato)."
 
 #. Tag: para
 #: Events.xml:197
 #, no-c-format
 msgid "Any navigation rule with a <literal>&lt;redirect/&gt;</literal> to the view id transparently includes the request parameter. The value of the parameter is determined by evaluating the value binding at the end of the invoke application phase."
-msgstr ""
+msgstr "Qualsiasi regola di navigazione con un <literal>&lt;redirect/&gt;</literal> nell'id vista include in modo trasparente il parametro di richiesta. Il valore del parametro viene determinato valutando il valore di binding alla fine della fase invoke application."
 
 #. Tag: para
 #: Events.xml:205
 #, no-c-format
 msgid "The value is transparently propagated with any JSF form submission for the page with the given view id. This means that view parameters behave like <literal>PAGE</literal>-scoped context variables for faces requests."
-msgstr ""
+msgstr "Il valore viene propagato in modo trasparente con qualsiasi sottomissione di form JSF per la pagina con il dato id. Questo significa che i parametri di vista si comportano per richieste faces come variabili di contesto con scope <literal>PAGE</literal>."
 
 #. Tag: para
 #: Events.xml:214
 #, no-c-format
 msgid "The essential idea behind all this is that <emphasis>however</emphasis> we get from any other page to <literal>/hello.jsp</literal> (or from <literal>/hello.jsp</literal> back to <literal>/hello.jsp</literal>), the value of the model attribute referred to in the value binding is \"remembered\", without the need for a conversation (or other server-side state)."
-msgstr ""
+msgstr "L'idea essenziale dietro a tutto questo è che <emphasis>comunque</emphasis> si giunge da qualsiasi altra pagina a <literal>/hello.jsp</literal> (o da <literal>/hello.jsp</literal> indietro a <literal>/hello.jsp</literal>), il valore dell'attributo del modello riferito al valore di binding viene \"ricordato\" senza il bisogno di una conversazione (o altro stato lato server)."
 
 #. Tag: title
 #: Events.xml:227
@@ -355,7 +355,7 @@ msgstr "Parametri di richiesta che si propagano"
 #: Events.xml:229
 #, no-c-format
 msgid "If just the <literal>name</literal> attribute is specified then the request parameter is propagated using the <literal>PAGE</literal> context (it isn't mapped to model property)."
-msgstr ""
+msgstr "Se viene specificato solo l'attributo <literal>name</literal> allora il parametro di richiesta viene propagato usando il contesto <literal>PAGE</literal> (non viene mappato alla proprietà del modello)."
 
 #. Tag: programlisting
 #: Events.xml:235
@@ -379,7 +379,7 @@ msgstr ""
 #: Events.xml:238
 #, no-c-format
 msgid "Propagation of page parameters is especially useful if you want to build multi-layer master-detail CRUD pages. You can use it to \"remember\" which view you were previously on (e.g. when pressing the Save button), and which entity you were editing."
-msgstr ""
+msgstr "La propagazione dei parametri di pagina è utile in particolare se si vuole costruire pagine CRUD con più livelli master-detail. Si può usare per \"ricordare\" quale vista c'era precedentemente (es. quando si preme il pulsante Salva) e quale entity si stava modificando."
 
 #. Tag: para
 #: Events.xml:245
@@ -397,7 +397,7 @@ msgstr ""
 #: Events.xml:261
 #, no-c-format
 msgid "This all sounds pretty complex, and you're probably wondering if such an exotic construct is really worth the effort. Actually, the idea is very natural once you \"get it\". It is definitely worth taking the time to understand this stuff. Page parameters are the most elegant way to propagate state across a non-faces request. They are especially cool for problems like search screens with bookmarkable results pages, where we would like to be able to write our application code to handle both POST and GET requests with the same code. Page parameters eliminate repetitive listing of request parameters in the view definition and make redirects much easier to code."
-msgstr ""
+msgstr "Tutto questo sembra abbastanza complesso e probabilmente ci si starà chiedendo se un tale costrutto esotico ne valga lo sforzo. In verità l'idea è molto naturale appena ci si abitua. Vale la pena impiegare del tempo per capire questo concetto. I parametri di pagina sono il modo più elegante per propagare lo stato lungo richieste non-faces. In particolare sono comodi per problemi quali schermate di ricerca con pagine di risultato memorizzabili, dove si vuole essere in grado di scrivere il codice applicativo per gestire sia richieste POST sia GET con lo stesso codice. I parametri di pagina eliminano la lista ripetitiva dei parametri di richiesta nella definizione della vista e rendono molto facile la codifica dei redirect."
 
 #. Tag: title
 #: Events.xml:277
@@ -437,7 +437,7 @@ msgstr ""
 #: Events.xml:297
 #, no-c-format
 msgid "Rewrite rules can take these query paramters into consideration, as shown with the following rules."
-msgstr ""
+msgstr "Le regole di riscrittura possono prendere in considerazione dei parametri di interrogazione, come mostrato con le seguenti regole."
 
 #. Tag: programlisting
 #: Events.xml:300
@@ -618,7 +618,7 @@ msgstr ""
 #: Events.xml:366
 #, no-c-format
 msgid "When type conversion or validation fails, a global <literal>FacesMessage</literal> is added to the <literal>FacesContext</literal>."
-msgstr ""
+msgstr "Quando fallisce la conversione del tipo o la validazione, un <literal>FacesMessage</literal> globale viene aggiunto a <literal>FacesContext</literal>."
 
 #. Tag: title
 #: Events.xml:374
@@ -648,7 +648,7 @@ msgstr "Non è possibile iniziare o terminare le conversazione da una regola."
 #: Events.xml:394
 #, no-c-format
 msgid "Rules work by evaluating the return value of the action method; it is not possible to evaluate an arbitrary EL expression."
-msgstr ""
+msgstr "Le regole funzionano valutando il valore restituito del metodo d'azione; non è possibile valutare un'espressione EL arbitraria."
 
 #. Tag: para
 #: Events.xml:401
@@ -1756,7 +1756,7 @@ msgstr "Uso di XML per la gestione delle eccezioni"
 #: Events.xml:805
 #, no-c-format
 msgid "Since we can't add annotations to all the exception classes we are interested in, Seam also lets us specify this functionality in <literal>pages.xml</literal>."
-msgstr ""
+msgstr "Poiché non si possono aggiungere annotazioni a tutte le classi d'eccezione a cuisi è interessati, Seam consente di specificare questa funzionalità in <literal>pages.xml</literal>."
 
 #. Tag: programlisting
 #: Events.xml:810
