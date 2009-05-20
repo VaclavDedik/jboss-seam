@@ -75,8 +75,7 @@ public class EntityTest
         }.run();
     }
 
-    // XXX - JBSEAM-4090
-    // @Test
+    @Test
     public void testStale() throws Exception {
 
         final Map<String, Long> holder = new HashMap<String, Long>();
