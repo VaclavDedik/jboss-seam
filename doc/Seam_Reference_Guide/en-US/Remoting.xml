@@ -88,7 +88,16 @@ public interface HelloLocal {
   public String sayHello(String name);
 }]]></programlisting>
 
-      <para> That's all the server-side code we need to write. Now for our web page - create a new page and import the 
+      <para> That's all the server-side code we need to write.</para>
+
+      <note>
+         <para>If you are performing a persistence operation in the method marked <literal>@WebRemote</literal> you will
+         also need to add a <literal>@Transactional</literal> annotation to the method. Otherwise, your method would
+         execute outside of a transaction without this extra hint.That's because unlike a JSF request, Seam does not
+         wrap the remoting request in a transaction automatically.</para>
+      </note>
+      
+      <para>Now for our web page - create a new page and import the 
           <literal>helloAction</literal> component: </para>
 
       <programlisting role="XHTML"><![CDATA[<s:remote include="helloAction"/>]]></programlisting>
