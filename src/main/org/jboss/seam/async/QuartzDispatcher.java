@@ -63,7 +63,7 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
        else 
        {
          schedulerFactory.initialize();
-         log.debug("No seam.quartz.properties file. Using in-memory job store.");
+         log.warn("No seam.quartz.properties file. Using in-memory job store.");
        }
     
        scheduler = schedulerFactory.getScheduler();
@@ -86,7 +86,7 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
       } 
       catch (Exception se) 
       {
-        log.error("Cannot Schedule a Quartz Job", se);
+        log.debug("Cannot Schedule a Quartz Job");
         throw new RuntimeException(se);
       }
    }

@@ -94,7 +94,7 @@ public class SeamLoginModule implements LoginModule
       }
       catch (Exception ex)
       {
-         log.error("Error logging in", ex);
+         log.warn("Error logging in");
          LoginException le = new LoginException(ex.getMessage());
          le.initCause(ex);
          throw le;
@@ -110,7 +110,7 @@ public class SeamLoginModule implements LoginModule
          }
          catch (Exception ex)
          {
-            log.error("Error invoking login method", ex);
+            log.warn("Error invoking login method", ex);
             throw new LoginException(ex.getMessage());
          }
       }
@@ -137,7 +137,7 @@ public class SeamLoginModule implements LoginModule
          }
          catch (Exception ex)
          {
-            log.error("Error invoking login method", ex);
+            log.warn("Error invoking login method");
             LoginException le = new LoginException(ex.getMessage());
             le.initCause(ex);
             throw le;

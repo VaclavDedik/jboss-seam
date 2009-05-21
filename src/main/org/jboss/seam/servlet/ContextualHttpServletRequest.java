@@ -58,19 +58,19 @@ public abstract class ContextualHttpServletRequest
       catch (IOException ioe)
       {
          Lifecycle.endRequest();
-         log.warn("ended request due to exception", ioe);
+         log.debug("ended request due to exception");
          throw ioe;
       }
       catch (ServletException se)
       {
          Lifecycle.endRequest();
-         log.warn("ended request due to exception", se);
+         log.debug("ended request due to exception");
          throw se;
       }
       catch (Exception e)
       {
          Lifecycle.endRequest();
-         log.warn("ended request due to exception", e);
+         log.debug("ended request due to exception");
          throw new ServletException(e);
       }
       finally

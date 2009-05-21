@@ -65,8 +65,8 @@ public class ExceptionFilter extends AbstractFilter
       }
       catch (Exception e)
       {
-         log.warn( "handling uncaught exception", e );
-         log.warn( "exception root cause", org.jboss.seam.util.Exceptions.getCause(e) );
+         log.debug( "handling uncaught exception", e );
+         log.debug( "exception root cause", org.jboss.seam.util.Exceptions.getCause(e) );
          endWebRequestAfterException( (HttpServletRequest) request, (HttpServletResponse) response, e);
       }
    }
@@ -75,7 +75,7 @@ public class ExceptionFilter extends AbstractFilter
          throws ServletException, IOException
    {
       
-      log.warn("running exception handlers");
+      log.debug("running exception handlers");
       
       //if the event context was cleaned up, fish the conversation id 
       //directly out of the ServletRequest attributes, else get it from

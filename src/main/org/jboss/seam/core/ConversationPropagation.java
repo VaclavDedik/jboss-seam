@@ -89,7 +89,7 @@ public class ConversationPropagation
    
       else
       {
-         log.debug("Found conversation id in request parameter: " + conversationId);
+         log.trace("Found conversation id in request parameter: " + conversationId);
       }
    }
 

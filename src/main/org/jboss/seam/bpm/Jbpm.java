@@ -75,7 +75,7 @@ public class Jbpm
    @Create
    public void startup() throws Exception
    {
-      log.trace( "Starting jBPM" );
+      log.debug( "Starting jBPM" );
       ProcessState.setDefaultSubProcessResolver( new SeamSubProcessResolver() );
       installProcessDefinitions();
       installPageflowDefinitions();

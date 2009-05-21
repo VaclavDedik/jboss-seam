@@ -152,7 +152,7 @@ public class ThemeSelector extends Selector
                Locale.instance(), 
                Thread.currentThread().getContextClassLoader() 
             );
-         log.debug("loaded resource bundle: " + theme);
+         log.trace("loaded resource bundle: " + theme);
          return bundle;
       }
       catch (MissingResourceException mre)

@@ -127,7 +127,7 @@ public class OpenId
 
             return authReq.getDestinationUrl(true);
         } catch (OpenIDException e)  {
-	    log.error(e);
+	    log.warn(e);
         }
         
         return null;

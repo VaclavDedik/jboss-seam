@@ -61,7 +61,7 @@ public class DocumentStorePhaseListener implements PhaseListener
       }
       catch (IOException e)
       {
-         log.error(e);
+         log.warn(e);
       }
    }
 

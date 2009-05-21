@@ -133,7 +133,7 @@ public class Pages
          InputStream stream = ResourceLoader.instance().getResourceAsStream(resource);      
          if (stream==null) 
          {
-            log.info("no pages.xml file found: " + resource);
+            log.debug("no pages.xml file found: " + resource);
          } else {
             log.debug("reading pages.xml file: " + resource);
             try {
@@ -382,7 +382,7 @@ public class Pages
                }
                else
                {
-                  log.warn("DataModel row was unavailable");
+                  log.debug("DataModel row was unavailable");
                   Contexts.getEventContext().remove(var);
                }
             }

@@ -85,7 +85,7 @@ public class Interpolator
                             Object value = Expressions.instance().createValueExpression(expression).getValue();
                             if (value!=null) builder.append(value);
                         } catch (Exception e) {
-                            log.warn("exception interpolating string: " + string, e);
+                            log.debug("exception interpolating string: " + string, e);
                         }
                         tokens.nextToken(); // the trailing "}"
 
@@ -149,7 +149,7 @@ public class Interpolator
                 }
             }
         } catch (Exception e) {
-            log.warn("exception interpolating string: " + string, e);
+            log.debug("exception interpolating string: " + string, e);
         }
 
         return builder.toString();

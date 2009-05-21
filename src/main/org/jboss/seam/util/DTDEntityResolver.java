@@ -40,9 +40,9 @@ public class DTDEntityResolver implements EntityResolver, Serializable
     public InputSource resolveEntity(String publicId, String systemId) 
     {
         if (systemId != null) {
-            log.debug("trying to resolve system-id [" + systemId + "]");
+            log.trace("trying to resolve system-id [" + systemId + "]");
             if (systemId.startsWith(SEAM_NAMESPACE)) {
-                log.debug("recognized Seam namespace; attempting to resolve on classpath under org/jboss/seam/");
+                log.trace("recognized Seam namespace; attempting to resolve on classpath under org/jboss/seam/");
                 String path = "org/jboss/seam/" + systemId.substring(SEAM_NAMESPACE.length());
                 
                 InputStream dtdStream = resolveInSeamNamespace(path);
@@ -56,7 +56,7 @@ public class DTDEntityResolver implements EntityResolver, Serializable
                     return source;
                 }
             } else if (systemId.startsWith(USER_NAMESPACE)) {
-                log.debug("recognized local namespace; attempting to resolve on classpath");
+                log.trace("recognized local namespace; attempting to resolve on classpath");
                 String path = systemId.substring(USER_NAMESPACE.length());
                 
                 InputStream stream = resolveInLocalNamespace(path);

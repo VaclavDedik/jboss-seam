@@ -39,7 +39,7 @@ public final class Naming
                     new InitialContext(props);
         }
         catch (NamingException e) {
-            log.debug("Could not obtain initial context", e);
+            log.debug("Could not obtain initial context");
             throw e;
         }
         

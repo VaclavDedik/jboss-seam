@@ -55,7 +55,7 @@ public class NamespaceDeploymentHandler extends AbstractDeploymentHandler
          Package pkg = getPackage(packageName, classLoader);
          if (pkg == null) 
          {
-             log.warn("Cannot load package Dinfo for " + packageName);
+             log.warn("Cannot load package info for " + packageName);
          } 
          else 
          {

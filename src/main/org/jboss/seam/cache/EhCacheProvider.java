@@ -84,7 +84,7 @@ public class EhCacheProvider extends CacheProvider<CacheManager>
       Cache result = cacheManager.getCache(regionName);
       if (result == null)
       {
-          log.warn("Could not find configuration for region [" + regionName + "]; using defaults.");
+          log.debug("Could not find configuration for region [" + regionName + "]; using defaults.");
           cacheManager.addCache(regionName);
           result = cacheManager.getCache(regionName);
           log.debug("EHCache region created: " + regionName); 

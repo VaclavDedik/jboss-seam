@@ -39,7 +39,7 @@ public class Meldware
    {
       // TODO Support domain creation as well.  Currently they are written out to file.
       
-         log.info("Creating users and mailboxes");
+         log.debug("Creating users and mailboxes");
          //MailboxService ms = MMJMXUtil.getMBean("meldware.mail:type=MailboxManager,name=MailboxManager", MailboxService.class);
          AdminTool at = MMJMXUtil.getMBean("meldware.mail:type=MailServices,name=AdminTool", AdminTool.class);
          
@@ -52,7 +52,7 @@ public class Meldware
             {
                ms.createAlias(mbox.getId(), alias);
             }*/
-            log.info("Created #0 #1 #2", meldwareUser.isAdministrator() ? "administrator" : "user", meldwareUser.getUsername(), meldwareUser.getAliases() == null || meldwareUser.getAliases().size() == 0 ? "" : "with aliases " + meldwareUser.getAliases());
+            log.debug("Created #0 #1 #2", meldwareUser.isAdministrator() ? "administrator" : "user", meldwareUser.getUsername(), meldwareUser.getAliases() == null || meldwareUser.getAliases().size() == 0 ? "" : "with aliases " + meldwareUser.getAliases());
          }
       }
    

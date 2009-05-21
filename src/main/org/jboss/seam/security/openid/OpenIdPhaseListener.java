@@ -35,7 +35,7 @@ public class OpenIdPhaseListener
             try {
                 sendXRDS();
             } catch (IOException e) {
-		log.error(e);
+		log.warn(e);
             }
             return;
         }

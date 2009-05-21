@@ -68,7 +68,7 @@ public class JbossCache2Provider
             cache.create();
             cache.start();
         } catch (Exception e) {
-            log.error(e, e);
+            //log.error(e, e);
             throw new IllegalStateException("Error starting JBoss Cache", e);
         }
     }
