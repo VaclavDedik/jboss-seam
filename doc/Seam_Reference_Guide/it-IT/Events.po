@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-03-31 09:07+0000\n"
-"PO-Revision-Date: 2009-05-20 22:26+0100\n"
+"PO-Revision-Date: 2009-05-21 21:25+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -391,7 +391,7 @@ msgstr "Qualsiasi <literal>&lt;s:link&gt;</literal> o <literal>&lt;s:button&gt;<
 #: Events.xml:252
 #, no-c-format
 msgid "The value is transparently propagated with any JSF form submission for the page with the given view id. (This means that view parameters behave like <literal>PAGE</literal>-scoped context variables for faces requests."
-msgstr ""
+msgstr "Il valore viene propagato in modo trasparente con la sottomissione della form JSF per la pagina con il dato id vista. (Questo significa che i parametri si comportano come variabili di contesto con scope <literal>PAGE</literal> per le richieste faces.)"
 
 #. Tag: para
 #: Events.xml:261
@@ -409,7 +409,7 @@ msgstr "Riscrittura URL con parametri di pagina"
 #: Events.xml:278
 #, no-c-format
 msgid "Rewriting occurs based on rewrite patterns found for views in <literal>pages.xml</literal>. Seam URL rewriting does both incoming and outgoing URL rewriting based on the same pattern. Here's a simple pattern:"
-msgstr ""
+msgstr "La riscrittura avviene in base ai pattern di riscrittura trovati per le viste in <literal>pages.xml</literal>. La riscrittura degli URL di Seam esegue sia la riscrittura dell'URL in entrata sia in uscita basandosi sullo stesso pattern. Ecco un esempio di pattern:"
 
 #. Tag: programlisting
 #: Events.xml:285
@@ -431,7 +431,7 @@ msgstr ""
 #: Events.xml:287
 #, no-c-format
 msgid "In this case, any incoming request for <literal>/home</literal> will be sent to <literal>/home.xhtml</literal>. More interestingly, any link generated that would normally point to <literal>/home.seam</literal> will instead be rewritten as <literal>/home</literal>. Rewrite patterns only match the portion of the URL before the query parameters. So, <literal>/home.seam?conversationId=13</literal> and <literal>/home.seam?color=red</literal> will both be matched by this rewrite rule."
-msgstr ""
+msgstr "In questo caso, qualsiasi richiesta in ingresso per <literal>/home</literal> verrà inviata a <literal>/home.xhtml</literal>. Più interessante, qualsiasi link generato che normalmente punterebbe a <literal>/home.seam</literal> verrà invece riscritto come <literal>/home</literal>. I pattern di riscrittura corrispondono solo alla porzione di URL prima dei parametri di interrogazione. Quindi, <literal>/home.seam?conversationId=13</literal> e <literal>/home.seam?color=red</literal> corrispondono entrambi in questa regola di riscrittura."
 
 #. Tag: para
 #: Events.xml:297
@@ -461,13 +461,13 @@ msgstr ""
 #: Events.xml:302
 #, no-c-format
 msgid "In this case, an incoming request for <literal>/home/red</literal> will be served as if it were a request for <literal>/home.seam?color=red</literal>. Similarly, if color is a page parameter an outgoing URL that would normally show as <literal>/home.seam?color=blue</literal> would instead be output as <literal>/home/blue</literal>. Rules are processed in order, so it is important to list more specific rules before more general rules."
-msgstr ""
+msgstr "In questo caso, una richiesta in ingresso per <literal>/home/red</literal> verrà servita come se fosse una richiesta per <literal>/home.seam?color=red</literal>. In modo analogo se il colore è un parametro di pagina, un URL in uscita che normalmente sarebbe mostrato come <literal>/home.seam?color=blue</literal> verrebbe invece mostrato come <literal>/home/blue</literal>. Le regole vengono processate in ordine, quindi è importante elencare le regole più specifiche prima delle regole generali."
 
 #. Tag: para
 #: Events.xml:312
 #, no-c-format
 msgid "Default Seam query parameters can also be mapped using URL rewriting, allowing for another option for hiding Seam's fingerprints. In the following example, <literal>/search.seam?conversationId=13</literal> would be written as <literal>/search-13</literal>."
-msgstr ""
+msgstr "I parametri di default di ricerca di Seam possono essere mappati usando la riscrittura d'URL, consentendo ad un'altra opzione di nascondere il fingerprint di Seam. In quest'esempio, <literal>/search.seam?conversationId=13</literal> verrebbe riscritto come <literal>/search-13</literal>."
 
 #. Tag: programlisting
 #: Events.xml:317
@@ -491,13 +491,13 @@ msgstr ""
 #: Events.xml:319
 #, no-c-format
 msgid "Seam URL rewriting provides simple, bidirectional rewriting on a per-view basis. For more complex rewriting rules that cover non-seam components, Seam applications can continue to use the <literal>org.tuckey URLRewriteFilter </literal>or apply rewriting rules at the web server."
-msgstr ""
+msgstr "La riscrittura dell'URL di Seam fornisce una riscrittura semplice e bidirezionale su una base per-vista. Per regole di riscrittura più complesse che coprano componenti non-seam, le applicazioni Seam possono continuare ad usare il <literal>org.tuckey URLRewriteFilter</literal> o applicare regole di riscrittura nel server web."
 
 #. Tag: para
 #: Events.xml:325
 #, no-c-format
 msgid "URL rewriting requires the Seam rewrite filter to be enable. Rewrite filter configuration is discussed in <xref linkend=\"configuration.filters.rewrite\"/>."
-msgstr ""
+msgstr "La riscrittura dell'URL richiede che il filtro di riscrittura Seam sia abilitato. La configurazione del filtro è discussa in <xref linkend=\"configuration.filters.rewrite\"/>."
 
 #. Tag: title
 #: Events.xml:333
@@ -612,7 +612,7 @@ msgstr ""
 #: Events.xml:360
 #, no-c-format
 msgid "Even better, model-based Hibernate validator annotations are automatically recognized and validated. Seam also provides a default date converter to convert a string parameter value to a date and back."
-msgstr ""
+msgstr "Ancora meglio, le annotazioni di Hibernate validator basatesul modello vengono automaticamente riconosciute e validate. Seam fornisce anche un converter di data di default per convertire un valore di parametro stringa in una data e viceversa."
 
 #. Tag: para
 #: Events.xml:366
@@ -792,7 +792,7 @@ msgstr ""
 #: Events.xml:438
 #, no-c-format
 msgid "Of course, when an update succeeds, we probably want to end the current conversation. We can do that like this:"
-msgstr ""
+msgstr "Certamente quando un aggiornamento ha successo si vorrebbe terminare la conversazione corrente. Si può fare ciò in questo modo:"
 
 #. Tag: programlisting
 #: Events.xml:443
@@ -890,7 +890,7 @@ msgstr ""
 #: Events.xml:461
 #, no-c-format
 msgid "If you want to perform navigation when a null outcome occurs, use the following form instead:"
-msgstr ""
+msgstr "Se si vuole eseguire la navigazione quando avviene un esito null, si usi la seguente form:"
 
 #. Tag: programlisting
 #: Events.xml:466
@@ -946,7 +946,7 @@ msgstr ""
 #: Events.xml:477
 #, no-c-format
 msgid "Fine-grained files for definition of navigation, page actions and parameters"
-msgstr ""
+msgstr "File granulari per la definizione della navigazione, azioni di pagina e parametri"
 
 #. Tag: para
 #: Events.xml:479
@@ -1068,7 +1068,7 @@ msgstr ""
 #: Events.xml:531
 #, no-c-format
 msgid "Notice that this event producer has no dependency upon event consumers. The event listener may now be implemented with absolutely no dependency upon the producer:"
-msgstr ""
+msgstr "Si noti che questo produttore di eventi non ha dipendenza sui consumatori di eventi. L'event listener può adesso essere implementato con nessuna dipendenza sul produttore:"
 
 #. Tag: programlisting
 #: Events.xml:537
@@ -1490,7 +1490,7 @@ msgstr ""
 #: Events.xml:644
 #, no-c-format
 msgid "We can now simply annotate our action listener bean with <literal>@LoggedIn</literal> to apply the interceptor."
-msgstr ""
+msgstr "Ora si può semplicemente annotare il bean action listener con <literal>@LoggedIn</literal> per applicare l'interceptor."
 
 #. Tag: programlisting
 #: Events.xml:649
@@ -1524,7 +1524,7 @@ msgstr ""
 #: Events.xml:651
 #, no-c-format
 msgid "If interceptor ordering is important (it usually is), you can add <literal>@Interceptor</literal> annotations to your interceptor classes to specify a partial order of interceptors."
-msgstr ""
+msgstr "Se l'ordine degli interceptor è importante (solitamente lo è), si possono aggiungere le annotazioni <literal>@Interceptor</literal> alle classi interceptor per specificare un ordine parziale di interceptor."
 
 #. Tag: programlisting
 #: Events.xml:657
@@ -1552,7 +1552,7 @@ msgstr ""
 #: Events.xml:659
 #, no-c-format
 msgid "You can even have a \"client-side\" interceptor, that runs around any of the built-in functionality of EJB3:"
-msgstr ""
+msgstr "Si può anche avere un interceptor \"lato client\", che giri attorno ad ogni funzionalità predefinita di EJB3:"
 
 #. Tag: programlisting
 #: Events.xml:664
@@ -1628,7 +1628,7 @@ msgstr ""
 #: Events.xml:730
 #, no-c-format
 msgid "Seam applies the EJB 3.0 exception rollback rules also to Seam JavaBean components."
-msgstr ""
+msgstr "Seam applica le regole di rollback per eccezioni EJB 3.0 anche ai componenti JavaBean."
 
 #. Tag: para
 #: Events.xml:735
@@ -1734,7 +1734,7 @@ msgstr "Si può anche usare EL per specificare il <literal>viewId</literal> a cu
 #: Events.xml:792
 #, no-c-format
 msgid "This exception results in a redirect, along with a message to the user, when it propagates out of the Seam component layer. It also immediately rolls back the current transaction."
-msgstr ""
+msgstr "Quest'eccezione risulta in un redirect, assieme al messaggio per l'utente, quando propaga oltre il layer del componente Seam. Immediatamente viene eseguito un rollback alla transazione corrente."
 
 #. Tag: programlisting
 #: Events.xml:798
@@ -1822,7 +1822,7 @@ msgstr "Si può anche usare EL per specificare la <literal>view-id</literal> a c
 #: Events.xml:822
 #, no-c-format
 msgid "You can also access the handled exception instance through EL, Seam places it in the conversation context, e.g. to access the message of the exception:"
-msgstr ""
+msgstr "Si può anche accedere all'istanza dell'eccezione gestita attraverso EL, Seam la mette nel contesto conversazione, es. per accedere al messaggio dell'eccezione:"
 
 #. Tag: programlisting
 #: Events.xml:827

@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-05-05 12:31+0000\n"
-"PO-Revision-Date: 2009-05-18 06:47+0100\n"
+"PO-Revision-Date: 2009-05-21 20:44+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -514,19 +514,19 @@ msgstr ""
 #: Configuration.xml:257
 #, no-c-format
 msgid "<literal>force-parser</literal> &#8212; forces all JSF pages to be validated by Richfaces's XML syntax checker. If <literal>false</literal>, only AJAX responses are validated and converted to well-formed XML. Setting <literal>force-parser</literal> to <literal>false</literal> improves performance, but can provide visual artifacts on AJAX updates."
-msgstr ""
+msgstr "<literal>force-parser</literal> &#8212; forza tutte le pagine JSF ad essere validate dal controllore di sintassi XML di RichFaces. Se <literal>false</literal>, solo le risposte AJAX vengono validate e convertite in XML ben-formato. Impostando <literal>force-parser</literal> a <literal>false</literal> si migliorano le performance, ma può portare ad imperfezioni visuali durante gli aggiornamenti AJAX."
 
 #. Tag: para
 #: Configuration.xml:265
 #, no-c-format
 msgid "<literal>enable-cache</literal> &#8212; enables caching of framework-generated resources (e.g. javascript, CSS, images, etc). When developing custom javascript or CSS, setting to true prevents the browser from caching the resource."
-msgstr ""
+msgstr "<literal>enable-cache</literal> &#8212; abilita il caching delle risorse generate dal framework (es. javascript, CSS, immagini, ecc). Sviluppando javascript o CSS personalizzati, impostare a true previene il browser dal caching delle risorse."
 
 #. Tag: para
 #: Configuration.xml:271
 #, no-c-format
 msgid "<literal>log4j-init-file</literal> &#8212; is used to setup per-application logging. A path, relative to web application context, to the log4j.xml configuration file should be provided."
-msgstr ""
+msgstr "<literal>log4j-init-file</literal> &#8212; è usato per impostare il logging per applicazione. Deve essere fornito un path al file di configurazione log4j.xml, relativo al contesto dell'applicazione web."
 
 #. Tag: title
 #: Configuration.xml:281
@@ -538,13 +538,13 @@ msgstr "Log delle identità"
 #: Configuration.xml:283
 #, no-c-format
 msgid "This filter adds the authenticated user name to the log4j mapped diagnostic context so that it can be included in formatted log output if desired, by adding %X{username} to the pattern."
-msgstr ""
+msgstr "Questo filtro aggiunge il nome dell'utente autenticato al contesto diagnostico mappato di loj4j affinché possa essere incluso nell'output formattato del log se desiderato, aggiungendo %X{username} al pattern."
 
 #. Tag: para
 #: Configuration.xml:289
 #, no-c-format
 msgid "By default, the logging filter will process all requests, however this behavior may be adjusted by adding a <literal>&lt;web:logging-filter&gt;</literal> entry to <literal>components.xml</literal>, as shown in this example:"
-msgstr ""
+msgstr "Di default il filtro di logging processerà tutte le richieste, comunque questo comportamento può essere sistemato aggiungendo l'entry <literal>&lt;web:logging-filter&gt;</literal> a <literal>components.xml</literal>, come mostrato in quest'esempio:"
 
 #. Tag: programlisting
 #: Configuration.xml:293
@@ -564,19 +564,19 @@ msgstr ""
 #: Configuration.xml:298
 #, no-c-format
 msgid "Context management for custom servlets"
-msgstr ""
+msgstr "Gestione del contesto per servlet personalizzati"
 
 #. Tag: para
 #: Configuration.xml:299
 #, no-c-format
 msgid "Requests sent direct to some servlet other than the JSF servlet are not processed through the JSF lifecycle, so Seam provides a servlet filter that can be applied to any other servlet that needs access to Seam components."
-msgstr ""
+msgstr "Le richieste inviate direttamente a servlet diversi dal servlet JSF non vengono processate attraverso il ciclo di vita JSF, in questo modo Seam fornisce un filtro servlet che può essere applicato ad altri servlet che necessitano dell'accesso ai componenti Seam."
 
 #. Tag: para
 #: Configuration.xml:303
 #, no-c-format
 msgid "This filter allows custom servlets to interact with the Seam contexts. It sets up the Seam contexts at the beginning of each request, and tears them down at the end of the request. You should make sure that this filter is <emphasis>never</emphasis> applied to the JSF <literal>FacesServlet</literal>. Seam uses the phase listener for context management in a JSF request."
-msgstr ""
+msgstr "Questo filtro consente ai servlet personalizzati di interagire con i contesti Seam. Questo imposta i contesti Seam all'inizio di ogni richiesta e li elimina alla fine della richiesta. Occorre assicurarsi che il filtro non venga <emphasis>mai</emphasis> applicato al <literal>FacesServlet</literal> JSF. "
 
 #. Tag: programlisting
 #: Configuration.xml:312
@@ -588,13 +588,13 @@ msgstr "<![CDATA[<web:context-filter url-pattern=\"/media/*\"/>]]>"
 #: Configuration.xml:314
 #, no-c-format
 msgid "The context filter expects to find the conversation id of any conversation context in a request parameter named <literal>conversationId</literal>. You are responsible for ensuring that it gets sent in the request."
-msgstr ""
+msgstr "Il filtro del contesto si aspetta di trovare l'id della conversazione di ogni contesto di conversazione in un parametro di richiesta nominato <literal>conversationId</literal>. Occorre assicurarsi che questo venga inviato nella richiesta."
 
 #. Tag: para
 #: Configuration.xml:318
 #, no-c-format
 msgid "You are also responsible for ensuring propagation of any new conversation id back to the client. Seam exposes the conversation id as a property of the built in component <literal>conversation</literal>."
-msgstr ""
+msgstr "Si è responsabili della propagazione di ogni nuovo id della conversazione attraverso il client. Seam espone l'id di conversazione come proprietà del componente predefinito <literal>conversation</literal>."
 
 #. Tag: title
 #: Configuration.xml:326
@@ -606,7 +606,7 @@ msgstr "Aggiunta di filtri personalizzati"
 #: Configuration.xml:327
 #, no-c-format
 msgid "Seam can install your filters for you, allowing you to specify <emphasis>where</emphasis> in the chain your filter is placed (the servlet specification doesn't provide a well defined order if you specify your filters in a <literal>web.xml</literal>). Just add the <literal>@Filter</literal> annotation to your Seam component (which must implement <literal>javax.servlet.Filter</literal>):"
-msgstr ""
+msgstr "Seam può installare i filtri per voi, consentendo di specificare <emphasis>dove</emphasis> debba essere collocato il filtro nella catena (la specifica servlet non fornisce un ordine ben definito se si specificano i filtri in <literal>web.xml</literal>). Si aggiunga l'annotazione <literal>@Filter</literal> al componente Seam (che deve implementare <literal>javax.servlet.Filter</literal>):"
 
 #. Tag: programlisting
 #: Configuration.xml:332
@@ -630,7 +630,7 @@ msgstr ""
 #: Configuration.xml:334
 #, no-c-format
 msgid "Adding the <literal>@Startup</literal> annotation means thar the component is available during Seam startup; bijection isn't available here (<literal>@BypassInterceptors</literal>); and the filter should be further down the chain than the RichFaces filter (<literal>@Filter(within=\"org.jboss.seam.web.ajax4jsfFilter\")</literal>)."
-msgstr ""
+msgstr "Aggiungere l'annotazione <literal>@Startup</literal> significa che il componente è disponibile durante lo startup di Seam; la bijection non è disponibile qua (<literal>@BypassInterceptors</literal>); ed il filtro dovrebbe essere più in fondo alla catena rispetto al filtro RichFaces (<literal>@Filter(within=\"org.jboss.seam.web.ajax4jsfFilter\")</literal>)."
 
 #. Tag: title
 #: Configuration.xml:343
@@ -642,7 +642,7 @@ msgstr "Integrazione di Seam con l'EJB container"
 #: Configuration.xml:345
 #, no-c-format
 msgid "In a Seam application, EJB components have a certain duality, as they are managed by both the EJB container and Seam. Actually, it's more that Seam resolves EJB component references, manages the lifetime of stateful session bean components, and also participates in each method call via interceptors. Let's start with the configuration of the Seam interceptor chain."
-msgstr ""
+msgstr "Nelle applicazioni Seam i componenti EJB hanno una certa dualità, poiché sono gestiti da entrambi: il container EJB e Seam. In verità Seam risolve i riferimenti ai componenti EJB, gestisce il ciclo di vita dei componenti bean con sessione stateful, e partecipa anche ad ogni chiamata di metodo via interceptor. Iniziamo con la configurazione della catena interceptor di Seam."
 
 #. Tag: para
 #: Configuration.xml:350
@@ -2099,13 +2099,13 @@ msgstr ""
 #: Configuration.xml:913
 #, no-c-format
 msgid "Here we are just building a list of any files with the suffix <literal>.foo.xml</literal>."
-msgstr ""
+msgstr "Qua viene costruita una lista di file con il suffisso <literal>.foo.xml</literal>."
 
 #. Tag: para
 #: Configuration.xml:918
 #, no-c-format
 msgid "Then, we need to register the deployment handler with Seam in <literal>/META-INF/seam-deployment.properties</literal>. You can register multiple deployment handler using a comma separated list."
-msgstr ""
+msgstr "Poi occorre registrare il deployment handler con Seam in <literal>/META-INF/seam-deployment.properties</literal>. Si possono registrare più deployment handler usando una lista separata da virgola."
 
 #. Tag: programlisting
 #: Configuration.xml:925
@@ -2125,7 +2125,7 @@ msgstr ""
 #: Configuration.xml:931
 #, no-c-format
 msgid "Seam uses deployment handlers internally to install components and namespaces. You can easily access the deployment handler during an <literal>APPLICATION</literal> scoped component's startup:"
-msgstr ""
+msgstr "Seam utilizza internamente dei deployment handler per installare componenti e namespace. Si può facilmente accedere ad un deployment handler durante l'avvio di un componente con scope <literal>APPLICATION</literal>:"
 
 #. Tag: programlisting
 #: Configuration.xml:937
