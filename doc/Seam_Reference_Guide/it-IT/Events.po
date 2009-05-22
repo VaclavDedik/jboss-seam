@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-03-31 09:07+0000\n"
-"PO-Revision-Date: 2009-05-21 21:25+0100\n"
+"PO-Revision-Date: 2009-05-22 20:04+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -630,7 +630,7 @@ msgstr "Navigazione"
 #: Events.xml:376
 #, no-c-format
 msgid "You can use standard JSF navigation rules defined in <literal>faces-config.xml</literal> in a Seam application. However, JSF navigation rules have a number of annoying limitations:"
-msgstr ""
+msgstr "Si possono usare le regole di navigazione standard di JSF definite in <literal>faces-config.xml</literal> in un'applicazione Seam. Comunque le regole di navigazione hanno un certo numero spiacevole di limitazioni:"
 
 #. Tag: para
 #: Events.xml:384
@@ -654,7 +654,7 @@ msgstr "Le regole funzionano valutando il valore restituito del metodo d'azione;
 #: Events.xml:401
 #, no-c-format
 msgid "A further problem is that \"orchestration\" logic gets scattered between <literal>pages.xml</literal> and <literal>faces-config.xml</literal>. It's better to unify this logic into <literal>pages.xml</literal>."
-msgstr ""
+msgstr "Un altro problema è che la logica di \"orchestrazione\" viene sparsa tra <literal>pages.xml</literal> e <literal>faces-config.xml</literal>. E' meglio unificare questa logica in <literal>pages.xml</literal>."
 
 #. Tag: para
 #: Events.xml:406
@@ -724,7 +724,7 @@ msgstr ""
 #: Events.xml:418
 #, no-c-format
 msgid "But it would be even nicer if we didn't have to pollute our <literal>DocumentEditor</literal> component with string-valued return values (the JSF outcomes). So Seam lets us write:"
-msgstr ""
+msgstr "Ma sarebbe ancora meglio non dover inquinare il componente <literal>DocumentEditor</literal> con valori di ritorno stringa (gli esiti JSF). Quindi Seam consente di scrivere:"
 
 #. Tag: programlisting
 #: Events.xml:423
@@ -786,7 +786,7 @@ msgstr ""
 #: Events.xml:431
 #, no-c-format
 msgid "The first form evaluates a value binding to determine the outcome value to be used by the subsequent rules. The second approach ignores the outcome and evaluates a value binding for each possible rule."
-msgstr ""
+msgstr "La prima form valuta un valore di binding per determinare il valore d'esito da impiegare nelle regole. Il secondo approccio ignora l'esito e valuta un valore di binding per ogni possibile regola."
 
 #. Tag: para
 #: Events.xml:438
@@ -824,7 +824,7 @@ msgstr ""
 #: Events.xml:445
 #, no-c-format
 msgid "As we've ended conversation any subsequent requests won't know which document we are interested in. We can pass the document id as a request parameter which also makes the view bookmarkable:"
-msgstr ""
+msgstr "Appena terminata la conversazione ogni ulteriore richiesta non saprebbe quale sia il documento di interesse. Si può passare l'id documento come parametro di richiesta che renderebbe la vista memorizzabile come segnalibro:"
 
 #. Tag: programlisting
 #: Events.xml:451
@@ -860,7 +860,7 @@ msgstr ""
 #: Events.xml:453
 #, no-c-format
 msgid "Null outcomes are a special case in JSF. The null outcome is interpreted to mean \"redisplay the page\". The following navigation rule matches any non-null outcome, but <emphasis>not</emphasis> the null outcome:"
-msgstr ""
+msgstr "Esiti null sono un caso speciale in JSF. L'esito null viene interpretato come \"rivisualizza la pagina\". La seguente regola di navigazione cerca esiti non-null, ma <emphasis>non</emphasis> l'esito null:"
 
 #. Tag: programlisting
 #: Events.xml:459
@@ -952,7 +952,7 @@ msgstr "File granulari per la definizione della navigazione, azioni di pagina e 
 #: Events.xml:479
 #, no-c-format
 msgid "If you have a lot of different page actions and page parameters, or even just a lot of navigation rules, you will almost certainly want to split the declarations up over multiple files. You can define actions and parameters for a page with the view id <literal>/calc/calculator.jsp</literal> in a resource named <literal>calc/calculator.page.xml</literal>. The root element in this case is the <literal>&lt;page&gt;</literal> element, and the view id is implied:"
-msgstr ""
+msgstr "Si si hanno molte differenti azioni e parametri di pagina, od anche solo molte regole di navigazione, si vuole quasi sicuramente separare le dichiarazioni in molti file. Si possono definire azioni e parametri per una pagina con id vista <literal>/calc/calculator.jsp</literal> in una risorsa chiamata <literal>calc/calculator.page.xml</literal>. L'elemento radice in questo caso è l'elemento <literal>&lt;page&gt;</literal>, e l'id vista è implicito:"
 
 #. Tag: programlisting
 #: Events.xml:490
@@ -980,7 +980,7 @@ msgstr "Eventi guidati da componenti"
 #: Events.xml:499
 #, no-c-format
 msgid "Seam components can interact by simply calling each others methods. Stateful components may even implement the observer/observable pattern. But to enable components to interact in a more loosely-coupled fashion than is possible when the components call each others methods directly, Seam provides <emphasis>component-driven events</emphasis>."
-msgstr ""
+msgstr "I componenti Seam possono interagire semplicemente chiamando gli uni i metodi degli altri. I componenti stateful possono anche implementare il pattern observer/observable. Ma per abilitare i componenti per interagire in un modo più disaccoppiato rispetto a quando i componenti chiamano direttamente i metodi, Seam fornisce <emphasis>eventi component-driven</emphasis>."
 
 #. Tag: para
 #: Events.xml:507
@@ -1016,7 +1016,7 @@ msgstr "Dove il <emphasis>tipo di evento</emphasis> è solo una stringa arbitrar
 #: Events.xml:517
 #, no-c-format
 msgid "When an event occurs, the actions registered for that event will be called in the order they appear in <literal>components.xml</literal>. How does a component raise an event? Seam provides a built-in component for this."
-msgstr ""
+msgstr "Quando avviene un evento, le azioni registrate per quest'evento verrà chiamato nell'ordine in cui appare in <literal>components.xml</literal>. Come un componente genera un evento? Seam fornisce un componente predefinito per questo."
 
 #. Tag: programlisting
 #: Events.xml:523
@@ -1092,7 +1092,7 @@ msgstr ""
 #: Events.xml:539
 #, no-c-format
 msgid "The method binding defined in <literal>components.xml</literal> above takes care of mapping the event to the consumer. If you don't like futzing about in the <literal>components.xml</literal> file, you can use an annotation instead:"
-msgstr ""
+msgstr "Il binding di metodo definito sopra in <literal>components.xml</literal> si preoccupare di mappare l'evento al consumatore. Se non si vuole metter mano al file <literal>components.xml</literal>, si possono usare le annotazioni:"
 
 #. Tag: programlisting
 #: Events.xml:546
@@ -1172,7 +1172,7 @@ msgstr "Eventi contestuali"
 #: Events.xml:564
 #, no-c-format
 msgid "Seam defines a number of built-in events that the application can use to perform special kinds of framework integration. The events are:"
-msgstr ""
+msgstr "Seam definisce un numero di eventi predefinito che l'applicazione può usare per eseguire l'integrazione col framework. Questi eventi sono:"
 
 #. Tag: para
 #: Events.xml:570
@@ -1424,7 +1424,7 @@ msgstr "Interceptor Seam"
 #: Events.xml:622
 #, no-c-format
 msgid "EJB 3.0 introduced a standard interceptor model for session bean components. To add an interceptor to a bean, you need to write a class with a method annotated <literal>@AroundInvoke</literal> and annotate the bean with an <literal>@Interceptors</literal> annotation that specifies the name of the interceptor class. For example, the following interceptor checks that the user is logged in before allowing invoking an action listener method:"
-msgstr ""
+msgstr "EJB 3.0 ha introdotto un modello di interceptor standard per componenti session bean. Per aggiungere un interceptor ad un bean, occorre scrivere una classe con un metodo annotato con <literal>@AroundInvoke</literal> ed annotare il bean con l'annotazione <literal>@Interceptors</literal> che specifica ilnome della classe interceptor. Per esempio, il seguente interceptor controlla che l'utente sia loggato prima di consentire l'invocazione di un metodo action listener:"
 
 #. Tag: programlisting
 #: Events.xml:631
@@ -1592,7 +1592,7 @@ msgstr "Si possono usare gli interceptor Seam anche con i componenti JavaBean, n
 #: Events.xml:684
 #, no-c-format
 msgid "EJB defines interception not only for business methods (using <literal>@AroundInvoke</literal>), but also for the lifecycle methods <literal>@PostConstruct</literal>, <literal>@PreDestroy</literal>, <literal>@PrePassivate</literal> and <literal>@PostActive</literal>. Seam supports all these lifecycle methods on both component and interceptor not only for EJB3 beans, but also for JavaBean components (except <literal>@PreDestroy</literal> which is not meaningful for JavaBean components)."
-msgstr ""
+msgstr "EJB definisce l'interception non solo per i metodi di business (usando <literal>@AroundInvoke</literal>), ma anche per i metodi del ciclo di vita <literal>@PostConstruct</literal>, <literal>@PreDestroy</literal>, <literal>@PrePassivate</literal> e <literal>@PostActive</literal>. Seam supporta tutti questi metodi del ciclo di vita sia per i componenti sia per gli interceptor, non solo per bean EJB3, ma anche per componenti JavaBean (tranne <literal>@PreDestroy</literal> che non è significativo per i componenti JavaBean)."
 
 #. Tag: title
 #: Events.xml:696
@@ -1616,7 +1616,7 @@ msgstr "Eccezioni e transazioni"
 #: Events.xml:710
 #, no-c-format
 msgid "EJB specifies well-defined rules that let us control whether an exception immediately marks the current transaction for rollback when it is thrown by a business method of the bean: <emphasis>system exceptions</emphasis> always cause a transaction rollback, <emphasis>application exceptions</emphasis> do not cause a rollback by default, but they do if <literal>@ApplicationException(rollback=true)</literal> is specified. (An application exception is any checked exception, or any unchecked exception annotated <literal>@ApplicationException</literal>. A system exception is any unchecked exception without an <literal>@ApplicationException</literal> annotation.)"
-msgstr ""
+msgstr "EJB specifica regole ben-definite che consentono di controllare se un'eccezione marca immediatamente la transazione corrente per il rollback quando è lanciata da un metodo business del bean: <emphasis>eccezioni di sistema</emphasis> causano sempre un rollback della transazione, <emphasis>eccezioni di applicazione</emphasis> di default non causano un rollback, ma lo fanno se viene specificato <literal>@ApplicationException(rollback=true)</literal>. (Un'eccezione di applicazione è una qualsiasi eccezione controllata, o una qualsiasi eccezioni non controllata annotatacon <literal>@ApplicationException</literal>. Un'eccezione di sistema è una qualsiasi eccezioni non controllata senza l'annotazione <literal>@ApplicationException</literal>.)"
 
 #. Tag: para
 #: Events.xml:723
@@ -1646,7 +1646,7 @@ msgstr "Abilitare la gestione delle eccezioni di Seam"
 #: Events.xml:747
 #, no-c-format
 msgid "To enable Seam's exception handling, we need to make sure we have the master servlet filter declared in <literal>web.xml</literal>:"
-msgstr ""
+msgstr "Per abilitare la gestione delle eccezioni in Seam, occorre aver dichiarato il filtro servlet in <literal>web.xml</literal>:"
 
 #. Tag: programlisting
 #: Events.xml:752
@@ -1722,7 +1722,7 @@ msgstr ""
 #: Events.xml:782
 #, no-c-format
 msgid "It is important to note that Seam cannot handle exceptions that occur during JSF's RENDER_RESPONSE phase, as it is not possible to perform a redirect once the response has started being written to."
-msgstr ""
+msgstr "E'importante notare che Seam non può gestire le eccezioni che avvengono duranre la fase RENDER_RESPONSE di JSF, poiché non è possibile eseguire un redirect una volta che si è iniziato a scrivere la risposta."
 
 #. Tag: para
 #: Events.xml:788
@@ -1810,7 +1810,7 @@ msgstr ""
 #: Events.xml:812
 #, no-c-format
 msgid "The last <literal>&lt;exception&gt;</literal> declaration does not specify a class, and is a catch-all for any exception for which handling is not otherwise specified via annotations or in <literal>pages.xml</literal>."
-msgstr ""
+msgstr "L'ultima dichiarazione <literal>&lt;exception&gt;</literal> non specifica una classe, ed è un cattura-tutto per qualsiasi eccezione per cui la gestione non è altrimenti specifica tramite annotazioni o in <literal>pages.xml</literal>."
 
 #. Tag: para
 #: Events.xml:818
