@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-05-05 12:31+0000\n"
-"PO-Revision-Date: 2009-05-23 12:48+0100\n"
+"PO-Revision-Date: 2009-05-23 14:43+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -854,13 +854,13 @@ msgstr "Dentro il contesto di una chiamata di metodo EJB, occorre avere a che fa
 #: Configuration.xml:434
 #, no-c-format
 msgid "For application servers that stubbornly adhere to the EJB specification, EJB references must always be defined explicitly. But unlike with the web context, where a single resource reference covers all uses of the EJB from the web environment, you cannot declare EJB references globally in the EJB container. Instead, you have to specify the JNDI resources for a given EJB component one-by-one."
-msgstr ""
+msgstr "Per gli application server che aderiscono testardamente alla specifica EJB, i riferimenti EJB devono sempre essere definititi esplicitamente. Ma diversamente dal contesto web, dove un singolo riferimento di una risorsa copre tutti gli usi di EJB, non si possono dichiarare i riferimenti EJB in modo globale nel container EJB. Invece si devono specificare le risorse JNDI per un dato componente EJB una per una."
 
 #. Tag: para
 #: Configuration.xml:439
 #, no-c-format
 msgid "Let's assume that we have an EJB named RegisterAction (the name is resolved using the three steps mentioned previously). That EJB has the following Seam injection:"
-msgstr ""
+msgstr "Si assuma di avere un EJB chiamato RegisterAction (nome che viene risolto usando i tre passi menzionati prima). Questo EJB ha la seguente injection Seam:"
 
 #. Tag: programlisting
 #: Configuration.xml:442
@@ -922,13 +922,13 @@ msgstr ""
 #: Configuration.xml:448
 #, no-c-format
 msgid "Notice that the contents of the <literal>&lt;ejb-local-ref&gt;</literal> are identical to what we defined in web.xml. What we are doing is bringing the reference into the EJB context where it can be used by the RegisterAction bean. You will need to add one of these references for any injection of a Seam EJB compoenent into another Seam EJB component using <literal>@In</literal>. (You can see an example of this setup in the jee5/booking example)."
-msgstr ""
+msgstr "Si noti che i contenuti di <literal>&lt;ejb-local-ref&gt;</literal> sono identici a ciò che viene definito in web.xml. Ciò che viene fatto è portare il riferimento nel contesto EJB dove può essere usato dal bean RegisterAction. Occorre aggiungere uno di questi riferimenti per qualsiasi injection di componente EJB Seam in un altro componente EJB Seam con <literal>@In</literal>. (Vedere l'esempio di setup di jee5/booking)."
 
 #. Tag: para
 #: Configuration.xml:454
 #, no-c-format
 msgid "But what about <literal>@EJB</literal>? It's true that you can inject one EJB into another using <literal>@EJB</literal>. However, by doing so, you are injecting the actual EJB reference rather than the Seam EJB component instance. In this case, some Seam features will work, while others won't. That's because Seam's interceptor is invoked on any method call to an EJB component. But that only invokes Seam's server-side interceptor chain. What you lose is Seam's state management and Seam's client-side interceptor chain. Client-side interceptors handle concerns such as security and concurrency. Also, when injecting a SFSB, there is no guarantee that you will get the SFSB bound to the active session or conversation, whatever the case may be. Thus, you definitely want to inject the Seam EJB component using <literal>@In</literal>."
-msgstr ""
+msgstr "E riguardo <literal>@EJB</literal>? E' vero che si può iniettare un EJB in un altro usando <literal>@EJB</literal>. Comunque, facendo così, si sta iniettando il riferimento EJB piuttosto che l'istanza del componente EJB Seam. In questo caso, alcune funzionalità di Seam funzioneranno, mentre altre no. Questo perchè l'interceptor di Seam viene invocato ad ogni chiamata di metodo in un componente EJB. Ma questo invoca solo la catena dell'interceptor Seam lato server. Ciò che viene persa è la gestione dello stato di Seam e la catena dell'interceptor lato client. Gli interceptor lato client gestiscono i concern quali sicurezza e concorrenza. Inoltre, quando si inietta un SFSB, non c'è garanzia che il SFSB venga associato alla conversazione o sessione attiva, qualunque sia il caso. Quindi si inietterà il componente EJB Seam usando <literal>@In</literal>."
 
 #. Tag: para
 #: Configuration.xml:464
@@ -970,13 +970,13 @@ msgstr ""
 #: Configuration.xml:491
 #, no-c-format
 msgid "In a web archive (WAR) file, you must place a <literal>seam.properties</literal> file in the <literal>WEB-INF/classes</literal> directory if you have any Seam components included here."
-msgstr ""
+msgstr "Nel file WAR occorre mettere il file <literal>seam.properties</literal> nella directory <literal>WEB-INF/classes</literal> qualora si abbiano componenti Seam da includere."
 
 #. Tag: para
 #: Configuration.xml:494
 #, no-c-format
 msgid "That's why all the Seam examples have an empty <literal>seam.properties</literal> file. You can't just delete this file and expect everything to still work!"
-msgstr ""
+msgstr "E' questo il motivo per cui tutti gli esempi Seam hanno un file <literal>seam.properties</literal> vuoto. Non si può cancellare questo file ed attendersi che tutto funzioni!"
 
 #. Tag: para
 #: Configuration.xml:497
@@ -994,7 +994,7 @@ msgstr "Uso di provider JPA alternativi"
 #: Configuration.xml:510
 #, no-c-format
 msgid "Seam comes packaged and configured with Hibernate as the default JPA provider. If you require using a different JPA provider you must tell <literal>seam</literal> about it."
-msgstr ""
+msgstr "Seam viene assemblato e configurato con Hibernate in qualità di provider JPA. Se si vuole usare un diverso provider JPA occorre dirlo a <literal>seam</literal>."
 
 #. Tag: title
 #: Configuration.xml:516
@@ -1006,13 +1006,13 @@ msgstr "Questo è un workaround"
 #: Configuration.xml:517
 #, no-c-format
 msgid "Configuration of the JPA provider will be easier in the future and will not require configuration changes, unless you are adding a custom persistence provider implementation."
-msgstr ""
+msgstr "La configurazione del provider JPA sarà più semplice in futuro e non richiederà cambiamenti nella configurazione, amenoché non si aggiunga un'implementazione personalizzata del provider di persistenza."
 
 #. Tag: para
 #: Configuration.xml:524
 #, no-c-format
 msgid "Telling seam about a different JPA provider can be be done in one of two ways:"
-msgstr ""
+msgstr "Comunicare a Seam di usare un altro provider JPA può essere realizzato in uno dei due modi:"
 
 #. Tag: para
 #: Configuration.xml:525
@@ -1164,7 +1164,7 @@ msgstr ""
 #: Configuration.xml:568
 #, no-c-format
 msgid "You should declare <literal>jboss-seam.jar</literal> as an ejb module in <literal>META-INF/application.xml</literal>; <literal>jboss-el.jar</literal> should be placed in the EAR's lib directory (putting it in the EAR classpath."
-msgstr ""
+msgstr "Si dovrebbe dichiarare <literal>jboss-seam.jar</literal> come modulo ejb in <literal>META-INF/application.xml</literal>; <literal>jboss-el.jar</literal> dovrebbe essere collocato nella directory lib dell'EAR (mettendolo nel classpath dell'EAR)."
 
 #. Tag: para
 #: Configuration.xml:573
@@ -1194,7 +1194,7 @@ msgstr ""
 #: Configuration.xml:586
 #, no-c-format
 msgid "Seam ships with several example applications that are deployable in any Java EE container that supports EJB 3.0."
-msgstr ""
+msgstr "Seam porta con sé parecchi esempi di applicazioni che sono deployate in un container Java EE che supporta EJB 3.0."
 
 #. Tag: para
 #: Configuration.xml:589
@@ -1236,7 +1236,7 @@ msgstr "Boostrapping di Hibernate in Seam"
 #: Configuration.xml:628
 #, no-c-format
 msgid "Seam will bootstrap a Hibernate <literal>SessionFactory</literal> from your <literal>hibernate.cfg.xml</literal> file if you install a built-in component:"
-msgstr ""
+msgstr "Seam avvierà un <literal>SessionFactory</literal> di Hibernate dal file <literal>hibernate.cfg.xml</literal> se si installa un componente predefinito:"
 
 #. Tag: programlisting
 #: Configuration.xml:631
@@ -1462,19 +1462,19 @@ msgstr ""
 #: Configuration.xml:741
 #, no-c-format
 msgid "Remove the <literal>annotations-api.jar</literal> file from the Tomcat <literal>lib</literal> directory."
-msgstr ""
+msgstr "Rimuovere il file <literal>annotations-api.jar</literal> dalla directory Tomcat <literal>lib</literal>."
 
 #. Tag: para
 #: Configuration.xml:747
 #, no-c-format
 msgid "Next, two configuration files need to be updated to add Embedded JBoss-specific functionality."
-msgstr ""
+msgstr "Poi devono essere aggiornati due file di configurazione per poter aggiungere funzionalità specifiche di JBoss Embedded."
 
 #. Tag: para
 #: Configuration.xml:753
 #, no-c-format
 msgid "Add the Embedded JBoss listener <literal>EmbeddedJBossBootstrapListener</literal> to <literal>conf/server.xml</literal>. It must appear after all other listeners in the file:"
-msgstr ""
+msgstr "Aggiungere il listener Embedded JBoss <literal>EmbeddedJBossBootstrapListener</literal> a <literal>conf/server.xml</literal>. Deve apparire dopo tutti gli altri listener nel file:"
 
 #. Tag: programlisting
 #: Configuration.xml:756
@@ -1574,7 +1574,7 @@ msgstr "<![CDATA[set JAVA_OPTS=%JAVA_OPTS% -Dsun.lang.ClassLoader.allowArraySynt
 #: Configuration.xml:781
 #, no-c-format
 msgid "On Unix, use this syntax instead:"
-msgstr ""
+msgstr "In Unix, usare invece questa sintassi:"
 
 #. Tag: programlisting
 #: Configuration.xml:783
@@ -1586,7 +1586,7 @@ msgstr "<![CDATA[JAVA_OPTS=\"$JAVA_OPTS -Dsun.lang.ClassLoader.allowArraySyntax=
 #: Configuration.xml:788
 #, no-c-format
 msgid "For more configuration options, please see the Embedded JBoss Tomcat integration <ulink url=\"http://wiki.jboss.org/wiki/Wiki.jsp?page=EmbeddedAndTomcat\">wiki entry</ulink>."
-msgstr ""
+msgstr "Per ulteriorio opzioni di configurazione, si prega di vedere l'integrazione con Embedded JBoss Tomcat <ulink url=\"http://wiki.jboss.org/wiki/Wiki.jsp?page=EmbeddedAndTomcat\">wiki entry</ulink>."
 
 #. Tag: para
 #: Configuration.xml:796
@@ -1762,7 +1762,7 @@ msgstr ""
 #: Configuration.xml:823
 #, no-c-format
 msgid "The most important thing to notice here is that jBPM transaction control is disabled. Seam or EJB3 should control the JTA transactions."
-msgstr ""
+msgstr "La cosa più importante da notare è che il controllo della transazione jBPM è disabilitato. Seam o EJB3 dovrebbero controllare le transazioni JTA."
 
 #. Tag: para
 #: Configuration.xml:829
@@ -1874,7 +1874,7 @@ msgstr ""
 #: Configuration.xml:849
 #, no-c-format
 msgid "The default SFSB timeout can be adjusted by modifying the value of <literal>max-bean-life</literal> in the <literal>LRUStatefulContextCachePolicy</literal> cache configuration:"
-msgstr ""
+msgstr "Il timeout di default di SFSB può essere impostato modificando il valore di <literal>max-bean-life</literal> nella configurazione della cache <literal>LRUStatefulContextCachePolicy</literal>:"
 
 #. Tag: programlisting
 #: Configuration.xml:852
@@ -1942,7 +1942,7 @@ msgstr ""
 #: Configuration.xml:861
 #, no-c-format
 msgid "To override this value for your own application, simply include this entry in your application's own <literal>web.xml</literal>."
-msgstr ""
+msgstr "Per sovrascrivere questo valore per la propria applicazione, si includa semplicemente questa riga nel proprio <literal>web.xml</literal>."
 
 #. Tag: title
 #: Configuration.xml:867
@@ -1966,7 +1966,7 @@ msgstr "Deploy di risorse personalizzate"
 #: Configuration.xml:882
 #, no-c-format
 msgid "Seam scans all jars containing <literal>/seam.properties</literal>, <literal>/META-INF/components.xml</literal> or <literal>/META-INF/seam.properties</literal> on startup for resources. For example, all classes annotated with <literal>@Name</literal> are registered with Seam as Seam components."
-msgstr ""
+msgstr "Seam scansiona all'avvio tutti i jar contenenti <literal>/seam.properties</literal>, <literal>/META-INF/components.xml</literal> o <literal>/META-INF/seam.properties</literal>. Per esempio, tutte le classi annotate con <literal>@Name</literal> vengono registrate da Seam come componenti Seam."
 
 #. Tag: para
 #: Configuration.xml:889
