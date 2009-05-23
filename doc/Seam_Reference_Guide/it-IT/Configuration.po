@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-05-05 12:31+0000\n"
-"PO-Revision-Date: 2009-05-21 20:44+0100\n"
+"PO-Revision-Date: 2009-05-23 12:48+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -648,7 +648,7 @@ msgstr "Nelle applicazioni Seam i componenti EJB hanno una certa dualità, poich
 #: Configuration.xml:350
 #, no-c-format
 msgid "We need to apply the <literal>SeamInterceptor</literal> to our Seam EJB components. This interceptor delegates to a set of built-in server-side interceptors that handle such concerns as bijection, conversation demarcation, and business process signals. The simplest way to do this across an entire application is to add the following interceptor configuration in <literal>ejb-jar.xml</literal>:"
-msgstr ""
+msgstr "Occorre applicare <literal>SeamInterceptor</literal> ai componenti EJB di Seam. Quest'interceptor delega ad un set di interceptor predefiniti lato server che gestiscono i concern quali la bijection, la demarcazione delle conversazioni ed i segnali del processo di business. Il modo più semplice per fare questo in tutta l'applicazione è aggiungere la seguente configurazione per l'interceptor in <literal>ejb-jar.xml</literal>:"
 
 #. Tag: programlisting
 #: Configuration.xml:355
@@ -704,13 +704,13 @@ msgstr "<![CDATA[<core:init jndi-name=\"earName/#{ejbName}/local\" />]]>"
 #: Configuration.xml:368
 #, no-c-format
 msgid "In this case, <literal>earName</literal> is the name of the EAR in which the bean is deployed, Seam replaces <literal>#{ejbName}</literal> with the name of the EJB, and the final segment represents the type of interface (local or remote)."
-msgstr ""
+msgstr "In questo caso <literal>earName</literal> è il nome dell'EAR in cui viene deployato il bean, Seam sostituisce <literal>#{ejbName}</literal> con il nome dell'EJB ed il segmento finale rappresenta il tipo di interfaccia (locale o remota)."
 
 #. Tag: para
 #: Configuration.xml:372
 #, no-c-format
 msgid "Outside the context of an EAR (when using the JBoss Embeddable EJB3 container), the first segment is dropped since there is no EAR, leaving us with the following pattern:"
-msgstr ""
+msgstr "Fuori dal contesto di un EAR (quando si usa il container JBoss Embeddable EJB3) il primo segmento viene ignorato poiché non c'è alcun EAR, rimanendo quindi con il seguente pattern:"
 
 #. Tag: programlisting
 #: Configuration.xml:375
@@ -722,13 +722,13 @@ msgstr "<![CDATA[<core:init jndi-name=\"#{ejbName}/local\" />]]>"
 #: Configuration.xml:377
 #, no-c-format
 msgid "How these JNDI names are resolved and somehow locate an EJB component might appear a bit like black magic at this point, so let's dig into the details. First, let's talk about how the EJB components get into JNDI."
-msgstr ""
+msgstr "Come questi nomi JNDI vengono risolti e come localizzare un componente EJB potrebbe apparire a questo punto un pò una questione di magia, quindi indaghiamo meglio i dettagli. Innanzitutto vediamo come i componenti EJB entrano in JNDI."
 
 #. Tag: para
 #: Configuration.xml:381
 #, no-c-format
 msgid "The folks at JBoss don't care much for XML, if you can't tell. So when they designed JBoss AS, they decided that EJB components would get assigned a global JNDI name automatically, using the pattern just described (i.e., EAR name/EJB name/interface type). The EJB name is the first non-empty value from the following list:"
-msgstr ""
+msgstr "Le persone di JBoss non si preoccupano molto di XML. Quindi quando hanno progettato JBoss AS, hanno deciso che i componenti EJB avrebbero visto assegnarsi automaticamente un nome JNDI globale, usando il pattern appena descritto (cioè nome EAR/nome EJB/tipo interfaccia). Il nome EJB è il primo valore non vuoto della seguente lista:"
 
 #. Tag: para
 #: Configuration.xml:387
@@ -806,19 +806,19 @@ msgstr ""
 #: Configuration.xml:401
 #, no-c-format
 msgid "Assuming your EJB bean class is deployed in an EAR named myapp, the global JNDI name myapp/AuthenticatorBean/local will be assigned to it on JBoss AS. As you learned, you can reference this EJB component as a Seam component with the name <literal>authenticator</literal> and Seam will take care of finding it in JNDI according to the JNDI pattern (or <literal>@JndiName</literal> annotation)."
-msgstr ""
+msgstr "Assumendo che la classe del bean EJB sia deployata in un'applicazione EAR chiamata myapp, il nome JNDI globale myapp/AuthenticatorBean/local verrà assegnato a lei in JBoss AS. Come visto, si può fare riferimento a questo componente EJB come componente Seam con il nome <literal>authenticator</literal> e Seam si preoccuperà di trovarlo in JNDI secondo il pattern JNDI (o l'annotazione <literal>@JndiName</literal>)."
 
 #. Tag: para
 #: Configuration.xml:407
 #, no-c-format
 msgid "So what about the rest of the application servers? Well, according to the Java EE spec, which most vendors try to adhere to religiously, you have to declare an EJB reference for your EJB in order for it to be assigned a JNDI name. That requires some XML. It also means that it is up to you to establish a JNDI naming convention so that you can leverage the Seam JNDI pattern. You might find the JBoss convention a good one to follow."
-msgstr ""
+msgstr "Ma cosa dire rispetto ai restanti application server? In accordo alla specifica Java EE, alla quale la maggior parte dei venditori cerca di aderire in modo religioso, si deve dichiarare un riferimento EJB per il proprio EJB affinché gli venga assegnato un nome JNDI. Questo richiede un pò di XML. Significa che sta a voi stabilire una convenzione di nomi JNDI per poter sfruttare il pattern JNDI di Seam. Si potrebbe ritenere buona e usare la convenzione JBoss."
 
 #. Tag: para
 #: Configuration.xml:413
 #, no-c-format
 msgid "There are two places you have to define the EJB reference when using Seam on non-JBoss application servers. If you are going to be looking up the Seam EJB component through JSF (in a JSF view or as a JSF action listener) or a Seam JavaBean component, then you must declare the EJB reference in web.xml. Here is the EJB reference for the example component just shown:"
-msgstr ""
+msgstr "Ci sono due posti dove poter definire il riferimento EJB usando Seam su application server non-JBoss. Se si cercheranno i componenti EJB di Seam attraverso JSF (in una vista JSF o in un action listener JSF) od un componente JavaBean di Seam, allora occorre dichiarare il riferimento EJB in web.xml. Ecco qua il riferimento EJB per il componente d'esempio appena mostrato:"
 
 #. Tag: programlisting
 #: Configuration.xml:418
@@ -842,13 +842,13 @@ msgstr ""
 #: Configuration.xml:420
 #, no-c-format
 msgid "This reference will cover most uses of the component in a Seam application. However, if you want to be able to inject a Seam EJB component into another Seam EJB component using <literal>@In</literal>, you need to define this EJB reference in another location. This time, it must be defined in ejb-jar.xml, and it's a bit tricker."
-msgstr ""
+msgstr "Questo riferimento coprirà la maggior parte degli usi dei componenti in un'applicazione Seam. Comunque se si vuole essere in grado di iniettare un componente EJB di Seam in un altro componente usando <literal>@In</literal>, occorre definire questo riferimento EJB in un'altra posizione. Questa volta deve essere definito in ejb-jar.xml, ed è un pò più complicato."
 
 #. Tag: para
 #: Configuration.xml:425
 #, no-c-format
 msgid "Within the context of an EJB method call, you have to deal with a somewhat sheltered JNDI context. When Seam attempts to find another Seam EJB component to satisfy an injection point defined using <literal>@In</literal>, whether or not it finds it depends on whether an EJB reference exists in JNDI. Strictly speaking, you cannot simply resolve JNDI names as you please. You have to define the references explicitly. Fortunately, JBoss recognized how aggrevating this would be for the developer and all versions of JBoss automatically register EJBs so they are always available in JNDI, both to the web container and the EJB container. So if you are using JBoss, you can skip the next few paragraphs. However, if you are deploying to GlassFish, pay close attention."
-msgstr ""
+msgstr "Dentro il contesto di una chiamata di metodo EJB, occorre avere a che fare con un contesto JNDI protetto. Quando Seam tenta di trovare un altro componente EJB Seam per soddisfare un punto d'iniezione definito con <literal>@In</literal>, il fatto che Seam lo trovi oppure no dipende dal fatto che esista un riferimento EJB in JNDI. In senso letterale non si può semplicemente risolvere i nomi JNDI a proprio piacimento. Occorre definire esplicitamente i riferimenti. Fortunatamente JBoss ha capito come questo sarebbe aggravante per lo sviluppatore e quindi tutte le versioni di JBoss registrano automaticamente gli EJB cosicché siano sempre disponibili in JNDI, sia nel web container sia nell'EJB container. In definitiva se si usa JBoss, si possono saltare i prossimi paragrafi. Comunque, se si usa GlassFish, si presti molta attenzione."
 
 #. Tag: para
 #: Configuration.xml:434
@@ -1408,13 +1408,13 @@ msgstr "<![CDATA[<transaction:hibernate-transaction session=\"#{session}\"/>]]>"
 #: Configuration.xml:681
 #, no-c-format
 msgid "Of course, you'll also need to define a datasource."
-msgstr ""
+msgstr "Certamente occorre definire un datasource."
 
 #. Tag: para
 #: Configuration.xml:683
 #, no-c-format
 msgid "A better alternative is to use JBoss Embedded to get access to the EE APIs."
-msgstr ""
+msgstr "Un'alternativa migliore è usare JBoss Embedded per accedere alle API EE."
 
 #. Tag: title
 #: Configuration.xml:688
