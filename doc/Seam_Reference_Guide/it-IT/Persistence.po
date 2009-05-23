@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-02-19 21:44+0000\n"
-"PO-Revision-Date: 2009-02-22 10:52+0100\n"
-"Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
+"PO-Revision-Date: 2009-05-21 15:36+0100\n"
+"Last-Translator: Francesco Milesi <milesif@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -107,37 +107,37 @@ msgstr "Più transazioni per richiesta ci sono, più è probabile che si incontr
 #: Persistence.xml:116
 #, no-c-format
 msgid "Hibernate users developed the <emphasis>\"open session in view\"</emphasis> pattern to work around this problem. In the Hibernate community, \"open session in view\" was historically even more important because frameworks like Spring use transaction-scoped persistence contexts. So rendering the view would cause <literal>LazyInitializationException</literal>s when unfetched associations were accessed."
-msgstr ""
+msgstr "Gli utenti di Hibernate hanno sviluppato il pattern <emphasis>\"open session in view\"</emphasis> per aggirare questo problema. Nella comunità Hibernate, il pattern  \"open session in view\" è stato storicamente anche più importante poiché framework come Spring usano contesti di persistenza con scope transazionale. In tal caso il rendering della vista causerebbe eccezioni di tipo <literal>LazyInitializationException</literal>, qualora si accedesse a delle relazioni non caricate in precedenza."
 
 #. Tag: para
 #: Persistence.xml:124
 #, no-c-format
 msgid "This pattern is usually implemented as a single transaction which spans the entire request. There are several problems with this implementation, the most serious being that we can never be sure that a transaction is successful until we commit it &#8212; but by the time the \"open session in view\" transaction is committed, the view is fully rendered, and the rendered response may already have been flushed to the client. How can we notify the user that their transaction was unsuccessful?"
-msgstr ""
+msgstr "Questo pattern di solito è implementato come una singola transazione che si estende per l'intera richiesta. Vi sono parecchi problemi connessi a questa implementaziome, il più serio dei quali sta nel fatto che non è possibile essere sicuri che una transazione sia andata a buon fine finché non se ne fa il commit &#8212; ma prima che la transazione gestita secondo tale pattern sia stata sottoposta a commit, la pagina sarà stata completamente disegnata, e la risposta relativa potrebbe essere già stata inviata al client. Come è possibile notificare l'utente che la sua transazione non ha avuto successo?"
 
 #. Tag: para
 #: Persistence.xml:133
 #, no-c-format
 msgid "Seam solves both the transaction isolation problem and the association fetching problem, while working around the problems with \"open session in view\". The solution comes in two parts:"
-msgstr ""
+msgstr "Seam risolve sia il problema dell'isolamento della transazione sia il problema del caricamento delle associazioni, evitando i quelli associati al pattern \"open session in view\". La soluzione è costituita da due parti:"
 
 #. Tag: para
 #: Persistence.xml:141
 #, no-c-format
 msgid "use an extended persistence context that is scoped to the conversation, instead of to the transaction"
-msgstr ""
+msgstr "occorre utilizzare un contesto di persistenza esteso con scope conversazionale, invece che transazionale"
 
 #. Tag: para
 #: Persistence.xml:147
 #, no-c-format
 msgid "use two transactions per request; the first spans the beginning of the restore view phase (some transaction managers begin the transaction later at the beginning of the apply request vaues phase) until the end of the invoke application phase; the second spans the render response phase"
-msgstr ""
+msgstr "occorre usare due transazione per richiesta; la prima si estende dall'inizio della fase di ripristino della vista, o \"restore view phase\",  (qualche transaction manager inizia la transazione più tardi, all'inizio della fase di applicazione dei valori della richiesta, o \"apply request values phase\") alla fine della fase di chiamata all'applicazione, o \"invoke application phase\"; la seconda copre la fase di rendering della risposta, o \"render response phase\""
 
 #. Tag: para
 #: Persistence.xml:156
 #, no-c-format
 msgid "In the next section, we'll tell you how to set up a conversation-scope persistence context. But first we need to tell you how to enable Seam transaction management. Note that you can use conversation-scoped persistence contexts without Seam transaction management, and there are good reasons to use Seam transaction management even when you're not using Seam-managed persistence contexts. However, the two facilities were designed to work together, and work best when used together."
-msgstr ""
+msgstr "Nella prossima sezione, esamineremo come utilizzare un contesto di persistenza conversazionale. Ma prima occorre vedere come abilitare la gestione delle transazioni di Seam. Si noti che è possibile usare contesti di persistenza conversazionale senza usare la gestione delle transazioni di Seam, e ci sono buoni motivi per utilizzare la gestione delle transazioni di Seam anche se non si stanno utilizzando  contesti di persistenza gestiti da Seam. Comunque, queste due funzionalità sono state progettate per operare assieme, e usate assieme danno il meglio."
 
 #. Tag: para
 #: Persistence.xml:165
@@ -155,7 +155,7 @@ msgstr "Disabilitare le transazioni gestite da Seam"
 #: Persistence.xml:175
 #, no-c-format
 msgid "Seam transaction management is enabled by default for all JSF requests. If you want to <emphasis>disable</emphasis> this feature, you can do it in <literal>components.xml</literal>:"
-msgstr ""
+msgstr "La gestione delle tarnsazioni di Seam è abilitato di default per tutte le richieste JSF. Se si desidera <emphasis>disabilitare</emphasis> questa funzionalità, è possibile farlo in <literal>components.xml</literal>:"
 
 #. Tag: programlisting
 #: Persistence.xml:181
@@ -179,7 +179,7 @@ msgstr "Configurazione di un gestore di transazioni Seam"
 #: Persistence.xml:188
 #, no-c-format
 msgid "Seam provides a transaction management abstraction for beginning, committing, rolling back, and synchronizing with a transaction. By default Seam uses a JTA transaction component that integrates with Container Managed and programmatic EJB transactions. If you are working in a Java EE 5 environment, you should install the EJB synchronization component in <literal>components.xml</literal>:"
-msgstr ""
+msgstr "Seam fornisce un'astrazione della gestione della transazione che permette di iniziarla, farne il commit e il rollback e di sincronizzarsi con essa. Di default Seam usa un componente transazionale JTA che si integra con transazioni EJB gestite dal programma o  dal container. Se si sta lavorando in un ambiente Java EE 5, occorre installare il componente di sincronizzazione EJB in <literal>components.xml</literal>:"
 
 #. Tag: programlisting
 #: Persistence.xml:195
@@ -191,31 +191,31 @@ msgstr "<![CDATA[<transaction:ejb-transaction />]]>"
 #: Persistence.xml:197
 #, no-c-format
 msgid "However, if you are working in a non EE 5 container, Seam will try auto detect the transaction synchronization mechanism to use. However, if Seam is unable to detect the correct transaction synchronization to use, you may find you need configure one of the following:"
-msgstr ""
+msgstr "Comunque, se si sta lavorando in un container non conforme a J2EE 5, Seam cercherà di rilevare automaticamente il meccanismo di sincronizzazione da usare. Comunque, qualora Seam non fosse in grado di rilevarlo, potrebbe essere necessario configurare una delle seguenti proprietà:"
 
 #. Tag: para
 #: Persistence.xml:204
 #, no-c-format
 msgid "JPA RESOURCE_LOCAL transactions with the <literal>javax.persistence.EntityTransaction</literal> interface. <literal>EntityTransaction</literal> begins the transaction at the beginning of the apply request values phase."
-msgstr ""
+msgstr "Transazioni JPA di tipo RESOURCE_LOCAL con interfaccia <literal>javax.persistence.EntityTransaction</literal>. <literal>EntityTransaction</literal> inizia la transazione all'inizio della fase \"apply request values\"."
 
 #. Tag: para
 #: Persistence.xml:212
 #, no-c-format
 msgid "Hibernate managed transactions with the <literal>org.hibernate.Transaction</literal> interface. <literal>HibernateTransaction</literal> begins the transaction at the beginning of the apply request values phase."
-msgstr ""
+msgstr "Transazioni gestite da Hibernate con l'interfaccia <literal>org.hibernate.Transaction</literal>. <literal>HibernateTransaction</literal> da inizio alla transazione all'inizio della fase \"apply request values\"."
 
 #. Tag: para
 #: Persistence.xml:220
 #, no-c-format
 msgid "Spring managed transactions with the <literal>org.springframework.transaction.PlatformTransactionManager</literal> interface. The Spring <literal>PlatformTransactionManagement</literal> manager may begin the transaction at the beginning of the apply request values phase if the <literal>userConversationContext</literal> attribute is set."
-msgstr ""
+msgstr "Transazioni gestite da Spring con l'interfaccia <literal>org.springframework.transaction.PlatformTransactionManager</literal>. Il gestore <literal>PlatformTransactionManagement</literal> di Spring può cominciare la transazione all'inizio della fase \"apply request values\" se è stato valorizzato l'attributo <literal>userConversationContext</literal>."
 
 #. Tag: para
 #: Persistence.xml:229
 #, no-c-format
 msgid "Explicitly disable Seam managed transactions"
-msgstr ""
+msgstr "Disabilitare esplicitamente le transazioni gestite da Seam"
 
 #. Tag: para
 #: Persistence.xml:234
@@ -569,7 +569,7 @@ msgstr ""
 #: Persistence.xml:471
 #, no-c-format
 msgid "But regardless of whether you're using Hibernate (genius!) or something else (masochist, or just not very bright), you'll almost certainly want to use the delegate in your Seam components from time to time. One approach would be the following:"
-msgstr ""
+msgstr "Ma indipendentemente dal fatto che si stia usando Hibernate (se siete dei geni!) o altro (se siete dei masochisti, o semplicemente non siete troppo svegli), quasi sicuramente, di quando in quando, nei componenti Seam si vorrà usare il delegato. Un approccio potrebbe essere il seguente:"
 
 #. Tag: programlisting
 #: Persistence.xml:478
@@ -593,7 +593,7 @@ msgstr ""
 #: Persistence.xml:480
 #, no-c-format
 msgid "But typecasts are unquestionably the ugliest syntax in the Java language, so most people avoid them whenever possible. Here's a different way to get at the delegate. First, add the following line to <literal>components.xml</literal>:"
-msgstr ""
+msgstr "Tuttavia i cast fra tipi sono senza discussione la sintassi più repellente del linguaggio java, così che la maggior parte della gente li evita quando possibile. Ecco un modo diverso per ottenere il delegato. Innanzitutto si aggiunga la linea seguente in <literal>components.xml</literal>:"
 
 #. Tag: programlisting
 #: Persistence.xml:486
@@ -643,7 +643,7 @@ msgstr "Uso di EL in EJB-QL/HQL"
 #: Persistence.xml:498
 #, no-c-format
 msgid "Seam proxies the <literal>EntityManager</literal> or <literal>Session</literal> object whenever you use a Seam-managed persistence context or inject a container managed persistence context using <literal>@PersistenceContext</literal>. This lets you use EL expressions in your query strings, safely and efficiently. For example, this:"
-msgstr ""
+msgstr "Seam fa da proxy all'oggetto <literal>EntityManager</literal> o all'oggetto <literal>Session</literal> ogni volta che si utilizza un contesto di persistenza gestito da Seam o si inietta un contesto di persistenza gestito dal container usando <literal>@PersistenceContext</literal>. Ciò permette di utilizzare le espressioni EL nelle stringhe delle query, in modo sicuro ed efficiente. Per esempio:"
 
 #. Tag: programlisting
 #: Persistence.xml:506
@@ -705,7 +705,7 @@ msgstr "Uso dei filtri Hibernate"
 #: Persistence.xml:527
 #, no-c-format
 msgid "The coolest, and most unique, feature of Hibernate is <emphasis>filters</emphasis>. Filters let you provide a restricted view of the data in the database. You can find out more about filters in the Hibernate documentation. But we thought we'd mention an easy way to incorporate filters into a Seam application, one that works especially well with the Seam Application Framework."
-msgstr ""
+msgstr "La funzionalità più bella e unica di Hibernate sono i <emphasis>filtri</emphasis>. I filtri permettono di fornire una vista ristretta dei dati esistenti nel database. E' possibile scoprire di più riguardo ai filtri nella documentazione di Hibernate. Abbiamo tuttavia pensato di menzionare un modo facile di incorporare i filtri in un'applicazione Seam, un modo che funziona particolarmente bene con il \"Seam Application Framework\"."
 
 #. Tag: para
 #: Persistence.xml:535
