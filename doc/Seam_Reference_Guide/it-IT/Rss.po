@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Seam_Reference_Guide\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-02-08 12:35+0100\n"
+"PO-Revision-Date: 2009-05-23 14:49+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +37,7 @@ msgstr "Installazione"
 #: Rss.xml:15
 #, no-c-format
 msgid "To enable RSS support, include the <literal>jboss-seam-rss.jar</literal> in your applications <literal>WEB-INF/lib</literal> directory. The RSS library also has some dependent libraries that should be placed in the same directory. See <xref linkend=\"dependencies.rss\"/> for a list of libraries to include."
-msgstr "Per abilitare il supporto RSS includere <literal>jboss-seam-rss.jar</literal> nella cartella <literal>WEB-INF/lib</literal> dell'applicazione. La libreria RSS ha anche alcune dipendenze che devono essere posizionate nella stessa cartella. Vedi <xref linked=\"dependencies.rss\"/> per la lista delle librerie da includere."
+msgstr "Per abilitare il supporto RSS includere <literal>jboss-seam-rss.jar</literal> nella cartella <literal>WEB-INF/lib</literal> dell'applicazione. La libreria RSS ha anche alcune dipendenze che devono essere posizionate nella stessa cartella. Vedi <xref linkend=\"dependencies.rss\"/> per la lista delle librerie da includere."
 
 #. Tag: para
 #: Rss.xml:22
