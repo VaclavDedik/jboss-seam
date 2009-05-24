@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-02-19 21:44+0000\n"
-"PO-Revision-Date: 2009-02-19 22:57+0100\n"
+"PO-Revision-Date: 2009-05-24 14:50+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -165,7 +165,7 @@ msgstr "Seam semplifica l'uso degli allegati ad una mail. Supporta la maggior pa
 #: Mail.xml:69
 #, no-c-format
 msgid "If you wanted to email the <literal>jboss-seam-mail.jar</literal>:"
-msgstr "Se si vuole spedire le email <literal>jboss-seam-mail.jar</literal>:"
+msgstr "Se si vuole spedire <literal>jboss-seam-mail.jar</literal>:"
 
 #. Tag: programlisting
 #: Mail.xml:73
@@ -241,7 +241,7 @@ msgstr ""
 #: Mail.xml:109
 #, no-c-format
 msgid "If you had a set of files you wanted to attach (for example a set of pictures loaded from a database) you can just use a <literal>&lt;ui:repeat&gt;</literal>:"
-msgstr "Con un set di file da allegare (per esempio un gruppo di fotografie caricate da un database= si utilizza un <literal>&lt;ui:repeat&gt;</literal>:"
+msgstr "Con un set di file da allegare (per esempio un gruppo di fotografie caricate da un database) si utilizza un <literal>&lt;ui:repeat&gt;</literal>:"
 
 #. Tag: programlisting
 #: Mail.xml:114
@@ -285,7 +285,7 @@ msgstr ""
 #: Mail.xml:122
 #, no-c-format
 msgid "You may be wondering what <literal>cid:#{...}</literal> does. Well, the IETF specified that by putting this as the src for your image, the attachments will be looked at when trying to locate the image (the <literal>Content-ID</literal>'s must match) &#8212; magic!"
-msgstr "Ci si potrebbe chiedere cosa faccia <literal>cid:#{...}</literal>. IETF specifica che mettendo questo come src dell'immagine, gli allegati verranno visualizzati quando si tenta di localizzare l'immagine (il <literal>Content-ID</literal> deve corrispondere) &#8212; magia!"
+msgstr "Ci si potrebbe chiedere a cosa serva <literal>cid:#{...}</literal>. IETF specifica che mettendo questo come src dell'immagine, gli allegati verranno visualizzati quando si tenta di localizzare l'immagine (il <literal>Content-ID</literal> deve corrispondere) &#8212; magia!"
 
 #. Tag: para
 #: Mail.xml:129
@@ -329,7 +329,7 @@ msgstr "Destinatari multipli"
 #: Mail.xml:150
 #, no-c-format
 msgid "Often you'll want to send an email to a group of recipients (for example your users). All of the recipient mail tags can be placed inside a <literal>&lt;ui:repeat&gt;</literal>:"
-msgstr "Spesso si vuole spedire una mail adun gruppo di destinatari (per esempio i propri utenti). Tutti i tag dei destinatari possono essere messi dentro un <literal>&lt;ui:repeat&gt;</literal>:"
+msgstr "Spesso si vuole spedire una mail ad un gruppo di destinatari (per esempio i propri utenti). Tutti i tag dei destinatari possono essere messi dentro un <literal>&lt;ui:repeat&gt;</literal>:"
 
 #. Tag: programlisting
 #: Mail.xml:156
@@ -483,7 +483,7 @@ msgstr ""
 #: Mail.xml:223
 #, no-c-format
 msgid "The body, subject and recipient (and from) name will be encoded. You'll need to make sure facelets uses the correct charset for parsing your pages by setting encoding of the template:"
-msgstr "Il corpo, soggetto e nome destinatario (e mittente)verranno codificati. Occorre assicurarsi che facelets usi il set di caratteri corretto per il parsing delle pagine, impostando la codifica del template:"
+msgstr "Il corpo, soggetto e nome destinatario (e mittente) verranno codificati. Occorre assicurarsi che facelets usi il set di caratteri corretto per il parsing delle pagine, impostando la codifica del template:"
 
 #. Tag: programlisting
 #: Mail.xml:229
@@ -537,7 +537,7 @@ msgstr "Ricevere email"
 #: Mail.xml:257
 #, no-c-format
 msgid "If you are using EJB then you can use a MDB (Message Driven Bean) to receive email. JBoss provides a JCA adaptor &#8212; <literal>mail-ra.rar</literal> &#8212; but the version distributed with JBoss AS has a number of limitations (and isn't bundled in some versions) therefore we recommend using the <literal>mail-ra.rar</literal> distributed with Seam (it's in the <literal>extras/</literal> directory in the Seam bundle). <literal>mail-ra.rar</literal> should be placed in <literal>$JBOSS_HOME/server/default/deploy</literal>; if the version of JBoss AS you use already has this file, replace it."
-msgstr "Se si usa EJB, allora si può impiegare MDB (Message Driven Bean) per ricevere una mail. JBoss fornisce un adattatore JCA &#8212; <literal>mail-ra.rar</literal> &#8212; ma la versione distribuita cone JBoss AS ha un numero di limitazioni (e non è incorporata in alcune versioni) quindi si raccomanda di usare <literal>mail-ra.rar</literal> distribuito con Seam (si trova nella directory <literal>extras/</literal> nella distribuzione Seam). <literal>mail-ra.rar</literal> deve essere messo in <literal>$JBOSS_HOME/server/default/deploy</literal>; se la versione di JBoss già lo contiene, lo si sostituisca."
+msgstr "Se si usa EJB, allora si può impiegare MDB (Message Driven Bean) per ricevere una mail. JBoss fornisce un adattatore JCA &#8212; <literal>mail-ra.rar</literal> &#8212; ma la versione distribuita con JBoss AS ha un numero di limitazioni (e non è incorporata in alcune versioni) quindi si raccomanda di usare <literal>mail-ra.rar</literal> distribuito con Seam (si trova nella directory <literal>extras/</literal> nella distribuzione Seam). <literal>mail-ra.rar</literal> deve essere messo in <literal>$JBOSS_HOME/server/default/deploy</literal>; se la versione di JBoss già lo contiene, lo si sostituisca."
 
 #. Tag: para
 #: Mail.xml:269
@@ -595,7 +595,7 @@ msgstr ""
 #: Mail.xml:275
 #, no-c-format
 msgid "Each message received will cause <literal>onMessage(Message message)</literal> to be called. Most Seam annotations will work inside a MDB but you musn't access the persistence context."
-msgstr "Ogni messaggio ricevuto causerà una chiamata a <literal>onMessage(Message message)</literal>. La maggior parte delle annotazioni di Seam funzioneranno dentro MDB, manon sarà possibile accedere al contesto di persistenza."
+msgstr "Ogni messaggio ricevuto causerà una chiamata a <literal>onMessage(Message message)</literal>. La maggior parte delle annotazioni di Seam funzioneranno dentro MDB, ma non sarà possibile accedere al contesto di persistenza."
 
 #. Tag: para
 #: Mail.xml:281
@@ -619,13 +619,13 @@ msgstr "Configurazione"
 #: Mail.xml:296
 #, no-c-format
 msgid "To include Email support in your application, include <literal>jboss-seam-mail.jar</literal> in your <literal>WEB-INF/lib</literal> directory. If you are using JBoss AS there is no further configuration needed to use Seam's email support. Otherwise you need to make sure you have the JavaMail API, an implementation of the JavaMail API present (the API and impl used in JBoss AS are distributed with seam as <literal>lib/mail.jar</literal>), and a copy of the Java Activation Framework (distributed with Seam as <literal>lib/activation.jar</literal>."
-msgstr "Per includere il supporto email nella propria applicazione, si includa <literal>jboss-seam-mail.jar</literal> nella directory <literal>WEB-INF/lib</literal>. Se si usa JBoss AS non c'è nessuna configurazione ulteriore per usare il supporto email di Seam. Altrimenti occorre assicurarsi di avere JavaMail API, un'implementazione di JavaMail API presente (l'API e l'impl usante in JBoss AS sono distribuite con seam in <literal>lib/mail.jar</literal>), ed una copia di Java Activation Framework (distribuito con seam in <literal>lib/activation.jar</literal>."
+msgstr "Per includere il supporto email nella propria applicazione, si includa <literal>jboss-seam-mail.jar</literal> nella directory <literal>WEB-INF/lib</literal>. Se si usa JBoss AS non c'è nessuna configurazione ulteriore per usare il supporto email di Seam. Altrimenti occorre assicurarsi di avere JavaMail API, un'implementazione di JavaMail API presente (l'API e l'impl usate in JBoss AS sono distribuite con seam in <literal>lib/mail.jar</literal>), ed una copia di Java Activation Framework (distribuito con seam in <literal>lib/activation.jar</literal>."
 
 #. Tag: para
 #: Mail.xml:308
 #, no-c-format
 msgid "The Seam Mail module requires the use of Facelets as the view technology. Future versions of the library may also support the use of JSP. Additionally, it requires the use of the seam-ui package."
-msgstr "Il module Seam Mail richiede l'uso di Facelets come tecnologia per la vista. Future versioni della libreria potranno supportare l'uso di JSP. In aggiunta si richiede l'uso del pacchetto seam-ui."
+msgstr "Il modulo Seam Mail richiede l'uso di Facelets come tecnologia per la vista. Future versioni della libreria potranno supportare l'uso di JSP. In aggiunta si richiede l'uso del pacchetto seam-ui."
 
 #. Tag: para
 #: Mail.xml:315
@@ -661,7 +661,7 @@ msgstr "JNDI lookup in JBoss AS"
 #: Mail.xml:336
 #, no-c-format
 msgid "The JBossAS <literal>deploy/mail-service.xml</literal> configures a JavaMail session binding into JNDI. The default service configuration will need altering for your network. <ulink url=\"http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail\">http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail</ulink> describes the service in more detail."
-msgstr "<literal>deploy/mail-service.xml</literal> di JBoss AS configura una sessione JavaMail legandla a JNDI. La configurazione di default del servizio deve essere modificata per la propria rete. <ulink url=\"http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail\">http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail</ulink> descrive il servizion con maggiore dettaglio."
+msgstr "<literal>deploy/mail-service.xml</literal> di JBoss AS configura una sessione JavaMail legandola a JNDI. La configurazione di default del servizio deve essere modificata per la propria rete. <ulink url=\"http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail\">http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail</ulink> descrive il servizio  con maggiore dettaglio."
 
 #. Tag: programlisting
 #: Mail.xml:344
@@ -687,7 +687,7 @@ msgstr ""
 #: Mail.xml:346
 #, no-c-format
 msgid "Here we tell Seam to get the mail session bound to <literal>java:/Mail</literal> from JNDI."
-msgstr "Qua viene detto a Seam di ottenere da JNDI la sessione mail legata <literal>java:/Mail</literal>."
+msgstr "Qua viene detto a Seam di ottenere da JNDI la sessione mail associata <literal>java:/Mail</literal>."
 
 #. Tag: title
 #: Mail.xml:354
@@ -773,7 +773,7 @@ msgstr "Tag radice di un messaggio mail"
 #: Mail.xml:418
 #, no-c-format
 msgid "<literal>importance</literal> &#8212; low, normal or high. By default normal, this sets the importance of the mail message."
-msgstr "<literal>importance</literal> &#8212; low, normal or high. Di default è normal, questo imposta l'importanza del messaggio email."
+msgstr "<literal>importance</literal> &#8212; low, normal o high. Di default è normal, questo imposta l'importanza del messaggio email."
 
 #. Tag: para
 #: Mail.xml:424
@@ -785,7 +785,7 @@ msgstr "<literal>precedence</literal> &#8212; imposta la precedenza del messaggi
 #: Mail.xml:430
 #, no-c-format
 msgid "<literal>requestReadReceipt</literal> &#8212; by default false, if set, a read receipt request will be will be added, with the read receipt being sent to the <literal>From:</literal> address."
-msgstr "<literal>requestReadReceipt</literal> &#8212; di default è false, se impostato, verrà aggiunta un richiesta di conferma di lettura, da inviare all'indirizzo <literal>From:</literal>."
+msgstr "<literal>requestReadReceipt</literal> &#8212; di default è false, se impostato, verrà aggiunta una richiesta di conferma di lettura, da inviare all'indirizzo <literal>From:</literal>."
 
 #. Tag: para
 #: Mail.xml:438
