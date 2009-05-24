@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:24+0000\n"
-"PO-Revision-Date: 2009-02-07 21:32+0100\n"
+"PO-Revision-Date: 2009-05-24 19:25+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 #: Weblogic.xml:2
 #, no-c-format
 msgid "Seam on BEA's Weblogic"
-msgstr ""
+msgstr "Seam su Weblogic di BEA"
 
 #. Tag: para
 #: Weblogic.xml:4
@@ -83,7 +83,7 @@ msgstr ""
 #: Weblogic.xml:65
 #, no-c-format
 msgid "Installing 10.3"
-msgstr ""
+msgstr "Installare 10.3"
 
 #. Tag: para
 #: Weblogic.xml:67
@@ -113,7 +113,7 @@ msgstr "chmod a+x server103_XX.bin"
 #: Weblogic.xml:91
 #, no-c-format
 msgid "Execute the install:"
-msgstr ""
+msgstr "Eseguire l'install:"
 
 #. Tag: programlisting
 #: Weblogic.xml:92
@@ -149,7 +149,7 @@ msgstr ""
 #: Weblogic.xml:115
 #, no-c-format
 msgid "Creating your Weblogic domain"
-msgstr ""
+msgstr "Creazione del domino Weblogic"
 
 #. Tag: para
 #: Weblogic.xml:116
@@ -567,13 +567,13 @@ msgstr ""
 #: Weblogic.xml:514
 #, no-c-format
 msgid "Select <literal>Next</literal> button"
-msgstr ""
+msgstr "Selezionare il pulsante <literal>Next</literal>"
 
 #. Tag: para
 #: Weblogic.xml:456
 #, no-c-format
 msgid "Select <literal>Next</literal> button on the <literal>Transaction Options</literal> page"
-msgstr ""
+msgstr "Selezionare il pulsante <literal>Next</literal> nella pagina <literal>Transaction Options</literal>"
 
 #. Tag: para
 #: Weblogic.xml:461
@@ -911,7 +911,7 @@ msgstr "build.xml"
 #: Weblogic.xml:679
 #, no-c-format
 msgid "We need to add the follow so that the <literal> weblogic-application.xml </literal> will be packaged."
-msgstr ""
+msgstr "Occorre aggiungere la seguente riga affinché venga impacchettato <literal> weblogic-application.xml </literal>."
 
 #. Tag: programlisting
 #: Weblogic.xml:686
@@ -955,7 +955,7 @@ msgstr "$SEAM/lib/interop/jboss-seam-wls-compatible.jar"
 #: Weblogic.xml:700
 #, no-c-format
 msgid "This is the change discussed above in <xref linkend=\"weblogic-ejb-issues\"/> . There are really two options."
-msgstr ""
+msgstr "Questo è il cambiamento discusso in <xref linkend=\"weblogic-ejb-issues\"/>. Ci sono due opzioni."
 
 #. Tag: para
 #: Weblogic.xml:707
@@ -1037,7 +1037,7 @@ msgstr ""
 #: Weblogic.xml:791
 #, no-c-format
 msgid "Setting up the datasource"
-msgstr ""
+msgstr "Configurazione del datasource"
 
 #. Tag: para
 #: Weblogic.xml:793
@@ -1067,7 +1067,7 @@ msgstr "JNDI Name: <literal>seam-jpa-ds</literal>"
 #: Weblogic.xml:826
 #, no-c-format
 msgid "Building the example"
-msgstr ""
+msgstr "Build dell'esempio"
 
 #. Tag: para
 #: Weblogic.xml:828
@@ -1080,7 +1080,7 @@ msgstr ""
 #: Weblogic.xml:1259
 #, no-c-format
 msgid "Deploying the example"
-msgstr ""
+msgstr "Deploy dell'esempio"
 
 #. Tag: para
 #: Weblogic.xml:840

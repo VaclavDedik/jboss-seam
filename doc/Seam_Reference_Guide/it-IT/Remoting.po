@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-05-23 11:30+0000\n"
-"PO-Revision-Date: 2009-05-24 14:06+0100\n"
-"Last-Translator: Francesco Milesi <milesif@gmail.com>\n"
+"PO-Revision-Date: 2009-05-24 19:14+0100\n"
+"Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1286,7 +1286,7 @@ msgstr "Seam Remoting fornisce supporto sperimentale per la gestione di messaggi
 #: Remoting.xml:610
 #, no-c-format
 msgid "Before you can subscribe to a JMS topic, you must first configure a list of the topics that can be subscribed to by Seam Remoting. List the topics under <literal>org.jboss.seam.remoting.messaging.subscriptionRegistry.allowedTopics</literal> in <literal>seam.properties</literal>, <literal>web.xml</literal> or <literal>components.xml</literal>."
-msgstr "Prima di sottoscrivere una topic JMS, occorre configurare la lista di topic che Seam Remoting può sottoscrivere. Occorre elencare le topic nella proprietà <literal>org.jboss.seam.remoting.messaging.subscriptionRegistry.allowedTopics</literal> in <literal>seam.properties</literal>, <literal>web.xml</literal> o <literal>components.xml</literal>."
+msgstr "Prima di sottoscrivere una topic JMS, occorre configurare la lista di topic che Seam Remoting può sottoscrivere. Occorre elencare i topic nella proprietà <literal>org.jboss.seam.remoting.messaging.subscriptionRegistry.allowedTopics</literal> in <literal>seam.properties</literal>, <literal>web.xml</literal> o <literal>components.xml</literal>."
 
 #. Tag: programlisting
 #: Remoting.xml:615
@@ -1299,13 +1299,13 @@ msgstr "<![CDATA[<remoting:remoting poll-timeout=\"5\" poll-interval=\"1\"/>]]>"
 #: Remoting.xml:620
 #, no-c-format
 msgid "Subscribing to a JMS Topic"
-msgstr "Iscriversi ad un Topic JMS"
+msgstr "Sottoscrivere ad un topic JMS"
 
 #. Tag: para
 #: Remoting.xml:622
 #, no-c-format
 msgid "The following example demonstrates how to subscribe to a JMS Topic:"
-msgstr "L'esempio seguente mostra come sottoscrivere una topic JMS:"
+msgstr "L'esempio seguente mostra come sottoscrivere un topic JMS:"
 
 #. Tag: programlisting
 #: Remoting.xml:624
@@ -1331,7 +1331,7 @@ msgstr ""
 #: Remoting.xml:626
 #, no-c-format
 msgid "The <literal>Seam.Remoting.subscribe()</literal> method accepts two parameters, the first being the name of the JMS Topic to subscribe to, the second being the callback function to invoke when a message is received."
-msgstr "Il metodo <literal>Seam.Remoting.subscribe()</literal> accetta due parametri, di cui il primo è il nome della topic JMS da sottoscrivere e il secondo la funzione di callback che deve essere invocata quando si riceve un messaggio."
+msgstr "Il metodo <literal>Seam.Remoting.subscribe()</literal> accetta due parametri, di cui il primo è il nome del topic JMS da sottoscrivere e il secondo la funzione di callback che deve essere invocata quando si riceve un messaggio."
 
 # messaggi testuali e messaggi con oggetti.
 #. Tag: para
@@ -1344,14 +1344,14 @@ msgstr "Due sono i tipi di messaggi supportati, messaggi testuali e messaggi ogg
 #: Remoting.xml:639
 #, no-c-format
 msgid "Unsubscribing from a Topic"
-msgstr "Disiscriversi da un Topic"
+msgstr "Disiscriversi da un topic"
 
 # una topic o un topic?
 #. Tag: para
 #: Remoting.xml:641
 #, no-c-format
 msgid "To unsubscribe from a topic, call <literal>Seam.Remoting.unsubscribe()</literal> and pass in the topic name:"
-msgstr "Per annullare la sottoscrizione ad una topic, bisogna fare una chiamata a <literal>Seam.Remoting.unsubscribe()</literal> passando il nome della topic come parametro:"
+msgstr "Per annullare la sottoscrizione ad un topic, bisogna fare una chiamata a <literal>Seam.Remoting.unsubscribe()</literal> passando il nome del topic come parametro:"
 
 #. Tag: programlisting
 #: Remoting.xml:644

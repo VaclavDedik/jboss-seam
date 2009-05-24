@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-04-15 13:52+0000\n"
-"PO-Revision-Date: 2009-05-24 13:27+0100\n"
+"PO-Revision-Date: 2009-05-24 19:21+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -83,13 +83,13 @@ msgstr "fornisce un sostituto gestito da Seam per <literal>OpenEntityManagerInVi
 #: Spring.xml:40
 #, no-c-format
 msgid "Support for Spring <literal>TaskExecutors</literal> to back <literal>@Asynchronous</literal> calls"
-msgstr ""
+msgstr "Supporto per <literal>TaskExecutors</literal> di Spring alle chiamate <literal>@Asynchronous</literal>"
 
 #. Tag: title
 #: Spring.xml:45
 #, no-c-format
 msgid "Injecting Seam components into Spring beans"
-msgstr ""
+msgstr "Iniezione dei componenti Seam nei bean Spring"
 
 #. Tag: para
 #: Spring.xml:47
@@ -235,19 +235,19 @@ msgstr "Iniettare i bean Spring nei componenti Seam"
 #: Spring.xml:90
 #, no-c-format
 msgid "It is even easier to inject Spring beans into Seam component instances. Actually, there are two possible approaches:"
-msgstr ""
+msgstr "E' ancora più facile iniettare i bean Spring nelle istanze dei componenti Seam. In verità ci sono due approcci:"
 
 #. Tag: para
 #: Spring.xml:95
 #, no-c-format
 msgid "inject a Spring bean using an EL expression"
-msgstr ""
+msgstr "iniettare un bean Spring usando un'espressione EL"
 
 #. Tag: para
 #: Spring.xml:98
 #, no-c-format
 msgid "make the Spring bean a Seam component"
-msgstr ""
+msgstr "rendere il bean Spring un componente Seam"
 
 #. Tag: para
 #: Spring.xml:102
@@ -339,7 +339,7 @@ msgstr ""
 #: Spring.xml:145
 #, no-c-format
 msgid "Seam-scoped Spring beans"
-msgstr ""
+msgstr "Bean Spring con scope di Seam"
 
 #. Tag: para
 #: Spring.xml:147
@@ -545,7 +545,7 @@ msgstr ""
 #: Spring.xml:255
 #, no-c-format
 msgid "The <literal>applicationContext.xml</literal> might look like:"
-msgstr ""
+msgstr "<literal>applicationContext.xml</literal> potrebbe apparire come:"
 
 #. Tag: programlisting
 #: Spring.xml:256
@@ -611,7 +611,7 @@ msgstr ""
 #: Spring.xml:268
 #, no-c-format
 msgid "Using a Seam Managed Hibernate Session in Spring"
-msgstr ""
+msgstr "Uso di una sessione Hibernate gestita da Seam in Spring"
 
 #. Tag: para
 #: Spring.xml:270
@@ -705,7 +705,7 @@ msgstr ""
 #: Spring.xml:313
 #, no-c-format
 msgid "Using a Spring TaskExecutor for @Asynchronous"
-msgstr ""
+msgstr "Uso di TaskExecutor di Spring per @Asynchronous"
 
 #. Tag: para
 #: Spring.xml:315
@@ -723,7 +723,7 @@ msgstr "<![CDATA[<spring:task-executor-dispatcher task-executor=\"#{springThread
 #: Spring.xml:322
 #, no-c-format
 msgid "Because a Spring <literal>TaskExecutor</literal> does not support scheduling of an asynchronous event a fallback Seam <literal>Dispatcher</literal> can be provided to handle scheduled asynchronous event like so:"
-msgstr ""
+msgstr "Poiché un <literal>TaskExecutor</literal> di Spring non supporta lo scheduling di eventi asincroni, può essere fornito un <literal>Dispatcher</literal> di Seam per gestire gli eventi asincroni schedulati in questo modo:"
 
 #. Tag: programlisting
 #: Spring.xml:325
