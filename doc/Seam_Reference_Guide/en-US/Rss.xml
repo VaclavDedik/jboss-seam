@@ -253,7 +253,7 @@
       <title>Links and further documentation</title>
       <para>
          The core of the RSs functionality is based on the YARFRAW library
-         which can be found on http://yarfraw.sourceforge.net/ and most 
+         which can be found on <ulink url="http://yarfraw.sourceforge.net/">http://yarfraw.sourceforge.net/</ulink> and most 
          features and possible limitations are inherited from here.
       </para>
       <para>
