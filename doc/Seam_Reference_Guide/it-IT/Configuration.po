@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-05-05 12:31+0000\n"
-"PO-Revision-Date: 2009-05-24 12:30+0100\n"
+"PO-Revision-Date: 2009-05-24 13:07+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr "Configurare Seam ed impacchettare le applicazioni Seam"
 #: Configuration.xml:6
 #, no-c-format
 msgid "Configuration is a very boring topic and an extremely tedious pastime. Unfortunately, several lines of XML are required to integrate Seam into your JSF implementation and servlet container. There's no need to be too put off by the following sections; you'll never need to type any of this stuff yourself, since you can just use seam-gen to start your application or you can copy and paste from the example applications!"
-msgstr "La configurazione è un argomento molto noioso ed un passatempo estremamente tedioso. Sfortunatamente sono richieste parecchie linee di XML per integrare Seam con l'implementazione JSF ed il servlet container. Non c'è alcun bisogno di soffermarsi sulle seguenti sezioni; non si dovrà mai scrivere queste cose a mano, poiché basta usare seam-gen per iniziare l'applicazione oppure basta copiare ed incollare il codice dagli esempi di applicazione!"
+msgstr "La configurazione è un argomento molto noioso ed un passatempo estremamente tedioso. Sfortunatamente sono richieste parecchie linee di XML per integrare Seam con l'implementazione JSF ed il servlet container. Non c'è bisogno di soffermarsi sulle seguenti sezioni; non si dovrà mai scrivere queste cose a mano, poiché basta usare seam-gen per creare ed avviare l'applicazione oppure basta copiare ed incollare il codice dagli esempi di applicazione!"
 
 #. Tag: title
 #: Configuration.xml:12
@@ -35,7 +35,7 @@ msgstr "Configurazione base di Seam"
 #: Configuration.xml:14
 #, no-c-format
 msgid "First, let's look at the basic configuration that is needed whenever we use Seam with JSF."
-msgstr "In primo luogo si comincia a guardare alla configurazione base che server ogni volta che si usa Seam con JSF."
+msgstr "In primo luogo si cominci col guardare alla configurazione base che serve ogni volta che si usa Seam con JSF."
 
 #. Tag: title
 #: Configuration.xml:17
@@ -129,7 +129,7 @@ msgstr ""
 #: Configuration.xml:38
 #, no-c-format
 msgid "There is a minor gray area in the JSF specification regarding the mutability of view state values. Since Seam uses the JSF view state to back its PAGE scope this can become an issue in some cases. If you're using server side state saving with the JSF-RI and you want a PAGE scoped bean to keep its exact value for a given view of a page you will need to specify the following context-param. Otherwise if a user uses the \"back\" button a PAGE scoped component will have the latest value if it has changed not the value of the \"back\" page. (see <ulink url=\"https://javaserverfaces-spec-public.dev.java.net/issues/show_bug.cgi?id=295\"> Spec Issue </ulink> ). This setting is not enabled by default because of the performance hit of serializing the JSF view with every request."
-msgstr "C'è una piccola parte grigia nella specifica JSF riguardante la mutabilità dei valore dello stato della vista. Poiché Seam usa lo stato della vista JSF per tornare allo scope PAGE, questo in alcuni casi può diventare un problema. Se si usa la conservazione dello stato lato server con JSF-RI e si vuole che il bean con scope PAGE mantenga l'esatto valore per una data vista di pagina, occorre specificare il seguente parametro di contesto. Altrimenti se un utente usa il pulsante \"indietro\" un componente con scope PAGE avrà l'ultimo valore se questo non è cambiato nella pagina \"indietro\". (si veda <ulink url=\"https://javaserverfaces-spec-public.dev.java.net/issues/show_bug.cgi?id=295\"> Spec Issue </ulink> ). Quest'impostazione non è abilitata di default a causa della performance nella serializzazione della vista JSF ad ogni richiesta."
+msgstr "C'è una piccola parte grigia nella specifica JSF riguardante la mutabilità dei valore dello stato della vista. Poiché Seam usa lo stato della vista JSF per tornare allo scope PAGE, questo in alcuni casi può diventare un problema. Se si usa la conservazione dello stato lato server con JSF-RI e si vuole che il bean con scope PAGE mantenga l'esatto valore per una data vista di pagina, occorre specificare il seguente parametro di contesto. Altrimenti se un utente usa il pulsante \"indietro\", un componente con scope PAGE avrà l'ultimo valore se questo non è cambiato nella pagina \"indietro\". (si veda <ulink url=\"https://javaserverfaces-spec-public.dev.java.net/issues/show_bug.cgi?id=295\"> Spec Issue </ulink> ). Quest'impostazione non è abilitata di default a causa della performance nella serializzazione della vista JSF ad ogni richiesta."
 
 #. Tag: programlisting
 #: Configuration.xml:52

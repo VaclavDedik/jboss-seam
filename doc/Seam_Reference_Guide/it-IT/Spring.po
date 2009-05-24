@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-04-15 13:52+0000\n"
-"PO-Revision-Date: 2009-04-15 16:05+0100\n"
+"PO-Revision-Date: 2009-05-24 13:27+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -23,61 +23,61 @@ msgstr "Integrazione con il framework Spring"
 #: Spring.xml:8
 #, no-c-format
 msgid "The Spring integration (part of the Seam IoC module) allows easy migration of Spring-based projects to Seam and allows Spring applications to take advantage of key Seam features like conversations and Seam's more sophisticated persistence context management."
-msgstr ""
+msgstr "L'integrazione con Spring (parte del modulo IoC di Seam) consente una facile migrazione a Seam dei progetti basati su Spring e consente alla applicazioni Spring di sfruttare le funzionalità chiave di Seam come le conversazioni e la sofisticata gestione del contesto di persistenza."
 
 #. Tag: para
 #: Spring.xml:12
 #, no-c-format
 msgid "Note! The Spring integration code is included in the jboss-seam-ioc library. This dependency is required for all seam-spring integration techniques covered in this chapter."
-msgstr ""
+msgstr "Nota! Il codice di integrazione di Spring è incluso nella libreria jboss-seam-ioc. Questa dipendenza è richiesta per tutte le tecniche di integrazione seam-spring coperte in questo capitolo."
 
 #. Tag: para
 #: Spring.xml:15
 #, no-c-format
 msgid "Seam's support for Spring provides the ability to:"
-msgstr ""
+msgstr "Il supporto di Seam per Spring fornisce la possibilità di:"
 
 #. Tag: para
 #: Spring.xml:19
 #, no-c-format
 msgid "inject Seam component instances into Spring beans"
-msgstr ""
+msgstr "iniettare le istanze dei componenti Seam nei bean Spring"
 
 #. Tag: para
 #: Spring.xml:22
 #, no-c-format
 msgid "inject Spring beans into Seam components"
-msgstr ""
+msgstr "iniettare i bean Spring nei componenti Seam"
 
 #. Tag: para
 #: Spring.xml:25
 #, no-c-format
 msgid "turn Spring beans into Seam components"
-msgstr ""
+msgstr "trasformare i bean Spring in componenti Seam"
 
 #. Tag: para
 #: Spring.xml:28
 #, no-c-format
 msgid "allow Spring beans to live in any Seam context"
-msgstr ""
+msgstr "consentire ai bean Spring di vivere in un qualsiasi contesto Seam"
 
 #. Tag: para
 #: Spring.xml:31
 #, no-c-format
 msgid "start a spring WebApplicationContext with a Seam component"
-msgstr ""
+msgstr "avviare un WebApplicationContext di Spring con un componente Seam"
 
 #. Tag: para
 #: Spring.xml:34
 #, no-c-format
 msgid "Support for Spring PlatformTransactionManagement"
-msgstr ""
+msgstr "Supporto a PlatformTransactionManagement di Spring"
 
 #. Tag: para
 #: Spring.xml:37
 #, no-c-format
 msgid "provides a Seam managed replacement for Spring's <literal>OpenEntityManagerInViewFilter</literal> and <literal>OpenSessionInViewFilter</literal>"
-msgstr ""
+msgstr "fornisce un sostituto gestito da Seam per <literal>OpenEntityManagerInViewFilter</literal> e <literal>OpenSessionInViewFilter</literal> di Spring"
 
 #. Tag: para
 #: Spring.xml:40
@@ -189,7 +189,7 @@ msgstr ""
 #: Spring.xml:65
 #, no-c-format
 msgid "Now for the caveat!"
-msgstr ""
+msgstr "Adesso alcuni caveat!"
 
 #. Tag: para
 #: Spring.xml:67
@@ -229,7 +229,7 @@ msgstr ""
 #: Spring.xml:88
 #, no-c-format
 msgid "Injecting Spring beans into Seam components"
-msgstr ""
+msgstr "Iniettare i bean Spring nei componenti Seam"
 
 #. Tag: para
 #: Spring.xml:90
@@ -577,7 +577,7 @@ msgstr ""
 #: Spring.xml:258
 #, no-c-format
 msgid "The <literal>component.xml</literal> might look like:"
-msgstr ""
+msgstr "<literal>component.xml</literal> potrebbe così apparire:"
 
 #. Tag: programlisting
 #: Spring.xml:259
