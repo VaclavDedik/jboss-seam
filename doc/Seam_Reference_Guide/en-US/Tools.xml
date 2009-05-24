@@ -6,7 +6,7 @@
   
      <para>
        The jBPM designer and viewer will let you design and view in a nice way your business processes and your pageflows.
-       This convenient tool is part of JBoss Eclipse IDE and more details can be found in the jBPM's documentation (http://docs.jboss.com/jbpm/v3/gpd/)         
+       This convenient tool is part of JBoss Eclipse IDE and more details can be found in the jBPM's <ulink url="http://docs.jboss.com/jbpm/v3/gpd/">documentation</ulink>        
      </para> 
      
      <section>
