@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-02-19 21:44+0000\n"
-"PO-Revision-Date: 2009-05-21 15:36+0100\n"
-"Last-Translator: Francesco Milesi <milesif@gmail.com>\n"
+"PO-Revision-Date: 2009-05-24 12:53+0100\n"
+"Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -245,7 +245,7 @@ msgstr "<![CDATA[<transaction:hibernate-transaction session=\"#{hibernateSession
 #: Persistence.xml:256
 #, no-c-format
 msgid "To explicitly disable Seam managed transactions declare the following in your components.xml:"
-msgstr ""
+msgstr "Per disabilitare esplicitamente le transazioni gestite da Seam si dichiari in components.xml:"
 
 #. Tag: programlisting
 #: Persistence.xml:259
@@ -257,7 +257,7 @@ msgstr "<![CDATA[<transaction:no-transaction />]]>"
 #: Persistence.xml:260
 #, no-c-format
 msgid "For configuring Spring managed transactions see <link linkend=\"spring-transactions\">using Spring PlatformTransactionManagement</link> ."
-msgstr ""
+msgstr "Per configurare le transazioni gestite da Spring si veda <link linkend=\"spring-transactions\">uso di Spring PlatformTransactionManagement</link> ."
 
 #. Tag: title
 #: Persistence.xml:267
@@ -299,13 +299,13 @@ msgstr ""
 #: Persistence.xml:312
 #, no-c-format
 msgid "Using a Seam-managed persistence context with JPA"
-msgstr ""
+msgstr "Utilizzo di un contesto di persistenza gestito da Seam con JPA"
 
 #. Tag: para
 #: Persistence.xml:314
 #, no-c-format
 msgid "Configuring a managed persistence context is easy. In <literal>components.xml</literal>, we can write:"
-msgstr ""
+msgstr "E' facile configurare un contesto di persistenza gestito. Si scriva in <literal>components.xml</literal>:"
 
 #. Tag: programlisting
 #: Persistence.xml:319
@@ -329,7 +329,7 @@ msgstr ""
 #: Persistence.xml:328
 #, no-c-format
 msgid "Of course, you need to make sure that you have bound the <literal>EntityManagerFactory</literal> into JNDI. In JBoss, you can do this by adding the following property setting to <literal>persistence.xml</literal>."
-msgstr ""
+msgstr "Certamente occorre assicurarsi che <literal>EntityManagerFactory</literal> sia stato associato a JNDI. In JBoss si può fare ciò aggiungendo la seguente proprietà a <literal>persistence.xml</literal>."
 
 #. Tag: programlisting
 #: Persistence.xml:334
@@ -345,7 +345,7 @@ msgstr ""
 #: Persistence.xml:336
 #, no-c-format
 msgid "Now we can have our <literal>EntityManager</literal> injected using:"
-msgstr ""
+msgstr "Ora si può iniettare <literal>EntityManager</literal> usando:"
 
 #. Tag: programlisting
 #: Persistence.xml:340
@@ -419,13 +419,13 @@ msgstr ""
 #: Persistence.xml:371
 #, no-c-format
 msgid "Note that Seam does not flush the session, so you should always enable <literal>hibernate.transaction.flush_before_completion</literal> to ensure that the session is automatically flushed before the JTA transaction commits."
-msgstr ""
+msgstr "Si noti che Seam non esegue il flush della sessione, quindi occorre sempre abilitare <literal>hibernate.transaction.flush_before_completion</literal> per assicurarsi che di eseguire il flush della sessione prima che venga fatto il commit della transazioni JTA."
 
 #. Tag: para
 #: Persistence.xml:378
 #, no-c-format
 msgid "We can now have a managed Hibernate <literal>Session</literal> injected into our JavaBean components using the following code:"
-msgstr ""
+msgstr "Ora si può iniettare nei componenti JavaBean una <literal>Session</literal> di Hibernate gestita usando il seguente codice:"
 
 #. Tag: programlisting
 #: Persistence.xml:383
@@ -437,7 +437,7 @@ msgstr "<![CDATA[@In Session bookingDatabase;]]>"
 #: Persistence.xml:388
 #, no-c-format
 msgid "Seam-managed persistence contexts and atomic conversations"
-msgstr ""
+msgstr "Contesti di persistenza gestiti da Seam e conversazioni atomiche"
 
 #. Tag: para
 #: Persistence.xml:389
@@ -449,7 +449,7 @@ msgstr ""
 #: Persistence.xml:398
 #, no-c-format
 msgid "As with any optimistic transaction management, transaction isolation and consistency can be achieved via use of optimistic locking. Fortunately, both Hibernate and EJB 3.0 make it very easy to use optimistic locking, by providing the <literal>@Version</literal> annotation."
-msgstr ""
+msgstr "Come ogni altra gestione ottimistica delle transazioni , l'isolamento e la consistenza delle transazioni può essere ottenuta tramite l'uso del lock ottimistico. Fortunatamente sia Hibernate che EJB 3.0 semplificano l'uso del lock ottimistico, fornendo l'annotazione <literal>@Version</literal>."
 
 #. Tag: para
 #: Persistence.xml:405
@@ -485,7 +485,7 @@ msgstr ""
 #: Persistence.xml:427
 #, no-c-format
 msgid "Now, the <literal>claim</literal> object remains managed by the persistence context for the rest ot the conversation. We can make changes to the claim:"
-msgstr ""
+msgstr "Ora l'oggetto <literal>claim</literal> viene gestito nel contesto di persistenza per il resto della conversazione. Si possono apportare modifiche a claim:"
 
 #. Tag: programlisting
 #: Persistence.xml:432
@@ -505,7 +505,7 @@ msgstr ""
 #: Persistence.xml:434
 #, no-c-format
 msgid "But these changes will not be flushed to the database until we explicitly force the flush to occur:"
-msgstr ""
+msgstr "Ma questi cambiamenti non verranno eseguiti nel database finché non si forza esplicitamente il flush:"
 
 #. Tag: programlisting
 #: Persistence.xml:439
@@ -525,7 +525,7 @@ msgstr ""
 #: Persistence.xml:441
 #, no-c-format
 msgid "Of course, you could set the <literal>flushMode</literal> to <literal>MANUAL</literal> from pages.xml, for example in a navigation rule:"
-msgstr ""
+msgstr "Certamente si può impostare <literal>flushMode</literal> a <literal>MANUAL</literal> da pages.xml, per esempio in una regola di navigazione:"
 
 #. Tag: programlisting
 #: Persistence.xml:446
