@@ -424,7 +424,7 @@ public class MailListenerMDB implements MailListener {
           The JBossAS <literal>deploy/mail-service.xml</literal> configures a 
           JavaMail session binding into JNDI.  The default service 
           configuration will need altering for your network.  
-          <ulink url="http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail">http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail</ulink>
+          <ulink url="http://www.jboss.org/community/wiki/JavaMail">http://www.jboss.org/community/wiki/JavaMail</ulink>
           describes the service in more detail.
         </para>
 		        
