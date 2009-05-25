@@ -231,6 +231,8 @@ input[type="submit"], input[type="button"] {
 #radio table {
 	border: 0px;
 }
+#content .input table,
+#content .input tbody tr td,
 #radio table tr td {
 	border: 0px;
 	border-left: 0px;
