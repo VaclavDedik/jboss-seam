@@ -639,7 +639,7 @@
 
 	<target name="copyexamples">
       <ant dir="examples" target="copyextradependencies" inheritall="false">
-         <property name="lib.dir" value="../${dist.lib.dir}"/>
+         <property name="lib.dir" value="${dist.lib.dir}"/>
          <property name="metawidget-war.lib" value="true"/>
          <property name="metawidget-ear.lib" value="true"/>
       </ant>
