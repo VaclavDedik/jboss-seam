@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-03-31 09:07+0000\n"
-"PO-Revision-Date: 2009-05-25 14:16+0100\n"
+"PO-Revision-Date: 2009-05-25 15:35+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1424,7 +1424,7 @@ msgstr "Interceptor Seam"
 #: Events.xml:622
 #, no-c-format
 msgid "EJB 3.0 introduced a standard interceptor model for session bean components. To add an interceptor to a bean, you need to write a class with a method annotated <literal>@AroundInvoke</literal> and annotate the bean with an <literal>@Interceptors</literal> annotation that specifies the name of the interceptor class. For example, the following interceptor checks that the user is logged in before allowing invoking an action listener method:"
-msgstr "EJB 3.0 ha introdotto un modello standard di interceptor per componenti session bean. Per aggiungere un interceptor ad un bean, occorre scrivere una classe con un metodo annotato con <literal>@AroundInvoke</literal> ed annotare il bean con l'annotazione <literal>@Interceptors</literal> che specifica ilnome della classe interceptor. Per esempio, il seguente interceptor controlla che l'utente sia loggato prima di consentire l'invocazione di un metodo action listener:"
+msgstr "EJB 3.0 ha introdotto un modello standard di interceptor per componenti session bean. Per aggiungere un interceptor ad un bean, occorre scrivere una classe con un metodo annotato con <literal>@AroundInvoke</literal> ed annotare il bean con l'annotazione <literal>@Interceptors</literal> che specifica il nome della classe interceptor. Per esempio, il seguente interceptor controlla che l'utente sia loggato prima di consentire l'invocazione di un metodo action listener:"
 
 #. Tag: programlisting
 #: Events.xml:631
