@@ -333,7 +333,7 @@ public class PersonHome extends EntityHome<Person> {
 			we only want to refresh certain queries when a particular entity is persisted, 
 			updated or removed we can observe the 
 			<literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> 
-			event (where <literal>&lt;name&gt;</literal> is the name of the entity).
+			event (where <literal>&lt;name&gt;</literal> is the simple name of the entity, e.g. an entity called "org.foo.myEntity" has "myEntity" as simple name).
 		</para>
 
         <para>
