@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tools\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-03-22 12:51+0000\n"
+"POT-Creation-Date: 2009-05-25 20:07+0000\n"
 "PO-Revision-Date: 2009-02-19 10:59+0900\n"
 "Last-Translator: Ken Yamada <ken@tydfam.jp>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -930,13 +930,13 @@ msgstr "JBoss AS の JNDI ルックアップ"
 
 #. Tag: para
 #: Mail.xml:336
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "The JBossAS <literal>deploy/mail-service.xml</literal> configures a JavaMail "
 "session binding into JNDI. The default service configuration will need "
-"altering for your network. <ulink url=\"http://wiki.jboss.org/wiki/Wiki.jsp?"
-"page=JavaMail\">http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail</ulink> "
-"describes the service in more detail."
+"altering for your network. <ulink url=\"http://www.jboss.org/community/wiki/"
+"JavaMail\">http://www.jboss.org/community/wiki/JavaMail</ulink> describes "
+"the service in more detail."
 msgstr ""
 "JBossAS <literal>deploy/mail-service.xml</literal> は JNDI にバインドする "
 "JavaMailのSessionクラスを設定します。 デフォルトのサービス設定は使用している"
