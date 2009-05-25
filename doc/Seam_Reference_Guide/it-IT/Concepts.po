@@ -412,7 +412,7 @@ msgstr "Bean di sessione stateless"
 #: Concepts.xml:321
 #, no-c-format
 msgid "Stateless session bean components are not able to hold state across multiple invocations. Therefore, they usually work by operating upon the state of other components in the various Seam contexts. They may be used as JSF action listeners, but cannot provide properties to JSF components for display."
-msgstr "I componenti bean di sessione stateless non sono in grado di mantenere lo stato lungo le diverse invocazioni. Quindi solitamente lavorano operando sullo statto di altri componenti in vari contesti Seam. Possono essere usati come action listener JSF, ma non forniscono proprietà ai componenti JSF da mostrare."
+msgstr "I componenti bean di sessione stateless non sono in grado di mantenere lo stato lungo le diverse invocazioni. Quindi solitamente lavorano operando sullo stato di altri componenti in vari contesti Seam. Possono essere usati come action listener JSF, ma non forniscono proprietà ai componenti JSF da mostrare."
 
 #. Tag: para
 #: Concepts.xml:326

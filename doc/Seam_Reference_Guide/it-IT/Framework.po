@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-04-29 12:40+0000\n"
-"PO-Revision-Date: 2009-04-29 14:48+0100\n"
+"PO-Revision-Date: 2009-05-25 22:03+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -163,7 +163,7 @@ msgstr ""
 #: Framework.xml:81
 #, no-c-format
 msgid "At this time, the Seam Application Framework provides four main built-in components: <literal>EntityHome</literal> and <literal>HibernateEntityHome</literal> for CRUD, along with <literal>EntityQuery</literal> and <literal>HibernateEntityQuery</literal> for queries."
-msgstr "Attualmente Seam fornisce quattro componenti predefiniti: <literal>EntityHome</literal> e <literal>HibernateEntityHome</literal> per le operazioni CRUD, assieme a <literal>EntityQuery</literal> e <literal>HibernateEntityQuery</literal> le query."
+msgstr "Attualmente Seam fornisce quattro componenti predefiniti: <literal>EntityHome</literal> e <literal>HibernateEntityHome</literal> per le operazioni CRUD, assieme a <literal>EntityQuery</literal> e <literal>HibernateEntityQuery</literal> per le query."
 
 #. Tag: para
 #: Framework.xml:89
@@ -245,7 +245,7 @@ msgstr ""
 #: Framework.xml:126
 #, no-c-format
 msgid "A Home object provides the following operations: <literal>persist()</literal>, <literal>remove()</literal>, <literal>update()</literal> and <literal>getInstance()</literal>. Before you can call the <literal>remove()</literal>, or <literal>update()</literal> operations, you must first set the identifier of the object you are interested in, using the <literal>setId()</literal> method."
-msgstr "Un oggetto Home fornisce le seguenti operazioni: <literal>persist()</literal>, <literal>remove()</literal>, <literal>update()</literal> e <literal>getInstance()</literal>. Prima di chiamare le operazioni <literal>remove()</literal>, o <literal>update()</literal>, occorre prima impostare l'identificatore dell'oggetto interessato, usando il metodo <literal>setId()</literal>."
+msgstr "Un oggetto Home fornisce le seguenti operazioni: <literal>persist()</literal>, <literal>remove()</literal>, <literal>update()</literal> e <literal>getInstance()</literal>. Prima di chiamare le operazioni <literal>remove()</literal>, o <literal>update()</literal>, occorre impostare l'identificatore dell'oggetto interessato, usando il metodo <literal>setId()</literal>."
 
 #. Tag: para
 #: Framework.xml:135
@@ -355,7 +355,7 @@ msgstr ""
 #: Framework.xml:163
 #, no-c-format
 msgid "Well, that lets us create new <literal>Person</literal> entries. Yes, that is all the code that is required! Now, if we want to be able to display, update and delete pre-existing <literal>Person</literal> entries in the database, we need to be able to pass the entry identifier to the <literal>PersonHome</literal>. Page parameters are a great way to do that:"
-msgstr "Bene, queste crea le nuove entry per <literal>Person</literal>. Esatto, è tutto quanto il codice che serve! Ora se si vuole mostrare, aggiornare e cancellare entry di <literal>Person</literal> già esistenti nel database, occorre passare l'identificatore delle entry a <literal>PersonHome</literal>. I parametri di pagina sono un eccezionale modo per farlo:"
+msgstr "Bene, questo crea nuove entry per <literal>Person</literal>. Esatto, questo è tutto il codice che serve! Ora se si vuole mostrare, aggiornare e cancellare le entry di <literal>Person</literal> già esistenti nel database, occorre passare l'identificatore delle entry a <literal>PersonHome</literal>. I parametri di pagina sono un eccezionale modo per farlo:"
 
 #. Tag: programlisting
 #: Framework.xml:172
@@ -549,7 +549,7 @@ msgstr ""
 #: Framework.xml:212
 #, no-c-format
 msgid "The Home object raises an <literal>org.jboss.seam.afterTransactionSuccess</literal> event when a transaction succeeds (a call to <literal>persist()</literal>, <literal>update()</literal> or <literal>remove()</literal> succeeds). By observing this event we can refresh our queries when the underlying entities are changed. If we only want to refresh certain queries when a particular entity is persisted, updated or removed we can observe the <literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> event (where <literal>&lt;name&gt;</literal> is the name of the entity)."
-msgstr "L'oggetto Home solleva un'evento <literal>org.jboss.seam.afterTransactionSuccess</literal> quando una transazione ha successo (una chiamata a <literal>persist()</literal>, <literal>update()</literal> o <literal>remove()</literal> ha successo). Osservando questo evento si può fare il refresh delle query quando le entità sottostanti cambiano. Se si vuole solo eseguire il refresh quando una particolare entità viene persistita, aggiornata o rimossa, si può osservare l'evento <literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> (dove <literal>&lt;name&gt;</literal> è il nome dell'entity)."
+msgstr "L'oggetto Home solleva un'evento <literal>org.jboss.seam.afterTransactionSuccess</literal> quando una transazione ha successo (una chiamata a <literal>persist()</literal>, <literal>update()</literal> o <literal>remove()</literal> ha successo). Osservando questo evento si può fare il refresh delle query quando cambiano le entità sottostanti. Se si vuole solo eseguire il refresh quando una particolare entità viene persistita, aggiornata o rimossa, si può osservare l'evento <literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> (dove <literal>&lt;name&gt;</literal> è il nome dell'entity)."
 
 #. Tag: para
 #: Framework.xml:223
@@ -941,7 +941,7 @@ msgstr "Sfortunatamente gli oggetti Query non funzionano bene con query <emphasi
 #: Framework.xml:328
 #, no-c-format
 msgid "The examples in this section have all shown reuse by configuration. However, reuse by extension is equally possible for Query objects."
-msgstr "Gli esempi in questa sezione hanno mostrato tutti il riuso tramite configurazione. Comunque il riuso tramite estensione è ugualmente possibile per gli oggetti Query."
+msgstr "Gli esempi in questa sezione hanno mostrato tutti il riuso tramite configurazione. Comunque per gli oggetti Query il riuso tramite estensione è ugualmente possibile."
 
 #. Tag: title
 #: Framework.xml:336
