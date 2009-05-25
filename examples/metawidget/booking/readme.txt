@@ -36,6 +36,6 @@ You can also toggle Seam's ManagedEntityInterceptor for any deployment with the 
 
  -Ddistributable=false
 
-Access the application at http://localhost:8080/jboss-metawidget-booking
+Access the application at http://localhost:8080/seam-metawidget-booking
 
 For further Metawidget documentation see http://metawidget.org/documentation.html.

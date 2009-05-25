@@ -19,6 +19,6 @@ The stage command is automatically called on any Ant build, so you can simply ru
 
   ant explode
 
-Access the application at http://localhost:8080/jboss-metawidget-dvdstore
+Access the application at http://localhost:8080/seam-metawidget-dvdstore
 
 For further Metawidget documentation see http://metawidget.org/documentation.html.

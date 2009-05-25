@@ -26,6 +26,6 @@ When editing Groovy files from the src/action directory, you can run "ant
 build jbosswar.explode" to see your changes take effect.  When editing Groovy files
 from src/model, you need to run "ant build jbosswar.explode jbosswar.restart"
 
-Access the application at http://localhost:8080/jboss-seam-metawidget-groovybooking
+Access the application at http://localhost:8080/seam-metawidget-groovybooking
 
 For further Metawidget documentation see http://metawidget.org/documentation.html.
