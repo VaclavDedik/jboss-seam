@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-04-29 12:40+0000\n"
-"PO-Revision-Date: 2009-05-25 22:03+0100\n"
+"POT-Creation-Date: 2009-05-25 20:06+0000\n"
+"PO-Revision-Date: 2009-05-25 22:11+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -548,8 +548,8 @@ msgstr ""
 #. Tag: para
 #: Framework.xml:212
 #, no-c-format
-msgid "The Home object raises an <literal>org.jboss.seam.afterTransactionSuccess</literal> event when a transaction succeeds (a call to <literal>persist()</literal>, <literal>update()</literal> or <literal>remove()</literal> succeeds). By observing this event we can refresh our queries when the underlying entities are changed. If we only want to refresh certain queries when a particular entity is persisted, updated or removed we can observe the <literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> event (where <literal>&lt;name&gt;</literal> is the name of the entity)."
-msgstr "L'oggetto Home solleva un'evento <literal>org.jboss.seam.afterTransactionSuccess</literal> quando una transazione ha successo (una chiamata a <literal>persist()</literal>, <literal>update()</literal> o <literal>remove()</literal> ha successo). Osservando questo evento si può fare il refresh delle query quando cambiano le entità sottostanti. Se si vuole solo eseguire il refresh quando una particolare entità viene persistita, aggiornata o rimossa, si può osservare l'evento <literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> (dove <literal>&lt;name&gt;</literal> è il nome dell'entity)."
+msgid "The Home object raises an <literal>org.jboss.seam.afterTransactionSuccess</literal> event when a transaction succeeds (a call to <literal>persist()</literal>, <literal>update()</literal> or <literal>remove()</literal> succeeds). By observing this event we can refresh our queries when the underlying entities are changed. If we only want to refresh certain queries when a particular entity is persisted, updated or removed we can observe the <literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> event (where <literal>&lt;name&gt;</literal> is the simple name of the entity, e.g. an entity called \"org.foo.myEntity\" has \"myEntity\" as simple name)."
+msgstr "L'oggetto Home solleva un'evento <literal>org.jboss.seam.afterTransactionSuccess</literal> quando una transazione ha successo (una chiamata a <literal>persist()</literal>, <literal>update()</literal> o <literal>remove()</literal> ha successo). Osservando questo evento si può fare il refresh delle query quando cambiano le entità sottostanti. Se si vuole solo eseguire il refresh quando una particolare entità viene persistita, aggiornata o rimossa, si può osservare l'evento <literal>org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</literal> (dove <literal>&lt;name&gt;</literal> è il nome semplice dell'entity, es. un entity chiamata \"org.foo.myEntity\" ha nome semplice \"myEntity\")."
 
 #. Tag: para
 #: Framework.xml:223

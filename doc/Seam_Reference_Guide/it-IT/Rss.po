@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seam_Reference_Guide\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-05-23 14:49+0100\n"
+"POT-Creation-Date: 2009-05-25 20:07+0000\n"
+"PO-Revision-Date: 2009-05-25 22:12+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -274,8 +274,8 @@ msgstr "Link e ulteriore documentazione"
 #. Tag: para
 #: Rss.xml:230
 #, no-c-format
-msgid "The core of the RSs functionality is based on the YARFRAW library which can be found on http://yarfraw.sourceforge.net/ and most features and possible limitations are inherited from here."
-msgstr "Alla base del supporto RSS c'è la libreria YARFRAW che si può trovare all'indirizzo http://yarfraw.sourceforge.net/ e da questa deriva la maggior parte delle caratteristiche e delle limitazioni."
+msgid "The core of the RSs functionality is based on the YARFRAW library which can be found on <ulink url=\"http://yarfraw.sourceforge.net/\">http://yarfraw.sourceforge.net/</ulink> and most features and possible limitations are inherited from here."
+msgstr "Alla base del supporto RSS c'è la libreria YARFRAW che si può trovare all'indirizzo <ulink url=\"http://yarfraw.sourceforge.net/\">http://yarfraw.sourceforge.net/</ulink> e da questa deriva la maggior parte delle caratteristiche e delle limitazioni."
 
 #. Tag: para
 #: Rss.xml:235

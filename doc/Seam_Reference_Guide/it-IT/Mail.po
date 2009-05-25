@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-02-19 21:44+0000\n"
-"PO-Revision-Date: 2009-05-24 14:50+0100\n"
+"POT-Creation-Date: 2009-05-25 20:07+0000\n"
+"PO-Revision-Date: 2009-05-25 22:12+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -660,8 +660,8 @@ msgstr "JNDI lookup in JBoss AS"
 #. Tag: para
 #: Mail.xml:336
 #, no-c-format
-msgid "The JBossAS <literal>deploy/mail-service.xml</literal> configures a JavaMail session binding into JNDI. The default service configuration will need altering for your network. <ulink url=\"http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail\">http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail</ulink> describes the service in more detail."
-msgstr "<literal>deploy/mail-service.xml</literal> di JBoss AS configura una sessione JavaMail legandola a JNDI. La configurazione di default del servizio deve essere modificata per la propria rete. <ulink url=\"http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail\">http://wiki.jboss.org/wiki/Wiki.jsp?page=JavaMail</ulink> descrive il servizio  con maggiore dettaglio."
+msgid "The JBossAS <literal>deploy/mail-service.xml</literal> configures a JavaMail session binding into JNDI. The default service configuration will need altering for your network. <ulink url=\"http://www.jboss.org/community/wiki/JavaMail\">http://www.jboss.org/community/wiki/JavaMail</ulink> describes the service in more detail."
+msgstr "<literal>deploy/mail-service.xml</literal> di JBoss AS configura una sessione JavaMail legandola a JNDI. La configurazione di default del servizio deve essere modificata per la propria rete. <ulink url=\"http://www.jboss.org/community/wiki/JavaMail\">http://www.jboss.org/community/wiki/JavaMail</ulink> descrive il servizio  con maggiore dettaglio."
 
 #. Tag: programlisting
 #: Mail.xml:344
