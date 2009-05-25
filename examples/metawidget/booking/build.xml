@@ -23,7 +23,8 @@
     <property name="metawidget-ear.lib" value="yes"/>
     
     <!-- Datasource -->
-    <property name="example.ds" value="seam-metawidget-booking-ds.xml"/>
+    <!--<property name="example.ds" value="seam-metawidget-booking-ds.xml"/>-->
+    <property name="example.ds" value="jboss-seam-booking-ds.xml"/>
 
     <target name="init" depends="stage">
         <antcall target="SeamExample.init"/>
@@ -49,7 +50,7 @@
             </fileset>
         </copy>
         
-        <move file="${resources.dir}/jboss-seam-booking-ds.xml" tofile="${resources.dir}/${example.ds}"/>
+        <!--<move file="${resources.dir}/jboss-seam-booking-ds.xml" tofile="${resources.dir}/${example.ds}"/>-->
     </target>
     
     <import file="${basedir}/../../build.xml"/>

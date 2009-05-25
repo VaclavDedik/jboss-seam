@@ -28,7 +28,8 @@
     <property name="profile" value="dev" />
     
     <!-- Datasource -->
-    <property name="example.ds" value="metawidget-groovybooking-${profile}-ds.xml"/>
+    <!--<property name="example.ds" value="metawidget-groovybooking-${profile}-ds.xml"/>-->
+    <property name="example.ds" value="groovybooking-${profile}-ds.xml"/>
 
     <target name="init" depends="stage">
         <antcall target="SeamExample.init"/>
@@ -54,8 +55,10 @@
             </fileset>
         </copy>
         
+        <!--
         <move file="${resources.dir}/groovybooking-dev-ds.xml" tofile="${resources.dir}/metawidget-groovybooking-dev-ds.xml"/>
         <move file="${resources.dir}/groovybooking-prod-ds.xml" tofile="${resources.dir}/metawidget-groovybooking-prod-ds.xml"/>
+        -->
     </target>
     
     <import file="${basedir}/../../build.xml"/>
