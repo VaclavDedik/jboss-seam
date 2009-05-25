@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:24+0000\n"
-"PO-Revision-Date: 2009-05-24 19:25+0100\n"
-"Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
+"PO-Revision-Date: 2009-05-25 22:57+0100\n"
+"Last-Translator: Francesco Milesi <milesif@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,85 +23,89 @@ msgstr "Seam su Weblogic di BEA"
 #: Weblogic.xml:4
 #, no-c-format
 msgid "Weblogic 10.3 is BEA's latest stable JEE5 server offering. Seam applications can be deployed and developed on Weblogic servers, and this chapter will show you how. There are some known issues with the Weblogic servers that will need to be worked around, and configuration changes that are needed specific to Weblogic."
-msgstr ""
+msgstr "Weblogic 10.3 è l'ultimo server JEE5 stabile proposto da BEA. Le applicazioni Seam possono essere sviluppate e installate sui server Weblogic, e questo capitolo vi mostrerà in che modo. Ci sono alcuni problemi noti da aggirare relativi ai server Weblogic e alcune modifiche alle configurazioni che sono specifiche di Weblogic."
 
 #. Tag: para
 #: Weblogic.xml:10
 #, no-c-format
 msgid "First step is to get Weblogic downloaded, installed and running. Then we'll talk about Seam's JEE5 example and the hurdles to getting it running. After that, the JPA example will be deployed to the server. Then finally we will create a <literal>seam-gen</literal> application and get it up and running to provide a jump start to your own application."
-msgstr ""
+msgstr "Innanzitutto bisogna scaricare Weblogic, installarlo e avviarlo. Quindi passeremo a parlare dell'esempio JEE5 di Seam e deigli ostacoli da superare per farlo funzionare. Dopo di ché, installeremo l'esempio JPA. Infine creeremo un'applicazione <literal>seam-gen</literal> e la faremo girare per fornire un punto di partenza alla vostra applicazione."
 
+# operatività?
+# messa in opera?
 #. Tag: title
 #: Weblogic.xml:18
 #, no-c-format
 msgid "Installation and operation of Weblogic"
-msgstr ""
+msgstr "Installazione e operatività di Weblogic"
 
 #. Tag: para
 #: Weblogic.xml:19
 #, no-c-format
 msgid "First things first we need to get the server installed. There are some outstanding issues that were not addressed in 10.3, but it does solve some of the issues discussed below without the need for BEA patches. The previous release 10.0.MP1 is also available, but requires some BEA patches to function correctly."
-msgstr ""
+msgstr "Prima di tutto bisogna installare il server. Ci sono alcuni problemi non trascurabili che non sono stati affrontati nella 10.3, che tuttavia risolve alcuni di quelli discussi sotto senza dover installare le patch di BEA. E' disponibile anche il precedente rilascio, 10.0.MP1, che, tuttavia, richiede le patch di BEA per funzionare correttamente."
 
 #. Tag: para
 #: Weblogic.xml:26
 #, no-c-format
 msgid "<literal>Weblogic 10.0.MP1</literal> &#8212; <ulink url=\"http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html\"> Download page </ulink>"
-msgstr ""
+msgstr "<literal>Weblogic 10.0.MP1</literal> &#8212; <ulink url=\"http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html\"> Pagina di download </ulink>"
 
+# weblogic-ejb-issues va tradotto?
 #. Tag: para
 #: Weblogic.xml:30
 #, no-c-format
 msgid "10.0.MP1 has some known issues with EJBs that use <literal>varargs</literal> in their methods (it confuses them as <literal>transient</literal> ), as well as some others. See <xref linkend=\"weblogic-ejb-issues\"/> for full details on the issues and the work around."
-msgstr ""
+msgstr "La versione 10.0.MP1 ha alcuni problemi noti con gli EJBs che usano <literal>varargs</literal> nei propri metodi (li confonde con <literal>transient</literal> ), e non sono gli unici. Si veda <xref linkend=\"weblogic-ejb-issues\"/> per tutti i dettagli su tali problemi e per le relative soluzioni."
 
 #. Tag: para
 #: Weblogic.xml:37
 #, no-c-format
 msgid "<literal>Weblogic 10.3</literal> &#8212; <ulink url=\"http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html\"> Download page </ulink>"
-msgstr ""
+msgstr "<literal>Weblogic 10.3</literal> &#8212; <ulink url=\"http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html\"> Pagina di download </ulink>"
 
+# weblogic-ejb-issues è da tradurre?
 #. Tag: para
 #: Weblogic.xml:41
 #, no-c-format
 msgid "This is the latest stable release of the Weblogic server, and the one that will be used with the examples below. This version has addressed some of the issues with EJBs that were in 10.0.MP1. However one of the changes did not make it into this release. See <xref linkend=\"weblogic-ejb-issues\"/> for the details, but because of this we still need to use the special Weblogic seam jar discussed below."
-msgstr ""
+msgstr "Questa è l'ultima versione stabile del server Weblogic, e quello che sarà usato negli esempi sottostanti. Questa versione ha sistemato alcuni dei malfunzionamenti relativi agli EJB che esistevano nella versione 10.0.MP1. Comunque una delle modifiche non è stata inserita in questa versione. Si veda <xref linkend=\"weblogic-ejb-issues\"/> per i dettagli, e perciò bisogna ancora usare lo speciale jar di Seam di Weblogic discusso di seguito."
 
 #. Tag: title
 #: Weblogic.xml:53
 #, no-c-format
 msgid "Special <literal>jboss-seam.jar</literal> for Weblogic EJB Support"
-msgstr ""
+msgstr "Il jar speciale <literal>jboss-seam.jar</literal> per il supporto EJB in Weblogic"
 
 #. Tag: para
 #: Weblogic.xml:55
 #, no-c-format
 msgid "Starting with Seam 2.0.2.CR2 a special Weblogic specific jar has been created that does not contain the <literal>TimerServiceDispatcher </literal>. This is the EJB that uses <literal>varargs</literal> and exposes the second EJB issue. We will be using this jar for the <literal>jee5/booking</literal> example, as it avoids the known BEA issues."
-msgstr ""
+msgstr "A partire da Seam 2.0.2.CR2 per Weblogic è stato creato un jar speciale che non contiene il <literal>TimerServiceDispatcher </literal>. Questo è l'EJB che usa <literal>varargs</literal> e presenta il secondo problema relativo agli EJB. Ci troveremo ad usare questo jar per l'esempio <literal>jee5/booking</literal>, poiché evita i noti problemi di BEA."
 
 #. Tag: title
 #: Weblogic.xml:65
 #, no-c-format
 msgid "Installing 10.3"
-msgstr "Installare 10.3"
+msgstr "Installare la versione 10.3"
 
 #. Tag: para
 #: Weblogic.xml:67
 #, no-c-format
 msgid "Here are the quick steps to installing Weblogic 10.3. For more details or if you are having any issues please check with the BEA docs at the <ulink url=\"http://edocs.bea.com/wls/docs103/\"> Weblogic 10.3 Doc Center </ulink> . Here we install the RHEL 5 version using the graphical installer:"
-msgstr ""
+msgstr "Ecco velocemente i passi necessari ad installare Weblogic 10.3. Per maggiori dettagli e nel caso si presentino dei problemi,vi preghiamo di consultare i documenti BEA all'indirizzo <ulink url=\"http://edocs.bea.com/wls/docs103/\"> Weblogic 10.3 Doc Center </ulink> . Qui verrà installata la versione RHEL 5 usando l'installazione grafica:"
 
 #. Tag: para
 #: Weblogic.xml:80
 #, no-c-format
 msgid "Follow the link given above for 10.3 and download the correct version for your environment. You will need to sign up for an account with Oracle in order to do this."
-msgstr ""
+msgstr "Si segua il link alla 10.3 indicato sopra e si scarichi la versione adatta al proprio ambiente. Sarà necessario creare un account Oracle per portare a termine l'operazione."
 
 #. Tag: para
 #: Weblogic.xml:85
 #, no-c-format
 msgid "You may need to change the the <literal>server103_XX.bin</literal> file to be executable:"
-msgstr ""
+msgstr "Può essere necessario rendere eseguibile il file <literal>server103_XX.bin</literal>:"
 
 #. Tag: programlisting
 #: Weblogic.xml:88
@@ -113,7 +117,7 @@ msgstr "chmod a+x server103_XX.bin"
 #: Weblogic.xml:91
 #, no-c-format
 msgid "Execute the install:"
-msgstr "Eseguire l'install:"
+msgstr "Eseguite l'installazione:"
 
 #. Tag: programlisting
 #: Weblogic.xml:92
@@ -125,7 +129,7 @@ msgstr "./server103_XX.bin"
 #: Weblogic.xml:95
 #, no-c-format
 msgid "When the graphical install loads, you need to set the BEA home location. This is where all BEA applications are installed. This location will be known as <literal>$BEA_HOME</literal> in this document e.g.:"
-msgstr ""
+msgstr "Quando l'installazione grafica è caricata, bisogna impostare il percorso della home directory di BEA. Questo è il punto dove sono installate tutte le applicazioni BEA. In questo documento tale punto sarà identificato con <literal>$BEA_HOME</literal>, ad esempio:"
 
 #. Tag: programlisting
 #: Weblogic.xml:100
@@ -137,31 +141,32 @@ msgstr "/jboss/apps/bea"
 #: Weblogic.xml:103
 #, no-c-format
 msgid "Select <literal>Complete</literal> as the installation type. You do not need all the extras of the complete install (such as struts and beehive libraries), but it will not hurt."
-msgstr ""
+msgstr "Come tipo di installazione bisogna selezionare <literal>Complete</literal>. Non c'è bisogno di tutti gli extra dell'installazione competa (come le librerie struts e beehive), ma non farà alcun male."
 
 #. Tag: para
 #: Weblogic.xml:109
 #, no-c-format
 msgid "You can leave the defaults for the component installation locations on the next page."
-msgstr ""
+msgstr "Nella pagina successiva è possibile lasciare i valori predefiniti delle posizioni di installazione dei componenti."
 
 #. Tag: title
 #: Weblogic.xml:115
 #, no-c-format
 msgid "Creating your Weblogic domain"
-msgstr "Creazione del domino Weblogic"
+msgstr "Creazione del dominio Weblogic"
 
+#  self contained=autosufficiente?\
 #. Tag: para
 #: Weblogic.xml:116
 #, no-c-format
 msgid "A Weblogic domain is similar to a JBoss server configuration - it is a self contained server instance. The Weblogic server you just installed has some example domains, but we are going to create one just for the seam examples. You can use the existing domains if you wish (modify the instructions as needed)."
-msgstr ""
+msgstr "Un dominio Weblogic è simile ad una configurazione del server JBoss - è un'istanza autosufficiente del server. Il server Weblogic appena installato ha alcuni domini di esempio, ma noi ne creeremo uno apposito per gli esempi di Seam. Se si vuole, è possibile usare i domini esistenti (modificando le istruzioni opportunamente)."
 
 #. Tag: para
 #: Weblogic.xml:123
 #, no-c-format
 msgid "Start up the Weblogic configuration wizard:"
-msgstr ""
+msgstr "Avviare il wizard di configurazione di Weblogic:"
 
 #. Tag: programlisting
 #: Weblogic.xml:124
@@ -169,41 +174,42 @@ msgstr ""
 msgid "$BEA_HOME/wlserver_10.3/common/bin/config.sh"
 msgstr "$BEA_HOME/wlserver_10.3/common/bin/config.sh"
 
+# Weblogic Server è da tradurre?
 #. Tag: para
 #: Weblogic.xml:127
 #, no-c-format
 msgid "Choose to create a new domain, configured to support <literal>Weblogic Server</literal>. Note that this is the default domain option."
-msgstr ""
+msgstr "Si scelga di creare un nuovo dominio, configurato per supportare <literal>Weblogic Server</literal>. Tenete presente che questa è l'opzione predefinita per il dominio."
 
 #. Tag: para
 #: Weblogic.xml:132
 #, no-c-format
 msgid "Set a username and password for this domain."
-msgstr ""
+msgstr "Impostate un utente ed una password per questo dominio."
 
 #. Tag: para
 #: Weblogic.xml:135
 #, no-c-format
 msgid "Next choose <literal>Development Mode</literal> and the default JDK when given the option."
-msgstr ""
+msgstr "Quindi si scelga <literal>Development Mode</literal> e il JDK predefinito quando richiesto."
 
 #. Tag: para
 #: Weblogic.xml:139
 #, no-c-format
 msgid "The next screen asks if you want to customize any setting. Select <literal>No</literal>."
-msgstr ""
+msgstr "La schermata successiva chiede se si vuole personalizzare qualche proprietà. Bisogna selezionare <literal>No</literal>."
 
 #. Tag: para
 #: Weblogic.xml:143
 #, no-c-format
 msgid "Finally set the name of the domain to <literal>seam_examples</literal> and leave the default domain location."
-msgstr ""
+msgstr "Infine bisogna indicare <literal>seam_examples</literal> come nome del dominio e lasciare la sua posizione predefinita."
 
 #. Tag: title
 #: Weblogic.xml:150
 #, no-c-format
 msgid "How to Start/Stop/Access your domain"
-msgstr ""
+msgstr "Come avviare/arrestare/accedere il dominio"
 
 #. Tag: para
 #: Weblogic.xml:151
