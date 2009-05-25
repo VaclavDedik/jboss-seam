@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-05-12 23:43+0100\n"
+"PO-Revision-Date: 2009-05-25 14:18+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -87,7 +87,7 @@ msgstr "<para>contesto Sessione</para>"
 #: Concepts.xml:234
 #, no-c-format
 msgid "<para>Business process context</para>"
-msgstr "<para>contesto processo di Business</para>"
+msgstr "<para>contesto Processo di Business</para>"
 
 #. Tag: para
 #: Concepts.xml:45
