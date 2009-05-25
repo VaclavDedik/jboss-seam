@@ -49,9 +49,11 @@
                              entity-class="org.jboss.seam.example.restbay.Category"
                              media-types="application/xml application/json"/>
                              
-	<web:authentication-filter url-pattern="/seam/resource/restv1/secured/*"
-	auth-type="basic" realm="Seam RestBay Application" />
+	<web:authentication-filter
+            url-pattern="/seam/resource/restv1/secured/*"
+	        auth-type="basic"
+            realm="Seam RestBay Application"/>
 	
-	<security:identity authenticate-method="#{authenticator.authenticate}" />
+	<security:identity authenticate-method="#{testAuthenticator.authenticate}" />
 
 </components>

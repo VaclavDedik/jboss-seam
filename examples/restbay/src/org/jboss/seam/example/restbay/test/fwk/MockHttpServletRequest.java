@@ -817,14 +817,11 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	public void setSession(HttpSession session) {
-		this.session = session;
-      // TODO: We don't need session handling?
-      /*
 		if (session instanceof MockHttpSession) {
 			MockHttpSession mockSession = ((MockHttpSession) session);
-			mockSession.access();
+			//TODO: We don't track access times in mocks (yet) mockSession.access();
 		}
-		*/
+      this.session = session;
 	}
 
 	public HttpSession getSession(boolean create) {

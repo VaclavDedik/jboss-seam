@@ -9,4 +9,10 @@
         </http-error>
     </exception>
        
+    <exception class="org.jboss.seam.security.AuthorizationException" log="false">
+        <http-error error-code="403">
+            <message>Not authorized to access resource: #{org.jboss.seam.handledException.message}</message>
+        </http-error>
+    </exception>
+
 </pages>

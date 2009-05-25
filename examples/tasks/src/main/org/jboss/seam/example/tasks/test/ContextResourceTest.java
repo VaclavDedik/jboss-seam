@@ -54,7 +54,7 @@ public class ContextResourceTest extends ResourceSeamTest
          {
             super.prepareRequest(request);
             request.addHeader("Accept", contentType);
-            request.addHeader("Authorization", "BASIC ZGVtbzpkZW1v"); // demo:demo
+            request.addHeader("Authorization", "Basic ZGVtbzpkZW1v"); // demo:demo
          }
 
          @Override
@@ -79,7 +79,7 @@ public class ContextResourceTest extends ResourceSeamTest
          {
             super.prepareRequest(request);
             request.addHeader("Accept", "application/xml");
-            request.addHeader("Authorization", "BASIC ZGVtbzpkZW1v"); // demo:demo
+            request.addHeader("Authorization", "Basic ZGVtbzpkZW1v"); // demo:demo
          }
 
          @Override
@@ -107,7 +107,7 @@ public class ContextResourceTest extends ResourceSeamTest
          protected void prepareRequest(MockHttpServletRequest request)
          {
             super.prepareRequest(request);
-            request.addHeader("Authorization", "BASIC ZGVtbzpkZW1v"); // demo:demo
+            request.addHeader("Authorization", "Basic ZGVtbzpkZW1v"); // demo:demo
          }
 
          @Override
@@ -127,7 +127,7 @@ public class ContextResourceTest extends ResourceSeamTest
          {
             super.prepareRequest(request);
             request.addHeader("Accept", mimeType);
-            request.addHeader("Authorization", "BASIC ZGVtbzpkZW1v"); // demo:demo
+            request.addHeader("Authorization", "Basic ZGVtbzpkZW1v"); // demo:demo
          }
 
          @Override

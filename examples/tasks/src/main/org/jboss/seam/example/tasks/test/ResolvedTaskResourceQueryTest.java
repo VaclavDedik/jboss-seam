@@ -27,7 +27,7 @@ import static org.testng.Assert.assertTrue;
 import org.jboss.seam.example.tasks.test.fwk.MockHttpServletRequest;
 import org.jboss.seam.example.tasks.test.fwk.MockHttpServletResponse;
 import org.jboss.seam.example.tasks.test.fwk.ResourceSeamTest;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -38,8 +38,9 @@ import org.testng.annotations.Test;
  */
 public class ResolvedTaskResourceQueryTest extends ResourceSeamTest
 {
-   
-   @BeforeClass
+
+   // We could do this BeforeClass only once but we can't do ResourceRequests there
+   @BeforeMethod
    public void resolveTask() throws Exception {
       
       final String mimeType = "application/xml";
@@ -52,7 +53,7 @@ public class ResolvedTaskResourceQueryTest extends ResourceSeamTest
          protected void prepareRequest(MockHttpServletRequest request)
          {
             super.prepareRequest(request);
-            request.addHeader("Authorization", "BASIC ZGVtbzpkZW1v"); // demo:demo
+            request.addHeader("Authorization", "Basic ZGVtbzpkZW1v"); // demo:demo
             request.addHeader("Content-Type", mimeType);
             request.setContentType(mimeType);
             request.setContent(representation.getBytes());

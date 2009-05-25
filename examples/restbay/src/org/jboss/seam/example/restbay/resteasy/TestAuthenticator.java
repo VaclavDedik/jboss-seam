@@ -10,20 +10,23 @@ import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
 
-@Name("authenticator")
+@Name("testAuthenticator")
 @Scope(ScopeType.EVENT)
-public class Authenticator
+public class TestAuthenticator
 {
 
    @In
    private Identity identity;
+
    @In
    private Credentials credentials;
+
    @Logger
    private Log log;
 
    public boolean authenticate()
    {
+      log.debug("Authenticating username/password: " + credentials.getUsername() + "/" + credentials.getPassword());
       if (credentials.getUsername().equals(credentials.getPassword())) {
          log.info("Authenticated {0}", credentials.getUsername());
          
@@ -31,8 +34,10 @@ public class Authenticator
             identity.addRole("admin");
             log.info("Admin rights granted for {0}", credentials.getUsername());
          }
+         log.debug("Authentication valid");
          return true;
       } else {
+         log.debug("Authentication invalid");
          return false;
       }
    }

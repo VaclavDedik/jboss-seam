@@ -115,6 +115,9 @@ public class ResourceSeamTest extends SeamTest
             request.addUserRole(role);
          }
 
+         // Use the (mock) HttpSession that Seam uses, see AbstractSeamTest
+         request.setSession(session);
+
       }
 
       protected MockHttpServletRequest createRequest()

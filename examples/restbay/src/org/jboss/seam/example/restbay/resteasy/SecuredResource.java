@@ -15,7 +15,7 @@ import org.jboss.seam.security.Identity;
  *
  */
 
-@Path("/secured/resource")
+@Path("/secured")
 @Name("securedResource")
 @Produces("text/plain")
 public class SecuredResource
