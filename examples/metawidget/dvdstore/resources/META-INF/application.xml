@@ -7,14 +7,14 @@
     <display-name>Metawidget DVD Store</display-name>
     
     <module>
-        <ejb>jboss-seam-metawidget-dvdstore.jar</ejb>
+        <web>
+            <web-uri>seam-metawidget-dvdstore.war</web-uri>
+            <context-root>/seam-metawidget-dvdstore</context-root>
+        </web>
     </module>
     
     <module>
-        <web>
-            <web-uri>jboss-seam-metawidget-dvdstore.war</web-uri>
-            <context-root>/seam-metawidget-dvdstore</context-root>
-        </web>
+        <ejb>seam-metawidget-dvdstore.jar</ejb>
     </module>
     
     <module>

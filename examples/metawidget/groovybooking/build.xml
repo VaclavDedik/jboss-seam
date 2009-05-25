@@ -3,7 +3,7 @@
 
     <!-- Naming -->
     <property name="Name"                   value="Seam Metawidget Groovy Booking Example"/>
-    <property name="example.name"           value="jboss-seam-metawidget-groovybooking"/>
+    <property name="example.name"           value="seam-metawidget-groovybooking"/>
 
     <property file="${basedir}/build.properties" />
 
@@ -115,6 +115,12 @@
     </target>
 
     <target name="compilemodel" depends="groovy.init">
+        <!-- We have to delete, otherwise Groovy fails to compile for some reason when files already exist in destination -->
+        <delete>
+            <fileset dir="${classes.model.dir}">
+                <include name="**/*.class"/>
+            </fileset>
+        </delete>
         <groovyc classpathref="build.classpath" destdir="${classes.model.dir}" srcdir="${src.model.dir}" />
     </target>
 

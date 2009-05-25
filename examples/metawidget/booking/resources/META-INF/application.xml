@@ -8,13 +8,13 @@
 
     <module>
         <web>
-            <web-uri>jboss-seam-metawidget-booking.war</web-uri>
+            <web-uri>seam-metawidget-booking.war</web-uri>
             <context-root>/seam-metawidget-booking</context-root>
         </web>
     </module>
     
     <module>
-        <ejb>jboss-seam-metawidget-booking.jar</ejb>
+        <ejb>seam-metawidget-booking.jar</ejb>
     </module>
     
     <module>

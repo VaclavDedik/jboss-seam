@@ -3,7 +3,7 @@
 
     <!-- Naming -->
     <property name="Name"                   value="Seam Metawidget Booking Example"/>
-    <property name="example.name"           value="jboss-seam-metawidget-booking"/>
+    <property name="example.name"           value="seam-metawidget-booking"/>
 
     <property file="${basedir}/build.properties" />
 
@@ -23,7 +23,7 @@
     <property name="metawidget-ear.lib" value="yes"/>
     
     <!-- Datasource -->
-    <property name="example.ds" value="jboss-seam-metawidget-booking-ds.xml"/>
+    <property name="example.ds" value="seam-metawidget-booking-ds.xml"/>
 
     <target name="init" depends="stage">
         <antcall target="SeamExample.init"/>

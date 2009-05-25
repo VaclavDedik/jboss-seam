@@ -3,7 +3,7 @@
 
     <!-- Naming -->
     <property name="Name"                   value="Seam DVD Store Example"/>
-    <property name="example.name"           value="jboss-seam-metawidget-dvdstore"/>
+    <property name="example.name"           value="seam-metawidget-dvdstore"/>
 
     <property file="${basedir}/build.properties" />
 
@@ -25,7 +25,7 @@
     <property name="metawidget-ear.lib" value="yes"/>
     
     <!-- Datasource -->
-    <property name="example.ds" value="jboss-seam-metawidget-dvdstore-ds.xml"/>
+    <property name="example.ds" value="seam-metawidget-dvdstore-ds.xml"/>
 
     <target name="init" depends="stage">
         <antcall target="SeamExample.init"/>
