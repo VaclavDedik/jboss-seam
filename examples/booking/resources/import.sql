@@ -9,7 +9,7 @@ insert into Hotel (id, price, name, address, city, state, zip, country) values (
 insert into Hotel (id, price, name, address, city, state, zip, country) values (8, 300, 'Conrad Miami', '1395 Brickell Ave', 'Miami', 'FL', '33131', 'USA')
 insert into Hotel (id, price, name, address, city, state, zip, country) values (9, 80, 'Sea Horse Inn', '2106 N Clairemont Ave', 'Eau Claire', 'WI', '54703', 'USA')
 insert into Hotel (id, price, name, address, city, state, zip, country) values (10, 90, 'Super 8 Eau Claire Campus Area', '1151 W Macarthur Ave', 'Eau Claire', 'WI', '54701', 'USA')
-insert into Hotel (id, price, name, address, city, state, zip, country) values (11, 160, 'Marriot Downtown', '55 Fourth Street', 'San Francisco', 'CA', '94103', 'USA')
+insert into Hotel (id, price, name, address, city, state, zip, country) values (11, 160, 'Marriott Downtown', '55 Fourth Street', 'San Francisco', 'CA', '94103', 'USA')
 insert into Hotel (id, price, name, address, city, state, zip, country) values (12, 200, 'Hilton Diagonal Mar', 'Passeig del Taulat 262-264', 'Barcelona', 'Catalunya', '08019', 'Spain')
 insert into Hotel (id, price, name, address, city, state, zip, country) values (13, 210, 'Hilton Tel Aviv', 'Independence Park', 'Tel Aviv', '', '63405', 'Israel')
 insert into Hotel (id, price, name, address, city, state, zip, country) values (14, 240, 'InterContinental Tokyo Bay', 'Takeshiba Pier', 'Tokyo', '', '105', 'Japan')
