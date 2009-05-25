@@ -37,7 +37,7 @@
 
     <resteasy:application resource-path-prefix="/restv1">
         <resteasy:resource-class-names>
-            <value>org.jboss.seam.example.restbay.resteasy.StatelessEjbTestResourceBean</value>
+            <value>org.jboss.seam.example.restbay.resteasy.statelessejb.StatelessEjbTestResourceBean</value>
         </resteasy:resource-class-names>
     </resteasy:application>
 

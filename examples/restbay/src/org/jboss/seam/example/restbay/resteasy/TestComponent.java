@@ -20,4 +20,8 @@ public class TestComponent
       csv.add(new String[]{"asdf", "123"});
       return csv;
    }
+
+   public String getTestString() {
+      return "abc";
+   }
 }

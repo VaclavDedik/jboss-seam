@@ -1,4 +1,4 @@
-package org.jboss.seam.example.restbay.resteasy;
+package org.jboss.seam.example.restbay.resteasy.provider;
 
 import org.jboss.resteasy.spi.StringConverter;
 
@@ -9,10 +9,11 @@ import java.text.ParseException;
 
 /**
  * Converts QueryParam etc. strings to GregorianCalendar if they are in ISO date format
+ *
  * @author Christian Bauer
  */
 @Provider
-public class CalendarConverter implements StringConverter<GregorianCalendar>
+public class PlainResteasyStringConverterProvider implements StringConverter<GregorianCalendar>
 {
    public static final String ISO_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
 

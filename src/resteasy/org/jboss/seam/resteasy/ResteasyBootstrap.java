@@ -1,33 +1,72 @@
+/*
+ * JBoss, Home of Professional Open Source
+ * Copyright 2008, Red Hat Middleware LLC, and individual contributors
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
 package org.jboss.seam.resteasy;
 
+import org.jboss.resteasy.core.Dispatcher;
+import org.jboss.resteasy.core.SynchronousDispatcher;
+import org.jboss.resteasy.core.ThreadLocalResteasyProviderFactory;
+import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
+import org.jboss.resteasy.plugins.server.resourcefactory.POJOResourceFactory;
+import org.jboss.resteasy.spi.ResourceFactory;
+import org.jboss.resteasy.spi.StringConverter;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
+import org.jboss.seam.annotations.AutoCreate;
+import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Factory;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Install;
+import org.jboss.seam.annotations.JndiName;
+import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
-import org.jboss.seam.annotations.AutoCreate;
-import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Logger;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Create;
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Init;
 import org.jboss.seam.deployment.AnnotationDeploymentHandler;
 import org.jboss.seam.deployment.DeploymentStrategy;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.Log;
-import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.EJB;
-import org.jboss.resteasy.core.ThreadLocalResteasyProviderFactory;
+import org.jboss.seam.util.Reflections;
 
+import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.Set;
 
 /**
- * Scans annoated JAX-RS resources and providers, optionally registers them as Seam components.
- * It does so by populating the <tt>Application</tt> instance, which is then processed further
- * by the <tt>ResteasyDispatcher</tt> during startup.
+ * Detects (through scanning and configuration) JAX-RS resources and providers, then
+ * registers them with RESTEasy.
+ * <p>
+ * This class is a factory for <tt>org.jboss.seam.resteasy.dispatcher</tt> and it has been
+ * designed for extension. Alternatively, you can ignore what this class is doing and provide a
+ * different <tt>org.jboss.seam.resteasy.dispatcher</tt> yourself without extending this class.
+ * </p>
+ * <p>
+ * The main methods of this class are <tt>registerProviders()</tt> and <tt>registerResources()</tt>.
+ * These methods call out to the individual fine-grained registration procedures, which you can override
+ * if a different registration strategy for a particular type/component is desired.
+ * </p>
  *
  * @author Christian Bauer
  */
@@ -39,167 +78,454 @@ import java.util.Set;
 public class ResteasyBootstrap
 {
 
-    @Logger
-    Log log;
+   @Logger
+   Log log;
 
-    @In
-    protected Application application;
+   @In
+   protected Application application;
 
-    private SeamResteasyProviderFactory providerFactory;
-    public SeamResteasyProviderFactory getProviderFactory()
-    {
-        return providerFactory;
-    }
+   // The job of this class is to initialize and configure the RESTEasy Dispatcher instance
+   protected Dispatcher dispatcher;
 
-    @Create
-    public void init()
-    {
-        log.info("starting RESTEasy with custom SeamResteasyProviderFactory");
-        providerFactory = new SeamResteasyProviderFactory();
+   @Factory("org.jboss.seam.resteasy.dispatcher")
+   public Dispatcher getDispatcher()
+   {
+      return dispatcher;
+   }
 
-        // Always use the "deployment sensitive" factory - that means it is handled through ThreadLocal, not static
-        SeamResteasyProviderFactory.setInstance(new ThreadLocalResteasyProviderFactory(getProviderFactory()));
+   @Create
+   public void init()
+   {
+      log.info("bootstrapping JAX-RS application");
 
-        log.info("deploying JAX-RS application");
+      // Custom ResteasyProviderFactory that understands Seam component lookup at runtime
+      SeamResteasyProviderFactory providerFactory = createProviderFactory();
+      dispatcher = createDispatcher(providerFactory);
+      initDispatcher();
 
-        Collection<Class<?>> annotatedProviderClasses = null;
-        Collection<Class<?>> annotatedResourceClasses = null;
-        if (application.isScanProviders() || application.isScanResources())
-        {
-            log.debug("scanning all classes for JAX-RS annotations");
+      // Always use the "deployment sensitive" factory - that means it is handled through ThreadLocal, not static
+      // TODO: How does that actually work? It's never used because the dispatcher is created with the original one
+      SeamResteasyProviderFactory.setInstance(new ThreadLocalResteasyProviderFactory(providerFactory));
 
-            DeploymentStrategy deployment = (DeploymentStrategy) Component.getInstance("deploymentStrategy");
-            AnnotationDeploymentHandler handler =
-                    (AnnotationDeploymentHandler) deployment.getDeploymentHandlers().get(AnnotationDeploymentHandler.NAME);
+      // Seam can scan the classes for us, we just have to list them in META-INF/seam-deployment.properties
+      DeploymentStrategy deployment = (DeploymentStrategy) Component.getInstance("deploymentStrategy");
+      AnnotationDeploymentHandler handler =
+            (AnnotationDeploymentHandler) deployment.getDeploymentHandlers().get(AnnotationDeploymentHandler.NAME);
 
-            annotatedProviderClasses = handler.getClassMap().get(javax.ws.rs.ext.Provider.class.getName());
-            annotatedResourceClasses = handler.getClassMap().get(javax.ws.rs.Path.class.getName());
-        }
+      Collection<Class<?>> providers = findProviders(handler);
+      Collection<Class<?>> resources = findResources(handler);
+      Collection<Component> seamComponents = findSeamComponents();
 
-        log.debug("finding all Seam component classes");
-        Map<Class, Set<Component>> seamComponents = new HashMap<Class, Set<Component>>();
-        String[] applicationContextNames = Contexts.getApplicationContext().getNames();
-        for (String applicationContextName : applicationContextNames)
-        {
-            if (applicationContextName.endsWith(".component"))
-            {
-                Component seamComponent =
-                        (Component) Component.getInstance(applicationContextName, ScopeType.APPLICATION);
-                // TODO: This should consider EJB components/annotations on interfaces somehow?
-                Class beanClass = seamComponent.getBeanClass();
-                if (!seamComponents.containsKey(beanClass))
-                {
-                   seamComponents.put(beanClass, new HashSet<Component>());
-                }
-                seamComponents.get(beanClass).add(seamComponent);
-            }
-        }
+      registerProviders(seamComponents, providers);
+      registerResources(seamComponents, resources);
+   }
 
-        registerProviders(seamComponents, annotatedProviderClasses);
-        registerResources(seamComponents, annotatedResourceClasses);
-    }
+   protected SeamResteasyProviderFactory createProviderFactory()
+   {
+      return new SeamResteasyProviderFactory();
+   }
 
-    // Load all provider classes, either scanned or through explicit configuration
-    protected void registerProviders(Map<Class, Set<Component>> seamComponents, Collection annotatedProviderClasses)
-    {
-        Collection<Class> providerClasses = new HashSet<Class>();
-        try
-        {
-            if (application.isScanProviders() && annotatedProviderClasses != null)
-                providerClasses.addAll(annotatedProviderClasses);
+   protected Dispatcher createDispatcher(SeamResteasyProviderFactory providerFactory)
+   {
+      return new SynchronousDispatcher(providerFactory);
+   }
 
-            for (String s : new HashSet<String>(application.getProviderClassNames()))
-                providerClasses.add(Reflections.classForName(s));
+   protected void initDispatcher()
+   {
+      getDispatcher().setLanguageMappings(application.getLanguageMappings());
+      getDispatcher().setMediaTypeMappings(application.getMediaTypeMappings());
+   }
 
-        }
-        catch (ClassNotFoundException ex)
-        {
-            log.error("error loading JAX-RS provider class: " + ex.getMessage());
-        }
-        for (Class providerClass : providerClasses)
-        {
-            // Ignore built-in providers, we register them manually later
-            if (providerClass.getName().startsWith("org.jboss.resteasy.plugins.providers")) continue;
+   protected Collection<Class<?>> findProviders(AnnotationDeploymentHandler handler)
+   {
+      return findTypes(
+            handler,
+            application.isScanProviders(),
+            javax.ws.rs.ext.Provider.class.getName(),
+            application.getProviderClassNames()
+      );
+   }
 
-            // Check if this is also a Seam component bean class
-            if (seamComponents.containsKey(providerClass))
-            {
-               for (Component seamComponent : seamComponents.get(providerClass))
-               {
-                  // Needs to be APPLICATION or STATELESS
-                  if (!seamComponent.getScope().equals(ScopeType.APPLICATION) &&
-                        !seamComponent.getScope().equals(ScopeType.STATELESS))
-                  {
-                     log.warn("can't add provider Seam component, not APPLICATION or STATELESS scope: " + seamComponent.getName());
-                     log.warn("this provider class will be registered without Seam injection or lifecycle!");
-                     seamComponent = null;
-                  }
-                  if (seamComponent != null)
-                  {
-                     log.debug("adding provider Seam component: " + seamComponent.getName());
-                     application.addProviderClass(providerClass, seamComponent);
-                  }
-                  else
-                  {
-                     log.debug("adding provider class: " + providerClass.getName());
-                     application.addProviderClass(providerClass);
-                  }
-               }
-            }
-            else
-            {
-               log.debug("adding provider class: " + providerClass.getName());
-               application.addProviderClass(providerClass);
-            }
+   protected Collection<Class<?>> findResources(AnnotationDeploymentHandler handler)
+   {
+      return findTypes(
+            handler,
+            application.isScanResources(),
+            javax.ws.rs.Path.class.getName(),
+            application.getResourceClassNames()
+      );
+   }
+
+   protected Collection<Class<?>> findTypes(AnnotationDeploymentHandler handler, boolean scanClasspathForAnnotations,
+                                            String annotationFQName, Collection<String> includeTypeNames)
+   {
+
+      Collection<Class<?>> types = new HashSet();
+
+      if (scanClasspathForAnnotations)
+      {
+         Collection<Class<?>> annotatedTypes = handler.getClassMap().get(annotationFQName);
+         if (annotatedTypes != null) types.addAll(annotatedTypes);
+      }
+
+      try
+      {
+         for (String s : new HashSet<String>(includeTypeNames))
+         {
+            types.add(Reflections.classForName(s));
          }
-        if (application.getProviderClasses().size() == 0 &&
-                !application.isUseBuiltinProviders())
-        {
-            log.info("no RESTEasy provider classes added");
-        }
-    }
+      }
+      catch (ClassNotFoundException ex)
+      {
+         log.error("error loading JAX-RS type: " + ex.getMessage(), ex);
+      }
 
-    // Load all resource classes, either scanned or through explicit configuration
-    protected void registerResources(Map<Class, Set<Component>> seamComponents, Collection annotatedResourceClasses)
-    {
-        Collection<Class> resourceClasses = new HashSet<Class>();
-        try
-        {
-            if (application.isScanResources() && annotatedResourceClasses != null)
-                resourceClasses.addAll(annotatedResourceClasses);
+      return types;
+   }
 
-            for (String s : new HashSet<String>(application.getResourceClassNames()))
-                resourceClasses.add(Reflections.classForName(s));
 
-        }
-        catch (ClassNotFoundException ex)
-        {
-            log.error("error loading JAX-RS resource class: " + ex.getMessage());
-        }
-        for (Class<Object> resourceClass : resourceClasses)
-        {
-            // Check if this is also a Seam component bean class
-            if (seamComponents.containsKey(resourceClass))
+   protected Collection<Component> findSeamComponents()
+   {
+      // Iterate through all variables in the application context that end with ".component"
+      log.debug("discovering all Seam components");
+      Collection<Component> seamComponents = new HashSet();
+      String[] applicationContextNames = Contexts.getApplicationContext().getNames();
+      for (String applicationContextName : applicationContextNames)
+      {
+         if (applicationContextName.endsWith(".component"))
+         {
+            Component seamComponent =
+                  (Component) Component.getInstance(applicationContextName, ScopeType.APPLICATION);
+            seamComponents.add(seamComponent);
+         }
+      }
+      return seamComponents;
+   }
+
+
+   protected void registerProviders(Collection<Component> seamComponents, Collection<Class<?>> providerClasses)
+   {
+
+      // RESTEasy built-in providers first
+      if (application.isUseBuiltinProviders())
+      {
+         log.info("registering built-in RESTEasy providers");
+         RegisterBuiltin.register(getDispatcher().getProviderFactory());
+      }
+
+      Set<Class> handledProviders = new HashSet(); // Stuff we don't want to examine twice
+
+      for (Component seamComponent : seamComponents)
+      {
+         // The component can have one (not many) @Provider annotated business interface
+         Class providerInterface = getAnnotatedInterface(javax.ws.rs.ext.Provider.class, seamComponent);
+
+         // How we register it depends on the component type
+         switch (seamComponent.getType())
+         {
+
+            // TODO: We don't support EJB Seam components as providers
+
+            case JAVA_BEAN:
+
+               // We are only interested in components that have a @Provider annotation on iface or bean
+               if (providerInterface == null
+                     && !seamComponent.getBeanClass().isAnnotationPresent(javax.ws.rs.ext.Provider.class))
+               {
+                  break;
+               }
+
+               // They also have to be in the right scope, otherwise we can't handle their lifecylce (yet)
+               switch (seamComponent.getScope())
+               {
+                  case APPLICATION:
+
+                     // StringConverter is a special case
+                     if (StringConverter.class.isAssignableFrom(seamComponent.getBeanClass()))
+                     {
+                        getDispatcher().getProviderFactory().addStringConverter(
+                              (StringConverter) Component.getInstance(seamComponent.getName())
+                        );
+                     }
+                     else
+                     {
+                        registerSeamComponentProvider(seamComponent);
+                     }
+                     break;
+
+                  default:
+                     throw new RuntimeException(
+                           "Provider Seam component '" + seamComponent.getName() + "' must be scoped " +
+                                 "APPLICATION"
+                     );
+               }
+               break;
+         }
+
+         // We simply add everything we have seen so far... it's not really necessary but it doesn't hurt (does it?)
+         handledProviders.add(seamComponent.getBeanClass());
+         handledProviders.addAll(seamComponent.getBusinessInterfaces());
+      }
+
+      for (Class<?> providerClass : providerClasses)
+      {
+
+         // An @Provider annotated type may:
+
+         // - have been already handled as a Seam component in the previous routine
+         if (handledProviders.contains(providerClass)) continue;
+
+         // - be a RESTEasy built-in provider
+         if (providerClass.getName().startsWith("org.jboss.resteasy.plugins.providers")) continue;
+
+         // - be an interface, which we don't care about if we don't have an implementation
+         if (providerClass.isInterface()) continue;
+
+         // - be just plain RESTEasy, no Seam component lookup or lifecycle
+         if (StringConverter.class.isAssignableFrom(providerClass))
+         {
+            log.debug("registering provider as RESTEasy StringConverter: {0}", providerClass);
+            getDispatcher().getProviderFactory().addStringConverter((Class<? extends StringConverter>) providerClass);
+         }
+         else
+         {
+            log.debug("registering provider as plain JAX-RS type: {0}", providerClass);
+            getDispatcher().getProviderFactory().registerProvider(providerClass);
+         }
+      }
+   }
+
+   protected void registerResources(Collection<Component> seamComponents, Collection<Class<?>> resourceClasses)
+   {
+
+      Set<Class> handledResources = new HashSet(); // Stuff we don't want to examine twice
+
+      for (Component seamComponent : seamComponents)
+      {
+
+         // A bean class of type (not subtypes) ResourceHome or ResourceQuery annotated with @Path, then
+         // it's a Seam component resource we need to register with getPath() on the instance, it has been
+         // configured in components.xml
+         if (seamComponent.getBeanClass().equals(ResourceHome.class) ||
+               seamComponent.getBeanClass().equals(ResourceQuery.class))
+         {
+            registerHomeQueryResources(seamComponent);
+            handledResources.add(ResourceHome.class);
+            handledResources.add(ResourceQuery.class);
+            continue;
+         }
+
+         // The component can have one (not many) @Path annotated business interface
+         Class resourceInterface = getAnnotatedInterface(javax.ws.rs.Path.class, seamComponent);
+
+         // How we register it depends on the component type
+         switch (seamComponent.getType())
+         {
+            case STATELESS_SESSION_BEAN:
+               // EJB seam component resources must be @Path annotated on one of their business interfaces
+               if (resourceInterface != null)
+               {
+                  // TODO: Do we have to consider the scope? It should be stateless, right?
+                  registerInterfaceSeamComponentResource(seamComponent, resourceInterface);
+               }
+               break;
+            case STATEFUL_SESSION_BEAN:
+               // EJB seam component resources must be @Path annotated on one of their business interfaces
+               if (resourceInterface != null)
+               {
+                  log.error("Not implemented: Stateful EJB Seam component resource: " + seamComponent);
+                  // TODO: registerStatefulEJBSeamComponentResource(seamComponent);
+               }
+               break;
+            case JAVA_BEAN:
+
+               // We are only interested in components that have a @Path annotation on iface or bean
+               if (resourceInterface == null
+                     && !seamComponent.getBeanClass().isAnnotationPresent(javax.ws.rs.Path.class))
+               {
+                  break;
+               }
+
+               // They also have to be in the right scope, otherwise we can't handle their lifecylce (yet)
+               switch (seamComponent.getScope())
+               {
+                  case EVENT:
+                  case APPLICATION:
+                  case STATELESS:
+                  case SESSION:
+                     if (resourceInterface != null)
+                     {
+                        registerInterfaceSeamComponentResource(seamComponent, resourceInterface);
+                     }
+                     else if (seamComponent.getBeanClass().isAnnotationPresent(javax.ws.rs.Path.class))
+                     {
+                        registerSeamComponentResource(seamComponent);
+                     }
+                     break;
+                  default:
+                     throw new RuntimeException(
+                           "Resource Seam component '" + seamComponent.getName() + "' must be scoped either " +
+                                 "EVENT, APPLICATION, STATELESS, or SESSION"
+                     );
+               }
+               break;
+         }
+
+         // We simply add everything we have seen so far... it's not really necessary but it doesn't hurt (does it?)
+         handledResources.add(seamComponent.getBeanClass());
+         handledResources.addAll(seamComponent.getBusinessInterfaces());
+
+      }
+
+      for (Class<?> resourceClass : resourceClasses)
+      {
+         // An @Path annotated type may:
+
+         // - have been already handled as a Seam component in the previous routine
+         if (handledResources.contains(resourceClass)) continue;
+
+         // - be an interface, which we don't care about if we don't have an implementation
+         if (resourceClass.isInterface()) continue;
+
+         // - be a @Stateless EJB implementation class that was listed in components.xml
+         if (resourceClass.isAnnotationPresent(EJB.STATELESS))
+         {
+            registerStatelessEJBResource(resourceClass);
+         }
+         // - be a @Stateful EJB implementation class that was listed in components.xml
+         else if (resourceClass.isAnnotationPresent(EJB.STATEFUL))
+         {
+            throw new RuntimeException(
+                  "Only stateless EJBs can be JAX-RS resources, remove from configuration: " + resourceClass.getName()
+            );
+         }
+         else
+         {
+            // - just be a regular JAX-RS lifecycle instance that can created/destroyed by RESTEasy
+            registerPlainResource(resourceClass);
+         }
+      }
+
+   }
+
+   protected void registerHomeQueryResources(Component seamComponent)
+   {
+      // We can always instantiate this safely here because it can't have dependencies!
+      AbstractResource instance = (AbstractResource) seamComponent.newInstance();
+      String path = instance.getPath();
+      if (instance.getPath() != null)
+      {
+         log.debug(
+               "registering resource, configured ResourceHome/Query on path {1}, as Seam component: {0}",
+               seamComponent.getName(),
+               path
+         );
+
+         ResourceFactory factory = new SeamResteasyResourceFactory(
+               seamComponent.getBeanClass(),
+               seamComponent,
+               getDispatcher().getProviderFactory()
+         );
+
+         getDispatcher().getRegistry().addResourceFactory(factory, path);
+      }
+      else
+      {
+         log.error("Unable to register {0} resource on null path, check components.xml", seamComponent.getName());
+      }
+   }
+
+   protected void registerSeamComponentResource(Component seamComponent)
+   {
+      log.debug("registering resource as Seam component: {0}", seamComponent.getName());
+
+      ResourceFactory factory = new SeamResteasyResourceFactory(
+            seamComponent.getBeanClass(),
+            seamComponent,
+            getDispatcher().getProviderFactory()
+      );
+
+      getDispatcher().getRegistry().addResourceFactory(factory);
+   }
+
+   protected void registerInterfaceSeamComponentResource(Component seamComponent, Class resourceInterface)
+   {
+      log.debug(
+            "registering resource, annotated interface {1}, as Seam component: {0}",
+            seamComponent.getName(),
+            resourceInterface.getName()
+      );
+
+      ResourceFactory factory = new SeamResteasyResourceFactory(
+            resourceInterface,
+            seamComponent,
+            getDispatcher().getProviderFactory()
+      );
+
+      getDispatcher().getRegistry().addResourceFactory(factory);
+   }
+
+   protected void registerStatelessEJBResource(Class ejbImplementationClass)
+   {
+      String jndiName = getJndiName(ejbImplementationClass);
+
+      log.debug(
+            "registering resource, stateless EJB implementation {1}, as RESTEasy JNDI resource name: {0}",
+            jndiName,
+            ejbImplementationClass.getName()
+      );
+      getDispatcher().getRegistry().addJndiResource(jndiName);
+   }
+
+   protected void registerPlainResource(Class plainResourceClass)
+   {
+      log.debug("registering resource, event-scoped JAX-RS lifecycle: {0}", plainResourceClass.getName());
+      getDispatcher().getRegistry().addResourceFactory(new POJOResourceFactory(plainResourceClass));
+   }
+
+   protected void registerSeamComponentProvider(Component seamComponent)
+   {
+      log.debug("registering provider as Seam component: {0}", seamComponent.getName());
+      getDispatcher().getProviderFactory().registerProviderInstance(
+            Component.getInstance(seamComponent.getName())
+      );
+   }
+
+   protected Class getAnnotatedInterface(Class<? extends Annotation> annotation, Component seamComponent)
+   {
+      Class resourceInterface = null;
+      for (Class anInterface : seamComponent.getBusinessInterfaces())
+      {
+         if (anInterface.isAnnotationPresent(annotation))
+         {
+            if (resourceInterface != null)
             {
-                Set<Component> components = seamComponents.get(resourceClass);
-                log.debug("adding resource Seam components {0} for class {1}", components, resourceClass);
-                application.addResourceClass(resourceClass, components);
+               throw new IllegalStateException("Only one business interface can be annotated " + annotation + ": " + seamComponent);
             }
-            // Check if it is a @Path annotated EJB interface
-            else if (resourceClass.isAnnotationPresent(EJB.LOCAL) ||
-                    resourceClass.isAnnotationPresent(EJB.REMOTE))
-            {
-                log.debug("ignoring @Path annotated EJB interface, add the bean " +
-                          "implementation to <resteasy:resource-class-names/>: " + resourceClass.getName());
-            }
-            else
-            {
-                log.debug("adding resource class: " + resourceClass.getName());
-                application.addResourceClass(resourceClass);
-            }
-        }
-        if (application.getClasses().size() == 0)
-            log.info("no JAX-RS resource classes registered");
-    }
+            resourceInterface = anInterface;
+         }
+      }
+      return resourceInterface;
+   }
+
+   protected String getJndiName(Class<?> beanClass)
+   {
+      if (beanClass.isAnnotationPresent(JndiName.class))
+      {
+         return beanClass.getAnnotation(JndiName.class).value();
+      }
+      else
+      {
+         String jndiPattern = Init.instance().getJndiPattern();
+         if (jndiPattern == null)
+         {
+            throw new IllegalArgumentException(
+                  "You must specify org.jboss.seam.core.init.jndiPattern or use @JndiName: " + beanClass.getName()
+            );
+         }
+         return jndiPattern.replace("#{ejbName}", Seam.getEjbName(beanClass));
+      }
+   }
+
 
 }

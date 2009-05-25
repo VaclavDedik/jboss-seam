@@ -12,6 +12,58 @@ import javax.ws.rs.core.MediaType;
 import java.util.Map;
 import java.util.HashMap;
 
+/**
+ * <p>
+ * This is the test matrix for resources:
+ * </p>
+ *
+ * <pre>
+ *                                    | EVENT | CONVERSATION | SESSION | APPLICATION | STATELESS
+ * ---------------------------------------------------------------------------------------------
+ * Plain JAX-RS Resource              |  OK   |      -       |    -    |      -      |    -
+ * ---------------------------------------------------------------------------------------------
+ * POJO Seam Component Resource       |  OK   |      ?       |    ?    |     OK      |   OK
+ * ---------------------------------------------------------------------------------------------
+ * POJO interface-annotated Component |  OK   |      ?       |    ?    |     OK      |   OK
+ * ---------------------------------------------------------------------------------------------
+ * EJB Plain SLSB Resource            |   -   |      -       |    -    |      -      |   OK
+ * ---------------------------------------------------------------------------------------------
+ * EJB SLSB Seam Component Resource   |   -   |      -       |    -    |      -      |   OK
+ * ---------------------------------------------------------------------------------------------
+ * EJB SFSB Seam Component Resource   |   ?   |      ?       |    ?    |      ?      |    -
+ * ---------------------------------------------------------------------------------------------
+ * </pre>
+ *
+ * <p>
+ * Note that all EJB resources are always @Path annotated on their interface, not the implementation class.
+ * </p>
+ *
+ * <p>
+ * This is the test matrix for providers:
+ * </p>
+ *
+ * <pre>
+ *                                    | EVENT | CONVERSATION | SESSION | APPLICATION | STATELESS
+ * ---------------------------------------------------------------------------------------------
+ * Plain JAX-RS Provider              |   -   |      -       |    -    |      -      |   OK
+ * ---------------------------------------------------------------------------------------------
+ * RESTEasy StringConverter Provider  |   -   |      -       |    -    |      -      |   OK
+ * ---------------------------------------------------------------------------------------------
+ * RESTEasy StringConverter Component |   ?   |      -       |    -    |      ?      |    ?
+ * ---------------------------------------------------------------------------------------------
+ * POJO Seam Component Provider       |   ?   |      -       |    -    |     OK      |    ?
+ * ---------------------------------------------------------------------------------------------
+ * POJO interface-annotated Component |   ?   |      -       |    -    |     OK      |    ?
+ * ---------------------------------------------------------------------------------------------
+ * EJB Plain SLSB Provider            |   -   |      -       |    -    |      -      |    ?
+ * ---------------------------------------------------------------------------------------------
+ * EJB SLSB Seam Component Provider   |   -   |      -       |    -    |      -      |    ?
+ * ---------------------------------------------------------------------------------------------
+ * EJB SFSB Seam Component Resource   |   ?   |      -       |    -    |      ?      |    -
+ * ---------------------------------------------------------------------------------------------
+ * </pre>
+ *
+ */
 public class BasicServiceTest extends ResourceSeamTest
 {
 
@@ -29,8 +81,17 @@ public class BasicServiceTest extends ResourceSeamTest
    {
       return new String[][] {
             { "/restv1/plainTest" },
+
             { "/restv1/eventComponentTest" },
-            { "/restv1/statelessEjbTest" }
+            { "/restv1/applicationComponentTest" },
+            { "/restv1/statelessComponentTest" },
+
+            { "/restv1/interfaceEventComponentTest" },
+            { "/restv1/interfaceApplicationComponentTest" },
+            { "/restv1/interfaceStatelessComponentTest" },
+
+            { "/restv1/statelessEjbTest" },
+            { "/restv1/statelessEjbComponentTest" }
       };
    }
 
@@ -266,6 +327,42 @@ public class BasicServiceTest extends ResourceSeamTest
          {
             assert response.getStatus() == 200;
             assert response.getContentAsString().equals("foo,bar\r\nasdf,123\r\n");
+         }
+
+      }.run();
+
+      new ResourceRequest(Method.GET, resourcePath + "/commaSeparatedStrings")
+      {
+
+         @Override
+         protected void prepareRequest(MockHttpServletRequest request)
+         {
+            request.addHeader("Accept", "text/plain");
+         }
+
+         @Override
+         protected void onResponse(MockHttpServletResponse response)
+         {
+            assert response.getStatus() == 200;
+            assert response.getContentAsString().equals("abc,foo,bar,baz");
+         }
+
+      }.run();
+
+      new ResourceRequest(Method.GET, resourcePath + "/commaSeparatedIntegers")
+      {
+
+         @Override
+         protected void prepareRequest(MockHttpServletRequest request)
+         {
+            request.addHeader("Accept", "text/plain");
+         }
+
+         @Override
+         protected void onResponse(MockHttpServletResponse response)
+         {
+            assert response.getStatus() == 200;
+            assert response.getContentAsString().equals("abc,1,2,3");
          }
 
       }.run();

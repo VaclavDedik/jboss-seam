@@ -1,8 +1,24 @@
-package org.jboss.seam.example.restbay.resteasy;
+package org.jboss.seam.example.restbay.resteasy.eventcomponent;
 
 import org.jboss.resteasy.annotations.Form;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.example.restbay.resteasy.TestResource;
+import org.jboss.seam.example.restbay.resteasy.TestComponent;
+import org.jboss.seam.example.restbay.resteasy.TestForm;
+import org.jboss.seam.example.restbay.resteasy.SubResource;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
+import javax.ws.rs.Encoded;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MultivaluedMap;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -10,9 +26,13 @@ import java.util.List;
 /**
  * @author Christian Bauer
  */
-@Path("/plainTest")
-public class PlainTestResource extends TestResource
+@Name("eventComponentTestResource")
+@Path("/eventComponentTest")
+public class EventComponentTestResource extends TestResource
 {
+
+   @In
+   TestComponent testComponent;
 
    @GET
    @Path("/echouri")
@@ -116,6 +136,24 @@ public class PlainTestResource extends TestResource
    @Override
    public List<String[]> getCommaSeparated()
    {
-      return super.getCommaSeparated();
+      return testComponent.getCommaSeparated();
+   }
+
+   @GET
+   @Path("/commaSeparatedStrings")
+   @Produces("text/plain")
+   @Override
+   public String[] getCommaSeparatedStrings()
+   {
+      return super.getCommaSeparatedStrings();
+   }
+
+   @GET
+   @Path("/commaSeparatedIntegers")
+   @Produces("text/plain")
+   @Override
+   public Integer[] getCommaSeparatedIntegers()
+   {
+      return super.getCommaSeparatedIntegers();
    }
 }

@@ -13,19 +13,19 @@
         <class name="org.jboss.seam.example.restbay.test.AuctionServiceTest"/>
       </classes>
     </test>
-    
+
     <test name="RestBay: ResourceHome">
       <classes>
         <class name="org.jboss.seam.example.restbay.test.ResourceHomeTest"/>
       </classes>
     </test>
-    
+
     <test name="RestBay: ResourceQuery">
       <classes>
         <class name="org.jboss.seam.example.restbay.test.ResourceQueryTest"/>
       </classes>
     </test>
-    
+
     <!-- <test name="RestBay: Security">
       <classes>
         <class name="org.jboss.seam.example.restbay.test.SecurityTest"/>

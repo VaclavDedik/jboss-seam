@@ -7,6 +7,10 @@ import javax.ws.rs.core.UriInfo;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Collections;
+import java.util.Arrays;
 
 /**
  * Plain JAX RS root resource, no Seam components/lifecycle.
@@ -109,5 +113,12 @@ public class TestResource
       return new TestComponent().getCommaSeparated();
    }
 
+   public String[] getCommaSeparatedStrings() {
+      return new String[] {"foo", "bar", "baz"};
+   }
+
+   public Integer[] getCommaSeparatedIntegers() {
+      return new Integer[] {1, 2, 3};
+   }
 
 }

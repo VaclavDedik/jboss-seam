@@ -18,7 +18,7 @@
  * License along with this software; if not, write to the Free
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- */ 
+ */
 package org.jboss.seam.resteasy;
 
 import java.io.InputStream;
@@ -52,15 +52,14 @@ import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 /**
  * This component exposes EntityHome and HibernateEntityHome components as a
  * REST resource.
- * 
+ *
  * @author Jozef Hartinger
- * 
  * @param <T> Entity class
  * @param <T2> Entity id class
  */
 // Empty @Path because it's ignored by second-stage bootstrap if not subclassed or in components.xml
 // but we need it as a marker so we'll find components.xml declarations during first stage of bootstrap.
-@Path("") 
+@Path("")
 public class ResourceHome<T, T2> extends AbstractResource<T>
 {
    private EntityHomeWrapper<T> entityHome = null;
@@ -93,10 +92,10 @@ public class ResourceHome<T, T2> extends AbstractResource<T>
     * Called by RESTEasy when HTTP GET request is received. String form of
     * entity identifier is passed as a parameter. Returns a response containing
     * database entity.
-    * 
-    * @see #getEntity
+    *
     * @param rawId String form of entity identifier
     * @return response
+    * @see #getEntity
     */
    @Path("/{id}")
    @GET
@@ -118,7 +117,7 @@ public class ResourceHome<T, T2> extends AbstractResource<T>
 
    /**
     * Retrieve an entity identified by id parameter.
-    * 
+    *
     * @param id entity identifier
     * @return entity database entity
     */
@@ -133,10 +132,10 @@ public class ResourceHome<T, T2> extends AbstractResource<T>
     * Called by RESTEasy when HTTP POST request is received. Persists received
     * entity and returns 201 HTTP status code with location header set to new
     * URI if operation succeeds.
-    * 
-    * @see #createEntity
+    *
     * @param messageBody HTTP request body
     * @return response
+    * @see #createEntity
     */
    @POST
    public Response createResource(InputStream messageBody)
@@ -162,7 +161,7 @@ public class ResourceHome<T, T2> extends AbstractResource<T>
 
    /**
     * Store entity passed as a parameter in the database.
-    * 
+    *
     * @param entity Object to be persisted
     * @return id identifier assigned to the entity
     */
@@ -176,11 +175,11 @@ public class ResourceHome<T, T2> extends AbstractResource<T>
    /**
     * Called by RESTEasy when HTTP PUT request is received. Merges the state of
     * the database entity with the received representation.
-    * 
-    * @see #updateEntity
-    * @param rawId String form of entity identifier
+    *
+    * @param rawId       String form of entity identifier
     * @param messageBody HTTP request body
     * @return response
+    * @see #updateEntity
     */
    @Path("/{id}")
    @PUT
@@ -215,7 +214,7 @@ public class ResourceHome<T, T2> extends AbstractResource<T>
     * Merge the state of the database entity with the entity passed as a
     * parameter. Override to customize the update strategy - for instance to
     * update specific fields only instead of a full merge.
-    * 
+    *
     * @param entity
     */
    public void updateEntity(T entity, T2 id)
@@ -226,10 +225,10 @@ public class ResourceHome<T, T2> extends AbstractResource<T>
    /**
     * Called by RESTEasy when HTTP DELETE request is received. Deletes a
     * database entity.
-    * 
-    * @see #deleteEntity
+    *
     * @param rawId String form of entity identifier
     * @return response
+    * @see #deleteEntity
     */
    @Path("/{id}")
    @DELETE
@@ -247,7 +246,7 @@ public class ResourceHome<T, T2> extends AbstractResource<T>
 
    /**
     * Delete database entity.
-    * 
+    *
     * @param id entity identifier
     */
    public void deleteEntity(T2 id)
@@ -258,7 +257,7 @@ public class ResourceHome<T, T2> extends AbstractResource<T>
 
    /**
     * Convert HTTP request body into entity class instance.
-    * 
+    *
     * @param is HTTP request body
     * @return entity
     */
@@ -284,7 +283,7 @@ public class ResourceHome<T, T2> extends AbstractResource<T>
 
    /**
     * Converts String form of entity identifier to it's natural type.
-    * 
+    *
     * @param id String form of entity identifier
     * @return entity identifier
     */
@@ -298,7 +297,7 @@ public class ResourceHome<T, T2> extends AbstractResource<T>
     * EntityHome component getter. Override this method to set the EntityHome
     * this resource will operate on. You can use either EntityHome or
     * HibernateEntityHome instance.
-    * 
+    *
     * @return entity home
     */
    public Home<?, T> getEntityHome()
@@ -308,7 +307,7 @@ public class ResourceHome<T, T2> extends AbstractResource<T>
 
    /**
     * EntityHome component setter
-    * 
+    *
     * @param entityHome
     */
    public void setEntityHome(Home<?, T> entityHome)
@@ -331,7 +330,7 @@ public class ResourceHome<T, T2> extends AbstractResource<T>
     * If set to read-only mode, this resource will only response to GET
     * requests. HTTP 415 status code (method not allowed) will returned in all
     * other cases.
-    * 
+    *
     * @param readonly
     */
    public void setReadonly(boolean readonly)
@@ -342,7 +341,7 @@ public class ResourceHome<T, T2> extends AbstractResource<T>
    /**
     * Retrieve entity identifier's class. If not set, type parameters of a
     * superclass are examined.
-    * 
+    *
     * @return class of entity identifier
     */
    public Class getEntityIdClass()

@@ -1,46 +1,43 @@
-package org.jboss.seam.example.restbay.resteasy;
+package org.jboss.seam.example.restbay.resteasy.interfaceapplicationcomponent;
 
 import org.jboss.resteasy.annotations.Form;
+import org.jboss.seam.example.restbay.resteasy.TestForm;
+import org.jboss.seam.example.restbay.resteasy.SubResource;
 
-import javax.ejb.Local;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
+import javax.ws.rs.Encoded;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.Path;
-import javax.ws.rs.GET;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.CookieParam;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Encoded;
-import javax.ws.rs.POST;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.Produces;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
  * @author Christian Bauer
  */
-@Local
-@Path("/statelessEjbTest")
-public interface StatelessEjbTestResource
+@Path("/interfaceApplicationComponentTest")
+public interface InterfaceApplicationComponentTestResource
 {
 
-   // TODO: RESTEasy can not inject setter/fields on plain EJBs, see https://jira.jboss.org/jira/browse/RESTEASY-151
-   // That's why we have to do it through parameter injection below
    @Context
    public void setUriInfo(UriInfo uriInfo);
 
    @Context
    public void setHeaders(HttpHeaders headers);
 
-
    @GET
    @Path("/echouri")
-   String echoUri(@Context UriInfo uriInfo); // TODO
+   String echoUri();
 
    @GET
    @Path("/echoquery")
@@ -89,5 +86,16 @@ public interface StatelessEjbTestResource
    @GET
    @Path("/commaSeparated")
    @Produces("text/csv")
-   List<String[]> getCommaSeparated(@Context HttpHeaders headers); // TODO
+   List<String[]> getCommaSeparated();
+
+   @GET
+   @Path("/commaSeparatedStrings")
+   @Produces("text/plain")
+   String[] getCommaSeparatedStrings();
+
+   @GET
+   @Path("/commaSeparatedIntegers")
+   @Produces("text/plain")
+   Integer[] getCommaSeparatedIntegers();
+
 }

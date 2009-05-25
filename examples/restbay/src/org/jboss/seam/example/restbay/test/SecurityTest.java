@@ -8,7 +8,8 @@ import org.jboss.seam.example.restbay.test.fwk.ResourceSeamTest;
 import org.testng.annotations.Test;
 
 /**
- * This class tests RESTEasy integration with together with Seam Security
+ * This class tests RESTEasy integration together with Seam Security.
+ *
  * @author Jozef Hartinger
  *
  */

@@ -32,9 +32,8 @@ import javax.ws.rs.core.MediaType;
  * Resource class used by ResourceHome and ResourceQuery components. Contains
  * information about path, media types and entity class the component operates
  * on.
- * 
+ *
  * @author Jozef Hartinger
- * 
  * @param <T> entity class
  */
 public abstract class AbstractResource<T>
@@ -49,7 +48,7 @@ public abstract class AbstractResource<T>
 
    public AbstractResource()
    {
-      mediaTypes = new MediaType[] { MediaType.APPLICATION_XML_TYPE };
+      mediaTypes = new MediaType[]{MediaType.APPLICATION_XML_TYPE};
    }
 
    public String[] getMediaTypes()
@@ -79,7 +78,7 @@ public abstract class AbstractResource<T>
    /**
     * Retrieve entity class. If not set, type parameters of a superclass are
     * examined.
-    * 
+    *
     * @return entity class
     */
    public Class<T> getEntityClass()
@@ -105,9 +104,9 @@ public abstract class AbstractResource<T>
 
    /**
     * Retrieve a suffix of this resource's URI. See {@link #setPath(String path)}
-    * 
-    * @see javax.ws.rs.Path
+    *
     * @return path
+    * @see javax.ws.rs.Path
     */
    public String getPath()
    {
@@ -118,7 +117,7 @@ public abstract class AbstractResource<T>
     * Set the path this resource will operate on. This method is intended to be
     * used only by Seam to create a resource configured in component descriptor.
     * To specify the path in other cases, use @Path annotation. See
-    * 
+    *
     * @param path
     */
    public void setPath(String path)
@@ -130,7 +129,7 @@ public abstract class AbstractResource<T>
     * Select a media type that will be used for marshalling entity. Media type
     * is selected from the intersection of media types supported by this
     * resource and media types accepted by client.
-    * 
+    *
     * @return selected media type, returns null if no suitable media type is
     *         found
     */
@@ -149,7 +148,7 @@ public abstract class AbstractResource<T>
 
    /**
     * Check if media type passed as parameter is supported by this resource.
-    * 
+    *
     * @param mediaType
     * @return true if and only if the media type is accepted by this resource
     */

@@ -1,4 +1,4 @@
-package org.jboss.seam.example.restbay.resteasy;
+package org.jboss.seam.example.restbay.resteasy.provider;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
@@ -6,10 +6,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
-import java.lang.reflect.Type;
-import java.lang.annotation.Annotation;
-import java.io.OutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Provider
 @Produces("text/csv")
-public class TestProvider implements MessageBodyWriter
+public class PlainTestProvider implements MessageBodyWriter
 {
 
    public boolean isWriteable(Class aClass, Type type, Annotation[] annotations, MediaType mediaType)

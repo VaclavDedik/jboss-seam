@@ -18,7 +18,7 @@
  * License along with this software; if not, write to the Free
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- */ 
+ */
 package org.jboss.seam.resteasy;
 
 import java.lang.reflect.ParameterizedType;
@@ -37,15 +37,15 @@ import org.jboss.resteasy.annotations.providers.jaxb.Wrapped;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.framework.EntityQuery;
 import org.jboss.seam.framework.Query;
+
 import static javax.ws.rs.core.Response.Status.UNSUPPORTED_MEDIA_TYPE;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
 /**
  * This component exposes EntityQuery component as a REST resource responding to
  * HTTP GET request.
- * 
+ *
  * @author Jozef Hartinger
- * 
  * @param <T> entity type
  */
 // Empty @Path because it's ignored by second-stage bootstrap if not subclassed or in components.xml
@@ -73,11 +73,11 @@ public class ResourceQuery<T> extends AbstractResource<T>
     * Called by RESTEasy to respond for an HTTP GET request. Retrieves a list of
     * entities matching criteria set by query parameters from database and
     * returns it wrapped in Response instance.
-    * 
-    * @see #getEntityList
+    *
     * @param start first entity in the list
-    * @param show maximum size of the list
+    * @param show  maximum size of the list
     * @return representation of a list of database entries
+    * @see #getEntityList
     */
    @GET
    @Wrapped
@@ -111,7 +111,7 @@ public class ResourceQuery<T> extends AbstractResource<T>
 
          public Type[] getActualTypeArguments()
          {
-            return new Type[] { getEntityClass() };
+            return new Type[]{getEntityClass()};
          }
       };
       return Response.ok(new GenericEntity(result, responseType)
@@ -121,9 +121,9 @@ public class ResourceQuery<T> extends AbstractResource<T>
 
    /**
     * Retrieve a list of database entities.
-    * 
+    *
     * @param start first entity in the list
-    * @param show maximum size of the list, 0 for unlimited
+    * @param show  maximum size of the list, 0 for unlimited
     * @return list of database entries
     */
    public List<T> getEntityList(int start, int show)
@@ -138,7 +138,7 @@ public class ResourceQuery<T> extends AbstractResource<T>
 
    /**
     * EntityQuery getter
-    * 
+    *
     * @return EntityQuery instance
     */
    public Query<?, T> getEntityQuery()
