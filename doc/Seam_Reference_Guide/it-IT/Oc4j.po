@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:23+0000\n"
-"PO-Revision-Date: 2009-04-05 18:01+0100\n"
+"PO-Revision-Date: 2009-05-25 21:29+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgstr ""
 #: Oc4j.xml:29
 #, no-c-format
 msgid "Download and unzip OC4J"
-msgstr ""
+msgstr "Scaricare e decomprimere OC4J"
 
 #. Tag: para
 #: Oc4j.xml:32
@@ -329,7 +329,7 @@ msgstr ""
 #: Oc4j.xml:257
 #, no-c-format
 msgid "<literal>jboss-embedded-api.jar</literal> &#8212; needed for some testing classes"
-msgstr ""
+msgstr "<literal>jboss-embedded-api.jar</literal> &#8212; serve per alcune classi di testing"
 
 #. Tag: para
 #: Oc4j.xml:263
@@ -342,13 +342,13 @@ msgstr ""
 #: Oc4j.xml:505
 #, no-c-format
 msgid "Configuration file changes"
-msgstr ""
+msgstr "Modifiche al file di configurazione"
 
 #. Tag: para
 #: Oc4j.xml:309
 #, no-c-format
 msgid "There are just a few changes to be made:"
-msgstr ""
+msgstr "Ci sono solo poche modifiche da fare:"
 
 #. Tag: literal
 #: Oc4j.xml:312
@@ -434,7 +434,7 @@ msgstr ""
 #: Oc4j.xml:349
 #, no-c-format
 msgid "Building the <literal>jee5/booking</literal> example"
-msgstr ""
+msgstr "Build dell'esempio <literal>jee5/booking</literal>"
 
 #. Tag: para
 #: Oc4j.xml:354
@@ -452,7 +452,7 @@ msgstr ""
 #: Oc4j.xml:361
 #, no-c-format
 msgid "It should look like the following:"
-msgstr ""
+msgstr "dovrebbe così apparire:"
 
 #. Tag: programlisting
 #: Oc4j.xml:364
@@ -492,7 +492,7 @@ msgstr ""
 #: Oc4j.xml:383
 #, no-c-format
 msgid "Deploying the Seam application to OC4J"
-msgstr ""
+msgstr "Deploy dell'applicazione Seam in OC4J"
 
 #. Tag: para
 #: Oc4j.xml:384
@@ -550,7 +550,7 @@ msgstr ""
 #: Oc4j.xml:413
 #, no-c-format
 msgid "Edit <literal>$ORACLE_HOME/j2ee/home/config/server.xml</literal> and, inside <literal>&lt;application-server&gt;</literal> , add"
-msgstr ""
+msgstr "Modificare <literal>$ORACLE_HOME/j2ee/home/config/server.xml</literal> e, dentro <literal>&lt;application-server&gt;</literal>, aggiungere"
 
 #. Tag: programlisting
 #: Oc4j.xml:419
@@ -570,13 +570,13 @@ msgstr ""
 #: Oc4j.xml:420
 #, no-c-format
 msgid "To keep things simple use the same names as you used for project."
-msgstr ""
+msgstr "Per mantenere le cose semplici usare nel progetto gli stessi nomi come si è abituati."
 
 #. Tag: para
 #: Oc4j.xml:424
 #, no-c-format
 msgid "Edit <literal> $ORACLE_HOME/j2ee/home/config/default-web-site.xml </literal> , and, inside <literal>&lt;web-site&gt;</literal> , add"
-msgstr ""
+msgstr "Modificare <literal> $ORACLE_HOME/j2ee/home/config/default-web-site.xml </literal>, e, dentro <literal>&lt;web-site&gt;</literal>, aggiungere"
 
 #. Tag: programlisting
 #: Oc4j.xml:430
@@ -818,7 +818,7 @@ msgstr ""
 #: Oc4j.xml:506
 #, no-c-format
 msgid "Let's start with the configuration files:"
-msgstr ""
+msgstr "Iniziamo con i file di configurazione:"
 
 #. Tag: literal
 #: Oc4j.xml:509
@@ -876,7 +876,7 @@ msgstr ""
 #: Oc4j.xml:557
 #, no-c-format
 msgid "Add the properties (described in <literal>jee5/booking</literal> example):"
-msgstr ""
+msgstr "Aggiungere le proprietà (descritto nell'esempio <literal>jee5/booking</literal>):"
 
 #. Tag: programlisting
 #: Oc4j.xml:562
@@ -964,7 +964,7 @@ msgstr ""
 #: Oc4j.xml:617
 #, no-c-format
 msgid "Alter the <literal>jndi-pattern</literal> to <literal> java:comp/env/oc4j_example/#{ejbName}/local </literal>"
-msgstr ""
+msgstr "Modificare <literal>jndi-pattern</literal> in </literal> java:comp/env/oc4j_example/#{ejbName}/local </literal>"
 
 #. Tag: para
 #: Oc4j.xml:624
@@ -1118,7 +1118,7 @@ msgstr ""
 #: Oc4j.xml:694
 #, no-c-format
 msgid "Extra jar dependencies"
-msgstr ""
+msgstr "Dipendenze extra jar"
 
 #. Tag: para
 #: Oc4j.xml:695
@@ -1516,7 +1516,7 @@ msgstr ""
 #: Oc4j.xml:841
 #, no-c-format
 msgid "Rename the class to <literal>AuthenticatorAction</literal>"
-msgstr ""
+msgstr "Rinominare la classe in <literal>AuthenticatorAction</literal>"
 
 #. Tag: para
 #: Oc4j.xml:846
@@ -1634,7 +1634,7 @@ msgstr ""
 #: Oc4j.xml:897
 #, no-c-format
 msgid "Finishing up"
-msgstr ""
+msgstr "Fine"
 
 #. Tag: para
 #: Oc4j.xml:898
