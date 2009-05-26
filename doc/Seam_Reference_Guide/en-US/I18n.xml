@@ -72,7 +72,7 @@
          
          <para>
             You can write your translation of labels 
-            (<xlink linkend="labels">Labels</xlink>) to your messages resource 
+            (<xref linkend="labels"/>) to your messages resource 
             bundle in the native encoding and then convert the content of the 
             file into the escaped format through the tool <literal>native2ascii</literal>
             provided in the JDK. This tool will convert a file written in your 
@@ -124,8 +124,8 @@
       </section>
    </section>
 
-  <section>
-    <title>Locales<anchor id="locales" /></title>
+  <section id="locales">
+    <title>Locales</title>
 
     <para>Each user login session has an associated instance of
     <literal>java.util.Locale</literal> (available to the application as a
@@ -206,8 +206,8 @@
     the language-specific labels.</para>
   </section>
 
-  <section>
-    <title>Labels<anchor id="labels" /></title>
+  <section id="labels" />
+    <title>Labels</title>
 
     <para>JSF supports internationalization of user interface labels and
     descriptive text via the use of <literal>&lt;f:loadBundle /&gt;</literal>.
@@ -316,7 +316,6 @@ public class HelloBean implements Hello {
       <literal>G'day, Gavin</literal>, depending upon the user's
       locale.</para>
     </section>
-  </section>
 
   <section>
     <title>Timezones</title>
