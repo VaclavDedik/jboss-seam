@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:23+0000\n"
-"PO-Revision-Date: 2009-05-25 21:29+0100\n"
+"PO-Revision-Date: 2009-05-26 22:17+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr ""
 #: Oc4j.xml:17
 #, no-c-format
 msgid "Installation and operation of OC4J"
-msgstr ""
+msgstr "Installazione ed operazione di OC4J"
 
 #. Tag: para
 #: Oc4j.xml:18

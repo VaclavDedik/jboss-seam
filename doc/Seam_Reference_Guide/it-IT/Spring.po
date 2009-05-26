@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-04-15 13:52+0000\n"
-"PO-Revision-Date: 2009-05-24 19:21+0100\n"
+"PO-Revision-Date: 2009-05-26 22:15+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -95,7 +95,7 @@ msgstr "Iniezione dei componenti Seam nei bean Spring"
 #: Spring.xml:47
 #, no-c-format
 msgid "Injecting Seam component instances into Spring beans is accomplished using the <literal>&lt;seam:instance/&gt;</literal> namespace handler. To enable the Seam namespace handler, the Seam namespace must be added to the Spring beans definition file:"
-msgstr ""
+msgstr "L'iniezione di istanze di componenti Seam nei bean Spring viene compiuto usando l'handler di namespace <literal>&lt;seam:instance/&gt;</literal>. Per abilitare questo handler occorre aggiungere il namespace di Seam al file di definizione dei bean Spring:"
 
 #. Tag: programlisting
 #: Spring.xml:51
@@ -121,7 +121,7 @@ msgstr ""
 #: Spring.xml:53
 #, no-c-format
 msgid "Now any Seam component may be injected into any Spring bean:"
-msgstr ""
+msgstr "Ora ciascuno componente di Seam può essere iniettato in un bean Spring:"
 
 #. Tag: programlisting
 #: Spring.xml:55
@@ -143,7 +143,7 @@ msgstr ""
 #: Spring.xml:57
 #, no-c-format
 msgid "An EL expression may be used instead of a component name:"
-msgstr ""
+msgstr "Un'espressione EL può essere usata al posto del nome del componente:"
 
 #. Tag: programlisting
 #: Spring.xml:59
@@ -165,7 +165,7 @@ msgstr ""
 #: Spring.xml:61
 #, no-c-format
 msgid "Seam component instances may even be made available for injection into Spring beans by a Spring bean id."
-msgstr ""
+msgstr "Le istanze dei componenti Seam possono essere disponibili anche per l'iniezione nei bean Spring tramite l'id del bean."
 
 #. Tag: programlisting
 #: Spring.xml:63
@@ -195,13 +195,14 @@ msgstr "Adesso alcuni caveat!"
 #: Spring.xml:67
 #, no-c-format
 msgid "Seam was designed from the ground up to support a stateful component model with multiple contexts. Spring was not. Unlike Seam bijection, Spring injection does not occur at method invocation time. Instead, injection happens only when the Spring bean is instantiated. So the instance available when the bean is instantiated will be the same instance that the bean uses for the entire life of the bean. For example, if a Seam <literal>CONVERSATION</literal>-scoped component instance is directly injected into a singleton Spring bean, that singleton will hold a reference to the same instance long after the conversation is over! We call this problem <emphasis>scope impedance</emphasis>. Seam bijection ensures that scope impedance is maintained naturally as an invocation flows through the system. In Spring, we need to inject a proxy of the Seam component, and resolve the reference when the proxy is invoked."
-msgstr ""
+msgstr "Seam è stato progettato da principio per supportare un modello a componenti stateful con contesti multipli. Spring no. A differenza della bijection di Seam, l'iniezionedi Spring non avviene al momento dell'invocazione del metodo. Invece avviene solo quando viene istanziato il bean Spring. Quindi quando viene istanziato il bean l'istanza disponibile sarà la stessa istanza che il bean usa per l'intera vita del bean. Per esempio, se un'istanza di un componente con scope <literal>CONVERSATION</literal> viene direttamente iniettata in un bean singleton di Spring, tale singleton manterrà un riferimento alla stessa istanza anche quando la conversazioneè terminata! Questo problema viene chiamato <emphasis>impedenza di scope</emphasis>. La bijection di Seam assicura che l'impedenza di scope sia naturalmente mantenuta quando un'invocazione attraversa il sistema. In Spring occorre iniettare un proxy del componente Seam e risolvere il riferimento quando il proxy viene invocato."
 
+# creare automaticamente il componente proxy???
 #. Tag: para
 #: Spring.xml:77
 #, no-c-format
 msgid "The <literal>&lt;seam:instance/&gt;</literal> tag lets us automatically proxy the Seam component."
-msgstr ""
+msgstr "Il tag <literal>&lt;seam:instance/&gt;</literal> consente di creare automaticamente il componente proxy del componente Seam."
 
 #. Tag: programlisting
 #: Spring.xml:79
@@ -253,7 +254,7 @@ msgstr "rendere il bean Spring un componente Seam"
 #: Spring.xml:102
 #, no-c-format
 msgid "We'll discuss the second option in the next section. The easiest approach is to access the Spring beans via EL."
-msgstr ""
+msgstr "Si discuterà la seconda opzione nella prossima sezione. L'approccio più facile è accedere ai bean Spring via EL."
 
 #. Tag: para
 #: Spring.xml:105
@@ -281,7 +282,7 @@ msgstr ""
 #: Spring.xml:112
 #, no-c-format
 msgid "Then you can inject Spring beans using <literal>@In</literal>:"
-msgstr ""
+msgstr "Poi si possono iniettare i bean Spring usando <literal>@In</literal>:"
 
 #. Tag: programlisting
 #: Spring.xml:114
@@ -297,19 +298,19 @@ msgstr ""
 #: Spring.xml:116
 #, no-c-format
 msgid "The use of Spring beans in EL is not limited to injection. Spring beans may be used anywhere that EL expressions are used in Seam: process and pageflow definitions, working memory assertions, etc..."
-msgstr ""
+msgstr "L'uso dei bean Spring in EL non è limitato all'iniezione. I bean Spring possono essere usati ovunque sono usate le espressioni EL in Seam: definizioni di processo e pageflow, asserzioni nella working memory, ecc."
 
 #. Tag: title
 #: Spring.xml:122
 #, no-c-format
 msgid "Making a Spring bean into a Seam component"
-msgstr ""
+msgstr "Inserire un bean Spring in un componente Seam"
 
 #. Tag: para
 #: Spring.xml:124
 #, no-c-format
 msgid "The <literal>&lt;seam:component/&gt;</literal> namespace handler can be used to make any Spring bean a Seam component. Just place the <literal>&lt;seam:component/&gt;</literal> tag within the declaration of the bean that you wish to be a Seam component:"
-msgstr ""
+msgstr "L'handler namespace <literal>&lt;seam:component/&gt;</literal> può essere usato per far diventare un bean Spring un componente Seam. Si collochi il tag <literal>&lt;seam:component/&gt;</literal> dentro la dichiarazione del bean che si vuole rendere componente Seam:"
 
 #. Tag: programlisting
 #: Spring.xml:128
@@ -375,7 +376,7 @@ msgstr ""
 #: Spring.xml:160
 #, no-c-format
 msgid "The prefix of the scope name may be changed by specifying the <literal>prefix</literal> attribute in the <literal>configure-scopes</literal> definition. (The default prefix is <literal>seam.</literal>)"
-msgstr ""
+msgstr "Il prefisso del nome dello scope può essere cambiato specificando l'attributo <literal>prefix</literal> nella definizione di <literal>configure-scopes</literal>. (Il prefisso di default è <literal>seam.</literal>)"
 
 #. Tag: para
 #: Spring.xml:163
@@ -417,7 +418,7 @@ msgstr ""
 #: Spring.xml:180
 #, no-c-format
 msgid "Using Spring PlatformTransactionManagement"
-msgstr ""
+msgstr "Uso di Spring PlatformTransactionManagement"
 
 #. Tag: para
 #: Spring.xml:182
@@ -429,7 +430,7 @@ msgstr ""
 #: Spring.xml:190
 #, no-c-format
 msgid "To configure Seam to use Spring transactions enable the SpringTransaction component like so:"
-msgstr ""
+msgstr "Per configurare Seam ad usare le transazioni di Spring abilitare il componente SpringTransaction in queso modo:"
 
 #. Tag: programlisting
 #: Spring.xml:192
@@ -441,13 +442,13 @@ msgstr "<![CDATA[<spring:spring-transaction platform-transaction-manager=\"#{tra
 #: Spring.xml:194
 #, no-c-format
 msgid "The <literal>spring:spring-transaction</literal> component will utilize Springs transaction synchronization capabilities for synchronization callbacks."
-msgstr ""
+msgstr "Il componente <literal>spring:spring-transaction</literal> utilizzerà le capacità di sincronizzazione delle transazioni di Spring per le callback di sincronizzazione."
 
 #. Tag: title
 #: Spring.xml:200
 #, no-c-format
 msgid "Using a Seam Managed Persistence Context in Spring"
-msgstr ""
+msgstr "Uso del contesto di persistenza gestito da Seam in Spring"
 
 #. Tag: para
 #: Spring.xml:202
@@ -459,37 +460,37 @@ msgstr ""
 #: Spring.xml:212
 #, no-c-format
 msgid "Seam provides a way for Spring to access a Seam managed persistence context with Spring's provided JPA tools bringing conversation scoped persistence context capabilities to Spring applications."
-msgstr ""
+msgstr "Seam fornisce un modo per far accedere Spring ad un contesto di persistenza gestito da Seam con i tool JPA forniti da Spring che portano nelle applicazioni Seam le capacità del contesto di persistenza con scope conversazione."
 
 #. Tag: para
 #: Spring.xml:216
 #, no-c-format
 msgid "This integration work provides the following functionality:"
-msgstr ""
+msgstr "Questo lavoro di integrazione fornisce la seguente funzionalità:"
 
 #. Tag: para
 #: Spring.xml:220
 #, no-c-format
 msgid "transparent access to a Seam managed persistence context using Spring provided tools"
-msgstr ""
+msgstr "accesso trasparente al contesto di persistenza gestito da Seam usando i tool forniti da Spring"
 
 #. Tag: para
 #: Spring.xml:223
 #, no-c-format
 msgid "access to Seam conversation scoped persistence contexts in a non web request (e.g. asynchronous quartz job)"
-msgstr ""
+msgstr "accesso ai contesti di persistenza con scope conversazione di Seam in una richiesta non web (es. job asincrono di quartz)"
 
 #. Tag: para
 #: Spring.xml:227
 #, no-c-format
 msgid "allows for using Seam managed persistence contexts with Spring managed transactions (will need to flush the persistence context manually)"
-msgstr ""
+msgstr "consente l'uso dei contesti di persistenza gestiti da Seam con le transazioni gestite da Spring (occorrerà eseguire manualmente il flush del contesto di persistenza)"
 
 #. Tag: para
 #: Spring.xml:232
 #, no-c-format
 msgid "Spring's persistence context propagation model allows only one open EntityManager per EntityManagerFactory so the Seam integration works by wrapping an EntityManagerFactory around a Seam managed persistence context."
-msgstr ""
+msgstr "Il modello di propagazione del contesto di persistenza di Spring consente solo un EntityManager aperto per EntityManagerFactory, quindi l'integrazione con Seam funziona facendo il wrapping dell'EntityManagerFactory attorno al contesto di persistenza gestito da Seam."
 
 #. Tag: programlisting
 #: Spring.xml:236
@@ -617,7 +618,7 @@ msgstr "Uso di una sessione Hibernate gestita da Seam in Spring"
 #: Spring.xml:270
 #, no-c-format
 msgid "The Seam Spring integration also provides support for complete access to a Seam managed Hibernate session using spring's tools. This integration is very similar to the <link linkend=\"spring-persistence\">JPA integration</link>."
-msgstr ""
+msgstr "L'integrazione di Spring con Seam fornisce anche il supporto al completo accesso alla sessione Hibernate gestita da Seam usando i tool di Spring. Quest'integrazione è molto simile all'<link linkend=\"spring-persistence\">integrazione JPA</link>."
 
 #. Tag: para
 #: Spring.xml:273
@@ -647,25 +648,25 @@ msgstr ""
 #: Spring.xml:286
 #, no-c-format
 msgid "Spring Application Context as a Seam Component"
-msgstr ""
+msgstr "Contesto Applicazione di Spring come componente Seam"
 
 #. Tag: para
 #: Spring.xml:288
 #, no-c-format
 msgid "Although it is possible to use the Spring <literal>ContextLoaderListener</literal> to start your application's Spring ApplicationContext there are a couple of limitations."
-msgstr ""
+msgstr "Sebbene sia possibile usare il <literal>ContextLoaderListener</literal> di Spring per avviare l'ApplicationContext di Spring della propria applicazione, ci sono un paio di limitazioni."
 
 #. Tag: para
 #: Spring.xml:293
 #, no-c-format
 msgid "the Spring ApplicationContext must be started <emphasis>after</emphasis> the <literal>SeamListener</literal>"
-msgstr ""
+msgstr "L'ApplicationContext di Spring deve essere avviato <emphasis>dopo</emphasis> <literal>SeamListener</literal>"
 
 #. Tag: para
 #: Spring.xml:297
 #, no-c-format
 msgid "it can be tricky starting a Spring ApplicationContext for use in Seam unit and integration tests"
-msgstr ""
+msgstr "può essere insidioso avviare un ApplicationContext di Spring da usarsi nei test d'unità e di integrazionedi Seam"
 
 #. Tag: para
 #: Spring.xml:302
