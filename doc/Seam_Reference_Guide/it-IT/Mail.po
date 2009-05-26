@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-05-25 20:07+0000\n"
-"PO-Revision-Date: 2009-05-25 22:12+0100\n"
+"PO-Revision-Date: 2009-05-26 15:14+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -285,7 +285,7 @@ msgstr ""
 #: Mail.xml:122
 #, no-c-format
 msgid "You may be wondering what <literal>cid:#{...}</literal> does. Well, the IETF specified that by putting this as the src for your image, the attachments will be looked at when trying to locate the image (the <literal>Content-ID</literal>'s must match) &#8212; magic!"
-msgstr "Ci si potrebbe chiedere a cosa serva <literal>cid:#{...}</literal>. IETF specifica che mettendo questo come src dell'immagine, gli allegati verranno visualizzati quando si tenta di localizzare l'immagine (il <literal>Content-ID</literal> deve corrispondere) &#8212; magia!"
+msgstr "Ci si potrebbe chiedere a cosa serva <literal>cid:#{...}</literal>. IETF specifica che mettendo questo come src dell'immagine, verranno visualizzati gli allegati quando si tenta di localizzare l'immagine (il <literal>Content-ID</literal> deve corrispondere) &#8212; magia!"
 
 #. Tag: para
 #: Mail.xml:129
