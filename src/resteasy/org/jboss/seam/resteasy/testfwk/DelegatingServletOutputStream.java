@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.jboss.seam.example.restbay.test.fwk;
+package org.jboss.seam.resteasy.testfwk;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -25,11 +25,11 @@ import javax.servlet.ServletOutputStream;
 /**
  * Delegating implementation of {@link javax.servlet.ServletOutputStream}.
  * <p/>
- * <p>Used by {@link org.jboss.seam.example.restbay.test.fwk.MockHttpServletResponse}; typically not directly
+ * <p>Used by {@link MockHttpServletResponse}; typically not directly
  * used for testing application controllers.
  *
  * @author Juergen Hoeller
- * @see org.jboss.seam.example.restbay.test.fwk.MockHttpServletResponse
+ * @see MockHttpServletResponse
  * @since 1.0.2
  */
 public class DelegatingServletOutputStream extends ServletOutputStream

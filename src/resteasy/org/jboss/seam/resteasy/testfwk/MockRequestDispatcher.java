@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.jboss.seam.example.restbay.test.fwk;
+package org.jboss.seam.resteasy.testfwk;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletRequest;
@@ -69,7 +69,7 @@ public class MockRequestDispatcher implements RequestDispatcher {
 
 	/**
 	 * Obtain the underlying MockHttpServletResponse,
-	 * unwrapping {@link HttpServletResponseWrapper} decorators if necessary.
+	 * unwrapping {@link javax.servlet.http.HttpServletResponseWrapper} decorators if necessary.
 	 */
 	protected MockHttpServletResponse getMockHttpServletResponse(ServletResponse response) {
 		if (response instanceof MockHttpServletResponse) {

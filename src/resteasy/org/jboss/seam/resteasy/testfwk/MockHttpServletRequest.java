@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.jboss.seam.example.restbay.test.fwk;
+package org.jboss.seam.resteasy.testfwk;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -173,8 +173,8 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
 	/**
 	 * Create a new MockHttpServletRequest with a default
-	 * {@link MockServletContext}.
-	 * @see MockServletContext
+	 * {@link org.jboss.seam.mock.MockServletContext}.
+	 * @see org.jboss.seam.mock.MockServletContext
 	 */
 	public MockHttpServletRequest() {
 		this(null, "", "");
@@ -182,12 +182,12 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
 	/**
 	 * Create a new MockHttpServletRequest with a default
-	 * {@link MockServletContext}.
+	 * {@link org.jboss.seam.mock.MockServletContext}.
 	 * @param method the request method (may be <code>null</code>)
 	 * @param requestURI the request URI (may be <code>null</code>)
 	 * @see #setMethod
 	 * @see #setRequestURI
-	 * @see MockServletContext
+	 * @see org.jboss.seam.mock.MockServletContext
 	 */
 	public MockHttpServletRequest(String method, String requestURI) {
 		this(null, method, requestURI);
@@ -197,7 +197,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	 * Create a new MockHttpServletRequest.
 	 * @param servletContext the ServletContext that the request runs in
 	 * (may be <code>null</code> to use a default MockServletContext)
-	 * @see MockServletContext
+	 * @see org.jboss.seam.mock.MockServletContext
 	 */
 	public MockHttpServletRequest(ServletContext servletContext) {
 		this(servletContext, "", "");
@@ -211,7 +211,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	 * @param requestURI the request URI (may be <code>null</code>)
 	 * @see #setMethod
 	 * @see #setRequestURI
-	 * @see MockServletContext
+	 * @see org.jboss.seam.mock.MockServletContext
 	 */
 	public MockHttpServletRequest(ServletContext servletContext, String method, String requestURI) {
 		this.servletContext = (servletContext != null ? servletContext : new MockServletContext());
@@ -334,7 +334,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	/**
 	 * Sets all provided parameters <emphasis>replacing</emphasis> any
 	 * existing values for the provided parameter names. To add without
-	 * replacing existing values, use {@link #addParameters(Map)}.
+	 * replacing existing values, use {@link #addParameters(java.util.Map)}.
 	 */
 	public void setParameters(Map params) {
 		for (Iterator it = params.keySet().iterator(); it.hasNext();) {
@@ -383,7 +383,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	/**
 	 * Adds all provided parameters <emphasis>without</emphasis> replacing
 	 * any existing values. To replace existing values, use
-	 * {@link #setParameters(Map)}.
+	 * {@link #setParameters(java.util.Map)}.
 	 */
 	public void addParameters(Map params) {
 		for (Iterator it = params.keySet().iterator(); it.hasNext();) {

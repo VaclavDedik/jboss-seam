@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package org.jboss.seam.example.tasks.test.fwk;
-
-import org.jboss.seam.example.tasks.test.fwk.DelegatingServletOutputStream;
+package org.jboss.seam.resteasy.testfwk;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

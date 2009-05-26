@@ -1,7 +1,7 @@
 package org.jboss.seam.example.restbay.test;
 
-import org.jboss.seam.example.restbay.test.fwk.ResourceSeamTest;
-import org.jboss.seam.example.restbay.test.fwk.MockHttpServletResponse;
+import org.jboss.seam.resteasy.testfwk.ResourceSeamTest;
+import org.jboss.seam.resteasy.testfwk.MockHttpServletResponse;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;

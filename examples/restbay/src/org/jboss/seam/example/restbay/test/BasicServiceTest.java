@@ -1,8 +1,8 @@
 package org.jboss.seam.example.restbay.test;
 
-import org.jboss.seam.example.restbay.test.fwk.ResourceSeamTest;
-import org.jboss.seam.example.restbay.test.fwk.MockHttpServletResponse;
-import org.jboss.seam.example.restbay.test.fwk.MockHttpServletRequest;
+import org.jboss.seam.resteasy.testfwk.ResourceSeamTest;
+import org.jboss.seam.resteasy.testfwk.MockHttpServletResponse;
+import org.jboss.seam.resteasy.testfwk.MockHttpServletRequest;
 import org.testng.annotations.Test;
 import org.testng.annotations.DataProvider;
 import static org.testng.Assert.assertEquals;
@@ -74,6 +74,12 @@ public class BasicServiceTest extends ResourceSeamTest
       {{
             put("Accept", "text/plain");
       }};
+   }
+
+   @Override
+   public String getServletPath()
+   {
+      return "/override/seam/resource/is/not/my/path/for/SeamResourceServlet";
    }
 
    @DataProvider(name = "queryPaths")

@@ -1,4 +1,4 @@
-package org.jboss.seam.example.tasks.test.fwk;
+package org.jboss.seam.resteasy.testfwk;
 
 import org.jboss.seam.mock.SeamTest;
 import org.jboss.seam.servlet.SeamResourceServlet;
@@ -12,6 +12,62 @@ import java.io.IOException;
 import java.security.Principal;
 
 /**
+ * Executes (through local calls, not TCP sockets) an HTTP request in a unit test.
+ *
+ * <pre>
+ * import org.jboss.seam.resteasy.testfwk.ResourceSeamTest;
+ * import org.jboss.seam.resteasy.testfwk.MockHttpServletResponse;
+ * import org.jboss.seam.resteasy.testfwk.MockHttpServletRequest;
+ *  
+ * public class MyTest extends ResourceSeamTest {
+ *
+ *    &#064;Override
+ *    public String getServletPath()
+ *    {
+ *       return "/seam/resource/.../is/not/my/web.xml/configured/path/for/SeamResourceServlet";
+ *    }
+ *
+ *    &#064;Override
+ *    public Map<String, Object> getDefaultHeaders()
+ *    {
+ *       return new HashMap<String, Object>()
+ *       {{
+ *             put("Accept", "text/plain");
+ *       }};
+ *    }
+ * 
+ *    &#064;Test
+ *    public void test() throws Exception
+ *    {
+ *       new ResourceRequest(Method.GET, "/my/relative/uri)
+ *       {
+ * 
+ *          &#064;Override
+ *          protected void prepareRequest(MockHttpServletRequest request)
+ *          {
+ *             request.addQueryParameter("foo", "123");
+ *             request.addHeader("Accept-Language", "en_US, de");
+ *          }
+ * 
+ *          &#064;Override
+ *          protected void onResponse(MockHttpServletResponse response)
+ *          {
+ *             assert response.getStatus() == 200;
+ *             assert response.getContentAsString().equals("foobar");
+ *          }
+ * 
+ *       }.run();
+ *    }
+ * 
+ * }
+ * </pre>
+ *
+ * <p>
+ * Note that you currently can only execute <tt>ResourceRequest</tt> inside an actual
+ * <tt>@Test</tt> method or in a <tt>@BeforeMethod</tt> callback. You can (or should)
+ * not run it in any other callback such as <tt>@BeforeClass</tt> or <tt>@BeforeTest</tt>.
+ * </p>
+ *
  * @author Christian Bauer
  */
 public class ResourceSeamTest extends SeamTest

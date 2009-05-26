@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.jboss.seam.example.tasks.test.fwk;
+package org.jboss.seam.resteasy.testfwk;
 
 import java.util.*;
 import java.lang.reflect.Array;

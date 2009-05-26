@@ -2,9 +2,9 @@ package org.jboss.seam.example.restbay.test;
 
 import static org.testng.Assert.assertEquals;
 
-import org.jboss.seam.example.restbay.test.fwk.MockHttpServletRequest;
-import org.jboss.seam.example.restbay.test.fwk.MockHttpServletResponse;
-import org.jboss.seam.example.restbay.test.fwk.ResourceSeamTest;
+import org.jboss.seam.resteasy.testfwk.ResourceSeamTest;
+import org.jboss.seam.resteasy.testfwk.MockHttpServletRequest;
+import org.jboss.seam.resteasy.testfwk.MockHttpServletResponse;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
