@@ -20,4 +20,4 @@ http://metawidget.org
 Thanks to Richard Kennard for porting the original Seam examples to use the
 Metawidget JSF components.
 
-Metawidget version: 0.7
+Metawidget version: 0.75
