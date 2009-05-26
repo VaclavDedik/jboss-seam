@@ -31,22 +31,22 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 /**
- * Test class for /context part of API
+ * Test class for /category part of API
  * @author Jozef Hartinger
  *
  */
-public class ContextResourceTest extends ResourceSeamTest
+public class CategoryResourceTest extends ResourceSeamTest
 {
    @DataProvider(name = "query")
    public String[][] getQueryData()
    {
-      return new String[][] { new String[] { "application/xml", "<context><name>School</name></context>" }, new String[] { "application/json", "{\"context\":{\"name\":\"School\"}}" } };
+      return new String[][] { new String[] { "application/xml", "<category><name>School</name></category>" }, new String[] { "application/json", "{\"category\":{\"name\":\"School\"}}" } };
    }
 
    @Test(dataProvider = "query")
-   public void getContextListTest(final String contentType, final String expectedResponse) throws Exception
+   public void getCategoryListTest(final String contentType, final String expectedResponse) throws Exception
    {
-      new ResourceRequest(Method.GET, "/v1/auth/context")
+      new ResourceRequest(Method.GET, "/v1/auth/category")
       {
 
          @Override
@@ -69,9 +69,9 @@ public class ContextResourceTest extends ResourceSeamTest
    }
 
    @Test
-   public void deleteContextTest() throws Exception
+   public void deleteCategoryTest() throws Exception
    {
-      new ResourceRequest(Method.DELETE, "/v1/auth/context/Work")
+      new ResourceRequest(Method.DELETE, "/v1/auth/category/Work")
       {
 
          @Override
@@ -93,12 +93,12 @@ public class ContextResourceTest extends ResourceSeamTest
    }
 
    @Test
-   public void createContextTest() throws Exception
+   public void createCategoryTest() throws Exception
    {
       
-      final String uri = "/v1/auth/context/Test%20Context";
+      final String uri = "/v1/auth/category/Test%20Category";
       final String mimeType = "application/json";
-      final String expectedResponse = "{\"context\":{\"name\":\"Test Context\"}}";
+      final String expectedResponse = "{\"category\":{\"name\":\"Test Category\"}}";
       
       new ResourceRequest(Method.PUT, uri)
       {
@@ -141,11 +141,10 @@ public class ContextResourceTest extends ResourceSeamTest
       }.run();
    }
 
-   // @Test
-   // TODO uncomment once JBSEAM-4152 is resolved
+   @Test
    public void noAuthorizationHeaderTest() throws Exception
    {
-      new ResourceRequest(Method.GET, "/v1/auth/context")
+      new ResourceRequest(Method.GET, "/v1/auth/category")
       {
 
          @Override

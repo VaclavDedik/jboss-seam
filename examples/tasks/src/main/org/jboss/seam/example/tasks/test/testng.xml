@@ -4,7 +4,7 @@
 
     <test name="Tasks">
         <classes>
-            <class name="org.jboss.seam.example.tasks.test.ContextResourceTest"/>
+            <class name="org.jboss.seam.example.tasks.test.CategoryResourceTest"/>
             <class name="org.jboss.seam.example.tasks.test.TaskResourceTest"/>
             <class name="org.jboss.seam.example.tasks.test.ResolvedTaskResourceQueryTest"/>
         </classes>

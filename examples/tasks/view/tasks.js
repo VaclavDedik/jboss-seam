@@ -1,37 +1,37 @@
 $(document).ready(function() {
-	printContexts();
+	printCategories();
 	$('#editTaskSubmit').click(function() {
 		var name = $('#editTaskName').val();
-		var contextName = $('#editTaskContext').val()
-		postTask(contextName, name, function(location) {
+		var categoryName = $('#editTaskCategory').val()
+		postTask(categoryName, name, function(location) {
 			$('#editTaskName').val('');
 			$.get(location, function(data) {
-				addTask($(data).find('task'), contextName);
+				addTask($(data).find('task'), categoryName);
 			});
 		});
 	});
 });
 
-function showTaskEditForm(contextName, taskId) {
-	var contexts = $('#editTaskContext').clone();
-	$(contexts).find('[value=' + contextName + ']').attr('selected', 'selected');
+function showTaskEditForm(categoryName, taskId) {
+	var categories = $('#editTaskCategory').clone();
+	$(categories).find('[value=' + categoryName + ']').attr('selected', 'selected');
 	var taskName = $('#' + taskId + " .name").text();
 	var name = $('<input/>').attr('type', 'text').addClass('nameField').val(taskName);
 	
 	var update = $('<input/>').attr('type', 'button').attr('id', 'update').val('Update').click(function() {
-		var newContextName = $(contexts).val();
+		var newCategoryName = $(categories).val();
 		var callback = function(data) {
 			removeTaskEditForm(taskId, taskName);
-				if (contextName == newContextName) {
+				if (categoryName == newCategoryName) {
 					updateTaskNameOnUI(taskId, data); // just update the name
 				} else {
-					$('#' + taskId).remove(); // add the task into new context
-					addTask(data, newContextName);
+					$('#' + taskId).remove(); // add the task into new category
+					addTask(data, newCategoryName);
 				}
 		}
-		putTask(newContextName, taskId, $(name).val(), false, callback);
+		putTask(newCategoryName, taskId, $(name).val(), false, callback);
 	});
-	var form = $('<form/>').attr('id', 'updateTask').append(contexts).append(name).append(update);
+	var form = $('<form/>').attr('id', 'updateTask').append(categories).append(name).append(update);
 	$('#' + taskId + ' .name').replaceWith(form);
 }
 
@@ -39,56 +39,56 @@ function removeTaskEditForm(taskId, taskName) {
 	$('#' + taskId + ' form').replaceWith($('<span/>').addClass('name').text(taskName));
 }
 
-function printContexts() {
-	getContexts(function(data) {
- 	   $(data).find('context').each(function() {
- 		   addContext($(this));
+function printCategories() {
+	getCategories(function(data) {
+ 	   $(data).find('category').each(function() {
+ 		   addCategory($(this));
  	   });
 	});
 }
 
-function addContext(context) {
-	var contextName = $(context).find('name').text();
-	var escapedContextName = escape(contextName);
-	var contextCell = $('<td/>').attr('colspan', '2').addClass('name').text(contextName);
-	var contextRow = $('<tr/>').attr('id', contextName).append(contextCell);
-	$('#contexts tbody').append(contextRow).appendTo('#contexts');
-	$('<option/>').attr('value', contextName).text(contextName).appendTo('#editTaskContext');
-	getTasksForContext(contextName, false, function(data) {
+function addCategory(category) {
+	var categoryName = $(category).find('name').text();
+	var escapedCategoryName = escape(categoryName);
+	var categoryCell = $('<td/>').attr('colspan', '2').addClass('name').text(categoryName);
+	var categoryRow = $('<tr/>').attr('id', categoryName).append(categoryCell);
+	$('#categories tbody').append(categoryRow).appendTo('#categories');
+	$('<option/>').attr('value', categoryName).text(categoryName).appendTo('#editTaskCategory');
+	getTasksForCategory(categoryName, false, function(data) {
 		$(data).find('task').each(function() {
-			addTask($(this), contextName);
+			addTask($(this), categoryName);
 	 	});
 	});
 }
 
-function addTask(task, contextName) {
+function addTask(task, categoryName) {
 	var taskId = $(task).find('id').text();
 	var taskName = $(task).find('name').text();
 	
-	var parent = $('[id=' + contextName + ']');
+	var parent = $('[id=' + categoryName + ']');
 	var nameCell = $('<td/>').append($('<span/>').addClass('name').text(taskName));
 	var doneButton = $('<img/>').attr('src', 'img/task-done.png').attr('title', 'Resolve this task').click(function(event) {
 		event.preventDefault();
-		putTask(contextName, taskId, taskName, true, function() {
+		putTask(categoryName, taskId, taskName, true, function() {
 			$('#' + taskId).remove();
 		});
 	});
 	var editButton = $('<img/>').attr('src', 'img/task-edit.png').attr('title', 'Edit this task').click(function(event) {
 		event.preventDefault();
 		if ($('#' + taskId + ' #updateTask').size() == 0) {
-			showTaskEditForm(contextName, taskId);
+			showTaskEditForm(categoryName, taskId);
 		} else {
 			removeTaskEditForm(taskId, taskName);
 		}
 	});
 	var deleteButton = $('<img/>').attr('src', 'img/task-delete.png').attr('title', 'Delete this task').click(function(event) {
 		event.preventDefault();
-		deleteTask(contextName, taskId, false, function() {
+		deleteTask(categoryName, taskId, false, function() {
 			$('#' + taskId).remove();
 		});
 	});
 	var buttonCell = $('<td/>').append(doneButton).append(editButton).append(deleteButton);
-	$('<tr/>').attr('id', taskId).append(buttonCell).append(nameCell).insertAfter('[id=' + contextName + ']');
+	$('<tr/>').attr('id', taskId).append(buttonCell).append(nameCell).insertAfter('[id=' + categoryName + ']');
 }
 
 function updateTaskNameOnUI(taskId, task) {

@@ -35,21 +35,21 @@ import org.jboss.seam.example.tasks.entity.Task;
 import org.jboss.seam.resteasy.ResourceQuery;
 
 /**
- * This class exposes two lists of tasks for every context. Unresolved tasks can
- * be obtained by sending HTTP GET request to context/{context}/unresolved URI.
- * To obtain a list of already resolved tasks, use context/{context}/resolved
+ * This class exposes two lists of tasks for every category. Unresolved tasks can
+ * be obtained by sending HTTP GET request to category/{category}/unresolved URI.
+ * To obtain a list of already resolved tasks, use category/{category}/resolved
  * URI.
  * 
  * @author Jozef Hartinger
  * 
  */
 @Name("taskResourceQuery")
-@Path("/auth/context/{context}/{status}")
+@Path("/auth/category/{category}/{status}")
 public class TaskResourceQuery extends ResourceQuery<Task>
 {
 
-   @PathParam("context")
-   private String contextName;
+   @PathParam("category")
+   private String categoryName;
    @PathParam("status")
    private String taskStatus;
 
@@ -64,16 +64,16 @@ public class TaskResourceQuery extends ResourceQuery<Task>
    {
       super.create();
       List<String> restrictions = new ArrayList<String>();
-      restrictions.add("context.name = #{contextName}");
+      restrictions.add("category.name = #{categoryName}");
       restrictions.add("resolved = #{taskStatus}");
-      restrictions.add("context.owner.username = #{user.username}");
+      restrictions.add("category.owner.username = #{user.username}");
       getEntityQuery().setRestrictionExpressionStrings(restrictions);
    }
 
-   @Factory("contextName")
-   public String getContextName()
+   @Factory("categoryName")
+   public String getCategoryName()
    {
-      return contextName;
+      return categoryName;
    }
 
    @Factory("taskStatus")

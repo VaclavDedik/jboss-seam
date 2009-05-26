@@ -45,7 +45,7 @@ function loadTasks() {
 function addTask(task) {
 	var taskId = $(task).find('id').text();
 	var taskName = $(task).find('name').text();
-	var contextName = $(task).find('context').text();
+	var categoryName = $(task).find('category').text();
 	var taskCompleted = $(task).find('completed').text();
 	
 	var parent = $('#tasks tbody');
@@ -53,13 +53,13 @@ function addTask(task) {
 	var completedCell = $('<td/>').addClass('completed').text(taskCompleted);
 	var undoButton = $('<img/>').attr('src', 'img/task-undo.png').attr('title', 'Undo this task').click(function(event) {
 		event.preventDefault();
-		putTask(contextName, taskId, taskName, false, function() {
+		putTask(categoryName, taskId, taskName, false, function() {
 			$('#' + taskId).remove();
 		});
 	});
 	var deleteButton = $('<img/>').attr('src', 'img/task-delete.png').attr('title', 'Delete this task').click(function(event) {
 		event.preventDefault();
-		deleteTask(contextName, taskId, true, function() {
+		deleteTask(categoryName, taskId, true, function() {
 			$('#' + taskId).remove();
 		});
 	});

@@ -44,7 +44,7 @@ import org.hibernate.validator.NotNull;
  */
 @Entity
 @XmlRootElement
-@NamedQuery(name="taskByNameAndContext", query="select task from Task task where task.name like :task and task.context.id = :context")
+@NamedQuery(name="taskByNameAndCategory", query="select task from Task task where task.name like :task and task.category.id = :category")
 public class Task
 {
    private Long id;
@@ -52,7 +52,7 @@ public class Task
    private boolean resolved;
    private Date created;
    private Date updated;
-   private Context context;
+   private Category category;
 
    @Id
    @GeneratedValue
@@ -115,26 +115,26 @@ public class Task
    @ManyToOne
    @XmlTransient
    @NotNull
-   public Context getContext()
+   public Category getCategory()
    {
-      return context;
+      return category;
    }
    
 
-   public void setContext(Context context)
+   public void setCategory(Category category)
    {
-      this.context = context;
+      this.category = category;
    }
    
    @Transient
-   @XmlElement(name="context")
-   public String getContextName() {
-      return context.getName();
+   @XmlElement(name="category")
+   public String getCategoryName() {
+      return category.getName();
    }
    
    @Transient
    public User getOwner() {
-      return context.getOwner();
+      return category.getOwner();
    }
    
 }

@@ -14,7 +14,7 @@
 
 	<page view-id="/tasks.xhtml" login-required="true" />
 
-	<page view-id="/contexts.xhtml" login-required="true" />
+	<page view-id="/categories.xhtml" login-required="true" />
 
 	<page view-id="/resolved.xhtml" login-required="true" />
 

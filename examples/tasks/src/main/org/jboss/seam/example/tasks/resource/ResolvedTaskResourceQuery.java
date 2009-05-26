@@ -69,7 +69,7 @@ public class ResolvedTaskResourceQuery extends ResourceQuery<Task>
    {
       super.create();
       List<String> restrictions = new ArrayList<String>();
-      restrictions.add("context.owner.username = #{username} AND resolved = true");
+      restrictions.add("category.owner.username = #{username} AND resolved = true");
       getEntityQuery().setRestrictionExpressionStrings(restrictions);
       getEntityQuery().setOrderColumn("updated");
       getEntityQuery().setOrderDirection("desc");

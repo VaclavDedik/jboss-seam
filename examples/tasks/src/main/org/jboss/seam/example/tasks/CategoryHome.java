@@ -19,30 +19,27 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.example.tasks.test;
+package org.jboss.seam.example.tasks;
 
-import org.jboss.seam.annotations.Factory;
-import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.example.tasks.entity.User;
+import org.jboss.seam.example.tasks.entity.Category;
 import org.jboss.seam.framework.EntityHome;
 
 /**
- * Ugly hack that allows the tests tu run until JBSEAM-4152 is resolved.
+ * 
  * @author Jozef Hartinger
  *
  */
-
-@Name("userFactory")
-public class UserFactory
+@Name("categoryHome")
+@AutoCreate
+public class CategoryHome extends EntityHome<Category>
 {
 
-   @In private EntityHome<User> userHome;
-   
-   @Factory(autoCreate=true, value="user")
-   public User getDemo() {
-      userHome.setId("demo");
-      return userHome.find();
+   public Category findByUsernameAndCategory(String username, String category)
+   {
+      setInstance((Category) getEntityManager().createNamedQuery("categoryByNameAndUser").setParameter("username", username).setParameter("category", category).getSingleResult());
+      return getInstance();
    }
-   
+
 }

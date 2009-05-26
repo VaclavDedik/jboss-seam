@@ -45,19 +45,19 @@ import org.hibernate.validator.NotNull;
 @Entity
 @XmlRootElement
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "NAME", "OWNER_USERNAME" }))
-@NamedQuery(name = "contextByNameAndUser", query = "select context from Context context where context.owner.username like :username and context.name like :context")
-public class Context
+@NamedQuery(name = "categoryByNameAndUser", query = "select category from Category category where category.owner.username like :username and category.name like :category")
+public class Category
 {
    private Long id;
    private String name;
    private List<Task> tasks;
    private User owner;
 
-   public Context()
+   public Category()
    {
    }
 
-   public Context(Long id, String name, List<Task> tasks, User owner)
+   public Category(Long id, String name, List<Task> tasks, User owner)
    {
       this.id = id;
       this.name = name;
@@ -89,7 +89,7 @@ public class Context
       this.name = name;
    }
 
-   @OneToMany(mappedBy = "context", cascade = CascadeType.REMOVE)
+   @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
    @XmlTransient
    public List<Task> getTasks()
    {

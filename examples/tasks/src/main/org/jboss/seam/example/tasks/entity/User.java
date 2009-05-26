@@ -42,7 +42,7 @@ public class User
 {
    private String username;
    private String password;
-   private List<Context> contexts;
+   private List<Category> categories;
    private boolean admin;
 
    @Id
@@ -69,14 +69,14 @@ public class User
 
    @OneToMany(mappedBy = "owner")
    @XmlTransient
-   public List<Context> getContexts()
+   public List<Category> getCategories()
    {
-      return contexts;
+      return categories;
    }
 
-   public void setContexts(List<Context> contexts)
+   public void setCategories(List<Category> categories)
    {
-      this.contexts = contexts;
+      this.categories = categories;
    }
 
    public boolean isAdmin()

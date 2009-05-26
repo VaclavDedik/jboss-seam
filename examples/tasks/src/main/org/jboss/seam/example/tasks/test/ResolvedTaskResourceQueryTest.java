@@ -46,7 +46,7 @@ public class ResolvedTaskResourceQueryTest extends ResourceSeamTest
       final String mimeType = "application/xml";
       final String representation = "<task><id>14</id></task>";
       
-      new ResourceRequest(Method.PUT, "/v1/auth/context/School/resolved/14")
+      new ResourceRequest(Method.PUT, "/v1/auth/category/School/resolved/14")
       {
 
          @Override

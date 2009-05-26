@@ -84,10 +84,10 @@ table
 }
 
 #rightPanel {
-	width: 280px;
-	margin-top: 30px;
-	margin-right: 20px;
+	width: 270px;
+	margin: 30px 30px 0px 0px;
 	float: right;
+	text-align: justify;
 }
 
 table td.name {
@@ -102,7 +102,7 @@ h2
     color: #899ea6;
 }
 
-#newTask, #newContextForm {
+#newTask, #newCategoryForm {
     margin: 10px 20px 10px 20px;
 }
 

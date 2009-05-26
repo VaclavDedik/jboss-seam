@@ -26,20 +26,22 @@
 
 	<framework:entity-home name="userHome"
 		entity-class="org.jboss.seam.example.tasks.entity.User" auto-create="true" />
+		
+	<framework:entity-home name="taskHome"
+		entity-class="org.jboss.seam.example.tasks.entity.Task" auto-create="true" />
 
-	<framework:entity-query name="contextQuery"
-		ejbql="select c from Context c">
+	<framework:entity-query name="categoryQuery"
+		ejbql="select c from Category c">
 		<framework:restrictions>
 			<value>c.owner.username =
 				#{user.username}</value>
 		</framework:restrictions>
 	</framework:entity-query>
 
-	<resteasy:resource-query name="contextResourceQuery"
-		entity-query="#{contextQuery}" path="/auth/context"
-		entity-class="org.jboss.seam.example.tasks.entity.Context"
-		media-types="application/xml application/json application/fastinfoset">
-	</resteasy:resource-query>
+	<resteasy:resource-query name="categoryResourceQuery"
+		entity-query="#{categoryQuery}" path="/auth/category"
+		entity-class="org.jboss.seam.example.tasks.entity.Category"
+		media-types="application/xml application/json application/fastinfoset"/>
 
 	<resteasy:application resource-path-prefix="/v1">
 		<resteasy:media-type-mappings>

@@ -33,28 +33,28 @@ import javax.ws.rs.core.UriInfo;
 
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.example.tasks.ContextHome;
+import org.jboss.seam.example.tasks.CategoryHome;
 import org.jboss.seam.example.tasks.entity.User;
 
 /**
  * This resource demonstrates use of plain JAX-RS resource (no ResourceHome
  * component) with Seam. It allows retrieving (GET), creating (PUT) and deleting
- * (DELETE) of task contexts. To create new context, simply send a PUT request
- * without entity body to /auth/context/name where "name" is the name of
- * context. Same path applies for retrieving and deleting of context.
+ * (DELETE) of task categories. To create new category, simply send a PUT request
+ * without entity body to /auth/category/name where "name" is the name of
+ * category. Same path applies for retrieving and deleting of category.
  * 
  * @author Jozef Hartinger
  * 
  */
 
-@Path("/auth/context/{context}")
-@Name("contextResource")
+@Path("/auth/category/{category}")
+@Name("categoryResource")
 @Produces( { "application/xml", "application/json", "application/fastinfoset" })
 @Consumes( { "application/xml", "application/json", "application/fastinfoset" })
-public class ContextResource
+public class CategoryResource
 {
    @In
-   private ContextHome contextHome;
+   private CategoryHome categoryHome;
 
    @javax.ws.rs.core.Context
    private UriInfo uriInfo;
@@ -62,30 +62,30 @@ public class ContextResource
    @In
    private User user;
 
-   @PathParam("context")
-   private String context;
+   @PathParam("category")
+   private String category;
 
    @GET
-   public Response getContext()
+   public Response getCategory()
    {
-      return Response.ok(contextHome.findByUsernameAndContext(user.getUsername(), context)).build();
+      return Response.ok(categoryHome.findByUsernameAndCategory(user.getUsername(), category)).build();
    }
 
    @PUT
-   public Response putContext()
+   public Response putCategory()
    {
-      contextHome.getInstance().setName(context);
-      contextHome.getInstance().setOwner(user);
-      // may cause exception if user already has a Context with that name
+      categoryHome.getInstance().setName(category);
+      categoryHome.getInstance().setOwner(user);
+      // may cause exception if user already has a category with that name
       // in that case the exception is handled by exception mapper
-      contextHome.persist();
+      categoryHome.persist();
       return Response.created(uriInfo.getAbsolutePath()).build();
    }
 
    @DELETE
-   public void deleteContext()
+   public void deleteCategory()
    {
-      contextHome.findByUsernameAndContext(user.getUsername(), context);
-      contextHome.remove();
+      categoryHome.findByUsernameAndCategory(user.getUsername(), category);
+      categoryHome.remove();
    }
 }

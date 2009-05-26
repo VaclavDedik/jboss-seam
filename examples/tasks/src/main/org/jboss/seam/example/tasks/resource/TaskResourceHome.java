@@ -31,11 +31,11 @@ import javax.ws.rs.core.Response;
 
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.example.tasks.ContextHome;
+import org.jboss.seam.example.tasks.CategoryHome;
 import org.jboss.seam.example.tasks.ResourceNotFoundException;
-import org.jboss.seam.example.tasks.TaskHome;
 import org.jboss.seam.example.tasks.entity.Task;
 import org.jboss.seam.example.tasks.entity.User;
+import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.framework.Home;
 import org.jboss.seam.resteasy.ResourceHome;
 
@@ -47,7 +47,7 @@ import org.jboss.seam.resteasy.ResourceHome;
  * @author Jozef Hartinger
  * 
  */
-@Path("/auth/context/{context}/{status}")
+@Path("/auth/category/{category}/{status}")
 @Name("taskResourceHome")
 public class TaskResourceHome extends ResourceHome<Task, Long>
 {
@@ -57,11 +57,11 @@ public class TaskResourceHome extends ResourceHome<Task, Long>
    @In
    private User user;
    @In
-   private ContextHome contextHome;
+   private CategoryHome categoryHome;
    @In
-   private TaskHome taskHome;
-   @PathParam("context")
-   private String contextName;
+   private EntityHome<Task> taskHome;
+   @PathParam("category")
+   private String categoryName;
 
    public TaskResourceHome()
    {
@@ -72,7 +72,7 @@ public class TaskResourceHome extends ResourceHome<Task, Long>
    public Task getEntity(Long id)
    {
       Task task = super.getEntity(id);
-      if (!task.getContext().getName().equals(contextName) || !task.getOwner().getUsername().equals(user.getUsername()))
+      if (!task.getCategory().getName().equals(categoryName) || !task.getOwner().getUsername().equals(user.getUsername()))
       {
          throw new ResourceNotFoundException("Task not found");
       }
@@ -98,7 +98,7 @@ public class TaskResourceHome extends ResourceHome<Task, Long>
    @Override
    public Long createEntity(Task entity)
    {
-      entity.setContext(contextHome.findByUsernameAndContext(user.getUsername(), contextName));
+      entity.setCategory(categoryHome.findByUsernameAndCategory(user.getUsername(), categoryName));
       entity.setResolved(false);
       entity.setCreated(new Date());
       return super.createEntity(entity);
@@ -108,7 +108,7 @@ public class TaskResourceHome extends ResourceHome<Task, Long>
    public void updateEntity(Task entity, Long id)
    {
       Task task = super.getEntity(id);
-      task.setContext(contextHome.findByUsernameAndContext(user.getUsername(), contextName));
+      task.setCategory(categoryHome.findByUsernameAndCategory(user.getUsername(), categoryName));
       task.setResolved(isResolved());
       if (entity.getName() != null)
       {

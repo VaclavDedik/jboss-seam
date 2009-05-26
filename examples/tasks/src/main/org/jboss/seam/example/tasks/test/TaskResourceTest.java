@@ -42,7 +42,7 @@ public class TaskResourceTest extends ResourceSeamTest
       final String mimeType = "application/json";
       final String representation = "{\"task\":{\"name\":\"Test task\"}}";
       
-      new ResourceRequest(Method.POST, "/v1/auth/context/School/unresolved")
+      new ResourceRequest(Method.POST, "/v1/auth/category/School/unresolved")
       {
          
          @Override
@@ -71,7 +71,7 @@ public class TaskResourceTest extends ResourceSeamTest
       final String mimeType = "application/xml";
       final String representation = "<task><id>4</id><name>Learn new English vocabulary</name></task>";
 
-      new ResourceRequest(Method.PUT, "/v1/auth/context/School/unresolved/4")
+      new ResourceRequest(Method.PUT, "/v1/auth/category/School/unresolved/4")
       {
 
          @Override
@@ -93,7 +93,7 @@ public class TaskResourceTest extends ResourceSeamTest
 
       }.run();
 
-      new ResourceRequest(Method.GET, "/v1/auth/context/School/unresolved/4")
+      new ResourceRequest(Method.GET, "/v1/auth/category/School/unresolved/4")
       {
 
          @Override
@@ -118,7 +118,7 @@ public class TaskResourceTest extends ResourceSeamTest
    @Test
    public void deleteTaskTest() throws Exception
    {
-      new ResourceRequest(Method.DELETE, "/v1/auth/context/School/unresolved/2")
+      new ResourceRequest(Method.DELETE, "/v1/auth/category/School/unresolved/2")
       {
          
          @Override
