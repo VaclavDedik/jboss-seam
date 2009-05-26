@@ -367,7 +367,7 @@ public class MailListenerMDB implements MailListener {
 
     <para>
       You can find more information on <literal>mail-ra.rar</literal>
-      at <ulink url="http://wiki.jboss.org/wiki/Wiki.jsp?page=InboundJavaMail">http://wiki.jboss.org/wiki/Wiki.jsp?page=InboundJavaMail</ulink>.
+      at <ulink url="http://www.jboss.org/community/wiki/InboundJavaMail">http://www.jboss.org/community/wiki/InboundJavaMail</ulink>.
     </para>
 		
     <para>
