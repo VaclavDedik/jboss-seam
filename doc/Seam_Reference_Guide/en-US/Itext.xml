@@ -369,6 +369,10 @@
                                             <literal>UNDERLINE</literal>, <literal>LINE-THROUGH</literal></para>
 
                                     </listitem>
+                                    
+                                    <listitem>
+                                        <para><literal>color</literal> &#8212; The font color. (see <xref linkend="itext.colors"/> for color values)</para>
+                                    </listitem>
 
                                     <listitem>
                                         <para><literal>encoding</literal> &#8212; The character set encoding.</para>
@@ -514,6 +518,12 @@
                                             percentage) to use for the image. This can be expressed as a single
                                             percentage value or as two percentage values representing separate x and y
                                             scaling percentages.</para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>
+                                            <literal>scaleToFit</literal> &#8212; Specifies the X any Y 
+                                            size to scale the image to.  The image will be scale to fit those dimensions
+                                            as closely as possible while preserving the XY ratio of the image.</para>
                                     </listitem>
                                     <listitem>
                                         <para>
@@ -1328,12 +1338,17 @@
 
             <section id="itext.colors">
                 <title>Color Values</title>
-                <para>Seam documents do not yet support a full color specification. Currently, only named colors are
-                    supported. They are: <literal>white</literal>, <literal>gray</literal>,
+                <para>Several ways of specifying colors are provided.  A limited number of colors are
+                    supported by name.  They are: <literal>white</literal>, <literal>gray</literal>,
                     <literal>lightgray</literal>, <literal>darkgray</literal>, <literal>black</literal>,
                     <literal>red</literal>, <literal>pink</literal>, <literal>yellow</literal>,
                     <literal>green</literal>, <literal>magenta</literal>, <literal>cyan</literal> and
-                    <literal>blue</literal>. </para>
+                    <literal>blue</literal>. Colors can be specified as an integer value, as 
+                    definied by <literal>java.awt.Color</literal>.  Finally a color value may be specified
+                    as <literal>rgb(r,g,b)</literal> or <literal>rgb(r,g,b,a)</literal> with the red, green, blue 
+                    alpha values specified as an integer between 0 and 255 or as a floating point percentages 
+                    followed by a '%' sign.                
+                </para>
 
             </section>
 
