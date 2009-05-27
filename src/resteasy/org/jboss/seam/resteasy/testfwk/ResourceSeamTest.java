@@ -22,12 +22,6 @@ import java.security.Principal;
  * public class MyTest extends ResourceSeamTest {
  *
  *    &#064;Override
- *    public String getServletPath()
- *    {
- *       return "/seam/resource/.../is/not/my/web.xml/configured/path/for/SeamResourceServlet";
- *    }
- *
- *    &#064;Override
  *    public Map<String, Object> getDefaultHeaders()
  *    {
  *       return new HashMap<String, Object>()

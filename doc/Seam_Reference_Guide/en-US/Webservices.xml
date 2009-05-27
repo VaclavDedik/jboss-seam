@@ -426,11 +426,38 @@ public class MyCustomerResource {
          <para>
             An instance of <literal>customerResource</literal> is now handled by Seam when a request hits the
             server. This is a Seam JavaBean component that is <literal>EVENT</literal>-scoped, hence no different
-            than the default JAX-RS lifecycle. You get full Seam injection support and all other Seam
+            than the default JAX-RS lifecycle. You get full Seam injection and interception support, and all other Seam
             components and contexts are available to you. Currently also supported are <literal>APPLICATION</literal>
-            and <literal>STATELESS</literal> resource Seam components. These scopes allow you to create an effectively
+            and <literal>STATELESS</literal> resource Seam components. These three scopes allow you to create an effectively
             stateless Seam middle-tier HTTP request-processing application.
          </para>
+
+         <para>
+            You can annotate an interface and keep the implementation free from JAX-RS annotations:
+         </para>
+
+         <programlisting role="JAVA"><![CDATA[@Path("/customer")
+public interface MyCustomerResource {
+
+    @GET
+    @Path("/{customerId}")
+    @Produces("text/plain")
+    public String getCustomer(@PathParam("customerId") int id);
+
+}]]></programlisting>
+
+         <programlisting role="JAVA"><![CDATA[@Name("customerResource")
+@Scope(ScopeType.STATELESS)
+public class MyCustomerResourceBean implements MyCustomerResource {
+
+    @In
+    CustomerDAO customerDAO;
+
+    public String getCustomer(int id) {
+         return customerDAO.find(id).getName();
+    }
+
+}]]></programlisting>
 
          <para>
            You can use <literal>SESSION</literal>-scoped Seam components. By default, the session will however be shortened
@@ -439,6 +466,9 @@ public class MyCustomerResource {
            been processed, Seam will look at the session and decide if the session was created only to serve that
            single request (no session identifier has been provided with the request, or no session existed for the request).
            If the session has been created only to serve this request, the session will be destroyed after the request!
+         </para>
+
+         <para>
            Assuming that your Seam application only uses event, application, or stateless components, this procedure
            prevents exhaustion of available HTTP sessions on the server. The RESTEasy integration with Seam assumes
            by default that sessions are not used, hence anemic sessions would add up as every REST request would start
@@ -453,7 +483,7 @@ public class MyCustomerResource {
          <programlisting role="XML"><![CDATA[<resteasy:application destroy-session-after-request="false"/>]]></programlisting>
 
          <para>
-             Every RESTful HTTP request will now create a new session that will only be removed by timeout or explicit
+             Every REST HTTP request will now create a new session that will only be removed by timeout or explicit
              invalidation in your code through <literal>Session.instance().invalidate()</literal>.
              It is your responsibility to pass a valid session identifier along with your HTTP requests, if you want
              to utilize the session context across requests.
@@ -465,13 +495,37 @@ public class MyCustomerResource {
          </para>
 
           <para>
-             EJB Seam components are currently <emphasis>NOT</emphasis> supported! However, as explained above, you
-             can map plain stateless EJBs (with no Seam lifecycle or injection) as REST resources.
+             EJB Seam components are supported. Always annotate the local business interface, not the EJB implementation
+             class, with JAX-RS annotations. The EJB has to be <literal>STATELESS</literal>.
           </para>
 
          <para>
-            Provider classes can also be Seam components, currently only <literal>APPLICATION</literal>-scoped
-            provider components are supported.
+            Provider classes can also be Seam components, only <literal>APPLICATION</literal>-scoped
+            provider components are supported. You can annotate the bean interface or implementation with JAX-RS annotations.
+            EJB Seam components as providers are currently <emphasis>NOT</emphasis> supported, only POJOs!
+         </para>
+
+      </sect2>
+
+      <sect2>
+         <title>Securing resources</title>
+
+         <para>
+            You can enable the Seam authentication filter for HTTP Basic and Digest authentication in
+            <literal>components.xml</literal>:
+         </para>
+
+         <programlisting role="XML"><![CDATA[<web:authentication-filter url-pattern="/seam/resource/rest/*" auth-type="basic"/>]]></programlisting>
+
+         <para>
+            See the Seam security chapter on how to write an authentication routine.
+         </para>
+
+         <para>
+            After successful authentication, authorization rules with the common
+            <literal>@Restrict</literal> and <literal>@PermissionCheck</literal> annotations are in effect. You can
+            also access the client <literal>Identity</literal>, work with permission mapping, and so on. All
+            regular Seam security features for authorization are available.
          </para>
 
       </sect2>
@@ -537,6 +591,77 @@ public class MyCustomerResource {
             Note that the HTTP response still passes through the servlet container, so an additional mapping might apply
             if you have <literal>&lt;error-page&gt;</literal> mappings in your <literal>web.xml</literal> configuration.
             The HTTP status code would then be mapped to a rendered HTML error page with status <literal>200 OK</literal>!
+         </para>
+
+      </sect2>
+
+      <sect2>
+         <title>Testing resources and providers</title>
+         
+         <para>
+            Seam includes an extended unit testing superclass that helps you in creating unit tests for a RESTful
+            architecture. Extend the <literal>ResourceSeamTest</literal> class to emulate HTTP requests/response cycles:
+         </para>
+      
+         <programlisting role="JAVA"><![CDATA[import org.jboss.seam.resteasy.testfwk.ResourceSeamTest;
+import org.jboss.seam.resteasy.testfwk.MockHttpServletResponse;
+import org.jboss.seam.resteasy.testfwk.MockHttpServletRequest;
+
+public class MyTest extends ResourceSeamTest {
+
+   @Override
+   public Map<String, Object> getDefaultHeaders()
+   {
+      return new HashMap<String, Object>()
+      {{
+            put("Accept", "text/plain");
+      }};
+   }
+
+   @Test
+   public void test() throws Exception
+   {
+      new ResourceRequest(Method.GET, "/my/relative/uri)
+      {
+
+         @Override
+         protected void prepareRequest(MockHttpServletRequest request)
+         {
+            request.addQueryParameter("foo", "123");
+            request.addHeader("Accept-Language", "en_US, de");
+         }
+
+         @Override
+         protected void onResponse(MockHttpServletResponse response)
+         {
+            assert response.getStatus() == 200;
+            assert response.getContentAsString().equals("foobar");
+         }
+
+      }.run();
+   }
+
+}]]></programlisting>
+
+         <para>
+            This test only executes local calls, it does not communicate with the <literal>SeamResourceServlet</literal>
+            through TCP. The mock request is passed through the Seam servlet and filters and the response is then
+            available for test assertions. Overriding the <literal>getDefaultHeaders()</literal> method allows you
+            to set request headers for every test method in the test class.
+         </para>
+
+         <para>
+            Note that a <literal>ResourceRequest</literal> has to be executed in a <literal>@Test</literal> method
+            or in a <literal>@BeforeMethod</literal> callback. You can and should not execute it in any other callback,
+            such as <literal>@BeforeClass</literal>. (This is an implementation limitation we will remove in a future
+            update.)
+         </para>
+
+         <para>
+            Also note that the imported mock objects are not the same as the mock objects you use in other Seam unit
+            tests, which are in the package <literal>org.jboss.seam.mock</literal>. The
+            <literal>org.jboss.seam.resteasy.testfwk</literal> variations mimic real requests and responses much
+            more closely.
          </para>
 
       </sect2>
