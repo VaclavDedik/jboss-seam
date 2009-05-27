@@ -86,6 +86,8 @@ seamspace/            The Seam Spaces demo demonstrating Seam security.
 
 spring/               Demonstrates Spring framework integration.
 
+tasks/				  Demonstrates RESTEasy integration.
+
 todo/                 The Seam todo list example demonstrating
                       jBPM business process management.
                       
