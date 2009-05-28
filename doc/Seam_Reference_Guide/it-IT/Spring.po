@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-04-15 13:52+0000\n"
-"PO-Revision-Date: 2009-05-26 22:15+0100\n"
+"PO-Revision-Date: 2009-05-28 17:36+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -224,7 +224,7 @@ msgstr ""
 #: Spring.xml:81
 #, no-c-format
 msgid "This example shows one way to use a Seam-managed persistence context from a Spring bean. (For a more robust way to use Seam-managed persistence contexts as a replacement for the Spring <literal>OpenEntityManagerInView</literal> filter see section on <link linkend=\"spring-persistence\">Using a Seam Managed Persistence Context in Spring</link>)"
-msgstr ""
+msgstr "Quest'esempio mostra una modalità d'uso del contesto di persistenza gestito da Seam da un bean di Spring. (Per vedere un modo più robusto di usare i contesti di persistenza gestiti da Seam in sostituzione del filtro <literal>OpenEntityManagerInView</literal> di Spring si veda la sezione <link linkend=\"spring-persistence\">Uso di un contesto di persistenza gestito da Seam in Spring</link>)"
 
 #. Tag: title
 #: Spring.xml:88
@@ -260,7 +260,7 @@ msgstr "Si discuterà la seconda opzione nella prossima sezione. L'approccio pi�
 #: Spring.xml:105
 #, no-c-format
 msgid "The Spring <literal>DelegatingVariableResolver</literal> is an integration point Spring provides for integrating Spring with JSF. This <literal>VariableResolver</literal> makes all Spring beans available in EL by their bean id. You'll need to add the <literal>DelegatingVariableResolver</literal> to <literal>faces-config.xml</literal>:"
-msgstr ""
+msgstr "<literal>DelegatingVariableResolver</literal> di Spring è un punto di integrazione che Spring fornisce per integrarsi con JSF. Questo <literal>VariableResolver</literal> rende disponibili in EL tutti i bean di Spring tramite il loro id bean. Occorrerà aggiungere <literal>DelegatingVariableResolver</literal> a <literal>faces-config.xml</literal>:"
 
 #. Tag: programlisting
 #: Spring.xml:110
@@ -328,13 +328,13 @@ msgstr ""
 #: Spring.xml:130
 #, no-c-format
 msgid "By default, <literal>&lt;seam:component/&gt;</literal> will create a <literal>STATELESS</literal> Seam component with class and name provided in the bean definition. Occasionally, such as when a <literal>FactoryBean</literal> is used, the class of the Spring bean may not be the class appearing in the bean definition. In such cases the <literal>class</literal> should be explicitly specified. A Seam component name may be explicitly specified in cases where there is potential for a naming conflict."
-msgstr ""
+msgstr "Di default, <literal>&lt;seam:component/&gt;</literal> creerà un componente Seam <literal>STATELESS</literal> con classe e nome forniti nella definizione del bean. Occasionalmente, come ad esempio quando viene usato un <literal>FactoryBean</literal>, la classe del bean di Spring potrebbe non essere la classe che appare nella definizione del bean. In tali casi la <literal>class</literal> deve essere specificata esplicitamente. Un nome di un componente Seam può essere specificato esplicitamente nei casi in cui c'è un potenziale conflitto di nomi."
 
 #. Tag: para
 #: Spring.xml:136
 #, no-c-format
 msgid "The <literal>scope</literal> attribute of <literal>&lt;seam:component/&gt;</literal> may be used if you wish the Spring bean to be managed in a particular Seam scope. The Spring bean must be scoped to <literal>prototype</literal> if the Seam scope specified is anything other than <literal>STATELESS</literal>. Pre-existing Spring beans usually have a fundamentally stateless character, so this attribute is not usually needed."
-msgstr ""
+msgstr "L'attributo <literal>scope</literal> di <literal>&lt;seam:component/&gt;</literal> può essere impiegato se si vuole che un bean Spring venga gestito in un particolare scope di Seam. Il bean di Spring deve avere scope <literal>prototype</literal> se lo scope di Seam specificato è diverso da  <literal>STATELESS</literal>. I bean di Spring preesistenti hanno di solito un carattere fondamentalmente stateless, quindi quest'attributo non è di solito necessario."
 
 #. Tag: title
 #: Spring.xml:145
@@ -346,13 +346,13 @@ msgstr "Bean Spring con scope di Seam"
 #: Spring.xml:147
 #, no-c-format
 msgid "The Seam integration package also lets you use Seam's contexts as Spring 2.0 style custom scopes. This lets you declare any Spring bean in any of Seam's contexts. However, note once again that Spring's component model was never architected to support statefulness, so please use this feature with great care. In particular, clustering of session or conversation scoped Spring beans is deeply problematic, and care must be taken when injecting a bean or component from a wider scope into a bean of a narrower scope."
-msgstr ""
+msgstr "Il pacchetto di integrazione di Seam consente di usare i contesti Seam come scope personalizzati di Spring 2.0. Questo permette di dichiarare un bean Spring in un qualsiasi contesto di Seam. Comunque, si noti nuovamente che il modello a componenti di Spring non è stato progettato per supportare la modalità stateful, quindi si usi questa funzionalità con molta attenzione. In particolare il clustering dei bean di Spring con scope sessione o conversazione è molto problematico e deve esserci molta attenzione quando si inietta un bean o un componente da uno scope più ampio in un bean con scope più piccolo."
 
 #. Tag: para
 #: Spring.xml:153
 #, no-c-format
 msgid "By specifying <literal>&lt;seam:configure-scopes/&gt;</literal> once in a Spring bean factory configuration, all of the Seam scopes will be available to Spring beans as custom scopes. To associate a Spring bean with a particular Seam scope, specify the Seam scope in the <literal>scope</literal> attribute of the bean definition."
-msgstr ""
+msgstr "Specificando una sola volta <literal>&lt;seam:configure-scopes/&gt;</literal> nella configurazione di un bean factory di Bean, tutti gli scope di Seam saranno disponibili ai bean di Spring come scope personalizzati. Per associare un bean di Spring con un particolare scope di Seam, occorre specificare lo scope di Seam nell'attributo <literal>scope</literal> della definizione del bean."
 
 #. Tag: programlisting
 #: Spring.xml:158
@@ -382,13 +382,13 @@ msgstr "Il prefisso del nome dello scope può essere cambiato specificando l'att
 #: Spring.xml:163
 #, no-c-format
 msgid "By default an instance of a Spring Component registered in this way is not automatically created when referenced using <literal>@In</literal>. To have an instance auto-created you must either specify <literal>@In(create=true)</literal> at the injection point to identify a specific bean to be auto created or you can use the <literal>default-auto-create</literal> attribute of <literal>configure-scopes</literal> to make all spring beans who use a seam scope auto created."
-msgstr ""
+msgstr "Di default un'istanza di un componente Spring registrato in questo modo non viene automaticamente creato quando viene referenziato usando <literal>@In</literal>. Per avere un'istanza auto-creata si deve o specificare <literal>@In(create=true)</literal> nel punto di iniezione per identificare un bean specifico da autocreare oppure si può usare l'attributo <literal>default-auto-create</literal> di <literal>configure-scopes</literal> per rendere auto-creati tutti i bean di Spring che usano uno scope di Seam."
 
 #. Tag: para
 #: Spring.xml:168
 #, no-c-format
 msgid "Seam-scoped Spring beans defined this way can be injected into other Spring beans without the use of <literal>&lt;seam:instance/&gt;</literal>. However, care must be taken to ensure scope impedance is maintained. The normal approach used in Spring is to specify <literal>&lt;aop:scoped-proxy/&gt;</literal> in the bean definition. However, Seam-scoped Spring beans are <emphasis>not</emphasis> compatible with <literal>&lt;aop:scoped-proxy/&gt;</literal>. So if you need to inject a Seam-scoped Spring bean into a singleton, <literal>&lt;seam:instance/&gt;</literal> must be used:"
-msgstr ""
+msgstr "I bean di Spring con scope Seam definiti in questo modo possono essere iniettati in altri bean di Spring senza l'uso di <literal>&lt;seam:instance/&gt;</literal>. Comunque si presti molta attenzione affinché venga mantenuta la impedenza di scope. L'approccio normale usato in Spring è quello di specificare <literal>&lt;aop:scoped-proxy/&gt;</literal> nella definizione del bean. Comunque i bean di Spring con scope Seam <emphasis>non</emphasis> compatibili con <literal>&lt;aop:scoped-proxy/&gt;</literal>. Quindi se occorre iniettare un bean di Spring con scope Seam in un singleton, deve essere usato <literal>&lt;seam:instance/&gt;</literal>:"
 
 #. Tag: programlisting
 #: Spring.xml:176
@@ -424,7 +424,7 @@ msgstr "Uso di Spring PlatformTransactionManagement"
 #: Spring.xml:182
 #, no-c-format
 msgid "Spring provides an extensible transaction management abstraction with support for many transaction APIs (JPA, Hibernate, JDO, and JTA) Spring also provides tight integrations with many application server TransactionManagers such as Websphere and Weblogic. Spring transaction management exposes support for many advanced features such as nested transactions and supports full Java EE transaction propagation rules like REQUIRES_NEW and NOT_SUPPORTED. For more information see the spring documentation <ulink url=\"http://static.springframework.org/spring/docs/2.0.x/reference/transaction.html\">here</ulink>."
-msgstr ""
+msgstr "Spring fornisce un'astrazione estensibile della gestione delle transazioni con supporto a molte API per le transazioni (JPA, Hibernate, JDO e JTA). Spring fornisce anche una stretta integrazione con molti TransactionManagers degli application server quali Websphere e Weblogic. La gestione delle transazioni di Spring espone il supporto a funzionalità avanzate quali transazioni innestate e supporto alle regole di propagazione delle transazioni Java EE come REQUIRES_NEW e NOT_SUPPORTED. Per maggiori informazioni guardare <ulink url=\"http://static.springframework.org/spring/docs/2.0.x/reference/transaction.html\">here</ulink>."
 
 #. Tag: para
 #: Spring.xml:190
@@ -454,7 +454,7 @@ msgstr "Uso del contesto di persistenza gestito da Seam in Spring"
 #: Spring.xml:202
 #, no-c-format
 msgid "One of the most powerful features of Seam is its conversation scope and the ability to have an EntityManager open for the life of a conversation. This eliminates many of the problems associated with the detachment and re-attachment of entities as well as mitigates occurrences of the dreaded <literal>LazyInitializationException</literal>. Spring does not provide a way to manage an persistence context beyond the scope of a single web request (<literal>OpenEntityManagerInViewFilter</literal>). So, it would be nice if Spring developers could have access to a Seam managed persistence context using all of the same tools Spring provides for integration with JPA(e.g. <literal>PersistenceAnnotationBeanPostProcessor</literal>, <literal>JpaTemplate</literal>, etc.)"
-msgstr ""
+msgstr "Una delle caratteristiche più potenti di Seam è lo scope conversazione e la possibilità di avere un EntityManager aperto per l'intera vita di una conversazione. Questo elimina i problemi associati al detach e re-attach degli entity così come vengono mitigate le apparizioni della temuta <literal>LazyInitializationException</literal>. Spring non fornisce un modo per gestire un contesto di persistenza oltre lo scope di una singola richiesta web (<literal>OpenEntityManagerInViewFilter</literal>). Quindi sarebbe bello se gli sviluppatori di Spring potessero avere accesso al contesto di persistenza gestito da Seam usando tutti gli stessi tool che Spring fornisce per l'integrazione con JPA (es. <literal>PersistenceAnnotationBeanPostProcessor</literal>, <literal>JpaTemplate</literal>, ecc.)"
 
 #. Tag: para
 #: Spring.xml:212
@@ -508,7 +508,7 @@ msgstr ""
 #: Spring.xml:238
 #, no-c-format
 msgid "Where 'persistenceContextName' is the name of the Seam managed persistence context component. By default this EntityManagerFactory has a unitName equal to the Seam component name or in this case 'entityManager'. If you wish to provide a different unitName you can do so by providing a persistenceUnitName like so:"
-msgstr ""
+msgstr "dove 'persistenceContextName' è il nome del componente con contesto di persistenza gestito da Seam. Di default questo EntityManagerFactory ha un unitName uguale al nome del componente Seam o in questo caso 'entityManager'. Se si vuole fornire un unitName diverso, si può fornire un persistenceUnitName così:"
 
 #. Tag: programlisting
 #: Spring.xml:243
@@ -528,7 +528,7 @@ msgstr ""
 #: Spring.xml:245
 #, no-c-format
 msgid "This EntityManagerFactory can then be used in any Spring provided tools. For example, using Spring's <literal>PersistenceAnnotationBeanPostProcessor</literal> is the exact same as before."
-msgstr ""
+msgstr "EntityManagerFactory può essere usata in un qualsiasi tool fornito da Spring. Per esempio, l'uso di <literal>PersistenceAnnotationBeanPostProcessor</literal> di Spring è lo stesso di prima."
 
 #. Tag: programlisting
 #: Spring.xml:248
@@ -540,7 +540,7 @@ msgstr "<![CDATA[<bean class=\"org.springframework.orm.jpa.support.PersistenceAn
 #: Spring.xml:250
 #, no-c-format
 msgid "If you define your real EntityManagerFactory in Spring but wish to use a Seam managed persistence context you can tell the <literal>PersistenceAnnotationBeanPostProcessor</literal> which persistenctUnitName you wish to use by default by specifying the <literal>defaultPersistenceUnitName</literal> property."
-msgstr ""
+msgstr "Se si definisce in Spring un EntityManagerFactory ma si vuole usare un contesto di persistenza gestito da Seam, si può dire al <literal>PersistenceAnnotationBeanPostProcessor</literal> quale persistenctUnitName si desidera usare come default specificando la proprietà <literal>defaultPersistenceUnitName</literal>."
 
 #. Tag: para
 #: Spring.xml:255
@@ -590,11 +590,12 @@ msgstr ""
 "<![CDATA[<persistence:managed-persistence-context name=\"entityManager\"\n"
 "        auto-create=\"true\" entity-manager-factory=\"#{entityManagerFactory}\"/>]]>"
 
+# rivedere la frase
 #. Tag: para
 #: Spring.xml:262
 #, no-c-format
 msgid "<literal>JpaTemplate</literal> and <literal>JpaDaoSupport</literal> are configured the same way for a Seam managed persistence context as they would be fore a Seam managed persistence context."
-msgstr ""
+msgstr "<literal>JpaTemplate</literal> e <literal>JpaDaoSupport</literal> sono configurati allo stesso modo per un contesto di persistenza gestito da Seam."
 
 #. Tag: programlisting
 #: Spring.xml:265
@@ -624,7 +625,7 @@ msgstr "L'integrazione di Spring con Seam fornisce anche il supporto al completo
 #: Spring.xml:273
 #, no-c-format
 msgid "Like Spring's JPA integration spring's propagation model allows only one open EntityManager per EntityManagerFactory per transaction??? to be available to spring tools. So, the Seam Session integration works by wrapping a proxy SessionFactory around a Seam managed Hibernate session context."
-msgstr ""
+msgstr "Come per l'integrazione JPA di Spring, il modello di propagazione di Spring consente di avere aperto solo un EntityManager per EntityManagerFactory per transazione disponibile ai tool di Spring. Quindi , l'integrazione della Sessione di Seam funziona solo con il wrap di un proxy SessionFactory attorno al contesto sessione di Hibernate gestito da Seam."
 
 #. Tag: programlisting
 #: Spring.xml:278
@@ -642,7 +643,7 @@ msgstr ""
 #: Spring.xml:280
 #, no-c-format
 msgid "Where 'sessionName' is the name of the <literal>persistence:managed-hibernate-session</literal> component. This SessionFactory can then be used in any Spring provided tools. The integration also provides support for calls to <literal>SessionFactory.getCurrentInstance()</literal> as long as you call getCurrentInstance() on the <literal>SeamManagedSessionFactory</literal>."
-msgstr ""
+msgstr "dove 'sessionName' è il nome del componente <literal>persistence:managed-hibernate-session</literal>. Questo SessionFactory può essere allora usato in un qualsiasi tool fornito da Spring. L'integrazione fornisce anche supporto alle chiamare a <literal>SessionFactory.getCurrentInstance()</literal> finché si chiama getCurrentInstance() su <literal>SeamManagedSessionFactory</literal>."
 
 #. Tag: title
 #: Spring.xml:286
@@ -672,7 +673,7 @@ msgstr "può essere insidioso avviare un ApplicationContext di Spring da usarsi 
 #: Spring.xml:302
 #, no-c-format
 msgid "To overcome these two limitations the Spring integration includes a Seam component that will start a Spring ApplicationContext. To use this Seam component place the <literal>&lt;spring:context-loader/&gt;</literal> definition in the <literal>components.xml</literal>. Specify your Spring context file location in the <literal>config-locations</literal> attribute. If more than one config file is needed you can place them in the nested <literal>&lt;spring:config-locations/&gt;</literal> element following standard <literal>components.xml</literal> multi value practices."
-msgstr ""
+msgstr "Per superare queste due limitazioni, l'integrazione di Spring include un componente di Seam che avvia un ApplicationContext di Spring. Per usare questo componente di Seam si collochi la definizione <literal>&lt;spring:context-loader/&gt;</literal> in <literal>components.xml</literal>. Si specifichi la posizione del file col contesto di Spring nell'attributo <literal>config-locations</literal>. Se sono presenti più di un file si possono posizionare nell'elemento <literal>&lt;spring:config-locations/&gt;</literal> seguendo le practice multi-value di <literal>components.xml</literal>."
 
 #. Tag: programlisting
 #: Spring.xml:310
@@ -712,7 +713,7 @@ msgstr "Uso di TaskExecutor di Spring per @Asynchronous"
 #: Spring.xml:315
 #, no-c-format
 msgid "Spring provides an abstraction for executing code asynchronously called a <literal>TaskExecutor</literal>. The Spring Seam integration allows for the use of a Spring <literal>TaskExecutor</literal> for executing immediate <literal>@Asynchronous</literal> method calls. To enable this functionality install the <literal>SpringTaskExecutorDispatchor</literal> and provide a spring bean defined taskExecutor like so:"
-msgstr ""
+msgstr "Spring fornisce un'astrazione per eseguire codice in modo asincrono chiamata <literal>TaskExecutor</literal>. L'integrazione con Seam consente di usare un <literal>TaskExecutor</literal> di Spring per eseguire chiamate immediate di metodi <literal>@Asynchronous</literal>. Per abilitare questa funzionalità si installi <literal>SpringTaskExecutorDispatchor</literal> e si fornisca un bean di Spring definito taskExecutor in questo modo:"
 
 #. Tag: programlisting
 #: Spring.xml:320
