@@ -1,5 +1,5 @@
 <s:div styleClass="attachmentDisplay box"
-     rendered="#{wikiTextAttachments.size() > 0}"
+     rendered="#{wiki:sizeOf(attachmentLinksByWikiFile[documentHome.instance.id]) > 0}"
      xmlns="http://www.w3.org/1999/xhtml"
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
@@ -7,7 +7,7 @@
      xmlns:a="https://ajax4jsf.dev.java.net/ajax"
      xmlns:s="http://jboss.com/products/seam/taglib">
 
-    <h:dataTable value="#{wikiTextAttachments}" var="link"
+    <h:dataTable value="#{attachmentLinksByWikiFile[documentHome.instance.id]}" var="link"
          id="attachmentTable"
          styleClass="datatable rightBorder leftBorder topBorder bottomBorder"
          headerClass="regularHeader alignLeft"

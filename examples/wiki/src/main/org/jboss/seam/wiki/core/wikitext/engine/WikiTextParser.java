@@ -38,7 +38,6 @@ import java.util.*;
 public class WikiTextParser extends SeamTextParser {
 
     private int macroPosition = 0;
-    private int linkCounter = 0;
 
     private WikiTextRenderer renderer;
 
@@ -129,9 +128,6 @@ public class WikiTextParser extends SeamTextParser {
         resolver.resolveLinkText(currentAreaNumber, resolvedLinks, linkText);
         WikiLink link = resolvedLinks.get((linkText));
         if (link == null) return "";
-
-        // Set an internal identifier, used for attachments and external links we later push into a hashmap into the contexts
-        link.setIdentifier(linkCounter++);
 
         // Override the description of the WikiLink with description found in tag
         String finalDescriptionText =

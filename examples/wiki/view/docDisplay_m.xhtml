@@ -151,13 +151,13 @@
 
     </s:div>
 
-    <s:div styleClass="box" rendered="#{wikiTextAttachments.size() > 0}">
+    <s:div styleClass="box" rendered="#{wiki:sizeOf(attachmentLinksByWikiFile[documentHome.instance.id]) > 0}">
 
         <h3>
             <h:outputText value="#{messages['lacewiki.label.attachmentDisplay.Attachments']}:"/>
         </h3>
 
-        <h:dataTable value="#{wikiTextAttachments}" var="link"
+        <h:dataTable value="#{attachmentLinksByWikiFile[documentHome.instance.id]}" var="link"
              id="attachmentTable"
              rowClasses="rowOdd,rowEven">
             <h:column>

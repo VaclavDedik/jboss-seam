@@ -99,8 +99,8 @@ function formatText(textArea, formatString) {
     var prefix = formatString.substring(0, formatString.indexOf(inline ? inlinePlaceholder : blockPlaceholder));
     var suffix = formatString.substring(formatString.indexOf(inline ? inlinePlaceholder : blockPlaceholder)+3, formatString.length);
     if (block) {
-        prefix = "\n" + prefix;
-        suffix = suffix + "\n";
+        prefix = "\n\n" + prefix;
+        suffix = suffix + "\n\n";
     }
 
     if (typeof(textArea.caretPos) != "undefined" && textArea.createTextRange) {

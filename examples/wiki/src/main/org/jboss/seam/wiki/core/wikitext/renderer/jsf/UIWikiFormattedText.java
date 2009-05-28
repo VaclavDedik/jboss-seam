@@ -226,32 +226,39 @@ public class UIWikiFormattedText extends UIOutput {
             @Override
             public void setAttachmentLinks(List<WikiLink> attachmentLinks) {
                 // Put attachments (wiki links...) into the event context for later rendering
-                setLinks("wikiTextAttachments", attachmentLinks);
+                String contextVariable = "attachmentLinksByWikiFile";
+
+                // We need to key them by WikiFile identifier, so we put a map in the context
+                Map<Long, List<WikiLink>> linksByFile;
+                if ((linksByFile = (Map)Contexts.getEventContext().get(contextVariable)) == null) {
+                    linksByFile = new HashMap();
+                }
+
+                // This method may be called multiple times when we render a "base file", e.g. header, content, footer, comments
+                List<WikiLink> linksForBaseFile;
+                if ((linksForBaseFile = linksByFile.get(baseFile.getId())) != null) {
+                    // Aggregate all links for a base file, don't reset them on each render pass for the same base file
+                    linksForBaseFile.addAll(attachmentLinks);
+                } else {
+                    linksForBaseFile = attachmentLinks;
+                }
+
+                linksByFile.put(baseFile.getId(), linksForBaseFile);
+
+                Contexts.getEventContext().set(contextVariable, linksByFile);
             }
 
             @Override
             public void setExternalLinks(List<WikiLink> externalLinks) {
                 // Put external links (to targets not on this wiki) into the event context for later rendering
-                setLinks("wikiTextExternalLinks", externalLinks);
-            }
-
-            private void setLinks(String contextVariable, List<WikiLink> links) {
-                // TODO: Need some tricks here with link identifiers and attachment numbers, right now we just skip this if it's already set
-                /// ... hoping that the first caller was the document renderer and not the comment renderer - that means comment attachments are broken
+                // TODO: This is actually never used anywhere... nobody is rendering a list of "external links"
+                // We COULD use this to render a list of links in a print view (like coWiki)
+                /*
+                String contextVariable = "wikiTextExternalLinks";
                 List<WikiLink> contextLinks = (List<WikiLink>)Contexts.getEventContext().get(contextVariable);
                 if (contextLinks == null || contextLinks.size()==0) {
-                    Contexts.getEventContext().set(contextVariable, links);
+                    Contexts.getEventContext().set(contextVariable, externalLinks);
                 }
-                        /*
-                Map<Integer, WikiLink> contextLinks =
-                    (Map<Integer,WikiLink>)Contexts.getEventContext().get(contextVariable);
-                if (contextLinks == null) {
-                    contextLinks = new HashMap<Integer, WikiLink>();
-                }
-                for (WikiLink link : links) {
-                    contextLinks.put(link.getIdentifier(), link);
-                }
-                Contexts.getEventContext().set(contextVariable, contextLinks);
                 */
             }
 

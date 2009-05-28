@@ -91,11 +91,11 @@
                                 </h:outputLink>
                             </s:div>
                             <s:div styleClass="blogEntryAttachmentsLink undecoratedLink"
-                                    rendered="#{wiki:sizeOf(wikiTextAttachments) > 0}">
+                                    rendered="#{wiki:sizeOf(attachmentLinksByWikiFile[blogEntry.entryDocument.id]) > 0}">
                                 <h:outputLink value="#{wikiURLRenderer.renderPermURL(blogEntry.entryDocument)}#attachments" target="_top">
                                     <span class="blogEntryAttachmentsLinkText">
-                                        <h:outputText value="#{wiki:sizeOf(wikiTextAttachments)}&#160;"/>
-                                        <h:outputText value="#{wiki:sizeOf(wikiTextAttachments)>1
+                                        <h:outputText value="#{wiki:sizeOf(attachmentLinksByWikiFile[blogEntry.entryDocument.id])}&#160;"/>
+                                        <h:outputText value="#{wiki:sizeOf(attachmentLinksByWikiFile[blogEntry.entryDocument.id])>1
                                                              ? messages['blog.directory.label.Attachments']
                                                              : messages['blog.directory.label.Attachment']}"/>
                                     </span>

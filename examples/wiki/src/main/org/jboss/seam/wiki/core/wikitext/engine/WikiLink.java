@@ -25,9 +25,6 @@ public class WikiLink {
         this.external = external;
     }
 
-    public int getIdentifier() { return identifier; }
-    public void setIdentifier(int identifier) { this.identifier = identifier; }
-
     public WikiFile getFile() { return file; }
     public void setFile(WikiFile file) { this.file = file; }
 

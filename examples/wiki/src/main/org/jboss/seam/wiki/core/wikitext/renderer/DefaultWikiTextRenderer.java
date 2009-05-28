@@ -1,6 +1,5 @@
 package org.jboss.seam.wiki.core.wikitext.renderer;
 
-import org.jboss.seam.wiki.core.wikitext.renderer.WikiTextRenderer;
 import org.jboss.seam.wiki.core.wikitext.engine.WikiLink;
 import org.jboss.seam.wiki.core.model.WikiTextMacro;
 import org.jboss.seam.wiki.core.ui.WikiURLRenderer;
@@ -88,7 +87,6 @@ public class DefaultWikiTextRenderer implements WikiTextRenderer {
                 + getHeadlineLink(Headline.H4, headline)
                + "</h4>";
     }
-
 
     public String renderOrderedListOpenTag() {
         return "<ol class=\"wikiOrderedList\">\n";
