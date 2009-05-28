@@ -1,6 +1,28 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - Seam - Version 2.1.2
+
+** Bug
+    * [JBSEAM-2690] - Websphere on Windows JPA reference guide example throws a ClassCastException
+    * [JBSEAM-3603] - Progressbar example is broken
+    * [JBSEAM-3648] - Several source file reference a copyright.txt in the distribution that is nonexistent
+    * [JBSEAM-4152] - HTTP BASIC authentication fails with exception during embedded container testing
+    * [JBSEAM-4169] - Enum converter does not handle inner anonymous enums
+    * [JBSEAM-4173] - Wicket instrumentation results in incorrect disinjection when invoking superclass methods from a subclass constructor
+    * [JBSEAM-4199] - Blog directory plugin shows duplicate attachments
+
+** Feature Request
+    * [JBSEAM-4090] - EntityTest testStale failing
+
+** Task
+    * [JBSEAM-2232] - Full review of Seam's log levels
+    * [JBSEAM-3264] - REST requests create anemic HttpSessions
+    * [JBSEAM-4010] - Document various approaches to Wicket instrumentation
+    * [JBSEAM-4135] - Upload selenium libs to jboss maven repository
+    * [JBSEAM-4193] - Document attributes "color" of tag "p:font" and "scaleToFit" of  tag "p:image"
+
+
 Release Notes - Seam - Version 2.1.2.CR2
 
 ** Bug
