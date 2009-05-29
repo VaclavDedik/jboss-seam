@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:23+0000\n"
-"PO-Revision-Date: 2009-05-29 12:58+0100\n"
+"PO-Revision-Date: 2009-05-29 15:04+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -632,7 +632,7 @@ msgstr "<literal>seam-gen</literal> è uno grande strumento per gli sviluppatore
 #: Oc4j.xml:464
 #, no-c-format
 msgid "We will start by creating and deploying a pretty simple application using <literal>seam-gen</literal> . Then we'll show you how easy it is to use <literal>seam-gen</literal> and Hibernate Tools to reverse engineer a database schema into a functional CRUD application. <literal>seam-gen</literal> will create JPA entity beans, Seam Application Framework components and JSF views for you. We will also add Seam security using Drools."
-msgstr ""
+msgstr "Cominceremo creando e deployando un'applicazione semplice usando <literal>seam-gen</literal>. Poi si mostrerà quanto è semplice usare <literal>seam-gen</literal> ed Hibernate Tools per compiere il reverse engineer di un database in un'applicazione con funzionalità CRUD. <literal>seam-gen</literal> crerà entity bean JPA, componenti del Seam Application Framework e le viste JSF al posto vostro. Aggiungeremo anche Seam Security usando Drools."
 
 #. Tag: para
 #: Oc4j.xml:472
@@ -650,7 +650,7 @@ msgstr "Generazione di un'applicazione base <literal>seam-gen</literal>"
 #: Oc4j.xml:486
 #, no-c-format
 msgid "First we need to tell the <literal>seam-gen</literal> what we want, run <literal>./seam setup</literal> in the seam distribution directory. Follow the settings example below based on your system and setup (ex. use your database name instead of <literal>oc4jexample</literal> )."
-msgstr ""
+msgstr "Innanzitutto <literal>seam-gen</literal> deve essere istruito riguardo a ciò che si vuole ottenere, si esegua <literal>./seam setup</literal> nella directory di distribuzione di Seam. Seguire le impostazioni d'esempio elencate qua sotto per il proprio sistema e setup(es. usare il nome del database invece di <literal>oc4jexample</literal>)."
 
 #. Tag: programlisting
 #: Oc4j.xml:493
@@ -830,7 +830,7 @@ msgstr "build.xml"
 #: Oc4j.xml:514
 #, no-c-format
 msgid "Change the default target to archive (we aren't going to cover automatic deployment to OC4J)."
-msgstr ""
+msgstr "Cambiare il target di default per l'archivio (non copriremo il deploy automatico in OC4J)."
 
 #. Tag: programlisting
 #: Oc4j.xml:518
@@ -842,7 +842,7 @@ msgstr "<![CDATA[<project name=\"oc4j_example\" default=\"archive\" basedir=\".\
 #: Oc4j.xml:521
 #, no-c-format
 msgid "OC4J looks for the drools file <literal>/security.drl</literal> file in the root of the <literal>war</literal> file instead of the root of the <literal>ear</literal> file so we need to have the <literal>build.xml</literal> move it to the correct location at build time. The following must be added at the top of the <literal> &lt;target name=\"war\" depends=\"compile\" description=\"Build the distribution .war file\"&gt; </literal> target."
-msgstr ""
+msgstr "OC4J cercherà il file <literal>/security.drl</literal> nella directory radice del file <literal>war</literal> invece che nella radice di <literal>ear</literal>, quindi occorre spostare <literal>build.xml</literal> nella corretta posizione a build time. Si aggiunga la seguente riga in cima al target: <literal> &lt;target name=\"war\" depends=\"compile\" description=\"Build the distribution .war file\"&gt; </literal>."
 
 #. Tag: programlisting
 #: Oc4j.xml:535
@@ -870,7 +870,7 @@ msgstr "resources/META-INF/persistence-dev.xml"
 #: Oc4j.xml:547
 #, no-c-format
 msgid "Alter the <literal>jta-data-source</literal> to be <literal>jdbc/__oc4jexample</literal> (and use this as the <literal>jndi-name</literal> when creating the data source in <literal>data-sources.xml</literal> later during deployment)."
-msgstr ""
+msgstr "Modificare <literal>jta-data-source</literal> in <literal>jdbc/__oc4jexample</literal> (ed usare questo come <literal>jndi-name</literal> quando si crea un datasource in <literal>data-sources.xml</literal> più avanti nel deploy)."
 
 #. Tag: para
 #: Oc4j.xml:557
@@ -922,7 +922,7 @@ msgstr ""
 #: Oc4j.xml:572
 #, no-c-format
 msgid "You'll need to alter <literal>persistence-prod.xml</literal> as well if you want to deploy to OC4J using the prod profile."
-msgstr ""
+msgstr "Occorre modificare <literal>persistence-prod.xml</literal> anche se si vuole eseguire il deploy in OC4J usando il profile prod."
 
 #. Tag: literal
 #: Oc4j.xml:582
@@ -934,7 +934,7 @@ msgstr "resources/META-INF/jboss-app.xml"
 #: Oc4j.xml:585
 #, no-c-format
 msgid "You can delete this file as we aren't deploying to JBoss AS ( <literal>jboss-app.xml</literal> is used to enable classloading isolation in JBoss AS)"
-msgstr ""
+msgstr "Si può cancellare questo file poiché non si sta facendo il deploy in JBoss AS (<literal>jboss-app.xml</literal> viene usato per abilitare l'isolamento del classloading in JBoss AS)"
 
 #. Tag: literal
 #: Oc4j.xml:591
@@ -946,7 +946,7 @@ msgstr "resources/*-ds.xml"
 #: Oc4j.xml:594
 #, no-c-format
 msgid "You can delete these file as we aren't deploying to JBoss AS (these files define datasources in JBoss AS, in OC4J you have to edit the master <literal>data-sources.xml</literal> file)"
-msgstr ""
+msgstr "Si possono cancellare questi file poiché non si sta facendo il deploy in JBoss AS (questi file definiscono i datasource in JBoss AS, in OC4J bisogna editare il file master <literal>data-sources.xml</literal>)"
 
 #. Tag: literal
 #: Oc4j.xml:603
@@ -958,7 +958,7 @@ msgstr "resources/WEB-INF/components.xml"
 #: Oc4j.xml:608
 #, no-c-format
 msgid "Enable container managed transaction integration - add the <literal> &lt;transaction:ejb-transaction /&gt; </literal> component, and it's namespace declaration <literal> xmlns:transaction=\"http://jboss.com/products/seam/transaction\" </literal>"
-msgstr ""
+msgstr "Abilitare l'integrazione delle transazioni gestite dal container - aggiungere il componente <literal> &lt;transaction:ejb-transaction /&gt; </literal> e la dichiarazione del namespace <literal> xmlns:transaction=\"http://jboss.com/products/seam/transaction\" </literal>"
 
 #. Tag: para
 #: Oc4j.xml:617
@@ -970,7 +970,7 @@ msgstr "Modificare <literal>jndi-pattern</literal> in </literal> java:comp/env/o
 #: Oc4j.xml:624
 #, no-c-format
 msgid "We want to use a Seam Managed Persistence Context in our application. Unfortunately OC4J doesn't expose the EntityManagerFactory in JNDI, but Seam provides a built-in manager component. To activate add the following entry:"
-msgstr ""
+msgstr "Vogliamo avere un contesto di persistenza gestito da Seam. Sfortunatamente OC4J non espone l'EntityManagerFactory in JNDI, ma Seam fornisce un componente manager predefinito. Per attivarlo aggiungere:"
 
 #. Tag: programlisting
 #: Oc4j.xml:632
@@ -990,7 +990,7 @@ msgstr ""
 #: Oc4j.xml:633
 #, no-c-format
 msgid "We then need to tell Seam to use it, so we alter the <literal>managed-persistence-context</literal> injecting the Entity Manager Factory into the existing element:"
-msgstr ""
+msgstr "Occorre poi dire a Seam di usarlo, quindi modificare <literal>managed-persistence-context</literal> iniettando Entity Manager Factory nell'elemento esistente:"
 
 #. Tag: programlisting
 #: Oc4j.xml:640
@@ -1016,7 +1016,7 @@ msgstr "resources/WEB-INF/web.xml"
 #: Oc4j.xml:649
 #, no-c-format
 msgid "You must add the Seam container managed transaction integration EJB entry below. Remember for OC4j you need to declare all your EJBs here if you modify the application further."
-msgstr ""
+msgstr "Occorre aggiungere la riga sottostante per l'integrazione delle transazioni gestite dal container in Seam. Ricordarsi che per OC4J serve dichiarare tutti gli EJB se si modifica ulteriormente l'applicazione."
 
 #. Tag: programlisting
 #: Oc4j.xml:655
@@ -1054,7 +1054,7 @@ msgstr "resources/META-INF/orion-application.xml"
 #: Oc4j.xml:665
 #, no-c-format
 msgid "This is a file that you must create so that RichFaces and Ajax4Jsf stylesheets will work with OC4J. This file basically tells OC4J not force its own inherited URL settings."
-msgstr ""
+msgstr "Questo file va creato affinché i foglio di stile RichFaces e Ajax4Jsf funzionino con OC4J. Questo file dice a OC4j di non forzare le proprie impostazioni URL ereditate."
 
 #. Tag: programlisting
 #: Oc4j.xml:671
@@ -1092,7 +1092,7 @@ msgstr ""
 #: Oc4j.xml:674
 #, no-c-format
 msgid "Now you need to tell the <literal>build.xml</literal> file that it needs to copy this file to the <literal>ear</literal> archive. Find the <literal> &lt;target name=\"ear\" description=\"Build the EAR\"&gt; </literal> target and modify the <literal> &lt;copy todir=\"${ear.dir}/META-INF\"&gt; </literal> section to look like the following:"
-msgstr ""
+msgstr "Occorre indicare nel file <literal>build.xml</literal> che serve copiare questo file nell'archivio <literal>ear</literal>. Cercare il target <literal> &lt;target name=\"ear\" description=\"Build the EAR\"&gt; </literal> e modificare la sezione <literal> &lt;copy todir=\"${ear.dir}/META-INF\"&gt; </literal> in modo che appaia così:"
 
 #. Tag: programlisting
 #: Oc4j.xml:686
@@ -1130,7 +1130,7 @@ msgstr "Quest'applicazione ha requisiti simili all'esempio <literal>jee5/booking
 #: Oc4j.xml:697
 #, no-c-format
 msgid "The <literal>build.xml</literal> must be modified to add the jars listed below to the generated archive files. Look for the <literal>&lt;fileset dir=\"${basedir}\"&gt;</literal> section below and add the imports underneath the other libraries being imported."
-msgstr ""
+msgstr "Il <literal>build.xml</literal> deve essere modificato affinché vengano aggiunti i jar elencati qua sotto all'archivio generato. Si guardi la sezione <literal>&lt;fileset dir=\"${basedir}\"&gt;</literal> e si aggiungano gli import sotto tutte le altre librerie importate."
 
 #. Tag: programlisting
 #: Oc4j.xml:704
@@ -1228,7 +1228,7 @@ msgstr ""
 #: Oc4j.xml:713
 #, no-c-format
 msgid "Drools &#8212; because we are using Drools to provide Seam Security rules, we need to add in Eclipse JDT compiler (you don't need this on JBoss AS; again this is due to OC4J's classloading):"
-msgstr ""
+msgstr "Drools &#8212; poiché si usa Drools per fornire le regole di Seam Security, occorre aggiungere il compilator JDT di Eclipse (non serve in JBoss AS; ancora è dovuto al classloading di OC4J):"
 
 #. Tag: programlisting
 #: Oc4j.xml:719
@@ -1240,7 +1240,7 @@ msgstr "<![CDATA[<include name=\"lib/core.jar\"/>]]>"
 #: Oc4j.xml:722
 #, no-c-format
 msgid "Third party jars &#8212; most of these are only needed because of OC4J's classloading:"
-msgstr ""
+msgstr "Jar di Terze Parti &#8212; la maggior parte di questi servono a causa del classloading di OC4J:"
 
 #. Tag: programlisting
 #: Oc4j.xml:726
@@ -1362,13 +1362,13 @@ msgstr "Queste istruzioni sono simile a quelle di <xref linkend=\"oc4j-app-deplo
 #: Oc4j.xml:746
 #, no-c-format
 msgid "Build your application by calling <literal>ant</literal> in the base directory of your project (ex. <literal>/home/jbalunas/workspace/oc4j_example</literal> ). The target of the build will be <literal>dist/oc4j_example.ear</literal> ."
-msgstr ""
+msgstr "Costruire l'applicazione lanciando il comando <literal>ant</literal> nella directory base del progetto (es. <literal>/home/jbalunas/workspace/oc4j_example</literal>). Il target del build sarà <literal>dist/oc4j_example.ear</literal>."
 
 #. Tag: para
 #: Oc4j.xml:754
 #, no-c-format
 msgid "Copy the <literal>mysql-connector.jar</literal> file to the <literal>$ORACLE_HOME/j2ee/home/applib</literal> directory so that jdbc drivers are available."
-msgstr ""
+msgstr "Copiare il file <literal>mysql-connector.jar</literal> nella directory <literal>$ORACLE_HOME/j2ee/home/applib</literal> affinché siano disponibili i driver JDBC."
 
 #. Tag: literal
 #: Oc4j.xml:761
@@ -1462,13 +1462,13 @@ msgstr "Controllare l'applicazione in: <literal>http://localhost:8888/oc4j_examp
 #: Oc4j.xml:800
 #, no-c-format
 msgid "Extending example with reverse engineered CRUD and Drools"
-msgstr ""
+msgstr "Estensione dell'esempio con CRUD (reverse engineer) e Drools"
 
 #. Tag: para
 #: Oc4j.xml:802
 #, no-c-format
 msgid "In this section we extend the basic <literal>seam-gen</literal> application into a full blown CRUD application based on an existing database. Plus we will add <literal>Drools</literal> based security as well."
-msgstr ""
+msgstr "In questa sezione estenderemo l'applicazione base <literal>seam-gen</literal> in un'applicazione CRUD su un database esistente. Inoltre aggiungeremo la sicurezza basata su <literal>Drools</literal>."
 
 #. Tag: title
 #: Oc4j.xml:807
@@ -1480,7 +1480,7 @@ msgstr "Fare generare applicazioni CRUD a <literal>seam-gen</literal>"
 #: Oc4j.xml:809
 #, no-c-format
 msgid "Type <literal>./seam generate-entities</literal> in the base directory of your seam distribution. This will create the entities, the Seam Application Framework classes and the relevant views for the CRUD application."
-msgstr ""
+msgstr "Scrivere <literal>./seam generate-entities</literal> nella directory base della distribuzione Seam. Verrano creati gli entity, le classi del Seam Application Framework e le viste rilevanti per l'applicazione CRUD."
 
 #. Tag: para
 #: Oc4j.xml:814
@@ -1498,19 +1498,19 @@ msgstr "Agganciare l'autenticazione Drools usando la nuova applicazione CRUD"
 #: Oc4j.xml:821
 #, no-c-format
 msgid "As stated above this section assumes your database had a <literal>User</literal> table with <literal>username</literal> and <literal>password</literal> columns with at least one entry. If you don't have this you may need to modify the <literal>authenticate</literal> method below."
-msgstr ""
+msgstr "Come detto sopra questa sezione assume che il database abbia una tabella <literal>User</literal> con le colonne <literal>username</literal> e <literal>password</literal> con almeno una riga. Altrimenti occorre modificare il metodo <literal>authenticate</literal>."
 
 #. Tag: para
 #: Oc4j.xml:827
 #, no-c-format
 msgid "Lets link our <literal>User</literal> entity into Seam Security by making our authenticator class a Stateless Session Bean (OC4J is a EJB3 container after all!):"
-msgstr ""
+msgstr "Si colleghi l'entity <literal>User</literal> a Seam Security rendendo la classe authenticator un Stateless Session Bean (OC4J è dopotutto un EJB3 container!):"
 
 #. Tag: para
 #: Oc4j.xml:835
 #, no-c-format
 msgid "Add the <literal>@Stateless</literal> annotation to the <literal>Authenticator</literal> class."
-msgstr ""
+msgstr "Aggiungere l'annotazione <literal>@Stateless</literal> alla classe <literal>Authenticator</literal>."
 
 #. Tag: para
 #: Oc4j.xml:841
