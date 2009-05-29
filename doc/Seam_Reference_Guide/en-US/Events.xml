@@ -1207,27 +1207,12 @@ throw new AuthorizationException("You are not allowed to do this!");
 </exception>]]></programlisting>
 
             <para>
-                A <literal>ViewExpiredException</literal> occurs if the user posts back
-                to a page once their session has expired.  <literal>no-conversation-view-id</literal>
-                and <literal>conversation-required</literal> give you finer grained control over
-                session expiration if you are inside a conversation.
+                A <literal>ViewExpiredException</literal> occurs if the user posts back to a page once their session has
+                expired. The <literal>conversation-required</literal> and <literal>no-conversation-view-id</literal>
+                settings in the Seam page descriptor, discussed in <xref linkend="conversations.required"/>, give you
+                finer-grained control over session expiration if you are accessing a page used within a conversation.
             </para>
         </section>
-      </section>
-        
-      <section>
-        <title>conversation-required</title>
-        
-        <para>
-          When specified as the attribute of a <literal>page</literal> element in <literal>pages.xml</literal>,
-          this setting controls whether a page requires an active long-running or nested conversation before
-          being rendered.  If there is not an active long-running or nested conversation when trying to access
-          the page, you will be redirected to the <literal>no-conversation-view-id</literal> view (which is specified 
-          in the root <literal>pages</literal> element) instead.
-        </para>
-        
-        <programlisting><![CDATA[  <page view-id="/foo.xhtml" conversation-required="true"/>]]></programlisting>
-        
       </section>
     
 </chapter>

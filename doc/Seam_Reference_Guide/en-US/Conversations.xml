@@ -432,6 +432,58 @@
         </itemizedlist>
         
     </section>
+
+    <section id="conversations.required">
+        <title>Requiring a long-running conversation</title>
+        <para>
+            Certain pages are only relevant in the context of a long-running conversation. One way to "protect" such a
+            page is to require a long-running conversation as a prerequisite to rendering the page. Fortunately, Seam
+            has a built-in mechanism for enforcing this requirement.
+        </para>
+        <para>
+            In the Seam page descriptor, you can indicate that the current conversation must be long-running (or nested)
+            in order for a page to be rendered using the <literal>conversation-required</literal> attribute as follows:
+        </para>
+
+        <programlisting role="XML"><![CDATA[<page view-id="/book.xhtml" conversation-required="true"/>]]></programlisting>
+
+        <note>
+           <para>
+               The only downside is there's no built-in way to indicate <emphasis>which</emphasis> long-running
+               conversation is required. You can build on this basic authorization by dually checking if a specific
+               value is present in the conversation within a page action.
+           </para>
+        </note>
+
+        <para>
+            When Seam determines that this page is requested outside of a long-running conversation, the following
+            actions are taken:
+        </para>
+
+        <itemizedlist>
+            <listitem>
+                <para>A contextual event named <literal>org.jboss.seam.noConversation</literal> is raised</para>
+            </listitem>
+            <listitem>
+                <para>A warning status message is registered using the bundle key <literal>org.jboss.seam.NoConversation</literal></para>
+            </listitem>
+            <listitem>
+                <para>The user is redirected to an alternate page, if defined</para>
+            </listitem>
+        </itemizedlist>
+        
+        <para>
+            The alternate page is defined in the <literal>no-conversation-view-id</literal> attribute on a
+            <literal>&lt;pages&gt;</literal> element in the Seam page descriptor as follows:
+        </para>
+
+        <programlisting role="XML"><![CDATA[<pages no-conversation-view-id="/main.xhtml"/>]]></programlisting>
+
+        <para>
+            At the moment, you can only define one such page for the entire application.
+        </para>
+
+    </section>
     
     <section>
         <title>Using <literal>&lt;s:link&gt;</literal> and <literal>&lt;s:button&gt;</literal></title>
