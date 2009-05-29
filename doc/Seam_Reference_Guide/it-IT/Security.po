@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: Security\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-04-29 12:40+0000\n"
-"PO-Revision-Date: 2009-05-28 01:27+0200\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2009-05-29 17:13+0100\n"
+"Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: it <stefano.travelli@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4334,7 +4334,7 @@ msgstr "@PermissionDiscriminator"
 #: Security.xml:3483
 #, no-c-format
 msgid "This annotation should be used when the same entity/table is used to store both user and role permissions. It identifies the property of the entity that is used to discriminate between user and role permissions. By default, if the column value contains the string literal <literal>user</literal>, then the record will be treated as a user permission. If it contains the string literal <literal>role</literal>, then it will be treated as a role permission. It is also possible to override these defaults by specifying the <literal>userValue</literal> and <literal>roleValue</literal> properties within the annotation. For example, to use <literal>u</literal> and <literal>r</literal> instead of <literal>user</literal> and <literal>role</literal>, the annotation would be written like this:"
-msgstr "Questa annotazione deve essere usata quando la stessa entità/tabella viene usata per memorizzare sia i permessi degli utenti che quelli dei ruoli. Essa identifica la proprietà dell'entità che è usata per discriminare tra i permessi degli utenti e quelli dei ruoli. Per default, se il valore della colonna contiene la stringa <literal>user</literal>, allora il record sarà trattato come un permesso utente. Se contiene la stringa <literal>role</literal>, allora sarà trattato come un permesso del ruolo. E' anche possibile sovrascrivere questi valori specificando le proprietà <literal>userValue</literal> e <literal>roleValue</literal> all'interno delle annotazioni. Ad esempio, per usere <literal>u</literal> e <literal>r</literal> invece di <literali>user</literal> e <literali>role</literal>, le annotazioni dovranno essere scritte in questo modo:"
+msgstr "Questa annotazione deve essere usata quando la stessa entità/tabella viene usata per memorizzare sia i permessi degli utenti che quelli dei ruoli. Essa identifica la proprietà dell'entità che è usata per discriminare tra i permessi degli utenti e quelli dei ruoli. Per default, se il valore della colonna contiene la stringa <literal>user</literal>, allora il record sarà trattato come un permesso utente. Se contiene la stringa <literal>role</literal>, allora sarà trattato come un permesso del ruolo. E' anche possibile sovrascrivere questi valori specificando le proprietà <literal>userValue</literal> e <literal>roleValue</literal> all'interno delle annotazioni. Ad esempio, per usere <literal>u</literal> e <literal>r</literal> invece di <literal>user</literal> e <literal>role</literal>, le annotazioni dovranno essere scritte in questo modo:"
 
 #. Tag: programlisting
 #: Security.xml:3493
@@ -4601,7 +4601,7 @@ msgstr "La proprietà <literal>action</literal> conterrà semplicemente \"3\" (c
 #: Security.xml:3638
 #, no-c-format
 msgid "Obviously, it is very important that the <literal>mask</literal> values specified are powers of 2."
-msgstr "E' molto importante che i valori assegnati a <literal>mask</litera> siano specificati come potenze di 2."
+msgstr "E' molto importante che i valori assegnati a <literal>mask</literal> siano specificati come potenze di 2."
 
 #. Tag: title
 #: Security.xml:3644
@@ -5417,9 +5417,7 @@ msgstr "Estendere il componente Identity"
 #: Security.xml:4396
 #, no-c-format
 msgid "Sometimes it might be necessary to extend the Identity component if your application has special security requirements. The following example (contrived, as credentials would normally be handled by the <literal>Credentials</literal> component instead) shows an extended Identity component with an additional <literal>companyCode</literal> field. The install precendence of <literal>APPLICATION</literal> ensures that this extended Identity gets installed in preference to the built-in Identity."
-msgstr ""
-"A volte può essere necessario estendere il componente Identity se l'applicazione ha particolari requisiti di sicurezza. "
-"Il seguente esempio (fatto di proposito, dato che le credenziali sarebbero normalmente gestite dal componente <literal>Credentials</literal>) mostra un componente Identity esteso con un campo <literal>companyCode</literal> aggiuntivo. La precendenza di installazione impostata a <literal>APPLICATION</literal> assicura che questo Identity esteso venga installato al posto dell'Identity originale."
+msgstr "A volte può essere necessario estendere il componente Identity se l'applicazione ha particolari requisiti di sicurezza. Il seguente esempio (fatto di proposito, dato che le credenziali sarebbero normalmente gestite dal componente <literal>Credentials</literal>) mostra un componente Identity esteso con un campo <literal>companyCode</literal> aggiuntivo. La precendenza di installazione impostata a <literal>APPLICATION</literal> assicura che questo Identity esteso venga installato al posto dell'Identity originale."
 
 #. Tag: programlisting
 #: Security.xml:4404
@@ -5674,5 +5672,4 @@ msgstr ""
 #, no-c-format
 msgid "It's important that you do not leave this out or the user will not be able to login again in the same session."
 msgstr "E' importante non trascurare questo punto altrimenti l'utente non sarà più in grado di eseguire nuovamente il login nella stessa sessione."
-
 
