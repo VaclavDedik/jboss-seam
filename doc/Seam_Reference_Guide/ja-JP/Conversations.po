@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Conversations\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-04-07 12:39+0000\n"
+"POT-Creation-Date: 2009-05-29 06:39+0000\n"
 "PO-Revision-Date: 2009-03-06 17:16+1000\n"
 "Last-Translator: Noriko Mizumoto <noriko@redhat.com>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -782,6 +782,103 @@ msgstr ""
 
 #. Tag: title
 #: Conversations.xml:403
+#, fuzzy, no-c-format
+msgid "Requiring a long-running conversation"
+msgstr "ナチュラル対話にリダイレクトする"
+
+#. Tag: para
+#: Conversations.xml:404
+#, no-c-format
+msgid ""
+"Certain pages are only relevant in the context of a long-running "
+"conversation. One way to \"protect\" such a page is to require a long-"
+"running conversation as a prerequisite to rendering the page. Fortunately, "
+"Seam has a built-in mechanism for enforcing this requirement."
+msgstr ""
+
+#. Tag: para
+#: Conversations.xml:409
+#, no-c-format
+msgid ""
+"In the Seam page descriptor, you can indicate that the current conversation "
+"must be long-running (or nested) in order for a page to be rendered using "
+"the <literal>conversation-required</literal> attribute as follows:"
+msgstr ""
+
+#. Tag: programlisting
+#: Conversations.xml:414
+#, fuzzy, no-c-format
+msgid ""
+"<![CDATA[<page view-id=\"/book.xhtml\" conversation-required=\"true\"/>]]>"
+msgstr "<![CDATA[<s:link view=\"/main.xhtml\" propagation=\"none\"/>]]>"
+
+#. Tag: para
+#: Conversations.xml:417
+#, no-c-format
+msgid ""
+"The only downside is there's no built-in way to indicate <emphasis>which</"
+"emphasis> long-running conversation is required. You can build on this basic "
+"authorization by dually checking if a specific value is present in the "
+"conversation within a page action."
+msgstr ""
+
+#. Tag: para
+#: Conversations.xml:424
+#, no-c-format
+msgid ""
+"When Seam determines that this page is requested outside of a long-running "
+"conversation, the following actions are taken:"
+msgstr ""
+
+#. Tag: para
+#: Conversations.xml:431
+#, no-c-format
+msgid ""
+"A contextual event named <literal>org.jboss.seam.noConversation</literal> is "
+"raised"
+msgstr ""
+
+#. Tag: para
+#: Conversations.xml:434
+#, no-c-format
+msgid ""
+"A warning status message is registered using the bundle key <literal>org."
+"jboss.seam.NoConversation</literal>"
+msgstr ""
+
+#. Tag: para
+#: Conversations.xml:437
+#, no-c-format
+msgid "The user is redirected to an alternate page, if defined"
+msgstr ""
+
+#. Tag: para
+#: Conversations.xml:441
+#, fuzzy, no-c-format
+msgid ""
+"The alternate page is defined in the <literal>no-conversation-view-id</"
+"literal> attribute on a <literal>&lt;pages&gt;</literal> element in the Seam "
+"page descriptor as follows:"
+msgstr ""
+"もうひとつの方法は <literal>s:link</literal> または <literal>s:button</"
+"literal> のどちらかを使用するときに <literal>conversationName</literal> を指"
+"定する方法です。"
+
+#. Tag: programlisting
+#: Conversations.xml:446
+#, fuzzy, no-c-format
+msgid "<![CDATA[<pages no-conversation-view-id=\"/main.xhtml\"/>]]>"
+msgstr "<![CDATA[<s:link view=\"/main.xhtml\" propagation=\"none\"/>]]>"
+
+#. Tag: para
+#: Conversations.xml:448
+#, no-c-format
+msgid ""
+"At the moment, you can only define one such page for the entire application."
+msgstr ""
+
+#. Tag: title
+#: Conversations.xml:455
 #, no-c-format
 msgid ""
 "Using <literal>&lt;s:link&gt;</literal> and <literal>&lt;s:button&gt;</"
@@ -791,7 +888,7 @@ msgstr ""
 "いかた"
 
 #. Tag: para
-#: Conversations.xml:405
+#: Conversations.xml:457
 #, no-c-format
 msgid ""
 "JSF command links always perform a form submission via JavaScript, which "
@@ -807,7 +904,7 @@ msgstr ""
 "<literal>&lt;h:outputLink&gt;</literal> には重要な制限が 2 つあります。"
 
 #. Tag: para
-#: Conversations.xml:415
+#: Conversations.xml:467
 #, no-c-format
 msgid ""
 "JSF provides no way to attach an action listener to an <literal>&lt;h:"
@@ -817,7 +914,7 @@ msgstr ""
 "方法を提供していません。"
 
 #. Tag: para
-#: Conversations.xml:421
+#: Conversations.xml:473
 #, no-c-format
 msgid ""
 "JSF does not propagate the selected row of a <literal>DataModel</literal> "
@@ -827,7 +924,7 @@ msgstr ""
 "literal> の列を伝播しません。"
 
 #. Tag: para
-#: Conversations.xml:428
+#: Conversations.xml:480
 #, fuzzy, no-c-format
 msgid ""
 "Seam provides the notion of a <emphasis>page action</emphasis> to help solve "
@@ -852,7 +949,7 @@ msgstr ""
 "literal> を使用すると非常に便利で透過的になります。"
 
 #. Tag: para
-#: Conversations.xml:441
+#: Conversations.xml:493
 #, no-c-format
 msgid ""
 "To fill in this missing functionality, and to make conversation propagation "
@@ -863,19 +960,19 @@ msgstr ""
 "<literal>&lt;s:link&gt;</literal> JSF タグを提供しています。"
 
 #. Tag: para
-#: Conversations.xml:447
+#: Conversations.xml:499
 #, no-c-format
 msgid "The link may specify just the JSF view id:"
 msgstr "このリンクは JSF ビュー ID だけを指定することができます。"
 
 #. Tag: programlisting
-#: Conversations.xml:451
+#: Conversations.xml:503
 #, no-c-format
 msgid "<![CDATA[<s:link view=\"/login.xhtml\" value=\"Login\"/>]]>"
 msgstr "<![CDATA[<s:link view=\"/login.xhtml\" value=\"Login\"/>]]>"
 
 #. Tag: para
-#: Conversations.xml:453
+#: Conversations.xml:505
 #, no-c-format
 msgid ""
 "Or, it may specify an action method (in which case the action outcome "
@@ -885,13 +982,13 @@ msgstr ""
 "の結果は最終的なページを確定する)。"
 
 #. Tag: programlisting
-#: Conversations.xml:458
+#: Conversations.xml:510
 #, no-c-format
 msgid "<![CDATA[<s:link action=\"#{login.logout}\" value=\"Logout\"/>]]>"
 msgstr "<![CDATA[<s:link action=\"#{login.logout}\" value=\"Logout\"/>]]>"
 
 #. Tag: para
-#: Conversations.xml:460
+#: Conversations.xml:512
 #, no-c-format
 msgid ""
 "If you specify <emphasis>both</emphasis> a JSF view id and an action method, "
@@ -903,7 +1000,7 @@ msgstr ""
 "「ビュー」が使用されます。"
 
 #. Tag: programlisting
-#: Conversations.xml:466
+#: Conversations.xml:518
 #, no-c-format
 msgid ""
 "<![CDATA[<s:link view=\"/loggedOut.xhtml\"  action=\"#{login.logout}\" value="
@@ -913,7 +1010,7 @@ msgstr ""
 "\"Logout\"/>]]>"
 
 #. Tag: para
-#: Conversations.xml:468
+#: Conversations.xml:520
 #, no-c-format
 msgid ""
 "The link automatically propagates the selected row of a <literal>DataModel</"
@@ -923,7 +1020,7 @@ msgstr ""
 "<literal>DataModel</literal> の選択列を自動的に伝播します。"
 
 #. Tag: programlisting
-#: Conversations.xml:473
+#: Conversations.xml:525
 #, no-c-format
 msgid ""
 "<![CDATA[<s:link view=\"/hotel.xhtml\" action=\"#{hotelSearch.selectHotel}\" "
@@ -933,25 +1030,25 @@ msgstr ""
 "value=\"#{hotel.name}\"/>]]>"
 
 #. Tag: para
-#: Conversations.xml:475
+#: Conversations.xml:527
 #, no-c-format
 msgid "You can leave the scope of an existing conversation:"
 msgstr "既存の対話のスコープを残しておくことができます。"
 
 #. Tag: programlisting
-#: Conversations.xml:479
+#: Conversations.xml:531
 #, no-c-format
 msgid "<![CDATA[<s:link view=\"/main.xhtml\" propagation=\"none\"/>]]>"
 msgstr "<![CDATA[<s:link view=\"/main.xhtml\" propagation=\"none\"/>]]>"
 
 #. Tag: para
-#: Conversations.xml:481
+#: Conversations.xml:533
 #, no-c-format
 msgid "You can begin, end, or nest conversations:"
 msgstr "対話を開始、 終了、 またはネストすることができます。"
 
 #. Tag: programlisting
-#: Conversations.xml:485
+#: Conversations.xml:537
 #, no-c-format
 msgid ""
 "<![CDATA[<s:link action=\"#{issueEditor.viewComment}\" propagation=\"nest\"/"
@@ -961,7 +1058,7 @@ msgstr ""
 ">]]>"
 
 #. Tag: para
-#: Conversations.xml:487
+#: Conversations.xml:539
 #, no-c-format
 msgid ""
 "If the link begins a conversation, you can even specify a pageflow to be "
@@ -970,7 +1067,7 @@ msgstr ""
 "リンクが対話を開始すると、 使用されるページプローを指定することもできます。"
 
 #. Tag: programlisting
-#: Conversations.xml:491
+#: Conversations.xml:543
 #, no-c-format
 msgid ""
 "<![CDATA[<s:link action=\"#{documentEditor.getDocument}\" propagation=\"begin"
@@ -982,7 +1079,7 @@ msgstr ""
 "        pageflow=\"EditDocument\"/>]]>"
 
 #. Tag: para
-#: Conversations.xml:493
+#: Conversations.xml:545
 #, fuzzy, no-c-format
 msgid ""
 "The <literal>taskInstance</literal> attribute is for use in jBPM task lists:"
@@ -990,7 +1087,7 @@ msgstr ""
 "jBPM タスクリストを使用する場合の <literal>taskInstance</literal> 属性です。"
 
 #. Tag: programlisting
-#: Conversations.xml:497
+#: Conversations.xml:549
 #, no-c-format
 msgid ""
 "<![CDATA[<s:link action=\"#{documentApproval.approveOrReject}\" taskInstance="
@@ -1000,13 +1097,13 @@ msgstr ""
 "\"#{task}\"/>]]>"
 
 #. Tag: para
-#: Conversations.xml:499
+#: Conversations.xml:551
 #, no-c-format
 msgid "(See the DVD Store demo application for examples of this.)"
 msgstr " (上記の例は DVD ストアデモアプリケーションを参照してください。)"
 
 #. Tag: para
-#: Conversations.xml:503
+#: Conversations.xml:555
 #, no-c-format
 msgid ""
 "Finally, if you need the \"link\" to be rendered as a button, use "
@@ -1016,19 +1113,19 @@ msgstr ""
 "s:button&gt;</literal> を使用します。"
 
 #. Tag: programlisting
-#: Conversations.xml:507
+#: Conversations.xml:559
 #, no-c-format
 msgid "<![CDATA[<s:button action=\"#{login.logout}\" value=\"Logout\"/>]]>"
 msgstr "<![CDATA[<s:button action=\"#{login.logout}\" value=\"Logout\"/>]]>"
 
 #. Tag: title
-#: Conversations.xml:512
+#: Conversations.xml:564
 #, no-c-format
 msgid "Success messages"
 msgstr "成功のメッセージ"
 
 #. Tag: para
-#: Conversations.xml:513
+#: Conversations.xml:565
 #, no-c-format
 msgid ""
 "It is quite common to display a message to the user indicating success or "
@@ -1045,7 +1142,7 @@ msgstr ""
 "JSF で成功のメッセージを表示するのはかなり困難になります。"
 
 #. Tag: para
-#: Conversations.xml:522
+#: Conversations.xml:574
 #, no-c-format
 msgid ""
 "The built in conversation-scoped Seam component named "
@@ -1057,7 +1154,7 @@ msgstr ""
 "トールしておく必要があります。)"
 
 #. Tag: programlisting
-#: Conversations.xml:528
+#: Conversations.xml:580
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"editDocumentAction\")\n"
@@ -1087,7 +1184,7 @@ msgstr ""
 "}]]>"
 
 #. Tag: para
-#: Conversations.xml:530
+#: Conversations.xml:582
 #, no-c-format
 msgid ""
 "Any message added to <literal>facesMessages</literal> is used in the very "
@@ -1101,13 +1198,13 @@ msgstr ""
 "がない場合でも機能します。"
 
 #. Tag: para
-#: Conversations.xml:538
+#: Conversations.xml:590
 #, no-c-format
 msgid "You can even include JSF EL expressions in a faces message summary:"
 msgstr "JSF EL 式を faces メッセージサマリーに含ませることもできます。"
 
 #. Tag: programlisting
-#: Conversations.xml:542
+#: Conversations.xml:594
 #, no-c-format
 msgid ""
 "<![CDATA[facesMessages.add(\"Document #{document.title} was updated\");]]>"
@@ -1115,25 +1212,25 @@ msgstr ""
 "<![CDATA[facesMessages.add(\"Document #{document.title} was updated\");]]>"
 
 #. Tag: para
-#: Conversations.xml:544
+#: Conversations.xml:596
 #, no-c-format
 msgid "You may display the messages in the usual way, for example:"
 msgstr "たとえば、 通常の方法でメッセージを表示することができます。"
 
 #. Tag: programlisting
-#: Conversations.xml:548
+#: Conversations.xml:600
 #, no-c-format
 msgid "<![CDATA[<h:messages globalOnly=\"true\"/>]]>"
 msgstr "<![CDATA[<h:messages globalOnly=\"true\"/>]]>"
 
 #. Tag: title
-#: Conversations.xml:553
+#: Conversations.xml:605
 #, no-c-format
 msgid "Natural conversation ids"
 msgstr "ナチュラル対話の ID"
 
 #. Tag: para
-#: Conversations.xml:554
+#: Conversations.xml:606
 #, no-c-format
 msgid ""
 "When working with conversations that deal with persistent objects, it may be "
@@ -1144,13 +1241,13 @@ msgstr ""
 "くそのオブジェクトのナチュラルキーを使用する方が望ましい場合があります。"
 
 #. Tag: emphasis
-#: Conversations.xml:561
+#: Conversations.xml:613
 #, no-c-format
 msgid "Easy redirect to existing conversation"
 msgstr "既存の対話に容易にリダイレクト"
 
 #. Tag: para
-#: Conversations.xml:563
+#: Conversations.xml:615
 #, no-c-format
 msgid ""
 "It can be useful to redirect to an existing conversation if the user "
@@ -1170,7 +1267,7 @@ msgstr ""
 "る必要があります。」 </quote>"
 
 #. Tag: para
-#: Conversations.xml:576
+#: Conversations.xml:628
 #, fuzzy, no-c-format
 msgid ""
 "With a natural conversation it's really easy to have the user rejoin the "
@@ -1182,13 +1279,13 @@ msgstr ""
 "に再度参加させるだけです。"
 
 #. Tag: emphasis
-#: Conversations.xml:584
+#: Conversations.xml:636
 #, no-c-format
 msgid "User friendly URLs"
 msgstr "ユーザーフレンドリーな URL"
 
 #. Tag: para
-#: Conversations.xml:587
+#: Conversations.xml:639
 #, no-c-format
 msgid ""
 "For me this consists of a navigable hierarchy (I can navigate by editing the "
@@ -1202,7 +1299,7 @@ msgstr ""
 "重要ではない場合もあるでしょう。"
 
 #. Tag: para
-#: Conversations.xml:595
+#: Conversations.xml:647
 #, fuzzy, no-c-format
 msgid ""
 "With a natural conversation, when you are building your hotel booking system "
@@ -1220,25 +1317,25 @@ msgstr ""
 "BestWesternAntwerpen に変換することができます。"
 
 #. Tag: para
-#: Conversations.xml:606
+#: Conversations.xml:658
 #, no-c-format
 msgid "Much better!"
 msgstr "かなり改善されたはずです。"
 
 #. Tag: title
-#: Conversations.xml:612
+#: Conversations.xml:664
 #, no-c-format
 msgid "Creating a natural conversation"
 msgstr "ナチュラル対話を作成する"
 
 #. Tag: para
-#: Conversations.xml:613
+#: Conversations.xml:665
 #, no-c-format
 msgid "Natural conversations are defined in <literal>pages.xml</literal>:"
 msgstr "ナチュラル対話は <literal>pages.xml</literal> で定義されます。"
 
 #. Tag: programlisting
-#: Conversations.xml:617
+#: Conversations.xml:669
 #, no-c-format
 msgid ""
 "<![CDATA[  <conversation name=\"PlaceBid\"\n"
@@ -1250,7 +1347,7 @@ msgstr ""
 "                  parameter-value=\"#{auction.auctionId}\"/>]]>"
 
 #. Tag: para
-#: Conversations.xml:619
+#: Conversations.xml:671
 #, no-c-format
 msgid ""
 "The first thing to note from the above definition is that the conversation "
@@ -1264,7 +1361,7 @@ msgstr ""
 "ため <literal>page</literal> 定義により参加する指定対話の識別に使用されます。"
 
 #. Tag: para
-#: Conversations.xml:627
+#: Conversations.xml:679
 #, no-c-format
 msgid ""
 "The next attribute, <literal>parameter-name</literal> defines the request "
@@ -1282,7 +1379,7 @@ msgstr ""
 "す。"
 
 #. Tag: para
-#: Conversations.xml:636
+#: Conversations.xml:688
 #, no-c-format
 msgid ""
 "The last attribute in the above configuration, <literal>parameter-value</"
@@ -1297,7 +1394,7 @@ msgstr ""
 "なります。"
 
 #. Tag: para
-#: Conversations.xml:643
+#: Conversations.xml:695
 #, no-c-format
 msgid ""
 "Next, we define which pages will participate in the named conversation. This "
@@ -1308,7 +1405,7 @@ msgstr ""
 "<literal>conversation</literal> 属性を指定してこれを行います。"
 
 #. Tag: programlisting
-#: Conversations.xml:649
+#: Conversations.xml:701
 #, no-c-format
 msgid ""
 "<![CDATA[  <page view-id=\"/bid.xhtml\" conversation=\"PlaceBid\" login-"
@@ -1336,13 +1433,13 @@ msgstr ""
 "  </page>]]>"
 
 #. Tag: title
-#: Conversations.xml:654
+#: Conversations.xml:706
 #, no-c-format
 msgid "Redirecting to a natural conversation"
 msgstr "ナチュラル対話にリダイレクトする"
 
 #. Tag: para
-#: Conversations.xml:656
+#: Conversations.xml:708
 #, no-c-format
 msgid ""
 "When starting, or redirecting to, a natural conversation there are a number "
@@ -1353,7 +1450,7 @@ msgstr ""
 "くつかのオプションがあります。 次のページ定義をまず見てみることにします。"
 
 #. Tag: programlisting
-#: Conversations.xml:662
+#: Conversations.xml:714
 #, no-c-format
 msgid ""
 "<![CDATA[  <page view-id=\"/auction.xhtml\">\n"
@@ -1373,7 +1470,7 @@ msgstr ""
 "  </page>]]>"
 
 #. Tag: para
-#: Conversations.xml:664
+#: Conversations.xml:716
 #, no-c-format
 msgid ""
 "From here, we can see that invoking the action <literal>#{bidAction.placeBid}"
@@ -1390,7 +1487,7 @@ msgstr ""
 "ションメソッドの宣言は以下のようになります。"
 
 #. Tag: programlisting
-#: Conversations.xml:672
+#: Conversations.xml:724
 #, no-c-format
 msgid ""
 "<![CDATA[   @Begin(join = true)\n"
@@ -1400,7 +1497,7 @@ msgstr ""
 "   public void placeBid()]]>"
 
 #. Tag: para
-#: Conversations.xml:674
+#: Conversations.xml:726
 #, no-c-format
 msgid ""
 "When named conversations are specified in the <literal>&lt;page/&gt;</"
@@ -1420,7 +1517,7 @@ msgstr ""
 "がその方法のひとつとなります。"
 
 #. Tag: programlisting
-#: Conversations.xml:684
+#: Conversations.xml:736
 #, no-c-format
 msgid ""
 "<![CDATA[  <h:commandButton id=\"placeBidWithAmount\" styleClass=\"placeBid"
@@ -1434,7 +1531,7 @@ msgstr ""
 "  </h:commandButton>]]>"
 
 #. Tag: para
-#: Conversations.xml:686
+#: Conversations.xml:738
 #, no-c-format
 msgid ""
 "Another alternative is to specify the <literal>conversationName</literal> "
@@ -1446,7 +1543,7 @@ msgstr ""
 "定する方法です。"
 
 #. Tag: programlisting
-#: Conversations.xml:691
+#: Conversations.xml:743
 #, no-c-format
 msgid ""
 "<![CDATA[  <s:link value=\"Place Bid\" action=\"#{bidAction.placeBid}\" "
@@ -1456,13 +1553,13 @@ msgstr ""
 "conversationName=\"PlaceBid\"/>]]>"
 
 #. Tag: title
-#: Conversations.xml:697
+#: Conversations.xml:749
 #, no-c-format
 msgid "Workspace management"
 msgstr "ワークスペースの管理"
 
 #. Tag: para
-#: Conversations.xml:699
+#: Conversations.xml:751
 #, no-c-format
 msgid ""
 "Workspace management is the ability to \"switch\" conversations in a single "
@@ -1474,7 +1571,7 @@ msgstr ""
 "クスペース管理を可能にするために、必要なすべては以下の通りです。"
 
 #. Tag: para
-#: Conversations.xml:708
+#: Conversations.xml:760
 #, no-c-format
 msgid ""
 "Provide <emphasis>description</emphasis> text for each view id (when using "
@@ -1487,7 +1584,7 @@ msgstr ""
 "ます。"
 
 #. Tag: para
-#: Conversations.xml:716
+#: Conversations.xml:768
 #, no-c-format
 msgid ""
 "Include one or more of the standard workspace switcher JSP or facelets "
@@ -1499,13 +1596,13 @@ msgstr ""
 "ラム (breadcrumbs) を通じてワークスペース管理をサポートします。"
 
 #. Tag: title
-#: Conversations.xml:726
+#: Conversations.xml:778
 #, no-c-format
 msgid "Workspace management and JSF navigation"
 msgstr "ワークスペース管理と JSF ナビゲーション"
 
 #. Tag: para
-#: Conversations.xml:727
+#: Conversations.xml:779
 #, no-c-format
 msgid ""
 "When you use JSF or Seam navigation rules, Seam switches to a conversation "
@@ -1522,7 +1619,7 @@ msgstr ""
 "す。"
 
 #. Tag: programlisting
-#: Conversations.xml:736
+#: Conversations.xml:788
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -1558,7 +1655,7 @@ msgstr ""
 "    </pages>]]>"
 
 #. Tag: para
-#: Conversations.xml:738
+#: Conversations.xml:790
 #, no-c-format
 msgid ""
 "Note that if this file is missing, the Seam application will continue to "
@@ -1569,13 +1666,13 @@ msgstr ""
 "します。 動作しない機能はワークスペースの切り替え機能のみです。"
 
 #. Tag: title
-#: Conversations.xml:747
+#: Conversations.xml:799
 #, no-c-format
 msgid "Workspace management and jPDL pageflow"
 msgstr "ワークスペース管理と jPDL ページフロー"
 
 #. Tag: para
-#: Conversations.xml:748
+#: Conversations.xml:800
 #, no-c-format
 msgid ""
 "When you use a jPDL pageflow definition, Seam switches to a conversation by "
@@ -1592,7 +1689,7 @@ msgstr ""
 "literal> ノードで定義されます。"
 
 #. Tag: programlisting
-#: Conversations.xml:759
+#: Conversations.xml:811
 #, no-c-format
 msgid ""
 "<![CDATA[<pageflow-definition name=\"shopping\">\n"
@@ -1644,13 +1741,13 @@ msgstr ""
 "</pageflow-definition>]]>"
 
 #. Tag: title
-#: Conversations.xml:764
+#: Conversations.xml:816
 #, no-c-format
 msgid "The conversation switcher"
 msgstr "対話切り替え"
 
 #. Tag: para
-#: Conversations.xml:766
+#: Conversations.xml:818
 #, no-c-format
 msgid ""
 "Include the following fragment in your JSP or facelets page to get a drop-"
@@ -1662,7 +1759,7 @@ msgstr ""
 "します。"
 
 #. Tag: programlisting
-#: Conversations.xml:772
+#: Conversations.xml:824
 #, no-c-format
 msgid ""
 "<![CDATA[<h:selectOneMenu value=\"#{switcher.conversationIdOrOutcome}\">\n"
@@ -1680,7 +1777,7 @@ msgstr ""
 "<h:commandButton action=\"#{switcher.select}\" value=\"Switch\"/>]]>"
 
 #. Tag: para
-#: Conversations.xml:774
+#: Conversations.xml:826
 #, no-c-format
 msgid ""
 "In this example, we have a menu that includes an item for each conversation, "
@@ -1691,7 +1788,7 @@ msgstr ""
 "対話のためのアイテムを含むメニューがあります。"
 
 #. Tag: para
-#: Conversations.xml:780
+#: Conversations.xml:832
 #, no-c-format
 msgid ""
 "Only conversations with a description (specified in <literal>pages.xml</"
@@ -1701,13 +1798,13 @@ msgstr ""
 "ニューに含まれます。"
 
 #. Tag: title
-#: Conversations.xml:798
+#: Conversations.xml:850
 #, no-c-format
 msgid "The conversation list"
 msgstr "対話一覧"
 
 #. Tag: para
-#: Conversations.xml:800
+#: Conversations.xml:852
 #, no-c-format
 msgid ""
 "The conversation list is very similar to the conversation switcher, except "
@@ -1717,7 +1814,7 @@ msgstr ""
 "ます。"
 
 #. Tag: programlisting
-#: Conversations.xml:805
+#: Conversations.xml:857
 #, no-c-format
 msgid ""
 "<![CDATA[<h:dataTable value=\"#{conversationList}\" var=\"entry\"\n"
@@ -1775,7 +1872,7 @@ msgstr ""
 "</h:dataTable>]]>"
 
 #. Tag: para
-#: Conversations.xml:807
+#: Conversations.xml:859
 #, no-c-format
 msgid ""
 "We imagine that you will want to customize this for your own application."
@@ -1784,13 +1881,13 @@ msgstr ""
 "うと思います。"
 
 #. Tag: para
-#: Conversations.xml:820
+#: Conversations.xml:872
 #, no-c-format
 msgid "Only conversations with a description will be included in the list."
 msgstr "詳細を持つ対話のみがこの一覧に含まれます。"
 
 #. Tag: para
-#: Conversations.xml:825
+#: Conversations.xml:877
 #, no-c-format
 msgid "Notice that the conversation list lets the user destroy workspaces."
 msgstr ""
@@ -1798,13 +1895,13 @@ msgstr ""
 "さい。"
 
 #. Tag: title
-#: Conversations.xml:832
+#: Conversations.xml:884
 #, no-c-format
 msgid "Breadcrumbs"
 msgstr "ブレッドクラム (Breadcrumbs) "
 
 #. Tag: para
-#: Conversations.xml:834
+#: Conversations.xml:886
 #, no-c-format
 msgid ""
 "Breadcrumbs are useful in applications which use a nested conversation "
@@ -1816,7 +1913,7 @@ msgstr ""
 "す。"
 
 #. Tag: programlisting
-#: Conversations.xml:840
+#: Conversations.xml:892
 #, no-c-format
 msgid ""
 "<![CDATA[<ui:repeat value=\"#{conversationStack}\" var=\"entry\">\n"
@@ -1832,13 +1929,13 @@ msgstr ""
 "</ui:repeat]]>"
 
 #. Tag: title
-#: Conversations.xml:855
+#: Conversations.xml:907
 #, no-c-format
 msgid "Conversational components and JSF component bindings"
 msgstr "対話型コンポーネントと JSF コンポーネントのバインディング"
 
 #. Tag: para
-#: Conversations.xml:857
+#: Conversations.xml:909
 #, no-c-format
 msgid ""
 "Conversational components have one minor limitation: they cannot be used to "
@@ -1856,7 +1953,7 @@ msgstr ""
 "中にコンポーネントのバインディングは更新されます。"
 
 #. Tag: para
-#: Conversations.xml:865
+#: Conversations.xml:917
 #, no-c-format
 msgid ""
 "To work around this use an event scoped component to store the component "
@@ -1868,7 +1965,7 @@ msgstr ""
 "します。"
 
 #. Tag: programlisting
-#: Conversations.xml:870
+#: Conversations.xml:922
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"grid\")\n"
@@ -1892,7 +1989,7 @@ msgstr ""
 "}]]>"
 
 #. Tag: programlisting
-#: Conversations.xml:873
+#: Conversations.xml:925
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"gridEditor\")\n"
@@ -1916,7 +2013,7 @@ msgstr ""
 "}]]>"
 
 #. Tag: para
-#: Conversations.xml:875
+#: Conversations.xml:927
 #, no-c-format
 msgid ""
 "Also, you can't inject a conversation scoped component into an event scoped "
@@ -1929,7 +2026,7 @@ msgstr ""
 "れます。"
 
 #. Tag: para
-#: Conversations.xml:881
+#: Conversations.xml:933
 #, fuzzy, no-c-format
 msgid ""
 "Alternatively, you can access the JSF component tree through the implicit "
@@ -1944,7 +2041,7 @@ msgstr ""
 "literal> にアクセスしています。 現在の列番号を出力します。"
 
 #. Tag: programlisting
-#: Conversations.xml:888
+#: Conversations.xml:940
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
@@ -1966,7 +2063,7 @@ msgstr ""
 "</h:dataTable>]]>"
 
 #. Tag: para
-#: Conversations.xml:890
+#: Conversations.xml:942
 #, no-c-format
 msgid ""
 "JSF UI components are available with their client identifier in this map."
@@ -1975,13 +2072,13 @@ msgstr ""
 "す。"
 
 #. Tag: title
-#: Conversations.xml:897
+#: Conversations.xml:949
 #, no-c-format
 msgid "Concurrent calls to conversational components"
 msgstr "対話的コンポーネントへの並列コール"
 
 #. Tag: para
-#: Conversations.xml:899
+#: Conversations.xml:951
 #, no-c-format
 msgid ""
 "A general discussion of concurrent calls to Seam components can be found in "
@@ -1999,7 +2096,7 @@ msgstr ""
 "て説明してから RichFaces で提供されるオプションについて見ていきます。"
 
 #. Tag: para
-#: Conversations.xml:909
+#: Conversations.xml:961
 #, no-c-format
 msgid ""
 "Conversational components don't allow real concurrent access therefore Seam "
@@ -2021,7 +2118,7 @@ msgstr ""
 "りません。"
 
 #. Tag: para
-#: Conversations.xml:921
+#: Conversations.xml:973
 #, no-c-format
 msgid ""
 "Therefore, when you are working inside a long running conversation, Seam "
@@ -2038,7 +2135,7 @@ msgstr ""
 "重要となります。"
 
 #. Tag: para
-#: Conversations.xml:930
+#: Conversations.xml:982
 #, no-c-format
 msgid ""
 "We can set a sensible default for the concurrent request timeout (in ms) in "
@@ -2048,20 +2145,20 @@ msgstr ""
 "ることができます。"
 
 #. Tag: programlisting
-#: Conversations.xml:935
+#: Conversations.xml:987
 #, no-c-format
 msgid "<![CDATA[<core:manager concurrent-request-timeout=\"500\" />]]>"
 msgstr "<![CDATA[<core:manager concurrent-request-timeout=\"500\" />]]>"
 
 #. Tag: para
-#: Conversations.xml:937
+#: Conversations.xml:989
 #, no-c-format
 msgid ""
 "We can also fine tune the concurrent request timeout on a page-by-page basis:"
 msgstr "また、 ページごとに並列要求のタイムアウトを微調整することもできます。"
 
 #. Tag: programlisting
-#: Conversations.xml:942
+#: Conversations.xml:994
 #, no-c-format
 msgid ""
 "<![CDATA[<page view-id=\"/book.xhtml\" \n"
@@ -2075,7 +2172,7 @@ msgstr ""
 "         concurrent-request-timeout=\"2000\" />]]>"
 
 #. Tag: para
-#: Conversations.xml:944
+#: Conversations.xml:996
 #, no-c-format
 msgid ""
 "So far we've discussed AJAX requests which appear serial to the user - the "
@@ -2093,7 +2190,7 @@ msgstr ""
 "う。"
 
 #. Tag: para
-#: Conversations.xml:953
+#: Conversations.xml:1005
 #, no-c-format
 msgid ""
 "For heavy computation we should use a poll based approach &#8212; the client "
@@ -2111,13 +2208,13 @@ msgstr ""
 "なります。"
 
 #. Tag: title
-#: Conversations.xml:963
+#: Conversations.xml:1015
 #, no-c-format
 msgid "How should we design our conversational AJAX application?"
 msgstr "対話的 AJAX アプリケーションを設計する"
 
 #. Tag: para
-#: Conversations.xml:965
+#: Conversations.xml:1017
 #, no-c-format
 msgid ""
 "Well first, you need to decide whether you want to use the simpler \"serial"
@@ -2127,7 +2224,7 @@ msgstr ""
 "用するのかどうかを決める必要があります。"
 
 #. Tag: para
-#: Conversations.xml:970
+#: Conversations.xml:1022
 #, no-c-format
 msgid ""
 "If you go for a \"serial\" requests, then you need to estimate how long your "
@@ -2150,7 +2247,7 @@ msgstr ""
 "列待ちできるようにすることを考慮に入れてください。"
 
 #. Tag: para
-#: Conversations.xml:983
+#: Conversations.xml:1035
 #, no-c-format
 msgid ""
 "Finally, the client library may provide an option to abort unfinished "
@@ -2160,7 +2257,7 @@ msgstr ""
 "止するオプションを提供することができます。"
 
 #. Tag: para
-#: Conversations.xml:988
+#: Conversations.xml:1040
 #, no-c-format
 msgid ""
 "Using a poll-style design requires less fine-tuning. You just mark your "
@@ -2172,7 +2269,7 @@ msgstr ""
 "隔を決定するだけです。"
 
 #. Tag: programlisting
-#: Conversations.xml:994
+#: Conversations.xml:1046
 #, no-c-format
 msgid ""
 "<![CDATA[int total;\n"
@@ -2206,13 +2303,13 @@ msgstr ""
 "}]]>"
 
 #. Tag: title
-#: Conversations.xml:998
+#: Conversations.xml:1050
 #, no-c-format
 msgid "Dealing with errors"
 msgstr "エラーを処理する"
 
 #. Tag: para
-#: Conversations.xml:1000
+#: Conversations.xml:1052
 #, no-c-format
 msgid ""
 "However carefully you design your application to queue concurrent requests "
@@ -2231,7 +2328,7 @@ msgstr ""
 "を送出します。 HTTP 503 エラーの送信をお勧めします。"
 
 #. Tag: programlisting
-#: Conversations.xml:1011
+#: Conversations.xml:1063
 #, fuzzy, no-c-format
 msgid ""
 "<![CDATA[   <exception class=\"org.jboss.seam."
@@ -2245,13 +2342,13 @@ msgstr ""
 "   </exception>]]>"
 
 #. Tag: title
-#: Conversations.xml:1014
+#: Conversations.xml:1066
 #, no-c-format
 msgid "503 Service Unavailable (HTTP/1.1 RFC)"
 msgstr "503 Service Unavailable (HTTP/1.1 RFC)"
 
 #. Tag: para
-#: Conversations.xml:1016
+#: Conversations.xml:1068
 #, no-c-format
 msgid ""
 "The server is currently unable to handle the request due to a temporary "
@@ -2262,13 +2359,13 @@ msgstr ""
 "きません。 しばらく待つと緩和されるであろう一時的な状態であることを指します。"
 
 #. Tag: para
-#: Conversations.xml:1024
+#: Conversations.xml:1076
 #, no-c-format
 msgid "Alternatively you could redirect to an error page:"
 msgstr "代わりにエラーページにリダイレクトすることができます。"
 
 #. Tag: programlisting
-#: Conversations.xml:1028
+#: Conversations.xml:1080
 #, fuzzy, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"org.jboss.seam.ConcurrentRequestTimeoutException"
@@ -2290,7 +2387,7 @@ msgstr ""
 "</exception>]]>"
 
 #. Tag: para
-#: Conversations.xml:1030
+#: Conversations.xml:1082
 #, fuzzy, no-c-format
 msgid ""
 "ICEfaces, RichFaces Ajax and Seam Remoting can all handle HTTP error codes. "
@@ -2307,7 +2404,7 @@ msgstr ""
 "を表示するには、"
 
 #. Tag: programlisting
-#: Conversations.xml:1039
+#: Conversations.xml:1091
 #, fuzzy, no-c-format
 msgid ""
 "<![CDATA[<script type=\"text/javascript\">\n"
@@ -2323,7 +2420,7 @@ msgstr ""
 "</script>]]>"
 
 #. Tag: para
-#: Conversations.xml:1041
+#: Conversations.xml:1093
 #, no-c-format
 msgid ""
 "If instead of an error code, the server reports that the view has expired, "
@@ -2332,7 +2429,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Conversations.xml:1047
+#: Conversations.xml:1099
 #, fuzzy, no-c-format
 msgid ""
 "<![CDATA[<script type=\"text/javascript\">\n"
@@ -2348,7 +2445,7 @@ msgstr ""
 "</script>]]>"
 
 #. Tag: para
-#: Conversations.xml:1049
+#: Conversations.xml:1101
 #, no-c-format
 msgid ""
 "Alternatively, you can allow RichFaces handle the error, in which case the "
@@ -2358,19 +2455,19 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Conversations.xml:1057
+#: Conversations.xml:1109
 #, no-c-format
 msgid "<![CDATA[AJAX_VIEW_EXPIRED=View expired. Please reload the page.]]>"
 msgstr ""
 
 #. Tag: title
-#: Conversations.xml:1062
+#: Conversations.xml:1114
 #, fuzzy, no-c-format
 msgid "RichFaces (Ajax4jsf)"
 msgstr "RichFaces Ajax"
 
 #. Tag: para
-#: Conversations.xml:1064
+#: Conversations.xml:1116
 #, fuzzy, no-c-format
 msgid ""
 "RichFaces (Ajax4jsf) is the Ajax library most commonly used with Seam, and "
@@ -2380,7 +2477,7 @@ msgstr ""
 "したような制御をすべて提供します。"
 
 #. Tag: para
-#: Conversations.xml:1071
+#: Conversations.xml:1123
 #, fuzzy, no-c-format
 msgid ""
 "<literal>eventsQueue</literal> &#8212; provides a queue in which events are "
@@ -2396,7 +2493,7 @@ msgstr ""
 "求で溢れないようにすることができます。"
 
 #. Tag: para
-#: Conversations.xml:1081
+#: Conversations.xml:1133
 #, fuzzy, no-c-format
 msgid ""
 "<literal>ignoreDupResponses</literal> &#8212; ignores the response produced "
@@ -2411,7 +2508,7 @@ msgstr ""
 "けではありません</emphasis>。 クライアント側で不必要な更新を避けるだけです。"
 
 #. Tag: para
-#: Conversations.xml:1088
+#: Conversations.xml:1140
 #, no-c-format
 msgid ""
 "This option should be used with care with Seam's conversations as it allows "
@@ -2421,7 +2518,7 @@ msgstr ""
 "用する際は注意が必要です。"
 
 #. Tag: para
-#: Conversations.xml:1094
+#: Conversations.xml:1146
 #, no-c-format
 msgid ""
 "<literal>requestDelay</literal> &#8212; defines the time (in ms.) that the "
@@ -2436,7 +2533,7 @@ msgstr ""
 "キューにある場合) されます。"
 
 #. Tag: para
-#: Conversations.xml:1101
+#: Conversations.xml:1153
 #, no-c-format
 msgid ""
 "This option should be used with care with Seam's conversations as it allows "
@@ -2449,7 +2546,7 @@ msgstr ""
 "(並列要求のタイムアウトと併用) の方が長いことを確認する必要があります。"
 
 #. Tag: para
-#: Conversations.xml:1109
+#: Conversations.xml:1161
 #, no-c-format
 msgid ""
 "<literal>&lt;a:poll reRender=\"total\" interval=\"1000\" /&gt;</literal> "

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-05-26 13:23+0000\n"
+"POT-Creation-Date: 2009-05-29 06:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -2091,33 +2091,9 @@ msgstr ""
 #, no-c-format
 msgid ""
 "A <literal>ViewExpiredException</literal> occurs if the user posts back to a "
-"page once their session has expired. <literal>no-conversation-view-id</"
-"literal> and <literal>conversation-required</literal> give you finer grained "
-"control over session expiration if you are inside a conversation."
-msgstr ""
-
-#. Tag: title
-#: Events.xml:904
-#, no-c-format
-msgid "conversation-required"
-msgstr ""
-
-#. Tag: para
-#: Events.xml:906
-#, no-c-format
-msgid ""
-"When specified as the attribute of a <literal>page</literal> element in "
-"<literal>pages.xml</literal>, this setting controls whether a page requires "
-"an active long-running or nested conversation before being rendered. If "
-"there is not an active long-running or nested conversation when trying to "
-"access the page, you will be redirected to the <literal>no-conversation-view-"
-"id</literal> view (which is specified in the root <literal>pages</literal> "
-"element) instead."
-msgstr ""
-
-#. Tag: programlisting
-#: Events.xml:914
-#, no-c-format
-msgid ""
-"<![CDATA[  <page view-id=\"/foo.xhtml\" conversation-required=\"true\"/>]]>"
+"page once their session has expired. The <literal>conversation-required</"
+"literal> and <literal>no-conversation-view-id</literal> settings in the Seam "
+"page descriptor, discussed in <xref linkend=\"conversations.required\"/>, "
+"give you finer-grained control over session expiration if you are accessing "
+"a page used within a conversation."
 msgstr ""

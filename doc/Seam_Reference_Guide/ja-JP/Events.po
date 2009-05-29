@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tools\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-03-31 09:07+0000\n"
+"POT-Creation-Date: 2009-05-29 06:39+0000\n"
 "PO-Revision-Date: 2009-02-22 15:51+0900\n"
 "Last-Translator: Shinobu NOGAMI <s-nogami@sourceforge.jp>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -2930,48 +2930,30 @@ msgstr ""
 # 2.1
 #. Tag: para
 #: Events.xml:894
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "A <literal>ViewExpiredException</literal> occurs if the user posts back to a "
-"page once their session has expired. <literal>no-conversation-view-id</"
-"literal> and <literal>conversation-required</literal> give you finer grained "
-"control over session expiration if you are inside a conversation."
+"page once their session has expired. The <literal>conversation-required</"
+"literal> and <literal>no-conversation-view-id</literal> settings in the Seam "
+"page descriptor, discussed in <xref linkend=\"conversations.required\"/>, "
+"give you finer-grained control over session expiration if you are accessing "
+"a page used within a conversation."
 msgstr ""
 "<literal>ViewExpiredException</literal> はセッションの有効期限が切れたときに"
 "ポストバックをページに送信しようとすると発生します。もし対話の中で操作中であ"
 "れば<literal>no-conversation-view-id</literal> と <literal>conversation-"
 "required</literal> を使えば細かなセッションの有効期限の制御が可能になります。"
 
-#. Tag: title
-#: Events.xml:904
-#, no-c-format
-msgid "conversation-required"
-msgstr ""
-
-#. Tag: para
-#: Events.xml:906
-#, no-c-format
-msgid ""
-"When specified as the attribute of a <literal>page</literal> element in "
-"<literal>pages.xml</literal>, this setting controls whether a page requires "
-"an active long-running or nested conversation before being rendered. If "
-"there is not an active long-running or nested conversation when trying to "
-"access the page, you will be redirected to the <literal>no-conversation-view-"
-"id</literal> view (which is specified in the root <literal>pages</literal> "
-"element) instead."
-msgstr ""
-
-#. Tag: programlisting
-#: Events.xml:914
-#, fuzzy, no-c-format
-msgid ""
-"<![CDATA[  <page view-id=\"/foo.xhtml\" conversation-required=\"true\"/>]]>"
-msgstr ""
-"<![CDATA[\n"
-"<page view-id=\"/home.xhtml\">\n"
-"    <rewrite pattern=\"/home\" />\n"
-"</page>\n"
-"]]>"
+#, fuzzy
+#~ msgid ""
+#~ "<![CDATA[  <page view-id=\"/foo.xhtml\" conversation-required=\"true\"/>]]"
+#~ ">"
+#~ msgstr ""
+#~ "<![CDATA[\n"
+#~ "<page view-id=\"/home.xhtml\">\n"
+#~ "    <rewrite pattern=\"/home\" />\n"
+#~ "</page>\n"
+#~ "]]>"
 
 #~ msgid "<![CDATA[TODO: translate struts action into page action]]>"
 #~ msgstr "<![CDATA[TODO: translate struts action into page action]]>"

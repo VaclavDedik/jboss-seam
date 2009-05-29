@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-05-26 13:23+0000\n"
+"POT-Creation-Date: 2009-05-29 06:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -124,9 +124,9 @@ msgstr ""
 #: I18n.xml:73
 #, no-c-format
 msgid ""
-"You can write your translation of labels (<xlink linkend=\"labels\">Labels</"
-"xlink>) to your messages resource bundle in the native encoding and then "
-"convert the content of the file into the escaped format through the tool "
+"You can write your translation of labels (<xref linkend=\"labels\"/>) to "
+"your messages resource bundle in the native encoding and then convert the "
+"content of the file into the escaped format through the tool "
 "<literal>native2ascii</literal> provided in the JDK. This tool will convert "
 "a file written in your native encoding to one that represents non-ASCII "
 "characters as Unicode escape sequences."
@@ -559,13 +559,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: I18n.xml:297
+#: I18n.xml:296
 #, no-c-format
 msgid "Timezones"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:299
+#: I18n.xml:298
 #, no-c-format
 msgid ""
 "There is also a session-scoped instance of <literal> java.util.Timezone</"
@@ -580,7 +580,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:310
+#: I18n.xml:309
 #, no-c-format
 msgid ""
 "Seam overrides this behavior, and defaults all dates and times to the Seam "
@@ -589,7 +589,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:315
+#: I18n.xml:314
 #, no-c-format
 msgid ""
 "Seam also provides a default date converter to convert a string value to a "
@@ -599,13 +599,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: I18n.xml:322
+#: I18n.xml:321
 #, no-c-format
 msgid "Themes"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:324
+#: I18n.xml:323
 #, no-c-format
 msgid ""
 "Seam applications are also very easily skinnable. The theme API is very "
@@ -614,13 +614,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:329
+#: I18n.xml:328
 #, no-c-format
 msgid "First, configure the set of supported themes:"
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:331
+#: I18n.xml:330
 #, no-c-format
 msgid ""
 "&lt;theme:theme-selector cookie-enabled=\"true\"&gt;\n"
@@ -633,13 +633,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:333
+#: I18n.xml:332
 #, no-c-format
 msgid "Note that the first theme listed is the default theme."
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:335
+#: I18n.xml:334
 #, no-c-format
 msgid ""
 "Themes are defined in a properties file with the same name as the theme. For "
@@ -649,7 +649,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:340
+#: I18n.xml:339
 #, no-c-format
 msgid ""
 "css ../screen.css\n"
@@ -657,7 +657,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:342
+#: I18n.xml:341
 #, no-c-format
 msgid ""
 "Usually the entries in a theme resource bundle will be paths to CSS styles "
@@ -666,7 +666,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:346
+#: I18n.xml:345
 #, no-c-format
 msgid ""
 "Now we can use these entries in our JSP or facelets pages. For example, to "
@@ -674,20 +674,20 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:349
+#: I18n.xml:348
 #, no-c-format
 msgid ""
 "&lt;link href=\"#{theme.css}\" rel=\"stylesheet\" type=\"text/css\" /&gt;"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:351
+#: I18n.xml:350
 #, no-c-format
 msgid "Or, when the page definition resides in a subdirectory:"
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:353
+#: I18n.xml:352
 #, no-c-format
 msgid ""
 "&lt;link href=\"#{facesContext.externalContext.requestContextPath}#{theme."
@@ -696,7 +696,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:355
+#: I18n.xml:354
 #, no-c-format
 msgid ""
 "Most powerfully, facelets lets us theme the template used by a <literal>&lt;"
@@ -704,7 +704,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:358
+#: I18n.xml:357
 #, no-c-format
 msgid ""
 "&lt;ui:composition xmlns=\"http://www.w3.org/1999/xhtml\"\n"
@@ -715,7 +715,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:360
+#: I18n.xml:359
 #, no-c-format
 msgid ""
 "Just like the locale selector, there is a built-in theme selector to allow "
@@ -723,7 +723,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:363
+#: I18n.xml:362
 #, no-c-format
 msgid ""
 "&lt;h:selectOneMenu value=\"#{themeSelector.theme}\"&gt;\n"
@@ -734,13 +734,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: I18n.xml:367
+#: I18n.xml:366
 #, no-c-format
 msgid "Persisting locale and theme preferences via cookies"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:369
+#: I18n.xml:368
 #, no-c-format
 msgid ""
 "The locale selector, theme selector and timezone selector all support "
@@ -750,7 +750,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:374
+#: I18n.xml:373
 #, no-c-format
 msgid ""
 "&lt;theme:theme-selector cookie-enabled=\"true\"&gt;\n"

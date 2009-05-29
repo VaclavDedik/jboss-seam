@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seam_-_Contextual_Components VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-05-10 10:19+0000\n"
+"POT-Creation-Date: 2009-05-29 06:39+0000\n"
 "PO-Revision-Date: 2008-11-06 00:10+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -669,15 +669,56 @@ msgid ""
 "An instance of <literal>customerResource</literal> is now handled by Seam "
 "when a request hits the server. This is a Seam JavaBean component that is "
 "<literal>EVENT</literal>-scoped, hence no different than the default JAX-RS "
-"lifecycle. You get full Seam injection support and all other Seam components "
-"and contexts are available to you. Currently also supported are "
-"<literal>APPLICATION</literal> and <literal>STATELESS</literal> resource "
-"Seam components. These scopes allow you to create an effectively stateless "
-"Seam middle-tier HTTP request-processing application."
+"lifecycle. You get full Seam injection and interception support, and all "
+"other Seam components and contexts are available to you. Currently also "
+"supported are <literal>APPLICATION</literal> and <literal>STATELESS</"
+"literal> resource Seam components. These three scopes allow you to create an "
+"effectively stateless Seam middle-tier HTTP request-processing application."
 msgstr ""
 
 #. Tag: para
 #: Webservices.xml:318
+#, no-c-format
+msgid ""
+"You can annotate an interface and keep the implementation free from JAX-RS "
+"annotations:"
+msgstr ""
+
+#. Tag: programlisting
+#: Webservices.xml:322
+#, no-c-format
+msgid ""
+"<![CDATA[@Path(\"/customer\")\n"
+"public interface MyCustomerResource {\n"
+"\n"
+"    @GET\n"
+"    @Path(\"/{customerId}\")\n"
+"    @Produces(\"text/plain\")\n"
+"    public String getCustomer(@PathParam(\"customerId\") int id);\n"
+"\n"
+"}]]>"
+msgstr ""
+
+#. Tag: programlisting
+#: Webservices.xml:324
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"customerResource\")\n"
+"@Scope(ScopeType.STATELESS)\n"
+"public class MyCustomerResourceBean implements MyCustomerResource {\n"
+"\n"
+"    @In\n"
+"    CustomerDAO customerDAO;\n"
+"\n"
+"    public String getCustomer(int id) {\n"
+"         return customerDAO.find(id).getName();\n"
+"    }\n"
+"\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:326
 #, no-c-format
 msgid ""
 "You can use <literal>SESSION</literal>-scoped Seam components. By default, "
@@ -688,16 +729,23 @@ msgid ""
 "and decide if the session was created only to serve that single request (no "
 "session identifier has been provided with the request, or no session existed "
 "for the request). If the session has been created only to serve this "
-"request, the session will be destroyed after the request! Assuming that your "
-"Seam application only uses event, application, or stateless components, this "
-"procedure prevents exhaustion of available HTTP sessions on the server. The "
-"RESTEasy integration with Seam assumes by default that sessions are not "
-"used, hence anemic sessions would add up as every REST request would start a "
-"session that will only be removed when timed out."
+"request, the session will be destroyed after the request!"
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:331
+#: Webservices.xml:335
+#, no-c-format
+msgid ""
+"Assuming that your Seam application only uses event, application, or "
+"stateless components, this procedure prevents exhaustion of available HTTP "
+"sessions on the server. The RESTEasy integration with Seam assumes by "
+"default that sessions are not used, hence anemic sessions would add up as "
+"every REST request would start a session that will only be removed when "
+"timed out."
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:342
 #, no-c-format
 msgid ""
 "If your RESTful Seam application has to preserve session state across REST "
@@ -705,17 +753,17 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:336
+#: Webservices.xml:347
 #, no-c-format
 msgid ""
 "<![CDATA[<resteasy:application destroy-session-after-request=\"false\"/>]]>"
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:338
+#: Webservices.xml:349
 #, no-c-format
 msgid ""
-"Every RESTful HTTP request will now create a new session that will only be "
+"Every REST HTTP request will now create a new session that will only be "
 "removed by timeout or explicit invalidation in your code through "
 "<literal>Session.instance().invalidate()</literal>. It is your "
 "responsibility to pass a valid session identifier along with your HTTP "
@@ -723,7 +771,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:345
+#: Webservices.xml:356
 #, no-c-format
 msgid ""
 "<literal>CONVERSATION</literal>-scoped resource components and mapping of "
@@ -732,30 +780,72 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:350
+#: Webservices.xml:361
 #, no-c-format
 msgid ""
-"EJB Seam components are currently <emphasis>NOT</emphasis> supported! "
-"However, as explained above, you can map plain stateless EJBs (with no Seam "
-"lifecycle or injection) as REST resources."
+"EJB Seam components are supported. Always annotate the local business "
+"interface, not the EJB implementation class, with JAX-RS annotations. The "
+"EJB has to be <literal>STATELESS</literal>."
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:355
+#: Webservices.xml:366
 #, no-c-format
 msgid ""
-"Provider classes can also be Seam components, currently only "
-"<literal>APPLICATION</literal>-scoped provider components are supported."
+"Provider classes can also be Seam components, only <literal>APPLICATION</"
+"literal>-scoped provider components are supported. You can annotate the bean "
+"interface or implementation with JAX-RS annotations. EJB Seam components as "
+"providers are currently <emphasis>NOT</emphasis> supported, only POJOs!"
 msgstr ""
 
 #. Tag: title
-#: Webservices.xml:363
+#: Webservices.xml:375
+#, no-c-format
+msgid "Securing resources"
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:377
+#, no-c-format
+msgid ""
+"You can enable the Seam authentication filter for HTTP Basic and Digest "
+"authentication in <literal>components.xml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Webservices.xml:382
+#, no-c-format
+msgid ""
+"<![CDATA[<web:authentication-filter url-pattern=\"/seam/resource/rest/*\" "
+"auth-type=\"basic\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:384
+#, no-c-format
+msgid ""
+"See the Seam security chapter on how to write an authentication routine."
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:388
+#, no-c-format
+msgid ""
+"After successful authentication, authorization rules with the common "
+"<literal>@Restrict</literal> and <literal>@PermissionCheck</literal> "
+"annotations are in effect. You can also access the client <literal>Identity</"
+"literal>, work with permission mapping, and so on. All regular Seam security "
+"features for authorization are available."
+msgstr ""
+
+#. Tag: title
+#: Webservices.xml:398
 #, no-c-format
 msgid "Mapping exceptions to HTTP responses"
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:365
+#: Webservices.xml:400
 #, no-c-format
 msgid ""
 "Section 3.3.4 of the JAX-RS specification defines how checked or unchecked "
@@ -768,7 +858,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:373
+#: Webservices.xml:408
 #, no-c-format
 msgid ""
 "Exception handling within Seam requires that the Seam filter is executed for "
@@ -780,7 +870,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:380
+#: Webservices.xml:415
 #, no-c-format
 msgid ""
 "<![CDATA[<filter>\n"
@@ -795,7 +885,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:382
+#: Webservices.xml:417
 #, no-c-format
 msgid ""
 "To convert the unchecked <literal>UnsupportedOperationException</literal> "
@@ -805,7 +895,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:388
+#: Webservices.xml:423
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"java.lang.UnsupportedOperationException\">\n"
@@ -816,13 +906,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:390
+#: Webservices.xml:425
 #, no-c-format
 msgid "Custom or checked exceptions are handled the same:"
 msgstr ""
 
 #. Tag: programlisting
-#: Webservices.xml:394
+#: Webservices.xml:429
 #, no-c-format
 msgid ""
 "<![CDATA[<exception class=\"my.CustomException\" log=\"false\">\n"
@@ -834,7 +924,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:396
+#: Webservices.xml:431
 #, no-c-format
 msgid ""
 "You do not have to send an HTTP error to the client if an exception occurs. "
@@ -845,7 +935,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Webservices.xml:403
+#: Webservices.xml:438
 #, no-c-format
 msgid ""
 "Note that the HTTP response still passes through the servlet container, so "
@@ -853,4 +943,98 @@ msgid ""
 "literal> mappings in your <literal>web.xml</literal> configuration. The HTTP "
 "status code would then be mapped to a rendered HTML error page with status "
 "<literal>200 OK</literal>!"
+msgstr ""
+
+#. Tag: title
+#: Webservices.xml:447
+#, no-c-format
+msgid "Testing resources and providers"
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:449
+#, no-c-format
+msgid ""
+"Seam includes an extended unit testing superclass that helps you in creating "
+"unit tests for a RESTful architecture. Extend the <literal>ResourceSeamTest</"
+"literal> class to emulate HTTP requests/response cycles:"
+msgstr ""
+
+#. Tag: programlisting
+#: Webservices.xml:454
+#, no-c-format
+msgid ""
+"<![CDATA[import org.jboss.seam.resteasy.testfwk.ResourceSeamTest;\n"
+"import org.jboss.seam.resteasy.testfwk.MockHttpServletResponse;\n"
+"import org.jboss.seam.resteasy.testfwk.MockHttpServletRequest;\n"
+"\n"
+"public class MyTest extends ResourceSeamTest {\n"
+"\n"
+"   @Override\n"
+"   public Map<String, Object> getDefaultHeaders()\n"
+"   {\n"
+"      return new HashMap<String, Object>()\n"
+"      {{\n"
+"            put(\"Accept\", \"text/plain\");\n"
+"      }};\n"
+"   }\n"
+"\n"
+"   @Test\n"
+"   public void test() throws Exception\n"
+"   {\n"
+"      new ResourceRequest(Method.GET, \"/my/relative/uri)\n"
+"      {\n"
+"\n"
+"         @Override\n"
+"         protected void prepareRequest(MockHttpServletRequest request)\n"
+"         {\n"
+"            request.addQueryParameter(\"foo\", \"123\");\n"
+"            request.addHeader(\"Accept-Language\", \"en_US, de\");\n"
+"         }\n"
+"\n"
+"         @Override\n"
+"         protected void onResponse(MockHttpServletResponse response)\n"
+"         {\n"
+"            assert response.getStatus() == 200;\n"
+"            assert response.getContentAsString().equals(\"foobar\");\n"
+"         }\n"
+"\n"
+"      }.run();\n"
+"   }\n"
+"\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:456
+#, no-c-format
+msgid ""
+"This test only executes local calls, it does not communicate with the "
+"<literal>SeamResourceServlet</literal> through TCP. The mock request is "
+"passed through the Seam servlet and filters and the response is then "
+"available for test assertions. Overriding the <literal>getDefaultHeaders()</"
+"literal> method allows you to set request headers for every test method in "
+"the test class."
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:463
+#, no-c-format
+msgid ""
+"Note that a <literal>ResourceRequest</literal> has to be executed in a "
+"<literal>@Test</literal> method or in a <literal>@BeforeMethod</literal> "
+"callback. You can and should not execute it in any other callback, such as "
+"<literal>@BeforeClass</literal>. (This is an implementation limitation we "
+"will remove in a future update.)"
+msgstr ""
+
+#. Tag: para
+#: Webservices.xml:470
+#, no-c-format
+msgid ""
+"Also note that the imported mock objects are not the same as the mock "
+"objects you use in other Seam unit tests, which are in the package "
+"<literal>org.jboss.seam.mock</literal>. The <literal>org.jboss.seam.resteasy."
+"testfwk</literal> variations mimic real requests and responses much more "
+"closely."
 msgstr ""
