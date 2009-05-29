@@ -38,6 +38,7 @@
     <xi:include href="Components.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="Controls.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="Elenhancements.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="ClusteringAndEJBPassivation.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />    
     <xi:include href="Performance.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />    
     <xi:include href="Testing.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="Tools.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
