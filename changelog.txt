@@ -17,7 +17,9 @@ Release Notes - Seam - Version 2.1.2
 
 ** Task
     * [JBSEAM-2232] - Full review of Seam's log levels
+    * [JBSEAM-2399] - Document no-conversation-view-id and conversation-required
     * [JBSEAM-3264] - REST requests create anemic HttpSessions
+    * [JBSEAM-3425] - Documentation for clustering
     * [JBSEAM-4010] - Document various approaches to Wicket instrumentation
     * [JBSEAM-4135] - Upload selenium libs to jboss maven repository
     * [JBSEAM-4193] - Document attributes "color" of tag "p:font" and "scaleToFit" of  tag "p:image"
