@@ -17,7 +17,7 @@ msgstr ""
 #: Jbpm.xml:2
 #, no-c-format
 msgid "Pageflows and business processes"
-msgstr "Pageflows e processi di business"
+msgstr "Pageflow e processi di business"
 
 #. Tag: para
 #: Jbpm.xml:4

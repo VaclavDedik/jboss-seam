@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-02-01 21:20+0000\n"
-"PO-Revision-Date: 2009-02-07 21:28+0100\n"
+"PO-Revision-Date: 2009-05-30 15:27+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 #: Websphere.xml:2
 #, no-c-format
 msgid "Seam on IBM's Websphere AS"
-msgstr ""
+msgstr "Seam su Websphere AS di IBM"
 
 #. Tag: para
 #: Websphere.xml:4
@@ -47,7 +47,7 @@ msgstr ""
 #: Websphere.xml:23
 #, no-c-format
 msgid "Installation versions"
-msgstr ""
+msgstr "Versioni delle installazioni"
 
 #. Tag: para
 #: Websphere.xml:24
@@ -59,7 +59,7 @@ msgstr ""
 #: Websphere.xml:29
 #, no-c-format
 msgid "Websphere Application Server V7"
-msgstr ""
+msgstr "Websphere Application Server V7"
 
 #. Tag: para
 #: Websphere.xml:34
@@ -71,20 +71,20 @@ msgstr ""
 #: Websphere.xml:42
 #, no-c-format
 msgid "The <literal>jee5/booking</literal> example"
-msgstr ""
+msgstr "L'esempio <literal>jee5/booking</literal>"
 
 #. Tag: para
 #: Websphere.xml:44
 #, no-c-format
 msgid "The <literal>jee5/booking</literal> example is based on the Hotel Booking example (which runs on JBoss AS). Out of the box it is designed to run on Glassfish, but with the steps below it can be deployed to Websphere. It is located in the <literal>$SEAM_DIST/examples/jee5/booking</literal> directory."
-msgstr ""
+msgstr "L'esempio <literal>jee5/booking</literal> è basato sull'esempio PrenotazioneHotel (che gira su JBoss AS). E' stato progettato per girare anche su Glassfish, ma con i passi descritti sotto può essere deployato in Websphere. E' collocato nella directory <literal>$SEAM_DIST/examples/jee5/booking</literal>."
 
 #. Tag: title
 #: Websphere.xml:52
 #: Websphere.xml:710
 #, no-c-format
 msgid "<title>Configuration file changes</title>"
-msgstr ""
+msgstr "<title>Cambiamenti al file di configurazione</title>"
 
 #. Tag: para
 #: Websphere.xml:54
@@ -419,7 +419,7 @@ msgstr ""
 #: Websphere.xml:175
 #, no-c-format
 msgid "resources/import.sql"
-msgstr ""
+msgstr "resources/import.sql"
 
 #. Tag: para
 #: Websphere.xml:178
@@ -605,7 +605,7 @@ msgstr ""
 #: Websphere.xml:325
 #, no-c-format
 msgid "Summary"
-msgstr ""
+msgstr "Sommario"
 
 #. Tag: para
 #: Websphere.xml:328
@@ -617,7 +617,7 @@ msgstr ""
 #: Websphere.xml:335
 #, no-c-format
 msgid "Installation"
-msgstr ""
+msgstr "Installazione"
 
 #. Tag: para
 #: Websphere.xml:338
@@ -780,7 +780,7 @@ msgstr ""
 #: Websphere.xml:502
 #, no-c-format
 msgid "<literal>Summary</literal> page"
-msgstr ""
+msgstr "Pagina <literal>Summario</literal>"
 
 #. Tag: para
 #: Websphere.xml:505
