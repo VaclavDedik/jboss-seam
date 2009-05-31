@@ -802,6 +802,11 @@
                 <exclude name="interop/**/*"/>
                 <exclude name="gen/**/*"/>
             </fileset>
+            <fileset dir="${seam.dir}/lib/gen">
+                <include name="darkX.jar" unless="icefaces.property"/>
+                <include name="glassX.jar" unless="icefaces.property"/>
+                <include name="laguna.jar" unless="icefaces.property"/>
+            </fileset>
             <fileset file="${driver.jar}"/>
         </copy>
 
@@ -875,7 +880,6 @@
         </copy>
         <replace file="${project.home}/resources/META-INF/persistence-dev.xml">
             <replacefilter token="org.hibernate.transaction.JBossTransactionManagerLookup" value="@transactionManagerLookupClass@"/>
-            <replacefilter token="&lt;jta-data-source&gt;java:/" value="&lt;jta-data-source&gt;"/>
         </replace>
         <copy tofile="${project.home}/resources/WEB-INF/components.xml"
                 file="${templates.dir}/resources/WEB-INF/components-war-tokenized.xml">
@@ -915,10 +919,6 @@
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
         </copy>
-        <replace file="${project.home}/resources/META-INF/persistence-dev.xml">
-            <replacefilter token="org.hibernate.transaction.JBossTransactionManagerLookup" value="@transactionManagerLookupClass@"/>
-            <replacefilter token="&lt;jta-data-source&gt;java:/" value="&lt;jta-data-source&gt;"/>
-        </replace>
         <replace file="${project.home}/resources/WEB-INF/components.xml">
             <replacefilter token="java:/${project.name}EntityManagerFactory" value="@puJndiName@"/>
         </replace>
@@ -956,6 +956,10 @@
             <filterset refid="jdbc"/>
         </copy>
 
+        <replace file="${project.home}/resources/META-INF/persistence-dev.xml">
+            <replacefilter token="&lt;jta-data-source&gt;java:/" value="&lt;jta-data-source&gt;"/>
+        </replace>
+
         <replace dir="${project.home}/resources">
             <include name="WEB-INF/web.xml" if="project.war"/>
             <replacetoken><![CDATA[</web-app>]]></replacetoken>
@@ -985,9 +989,11 @@
 
    <persistence-unit-ref>
       <persistence-unit-ref-name>@projectName@/pu</persistence-unit-ref-name>
-      <!-- The relative reference doesn't work on GlassFish. Instead, set the <persistence-unit-name> to "@projectName@",
-           package persistence.xml in the WAR, and add a <jar-file> element in persistence.xml with value "../../@projectName@.jar". -->
       <persistence-unit-name>../@projectName@.jar#@projectName@</persistence-unit-name>
+      <!-- The relative reference doesn't work on GlassFish. Instead, set the <persistence-unit-name> to "@projectName@",
+           package persistence.xml in the WAR, and add a <jar-file> element in persistence.xml with value "../../@projectName@.jar".
+      <persistence-unit-name>@projectName@</persistence-unit-name>
+      -->
    </persistence-unit-ref>
 
 </web-app>]]></replacevalue>
