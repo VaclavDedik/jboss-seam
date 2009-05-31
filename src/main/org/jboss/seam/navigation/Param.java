@@ -35,7 +35,7 @@ public final class Param
    private ValueExpression valueExpression;
    
    private boolean required;
-   private boolean validateModel = true;
+   private boolean validateModel;
    
    private ValueExpression converterValueExpression;
    private String converterId;
@@ -45,7 +45,13 @@ public final class Param
    
    public Param(String name)
    {
+      this(name, true);
+   }
+   
+   public Param(String name, boolean validateModel)
+   {
       this.name = name;
+      this.validateModel = validateModel;
    }
    
    public Converter getConverter()
@@ -186,18 +192,18 @@ public final class Param
 
       String value = parameterValues[0];
       
-      //Note: for not-required fields, we behave a
-      //but different than JSF for empty strings.
-      //is this a bad thing? (but we are the same
-      //for required fields)
-      if ( value.length()==0 && isRequired() )
+      // if the length is zero and the parameter is required, treat the value as
+      // missing (and report it as null); this differs from how JSF handles inputs
+      if (value.length() == 0)
       {
+         if (isRequired())
+         {
          addRequiredMessage(facesContext);
          return null;
       }
+      }
       
       return value;
-      
    }
    
    /**

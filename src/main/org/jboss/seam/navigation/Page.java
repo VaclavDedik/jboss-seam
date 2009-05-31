@@ -34,6 +34,7 @@ public final class Page
    private ValueExpression<String> noConversationViewId;
    private String resourceBundleName;
    private boolean switchEnabled = true;
+   private boolean validateModel = true;
    private List<Param> parameters = new ArrayList<Param>();
    private List<Input> inputs = new ArrayList<Input>();
    private List<Action> actions = new ArrayList<Action>();
@@ -174,6 +175,23 @@ public final class Page
    public boolean isSwitchEnabled()
    {
       return switchEnabled;
+   }
+   
+   public void setValidateModel(boolean validateModel)
+   {
+      this.validateModel = validateModel;
+   }
+   
+   /**
+    * Indicates whether the model validator (Hibernate Validator) should be
+    * registered on the page parameters by default. The default is to add the
+    * model validator. This setting can be overridden per page parameter. If
+    * parameters are registered on the page programatically, this setting should
+    * be honored as the default.
+    */
+   public boolean isValidateModel()
+   {
+      return validateModel;
    }
    
    public List<Param> getParameters()

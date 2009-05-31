@@ -124,6 +124,7 @@
         <xs:attribute name="bundle" type="xs:token" />
         <xs:attribute name="conversation" type="xs:token" />
         <xs:attribute name="expires" type="xs:unsignedLong" /> 
+        <xs:attribute name="validate-model" default="true" type="pages:tf-boolean"/>
     </xs:attributeGroup>
     
     <xs:element name="param">

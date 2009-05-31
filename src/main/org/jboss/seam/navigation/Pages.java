@@ -1124,7 +1124,7 @@ public class Pages
       List<Element> children = element.elements("param");
       for (Element param: children)
       {
-         page.getParameters().add( parseParam(param) );
+         page.getParameters().add( parseParam(param, page.isValidateModel()) );
       }
       
       List<Element> moreChildren = element.elements("navigation");
@@ -1234,6 +1234,13 @@ public class Pages
             input.setScope( ScopeType.valueOf( scopeName.toUpperCase() ) );
          }
          page.getInputs().add(input);
+      }
+      // by default the model is validated by Hibernate validator; this attribute is used to disable that feature
+      // this setting can be overridden at the param level
+      String validateModelStr = element.attributeValue("validate-model");
+      if (validateModelStr != null)
+      {
+         page.setValidateModel(Boolean.parseBoolean(validateModelStr));
       }
       
       return page;
@@ -1457,7 +1464,7 @@ public class Pages
    /**
     * Parse param
     */
-   private static Param parseParam(Element element)
+   private static Param parseParam(Element element, boolean validateModel)
    {
       String valueExpression = element.attributeValue("value");
       String name = element.attributeValue("name");
@@ -1469,7 +1476,7 @@ public class Pages
          }
          name = valueExpression.substring(2, valueExpression.length()-1);
       }
-      Param param = new Param(name);
+      Param param = new Param(name, validateModel);
       if (valueExpression!=null)
       {
          param.setValueExpression(Expressions.instance().createValueExpression(valueExpression));
@@ -1559,7 +1566,7 @@ public class Pages
          final List<Param> params = new ArrayList<Param>();
          for (Element child: children)
          {
-            params.add( parseParam(child) );
+            params.add( parseParam(child, true) );
          }
          final String viewId = redirect.attributeValue("view-id");
          final String url    = redirect.attributeValue("url");
