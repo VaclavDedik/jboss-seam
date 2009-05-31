@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-11-06 00:24+0000\n"
-"PO-Revision-Date: 2009-05-31 09:49+0100\n"
-"Last-Translator: Francesco Milesi <milesif@gmail.com>\n"
+"PO-Revision-Date: 2009-05-31 12:14+0100\n"
+"Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,7 +51,6 @@ msgstr "Prima di tutto bisogna installare il server. Ci sono alcuni problemi non
 msgid "<literal>Weblogic 10.0.MP1</literal> &#8212; <ulink url=\"http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html\"> Download page </ulink>"
 msgstr "<literal>Weblogic 10.0.MP1</literal> &#8212; <ulink url=\"http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html\"> Pagina di download </ulink>"
 
-# weblogic-ejb-issues va tradotto?
 #. Tag: para
 #: Weblogic.xml:30
 #, no-c-format
@@ -64,7 +63,6 @@ msgstr "La versione 10.0.MP1 ha alcuni problemi noti con gli EJBs che usano <lit
 msgid "<literal>Weblogic 10.3</literal> &#8212; <ulink url=\"http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html\"> Download page </ulink>"
 msgstr "<literal>Weblogic 10.3</literal> &#8212; <ulink url=\"http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html\"> Pagina di download </ulink>"
 
-# weblogic-ejb-issues è da tradurre?
 #. Tag: para
 #: Weblogic.xml:41
 #, no-c-format
@@ -174,7 +172,6 @@ msgstr "Avviare il wizard di configurazione di Weblogic:"
 msgid "$BEA_HOME/wlserver_10.3/common/bin/config.sh"
 msgstr "$BEA_HOME/wlserver_10.3/common/bin/config.sh"
 
-# Weblogic Server è da tradurre?
 #. Tag: para
 #: Weblogic.xml:127
 #, no-c-format
@@ -307,12 +304,11 @@ msgstr "Una nota sul classloading di Weblogic"
 msgid "When using the <literal>/autodeploy</literal> directory as described in this chapter you may see <literal>NoClassDefFound</literal> exceptions during redeployment's. If you see this try restarting the Weblogic server. If you still see it remove the auto-deployed EAR/WAR files, restart the server, and redeploy. We could not find a specific reason for this, but others seem to be having this issue as well."
 msgstr "Quando si utilizza la directory <literal>/autodeploy</literal> come descritto in questo capitolo, è possibile vedere delle eccezioni <literal>NoClassDefFound</literal> durante il re-deploy delle applicazioni. Se le vedete, provate a riavviare il server. Se continuate a vederle, eliminate i file EAR/WAR autoinstallati, riavviate il server e rifate il deploy. Non abbiamo trovato la ragione specifica di questo comportamento, tuttavia sembra che anche altri abbiano avuto questo genere di problema."
 
-# Impostare???
 #. Tag: title
 #: Weblogic.xml:230
 #, no-c-format
 msgid "Setting up Weblogic's JSF Support"
-msgstr "Impostare il supporto JSF in Weblogic"
+msgstr "Impostazione del supporto JSF in Weblogic"
 
 #. Tag: para
 #: Weblogic.xml:231
@@ -356,12 +352,11 @@ msgstr "Premete il pulsante <literal>Next</literal> della pagina <literal> Optio
 msgid "Make sure that the <literal>Yes, take me to the deployment's configuration screen.</literal> is selected. Click the <literal>Finish</literal> button on the <literal> Review your choices and click Finish</literal> page."
 msgstr "Accertatevi che sia selezionata l'opzione <literal>Yes, take me to the deployment's configuration screen.</literal>. Cliccate il pulsante <literal>Finish</literal> della pagina <literal> Review your choices and click Finish</literal>."
 
-# il supporto JSF ????
 #. Tag: para
 #: Weblogic.xml:272
 #, no-c-format
 msgid "On the <literal>Settings for jsf(1.2,1.2.3.1)</literal> page set the <literal>Deployment Order</literal> to <literal>99</literal> so that it is deployed prior to auto deployed applications. Then click the <literal> Save</literal> button."
-msgstr "Nella pagina <literal>Settings for jsf(1.2,1.2.3.1)</literal> impostate <literal>Deployment Order</literal> a <literal>99</literal> in modo che il supporto JSF venga installato prima delle applicazioni sottoposte ad autodeploy. Poi cliccate sul bottone <literal> Save</literal>."
+msgstr "Nella pagina <literal>Impostazioni per jsf(1.2,1.2.3.1)</literal> impostate <literal>Deployment Order</literal> a <literal>99</literal> in modo che il supporto JSF venga installato prima delle applicazioni sottoposte ad autodeploy. Poi cliccate sul bottone <literal>Save</literal>."
 
 #. Tag: para
 #: Weblogic.xml:280
@@ -393,7 +388,6 @@ msgstr "I problemi di Weblogic con EJB3"
 msgid "For several releases of Weblogic there has been an issue with how Weblogic generates stubs and compiles EJB's that use variable arguments in their methods. This is confirmed in the Weblogic 9.X and 10.0.MP1 versions. Unfortunately the 10.3 version only partially addresses the issue as detailed below."
 msgstr "Per molte versione successive di Weblogic c'è stato un problema relativo a come Weblogic genera gli stub e a come compila gli EJB che usano argomenti variabili nei propri metodi. Problema confermato nelle versioni 9.X e 10.0.MP1. Purtroppo la versione 10.3 lo affronta solo parzialmente come dettagliato di seguito."
 
-# Il problema con i <literal>varargs</literal>
 #. Tag: title
 #: Weblogic.xml:314
 #, no-c-format
@@ -916,12 +910,11 @@ msgstr "Bisogna fare alcune modifiche allo script di build e al jar <literal>jbo
 msgid "build.xml"
 msgstr "build.xml"
 
-# Per inserire nel pacchetto <literal> weblogic-application.xml </literal> ????
 #. Tag: para
 #: Weblogic.xml:679
 #, no-c-format
 msgid "We need to add the follow so that the <literal> weblogic-application.xml </literal> will be packaged."
-msgstr "Per inserire nel pacchetto <literal> weblogic-application.xml </literal> dobbiamo aggiungere ciò che segue."
+msgstr "Per inserire nel pacchetto <literal>weblogic-application.xml</literal> dobbiamo aggiungere ciò che segue."
 
 #. Tag: programlisting
 #: Weblogic.xml:686
