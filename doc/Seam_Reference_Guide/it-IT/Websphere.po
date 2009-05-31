@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-02-01 21:20+0000\n"
-"PO-Revision-Date: 2009-05-31 18:43+0100\n"
+"PO-Revision-Date: 2009-06-01 00:21+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -720,7 +720,7 @@ msgstr "L'esempio ha già un pò di configurazioni e build script per molti comu
 #: Websphere.xml:440
 #, no-c-format
 msgid "First thing we are going to do is build and deploy that example. Then we'll go over some key changes that we needed."
-msgstr ""
+msgstr "La prima cosa da fare è costruire e deployare quell'esempio. Poi verranno apportate delle modifiche chiave necessarie."
 
 #. Tag: title
 #: Websphere.xml:444
@@ -732,7 +732,7 @@ msgstr "Build dell'esempio <literal>jpa</literal>"
 #: Websphere.xml:445
 #, no-c-format
 msgid "Building it only requires running the correct ant command: <programlisting>ant websphere7</programlisting> This will create container specific distribution and exploded archive directories with the <literal>websphere7</literal> label."
-msgstr ""
+msgstr "Il building richiede l'esecuzione del corretto comando ant: <programlisting>ant websphere7</programlisting>. Questo creerà una distribuzione specifica per il container e le directory esplose per l'archivio con etichetta <literal>websphere7</literal>."
 
 #. Tag: title
 #: Websphere.xml:451
@@ -744,19 +744,19 @@ msgstr "Deploy dell'esempio <literal>jpa</literal>"
 #: Websphere.xml:452
 #, no-c-format
 msgid "This is similar to the <literal>jee5</literal> example at <xref linkend=\"jee5-websphere-deploy\"/>, but without so many steps."
-msgstr ""
+msgstr "Questo è simile all'esempio <literal>jee5</literal> all'indirizzo <xref linkend=\"jee5-websphere-deploy\"/>, ma senza molti passi."
 
 #. Tag: para
 #: Websphere.xml:457
 #, no-c-format
 msgid "From the <literal>Enterprise Applications</literal> table select the <literal>Install</literal> button."
-msgstr ""
+msgstr "Dalla tabella <literal>Enterprise Applications</literal> selezionare il pulsante <literal>Install</literal>."
 
 #. Tag: para
 #: Websphere.xml:465
 #, no-c-format
 msgid "Browse to the <literal>examples/jpa/dist-websphere7/jboss-seam-jpa.war</literal> file using the file upload widget."
-msgstr ""
+msgstr "Navigare fino al file <literal>examples/jpa/dist-websphere7/jboss-seam-jpa.war</literal> usando il widget per l'upload dei file."
 
 #. Tag: para
 #: Websphere.xml:483
@@ -786,25 +786,25 @@ msgstr "Pagina <literal>Summario</literal>"
 #: Websphere.xml:505
 #, no-c-format
 msgid "Review the settings if you wish and select the <literal>Finish</literal> button to install the application. When installation finished select the <literal> Save</literal> link and you will be returned to the <literal>Enterprise Applications</literal> table."
-msgstr ""
+msgstr "Rivedere le impostazioni e selezionare il pulsante <literal>Finish</literal> per installre l'applicazione. Quando l'installazione è terminata selezionare il link <literal> Save</literal> e si ritornerà alla tabella <literal>Enterprise Applications</literal>."
 
 #. Tag: para
 #: Websphere.xml:519
 #, no-c-format
 msgid "As with the <literal>jee5</literal> example there are some class loader changes needed before we start the application. Follow the instructions at <xref linkend=\"websphere-app-adj-after-install\"/> but exchange <literal>jboss-seam-jpa_war</literal> for <literal>Seam Booking</literal>."
-msgstr ""
+msgstr "Come per l'esempio <literal>jee5</literal> ci sono alcuni cambiamenti necessari al class loader prima di avviare l'applicazione. Seguire le istruzioni in <xref linkend=\"websphere-app-adj-after-install\"/> e cambiare <literal>jboss-seam-jpa_war</literal> per <literal>Seam Booking</literal>."
 
 #. Tag: para
 #: Websphere.xml:526
 #, no-c-format
 msgid "Finally start the application by selecting it in the <literal>Enterprise Applications</literal> table and clicking the <literal>Start</literal> button."
-msgstr ""
+msgstr "Infine avviare l'applicazione selezionandola nella tabella <literal>Enterprise Applications</literal> e cliccando il pulsante <literal>Start</literal>."
 
 #. Tag: para
 #: Websphere.xml:532
 #, no-c-format
 msgid "You can now access the application at the <literal>http://localhost:9080/jboss-seam-jpa/index.html</literal>."
-msgstr ""
+msgstr "Si può ora accedere all'applicazione all'indirizzo <literal>http://localhost:9080/jboss-seam-jpa/index.html</literal>."
 
 #. Tag: title
 #: Websphere.xml:540
@@ -870,7 +870,7 @@ msgstr "La versione di Websphere richiede parecchi pacchetti di libreria inclusi
 #: Websphere.xml:597
 #, no-c-format
 msgid "To use Hibernate as your JPA provider you need the following jars:"
-msgstr ""
+msgstr "Per usare Hibernate come provider JPA occorrono i seguenti jar:"
 
 #. Tag: literal
 #: Websphere.xml:602
@@ -918,7 +918,7 @@ msgstr "jboss-common-core.jar"
 #: Websphere.xml:638
 #, no-c-format
 msgid "Various third party jars that Websphere needs:"
-msgstr ""
+msgstr "Websphere richiede vari jar di Terze Parti:"
 
 #. Tag: literal
 #: Websphere.xml:641
@@ -960,13 +960,13 @@ msgstr "concurrent.jar"
 #: Websphere.xml:678
 #, no-c-format
 msgid "Deploying an application created using <literal>seam-gen</literal> on Websphere V7"
-msgstr ""
+msgstr "Deploy dell'applicazione creata usando <literal>seam-gen</literal> su Websphere V7"
 
 #. Tag: para
 #: Websphere.xml:681
 #, no-c-format
 msgid "<literal>seam-gen</literal> is a very useful tool for developers to quickly get an application up and running, and provides a foundation to add your own functionality. Out of box <literal>seam-gen</literal> will produce applications configured to run on JBoss AS. These instructions will show the steps needed to get it to run on Websphere. As stated above in <xref linkend=\"jee5-websphere-section\"/> there are some tricky changes needed to get an EJB3 application running. This section will take you through the exact steps."
-msgstr ""
+msgstr "<literal>seam-gen</literal> è un tool molto utile per gli sviluppatori per ottenere velocemente applicazioni pronte per l'esecuzione e fornisce un fondamento per aggiungere proprie funzionalità. Di base <literal>seam-gen</literal> produrrà applicazioni configurate per girare su JBoss AS. Queste istruzioni mostreranno i passi necessari per farle funzionare su Websphere. Come dichiarato sopra in <xref linkend=\"jee5-websphere-section\"/> ci sono alcune modifiche sottili necessarie per avere un'applicazione EJB3 funzionante. Questa sezione mostrerà gli esatti passi da compiere."
 
 #. Tag: title
 #: Websphere.xml:691
@@ -978,7 +978,7 @@ msgstr "Eseguire il setup in <literal>seam-gen</literal>"
 #: Websphere.xml:692
 #, no-c-format
 msgid "The first step is setting up <literal>seam-gen</literal> to construct the base project. There are several choices made below, specifically the datasource and hibernate values that we will adjust once the project is created."
-msgstr ""
+msgstr "Il primo passo è impostare <literal>seam-gen</literal> per costruire il progetto base. Ci sono parecchie scelte fatte sotto, in particolar modo il datasource ed i valori Hibernate che occorre aggiustare una volta che il progetto è creato."
 
 #. Tag: programlisting
 #: Websphere.xml:698
@@ -1134,19 +1134,19 @@ msgstr ""
 #: Websphere.xml:700
 #, no-c-format
 msgid "Type <literal>./seam new-project</literal> to create your project and <literal>cd /home/jbalunas/workspace/websphere_example</literal> to the newly created structure."
-msgstr ""
+msgstr "Digitare <literal>./seam new-project</literal> per creare il progetto e <literal>cd /home/jbalunas/workspace/websphere_example</literal> per la nuova struttura creata."
 
 #. Tag: title
 #: Websphere.xml:707
 #, no-c-format
 msgid "Changes needed for deployment to Websphere"
-msgstr ""
+msgstr "Cambiamenti richiesti per il deploy in Websphere"
 
 #. Tag: para
 #: Websphere.xml:708
 #, no-c-format
 msgid "We now need to make some changes to the generated project."
-msgstr ""
+msgstr "Ora serve apportare alcuni cambiamenti al progetto generato."
 
 #. Tag: literal
 #: Websphere.xml:714
@@ -1158,13 +1158,13 @@ msgstr "resources/META-INF/persistence-dev.xml"
 #: Websphere.xml:719
 #, no-c-format
 msgid "Alter the <literal>jta-data-source</literal> to be <literal>DefaultDatasource</literal>. We are going to be using the integrated Websphere DB."
-msgstr ""
+msgstr "Modificare <literal>jta-data-source</literal> in <literal>DefaultDatasource</literal>. Verrà usato il DB integrato di Websphere."
 
 #. Tag: para
 #: Websphere.xml:726
 #, no-c-format
 msgid "Add or change the properties below. These are described in detail at <xref linkend=\"jee5-websphere-section\"/>:"
-msgstr ""
+msgstr "Aggiungere o modificare le proprietà sotto. Queste sono descritte in dettaglio in <xref linkend=\"jee5-websphere-section\"/>:"
 
 #. Tag: programlisting
 #: Websphere.xml:731
@@ -1194,7 +1194,7 @@ msgstr ""
 #: Websphere.xml:734
 #, no-c-format
 msgid "Remove the JBoss AS specific method of exposing the EntityManagerFactory:"
-msgstr ""
+msgstr "Rimuovere i metodi specifici di JBoss AS per esporre EntityManagerFactory:"
 
 #. Tag: programlisting
 #: Websphere.xml:737
@@ -1212,13 +1212,13 @@ msgstr ""
 #: Websphere.xml:740
 #, no-c-format
 msgid "You'll need to alter <literal>persistence-prod.xml</literal> as well if you want to deploy to Websphere using the prod profile."
-msgstr ""
+msgstr "Serve modificare <literal>persistence-prod.xml</literal> anche se si vuole eseguire il deploy in Websphere usando il profile prod."
 
 #. Tag: para
 #: Websphere.xml:753
 #, no-c-format
 msgid "As with other examples we need to include this java class for DB support. It can be copied from the <literal>jpa</literal> example into the <literal>websphere_example/src</literal> directory."
-msgstr ""
+msgstr "Come per gli altri esempi occorre includere questa classe java per il supporto DB. Può essere copiata dall'esempio <literal>jpa</literal> nella directory <literal>websphere_example/src</literal>."
 
 #. Tag: programlisting
 #: Websphere.xml:759
@@ -1242,7 +1242,7 @@ msgstr "resources/META-INF/jboss-app.xml"
 #: Websphere.xml:768
 #, no-c-format
 msgid "You can delete this file as we aren't deploying to JBoss AS ( <literal>jboss-app.xml</literal> is used to enable classloading isolation in JBoss AS)"
-msgstr ""
+msgstr "Si può cancellare questo file poiché non si eseguirà il deploy in JBoss AS (<literal>jboss-app.xml</literal> viene usato per abilitare l'isolamento del classloading in JBoss AS)"
 
 #. Tag: literal
 #: Websphere.xml:774
@@ -1254,25 +1254,25 @@ msgstr "resources/*-ds.xml"
 #: Websphere.xml:777
 #, no-c-format
 msgid "You can delete these file as we aren't deploying to JBoss AS (these files define datasources in JBoss AS, we are using Websphere's default datasource)"
-msgstr ""
+msgstr "Si possono cancellare questi file poiché non si eseguirà il deploy in JBoss AS (questi file definiscono i datasource in JBoss AS, si userà invece il datasource di default di Websphere)"
 
 #. Tag: para
 #: Websphere.xml:789
 #, no-c-format
 msgid "Enable container managed transaction integration - add the <literal> &lt;transaction:ejb-transaction /&gt; </literal> component, and it's namespace declaration <literal> xmlns:transaction=\"http://jboss.com/products/seam/transaction\" </literal>"
-msgstr ""
+msgstr "Abilitare l'integrazione delle transazioni gestite dal container - aggiungere il componente  <literal>&lt;transaction:ejb-transaction /&gt;</literal> ed la sua dichiarazione di namespace <literal>xmlns:transaction=\"http://jboss.com/products/seam/transaction\"</literal>"
 
 #. Tag: para
 #: Websphere.xml:798
 #, no-c-format
 msgid "Alter the <literal>jndi-pattern</literal> to <literal> java:comp/env/websphere_example/#{ejbName} </literal>"
-msgstr ""
+msgstr "Modificare <literal>jndi-pattern</literal> in <literal>java:comp/env/websphere_example/#{ejbName}</literal>"
 
 #. Tag: para
 #: Websphere.xml:804
 #, no-c-format
 msgid "We do not need <literal>managed-persistence-context</literal> for this example and so can delete its entry."
-msgstr ""
+msgstr "Non serve <literal>managed-persistence-context</literal> per quest'esempio e quindi si può cancellare questa riga."
 
 #. Tag: programlisting
 #: Websphere.xml:810
@@ -1292,7 +1292,7 @@ msgstr ""
 #: Websphere.xml:819
 #, no-c-format
 msgid "As with the <literal>jee5/booking</literal> example we need to add EJB references to the web.xml. These references require replacing /local string in <literal>ejb-ref-name</literal> to flag them for Websphere to perform the proper binding."
-msgstr ""
+msgstr "Come per l'esempio <literal>jee5/booking</literal> occorre aggiungere i riferimenti EJB a web.xml. Questi riferimenti richiedono di sostituire la stringa /local in <literal>ejb-ref-name</literal> e selezionarli affinché Websphere esegua il corretto binding."
 
 #. Tag: programlisting
 #: Websphere.xml:826
@@ -1334,7 +1334,7 @@ msgstr "Creazione dell'EJB <literal>AuthenticatorAction</literal>"
 #: Websphere.xml:834
 #, no-c-format
 msgid "We want to take the existing <literal>Authenticator</literal> Seam POJO component and create an EJB3 out of it."
-msgstr ""
+msgstr "Si vuole prendere il componente POJO Seam <literal>Authenticator</literal> e creare da questo un EJB3."
 
 #. Tag: para
 #: Websphere.xml:837
@@ -1358,7 +1358,7 @@ msgstr "Aggiungere l'annotazione <literal>@Stateless</literal> alla nuova classe
 #: Websphere.xml:850
 #, no-c-format
 msgid "Create an interface called <literal>Authenticator</literal> which <literal>AuthenticatorAction</literal> implements (EJB3 requires session beans to have a local interface). Annotate the interface with <literal>@Local</literal> , and add a single method with same signature as the <literal>authenticate</literal> in <literal>AuthenticatorAction</literal> ."
-msgstr ""
+msgstr "Creare un'interfaccia chiamata <literal>Authenticator</literal> ed implementata da <literal>AuthenticatorAction</literal> (EJB3 richiede che i bean di sessione abbiano un'interfaccia locale). Annotare l'interfaccia con <literal>@Local</literal>, ed aggiungere un singolo metodo con la stessa firma come <literal>authenticate</literal> in <literal>AuthenticatorAction</literal>."
 
 #. Tag: programlisting
 #: Websphere.xml:863
@@ -1390,25 +1390,25 @@ msgstr ""
 #: Websphere.xml:869
 #, no-c-format
 msgid "We've already added its reference to the <literal>web.xml</literal> file so are good to go."
-msgstr ""
+msgstr "Abbiamo già aggiunto il suo riferimento al file <literal>web.xml</literal> e quindi si può procedere."
 
 #. Tag: title
 #: Websphere.xml:875
 #, no-c-format
 msgid "Extra jar dependencies and other changes to the <literal>build.xml</literal>"
-msgstr ""
+msgstr "Dipendenze extra ed altre modifiche a <literal>build.xml</literal>"
 
 #. Tag: para
 #: Websphere.xml:877
 #, no-c-format
 msgid "This application has similar requirements as the <literal>jee5/booking</literal> example."
-msgstr ""
+msgstr "Quest'applicazione ha requisiti simili come nell'esempio <literal>jee5/booking</literal>."
 
 #. Tag: para
 #: Websphere.xml:882
 #, no-c-format
 msgid "Change the default target to <literal>archive</literal> (we aren't going to cover automatic deployment to Websphere)."
-msgstr ""
+msgstr "Modificare il target di default a <literal>archive</literal> (non si tratterà il deploy automatico in Websphere)."
 
 #. Tag: programlisting
 #: Websphere.xml:888
@@ -1424,7 +1424,7 @@ msgstr ""
 #: Websphere.xml:892
 #, no-c-format
 msgid "Websphere looks for the drools <literal>/security.drl</literal> file in the root of the <literal>war</literal> file instead of the root of the <literal>websphere_example.jar</literal> so we need to have the <literal>build.xml</literal> move it to the correct location at build time. The following must be added at the top of the <literal> &lt;target name=\"war\" depends=\"compile\" description=\"Build the distribution .war file\"&gt; </literal> target."
-msgstr ""
+msgstr "Websphere cerca il file drools <literal>/security.drl</literal> nella radice di file <literal>war</literal> invece che nella radice di <literal>websphere_example.jar</literal> e quindi serve spostare <literal>build.xml</literal> nella corretta posizione al momento del build. La seguente riga deve essere aggiunta in cima al target <literal> &lt;target name=\"war\" depends=\"compile\" description=\"Build the distribution .war file\"&gt; </literal>."
 
 #. Tag: programlisting
 #: Websphere.xml:903
@@ -1448,7 +1448,7 @@ msgstr ""
 #: Websphere.xml:906
 #, no-c-format
 msgid "Now we need to get extra jars into the <literal>build.xml</literal>. Look for the <literal>&lt;fileset dir=\"${basedir}\"&gt;</literal> section of the task below. Add the new includes at the bottom of the fileset."
-msgstr ""
+msgstr "Ora occorre inserire i jar extra in <literal>build.xml</literal>. Cercare la sezione <literal>&lt;fileset dir=\"${basedir}\"&gt;</literal> del task sotto. Aggiungere nuovi include in fondo al fileset."
 
 #. Tag: programlisting
 #: Websphere.xml:914
@@ -1576,7 +1576,7 @@ msgstr ""
 #: Websphere.xml:925
 #, no-c-format
 msgid "<literal>jboss-seam.jar</literal> - this is needed in the <literal>ear</literal> base directory."
-msgstr ""
+msgstr "<literal>jboss-seam.jar</literal> - questo è richiesto nella directory base <literal>ear</literal>."
 
 #. Tag: programlisting
 #: Websphere.xml:928
@@ -1594,7 +1594,7 @@ msgstr ""
 #: Websphere.xml:932
 #, no-c-format
 msgid "You should end up with something like:"
-msgstr ""
+msgstr "Si dovrebbe terminare con qualcosa di simile a:"
 
 #. Tag: programlisting
 #: Websphere.xml:933
@@ -1672,13 +1672,13 @@ msgstr ""
 #: Websphere.xml:940
 #, no-c-format
 msgid "Building and deploying the seam-gen'd application to Websphere"
-msgstr ""
+msgstr "Build e deploy di un'applicazione seam-gen in Websphere"
 
 #. Tag: para
 #: Websphere.xml:945
 #, no-c-format
 msgid "Build your application by calling <literal>ant</literal> in the base directory of your project (ex. <literal>/home/jbalunas/workspace/websphere_example</literal> ). The target of the build will be <literal>dist/websphere_example.ear</literal> ."
-msgstr ""
+msgstr "Eseguire il build dell'applicazione chiamando <literal>ant</literal> nella directory base del progetto (es. <literal>/home/jbalunas/workspace/websphere_example</literal>). Il target del build sarà <literal>dist/websphere_example.ear</literal>."
 
 #. Tag: para
 #: Websphere.xml:954
