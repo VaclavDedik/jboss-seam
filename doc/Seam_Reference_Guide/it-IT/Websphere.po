@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-02-01 21:20+0000\n"
-"PO-Revision-Date: 2009-05-30 18:18+0100\n"
+"PO-Revision-Date: 2009-05-31 12:34+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -332,7 +332,7 @@ msgstr ""
 #: Websphere.xml:121
 #, no-c-format
 msgid "Then we need to adjust some of the hibernate properties. First comment out the Glassfish properties. Next you need to add/change the properties:"
-msgstr ""
+msgstr "Poi occorre sistemare alcune proprietà Hibernate. Innanzitutto commentare le proprietà Glassfish. Poi occorre aggiungere/modificare le proprietà:"
 
 #. Tag: programlisting
 #: Websphere.xml:126
@@ -360,13 +360,13 @@ msgstr ""
 #: Websphere.xml:130
 #, no-c-format
 msgid "<literal>hibernate.transaction.manager_lookup_class</literal> &#8212; Standard Hibernate transaction manager property for WAS 6.X and 7"
-msgstr ""
+msgstr "<literal>hibernate.transaction.manager_lookup_class</literal> &#8212; proprietà del gestore di transazioni standard Hibernate per WAS 6.X e 7"
 
 #. Tag: para
 #: Websphere.xml:136
 #, no-c-format
 msgid "<literal>hibernate.transaction.flush_before_completion</literal> &#8212; This is commented out because we want the container to manage the transactions. Also if this is set to <literal>true</literal> an exception will be thrown by WAS when the EJBContext is looked up."
-msgstr ""
+msgstr "<literal>hibernate.transaction.flush_before_completion</literal> &#8212; questo è commentato poiché si vuole che il container gestisce le transazioni. Inoltre se questo viene impostato a <literal>true</literal>, viene lanciata un'eccezione da WAS quando viene cercato l'EJBContext."
 
 #. Tag: programlisting
 #: Websphere.xml:145
@@ -382,7 +382,7 @@ msgstr ""
 #: Websphere.xml:148
 #, no-c-format
 msgid "<literal>hibernate.dialect</literal> &#8212; From WAS 6.1.0.9 on the embedded DB was switched to the same Derby DB as is in Glassfish v2."
-msgstr ""
+msgstr "<literal>hibernate.dialect</literal> &#8212; a partire da WAS 6.1.0.9 l'embedded DB è stato cambiato al Derby DB come in Glassfish v2."
 
 #. Tag: literal
 #: Websphere.xml:158
@@ -441,7 +441,7 @@ msgstr ""
 #: Websphere.xml:194
 #, no-c-format
 msgid "Building the <literal>jee5/booking</literal> example"
-msgstr ""
+msgstr "Build dell'esempio <literal>jee5/booking</literal>"
 
 #. Tag: para
 #: Websphere.xml:197
@@ -527,7 +527,7 @@ msgstr ""
 #: Websphere.xml:245
 #, no-c-format
 msgid "Log in to the administration console <programlisting><![CDATA[https://localhost:9043/admin]]></programlisting> or"
-msgstr ""
+msgstr "Fare il login nella console di amministrazione <programlisting><![CDATA[https://localhost:9043/admin]]></programlisting> oppure"
 
 #. Tag: programlisting
 #: Websphere.xml:250
@@ -568,20 +568,20 @@ msgstr ""
 #: Websphere.xml:496
 #, no-c-format
 msgid "Select the <literal>Next</literal> button."
-msgstr ""
+msgstr "Selezionare il pulsante <literal>Next</literal>."
 
 #. Tag: para
 #: Websphere.xml:280
 #: Websphere.xml:471
 #, no-c-format
 msgid "Select the <literal>Fast Path</literal> button."
-msgstr ""
+msgstr "Selezionare il pulsante <literal>Fast Path</literal>."
 
 #. Tag: literal
 #: Websphere.xml:292
 #, no-c-format
 msgid "Select installation options"
-msgstr ""
+msgstr "Selezionare le opzioni di installazione"
 
 #. Tag: para
 #: Websphere.xml:296
@@ -647,13 +647,13 @@ msgstr ""
 #: Websphere.xml:365
 #, no-c-format
 msgid "Select the <literal>Manage Modules</literal> link."
-msgstr ""
+msgstr "Selezionare il link <literal>Manage Modules</literal>."
 
 #. Tag: para
 #: Websphere.xml:369
 #, no-c-format
 msgid "Select the <literal>jboss-seam-jee5-booking.war</literal> link."
-msgstr ""
+msgstr "Selezionare il link <literal>jboss-seam-jee5-booking.war</literal>."
 
 #. Tag: para
 #: Websphere.xml:374
@@ -738,7 +738,7 @@ msgstr ""
 #: Websphere.xml:451
 #, no-c-format
 msgid "Deploying the <literal>jpa</literal> example"
-msgstr ""
+msgstr "Deploy dell'esempio <literal>jpa</literal>"
 
 #. Tag: para
 #: Websphere.xml:452
