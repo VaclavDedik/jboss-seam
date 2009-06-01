@@ -46,7 +46,7 @@
         <para>
             But wait, there's more! Seam also offers an incredibly unique feature for clustered applications. In
             addition to monitoring JavaBean components, Seam ensures that managed entity instances (i.e. JPA and
-            Hibernate entities) don't become detatched during replication. Seam keeps a record of the entities that are
+            Hibernate entities) don't become detached during replication. Seam keeps a record of the entities that are
             loaded and automatically loads them on the secondary node. You must, however, be using a Seam-managed
             persistence context to get this feature. More in depth information about this feature is provided in the
             second half of this chapter.
@@ -61,7 +61,7 @@
             <title>Programming for clustering</title>
             <para>
                 Any session- or conversation-scoped mutable JavaBean component that will be used in a clustered
-                environment must implement the <literal>Mutable</literal> interface from the Seam API. As part of the
+                environment must implement the <literal>org.jboss.seam.core.Mutable</literal> interface from the Seam API. As part of the
                 contract, the component must maintain a dirty flag that is reported and reset by the
                 <literal>clearDirty()</literal> method. Seam calls this method to determine if it is necessary to
                 replicate the component. This avoids having to use the more cumbersome Servlet API to add and remove the
@@ -82,7 +82,7 @@
             </para>
             <note>
                 <para>
-                    Please note that clustering does not work with hot deployable compoennts. But then again, you shouldn't
+                    Please note that clustering does not work with hot deployable components. But then again, you shouldn't
                     be using hot deployable components in a non-development environment anyway.
                 </para>
             </note>
@@ -265,7 +265,7 @@ public void sessionDidActivate(HttpSessionEvent e);]]></programlisting>
             The MEI serves two distinct scenarios (EJB passivation and HTTP session passivation), although to accomplish
             the same overall goal. It ensures that throughout the life of a conversation using at least one extended
             persistence context, the entity instances loaded by the persistence context(s) remain managed (they do not
-            become detatched prematurally by a passivation event). In short, it ensures the integrity of the extended
+            become detached prematurally by a passivation event). In short, it ensures the integrity of the extended
             persistence context (and therefore its guarantees).
         </para>
 
@@ -333,7 +333,7 @@ public void sessionDidActivate(HttpSessionEvent e);]]></programlisting>
             <para>
                 Conversations were initially designed with stateful session beans (SFSBs) in mind, primarily because the
                 EJB 3 specification designates SFSBs as hosts of the extended persistence context. Seam introduces a
-                compliment to the extended persistence context, known as a Seam-managed persistence context, which works
+                complement to the extended persistence context, known as a Seam-managed persistence context, which works
                 around a number of limitations in the specification (complex propagation rules and lack of manual
                 flushing). Both can be used with a SFSB.
             </para>
@@ -354,7 +354,7 @@ public void sessionDidActivate(HttpSessionEvent e);]]></programlisting>
                 individual SFSB. This process can even be disabled. However, the persistence context is not serialized
                 (is this only true of SMPC?). In fact, what happens depends highly on the Java EE container. The spec is
                 not very clear about this situation. Many vendors just tell you not to let it happen if you need the
-                guarnatees of the extended persistence context. Seam's approach is more conservative. Seam basically
+                guarantees of the extended persistence context. Seam's approach is more conservative. Seam basically
                 doesn't trust the SFSB with the persistence context or the entity instances. After each invocation of
                 the SFSB, Seam moves the reference to entity instance held by the SFSB into the current conversation
                 (and therefore into the HTTP session), nullifying those fields on the SFSB. It then restores this
