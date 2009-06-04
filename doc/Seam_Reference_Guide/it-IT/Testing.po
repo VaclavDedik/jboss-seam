@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-05 00:19+0000\n"
-"PO-Revision-Date: 2009-01-05 01:35+0100\n"
+"PO-Revision-Date: 2009-06-04 14:37+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgstr "Test d'unità dei componenti Seam"
 #: Testing.xml:16
 #, no-c-format
 msgid "All Seam components are POJOs. This is a great place to start if you want easy unit testing. And since Seam emphasises the use of bijection for inter-component interactions and access to contextual objects, it's very easy to test a Seam component outside of its normal runtime environment."
-msgstr "Tutti i componenti Seam sono POJO. Questo è un buon punto per partire se si vogliono eseguire dei test di unità facili. E poiché Seam enfatizza l'uso della bujection per le interazioni tra componenti e l'accesso ad oggetti contestuali, è molto facile testare un componente Seam fuori dal suo normale ambiente di runtime."
+msgstr "Tutti i componenti Seam sono POJO. Questo è un buon punto per partire se si vogliono eseguire dei facili test di unità. E poiché Seam enfatizza l'uso della bijection per le interazioni tra componenti e l'accesso ad oggetti contestuali, è molto facile testare un componente Seam fuori dal suo normale ambiente di runtime."
 
 #. Tag: para
 #: Testing.xml:23
@@ -181,7 +181,7 @@ msgstr "Il test d'integrazione è leggermente più difficile. In questo caso non
 #: Testing.xml:62
 #, no-c-format
 msgid "The approach taken by Seam is to let you write tests that exercise your components while running inside a pruned down container environment (Seam, together with the JBoss Embedded container; see <xref linkend=\"config.install.embedded\"/> for configuration details)"
-msgstr "L'approccio preso da Seam è quello di consentire di scrivere test che possano provare i componenti mentre girano dentro un ambiente di container ridotto (Seam assieme al container JBoss Embedded; vedere <xref linkend=\"config.install.embedded\"/> per i dettagli di configurazione)"
+msgstr "L'approccio adottato da Seam è quello di consentire di scrivere test che possano provare i componenti mentre girano dentro un ambiente di container ridotto (Seam assieme al container JBoss Embedded; vedere <xref linkend=\"config.install.embedded\"/> per i dettagli di configurazione)"
 
 #. Tag: programlisting
 #: Testing.xml:69
@@ -253,7 +253,7 @@ msgstr "Uso dei mock nei test d'intergrazione"
 #: Testing.xml:75
 #, no-c-format
 msgid "Occasionally, we need to be able to replace the implementation of some Seam component that depends upon resources which are not available in the integration test environment. For example, suppose we have some Seam component which is a facade to some payment processing system:"
-msgstr "Occasionalmente occorre essere in grado di sostituire l'implementazione di alcuni componenti Seam che dipendono da risorse non disponibili in ambiente di test. Per esempio, si supponga di avere dei componenti Seam che sono una facade di un qualche sistema di elaborazione pagamenti:"
+msgstr "Occasionalmente occorre essere in grado di sostituire l'implementazione di alcuni componenti Seam che dipendono da risorse non disponibili in ambiente di test. Per esempio, si supponga di avere dei componenti Seam che sono una façade di un qualche sistema di elaborazione pagamenti:"
 
 #. Tag: programlisting
 #: Testing.xml:82
@@ -318,7 +318,7 @@ msgstr "Un problema ancora più difficile è quello di emulare le interazioni ut
 #: Testing.xml:112
 #, no-c-format
 msgid "<literal>SeamTest</literal> lets you write <emphasis>scripted</emphasis> tests, in a simulated JSF environment. The role of a scripted test is to reproduce the interaction between the view and the Seam components. In other words, you get to pretend you are the JSF implementation!"
-msgstr "\"<literal>SeamTest</literal> consente di scrivere test <emphasis>sotto forma di script (scripted)</emphasis>, in un ambiente JSF simulato. Il ruolo di un test scripted è quello di riprodurre l'interazione tra la vista ed i componenti Seam. In altre parole si pretende di essere l'implementazione JSF!"
+msgstr "<literal>SeamTest</literal> consente di scrivere test <emphasis>sotto forma di script (scripted)</emphasis>, in un ambiente JSF simulato. Il ruolo di un test scripted è quello di riprodurre l'interazione tra la vista ed i componenti Seam. In altre parole si pretende di essere l'implementazione JSF!"
 
 #. Tag: para
 #: Testing.xml:119
@@ -396,7 +396,7 @@ msgstr ""
 #: Testing.xml:129
 #, no-c-format
 msgid "We want to test the registration functionality of our application (the stuff that happens when the user clicks the Register button). We'll reproduce the JSF request lifecycle in an automated TestNG test:"
-msgstr "Si vuole testare la funzionalità di registrazione dell'applicazione (la cosa che succede quando l'utente clicca il pulsante Registra). Si riprodurrà ilciclo di vita della richiesta JSF in un test TestNG automatizzato:"
+msgstr "Si vuole testare la funzionalità di registrazione dell'applicazione (la cosa che succede quando l'utente clicca il pulsante Registra). Si riprodurrà il ciclo di vita della richiesta JSF in un test TestNG automatizzato:"
 
 #. Tag: programlisting
 #: Testing.xml:135
@@ -502,7 +502,7 @@ msgstr ""
 #: Testing.xml:137
 #, no-c-format
 msgid "Notice that we've extended <literal>SeamTest</literal>, which provides a Seam environment for our components, and written our test script as an anonymous class that extends <literal>SeamTest.FacesRequest</literal>, which provides an emulated JSF request lifecycle. (There is also a <literal>SeamTest.NonFacesRequest</literal> for testing GET requests.) We've written our code in methods which are named for the various JSF phases, to emulate the calls that JSF would make to our components. Then we've thrown in various assertions."
-msgstr "Si noti che si è esteso <literal>SeamTest</literal>, che fornisce un ambiente Seam ai componenti, e si è scritto uno script di test come classe anonima che estende <literal>SeamTest.FacesRequest</literal>, la quale fornisce un ciclo di vita emulato della richiesta JSF. (C'è anche <literal>SeamTest.NonFacesRequest</literal> per testare le richieste GET). Si è scritto codice in metodi che vengono chiamati per le varie fasi JSF, per emulare le chiamate che JSF farebbe ai componenti. Infine si sono scritte le asserzioni."
+msgstr "Si noti che si è esteso <literal>SeamTest</literal>, il quale fornisce un ambiente Seam ai componenti, e si è scritto uno script di test come classe anonima che estende <literal>SeamTest.FacesRequest</literal>, la quale fornisce un ciclo di vita emulato della richiesta JSF. (C'è anche <literal>SeamTest.NonFacesRequest</literal> per testare le richieste GET). Si è scritto codice in metodi che vengono chiamati in varie fasi JSF, per emulare le chiamate che JSF farebbe ai componenti. Infine sono state scritte le asserzioni."
 
 #. Tag: para
 #: Testing.xml:148
@@ -692,13 +692,13 @@ msgstr "lib/activation.jar"
 #: Testing.xml:297
 #, no-c-format
 msgid "It's very important you don't put the compile time JBoss AS dependencies from <literal>lib/</literal> (e.g. <literal>jboss-system.jar</literal>) on the classpath, these will cause Embedded JBoss to not boot. So, just add the dependencies (e.g. Drools, jBPM)you need as you go."
-msgstr "E' molto importante non inserire nel classpath le dipendenze di JBoss AS a compile time da <literal>lib/</literal> (es. <literal>jboss-system.jar</literal>), altrimenti questo causerà il non avvio di JBoss Embedded. Quindi si aggiungano solo le dipendenze necessarie per partire (es.Drools, jBPM)."
+msgstr "E' molto importante non inserire nel classpath le dipendenze di JBoss AS a compile time da <literal>lib/</literal> (es. <literal>jboss-system.jar</literal>), altrimenti questo causerà il non avvio di JBoss Embedded. Quindi si aggiungano solo le dipendenze necessarie per partire (es. Drools, jBPM)."
 
 #. Tag: para
 #: Testing.xml:305
 #, no-c-format
 msgid "You also need to include the <literal>bootstrap/</literal> directory on the classpath; <literal>bootstrap/</literal> contains the configuration for Embedded JBoss."
-msgstr "Occorre includere nel classpath la directory <literal>bootstrap/</literal>; <literal>bootstrap/</literal> contiene la configurazione per JBoss Embedded."
+msgstr "Occorre includere nel classpath la directory <literal>bootstrap/</literal> che contiene la configurazione per JBoss Embedded."
 
 #. Tag: para
 #: Testing.xml:311
@@ -722,7 +722,7 @@ msgstr "Uso di SeamTest con un altro framework di test"
 #: Testing.xml:336
 #, no-c-format
 msgid "Seam provides TestNG support out of the box, but you can also use another test framework, such as JUnit, if you want."
-msgstr "Seam include il supporto TestNG, ma a piacimento è possibile usare un altro framewrok di test quale JUnit."
+msgstr "Seam include il supporto TestNG, ma è possibile usare un qualsivoglia altro framework di test quale JUnit."
 
 #. Tag: para
 #: Testing.xml:341
@@ -776,7 +776,7 @@ msgstr "Test d'integrazione con Dati Mock"
 #: Testing.xml:390
 #, no-c-format
 msgid "If you need to insert or clean data in your database before each test you can use Seam's integration with DBUnit. To do this, extend DBUnitSeamTest rather than SeamTest."
-msgstr "Se occorre inserire o pulire i dati nel database prima di ogni test, si può usare l'integrazione di Seam con DBUnit. Per fare questo si estenda DBUnitSeamTest piuttosto che SeamTest."
+msgstr "Se occorre inserire o pulire i dati nel database prima di ogni test, si può usare l'integrazione di Seam con DBUnit. Per fare questo si estenda <literal>DBUnitSeamTest</literal> piuttosto che SeamTest."
 
 #. Tag: para
 #: Testing.xml:396
@@ -788,7 +788,7 @@ msgstr "Devi fornire un dataset per DBUnit."
 #: Testing.xml:400
 #, no-c-format
 msgid "DBUnit supports two formats for dataset files, flat and XML. Seam's DBUnitSeamTest assumes the flat format is used, so make sure that your dataset is in this format."
-msgstr "DBUnit supporta due formati per i file di dataset, flat e XML. DBUnitSeamTest di Seam assume che venga usato il formato flat, e quindi accertarsi che il dataset sia in questo formato."
+msgstr "DBUnit supporta due formati per i file di dataset, flat e XML. <literal>DBUnitSeamTest</literal> di Seam assume che venga usato il formato flat, e quindi accertarsi che il dataset sia in questo formato."
 
 #. Tag: programlisting
 #: Testing.xml:406
@@ -848,7 +848,7 @@ msgstr ""
 #: Testing.xml:414
 #, no-c-format
 msgid "<literal>DataSetOperation</literal> defaults to <literal>DatabaseOperation.CLEAN_INSERT</literal> if no other operation is specified as a constructor argument. The above example cleans all tables defined <literal>BaseData.xml</literal>, then inserts all rows declared in <literal>BaseData.xml</literal> before each <literal>@Test</literal> method is invoked."
-msgstr "<literal>DataSetOperation</literal> è impostato di default a <literal>DatabaseOperation.CLEAN_INSERT</literal> se non viene specificata qualchealtra operazione come argomento del costruttore. L'esempio di cui sopra pulisce tutte le tabelle definite in <literal>BaseData.xml</literal> e quindi inserisce tutte le richedichiarate in <literal>BaseData.xml</literal> prima che ogni metodo <literal>@Test</literal> venga invocato."
+msgstr "<literal>DataSetOperation</literal> è impostato di default a <literal>DatabaseOperation.CLEAN_INSERT</literal> se non viene specificata qualche altra operazione come argomento del costruttore. L'esempio di cui sopra pulisce tutte le tabelle definite in <literal>BaseData.xml</literal> e quindi inserisce tutte le righe dichiarate in <literal>BaseData.xml</literal> prima che venga invocato ogni metodo <literal>@Test</literal>."
 
 #. Tag: para
 #: Testing.xml:422
@@ -884,7 +884,7 @@ msgstr "<![CDATA[<parameter name=\"database\" value=\"HSQL\" />]]>"
 #: Testing.xml:441
 #, no-c-format
 msgid "It also allows you to insert binary data into the test data set (n.b. this is untested on Windows). You need to tell it where to locate these resources:"
-msgstr "Questo consente anche di inserire dati binari nel set dei dati di test (N.B. questo non è stato testato sotto Windows). Occorre dire dove si trovano queste risorse:"
+msgstr "Questo consente anche di inserire dati binari nel set dei dati di test (N.B. non è stato testato sotto Windows). Occorre dire dove si trovano queste risorse:"
 
 #. Tag: programlisting
 #: Testing.xml:447
@@ -982,7 +982,7 @@ msgstr ""
 #: Testing.xml:475
 #, no-c-format
 msgid "We create a new <literal>FacesRequest</literal> as normal. Inside the invokeApplication hook we render the message using <literal>getRenderedMailMessage(viewId);</literal>, passing the viewId of the message to render. The method returns the rendered message on which you can do your tests. You can of course also use any of the standard JSF lifecycle methods."
-msgstr "Viene creata una nuova <literal>FacesRequest</literal> comenormale. Dentro la sezione invokeApplication mostriamo il messaggio usando <literal>getRenderedMailMessage(viewId);</literal>, passando il viewId del messaggio da generare. Il metodo restituisce il messaggio sul quale è possibile fare i test. Si può anche usare ogni altro metodo standard del ciclo di vita JSF."
+msgstr "Viene creata una nuova <literal>FacesRequest</literal> come normale. Dentro la sezione invokeApplication mostriamo il messaggio usando <literal>getRenderedMailMessage(viewId);</literal>, passando il viewId del messaggio da generare. Il metodo restituisce il messaggio sul quale è possibile fare i test. Si può anche usare ogni altro metodo standard del ciclo di vita JSF."
 
 #. Tag: para
 #: Testing.xml:484
