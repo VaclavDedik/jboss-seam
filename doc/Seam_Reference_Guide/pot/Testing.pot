@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-06-01 18:34+0000\n"
+"POT-Creation-Date: 2009-06-05 18:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -719,8 +719,8 @@ msgstr ""
 #, no-c-format
 msgid ""
 "If you need to insert or clean data in your database before each test you "
-"can use Seam's integration with DBUnit. To do this, extend DBUnitSeamTest "
-"rather than SeamTest."
+"can use Seam's integration with DBUnit. To do this, extend "
+"<literal>DBUnitSeamTest</literal> rather than SeamTest."
 msgstr ""
 
 #. Tag: para
@@ -734,8 +734,8 @@ msgstr ""
 #, no-c-format
 msgid ""
 "DBUnit supports two formats for dataset files, flat and XML. Seam's "
-"DBUnitSeamTest assumes the flat format is used, so make sure that your "
-"dataset is in this format."
+"<literal>DBUnitSeamTest</literal> assumes the flat format is used, so make "
+"sure that your dataset is in this format."
 msgstr ""
 
 #. Tag: programlisting
