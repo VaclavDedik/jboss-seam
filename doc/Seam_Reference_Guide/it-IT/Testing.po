@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-01-05 00:19+0000\n"
-"PO-Revision-Date: 2009-06-04 14:37+0100\n"
+"POT-Creation-Date: 2009-06-05 18:37+0000\n"
+"PO-Revision-Date: 2009-06-05 20:47+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -775,7 +775,7 @@ msgstr "Test d'integrazione con Dati Mock"
 #. Tag: para
 #: Testing.xml:390
 #, no-c-format
-msgid "If you need to insert or clean data in your database before each test you can use Seam's integration with DBUnit. To do this, extend DBUnitSeamTest rather than SeamTest."
+msgid "If you need to insert or clean data in your database before each test you can use Seam's integration with DBUnit. To do this, extend <literal>DBUnitSeamTest</literal> rather than SeamTest."
 msgstr "Se occorre inserire o pulire i dati nel database prima di ogni test, si può usare l'integrazione di Seam con DBUnit. Per fare questo si estenda <literal>DBUnitSeamTest</literal> piuttosto che SeamTest."
 
 #. Tag: para
@@ -787,8 +787,8 @@ msgstr "Devi fornire un dataset per DBUnit."
 #. Tag: caution
 #: Testing.xml:400
 #, no-c-format
-msgid "DBUnit supports two formats for dataset files, flat and XML. Seam's DBUnitSeamTest assumes the flat format is used, so make sure that your dataset is in this format."
-msgstr "DBUnit supporta due formati per i file di dataset, flat e XML. <literal>DBUnitSeamTest</literal> di Seam assume che venga usato il formato flat, e quindi accertarsi che il dataset sia in questo formato."
+msgid "DBUnit supports two formats for dataset files, flat and XML. Seam's <literal>DBUnitSeamTest</literal> assumes the flat format is used, so make sure that your dataset is in this format."
+msgstr "DBUnit supporta due formati per i file di dataset, flat e XML. <literal>DBUnitSeamTest</literal> di Seam assume che venga usato il formato flat, e quindi occorre accertarsi che il dataset sia in questo formato."
 
 #. Tag: programlisting
 #: Testing.xml:406
