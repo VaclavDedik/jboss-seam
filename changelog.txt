@@ -11,9 +11,13 @@ Release Notes - Seam - Version 2.1.2
     * [JBSEAM-4169] - Enum converter does not handle inner anonymous enums
     * [JBSEAM-4173] - Wicket instrumentation results in incorrect disinjection when invoking superclass methods from a subclass constructor
     * [JBSEAM-4199] - Blog directory plugin shows duplicate attachments
+    * [JBSEAM-4222] - RichFaces themes not copied to seam-gen project
 
 ** Feature Request
     * [JBSEAM-4090] - EntityTest testStale failing
+
+** Release
+    * [JBSEAM-3767] - Italian translation of Seam manual
 
 ** Task
     * [JBSEAM-2232] - Full review of Seam's log levels
