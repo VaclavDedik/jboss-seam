@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Seam_Reference_Guide\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-12-27 11:29+0000\n"
-"PO-Revision-Date: 2009-06-05 10:26+0100\n"
+"PO-Revision-Date: 2009-06-05 10:50+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: it <stefano.travelli@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -663,7 +663,7 @@ msgstr "resources/WEB-INF/components.xml"
 #: Glassfish.xml:423
 #, no-c-format
 msgid "Enable container managed transaction integration - add the <literal><![CDATA[<transaction:ejb-transaction/>]]></literal> component, and it's namespace declaration <literal>xmlns:transaction=\"http://jboss.com/products/seam/transaction\"</literal>"
-msgstr "Abilitare l'integrazione con le transazioni gestite dal container - aggiungere il componente <literal><![CDATA[<transaction:ejb-transaction/>]]</literal> e la sua dichiarazione di namespace <literal>xmlns:transaction=\"http://jboss.com/products/seam/transaction\"</literal>"
+msgstr "Abilitare l'integrazione con le transazioni gestite dal container - aggiungere il componente <literal><![CDATA[<transaction:ejb-transaction/>]]></literal> e la sua dichiarazione di namespace <literal>xmlns:transaction=\"http://jboss.com/products/seam/transaction\"</literal>"
 
 #. Tag: para
 #: Glassfish.xml:431
@@ -867,7 +867,7 @@ msgstr ""
 #: Glassfish.xml:552
 #, no-c-format
 msgid "Now we need to get extra jars into the <literal>ear</literal> file. Look for the <literal><![CDATA[<copy todir=\"${ear.dir}/lib\">]]></literal> section of the <literal>ear</literal> target. Add the following to the child <literal><![CDATA[<fileset dir=\"${lib.dir}\">]]></literal> element."
-msgstr "A questo punto occorre mettere i jar supplementari nel file <literal>ear</literal>. Individuare la sezione <literal><![CDATA[<copy todir=\"${ear.dir}/lib\">]]</literal> del target <literal>ear</literal>. Aggiungere il seguente brano all'elemento contenuto <literal><![CDATA[<fileset dir=\"${lib.dir}\">]]</literal>."
+msgstr "A questo punto occorre mettere i jar supplementari nel file <literal>ear</literal>. Individuare la sezione <literal><![CDATA[<copy todir=\"${ear.dir}/lib\">]]></literal> del target <literal>ear</literal>. Aggiungere il seguente brano all'elemento contenuto <literal><![CDATA[<fileset dir=\"${lib.dir}\">]]></literal>."
 
 #. Tag: para
 #: Glassfish.xml:565
@@ -995,7 +995,7 @@ msgstr "Compilare l'applicazione chiamando <literal>ant</literal> nella cartella
 #: Glassfish.xml:595
 #, no-c-format
 msgid "To deploy the application follow the instructions here <xref linkend=\"jee5-glassfish-deploy\"/> but use references to this project <literal>seamgen-example</literal> instead of <literal>jboss-seam-jee5</literal>."
-msgstr "Per eseguire l'applicazione seguire le istruzioni indicate qui <xref linkend=\"jee5-glassfish-deploy\"> ma usare i riferimenti a questo progetto <literal>seamgen-example</literal> anziché <literal>jboss-seam-jee5</literal>."
+msgstr "Per eseguire l'applicazione seguire le istruzioni indicate qui <xref linkend=\"jee5-glassfish-deploy\"/> ma usare i riferimenti a questo progetto <literal>seamgen-example</literal> anziché <literal>jboss-seam-jee5</literal>."
 
 #. Tag: para
 #: Glassfish.xml:604
