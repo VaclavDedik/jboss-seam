@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Security\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-04-29 12:40+0000\n"
-"PO-Revision-Date: 2009-05-29 17:13+0100\n"
+"POT-Creation-Date: 2009-06-06 10:19+0000\n"
+"PO-Revision-Date: 2009-06-06 12:54+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: it <stefano.travelli@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -307,7 +307,7 @@ msgstr "Supponiamo, ad esempio, che in seguito ad un accesso concluso con succes
 #: Security.xml:208
 #, no-c-format
 msgid ""
-"<![CDATA[   @In UserStats userStats;\n"
+"<![CDATA[@In UserStats userStats;\n"
 "\n"
 "   @Observer(\"org.jboss.seam.security.loginSuccessful\")\n"
 "   public void updateUserStats()\n"
@@ -316,7 +316,7 @@ msgid ""
 "      userStats.incrementLoginCount();\n"
 "   }]]>"
 msgstr ""
-"<![CDATA[   @In UserStats userStats;\n"
+"<![CDATA[@In UserStats userStats;\n"
 "\n"
 "   @Observer(\"org.jboss.seam.security.loginSuccessful\")\n"
 "   public void updateUserStats()\n"
@@ -457,7 +457,7 @@ msgstr "Per abilitare la funzione \"Ricordami su questo computer\" nella modalit
 #: Security.xml:314
 #, no-c-format
 msgid ""
-"<![CDATA[  <div>\n"
+"<![CDATA[<div>\n"
 "    <h:outputLabel for=\"name\" value=\"User name\"/>\n"
 "    <h:inputText id=\"name\" value=\"#{credentials.username}\"/>\n"
 "  </div>\n"
@@ -472,8 +472,8 @@ msgid ""
 "    <h:selectBooleanCheckbox id=\"rememberMe\" value=\"#{rememberMe.enabled}\"/>\n"
 "  </div>]]>"
 msgstr ""
-"<![CDATA[  <div>\n"
-"    <h:outputLabel for=\"name\" value=\"Nome utente\"/>\n"
+"<![CDATA[<div>\n"
+"    <h:outputLabel for=\"name\" value=\"User name\"/>\n"
 "    <h:inputText id=\"name\" value=\"#{credentials.username}\"/>\n"
 "  </div>\n"
 "  \n"
@@ -483,7 +483,7 @@ msgstr ""
 "  </div>      \n"
 "  \n"
 "  <div class=\"loginRow\">\n"
-"    <h:outputLabel for=\"rememberMe\" value=\"Ricordami su questo computer\"/>\n"
+"    <h:outputLabel for=\"rememberMe\" value=\"Remember me\"/>\n"
 "    <h:selectBooleanCheckbox id=\"rememberMe\" value=\"#{rememberMe.enabled}\"/>\n"
 "  </div>]]>"
 
@@ -593,13 +593,11 @@ msgstr "Il passo successivo consiste nel configurare il <literal>JpaTokenStore</
 #: Security.xml:346
 #, no-c-format
 msgid ""
-"<![CDATA[\n"
-"  <security:jpa-token-store token-class=\"org.jboss.seam.example.seamspace.AuthenticationToken\"/>        \n"
-"        ]]>"
+"<![CDATA[<security:jpa-token-store \n"
+"        token-class=\"org.jboss.seam.example.seamspace.AuthenticationToken\"/>]]>"
 msgstr ""
-"<![CDATA[\n"
-"  <security:jpa-token-store token-class=\"org.jboss.seam.example.seamspace.AuthenticationToken\"/>        \n"
-"        ]]>"
+"<![CDATA[<security:jpa-token-store \n"
+"        token-class=\"org.jboss.seam.example.seamspace.AuthenticationToken\"/>]]>"
 
 #. Tag: para
 #: Security.xml:348
@@ -610,12 +608,8 @@ msgstr "Una volta fatto questo, l'ultima cosa da fare è configurare anche il co
 #. Tag: programlisting
 #: Security.xml:353
 #, no-c-format
-msgid ""
-"<![CDATA[  <security:remember-me mode=\"autoLogin\"/>        \n"
-"        ]]>"
-msgstr ""
-"<![CDATA[  <security:remember-me mode=\"autoLogin\"/>        \n"
-"        ]]>"
+msgid "<![CDATA[<security:remember-me mode=\"autoLogin\"/>]]>"
+msgstr "<![CDATA[<security:remember-me mode=\"autoLogin\"/>]]>"
 
 #. Tag: para
 #: Security.xml:355
@@ -633,7 +627,7 @@ msgstr "Per essere sicuri che gli utenti siano autenticati automaticamente quand
 #: Security.xml:365
 #, no-c-format
 msgid ""
-"<![CDATA[  <event type=\"org.jboss.seam.security.notLoggedIn\">\n"
+"<![CDATA[<event type=\"org.jboss.seam.security.notLoggedIn\">\n"
 "    <action execute=\"#{redirect.captureCurrentView}\"/>\n"
 "    <action execute=\"#{identity.tryLogin()}\"/>\n"
 "  </event>\n"
@@ -641,7 +635,7 @@ msgid ""
 "    <action execute=\"#{redirect.returnToCapturedView}\"/>\n"
 "  </event>]]>"
 msgstr ""
-"<![CDATA[  <event type=\"org.jboss.seam.security.notLoggedIn\">\n"
+"<![CDATA[<event type=\"org.jboss.seam.security.notLoggedIn\">\n"
 "    <action execute=\"#{redirect.captureCurrentView}\"/>\n"
 "    <action execute=\"#{identity.tryLogin()}\"/>\n"
 "  </event>\n"
@@ -981,13 +975,11 @@ msgstr "Ci sono due proprietà configurabili per il componente <literal>identity
 #: Security.xml:572
 #, no-c-format
 msgid ""
-"<![CDATA[      \n"
-"  <security:identity-manager identity-store=\"#{ldapIdentityStore}\"/>\n"
-"      ]]>"
+"<![CDATA[<security:identity-manager \n"
+"      identity-store=\"#{ldapIdentityStore}\"/>]]>"
 msgstr ""
-"<![CDATA[      \n"
-"  <security:identity-manager identity-store=\"#{ldapIdentityStore}\"/>\n"
-"      ]]>"
+"<![CDATA[<security:identity-manager \n"
+"      identity-store=\"#{ldapIdentityStore}\"/>]]>"
 
 #. Tag: para
 #: Security.xml:574
@@ -999,17 +991,13 @@ msgstr "Il seguente esempio configura <literal>identityManager</literal> per usa
 #: Security.xml:579
 #, no-c-format
 msgid ""
-"<![CDATA[      \n"
-"  <security:identity-manager \n"
-"    identity-store=\"#{ldapIdentityStore}\" \n"
-"    role-identity-store=\"#{jpaIdentityStore}\"/>\n"
-"      ]]>"
+"<![CDATA[<security:identity-manager \n"
+"      identity-store=\"#{ldapIdentityStore}\" \n"
+"      role-identity-store=\"#{jpaIdentityStore}\"/>]]>"
 msgstr ""
-"<![CDATA[      \n"
-"  <security:identity-manager \n"
-"    identity-store=\"#{ldapIdentityStore}\" \n"
-"    role-identity-store=\"#{jpaIdentityStore}\"/>\n"
-"      ]]>"
+"<![CDATA[<security:identity-manager \n"
+"      identity-store=\"#{ldapIdentityStore}\" \n"
+"      role-identity-store=\"#{jpaIdentityStore}\"/>]]>"
 
 #. Tag: para
 #: Security.xml:581
@@ -2115,8 +2103,8 @@ msgstr "<literal>IdentityManager</literal> può essere utilizzato sia iniettando
 #. Tag: programlisting
 #: Security.xml:1390
 #, no-c-format
-msgid "<![CDATA[  @In IdentityManager identityManager;]]>"
-msgstr "<![CDATA[  @In IdentityManager identityManager;]]>"
+msgid "<![CDATA[@In IdentityManager identityManager;]]>"
+msgstr "<![CDATA[@In IdentityManager identityManager;]]>"
 
 #. Tag: para
 #: Security.xml:1392
@@ -2127,8 +2115,8 @@ msgstr "sia accedendo ad esso tramite il suo metodo statico <literal>instance()<
 #. Tag: programlisting
 #: Security.xml:1396
 #, no-c-format
-msgid "<![CDATA[  IdentityManager identityManager = IdentityManager.instance();]]>"
-msgstr "<![CDATA[  IdentityManager identityManager = IdentityManager.instance();]]>"
+msgid "<![CDATA[IdentityManager identityManager = IdentityManager.instance();]]>"
+msgstr "<![CDATA[IdentityManager identityManager = IdentityManager.instance();]]>"
 
 #. Tag: para
 #: Security.xml:1398
@@ -3415,12 +3403,12 @@ msgstr "Per usare queste annotazioni basta metterle sul metodo o sul parametro p
 #: Security.xml:2634
 #, no-c-format
 msgid ""
-"<![CDATA[  @Insert(Customer.class)\n"
+"<![CDATA[@Insert(Customer.class)\n"
 "  public void createCustomer() {\n"
 "    ...\n"
 "  }]]>"
 msgstr ""
-"<![CDATA[  @Insert(Customer.class)\n"
+"<![CDATA[@Insert(Customer.class)\n"
 "  public void createCustomer() {\n"
 "    ...\n"
 "  }]]>"
@@ -3441,11 +3429,11 @@ msgstr "E' anche possibile annotare i parametri di un metodo di un componente al
 #: Security.xml:2648
 #, no-c-format
 msgid ""
-"<![CDATA[  public void updateCustomer(@Update Customer customer) {\n"
+"<![CDATA[public void updateCustomer(@Update Customer customer) {\n"
 "    ...\n"
 "  }]]>"
 msgstr ""
-"<![CDATA[  public void updateCustomer(@Update Customer customer) {\n"
+"<![CDATA[public void updateCustomer(@Update Customer customer) {\n"
 "    ...\n"
 "  }]]>"
 
@@ -4055,8 +4043,8 @@ msgstr "Prima di essere usato il <literal>PersistentPermissionResolver</literal>
 #. Tag: programlisting
 #: Security.xml:3138
 #, no-c-format
-msgid "<![CDATA[  <security:persistent-permission-resolver permission-store=\"#{myCustomPermissionStore}\"/>]]>"
-msgstr "<![CDATA[  <security:persistent-permission-resolver permission-store=\"#{myCustomPermissionStore}\"/>]]>"
+msgid "<![CDATA[<security:persistent-permission-resolver permission-store=\"#{myCustomPermissionStore}\"/>]]>"
+msgstr "<![CDATA[<security:persistent-permission-resolver permission-store=\"#{myCustomPermissionStore}\"/>]]>"
 
 #. Tag: title
 #: Security.xml:3143
@@ -4222,8 +4210,8 @@ msgstr "Ad esempio, per configurare una sola classe entità per memorizzare sia 
 #. Tag: programlisting
 #: Security.xml:3356
 #, no-c-format
-msgid "<![CDATA[  <security:jpa-permission-store user-permission-class=\"com.acme.model.AccountPermission\"/>]]>"
-msgstr "<![CDATA[  <security:jpa-permission-store user-permission-class=\"com.acme.model.AccountPermission\"/>]]>"
+msgid "<![CDATA[<security:jpa-permission-store user-permission-class=\"com.acme.model.AccountPermission\"/>]]>"
+msgstr "<![CDATA[<security:jpa-permission-store user-permission-class=\"com.acme.model.AccountPermission\"/>]]>"
 
 #. Tag: para
 #: Security.xml:3358
@@ -4235,10 +4223,10 @@ msgstr "Per configurare classi entità separate per la memorizzazione dei permes
 #: Security.xml:3360
 #, no-c-format
 msgid ""
-"<![CDATA[  <security:jpa-permission-store user-permission-class=\"com.acme.model.UserPermission\"\n"
+"<![CDATA[<security:jpa-permission-store user-permission-class=\"com.acme.model.UserPermission\"\n"
 "    role-permission-class=\"com.acme.model.RolePermission\"/>]]>"
 msgstr ""
-"<![CDATA[  <security:jpa-permission-store user-permission-class=\"com.acme.model.UserPermission\"\n"
+"<![CDATA[<security:jpa-permission-store user-permission-class=\"com.acme.model.UserPermission\"\n"
 "    role-permission-class=\"com.acme.model.RolePermission\"/>]]>"
 
 #. Tag: title
@@ -4339,8 +4327,8 @@ msgstr "Questa annotazione deve essere usata quando la stessa entità/tabella vi
 #. Tag: programlisting
 #: Security.xml:3493
 #, no-c-format
-msgid "<![CDATA[  @PermissionDiscriminator(userValue = \"u\", roleValue = \"r\")]]>"
-msgstr "<![CDATA[  @PermissionDiscriminator(userValue = \"u\", roleValue = \"r\")]]>"
+msgid "<![CDATA[@PermissionDiscriminator(userValue = \"u\", roleValue = \"r\")]]>"
+msgstr "<![CDATA[@PermissionDiscriminator(userValue = \"u\", roleValue = \"r\")]]>"
 
 #. Tag: title
 #: Security.xml:3504
@@ -5387,14 +5375,14 @@ msgstr "Il seguente codice di esempio mostra come viene usato <literal>RunAsOper
 #: Security.xml:4381
 #, no-c-format
 msgid ""
-"<![CDATA[    new RunAsOperation() {       \n"
+"<![CDATA[new RunAsOperation() {       \n"
 "       public void execute() {\n"
 "          executePrivilegedOperation();\n"
 "       }         \n"
 "    }.addRole(\"admin\")\n"
 "     .run();]]>"
 msgstr ""
-"<![CDATA[    new RunAsOperation() {       \n"
+"<![CDATA[new RunAsOperation() {       \n"
 "       public void execute() {\n"
 "          executePrivilegedOperation();\n"
 "       }         \n"
