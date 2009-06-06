@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tools\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-04-29 12:40+0000\n"
+"POT-Creation-Date: 2009-06-06 10:19+0000\n"
 "PO-Revision-Date: 2009-02-17 15:35+0900\n"
 "Last-Translator: Ken Yamada <ken@tydfam.jp>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
@@ -475,9 +475,9 @@ msgstr ""
 
 #. Tag: programlisting
 #: Security.xml:208
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"<![CDATA[   @In UserStats userStats;\n"
+"<![CDATA[@In UserStats userStats;\n"
 "\n"
 "   @Observer(\"org.jboss.seam.security.loginSuccessful\")\n"
 "   public void updateUserStats()\n"
@@ -730,9 +730,9 @@ msgstr ""
 
 #. Tag: programlisting
 #: Security.xml:314
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"<![CDATA[  <div>\n"
+"<![CDATA[<div>\n"
 "    <h:outputLabel for=\"name\" value=\"User name\"/>\n"
 "    <h:inputText id=\"name\" value=\"#{credentials.username}\"/>\n"
 "  </div>\n"
@@ -905,12 +905,11 @@ msgstr ""
 
 #. Tag: programlisting
 #: Security.xml:346
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"<![CDATA[\n"
-"  <security:jpa-token-store token-class=\"org.jboss.seam.example.seamspace."
-"AuthenticationToken\"/>        \n"
-"        ]]>"
+"<![CDATA[<security:jpa-token-store \n"
+"        token-class=\"org.jboss.seam.example.seamspace.AuthenticationToken\"/"
+">]]>"
 msgstr ""
 "<![CDATA[\n"
 "  <security:jpa-token-store token-class=\"org.jboss.seam.example.seamspace."
@@ -933,10 +932,8 @@ msgstr ""
 
 #. Tag: programlisting
 #: Security.xml:353
-#, no-c-format
-msgid ""
-"<![CDATA[  <security:remember-me mode=\"autoLogin\"/>        \n"
-"        ]]>"
+#, fuzzy, no-c-format
+msgid "<![CDATA[<security:remember-me mode=\"autoLogin\"/>]]>"
 msgstr ""
 "<![CDATA[  <security:remember-me mode=\"autoLogin\"/>        \n"
 "        ]]>"
@@ -964,9 +961,9 @@ msgstr ""
 
 #. Tag: programlisting
 #: Security.xml:365
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"<![CDATA[  <event type=\"org.jboss.seam.security.notLoggedIn\">\n"
+"<![CDATA[<event type=\"org.jboss.seam.security.notLoggedIn\">\n"
 "    <action execute=\"#{redirect.captureCurrentView}\"/>\n"
 "    <action execute=\"#{identity.tryLogin()}\"/>\n"
 "  </event>\n"
@@ -1502,11 +1499,10 @@ msgstr ""
 
 #. Tag: programlisting
 #: Security.xml:572
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"<![CDATA[      \n"
-"  <security:identity-manager identity-store=\"#{ldapIdentityStore}\"/>\n"
-"      ]]>"
+"<![CDATA[<security:identity-manager \n"
+"      identity-store=\"#{ldapIdentityStore}\"/>]]>"
 msgstr ""
 "<![CDATA[      \n"
 "  <security:identity-manager identity-store=\"#{ldapIdentityStore}\"/>\n"
@@ -1526,13 +1522,11 @@ msgstr ""
 
 #. Tag: programlisting
 #: Security.xml:579
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"<![CDATA[      \n"
-"  <security:identity-manager \n"
-"    identity-store=\"#{ldapIdentityStore}\" \n"
-"    role-identity-store=\"#{jpaIdentityStore}\"/>\n"
-"      ]]>"
+"<![CDATA[<security:identity-manager \n"
+"      identity-store=\"#{ldapIdentityStore}\" \n"
+"      role-identity-store=\"#{jpaIdentityStore}\"/>]]>"
 msgstr ""
 "<![CDATA[      \n"
 "  <security:identity-manager \n"
@@ -2870,8 +2864,8 @@ msgstr ""
 
 #. Tag: programlisting
 #: Security.xml:1390
-#, no-c-format
-msgid "<![CDATA[  @In IdentityManager identityManager;]]>"
+#, fuzzy, no-c-format
+msgid "<![CDATA[@In IdentityManager identityManager;]]>"
 msgstr "<![CDATA[  @In IdentityManager identityManager;]]>"
 
 #. Tag: para
@@ -2884,9 +2878,9 @@ msgstr ""
 
 #. Tag: programlisting
 #: Security.xml:1396
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"<![CDATA[  IdentityManager identityManager = IdentityManager.instance();]]>"
+"<![CDATA[IdentityManager identityManager = IdentityManager.instance();]]>"
 msgstr ""
 "<![CDATA[  IdentityManager identityManager = IdentityManager.instance();]]>"
 
@@ -4659,9 +4653,9 @@ msgstr ""
 
 #. Tag: programlisting
 #: Security.xml:2634
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"<![CDATA[  @Insert(Customer.class)\n"
+"<![CDATA[@Insert(Customer.class)\n"
 "  public void createCustomer() {\n"
 "    ...\n"
 "  }]]>"
@@ -4703,9 +4697,9 @@ msgstr ""
 
 #. Tag: programlisting
 #: Security.xml:2648
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"<![CDATA[  public void updateCustomer(@Update Customer customer) {\n"
+"<![CDATA[public void updateCustomer(@Update Customer customer) {\n"
 "    ...\n"
 "  }]]>"
 msgstr ""
@@ -5748,9 +5742,9 @@ msgstr ""
 
 #. Tag: programlisting
 #: Security.xml:3138
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"<![CDATA[  <security:persistent-permission-resolver permission-store=\"#"
+"<![CDATA[<security:persistent-permission-resolver permission-store=\"#"
 "{myCustomPermissionStore}\"/>]]>"
 msgstr ""
 "<![CDATA[  <security:persistent-permission-resolver permission-store=\"#"
@@ -5995,9 +5989,9 @@ msgstr ""
 
 #. Tag: programlisting
 #: Security.xml:3356
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"<![CDATA[  <security:jpa-permission-store user-permission-class=\"com.acme."
+"<![CDATA[<security:jpa-permission-store user-permission-class=\"com.acme."
 "model.AccountPermission\"/>]]>"
 msgstr ""
 "<![CDATA[  <security:jpa-permission-store user-permission-class=\"com.acme."
@@ -6014,9 +6008,9 @@ msgstr ""
 
 #. Tag: programlisting
 #: Security.xml:3360
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"<![CDATA[  <security:jpa-permission-store user-permission-class=\"com.acme."
+"<![CDATA[<security:jpa-permission-store user-permission-class=\"com.acme."
 "model.UserPermission\"\n"
 "    role-permission-class=\"com.acme.model.RolePermission\"/>]]>"
 msgstr ""
@@ -6170,9 +6164,9 @@ msgstr ""
 
 #. Tag: programlisting
 #: Security.xml:3493
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"<![CDATA[  @PermissionDiscriminator(userValue = \"u\", roleValue = \"r\")]]>"
+"<![CDATA[@PermissionDiscriminator(userValue = \"u\", roleValue = \"r\")]]>"
 msgstr ""
 "<![CDATA[  @PermissionDiscriminator(userValue = \"u\", roleValue = \"r\")]]>"
 
@@ -7609,9 +7603,9 @@ msgstr ""
 
 #. Tag: programlisting
 #: Security.xml:4381
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
-"<![CDATA[    new RunAsOperation() {       \n"
+"<![CDATA[new RunAsOperation() {       \n"
 "       public void execute() {\n"
 "          executePrivilegedOperation();\n"
 "       }         \n"

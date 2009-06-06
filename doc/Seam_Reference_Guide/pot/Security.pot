@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2009-06-05 18:37+0000\n"
+"POT-Creation-Date: 2009-06-06 10:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -364,7 +364,7 @@ msgstr ""
 #: Security.xml:208
 #, no-c-format
 msgid ""
-"<![CDATA[   @In UserStats userStats;\n"
+"<![CDATA[@In UserStats userStats;\n"
 "\n"
 "   @Observer(\"org.jboss.seam.security.loginSuccessful\")\n"
 "   public void updateUserStats()\n"
@@ -549,7 +549,7 @@ msgstr ""
 #: Security.xml:314
 #, no-c-format
 msgid ""
-"<![CDATA[  <div>\n"
+"<![CDATA[<div>\n"
 "    <h:outputLabel for=\"name\" value=\"User name\"/>\n"
 "    <h:inputText id=\"name\" value=\"#{credentials.username}\"/>\n"
 "  </div>\n"
@@ -658,10 +658,9 @@ msgstr ""
 #: Security.xml:346
 #, no-c-format
 msgid ""
-"<![CDATA[\n"
-"  <security:jpa-token-store token-class=\"org.jboss.seam.example.seamspace."
-"AuthenticationToken\"/>        \n"
-"        ]]>"
+"<![CDATA[<security:jpa-token-store \n"
+"        token-class=\"org.jboss.seam.example.seamspace.AuthenticationToken\"/"
+">]]>"
 msgstr ""
 
 #. Tag: para
@@ -677,9 +676,7 @@ msgstr ""
 #. Tag: programlisting
 #: Security.xml:353
 #, no-c-format
-msgid ""
-"<![CDATA[  <security:remember-me mode=\"autoLogin\"/>        \n"
-"        ]]>"
+msgid "<![CDATA[<security:remember-me mode=\"autoLogin\"/>]]>"
 msgstr ""
 
 #. Tag: para
@@ -703,7 +700,7 @@ msgstr ""
 #: Security.xml:365
 #, no-c-format
 msgid ""
-"<![CDATA[  <event type=\"org.jboss.seam.security.notLoggedIn\">\n"
+"<![CDATA[<event type=\"org.jboss.seam.security.notLoggedIn\">\n"
 "    <action execute=\"#{redirect.captureCurrentView}\"/>\n"
 "    <action execute=\"#{identity.tryLogin()}\"/>\n"
 "  </event>\n"
@@ -1089,9 +1086,8 @@ msgstr ""
 #: Security.xml:572
 #, no-c-format
 msgid ""
-"<![CDATA[      \n"
-"  <security:identity-manager identity-store=\"#{ldapIdentityStore}\"/>\n"
-"      ]]>"
+"<![CDATA[<security:identity-manager \n"
+"      identity-store=\"#{ldapIdentityStore}\"/>]]>"
 msgstr ""
 
 #. Tag: para
@@ -1107,11 +1103,9 @@ msgstr ""
 #: Security.xml:579
 #, no-c-format
 msgid ""
-"<![CDATA[      \n"
-"  <security:identity-manager \n"
-"    identity-store=\"#{ldapIdentityStore}\" \n"
-"    role-identity-store=\"#{jpaIdentityStore}\"/>\n"
-"      ]]>"
+"<![CDATA[<security:identity-manager \n"
+"      identity-store=\"#{ldapIdentityStore}\" \n"
+"      role-identity-store=\"#{jpaIdentityStore}\"/>]]>"
 msgstr ""
 
 #. Tag: para
@@ -2197,7 +2191,7 @@ msgstr ""
 #. Tag: programlisting
 #: Security.xml:1390
 #, no-c-format
-msgid "<![CDATA[  @In IdentityManager identityManager;]]>"
+msgid "<![CDATA[@In IdentityManager identityManager;]]>"
 msgstr ""
 
 #. Tag: para
@@ -2211,7 +2205,7 @@ msgstr ""
 #: Security.xml:1396
 #, no-c-format
 msgid ""
-"<![CDATA[  IdentityManager identityManager = IdentityManager.instance();]]>"
+"<![CDATA[IdentityManager identityManager = IdentityManager.instance();]]>"
 msgstr ""
 
 #. Tag: para
@@ -3607,7 +3601,7 @@ msgstr ""
 #: Security.xml:2634
 #, no-c-format
 msgid ""
-"<![CDATA[  @Insert(Customer.class)\n"
+"<![CDATA[@Insert(Customer.class)\n"
 "  public void createCustomer() {\n"
 "    ...\n"
 "  }]]>"
@@ -3639,7 +3633,7 @@ msgstr ""
 #: Security.xml:2648
 #, no-c-format
 msgid ""
-"<![CDATA[  public void updateCustomer(@Update Customer customer) {\n"
+"<![CDATA[public void updateCustomer(@Update Customer customer) {\n"
 "    ...\n"
 "  }]]>"
 msgstr ""
@@ -4418,7 +4412,7 @@ msgstr ""
 #: Security.xml:3138
 #, no-c-format
 msgid ""
-"<![CDATA[  <security:persistent-permission-resolver permission-store=\"#"
+"<![CDATA[<security:persistent-permission-resolver permission-store=\"#"
 "{myCustomPermissionStore}\"/>]]>"
 msgstr ""
 
@@ -4621,7 +4615,7 @@ msgstr ""
 #: Security.xml:3356
 #, no-c-format
 msgid ""
-"<![CDATA[  <security:jpa-permission-store user-permission-class=\"com.acme."
+"<![CDATA[<security:jpa-permission-store user-permission-class=\"com.acme."
 "model.AccountPermission\"/>]]>"
 msgstr ""
 
@@ -4636,7 +4630,7 @@ msgstr ""
 #: Security.xml:3360
 #, no-c-format
 msgid ""
-"<![CDATA[  <security:jpa-permission-store user-permission-class=\"com.acme."
+"<![CDATA[<security:jpa-permission-store user-permission-class=\"com.acme."
 "model.UserPermission\"\n"
 "    role-permission-class=\"com.acme.model.RolePermission\"/>]]>"
 msgstr ""
@@ -4764,7 +4758,7 @@ msgstr ""
 #: Security.xml:3493
 #, no-c-format
 msgid ""
-"<![CDATA[  @PermissionDiscriminator(userValue = \"u\", roleValue = \"r\")]]>"
+"<![CDATA[@PermissionDiscriminator(userValue = \"u\", roleValue = \"r\")]]>"
 msgstr ""
 
 #. Tag: title
@@ -5876,7 +5870,7 @@ msgstr ""
 #: Security.xml:4381
 #, no-c-format
 msgid ""
-"<![CDATA[    new RunAsOperation() {       \n"
+"<![CDATA[new RunAsOperation() {       \n"
 "       public void execute() {\n"
 "          executePrivilegedOperation();\n"
 "       }         \n"
