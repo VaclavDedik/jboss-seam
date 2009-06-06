@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-01-18 15:00+0000\n"
-"PO-Revision-Date: 2009-05-25 14:18+0100\n"
+"PO-Revision-Date: 2009-06-06 22:38+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1016,7 +1016,7 @@ msgstr ""
 #: Concepts.xml:656
 #, no-c-format
 msgid "By default, Seam will do a priority search of all contexts, using the name of the property or instance variable that is being injected. You may wish to specify the context variable name explicitly, using, for example, <literal>@In(\"currentUser\")</literal>."
-msgstr "Di default Seam esegue una ricerca prioritaria di tutti i contesti, usando il nome della proprietà o variabile d'istanza che viene iniettata. Si può specificare esplicitamente il nome della varibile di contesto, usando, per esempio, <literal>@In(\"currentUser\")</literal>."
+msgstr "Di default Seam esegue una ricerca prioritaria di tutti i contesti, usando il nome della proprietà o variabile d'istanza che viene iniettata. Si può specificare esplicitamente il nome della variabile di contesto, usando, per esempio, <literal>@In(\"currentUser\")</literal>."
 
 #. Tag: para
 #: Concepts.xml:662
@@ -1028,7 +1028,7 @@ msgstr "Se si vuole che Seam crei un'istanza del componente quando non esiste un
 #: Concepts.xml:668
 #, no-c-format
 msgid "For some components, it can be repetitive to have to specify <literal>@In(create=true)</literal> everywhere they are used. In such cases, you can annotate the component <literal>@AutoCreate</literal>, and then it will always be created, whenever needed, even without the explicit use of <literal>create=true</literal>."
-msgstr "Per alcuni componenti può essere ripetitivo dove specificare <literal>@In(create=true)</literal> ogni volta che sono usati. In questi casi si può annotare il componente con <literal>@AutoCreate</literal>, e quindi questo verrà creato, quando necessario, senza dover escplicitare <literal>create=true</literal>."
+msgstr "Per alcuni componenti può essere ripetitivo dove specificare <literal>@In(create=true)</literal> ogni volta che sono usati. In questi casi si può annotare il componente con <literal>@AutoCreate</literal>, e quindi questo verrà creato, quando necessario, senza dover esplicitare <literal>create=true</literal>."
 
 #. Tag: para
 #: Concepts.xml:674
@@ -1224,7 +1224,7 @@ msgstr "Il metodo <literal>@Destroy</literal> viene chiamato quando termina il c
 #: Concepts.xml:737
 #, no-c-format
 msgid "In addition, stateful session bean components <emphasis>must</emphasis> define a method with no parameters annotated <literal>@Remove</literal>. This method is called by Seam when the context ends."
-msgstr "In aggiunta, i componenti bean stateful session <emphasis>devono</emphasis> definire un metodo senza paramentri annotato con <literal>@Remove</literal>. Questo metodo viene chiamato da Seam quando termina il contesto."
+msgstr "In aggiunta, i componenti bean stateful session <emphasis>devono</emphasis> definire un metodo senza parametri annotato con <literal>@Remove</literal>. Questo metodo viene chiamato da Seam quando termina il contesto."
 
 #. Tag: para
 #: Concepts.xml:742
