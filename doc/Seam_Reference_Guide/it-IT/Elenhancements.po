@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2008-04-04 01:24+0000\n"
-"PO-Revision-Date: 2008-12-15 06:59+0100\n"
+"PO-Revision-Date: 2009-06-06 20:22+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgstr "Espressioni parametrizzate"
 #: Elenhancements.xml:16
 #, no-c-format
 msgid "Standard EL does not allow you to use a method with user defined parameters &#8212; of course, JSF listener methods (e.g. a <literal>valueChangeListener</literal>) take parameters provided by JSF."
-msgstr "Lo standard EL non consente di utilizzare un metodo con parametri definiti dall'utente  &#8212; sicuramente metodi JSF listener (es. <literal>valueChangeListener</literal>) prende i parametri forniti da JSF."
+msgstr "Lo standard EL non consente di utilizzare un metodo con parametri definiti dall'utente  &#8212; sicuramente i metodi JSF listener (es. <literal>valueChangeListener</literal>) prendono i parametri forniti da JSF."
 
 #. Tag: para
 #: Elenhancements.xml:22
@@ -121,7 +121,7 @@ msgstr "E' importante capire bene come funziona quest'estensione a EL. Quando la
 #: Elenhancements.xml:60
 #, no-c-format
 msgid "You must ensure that the parameters are available not only when the page is rendered, but also when it is submittedIf the arguments can not be resolved when the page is submitted the action method will be called with <literal>null</literal> arguments!"
-msgstr "Devi assicurarti che i parametri siano disponibili non solo quando la pagina viene generata, ma anche quando ne viene fatto il submit. Se gli argomenti non possono essere risolti quando la pagina viene inviata, il metodo d'azione verrà chiamato con argomenti <literal>null</literal>!"
+msgstr "Occorre assicurarsi che i parametri siano disponibili non solo quando la pagina viene generata, ma anche quando ne viene fatto il submit. Se gli argomenti non possono essere risolti quando la pagina viene inviata, il metodo d'azione verrà chiamato con argomenti <literal>null</literal>!"
 
 #. Tag: para
 #: Elenhancements.xml:67
@@ -140,7 +140,7 @@ msgstr "<![CDATA[<h:commandLink action=\"#{printer.println('Hello world!')}\" va
 #: Elenhancements.xml:73
 #, no-c-format
 msgid "Unified EL also supports value expressions, used to bind a field to a backing bean. Value expressions use JavaBean naming conventions and expect a getter/setter pair. Often JSF expects a value expression where only retrieval (get) is needed (e.g. the <literal>rendered</literal> attribute). Many objects, however, don't have appropriately named property accessors or require parameters."
-msgstr "EL unificato supporta anche le espressioni di valore, usate per associare un campo ad un bean. Le espressioni di valore utilizzano le convenzioni dei nomi di JavaBean e richiedono get e set. Spesso JSP si attende un'espressione di valore dove solo un recupero (get) è richiesto (es. l'attributo <literal>rendered</literal>). Molti oggetti, comunque, non hanno nominato in modo appropriato i metodi accessor alle proprietà o i parametri richiesti."
+msgstr "EL unificato supporta anche le espressioni di valore, usate per associare un campo ad un bean. Le espressioni di valore utilizzano le convenzioni dei nomi di JavaBean e richiedono get e set. Spesso JSP si attende un'espressione di valore dove solo un recupero (get) è richiesto (es. l'attributo <literal>rendered</literal>). Molti oggetti, comunque, non hanno chiamato in modo appropriato i metodi accessor alle proprietà o i parametri richiesti."
 
 #. Tag: para
 #: Elenhancements.xml:82
@@ -194,7 +194,7 @@ msgstr "Limitazioni e suggerimenti"
 #: Elenhancements.xml:112
 #, no-c-format
 msgid "When using JBoss EL you should keep the following points in mind:"
-msgstr "Nell'uso di JBoss EL dovresti tenere presente i seguenti punti:"
+msgstr "Nell'uso di JBoss EL occorre tenere presente i seguenti punti:"
 
 #. Tag: para
 #: Elenhancements.xml:118
@@ -206,7 +206,7 @@ msgstr "<emphasis>Incompatibilità con JSP 2.1</emphasis> &#8212; JBoss EL non p
 #: Elenhancements.xml:127
 #, no-c-format
 msgid "<emphasis>Use inside iterative components</emphasis> &#8212; Components like <literal>&lt;c:forEach /&gt;</literal> and <literal>&lt;ui:repeat /&gt;</literal>iterate over a List or array, exposing each item in the list to nested components. This works great if you are selecting a row using a <literal>&lt;h:commandButton /&gt;</literal> or <literal>&lt;h:commandLink /&gt;</literal>:"
-msgstr "<emphasis>Utilizzo all'interno di componenti iterativi</emphasis> &#8212; Componenti quali <literal>&lt;c:forEach /&gt;</literal> e <literal>&lt;ui:repeat /&gt;</literal>iterano su una lista o un array, esponendo ogni item della lista ai componenti innestati. Questo funziona bene selezionando una riga con <literal>&lt;h:commandButton /&gt;</literal> o <literal>&lt;h:commandLink /&gt;</literal>:"
+msgstr "<emphasis>Utilizzo all'interno di componenti iterativi</emphasis> &#8212; Componenti quali <literal>&lt;c:forEach /&gt;</literal> e <literal>&lt;ui:repeat /&gt;</literal> iterano su una lista o un array, esponendo ogni item della lista ai componenti innestati. Questo funziona bene selezionando una riga con <literal>&lt;h:commandButton /&gt;</literal> o <literal>&lt;h:commandLink /&gt;</literal>:"
 
 #. Tag: programlisting
 #: Elenhancements.xml:136
@@ -242,13 +242,13 @@ msgstr ""
 #: Elenhancements.xml:138
 #, no-c-format
 msgid "However if you want to use <literal>&lt;s:link /&gt;</literal> or <literal>&lt;s:button /&gt;</literal> you <emphasis>must</emphasis> expose the items as a <literal>DataModel</literal>, and use a <literal>&lt;dataTable /&gt;</literal> (or equivalent from a component set like <literal>&lt;rich:dataTable /&gt;</literal> ). Neither <literal>&lt;s:link /&gt;</literal> or <literal>&lt;s:button /&gt;</literal> submit the form (and therefore produce a bookmarkable link) so a \"magic\" parameter is needed to recreate the item when the action method is called. This magic parameter can only be added when a data table backed by a <literal>DataModel</literal> is used."
-msgstr "Comunque si voglia usare <literal>&lt;s:link/&gt;</literal> o <literal>&lt;s:button/&gt;</literal> si <emphasis>deve</emphasis> esporre gli item come  <literal>DataModel</literal> e usare <literal>&lt;dataTable /&gt;</literal> (o equivalente da componente impostato come <literal>&lt;rich:dataTable /&gt;</literal> ). Né <literal>&lt;s:link /&gt;</literal> né <literal>&lt;s:button /&gt;</literal> eseguono il submit della form (e quindi producono un bookmarkable link) quindi serve un parametro \"magico\" per ricreare l'item quando viene chiamato l'action method. Questo parametro magico può essere aggiunto soltanto quando viene usata una data table con dietro un <literal>DataModel</literal>."
+msgstr "Comunque si voglia usare <literal>&lt;s:link/&gt;</literal> o <literal>&lt;s:button/&gt;</literal> si <emphasis>devono</emphasis> esporre gli item come <literal>DataModel</literal> e usare <literal>&lt;dataTable /&gt;</literal> (o equivalente da componente impostato come <literal>&lt;rich:dataTable /&gt;</literal> ). Né <literal>&lt;s:link /&gt;</literal> né <literal>&lt;s:button /&gt;</literal> eseguono il submit della form (e quindi producono un bookmarkable link) quindi serve un parametro \"magico\" per ricreare l'item quando viene chiamato l'action method. Questo parametro magico può essere aggiunto soltanto quando viene usata una datatable con dietro un <literal>DataModel</literal>."
 
 #. Tag: para
 #: Elenhancements.xml:154
 #, no-c-format
 msgid "<emphasis>Calling a <literal>MethodExpression</literal> from Java code</emphasis> &#8212; Normally, when a <literal>MethodExpression</literal> is created, the parameter types are passed in by JSF. In the case of a method binding, JSF assumes that there are no parameters to pass. With this extension, we can't know the parameter types until after the expression has been evaluated. This has two minor consequences:"
-msgstr "<emphasis>Chiamata di un <literal>MethodExpression</literal> da codice Java</emphasis> &#8212; normalmente quando una <literal>MethodExpression</literal> viene creata, i tipi di parametro sono passati tramite JSF. Nel caso di un binding di metodo, JSF presume che non ci siano parametri da passare. Con quest'estensione non è possibile sapere il tipo di parametro prima che l'espressione venga valutata. Ciò ha due conseguenze:"
+msgstr "<emphasis>Chiamata di un <literal>MethodExpression</literal> da codice Java</emphasis> &#8212; normalmente quando una viene creata <literal>MethodExpression</literal>, i tipi di parametro sono passati tramite JSF. Nel caso di un binding di metodo, JSF presume che non ci siano parametri da passare. Con quest'estensione non è possibile sapere il tipo di parametro prima che l'espressione venga valutata. Ciò ha due conseguenze:"
 
 #. Tag: para
 #: Elenhancements.xml:167
