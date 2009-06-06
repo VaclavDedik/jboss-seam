@@ -242,7 +242,7 @@ public class Authenticator {
           <literal>org.jboss.seam.security.loginSuccessful</literal> event, like this:
         </para>
 
-        <programlisting role="JAVA"><![CDATA[   @In UserStats userStats;
+        <programlisting role="JAVA"><![CDATA[@In UserStats userStats;
 
    @Observer("org.jboss.seam.security.loginSuccessful")
    public void updateUserStats()
@@ -367,7 +367,7 @@ public class Authenticator {
         example:
       </para>
       
-      <programlisting role="XHTML"><![CDATA[  <div>
+      <programlisting role="XHTML"><![CDATA[<div>
     <h:outputLabel for="name" value="User name"/>
     <h:inputText id="name" value="#{credentials.username}"/>
   </div>
@@ -444,17 +444,15 @@ public class AuthenticationToken implements Serializable {
           attribute:
         </para>
         
-        <programlisting role="XML"><![CDATA[
-  <security:jpa-token-store token-class="org.jboss.seam.example.seamspace.AuthenticationToken"/>        
-        ]]></programlisting>
+        <programlisting role="XML"><![CDATA[<security:jpa-token-store 
+        token-class="org.jboss.seam.example.seamspace.AuthenticationToken"/>]]></programlisting>
         
         <para>
           Once this is done, the last thing to do is to configure the <literal>RememberMe</literal> component in
           <literal>components.xml</literal> also.  Its <literal>mode</literal> should be set to <literal>autoLogin</literal>:
         </para>
         
-        <programlisting role="XML"><![CDATA[  <security:remember-me mode="autoLogin"/>        
-        ]]></programlisting>
+        <programlisting role="XML"><![CDATA[<security:remember-me mode="autoLogin"/>]]></programlisting>
         
         <para>
           That is all that is required - automatic authentication will now occur for users revisiting your site (as long as they
@@ -466,7 +464,7 @@ public class AuthenticationToken implements Serializable {
           should be placed in components.xml:
         </para>
 
-        <programlisting role="XML"><![CDATA[  <event type="org.jboss.seam.security.notLoggedIn">
+        <programlisting role="XML"><![CDATA[<event type="org.jboss.seam.security.notLoggedIn">
     <action execute="#{redirect.captureCurrentView}"/>
     <action execute="#{identity.tryLogin()}"/>
   </event>
@@ -729,20 +727,17 @@ public class AuthenticationToken implements Serializable {
         an <literal>LdapIdentityStore</literal> for both user-related and role-related operations:
       </para>
 
-      <programlisting role="XML"><![CDATA[      
-  <security:identity-manager identity-store="#{ldapIdentityStore}"/>
-      ]]></programlisting>
+      <programlisting role="XML"><![CDATA[<security:identity-manager 
+      identity-store="#{ldapIdentityStore}"/>]]></programlisting>
       
       <para>
         The following example configures <literal>identityManager</literal> to use an <literal>LdapIdentityStore</literal>
         for user-related operations, and <literal>JpaIdentityStore</literal> for role-related operations:
       </para>
       
-      <programlisting role="XML"><![CDATA[      
-  <security:identity-manager 
-    identity-store="#{ldapIdentityStore}" 
-    role-identity-store="#{jpaIdentityStore}"/>
-      ]]></programlisting>
+      <programlisting role="XML"><![CDATA[<security:identity-manager 
+      identity-store="#{ldapIdentityStore}" 
+      role-identity-store="#{jpaIdentityStore}"/>]]></programlisting>
       
       <para>
         The following sections explain both of these identity store implementations in greater detail.
@@ -1680,13 +1675,13 @@ public class Role {
         component as follows:
       </para>
 
-      <programlisting role="JAVA"><![CDATA[  @In IdentityManager identityManager;]]></programlisting>
+      <programlisting role="JAVA"><![CDATA[@In IdentityManager identityManager;]]></programlisting>
 
       <para>
         or by accessing it through its static <literal>instance()</literal> method:
       </para>
 
-      <programlisting role="JAVA"><![CDATA[  IdentityManager identityManager = IdentityManager.instance();]]></programlisting>
+      <programlisting role="JAVA"><![CDATA[IdentityManager identityManager = IdentityManager.instance();]]></programlisting>
 
       <para>
         The following table describes <literal>IdentityManager</literal>'s API methods:
@@ -3033,7 +3028,7 @@ end;]]></programlisting>
         following example:
       </para>
       
-      <programlisting><![CDATA[  @Insert(Customer.class)
+      <programlisting><![CDATA[@Insert(Customer.class)
   public void createCustomer() {
     ...
   }]]></programlisting>
@@ -3050,7 +3045,7 @@ end;]]></programlisting>
         not required to specify a permission target (as the parameter value itself will be the target of the permission check):
       </para>
       
-      <programlisting><![CDATA[  public void updateCustomer(@Update Customer customer) {
+      <programlisting><![CDATA[public void updateCustomer(@Update Customer customer) {
     ...
   }]]></programlisting>
   
@@ -3601,7 +3596,7 @@ end;
           <literal>permission-store</literal> property as follows:
         </para>        
         
-        <programlisting><![CDATA[  <security:persistent-permission-resolver permission-store="#{myCustomPermissionStore}"/>]]></programlisting>
+        <programlisting><![CDATA[<security:persistent-permission-resolver permission-store="#{myCustomPermissionStore}"/>]]></programlisting>
         
       </sect3>
       
@@ -3819,11 +3814,11 @@ end;
         
         <para>For example, to configure a single entity class to store both user and role permissions:</para>
         
-        <programlisting role="XML"><![CDATA[  <security:jpa-permission-store user-permission-class="com.acme.model.AccountPermission"/>]]></programlisting>
+        <programlisting role="XML"><![CDATA[<security:jpa-permission-store user-permission-class="com.acme.model.AccountPermission"/>]]></programlisting>
         
         <para>To configure separate entity classes for storing user and role permissions:</para>
         
-        <programlisting role="XML"><![CDATA[  <security:jpa-permission-store user-permission-class="com.acme.model.UserPermission"
+        <programlisting role="XML"><![CDATA[<security:jpa-permission-store user-permission-class="com.acme.model.UserPermission"
     role-permission-class="com.acme.model.RolePermission"/>]]></programlisting>        
         
         <sect4>
@@ -3957,7 +3952,7 @@ end;
                       and <literal>role</literal>, the annotation would be written like this:
                     </para>
                     
-                    <programlisting role="JAVA"><![CDATA[  @PermissionDiscriminator(userValue = "u", roleValue = "r")]]></programlisting>
+                    <programlisting role="JAVA"><![CDATA[@PermissionDiscriminator(userValue = "u", roleValue = "r")]]></programlisting>
                   </entry>
                 </row>                
                 
@@ -4972,7 +4967,7 @@ public class HitchhikersCaptcha extends Captcha
       code that will be executed with the elevated privileges.
     </para>
     
-    <programlisting role="JAVA"><![CDATA[    new RunAsOperation() {       
+    <programlisting role="JAVA"><![CDATA[new RunAsOperation() {       
        public void execute() {
           executePrivilegedOperation();
        }         
