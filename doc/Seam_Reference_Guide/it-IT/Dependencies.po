@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: JBoss Seam - Italian Version\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2009-04-15 13:51+0000\n"
-"PO-Revision-Date: 2009-04-15 15:58+0100\n"
+"PO-Revision-Date: 2009-06-06 20:42+0100\n"
 "Last-Translator: Nicola Benaglia <nico.benaz@gmail.com>\n"
 "Language-Team: none <nico.benaz@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -43,13 +43,13 @@ msgstr "Considerazioni su JDK 6 di Sun"
 #: Dependencies.xml:19
 #, no-c-format
 msgid "Earlier versions of Sun's JDK 6 contained an incompatible version of JAXB and required overriding it using the \"endorsed\" directory. Sun's JDK6 Update 4 release upgraded to JAXB 2.1 and removed this requirement. When building, testing, or executing be sure to use this version or higher."
-msgstr "Le prime versioni di JDK 6 di Sun contenevano un versione incompatibile di JAXB e richiedevano l'override di questa usando la directory  \"endorsed\". La release JDK6 Update 4 di SUn ha aggiornato JAXB 2.1 e rimosso questo requisito. In fase di building, di testing o di esecuzione assicurarsi di utilizzare questa versione o successive."
+msgstr "Le prime versioni di JDK 6 di Sun contenevano un versione incompatibile di JAXB e richiedevano l'override di questa usando la directory  \"endorsed\". La release JDK6 Update 4 di Sun ha aggiornato JAXB 2.1 e rimosso questo requisito. In fase di building, di testing o di esecuzione assicurarsi di utilizzare questa versione o successive."
 
 #. Tag: para
 #: Dependencies.xml:27
 #, no-c-format
 msgid "Seam used JBoss Embedded in its unit and integration testing. This has an additional requirement when using JDK 6. In order to run JBoss Embedded with JDK 6 you need to set the following JVM argument: <programlisting>-Dsun.lang.ClassLoader.allowArraySyntax=true</programlisting> Seam's internal build system is setting this by default when it executes Seam's test suite. However if you are also using JBoss Embedded for your testing you will need to set this value."
-msgstr "Seam usa JBoss Embedded nei propri test di unità e di integrazione. JBoss Embedded ha un requisito aggiuntivo con JDK 6; occorre impostare il seguente argomento JVM: <programlisting>-Dsun.lang.ClassLoader.allowArraySyntax=true</programlisting>. Il sistema di build interno a Seam imposta di default questo valore quando si esegue la suit di test. Comunque usando  JBoss Embedded per i test va impostato questo valore."
+msgstr "Seam usa JBoss Embedded nei propri test di unità e di integrazione. JBoss Embedded ha un requisito aggiuntivo con JDK 6; occorre impostare il seguente argomento JVM: <programlisting>-Dsun.lang.ClassLoader.allowArraySyntax=true</programlisting> Il sistema di build interno a Seam imposta di default questo valore quando si esegue la suite di test. Per i test comunque usando JBoss Embedded va impostato questo valore."
 
 #. Tag: title
 #: Dependencies.xml:42
@@ -61,7 +61,7 @@ msgstr "Dipendenze del progetto"
 #: Dependencies.xml:44
 #, no-c-format
 msgid "This section both lists the compile-time and runtime dependencies for Seam. Where the type is listed as <literal>ear</literal>, the library should be included in the /lib directory of your application's ear file. Where the type is listed as <literal>war</literal>, the library should be placed in the <literal>/WEB-INF/lib</literal> directory of your application's war file. The scope of the dependency is either all, runtime or provided (by JBoss AS 4.2 or 5.0)."
-msgstr "Questa sezione elenca le dipendenze di Seam sia a compile-time sia a runtime. Laddove il tipo viene elencato come <literal>ear</literal>, la libreria deve essere inclusa nella directory /lib del proprio ear dell'applicazione. Laddove il tipo viene elencato come <literal>war</literal>, la libreria deve essere collocata nella directory <literal>/WEB-INF/lib</literal> del proprio file war. Lo scope della dipendenze è tutto, runtime o provided (da JBoss AS 4.2 o 5.0)."
+msgstr "Questa sezione elenca le dipendenze di Seam sia a compile-time sia a runtime. Laddove il tipo viene elencato come <literal>ear</literal>, la libreria deve essere inclusa nella directory /lib del proprio ear dell'applicazione. Laddove il tipo viene elencato come <literal>war</literal>, la libreria deve essere collocata nella directory <literal>/WEB-INF/lib</literal> del proprio file war. Lo scope delle dipendenze è tutto, runtime o provided (da JBoss AS 4.2 o 5.0)."
 
 #. Tag: para
 #: Dependencies.xml:54
@@ -137,7 +137,7 @@ msgstr "Tipo"
 #: Dependencies.xml:1115
 #, no-c-format
 msgid "Notes"
-msgstr "NOte"
+msgstr "Note"
 
 #. Tag: literal
 #: Dependencies.xml:94
@@ -263,7 +263,7 @@ msgstr "<para>war</para>"
 #: Dependencies.xml:118
 #, no-c-format
 msgid "Include during development when enabling Seam's debug feature"
-msgstr "I"
+msgstr "Incluso durante lo sviluppo quando è abilitata la funzionalità debug di Seam"
 
 #. Tag: literal
 #: Dependencies.xml:124
@@ -897,7 +897,7 @@ msgstr "Gestione delle dipendenze usando Maven"
 #: Dependencies.xml:1147
 #, no-c-format
 msgid "Maven offers support for transitive dependency management and can be used to manage the dependencies of your Seam project. You can use Maven Ant Tasks to integrate Maven into your Ant build, or can use Maven to build and deploy your project."
-msgstr "Maven offre un supporto per la gestione transitiva delle dipendenze e può essere usato per gestire le dipendenze nei progetti Seam. Maven Ant Tasks intergra Maven nel build di Ant, e Maven può essereimpiegato per fare ilbuild ed il deploy dei propri progetti."
+msgstr "Maven offre un supporto per la gestione transitiva delle dipendenze e può essere usato per gestire le dipendenze nei progetti Seam. Maven Ant Tasks integra Maven nel build di Ant, e Maven può essere impiegato per fare il build ed il deploy dei progetti."
 
 #. Tag: para
 #: Dependencies.xml:1154
