@@ -790,6 +790,12 @@
         <groupId>org.drools</groupId>
         <artifactId>drools-decisiontables</artifactId>
         <version>${version.drools}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>jexcelapi</groupId>
+      		<artifactId>jxl</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
       <dependency>

@@ -256,6 +256,12 @@
       <groupId>org.drools</groupId>
       <artifactId>drools-decisiontables</artifactId>
       <optional>true</optional>
+      <exclusions>
+          <exclusion>
+            <groupId>jexcelapi</groupId>
+      		<artifactId>jxl</artifactId>
+          </exclusion>
+        </exclusions>
    </dependency>
 
    <dependency>
