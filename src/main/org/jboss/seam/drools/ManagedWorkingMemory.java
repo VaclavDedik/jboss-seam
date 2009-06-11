@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 import org.drools.RuleBase;
 import org.drools.StatefulSession;
-import org.drools.event.AgendaEventListener;
-import org.drools.event.RuleFlowEventListener;
-import org.drools.event.WorkingMemoryEventListener;
 import org.drools.spi.GlobalResolver;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -16,8 +13,6 @@ import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Mutable;
 import org.jboss.seam.core.Expressions.ValueExpression;
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 
 /**
  * A conversation-scoped Drools WorkingMemory for a named RuleBase
@@ -31,10 +26,7 @@ public class ManagedWorkingMemory implements Mutable, Serializable
 {
    private static final long serialVersionUID = -1746942080571374743L;
    
-   private static final LogProvider log = Logging.getLogProvider(ManagedWorkingMemory.class);
-   
    private String ruleBaseName;
-   private String[] eventListeners;
    private StatefulSession statefulSession;
    private ValueExpression<RuleBase> ruleBase;
    
@@ -74,43 +66,8 @@ public class ManagedWorkingMemory implements Mutable, Serializable
       {
          statefulSession = getRuleBaseFromValueBinding().newStatefulSession();
          statefulSession.setGlobalResolver( createGlobalResolver( statefulSession.getGlobalResolver() ) );
-         if(eventListeners != null) {
-            setEventListeners(statefulSession);
-         }
       }
       return statefulSession;
-   }
-   
-   private void setEventListeners(StatefulSession statefulSession) {
-      if(eventListeners != null) {
-         for(String eventListener : eventListeners) {
-            log.debug("adding eventListener: " + eventListener);
-            try
-            {
-               Class eventListenerClass = Class.forName(eventListener);
-               Object eventListenerObject = eventListenerClass.newInstance();
-               if(eventListenerObject instanceof WorkingMemoryEventListener) 
-               {
-                  statefulSession.addEventListener((WorkingMemoryEventListener) eventListenerObject);
-               } 
-               else if(eventListenerObject instanceof AgendaEventListener) 
-               {
-                  statefulSession.addEventListener((AgendaEventListener) eventListenerObject);
-               } 
-               else if(eventListenerObject instanceof RuleFlowEventListener) 
-               {
-                  statefulSession.addEventListener((RuleFlowEventListener) eventListenerObject);
-               } 
-               else {
-                  log.debug("event Listener is not of valid type - bypassing.");
-               }
-            }
-            catch (Exception e)
-            {
-               log.error("error adding event listener " + eventListener + " - bypassing.");
-            }
-         }
-      }
    }
 
    protected RuleBase getRuleBaseFromValueBinding()
@@ -157,17 +114,5 @@ public class ManagedWorkingMemory implements Mutable, Serializable
    {
       this.ruleBase = ruleBase;
    }
-
-   public String[] getEventListeners()
-   {
-      return eventListeners;
-   }
-
-   public void setEventListeners(String[] eventListeners)
-   {
-      this.eventListeners = eventListeners;
-   }
-   
-   
    
 }
