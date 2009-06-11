@@ -1054,6 +1054,11 @@
                   <groupId>xalan</groupId>
                   <artifactId>xalan</artifactId>
               </exclusion>
+              
+              <exclusion>
+                  <groupId>com.sun</groupId>
+                  <artifactId>tools</artifactId>
+              </exclusion>
           </exclusions>
       </dependency>
       
