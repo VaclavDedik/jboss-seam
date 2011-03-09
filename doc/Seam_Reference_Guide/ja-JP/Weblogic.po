@@ -2392,7 +2392,7 @@ msgstr ""
 #, fuzzy, no-c-format
 msgid ""
 "<![CDATA[http://jboss.com/products/seam/transaction http://jboss.com/"
-"products/seam/transaction-2.2.xsd]]>"
+"products/seam/transaction-2.3.xsd]]>"
 msgstr ""
 "<![CDATA[http://jboss.com/products/seam/transaction http://jboss.com/"
 "products/seam/transaction-2.1.xsd]]>"

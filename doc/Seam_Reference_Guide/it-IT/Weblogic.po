@@ -1670,8 +1670,8 @@ msgstr "<![CDATA[xmlns:transaction=\"http://jboss.com/products/seam/transaction\
 #. Tag: programlisting
 #: Weblogic.xml:1164
 #, no-c-format
-msgid "<![CDATA[http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.2.xsd]]>"
-msgstr "<![CDATA[http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.2.xsd]]>"
+msgid "<![CDATA[http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.3.xsd]]>"
+msgstr "<![CDATA[http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.3.xsd]]>"
 
 #. Tag: literal
 #: Weblogic.xml:1169

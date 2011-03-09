@@ -2662,8 +2662,8 @@
     xmlns:document="http://jboss.com/products/seam/document"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-        http://jboss.com/products/seam/document http://jboss.com/products/seam/document-2.2.xsd
-        http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.2.xsd">
+        http://jboss.com/products/seam/document http://jboss.com/products/seam/document-2.3.xsd
+        http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.3.xsd">
     <document:document-store use-extensions="true"/>
 </components>]]></programlisting>
         
