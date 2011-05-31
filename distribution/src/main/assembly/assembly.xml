@@ -1,0 +1,116 @@
+<assembly
+   xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/2.2"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/2.2 http://maven.apache.org/xsd/assembly-2.2.xsd">
+
+   <id>distribution</id>
+   <formats>
+      <format>dir</format>
+   </formats>
+   <includeBaseDirectory>false</includeBaseDirectory>
+  
+   
+   <!-- Add distribution files -->
+   <fileSets>
+      <fileSet>
+         <directory>src/main/assembly</directory>
+         <outputDirectory>.</outputDirectory>
+         <includes>
+            <include>*.txt</include>
+<!-- <include>lgpl.txt</include>
+            <include>copyright.txt</include>
+            <include>changelog.txt</include> -->            
+         </includes>
+      </fileSet>
+   </fileSets>
+   
+   <moduleSets>
+    <moduleSet>
+    
+      <!-- Enable access to all projects in the current multimodule build! -->
+      <useAllReactorProjects>true</useAllReactorProjects>
+      
+      <!-- Now, select which projects to include in this module-set. -->
+      <includes>
+        <include>org.jboss.seam.*:*</include>
+      </includes>
+      <binaries>
+        <outputDirectory>lib</outputDirectory>
+        <unpack>false</unpack>
+      </binaries>
+      <sources>
+        <outputDirectory>lib/sources</outputDirectory>
+      </sources>      
+    </moduleSet>
+  </moduleSets>
+   
+
+   <dependencySets>
+    <!-- Add necessary binaries -->
+      <dependencySet>
+         <outputDirectory>artifacts</outputDirectory>
+         <useProjectArtifact>false</useProjectArtifact>
+         <includes>
+            <include>org.jboss.seam.*</include>
+         </includes>
+         <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+      </dependencySet>
+      <!-- Add necessary javadoc jars -->
+      <dependencySet>
+         <outputDirectory>doc/javadoc</outputDirectory>
+         <useProjectArtifact>false</useProjectArtifact>
+         <includes>
+            <include>org.jboss.seam.*:*</include>
+         </includes>
+         <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>         
+      </dependencySet>
+      <!-- Add necessary sources jars -->
+      <dependencySet>
+         <outputDirectory>lib/sources</outputDirectory>
+         <useProjectArtifact>false</useProjectArtifact>
+         <includes>
+            <include>org.jboss.seam.*:*:*:sources</include>
+         </includes>
+         <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+      </dependencySet>
+      <!-- Add necessary dependencies -->
+      <dependencySet>
+         <outputDirectory>lib</outputDirectory>
+         <useProjectArtifact>false</useProjectArtifact>
+         <useTransitiveDependencies>true</useTransitiveDependencies>
+         <excludes>
+            <exclude>org.jboss.seam.*</exclude>
+            <exclude>org.jboss.seam:*</exclude>
+         </excludes>
+         <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+      </dependencySet>
+      <!-- Pull in the example projects 
+      <dependencySet>
+         <outputDirectory>examples</outputDirectory>
+         <unpack>true</unpack>
+         <useProjectArtifact>false</useProjectArtifact>
+         <includes>
+            <include>org.jboss.seam.faces:seam-faces-examples-short-ly</include>
+            <include>org.jboss.seam.xml:seam-xml-examples-princess-rescue</include>
+            <include>org.jboss.seam.remoting:seam-remoting-model-example</include>
+            <include>org.jboss.seam.remoting:seam-remoting-helloworld-example</include>
+         </includes>
+      </dependencySet>-->
+      <!-- Pull in docbook artifacts -->
+      <dependencySet>
+         <outputDirectory>doc/reference/</outputDirectory>
+         <unpack>true</unpack>
+         <useProjectArtifact>false</useProjectArtifact>
+         <includes>
+            <include>org.jboss.seam.reference-guide:seam-reference-guide</include>
+         </includes>
+         <unpackOptions>
+            <excludes>
+               <exclude>META-INF/</exclude>
+            </excludes>
+         </unpackOptions>
+         <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+      </dependencySet>
+   </dependencySets>
+
+</assembly>
