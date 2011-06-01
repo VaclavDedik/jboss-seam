@@ -1,11 +1,5 @@
-SeamDiscs Example
-=================================
-
-This example runs on JBoss AS 4.2.2.GA or later as an EAR and Tomcat with
-Embedded JBoss as a WAR.
-
-Visit http://localhost:8080/seam-discs (on JBoss AS) or 
-http://localhost:8080/jboss-seam-discs (on Tomcat).
+Seam SeamDiscs Example
+======================
 
 The seamdiscs example is a simple example built using the Seam Application 
 Framework which allows you to record your favourite albums and artists.  It 
@@ -29,3 +23,20 @@ Example
      ...
   </tr:column
 </tr:table>
+
+
+This example runs on JBoss AS as an EAR.
+
+To deploy the example to JBoss AS, follow these steps:
+
+* In the example root directory run:
+
+    mvn clean package
+
+* Set JBOSS_HOME environment property.
+
+* In the seamdiscs-ear directory run:
+
+    mvn jboss:hard-deploy
+
+* Open this URL in a web browser: http://localhost:8080/seam-seamdiscs

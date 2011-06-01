@@ -2,92 +2,29 @@ Seam JPA Example
 ================
 
 This is the Hotel Booking example implemented in Seam POJO and Hibernate JPA.
-It can be deployed in JBoss AS 4.x, WebLogic, GlassFish, Tomcat (both with and 
-without the EJB3 container).
+This application runs on JBoss AS 4.2, 5 and 6, Tomcat with JBoss Embedded
+and Glassfish V2.
 
-JBoss AS 4.2.0:
-  * Install JBoss AS 4.2.0 GA
-  * ant jboss
-  * Start JBoss AS 
-  * Access the app at http://localhost:8080/jboss-seam-jpa/
-  * ant jboss.undeploy
+To deploy the example to JBossAS 5 or 6, follow these steps:
 
-JBoss AS 4.0.5 (with or without EJB3):
-  * Install JBoss AS 4.0.5 with the default J2EE profile
-  * ant jboss405
-  * Deploy dist-jboss405/jboss-seam-jpa.war
-  * Start JBoss AS 
-  * Access the app at http://localhost:8080/jboss-seam-jpa/
+* In the example root directory run:
 
-WebLogic 9.2:
-  * Install WebLogic 9.2
-  * ant weblogic92
-  * Start the WebLogic "examples" server
-  * Load the admin console http://localhost:7001/console/
-  * Deploy dist-weblogic92/jboss-seam-jpa.war
-  * Access the app at http://localhost:7001/jboss-seam-jpa/
+    mvn clean package
 
-WebLogic 10.X:
-  * Install WebLogic 10.X
-  * Create an hsql datasource called 'seam-jpa-ds" (see reference guide)
-  * Deploy Weblogics jsf-1.2.war shared library for JSF 1.2 support. (see reference guide)
-  * ant weblogic10
-  * Start the WebLogic domain you created or the "examples" domain if installed.
-  * Load the admin console http://localhost:7001/console/
-  * Deploy dist-weblogic10/jboss-seam-jpa.war
-  * Access the app at http://localhost:7001/jboss-seam-jpa/
-  * See Weblogic reference guide chapter for full details.
+* Set JBOSS_HOME environment property.
 
-WebSphere 6.1:
-  * Install and run WebSphere 6.1
-  * The "Default Applications" must be installed because this app will the Derby database that is installe with teh default application
-  * Set a Websphere web container custom property "com.ibm.ws.webcontainer.invokefilterscompatibility" to true.  See Seam reference guide chapter for details.
-  * Set a Websphere web container custom property "prependSlashToResource" to true.  See Seam reference guide chapter for details.
-  * ant websphere61
-  * Deploy dist-websphere61/jboss-seam-jpa.war and specify a context_root
-  * From the "Enterprise Applications" list select: "jboss-seam-jpa" --> "Manager Modules" --> "jboss-seam-jpa.war" --> "Classes loaded with application class loader first", and then Apply
-  * Start the application
-  * Access it at http://localhost:9080/context_root/index.html
+* In the jpa-web directory run:
 
-WebSphere 7.0:
-  * Install and run WebSphere 7.0
-  * The "Default Applications" must be installed because this app will the Derby database that is installe with teh default application
-  * ant websphere7
-  * Deploy dist-websphere7/jboss-seam-jpa.war and specify a context_root (choose the "fast path" and keep all the defaults)
-  * Start the application
-  * Access it at http://localhost:9080/<context_root>
+    mvn jboss:hard-deploy
 
-Tomcat with JBoss Embedded:
-  * Install Tomcat
-  * Install JBoss Embedded
-  * ant jboss-embedded
-  * Deploy dist-jboss-embedded/jboss-seam-jpa.war
-  * Start Tomcat
-  * Access the app at http://localhost:8080/jboss-seam-jpa/
-  
-Tomcat (5.5 or 6) without JBoss Embedded:
-  * Install Tomcat
-  * Copy lib/hsqldb.jar from this distribution into $TOMCAT_HOME/common/lib (Tomcat 5.5) or $TOMCAT_HOME/lib (Tomcat 6)
-  * ant tomcat55 or ant tomcat6
-  * Deploy dist-jboss/jboss-seam-jpa.war
-  * Start Tomcat
-  * Access the app at http://localhost:8080/jboss-seam-jpa/
+The following is a list of profiles which you should use to build the 
+application for various application servers.
 
-GlassFish:
-  * Install GlassFish V2
-  * ant glassfish
-  * Start GlassFish and the Embedded Derby Database
-  * Load the admin console http://localhost:4848/
-  * Deploy dist-glassfish/jboss-seam-jpa.war in the admin console (Applications > Web Applications)
-    or using the command $GLASSFISH_HOME/bin/asadmin deploy dist-glassfish/jboss-seam-jpa.war
-  * Access the app at http://localhost:8080/jboss-seam-jpa/
+JBoss AS 4.2                ->  -Pjbossas42  (i.e. mvn clean package -Pjbossas42)
+Glassfish V2                ->  -Pglassfish2
+Tomcat with JBoss Embedded  ->  -Ptomcat
 
-NOTES FOR GLASSFISH USERS:
-  In order for the app to work out of the box with GlassFish, we have
-  used the Derby (i.e., Java DB) database in GlassFish. The included
-  WEB-INF/classes/GlassfishDerbyDialect.class is a special hack to get
-  around a Derby bug in GlassFish V2. You must use it as your Hibernate
-  dialect if you use Derby with GlassFish.
-  
-  However, we strongly recommend you to use a non-Derby data source if
-  possible (for example, HSQL is a much better embedded DB).
+Furthermore, when you're targeting a different application server than 
+JBossAS 5 or 6, you have to deploy the application manually.
+
+* Open this URL in a web browser: http://localhost:8080/jboss-seam-jpa

@@ -1,10 +1,10 @@
 Seam Example Applications
 =========================
 This directory contains the Seam example applications, which have all been
-tested on the latest release of JBoss 4.2. All but a few examples have been
-tested on Tomcat (running JDK 1.5), and some have been tested on other
-application servers. Consult the readme.txt file in each of the examples to
-see which additional servers the example supports.
+tested on the latest release of JBoss 5.1. Several examples are also working on
+Tomcat with Embedded JBoss(running JDK 1.5). Most of the examples have been tested 
+on other application servers (4.2 and 6). Consult the readme.txt file in each of 
+the examples to see which additional servers the example supports.
 
 Below is a list of examples with a brief description. The name of the example,
 refered to later as ${example.name}, is equivalent to the name of the folder
@@ -118,7 +118,7 @@ readme.txt in the example to see if there are any specific instructions.
 How to Build and Deploy an Example on JBoss AS
 ----------------------------------------------
 
-1. Download and unzip JBoss AS 4.2.3.GA from:
+1. Download and unzip JBoss AS 5.1 GA from:
    
    http://jboss.org/jbossas/downloads
 
@@ -126,30 +126,29 @@ How to Build and Deploy an Example on JBoss AS
 
    http://seamframework.org/Download
 
-3. Open the "build.properties" file at the root of the Seam distribution in
-   your editor and change jboss.home to point to your JBoss AS directory
-   (the examples are deployed to the default profile)
-
-4. (Optional) Build Seam by running "ant" the Seam root directory
-   Only required if you are working from an SVN checkout.
-
-5. Build and deploy the example by running the following command from the Seam
+3. Build the example by running the following command from the Seam
    "examples/${example.name}" directory:
    
-   ant explode
+   mvn clean package
    
+   NOTE: Firstly, this command will also run unit tests on that example. To skip the tests add 
+   -Dmaven.test.skip=true to the maven call. Secondly, there is an option to deploy an "exploded"
+   archive. For this purpose, use -Pexploded maven profile.
+
+4. Deploy the example by setting JBOSS_HOME property and running the 
+   following command from the Seam "examples/${example.name}/{example.name}-ear" directory:
+
+   mvn jboss:hard-deploy
+    
    To undeploy the example, run:
 
-   ant unexplode
+   mvn jboss:hard-undeploy
 
-   To restart the deployed application, run:
+5. Start JBoss AS by typing:
 
-   ant restart
+      mvn jboss:start
 
-6. Start JBoss AS by typing "./run.sh" (on Linux/Unix) or "run" (on Windows) 
-   in the jboss-4.2.3.GA/bin directory
-
-7. Point your web browser to:
+6. Point your web browser to:
 
    http://localhost:8080/seam-${example.name}
 
@@ -183,28 +182,20 @@ How to Build and Deploy the Example on Tomcat
 
    http://seamframework.org/Download
 
-4. Open the "build.properties" file at the root of the Seam distribution in
-   your editor and change tomcat.home to point to your Tomcat directory
-
-5. (Optional) Build Seam by running "ant" the Seam root directory
-   Only required if you are working from an SVN checkout.
-
-6. Build and deploy the example by running the following command from the Seam
+4. Build the example by running the following command from the Seam
    "examples/${example.name}" directory:
    
-   ant tomcat.deploy
+   mvn clean package -Ptomcat
    
-   To undeploy the example, run:
+   NOTE: This command will also run unit tests on that example. To skip the tests add 
+   -Dmaven.test.skip=true to the maven call.
 
-   ant tomcat.undeploy
+5. Deploy the example by copying the resulting WAR archive to $CATALINA_HOME/webapps. The WAR
+   file can be found in "examples/${example.name}/{example.name}-web/target" directory
 
-   To redeploy/restart the deployed application, run:
+6. Start Tomcat
 
-   ant tomcat.deploy
-
-7. Start Tomcat
-
-8. Point your web browser to:
+7. Point your web browser to:
 
    http://localhost:8080/jboss-seam-${example.name}
    
@@ -215,26 +206,36 @@ How to Build and Deploy the Example on Tomcat
 Running The TestNG Tests
 ------------------------
 
-In the "examples/${example.name}" directory, type "ant test"
+TestNG tests are executed during building of the application using:
+
+   mvn clean package -P<maven_profile>
+
+TODO: Running the TestNG Tests in Eclipse
 
 
-Running the TestNG Tests in Eclipse
------------------------------------
+Running functional tests on an example
+=======================================
 
-1. Install the TestNG Eclipse plugin from http://beust.com/eclipse
+The following steps describe executing of functional tests in general. If particular example
+does not contain certain profile, it is simply ignored during the maven call.
 
-2. Create the TestNG runner with the following directories added to the
-   classpath:
-   
-   examples/${example.name}/src/
-   examples/${example.name}/resources/
-   bootstrap/
-   
-   And all jar files from the following directories in your classpath:
-   
-   lib/test
-   
-   Make sure all these come before the referenced libraries
-   
-3. Locate and run the testng.xml file using the TestNG plugin
+* Start JBoss AS 4, 5, 6 or Tomcat
+* Set JBOSS_HOME or CATALINA_HOME environment property, respectively
+
+To run functional tests on JBoss AS 4.2:
+
+*   mvn clean verify -Pjbossas42,ftest-jbossas
+
+To run functional tests on JBoss AS 5.1:
+
+*   mvn clean verify -Pjbossas51,ftest-jbossas
+    
+To run functional tests on JBoss AS 6:
+
+*   mvn clean verify -Pjbossas6,ftest-jbossas
+    
+To run functional tests on Tomcat with Embedded JBoss:
+
+*   mvn clean verify -Ptomcat,ftest-tomcat
+
 

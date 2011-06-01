@@ -1,31 +1,29 @@
 Seam Metawidget GroovyBooking Example
 =====================================
 
-This is the Hotel Booking example implemented in Groovy Beans and Hibernate JPA
-and uses Metawidget to dynamically generate the forms at runtime.
+This is the Hotel Booking example implemented in Groovy Beans, Metawidget 
+and Hibernate JPA. This application runs on JBoss AS, but is deployed as 
+an *exploded* WAR rather than an EAR.
 
-This application runs on JBoss AS, but is deployed as a WAR rather than an EAR.
-Thus, you prefix all the typical targets (explode, restart, unexplode) with
-"jbosswar." (e.g., jbosswar.explode, jbosswar.restart, jbosswar.unexplode).
+A majority of source files in this project comes from non-metawidget GroovyBooking example
+in the distribution. Metawidget resource files are placed under src/metawidget 
+subdirectory of a booking-web submodule.
 
-Please note that you need to uncomment the loadPersistenceUnits=true property
-in build.properties when deploying to JBoss AS 5.
+To deploy the example to JBossAS, follow these steps:
 
-The source files in this example are just the overrides needed to utilize
-metawidget. Before the example is built, these overrides are merged with the
-original groovybooking source code in a staging directory. This step is performed
-by following command:
+* In the example root directory run:
 
-  ant stage
+    mvn clean package
 
-The stage command is automatically called on any Ant build, so you can simply run:
+* Set JBOSS_HOME environment property.
 
-  ant explode
+* In the groovybooking-web directory run:
 
-When editing Groovy files from the src/action directory, you can run "ant
-build jbosswar.explode" to see your changes take effect.  When editing Groovy files
-from src/model, you need to run "ant build jbosswar.explode jbosswar.restart"
+    mvn jboss:hard-deploy
 
-Access the application at http://localhost:8080/seam-metawidget-groovybooking
+When deploying to JBossAS 4, use a -Pjbossas42 maven profile to package the 
+application.
 
-For further Metawidget documentation see http://metawidget.org/documentation.html.
+* Open this URL in a web browser: http://localhost:8080/jboss-seam-metawidget-grovybooking
+
+For further Metawidget documentation see http://metawidget.org/documentation.html

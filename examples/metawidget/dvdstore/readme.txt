@@ -3,27 +3,31 @@ Seam Metawidget DVD Store Example
 
 This example demonstrates the use of Seam with jBPM pageflow and business
 process management. It uses metawidget to dynamically generate the forms at
-runtime. The example runs on JBoss AS as an EAR and Tomcat with Embedded JBoss
-as a WAR.
+runtime. It runs on JBoss AS as an EAR.
 
-example.name=dvdstore
+A majority of source files in this project comes from non-metawidget Dvdstore example
+in the distribution. Metawidget source files are placed under src/metawidget 
+subdirectories in dvdstore-ejb and dvdstore-web submodules.
 
-The source files in this example are just the overrides needed to utilize
-metawidget. Before the example is built, these overrides are merged with the
-original dvdstore source code in a staging directory. This step is performed
-by following command:
+To deploy the example to JBossAS 5, follow these steps:
 
-  ant stage
+* In the example root directory run:
 
-The stage command is automatically called on any Ant build, so you can simply run:
+    mvn clean package
 
-  ant explode
+* Set JBOSS_HOME environment property.
 
-Access the application at http://localhost:8080/seam-metawidget-dvdstore
+* In the dvdstore-ear directory run:
 
-For further Metawidget documentation see http://metawidget.org/documentation.html.
+    mvn jboss:hard-deploy
 
-Notice: Deployment into JBoss AS 6 requires to use Hibernate-Search 3.3 and this 
-can be done through launching 
+JBossAS 4.2 needs additional Hibernate libraries, use a -Pjbossas42 maven profile instead to 
+package the application.
 
-	ant -f build-jboss6.xml 
+JBossAS 6 needs new Hibernate Search with dependencies, and more source code enhancement due to
+Hibernate Search and Lucene-Core API changes. Use a -Pjbossas6 maven profile instead to package 
+the application.
+
+* Open this URL in a web browser: http://localhost:8080/seam-metawidget-dvdstore
+
+For further Metawidget documentation see http://metawidget.org/documentation.html

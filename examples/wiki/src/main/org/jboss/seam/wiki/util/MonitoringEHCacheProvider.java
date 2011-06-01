@@ -2,7 +2,7 @@ package org.jboss.seam.wiki.util;
 
 import org.hibernate.cache.*;
 
-//$Id$
+//$Id: MonitoringEHCacheProvider.java 4779 2007-04-27 10:34:44Z cbauer $
 /**
  *  Copyright 2003-2006 Greg Luck, Jboss Inc
  *

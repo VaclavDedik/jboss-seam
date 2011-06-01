@@ -2,40 +2,46 @@ Seam Metawidget Booking Example
 ===============================
 
 This example demonstrates the use of Seam in a Java EE 5 environment.
-Transaction and persistence context management is handled by the EJB container.
-Forms are generated dynamically at runtime using Metawidget.
+Transaction and persistence context management is handled by the
+EJB container. This example runs on JBoss AS as an EAR or Tomcat 
+with JBoss Embedded as a WAR.
 
-The source files in this example are just the overrides needed to utilize
-metawidget. Before the example is built, these overrides are merged with the
-original booking source code in a staging directory. This step is performed
-by following command:
+A majority of source files in this project comes from non-metawidget Booking example
+in the distribution. Metawidget source files are placed under src/metawidget 
+subdirectories in booking-ejb and booking-web submodules.
 
-  ant stage
+To deploy the example to JBossAS, follow these steps:
 
-The stage command is automatically called on any Ant build, so you can simply run:
+* In the example root directory run:
 
-  ant explode
+    mvn clean package
 
-This example runs on JBoss AS as an EAR or Tomcat with JBoss Embedded as a WAR.
+* Set JBOSS_HOME environment property.
 
- example.name=booking
+* In the booking-ear directory run:
 
-To deploy this application to a cluster, first follow the steps 1-9 clustering-howto.txt in the root folder of the Seam distribution. Then execute the following command:
+    mvn jboss:hard-deploy
 
- ant farm
+* Open this URL in a web browser: http://localhost:8080/seam-metawidget-booking
 
-This command will deploy the archive to the farm directory of the "all" JBoss AS domain. To undeploy, run the following command:
+To deploy the example to Tomcat with Embedded JBoss, follow these steps:
 
- ant unfarm
+* In the example root directory run:
 
-HTTP session replication is enabled by default. You can disable it with the following commandline switch:
+    mvn clean package -Ptomcat
 
- -Dsession.replication=false
+* Deploy the resulting war from booking-web/target directory to Tomcat manually.
 
-You can also toggle Seam's ManagedEntityInterceptor for any deployment with the following commandline switch:
+* Open this URL in a web browser: http://localhost:8080/jboss-seam-metawidget-booking
 
- -Ddistributable=false
+To deploy the example to a cluster, follow these steps:
 
-Access the application at http://localhost:8080/seam-metawidget-booking
+* First follow the steps 1-9 clustering-howto.txt in the root folder of the Seam distribution.
 
-For further Metawidget documentation see http://metawidget.org/documentation.html.
+* In the example root directory run:
+
+    mvn clean package -Pcluster
+
+* Deploy the resulting ear from booking-ear/target directory to $JBOSS_HOME/server/all/farm 
+  manually along with a datasource (booking-ear/src/main/resources/jboss-seam-booking-ds.xml)
+

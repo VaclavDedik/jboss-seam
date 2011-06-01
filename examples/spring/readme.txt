@@ -1,15 +1,22 @@
-Spring Example
-===============
+Seam Spring Example
+===================
 
-This example shows Seam/Spring integration. Currently it runs on JBoss AS 4.2
-as a WAR. It is deployed using the command "ant jbosswar" and undeployed using
-the command "ant jbosswar.undeploy".
+This example shows Seam/Spring integration. This application runs on JBoss AS as
+a WAR file.
 
-JBoss AS 4.2 needs additional hibernate libraries, use ant target jboss42 for deploying to it.
+To deploy the example to JBossAS 5, follow these steps:
 
-JBoss AS 6 needs new hibernate search and hibernate-commons-annotations, and more source code enhancement due Hibernate Search and Lucene-Core
-API changes. Therefore use ant target jboss6 for deploying to JBoss AS 6 M5 and later. For instance:
+* In the example root directory run:
 
-	ant -f build-jboss6.xml
+    mvn clean package
 
-Visit http://localhost:8080/jboss-seam-spring
+* Set JBOSS_HOME environment property.
+
+* In the spring-web directory run:
+
+    mvn jboss:hard-deploy
+
+When deploying to JBossAS 4, use a -Pjbossas42 maven profile to package the 
+application. Use -Pjbossas6 for JBossAS 6 accordingly.
+
+* Open this URL in a web browser: http://localhost:8080/jboss-seam-spring

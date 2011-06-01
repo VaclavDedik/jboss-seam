@@ -3,25 +3,66 @@ Seam Booking Example
 
 This example demonstrates the use of Seam in a Java EE 5 environment.
 Transaction and persistence context management is handled by the
-EJB container.
+EJB container. This example runs on JBoss AS as an EAR or Tomcat 
+with JBoss Embedded as a WAR.
 
-This example runs on JBoss AS as an EAR or Tomcat with JBoss Embedded as a WAR.
+To deploy the example to JBossAS, follow these steps:
 
- example.name=booking
+* In the example root directory run:
 
-To deploy this application to a cluster, first follow the steps 1-9 clustering-howto.txt in the root folder of the Seam distribution. Then execute the following command:
+    mvn clean package
 
- ant farm
+* Set JBOSS_HOME environment property.
 
-This command will deploy the archive to the farm directory of the "all" JBoss AS domain. To undeploy, run the following command:
+* In the booking-ear directory run:
 
- ant unfarm
+    mvn jboss:hard-deploy
 
-HTTP session replication is enabled by default. You can disable it with the following commandline switch:
+* Open this URL in a web browser: http://localhost:8080/seam-booking
 
- -Dsession.replication=false
+To deploy the example to Tomcat with Embedded JBoss, follow these steps:
 
-You can also toggle Seam's ManagedEntityInterceptor for any deployment with the following commandline switch:
+* In the example root directory run:
 
- -Ddistributable=false
+    mvn clean package -Ptomcat
+
+* Deploy the resulting war from booking-web/target directory to Tomcat manually.
+
+* Open this URL in a web browser: http://localhost:8080/jboss-seam-booking
+
+To deploy the example to a cluster, follow these steps:
+
+* First follow the steps 1-9 clustering-howto.txt in the root folder of the Seam distribution.
+
+* In the example root directory run:
+
+    mvn clean package -Pcluster
+
+* Deploy the resulting ear from booking-ear/target directory to $JBOSS_HOME/server/all/farm 
+  manually along with a datasource (booking-ear/src/main/resources/jboss-seam-booking-ds.xml)
+
+
+Running clustering functional tests
+===================================
+
+To run functional tests in a cluster, follow these steps:
+
+* Start two JBossAS instances (being supposed to have two JBossAS configurations - all and all2):
+
+- Start first (master) instance of JBossAS: 
+    $JBOSS_HOME/bin/run.sh -c all -g DocsPartition -u 239.255.101.101 -b localhost 
+    -Djboss.messaging.ServerPeerID=1 -Djboss.service.binding.set=ports-default
+- Start second (slave) instance of JBossAS:
+    JBOSS_HOME/bin/run.sh -c all2 -g DocsPartition -u 239.255.101.101 -b localhost 
+    -Djboss.messaging.ServerPeerID=2 -Djboss.service.binding.set=ports-01
+
+* Set JBOSS_HOME environment property
+
+* In the example root directory run:
+
+    mvn clean verify -Pcluster,ftest-jbossas-cluster
+
+This command will deploy the application along with a datasource to $JBOSS_HOME/server/all/farm 
+directory and execute a fail-over test. The main goal of this test is to simulate recovering 
+from a breakdown.
 
