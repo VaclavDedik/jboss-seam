@@ -7,6 +7,7 @@
 		<artifactId>jboss-seam-parent</artifactId>
 		<groupId>org.jboss.seam</groupId>
 		<version>2.3-SNAPSHOT</version>
+		<relativePath>../jboss-seam-parent/pom.xml</relativePath>
 	</parent>
 	<groupId>org.jboss.seam</groupId>
 	<artifactId>seam-integration-tests</artifactId>
