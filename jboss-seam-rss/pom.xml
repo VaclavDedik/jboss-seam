@@ -17,6 +17,11 @@
 			<groupId>net.sourceforge.yarfraw</groupId>
 			<artifactId>yarfraw</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.seam</groupId>
