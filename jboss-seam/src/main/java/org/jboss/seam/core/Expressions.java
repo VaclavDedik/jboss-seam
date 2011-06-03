@@ -306,6 +306,12 @@ public class Expressions implements Serializable
    
    private static void checkELExpression(final String expression)
    {
+	  
+      if (expression == null)
+      {
+         return;
+      }
+      
       for (int index = 0; blacklist.size() > index; index++)
       {
          if ( expression.contains(blacklist.get(index)) ) {
@@ -314,7 +320,7 @@ public class Expressions implements Serializable
       }
       
       // for any case blacklist is not provided this is definitely not permitted
-      if ( expression.contains(".getClass()") )
+      if ( expression.contains(".getClass()") || expression.contains(".class()") )
       {
          throw new IllegalArgumentException("This EL expression is not allowed!");
       }
