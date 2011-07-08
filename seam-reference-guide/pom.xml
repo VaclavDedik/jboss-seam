@@ -114,7 +114,7 @@
 			            <!-- DocBook (this is the version used, unless user project imports one...) -->
 			            <groupId>net.sf.docbook</groupId>
 			            <artifactId>docbook</artifactId>
-			            <version>1.72.0</version>
+			            <version>1.74.0</version>
 			        </dependency>
 					
 				</dependencies>
