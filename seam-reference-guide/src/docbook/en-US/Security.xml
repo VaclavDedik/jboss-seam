@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
 <chapter id="security">
   <title>Security</title>
@@ -1229,7 +1229,7 @@ public class Role {
         <table>
           <title>LdapIdentityStore Configuration Properties</title>
     
-          <tgroup cols="2">
+          <tgroup cols="3">
             <colspec colnum="1" colwidth="1*" />
             <colspec colnum="2" colwidth="2*" />
             <colspec colnum="3" colwidth="3*" />
@@ -3648,10 +3648,10 @@ end;
         <table>
           <title>PermissionStore interface</title>
     
-          <tgroup cols="2">
-            <colspec colnum="1" colwidth="1*" />
-            <colspec colnum="2" colwidth="2*" />
-            <colspec colnum="3" colwidth="3*" />
+          <tgroup cols="3">
+            <colspec colnum="1" colwidth="2*" />
+            <colspec colnum="2" colwidth="3*" />
+            <colspec colnum="3" colwidth="2*" />
     
             <thead>
               <row>
@@ -3866,8 +3866,8 @@ end;
           <table>
             <title>Entity Permission annotations</title>
       
-            <tgroup cols="2">
-              <colspec colnum="1" colwidth="1*" />
+            <tgroup cols="3">
+              <colspec colnum="1" colwidth="2*" />
               <colspec colnum="2" colwidth="1*" />
               <colspec colnum="3" colwidth="3*" />
       
@@ -4360,7 +4360,7 @@ public class Customer { ]]></programlisting>
       <table>
         <title>PermissionManager API methods</title>
   
-        <tgroup cols="2">
+        <tgroup cols="3">
           <colspec colnum="1" colwidth="2*" />
           <colspec colnum="2" colwidth="3*" />
           <colspec colnum="3" colwidth="3*" />
