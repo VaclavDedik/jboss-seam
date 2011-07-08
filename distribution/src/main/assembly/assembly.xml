@@ -17,92 +17,137 @@
          <outputDirectory>.</outputDirectory>
          <includes>
             <include>*.txt</include>
-<!-- <include>lgpl.txt</include>
-            <include>copyright.txt</include>
-            <include>changelog.txt</include> -->            
+			<include>build.properties</include>
+			<include>eclipse-code-formatter-profile.xml</include>    
          </includes>
       </fileSet>
-   </fileSets>
-   
-   <moduleSets>
-    <moduleSet>
-    
-      <!-- Enable access to all projects in the current multimodule build! -->
-      <useAllReactorProjects>true</useAllReactorProjects>
-      
-      <!-- Now, select which projects to include in this module-set. -->
-      <includes>
-        <include>org.jboss.seam.*:*</include>
-      </includes>
-      <binaries>
-        <outputDirectory>lib</outputDirectory>
-        <unpack>false</unpack>
-      </binaries>
-      <sources>
-        <outputDirectory>lib/sources</outputDirectory>
-      </sources>      
-    </moduleSet>
-  </moduleSets>
-   
+      <fileSet>
+      	<directory>../extras</directory>
+      	<outputDirectory>extras</outputDirectory>
+      	<includes>
+      		<include>mail-ra.rar</include>
+      		<include>jsUnit/**</include>
+      		<include>readme.txt</include>
+      	</includes>
+      </fileSet>
+   </fileSets>    
 
    <dependencySets>
-    <!-- Add necessary binaries -->
-      <dependencySet>
-         <outputDirectory>artifacts</outputDirectory>
-         <useProjectArtifact>false</useProjectArtifact>
-         <includes>
-            <include>org.jboss.seam.*</include>
-         </includes>
-         <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
-      </dependencySet>
-      <!-- Add necessary javadoc jars -->
-      <dependencySet>
-         <outputDirectory>doc/javadoc</outputDirectory>
-         <useProjectArtifact>false</useProjectArtifact>
-         <includes>
-            <include>org.jboss.seam.*:*</include>
-         </includes>
-         <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>         
-      </dependencySet>
-      <!-- Add necessary sources jars -->
+   
+   <!-- some extra things Embedded bootstrap, extras etc. -->
+   	<dependencySet>
+   		<outputDirectory>.</outputDirectory>
+   		<useProjectArtifact>false</useProjectArtifact>
+   		<includes>
+   			<include>org.jboss.seam:jboss-embedded-bootstrap</include>
+   			<include>org.jboss.seam:examples:zip:project</include>
+   		</includes>
+   		<unpack>true</unpack>
+   		<unpackOptions>
+   			<excludes>
+   				<exclude>META-INF/**</exclude>
+   			</excludes>
+   		</unpackOptions>
+   		<outputFileNameMapping>${artifact.artifactId}</outputFileNameMapping>
+   	</dependencySet>
+   	
+   <!-- Add necessary sources jars -->
       <dependencySet>
          <outputDirectory>lib/sources</outputDirectory>
          <useProjectArtifact>false</useProjectArtifact>
          <includes>
-            <include>org.jboss.seam.*:*:*:sources</include>
+            <include>*:sources</include>
          </includes>
-         <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+         <excludes>
+            <exclude>org.jboss.seam:jboss-seam-gen:*:sources</exclude>
+         </excludes>
+         <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
       </dependencySet>
-      <!-- Add necessary dependencies -->
+      
+    <!-- Add necessary dependencies -->
       <dependencySet>
          <outputDirectory>lib</outputDirectory>
          <useProjectArtifact>false</useProjectArtifact>
          <useTransitiveDependencies>true</useTransitiveDependencies>
          <excludes>
-            <exclude>org.jboss.seam.*</exclude>
-            <exclude>org.jboss.seam:*</exclude>
+            <exclude>org.jboss.seam:jboss-seam-gen:*:*</exclude>
+            <exclude>org.jboss.seam:seam-reference-guide:*:*</exclude>
+            <exclude>*:sources</exclude>
+            <exclude>*:javadoc</exclude>
+            <exclude>org.hibernate:hibernate-tools:jar</exclude>
+            <exclude>freemarker:freemarker:jar</exclude>
+            <exclude>org.eclipse.core:runtime:jar</exclude>
+            <exclude>org.eclipse.equinox:common:jar</exclude>
+            <exclude>org.eclipse:text:jar</exclude>
+            <exclude>org.richfaces.samples:darkX:jar</exclude>
+            <exclude>org.richfaces.samples:laguna:jar</exclude>
+            <exclude>org.richfaces.samples:glassX:jar</exclude>
+            <exclude>org.apache.ant:ant:jar</exclude>
+            <exclude>org.jboss.seam:examples:*:*</exclude>
+            <exclude>org.jboss.seam:functional-tests:*:*</exclude>
          </excludes>
-         <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+         <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+         <!-- <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping> -->
       </dependencySet>
-      <!-- Pull in the example projects 
+      
+	  <!-- Seam gen -->
       <dependencySet>
-         <outputDirectory>examples</outputDirectory>
-         <unpack>true</unpack>
+         <outputDirectory>lib/gen</outputDirectory>
          <useProjectArtifact>false</useProjectArtifact>
          <includes>
-            <include>org.jboss.seam.faces:seam-faces-examples-short-ly</include>
-            <include>org.jboss.seam.xml:seam-xml-examples-princess-rescue</include>
-            <include>org.jboss.seam.remoting:seam-remoting-model-example</include>
-            <include>org.jboss.seam.remoting:seam-remoting-helloworld-example</include>
+            <include>org.jboss.seam:jboss-seam-gen:jar</include>
+            <include>org.hibernate:hibernate-tools:jar</include>
+            <include>freemarker:freemarker:jar</include>
+            <include>org.eclipse.core:runtime:jar</include>
+            <include>org.eclipse.equinox:common:jar</include>
+            <include>org.eclipse:text:jar</include>
+            <include>org.richfaces.samples:darkX:jar</include>
+            <include>org.richfaces.samples:laguna:jar</include>
+            <include>org.richfaces.samples:glassX:jar</include>
+            <include>org.apache.ant:ant:jar</include>
          </includes>
-      </dependencySet>-->
+         <excludes>
+            <exclude>org.jboss.seam:jboss-seam-gen:*:sources</exclude>
+         </excludes>
+         <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+      </dependencySet>
+      
+      <dependencySet>
+         <outputDirectory>lib/gen/src</outputDirectory>
+         <useProjectArtifact>false</useProjectArtifact>
+         <includes>
+            <include>org.jboss.seam:jboss-seam-gen:*:sources</include>
+         </includes>
+         <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+      </dependencySet>
+      
+      <dependencySet>
+         <outputDirectory>./seam-gen</outputDirectory>
+         <useProjectArtifact>false</useProjectArtifact>
+         <unpack>true</unpack>
+         <includes>
+            <include>org.jboss.seam:jboss-seam-gen:zip:distribution</include>
+         </includes>
+      </dependencySet>
+      
+      <dependencySet>
+         <outputDirectory>lib/test</outputDirectory>
+         <useProjectArtifact>false</useProjectArtifact>
+         <includes>
+            <include>org.jboss.seam.embedded:hibernate-all:*</include>
+            <include>org.jboss.seam.embedded:jboss-embedded-all:*</include>
+            <include>org.jboss.seam.embedded:thirdparty-all:*</include>
+         </includes>
+         <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+      </dependencySet>
+      
       <!-- Pull in docbook artifacts -->
       <dependencySet>
          <outputDirectory>doc/reference/</outputDirectory>
          <unpack>true</unpack>
          <useProjectArtifact>false</useProjectArtifact>
          <includes>
-            <include>org.jboss.seam.reference-guide:seam-reference-guide</include>
+            <include>org.jboss.seam:seam-reference-guide</include>
          </includes>
          <unpackOptions>
             <excludes>
@@ -111,6 +156,51 @@
          </unpackOptions>
          <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
       </dependencySet>
-   </dependencySets>
+      
+      <!-- Add necessary javadoc jars -->
+      <dependencySet>
+         <outputDirectory>doc/api</outputDirectory>
+         <useProjectArtifact>false</useProjectArtifact>
+         <unpack>true</unpack>
+         <includes>
+            <include>org.jboss.seam:jboss-seam:*:javadoc</include>
+         </includes>
+         <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+      </dependencySet>
 
+      <dependencySet>
+         <outputDirectory>doc/ui/api</outputDirectory>
+         <useProjectArtifact>false</useProjectArtifact>
+         <unpack>true</unpack>
+         <includes>
+            <include>org.jboss.seam:jboss-seam-ui:*:javadoc</include>
+         </includes>
+         <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+      </dependencySet>
+      
+      <!-- Add project sources -->
+      <dependencySet>
+        <outputDirectory>src</outputDirectory>
+        <useProjectArtifact>false</useProjectArtifact>
+        <unpack>true</unpack>
+		<outputFileNameMapping>${artifact.artifactId}</outputFileNameMapping>
+		<includes>
+			<include>org.jboss.seam:jboss-seam:*:project</include>
+			<include>org.jboss.seam:jboss-seam-debug:*:project</include>
+			<include>org.jboss.seam:jboss-seam-excel:*:project</include>
+			<include>org.jboss.seam:jboss-seam-flex:*:project</include>
+			<include>org.jboss.seam:jboss-seam-ioc:*:project</include>
+			<include>org.jboss.seam:jboss-seam-jul:*:project</include>
+			<include>org.jboss.seam:jboss-seam-mail:*:project</include>
+			<include>org.jboss.seam:jboss-seam-pdf:*:project</include>
+			<include>org.jboss.seam:jboss-seam-remoting:*:project</include>
+			<include>org.jboss.seam:jboss-seam-resteasy:*:project</include>
+			<include>org.jboss.seam:jboss-seam-rss:*:project</include>
+			<include>org.jboss.seam:jboss-seam-ui:*:project</include>
+			<include>org.jboss.seam:jboss-seam-wicket:*:project</include>
+			<include>org.jboss.seam:seam-integration-tests:*:project</include>
+			<include>org.jboss.seam:functional-tests:*:project</include>
+		</includes>
+      </dependencySet>
+   </dependencySets>
 </assembly>

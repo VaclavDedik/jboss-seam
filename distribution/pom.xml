@@ -13,10 +13,28 @@
 	<name>Distribution</name>
 	<packaging>pom</packaging>
 
-	<build>	
-	   <plugins>
-        
-      </plugins>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>distribution</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<descriptors>
+								<descriptor>src/main/assembly/assembly.xml</descriptor>
+							</descriptors>	
+							<appendAssemblyId>false</appendAssemblyId>
+						</configuration>						
+
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 
 	<dependencies>
@@ -26,6 +44,14 @@
 			<artifactId>jboss-seam</artifactId>
 			<type>ejb</type>
 		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam</artifactId>
+			<type>ejb</type>
+			<version>${project.version}</version>
+			<classifier>sources</classifier>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.jboss.seam</groupId>
 			<artifactId>jboss-seam-debug</artifactId>
@@ -79,6 +105,246 @@
 			<groupId>org.jboss.seam</groupId>
 			<artifactId>seam-reference-guide</artifactId>
 		</dependency>
+	
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam</artifactId>
+			<classifier>project</classifier>
+			<version>${project.version}</version>
+			<type>zip</type>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-debug</artifactId>
+			<classifier>project</classifier>
+			<version>${project.version}</version>
+			<type>zip</type>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-excel</artifactId>
+			<classifier>project</classifier>
+			<version>${project.version}</version>
+			<type>zip</type>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-flex</artifactId>
+			<classifier>project</classifier>
+			<version>${project.version}</version>
+			<type>zip</type>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-ioc</artifactId>
+			<version>${project.version}</version>
+			<classifier>project</classifier>
+			<type>zip</type>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-jul</artifactId>
+			<version>${project.version}</version>
+			<classifier>project</classifier>
+			<type>zip</type>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-mail</artifactId>
+			<version>${project.version}</version>
+			<classifier>project</classifier>
+			<type>zip</type>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-pdf</artifactId>
+			<version>${project.version}</version>
+			<classifier>project</classifier>
+			<type>zip</type>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-remoting</artifactId>
+			<version>${project.version}</version>
+			<classifier>project</classifier>
+			<type>zip</type>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-resteasy</artifactId>
+			<version>${project.version}</version>
+			<classifier>project</classifier>
+			<type>zip</type>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-rss</artifactId>
+			<version>${project.version}</version>
+			<classifier>project</classifier>
+			<type>zip</type>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-ui</artifactId>
+			<version>${project.version}</version>
+			<classifier>project</classifier>
+			<type>zip</type>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-wicket</artifactId>
+			<version>${project.version}</version>
+			<classifier>project</classifier>
+			<type>zip</type>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>functional-tests</artifactId>
+			<version>${project.version}</version>
+			<classifier>project</classifier>
+			<type>zip</type>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>seam-integration-tests</artifactId>
+			<version>${project.version}</version>
+			<classifier>project</classifier>
+			<type>zip</type>
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-debug</artifactId>
+			<classifier>sources</classifier>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-excel</artifactId>
+			<classifier>sources</classifier>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-flex</artifactId>
+			<classifier>sources</classifier>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-ioc</artifactId>
+			<version>${project.version}</version>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-jul</artifactId>
+			<version>${project.version}</version>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-mail</artifactId>
+			<version>${project.version}</version>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-pdf</artifactId>
+			<version>${project.version}</version>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-remoting</artifactId>
+			<version>${project.version}</version>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-resteasy</artifactId>
+			<version>${project.version}</version>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-rss</artifactId>
+			<version>${project.version}</version>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-ui</artifactId>
+			<version>${project.version}</version>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-wicket</artifactId>
+			<version>${project.version}</version>
+			<classifier>sources</classifier>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-ui</artifactId>
+			<version>${project.version}</version>
+			<classifier>javadoc</classifier>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam</artifactId>
+			<version>${project.version}</version>
+			<type>ejb</type>
+			<classifier>javadoc</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-gen</artifactId>
+			<version>${project.version}</version>
+			<classifier>distribution</classifier>
+			<type>zip</type>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-gen</artifactId>
+			<version>${project.version}</version>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-embedded-bootstrap</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>examples</artifactId>
+			<classifier>project</classifier>
+			<version>${project.version}</version>
+			<type>zip</type>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jboss.seam.embedded</groupId>
+			<artifactId>jboss-embedded-all</artifactId>
+			<version>${version.jbossembedded}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jboss.seam.embedded</groupId>
+			<artifactId>hibernate-all</artifactId>
+			<version>${version.jbossembedded}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jboss.seam.embedded</groupId>
+			<artifactId>thirdparty-all</artifactId>
+			<version>${version.jbossembedded}</version>
+		</dependency>
+	
 	</dependencies>
 
 </project>
