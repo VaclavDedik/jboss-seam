@@ -11,6 +11,25 @@
 	<artifactId>jboss-seam-remoting</artifactId>
 	<name>Seam Remoting</name>
 	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.github.searls</groupId>
+				<artifactId>jasmine-maven-plugin</artifactId>
+				<version>1.0.2-beta-5</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<jsSrcDir>src/main/resources/org/jboss/seam/remoting/</jsSrcDir>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 	
 	<dependencies>
 
