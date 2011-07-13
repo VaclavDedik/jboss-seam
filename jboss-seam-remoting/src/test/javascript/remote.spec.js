@@ -1,3 +1,20 @@
+/** fake XMLHttpRequest **/
+function myFakeXMLHttpRequest() {
+  this.method = null;
+  this.path = null;
+  this.async = null;
+  this.open = function(method, path, async) {
+	    this.method = method;
+	    this.path = path;
+	    this.async = async;
+	  };
+  this.send = function(envelope) {};
+};
+
+
+
+/** Jasmine spec file for testing remoting javascript **/
+
 describe('Seam Remoting javascript suite', function () {
 
   it('Confirm that URL encoding/decoding function we are using works', function () {
@@ -156,49 +173,48 @@ describe('Seam Remoting javascript suite', function () {
 	  expect(null).toEqual(Seam.Remoting.extractEncodedSessionId('http://localhost:8080/contextPath/page.seam'));
   });
   
-  // THIS doesn't work
-  xit('Seam.Remoting.Serialize testEncodeAjaxRequest', function() {
-	  var restoreXMLHttpRequest = window.XMLHttpRequest;
-	  window.XMLHttpRequest = dummyXMLHttpRequest;
-	  Seam.Remoting.resourcePath = "/resourcePath";
-	  Seam.Remoting.encodedSessionId = 'abcdefg';
-	  var req = Seam.Remoting.sendAjaxRequest(null, "/execute", null, true); 
-	  expect(req.method).toEqual("POST");
-	  expect(req.path).toEqual("/resourcePath/execute;jsessionid=abcdefg");
-	  expect(req.async).toBeTruthy();
-	  window.XMLHttpRequest = restoreXMLHttpRequest;
-  });
-
-  // THIS doesn't work
-  xit('Seam.Remoting.Serialize testNoEncodeAjaxRequest', function() {
-	  var restoreXMLHttpRequest = window.XMLHttpRequest;
-	  window.XMLHttpRequest = dummyXMLHttpRequest;
-	  Seam.Remoting.resourcePath = "/resourcePath";
-	  Seam.Remoting.encodedSessionId = null;
-	  var req = Seam.Remoting.sendAjaxRequest(null, "/execute", null, true); 
-	  expect(req.method).toEqual("POST");
-	  expect(req.path).toEqual("/resourcePath/execute");
-	  expect(req.async).toBeTruthy();
-	  window.XMLHttpRequest = restoreXMLHttpRequest;
-  });  
   
 });
 
+describe('Seam Remoting javascript suite AJAX tests', function () {
 
-function dummyXMLHttpRequest() {
-  this.method = null;
-  this.path = null;
-  this.async = null;
-}
+	beforeEach(function() {
+		  spyOn(window, 'XMLHttpRequest').andReturn(new myFakeXMLHttpRequest());
+	});
+			
+	it('Seam.Remoting.Serialize faking XMLHttpRequest', function() {		
+		var myRequest = new XMLHttpRequest();		
+		expect(myRequest).toBeDefined();
+		myRequest.open('POST', 'test/path', false);
+		
+		expect(myRequest.path).toBeDefined();		
+		expect(myRequest.path).toEqual('test/path');
+		expect(myRequest.method).toEqual('POST');
+		
+	});
 
-dummyXMLHttpRequest.prototype = {
-  open: function(method, path, async) {
-    this.method = method;
-    this.path = path;
-    this.async = async;
-  },
+	it('Seam.Remoting.Serialize testEncodeAjaxRequest', function() {		
+		Seam.Remoting.resourcePath = "/resourcePath";
+		Seam.Remoting.encodedSessionId = 'abcdefg';
+		
+		var req = Seam.Remoting.sendAjaxRequest(null, "/execute", null, true);
 
-  send: function(envelope) {}
-}
+		// actual tests		
+		expect(req).toBeDefined();
+		expect(req.method).toEqual("POST");
+		expect(req.path).toEqual("/resourcePath/execute;jsessionid=abcdefg");
+		expect(req.async).toBeTruthy();			
+	});
 
-
+	it('Seam.Remoting.Serialize testNoEncodeAjaxRequest', function() {
+		Seam.Remoting.resourcePath = "/resourcePath";
+		Seam.Remoting.encodedSessionId = null;
+		
+		var req = Seam.Remoting.sendAjaxRequest(null, "/execute", null, true);
+		
+		expect(req.method).toEqual("POST");
+		expect(req.path).toEqual("/resourcePath/execute");
+		expect(req.async).toBeTruthy();
+	});  	
+	
+});

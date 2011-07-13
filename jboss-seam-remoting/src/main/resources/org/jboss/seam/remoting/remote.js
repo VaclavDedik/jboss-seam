@@ -708,6 +708,7 @@ Seam.Remoting.sendAjaxRequest = function(envelope, path, callback, silent)
     
   asyncReq.open("POST", Seam.Remoting.resourcePath + path, true);
   asyncReq.send(envelope);
+  return asyncReq;
 }
 
 Seam.Remoting.displayError = function(code)
