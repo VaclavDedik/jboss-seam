@@ -94,6 +94,45 @@
     </build>
   
     <profiles>
+    	<profile>
+            <id>jbossas7</id>
+<!--             <properties> -->
+<!--                 <jndiPattern>java:app/jboss-seam/#{ejbName}</jndiPattern> -->
+<!--                 <jndiPattern>java:app/booking-ejb/#{ejbName}</jndiPattern> -->
+<!--             </properties> -->
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <webResources>
+                                <resource>
+                                    <directory>src/main/webapp</directory>
+                                    <filtering>true</filtering>
+                                    <excludes>
+                                        <exclude>**/web.xml</exclude>
+                                        <exclude>**/components.xml</exclude>
+                                    </excludes>
+                                </resource>
+                                <resource>
+                                    <directory>src/main/resources-as7</directory>
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <include>components.xml</include>
+                                    </includes>
+                                    <targetPath>WEB-INF</targetPath>
+                                </resource>
+                            </webResources>
+                        </configuration>
+                    </plugin>
+                </plugins>                
+            </build>
+            <dependencies>
+            	
+            </dependencies>
+        </profile>
+        
         <profile>
             <id>cluster</id>
             <properties>
