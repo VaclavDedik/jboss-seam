@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
 /**
  * Specifies the roles of a component.
  * 
- * @author César Izurieta
+ * @author CÃ©sar Izurieta
  */
 @Target(TYPE)
 @Retention(RUNTIME)

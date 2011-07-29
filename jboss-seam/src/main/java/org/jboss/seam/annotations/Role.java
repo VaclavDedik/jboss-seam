@@ -23,7 +23,7 @@ import org.jboss.seam.ScopeType;
  * roles in addition to the default role defined by <tt>@Name</tt> and 
  * <tt>@Scope</tt>.
  *
- * @author César Izurieta
+ * @author CÃ©sar Izurieta
  */
 @Target(TYPE)
 @Retention(RUNTIME)
