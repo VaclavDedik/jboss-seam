@@ -311,6 +311,31 @@
     </dependencyManagement>
 
     <profiles>
+   	   <profile>
+           <id>distribution</id>
+           <build>
+           	<plugins>
+	           	<plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>distribution</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                            <configuration>
+                      			<descriptorRefs>
+                      				<descriptorRef>project</descriptorRef>
+                      			</descriptorRefs>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>           	
+           	</plugins>           	
+           </build>
+       </profile>
+
         <profile>
             <id>ftest-jbossas</id>
             <properties>
