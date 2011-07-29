@@ -63,7 +63,8 @@ public class SafeActions
       String viewId = id.substring(0, loc);
       String action = "\"#{" + id.substring(loc+1) + "}\"";
       
-      InputStream is = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(viewId);
+      // adding slash as it otherwise won't find a page viewId by getResource*
+      InputStream is = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/" +viewId);
       if (is==null) throw new IllegalStateException("Unable to read view " + "/" + viewId + " to execute action " + action);
       BufferedReader reader = new BufferedReader( new InputStreamReader(is) );
       try
