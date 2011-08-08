@@ -30,7 +30,16 @@ public class QueryTest
       query.parseEjbql();
       // TODO this should eventually become count(p)
       assertEquals(query.getCountEjbql(), "select count(*) from Person p");
-      
+
+      // trying to reproduce bug JBSEAM-4694
+      query.setUseWildcardAsCountQuerySubject(false);
+      query.setEjbql("select distinct p from Person p");
+      query.setOrderColumn("username");
+      query.parseEjbql();
+      // TODO this should eventually become count(p)
+      assertEquals(query.getCountEjbql(), "select count(distinct p) from Person p");
+      query.setUseWildcardAsCountQuerySubject(true);
+     
       query.setEjbql("select v from Vehicle v join fetch v.person");
       query.setOrderColumn("make");
       query.parseEjbql();
@@ -46,7 +55,8 @@ public class QueryTest
       query.parseEjbql();
       assertEquals(query.getCountEjbql(), "select count(*) from Vehicle v");
       
-      query = new CompliantUnitQuery();
+//      query = new CompliantUnitQuery();
+      query.setUseWildcardAsCountQuerySubject(false);
       query.setEjbql("select p from Person p");
       query.parseEjbql();
       assertEquals(query.getCountEjbql(), "select count(p) from Person p");
@@ -71,14 +81,19 @@ public class QueryTest
       {
          return super.getCountEjbql();
       }
-      
-   }
 
-   class CompliantUnitQuery extends UnitQuery {
-
-      public CompliantUnitQuery() {
-         setUseWildcardAsCountQuerySubject(false);
+      /** Making setter method accessible for reproducing JBSEAM-4694. */
+      public void setUseWildcardAsCountQuerySubject(boolean useCompliantCountQuerySubject) {
+         super.setUseWildcardAsCountQuerySubject(useCompliantCountQuerySubject);
       }
       
    }
+
+//   class CompliantUnitQuery extends UnitQuery {
+//
+//      public CompliantUnitQuery() {
+//         setUseWildcardAsCountQuerySubject(false);
+//      }
+//      
+//   }
 }
