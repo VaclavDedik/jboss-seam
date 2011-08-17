@@ -325,8 +325,8 @@ public class Image implements Serializable
    public Image scaleToFit(int height, int width) 
        throws IOException
    {
-       float hratio = height/getHeight();
-       float wratio = width/getWidth();
+       float hratio = (float) height/getHeight();
+       float wratio = (float) width/getWidth();
 
        if (hratio < wratio) {
            return scaleToHeight(height);
