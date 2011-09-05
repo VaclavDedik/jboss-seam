@@ -349,7 +349,7 @@ java.naming.factory.url.pkgs=com.ibm.ws.runtime:com.ibm.ws.naming</programlistin
 			<listitem>
                Log in to the administration console
                <programlisting><![CDATA[http://localhost:9060/admin]]></programlisting>
-               Enter your userid annd/or your password if security is enabled for the console.
+               Enter your userid and/or your password if security is enabled for the console.
             </listitem>
               
             <listitem>
@@ -529,7 +529,7 @@ java.naming.factory.url.pkgs=com.ibm.ws.runtime:com.ibm.ws.naming</programlistin
           <listitem>
             <para>
               <literal>import.sql</literal>
-              &#8212; due to the cutomized hibernate Derby dialect, the <literal>ID</literal>
+              &#8212; due to the customized hibernate Derby dialect, the <literal>ID</literal>
               column can not be populated by this file and was removed.
             </para>
           </listitem>

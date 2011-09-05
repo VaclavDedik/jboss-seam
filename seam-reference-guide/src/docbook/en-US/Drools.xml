@@ -34,7 +34,7 @@
          </para>
          
          <para>
-             If you want to use a Drools DSL, you alse need to specify the DSL
+             If you want to use a Drools DSL, you also need to specify the DSL
              definition:
          </para>
          

@@ -258,7 +258,7 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>
         You can also use facelets source tags in your email, but you must place
         them in a jar in <literal>WEB-INF/lib</literal> - referencing the 
         <literal>.taglib.xml</literal> from <literal>web.xml</literal> isn't 
-        reliable when using Seam Mail (if you send your mail asynchrounously 
+        reliable when using Seam Mail (if you send your mail asynchronously 
         Seam Mail doesn't have access to the full JSF or Servlet context, and 
         so doesn't know about <literal>web.xml</literal> configuration 
         parameters).
@@ -367,7 +367,7 @@ public class MailListenerMDB implements MailListener {
     <para>
       Each message received will cause <literal>onMessage(Message message)</literal> 
       to be called.  Most Seam annotations will work inside a MDB but you 
-      musn't access the persistence context.
+      must not access the persistence context.
     </para>
 
     <para>

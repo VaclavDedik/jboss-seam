@@ -341,7 +341,7 @@ public class Authenticator {
           which should be a short timespan. However, it is much more attractive and dangerous if an attacker has the possibility 
           to steal a persistent Remember Me cookie that allows him to login without authentication, at any time. Note that this 
           all depends on how well you protect your website against XSS attacks - it's up to you to make sure that your website 
-          is 100% XSS safe - a non-trival achievement for any website that allows user input to be rendered on a page.          
+          is 100% XSS safe - a non-trivial achievement for any website that allows user input to be rendered on a page.          
         </para>
         
         <para>
@@ -2880,7 +2880,7 @@ public class Customer {
 
       <para>
         It is also possible to only restrict certain actions, by placing a <literal>@Restrict</literal> annotation
-        on the relevent entity lifecycle method (annotated as follows):
+        on the relevant entity lifecycle method (annotated as follows):
       </para>
 
       <itemizedlist>
@@ -3088,7 +3088,7 @@ public @interface Promote {
 }]]></programlisting>
 
       <para>
-        If you wish to override the default permisison action name (which is the lower case version of the annotation name) with
+        If you wish to override the default permission action name (which is the lower case version of the annotation name) with
         another value, you can specify it within the <literal>@PermissionCheck</literal> annotation:
       </para>
       
@@ -5026,7 +5026,7 @@ public class HitchhikersCaptcha extends Captcha
       Sometimes it might be necessary to extend the Identity component if your application has
       special security requirements.  The following example (contrived, as credentials would normally
       be handled by the <literal>Credentials</literal> component instead) shows an extended Identity 
-      component with an additional <literal>companyCode</literal> field.  The install precendence of <literal>APPLICATION</literal>
+      component with an additional <literal>companyCode</literal> field.  The install precedence of <literal>APPLICATION</literal>
       ensures that this extended Identity gets installed in preference to the built-in Identity.
     </para>
 
@@ -5078,7 +5078,7 @@ public class CustomIdentity extends Identity
             OpenID is a community standard for external web-based authentication. The basic
             idea is that any web application can supplement (or replace) its local handling of
             authentication by delegating responsibility to an external OpenID server of the user's
-            chosing.  This benefits the user, who no longer has to remember a name and password for 
+            choose.  This benefits the user, who no longer has to remember a name and password for 
             every web application he uses, and the developer, who is relieved of some of the burden of 
             maintaining a complex authentication system.  
         </para>
@@ -5170,7 +5170,7 @@ public class CustomIdentity extends Identity
     &lt;/navigation&gt;
 &lt;/page&gt;</programlisting>            
     
-        <para>Thie <literal>loginImmediately()</literal> action checks to see if the OpenID is valid.  If it is valid, it adds an
+        <para>This <literal>loginImmediately()</literal> action checks to see if the OpenID is valid.  If it is valid, it adds an
             OpenIDPrincipal to the identity component, marks the user as logged in (i.e. <literal>#{identity.loggedIn}</literal> will be true)
             and returns true.  If the OpenID was not validated, the method returns false, and the user re-enters the application un-authenticated.
             If the user's OpenID is valid, it will be accessible using the expression <literal>#{openid.validatedId}</literal> and 

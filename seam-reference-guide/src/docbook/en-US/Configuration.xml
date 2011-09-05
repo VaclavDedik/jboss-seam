@@ -417,7 +417,7 @@
 @Filter(within="org.jboss.seam.web.ajax4jsfFilter")
 public class MultipartFilter extends AbstractFilter {]]></programlisting>
 
-                <para> Adding the <literal>@Startup</literal> annotation means thar the component is available during
+                <para> Adding the <literal>@Startup</literal> annotation means that the component is available during
                     Seam startup; bijection isn't available here (<literal>@BypassInterceptors</literal>); and the filter
                     should be further down the chain than the RichFaces filter
                         (<literal>@Filter(within="org.jboss.seam.web.ajax4jsfFilter")</literal>). </para>
@@ -549,7 +549,7 @@ public class AuthenticatorBean implements Authenticator
                 When Seam attempts to find another Seam EJB component to satisfy an injection point defined using
                 <literal>@In</literal>, whether or not it finds it depends on whether an EJB reference exists in
                 JNDI. Strictly speaking, you cannot simply resolve JNDI names as you please. You have to define
-                the references explicitly. Fortunately, JBoss recognized how aggrevating this would be for the
+                the references explicitly. Fortunately, JBoss recognized how aggravating this would be for the
                 developer and all versions of JBoss automatically register EJBs so they are always available in
                 JNDI, both to the web container and the EJB container. So if you are using JBoss, you can skip the next
                 few paragraphs. However, if you are deploying to GlassFish, pay close attention.</para>
@@ -588,7 +588,7 @@ Authenticator authenticator;
             <para> Notice that the contents of the <literal>&lt;ejb-local-ref&gt;</literal> are identical to what we
                 defined in web.xml. What we are doing is bringing the reference into the EJB context where it can be
                 used by the RegisterAction bean. You will need to add one of these references for any injection of a
-                Seam EJB compoenent into another Seam EJB component using <literal>@In</literal>. (You can see an
+                Seam EJB component into another Seam EJB component using <literal>@In</literal>. (You can see an
                 example of this setup in the jee5/booking example).</para>
 
             <para> But what about <literal>@EJB</literal>? It's true that you can inject one EJB into another using
@@ -661,7 +661,7 @@ Authenticator authenticator;
             </para> 
         </note>
         
-        <para>Telling seam about a different JPA provider can be be done in one of two ways:</para>
+        <para>Telling seam about a different JPA provider can be done in one of two ways:</para>
         <para>Update your application's <literal>components.xml</literal>
               so that the generic <literal>PersistenceProvider</literal> takes
               precedence over the hibernate version.  Simply add the following

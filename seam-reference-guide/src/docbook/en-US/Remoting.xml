@@ -374,7 +374,7 @@ else if (Seam.Component.getComponentName(instance) == "staff")
       executed after starting a batch are queued, rather than being sent immediately. When all the desired component
       calls have been added to the batch, the <literal>Seam.Remoting.executeBatch()</literal> method will send a single
       request containing all of the queued calls to the server, where they will be executed in order. After the calls
-      have been executed, a single response containining all return values will be returned to the client and the
+      have been executed, a single response containning all return values will be returned to the client and the
       callback functions (if provided) triggered in the same order as execution. </para>
 
     <para> If you start a new batch via the <literal>startBatch()</literal> method but then decide you don't want to

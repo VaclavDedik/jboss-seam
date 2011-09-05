@@ -498,7 +498,7 @@
                            <para>
                               <literal>defaultRowHeight</literal>
                               &#8212; The default row height. The value is a
-                              number (1/20ths of a point).
+                              number (1/20 of a point).
                            </para>
                         </listitem>
                         <listitem>
@@ -709,7 +709,7 @@
                         <listitem>
                            <para>
                               <literal>verticalCentre</literal>
-                              &#8212; Center verically? The value is a boolean.
+                              &#8212; Center vertically? The value is a boolean.
                            </para>
                         </listitem>
                         <listitem>
@@ -1708,7 +1708,7 @@
    <section id="excel.headersfooters">
       <title>Headers and footers</title>
       <para>
-         Headers and footers are childrens of worksheets and contain facets which
+         Headers and footers are children of worksheets and contain facets which
          in turn contains a string with commands that are parsed.
       </para>
       <informaltable>

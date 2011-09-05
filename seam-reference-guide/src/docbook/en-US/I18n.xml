@@ -71,7 +71,7 @@
             character set to use.  So you must use either ASCII characters or 
             escape characters not in the ASCII character set.
             You can represent a Unicode character in any Java file using \uXXXX,
-            where XXXX is the hexidecimal representation of the character.
+            where XXXX is the hexadecimal representation of the character.
          </para>
          
          <para>

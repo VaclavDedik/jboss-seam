@@ -379,7 +379,7 @@
          <title>Conversion and Validation</title>
 
          <para>
-            You can specify a JSF converter for complex model propreties:
+            You can specify a JSF converter for complex model properties:
          </para>
          
          <programlisting role="XML"><![CDATA[<pages>

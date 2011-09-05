@@ -221,7 +221,7 @@
                <para>
                   Specifies the precedence of the component. If multiple 
                   components with the same name exist, the one with the higher 
-                  precedence will be installed. The defined precendence values 
+                  precedence will be installed. The defined precedence values 
                   are (in ascending order):
                </para>
                     
@@ -965,7 +965,7 @@
             <listitem>
                <programlisting role="JAVA"><![CDATA[@Transition("cancel")]]></programlisting>
                <para>
-                  Marks a method as signalling a transition in the current jBPM 
+                  Marks a method as signaling a transition in the current jBPM 
                   process instance whenever the method returns a non-null 
                   result.
                </para>
@@ -1272,7 +1272,7 @@
                <programlisting role="JAVA"><![CDATA[@IntervalDuration]]></programlisting>
                <para>
                   Specifies that an asynchronous method call recurs, and that 
-                  the annotationed parameter is duration between recurrences. 
+                  the annotation parameter is duration between recurrences. 
                </para>
             </listitem>
          </varlistentry>

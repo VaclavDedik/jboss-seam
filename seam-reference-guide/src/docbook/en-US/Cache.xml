@@ -265,7 +265,7 @@
       </tip>
       
       <para>
-         For an EAR depoyment of Seam, we recommend that the cache jars and
+         For an EAR deployment of Seam, we recommend that the cache jars and
          configuration go directly into the EAR.
       </para>
       

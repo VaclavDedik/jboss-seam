@@ -428,7 +428,7 @@
                 validated at development time.
             </para>
 
-            <para>The namespaced version looks like this:</para>
+            <para>The version with using namespaces looks like this:</para>
 
             <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <components xmlns="http://jboss.com/products/seam/components"
@@ -549,7 +549,7 @@ public class Payment
                 be used for guidance.   
             </para>
 
-            <para>The following are the the namespaces used by Seam:</para>
+            <para>The following are the namespaces used by Seam:</para>
             
             <itemizedlist>
                 <listitem>

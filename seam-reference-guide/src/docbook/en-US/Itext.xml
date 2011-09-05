@@ -875,7 +875,7 @@
 
             <para>List structures can be displayed using the <literal>p:list</literal> and <literal>p:listItem</literal>
                 tags. Lists may contain arbitrarily-nested sublists. List items may not be used outside of a list. The
-                following document uses the <literal>ui:repeat</literal> tag to to display a list of values retrieved
+                following document uses the <literal>ui:repeat</literal> tag to display a list of values retrieved
                 from a Seam component. </para>
 
             <programlisting role="XHTML"><![CDATA[<p:document xmlns:p="http://jboss.com/products/seam/pdf"
@@ -1374,7 +1374,7 @@
                     <literal>red</literal>, <literal>pink</literal>, <literal>yellow</literal>,
                     <literal>green</literal>, <literal>magenta</literal>, <literal>cyan</literal> and
                     <literal>blue</literal>. Colors can be specified as an integer value, as 
-                    definied by <literal>java.awt.Color</literal>.  Finally a color value may be specified
+                    defined by <literal>java.awt.Color</literal>.  Finally a color value may be specified
                     as <literal>rgb(r,g,b)</literal> or <literal>rgb(r,g,b,a)</literal> with the red, green, blue 
                     alpha values specified as an integer between 0 and 255 or as a floating point percentages 
                     followed by a '%' sign.                

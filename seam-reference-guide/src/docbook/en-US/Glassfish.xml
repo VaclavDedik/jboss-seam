@@ -73,7 +73,7 @@
             The web administration console is available at <literal>http://localhost:4848/</literal>.
             You can access the web admin console with the default username 
             (<literal>admin</literal>) and password (<literal>adminadmin</literal>).
-            We will be using the the admin console to deploy our examples.  
+            We will be using admin console to deploy our examples.  
             You can also copy EAR/WAR files to the
             <literal>glassfish/domains/domain1/autodeploy</literal> directory 
             to deploy them, although we are not going to cover that.

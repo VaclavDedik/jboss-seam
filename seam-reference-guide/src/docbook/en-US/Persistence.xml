@@ -67,7 +67,7 @@
         actually represent optimistic transactions in the data layer.) This is
         sufficient for many simple applications (such as the Seam booking
         demo) where persistence context propagation is not needed. For more
-        complex applications, with many loosly-interacting components in each
+        complex applications, with many loosely-interacting components in each
         conversation, propagation of the persistence context across components
         becomes an important issue. So Seam extends the persistence context
         management model of EJB 3.0, to provide conversation-scoped extended
@@ -147,7 +147,7 @@
     			<para>
                     use two transactions per request; the first spans the beginning of the restore view
                     phase (some transaction managers begin the transaction later at the beginning of the
-                    apply request vaues phase) until the end of the invoke application phase; the second spans the
+                    apply request values phase) until the end of the invoke application phase; the second spans the
                     render response phase
     			</para>
     		</listitem>
@@ -275,7 +275,7 @@
     			Seam transaction component when committing a transaction to ensure synchronization callbacks are
     			correctly executed. If in a Java EE 5 environment the
     			<literal>&lt;transaction:ejb-transaction/&gt;</literal>
-    			component should be be declared in <literal>components.xml</literal> to ensure that Seam synchronization callbacks are
+    			component should be declared in <literal>components.xml</literal> to ensure that Seam synchronization callbacks are
     			correctly called if the container commits a transaction outside of Seam's knowledge.
     		</para>
     	</section>
@@ -305,7 +305,7 @@
             Seam-managed persistence contexts are extremely efficient in a clustered environment.
             Seam is able to perform an optimization that EJB 3.0 specification does not allow 
             containers to use for container-managed extended persistence contexts. Seam supports
-            transparent failover of extended persisence contexts, without the need to replicate
+            transparent failover of extended persistence contexts, without the need to replicate
             any persistence context state between nodes. (We hope to fix this oversight in the
             next revision of the EJB spec.)
         </para>

@@ -1158,7 +1158,7 @@ public class GridEditor
         part of the page based on the result.  This approach is great when the 
         AJAX request is lightweight (the methods called are simple e.g. 
         calculating the sum of a column of numbers).  But what if we need to do 
-        a complex computation thats going to take a minute? 
+        a complex computation that is going to take a minute? 
       </para>
       
       <para>
@@ -1288,7 +1288,7 @@ public int getTotal() {
         <para>
            Alternatively, you can allow RichFaces handle the error, in which
            case the user will be presented with a prompt that reads "View state
-           could't be restored - reload page?" You can customize this message
+           couldn't be restored - reload page?" You can customize this message
            globally by setting the following message key in an application
            resource bundle.
         </para>

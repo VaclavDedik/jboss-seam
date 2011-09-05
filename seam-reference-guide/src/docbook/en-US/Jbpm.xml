@@ -49,7 +49,7 @@
     </para>
     
     <para>
-        You don't have to know jDPL to use Seam. If you're perfectly happy defining
+        You don't have to know jPDL to use Seam. If you're perfectly happy defining
         pageflow using JSF or Seam navigation rules, and if your application is more 
         data-driven that process-driven, you probably don't need jBPM. But we're
         finding that thinking of user interaction in terms of a well-defined graphical 

@@ -367,7 +367,7 @@
       </mediaobject>
       
       <para>
-         Then, alter the VM arguements:
+         Then, alter the VM arguments:
       </para>
       
       <mediaobject>
@@ -554,7 +554,7 @@
          JBoss Tools gives you the option to either reverse engineer
          entities, components and views from a database schema or to reverse
          engineer components and views from existing JPA entities. We're going
-         to do <emphasis>Reverse engieneer from database</emphasis>.
+         to do <emphasis>reverse engineering from database</emphasis>.
       </para>
      
       <para>
@@ -632,7 +632,7 @@
 
          <listitem>
             <para>
-               entities can never be hot-deloyed
+               entities can never be hot-deployed
             </para>
          </listitem>
 

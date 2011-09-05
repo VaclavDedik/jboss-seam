@@ -137,7 +137,7 @@
                 </listitem>
                 <listitem>
                     <para>Ensure you have two IP addresses available (two computers, two network cards, or two IP
-                    addressses bound to the same interface). I'll assume the two IP address are 192.168.1.2 and
+                    addresses bound to the same interface). I'll assume the two IP address are 192.168.1.2 and
                     192.168.1.3</para>
                 </listitem>
                 <listitem>
@@ -209,7 +209,7 @@
 
             <para>
                 So you can see that at least both servers claim to have identical sessions. Now, time to test that the
-                data is serializing and unserializing properly.
+                data is serializing and deserializing properly.
             </para>
 
             <para>
@@ -265,7 +265,7 @@ public void sessionDidActivate(HttpSessionEvent e);]]></programlisting>
             The MEI serves two distinct scenarios (EJB passivation and HTTP session passivation), although to accomplish
             the same overall goal. It ensures that throughout the life of a conversation using at least one extended
             persistence context, the entity instances loaded by the persistence context(s) remain managed (they do not
-            become detached prematurally by a passivation event). In short, it ensures the integrity of the extended
+            become detached prematurely by a passivation event). In short, it ensures the integrity of the extended
             persistence context (and therefore its guarantees).
         </para>
 
@@ -302,7 +302,7 @@ public void sessionDidActivate(HttpSessionEvent e);]]></programlisting>
 
             <para>
                 Database-oriented applications do much more than just read from and write to the database. They capture
-                transactional bits of information that need to be tranfered into the database atomically (at once). It's
+                transactional bits of information that need to be transferred into the database atomically (at once). It's
                 not always possible to capture this information all on one screen. Additionally, the user might need to
                 make a judgement call about whether to approve or reject the pending changes.
             </para>
@@ -385,16 +385,16 @@ public void sessionDidActivate(HttpSessionEvent e);]]></programlisting>
             <para>
                 Dealing with passivation of a SFSB works by leveraging the HTTP session. But what happens when the HTTP
                 session passivates? This happens in a clustered environment with session replication enabled. This case
-                is much tricker to deal with and is where a bulk of the MEI infrastructure comes into play. In thise
+                is much tricker to deal with and is where a bulk of the MEI infrastructure comes into play. In this
                 case, the persistence manager is going to be destroyed because it cannot be serialized. Seam handles
                 this deconstruction (hence ensuring that the HTTP session serializes properly). But what happens on the
                 other end. Well, when the MEI sticks an entity instance into the conversation, it embeds the instance in
-                a wrapper that provides information on how to reassociate the instance with a persistence manager
+                a wrapper that provides information on how to re-associate the instance with a persistence manager
                 post-serialization. So when the application jumps to another node in the cluster (presumably because the
-                target node went down) the MEI infrastruture essentially reconstructs the persistence context. The huge
+                target node went down) the MEI infrastructure essentially reconstructs the persistence context. The huge
                 drawback here is that since the persistence context is being reconstructed (from the database), pending
                 changes are dropped. However, what Seam does do is ensure that if the entity instance is versioned, that
-                the guarantees of optimistic locking are upheld. (why isn't the dirty state transfered?)
+                the guarantees of optimistic locking are upheld. (why isn't the dirty state transferred?)
             </para>
 
             <note>

@@ -49,7 +49,7 @@
                 installation, to the location of your JBoss AS installation.</para>
 
             <para>Once you've set the location of JBoss AS and started the application server, you can build and deploy
-                any example by typing <literal>ant explode</literal> in the the directory for that example. Any example
+                any example by typing <literal>ant explode</literal> in the directory for that example. Any example
                 that is packaged as an EAR deploys to a URL like
                 <literal>/seam-<replaceable>example</replaceable></literal>, where <replaceable>example</replaceable> is
                 the name of the example folder, with one exception. If the example folder begins with seam, the prefix
@@ -594,7 +594,7 @@ public interface Register
             </section>
 
             <section>
-                <title>The JSF configration: <literal>faces-config.xml</literal></title>
+                <title>The JSF configuration: <literal>faces-config.xml</literal></title>
 
                 <para> Most Seam applications use JSF views as the presentation layer. So usually we'll need
                         <literal>faces-config.xml</literal>. In our case, we are going to use Facelets for
@@ -931,7 +931,7 @@ public class MessageManagerBean implements Serializable, MessageManager
 }]]></programlisting>
                         <calloutlist>
                             <callout arearefs="messages-datamodel">
-                                <para> The <literal>@DataModel</literal> annotation exposes an attibute of type
+                                <para> The <literal>@DataModel</literal> annotation exposes an attribute of type
                                         <literal>java.util.List</literal> to the JSF page as an instance of
                                         <literal>javax.faces.model.DataModel</literal>. This allows us to use the list
                                     in a JSF <literal>&lt;h:dataTable&gt;</literal> with clickable links for
@@ -1501,7 +1501,7 @@ public class TodoList
                 <literal>todoList</literal> component
             knows which task the button is for because each s:button specificies 
                 <literal>taskInstance="#{task}"</literal>, referring
-            to the task for that particular line of of the table.  The <literal>@StartTast</literal> and 
+            to the task for that particular line of the table.  The <literal>@StartTast</literal> and 
                 <literal>@EndTask</literal> annotations
             cause seam to make the task active and immediately complete the task.  The original process then
             transitions into the <literal>done</literal> state, according to the process definition, where it ends.
@@ -1935,7 +1935,7 @@ public class NumberGuess implements Serializable {
                 more guesses.  If there are more guesses (<literal>lastGuess</literal> is <literal>false</literal>),
                 we transition back to the original <literal>displayGuess</literal> state.  Finally we've
                 reached a page state, so the associated page <literal>/numberGuess.jspx</literal> is displayed.  
-                Since the page has a redirect element, Seam sends a redirect to the the user's browser, 
+                Since the page has a redirect element, Seam sends a redirect to the user's browser, 
                 starting the process over.
             </para>
             
@@ -2017,7 +2017,7 @@ public class NumberGuess implements Serializable {
             <para> One of the things you'll notice if you play with this application for long enough is that it is
                 extremely <emphasis>robust</emphasis>. You can play with back buttons and browser refresh and opening
                 multiple windows and entering nonsensical data as much as you like and you will find it very difficult
-                to make the application crash. You might think that we spent weeks testing and fixing bugs to achive
+                to make the application crash. You might think that we spent weeks testing and fixing bugs to achieve
                 this. Actually, this is not the case. Seam was designed to make it very straightforward to build robust
                 web applications and a lot of robustness that you are probably used to having to code yourself comes
                 naturally and automatically with Seam. </para>
@@ -3188,7 +3188,7 @@ public class BlogService
             </para>
     
             <para>Just like with page parameters, URL rewriting is bi-directional.  That means that Seam 
-                forwards requests for the simpler URL to the the right view, and it also automatically generates
+                forwards requests for the simpler URL to the right view, and it also automatically generates
                 the simpler view for you.  You never need to worry about constructing URLs.  It's 
                 all handled transparently behind the scenes.  The only requirement is that to use URL rewriting, 
                 the rewrite filter needs to be enabled in <literal>components.xml</literal>.         

@@ -218,7 +218,7 @@ public class Hotel extends WebPage {]]></programlisting>
       	    </section>
       	    <section>
       	    <title>Runtime instrumentation agent</title>
-  	    	<para>The jar file <literal>jboss-seam-wicket.jar</literal> can be used as an iinstrumentation 
+  	    	<para>The jar file <literal>jboss-seam-wicket.jar</literal> can be used as an instrumentation 
   	    	agent through the Java Instrumentation api.  This is accomplished through the following
   	    	steps:</para>
   	    	<itemizedlist>

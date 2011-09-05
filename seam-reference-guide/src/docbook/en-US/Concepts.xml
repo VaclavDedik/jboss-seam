@@ -65,7 +65,7 @@
             <title>Stateless context</title>
             <para>
                 Components which are truly stateless (stateless session beans, primarily) always live in the stateless
-                context (which is basically the absense of a context since the instance Seam resolves is not stored).
+                context (which is basically the absence of a context since the instance Seam resolves is not stored).
                 Stateless components are not very interesting, and are arguably not very object-oriented. Nevertheless,
                 they do get developed and used and are thus an important part of any Seam application.
             </para>
@@ -191,7 +191,7 @@
 
             <para> 
                 So, within a context, a component instance is identified by the context variable name (this is
-                usually, but not always, the same as the component name). You may programatically access a named
+                usually, but not always, the same as the component name). You may programmatically access a named
                 component instance in a particular scope via the <literal>Contexts</literal> class, which provides
                 access to several thread-bound instances of the <literal>Context</literal> interface: 
             </para>
@@ -250,7 +250,7 @@
             <para> 
                 Neither the servlet nor EJB specifications define any facilities for managing concurrent requests
                 originating from the same client. The servlet container simply lets all threads run concurrently and
-                leaves enforcing threadsafeness to application code. The EJB container allows stateless components to be
+                leaves enforcing thread safeness to application code. The EJB container allows stateless components to be
                 accessed concurrently, and throws an exception if multiple threads access a stateful session bean. 
             </para>
             <para> 
@@ -410,7 +410,7 @@
         <sect2>
             <title>JavaBeans</title>
             <para> 
-                Javabeans may be used just like a stateless or stateful session bean. However, they do not provide
+                JavaBeans may be used just like a stateless or stateful session bean. However, they do not provide
                 the functionality of a session bean (declarative transaction demarcation, declarative security,
                 efficient clustered state replication, EJB 3.0 persistence, timeout methods, etc). 
             </para>
@@ -906,14 +906,14 @@ public class LoginAction implements Login {
         <para>
             The precedence of a component is a number that Seam uses to decide which component to
             install when there are multiple classes with the same component name in the classpath.
-            Seam will choose the component with the higher precendence. There are some predefined
+            Seam will choose the component with the higher precedence. There are some predefined
             precedence values (in ascending order):
         </para>
         
         <orderedlist>
         	<listitem>
         		<para>
-        		    <literal>BUILT_IN</literal> &#8212; the lowest precedece components are
+        		    <literal>BUILT_IN</literal> &#8212; the lowest precedence components are
         		    the components built in to Seam. 
         		</para>
         	</listitem>
@@ -977,7 +977,7 @@ public class MockMessageSender extends MessageSender {
         
         <para>
             This is nice if we are able to control exactly which classes are in the classpath. But
-            if I'm writing a reusable framework with many dependecies, I don't want to have to 
+            if I'm writing a reusable framework with many dependencies, I don't want to have to 
             break that framework across many jars. I want to be able to decide which components
             to install depending upon what other components are installed, and upon what classes
             are available in the classpath. The <literal>@Install</literal> annotation also 
@@ -1213,7 +1213,7 @@ public void initCustomerList() {
 
         <para> 
             A manager component is any component with an <literal>@Unwrap</literal> method. This method returns the
-            value that will be visable to clients, and is called <emphasis>every time</emphasis> a context variable is
+            value that will be visible to clients, and is called <emphasis>every time</emphasis> a context variable is
             referenced. 
         </para>
         

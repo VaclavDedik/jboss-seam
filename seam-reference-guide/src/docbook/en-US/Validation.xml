@@ -161,7 +161,7 @@
      <para>
          You can then inject this value into the message string using
          the placeholder {0} (the first and only parameter passed to a
-         JSF message for a Hiberate Validator restriction). See the
+         JSF message for a Hibernate Validator restriction). See the
          internationalization section for more information regarding
          where to define these messages.
      </para>
@@ -180,7 +180,7 @@
      
      <para>
          That's quite a lot of functionality we need for each field
-         of our form. We wouldn't want to have to specify higlighting
+         of our form. We wouldn't want to have to specify highlighting
          and the layout of the image, message and input field for every
          field on the form. So, instead, we'll specify the common
          layout in a facelets template:

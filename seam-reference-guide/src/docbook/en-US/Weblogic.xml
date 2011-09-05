@@ -82,7 +82,7 @@ url="http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html
                   for an account with Oracle in order to do this. </para>
             </listitem>
             <listitem>
-               <para> You may need to change the the
+               <para> You may need to change the
                   <literal>server103_XX.bin</literal> file to be
                   executable: </para>
                <programlisting>chmod a+x server103_XX.bin</programlisting>
@@ -952,7 +952,7 @@ $BEA_HOME/user_projects/domains/seam_examples/autodeploy</programlisting>
          <title>What's different with Weblogic 10.x</title>
          <itemizedlist>
             <listitem>
-               <para>Between the the Weblogic 10.x and 9.2 examples there are
+               <para>Between the Weblogic 10.x and 9.2 examples there are
                   several differences:
                </para>
                   <itemizedlist>
