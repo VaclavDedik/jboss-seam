@@ -53,6 +53,7 @@ public class UIWorkbook extends ExcelComponent
    private Boolean workbookProtected;
    private String exportKey;
    private String filename;
+   private String disposition;
 
    public String getFilename()
    {
@@ -330,6 +331,11 @@ public class UIWorkbook extends ExcelComponent
 
       DocumentData documentData = new ByteArrayDocumentData(baseName, type, bytes);
       documentData.setFilename(getFilename());
+      String dispositionValue = getDisposition().toString();
+      if (dispositionValue != null)
+      {
+         documentData.setDisposition(dispositionValue);
+      }
 
       if (getExportKey() != null)
       {
@@ -426,4 +432,13 @@ public class UIWorkbook extends ExcelComponent
       this.workbookProtected = workbookProtected;
    }
 
+   public Boolean getDisposition()
+   {
+      return (Boolean) valueOf("disposition", disposition);
+   }
+
+   public void setDisposition(String disposition)
+   {
+      this.disposition = disposition;
+   }
 }
