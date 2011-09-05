@@ -128,7 +128,7 @@ public class JXLExcelWorkbook implements ExcelWorkbook {
         currentRowIndex++;
         if (currentRowIndex >= MAX_ROWS) {
             throw new ExcelWorkbookException(Interpolator.instance()
-                    .interpolate("Excel only supports {0} rows", MAX_COLUMNS));
+                    .interpolate("Excel only supports {0} rows", MAX_ROWS));
         }
     }
 
