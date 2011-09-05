@@ -678,7 +678,7 @@ public class JXLHelper
    {
       if (log.isTraceEnabled())
       {
-         log.trace("Creating cell at (#0,#1) of type #2 with data #2", column, row, type, data);
+         log.trace("Creating cell at (#0,#1) of type #2 with data #3", column, row, type, data);
       }
 
       switch (type)
