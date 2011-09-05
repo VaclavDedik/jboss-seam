@@ -20,6 +20,9 @@ import org.jboss.seam.util.RandomStringUtils;
 @Name("org.jboss.seam.ui.clientUidSelector")
 public class ClientUidSelector extends Selector
 {
+
+   private static final long serialVersionUID = 816459544346114991L;
+	
    private String clientUid;
 
    @Create
@@ -34,7 +37,7 @@ public class ClientUidSelector extends Selector
    public void seed()
    {
       if (!isSet()) {
-         clientUid = RandomStringUtils.randomAscii(50);
+    	 clientUid = RandomStringUtils.random(50, true, true);
          setCookieValueIfEnabled(clientUid);
       }
    }
