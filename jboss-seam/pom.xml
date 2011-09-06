@@ -407,11 +407,12 @@
 			<optional>true</optional>
 		</dependency>
 
-		<dependency>
-			<groupId>org.openid4java</groupId>
-			<artifactId>openid4java</artifactId>
-			<optional>true</optional>
-		</dependency>
+        <dependency>
+                <groupId>org.openid4java</groupId>
+                <artifactId>openid4java-consumer</artifactId>
+                <type>pom</type>
+                <optional>true</optional>
+            </dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>

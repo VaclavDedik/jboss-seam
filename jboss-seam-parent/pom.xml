@@ -1126,56 +1126,75 @@
 				</exclusions>
 			</dependency>
 
-			<dependency>
-				<groupId>org.openid4java</groupId>
-				<artifactId>openid4java</artifactId>
-				<version>0.9.4.339</version>
-				<exclusions>
-					<exclusion>
-						<groupId>com.ibm.icu</groupId>
-						<artifactId>icu4j</artifactId>
-					</exclusion>
+            <dependency>
+                <groupId>org.openid4java</groupId>
+                <artifactId>openid4java-consumer</artifactId>
+                <version>0.9.6</version>
+                <type>pom</type>
+                <exclusions>
+                   <exclusion>
+                       <groupId>log4j</groupId>
+                       <artifactId>log4j</artifactId>
+                   </exclusion>
 
-					<exclusion>
-						<groupId>xerces</groupId>
-						<artifactId>xercesImpl</artifactId>
-					</exclusion>
+                   <exclusion>
+                       <groupId>xerces</groupId>
+                       <artifactId>xercesImpl</artifactId>
+                   </exclusion>
+                   
+                   </exclusions>
+            </dependency>
+            
+<!-- 			<dependency> -->
+<!-- 				<groupId>org.openid4java</groupId> -->
+<!-- 				<artifactId>openid4java</artifactId> -->
+<!-- 				<version>0.9.6</version> -->
+<!-- 				<exclusions> -->
+<!-- 					<exclusion> -->
+<!-- 						<groupId>com.ibm.icu</groupId> -->
+<!-- 						<artifactId>icu4j</artifactId> -->
+<!-- 					</exclusion> -->
 
-					<exclusion>
-						<groupId>xml-security</groupId>
-						<artifactId>xmlsec</artifactId>
-					</exclusion>
+<!-- 					<exclusion> -->
+<!-- 						<groupId>xerces</groupId> -->
+<!-- 						<artifactId>xercesImpl</artifactId> -->
+<!-- 					</exclusion> -->
+
+<!-- 					<exclusion> -->
+<!-- 						<groupId>xml-security</groupId> -->
+<!-- 						<artifactId>xmlsec</artifactId> -->
+<!-- 					</exclusion> -->
 
 					<!-- <exclusion> <groupId>commons-codec</groupId> <artifactId>commons-codec</artifactId> 
 						</exclusion> -->
 					<!-- <exclusion> <groupId>commons-httpclient</groupId> <artifactId>commons-httpclient</artifactId> 
 						</exclusion> -->
-					<exclusion>
-						<groupId>log4j</groupId>
-						<artifactId>log4j</artifactId>
-					</exclusion>
+<!-- 					<exclusion> -->
+<!-- 						<groupId>log4j</groupId> -->
+<!-- 						<artifactId>log4j</artifactId> -->
+<!-- 					</exclusion> -->
 
-					<exclusion>
-						<groupId>jug</groupId>
-						<artifactId>jug</artifactId>
-					</exclusion>
+<!-- 					<exclusion> -->
+<!-- 						<groupId>jug</groupId> -->
+<!-- 						<artifactId>jug</artifactId> -->
+<!-- 					</exclusion> -->
 
-					<exclusion>
-						<groupId>xml-apis</groupId>
-						<artifactId>xml-apis</artifactId>
-					</exclusion>
+<!-- 					<exclusion> -->
+<!-- 						<groupId>xml-apis</groupId> -->
+<!-- 						<artifactId>xml-apis</artifactId> -->
+<!-- 					</exclusion> -->
 
-					<exclusion>
-						<groupId>xalan</groupId>
-						<artifactId>xalan</artifactId>
-					</exclusion>
+<!-- 					<exclusion> -->
+<!-- 						<groupId>xalan</groupId> -->
+<!-- 						<artifactId>xalan</artifactId> -->
+<!-- 					</exclusion> -->
 
-					<exclusion>
-						<groupId>com.sun</groupId>
-						<artifactId>tools</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
+<!-- 					<exclusion> -->
+<!-- 						<groupId>com.sun</groupId> -->
+<!-- 						<artifactId>tools</artifactId> -->
+<!-- 					</exclusion> -->
+<!-- 				</exclusions> -->
+<!-- 			</dependency> -->
 
 
 			<dependency>
