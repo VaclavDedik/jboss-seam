@@ -1807,7 +1807,7 @@
 		<module>../jboss-embedded-bootstrap</module>
 		<module>../seam-integration-tests</module>
 		<module>../functional-tests</module>
-		<module>../examples</module>
+<!-- 		<module>../examples</module> -->
 	</modules>
 	
 	<profiles>
@@ -1822,7 +1822,7 @@
            <id>distribution</id>
            <modules>
                <module>../distribution</module>
-<!--                <module>../examples</module> -->
+               <module>../examples</module>
                <module>../seam-reference-guide</module>
            </modules>
            <build>
