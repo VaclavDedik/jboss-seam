@@ -303,7 +303,6 @@ public class UIWorkbook extends ExcelComponent
       this.useTemporaryFileDuringWrite = useTemporaryFileDuringWrite;
    }
 
-   @SuppressWarnings("unchecked")
    @Override
    public void encodeBegin(javax.faces.context.FacesContext facesContext) throws IOException
    {
@@ -331,10 +330,10 @@ public class UIWorkbook extends ExcelComponent
 
       DocumentData documentData = new ByteArrayDocumentData(baseName, type, bytes);
       documentData.setFilename(getFilename());
-      String dispositionValue = getDisposition().toString();
+      Boolean dispositionValue = getDisposition();
       if (dispositionValue != null)
       {
-         documentData.setDisposition(dispositionValue);
+         documentData.setDisposition(dispositionValue.toString());
       }
 
       if (getExportKey() != null)
