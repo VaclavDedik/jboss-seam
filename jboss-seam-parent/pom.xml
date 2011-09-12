@@ -59,7 +59,6 @@
 		<dist.dir>${project.build.directory}/jboss-seam-${version.seam}</dist.dir>
 	</properties>
 
-
 	<dependencyManagement>
 		<!-- Used to specify which version of a dependency to use - this means 
 			that versions are only specified here, not in sub project poms. All dependencies 
@@ -1574,41 +1573,28 @@
 	<build>
 
 		<defaultGoal>package</defaultGoal>
-
+        <finalName>${artifactId}</finalName>
 		<pluginManagement>
 			<plugins>
 
-				<plugin>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>2.7</version>
-					<configuration>
-						<links>
-							<link>http://java.sun.com/j2se/5.0/docs/api</link>
-						</links>
-						<keywords>true</keywords>
-						<author>true</author>
-						<stylesheetfile>jdstyle.css</stylesheetfile>
-						<doctitle>JBoss Seam ${project.name} API ${version.seam}</doctitle> <!-- Used by javadoc:javadoc goal -->
-					</configuration>
-				</plugin>
+<!-- 				<plugin> -->
+<!-- 					<artifactId>maven-javadoc-plugin</artifactId> -->
+<!-- 					<version>2.7</version> -->
+<!-- 					<configuration> -->
+<!-- 						<links> -->
+<!-- 							<link>http://java.sun.com/j2se/5.0/docs/api</link> -->
+<!-- 						</links> -->
+<!-- 						<keywords>true</keywords> -->
+<!-- 						<author>true</author> -->
+<!-- 						<stylesheetfile>jdstyle.css</stylesheetfile> -->
+<!-- 						<doctitle>JBoss Seam ${project.name} API ${version.seam}</doctitle> Used by javadoc:javadoc goal -->
+<!--                         <detectOfflineLinks>false</detectOfflineLinks> -->
+<!-- 					</configuration> -->
+<!-- 				</plugin> -->
 
 				<plugin>
 					<artifactId>maven-assembly-plugin</artifactId>
 					<version>2.2</version>
-<!-- 					<executions> -->
-<!-- 						<execution> -->
-<!-- 							<id>distribution</id> -->
-<!-- 							<phase>package</phase> -->
-<!-- 							<goals> -->
-<!-- 								<goal>single</goal> -->
-<!-- 							</goals> -->
-<!-- 							<configuration> -->
-<!-- 								<descriptors> -->
-<!-- 									<descriptor>src/main/assembly/distribution.xml</descriptor> -->
-<!-- 								</descriptors> -->
-<!-- 							</configuration> -->
-<!-- 						</execution> -->
-<!-- 					</executions> -->
 				</plugin>
 
 				<!-- Building -->
@@ -1657,14 +1643,28 @@
 				<plugin>
 					<artifactId>maven-source-plugin</artifactId>
 					<version>2.1.2</version>
-	               <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
+					<configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Implementation-Version>${version.seam}</Implementation-Version>
+                            <Specification-Version>${version.seam}</Specification-Version>
+                            <Specification-Title>${project.name}</Specification-Title>
+                            <Specification-Vendor>${project.organization.name}</Specification-Vendor>
+                            <Implementation-Title>${project.name}</Implementation-Title>
+                            <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
+                        </manifestEntries>
+                        <manifestSections>
+                            <manifestSection>
+                                <name>Build-Information</name>
+                                <manifestEntries>
+                                    <Java-Version>${java.version}</Java-Version>
+                                    <Java-Vendor>${java.vendor}</Java-Vendor>
+                                    <Build-Time>${maven.build.timestamp}</Build-Time>
+                                </manifestEntries>
+                            </manifestSection>
+                        </manifestSections>
+                    </archive>
+                </configuration>
 				</plugin>
 
 				<plugin>
@@ -1679,7 +1679,7 @@
 
 				<plugin>
 					<artifactId>maven-war-plugin</artifactId>
-					<version>2.1-beta-1</version>
+					<version>2.1.1</version>
 					<inherited>true</inherited>
 					<configuration>
 						<failOnMissingWebXml>false</failOnMissingWebXml>
@@ -1783,6 +1783,22 @@
 				</configuration>
 			</plugin></plugins>
 		</pluginManagement>
+
+	<plugins>
+		<plugin>
+			<artifactId>maven-source-plugin</artifactId>
+			<version>2.1.2</version>
+			<executions>
+				<execution>
+					<id>attach-sources</id>
+					<phase>package</phase>
+					<goals>
+						<goal>jar</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+	   </plugins>
 	</build>
 
 	<dependencies>
@@ -1831,7 +1847,7 @@
                     <artifactId>maven-assembly-plugin</artifactId>
                     <executions>
                         <execution>
-                            <id>distribution</id>
+                            <id>project-distribution</id>
                             <phase>package</phase>
                             <goals>
                                 <goal>single</goal>

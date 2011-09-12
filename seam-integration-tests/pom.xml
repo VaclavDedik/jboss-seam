@@ -17,6 +17,7 @@
 	</properties>
 
 	<build>
+	   <finalName>${artifactId}</finalName>
 	   <testResources>
             <testResource>
                 <directory>src/test/resources</directory>

@@ -5,7 +5,8 @@
 
    <id>distribution</id>
    <formats>
-      <format>dir</format>
+      <format>zip</format>
+      <format>tar.gz</format>
    </formats>
    <includeBaseDirectory>false</includeBaseDirectory>
   
@@ -44,6 +45,7 @@
    		</includes>
    		<unpack>true</unpack>
    		<unpackOptions>
+   		
    			<excludes>
    				<exclude>META-INF/**</exclude>
    			</excludes>
@@ -61,7 +63,7 @@
          <excludes>
             <exclude>org.jboss.seam:jboss-seam-gen:*:sources</exclude>
          </excludes>
-         <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+         <outputFileNameMapping>${artifact.artifactId}-sources.${artifact.extension}</outputFileNameMapping>
       </dependencySet>
       
     <!-- Add necessary dependencies -->
@@ -69,11 +71,14 @@
          <outputDirectory>lib</outputDirectory>
          <useProjectArtifact>false</useProjectArtifact>
          <useTransitiveDependencies>true</useTransitiveDependencies>
+         <useTransitiveFiltering>true</useTransitiveFiltering>
+         <scope>compile</scope>
          <excludes>
             <exclude>org.jboss.seam:jboss-seam-gen:*:*</exclude>
             <exclude>org.jboss.seam:seam-reference-guide:*:*</exclude>
             <exclude>*:sources</exclude>
             <exclude>*:javadoc</exclude>
+            <exclude>*:project</exclude>
             <exclude>org.hibernate:hibernate-tools:jar</exclude>
             <exclude>freemarker:freemarker:jar</exclude>
             <exclude>org.eclipse.core:runtime:jar</exclude>
@@ -87,7 +92,6 @@
             <exclude>org.jboss.seam:functional-tests:*:*</exclude>
          </excludes>
          <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
-         <!-- <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping> -->
       </dependencySet>
       
 	  <!-- Seam gen -->
