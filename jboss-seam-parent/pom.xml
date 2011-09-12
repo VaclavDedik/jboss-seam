@@ -1546,9 +1546,9 @@
 	</ciManagement>
 
 	<scm>
-		<connection>scm:git:git://github.com/mareknovotny/seam-revisited/jboss-seam-parent</connection>
-		<developerConnection>scm:git:git://github.com/mareknovotny/seam-revisited/jboss-seam-parent</developerConnection>
-		<url>https://github.com/mareknovotny/seam-revisited/jboss-seam-parent</url>
+		<connection>scm:svn:https://svn.jboss.org/repos/seam/branches/community/Seam_2_3/jboss-seam-parent</connection>
+		<developerConnection>scm:svn:https://svn.jboss.org/repos/seam/branches/community/Seam_2_3jboss-seam-parent</developerConnection>
+		<url>scm:svn:https://svn.jboss.org/repos/seam/branches/community/Seam_2_3</url>
 	</scm>
 
 	<organization>
