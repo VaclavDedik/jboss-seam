@@ -46,7 +46,7 @@
 		<version.testng>5.10</version.testng>
 		<version.resteasy>2.0-beta-2</version.resteasy>
 		<version.spring>2.5.6.SEC02</version.spring>
-		<version.seam>${project.version}</version.seam>
+<!--		<version.seam>${project.version}</version.seam> -->
 		<version.jbossembedded>beta3.SP10</version.jbossembedded>
         <version.emma>2.0.5312</version.emma>
 
@@ -56,7 +56,7 @@
 		<jboss.releases.repo.url>https://repository.jboss.org/nexus/service/local/staging/deploy/maven2/</jboss.releases.repo.url>
 		<jboss.snapshots.repo.url>https://repository.jboss.org/nexus/content/repositories/snapshots/</jboss.snapshots.repo.url>
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
-		<dist.dir>${project.build.directory}/jboss-seam-${version.seam}</dist.dir>
+		<dist.dir>${project.build.directory}/jboss-seam-${project.version}</dist.dir>
 	</properties>
 
 	<dependencyManagement>
@@ -67,63 +67,63 @@
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
 				<artifactId>distribution</artifactId>
-				<version>${version.seam}</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
 				<artifactId>seam-reference-guide</artifactId>
-				<version>${version.seam}</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<!-- All Seam modules -->
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
 				<artifactId>jboss-seam</artifactId>
-				<version>${version.seam}</version>
+				<version>${project.version}</version>
 				<type>ejb</type>
 			</dependency>
 
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
 				<artifactId>jboss-seam-gen</artifactId>
-				<version>${version.seam}</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
 				<artifactId>jboss-seam-ioc</artifactId>
-				<version>${version.seam}</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
 				<artifactId>jboss-seam-mail</artifactId>
-				<version>${version.seam}</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
 				<artifactId>jboss-seam-pdf</artifactId>
-				<version>${version.seam}</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
 				<artifactId>jboss-seam-remoting</artifactId>
-				<version>${version.seam}</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
 				<artifactId>jboss-seam-resteasy</artifactId>
-				<version>${version.seam}</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
 				<artifactId>jboss-seam-ui</artifactId>
-				<version>${version.seam}</version>
+				<version>${project.version}</version>
 				<exclusions>
 					<exclusion>
 						<groupId>commons-logging</groupId>
@@ -135,37 +135,37 @@
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
 				<artifactId>jboss-seam-debug</artifactId>
-				<version>${version.seam}</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
 				<artifactId>jboss-seam-jul</artifactId>
-				<version>${version.seam}</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
 				<artifactId>jboss-seam-flex</artifactId>
-				<version>${version.seam}</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
 				<artifactId>jboss-seam-excel</artifactId>
-				<version>${version.seam}</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
 				<artifactId>jboss-seam-rss</artifactId>
-				<version>${version.seam}</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
 				<artifactId>jboss-seam-wicket</artifactId>
-				<version>${version.seam}</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
@@ -1438,7 +1438,7 @@
             <dependency>
                 <groupId>org.jboss.seam</groupId>
                 <artifactId>functional-tests</artifactId>
-                <version>${version.seam}</version>
+                <version>${project.version}</version>
                 <scope>test</scope>
             </dependency>
             
@@ -1587,7 +1587,7 @@
 <!-- 						<keywords>true</keywords> -->
 <!-- 						<author>true</author> -->
 <!-- 						<stylesheetfile>jdstyle.css</stylesheetfile> -->
-<!-- 						<doctitle>JBoss Seam ${project.name} API ${version.seam}</doctitle> Used by javadoc:javadoc goal -->
+<!-- 						<doctitle>JBoss Seam ${project.name} API ${project.version}</doctitle> Used by javadoc:javadoc goal -->
 <!--                         <detectOfflineLinks>false</detectOfflineLinks> -->
 <!-- 					</configuration> -->
 <!-- 				</plugin> -->
@@ -1646,8 +1646,8 @@
 					<configuration>
                     <archive>
                         <manifestEntries>
-                            <Implementation-Version>${version.seam}</Implementation-Version>
-                            <Specification-Version>${version.seam}</Specification-Version>
+                            <Implementation-Version>${project.version}</Implementation-Version>
+                            <Specification-Version>${project.version}</Specification-Version>
                             <Specification-Title>${project.name}</Specification-Title>
                             <Specification-Vendor>${project.organization.name}</Specification-Vendor>
                             <Implementation-Title>${project.name}</Implementation-Title>
@@ -1736,8 +1736,8 @@
 				<configuration>
 					<archive>
 						<manifestEntries>
-							<Implementation-Version>${version.seam}</Implementation-Version>
-							<Specification-Version>${version.seam}</Specification-Version>
+							<Implementation-Version>${project.version}</Implementation-Version>
+							<Specification-Version>${project.version}</Specification-Version>
 							<Specification-Title>${project.name}</Specification-Title>
 							<Specification-Vendor>${project.organization.name}</Specification-Vendor>
 							<Implementation-Title>${project.name}</Implementation-Title>
@@ -1762,8 +1762,8 @@
 					<ejbVersion>3.0</ejbVersion>
 					<archive>
 						<manifestEntries>
-							<Implementation-Version>${version.seam}</Implementation-Version>
-							<Specification-Version>${version.seam}</Specification-Version>
+							<Implementation-Version>${project.version}</Implementation-Version>
+							<Specification-Version>${project.version}</Specification-Version>
 							<Specification-Title>${project.name}</Specification-Title>
 							<Specification-Vendor>${project.organization.name}</Specification-Vendor>
 							<Implementation-Title>${project.name}</Implementation-Title>
