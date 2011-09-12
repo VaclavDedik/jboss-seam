@@ -11,16 +11,7 @@
     <groupId>org.jboss.seam.examples</groupId>
     <artifactId>seambay-ejb</artifactId>
     <packaging>ejb</packaging>
-    <name>Seambay EJB Module</name>
-    
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-ejb-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+    <name>Seambay EJB Module</name>    
     
     <dependencies>
         <dependency>

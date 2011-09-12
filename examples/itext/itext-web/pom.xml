@@ -71,10 +71,6 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.jboss.seam</groupId>
-            <artifactId>jboss-seam-debug</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.richfaces.ui</groupId>
             <artifactId>richfaces-ui</artifactId>
             <exclusions>

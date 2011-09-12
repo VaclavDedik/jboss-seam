@@ -84,10 +84,6 @@
             <artifactId>jsf-facelets</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.jboss.seam</groupId>
-            <artifactId>jboss-seam-debug</artifactId>
-        </dependency>
     </dependencies>
 
     <build>

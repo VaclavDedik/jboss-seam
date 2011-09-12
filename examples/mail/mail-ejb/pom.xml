@@ -14,15 +14,6 @@
 	<packaging>ejb</packaging>
 	<name>Mail EJB Module</name>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-ejb-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.jboss.seam</groupId>

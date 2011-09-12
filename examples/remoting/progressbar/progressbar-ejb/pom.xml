@@ -11,16 +11,7 @@
     <groupId>org.jboss.seam.examples.remoting</groupId>
     <artifactId>progressbar-ejb</artifactId>
     <packaging>ejb</packaging>
-    <name>Progressbar EJB Module</name>
-    
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-ejb-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+    <name>Progressbar EJB Module</name>    
     
     <dependencies>
         <dependency>
