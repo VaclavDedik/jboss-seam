@@ -57,6 +57,40 @@
                       </execution>
                   </executions>
              </plugin>
+             <plugin>
+                 <artifactId>maven-antrun-plugin</artifactId>
+                 <version>1.6</version>
+                  <configuration>
+                     <target>
+	                     <jar destfile="${project.build.directory}/jboss-seam-wls-compatible.jar">
+						    <zipfileset includes="**/*" excludes="org/jboss/seam/async/TimerServiceDispatcher*" src="${project.build.directory}/jboss-seam.jar"/>
+						    <manifest>
+								<attribute name="Built-By" value="${user.name}"/>
+								<attribute name="Implementation-Vendor" value="${project.organization.name}"/>
+								<attribute name="Implementation-Title" value="JBoss Seam Weblogic compatible"/>
+								<attribute name="Implementation-Version" value="${project.version}"/>
+						    </manifest>
+						  </jar>
+						  <jar destfile="${project.build.directory}/jboss-seam-wls-compatible-sources.jar">
+                            <zipfileset includes="**/*" excludes="org/jboss/seam/async/TimerServiceDispatcher.java" src="${project.build.directory}/jboss-seam-sources.jar"/>
+                            <manifest>
+                                <attribute name="Built-By" value="${user.name}"/>
+                                <attribute name="Implementation-Vendor" value="${project.organization.name}"/>
+                                <attribute name="Implementation-Title" value="JBoss Seam Weblogic compatible"/>
+                                <attribute name="Implementation-Version" value="${project.version}"/>
+                            </manifest>
+                          </jar>
+                     </target>
+                 </configuration>
+                 <executions>
+                      <execution>
+                          <phase>package</phase>
+                          <goals>
+                              <goal>run</goal>
+                          </goals>
+                      </execution>
+                  </executions>
+             </plugin>
 		</plugins>
 	</build>
 
