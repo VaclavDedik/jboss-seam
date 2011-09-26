@@ -83,27 +83,6 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>cz.mana.myseamproj</groupId>
-                <artifactId>seamtemplateproj-util</artifactId>
-                <version>${project.version}</version>
-                <type>jar</type>
-                <scope>compile</scope>
-            </dependency>
-            <dependency>
-                <groupId>cz.mana.myseamproj</groupId>
-                <artifactId>seamtemplateproj-ejb</artifactId>
-                <version>${project.version}</version>
-                <type>ejb</type>
-                <scope>compile</scope>
-            </dependency>
-            <dependency>
-                <groupId>cz.mana.myseamproj</groupId>
-                <artifactId>seamtemplateproj-web</artifactId>
-                <version>${project.version}</version>
-                <type>war</type>
-                <scope>compile</scope>
-            </dependency>
-            <dependency>
                 <groupId>org.richfaces.ui</groupId>
                 <artifactId>richfaces-ui</artifactId>
                 <version>${richfaces.version}</version>
@@ -136,7 +115,7 @@
             <dependency>
                 <groupId>org.jboss.seam</groupId>
                 <artifactId>jboss-seam</artifactId>
-                <version>${version.seam}</version>
+                <version>${project.version}</version>
                 <type>ejb</type>
                 <scope>provided</scope>
                 <exclusions>

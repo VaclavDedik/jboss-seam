@@ -51,7 +51,7 @@
                      <keywords>true</keywords>
                      <author>true</author>
                      <stylesheetfile>jdstyle.css</stylesheetfile>
-                     <doctitle>JBoss Seam ${project.name} API ${version.seam}</doctitle> <!-- Used by javadoc:javadoc goal -->
+                     <doctitle>JBoss Seam ${project.name} API ${project.version}</doctitle> <!-- Used by javadoc:javadoc goal -->
                      <detectOfflineLinks>false</detectOfflineLinks>
                  </configuration>
                  <executions>
