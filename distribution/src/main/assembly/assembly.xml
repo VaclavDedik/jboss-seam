@@ -5,7 +5,7 @@
 
    <id>distribution</id>
    <formats>
-   <!--     <format>dir</format> -->
+<!--        <format>dir</format> -->
        <format>zip</format>
        <format>tar.gz</format>
    </formats>
@@ -75,6 +75,15 @@
             <include>jboss-seam-wls-compatible-sources.jar</include>
         </includes>
       </fileSet>
+      <!--  all jars from jboss-seam module dependencies 
+       (done this way due needs to have all scopes except test there) -->
+      <fileSet>
+        <directory>../jar-dependencies</directory>
+        <outputDirectory>./lib</outputDirectory>
+        <includes>
+            <include>*.jar</include>
+        </includes>
+      </fileSet>
    </fileSets>    
 
    <dependencySets>
@@ -117,25 +126,26 @@
          <outputFileNameMapping>${artifact.artifactId}-sources.${artifact.extension}</outputFileNameMapping>
       </dependencySet>
       
-    <!-- Add necessary dependencies -->
+    <!-- Add jboss-seam jars into lib folder -->
       <dependencySet>
          <outputDirectory>lib</outputDirectory>
-         <useProjectArtifact>false</useProjectArtifact>
-         <useTransitiveDependencies>true</useTransitiveDependencies>
-         <useTransitiveFiltering>true</useTransitiveFiltering>
-         <useStrictFiltering>true</useStrictFiltering>
-         <scope>compile</scope>
+         <useProjectArtifact>false</useProjectArtifact>                  
+         <useStrictFiltering>true</useStrictFiltering>         
          <includes>
-            <include>*:*:jar</include>
+            <include>org.jboss.seam:jboss-seam:ejb</include>
+            <include>org.jboss.seam:jboss-seam-debug:jar</include>
+            <include>org.jboss.seam:jboss-seam-ui:jar</include>
+            <include>org.jboss.seam:jboss-seam-excel:jar</include>
+            <include>org.jboss.seam:jboss-seam-pdf:jar</include>
+            <include>org.jboss.seam:jboss-seam-mail:jar</include>
+            <include>org.jboss.seam:jboss-seam-rss:jar</include>
+            <include>org.jboss.seam:jboss-seam-resteasy:jar</include>
+            <include>org.jboss.seam:jboss-seam-wicket:jar</include>
+            <include>org.jboss.seam:jboss-seam-remoting:jar</include>
+            <include>org.jboss.seam:jboss-seam-flex:jar</include>
+            <include>org.jboss.seam:jboss-seam-ioc:jar</include>
+            <include>org.jboss.seam.embedded:jboss-embedded-api:jar</include>
          </includes>
-         <excludes>
-            <exclude>org.jboss.seam:jboss-embedded-bootstrap:jar</exclude>
-            <exclude>org.jboss.seam.embedded:jboss-embedded-all:jar</exclude>
-            <exclude>org.jboss.seam.embedded:hibernate-all:jar</exclude>
-            <exclude>org.jboss.seam.embedded:thirdparty-all:jar</exclude>
-            <exclude>org.jboss.seam:jboss-seam-gen:*:*</exclude>
-            <exclude>org.jboss.seam:seam-reference-guide:*:*</exclude>
-         </excludes>
          <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
       </dependencySet>
       

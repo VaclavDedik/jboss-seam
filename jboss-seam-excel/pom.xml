@@ -98,5 +98,32 @@
                 </plugins>
             </build>
         </profile>
+         <profile>
+            <id>distribution</id>
+            <build>
+            <plugins>
+                 <plugin>
+                     <artifactId>maven-dependency-plugin</artifactId>
+                     <executions>
+                            <execution>
+                                <id>copy-dependencies</id>
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration>
+                                    <excludeGroupIds>org.jboss.seam</excludeGroupIds>
+                                    <excludeClassifiers>sources, project, distribution</excludeClassifiers>
+                                    <outputDirectory>../jar-dependencies</outputDirectory>
+                                    <stripVersion>true</stripVersion>
+                                    <type>jar</type>
+                                    <transitive>true</transitive>
+                                </configuration>
+                            </execution>
+                     </executions>
+                </plugin>
+            </plugins>
+            </build>
+        </profile>
     </profiles>
 </project>

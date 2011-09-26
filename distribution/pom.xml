@@ -25,6 +25,7 @@
 							<goal>single</goal>
 						</goals>
 						<configuration>
+                            <finalName>jboss-seam-${project.version}</finalName>
 							<descriptors>
 								<descriptor>src/main/assembly/assembly.xml</descriptor>
 							</descriptors>	
