@@ -1,7 +1,7 @@
 # ignore eclipse files
 .project
 .classpath
-*.settings*
+.settings/
 *.ipr
 .idea
 *.iws
