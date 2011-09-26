@@ -35,7 +35,7 @@ if not exist "%JAVA_HOME%\bin\javac.exe" (goto nojdk)
 echo SEAM_HOME: %SEAM_HOME%
 echo Using seam-gen sources from: %SEAM_GEN_DIR%
 
-"%JAVA_HOME%\bin\java" -cp "%JAVA_HOME%\lib\tools.jar;%SEAM_HOME%\build\lib\ant-launcher.jar;%SEAM_HOME%\build\lib\ant-nodeps.jar;%SEAM_HOME%\build\lib\ant.jar" -Dant.home="%SEAM_HOME%\lib" org.apache.tools.ant.launch.Launcher -buildfile "%SEAM_GEN_DIR%\build.xml" -Dworking.dir="%WORKING_DIR%" %*
+"%JAVA_HOME%\bin\java" -cp "%JAVA_HOME%\lib\tools.jar;%SEAM_HOME%\lib\gen\ant-launcher.jar;%SEAM_HOME%\lib\gen\ant-nodeps.jar;%SEAM_HOME%\lib\gen\ant.jar" -Dant.home="%SEAM_HOME%\lib" org.apache.tools.ant.launch.Launcher -buildfile "%SEAM_GEN_DIR%\build.xml" -Dworking.dir="%WORKING_DIR%" %*
 
 goto END_NO_PAUSE
 

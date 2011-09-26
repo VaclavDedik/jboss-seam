@@ -55,7 +55,7 @@ elif $cygwin; then
     SEAM_HOME_WINPATH=`cygpath -aw "$SEAM_HOME"`
     SEAM_GEN_DIR_WINPATH=`cygpath -aw "$SEAM_GEN_DIR"`
     WORKING_DIR_WINPATH=`cygpath -aw "$WORKING_DIR"`
-    "$JAVA_HOME/bin/java" -cp "$JAVA_HOME_WINPATH\lib\tools.jar;$SEAM_HOME_WINPATH\build\lib\ant-launcher.jar;$SEAM_HOME_WINPATH\build\lib\ant-nodeps.jar;$SEAM_HOME_WINPATH\build\lib\ant.jar" -Dant.home="$SEAM_HOME_WINPATH\lib" org.apache.tools.ant.launch.Launcher -buildfile "$SEAM_GEN_DIR_WINPATH\build.xml" -Dworking.dir="$WORKING_DIR_WINPATH" "$@"
+    "$JAVA_HOME/bin/java" -cp "$JAVA_HOME_WINPATH\lib\tools.jar;$SEAM_HOME_WINPATH\lib\gen\ant-launcher.jar;$SEAM_HOME_WINPATH\lib\gen\ant-nodeps.jar;$SEAM_HOME_WINPATH\lib\gen\ant.jar" -Dant.home="$SEAM_HOME_WINPATH\lib" org.apache.tools.ant.launch.Launcher -buildfile "$SEAM_GEN_DIR_WINPATH\build.xml" -Dworking.dir="$WORKING_DIR_WINPATH" "$@"
 else
-    "$JAVA_HOME/bin/java" -cp "$JAVA_HOME/lib/tools.jar:$SEAM_HOME/build/lib/ant-launcher.jar:$SEAM_HOME/build/lib/ant-nodeps.jar:$SEAM_HOME/build/lib/ant.jar" -Dant.home="$SEAM_HOME/lib" org.apache.tools.ant.launch.Launcher -buildfile "$SEAM_GEN_DIR/build.xml" -Dworking.dir="$WORKING_DIR" "$@"
+    "$JAVA_HOME/bin/java" -cp "$JAVA_HOME/lib/tools.jar:$SEAM_HOME/lib/gen/ant-launcher.jar:$SEAM_HOME/lib/gen/ant-nodeps.jar:$SEAM_HOME/lib/gen/ant.jar" -Dant.home="$SEAM_HOME/lib" org.apache.tools.ant.launch.Launcher -buildfile "$SEAM_GEN_DIR/build.xml" -Dworking.dir="$WORKING_DIR" "$@"
 fi
