@@ -39,7 +39,6 @@
 			 <configuration>
 			  <includeGroupIds>org.jboss.seam</includeGroupIds>
 			  <excludeGroupIds>org.jboss.seam.embedded</excludeGroupIds>
-			  
 			 </configuration>
 			 <executions>
                     <execution>
@@ -250,6 +249,11 @@
 			<version>${project.version}</version>
 			<classifier>sources</classifier>
 		</dependency>
+        <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>jboss-seam-gen</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
 		<dependency>
 			<groupId>org.jboss.seam</groupId>

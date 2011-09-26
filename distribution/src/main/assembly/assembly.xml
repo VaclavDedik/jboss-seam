@@ -5,21 +5,51 @@
 
    <id>distribution</id>
    <formats>
-      <format>zip</format>
-      <format>tar.gz</format>
+   <!--     <format>dir</format> -->
+       <format>zip</format>
+       <format>tar.gz</format>
    </formats>
    <includeBaseDirectory>false</includeBaseDirectory>
   
    
    <!-- Add distribution files -->
    <fileSets>
+   
+      <!--  All module sources defined in dependencies except examples -->
+      <fileSet>
+        <directory>target/dependency</directory>
+        <outputDirectory>src</outputDirectory>
+        <excludes>
+            <exclude>examples/</exclude>
+        </excludes>
+      </fileSet>
+      
+      <!-- Examples only -->
+      <fileSet>
+        <directory>target/dependency</directory>
+        <outputDirectory>.</outputDirectory>
+        <includes>
+            <include>examples/</include>
+        </includes>
+        <excludes>
+            <exclude>examples/wiki/</exclude>
+        </excludes>
+      </fileSet>
+      
+      <!-- Distribution related files -->
       <fileSet>
          <directory>src/main/assembly</directory>
          <outputDirectory>.</outputDirectory>
          <includes>
-            <include>*.txt</include>
-			<include>build.properties</include>
-			<include>eclipse-code-formatter-profile.xml</include>    
+            <include>readme.txt</include>
+            <include>lgpl.txt</include>
+            <include>copyright.txt</include>
+            <include>changelog.txt</include>
+            <include>seam21migration.txt</include>
+            <include>seam2migration.txt</include>
+            <include>clustering-howto.txt</include>
+            <include>seam</include>
+            <include>seam.bat</include>
          </includes>
       </fileSet>
       <fileSet>
@@ -31,6 +61,20 @@
       		<include>readme.txt</include>
       	</includes>
       </fileSet>
+      <fileSet>
+        <directory>../jboss-seam/target</directory>
+        <outputDirectory>lib/interop</outputDirectory>
+        <includes>
+            <include>jboss-seam-wls-compatible.jar</include>
+        </includes>
+      </fileSet>
+      <fileSet>
+        <directory>../jboss-seam/target</directory>
+        <outputDirectory>lib/interop/src</outputDirectory>
+        <includes>
+            <include>jboss-seam-wls-compatible-sources.jar</include>
+        </includes>
+      </fileSet>
    </fileSets>    
 
    <dependencySets>
@@ -41,13 +85,18 @@
    		<useProjectArtifact>false</useProjectArtifact>
    		<includes>
    			<include>org.jboss.seam:jboss-embedded-bootstrap</include>
-   			<include>org.jboss.seam:examples:zip:project</include>
    		</includes>
    		<unpack>true</unpack>
-   		<unpackOptions>
-   		
+   		<unpackOptions>   		
    			<excludes>
    				<exclude>META-INF/**</exclude>
+   				<exclude>.settings/</exclude>
+   				<exclude>**/.settings/</exclude>
+   				<exclude>.gitignore</exclude>
+   				<exclude>.project</exclude>
+   				<exclude>.classpath</exclude>
+   				<exclude>**/.project</exclude>
+                <exclude>**/.classpath</exclude>
    			</excludes>
    		</unpackOptions>
    		<outputFileNameMapping>${artifact.artifactId}</outputFileNameMapping>
@@ -55,13 +104,15 @@
    	
    <!-- Add necessary sources jars -->
       <dependencySet>
-         <outputDirectory>lib/sources</outputDirectory>
+         <outputDirectory>lib/src</outputDirectory>
          <useProjectArtifact>false</useProjectArtifact>
+         <useStrictFiltering>true</useStrictFiltering>
          <includes>
-            <include>*:sources</include>
+            <include>org.jboss.seam:*:*:sources</include>
          </includes>
          <excludes>
             <exclude>org.jboss.seam:jboss-seam-gen:*:sources</exclude>
+            <exclude>org.jboss.seam:jboss-seam-jul:*:sources</exclude>
          </excludes>
          <outputFileNameMapping>${artifact.artifactId}-sources.${artifact.extension}</outputFileNameMapping>
       </dependencySet>
@@ -72,35 +123,58 @@
          <useProjectArtifact>false</useProjectArtifact>
          <useTransitiveDependencies>true</useTransitiveDependencies>
          <useTransitiveFiltering>true</useTransitiveFiltering>
+         <useStrictFiltering>true</useStrictFiltering>
          <scope>compile</scope>
+         <includes>
+            <include>*:*:jar</include>
+         </includes>
          <excludes>
+            <exclude>org.jboss.seam:jboss-embedded-bootstrap:jar</exclude>
+            <exclude>org.jboss.seam.embedded:jboss-embedded-all:jar</exclude>
+            <exclude>org.jboss.seam.embedded:hibernate-all:jar</exclude>
+            <exclude>org.jboss.seam.embedded:thirdparty-all:jar</exclude>
             <exclude>org.jboss.seam:jboss-seam-gen:*:*</exclude>
             <exclude>org.jboss.seam:seam-reference-guide:*:*</exclude>
-            <exclude>*:sources</exclude>
-            <exclude>*:javadoc</exclude>
-            <exclude>*:project</exclude>
-            <exclude>org.hibernate:hibernate-tools:jar</exclude>
-            <exclude>freemarker:freemarker:jar</exclude>
-            <exclude>org.eclipse.core:runtime:jar</exclude>
-            <exclude>org.eclipse.equinox:common:jar</exclude>
-            <exclude>org.eclipse:text:jar</exclude>
-            <exclude>org.richfaces.samples:darkX:jar</exclude>
-            <exclude>org.richfaces.samples:laguna:jar</exclude>
-            <exclude>org.richfaces.samples:glassX:jar</exclude>
-            <exclude>org.apache.ant:ant:jar</exclude>
-            <exclude>org.jboss.seam:examples:*:*</exclude>
-            <exclude>org.jboss.seam:functional-tests:*:*</exclude>
          </excludes>
          <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
       </dependencySet>
       
+      <!-- Seam jul -->
+      <dependencySet>
+         <outputDirectory>lib/interop</outputDirectory>
+         <useProjectArtifact>false</useProjectArtifact>
+         <useStrictFiltering>true</useStrictFiltering>
+         <includes>
+            <include>org.jboss.seam:jboss-seam-jul:jar</include>
+         </includes>
+         <excludes>
+            <exclude>org.jboss.seam:jboss-seam-jul:jar:sources</exclude>
+         </excludes>
+         <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+      </dependencySet>
+      
+      <!-- Seam jul sources -->
+      <dependencySet>
+         <outputDirectory>lib/interop/src</outputDirectory>
+         <useProjectArtifact>false</useProjectArtifact>
+         <useStrictFiltering>true</useStrictFiltering>
+         <includes>
+            <include>org.jboss.seam:jboss-seam-jul:jar:sources</include>
+         </includes>
+         <outputFileNameMapping>${artifact.artifactId}-sources.${artifact.extension}</outputFileNameMapping>
+      </dependencySet>
+          
 	  <!-- Seam gen -->
       <dependencySet>
          <outputDirectory>lib/gen</outputDirectory>
          <useProjectArtifact>false</useProjectArtifact>
+         <useStrictFiltering>true</useStrictFiltering>
+         <useTransitiveDependencies>true</useTransitiveDependencies>
          <includes>
             <include>org.jboss.seam:jboss-seam-gen:jar</include>
             <include>org.hibernate:hibernate-tools:jar</include>
+            <include>org.beanshell:bsh:jar</include>
+            <include>org.hibernate:jtidy:jar</include>
             <include>freemarker:freemarker:jar</include>
             <include>org.eclipse.core:runtime:jar</include>
             <include>org.eclipse.equinox:common:jar</include>
@@ -109,9 +183,11 @@
             <include>org.richfaces.samples:laguna:jar</include>
             <include>org.richfaces.samples:glassX:jar</include>
             <include>org.apache.ant:ant:jar</include>
+            <include>org.apache.ant:ant-launcher:jar</include>
+            <include>org.apache.ant:ant-nodeps:jar</include>
          </includes>
          <excludes>
-            <exclude>org.jboss.seam:jboss-seam-gen:*:sources</exclude>
+            <exclude>org.jboss.seam:jboss-seam-gen:jar:sources</exclude>
          </excludes>
          <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
       </dependencySet>
@@ -122,13 +198,18 @@
          <includes>
             <include>org.jboss.seam:jboss-seam-gen:*:sources</include>
          </includes>
-         <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+         <outputFileNameMapping>${artifact.artifactId}-${artifact.classifier}.${artifact.extension}</outputFileNameMapping>
       </dependencySet>
       
       <dependencySet>
          <outputDirectory>./seam-gen</outputDirectory>
          <useProjectArtifact>false</useProjectArtifact>
          <unpack>true</unpack>
+         <unpackOptions>
+            <excludes>
+                <exclude>**/.gitignore</exclude>
+            </excludes>
+         </unpackOptions>
          <includes>
             <include>org.jboss.seam:jboss-seam-gen:zip:distribution</include>
          </includes>
@@ -166,6 +247,11 @@
          <outputDirectory>doc/api</outputDirectory>
          <useProjectArtifact>false</useProjectArtifact>
          <unpack>true</unpack>
+         <unpackOptions>
+            <excludes>
+               <exclude>META-INF/</exclude>
+            </excludes>
+         </unpackOptions>
          <includes>
             <include>org.jboss.seam:jboss-seam:*:javadoc</include>
          </includes>
@@ -173,38 +259,19 @@
       </dependencySet>
 
       <dependencySet>
-         <outputDirectory>doc/ui/api</outputDirectory>
+         <outputDirectory>doc/ui/apidocs</outputDirectory>
          <useProjectArtifact>false</useProjectArtifact>
          <unpack>true</unpack>
+         <unpackOptions>
+			 <excludes>
+				<exclude>META-INF/</exclude>
+			 </excludes>
+		 </unpackOptions>
          <includes>
             <include>org.jboss.seam:jboss-seam-ui:*:javadoc</include>
          </includes>
          <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
       </dependencySet>
-      
-      <!-- Add project sources -->
-      <dependencySet>
-        <outputDirectory>src</outputDirectory>
-        <useProjectArtifact>false</useProjectArtifact>
-        <unpack>true</unpack>
-		<outputFileNameMapping>${artifact.artifactId}</outputFileNameMapping>
-		<includes>
-			<include>org.jboss.seam:jboss-seam:*:project</include>
-			<include>org.jboss.seam:jboss-seam-debug:*:project</include>
-			<include>org.jboss.seam:jboss-seam-excel:*:project</include>
-			<include>org.jboss.seam:jboss-seam-flex:*:project</include>
-			<include>org.jboss.seam:jboss-seam-ioc:*:project</include>
-			<include>org.jboss.seam:jboss-seam-jul:*:project</include>
-			<include>org.jboss.seam:jboss-seam-mail:*:project</include>
-			<include>org.jboss.seam:jboss-seam-pdf:*:project</include>
-			<include>org.jboss.seam:jboss-seam-remoting:*:project</include>
-			<include>org.jboss.seam:jboss-seam-resteasy:*:project</include>
-			<include>org.jboss.seam:jboss-seam-rss:*:project</include>
-			<include>org.jboss.seam:jboss-seam-ui:*:project</include>
-			<include>org.jboss.seam:jboss-seam-wicket:*:project</include>
-			<include>org.jboss.seam:seam-integration-tests:*:project</include>
-			<include>org.jboss.seam:functional-tests:*:project</include>
-		</includes>
-      </dependencySet>
+
    </dependencySets>
 </assembly>
