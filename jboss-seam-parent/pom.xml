@@ -1835,9 +1835,9 @@
 	   <profile>
            <id>distribution</id>
            <modules>
-               <module>../distribution</module>
                <module>../examples</module>
                <module>../seam-reference-guide</module>
+               <module>../distribution</module>
            </modules>
            <build>
            	<plugins>
