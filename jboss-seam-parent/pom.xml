@@ -1544,7 +1544,7 @@
 	</ciManagement>
 
 	<scm>
-		<connection>scm:svn:https://svn.jboss.org/repos/seam/branches/community/Seam_2_3/connection>
+		<connection>scm:svn:https://svn.jboss.org/repos/seam/branches/community/Seam_2_3</connection>
 		<developerConnection>scm:svn:https://svn.jboss.org/repos/seam/branches/community/Seam_2_3</developerConnection>
 		<url>scm:svn:https://svn.jboss.org/repos/seam/branches/community/Seam_2_3</url>
 	</scm>
