@@ -1974,6 +1974,26 @@
             </pluginManagement>
          </build>
       </profile>
+      <profile>
+        <id>release</id>
+        <build>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.2.1</version>
+			        <configuration>
+			          <tagBase>https://svn.jboss.org/repos/seam/tags</tagBase>
+			          <stagingRepository>https://repository.jboss.org/nexus/content/groups/staging</stagingRepository>
+			          <tagNameFormat>JBoss_Seam_@{project.version}</tagNameFormat>
+			          <autoVersionSubmodules>true</autoVersionSubmodules>
+			        </configuration>
+                </plugin>
+            </plugins>
+        </build>
+        <modules>
+            <module>../seam-reference-guide</module>
+        </modules>
+      </profile>
 	</profiles>
 
 
