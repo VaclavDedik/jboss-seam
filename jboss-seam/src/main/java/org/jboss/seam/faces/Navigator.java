@@ -7,6 +7,7 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;
@@ -79,11 +80,11 @@ public abstract class Navigator
    {
       if ( Strings.isEmpty(message) && e.getMessage()!=null ) 
       {
-         return e.getMessage();
+    	  return e.getMessage();
       }
       else
       {
-         return message;
+    	  return Interpolator.instance().interpolate(message, e);
       }
    }
    

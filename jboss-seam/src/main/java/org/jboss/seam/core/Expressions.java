@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
@@ -304,23 +305,28 @@ public class Expressions implements Serializable
        }
    }
    
+   // optimalization of REGEX
+   final static String WHITESPACE_REGEX_STRING = "\\s";
+   final static Pattern WHITESPACE_REGEX_PATTERN = Pattern.compile(WHITESPACE_REGEX_STRING);
+   
    private static void checkELExpression(final String expression)
    {
-	  
       if (expression == null)
       {
          return;
       }
       
+      final String expressionTrimmed = WHITESPACE_REGEX_PATTERN.matcher(expression).replaceAll("");
+      
       for (int index = 0; blacklist.size() > index; index++)
       {
-         if ( expression.contains(blacklist.get(index)) ) {
+         if ( expressionTrimmed.contains(blacklist.get(index)) ) {
             throw new IllegalArgumentException("This EL expression is not allowed!");
          }
       }
       
       // for any case blacklist is not provided this is definitely not permitted
-      if ( expression.contains(".getClass()") || expression.contains(".class()") )
+      if ( expressionTrimmed.contains(".getClass(") ||  expressionTrimmed.contains(".class.") )
       {
          throw new IllegalArgumentException("This EL expression is not allowed!");
       }
