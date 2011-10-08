@@ -1,6 +1,42 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - Seam2 - Version 2.3.0.ALPHA
+
+** Feature Request
+   * [ JBSEAM-3738 ] Maven example for Seam             
+   * [ JBSEAM-4716 ] add license to (root) pom          
+   * [ JBSEAM-4810 ] Migrate Seam build system to full maven            
+
+** Bug
+   * [ JBSEAM-4694 ] Query class does not handle distinct query properly            
+   * [ JBSEAM-4701 ] Cookie path being set to empty string via getRequestContextPath forming invalid cookies in IE          
+   * [ JBSEAM-4761 ] Regexp Query.SUBJECT_PATTERN does not accept DISTINCT          
+   * [ JBSEAM-4781 ] Cannot run an application generated with seam-gen          
+   * [ JBSEAM-4787 ] Session is destroyed by RESTeasy call          
+   * [ JBSEAM-4800 ] s:link does not work on failover in a clustered environment            
+   * [ JBSEAM-4813 ] Data not displayed in log trace message when creating cell             
+   * [ JBSEAM-4814 ] MAX_ROWS reached error message instead displays MAX_COLUMNS            
+   * [ JBSEAM-4816 ] NullPointerException in EL Expression evaluation           
+   * [ JBSEAM-4819 ] Seam businessProcess and persistenceContexts are leaked when conversationTimeout occurs            
+   * [ JBSEAM-4821 ] Typos in documentation             
+   * [ JBSEAM-4833 ] Erroneous integer divisions in Image.scaleToFit()          
+   * [ JBSEAM-4836 ] High CPU usage because of concurrent use of WeakHashmap            
+   * [ JBSEAM-4844 ] Seam 2 does not properly block access to EL expressions            
+
+** Task
+   * [ JBSEAM-2006 ] Improve handling of dependencies in examples           
+   * [ JBSEAM-2371 ] Integration testing Seam components with Maven             
+   * [ JBSEAM-4815 ] clean up icefaces example              
+   * [ JBSEAM-4823 ] Migrate jsUnit usage to maven jasmine plugin           
+   * [ JBSEAM-4838 ] Upgrade openid4java in seam dependencies           
+
+** Patch
+   * [ JBSEAM-4126 ] Danish messages for seam-gen           
+   * [ JBSEAM-4579 ] Minor wording patch to Ref Guide / Webservices.xml             
+   * [ JBSEAM-4664 ] [excel] Need ability to choose between Content-Disposition: inline and Content-Disposition: attachment for downloads   
+
+
 Release Notes - Seam 2 - Version 2.2.2.Final
 
 ** Bug
