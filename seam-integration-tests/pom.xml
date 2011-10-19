@@ -124,10 +124,6 @@
 		  <artifactId>jboss-seam</artifactId>
 		  <type>ejb</type>
 		</dependency>
-		<dependency>
-		  <groupId>javax.faces</groupId>
-		  <artifactId>jsf-api</artifactId>
-		</dependency>
         <dependency>
           <groupId>javax.el</groupId>
           <artifactId>el-api</artifactId>
@@ -208,5 +204,60 @@
                 </plugins>
             </build>
         </profile>
+          <profile>
+       <id>jsf12</id>         
+        <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+            <dependencies>
+                <dependency>
+                        <groupId>javax.faces</groupId>
+                        <artifactId>jsf-api</artifactId>
+                        <version>1.2_12</version>
+                </dependency>
+
+                <dependency>
+                        <groupId>javax.faces</groupId>
+                        <artifactId>jsf-impl</artifactId>
+                        <version>1.2_12</version>
+                        <exclusions>
+                                <exclusion>
+                                        <groupId>commons-collections</groupId>
+                                        <artifactId>commons-collections</artifactId>
+                                </exclusion>
+                                <exclusion>
+                                        <groupId>commons-logging</groupId>
+                                        <artifactId>commons-logging</artifactId>
+                                </exclusion>
+                                <exclusion>
+                                        <groupId>commons-digester</groupId>
+                                        <artifactId>commons-digester</artifactId>
+                                </exclusion>
+                        </exclusions>
+                </dependency>
+            </dependencies>
+       </profile>
+       <profile>
+        <id>jsf2</id>
+            <dependencies>
+                <dependency>
+                  <groupId>com.sun.faces</groupId>
+                  <artifactId>jsf-api</artifactId>
+                  <version>2.1.3_01</version>
+                </dependency>
+
+                <dependency>
+                  <groupId>com.sun.faces</groupId>
+                  <artifactId>jsf-impl</artifactId>
+                  <version>2.1.3_01</version>
+                </dependency>
+                 
+                 <dependency>
+                  <groupId>org.jboss.seam</groupId>
+                  <artifactId>jboss-seam-ui-jsf2</artifactId>
+                  <version>${project.version}</version>
+                </dependency>
+            </dependencies>
+       </profile>
     </profiles>
 </project>
