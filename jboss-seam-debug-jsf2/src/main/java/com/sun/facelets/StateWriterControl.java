@@ -13,13 +13,13 @@ import javax.faces.context.ResponseWriter;
  * completely initialized).
  */
 public class StateWriterControl {
-    final static String STATEWRITER_CLASS_NAME = "com.sun.facelets.StateWriter";
+    final static String STATEWRITER_CLASS_NAME = "com.sun.faces.facelets.StateWriter";
 
     static Class getStateWriter() {
         try {
             return Class.forName(STATEWRITER_CLASS_NAME);
         } catch (Exception e) {
-            throw new RuntimeException("Could not load class com.sun.facelets.StateWriter using reflection", e);
+            throw new RuntimeException("Could not load class com.sun.faces.facelets.StateWriter using reflection", e);
         }
     }
 
@@ -30,7 +30,7 @@ public class StateWriterControl {
             constructor.setAccessible(true);
             constructor.newInstance(writer, 1024);
         } catch (Exception e) {
-            throw new RuntimeException("Could not initilise com.sun.facelets.StateWriter using reflection", e);
+            throw new RuntimeException("Could not initilise com.sun.faces.facelets.StateWriter using reflection", e);
         }
     }
 
@@ -42,7 +42,7 @@ public class StateWriterControl {
             Writer w = (Writer) meth.invoke(null);
             return writer.cloneWithWriter(w);
         } catch (Exception e) {
-            throw new RuntimeException("Could not create clone of com.sun.facelets.StateWriter using reflection", e);
+            throw new RuntimeException("Could not create clone of com.sun.faces.facelets.StateWriter using reflection", e);
         }
     }
 
@@ -56,7 +56,7 @@ public class StateWriterControl {
             instMeth.setAccessible(true);
             return (Boolean) instMeth.invoke(o);
         } catch (Exception e) {
-            throw new RuntimeException("Could not call isStateWritten on com.sun.facelets.StateWriter using reflection", e);
+            throw new RuntimeException("Could not call isStateWritten on com.sun.faces.facelets.StateWriter using reflection", e);
         }
     }
 
@@ -70,7 +70,7 @@ public class StateWriterControl {
             instMeth.setAccessible(true);
             return (String) instMeth.invoke(o);
         } catch (Exception e) {
-            throw new RuntimeException("Could not call getAndResetBuffer on com.sun.facelets.StateWriter using reflection", e);
+            throw new RuntimeException("Could not call getAndResetBuffer on com.sun.faces.facelets.StateWriter using reflection", e);
         }
     }
 
@@ -84,7 +84,7 @@ public class StateWriterControl {
             instMeth.setAccessible(true);
             instMeth.invoke(o);
         } catch (Exception e) {
-            throw new RuntimeException("Could not call release on com.sun.facelets.StateWriter using reflection",e);
+            throw new RuntimeException("Could not call release on com.sun.faces.facelets.StateWriter using reflection",e);
         }
     }
 

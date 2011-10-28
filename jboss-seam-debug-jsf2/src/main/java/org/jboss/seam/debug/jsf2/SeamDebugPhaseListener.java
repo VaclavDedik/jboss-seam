@@ -11,6 +11,7 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
+import javax.faces.view.facelets.ResourceResolver;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.seam.contexts.FacesLifecycle;
@@ -42,7 +43,16 @@ public class SeamDebugPhaseListener implements PhaseListener
          {
             FacesContext facesContext = FacesContext.getCurrentInstance();
             URL url = SeamDebugPhaseListener.class.getClassLoader().getResource("META-INF/debug.xhtml");
-            Facelet f = new DefaultFaceletFactory( new SAXCompiler(), new DefaultResourceResolver() ).getFacelet(url);
+            
+            ResourceResolver resroler=new ResourceResolver(){
+               @Override
+               public URL resolveUrl(String path)
+               {
+                  return SeamDebugPhaseListener.class.getClassLoader().getResource(path);
+               }
+            };
+               
+            Facelet f = new DefaultFaceletFactory( new SAXCompiler(),resroler).getFacelet(url);
             UIViewRoot viewRoot = facesContext.getViewRoot();
             f.apply(facesContext, viewRoot);
             HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
