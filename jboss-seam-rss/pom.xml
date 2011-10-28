@@ -15,6 +15,12 @@
 		<dependency>
 			<groupId>net.sourceforge.yarfraw</groupId>
 			<artifactId>yarfraw</artifactId>
+			<exclusions>
+			 <exclusion>
+			         <groupId>apache-httpclient</groupId>
+			         <artifactId>commons-httpclient</artifactId>
+			 </exclusion>
+			</exclusions>
 		</dependency>
 		
 		<dependency>
