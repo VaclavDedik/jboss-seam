@@ -1,5 +1,6 @@
 package org.jboss.seam.security.permission;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,37 +20,49 @@ import org.jboss.seam.util.Strings;
  * 
  * @author Shane Bryzak
  */
-public class EntityIdentifierStrategy implements IdentifierStrategy
+public class EntityIdentifierStrategy implements IdentifierStrategy, Serializable
 {
-   private ValueExpression<EntityManager> entityManager;   
+
+   private static final long serialVersionUID = 12456789L;
+
+   private transient ValueExpression<EntityManager> entityManager;   
    
-   private PersistenceProvider persistenceProvider;
+   private transient PersistenceProvider persistenceProvider;
    
-   private Map<Class,String> identifierNames = new ConcurrentHashMap<Class,String>();
-   
-   public EntityIdentifierStrategy()
+   private Map<Class <?>,String> identifierNames = new ConcurrentHashMap<Class <?>,String>();
+
+   public void init()
    {
-      persistenceProvider = (PersistenceProvider) Component.getInstance(PersistenceProvider.class, true);
-      
+      if (persistenceProvider == null)
+      {
+         persistenceProvider = (PersistenceProvider) Component.getInstance(PersistenceProvider.class, true);
+      }
+
       if (entityManager == null)
       {
-         entityManager = Expressions.instance().createValueExpression("#{entityManager}", 
-               EntityManager.class);
-      }         
+         entityManager = Expressions.instance().createValueExpression("#{entityManager}", EntityManager.class);
+      }
+
+   }
+
+   public EntityIdentifierStrategy()
+   {
+      init();   
    }
    
-   public boolean canIdentify(Class targetClass)
+   public boolean canIdentify(Class<?> targetClass)
    {
       return targetClass.isAnnotationPresent(Entity.class);
    }
 
    public String getIdentifier(Object target)
    {
-      return String.format("%s:%s", getIdentifierName(target.getClass()),  
-        persistenceProvider.getId(target, lookupEntityManager()).toString());
+      if(persistenceProvider == null) init();
+      Object persProviderId = persistenceProvider.getId(target, lookupEntityManager()).toString();
+       return String.format("%s:%s", getIdentifierName(target.getClass()),  persProviderId);
    }
    
-   private String getIdentifierName(Class cls)
+   private String getIdentifierName(Class<? extends Object> cls)
    {
       if (!identifierNames.containsKey(cls))
       {   
@@ -57,7 +70,7 @@ public class EntityIdentifierStrategy implements IdentifierStrategy
          
          if (cls.isAnnotationPresent(Identifier.class))
          {
-            Identifier identifier = (Identifier) cls.getAnnotation(Identifier.class);
+            Identifier identifier = cls.getAnnotation(Identifier.class);
             if ( !Strings.isEmpty(identifier.name()) )
             {
                name = identifier.name();
@@ -83,6 +96,7 @@ public class EntityIdentifierStrategy implements IdentifierStrategy
 
    private EntityManager lookupEntityManager()
    {
+      if(entityManager == null) init();
       return entityManager.getValue();
    }
 }

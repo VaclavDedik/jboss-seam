@@ -1,6 +1,7 @@
 package org.jboss.seam.util;
 
 import java.beans.Introspector;
+import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -12,11 +13,12 @@ import java.lang.reflect.Type;
  *  
  * @author Shane Bryzak
  */
-public class AnnotatedBeanProperty<T extends Annotation>
+public class AnnotatedBeanProperty<T extends Annotation> implements Serializable
 {
-   private Field propertyField;
-   private Method propertyGetter;
-   private Method propertySetter;
+   private static final long serialVersionUID = 2508430507136805635L;
+   private  transient Field propertyField;
+   private transient  Method propertyGetter;
+   private transient Method propertySetter;
    private String name;
    private Type propertyType;
    private T annotation;
@@ -24,18 +26,28 @@ public class AnnotatedBeanProperty<T extends Annotation>
    private boolean isFieldProperty;
    private boolean set = false;
    
-   public AnnotatedBeanProperty(Class<?> cls, Class<T> annotationClass)
+   private Class<?> cls;
+   private Class<? extends Annotation> annotationClass;
+   
+   public AnnotatedBeanProperty(Class<?> cls, Class<? extends Annotation> annotationClass)
    {      
-      // First check declared fields
-      for (Field f : cls.getDeclaredFields())
-      {
-         if (f.isAnnotationPresent(annotationClass)) 
+      this.cls = cls;
+      this.annotationClass = annotationClass;
+       init();
+   }    
+   
+   private void init()
+   {
+         // First check declared fields
+         for (Field f : cls.getDeclaredFields())
          {
-            setupFieldProperty(f);
-            this.annotation = f.getAnnotation(annotationClass);            
-            set = true;
-            return;
-         }
+            if (f.isAnnotationPresent(annotationClass)) 
+            {
+               setupFieldProperty(f);
+               this.annotation = (T) f.getAnnotation(annotationClass);            
+               set = true;
+               return;
+            }
       }      
       
       // Then check public fields, in case it's inherited
@@ -43,7 +55,7 @@ public class AnnotatedBeanProperty<T extends Annotation>
       {
          if (f.isAnnotationPresent(annotationClass)) 
          {
-            this.annotation = f.getAnnotation(annotationClass);
+            this.annotation = (T) f.getAnnotation(annotationClass);
             setupFieldProperty(f);
             set = true;
             return;
@@ -55,7 +67,7 @@ public class AnnotatedBeanProperty<T extends Annotation>
       {
          if (m.isAnnotationPresent(annotationClass))
          {
-            this.annotation = m.getAnnotation(annotationClass);
+            this.annotation = (T) m.getAnnotation(annotationClass);
             String methodName = m.getName();
             
             if ( m.getName().startsWith("get") )
@@ -84,6 +96,33 @@ public class AnnotatedBeanProperty<T extends Annotation>
       }      
    }
 
+     public Field getPropertyField() 
+     { 
+        if (propertyField == null)
+        {
+           init();
+        }
+        return propertyField; 
+     }
+
+     public Method getPropertyGetter() 
+     { 
+        if (propertyGetter == null)
+        {
+           init();
+        }
+        return propertyGetter; 
+     }
+
+     public Method getPropertySetter() 
+     { 
+        if (propertySetter == null) 
+        {
+           init();
+        }
+        return propertySetter; 
+     }
+
    private void setupFieldProperty(Field propertyField)
    {
       this.propertyField = propertyField;
@@ -96,11 +135,11 @@ public class AnnotatedBeanProperty<T extends Annotation>
    {
       if (isFieldProperty)
       {
-         Reflections.setAndWrap(propertyField, bean, value);         
+         Reflections.setAndWrap(getPropertyField(), bean, value);         
       }
       else
       {
-         Reflections.invokeAndWrap(propertySetter, bean, value);
+         Reflections.invokeAndWrap(getPropertySetter(), bean, value);
       }
    }
    
@@ -108,11 +147,11 @@ public class AnnotatedBeanProperty<T extends Annotation>
    {
       if (isFieldProperty)
       {
-         return Reflections.getAndWrap(propertyField, bean);  
+         return Reflections.getAndWrap(getPropertyField(), bean);  
       }
       else
       {
-         return Reflections.invokeAndWrap(propertyGetter, bean);
+         return Reflections.invokeAndWrap(getPropertyGetter(), bean);
       }
    }
    
@@ -123,7 +162,7 @@ public class AnnotatedBeanProperty<T extends Annotation>
    
    public T getAnnotation()
    {
-      return annotation;
+      return (T) annotation;
    }
    
    public Type getPropertyType()

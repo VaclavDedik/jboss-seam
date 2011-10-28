@@ -1,5 +1,6 @@
 package org.jboss.seam.security.permission;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -11,11 +12,13 @@ import org.jboss.seam.annotations.security.permission.Identifier;
  * 
  * @author Shane Bryzak
  */
-public class ClassIdentifierStrategy implements IdentifierStrategy
+public class ClassIdentifierStrategy implements IdentifierStrategy, Serializable
 {
-   private Map<Class,String> identifierNames = new ConcurrentHashMap<Class,String>();   
+   private static final long serialVersionUID = 3338883246522630571L;
    
-   public boolean canIdentify(Class targetClass)
+   private Map<Class<?>,String> identifierNames = new ConcurrentHashMap<Class<?>,String>();   
+   
+   public boolean canIdentify(Class<?> targetClass)
    {
       return Class.class.equals(targetClass);
    }
@@ -27,10 +30,10 @@ public class ClassIdentifierStrategy implements IdentifierStrategy
          throw new IllegalArgumentException("Target [" + target + "] must be instance of Class");
       }
       
-      return getIdentifierName((Class) target);
+      return getIdentifierName((Class<?>) target);
    }
    
-   private String getIdentifierName(Class cls)
+   private String getIdentifierName(Class<?> cls)
    {
       if (!identifierNames.containsKey(cls))
       {   

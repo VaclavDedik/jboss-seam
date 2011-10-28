@@ -2,6 +2,7 @@ package org.jboss.seam.security.permission;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -25,9 +26,12 @@ import org.jboss.seam.annotations.security.permission.Identifier;
 @Scope(APPLICATION)
 @BypassInterceptors
 @Install(precedence = Install.BUILT_IN)
-public class IdentifierPolicy
+public class IdentifierPolicy implements Serializable
 {
-   private Map<Class,IdentifierStrategy> strategies = new ConcurrentHashMap<Class,IdentifierStrategy>();
+
+   private static final long serialVersionUID = 684295244567560969L;
+
+   private Map<Class <?>,IdentifierStrategy> strategies = new ConcurrentHashMap<Class<?>,IdentifierStrategy>();
    
    private Set<IdentifierStrategy> registeredStrategies = new HashSet<IdentifierStrategy>();
    

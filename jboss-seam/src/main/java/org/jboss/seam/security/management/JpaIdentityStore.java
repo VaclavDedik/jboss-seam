@@ -57,6 +57,9 @@ import org.jboss.seam.util.TypedBeanProperty;
 @BypassInterceptors
 public class JpaIdentityStore implements IdentityStore, Serializable
 {  
+
+   private static final long serialVersionUID = -3627993296654916436L;
+
    public static final String AUTHENTICATED_USER = "org.jboss.seam.security.management.authenticatedUser";
    
    public static final String EVENT_USER_CREATED = "org.jboss.seam.security.management.userCreated";
