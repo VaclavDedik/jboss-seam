@@ -249,12 +249,31 @@ under the License.
       </repositories>
     </profile>
 
-
+    
+    <profile>
+      <id>jboss-staging-repository</id>
+      <repositories>
+        <repository>
+          <id>jboss-staging-repository</id>
+          <name>JBoss Staging Maven Repository</name>
+          <url>https://repository.jboss.org/nexus/content/groups/staging/</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+            <updatePolicy>never</updatePolicy>
+          </snapshots>
+        </repository>
+      </repositories>
+    </profile>
   </profiles>
 
   <activeProfiles>
     <activeProfile>jboss-public-repository</activeProfile>
-<!--    <activeProfile>jboss-deprecated-repository</activeProfile> -->
+  <!--  <activeProfile>jboss-staging-repository</activeProfile> -->
   </activeProfiles>
 
 
