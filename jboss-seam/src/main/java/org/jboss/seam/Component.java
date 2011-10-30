@@ -1834,7 +1834,7 @@ public class Component extends Model
 
    public static Set<Class> getBusinessInterfaces(Class clazz)
    {
-      Set<Class> result = new HashSet<Class>();
+      Set<Class> result = new LinkedHashSet<Class>();
 
       if ( clazz.isAnnotationPresent(LOCAL) )
       {
