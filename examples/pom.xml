@@ -233,19 +233,19 @@
              <dependency>
                 <groupId>org.jboss.embedded</groupId>
                 <artifactId>jboss-embedded-all</artifactId>
-                <version>${jboss.embedded.version}</version>
+                <version>${version.jbossembedded}</version>
                 <scope>test</scope>
              </dependency>
              <dependency>
                 <groupId>org.jboss.seam.embedded</groupId>
                 <artifactId>thirdparty-all</artifactId>
-                <version>${jboss.embedded.version}</version>
+                <version>${version.jbossembedded}</version>
                 <scope>test</scope>
              </dependency>
              <dependency>
                 <groupId>org.jboss.seam.embedded</groupId>
                 <artifactId>hibernate-all</artifactId>
-                <version>${jboss.embedded.version}</version>
+                <version>${version.jbossembedded}</version>
                 <scope>test</scope>
              </dependency>
              <dependency>
@@ -981,7 +981,6 @@
         <facelets.version>1.1.15.B1</facelets.version>
         <javax.persistence.version>1.0</javax.persistence.version>
         <commons.beanutils.version>1.6</commons.beanutils.version>
-        <jboss.embedded.version>beta3.SP10</jboss.embedded.version>
         <!-- Excluded TestNG groups (ex: slow annotated tests won't run during 
             the test phase) -->
         <tests.excludedGroups>slow</tests.excludedGroups>
