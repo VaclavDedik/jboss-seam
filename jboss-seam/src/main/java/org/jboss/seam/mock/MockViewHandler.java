@@ -8,10 +8,14 @@ import javax.faces.application.ViewHandler;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.util.Strings;
 
 public class MockViewHandler extends ViewHandler {
 
+	private final Log logger = LogFactory.getLog(getClass());
+	
 	@Override
 	public Locale calculateLocale(FacesContext ctx) {
 		return Locale.getDefault();
@@ -42,7 +46,9 @@ public class MockViewHandler extends ViewHandler {
          int sploc = servletPath.lastIndexOf('.');
          if (sploc < 0)
          {
-            throw new IllegalArgumentException("no file extension in servlet path: " + servletPath);
+        	logger.warn("You should catch the exception before Seam", new IllegalArgumentException("no file extension in servlet path: " + servletPath));
+        	// in case of Servlet exception which is not mapped and handled by Seam
+        	return contextPath + viewId;            
          }
          return contextPath + getViewIdSansSuffix(viewId) + servletPath.substring(sploc);
 
