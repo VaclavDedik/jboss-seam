@@ -11,10 +11,16 @@ import static org.jboss.seam.util.EJB.STATEFUL;
 import static org.jboss.seam.util.EJB.STATELESS;
 import static org.jboss.seam.util.EJB.name;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
 
 import javax.persistence.Entity;
 
@@ -24,8 +30,8 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.init.EjbDescriptor;
 import org.jboss.seam.init.DeploymentDescriptor;
+import org.jboss.seam.init.EjbDescriptor;
 import org.jboss.seam.util.Strings;
 import org.jboss.seam.web.Session;
 
@@ -43,6 +49,9 @@ public class Seam
 
    // application-scoped property in which the Seam version is stored
    public static final String VERSION = "org.jboss.seam.version";
+   
+   private static String jarName;
+   private static String versionString;
 
    public static EjbDescriptor getEjbDescriptor(Class clazz)
    {
@@ -313,7 +322,51 @@ public class Seam
    public static String getVersion()
    {
       Package pkg = Seam.class.getPackage();
-      return pkg != null ? pkg.getImplementationVersion() : null;      
+      if (pkg.getImplementationVersion() != null)
+      {
+         return pkg.getImplementationVersion();
+      }
+
+      // new way of getting Manifest version string
+      // in case of module classloading for instance in JBoss AS7
+      if (versionString == null)
+      {
+         final Enumeration<URL> resources;
+         try
+         {
+            resources = Seam.class.getClassLoader().getResources("META-INF/MANIFEST.MF");
+            while (resources.hasMoreElements() && versionString == null)
+            {
+               final URL url = resources.nextElement();
+               final InputStream stream = url.openStream();
+               if (stream != null)
+                  try
+                  {
+                     final Manifest manifest = new Manifest(stream);
+                     final Attributes mainAttributes = manifest.getMainAttributes();
+                     if (mainAttributes != null && "Seam Core".equals(mainAttributes.getValue("Specification-Title")))
+                     {
+                        jarName = mainAttributes.getValue("Specification-Title");
+                        versionString = mainAttributes.getValue("Specification-Version");
+                     }
+                  }
+                  finally
+                  {
+                     try
+                     {
+                        stream.close();
+                     }
+                     catch (Throwable ignored)
+                     {
+                     }
+                  }
+            }
+         }
+         catch (IOException ignored)
+         {
+         }
+      }
+      return versionString;
    }
    
    public static void clearComponentNameCache()
