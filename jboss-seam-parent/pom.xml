@@ -1603,17 +1603,15 @@
 					<configuration>
 						<source>${java.compiler.version}</source>
 						<target>${java.compiler.version}</target>
-				        <optimize>true</optimize>
 				        <!-- javac doesn't compile all package-info.java, 
 				        therefore use eclipse compiler -->
-				        <compilerId>eclipse</compilerId>
+                        <compilerId>eclipse</compilerId> 
 					</configuration>
 					<dependencies>
 				        <dependency>
 				            <groupId>org.codehaus.plexus</groupId>
 				            <artifactId>plexus-compiler-eclipse</artifactId>
-				            <version>1.8.1</version>
-				            <scope>runtime</scope>
+				            <version>1.8.2</version>
 				        </dependency>
 				    </dependencies>
 					
