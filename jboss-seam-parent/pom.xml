@@ -1605,14 +1605,14 @@
 						<target>${java.compiler.version}</target>
 				        <!-- javac doesn't compile all package-info.java, 
 				        therefore use eclipse compiler -->
-                        <compilerId>eclipse</compilerId> 
+<!--                         <compilerId>eclipse</compilerId>  -->
 					</configuration>
 					<dependencies>
-				        <dependency>
-				            <groupId>org.codehaus.plexus</groupId>
-				            <artifactId>plexus-compiler-eclipse</artifactId>
-				            <version>1.8.2</version>
-				        </dependency>
+<!-- 				        <dependency> -->
+<!-- 				            <groupId>org.codehaus.plexus</groupId> -->
+<!-- 				            <artifactId>plexus-compiler-eclipse</artifactId> -->
+<!-- 				            <version>1.8.2</version> -->
+<!-- 				        </dependency> -->
 				    </dependencies>
 					
 				</plugin>
