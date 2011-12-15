@@ -8,11 +8,12 @@
       <jta-data-source>java:/dvdstoreDatasource</jta-data-source>
       <properties>
          <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
-         <property name="hibernate.cache.use_query_cache" value="true"/>
+         <property name="hibernate.cache.use_query_cache" value="false"/>
+         <property name="hibernate.cache.use_second_level_cache" value="false"/>
          <property name="hibernate.show_sql" value="false"/>
 
-         <property name="hibernate.cache.provider_class" 
-                   value="org.hibernate.cache.HashtableCacheProvider"/>
+<!--          <property name="hibernate.cache.provider_class"  -->
+<!--                    value="org.hibernate.cache.HashtableCacheProvider"/> -->
 
          <!-- use a file system based index -->
          <property name="hibernate.search.default.directory_provider" 

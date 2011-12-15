@@ -294,5 +294,106 @@
                 </dependency>
             </dependencies>
         </profile>
-    </profiles>
+        <profile>
+            <id>jbossas7</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jboss.as.plugins</groupId>
+                        <artifactId>jboss-as-maven-plugin</artifactId>
+                        <version>7.1.0.Beta1b</version>
+                        <executions>
+<!--  This fails with NullPointerException -->                        
+<!--                            <execution> -->
+<!--                                <id>add-datasource</id> -->
+<!--                                <phase>package</phase> -->
+<!--                                <configuration> -->
+<!--                                    <address>subsystem=datasources,data-source=java:/dvdstoreDatasource</address> -->
+<!--                                    <properties> -->
+<!--                                        <connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url> -->
+<!--                                        <jndi-name>java:/dvdstoreDatasource</jndi-name> -->
+<!--                                        <enabled>true</enabled> -->
+<!--                                        <pool-name>dvdstoreDSPool</pool-name> -->
+<!--                                        <user-name>sa</user-name> -->
+<!--                                        <driver-name>h2</driver-name> -->
+<!--                                    </properties> -->
+<!--                                </configuration> -->
+<!--                                <goals> -->
+<!--                                    <goal>add-resource</goal> -->
+<!--                                </goals> -->
+<!--                            </execution> -->
+<!--  Datasource has to be created before running deploy -->
+                             <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>deploy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-ear-plugin</artifactId>
+                        <configuration>                     
+                            <defaultLibBundleDir>lib</defaultLibBundleDir>
+                            <!-- Exclude eclipse generated application.xml and manually modified jboss-app.xml during mvn build  -->
+                            <earSourceExcludes>**/application.xml, **/jboss-app.xml</earSourceExcludes>
+                            <!-- use maven generated application.xml instead -->
+                            <generateApplicationXml>true</generateApplicationXml>
+                            <filtering>true</filtering>
+                            <modules>
+                                <webModule>
+                                    <groupId>org.jboss.seam.examples</groupId>
+                                    <artifactId>dvdstore-web</artifactId>
+                                    <contextRoot>/seam-dvdstore</contextRoot>
+                                    <bundleFileName>dvdstore-web.war</bundleFileName>
+                                </webModule>
+                                <ejbModule>
+                                    <groupId>org.jboss.seam.examples</groupId>
+                                    <artifactId>dvdstore-ejb</artifactId>
+                                    <bundleFileName>dvdstore-ejb.jar</bundleFileName>
+                                </ejbModule>
+                                <ejbModule>
+                                    <groupId>org.jboss.seam</groupId>
+                                    <artifactId>jboss-seam</artifactId>
+                                    <bundleFileName>jboss-seam.jar</bundleFileName>
+                                </ejbModule>
+                            </modules>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>            
+               <dependencies>
+                <dependency>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-core</artifactId>
+                    <scope>compile</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-validator</artifactId>
+                    <scope>compile</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-entitymanager</artifactId>
+                    <scope>compile</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-annotations</artifactId>
+                    <scope>compile</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.beanshell</groupId>
+                    <artifactId>bsh</artifactId>
+                    <scope>compile</scope>
+                </dependency>
+            </dependencies>
+            </profile>
+      </profiles>
 </project>

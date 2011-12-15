@@ -125,7 +125,7 @@ public class Product implements Serializable
         this.title = title;
     }
 
-    @Column(name="DESCRIPTION",length=1024)
+    @Column(name="DESCRIPTION",length=6024)
     @Fields({
        @Field(index=Index.TOKENIZED),
        @Field(index=Index.TOKENIZED, name="description:ngrams", analyzer=@Analyzer(definition="ngrams"))})

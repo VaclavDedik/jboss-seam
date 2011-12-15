@@ -25,7 +25,7 @@ import org.hibernate.search.annotations.Indexed;
 
 @Entity
 @Table(name="CATEGORIES")
-@Cache(usage=CacheConcurrencyStrategy.READ_ONLY)
+//@Cache(usage=CacheConcurrencyStrategy.READ_ONLY)
 @Indexed
 public class Category
     implements Serializable

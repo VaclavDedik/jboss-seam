@@ -10,10 +10,8 @@
     <property name="show_sql">false</property>
     <property name="connection.datasource">java:/dvdstoreDatasource</property>
     <property name="transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
-            <property name="hibernate.cache.use_query_cache">false</property>
-         <property name="hibernate.cache.use_second_level_cache" >false</property>
-<!--     <property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property> -->
-<!--     <property name="cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property> -->
+    <property name="transaction.manager_lookup_class">org.jboss.as.jpa.hibernate3.JBossAppServerJtaPlatform</property>
+	<property name="cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>
     <property name="hbm2ddl.auto">create-drop</property>
     <!--property name="transaction.flush_before_completion">true</property-->
     
