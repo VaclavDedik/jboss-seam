@@ -543,23 +543,5 @@
 					</dependency>
 				</dependencies>
 		</profile>
-		<profile>
-			<id>jsf2</id>
-				<dependencies>
-					<dependency>
-						<groupId>com.sun.faces</groupId>
-						<artifactId>jsf-api</artifactId>
-						<optional>true</optional>
-						<scope>provided</scope>
-					</dependency>
-
-					<dependency>
-						<groupId>com.sun.faces</groupId>
-						<artifactId>jsf-impl</artifactId>
-						<optional>true</optional>
-					</dependency>
-				</dependencies>
-
-		</profile>
 	</profiles>
 </project>

@@ -62,17 +62,17 @@
       	</includes>
       </fileSet>
       <fileSet>
-        <directory>../jboss-seam/target</directory>
+        <directory>../jboss-seam-jsf2/target</directory>
         <outputDirectory>lib/interop</outputDirectory>
         <includes>
-            <include>jboss-seam-wls-compatible.jar</include>
+            <include>jboss-seam-jsf2-wls-compatible.jar</include>
         </includes>
       </fileSet>
       <fileSet>
-        <directory>../jboss-seam/target</directory>
+        <directory>../jboss-seam-jsf2/target</directory>
         <outputDirectory>lib/interop/src</outputDirectory>
         <includes>
-            <include>jboss-seam-wls-compatible-sources.jar</include>
+            <include>jboss-seam-jsf2-wls-compatible-sources.jar</include>
         </includes>
       </fileSet>
       <!--  all jars from jboss-seam module dependencies 
@@ -132,8 +132,8 @@
          <useProjectArtifact>false</useProjectArtifact>                  
          <useStrictFiltering>true</useStrictFiltering>         
          <includes>
-            <include>org.jboss.seam:jboss-seam:ejb</include>
-             <include>org.jboss.seam:jboss-seam-debug-jsf2:jar</include>
+            <include>org.jboss.seam:jboss-seam-jsf2:ejb</include>
+            <include>org.jboss.seam:jboss-seam-debug-jsf2:jar</include>
             <include>org.jboss.seam:jboss-seam-ui-jsf2:jar</include>
             <include>org.jboss.seam:jboss-seam-excel:jar</include>
             <include>org.jboss.seam:jboss-seam-pdf:jar</include>
@@ -263,7 +263,7 @@
             </excludes>
          </unpackOptions>
          <includes>
-            <include>org.jboss.seam:jboss-seam:*:javadoc</include>
+            <include>org.jboss.seam:jboss-seam-jsf2:*:javadoc</include>
          </includes>
          <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
       </dependencySet>

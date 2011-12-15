@@ -288,12 +288,16 @@
                 <dependencies>
                     <dependency>
                         <groupId>org.jboss.seam</groupId>
+                        <artifactId>jboss-seam-jsf2</artifactId>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.jboss.seam</groupId>
                         <artifactId>jboss-seam-debug-jsf2</artifactId>
                     </dependency>
-                         <dependency>
-                            <groupId>org.jboss.seam</groupId>
-                            <artifactId>jboss-seam-ui-jsf2</artifactId>
-                        </dependency>                
+                    <dependency>
+                        <groupId>org.jboss.seam</groupId>
+                        <artifactId>jboss-seam-ui-jsf2</artifactId>
+                    </dependency>                
                 </dependencies>
                 
         </profile>

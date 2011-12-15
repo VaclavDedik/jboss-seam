@@ -84,7 +84,7 @@
 
 		<dependency>
 			<groupId>org.jboss.seam</groupId>
-			<artifactId>jboss-seam</artifactId>
+			<artifactId>jboss-seam-jsf2</artifactId>
 			<type>ejb</type>
 		</dependency>
 
@@ -128,13 +128,13 @@
 		<dependency>
 		  <groupId>com.sun.faces</groupId>
 		  <artifactId>jsf-api</artifactId>
-		  <version>2.1.1-b04</version>
+<!--		  <version>2.1.1-b04</version> -->
 		</dependency>
 		
 		<dependency>
 		  <groupId>com.sun.faces</groupId>
 		  <artifactId>jsf-impl</artifactId>
-		  <version>2.1.1-b04</version>
+<!--		  <version>2.1.1-b04</version> -->
 		</dependency>
 
 

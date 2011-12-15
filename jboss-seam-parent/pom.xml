@@ -1891,6 +1891,7 @@
        <profile>
         <id>jsf2</id>
         <modules>
+            <module>../jboss-seam-jsf2</module>
             <module>../jboss-seam-ui-jsf2</module>
             <module>../jboss-seam-debug-jsf2</module>
          </modules>
@@ -1907,12 +1908,19 @@
                   <artifactId>jsf-impl</artifactId>
                   <version>2.1.3_01</version>
                 </dependency>
-                 
-                 <dependency>
-                  <groupId>org.jboss.seam</groupId>
-                  <artifactId>jboss-seam-ui-jsf2</artifactId>
-                  <version>${project.version}</version>
-                </dependency>
+			
+				<dependency>
+					<groupId>org.jboss.seam</groupId>
+					<artifactId>jboss-seam-ui-jsf2</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+				
+				<dependency>
+					<groupId>org.jboss.seam</groupId>
+					<artifactId>jboss-seam</artifactId>
+					<version>${project.version}</version>
+					<type>ejb</type>
+				</dependency>
             </dependencies>
             
          </dependencyManagement>
