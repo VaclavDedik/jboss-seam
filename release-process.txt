@@ -543,9 +543,12 @@ Final Coordination and Announcement
     - Update "http://docs.jboss.com/seam/latest" with the docs from this version.
         - Not for cr,alpha,beta releases
     - This can take a long time
-* Update the DTDs and XSDs on jboss.com/products/seam
+* Update the DTDs and XSDs on jboss.org/schema/seam and jboss.org/dtd/seam    
     - Easiest way to use a script that checks for changes
         - <TODO add script to svn>
+        - or copy all files into a directory, change to it and run:
+        rsync -nrv --protocol=28 . seam@filemgmt.jboss.org:schema_htdocs/seam
+        - if command successfully ends, run it without -n - first line
     - Update any changes to the site
 * Login to sourceforge.org and modify the Seam release entry
     - Change the date to today
