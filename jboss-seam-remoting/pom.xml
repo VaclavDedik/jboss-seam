@@ -33,12 +33,6 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>org.jboss.seam</groupId>
-			<artifactId>jboss-seam</artifactId>
-			<type>ejb</type>
-		</dependency>
-
-		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
 			<optional>true</optional>
@@ -85,6 +79,11 @@
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+            <groupId>org.jboss.el</groupId>
+            <artifactId>jboss-el</artifactId>
+            <scope>test</scope>
+        </dependency>
 	</dependencies>
 
     <profiles>
@@ -138,6 +137,33 @@
             </plugins>
             </build>
         </profile>
+         <profile>
+            <id>jsf12</id>
+            <dependencies>
+            
+		        <dependency>
+		            <groupId>org.jboss.seam</groupId>
+		            <artifactId>jboss-seam</artifactId>
+		            <type>ejb</type>
+		        </dependency>
+		        
+            </dependencies>
+            
+         </profile>
+         
+         <profile>
+            <id>jsf2</id>
+            <dependencies>
+            
+                <dependency>
+                    <groupId>org.jboss.seam</groupId>
+                    <artifactId>jboss-seam-jsf2</artifactId>
+                    <type>ejb</type>
+                </dependency>
+                
+            </dependencies>
+            
+         </profile>         
     </profiles>
    
 </project>

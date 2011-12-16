@@ -1804,7 +1804,6 @@
 		<module>../jboss-seam-wicket</module>
 		<module>../jboss-seam-ioc</module>
 		<module>../jboss-seam-jul</module>
-		<module>../jboss-seam</module>
 		<module>../jboss-embedded-bootstrap</module>
 		<module>../seam-integration-tests</module>
 		<module>../functional-tests</module>
@@ -1851,10 +1850,11 @@
        </profile>
        <profile>
        <id>jsf12</id>         
-        <activation>
-            <activeByDefault>true</activeByDefault>
-        </activation>
+<!--         <activation> -->
+<!--             <activeByDefault>true</activeByDefault> -->
+<!--         </activation> -->
         <modules>
+            <module>../jboss-seam</module>
 	        <module>../jboss-seam-ui</module>
 	        <module>../jboss-seam-debug</module>
         </modules>
@@ -1915,9 +1915,15 @@
 					<version>${project.version}</version>
 				</dependency>
 				
+                <dependency>
+                    <groupId>org.jboss.seam</groupId>
+                    <artifactId>jboss-seam-debug-jsf2</artifactId>
+                    <version>${project.version}</version>
+                </dependency>				
+				
 				<dependency>
 					<groupId>org.jboss.seam</groupId>
-					<artifactId>jboss-seam</artifactId>
+					<artifactId>jboss-seam-jsf2</artifactId>
 					<version>${project.version}</version>
 					<type>ejb</type>
 				</dependency>

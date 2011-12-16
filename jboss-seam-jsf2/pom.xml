@@ -62,9 +62,9 @@
 				<version>1.6</version>
 				<configuration>
 					<target>
-						<jar destfile="${project.build.directory}/jboss-seam-wls-compatible.jar">
+						<jar destfile="${project.build.directory}/${project.artifactId}-wls-compatible.jar">
 							<zipfileset includes="**/*"
-								excludes="org/jboss/seam/async/TimerServiceDispatcher*" src="${project.build.directory}/jboss-seam.jar" />
+								excludes="org/jboss/seam/async/TimerServiceDispatcher*" src="${project.build.directory}/${project.artifactId}.jar" />
 							<manifest>
 								<attribute name="Built-By" value="${user.name}" />
 								<attribute name="Implementation-Vendor" value="${project.organization.name}" />
@@ -73,9 +73,9 @@
 							</manifest>
 						</jar>
 						<jar
-							destfile="${project.build.directory}/jboss-seam-wls-compatible-sources.jar">
+							destfile="${project.build.directory}/${project.artifactId}-wls-compatible-sources.jar">
 							<zipfileset includes="**/*"
-								excludes="org/jboss/seam/async/TimerServiceDispatcher.java" src="${project.build.directory}/jboss-seam-sources.jar" />
+								excludes="org/jboss/seam/async/TimerServiceDispatcher.java" src="${project.build.directory}/${project.artifactId}-sources.jar" />
 							<manifest>
 								<attribute name="Built-By" value="${user.name}" />
 								<attribute name="Implementation-Vendor" value="${project.organization.name}" />

@@ -80,6 +80,9 @@
         </profile>
        <profile>
             <id>jsf2</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <dependencies>  
 		       <dependency>
 		          <groupId>com.sun.faces</groupId>
