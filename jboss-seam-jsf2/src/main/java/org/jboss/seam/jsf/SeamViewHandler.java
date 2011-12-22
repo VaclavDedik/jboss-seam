@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.faces.FacesException;
 import javax.faces.application.ViewHandler;
+import javax.faces.application.ViewHandlerWrapper;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewDeclarationLanguage;
@@ -23,44 +24,9 @@ import org.jboss.seam.international.LocaleSelector;
  * @author Gavin King
  *
  */
-public class SeamViewHandler extends ViewHandler 
+public class SeamViewHandler extends ViewHandlerWrapper
 {
    
-   @Override
-   public String deriveLogicalViewId(FacesContext context, String rawViewId)
-   {
-      // TODO Auto-generated method stub
-      return super.deriveLogicalViewId(context, rawViewId);
-   }
-
-   @Override
-   public String deriveViewId(FacesContext context, String rawViewId)
-   {
-      // TODO Auto-generated method stub
-      return super.deriveViewId(context, rawViewId);
-   }
-
-   @Override
-   public String getBookmarkableURL(FacesContext context, String viewId, Map<String, List<String>> parameters, boolean includeViewParams)
-   {
-      // TODO Auto-generated method stub
-      return super.getBookmarkableURL(context, viewId, parameters, includeViewParams);
-   }
-
-   @Override
-   public String getRedirectURL(FacesContext context, String viewId, Map<String, List<String>> parameters, boolean includeViewParams)
-   {
-      // TODO Auto-generated method stub
-      return super.getRedirectURL(context, viewId, parameters, includeViewParams);
-   }
-
-   @Override
-   public ViewDeclarationLanguage getViewDeclarationLanguage(FacesContext context, String viewId)
-   {
-      // TODO Auto-generated method stub
-      return super.getViewDeclarationLanguage(context, viewId);
-   }
-
    private ViewHandler viewHandler;
    
    public SeamViewHandler(ViewHandler viewHandler)
@@ -128,13 +94,21 @@ public class SeamViewHandler extends ViewHandler
    @Override
    public UIViewRoot restoreView(FacesContext ctx, String viewId) 
    {
-      return viewHandler.restoreView(ctx, viewId);
+      UIViewRoot viewRoot =viewHandler.restoreView(ctx, viewId);
+      viewRoot.setViewId(viewHandler.deriveViewId(ctx,viewId));
+      return viewRoot;
    }
 
    @Override
    public void writeState(FacesContext ctx) throws IOException 
    {
       viewHandler.writeState(ctx);
+   }
+
+   @Override
+   public ViewHandler getWrapped()
+   {
+      return viewHandler;
    }
 
 }
