@@ -125,6 +125,19 @@
                 </exclusions>
             </dependency>
             <dependency>
+                <groupId>org.jboss.seam</groupId>
+                <artifactId>jboss-seam-jsf2</artifactId>
+                <version>${project.version}</version>
+                <type>ejb</type>
+                <scope>provided</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>jboss</groupId>
+                        <artifactId>javassist</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
                 <groupId>javax.faces</groupId>
                 <artifactId>jsf-api</artifactId>
                 <version>${jsf.version}</version>
