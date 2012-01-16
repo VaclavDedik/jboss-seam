@@ -139,6 +139,9 @@
         </profile>
          <profile>
             <id>jsf12</id>
+	        <activation>
+	            <activeByDefault>true</activeByDefault>
+	        </activation>            
             <dependencies>
             
 		        <dependency>
