@@ -11,7 +11,7 @@
 
 	<artifactId>jboss-seam-jsf2</artifactId>
 	<packaging>ejb</packaging>
-	<name>Seam Core</name>
+	<name>Seam Core JSF2</name>
 	<description>Seam core module for Seam framework integrated with JSF2</description>
 
 	<build>
@@ -456,6 +456,18 @@
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+            <optional>true</optional>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-impl</artifactId>
+            <optional>true</optional>
+        </dependency>
 	</dependencies>
 
 	<profiles>
@@ -508,27 +520,6 @@
 					</plugin>
 				</plugins>
 			</build>
-		</profile>
-		<profile>
-			<id>jsf2</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>com.sun.faces</groupId>
-                    <artifactId>jsf-api</artifactId>
-                    <optional>true</optional>
-                    <scope>provided</scope>
-                </dependency>
-
-                <dependency>
-                    <groupId>com.sun.faces</groupId>
-                    <artifactId>jsf-impl</artifactId>
-                    <optional>true</optional>
-                </dependency>
-            </dependencies>
-
 		</profile>
 	</profiles>
 </project>
