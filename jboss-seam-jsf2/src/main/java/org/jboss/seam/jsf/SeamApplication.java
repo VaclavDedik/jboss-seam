@@ -25,6 +25,7 @@ import javax.faces.el.ReferenceSyntaxException;
 import javax.faces.el.ValueBinding;
 import javax.faces.el.VariableResolver;
 import javax.faces.event.ActionListener;
+import javax.faces.event.SystemEvent;
 import javax.faces.validator.Validator;
 
 import org.jboss.seam.Component;
@@ -44,7 +45,7 @@ public class SeamApplication extends Application
 {  
    
    protected Application application;
-   
+      
    public SeamApplication(Application application)
    {
       this.application = application;
@@ -429,6 +430,18 @@ public class SeamApplication extends Application
    public String toString()
    {
       return application.toString();
+   }
+   
+   @Override
+   public void publishEvent(FacesContext context, Class<? extends SystemEvent> systemEventClass, Object source)
+   {
+      // empty publish method      
+   }
+
+   @Override
+   public void publishEvent(FacesContext context, Class<? extends SystemEvent> systemEventClass, Class<?> sourceBaseType, Object source)
+   {
+      // empty publish method
    }
    
 }

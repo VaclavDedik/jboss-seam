@@ -114,7 +114,7 @@ public class PhaseListenerTest
       
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE ) );
       
-      assert facesContext.getViewRoot().getAttributes().size()==1;
+      assert facesContext.getViewRoot().getViewMap().size()==1;
       assert ( (FacesPage) getPageMap(facesContext).get( getPrefix() + Seam.getComponentName(FacesPage.class) ) ).getConversationId()==null;
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
@@ -206,7 +206,7 @@ public class PhaseListenerTest
 
    private Map getPageMap(MockFacesContext facesContext)
    {
-      return facesContext.getViewRoot().getAttributes();
+      return facesContext.getViewRoot().getViewMap();
    }
 
    @Test
@@ -257,7 +257,7 @@ public class PhaseListenerTest
       
       facesContext.getApplication().getStateManager().saveView(facesContext);
       
-      assert facesContext.getViewRoot().getAttributes().size()==1;
+      assert facesContext.getViewRoot().getViewMap().size()==1;
 
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE ) );
 
@@ -334,7 +334,7 @@ public class PhaseListenerTest
       
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE ) );
       
-      assert facesContext.getViewRoot().getAttributes().size()==1;
+      assert facesContext.getViewRoot().getViewMap().size()==1;
       assert ( (FacesPage) getPageMap(facesContext).get( getPrefix() + Seam.getComponentName(FacesPage.class) ) ).getConversationId()==null;
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();

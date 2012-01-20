@@ -531,7 +531,7 @@ public class AbstractSeamTest
 
       private void saveConversationViewRoot()
       {
-         Map renderedViewRootAttributes = facesContext.getViewRoot().getAttributes();
+         Map renderedViewRootAttributes = facesContext.getViewRoot().getViewMap();
          if (renderedViewRootAttributes != null && conversationId != null)
          {
             Map conversationState = new HashMap();
@@ -733,7 +733,7 @@ public class AbstractSeamTest
          {
             UIViewRoot viewRoot = facesContext.getApplication().getViewHandler().createView(facesContext, getViewId());
             facesContext.setViewRoot(viewRoot);
-            Map restoredViewRootAttributes = facesContext.getViewRoot().getAttributes();
+            Map restoredViewRootAttributes = facesContext.getViewRoot().getViewMap();
             if (conversationId != null)
             {
                if (isGetRequest())
