@@ -289,6 +289,7 @@
                     <dependency>
                         <groupId>org.jboss.seam</groupId>
                         <artifactId>jboss-seam-jsf2</artifactId>
+                        <type>ejb</type>
                     </dependency>
                     <dependency>
                         <groupId>org.jboss.seam</groupId>
