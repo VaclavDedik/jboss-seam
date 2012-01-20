@@ -152,7 +152,7 @@ public class PageContext implements Context
       }
       UIViewRoot viewRoot = facesContext.getViewRoot();
       return viewRoot==null ? 
-            new HashMap() : viewRoot.getAttributes();
+            new HashMap() : viewRoot.getViewMap();
    }
 
    private static PhaseId getPhaseId()
