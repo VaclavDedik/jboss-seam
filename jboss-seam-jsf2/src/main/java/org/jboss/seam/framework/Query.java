@@ -300,12 +300,12 @@ public abstract class Query<T, E>
       int whereLoc = whereMatcher.find() ? whereMatcher.start(1) : groupLoc;
 
       String subject;
-      if (getGroupBy() != null) {
-         subject = "distinct " + getGroupBy();
-      }
-      else if (useWildcardAsCountQuerySubject) {
+      if (useWildcardAsCountQuerySubject) {
          subject = "*";
       }
+      else if (getGroupBy() != null) {
+          subject = "distinct " + getGroupBy();
+       }
       // to be JPA-compliant, we need to make this query like "select count(u) from User u"
       // however, Hibernate produces queries some databases cannot run when the primary key is composite
       else {

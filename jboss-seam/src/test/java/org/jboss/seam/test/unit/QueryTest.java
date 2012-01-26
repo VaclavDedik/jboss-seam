@@ -88,6 +88,17 @@ public class QueryTest
       }
       
    }
+   
+   @Test
+   public void testCountQueryWithGroupBy()
+   {
+      UnitQuery query = new UnitQuery();
+      query.setEjbql("select min(e.birthYear), count(*) from Person p group by p.birthYear");
+      query.setGroupBy("p.birthYear");
+      query.parseEjbql();
+      assertEquals(query.getCountEjbql() , "select count(*) from Person p");      
+	   
+   }
 
 //   class CompliantUnitQuery extends UnitQuery {
 //
