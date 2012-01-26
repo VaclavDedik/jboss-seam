@@ -16,7 +16,7 @@
         <module>dvdstore-ejb</module>
         <module>dvdstore-web</module>
         <module>dvdstore-ear</module>
-<!--         <module>dvdstore-tests</module> -->
+        <module>dvdstore-tests</module>
     </modules>
     
     <properties>
