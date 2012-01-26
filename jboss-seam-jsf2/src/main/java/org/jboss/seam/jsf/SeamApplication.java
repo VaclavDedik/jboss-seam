@@ -435,13 +435,13 @@ public class SeamApplication extends Application
    @Override
    public void publishEvent(FacesContext context, Class<? extends SystemEvent> systemEventClass, Object source)
    {
-      // empty publish method      
+      application.publishEvent(context, systemEventClass, source);      
    }
 
    @Override
    public void publishEvent(FacesContext context, Class<? extends SystemEvent> systemEventClass, Class<?> sourceBaseType, Object source)
    {
-      // empty publish method
+      application.publishEvent(context, systemEventClass, sourceBaseType, source);
    }
    
 }

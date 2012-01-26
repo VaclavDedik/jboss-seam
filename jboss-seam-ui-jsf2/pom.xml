@@ -128,12 +128,14 @@
 		<dependency>
 		  <groupId>com.sun.faces</groupId>
 		  <artifactId>jsf-api</artifactId>
+		  <scope>provided</scope>
 <!--		  <version>2.1.1-b04</version> -->
 		</dependency>
 		
 		<dependency>
 		  <groupId>com.sun.faces</groupId>
 		  <artifactId>jsf-impl</artifactId>
+		  <scope>provided</scope>
 <!--		  <version>2.1.1-b04</version> -->
 		</dependency>
 
