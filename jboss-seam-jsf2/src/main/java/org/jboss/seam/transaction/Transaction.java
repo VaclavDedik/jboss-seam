@@ -90,11 +90,17 @@ public class Transaction
             ut.getStatus(); //for glassfish, which can return an unusable UT
             return ut;
          }
+         catch (NamingException nnfe2) {
+             // Try the other JBoss location in JBoss AS7
+             return (UserTransaction) context.lookup("java:jboss/UserTransaction");
+         }
          catch (Exception e)
          {
             throw nnfe;
          }
       }
    }
+   
+   
 
 }
