@@ -299,39 +299,6 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.jboss.as.plugins</groupId>
-                        <artifactId>jboss-as-maven-plugin</artifactId>
-                        <version>7.1.0.Beta1b</version>
-                        <executions>
-<!--  This fails with NullPointerException -->                        
-<!--                            <execution> -->
-<!--                                <id>add-datasource</id> -->
-<!--                                <phase>package</phase> -->
-<!--                                <configuration> -->
-<!--                                    <address>subsystem=datasources,data-source=java:/dvdstoreDatasource</address> -->
-<!--                                    <properties> -->
-<!--                                        <connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url> -->
-<!--                                        <jndi-name>java:/dvdstoreDatasource</jndi-name> -->
-<!--                                        <enabled>true</enabled> -->
-<!--                                        <pool-name>dvdstoreDSPool</pool-name> -->
-<!--                                        <user-name>sa</user-name> -->
-<!--                                        <driver-name>h2</driver-name> -->
-<!--                                    </properties> -->
-<!--                                </configuration> -->
-<!--                                <goals> -->
-<!--                                    <goal>add-resource</goal> -->
-<!--                                </goals> -->
-<!--                            </execution> -->
-<!--  Datasource has to be created before running deploy -->
-                             <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>deploy</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-ear-plugin</artifactId>
                         <configuration>                     

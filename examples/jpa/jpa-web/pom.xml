@@ -160,27 +160,6 @@
                         <configuration>
                             <filename>${project.build.finalName}.war</filename>
                         </configuration>
-<!--                         <executions> -->
-<!--                             <execution> -->
-<!--                                 <id>add-datasource</id> -->
-<!--                                 <phase>install</phase> -->
-<!--                                 <configuration> -->
-<!--                                     <address>subsystem=datasources,data-source=bookingDatasource</address> -->
-<!--                                     <properties> -->
-<!--                                         <connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url> -->
-<!--                                         <jndi-name>bookingDatabase</jndi-name> -->
-<!--                                         <enabled>true</enabled> -->
-<!--                                         <pool-name>myJPAPool</pool-name> -->
-<!--                                         <user-name>sa</user-name> -->
-<!--                                         <password></password> -->
-<!--                                         <driver-name>h2</driver-name> -->
-<!--                                     </properties> -->
-<!--                                 </configuration> -->
-<!--                                 <goals> -->
-<!--                                     <goal>add-resource</goal> -->
-<!--                                 </goals> -->
-<!--                             </execution> -->
-<!--                         </executions> -->
                     </plugin>
                 </plugins>
             </build>
