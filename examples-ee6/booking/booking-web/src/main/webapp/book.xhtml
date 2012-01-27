@@ -55,14 +55,14 @@
 		<s:decorate id="creditCardDecorate" template="edit.xhtml">
 			<ui:define name="label">Credit Card #:</ui:define>
 			<h:inputText id="creditCard" value="#{booking.creditCard}" required="true">
-				<a:support id="onblur" event="onblur" reRender="creditCardDecorate"/>
+				<a:ajax id="onblur" event="blur" render="creditCardDecorate"/>
 			</h:inputText>
 		</s:decorate>
 
 		<s:decorate id="creditCardNameDecorate" template="edit.xhtml">
 			<ui:define name="label">Credit Card Name:</ui:define>
 			<h:inputText id="creditCardName" value="#{booking.creditCardName}" required="true">
-				<a:support id="onblur" event="onblur" reRender="creditCardNameDecorate"/>
+				<a:ajax id="onblur" event="blur" render="creditCardNameDecorate"/>
 			</h:inputText>
 		</s:decorate>
 
