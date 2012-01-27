@@ -1,0 +1,3 @@
+connect
+add-data-source --jndi-name=java:/bookingDatasource --connection-url=jdbc:h2:mem:test;DB_CLOSE_DELAY=-1 --username=sa --password=sa --pool-name=BookingDS_pool --driver-name=h2
+/subsystem=datasources/data-source="java\:\/bookingDatasource":enable
