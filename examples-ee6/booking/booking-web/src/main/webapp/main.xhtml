@@ -26,11 +26,11 @@
        &#160;
 	   <a:commandButton id="findHotels" value="Find Hotels" actionListener="#{hotelSearch.find}"  render="searchResults"/>
        &#160;
-       <a:ajax id="status">
+       <a:status id="status">
           <f:facet id="StartStatus" name="start">
              <h:graphicImage id="SpinnerGif" value="/img/spinner.gif"/>
           </f:facet>
-       </a:ajax>
+       </a:status>
 	   <br/>
        <h:outputLabel id="MaximumResultsLabel" for="pageSize">Maximum results:</h:outputLabel>&#160;
        <h:selectOneMenu id="pageSize" value="#{hotelSearch.pageSize}">
