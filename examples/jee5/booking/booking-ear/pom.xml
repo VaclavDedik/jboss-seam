@@ -127,10 +127,6 @@
                     <!-- use maven generated application.xml instead -->
                     <generateApplicationXml>true</generateApplicationXml>
                     <filtering>true</filtering>
-                    <jboss>
-                        <version>4.2</version>
-                        <loader-repository>seam.jboss.org:loader=seam-jee5-booking</loader-repository>
-                    </jboss>
                     <modules>
                         <webModule>
                             <groupId>org.jboss.seam.examples.jee5</groupId>

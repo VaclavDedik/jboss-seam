@@ -54,10 +54,6 @@
             <exclusions>
                 <exclusion>
                     <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.hibernate</groupId>
                     <artifactId>ejb3-persistence</artifactId>
                 </exclusion>
                 <exclusion>
