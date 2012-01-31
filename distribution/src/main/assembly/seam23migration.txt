@@ -1,0 +1,30 @@
+Seam 2.3 Migration Guide
+========================
+Before you get started with Seam 2.3, there are a few things you should be aware
+of. This process should not be too painful - if you get stuck, just refer back
+to the updated Seam examples.
+
+This migration guide assumes you are using Seam 2.0, if you are migrating from
+Seam 1.2, see the seam2migration guide as well.
+
+
+Testing
+-------
+
+SeamTest and JBoss Embedded is legacy components and have many limitations.
+
+Schemas
+----------------
+XML schemas for validation Files that use the Seam 2.2 XSDs should be updated to refer to 
+the 2.3 XSDs. Current Schemas URL is www.jboss.org/schema/seam/<schema>-2.3.xsd.
+
+
+Cache Support - ?????
+-------------
+
+
+Dependency changes (Maven)
+--------------------------
+
+The "provided" platform is now JBoss AS 7.1, therefore XXX are now marked as provided.
+
