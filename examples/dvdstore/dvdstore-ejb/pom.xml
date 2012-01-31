@@ -182,7 +182,7 @@
    
     <profiles>
         <profile>
-            <id>jbossas5</id>
+            <id>jbossas51</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
