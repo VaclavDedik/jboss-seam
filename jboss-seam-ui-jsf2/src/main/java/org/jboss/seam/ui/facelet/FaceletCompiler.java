@@ -13,9 +13,6 @@ import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
-
 import com.sun.faces.application.ApplicationAssociate;
 import com.sun.faces.facelets.compiler.SAXCompiler;
 
@@ -27,25 +24,23 @@ import com.sun.faces.facelets.compiler.SAXCompiler;
 public class FaceletCompiler
 {
    
-   private LogProvider log = Logging.getLogProvider(FaceletCompiler.class);
    private com.sun.faces.facelets.compiler.Compiler compiler;
    
    @Create
    public void create()
    {
-      compiler = new SAXCompiler();
-     // fill the necessary parameters 
-      initializeCompiler(compiler);
+	   ApplicationAssociate applicationAssociate = ApplicationAssociate.getCurrentInstance();
+	   if (applicationAssociate != null)
+	   {
+		   compiler = applicationAssociate.getCompiler();
+	   }
+	   else 
+	   {
+		   // TODO: this requires to initialize custom tag library
+		   compiler = new SAXCompiler();
+	   }
    }
-   
-   /*
-    * This method cribbed from FaceletViewHandler 
-    */
-   protected void initializeCompiler(com.sun.faces.facelets.compiler.Compiler compiler) 
-   {
-      compiler = ApplicationAssociate.getCurrentInstance().getCompiler();
-    }
-
+     
    
    @Unwrap
    public com.sun.faces.facelets.compiler.Compiler unwrap()

@@ -1,16 +1,13 @@
 package org.jboss.seam.jsf;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.faces.FacesException;
 import javax.faces.application.ViewHandler;
 import javax.faces.application.ViewHandlerWrapper;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewDeclarationLanguage;
 
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.international.LocaleSelector;

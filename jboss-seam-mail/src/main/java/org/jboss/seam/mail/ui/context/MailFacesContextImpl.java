@@ -6,6 +6,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
 import org.jboss.seam.jsf.DelegatingFacesContext;
+import org.jboss.seam.mail.ui.context.MailExternalContextImpl;
+import org.jboss.seam.mail.ui.context.MailResponseWriter;
 
 
 public class MailFacesContextImpl extends DelegatingFacesContext
