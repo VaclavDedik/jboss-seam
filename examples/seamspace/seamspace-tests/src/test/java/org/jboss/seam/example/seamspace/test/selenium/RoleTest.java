@@ -97,6 +97,8 @@ public class RoleTest extends SeleniumSeamSpaceTest
       assertTrue("New role not found.", browser.isElementPresent(roleRow));
       browser.chooseOkOnNextConfirmation();
       browser.clickAndWait(roleRow + ROLE_TABLE_DELETE);
+      String confirmation =  browser.getConfirmation();
+      assertTrue("Expected role deletion confirmation.", confirmation.contains(ROLE_TABLE_DELETE_CONFIRMATION));
       assertFalse("Removed role still present.", browser.isElementPresent(roleRow));
    }
    

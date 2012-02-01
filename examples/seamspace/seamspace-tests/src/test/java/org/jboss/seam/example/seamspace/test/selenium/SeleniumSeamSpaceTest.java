@@ -74,6 +74,7 @@ public abstract class SeleniumSeamSpaceTest extends SeamSeleniumTest
    public static final String ROLE_TABLE_ROLES = "/td[2]";
    public static final String ROLE_TABLE_DELETE = "//a[contains(@id, \"delete\")]";
    public static final String ROLE_TABLE_EDIT = "//a[contains(@id, \"edit\")]";
+   public static final String ROLE_TABLE_DELETE_CONFIRMATION = "Are you sure you wish to delete this role? This action cannot be undone.";
    
    public static final String DEFAULT_USERNAME = "demo";
    public static final String DEFAULT_PASSWORD = "demo";
