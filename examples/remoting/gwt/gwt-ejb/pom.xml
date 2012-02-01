@@ -21,7 +21,7 @@
                 <version>1.2</version> <!-- version 1.2 allows us to specify gwt version by gwt-user dependency -->
                 <configuration>
                     <generateDirectory>${project.build.outoutDirectory}/${project.build.finalName}</generateDirectory>
-                    <inplace>fakse</inplace>
+                    <inplace>false</inplace>
                     <logLevel>TRACE</logLevel>
                     <extraJvmArgs>-Xmx512m -DDEBUG</extraJvmArgs>
                     <soyc>false</soyc>
