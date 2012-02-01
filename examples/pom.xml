@@ -60,7 +60,6 @@
     </modules>
 
     <build>
-        <finalName>examples</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>
