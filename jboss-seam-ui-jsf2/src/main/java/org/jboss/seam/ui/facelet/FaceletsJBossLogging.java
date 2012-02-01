@@ -69,14 +69,14 @@ public class FaceletsJBossLogging
 //         julLogger = getPrivateStaticLogger(TagLibraryConfig.class, "log");
 //         julLogger.setFilter(conversionFilter);
          
-         julLogger = getPrivateStaticLogger(ComponentHandler.class, "log");
-         julLogger.setFilter(conversionFilter);
+//         julLogger = getPrivateStaticLogger(ComponentHandler.class, "log");
+//         julLogger.setFilter(conversionFilter);
          
          julLogger = getPrivateStaticLogger(Resource.class, "log");
          julLogger.setFilter(conversionFilter);
          
-         julLogger = getPrivateStaticLogger(ViewHandler.class, "log");
-         julLogger.setFilter(conversionFilter);
+//         julLogger = getPrivateStaticLogger(ViewHandler.class, "log");
+//         julLogger.setFilter(conversionFilter);
          
          // These ones are in a package-scoped class
          
@@ -86,8 +86,8 @@ public class FaceletsJBossLogging
          julLogger = getPrivateStaticLogger("com.sun.faces.facelets.tag.jsf.ComponentRule", "log");
          julLogger.setFilter(conversionFilter);
          
-         julLogger = getPrivateStaticLogger("com.sun.faces.facelets.tag.MetaRulesetImpl", "log");
-         julLogger.setFilter(conversionFilter);
+//         julLogger = getPrivateStaticLogger("com.sun.faces.facelets.tag.MetaRulesetImpl", "log");
+//         julLogger.setFilter(conversionFilter);
          
       }
       catch (Exception e)
