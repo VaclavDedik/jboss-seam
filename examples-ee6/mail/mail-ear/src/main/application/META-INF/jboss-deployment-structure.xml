@@ -1,0 +1,34 @@
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.0">
+	<deployment>
+		<exclusions>
+			<module name="org.hibernate" slot="main" />
+		</exclusions>
+		<dependencies>
+			<module name="org.apache.log4j" export="true" />
+			<module name="org.dom4j" export="true" />
+			<module name="org.apache.commons.logging" export="true" />
+			<module name="org.apache.commons.collections" export="true" />
+			<module name="javax.faces.api" export="true" />
+			<module name="com.sun.jsf-impl" export="true" />
+			<module name="org.slf4j" export="true" />
+			<module name="org.javassist" export="true"/>
+            <module name="javax.mail.api" export="true"/>
+		</dependencies>
+	</deployment>
+	<sub-deployment name="mail-web.war">
+		<dependencies>
+			<module name="javax.faces.api" />
+			<module name="com.sun.jsf-impl" />
+			<module name="javax.mail.api"/>
+		</dependencies>
+	</sub-deployment>
+	<sub-deployment name="mail-ejb.jar">
+	    <dependencies>
+	       <module name="javax.mail.api"/>
+	    </dependencies>
+		<exclusions>
+			<module name="org.hibernate" slot="main" />
+		</exclusions>
+	</sub-deployment>
+
+</jboss-deployment-structure>
