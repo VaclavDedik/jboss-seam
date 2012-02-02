@@ -15,4 +15,6 @@
      <!-- If you need to alter the SMTP gateway, comment out this mail-session, -->
      <!--<mail:mail-session host="localhost" port="2525" /> -->
     
+    <!-- uncomment this one and set the host attribute to the name or IP address of your SMTP gateway-->
+    <mail:mail-session host="localhost" tls="false" port="3025" ssl="false" />   
 </components>
