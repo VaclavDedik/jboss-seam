@@ -9,7 +9,7 @@
 		<version>2.3.0-SNAPSHOT</version>
 	</parent>
     <packaging>pom</packaging>
-    <name>Seam Mail Example</name>
+    <name>Seam Mail Example (EE6)</name>
     
     <properties>
         <example.name>mail</example.name>

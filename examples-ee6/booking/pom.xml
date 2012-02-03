@@ -10,7 +10,7 @@
         <relativePath>../pom.xml</relativePath>
 	</parent>
     <packaging>pom</packaging>
-    <name>Booking Example</name>
+    <name>Booking Example (EE6)</name>
     
     <properties>
         <example.name>booking</example.name>

@@ -11,7 +11,7 @@
     <groupId>org.jboss.seam.examples.mail</groupId>
     <artifactId>mail-web</artifactId>
     <packaging>war</packaging>
-    <name>Mail Web Module</name>
+    <name>Mail Web Module (EE6)</name>
     
     <properties>
         <!-- filtering property for components.xml -->

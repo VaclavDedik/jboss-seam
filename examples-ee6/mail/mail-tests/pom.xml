@@ -10,7 +10,7 @@
     
     <groupId>org.jboss.seam.examples.mail</groupId>
     <artifactId>mail-tests</artifactId>
-    <name>Mail Integration Tests Module</name>
+    <name>Mail Integration Tests Module (EE6)</name>
     
     <dependencies>
         <dependency>

@@ -11,7 +11,7 @@
 	<groupId>org.jboss.seam.examples.mail</groupId>
 	<artifactId>mail-ejb</artifactId>
 	<packaging>ejb</packaging>
-	<name>Mail EJB Module</name>
+	<name>Mail EJB Module (EE6)</name>
 
 	<dependencies>
 		<dependency>

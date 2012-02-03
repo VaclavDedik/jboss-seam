@@ -11,7 +11,7 @@
     <groupId>org.jboss.seam.examples.mail</groupId>
     <artifactId>mail-ear</artifactId>
     <packaging>ear</packaging>
-    <name>Mail EAR Module</name>
+    <name>Mail EAR Module (EE6)</name>
     
     <properties>
         <jboss.home>${env.JBOSS_HOME}</jboss.home>
@@ -104,7 +104,7 @@
                           <goal>copy</goal>
                        </goals>
                        <configuration>
-                          <artifactItems>					
+                          <artifactItems>
                               <artifactItem>
                                    <groupId>com.icegreen</groupId>
                                    <artifactId>greenmail-jboss-service</artifactId>
