@@ -8,15 +8,18 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import org.hibernate.validator.Length;
-import org.hibernate.validator.NotNull;
 import org.jboss.seam.annotations.Name;
 
 @Entity
 @Name("hotel")
 public class Hotel implements Serializable
 {
+
+   private static final long serialVersionUID = 4718338262521261442L;
+   
    private Long id;
    private String name;
    private String address;
@@ -36,7 +39,7 @@ public class Hotel implements Serializable
       this.id = id;
    }
    
-   @Length(max=50) @NotNull
+   @Size(max=50) @NotNull
    public String getName()
    {
       return name;
@@ -46,7 +49,7 @@ public class Hotel implements Serializable
       this.name = name;
    }
    
-   @Length(max=100) @NotNull
+   @Size(max=100) @NotNull
    public String getAddress()
    {
       return address;
@@ -56,7 +59,7 @@ public class Hotel implements Serializable
       this.address = address;
    }
    
-   @Length(max=40) @NotNull
+   @Size(max=40) @NotNull
    public String getCity()
    {
       return city;
@@ -66,7 +69,7 @@ public class Hotel implements Serializable
       this.city = city;
    }
    
-   @Length(min=4, max=6) @NotNull
+   @Size(min=4, max=6) @NotNull
    public String getZip()
    {
       return zip;
@@ -76,7 +79,7 @@ public class Hotel implements Serializable
       this.zip = zip;
    }
    
-   @Length(min=2, max=10) @NotNull
+   @Size(min=2, max=10) @NotNull
    public String getState()
    {
       return state;
@@ -86,7 +89,7 @@ public class Hotel implements Serializable
       this.state = state;
    }
    
-   @Length(min=2, max=40) @NotNull
+   @Size(min=2, max=40) @NotNull
    public String getCountry()
    {
       return country;

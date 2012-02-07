@@ -9,9 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.validator.Length;
-import org.hibernate.validator.NotNull;
-import org.hibernate.validator.Pattern;
+import javax.validation.constraints.*;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 
@@ -21,6 +19,8 @@ import org.jboss.seam.annotations.Scope;
 @Table(name="Customer")
 public class User implements Serializable
 {
+   private static final long serialVersionUID = 4818188553954060410L;
+   
    private String username;
    private String password;
    private String name;
@@ -35,7 +35,7 @@ public class User implements Serializable
    public User() {}
 
    @NotNull
-   @Length(max=100)
+   @Size(max=100)
    public String getName()
    {
       return name;
@@ -46,7 +46,7 @@ public class User implements Serializable
    }
    
    @NotNull
-   @Length(min=5, max=15)
+   @Size(min=5, max=15)
    public String getPassword()
    {
       return password;
@@ -57,8 +57,8 @@ public class User implements Serializable
    }
    
    @Id
-   @Length(min=4, max=15)
-   @Pattern(regex="^\\w*$", message="not a valid username")
+   @Size(min=4, max=15)
+   @Pattern(regexp="^\\w*$", message="not a valid username")
    public String getUsername()
    {
       return username;
