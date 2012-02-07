@@ -48,7 +48,7 @@
 		<version.jbossembedded>beta3.SP15</version.jbossembedded>
         <version.emma>2.0.5312</version.emma>
         <version.jsf12>1.2_12</version.jsf12>
-        <version.jsf2>2.1.3_01</version.jsf2>
+        <version.jsf2>2.1.5</version.jsf2>
 
 		<!-- ***************** -->
 		<!-- Repository Deployment URLs -->
@@ -279,7 +279,7 @@
 				</exclusions>
 			</dependency>
 
-                        <dependency>
+            <dependency>
 				<groupId>org.jbpm</groupId>
 				<artifactId>jbpm-jpdl</artifactId>
 				<version>3.2.2</version>

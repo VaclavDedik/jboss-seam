@@ -103,6 +103,7 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<optional>true</optional>
+			<version>4.0.1.Final</version>
 		</dependency>
 
 		<!-- Maven's "nearest" dependency resolution doesn't take into account 
@@ -121,25 +122,22 @@
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-annotations</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
+			<version>4.2.0.Final</version>
 			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-search</artifactId>
+			<version>4.0.0.Final</version>
 			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
+			<version>4.0.1.Final</version>
 			<optional>true</optional>
 		</dependency>
 
@@ -249,12 +247,6 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>javax.persistence</groupId>
-			<artifactId>persistence-api</artifactId>
-			<optional>true</optional>
-			<scope>provided</scope>
-		</dependency>
 
 		<dependency>
 			<groupId>antlr</groupId>
@@ -308,18 +300,6 @@
 		<dependency>
 			<groupId>jgroups</groupId>
 			<artifactId>jgroups</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>org.buni.meldware</groupId>
-			<artifactId>meldware-mailjmx</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>org.buni.meldware</groupId>
-			<artifactId>meldware-mailapi</artifactId>
 			<optional>true</optional>
 		</dependency>
 
@@ -452,10 +432,10 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.4.2</version>
-			<type>jar</type>
 			<scope>test</scope>
+			<version>1.6.1</version>
 		</dependency>
+		
         <dependency>
             <groupId>com.sun.faces</groupId>
             <artifactId>jsf-api</artifactId>

@@ -117,26 +117,18 @@
 			<optional>true</optional>
 		</dependency>
 
-		<!-- Maven's "nearest" dependency resolution doesn't take into account 
-			parent dependency management! -->
-		<dependency>
-			<groupId>commons-collections</groupId>
-			<artifactId>commons-collections</artifactId>
-			<optional>true</optional>
-		</dependency>
-
 		<dependency>
 		  <groupId>com.sun.faces</groupId>
 		  <artifactId>jsf-api</artifactId>
 		  <scope>provided</scope>
-<!--		  <version>2.1.1-b04</version> -->
+<!--		  <version>2.1.5</version> -->
 		</dependency>
 		
 		<dependency>
 		  <groupId>com.sun.faces</groupId>
 		  <artifactId>jsf-impl</artifactId>
 		  <scope>provided</scope>
-<!--		  <version>2.1.1-b04</version> -->
+<!--		  <version>2.1.5</version> -->
 		</dependency>
 
 
@@ -152,24 +144,11 @@
 			</exclusions>
 		</dependency>
 
-		<!-- This is actually a dep of jboss-cache, but it doesn't declare it -->
-		<dependency>
-			<groupId>jboss</groupId>
-			<artifactId>jboss-system</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<!-- This is actually a dep of jboss-cache, but it doesn't declare it -->
-		<dependency>
-			<groupId>jboss</groupId>
-			<artifactId>jboss-jmx</artifactId>
-			<optional>true</optional>
-		</dependency>
-
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<optional>true</optional>
+			<version>4.0.1.Final</version>
 		</dependency>
 
 		<dependency>
@@ -183,17 +162,12 @@
 			<artifactId>commons-beanutils</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>javax.persistence</groupId>
-			<artifactId>persistence-api</artifactId>
-			<optional>true</optional>
-			<scope>provided</scope>
-		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<optional>true</optional>
+			<version>4.2.0.Final</version>
 		</dependency>
 
 		<dependency>

@@ -6,12 +6,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.hibernate.validator.ValidatorClass;
+import javax.validation.Constraint;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Target(ElementType.METHOD)
-@ValidatorClass(CaptchaResponseValidator.class)
+@Constraint(validatedBy=CaptchaResponseValidator.class)
 public @interface CaptchaResponse 
 {
    String message() default "incorrect response";

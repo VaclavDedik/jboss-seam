@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.cfg.NamingStrategy;
-import org.hibernate.util.ReflectHelper;
+import org.hibernate.internal.util.ReflectHelper;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
@@ -90,7 +90,7 @@ public class HibernateSessionFactory
 
    protected SessionFactory createSessionFactory() throws ClassNotFoundException
    {
-      AnnotationConfiguration configuration = new AnnotationConfiguration();
+      Configuration configuration = new Configuration();
       
       // setup non-default naming strategy
       if (namingStrategy != null)
