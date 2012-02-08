@@ -20,12 +20,12 @@
     
     <dependencies>
         <dependency>
-            <groupId>org.jboss.seam.examples.mail</groupId>
+            <groupId>org.jboss.seam.examples-ee6.mail</groupId>
             <artifactId>mail-web</artifactId>
             <type>war</type>
         </dependency>
         <dependency>
-            <groupId>org.jboss.seam.examples.mail</groupId>
+            <groupId>org.jboss.seam.examples-ee6.mail</groupId>
             <artifactId>mail-ejb</artifactId>
             <type>ejb</type>
         </dependency>
@@ -80,13 +80,13 @@
                             <bundleFileName>jboss-seam.jar</bundleFileName>
                         </ejbModule>
                         <webModule>
-                            <groupId>org.jboss.seam.examples.mail</groupId>
+                            <groupId>org.jboss.seam.examples-ee6.mail</groupId>
                             <artifactId>mail-web</artifactId>
                             <contextRoot>/seam-mail</contextRoot>
                             <bundleFileName>mail-web.war</bundleFileName>
                         </webModule>
                         <ejbModule>
-                            <groupId>org.jboss.seam.examples.mail</groupId>
+                            <groupId>org.jboss.seam.examples-ee6.mail</groupId>
                             <artifactId>mail-ejb</artifactId>
                             <bundleFileName>mail-ejb.jar</bundleFileName>
                         </ejbModule>
@@ -143,21 +143,21 @@
                                 <configuration>
                                     <artifactItems>
                                         <artifactItem>
-                                            <groupId>org.jboss.seam.examples</groupId>
+                                            <groupId>org.jboss.seam.examples-ee6.mail</groupId>
                                             <artifactId>mail-ear</artifactId>
                                             <type>ear</type>
                                             <overWrite>true</overWrite>
                                             <outputDirectory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear</outputDirectory>
                                         </artifactItem>
                                         <artifactItem>
-                                            <groupId>org.jboss.seam.examples</groupId>
+                                            <groupId>org.jboss.seam.examples-ee6.mail</groupId>
                                             <artifactId>mail-web</artifactId>
                                             <type>war</type>
                                             <overWrite>true</overWrite>
                                             <outputDirectory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear/${example.name}-web.war</outputDirectory>
                                         </artifactItem>
                                         <artifactItem>
-                                            <groupId>org.jboss.seam.examples</groupId>
+                                            <groupId>org.jboss.seam.examples-ee6.mail</groupId>
                                             <artifactId>mail-ejb</artifactId>
                                             <type>jar</type>
                                             <overWrite>true</overWrite>
