@@ -3,12 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>mail</artifactId>
-        <groupId>org.jboss.seam.examples</groupId>
+        <groupId>org.jboss.seam.examples-ee6</groupId>
         <version>2.3.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
-    <groupId>org.jboss.seam.examples.mail</groupId>
+    <groupId>org.jboss.seam.examples-ee6.mail</groupId>
     <artifactId>mail-web</artifactId>
     <packaging>war</packaging>
     <name>Mail Web Module (EE6)</name>
