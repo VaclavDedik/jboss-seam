@@ -122,7 +122,7 @@
             </properties>
             <dependencies>
                 <dependency>
-                    <groupId>org.jboss.seam.examples-ee6</groupId>
+                    <groupId>org.jboss.seam.examples-ee6.booking</groupId>
                     <artifactId>booking-ejb</artifactId>
                     <type>ejb</type>
                     <scope>compile</scope>
