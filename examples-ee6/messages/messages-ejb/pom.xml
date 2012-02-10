@@ -3,12 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>messages</artifactId>
-        <groupId>org.jboss.seam.examples</groupId>
+        <groupId>org.jboss.seam.examples-ee6</groupId>
         <version>2.3.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
-    <groupId>org.jboss.seam.examples</groupId>
     <artifactId>messages-ejb</artifactId>
     <packaging>ejb</packaging>
     <name>Messages EJB Module (EE6)</name>
@@ -16,12 +15,13 @@
     <dependencies>
         <dependency>
             <groupId>org.jboss.seam</groupId>
-            <artifactId>jboss-seam</artifactId>
+            <artifactId>jboss-seam-jsf2</artifactId>
             <type>ejb</type>
         </dependency>
         <dependency>
             <groupId>javax.persistence</groupId>
             <artifactId>persistence-api</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -31,10 +31,7 @@
         <dependency>
             <groupId>javax.ejb</groupId>
             <artifactId>ejb-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.faces</groupId>
-            <artifactId>jsf-api</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -45,6 +42,7 @@
                         <artifactId>commons-collections</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
+                <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

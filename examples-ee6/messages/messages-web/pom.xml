@@ -3,36 +3,30 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>messages</artifactId>
-        <groupId>org.jboss.seam.examples</groupId>
+        <groupId>org.jboss.seam.examples-ee6</groupId>
         <version>2.3.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
-    <groupId>org.jboss.seam.examples</groupId>
     <artifactId>messages-web</artifactId>
     <packaging>war</packaging>
     <name>Messages Web Module (EE6)</name>
 
     <properties>
         <!-- filtering property for components.xml -->
-        <jndiPattern>seam-messages/#{ejbName}/local</jndiPattern>
+        <jndiPattern>java:app/messages-ejb/#{ejbName}</jndiPattern>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.jboss.seam.examples</groupId>
+            <groupId>org.jboss.seam.examples-ee6</groupId>
             <artifactId>messages-ejb</artifactId>
             <type>ejb</type>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>
-            <artifactId>jboss-seam</artifactId>
-            <type>ejb</type>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.seam</groupId>
-            <artifactId>jboss-seam-ui</artifactId>
+            <artifactId>jboss-seam-ui-jsf2</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>org.jboss.seam</groupId>
@@ -82,7 +76,7 @@
             </properties>
             <dependencies>
                 <dependency>
-                    <groupId>org.jboss.seam.examples</groupId>
+                    <groupId>org.jboss.seam.examples-ee6</groupId>
                     <artifactId>messages-ejb</artifactId>
                     <type>ejb</type>
                     <scope>compile</scope>

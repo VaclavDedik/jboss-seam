@@ -3,12 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>messages</artifactId>
-        <groupId>org.jboss.seam.examples</groupId>
+        <groupId>org.jboss.seam.examples-ee6</groupId>
         <version>2.3.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
-    <groupId>org.jboss.seam.examples</groupId>
+    <groupId>org.jboss.seam.examples-ee6</groupId>
     <artifactId>messages-tests</artifactId>
     <name>Messages Integration Tests Module (EE6)</name>
     
@@ -41,7 +41,7 @@
             <classifier>jdk15</classifier>
         </dependency>
         <dependency>
-            <groupId>org.jboss.seam.examples</groupId>
+            <groupId>org.jboss.seam.examples-ee6</groupId>
             <artifactId>messages-ejb</artifactId>
             <type>ejb</type>
             <scope>test</scope>

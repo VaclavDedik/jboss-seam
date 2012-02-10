@@ -5,7 +5,7 @@
              version="1.0">
 	<persistence-unit name="messageDatabase">
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
-      <jta-data-source>java:/DefaultDS</jta-data-source>
+      <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
       <properties>
          <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
       </properties>

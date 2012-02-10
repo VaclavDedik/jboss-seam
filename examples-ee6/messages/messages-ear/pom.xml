@@ -3,12 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>messages</artifactId>
-        <groupId>org.jboss.seam.examples</groupId>
+        <groupId>org.jboss.seam.examples-ee6</groupId>
         <version>2.3.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
-    <groupId>org.jboss.seam.examples</groupId>
     <artifactId>messages-ear</artifactId>
     <packaging>ear</packaging>
     <name>Messages EAR Module (EE6)</name>
@@ -20,18 +19,18 @@
     
     <dependencies>
         <dependency>
-            <groupId>org.jboss.seam.examples</groupId>
+            <groupId>org.jboss.seam.examples-ee6</groupId>
             <artifactId>messages-web</artifactId>
             <type>war</type>
         </dependency>
         <dependency>
-            <groupId>org.jboss.seam.examples</groupId>
+            <groupId>org.jboss.seam.examples-ee6</groupId>
             <artifactId>messages-ejb</artifactId>
             <type>ejb</type>
         </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>
-            <artifactId>jboss-seam</artifactId>
+            <artifactId>jboss-seam-jsf2</artifactId>
             <type>ejb</type>
             <scope>compile</scope>
             <exclusions>
@@ -53,30 +52,30 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ear-plugin</artifactId>
-                <version>2.3.2</version>
                 <configuration>
-                    <version>5</version>
+                    <version>6</version>
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
                     <!-- Exclude eclipse generated application.xml and manually modified jboss-app.xml during mvn build  -->
                     <earSourceExcludes>**/application.xml, **/jboss-app.xml</earSourceExcludes>
                     <!-- use maven generated application.xml instead -->
                     <generateApplicationXml>true</generateApplicationXml>
                     <filtering>true</filtering>
-                    <jboss>
-                        <version>4.2</version>
-                        <loader-repository>seam.jboss.org:loader=seam-messages</loader-repository>
-                    </jboss>
                     <modules>
                         <webModule>
-                            <groupId>org.jboss.seam.examples</groupId>
+                            <groupId>org.jboss.seam.examples-ee6</groupId>
                             <artifactId>messages-web</artifactId>
                             <contextRoot>/seam-messages</contextRoot>
                             <bundleFileName>messages-web.war</bundleFileName>
                         </webModule>
                         <ejbModule>
-                            <groupId>org.jboss.seam.examples</groupId>
+                            <groupId>org.jboss.seam.examples-ee6</groupId>
                             <artifactId>messages-ejb</artifactId>
                             <bundleFileName>messages-ejb.jar</bundleFileName>
+                        </ejbModule>
+                        <ejbModule>
+                            <groupId>org.jboss.seam</groupId>
+                            <artifactId>jboss-seam-jsf2</artifactId>
+                            <bundleFileName>jboss-seam.jar</bundleFileName>
                         </ejbModule>
                     </modules>
                 </configuration>
@@ -136,21 +135,21 @@
                                 <configuration>
                                     <artifactItems>
                                         <artifactItem>
-                                            <groupId>org.jboss.seam.examples</groupId>
+                                            <groupId>org.jboss.seam.examples-ee6</groupId>
                                             <artifactId>messages-ear</artifactId>
                                             <type>ear</type>
                                             <overWrite>true</overWrite>
                                             <outputDirectory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear</outputDirectory>
                                         </artifactItem>
                                         <artifactItem>
-                                            <groupId>org.jboss.seam.examples</groupId>
+                                            <groupId>org.jboss.seam.examples-ee6</groupId>
                                             <artifactId>messages-web</artifactId>
                                             <type>war</type>
                                             <overWrite>true</overWrite>
                                             <outputDirectory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear/${example.name}-web.war</outputDirectory>
                                         </artifactItem>
                                         <artifactItem>
-                                            <groupId>org.jboss.seam.examples</groupId>
+                                            <groupId>org.jboss.seam.examples-ee6</groupId>
                                             <artifactId>messages-ejb</artifactId>
                                             <type>jar</type>
                                             <overWrite>true</overWrite>

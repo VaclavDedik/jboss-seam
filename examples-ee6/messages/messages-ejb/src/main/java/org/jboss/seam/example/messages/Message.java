@@ -9,13 +9,14 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import org.hibernate.validator.Length;
-import org.hibernate.validator.NotNull;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 
@@ -24,13 +25,16 @@ import org.jboss.seam.annotations.Scope;
 @Scope(EVENT)
 public class Message implements Serializable
 {
+
+   private static final long serialVersionUID = -3304996108743093764L;
+   
    private Long id;
    private String title;
    private String text;
    private boolean read;
    private Date datetime;
    
-   @Id @GeneratedValue
+   @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
    public Long getId() {
       return id;
    }
@@ -38,7 +42,7 @@ public class Message implements Serializable
       this.id = id;
    }
    
-   @NotNull @Length(max=100)
+   @NotNull @Size(max=100)
    public String getTitle() {
       return title;
    }
