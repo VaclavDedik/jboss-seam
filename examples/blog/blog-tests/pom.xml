@@ -87,10 +87,6 @@
                 <directory>src/test/resources</directory>
                 <filtering>true</filtering>
             </testResource>
-            <testResource>
-                <directory>src/test/bootstrap</directory>
-                <filtering>false</filtering>
-            </testResource>
 			<testResource> <!-- this takes datasource blog-ds.xml -->
 				<directory>${basedir}/../blog-ear/src/main/resources</directory>
 				<filtering>true</filtering>
@@ -98,11 +94,11 @@
 	        <testResource> <!-- this takes treecache.xml -->
                 <directory>${basedir}/../blog-ear/src/main/application</directory>
                 <filtering>true</filtering>
-            </testResource>
-			<testResource> <!-- this takes themes aka *.properties -->
-			     <directory>${basedir}/../blog-web/src/main/resources</directory>
-			     <filtering>true</filtering>
 			</testResource>
+            <testResource> <!-- this takes themes aka *.properties -->
+                 <directory>${basedir}/../blog-web/src/main/resources</directory>
+                 <filtering>true</filtering>
+            </testResource>
         </testResources>
         <plugins>
             <plugin>
@@ -113,6 +109,7 @@
                     <argLine>-Dsun.lang.ClassLoader.allowArraySyntax=true -Xms512m -Xmx512m</argLine>             
                     <additionalClasspathElements>
                         <additionalClasspathElement>${basedir}/../blog-web/src/main/webapp</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/dependency/bootstrap</additionalClasspathElement>
                     </additionalClasspathElements>
                     <suiteXmlFiles>
                         <suiteXmlFile>src/test/resources-integration/testng.xml</suiteXmlFile>
@@ -130,6 +127,7 @@
                           <goal>unpack</goal>
                        </goals>
                        <configuration>
+                          <includes>bootstrap/**</includes>
                           <artifactItems>
                               <artifactItem>
                                    <groupId>org.jboss.seam</groupId>
@@ -137,7 +135,6 @@
                                    <version>${project.version}</version>
                                    <type>jar</type>
                                    <overWrite>false</overWrite>
-                                   <outputDirectory>${basedir}/src/test</outputDirectory>
                               </artifactItem>
                           </artifactItems>
                        </configuration>
@@ -148,12 +145,6 @@
                 <artifactId>maven-clean-plugin</artifactId>
                 <configuration>
                     <filesets>
-                        <fileset>
-                            <directory>${basedir}/src/test/META-INF/</directory>
-                        </fileset>
-                        <fileset>
-                            <directory>${basedir}/src/test/bootstrap</directory>
-                        </fileset>
                         <fileset>
                             <directory>${basedir}/blogindexes</directory>
                         </fileset>

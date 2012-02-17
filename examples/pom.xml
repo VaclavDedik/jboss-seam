@@ -52,7 +52,8 @@
         <module>tasks</module>
         <module>todo</module>
         <module>ui</module>
-        <module>wicket</module>
+<!-- wicket example can't be compiled with java6 due bug in compiler?, only with java 5/7
+        <module>wicket</module> -->
         <!-- <module>wiki</module> -->
     </modules>
 

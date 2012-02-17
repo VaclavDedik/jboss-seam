@@ -108,7 +108,8 @@
                     <skipTests>false</skipTests>
                     <argLine>-Dsun.lang.ClassLoader.allowArraySyntax=true -Xms512m -Xmx512m</argLine>             
                     <additionalClasspathElements>
-                        <additionalClasspathElement>${basedir}/../booking-web/src/main/webapp</additionalClasspathElement>
+                        <additionalClasspathElement>${basedir}/../nestedbooking-web/src/main/webapp</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/dependency/bootstrap</additionalClasspathElement>
                     </additionalClasspathElements>
                     <suiteXmlFiles>
                         <suiteXmlFile>src/test/resources-integration/testng.xml</suiteXmlFile>
@@ -126,6 +127,7 @@
                           <goal>unpack</goal>
                        </goals>
                        <configuration>
+                          <includes>bootstrap/**</includes>
                           <artifactItems>
                               <artifactItem>
                                    <groupId>org.jboss.seam</groupId>
@@ -133,25 +135,11 @@
                                    <version>${project.version}</version>
                                    <type>jar</type>
                                    <overWrite>false</overWrite>
-                                   <outputDirectory>${basedir}/src/test</outputDirectory>
                               </artifactItem>
                           </artifactItems>
                        </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-clean-plugin</artifactId>
-                <configuration>
-                    <filesets>
-                        <fileset>
-                            <directory>${basedir}/src/test/META-INF/</directory>
-                        </fileset>
-                        <fileset>
-                            <directory>${basedir}/src/test/bootstrap</directory>
-                        </fileset>
-                    </filesets>
-                </configuration>
             </plugin>
         </plugins>     
     </build>    
