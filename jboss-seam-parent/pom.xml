@@ -1605,27 +1605,10 @@
 	</distributionManagement>
 
 	<build>
-
 		<defaultGoal>package</defaultGoal>
         <finalName>${project.artifactId}</finalName>
 		<pluginManagement>
 			<plugins>
-
-<!-- 				<plugin> -->
-<!-- 					<artifactId>maven-javadoc-plugin</artifactId> -->
-<!-- 					<version>2.7</version> -->
-<!-- 					<configuration> -->
-<!-- 						<links> -->
-<!-- 							<link>http://java.sun.com/j2se/5.0/docs/api</link> -->
-<!-- 						</links> -->
-<!-- 						<keywords>true</keywords> -->
-<!-- 						<author>true</author> -->
-<!-- 						<stylesheetfile>jdstyle.css</stylesheetfile> -->
-<!-- 						<doctitle>JBoss Seam ${project.name} API ${project.version}</doctitle> Used by javadoc:javadoc goal -->
-<!--                         <detectOfflineLinks>false</detectOfflineLinks> -->
-<!-- 					</configuration> -->
-<!-- 				</plugin> -->
-
 				<plugin>
 					<artifactId>maven-assembly-plugin</artifactId>
 					<version>2.2</version>
@@ -1648,9 +1631,6 @@
 					<configuration>
 						<source>${java.compiler.version}</source>
 						<target>${java.compiler.version}</target>
-				        <!-- javac doesn't compile all package-info.java, 
-				        therefore use eclipse compiler -->
-<!--                         <compilerId>eclipse</compilerId>  -->
 					</configuration>
 					<dependencies>
 <!-- 				        <dependency> -->
@@ -1659,7 +1639,6 @@
 <!-- 				            <version>1.8.2</version> -->
 <!-- 				        </dependency> -->
 				    </dependencies>
-					
 				</plugin>
 
 				<plugin>
@@ -1676,27 +1655,16 @@
 					<artifactId>maven-source-plugin</artifactId>
 					<version>2.1.2</version>
 					<configuration>
-                    <archive>
-                        <manifestEntries>
-                            <Implementation-Version>${project.version}</Implementation-Version>
-                            <Specification-Version>${project.version}</Specification-Version>
-                            <Specification-Title>${project.name}</Specification-Title>
-                            <Specification-Vendor>${project.organization.name}</Specification-Vendor>
-                            <Implementation-Title>${project.name}</Implementation-Title>
-                            <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
-                        </manifestEntries>
-                        <manifestSections>
-                            <manifestSection>
-                                <name>Build-Information</name>
-                                <manifestEntries>
-                                    <Java-Version>${java.version}</Java-Version>
-                                    <Java-Vendor>${java.vendor}</Java-Vendor>
-                                    <Build-Time>${maven.build.timestamp}</Build-Time>
-                                </manifestEntries>
-                            </manifestSection>
-                        </manifestSections>
-                    </archive>
-                </configuration>
+                        <archive>
+                            <manifest>
+                                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                            </manifest>
+                            <manifestEntries>                                
+                              <Seam-Version>${project.version}</Seam-Version>
+                            </manifestEntries>
+                        </archive>
+                    </configuration>
 				</plugin>
 
 				<plugin>
@@ -1734,87 +1702,84 @@
 					<artifactId>maven-site-plugin</artifactId>
 					<version>2.2</version>
 				</plugin>
-			<plugin>
-	            <artifactId>maven-enforcer-plugin</artifactId>
-	            <version>1.0</version>
-	            <executions>
-	               <execution>
-	                  <id>enforce</id>
-	                  <phase>none</phase>
-	               </execution>
-	               <execution>
-	                  <id>seam-build-req</id>
-	                  <goals>
-	                     <goal>enforce</goal>
-	                  </goals>
-	                  <inherited>true</inherited>
-	                  <configuration>
-	                     <rules>
-	                        <requireJavaVersion>
-	                           <version>1.5.0</version>
-	                        </requireJavaVersion>
-	                        <requireMavenVersion>
-	                           <version>[3.0.0,)</version>
-	                        </requireMavenVersion>
-	                     </rules>
-	                  </configuration>
-	               </execution>
-	            </executions>
-	         </plugin>
-	         <!-- Packaging -->
-	         <plugin>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-					<archive>
-						<manifest>
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-						</manifest>
-						<manifestEntries>
-						  <Seam-Version>${project.version}</Seam-Version>
-						</manifestEntries>
-					</archive>
-				</configuration>
-			</plugin>
-			<!-- just for jboss-seam core as it is EJB type not jar -->
-			<plugin>
-				<artifactId>maven-ejb-plugin</artifactId>
-				<version>2.3</version>
-				<configuration>
-					<ejbVersion>3.0</ejbVersion>
-    				<archive>
-                        <manifest>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                        </manifest>
-                        <manifestEntries>
-                          <Seam-Version>${project.version}</Seam-Version>
-                        </manifestEntries>
-                    </archive>
-				</configuration>
-			</plugin></plugins>
+			    <plugin>
+		            <artifactId>maven-enforcer-plugin</artifactId>
+		            <version>1.0</version>
+		            <executions>
+		               <execution>
+		                  <id>enforce</id>
+		                  <phase>none</phase>
+		               </execution>
+		               <execution>
+		                  <id>seam-build-req</id>
+		                  <goals>
+		                     <goal>enforce</goal>
+		                  </goals>
+		                  <inherited>true</inherited>
+		                  <configuration>
+		                     <rules>
+		                        <requireJavaVersion>
+		                           <version>1.5.0</version>
+		                        </requireJavaVersion>
+		                        <requireMavenVersion>
+		                           <version>[3.0.0,)</version>
+		                        </requireMavenVersion>
+		                     </rules>
+		                  </configuration>
+		               </execution>
+		            </executions>
+		         </plugin>
+		         <!-- Packaging -->
+		         <plugin>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.3.2</version>
+					<configuration>
+						<archive>
+							<manifest>
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+								<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+							</manifest>
+							<manifestEntries>
+							  <Seam-Version>${project.version}</Seam-Version>
+							</manifestEntries>
+						</archive>
+					</configuration>
+				</plugin>
+				<!-- just for jboss-seam core as it is EJB type not jar -->
+				<plugin>
+					<artifactId>maven-ejb-plugin</artifactId>
+					<version>2.3</version>
+					<configuration>
+						<ejbVersion>3.0</ejbVersion>
+	    				<archive>
+	                        <manifest>
+	                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+	                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+	                        </manifest>
+	                        <manifestEntries>
+	                          <Seam-Version>${project.version}</Seam-Version>
+	                        </manifestEntries>
+	                    </archive>
+					</configuration>
+				</plugin>
+			</plugins>
 		</pluginManagement>
 
-	<plugins>
-		<plugin>
-			<artifactId>maven-source-plugin</artifactId>
-			<executions>
-				<execution>
-					<id>attach-sources</id>
-					<phase>package</phase>
-					<goals>
-						<goal>jar</goal>
-					</goals>
-				</execution>
-			</executions>
-		</plugin>
-	   </plugins>
+		<plugins>
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
-
-	<dependencies>
-
-	</dependencies>
 
 	<modules>
 		<module>../jboss-seam-gen</module>	
@@ -1846,6 +1811,7 @@
            <id>distribution</id>
            <modules>
                <module>../examples</module>
+               <module>../examples-ee6</module>
                <module>../seam-reference-guide</module>
                <module>../distribution</module>
            </modules>
@@ -1933,7 +1899,7 @@
                      </executions>
                   </plugin>
                   <plugin>
-                      <groupId>org.apache.maven.plugins</groupId>
+                      
                       <artifactId>maven-antrun-plugin</artifactId>
                       <executions>
                          <execution>
@@ -1955,7 +1921,6 @@
                       </executions>
                   </plugin>
                   <plugin>
-                     <groupId>org.apache.maven.plugins</groupId>
                      <artifactId>maven-surefire-plugin</artifactId>
                      <inherited>true</inherited>
                      <configuration>
