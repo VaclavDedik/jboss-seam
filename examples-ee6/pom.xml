@@ -18,6 +18,7 @@
     <modules>
         <module>booking</module>
         <module>mail</module>
+        <module>messages</module>
     </modules>
 
     <build>
