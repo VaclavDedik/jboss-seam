@@ -92,7 +92,7 @@ public class PhaseListenerTest
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
       assert Contexts.isApplicationContextActive();
-      assert !Contexts.isConversationContextActive();
+      assert Contexts.isConversationContextActive();
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, MockLifecycle.INSTANCE ) );
       
@@ -163,7 +163,7 @@ public class PhaseListenerTest
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
       assert Contexts.isApplicationContextActive();
-      assert !Contexts.isConversationContextActive();
+      assert Contexts.isConversationContextActive();
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, MockLifecycle.INSTANCE ) );
       
@@ -226,7 +226,7 @@ public class PhaseListenerTest
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
       assert Contexts.isApplicationContextActive();
-      assert !Contexts.isConversationContextActive();
+      assert Contexts.isConversationContextActive();
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, MockLifecycle.INSTANCE ) );
       
@@ -283,7 +283,7 @@ public class PhaseListenerTest
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
       assert Contexts.isApplicationContextActive();
-      assert !Contexts.isConversationContextActive();
+      assert Contexts.isConversationContextActive();
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, MockLifecycle.INSTANCE ) );
       
@@ -325,7 +325,7 @@ public class PhaseListenerTest
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
       assert Contexts.isApplicationContextActive();
-      assert !Contexts.isConversationContextActive();
+      assert Contexts.isConversationContextActive();
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, MockLifecycle.INSTANCE ) );
       

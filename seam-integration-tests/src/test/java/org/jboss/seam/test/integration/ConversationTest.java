@@ -438,4 +438,9 @@ public class ConversationTest
 
       }.run();
    }
+   
+   protected String getConversationIdParameter()
+   {
+      return "cid";
+   }
 }

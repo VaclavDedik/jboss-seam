@@ -378,6 +378,12 @@ public class SeamPhaseListener implements PhaseListener
    protected void beforeRestoreView(FacesContext facesContext)
    {
       FacesLifecycle.beginRequest( facesContext.getExternalContext() );
+
+      // this is the same place that WELD restores the conversation
+      Map parameters = facesContext.getExternalContext().getRequestParameterMap();
+      ConversationPropagation.instance().restoreConversationId(parameters);
+      boolean conversationFound = Manager.instance().restoreConversation();
+      FacesLifecycle.resumeConversation( facesContext.getExternalContext() );
    }
    
    /**
@@ -387,9 +393,9 @@ public class SeamPhaseListener implements PhaseListener
    {
       FacesLifecycle.resumePage();
       Map parameters = facesContext.getExternalContext().getRequestParameterMap();
-      ConversationPropagation.instance().restoreConversationId(parameters);
+//      ConversationPropagation.instance().restoreConversationId(parameters);
       boolean conversationFound = Manager.instance().restoreConversation();
-      FacesLifecycle.resumeConversation( facesContext.getExternalContext() );
+//      FacesLifecycle.resumeConversation( facesContext.getExternalContext() );
       postRestorePage(facesContext, parameters, conversationFound);
    }
 
