@@ -159,7 +159,7 @@
 					<!-- </execution> -->
 					<!-- Datasource has to be created before running deploy -->
 					<execution>
-						<phase>install</phase>
+						<phase></phase>
 						<goals>
 							<goal>deploy</goal>
 						</goals>
