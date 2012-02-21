@@ -7,7 +7,7 @@
 		<version>2.3.0-SNAPSHOT</version>
 		<relativePath>../jboss-seam-parent/pom.xml</relativePath>
 	</parent>
-	<groupId>org.jboss.seam</groupId>
+
 	<artifactId>distribution</artifactId>
 	<name>Distribution</name>
 	<packaging>pom</packaging>
@@ -60,14 +60,6 @@
 
 	<dependencies>
 	
-	   <dependency>
-            <groupId>org.jboss.seam</groupId>
-            <artifactId>examples</artifactId>
-            <classifier>project</classifier>
-            <version>${project.version}</version>
-            <type>zip</type>
-        </dependency>
-        
         <dependency>
             <groupId>org.jboss.seam</groupId>
             <artifactId>seam-integration-tests</artifactId>
@@ -82,11 +74,6 @@
             <classifier>project</classifier>
         </dependency>
 
-		<dependency>
-			<groupId>org.jboss.seam</groupId>
-			<artifactId>jboss-seam</artifactId>
-			<type>ejb</type>
-		</dependency>
 		<dependency>
 			<groupId>org.jboss.seam</groupId>
 			<artifactId>jboss-seam</artifactId>
@@ -279,9 +266,9 @@
 	
 	</dependencies>
 
-<profiles>
-    <profile>
-        <id>jsf2</id>
+    <profiles>
+        <profile>
+            <id>jsf2</id>
                 <properties>
                     <assembly-config>dist-jsf2.xml</assembly-config>                    
                 </properties>
@@ -298,16 +285,28 @@
                     <dependency>
                         <groupId>org.jboss.seam</groupId>
                         <artifactId>jboss-seam-ui-jsf2</artifactId>
-                    </dependency>                
+                    </dependency>
+	               <dependency>
+	                    <groupId>org.jboss.seam</groupId>
+	                    <artifactId>examples-ee6</artifactId>
+	                    <classifier>project</classifier>
+	                    <version>${project.version}</version>
+	                    <type>zip</type>
+	                </dependency>                                    
                 </dependencies>
-                
         </profile>
+        
         <profile>
-        <id>jsf12</id>
+            <id>jsf12</id>
                 <properties>
                     <assembly-config>dist-jsf12.xml</assembly-config>                    
                 </properties>
                 <dependencies>
+			        <dependency>
+			            <groupId>org.jboss.seam</groupId>
+			            <artifactId>jboss-seam</artifactId>
+			            <type>ejb</type>
+			        </dependency>                
 			        <dependency>
 			            <groupId>org.jboss.seam</groupId>
 			            <artifactId>jboss-seam-debug</artifactId>
@@ -316,8 +315,14 @@
 				            <groupId>org.jboss.seam</groupId>
 				            <artifactId>jboss-seam-ui</artifactId>
 				        </dependency>                
-                </dependencies>
-                
+				       <dependency>
+				            <groupId>org.jboss.seam</groupId>
+				            <artifactId>examples</artifactId>
+				            <classifier>project</classifier>
+				            <version>${project.version}</version>
+				            <type>zip</type>
+				        </dependency>                
+                </dependencies>		        
         </profile> 
         
 </profiles>
