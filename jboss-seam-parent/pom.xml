@@ -1796,7 +1796,6 @@
 		<module>../jboss-embedded-bootstrap</module>
 		<module>../seam-integration-tests</module>
 		<module>../functional-tests</module>
-<!-- 		<module>../examples</module> -->
 	</modules>
 	
 	<profiles>
@@ -1809,9 +1808,7 @@
 	   </profile>
 	   <profile>
            <id>distribution</id>
-           <modules>
-               <module>../examples</module>
-               <module>../examples-ee6</module>
+           <modules>               
                <module>../seam-reference-guide</module>
                <module>../distribution</module>
            </modules>
@@ -1847,6 +1844,7 @@
             <module>../jboss-seam</module>
 	        <module>../jboss-seam-ui</module>
 	        <module>../jboss-seam-debug</module>
+	         <module>../examples</module>
         </modules>  
        </profile>
        <profile>
@@ -1855,6 +1853,7 @@
             <module>../jboss-seam-jsf2</module>
             <module>../jboss-seam-ui-jsf2</module>
             <module>../jboss-seam-debug-jsf2</module>
+            <module>../examples-ee6</module>
          </modules>
        </profile>
        <profile>
