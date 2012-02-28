@@ -14,33 +14,6 @@
     
     <dependencies>
         <dependency>
-            <groupId>org.jboss.embedded</groupId>
-            <artifactId>jboss-embedded-all</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.jboss.microcontainer</groupId>
-                    <artifactId>jboss-deployers-client-spi</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.jboss.microcontainer</groupId>
-                    <artifactId>jboss-deployers-core-spi</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.seam.embedded</groupId>
-            <artifactId>thirdparty-all</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.seam.embedded</groupId>
-            <artifactId>hibernate-all</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <classifier>jdk15</classifier>
-        </dependency>
-        <dependency>
             <groupId>org.jboss.seam.examples-ee6.booking</groupId>
             <artifactId>booking-ejb</artifactId>
             <type>ejb</type>
@@ -79,6 +52,42 @@
             <artifactId>functional-tests</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jboss.spec</groupId>
+            <artifactId>jboss-javaee-6.0</artifactId>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.arquillian.protocol</groupId>
+            <artifactId>arquillian-protocol-servlet</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+            <artifactId>shrinkwrap-resolver-api-maven</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+            <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     
     <build>
@@ -87,64 +96,67 @@
                 <directory>src/test/resources</directory>
                 <filtering>true</filtering>
             </testResource>
-            <testResource>
-                <directory>src/test/bootstrap</directory>
-                <filtering>false</filtering>
+            <testResource> <!-- this takes datasource booking-ds.xml -->
+                <directory>${basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
             </testResource>
-			<testResource> <!-- this takes datasource booking-ds.xml -->
-				<directory>${basedir}/src/main/resources</directory>
-				<filtering>true</filtering>
-			</testResource>
-			<testResource> <!-- this takes themes aka *.properties -->
-			     <directory>${basedir}/../booking-web/src/main/resources</directory>
-			     <filtering>true</filtering>
-			</testResource>
+            <testResource> <!-- this takes themes aka *.properties -->
+                 <directory>${basedir}/../booking-web/src/main/resources</directory>
+                 <filtering>true</filtering>
+            </testResource>
+            <testResource>
+                <directory>src/test/resources-integration</directory>
+            </testResource>
         </testResources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <skipTests>false</skipTests>
-                    <argLine>-Dsun.lang.ClassLoader.allowArraySyntax=true -Xms512m -Xmx512m</argLine>             
-                    <additionalClasspathElements>
-                        <additionalClasspathElement>${basedir}/../booking-web/src/main/webapp</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/dependency/bootstrap</additionalClasspathElement>
-                    </additionalClasspathElements>
-                    <suiteXmlFiles>
-                        <suiteXmlFile>src/test/resources-integration/testng.xml</suiteXmlFile>
-                    </suiteXmlFiles>
+                    <skip>true</skip>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                       <id>copy-seam-bootstrap</id>
-                       <phase>process-resources</phase>
-                       <goals>
-                          <goal>unpack</goal>
-                       </goals>
-                       <configuration>
-                          <includes>bootstrap/**</includes>
-                          <artifactItems>                              
-                              <artifactItem>
-                                   <groupId>org.jboss.seam</groupId>
-                                   <artifactId>jboss-embedded-bootstrap</artifactId>
-                                   <version>${project.version}</version>
-                                   <type>jar</type>
-                                   <overWrite>false</overWrite>
-                              </artifactItem>
-                          </artifactItems>
-                       </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>     
     </build>    
 
     <profiles>
+        <profile>
+            <id>integration-tests</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                </property>
+            </activation> 
+        </profile>
+
+        <profile>
+            <id>arq-jbossas-7-managed</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                    <value>jbossas-managed-7</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>arq-jbossas-7-remote</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                    <value>jbossas-remote-7</value>
+                </property>
+            </activation>
+        </profile>
+    
         <profile>
             <id>ftest-jbossas</id>
             <properties>

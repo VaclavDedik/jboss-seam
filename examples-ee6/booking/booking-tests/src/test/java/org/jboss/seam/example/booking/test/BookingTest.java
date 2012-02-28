@@ -10,17 +10,38 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 
+import org.jboss.shrinkwrap.api.asset.Asset; 
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.example.booking.Booking;
 import org.jboss.seam.example.booking.Hotel;
 import org.jboss.seam.example.booking.HotelBooking;
 import org.jboss.seam.example.booking.User;
-import org.jboss.seam.mock.SeamTest;
-import org.testng.annotations.Test;
+import org.jboss.seam.mock.JUnitSeamTest;
 
-public class BookingTest extends SeamTest
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(Arquillian.class)
+public class BookingTest extends JUnitSeamTest
 {
+   @Deployment(name="BookingTest")
+   @OverProtocol("Servlet 3.0") 
+   public static Archive<?> createDeployment()
+   {
+      EnterpriseArchive er = Deployments.bookingDeployment();
+      WebArchive web = er.getAsType(WebArchive.class, "booking-web.war");
+      
+      web.addClasses(BookingTest.class);
+      	  
+      return er;
+   }
    
    @Test
    public void testBookHotel() throws Exception

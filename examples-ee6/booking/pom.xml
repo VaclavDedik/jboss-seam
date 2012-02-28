@@ -41,6 +41,7 @@
                 <groupId>org.jboss.seam.examples-ee6.booking</groupId>
                 <artifactId>booking-ear</artifactId>
                 <version>${project.version}</version>
+                <type>ear</type>
             </dependency>
             <dependency>
             	<groupId>org.hibernate</groupId>

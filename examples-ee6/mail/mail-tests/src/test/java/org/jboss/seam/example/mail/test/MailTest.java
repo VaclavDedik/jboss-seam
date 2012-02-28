@@ -3,6 +3,7 @@ package org.jboss.seam.example.mail.test;
 import static javax.mail.Message.RecipientType.BCC;
 import static javax.mail.Message.RecipientType.CC;
 
+import java.io.File;
 import java.io.InputStream;
 
 import javax.faces.FacesException;
@@ -13,6 +14,17 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.Asset;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.importer.ZipImporter;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
+
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.document.ByteArrayDocumentData;
 import org.jboss.seam.document.DocumentData;
@@ -21,16 +33,39 @@ import org.jboss.seam.mail.MailSession;
 import org.jboss.seam.mail.ui.UIAttachment;
 import org.jboss.seam.mail.ui.UIMessage;
 import org.jboss.seam.mock.MockTransport;
-import org.jboss.seam.mock.SeamTest;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.jboss.seam.mock.JUnitSeamTest;
+
+
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.Assert;
+import org.junit.runner.RunWith;
 
 /**
  * @author Pete Muir
  *
  */
-public class MailTest extends SeamTest
+@RunWith(Arquillian.class)
+public class MailTest extends JUnitSeamTest
 {
+	@Deployment(name="MailTest")
+	@OverProtocol("Servlet 3.0") 
+	public static Archive<?> createDeployment()
+	{
+      EnterpriseArchive er = ShrinkWrap.create(ZipImporter.class, "seam-mail.ear").importFrom(new File("../mail-ear/target/seam-mail.ear"))
+				.as(EnterpriseArchive.class);
+      WebArchive web = er.getAsType(WebArchive.class, "mail-web.war");      
+      web.addClasses(MailTest.class);
+      //web.addAsWebInfResource(new StringAsset("org.jboss.seam.mock.MockApplicationFactory"), "classes/META-INF/services/javax.faces.application.ApplicationFactory");
+      web.addAsWebInfResource(new StringAsset("org.jboss.seam.mock.MockFacesContextFactory"), "classes/META-INF/services/javax.faces.context.FacesContextFactory");
+      web.addAsWebResource("org/jboss/seam/example/mail/test/errors1.xhtml", "org/jboss/seam/example/mail/test/errors1.xhtml");
+      web.addAsWebResource("org/jboss/seam/example/mail/test/errors2.xhtml", "org/jboss/seam/example/mail/test/errors2.xhtml");
+      web.addAsWebResource("org/jboss/seam/example/mail/test/errors3.xhtml", "org/jboss/seam/example/mail/test/errors3.xhtml");
+      web.addAsWebResource("org/jboss/seam/example/mail/test/errors4.xhtml", "org/jboss/seam/example/mail/test/errors4.xhtml");
+      web.addAsWebResource("org/jboss/seam/example/mail/test/sanitization.xhtml", "org/jboss/seam/example/mail/test/sanitization.xhtml");
+     
+      return er;
+   }
     
     @Test
     public void testSimple() throws Exception
@@ -91,6 +126,7 @@ public class MailTest extends SeamTest
        
     }    
         
+    @Ignore
     @Test
     public void testAttachment() throws Exception
     {
@@ -122,7 +158,7 @@ public class MailTest extends SeamTest
                 Assert.assertEquals(renderedMessage.getSubject(), "Try out Seam!");
                 MimeMultipart body = (MimeMultipart) renderedMessage.getContent();                
     
-                Assert.assertEquals(body.getCount(), 4); //3 Attachments and 1 MimeMultipart                
+                Assert.assertEquals(body.getCount(), 6); //3 Attachments and 1 MimeMultipart                
                 
                 // The root multipart/related
                 Assert.assertNotNull(body.getBodyPart(0));
@@ -152,6 +188,7 @@ public class MailTest extends SeamTest
                 Assert.assertNotNull(bodyPart.getContent());
                 Assert.assertTrue(bodyPart.getContent() instanceof InputStream);
                 Assert.assertEquals(bodyPart.getFileName(), "jboss.jpg");
+                                
                 Assert.assertTrue(bodyPart.isMimeType("image/jpeg"));
                 Assert.assertEquals(bodyPart.getDisposition(), "inline");
                 Assert.assertNotNull(bodyPart.getContentID());

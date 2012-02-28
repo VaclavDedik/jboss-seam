@@ -1,14 +1,35 @@
 //$Id: ChangePasswordTest.java 5810 2007-07-16 06:46:47Z gavin $
 package org.jboss.seam.example.booking.test;
 
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.asset.Asset; 
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.example.booking.User;
-import org.jboss.seam.mock.SeamTest;
-import org.testng.annotations.Test;
+import org.jboss.seam.mock.JUnitSeamTest;
 
-public class ChangePasswordTest extends SeamTest
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(Arquillian.class)
+public class ChangePasswordTest extends JUnitSeamTest
 {
+   @Deployment(name="ChangePasswordTest")
+   @OverProtocol("Servlet 3.0") 
+   public static Archive<?> createDeployment()
+   {
+	   EnterpriseArchive er = Deployments.bookingDeployment();
+	      WebArchive web = er.getAsType(WebArchive.class, "booking-web.war");
+	      
+	      web.addClasses(ChangePasswordTest.class);
+	    		  
+	      return er;
+   }
    
    @Test
    public void testChangePassword() throws Exception

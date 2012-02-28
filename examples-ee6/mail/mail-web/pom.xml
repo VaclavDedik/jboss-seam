@@ -46,6 +46,10 @@
             		<artifactId>jboss-seam</artifactId>
             		<groupId>org.jboss.seam</groupId>
             	</exclusion>
+                <exclusion>
+                    <groupId>javax.faces</groupId>
+                    <artifactId>jsf-api</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -78,6 +82,10 @@
             		<artifactId>jboss-seam</artifactId>
             		<groupId>org.jboss.seam</groupId>
             	</exclusion>
+                <exclusion>
+                    <groupId>javax.faces</groupId>
+                    <artifactId>jsf-api</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -96,6 +104,10 @@
             		<artifactId>jboss-seam</artifactId>
             		<groupId>org.jboss.seam</groupId>
             	</exclusion>
+                <exclusion>
+                    <groupId>javax.faces</groupId>
+                    <artifactId>jsf-api</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 <!--         <dependency> -->
@@ -138,7 +150,7 @@
                 </dependency>
                 <dependency>
                     <groupId>org.jboss.seam</groupId>
-                    <artifactId>jboss-seam</artifactId>
+                    <artifactId>jboss-seam-jsf2</artifactId>
                     <type>ejb</type>
                     <scope>compile</scope>
                     <exclusions>
