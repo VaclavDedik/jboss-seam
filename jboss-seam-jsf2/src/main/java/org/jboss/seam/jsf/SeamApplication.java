@@ -14,6 +14,7 @@ import javax.el.ValueExpression;
 import javax.faces.FacesException;
 import javax.faces.application.Application;
 import javax.faces.application.NavigationHandler;
+import javax.faces.application.Resource;
 import javax.faces.application.StateManager;
 import javax.faces.application.ViewHandler;
 import javax.faces.component.UIComponent;
@@ -98,6 +99,19 @@ public class SeamApplication extends Application
          FacesContext context, String componentType) throws FacesException
    {
       return application.createComponent(componentBinding, context, componentType);
+   }
+   
+   @Override
+   public UIComponent createComponent(FacesContext context, 
+         String componentType, String rendererType)
+   {
+      return application.createComponent(context, componentType, rendererType);
+   }
+   
+   @Override
+   public UIComponent createComponent(FacesContext context, Resource resource)
+   {
+      return application.createComponent(context, resource);
    }
 
    @Override

@@ -267,11 +267,11 @@ public class MockApplication extends Application
       {
         try
         {
-           return (UIComponent) Class.forName(name).newInstance();
+           return (UIComponent) Thread.currentThread().getContextClassLoader().loadClass(name).newInstance();
         } 
         catch (Exception e)
-        {
-           throw new UnsupportedOperationException("Unable to create component " + name);
+        {           
+           throw new UnsupportedOperationException("Unable to create component " + name, e);
         }
       }
       else
@@ -279,6 +279,12 @@ public class MockApplication extends Application
          // Oh well, can't simply create the component so put a dummy one in its place
          return new UIOutput();
       }
+   }
+   
+   @Override
+   public UIComponent createComponent(FacesContext context, String componentType, String rendererType)
+   {
+      return createComponent(componentType);
    }
 
    @Override
