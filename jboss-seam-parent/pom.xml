@@ -1891,7 +1891,7 @@
             <module>../jboss-seam-jsf2</module>
             <module>../jboss-seam-ui-jsf2</module>
             <module>../jboss-seam-debug-jsf2</module>
-            <module>../examples-ee6</module>
+<!--            <module>../examples-ee6</module>-->
 	        <module>../seam-integration-tests-ee6</module>
          </modules>
        </profile>
