@@ -39,6 +39,7 @@
 		<pdf.name>${project.artifactId}.pdf</pdf.name>
 
 		<!-- Version string properties -->
+		<version.arquillian_core>1.0.0.CR7</version.arquillian_core>
 		<version.richfaces>3.3.3.Final</version.richfaces>
 		<version.wicket>1.4.14</version.wicket>
 		<version.drools>5.0.1</version.drools>
@@ -46,9 +47,11 @@
 		<version.resteasy>2.0-beta-2</version.resteasy>
 		<version.spring>2.5.6.SEC02</version.spring>
 		<version.jbossembedded>beta3.SP15</version.jbossembedded>
-        <version.emma>2.0.5312</version.emma>
-        <version.jsf12>1.2_12</version.jsf12>
-        <version.jsf2>2.1.5</version.jsf2>
+		<version.jbossas7>7.1.0.Final</version.jbossas7>
+		<version.emma>2.0.5312</version.emma>
+		<version.jsf12>1.2_12</version.jsf12>
+		<version.jsf2>2.1.5</version.jsf2>
+		<version.junit>4.8.1</version.junit>
 
 		<!-- ***************** -->
 		<!-- Repository Deployment URLs -->
@@ -63,6 +66,15 @@
 			that versions are only specified here, not in sub project poms. All dependencies 
 			for all modules should be listed out here -->
 		<dependencies>
+
+			<dependency>
+				<groupId>org.jboss.arquillian</groupId>
+				<artifactId>arquillian-bom</artifactId>
+				<version>${version.arquillian_core}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
 				<artifactId>distribution</artifactId>
@@ -131,17 +143,17 @@
 				</exclusions>
 			</dependency>
 			
-		   <dependency>
-                <groupId>org.jboss.seam</groupId>
-                <artifactId>jboss-seam-ui-jsf2</artifactId>
-                <version>${project.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
+			<dependency>
+				<groupId>org.jboss.seam</groupId>
+				<artifactId>jboss-seam-ui-jsf2</artifactId>
+				<version>${project.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
 
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
@@ -150,10 +162,10 @@
 			</dependency>
 			
 			<dependency>
-                <groupId>org.jboss.seam</groupId>
-                <artifactId>jboss-seam-debug-jsf2</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+				<groupId>org.jboss.seam</groupId>
+				<artifactId>jboss-seam-debug-jsf2</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
@@ -279,7 +291,7 @@
 				</exclusions>
 			</dependency>
 
-            <dependency>
+			<dependency>
 				<groupId>org.jbpm</groupId>
 				<artifactId>jbpm-jpdl</artifactId>
 				<version>3.2.2</version>
@@ -888,7 +900,7 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-            
+			
 			<dependency>
 				<groupId>org.drools</groupId>
 				<artifactId>drools-api</artifactId>
@@ -1116,36 +1128,35 @@
 				</exclusions>
 			</dependency>
 
-            <dependency>
-                <groupId>org.openid4java</groupId>
-                <artifactId>openid4java-consumer</artifactId>
-                <version>0.9.6</version>
-                <type>pom</type>
-                <exclusions>
-                   <exclusion>
-                       <groupId>log4j</groupId>
-                       <artifactId>log4j</artifactId>
-                   </exclusion>
+			<dependency>
+				<groupId>org.openid4java</groupId>
+				<artifactId>openid4java-consumer</artifactId>
+				<version>0.9.6</version>
+				<type>pom</type>
+				<exclusions>
+					<exclusion>
+						<groupId>log4j</groupId>
+						<artifactId>log4j</artifactId>
+					</exclusion>
 
-                   <exclusion>
-                       <groupId>xerces</groupId>
-                       <artifactId>xercesImpl</artifactId>
-                   </exclusion>
-                   
-                   </exclusions>
-            </dependency>
-            
+					<exclusion>
+						<groupId>xerces</groupId>
+						<artifactId>xercesImpl</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			
 			<dependency>
 				<groupId>com.google.gwt</groupId>
 				<artifactId>gwt-servlet</artifactId>
 				<version>1.5.2</version>
 			</dependency>
-            
-            <dependency>
-                <groupId>com.google.gwt</groupId>
-                <artifactId>gwt-user</artifactId>
-                <version>1.5.2</version>
-            </dependency>
+			
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-user</artifactId>
+				<version>1.5.2</version>
+			</dependency>
 
 			<dependency>
 				<groupId>dom4j</groupId>
@@ -1370,158 +1381,164 @@
 				<version>${version.testng}</version>
 				<classifier>jdk15</classifier>
 			</dependency>
-            
-            <dependency>
-                <groupId>org.seleniumhq.selenium.server</groupId>
-                <artifactId>selenium-server</artifactId>
-                <version>1.0.1</version>
-                <classifier>standalone</classifier>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.seleniumhq.selenium.core</groupId>
-                        <artifactId>selenium-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.seleniumhq.selenium.server</groupId>
-                        <artifactId>selenium-server-coreless</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.apache.ant</groupId>
-                        <artifactId>ant-trax</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.apache.ant</groupId>
-                        <artifactId>ant-nodeps</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-             
-            <dependency>
-                <groupId>org.seleniumhq.selenium.client-drivers</groupId>
-                <artifactId>selenium-java-client-driver</artifactId>
-                <version>1.0.1</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.codehaus.groovy.maven.runtime</groupId>
-                        <artifactId>gmaven-runtime-default</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-             
-            <dependency>
-                <groupId>org.seleniumhq.webdriver</groupId>
-                <artifactId>webdriver-firefox</artifactId>
-                <version>0.9.7376</version>
-            </dependency>
-             
-            <dependency>
-                <groupId>org.seleniumhq.webdriver</groupId>
-                <artifactId>webdriver-support</artifactId>
-                <version>0.9.7376</version>
-            </dependency>
-             
-            <dependency>
-                <groupId>org.seleniumhq.webdriver</groupId>
-                <artifactId>webdriver-ie</artifactId>
-                <version>0.9.7376</version>
-            </dependency>
-             
-            <dependency>
-                <groupId>org.jboss.seam</groupId>
-                <artifactId>functional-tests</artifactId>
-                <version>${project.version}</version>
-                <scope>test</scope>
-            </dependency>
-            
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>jstl</artifactId>
-                <version>1.1.2</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>commons-digester</groupId>
-                <artifactId>commons-digester</artifactId>
-                <version>2.1</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>org.eclipse.jdt</groupId>
-                <artifactId>core</artifactId>
-                <version>3.4.2.v_883_R34x</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>commons-fileupload</groupId>
-                <artifactId>commons-fileupload</artifactId>
-                <version>1.2.1</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>commons-logging</groupId>
-                <artifactId>commons-logging-api</artifactId>
-                <version>1.1</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>org.icefaces</groupId>
-                <artifactId>icefaces</artifactId>
-                <version>1.8.2</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>org.icefaces</groupId>
-                <artifactId>icefaces-comps</artifactId>
-                <version>1.8.2</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>org.icefaces</groupId>
-                <artifactId>icefaces-facelets</artifactId>
-                <version>1.8.2</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>org.apache.myfaces.trinidad</groupId>
-                <artifactId>trinidad-api</artifactId>
-                <version>1.2.5</version>
-            </dependency>
 
-            <dependency>
-                <groupId>org.apache.myfaces.trinidad</groupId>
-                <artifactId>trinidad-impl</artifactId>
-                <version>1.2.5</version>
-            </dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${version.junit}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.seleniumhq.selenium.server</groupId>
+				<artifactId>selenium-server</artifactId>
+				<version>1.0.1</version>
+				<classifier>standalone</classifier>
+				<exclusions>
+					<exclusion>
+						<groupId>org.seleniumhq.selenium.core</groupId>
+						<artifactId>selenium-core</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.seleniumhq.selenium.server</groupId>
+						<artifactId>selenium-server-coreless</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.ant</groupId>
+						<artifactId>ant-trax</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.ant</groupId>
+						<artifactId>ant-nodeps</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			 
+			<dependency>
+				<groupId>org.seleniumhq.selenium.client-drivers</groupId>
+				<artifactId>selenium-java-client-driver</artifactId>
+				<version>1.0.1</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.codehaus.groovy.maven.runtime</groupId>
+						<artifactId>gmaven-runtime-default</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			 
+			<dependency>
+				<groupId>org.seleniumhq.webdriver</groupId>
+				<artifactId>webdriver-firefox</artifactId>
+				<version>0.9.7376</version>
+			</dependency>
+			 
+			<dependency>
+				<groupId>org.seleniumhq.webdriver</groupId>
+				<artifactId>webdriver-support</artifactId>
+				<version>0.9.7376</version>
+			</dependency>
+			 
+			<dependency>
+				<groupId>org.seleniumhq.webdriver</groupId>
+				<artifactId>webdriver-ie</artifactId>
+				<version>0.9.7376</version>
+			</dependency>
+			 
+			<dependency>
+				<groupId>org.jboss.seam</groupId>
+				<artifactId>functional-tests</artifactId>
+				<version>${project.version}</version>
+				<scope>test</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>jstl</artifactId>
+				<version>1.1.2</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>commons-digester</groupId>
+				<artifactId>commons-digester</artifactId>
+				<version>2.1</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.eclipse.jdt</groupId>
+				<artifactId>core</artifactId>
+				<version>3.4.2.v_883_R34x</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>commons-fileupload</groupId>
+				<artifactId>commons-fileupload</artifactId>
+				<version>1.2.1</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging-api</artifactId>
+				<version>1.1</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.icefaces</groupId>
+				<artifactId>icefaces</artifactId>
+				<version>1.8.2</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.icefaces</groupId>
+				<artifactId>icefaces-comps</artifactId>
+				<version>1.8.2</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.icefaces</groupId>
+				<artifactId>icefaces-facelets</artifactId>
+				<version>1.8.2</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.apache.myfaces.trinidad</groupId>
+				<artifactId>trinidad-api</artifactId>
+				<version>1.2.5</version>
+			</dependency>
 
-            <dependency>
-                <groupId>org.codehaus.jettison</groupId>
-                <artifactId>jettison</artifactId>
-                <version>1.1</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>stax</groupId>
-                        <artifactId>stax-api</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
+			<dependency>
+				<groupId>org.apache.myfaces.trinidad</groupId>
+				<artifactId>trinidad-impl</artifactId>
+				<version>1.2.5</version>
+			</dependency>
 
-            <dependency>
-                <groupId>org.metawidget</groupId>
-                <artifactId>metawidget-backend</artifactId>
-                <version>0.95</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>org.metawidget</groupId>
-                <artifactId>metawidget-frontend</artifactId>
-                <version>0.95</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>org.metawidget</groupId>
-                <artifactId>metawidget</artifactId>
-                <version>0.95</version>
-            </dependency>
+			<dependency>
+				<groupId>org.codehaus.jettison</groupId>
+				<artifactId>jettison</artifactId>
+				<version>1.1</version>
+				<exclusions>
+					<exclusion>
+						<groupId>stax</groupId>
+						<artifactId>stax-api</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.metawidget</groupId>
+				<artifactId>metawidget-backend</artifactId>
+				<version>0.95</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.metawidget</groupId>
+				<artifactId>metawidget-frontend</artifactId>
+				<version>0.95</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.metawidget</groupId>
+				<artifactId>metawidget</artifactId>
+				<version>0.95</version>
+			</dependency>
 
 			<dependency>
 				<groupId>javax.faces</groupId>
@@ -1547,25 +1564,46 @@
 						<artifactId>commons-digester</artifactId>
 					</exclusion>
 				</exclusions>
-			</dependency>     
-            <dependency>
-              <groupId>com.sun.faces</groupId>
-              <artifactId>jsf-api</artifactId>
-              <version>${version.jsf2}</version>
-            </dependency>
+			</dependency>	 
+			<dependency>
+				<groupId>com.sun.faces</groupId>
+				<artifactId>jsf-api</artifactId>
+				<version>${version.jsf2}</version>
+			</dependency>
 
-            <dependency>
-              <groupId>com.sun.faces</groupId>
-              <artifactId>jsf-impl</artifactId>
-              <version>${version.jsf2}</version>
-            </dependency>               
-            
-            <dependency>
-                <groupId>org.jboss.seam</groupId>
-                <artifactId>jboss-seam-jsf2</artifactId>
-                <version>${project.version}</version>
-                <type>ejb</type>
-            </dependency>			       
+			<dependency>
+				<groupId>com.sun.faces</groupId>
+				<artifactId>jsf-impl</artifactId>
+				<version>${version.jsf2}</version>
+			</dependency>			   
+			
+			<dependency>
+				<groupId>org.jboss.seam</groupId>
+				<artifactId>jboss-seam-jsf2</artifactId>
+				<version>${project.version}</version>
+				<type>ejb</type>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.spec</groupId>
+				<artifactId>jboss-javaee-6.0</artifactId>
+				<version>1.0.0.Final</version>
+				<type>pom</type>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.as</groupId>
+				<artifactId>jboss-as-arquillian-container-managed</artifactId>
+				<version>${version.jbossas7}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.as</groupId>
+				<artifactId>jboss-as-arquillian-container-remote</artifactId>
+				<version>${version.jbossas7}</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
@@ -1606,7 +1644,7 @@
 
 	<build>
 		<defaultGoal>package</defaultGoal>
-        <finalName>${project.artifactId}</finalName>
+		<finalName>${project.artifactId}</finalName>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -1782,7 +1820,7 @@
 	</build>
 
 	<modules>
-		<module>../jboss-seam-gen</module>	
+		<module>../jboss-seam-gen</module>
 		<module>../jboss-seam-excel</module>
 		<module>../jboss-seam-flex</module>
 		<module>../jboss-seam-mail</module>
