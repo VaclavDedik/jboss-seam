@@ -357,6 +357,11 @@
 		</dependency>
 
 		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>org.dbunit</groupId>
 			<artifactId>dbunit</artifactId>
 			<optional>true</optional>
@@ -436,18 +441,18 @@
 			<version>1.6.1</version>
 		</dependency>
 		
-        <dependency>
-            <groupId>com.sun.faces</groupId>
-            <artifactId>jsf-api</artifactId>
-            <optional>true</optional>
-            <scope>provided</scope>
-        </dependency>
+		<dependency>
+			<groupId>com.sun.faces</groupId>
+			<artifactId>jsf-api</artifactId>
+			<optional>true</optional>
+			<scope>provided</scope>
+		</dependency>
 
-        <dependency>
-            <groupId>com.sun.faces</groupId>
-            <artifactId>jsf-impl</artifactId>
-            <optional>true</optional>
-        </dependency>
+		<dependency>
+			<groupId>com.sun.faces</groupId>
+			<artifactId>jsf-impl</artifactId>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 
 	<profiles>
