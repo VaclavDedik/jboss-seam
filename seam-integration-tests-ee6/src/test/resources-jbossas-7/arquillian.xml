@@ -11,6 +11,7 @@
         <configuration>
             <property name="javaVmArguments">-Xmx1024m -XX:MaxPermSize=512m</property>
             <property name="jbossHome">target/jboss-as-${version.jbossas7}</property>
+            <property name="serverConfig">standalone-full.xml</property>
         </configuration>
     </container>
 

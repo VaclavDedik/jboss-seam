@@ -25,15 +25,12 @@ public class Deployments {
                 .addAsResource("components.properties")
                 .addAsResource("messages_en.properties")
                 .addAsResource("META-INF/persistence.xml")
- 
-                //.addAsWebInfResource(new StringAsset("org.jboss.seam.mock.MockFacesContextFactory"), "classes/META-INF/services/javax.faces.context.FacesContextFactory")
-                //.addAsWebInfResource(new StringAsset("org.jboss.seam.mock.MockApplicationFactory"), "classes/META-INF/services/javax.faces.application.ApplicationFactory")
                 
                 .addAsResource("hibernate.cfg.xml")
                 .addAsWebInfResource("WEB-INF/components.xml", "components.xml")
                 .addAsWebInfResource("WEB-INF/pages.xml", "pages.xml")
-                
                 .addAsWebInfResource("WEB-INF/web.xml", "web.xml")
+                .addAsWebInfResource("WEB-INF/ejb-jar.xml", "ejb-jar.xml")
                 
                 .addAsLibraries(DependencyResolvers.use(MavenDependencyResolver.class)
              		   .configureFrom("pom.xml")
@@ -58,6 +55,7 @@ public class Deployments {
                 .addAsResource("components.properties")
                 .addAsResource("messages_en.properties")
                 .addAsResource("META-INF/persistence.xml")
+                
                 .addAsResource("testProcess1.jpdl.xml")
                 .addAsResource("testProcess2.jpdl.xml")
                 .addAsResource("testProcess3.jpdl.xml")
@@ -67,9 +65,9 @@ public class Deployments {
                                
                 .addAsResource("hibernate.cfg.xml")
                 .addAsWebInfResource("WEB-INF/components-jbpm.xml", "components.xml")
-                .addAsWebInfResource("WEB-INF/pages.xml", "pages.xml")
-                
+                .addAsWebInfResource("WEB-INF/pages.xml", "pages.xml")                
                 .addAsWebInfResource("WEB-INF/web.xml", "web.xml")
+                .addAsWebInfResource("WEB-INF/ejb-jar.xml", "ejb-jar.xml")
                 
                 .addAsLibraries(DependencyResolvers.use(MavenDependencyResolver.class)
              		   .configureFrom("pom.xml")

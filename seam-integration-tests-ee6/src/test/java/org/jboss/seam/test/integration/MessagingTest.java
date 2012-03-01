@@ -24,7 +24,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(Arquillian.class)
-@Ignore
+// @Ignore
 public class MessagingTest
     extends JUnitSeamTest
 {
@@ -112,7 +112,7 @@ public class MessagingTest
     
     @MessageDriven(activationConfig={
         @ActivationConfigProperty(propertyName="destinationType", propertyValue="javax.jms.Topic"),
-        @ActivationConfigProperty(propertyName="destination",     propertyValue="topic/testTopic")
+        @ActivationConfigProperty(propertyName="destination",     propertyValue="topic/test")
     })
     @Name("testTopicListener")
     static public class TestTopicListener 
@@ -133,7 +133,7 @@ public class MessagingTest
     
     @MessageDriven(activationConfig={
         @ActivationConfigProperty(propertyName="destinationType", propertyValue="javax.jms.Queue"),
-        @ActivationConfigProperty(propertyName="destination",     propertyValue="queue/testQueue")
+        @ActivationConfigProperty(propertyName="destination",     propertyValue="queue/test")
     })
     @Name("testQueueListener")
     static public class TestQueueListener 

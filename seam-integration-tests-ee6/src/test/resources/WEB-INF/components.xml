@@ -32,16 +32,16 @@
                                              auto-create="true"
                                              persistence-unit-jndi-name="java:/integrationEntityManagerFactory" />
     
-    <jms:topic-connection topic-connection-factory-jndi-name="/ConnectionFactory" />
-    <jms:queue-connection queue-connection-factory-jndi-name="/ConnectionFactory" />
+    <jms:topic-connection topic-connection-factory-jndi-name="java:/ConnectionFactory" />
+    <jms:queue-connection queue-connection-factory-jndi-name="java:/ConnectionFactory" />
 
     <jms:managed-topic-publisher name="testPublisher"
                                  auto-create="true" 
-                                 topic-jndi-name="/topic/testTopic" />
+                                 topic-jndi-name="topic/test" />
                              
     <jms:managed-queue-sender name="testSender"
                               auto-create="true"
-                              queue-jndi-name="/queue/testQueue" />
+                              queue-jndi-name="queue/test" />
                        
 
 </components>
