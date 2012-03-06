@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>tasks</artifactId>
+        <groupId>org.jboss.seam.examples-ee6</groupId>
+        <version>2.3.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>tasks-ear</artifactId>
+    <packaging>ear</packaging>
+    <name>Tasks EAR Module (EE6)</name>
+
+    <properties>
+        <jboss.home>${env.JBOSS_HOME}</jboss.home>
+        <jboss.domain>default</jboss.domain>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jboss.seam.examples-ee6</groupId>
+            <artifactId>tasks-web</artifactId>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.seam.examples-ee6</groupId>
+            <artifactId>tasks-ejb</artifactId>
+            <type>ejb</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>seam-tasks</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <configuration>
+                    <version>6</version>
+                    <defaultLibBundleDir>lib</defaultLibBundleDir>
+                    <!-- Exclude eclipse generated application.xml and manually modified jboss-app.xml during mvn build  -->
+                    <earSourceExcludes>**/application.xml, **/jboss-app.xml</earSourceExcludes>
+                    <!-- use maven generated application.xml instead -->
+                    <generateApplicationXml>true</generateApplicationXml>
+                    <filtering>true</filtering>
+                    <modules>
+                        <webModule>
+                            <groupId>org.jboss.seam.examples-ee6</groupId>
+                            <artifactId>tasks-web</artifactId>
+                            <contextRoot>/seam-tasks</contextRoot>
+                            <bundleFileName>tasks-web.war</bundleFileName>
+                        </webModule>
+                        <ejbModule>
+                            <groupId>org.jboss.seam.examples-ee6</groupId>
+                            <artifactId>tasks-ejb</artifactId>
+                            <bundleFileName>tasks-ejb.jar</bundleFileName>
+                        </ejbModule>
+                        <ejbModule>
+                            <groupId>org.jboss.seam</groupId>
+                            <artifactId>jboss-seam-jsf2</artifactId>
+                            <bundleFileName>jboss-seam.jar</bundleFileName>
+                        </ejbModule>
+                    </modules>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
+                <version>7.1.0.CR1b</version>
+                <executions>
+                    <!-- This requires to be enabled manually as <enabled>true</enabled> doesn't
+                             work -->
+                    <!-- <execution> -->
+                    <!-- <id>add-datasource</id> -->
+                    <!-- <phase>package</phase> -->
+                    <!-- <configuration> -->
+                    <!-- <address>subsystem=datasources,data-source=java:/bookingDatasource</address> -->
+                    <!-- <properties> -->
+                    <!-- <connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url> -->
+                    <!-- <jndi-name>java:/bookingDatasource</jndi-name> -->
+                    <!-- <enabled>true</enabled> -->
+                    <!-- <pool-name>bookingDSPool</pool-name> -->
+                    <!-- <user-name>sa</user-name> -->
+                    <!-- <driver-name>h2</driver-name> -->
+                    <!-- </properties> -->
+                    <!-- </configuration> -->
+                    <!-- <goals> -->
+                    <!-- <goal>add-resource</goal> -->
+                    <!-- </goals> -->
+                    <!-- </execution> -->
+                    <!-- Datasource has to be created before running deploy -->
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>exploded</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>unpack</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.jboss.seam.examples-ee6</groupId>
+                                            <artifactId>tasks-ear</artifactId>
+                                            <type>ear</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear</outputDirectory>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>org.jboss.seam.examples-ee6</groupId>
+                                            <artifactId>tasks-web</artifactId>
+                                            <type>war</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear/${example.name}-web.war</outputDirectory>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>org.jboss.seam.examples-ee6</groupId>
+                                            <artifactId>tasks-ejb</artifactId>
+                                            <type>jar</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear/${example.name}-ejb.jar</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>jboss-maven-plugin</artifactId>
+                        <configuration>
+                            <jbossHome>${jboss.home}</jbossHome>
+                            <serverName>${jboss.domain}</serverName>
+                            <fileNames>
+                                <directory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear</directory>
+                            </fileNames>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>
