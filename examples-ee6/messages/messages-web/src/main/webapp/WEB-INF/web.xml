@@ -24,6 +24,6 @@
     
     <session-config>
         <session-timeout>10</session-timeout> 
-    </session-config> 	
+    </session-config>
     
 </web-app>
