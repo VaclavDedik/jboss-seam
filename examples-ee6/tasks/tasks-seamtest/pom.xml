@@ -12,12 +12,13 @@
    <groupId>org.jboss.seam.examples-ee6</groupId>
    <artifactId>tasks-seamtest</artifactId>
    <name>Tasks Seam Test Module (EE6)</name>
+   <version>2.3.0-SNAPSHOT</version>
 
    <dependencies>
       <dependency>
          <groupId>org.jboss.embedded</groupId>
          <artifactId>jboss-embedded-all</artifactId>
-         <version>2.3.0-SNAPSHOT</version>
+         <version>beta3.SP15</version>
          <exclusions>
             <exclusion>
                <groupId>org.jboss.microcontainer</groupId>
@@ -32,56 +33,57 @@
       <dependency>
          <groupId>org.jboss.seam.embedded</groupId>
          <artifactId>thirdparty-all</artifactId>
-         <version>2.3.0-SNAPSHOT</version>
+         <version>beta3.SP15</version>
       </dependency>
       <dependency>
          <groupId>org.jboss.seam.embedded</groupId>
          <artifactId>hibernate-all</artifactId>
+         <version>beta3.SP15</version>
       </dependency>
-      <dependency>
-         <groupId>org.testng</groupId>
-         <artifactId>testng</artifactId>
-         <classifier>jdk15</classifier>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.seam.examples-ee6</groupId>
-         <artifactId>tasks-ejb</artifactId>
-         <type>ejb</type>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.seam</groupId>
-         <artifactId>jboss-seam</artifactId>
-         <type>ejb</type>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.slf4j</groupId>
-         <artifactId>slf4j-log4j12</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>javax.faces</groupId>
-         <artifactId>jsf-api</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>javax.mail</groupId>
-         <artifactId>mail</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>org.seleniumhq.selenium.server</groupId>
-         <artifactId>selenium-server</artifactId>
-         <classifier>standalone</classifier>
-      </dependency>
-      <dependency>
-         <groupId>org.seleniumhq.selenium.client-drivers</groupId>
-         <artifactId>selenium-java-client-driver</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.seam</groupId>
-         <artifactId>functional-tests</artifactId>
-         <scope>test</scope>
-      </dependency>
+      <!--<dependency>-->
+         <!--<groupId>org.testng</groupId>-->
+         <!--<artifactId>testng</artifactId>-->
+         <!--<classifier>jdk15</classifier>-->
+      <!--</dependency>-->
+      <!--<dependency>-->
+         <!--<groupId>org.jboss.seam.examples-ee6</groupId>-->
+         <!--<artifactId>tasks-ejb</artifactId>-->
+         <!--<type>ejb</type>-->
+         <!--<scope>test</scope>-->
+      <!--</dependency>-->
+      <!--<dependency>-->
+         <!--<groupId>org.jboss.seam</groupId>-->
+         <!--<artifactId>jboss-seam</artifactId>-->
+         <!--<type>ejb</type>-->
+         <!--<scope>test</scope>-->
+      <!--</dependency>-->
+      <!--<dependency>-->
+         <!--<groupId>org.slf4j</groupId>-->
+         <!--<artifactId>slf4j-log4j12</artifactId>-->
+         <!--<scope>test</scope>-->
+      <!--</dependency>-->
+      <!--<dependency>-->
+         <!--<groupId>javax.faces</groupId>-->
+         <!--<artifactId>jsf-api</artifactId>-->
+      <!--</dependency>-->
+      <!--<dependency>-->
+         <!--<groupId>javax.mail</groupId>-->
+         <!--<artifactId>mail</artifactId>-->
+      <!--</dependency>-->
+      <!--<dependency>-->
+         <!--<groupId>org.seleniumhq.selenium.server</groupId>-->
+         <!--<artifactId>selenium-server</artifactId>-->
+         <!--<classifier>standalone</classifier>-->
+      <!--</dependency>-->
+      <!--<dependency>-->
+         <!--<groupId>org.seleniumhq.selenium.client-drivers</groupId>-->
+         <!--<artifactId>selenium-java-client-driver</artifactId>-->
+      <!--</dependency>-->
+      <!--<dependency>-->
+         <!--<groupId>org.jboss.seam</groupId>-->
+         <!--<artifactId>functional-tests</artifactId>-->
+         <!--<scope>test</scope>-->
+      <!--</dependency>-->
    </dependencies>
 
    <build>
