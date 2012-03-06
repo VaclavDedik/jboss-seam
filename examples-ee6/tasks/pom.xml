@@ -18,7 +18,6 @@
         <module>tasks-ear</module>
         <module>tasks-seamtest</module>
         <module>tasks-arquillian</module>
-        <module>tasks-selenium</module>
     </modules>
 
     <properties>
