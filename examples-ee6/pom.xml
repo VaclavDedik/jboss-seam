@@ -20,6 +20,7 @@
       <module>booking</module>
       <module>mail</module>
       <module>messages</module>
+      <module>tasks</module>
    </modules>
 
    <build>
