@@ -9,7 +9,7 @@
       <relativePath>../pom.xml</relativePath>
    </parent>
 
-   <artifactId>messages-ear</artifactId>
-   <packaging>ear</packaging>
+   <artifactId>messages-arquillian</artifactId>
+   <packaging>jar</packaging>
    <name>Messages Arquillian Module (EE6)</name>
 </project>
