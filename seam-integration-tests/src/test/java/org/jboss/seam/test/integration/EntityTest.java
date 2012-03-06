@@ -136,11 +136,6 @@ public class EntityTest
         }
     }
     
-    protected String getConversationIdParameter()
-    {
-       return "cid";
-    }
-    
     @Name("entityExceptionObserver")
     public static class EntityExceptionObserver {
         

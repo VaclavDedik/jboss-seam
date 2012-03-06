@@ -8,9 +8,6 @@ package org.jboss.seam.contexts;
 
 import java.util.Map;
 
-import javax.faces.component.UIViewRoot;
-import javax.faces.context.FacesContext;
-
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.bpm.BusinessProcess;
@@ -94,19 +91,6 @@ public class Contexts
 
    public static boolean isPageContextActive() 
    {
-      if (pageContext.get() == null) {
-         try {
-             // lazy initialize the page context during restore view
-             // this is similar to the ViewScopedContext.isActive() in Seam 3
-             FacesContext facesContext = FacesContext.getCurrentInstance();
-             if (facesContext != null) {
-                UIViewRoot viewRoot = facesContext.getViewRoot();
-                if (viewRoot != null) {
-                   pageContext.set( new PageContext() );
-                }
-             }
-         } catch (NoClassDefFoundError e) {} // seam-remote does not have this dependency
-      }
       return pageContext.get() != null;
    }
 

@@ -231,11 +231,6 @@ public class EntityPassivationTest extends SeamTest
 
    }
 
-   protected String getConversationIdParameter()
-   {
-      return "cid";
-   }
-   
    @Name("entitytest.nestedComponent")
    @Scope(ScopeType.CONVERSATION)
    @AutoCreate
