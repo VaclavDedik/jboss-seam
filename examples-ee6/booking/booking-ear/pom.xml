@@ -1,229 +1,222 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-   <modelVersion>4.0.0</modelVersion>
-   <parent>
-      <artifactId>booking</artifactId>
-      <groupId>org.jboss.seam.examples-ee6</groupId>
-      <version>2.3.0-SNAPSHOT</version>
-      <relativePath>../pom.xml</relativePath>
-   </parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>booking</artifactId>
+        <groupId>org.jboss.seam.examples-ee6</groupId>
+        <version>2.3.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    
+    <groupId>org.jboss.seam.examples-ee6.booking</groupId>
+    <artifactId>booking-ear</artifactId>
+    <packaging>ear</packaging>
+    <name>Booking EAR Module</name>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.jboss.seam.examples-ee6.booking</groupId>
+            <artifactId>booking-web</artifactId>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.seam.examples-ee6.booking</groupId>
+            <artifactId>booking-ejb</artifactId>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>jboss-seam-jsf2</artifactId>
+            <type>ejb</type>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.thoughtworks.xstream</groupId>
+                    <artifactId>xstream</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>xpp3</groupId>
+                    <artifactId>xpp3_min</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>        
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>antlr</groupId>
+                    <artifactId>antlr</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>dom4j</groupId>
+                    <artifactId>dom4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.transaction</groupId>
+                    <artifactId>jta</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javassist</groupId>
+                    <artifactId>javassist</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>ejb3-persistence</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>dom4j</groupId>
+                    <artifactId>dom4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.transaction</groupId>
+                    <artifactId>jta</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javassist</groupId>
+                    <artifactId>javassist</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <scope>provided</scope>
+        </dependency>        
+    </dependencies>
 
-   <groupId>org.jboss.seam.examples-ee6.booking</groupId>
-   <artifactId>booking-ear</artifactId>
-   <packaging>ear</packaging>
-   <name>Booking EAR Module</name>
+    <build>
+        <finalName>seam-booking</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>                    
+                    <defaultLibBundleDir>lib</defaultLibBundleDir>
+                    <!-- Exclude eclipse generated application.xml and manually modified jboss-app.xml during mvn build  -->
+                    <earSourceExcludes>**/application.xml, **/jboss-app.xml</earSourceExcludes>
+                    <!-- use maven generated application.xml instead -->
+                    <generateApplicationXml>true</generateApplicationXml>
+                    <filtering>true</filtering>
+                    <modules>
+                        <webModule>
+                            <groupId>org.jboss.seam.examples-ee6.booking</groupId>
+                            <artifactId>booking-web</artifactId>
+                            <contextRoot>/seam-booking</contextRoot>
+                            <bundleFileName>booking-web.war</bundleFileName>
+                        </webModule>
+                        <ejbModule>
+                            <groupId>org.jboss.seam.examples-ee6.booking</groupId>
+                            <artifactId>booking-ejb</artifactId>
+                            <bundleFileName>booking-ejb.jar</bundleFileName>
+                        </ejbModule>
+                        <ejbModule>
+                            <groupId>org.jboss.seam</groupId>
+                            <artifactId>jboss-seam-jsf2</artifactId>
+                            <bundleFileName>jboss-seam.jar</bundleFileName>
+                        </ejbModule>                        
+                    </modules>
+                </configuration>
+            </plugin>
+			<plugin>
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+				<version>7.1.0.CR1b</version>
+				<executions>
+					<!-- This requires to be enabled manually as <enabled>true</enabled> doesn't 
+						work -->
+					<!-- <execution> -->
+					<!-- <id>add-datasource</id> -->
+					<!-- <phase>package</phase> -->
+					<!-- <configuration> -->
+					<!-- <address>subsystem=datasources,data-source=java:/bookingDatasource</address> -->
+					<!-- <properties> -->
+					<!-- <connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url> -->
+					<!-- <jndi-name>java:/bookingDatasource</jndi-name> -->
+					<!-- <enabled>true</enabled> -->
+					<!-- <pool-name>bookingDSPool</pool-name> -->
+					<!-- <user-name>sa</user-name> -->
+					<!-- <driver-name>h2</driver-name> -->
+					<!-- </properties> -->
+					<!-- </configuration> -->
+					<!-- <goals> -->
+					<!-- <goal>add-resource</goal> -->
+					<!-- </goals> -->
+					<!-- </execution> -->
+					<!-- Datasource has to be created before running deploy -->
+					<execution>
+						<phase></phase>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+        </plugins>
+    </build>
 
-   <dependencies>
-      <dependency>
-         <groupId>org.jboss.seam.examples-ee6.booking</groupId>
-         <artifactId>booking-web</artifactId>
-         <type>war</type>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.seam.examples-ee6.booking</groupId>
-         <artifactId>booking-ejb</artifactId>
-         <type>ejb</type>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.seam</groupId>
-         <artifactId>jboss-seam-jsf2</artifactId>
-         <version>2.3.0-SNAPSHOT</version>
-         <type>ejb</type>
-         <scope>compile</scope>
-         <exclusions>
-            <exclusion>
-               <groupId>com.thoughtworks.xstream</groupId>
-               <artifactId>xstream</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>xpp3</groupId>
-               <artifactId>xpp3_min</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-      <dependency>
-         <groupId>org.hibernate</groupId>
-         <artifactId>hibernate-validator</artifactId>
-         <scope>provided</scope>
-         <exclusions>
-            <exclusion>
-               <groupId>antlr</groupId>
-               <artifactId>antlr</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>dom4j</groupId>
-               <artifactId>dom4j</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>javax.transaction</groupId>
-               <artifactId>jta</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>javassist</groupId>
-               <artifactId>javassist</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-      <dependency>
-         <groupId>org.hibernate</groupId>
-         <artifactId>hibernate-entitymanager</artifactId>
-         <scope>provided</scope>
-         <exclusions>
-            <exclusion>
-               <groupId>org.hibernate</groupId>
-               <artifactId>ejb3-persistence</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>dom4j</groupId>
-               <artifactId>dom4j</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>javax.transaction</groupId>
-               <artifactId>jta</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>javassist</groupId>
-               <artifactId>javassist</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-      <!--<dependency>-->
-         <!--<groupId>org.slf4j</groupId>-->
-         <!--<artifactId>slf4j-log4j12</artifactId>-->
-         <!--<scope>provided</scope>-->
-      <!--</dependency>-->
-      <!--<dependency>-->
-         <!--<groupId>org.slf4j</groupId>-->
-         <!--<artifactId>slf4j-api</artifactId>-->
-         <!--<scope>provided</scope>-->
-      <!--</dependency>-->
-   </dependencies>
-
-   <build>
-      <finalName>seam-booking</finalName>
-      <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-ear-plugin</artifactId>
-            <version>2.6</version>
-            <configuration>
-               <defaultLibBundleDir>lib</defaultLibBundleDir>
-               <!-- Exclude eclipse generated application.xml and manually modified jboss-app.xml during mvn build  -->
-               <earSourceExcludes>**/application.xml, **/jboss-app.xml</earSourceExcludes>
-               <!-- use maven generated application.xml instead -->
-               <generateApplicationXml>true</generateApplicationXml>
-               <filtering>true</filtering>
-               <modules>
-                  <webModule>
-                     <groupId>org.jboss.seam.examples-ee6.booking</groupId>
-                     <artifactId>booking-web</artifactId>
-                     <contextRoot>/seam-booking</contextRoot>
-                     <bundleFileName>booking-web.war</bundleFileName>
-                  </webModule>
-                  <ejbModule>
-                     <groupId>org.jboss.seam.examples-ee6.booking</groupId>
-                     <artifactId>booking-ejb</artifactId>
-                     <bundleFileName>booking-ejb.jar</bundleFileName>
-                  </ejbModule>
-                  <ejbModule>
-                     <groupId>org.jboss.seam</groupId>
-                     <artifactId>jboss-seam-jsf2</artifactId>
-                     <bundleFileName>jboss-seam.jar</bundleFileName>
-                  </ejbModule>
-               </modules>
-            </configuration>
-         </plugin>
-         <plugin>
-            <groupId>org.jboss.as.plugins</groupId>
-            <artifactId>jboss-as-maven-plugin</artifactId>
-            <version>7.1.0.CR1b</version>
-            <executions>
-               <!-- This requires to be enabled manually as <enabled>true</enabled> doesn't
-                       work -->
-               <!-- <execution> -->
-               <!-- <id>add-datasource</id> -->
-               <!-- <phase>package</phase> -->
-               <!-- <configuration> -->
-               <!-- <address>subsystem=datasources,data-source=java:/bookingDatasource</address> -->
-               <!-- <properties> -->
-               <!-- <connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url> -->
-               <!-- <jndi-name>java:/bookingDatasource</jndi-name> -->
-               <!-- <enabled>true</enabled> -->
-               <!-- <pool-name>bookingDSPool</pool-name> -->
-               <!-- <user-name>sa</user-name> -->
-               <!-- <driver-name>h2</driver-name> -->
-               <!-- </properties> -->
-               <!-- </configuration> -->
-               <!-- <goals> -->
-               <!-- <goal>add-resource</goal> -->
-               <!-- </goals> -->
-               <!-- </execution> -->
-               <!-- Datasource has to be created before running deploy -->
-               <execution>
-                  <phase></phase>
-                  <goals>
-                     <goal>deploy</goal>
-                  </goals>
-               </execution>
-            </executions>
-         </plugin>
-      </plugins>
-   </build>
-
-   <profiles>
-      <profile>
-         <id>exploded</id>
-         <properties>
-            <example.name>booking</example.name>
-         </properties>
-         <build>
-            <plugins>
-               <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-dependency-plugin</artifactId>
-                  <executions>
-                     <execution>
-                        <id>unpack</id>
-                        <phase>package</phase>
-                        <goals>
-                           <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                           <artifactItems>
-                              <artifactItem>
-                                 <groupId>org.jboss.seam.examples-ee6.booking</groupId>
-                                 <artifactId>booking-ear</artifactId>
-                                 <type>ear</type>
-                                 <overWrite>true</overWrite>
-                                 <outputDirectory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear
-                                 </outputDirectory>
-                              </artifactItem>
-                              <artifactItem>
-                                 <groupId>org.jboss.seam.examples-ee6.booking</groupId>
-                                 <artifactId>booking-web</artifactId>
-                                 <type>war</type>
-                                 <overWrite>true</overWrite>
-                                 <outputDirectory>
-                                    ${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear/${example.name}-web.war
-                                 </outputDirectory>
-                              </artifactItem>
-                              <artifactItem>
-                                 <groupId>org.jboss.seam.examples-ee6.booking</groupId>
-                                 <artifactId>booking-ejb</artifactId>
-                                 <type>jar</type>
-                                 <overWrite>true</overWrite>
-                                 <outputDirectory>
-                                    ${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear/${example.name}-ejb.jar
-                                 </outputDirectory>
-                              </artifactItem>
-                           </artifactItems>
-                        </configuration>
-                     </execution>
-                  </executions>
-               </plugin>
-            </plugins>
-         </build>
-      </profile>
-   </profiles>
+    <profiles>
+        <profile>
+            <id>exploded</id>
+            <properties>
+                <example.name>booking</example.name>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>unpack</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.jboss.seam.examples-ee6.booking</groupId>
+                                            <artifactId>booking-ear</artifactId>
+                                            <type>ear</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear</outputDirectory>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>org.jboss.seam.examples-ee6.booking</groupId>
+                                            <artifactId>booking-web</artifactId>
+                                            <type>war</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear/${example.name}-web.war</outputDirectory>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>org.jboss.seam.examples-ee6.booking</groupId>
+                                            <artifactId>booking-ejb</artifactId>
+                                            <type>jar</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear/${example.name}-ejb.jar</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                  </plugins>
+          </build>
+        </profile>    
+    </profiles>
 </project>

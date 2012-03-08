@@ -20,7 +20,7 @@
            <f:facet name="header">
               <h:outputText value="Title"/>
            </f:facet>
-           <s:link id="link" value="#{msg.title}" action="#{messageManager.select}" />
+           <s:link id="link" value="#{msg.title}" action="#{messageManager.select}"/>
         </h:column>
         <h:column>
            <f:facet name="header">
