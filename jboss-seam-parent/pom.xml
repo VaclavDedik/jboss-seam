@@ -235,13 +235,13 @@
 <!--             </dependency> -->
 
 			<dependency>
-				<groupId>org.jbpm</groupId>
+				<groupId>org.jbpm.jbpm3</groupId>
 				<artifactId>jbpm-jpdl</artifactId>
-				<version>3.2.2</version>
+				<version>3.2.10.SP3_seam2</version>
 				<exclusions>
 					<exclusion>
 						<groupId>org.hibernate</groupId>
-						<artifactId>hibernate</artifactId>
+						<artifactId>hibernate-core</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>

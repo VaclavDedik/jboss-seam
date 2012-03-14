@@ -63,7 +63,7 @@
 
 	<dependencies>
 		<dependency>
-		  <groupId>org.jbpm</groupId>
+		  <groupId>org.jbpm.jbpm3</groupId>
 		  <artifactId>jbpm-jpdl</artifactId>
 		</dependency>
 

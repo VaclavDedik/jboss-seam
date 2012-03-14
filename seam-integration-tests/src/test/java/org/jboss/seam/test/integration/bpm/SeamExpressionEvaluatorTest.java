@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
  * @author Pete Muir
  *
  */
-@Ignore
+//@Ignore
 @RunWith(Arquillian.class)
 public class SeamExpressionEvaluatorTest extends JUnitSeamTest
 {
