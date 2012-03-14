@@ -19,6 +19,7 @@
         <module>mail</module>
         <module>messages</module>
         <module>todo</module>
+        <module>ui</module>
     </modules>
 
     <build>

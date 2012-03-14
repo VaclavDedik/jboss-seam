@@ -1,0 +1,3 @@
+connect
+data-source add --name=uiDS --jndi-name=java:/uiDatasource --connection-url=jdbc:h2:mem:test;DB_CLOSE_DELAY=-1 --user-name=sa --password=sa --driver-name=h2
+/subsystem=datasources/data-source="uiDS":enable
