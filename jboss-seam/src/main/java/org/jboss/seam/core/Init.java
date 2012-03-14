@@ -442,7 +442,7 @@ public class Init
     */
    public boolean isDebugPageAvailable()
    {
-      return debug && Resources.getResource("META-INF/debug.xhtml", null) != null;   
+      return debug && Resources.getResource("META-INF/resources/debug.xhtml", null) != null;   
    }
    
    public boolean isMyFacesLifecycleBug()

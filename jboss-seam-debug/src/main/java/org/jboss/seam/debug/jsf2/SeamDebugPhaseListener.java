@@ -42,7 +42,7 @@ public class SeamDebugPhaseListener implements PhaseListener
          try
          {
             FacesContext facesContext = FacesContext.getCurrentInstance();
-            URL url = SeamDebugPhaseListener.class.getClassLoader().getResource("META-INF/debug.xhtml");
+            URL url = SeamDebugPhaseListener.class.getClassLoader().getResource("META-INF/resources/debug.xhtml");
             
             ResourceResolver resroler=new ResourceResolver(){
                @Override
