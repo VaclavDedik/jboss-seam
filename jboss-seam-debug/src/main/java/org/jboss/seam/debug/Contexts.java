@@ -33,14 +33,20 @@ public class Contexts
 
    public String[] getSession()
    {
-      String[] names = org.jboss.seam.contexts.Contexts.getSessionContext().getNames();
+      String[] names={};
+      if(org.jboss.seam.contexts.Contexts.isSessionContextActive()) {
+          names = org.jboss.seam.contexts.Contexts.getSessionContext().getNames();
+      }
       Arrays.sort(names);
       return names;
    }
 
    public String[] getConversation()
    {
-      String[] names = org.jboss.seam.contexts.Contexts.getConversationContext().getNames();
+      String[] names = {};
+      if ( org.jboss.seam.contexts.Contexts.isConversationContextActive()) {
+         names = org.jboss.seam.contexts.Contexts.getConversationContext().getNames();
+      }
       Arrays.sort(names);
       return names;
    }
@@ -61,7 +67,17 @@ public class Contexts
 
    public Exception getException()
    {
-      return (Exception) org.jboss.seam.contexts.Contexts.getConversationContext().get("org.jboss.seam.caughtException");
+      Exception e=null;
+      if(org.jboss.seam.contexts.Contexts.isConversationContextActive())
+      {
+         if(org.jboss.seam.contexts.Contexts.getConversationContext().get("org.jboss.seam.caughtException")==null) {
+            return null;
+         }
+         else {
+            e=(Exception)org.jboss.seam.contexts.Contexts.getConversationContext().get("org.jboss.seam.caughtException");
+         }
+      }
+      return e;
    }
    
    public List<Exception> getExceptionCauses()
