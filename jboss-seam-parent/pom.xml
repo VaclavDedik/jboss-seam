@@ -145,11 +145,6 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-<<<<<<< HEAD
-
-=======
-			
->>>>>>> 28045d7... refactored ee6 artifacts into standard Seam modules
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
 				<artifactId>jboss-seam-debug</artifactId>
