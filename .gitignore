@@ -10,6 +10,7 @@
 # maven build results
 target
 test-output
+*.log
 
 #eclipse output
 bin
