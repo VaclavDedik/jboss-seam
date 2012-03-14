@@ -278,7 +278,7 @@
        </dependency>                
        <dependency>
             <groupId>org.jboss.seam</groupId>
-            <artifactId>examples</artifactId>
+            <artifactId>examples-ee6</artifactId>
             <classifier>project</classifier>
             <version>${project.version}</version>
             <type>zip</type>

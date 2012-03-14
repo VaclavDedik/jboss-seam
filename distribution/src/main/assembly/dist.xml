@@ -3,14 +3,13 @@
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/2.2 http://maven.apache.org/xsd/assembly-2.2.xsd">
 
-   <id>distribution-jsf2</id>
+   <id>dist</id>
    <formats>
-       <format>dir</format>
-<!--        <format>zip</format> -->
-<!--        <format>tar.gz</format> -->
+<!--        <format>dir</format> -->
+       <format>zip</format>
+       <format>tar.gz</format>
    </formats>
-   <includeBaseDirectory>false</includeBaseDirectory>
-  
+   <includeBaseDirectory>true</includeBaseDirectory>   
    
    <!-- Add distribution files -->
    <fileSets>
@@ -62,17 +61,17 @@
       	</includes>
       </fileSet>
       <fileSet>
-        <directory>../jboss-seam-jsf2/target</directory>
+        <directory>../jboss-seam/target</directory>
         <outputDirectory>lib/interop</outputDirectory>
         <includes>
-            <include>jboss-seam-jsf2-wls-compatible.jar</include>
+            <include>jboss-seam-wls-compatible.jar</include>
         </includes>
       </fileSet>
       <fileSet>
-        <directory>../jboss-seam-jsf2/target</directory>
+        <directory>../jboss-seam/target</directory>
         <outputDirectory>lib/interop/src</outputDirectory>
         <includes>
-            <include>jboss-seam-jsf2-wls-compatible-sources.jar</include>
+            <include>jboss-seam-wls-compatible-sources.jar</include>
         </includes>
       </fileSet>
       <!--  all jars from jboss-seam module dependencies 
@@ -122,9 +121,6 @@
          <excludes>
             <exclude>org.jboss.seam:jboss-seam-gen:*:sources</exclude>
             <exclude>org.jboss.seam:jboss-seam-jul:*:sources</exclude>
-            <exclude>org.jboss.seam:jboss-seam-ui:*:sources</exclude>
-            <exclude>org.jboss.seam:jboss-seam:*:sources</exclude>
-            <exclude>org.jboss.seam:jboss-seam-debug:*:sources</exclude>
          </excludes>
          <outputFileNameMapping>${artifact.artifactId}-sources.${artifact.extension}</outputFileNameMapping>
       </dependencySet>
@@ -135,9 +131,9 @@
          <useProjectArtifact>false</useProjectArtifact>                  
          <useStrictFiltering>true</useStrictFiltering>         
          <includes>
-            <include>org.jboss.seam:jboss-seam-jsf2:ejb</include>
-            <include>org.jboss.seam:jboss-seam-debug-jsf2:jar</include>
-            <include>org.jboss.seam:jboss-seam-ui-jsf2:jar</include>
+            <include>org.jboss.seam:jboss-seam:ejb</include>
+            <include>org.jboss.seam:jboss-seam-debug:jar</include>
+            <include>org.jboss.seam:jboss-seam-ui:jar</include>
             <include>org.jboss.seam:jboss-seam-excel:jar</include>
             <include>org.jboss.seam:jboss-seam-pdf:jar</include>
             <include>org.jboss.seam:jboss-seam-mail:jar</include>
@@ -149,11 +145,6 @@
             <include>org.jboss.seam:jboss-seam-ioc:jar</include>
             <include>org.jboss.seam.embedded:jboss-embedded-api:jar</include>
          </includes>
-         <excludes>
-            <exclude>org.jboss.seam:jboss-seam:ejb:jar</exclude>
-            <exclude>org.jboss.seam:jboss-seam-ui:jar</exclude>
-            <exclude>org.jboss.seam:jboss-seam-debug:jar</exclude>
-         </excludes>
          <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
       </dependencySet>
       
@@ -197,9 +188,6 @@
             <include>org.eclipse.core:runtime:jar</include>
             <include>org.eclipse.equinox:common:jar</include>
             <include>org.eclipse:text:jar</include>
-            <include>org.richfaces.samples:darkX:jar</include>
-            <include>org.richfaces.samples:laguna:jar</include>
-            <include>org.richfaces.samples:glassX:jar</include>
             <include>org.apache.ant:ant:jar</include>
             <include>org.apache.ant:ant-launcher:jar</include>
             <include>org.apache.ant:ant-nodeps:jar</include>
@@ -271,7 +259,7 @@
             </excludes>
          </unpackOptions>
          <includes>
-            <include>org.jboss.seam:jboss-seam-jsf2:*:javadoc</include>
+            <include>org.jboss.seam:jboss-seam:*:javadoc</include>
          </includes>
          <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
       </dependencySet>
@@ -286,11 +274,10 @@
 			 </excludes>
 		 </unpackOptions>
          <includes>
-            <include>org.jboss.seam:jboss-seam-ui-jsf2:*:javadoc</include>
+            <include>org.jboss.seam:jboss-seam-ui:*:javadoc</include>
          </includes>
          <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
       </dependencySet>
 
    </dependencySets>
 </assembly>
-

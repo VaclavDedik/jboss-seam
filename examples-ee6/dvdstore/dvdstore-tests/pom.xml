@@ -94,10 +94,6 @@
                 <directory>src/test/resources-integration</directory>
                 <filtering>true</filtering>
             </testResource>
-            <testResource> <!-- this takes datasource dvdstore-ds.xml -->
-                <directory>${basedir}/../dvdstore-ear/src/main/resources</directory>
-                <filtering>true</filtering>
-            </testResource>
         </testResources>
         
         <plugins>            
