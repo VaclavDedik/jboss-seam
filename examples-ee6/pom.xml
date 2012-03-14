@@ -8,7 +8,6 @@
         <relativePath>../jboss-seam-parent/pom.xml</relativePath>
     </parent>
 
-    <groupId>org.jboss.seam</groupId>
     <artifactId>examples-ee6</artifactId>
     <packaging>pom</packaging>
 
@@ -19,6 +18,7 @@
         <module>booking</module>
         <module>mail</module>
         <module>messages</module>
+        <module>todo</module>
     </modules>
 
     <build>
@@ -55,6 +55,19 @@
 		                </lifecycleMappingMetadata>
 		            </configuration>
 		        </plugin>
+		         <plugin>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
+                <version>7.1.0.Final</version>
+                <executions>
+                    <execution>
+                        <phase></phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             </plugins>
         </pluginManagement>
     </build>
