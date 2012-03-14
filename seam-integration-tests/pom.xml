@@ -8,7 +8,7 @@
 		<relativePath>../jboss-seam-parent/pom.xml</relativePath>
 	</parent>
 	<groupId>org.jboss.seam</groupId>
-	<artifactId>seam-integration-tests</artifactId>
+	<artifactId>seam-integration-tests-ee6</artifactId>
 	<name>Seam Integration Tests</name>
 	
 	<properties>
@@ -16,25 +16,18 @@
 
 	<build>
 	   <testResources>
-            <testResource>
-                <directory>src/test/resources</directory>
-                <filtering>true</filtering>
-            </testResource>
-        </testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+		</testResources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-                    <skipTests>false</skipTests>
-                    <argLine>-Dsun.lang.ClassLoader.allowArraySyntax=true -Xms512m -Xmx800m -Dfoo</argLine>                              
-                    <additionalClasspathElements>
-                        <additionalClasspathElement>${project.build.directory}/bootstrap</additionalClasspathElement>
-                    </additionalClasspathElements>
-                    <suiteXmlFiles>
-                        <suiteXmlFile>testng.xml</suiteXmlFile>
-                    </suiteXmlFiles>
-                </configuration>
+					<skipTests>true</skipTests>
+				</configuration>
 
 				<executions>
 					<execution>
@@ -44,50 +37,25 @@
 							<goal>test</goal>
 						</goals>
 						<configuration>
-							<skip>false</skip>
+							<skip>true</skip>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 			
 			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                       <id>copy-seam-bootstrap</id>
-                       <phase>process-resources</phase>
-                       <goals>
-                          <goal>unpack</goal>
-                       </goals>
-                       <configuration>
-                          <artifactItems>
-                              <artifactItem>
-                                   <groupId>org.jboss.seam</groupId>
-                                   <artifactId>jboss-embedded-bootstrap</artifactId>
-                                   <version>${project.version}</version>
-                                   <type>jar</type>
-                                   <overWrite>false</overWrite>
-                                   <outputDirectory>${project.build.directory}</outputDirectory>
-                              </artifactItem>
-                          </artifactItems>
-                       </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-clean-plugin</artifactId>
-                <configuration>
-                    <filesets>
-                        <fileset>
-                            <directory>${project.build.directory}/bootstrap</directory>
-                        </fileset>
-                        <fileset>
-                            <directory>${basedir}/src/test/META-INF</directory>
-                        </fileset>
-                    </filesets>
-                </configuration>
-            </plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>${project.build.directory}/bootstrap</directory>
+						</fileset>
+						<fileset>
+							<directory>${basedir}/src/test/META-INF</directory>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
 		</plugins>
 
 
@@ -95,187 +63,281 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.jboss.seam.embedded</groupId>
-			<artifactId>jboss-embedded-all</artifactId>
-			<version>${version.jbossembedded}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.jboss.microcontainer</groupId>
-					<artifactId>jboss-deployers-client-spi</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.jboss.microcontainer</groupId>
-					<artifactId>jboss-deployers-core-spi</artifactId>
-				</exclusion>
-			</exclusions>
+		  <groupId>org.jbpm</groupId>
+		  <artifactId>jbpm-jpdl</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.jboss.seam.embedded</groupId>
-			<artifactId>thirdparty-all</artifactId>
-			<version>${version.jbossembedded}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.seam.embedded</groupId>
-			<artifactId>hibernate-all</artifactId>
-			<version>${version.jbossembedded}</version>
-		</dependency>
-        <dependency>
-          <groupId>org.jbpm</groupId>
-          <artifactId>jbpm-jpdl</artifactId>
-        </dependency>
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<classifier>jdk15</classifier>
-		</dependency>
-	</dependencies>
-    
-    <profiles>
-        <profile>
-            <id>code-coverage</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>default-test</id>
-                                <phase>none</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.sonatype.maven.plugin</groupId>
-                        <artifactId>emma4it-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>merge</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                   <goal>merge</goal>
-                                </goals>
-                                <configuration>
-                                   <searchPath>${basedir}/../</searchPath>
-                                </configuration>
-                            </execution>
-                            <execution>
-                               <id>report</id>
-                               <phase>verify</phase>
-                               <goals>
-                                  <goal>report</goal>
-                               </goals>
-                               <configuration>
-                                  <sourceSets>
-                                     <sourceSet>
-                                        <directory>${basedir}/../jboss-seam/src/main/java</directory>
-                                        <directory>${basedir}/../jboss-seam-debug/src/main/java</directory>
-                                        <directory>${basedir}/../jboss-seam-excel/src/main/java</directory>
-                                        <directory>${basedir}/../jboss-seam-flex/src/main/java</directory>
-                                        <directory>${basedir}/../jboss-seam-gen/src/main/java</directory>
-                                        <directory>${basedir}/../jboss-seam-ioc/src/main/java</directory>
-                                        <directory>${basedir}/../jboss-seam-jul/src/main/java</directory>
-                                        <directory>${basedir}/../jboss-seam-mail/src/main/java</directory>
-                                        <directory>${basedir}/../jboss-seam-pdf/src/main/java</directory>
-                                        <directory>${basedir}/../jboss-seam-remoting/src/main/java</directory>
-                                        <directory>${basedir}/../jboss-seam-resteasy/src/main/java</directory>
-                                        <directory>${basedir}/../jboss-seam-rss/src/main/java</directory>
-                                        <directory>${basedir}/../jboss-seam-ui/src/main/java</directory>
-                                        <directory>${basedir}/../jboss-seam-wicket/src/main/java</directory>
-                                     </sourceSet>
-                                  </sourceSets>
-                               </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-          <profile>
-       <id>jsf12</id>         
-        <activation>
-            <activeByDefault>true</activeByDefault>
-        </activation>
-		<dependencies>
-			<dependency>
-				<groupId>org.jboss.seam</groupId>
-				<artifactId>jboss-seam</artifactId>
-				<type>ejb</type>
-			</dependency>
-			<dependency>
-				<groupId>javax.faces</groupId>
-				<artifactId>jsf-api</artifactId>
-			</dependency>
-	
-			<dependency>
-				<groupId>javax.faces</groupId>
-				<artifactId>jsf-impl</artifactId>
-				<exclusions>
-					<exclusion>
-						<groupId>commons-collections</groupId>
-						<artifactId>commons-collections</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>commons-digester</groupId>
-						<artifactId>commons-digester</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-	</dependencies>
-       </profile>
-       <profile>
-        <id>jsf2</id>
-		<dependencies>
-			<dependency>
-				<groupId>com.sun.faces</groupId>
-				<artifactId>jsf-api</artifactId>
-			</dependency>
-	
-			<dependency>
-				<groupId>com.sun.faces</groupId>
-				<artifactId>jsf-impl</artifactId>
-			</dependency>
-	
-			<dependency>
-				<groupId>org.jboss.seam</groupId>
-				<artifactId>jboss-seam-jsf2</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-		</dependencies>
-		<build>
-       <testResources>
-            <testResource>
-                <directory>src/test/resources</directory>
-                <filtering>true</filtering>
-            </testResource>
-        </testResources>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <skipTests>true</skipTests>
-                </configuration>
 
-                <executions>
-                    <execution>
-                        <id>surefire-it</id>
-                        <phase>integration-test</phase>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <configuration>
-                            <skip>true</skip>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-           </plugins>
-          </build>
-       </profile>
-    </profiles>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.arquillian.junit</groupId>
+			<artifactId>arquillian-junit-container</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.arquillian.protocol</groupId>
+			<artifactId>arquillian-protocol-servlet</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-api-maven</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.spec</groupId>
+			<artifactId>jboss-javaee-6.0</artifactId>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+	
+	<profiles>
+		<profile>
+			<id>code-coverage</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>default-test</id>
+								<phase>none</phase>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.sonatype.maven.plugin</groupId>
+						<artifactId>emma4it-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>merge</id>
+								<phase>post-integration-test</phase>
+								<goals>
+								   <goal>merge</goal>
+								</goals>
+								<configuration>
+								   <searchPath>${basedir}/../</searchPath>
+								</configuration>
+							</execution>
+							<execution>
+							   <id>report</id>
+							   <phase>verify</phase>
+							   <goals>
+								  <goal>report</goal>
+							   </goals>
+							   <configuration>
+								  <sourceSets>
+									 <sourceSet>
+										<directory>${basedir}/../jboss-seam-jsf2/src/main/java</directory>
+										<directory>${basedir}/../jboss-seam-debug/src/main/java</directory>
+										<directory>${basedir}/../jboss-seam-excel/src/main/java</directory>
+										<directory>${basedir}/../jboss-seam-flex/src/main/java</directory>
+										<directory>${basedir}/../jboss-seam-gen/src/main/java</directory>
+										<directory>${basedir}/../jboss-seam-ioc/src/main/java</directory>
+										<directory>${basedir}/../jboss-seam-jul/src/main/java</directory>
+										<directory>${basedir}/../jboss-seam-mail/src/main/java</directory>
+										<directory>${basedir}/../jboss-seam-pdf/src/main/java</directory>
+										<directory>${basedir}/../jboss-seam-remoting/src/main/java</directory>
+										<directory>${basedir}/../jboss-seam-resteasy/src/main/java</directory>
+										<directory>${basedir}/../jboss-seam-rss/src/main/java</directory>
+										<directory>${basedir}/../jboss-seam-ui/src/main/java</directory>
+										<directory>${basedir}/../jboss-seam-wicket/src/main/java</directory>
+									 </sourceSet>
+								  </sourceSets>
+							   </configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>jsf2</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>com.sun.faces</groupId>
+					<artifactId>jsf-api</artifactId>
+				</dependency>
+		
+				<dependency>
+					<groupId>com.sun.faces</groupId>
+					<artifactId>jsf-impl</artifactId>
+				</dependency>
+		
+				<dependency>
+					<groupId>org.jboss.seam</groupId>
+					<artifactId>jboss-seam-jsf2</artifactId>
+					<version>${project.version}</version>
+
+					<exclusions>
+						<exclusion>
+							<groupId>org.testng</groupId>
+							<artifactId>testng</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-core</artifactId>
+				</dependency>
+
+			</dependencies>
+			<build>
+				<testResources>
+					<testResource>
+						<directory>src/test/resources</directory>
+						<filtering>true</filtering>
+					</testResource>
+				</testResources>
+			</build>
+		</profile>
+
+		<profile>
+			<id>integration-test</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>arquillian</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<skip>true</skip>
+							<skipTests>false</skipTests>
+						</configuration>
+
+						<executions>
+							<execution>
+								<id>surefire-it</id>
+								<phase>integration-test</phase>
+								<goals>
+									<goal>test</goal>
+								</goals>
+								<configuration>
+									<redirectTestOutputToFile>true</redirectTestOutputToFile>
+									<skip>false</skip>
+									<systemProperties>
+										<!-- used by the jbossas-managed-7 profile in arquillian.xml for the jbossHome property-->
+										<version.jbossas7>${version.jbossas7}</version.jbossas7>
+									</systemProperties>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>arq-jbossas-7-managed</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>arquillian</name>
+					<value>jbossas-managed-7</value>
+				</property>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.as</groupId>
+					<artifactId>jboss-as-arquillian-container-managed</artifactId>
+				</dependency>
+			</dependencies>
+			<build>
+				<testResources>
+					<testResource>
+					<directory>src/test/resources</directory>
+				</testResource>
+				<testResource>
+					<directory>src/test/resources-jbossas-7</directory>
+				</testResource>
+				</testResources>
+
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>unpack-as7</id>
+								<phase>process-test-classes</phase>
+								<goals>
+									<goal>unpack</goal>
+								</goals>
+								<configuration>
+									<artifactItems>
+										<artifactItem>
+											<groupId>org.jboss.as</groupId>
+											<artifactId>jboss-as-dist</artifactId>
+											<version>${version.jbossas7}</version>
+											<type>zip</type>
+											<overWrite>false</overWrite>
+											<outputDirectory>${project.build.directory}</outputDirectory>
+										</artifactItem>
+									</artifactItems>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>arq-jbossas-7-remote</id>
+				<activation>
+					<property>
+						<name>arquillian</name>
+						<value>jbossas-remote-7</value>
+					</property>
+				</activation>
+
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.as</groupId>
+					<artifactId>jboss-as-arquillian-container-remote</artifactId>
+				</dependency>
+			</dependencies>
+			<build>
+				<testResources>
+					<testResource>
+						<directory>src/test/resources</directory>
+					</testResource>
+					<testResource>
+						<directory>src/test/resources-jbossas-7</directory>
+					</testResource>
+				</testResources>
+			</build>
+		</profile>
+	</profiles>
 </project>

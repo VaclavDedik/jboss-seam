@@ -2,26 +2,27 @@ package org.jboss.seam.test.integration;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.contexts.ServletLifecycle;
-import org.jboss.seam.mock.SeamTest;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Test;
+import org.jboss.seam.mock.JUnitSeamTest;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.After;
+import org.junit.runner.RunWith;
 
 public class ConcurrentFactoryTest 
-    extends SeamTest 
+    extends JUnitSeamTest 
 {
-    @Override
-    protected void startJbossEmbeddedIfNecessary() 
-          throws org.jboss.deployers.spi.DeploymentException,
-                 java.io.IOException 
-    {
-       // don't deploy   
-    }
-
-    @Test(threadPoolSize = 2, invocationCount = 2)
+	
+	// TODO: Implement a different way to run concurrent test for junit
+    // @Test(threadPoolSize = 2, invocationCount = 2)
+	@Test
+	@Ignore
     public void concurrentFactoryCall() 
         throws Exception 
     {
@@ -33,7 +34,7 @@ public class ConcurrentFactoryTest
         }.run();
     }
     
-    @AfterMethod
+    @After
     @Override
     public void end()
     {

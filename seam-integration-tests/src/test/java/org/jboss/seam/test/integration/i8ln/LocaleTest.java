@@ -8,15 +8,29 @@ import java.util.Locale;
 import javax.faces.component.UIOutput;
 import javax.faces.event.ValueChangeEvent;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.international.LocaleConfig;
 import org.jboss.seam.international.LocaleSelector;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.mock.SeamTest;
-import org.testng.annotations.Test;
+import org.jboss.seam.mock.JUnitSeamTest;
+import org.jboss.seam.test.integration.Deployments;
+import org.jboss.shrinkwrap.api.Archive;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class LocaleTest extends SeamTest
+@RunWith(Arquillian.class)
+public class LocaleTest extends JUnitSeamTest
 {
+   @Deployment(name="LocaleTest")
+   @OverProtocol("Servlet 3.0") 
+   public static Archive<?> createDeployment()
+   {
+      return Deployments.defaultSeamDeployment();
+   }
+
    @Test
    public void localeTest() throws Exception
    {

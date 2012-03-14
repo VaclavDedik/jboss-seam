@@ -7,10 +7,11 @@
              
    <persistence-unit name="integration">
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
-      <jta-data-source>java:/integrationDatasource</jta-data-source>
+      <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
       <properties>
          <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
-         <property name="hibernate.cache.use_query_cache" value="true"/>
+         <property name="hibernate.cache.use_query_cache" value="false"/>
+         <property name="hibernate.cache.use_second_level_cache" value="false"/>
          <property name="hibernate.show_sql" value="true"/>
          <property name="jboss.entity.manager.factory.jndi.name" value="java:/integrationEntityManagerFactory"/>
       </properties>

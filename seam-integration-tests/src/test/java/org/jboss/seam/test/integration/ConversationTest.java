@@ -5,17 +5,36 @@ import java.util.List;
 
 import javax.faces.model.SelectItem;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.ConversationEntry;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.faces.Switcher;
-import org.jboss.seam.mock.SeamTest;
-import org.testng.annotations.Test;
+import org.jboss.seam.mock.JUnitSeamTest;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(Arquillian.class)
 public class ConversationTest 
-    extends SeamTest
+    extends JUnitSeamTest
 {
-    
+	@Deployment(name="ConversationTest")
+	@OverProtocol("Servlet 3.0") 
+	public static Archive<?> createDeployment()
+	{
+		return Deployments.defaultSeamDeployment();
+	}
+	
     @Test
     public void conversationStack() 
         throws Exception 
@@ -28,7 +47,7 @@ public class ConversationTest
                 assert entries.size() == 0;                            
             }
         }.run();
-        
+                
        // no conversation, no stack
        new FacesRequest("/pageWithoutDescription.xhtml") {
            @Override
@@ -39,10 +58,10 @@ public class ConversationTest
            @Override
            protected void renderResponse() throws Exception {
                List<ConversationEntry> entries = (List<ConversationEntry>) getValue("#{conversationStack}");
-               assert entries.size() == 0;                            
+               assert entries.size() == 0;              
            }
        }.run();
-       
+              
        // new conversation, stack = 1
        String rootId = new FacesRequest("/pageWithDescription.xhtml") {
            @Override
@@ -53,10 +72,10 @@ public class ConversationTest
            @Override
            protected void renderResponse() throws Exception {
                List<ConversationEntry> entries = (List<ConversationEntry>) getValue("#{conversationStack}");
-               assert entries.size() == 1;                            
+               assert entries.size() == 1;
            }
        }.run();
-
+       
        // nested conversation, stack =2
        String nested1 = new FacesRequest("/pageWithDescription.xhtml", rootId) {
            @Override
@@ -71,7 +90,7 @@ public class ConversationTest
            }
                     
        }.run();
-   
+          
        // nested conversation without description, not added to stack
        String nested2 = new FacesRequest("/pageWithoutDescription.xhtml", nested1) {       
            @Override
@@ -85,7 +104,7 @@ public class ConversationTest
                assert entries.size() == 2;  
            }
        }.run();
-       
+              
        // access a page, now it's on the stack
        new FacesRequest("/pageWithDescription.xhtml", nested2) {
            @Override
@@ -94,7 +113,7 @@ public class ConversationTest
                assert entries.size() == 3;  
            }
        }.run();
-       
+              
        // end conversation, stack goes down
        new FacesRequest("/pageWithDescription.xhtml", nested2) {       
            @Override
@@ -108,7 +127,7 @@ public class ConversationTest
                assert entries.size() == 2;  
            }
        }.run();
-       
+              
        // end another one, size is 1
        new FacesRequest("/pageWithDescription.xhtml", nested1) {       
            @Override

@@ -20,7 +20,7 @@
                  http://jboss.com/products/seam/jms http://jboss.com/products/seam/jms-2.3.xsd 
                  http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.3.xsd">
     
-    <core:init debug="false" jndi-pattern="@jndiPattern@" />
+    <core:init debug="false" jndi-pattern="java:app/test/#{ejbName}" />
 
     <core:manager concurrent-request-timeout="500"
                   conversation-timeout="120000" 
@@ -32,25 +32,16 @@
                                              auto-create="true"
                                              persistence-unit-jndi-name="java:/integrationEntityManagerFactory" />
     
-    <bpm:jbpm>
-        <bpm:process-definitions>
-            <value>testProcess1.jpdl.xml</value>
-            <value>testProcess2.jpdl.xml</value>
-            <value>testProcess3.jpdl.xml</value>
-            <value>testProcess4.jpdl.xml</value>
-        </bpm:process-definitions>
-    </bpm:jbpm>
-
-    <jms:topic-connection topic-connection-factory-jndi-name="/ConnectionFactory" />
-    <jms:queue-connection queue-connection-factory-jndi-name="/ConnectionFactory" />
+    <jms:topic-connection topic-connection-factory-jndi-name="java:/ConnectionFactory" />
+    <jms:queue-connection queue-connection-factory-jndi-name="java:/ConnectionFactory" />
 
     <jms:managed-topic-publisher name="testPublisher"
                                  auto-create="true" 
-                                 topic-jndi-name="/topic/testTopic" />
-    	                         
+                                 topic-jndi-name="topic/test" />
+                             
     <jms:managed-queue-sender name="testSender"
                               auto-create="true"
-                              queue-jndi-name="/queue/testQueue" />
+                              queue-jndi-name="queue/test" />
                        
 
 </components>

@@ -11,25 +11,31 @@ import javax.jms.TextMessage;
 import javax.jms.TopicPublisher;
 import javax.jms.TopicSession;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.mock.SeamTest;
-import org.testng.annotations.Test;
+import org.jboss.seam.mock.JUnitSeamTest;
+import org.jboss.shrinkwrap.api.Archive;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(Arquillian.class)
+// @Ignore
 public class MessagingTest
-    extends SeamTest
+    extends JUnitSeamTest
 {
-    @Test
-    public void delayForStartup() 
-        throws InterruptedException 
+	@Deployment(name="MessagingTest")
+    @OverProtocol("Servlet 3.0") 
+    public static Archive<?> createDeployment()
     {
-        // need to delay a bit to make sure the messaging system is running
-        // really only needed when running this test in isolation
-        Thread.sleep(5000);
+        return Deployments.defaultSeamDeployment();
     }
-    
-    @Test(dependsOnMethods={"delayForStartup"})
+	
+    @Test
     public void publishToTopic()
         throws Exception
     {
@@ -52,7 +58,7 @@ public class MessagingTest
         assert messageText.getValue().equals("message for topic");
     }
     
-    @Test(dependsOnMethods={"delayForStartup"})
+    @Test
     public void sendToQueue()
         throws Exception
     {
@@ -106,7 +112,7 @@ public class MessagingTest
     
     @MessageDriven(activationConfig={
         @ActivationConfigProperty(propertyName="destinationType", propertyValue="javax.jms.Topic"),
-        @ActivationConfigProperty(propertyName="destination",     propertyValue="topic/testTopic")
+        @ActivationConfigProperty(propertyName="destination",     propertyValue="topic/test")
     })
     @Name("testTopicListener")
     static public class TestTopicListener 
@@ -127,7 +133,7 @@ public class MessagingTest
     
     @MessageDriven(activationConfig={
         @ActivationConfigProperty(propertyName="destinationType", propertyValue="javax.jms.Queue"),
-        @ActivationConfigProperty(propertyName="destination",     propertyValue="queue/testQueue")
+        @ActivationConfigProperty(propertyName="destination",     propertyValue="queue/test")
     })
     @Name("testQueueListener")
     static public class TestQueueListener 

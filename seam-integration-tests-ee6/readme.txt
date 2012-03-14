@@ -1,1 +1,0 @@
-Core integration tests for Seam (those not associated with a particular example)

@@ -4,30 +4,31 @@ import javax.el.ELException;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.jsf.UnifiedELMethodBinding;
 import org.jboss.seam.jsf.UnifiedELValueBinding;
-import org.jboss.seam.mock.SeamTest;
-import org.testng.annotations.Test;
+import org.jboss.seam.mock.JUnitSeamTest;
+import org.jboss.shrinkwrap.api.Archive;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 
 /**
  * 
  * @author Pete Muir
  *
  */
-public class ELTest extends SeamTest
-{
-   
-   @Override
-   protected void startJbossEmbeddedIfNecessary() 
-   throws org.jboss.deployers.spi.DeploymentException ,java.io.IOException {}
-   
+public class ELTest extends JUnitSeamTest
+{     
    @Test
    public void testUnifiedELMethodBinding() throws Exception
    {
       new FacesRequest() 
       {
          @SuppressWarnings("deprecation")
-        @Override
+         @Override
          protected void invokeApplication() throws Exception
          {
             MethodBinding methodBinding = new UnifiedELMethodBinding("#{action.go}", new Class[0]);
