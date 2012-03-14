@@ -78,6 +78,11 @@
             <groupId>org.jbpm.jbpm3</groupId>
             <artifactId>jbpm-jpdl</artifactId>
         </dependency>
+        <dependency>
+        	<groupId>javax.transaction</groupId>
+        	<artifactId>jta</artifactId>
+        	<scope>provided</scope>
+        </dependency>
     </dependencies>
     
     <profiles>
