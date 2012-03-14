@@ -28,7 +28,7 @@
 </#function>
 
 <#function isToOne property>
-    <#return property.value.class.name.matches("org.hibernate.mapping.(One|Many)ToOne")/>
+    <#return property.value.class.name.matches("javax.persistence.(One|Many)ToOne")/>
 </#function>
 
 <#function label property>

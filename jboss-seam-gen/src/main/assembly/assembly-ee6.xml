@@ -3,15 +3,19 @@
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/2.2 http://maven.apache.org/xsd/assembly-2.2.xsd">
 
-   <id>distribution</id>
+   <id>distribution-ee6</id>
    <formats>
       <format>zip</format>
    </formats>
    <includeBaseDirectory>false</includeBaseDirectory>
-  
    
-   <!-- Add distribution files -->
+   <!-- Add distribution files -->      
    <fileSets>
+      <!--  Copy EE6 template variants -->
+      <fileSet>
+         <directory>./dist/src-ee6</directory>
+         <outputDirectory>./src</outputDirectory>
+      </fileSet>   
       <fileSet>
          <directory>dist</directory>
          <outputDirectory>.</outputDirectory>
@@ -21,5 +25,5 @@
          </excludes>
       </fileSet>
    </fileSets>
-  
+
  </assembly>
