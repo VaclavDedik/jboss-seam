@@ -8,11 +8,11 @@
 		<version>2.3.0.Beta1-SNAPSHOT</version>
 		<relativePath>../jboss-seam-parent/pom.xml</relativePath>
 	</parent>
-	<groupId>org.jboss.seam</groupId>
-	<artifactId>jboss-seam</artifactId>
+
+	<artifactId>jboss-seam-jsf2</artifactId>
 	<packaging>ejb</packaging>
-	<name>Seam Core</name>
-	<description>Seam core module for Seam framework</description>
+	<name>Seam Core JSF2</name>
+	<description>Seam core module for Seam framework integrated with JSF2</description>
 
 	<build>
 		<plugins>
@@ -68,7 +68,7 @@
 							<manifest>
 								<attribute name="Built-By" value="${user.name}" />
 								<attribute name="Implementation-Vendor" value="${project.organization.name}" />
-								<attribute name="Implementation-Title" value="JBoss Seam Weblogic compatible" />
+								<attribute name="Implementation-Title" value="JBoss Seam JSF2 Weblogic compatible" />
 								<attribute name="Implementation-Version" value="${project.version}" />
 							</manifest>
 						</jar>
@@ -79,7 +79,7 @@
 							<manifest>
 								<attribute name="Built-By" value="${user.name}" />
 								<attribute name="Implementation-Vendor" value="${project.organization.name}" />
-								<attribute name="Implementation-Title" value="JBoss Seam Weblogic compatible" />
+								<attribute name="Implementation-Title" value="JBoss Seam JSF2 Weblogic compatible" />
 								<attribute name="Implementation-Version" value="${project.version}" />
 							</manifest>
 						</jar>
@@ -103,6 +103,7 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<optional>true</optional>
+			<version>4.0.1.Final</version>
 		</dependency>
 
 		<!-- Maven's "nearest" dependency resolution doesn't take into account 
@@ -121,25 +122,22 @@
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-annotations</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
+			<version>4.2.0.Final</version>
 			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-search</artifactId>
+			<version>4.0.0.Final</version>
 			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
+			<version>4.0.1.Final</version>
 			<optional>true</optional>
 		</dependency>
 
@@ -249,12 +247,6 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>javax.persistence</groupId>
-			<artifactId>persistence-api</artifactId>
-			<optional>true</optional>
-			<scope>provided</scope>
-		</dependency>
 
 		<dependency>
 			<groupId>antlr</groupId>
@@ -312,18 +304,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.buni.meldware</groupId>
-			<artifactId>meldware-mailjmx</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>org.buni.meldware</groupId>
-			<artifactId>meldware-mailapi</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
 			<groupId>org.drools</groupId>
 			<artifactId>drools-core</artifactId>
 			<optional>true</optional>
@@ -374,6 +354,11 @@
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
 			<classifier>jdk15</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
 		</dependency>
 
 		<dependency>
@@ -452,9 +437,21 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.4.2</version>
-			<type>jar</type>
 			<scope>test</scope>
+			<version>1.6.1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.sun.faces</groupId>
+			<artifactId>jsf-api</artifactId>
+			<optional>true</optional>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.faces</groupId>
+			<artifactId>jsf-impl</artifactId>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 
@@ -508,40 +505,6 @@
 					</plugin>
 				</plugins>
 			</build>
-		</profile>
-		<profile>
-			<id>jsf12</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-				<dependencies>
-					<dependency>
-						<groupId>javax.faces</groupId>
-						<artifactId>jsf-api</artifactId>
-						<optional>true</optional>
-						<scope>provided</scope>
-					</dependency>
-
-					<dependency>
-						<groupId>javax.faces</groupId>
-						<artifactId>jsf-impl</artifactId>
-						<optional>true</optional>
-						<exclusions>
-							<exclusion>
-								<groupId>commons-collections</groupId>
-								<artifactId>commons-collections</artifactId>
-							</exclusion>
-							<exclusion>
-								<groupId>commons-logging</groupId>
-								<artifactId>commons-logging</artifactId>
-							</exclusion>
-							<exclusion>
-								<groupId>commons-digester</groupId>
-								<artifactId>commons-digester</artifactId>
-							</exclusion>
-						</exclusions>
-					</dependency>
-				</dependencies>
 		</profile>
 	</profiles>
 </project>

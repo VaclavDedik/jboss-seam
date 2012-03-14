@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import javax.faces.FacesException;
 import javax.faces.application.ViewHandler;
+import javax.faces.application.ViewHandlerWrapper;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
@@ -20,7 +21,7 @@ import org.jboss.seam.international.LocaleSelector;
  * @author Gavin King
  *
  */
-public class SeamViewHandler extends ViewHandler 
+public class SeamViewHandler extends ViewHandlerWrapper
 {
    
    private ViewHandler viewHandler;
@@ -90,13 +91,21 @@ public class SeamViewHandler extends ViewHandler
    @Override
    public UIViewRoot restoreView(FacesContext ctx, String viewId) 
    {
-      return viewHandler.restoreView(ctx, viewId);
+      UIViewRoot viewRoot =viewHandler.restoreView(ctx, viewId);
+      viewRoot.setViewId(viewHandler.deriveViewId(ctx,viewId));
+      return viewRoot;
    }
 
    @Override
    public void writeState(FacesContext ctx) throws IOException 
    {
       viewHandler.writeState(ctx);
+   }
+
+   @Override
+   public ViewHandler getWrapped()
+   {
+      return viewHandler;
    }
 
 }

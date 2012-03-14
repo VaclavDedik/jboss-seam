@@ -61,6 +61,17 @@ public class QueryTest
       query.parseEjbql();
       assertEquals(query.getCountEjbql(), "select count(p) from Person p");
    }
+   
+   @Test
+   public void testCountQueryWithGroupBy()
+   {
+      UnitQuery query = new UnitQuery();
+      query.setEjbql("select min(e.birthYear), count(*) from Person p group by p.birthYear");
+      query.setGroupBy("p.birthYear");
+      query.parseEjbql();
+      assertEquals(query.getCountEjbql() , "select count(*) from Person p");      
+	   
+   }
 
    class UnitQuery extends EntityQuery {
 
@@ -87,17 +98,6 @@ public class QueryTest
          super.setUseWildcardAsCountQuerySubject(useCompliantCountQuerySubject);
       }
       
-   }
-   
-   @Test
-   public void testCountQueryWithGroupBy()
-   {
-      UnitQuery query = new UnitQuery();
-      query.setEjbql("select min(e.birthYear), count(*) from Person p group by p.birthYear");
-      query.setGroupBy("p.birthYear");
-      query.parseEjbql();
-      assertEquals(query.getCountEjbql() , "select count(*) from Person p");      
-	   
    }
 
 //   class CompliantUnitQuery extends UnitQuery {

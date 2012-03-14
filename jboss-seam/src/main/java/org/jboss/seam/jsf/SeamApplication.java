@@ -14,6 +14,7 @@ import javax.el.ValueExpression;
 import javax.faces.FacesException;
 import javax.faces.application.Application;
 import javax.faces.application.NavigationHandler;
+import javax.faces.application.Resource;
 import javax.faces.application.StateManager;
 import javax.faces.application.ViewHandler;
 import javax.faces.component.UIComponent;
@@ -25,6 +26,7 @@ import javax.faces.el.ReferenceSyntaxException;
 import javax.faces.el.ValueBinding;
 import javax.faces.el.VariableResolver;
 import javax.faces.event.ActionListener;
+import javax.faces.event.SystemEvent;
 import javax.faces.validator.Validator;
 
 import org.jboss.seam.Component;
@@ -44,7 +46,7 @@ public class SeamApplication extends Application
 {  
    
    protected Application application;
-   
+      
    public SeamApplication(Application application)
    {
       this.application = application;
@@ -97,6 +99,19 @@ public class SeamApplication extends Application
          FacesContext context, String componentType) throws FacesException
    {
       return application.createComponent(componentBinding, context, componentType);
+   }
+   
+   @Override
+   public UIComponent createComponent(FacesContext context, 
+         String componentType, String rendererType)
+   {
+      return application.createComponent(context, componentType, rendererType);
+   }
+   
+   @Override
+   public UIComponent createComponent(FacesContext context, Resource resource)
+   {
+      return application.createComponent(context, resource);
    }
 
    @Override
@@ -429,6 +444,18 @@ public class SeamApplication extends Application
    public String toString()
    {
       return application.toString();
+   }
+   
+   @Override
+   public void publishEvent(FacesContext context, Class<? extends SystemEvent> systemEventClass, Object source)
+   {
+      application.publishEvent(context, systemEventClass, source);      
+   }
+
+   @Override
+   public void publishEvent(FacesContext context, Class<? extends SystemEvent> systemEventClass, Class<?> sourceBaseType, Object source)
+   {
+      application.publishEvent(context, systemEventClass, sourceBaseType, source);
    }
    
 }

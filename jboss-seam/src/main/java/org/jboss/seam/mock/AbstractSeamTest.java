@@ -36,8 +36,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
+import javax.validation.ConstraintViolation;
 
-import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
@@ -78,6 +78,8 @@ public class AbstractSeamTest
    protected MockHttpSession session;
    private Map<String, Map> conversationViewRootAttributes;
    protected Filter seamFilter;
+   
+   private static ServletContext realServletContext = null;
    
    static 
    {
@@ -445,11 +447,12 @@ public class AbstractSeamTest
       protected boolean validateValue(String valueExpression, Object value)
       {
          ValueExpression ve = application.getExpressionFactory().createValueExpression(facesContext.getELContext(), valueExpression, Object.class);
-         InvalidValue[] ivs = Validators.instance().validate(ve, facesContext.getELContext(), value);
-         if (ivs.length > 0)
+         Set<ConstraintViolation<Object>> ivs = Validators.instance().validate(ve, facesContext.getELContext(), value);
+         if (ivs.size() > 0)
          {
             validationFailed = true;
-            facesContext.addMessage(null, FacesMessages.createFacesMessage(FacesMessage.SEVERITY_ERROR, ivs[0].getMessage()));
+            String message = ivs.iterator().next().getMessage();
+            facesContext.addMessage(null, FacesMessages.createFacesMessage(FacesMessage.SEVERITY_ERROR, message));
             return false;
          }
          else
@@ -531,7 +534,7 @@ public class AbstractSeamTest
 
       private void saveConversationViewRoot()
       {
-         Map renderedViewRootAttributes = facesContext.getViewRoot().getAttributes();
+         Map renderedViewRootAttributes = facesContext.getViewRoot().getViewMap();
          if (renderedViewRootAttributes != null && conversationId != null)
          {
             Map conversationState = new HashMap();
@@ -733,7 +736,7 @@ public class AbstractSeamTest
          {
             UIViewRoot viewRoot = facesContext.getApplication().getViewHandler().createView(facesContext, getViewId());
             facesContext.setViewRoot(viewRoot);
-            Map restoredViewRootAttributes = facesContext.getViewRoot().getAttributes();
+            Map restoredViewRootAttributes = facesContext.getViewRoot().getViewMap();
             if (conversationId != null)
             {
                if (isGetRequest())
@@ -922,19 +925,34 @@ public class AbstractSeamTest
     */
    protected void startSeam() throws Exception
    {
-      startJbossEmbeddedIfNecessary();
-      this.servletContext = createServletContext();
+      // If the Seam Filter is already initialized, we can grab the real servlet context
+     if (realServletContext == null && ServletLifecycle.getServletContext() != null) {
+        realServletContext = ServletLifecycle.getServletContext();
+     }
+     
+     ServletContext realContext = realServletContext;
+      this.servletContext = createServletContext(realContext);
       ServletLifecycle.beginApplication(servletContext);
       FactoryFinder.setFactory(FactoryFinder.APPLICATION_FACTORY, MockApplicationFactory.class.getName());
       new Initialization(servletContext).create().init();
       ((Init) servletContext.getAttribute(Seam.getComponentName(Init.class))).setDebug(false);
    }
    
-   protected ServletContext createServletContext()
+   protected ServletContext createServletContext(ServletContext realContext)
    {
-      MockServletContext mockServletContext = new MockServletContext();
-      initServletContext(mockServletContext.getInitParameters());
-      return mockServletContext;
+     if (realContext != null)
+     {
+        ServletContextWrapper wrappedServletContext = new ServletContextWrapper(realContext);
+        // TODO: 
+        //initServletContext(wrappedServletContext.getInitParameters());
+        return wrappedServletContext;
+     }
+     else
+     {
+        MockServletContext mockServletContext = new MockServletContext();
+        initServletContext(mockServletContext.getInitParameters());
+        return mockServletContext;
+     }
    }
    
    /**
@@ -976,7 +994,7 @@ public class AbstractSeamTest
    {
       seamFilter.destroy();
       conversationViewRootAttributes = null;
-      applicationFactory.setApplication(null);
+      // applicationFactory.setApplication(null);
    }
 
    protected Filter createSeamFilter() throws ServletException
@@ -1026,29 +1044,6 @@ public class AbstractSeamTest
    }
 
    private static boolean started;
-
-   protected void startJbossEmbeddedIfNecessary() throws Exception
-   {
-      if (!started && embeddedJBossAvailable())
-      {
-         new EmbeddedBootstrap().startAndDeployResources();
-      }
-
-      started = true;
-   }
-
-   private boolean embeddedJBossAvailable()
-   {
-      try
-      {
-         Class.forName("org.jboss.embedded.Bootstrap");
-         return true;
-      }
-      catch (ClassNotFoundException e)
-      {
-         return false;
-      }
-   }
 
    protected ELResolver[] getELResolvers()
    {

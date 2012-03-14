@@ -8,7 +8,7 @@ import javax.faces.convert.IntegerConverter;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-import org.hibernate.validator.Length;
+import javax.validation.constraints.Size;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Validators;
@@ -152,7 +152,7 @@ public class PageParamTest extends AbstractPageTest
       {
          this.birthDate = birth;
       }
-      @Length(min = 3, max = 10)
+      @Size(min = 3, max = 10)
       public String getValue() {
          return value;
       }

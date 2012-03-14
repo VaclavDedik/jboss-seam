@@ -9,8 +9,8 @@ package org.jboss.seam.test.unit;
 import java.io.Serializable;
 
 import javax.ejb.Remove;
+import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.NotNull;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.End;
@@ -23,7 +23,6 @@ import org.jboss.seam.annotations.Scope;
  */
 @Name("foo")
 @Scope(ScopeType.SESSION)
-@SuppressWarnings("deprecation")
 public class Foo implements Serializable
 {
    private static final long serialVersionUID = -5448030633067107049L;

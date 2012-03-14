@@ -37,6 +37,7 @@ import javax.faces.el.ReferenceSyntaxException;
 import javax.faces.el.ValueBinding;
 import javax.faces.el.VariableResolver;
 import javax.faces.event.ActionListener;
+import javax.faces.event.SystemEvent;
 import javax.faces.validator.Validator;
 
 import org.jboss.seam.el.EL;
@@ -52,6 +53,18 @@ import org.jboss.seam.util.Reflections;
 public class MockApplication extends Application
 {
    
+   @Override
+   public void publishEvent(FacesContext context, Class<? extends SystemEvent> systemEventClass, Object source)
+   {
+      // empty publish method      
+   }
+
+   @Override
+   public void publishEvent(FacesContext context, Class<? extends SystemEvent> systemEventClass, Class<?> sourceBaseType, Object source)
+   {
+      // empty publish method
+   }
+
    private javax.el.CompositeELResolver elResolver;
    private javax.el.CompositeELResolver additionalResolvers;
    private Collection locales;
@@ -254,11 +267,11 @@ public class MockApplication extends Application
       {
         try
         {
-           return (UIComponent) Class.forName(name).newInstance();
+           return (UIComponent) Thread.currentThread().getContextClassLoader().loadClass(name).newInstance();
         } 
         catch (Exception e)
-        {
-           throw new UnsupportedOperationException("Unable to create component " + name);
+        {           
+           throw new UnsupportedOperationException("Unable to create component " + name, e);
         }
       }
       else
@@ -266,6 +279,12 @@ public class MockApplication extends Application
          // Oh well, can't simply create the component so put a dummy one in its place
          return new UIOutput();
       }
+   }
+   
+   @Override
+   public UIComponent createComponent(FacesContext context, String componentType, String rendererType)
+   {
+      return createComponent(componentType);
    }
 
    @Override

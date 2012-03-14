@@ -127,8 +127,8 @@ public class MockFacesContext extends FacesContext
 
    @Override
    public RenderKit getRenderKit()
-   {
-      if (getViewRoot() == null || getViewRoot().getRenderKitId() == null)
+   {  
+      if (getViewRoot() == null || getViewRoot().getRenderKitId() == null || renderKitFactory == null)
       {
          return MockRenderKit.INSTANCE;
       }
@@ -239,6 +239,11 @@ public class MockFacesContext extends FacesContext
          elContext.putContext(FacesContext.class, this);
       }
       return elContext;
-   }   
+   }
+   
+   @Override
+   public boolean isPostback() {
+      return false;
+   }
 
 }

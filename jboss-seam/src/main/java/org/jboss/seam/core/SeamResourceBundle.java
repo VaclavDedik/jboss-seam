@@ -96,7 +96,7 @@ public class SeamResourceBundle extends java.util.ResourceBundle
       {
          bundles.add(bundle);
       }
-      bundle = resourceLoader.loadBundle("org/hibernate/validator/resources/DefaultValidatorMessages");
+      bundle = resourceLoader.loadBundle("org/hibernate/validator/ValidationMessages");
       if (bundle != null) bundles.add(bundle);
       bundle = resourceLoader.loadBundle("javax.faces.Messages");
       if (bundle != null) bundles.add(bundle);
