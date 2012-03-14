@@ -14,7 +14,7 @@
                  http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.3.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.3.xsd">
 
-    <core:init debug="true" jndi-pattern="#{ejbName}/local"/>
+    <core:init debug="true" jndi-pattern="java:app/dvdstore-ejb/#{ejbName}"/>
     
     <!-- 120 second conversation timeout -->
     <core:manager conversation-timeout="120000"/>

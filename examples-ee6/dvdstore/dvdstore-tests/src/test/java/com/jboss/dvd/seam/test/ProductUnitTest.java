@@ -1,24 +1,41 @@
 package com.jboss.dvd.seam.test;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.fail;
+import java.io.File;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 
-import org.jboss.seam.mock.SeamTest;
-import org.testng.annotations.Test;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.seam.mock.JUnitSeamTest;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.importer.ZipImporter;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import com.jboss.dvd.seam.Product;
 
+@RunWith(Arquillian.class)
 public class ProductUnitTest 
-    extends SeamTest
+   extends JUnitSeamTest
 {   
+   
+   @Deployment(name = "ProductUnitTest")
+   @OverProtocol("Servlet 3.0")
+   public static Archive<?> createDeployment()
+   {
+      EnterpriseArchive er = ShrinkWrap.create(ZipImporter.class, "seam-dvdstore.ear").importFrom(new File("../dvdstore-ear/target/seam-dvdstore.ear")).as(EnterpriseArchive.class);
+      WebArchive web = er.getAsType(WebArchive.class, "dvdstore-web.war");
+      web.addClasses(ProductUnitTest.class);
+
+      return er;
+   }
+   
     @Test
     public void testRequiredAttributes()
         throws Exception
@@ -34,7 +51,7 @@ public class ProductUnitTest
                 EntityManager em = (EntityManager) getValue("#{entityManager}");
                 try {
                     em.persist(p);
-                    fail("empty product persisted");
+                    Assert.fail("empty product persisted");
                 } catch (PersistenceException e) {
                     // good
                 }                 
@@ -64,9 +81,9 @@ public class ProductUnitTest
              { 
                  EntityManager em = (EntityManager) getValue("#{entityManager}");
                  Product found = em.find(Product.class ,p.getProductId());
-                 assertNotNull("find by id", found);
-                 assertEquals("id", p.getProductId(), found.getProductId());
-                 assertEquals("title", "test", found.getTitle());
+                 Assert.assertNotNull("find by id", found);
+                 Assert.assertEquals("id", p.getProductId(), found.getProductId());
+                 Assert.assertEquals("title", "test", found.getTitle());
          
                  em.remove(found);             
              }
@@ -78,7 +95,7 @@ public class ProductUnitTest
                   EntityManager em = (EntityManager) getValue("#{entityManager}");
                   Product found = em.find(Product.class ,p.getProductId());
 
-                  assertNull("deleted product", found);             
+                  Assert.assertEquals("deleted product", found);             
               }
            }.run();
           

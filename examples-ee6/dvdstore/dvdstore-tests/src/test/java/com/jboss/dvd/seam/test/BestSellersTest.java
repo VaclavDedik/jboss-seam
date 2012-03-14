@@ -1,20 +1,41 @@
 package com.jboss.dvd.seam.test;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
-
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.jboss.seam.mock.SeamTest;
-import org.testng.annotations.Test;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.seam.mock.JUnitSeamTest;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.importer.ZipImporter;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import com.jboss.dvd.seam.Product;
 
+@RunWith(Arquillian.class)
 public class BestSellersTest 
-    extends SeamTest
+    extends JUnitSeamTest
 {
+   
+   @Deployment(name = "BestSellersTest")
+   @OverProtocol("Servlet 3.0")
+   public static Archive<?> createDeployment()
+   {
+      EnterpriseArchive er = ShrinkWrap.create(ZipImporter.class, "seam-dvdstore.ear").importFrom(new File("../dvdstore-ear/target/seam-dvdstore.ear")).as(EnterpriseArchive.class);
+      WebArchive web = er.getAsType(WebArchive.class, "dvdstore-web.war");
+      web.addClasses(BestSellersTest.class);
+
+      return er;
+   }
+   
+   
     @Test
     public void testTopProducts() 
         throws Exception
@@ -26,24 +47,22 @@ public class BestSellersTest
             {
                 List<Product> products = (List<Product>) getValue("#{topProducts}");
 
-                assertNotNull("topProducts", products);
-                assertEquals("topProducts size",  8, products.size());               
+                Assert.assertNotNull("topProducts", products);
+                Assert.assertEquals("topProducts size",  8, products.size());               
 
                 Product prev = null;
                 for (Product p: products) {
                     if (prev != null) {
-                        assertTrue("descending order", 
+                    	Assert.assertTrue("descending order", 
                                 p.getInventory().getSales() <= prev.getInventory().getSales());
                     }
 
                     prev = p;
                 }
 
-                // 14.98/29.99/39.95
-
-                assertEquals("price 1", new BigDecimal("14.98"), products.get(0).getPrice());
-                assertEquals("price 2", new BigDecimal("29.99"), products.get(1).getPrice());
-                assertEquals("price 3", new BigDecimal("39.95"), products.get(2).getPrice());
+                Assert.assertEquals("price 1", new BigDecimal("14.98"), products.get(0).getPrice());
+                Assert.assertEquals("price 2", new BigDecimal("29.99"), products.get(1).getPrice());
+                Assert.assertEquals("price 3", new BigDecimal("39.95"), products.get(2).getPrice());
             }               
         }.run();
     }

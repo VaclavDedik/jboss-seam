@@ -53,39 +53,39 @@
         	<artifactId>persistence-api</artifactId>
         	<scope>provided</scope>
         </dependency>
+
+		<dependency>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.arquillian.protocol</groupId>
+            <artifactId>arquillian-protocol-servlet</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+            <artifactId>shrinkwrap-resolver-api-maven</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+            <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+        	<groupId>log4j</groupId>
+        	<artifactId>log4j</artifactId>
+        	<scope>test</scope>
+        </dependency>
     </dependencies>
     
     <build>
-        <testResources>
-            <testResource>
-                <directory>src/test/resources</directory>
-                <filtering>true</filtering>
-            </testResource>
-            <testResource>
-                <directory>src/test/bootstrap</directory>
-                <filtering>false</filtering>
-            </testResource>
-			<testResource> <!-- this takes datasource dvdstore-ds.xml -->
-				<directory>${basedir}/../dvdstore-ear/src/main/resources</directory>
-				<filtering>true</filtering>
-			</testResource>
-	        <testResource> <!-- this takes treecache.xml -->
-                <directory>${basedir}/../dvdstore-ear/src/main/application</directory>
-                <filtering>true</filtering>
-            </testResource>
-			<testResource> <!-- this takes themes aka *.properties -->
-			     <directory>${basedir}/../dvdstore-web/src/main/resources</directory>
-			     <filtering>true</filtering>
-			</testResource>
-        </testResources>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <skipTests>true</skipTests>
-                </configuration>
-            </plugin>
+        <plugins>            
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
                 <configuration>
@@ -143,19 +143,7 @@
                 <example.context.path>seam-dvdstore</example.context.path>
             </properties>
             <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>jboss-maven-plugin</artifactId>
-                        <configuration>
-                            <jbossHome>${jboss.home}</jbossHome>
-                            <serverName>${jboss.domain}</serverName>
-                            <fileNames>
-                                <param>${basedir}/../dvdstore-ear/src/main/resources/jboss-seam-dvdstore-ds.xml</param>
-                                <param>${basedir}/../dvdstore-ear/target/seam-dvdstore.ear</param>
-                            </fileNames>
-                        </configuration>
-                    </plugin>
+                <plugins>                   
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>selenium-maven-plugin</artifactId>
