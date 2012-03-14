@@ -1,3 +1,0 @@
-Configuration files for JBoss Seam UI based on Ajax4jsf CDK.
-
-CDK declarative (template based) renderers aren't in use to remove runtime dependencies on ajax4jsf

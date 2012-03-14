@@ -10,16 +10,15 @@ import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
 import org.jboss.seam.core.ResourceLoader;
+import org.jboss.seam.jsf.DelegatingFacesContext;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.jsf.DelegatingFacesContext;
 import org.jboss.seam.mock.MockHttpServletRequest;
 import org.jboss.seam.mock.MockHttpServletResponse;
 import org.jboss.seam.ui.util.JSF;
 
-import com.sun.facelets.Facelet;
-import com.sun.facelets.impl.DefaultFaceletFactory;
-import com.sun.facelets.impl.DefaultResourceResolver;
+import com.sun.faces.application.ApplicationAssociate;
+import com.sun.faces.facelets.Facelet;
 
 public class RendererRequest
 {
@@ -126,8 +125,7 @@ public class RendererRequest
       {
          throw new IllegalArgumentException("resource doesn't exist: " + viewId);
       }
-      return new DefaultFaceletFactory(FaceletCompiler.instance(), new DefaultResourceResolver())
-               .getFacelet(url);
+      return ApplicationAssociate.getCurrentInstance().getFaceletFactory().getFacelet(url);
    }
 
    /**

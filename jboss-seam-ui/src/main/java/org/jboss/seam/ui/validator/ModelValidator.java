@@ -1,5 +1,7 @@
 package org.jboss.seam.ui.validator;
 
+import java.util.Set;
+
 import javax.el.ELException;
 import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
@@ -8,9 +10,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.core.Validators;
 import org.jboss.seam.faces.FacesMessages;
+import javax.validation.ConstraintViolation; 
 
 /**
  * Validates using Hibernate Validator model-based annotations.
@@ -29,7 +31,7 @@ public class ModelValidator implements Validator
       if (valueExpression != null)
       {
          //TODO: note that this code is duplicated to Param.getValueFromRequest()!!
-         InvalidValue[] invalidValues;
+         Set<ConstraintViolation<Object>> invalidValues;
          try
          {
             invalidValues = Validators.instance().validate( valueExpression, facesContext.getELContext(), value );
@@ -41,16 +43,17 @@ public class ModelValidator implements Validator
             throw new ValidatorException(createMessage(cause), cause);
          }
          
-         if ( invalidValues!=null && invalidValues.length>0 )
+         if ( invalidValues!=null && invalidValues.size()>0 )
          {
             throw new ValidatorException(createMessage(invalidValues, resolveLabel(facesContext, component)));
          }
       }
    }
 
-   private FacesMessage createMessage(InvalidValue[] invalidValues, Object label)
+   private FacesMessage createMessage(Set<ConstraintViolation<Object>> invalidValues, Object label)
    {
-      return FacesMessages.createFacesMessage(FacesMessage.SEVERITY_ERROR, invalidValues[0].getMessage(), label);
+      String message = invalidValues.iterator().next().getMessage();
+      return FacesMessages.createFacesMessage(FacesMessage.SEVERITY_ERROR, message, label);
    }
 
    private FacesMessage createMessage(Throwable cause)

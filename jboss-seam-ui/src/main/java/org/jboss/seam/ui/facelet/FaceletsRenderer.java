@@ -25,7 +25,7 @@ import org.jboss.seam.faces.Renderer;
 @BypassInterceptors
 @Name("org.jboss.seam.faces.renderer")
 @AutoCreate
-@Install(value = true, precedence = Install.BUILT_IN, classDependencies="com.sun.facelets.Facelet")
+@Install(value = true, precedence = Install.BUILT_IN, classDependencies="com.sun.faces.facelets.Facelet")
 public class FaceletsRenderer extends Renderer
 {
    

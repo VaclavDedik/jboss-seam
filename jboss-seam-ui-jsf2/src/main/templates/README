@@ -1,1 +1,0 @@
-CDK's declarative (template based) renderer should not currently be used as it introduces runtime dependencies on ajax4jsf.
