@@ -72,7 +72,6 @@ public class Product implements Serializable
     }     
 
     @Column(name="ASIN", length=16)
-    @Field(index=Index.NO)
     public String getASIN() {
         return asin;
     }
