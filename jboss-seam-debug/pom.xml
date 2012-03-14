@@ -6,17 +6,29 @@
 		<relativePath>../jboss-seam-parent/pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>jboss-seam-debug-jsf2</artifactId>
+	<artifactId>jboss-seam-debug</artifactId>
 	<name>Seam Debug for JSF2</name>
 
 	<dependencies>
 
 		<dependency>
 			<groupId>org.jboss.seam</groupId>
-			<artifactId>jboss-seam-jsf2</artifactId>
+			<artifactId>jboss-seam</artifactId>
 			<type>ejb</type>
 		</dependency>
-		
+        
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        		
+		<dependency>
+			<groupId>com.sun.faces</groupId>
+			<artifactId>jsf-impl</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
@@ -28,11 +40,6 @@
 			<artifactId>el-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
-
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.jboss.seam</groupId> -->
-<!-- 			<artifactId>jboss-seam-debug</artifactId> -->
-<!-- 		</dependency> -->
 	</dependencies>
     
     <profiles>
@@ -78,25 +85,6 @@
             </plugins>
             </build>
         </profile>
-       <profile>
-            <id>jsf2</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <dependencies>  
-		       <dependency>
-		          <groupId>com.sun.faces</groupId>
-		          <artifactId>jsf-api</artifactId>
-		          <scope>provided</scope>
-		        </dependency>
-		
-		        <dependency>
-		          <groupId>com.sun.faces</groupId>
-		          <artifactId>jsf-impl</artifactId>
-		           <optional>true</optional>
-		        </dependency>
-		        </dependencies>
-		        </profile>
 	 </profiles>
     
 </project>

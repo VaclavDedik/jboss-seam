@@ -6,16 +6,20 @@
 		<version>2.3.0.Beta1-SNAPSHOT</version>
 		<relativePath>../jboss-seam-parent/pom.xml</relativePath>
 	</parent>
-	<artifactId>jboss-seam-ui-jsf2</artifactId>
+	<artifactId>jboss-seam-ui</artifactId>
 	<name>Seam UI JSF2 support</name>
 
+    <properties>
+        <version.richfaces>3.3.3.Final</version.richfaces>
+    </properties>
+    
 	<build>
 <!-- 		<finalName>jboss-seam-ui</finalName> -->
 		<plugins>
 			<plugin>
 				<groupId>org.richfaces.cdk</groupId>
 				<artifactId>maven-cdk-plugin</artifactId>
-				<version>${version.richfaces}</version>
+				<version>3.3.3.Final</version>
 				<executions>
 					<execution>
 						<phase>generate-sources</phase>
@@ -84,7 +88,7 @@
 
 		<dependency>
 			<groupId>org.jboss.seam</groupId>
-			<artifactId>jboss-seam-jsf2</artifactId>
+			<artifactId>jboss-seam</artifactId>
 			<type>ejb</type>
 		</dependency>
 
@@ -99,31 +103,34 @@
 			<optional>true</optional>
 		</dependency>
 
-		<dependency>
+        <dependency>            
 			<groupId>org.richfaces.framework</groupId>
 			<artifactId>richfaces-api</artifactId>
+			<version>${version.richfaces}</version>
 			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>org.richfaces.ui</groupId>
 			<artifactId>richfaces-ui</artifactId>
+			<version>${version.richfaces}</version>
 			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>org.richfaces.framework</groupId>
 			<artifactId>richfaces-impl</artifactId>
+			<version>${version.richfaces}</version>
 			<optional>true</optional>
 		</dependency>
 
-		<dependency>
-		  <groupId>com.sun.faces</groupId>
-		  <artifactId>jsf-api</artifactId>
-		  <scope>provided</scope>
-<!--		  <version>2.1.5</version> -->
-		</dependency>
-		
+        <dependency>
+          <groupId>com.sun.faces</groupId>
+          <artifactId>jsf-api</artifactId>
+          <scope>provided</scope>
+<!--          <version>2.1.5</version> -->
+        </dependency>
+        		
 		<dependency>
 		  <groupId>com.sun.faces</groupId>
 		  <artifactId>jsf-impl</artifactId>
@@ -148,7 +155,6 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<optional>true</optional>
-			<version>4.0.1.Final</version>
 		</dependency>
 
 		<dependency>
@@ -162,12 +168,22 @@
 			<artifactId>commons-beanutils</artifactId>
 		</dependency>
 
-
+<!--  This prepared RF dependencies for Full suport of Richfaces 4.x with CDK templating -->
+<!--         <dependency> -->
+<!--             <groupId>org.richfaces.core</groupId> -->
+<!--             <artifactId>richfaces-core-api</artifactId> -->
+<!--             <optional>true</optional>             -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!--             <groupId>org.richfaces.core</groupId> -->
+<!--             <artifactId>richfaces-core-impl</artifactId> -->
+<!--             <optional>true</optional>             -->
+<!--         </dependency> -->
+        
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<optional>true</optional>
-			<version>4.2.0.Final</version>
 		</dependency>
 
 		<dependency>

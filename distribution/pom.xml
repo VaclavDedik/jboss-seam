@@ -26,8 +26,7 @@
 						<configuration>
                             <finalName>jboss-seam-${project.version}</finalName>
 							<descriptors>
-							     <!-- Assembly is controlled by profile for jsf2 and jsf12 -->
-								<descriptor>src/main/assembly/${assembly-config}</descriptor>
+								<descriptor>src/main/assembly/dist.xml</descriptor>
 							</descriptors>	
 							<appendAssemblyId>true</appendAssemblyId>
 						</configuration>						
@@ -264,67 +263,25 @@
             <version>${project.version}</version>
         </dependency>
 	
+       <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>jboss-seam</artifactId>
+            <type>ejb</type>
+       </dependency>                
+       <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>jboss-seam-debug</artifactId>
+       </dependency>
+       <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>jboss-seam-ui</artifactId>
+       </dependency>                
+       <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>examples</artifactId>
+            <classifier>project</classifier>
+            <version>${project.version}</version>
+            <type>zip</type>
+       </dependency>                
 	</dependencies>
-
-    <profiles>
-        <profile>
-            <id>jsf2</id>
-                <properties>
-                    <assembly-config>dist-jsf2.xml</assembly-config>                    
-                </properties>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.jboss.seam</groupId>
-                        <artifactId>jboss-seam-jsf2</artifactId>
-                        <type>ejb</type>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.jboss.seam</groupId>
-                        <artifactId>jboss-seam-debug-jsf2</artifactId>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.jboss.seam</groupId>
-                        <artifactId>jboss-seam-ui-jsf2</artifactId>
-                    </dependency>
-	               <dependency>
-	                    <groupId>org.jboss.seam</groupId>
-	                    <artifactId>examples-ee6</artifactId>
-	                    <classifier>project</classifier>
-	                    <version>${project.version}</version>
-	                    <type>zip</type>
-	                </dependency>                                    
-                </dependencies>
-        </profile>
-        
-        <profile>
-            <id>jsf12</id>
-                <properties>
-                    <assembly-config>dist-jsf12.xml</assembly-config>                    
-                </properties>
-                <dependencies>
-			        <dependency>
-			            <groupId>org.jboss.seam</groupId>
-			            <artifactId>jboss-seam</artifactId>
-			            <type>ejb</type>
-			        </dependency>                
-			        <dependency>
-			            <groupId>org.jboss.seam</groupId>
-			            <artifactId>jboss-seam-debug</artifactId>
-			        </dependency>
-			             <dependency>
-				            <groupId>org.jboss.seam</groupId>
-				            <artifactId>jboss-seam-ui</artifactId>
-				        </dependency>                
-				       <dependency>
-				            <groupId>org.jboss.seam</groupId>
-				            <artifactId>examples</artifactId>
-				            <classifier>project</classifier>
-				            <version>${project.version}</version>
-				            <type>zip</type>
-				        </dependency>                
-                </dependencies>		        
-        </profile> 
-        
-</profiles>
-
 </project>

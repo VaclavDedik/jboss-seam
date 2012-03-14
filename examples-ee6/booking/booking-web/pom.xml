@@ -28,7 +28,7 @@
         </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>
-            <artifactId>jboss-seam-ui-jsf2</artifactId>
+            <artifactId>jboss-seam-ui</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>org.jboss.seam</groupId>
@@ -38,7 +38,7 @@
         </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>
-            <artifactId>jboss-seam-debug-jsf2</artifactId>
+            <artifactId>jboss-seam-debug</artifactId>
         </dependency>
         <dependency>
             <groupId>commons-beanutils</groupId>

@@ -35,7 +35,7 @@ public class Deployments {
                 .addAsLibraries(DependencyResolvers.use(MavenDependencyResolver.class)
              		   .configureFrom("pom.xml")
              		   .goOffline()
-             		   .artifact("org.jboss.seam:jboss-seam-jsf2:2.3.0-SNAPSHOT")
+             		   .artifact("org.jboss.seam:jboss-seam:2.3.0.Beta1-SNAPSHOT")
              		   .resolveAsFiles());
 	}
 	
@@ -72,7 +72,7 @@ public class Deployments {
                 .addAsLibraries(DependencyResolvers.use(MavenDependencyResolver.class)
              		   .configureFrom("pom.xml")
              		   .goOffline()
-             		   .artifact("org.jboss.seam:jboss-seam-jsf2:2.3.0-SNAPSHOT")
+             		   .artifact("org.jboss.seam:jboss-seam:2.3.0.Beta1-SNAPSHOT")
              		   .artifact("org.jbpm.jbpm3:jbpm-jpdl:3.2.10.SP3-seam2")
              		   		.exclusion("org.hibernate:hibernate-core")
              		   .resolveAsFiles());

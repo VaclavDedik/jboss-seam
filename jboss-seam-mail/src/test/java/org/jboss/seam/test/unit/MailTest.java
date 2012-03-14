@@ -1,13 +1,10 @@
 package org.jboss.seam.test.unit;
 
-import java.util.ArrayList;
-
 import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.naming.NamingException;
 
 import org.jboss.seam.mail.MailSession;
-import org.jboss.seam.mail.MeldwareUser;
 import org.testng.annotations.Test;
 
 import com.sun.mail.smtp.SMTPSSLTransport;
@@ -367,7 +364,7 @@ public class MailTest
       assert failure;
    }
    
-   @Test
+   /*@Test
    public void testMeldwareUser()
    {
       MeldwareUser meldwareUser = new MeldwareUser();
@@ -394,7 +391,7 @@ public class MailTest
       
       assert meldwareUser.getRoles().contains("calendaruser");
       assert meldwareUser.getRoles().contains("adminuser");
-   }
+   }*/
    
    // TODO Write tests for Meldware
 

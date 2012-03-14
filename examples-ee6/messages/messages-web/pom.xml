@@ -26,7 +26,7 @@
         </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>
-            <artifactId>jboss-seam-ui-jsf2</artifactId>
+            <artifactId>jboss-seam-ui</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>org.jboss.seam</groupId>

@@ -27,7 +27,7 @@
         </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>
-            <artifactId>jboss-seam-jsf2</artifactId>
+            <artifactId>jboss-seam</artifactId>
             <type>ejb</type>
         </dependency>
         <dependency>
@@ -54,7 +54,7 @@
         </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>
-            <artifactId>jboss-seam-ui-jsf2</artifactId>
+            <artifactId>jboss-seam-ui</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>org.jboss.seam</groupId>
@@ -64,7 +64,7 @@
         </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>
-            <artifactId>jboss-seam-debug-jsf2</artifactId>
+            <artifactId>jboss-seam-debug</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>
@@ -150,7 +150,7 @@
                 </dependency>
                 <dependency>
                     <groupId>org.jboss.seam</groupId>
-                    <artifactId>jboss-seam-jsf2</artifactId>
+                    <artifactId>jboss-seam</artifactId>
                     <type>ejb</type>
                     <scope>compile</scope>
                     <exclusions>

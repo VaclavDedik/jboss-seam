@@ -31,7 +31,7 @@
         </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>
-            <artifactId>jboss-seam-jsf2</artifactId>
+            <artifactId>jboss-seam</artifactId>
             <type>ejb</type>
             <scope>compile</scope>
             <exclusions>
@@ -76,7 +76,7 @@
                     <modules>
                         <ejbModule>
                             <groupId>org.jboss.seam</groupId>
-                            <artifactId>jboss-seam-jsf2</artifactId>
+                            <artifactId>jboss-seam</artifactId>
                             <bundleFileName>jboss-seam.jar</bundleFileName>
                         </ejbModule>
                         <webModule>

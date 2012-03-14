@@ -83,7 +83,7 @@
             </dependency>
             <dependency>
                 <groupId>org.jboss.seam</groupId>
-                <artifactId>jboss-seam-jsf2</artifactId>
+                <artifactId>jboss-seam</artifactId>
                 <version>${project.version}</version>
                 <type>ejb</type>
                 <scope>provided</scope>

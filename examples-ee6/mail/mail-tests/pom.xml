@@ -21,7 +21,7 @@
         </dependency>        
         <dependency>
             <groupId>org.jboss.seam</groupId>
-            <artifactId>jboss-seam-jsf2</artifactId>
+            <artifactId>jboss-seam</artifactId>
             <type>ejb</type>
             <scope>test</scope>
         </dependency>
@@ -42,7 +42,7 @@
         </dependency>     
         <dependency>
             <groupId>org.jboss.seam</groupId>
-            <artifactId>jboss-seam-ui-jsf2</artifactId>
+            <artifactId>jboss-seam-ui</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

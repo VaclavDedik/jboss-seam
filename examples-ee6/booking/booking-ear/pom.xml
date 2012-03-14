@@ -26,7 +26,7 @@
         </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>
-            <artifactId>jboss-seam-jsf2</artifactId>
+            <artifactId>jboss-seam</artifactId>
             <type>ejb</type>
             <scope>compile</scope>
             <exclusions>
@@ -126,7 +126,7 @@
                         </ejbModule>
                         <ejbModule>
                             <groupId>org.jboss.seam</groupId>
-                            <artifactId>jboss-seam-jsf2</artifactId>
+                            <artifactId>jboss-seam</artifactId>
                             <bundleFileName>jboss-seam.jar</bundleFileName>
                         </ejbModule>                        
                     </modules>
@@ -135,7 +135,7 @@
 			<plugin>
 				<groupId>org.jboss.as.plugins</groupId>
 				<artifactId>jboss-as-maven-plugin</artifactId>
-				<version>7.1.0.CR1b</version>
+				<version>7.1.0.Final</version>
 				<executions>
 					<!-- This requires to be enabled manually as <enabled>true</enabled> doesn't 
 						work -->

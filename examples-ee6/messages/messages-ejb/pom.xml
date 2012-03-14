@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>org.jboss.seam</groupId>
-            <artifactId>jboss-seam-jsf2</artifactId>
+            <artifactId>jboss-seam</artifactId>
             <type>ejb</type>
         </dependency>
         <dependency>

@@ -193,7 +193,7 @@ public class SeamManagedSessionFactoryBean extends AbstractFactoryBean
                List<Class> interfaces = new ArrayList<Class>(Arrays.asList(ClassUtils
                         .getAllInterfaces(session)));
                //Have to bend Session implementation since HiberanteSessionProxy doesn't implement classic.Session.
-               interfaces.add(org.hibernate.classic.Session.class);
+               interfaces.add(Session.class);
                return Proxy.newProxyInstance(this.getClass().getClassLoader(), interfaces
                         .toArray(new Class[interfaces.size()]), new SeamManagedSessionHandler(
                         (SessionFactory) proxy, session));
@@ -215,8 +215,8 @@ public class SeamManagedSessionFactoryBean extends AbstractFactoryBean
          }
          try
          {
-            if(method.getDeclaringClass().equals(org.hibernate.classic.Session.class) &&
-                     !(delegate instanceof org.hibernate.classic.Session)) {
+            if(method.getDeclaringClass().equals(Session.class) &&
+                     !(delegate instanceof Session)) {
                throw new UnsupportedOperationException("Unable to execute method: "+method.toString()+" Seam managed session does not support classic.Session methods.");
             }
             return method.invoke(delegate, args);

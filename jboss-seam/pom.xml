@@ -9,7 +9,7 @@
 		<relativePath>../jboss-seam-parent/pom.xml</relativePath>
 	</parent>
 
-	<artifactId>jboss-seam-jsf2</artifactId>
+	<artifactId>jboss-seam</artifactId>
 	<packaging>ejb</packaging>
 	<name>Seam Core JSF2</name>
 	<description>Seam core module for Seam framework integrated with JSF2</description>

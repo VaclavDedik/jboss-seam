@@ -13,6 +13,21 @@
 	<name>Seam Excel</name>
 
 	<dependencies>
+
+        <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>jboss-seam-ui</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>jboss-seam</artifactId>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+        </dependency>
 		<dependency>
 			<groupId>net.sourceforge.jexcelapi</groupId>
 			<artifactId>jxl</artifactId>
@@ -106,54 +121,6 @@
                 </plugin>
             </plugins>
             </build>
-        </profile>
-        <profile>
-            <id>jsf12</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <dependencies>
-                <dependency>
-                        <groupId>com.sun.facelets</groupId>
-                        <artifactId>jsf-facelets</artifactId>
-                </dependency>
-
-                <dependency>
-                        <groupId>javax.faces</groupId>
-                        <artifactId>jsf-api</artifactId>
-                </dependency>
-                
-		        <dependency>
-		            <groupId>org.jboss.seam</groupId>
-		            <artifactId>jboss-seam-ui</artifactId>
-		        </dependency>
-		        
-	            <dependency>
-					<groupId>org.jboss.seam</groupId>
-					<artifactId>jboss-seam</artifactId>
-					<type>ejb</type>
-			  </dependency>
-		</dependencies>
-        </profile>
-        <profile>
-            <id>jsf2</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.jboss.seam</groupId>
-                    <artifactId>jboss-seam-jsf2</artifactId>
-                    <type>ejb</type>
-                </dependency>
-                
-                <dependency>
-                        <groupId>com.sun.faces</groupId>
-                        <artifactId>jsf-api</artifactId>
-                </dependency>
-                
-		        <dependency>
-		            <groupId>org.jboss.seam</groupId>
-		            <artifactId>jboss-seam-ui-jsf2</artifactId>
-		        </dependency>
-            </dependencies>
         </profile>
     </profiles>
 </project>
