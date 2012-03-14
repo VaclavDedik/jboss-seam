@@ -77,70 +77,46 @@
                 <directory>src/test/resources-integration</directory>
                 <filtering>false</filtering>
             </testResource>
+            <testResource>
+                <directory>${basedir}/../todo-ear/src/main/application</directory>
+                <filtering>true</filtering>
+            </testResource>
+            <testResource>
+                 <directory>${basedir}/../todo-web/src/main/resources</directory>
+                 <filtering>true</filtering>
+            </testResource>            
         </testResources>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <skipTests>true</skipTests>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                       <id>copy-seam-bootstrap</id>
-                       <phase>process-resources</phase>
-                       <goals>
-                          <goal>unpack</goal>
-                       </goals>
-                       <configuration>
-                          <includes>bootstrap/**</includes>
-                          <artifactItems>
-                              <artifactItem>
-                                   <groupId>org.jboss.seam</groupId>
-                                   <artifactId>jboss-embedded-bootstrap</artifactId>
-                                   <version>${project.version}</version>
-                                   <type>jar</type>
-                                   <overWrite>false</overWrite>
-                              </artifactItem>
-                          </artifactItems>
-                       </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>     
+   
     </build>    
 
     <profiles>
-		<profile>
-			<id>integration-tests</id>
-			<activation>
-				<property>
-					<name>arquillian</name>
-				</property>
-			</activation>
-		</profile>
-		<profile>
-			<id>arq-jbossas-7-managed</id>
-			<activation>
-				<property>
-					<name>arquillian</name>
-					<value>jbossas-managed-7</value>
-				</property>
-			</activation>
-			<build>
-				<plugins>
+        <profile>
+            <id>integration-tests</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                </property>
+            </activation>
+        </profile>
+
+        <profile>
+            <id>arq-jbossas-7-managed</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                    <value>jbossas-managed-7</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
                     </plugin>
-				</plugins>
-	
-			</build>
-		</profile>
+                </plugins>
+            </build>
+        </profile>
+
         <profile>
             <id>arq-jbossas-7-remote</id>
             <activation>
@@ -149,7 +125,8 @@
                     <value>jbossas-remote-7</value>
                 </property>
             </activation>
-        </profile>		
+        </profile>
+        	
         <profile>
             <id>ftest-jbossas</id>
             <properties>
