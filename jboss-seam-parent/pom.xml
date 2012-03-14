@@ -52,6 +52,7 @@
 		<version.jsf2>2.1.5</version.jsf2>
 		<version.junit>4.8.2</version.junit>
 		<version.hibernatevalidator>4.2.0.Final</version.hibernatevalidator>
+		<version.hibernatesearch>4.0.0.Final</version.hibernatesearch>
 		<version.hcore>4.0.1.Final</version.hcore>
 
 		<!-- ***************** -->
@@ -395,7 +396,7 @@
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-search</artifactId>
-				<version>3.1.1.GA</version>
+				<version>${version.hibernatesearch}</version>
 			</dependency>
 
 			<dependency>
