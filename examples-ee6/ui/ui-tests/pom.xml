@@ -10,7 +10,7 @@
     
     <groupId>org.jboss.seam.examples</groupId>
     <artifactId>ui-tests</artifactId>
-    <name>UI Integration Tests Module</name>
+    <name>UI Integration Tests Module</name>      
     
     <dependencies>
         <dependency>
@@ -73,6 +73,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                    <skip>true</skip>
+                   <junitArtifactName>none:none</junitArtifactName>
                 </configuration>
             </plugin>
         </plugins>     
