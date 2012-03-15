@@ -32,35 +32,35 @@
 		<br />
 
 		<a4j:outputPanel id="searchResults">
-			<rich:dataTable value="#{excelTest.result}" var="person"
+			<h:dataTable value="#{excelTest.result}" var="person"
 				rendered="#{!empty excelTest.result}" id="excelTable"
 				style="xls-font: 10 Verdana; xls-column-widths: 8000 9000 10000"
 				columnClasses="left, right" width="500px">
-				<rich:column>
+				<h:column>
 					<f:facet name="header">
 						<h:outputText value="Name" style="xls-font: red bold"/>
 					</f:facet>
 					<h:outputText value="#{person.name}" />
-				</rich:column>
-				<rich:column>
+				</h:column>
+				<h:column>
 					<f:facet name="header">
 						<h:outputText value="Company" style="xls-font: red bold" />
 					</f:facet>
 					<h:outputText value="#{person.company}" />
-				</rich:column>
-				<rich:column>
+				</h:column>
+				<h:column>
 					<f:facet name="header">
 						<h:outputText value="Working on" style="xls-font: red bold" />
 					</f:facet>
 					<h:outputText value="#{person.task}" />
-				</rich:column>
-				<rich:column style="xls-column-export:false">
+				</h:column>
+				<h:column style="xls-column-export:false">
 					<f:facet name="header">
 						<h:outputText value="Hide in export" style="xls-font: red bold" />
 					</f:facet>
 					<h:outputText value="Details" />
-				</rich:column>				
-			</rich:dataTable>
+				</h:column>				
+			</h:dataTable>
 			<h:commandLink value="Export table as Excel spreadsheet"
 				rendered="#{!empty excelTest.result}"
 				action="#{excelExporter.export('excelExport:excelTable')}" />
