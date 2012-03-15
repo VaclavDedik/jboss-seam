@@ -2,8 +2,8 @@
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
- * $LastChangedDate: 2007-08-17 15:00:33 +0200 (Pá, 17 srp 2007) $
- * $Rev: 6019 $
+ * $LastChangedDate$
+ * $Rev$
  *
  * Version: 1.0rc1
  */
