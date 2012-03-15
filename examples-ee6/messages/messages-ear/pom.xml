@@ -83,7 +83,6 @@
             <plugin>
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>7.1.0.Final</version>
                 <executions>
                     <!-- This requires to be enabled manually as <enabled>true</enabled> doesn't
                              work -->
