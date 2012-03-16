@@ -16,9 +16,7 @@ import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
 
 public class Deployments {
 	public static EnterpriseArchive bookingDeployment() {
-		
 		return ShrinkWrap.create(ZipImporter.class, "seam-booking.ear").importFrom(new File("../booking-ear/target/seam-booking.ear"))
-				.as(EnterpriseArchive.class)
-				.addAsResource("test-ds.xml", "test-ds.xml");
+				.as(EnterpriseArchive.class);
 	}
 }
