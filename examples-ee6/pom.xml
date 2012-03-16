@@ -17,6 +17,7 @@
     <modules>
         <module>blog</module>
         <module>booking</module>
+        <module>contactlist</module>
 <!--        <module>dvdstore</module> -->
         <module>excel</module>
         <module>mail</module>
