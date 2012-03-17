@@ -63,7 +63,6 @@
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 	</properties>
 
-
 	<dependencyManagement>
 		<!-- Used to specify which version of a dependency to use - this means 
 			that versions are only specified here, not in sub project poms. All dependencies 
