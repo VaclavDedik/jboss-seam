@@ -10,7 +10,7 @@
       <relativePath>../pom.xml</relativePath>
    </parent>
 
-   <groupId>org.jboss.seam.examples-ee6</groupId>
+   <groupId>org.jboss.seam.examples-ee6.blog</groupId>
    <artifactId>blog-web</artifactId>
    <packaging>war</packaging>
    <name>Blog Web Module (EE6)</name>
@@ -23,9 +23,8 @@
 
    <dependencies>
       <dependency>
-         <groupId>org.jboss.seam.examples-ee6</groupId>
+         <groupId>org.jboss.seam.examples-ee6.blog</groupId>
          <artifactId>blog-ejb</artifactId>
-         <version>${project.version}</version>
          <type>ejb</type>
          <scope>provided</scope>
       </dependency>
@@ -61,12 +60,10 @@
       <dependency>
          <groupId>org.richfaces.ui</groupId>
          <artifactId>richfaces-components-ui</artifactId>
-         <version>4.1.0.Final</version>
       </dependency>
       <dependency>
          <groupId>org.richfaces.core</groupId>
          <artifactId>richfaces-core-impl</artifactId>
-         <version>4.1.0.Final</version>
       </dependency>
    </dependencies>
 
