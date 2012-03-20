@@ -17,7 +17,6 @@
          <outputDirectory>.</outputDirectory>
          <excludes>
             <exclude>pom.xml</exclude>
-            <exclude>./src-ee6/</exclude>
          </excludes>
       </fileSet>
    </fileSets>
