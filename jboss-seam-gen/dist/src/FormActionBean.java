@@ -7,7 +7,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.international.StatusMessages;
-import org.hibernate.validator.Length;
+import javax.validation.constraints.Size;
 
 @Stateful
 @Name("@componentName@")
@@ -28,7 +28,7 @@ public class @beanName@ implements @interfaceName@
 
     // add additional action methods
 
-    @Length(max = 10)
+    @Size(max = 10)
     public String getValue()
     {
         return value;

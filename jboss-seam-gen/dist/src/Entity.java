@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Version;
-import org.hibernate.validator.Length;
+import javax.validation.constraints.Size;
 
 @Entity
 public class @entityName@ implements Serializable
@@ -37,7 +37,7 @@ public class @entityName@ implements Serializable
         this.version = version;
     }
 
-    @Length(max = 20)
+    @Size(max = 20)
     public String getName() {
         return name;
     }

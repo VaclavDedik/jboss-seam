@@ -13,7 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import org.hibernate.validator.NotNull;
+import javax.validation.constraints.NotNull;
 import org.jboss.seam.annotations.security.management.UserEnabled;
 import org.jboss.seam.annotations.security.management.UserPassword;
 import org.jboss.seam.annotations.security.management.UserPrincipal;
