@@ -11,6 +11,7 @@ import java.util.Map;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.bpm.BusinessProcess;
+import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
@@ -89,8 +90,36 @@ public class Contexts
       return methodContext.get() != null;
    }
 
-   public static boolean isPageContextActive() 
+   /**
+    * Is PageContext set?
+    * 
+    * If not it is lazily created in case of RESTORE_VIEW is processing
+    * This is a requirement for starting CONVERSATION - JSF2 change
+    * @return
+    */
+   public static boolean isPageContextActive()
    {
+      if (pageContext.get() == null)
+      {
+         log.debug("isPageContextActive is null");
+         // lazy initialize the page context during restore view
+         javax.faces.context.FacesContext facesContext = javax.faces.context.FacesContext.getCurrentInstance();
+         if (facesContext != null)
+         {
+            if (javax.faces.event.PhaseId.RESTORE_VIEW.equals(facesContext.getCurrentPhaseId()))
+            {
+               log.debug("Page Context will be lazilly created");
+               FacesLifecycle.resumePage();
+               Map<String, String> parameters = facesContext.getExternalContext().getRequestParameterMap();
+               ConversationPropagation.instance().restoreConversationId(parameters);
+               boolean conversationFound = Manager.instance().restoreConversation();
+               pageContext.get().set("org.jboss.seam.jsf.SeamPhaseListener.conversationFound", conversationFound);
+               
+               FacesLifecycle.resumeConversation(facesContext.getExternalContext());
+            }
+         }
+
+      }
       return pageContext.get() != null;
    }
 

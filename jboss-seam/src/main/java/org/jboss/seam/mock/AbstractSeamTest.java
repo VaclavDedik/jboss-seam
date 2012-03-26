@@ -120,6 +120,11 @@ public class AbstractSeamTest
       return Manager.instance().isLongRunningConversation();
    }
 
+   protected String getConversationIdParameter()
+   {
+      return "conversationId";
+   }
+   
    /**
     * Search in all contexts
     */
@@ -731,6 +736,10 @@ public class AbstractSeamTest
 
       private void restoreViewPhase()
       {
+         if (conversationId != null)
+         {
+            setParameter(getConversationIdParameter(), conversationId);
+         }
          phases.beforePhase(new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, MockLifecycle.INSTANCE));
          try
          {

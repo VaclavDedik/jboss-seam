@@ -14,13 +14,7 @@ import org.jboss.seam.core.Manager;
 import org.jboss.seam.faces.Switcher;
 import org.jboss.seam.mock.JUnitSeamTest;
 import org.jboss.shrinkwrap.api.Archive;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.StringAsset;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -41,10 +35,11 @@ public class ConversationTest
     {
         // no conversation, no stack
         new FacesRequest("/pageWithDescription.xhtml") {
+            @SuppressWarnings("unchecked")
             @Override
             protected void renderResponse() throws Exception {
                 List<ConversationEntry> entries = (List<ConversationEntry>) getValue("#{conversationStack}");
-                assert entries.size() == 0;                            
+                Assert.assertEquals(0, entries.size());                            
             }
         }.run();
                 
@@ -55,10 +50,11 @@ public class ConversationTest
               Manager.instance().beginConversation();
            }
            
-           @Override
+           @SuppressWarnings("unchecked")
+         @Override
            protected void renderResponse() throws Exception {
                List<ConversationEntry> entries = (List<ConversationEntry>) getValue("#{conversationStack}");
-               assert entries.size() == 0;              
+               Assert.assertEquals(0, entries.size());              
            }
        }.run();
               
@@ -69,10 +65,11 @@ public class ConversationTest
               Manager.instance().beginConversation();
            }
            
-           @Override
+           @SuppressWarnings("unchecked")
+         @Override
            protected void renderResponse() throws Exception {
                List<ConversationEntry> entries = (List<ConversationEntry>) getValue("#{conversationStack}");
-               assert entries.size() == 1;
+               Assert.assertEquals(1, entries.size());
            }
        }.run();
        
@@ -83,10 +80,11 @@ public class ConversationTest
               Manager.instance().beginNestedConversation();
            }
            
-           @Override
+           @SuppressWarnings("unchecked")
+         @Override
            protected void renderResponse() throws Exception {
                List<ConversationEntry> entries = (List<ConversationEntry>) getValue("#{conversationStack}");
-               assert entries.size() == 2;                         
+               Assert.assertEquals(2, entries.size());                         
            }
                     
        }.run();
@@ -101,7 +99,7 @@ public class ConversationTest
            @Override
            protected void renderResponse() throws Exception {
                List<ConversationEntry> entries = (List<ConversationEntry>) getValue("#{conversationStack}");               
-               assert entries.size() == 2;  
+               Assert.assertEquals(2, entries.size());  
            }
        }.run();
               
@@ -110,7 +108,7 @@ public class ConversationTest
            @Override
            protected void renderResponse() throws Exception {
                List<ConversationEntry> entries = (List<ConversationEntry>) getValue("#{conversationStack}");               
-               assert entries.size() == 3;  
+               Assert.assertEquals(3, entries.size());  
            }
        }.run();
               
@@ -124,7 +122,7 @@ public class ConversationTest
            @Override
            protected void renderResponse() throws Exception {
                List<ConversationEntry> entries = (List<ConversationEntry>) getValue("#{conversationStack}");               
-               assert entries.size() == 2;  
+               Assert.assertEquals(2, entries.size());  
            }
        }.run();
               
@@ -138,7 +136,7 @@ public class ConversationTest
            @Override
            protected void renderResponse() throws Exception {
                List<ConversationEntry> entries = (List<ConversationEntry>) getValue("#{conversationStack}");               
-               assert entries.size() == 1;  
+               Assert.assertEquals(1, entries.size());  
            }
        }.run();
     }
@@ -151,7 +149,7 @@ public class ConversationTest
             @Override
             protected void renderResponse() throws Exception {
                 List<ConversationEntry> entries = (List<ConversationEntry>) getValue("#{conversationList}");               
-                assert entries.size() == 0;  
+                Assert.assertEquals(0, entries.size());  
             }
         }.run();
         
@@ -164,7 +162,7 @@ public class ConversationTest
             @Override
             protected void renderResponse() throws Exception {
                 List<ConversationEntry> entries = (List<ConversationEntry>) getValue("#{conversationList}");               
-                assert entries.size() == 0;  
+                Assert.assertEquals(0, entries.size());  
             }
         }.run();
         
@@ -177,7 +175,7 @@ public class ConversationTest
             @Override
             protected void renderResponse() throws Exception {
                 List<ConversationEntry> entries = (List<ConversationEntry>) getValue("#{conversationList}");               
-                assert entries.size() == 1;  
+                Assert.assertEquals(1, entries.size());  
             }
         }.run();
         
@@ -190,7 +188,7 @@ public class ConversationTest
             @Override
             protected void renderResponse() throws Exception {
                 List<ConversationEntry> entries = (List<ConversationEntry>) getValue("#{conversationList}");               
-                assert entries.size() == 2;  
+                Assert.assertEquals(2, entries.size());  
             }
         }.run();
         
@@ -203,7 +201,7 @@ public class ConversationTest
             @Override
             protected void renderResponse() throws Exception {
                 List<ConversationEntry> entries = (List<ConversationEntry>) getValue("#{conversationList}");               
-                assert entries.size() == 3;  
+                Assert.assertEquals(3, entries.size());  
             }
         }.run();
         
@@ -217,7 +215,7 @@ public class ConversationTest
             @Override
             protected void renderResponse() throws Exception {
                 List<ConversationEntry> entries = (List<ConversationEntry>) getValue("#{conversationList}");               
-                assert entries.size() == 2;  
+                Assert.assertEquals(2, entries.size());  
             }
         }.run();
         
@@ -230,7 +228,7 @@ public class ConversationTest
             @Override
             protected void renderResponse() throws Exception {
                 List<ConversationEntry> entries = (List<ConversationEntry>) getValue("#{conversationList}");               
-                assert entries.size() == 1;  
+                Assert.assertEquals(1, entries.size());  
             }
         }.run();
         
@@ -244,7 +242,7 @@ public class ConversationTest
             @Override
             protected void renderResponse() throws Exception {
                 List<ConversationEntry> entries = (List<ConversationEntry>) getValue("#{conversationList}");               
-                assert entries.size() == 0;  
+                Assert.assertEquals(0, entries.size());  
             }
         }.run();
     }
@@ -258,8 +256,8 @@ public class ConversationTest
             @Override
             protected void renderResponse() throws Exception {
                 Switcher switcher = (Switcher) getValue("#{switcher}");
-                assert switcher.getSelectItems().size() == 0;
-                assert switcher.getConversationIdOrOutcome() == null;
+                Assert.assertEquals(0, switcher.getSelectItems().size());
+                Assert.assertNull(switcher.getConversationIdOrOutcome());
             }
         }.run();
         
@@ -273,7 +271,7 @@ public class ConversationTest
             @Override
             protected void renderResponse() throws Exception {
                 Switcher switcher = (Switcher) getValue("#{switcher}");
-                assert switcher.getSelectItems().size() == 1;
+                Assert.assertEquals(1, switcher.getSelectItems().size());
             }
         }.run();
         
@@ -286,7 +284,7 @@ public class ConversationTest
             @Override
             protected void renderResponse() throws Exception {
                 Switcher switcher = (Switcher) getValue("#{switcher}");
-                assert switcher.getSelectItems().size() == 2;
+                Assert.assertEquals(2, switcher.getSelectItems().size());
             }
         }.run();
         
@@ -299,7 +297,7 @@ public class ConversationTest
             @Override
             protected void renderResponse() throws Exception {
                 Switcher switcher = (Switcher) getValue("#{switcher}");
-                assert switcher.getSelectItems().size() == 3;
+                Assert.assertEquals(3, switcher.getSelectItems().size());
             }
         }.run();
     
@@ -307,18 +305,18 @@ public class ConversationTest
             @Override
             protected void renderResponse() throws Exception {
                 Switcher switcher = (Switcher) getValue("#{switcher}");
-                assert switcher.getSelectItems().size() == 3;
+                Assert.assertEquals(3, switcher.getSelectItems().size());
                 
                 List<SelectItem> items = switcher.getSelectItems();
                 List<String> values = new ArrayList<String>();
                 for (SelectItem item: items) {
-                    assert item.getLabel().equals("page description");
+                    Assert.assertEquals("page description", item.getLabel());
                     values.add((String) item.getValue());
                 }
                 
-                assert values.contains(conv1);
-                assert values.contains(conv2);
-                assert values.contains(conv3);
+                Assert.assertTrue(values.contains(conv1));
+                Assert.assertTrue(values.contains(conv2));
+                Assert.assertTrue(values.contains(conv3));
             }
         }.run();
         
@@ -338,9 +336,9 @@ public class ConversationTest
             @Override
             protected void renderResponse() throws Exception {
                 Switcher switcher = (Switcher) getValue("#{switcher}");
-                assert switcher.getSelectItems().size() == 1;
-                assert switcher.getSelectItems().get(0).getLabel().equals("page description");
-                assert switcher.getSelectItems().get(0).getValue().equals(conv3);
+                Assert.assertEquals(1, switcher.getSelectItems().size());
+                Assert.assertEquals("page description", switcher.getSelectItems().get(0).getLabel()); 
+                Assert.assertEquals(conv3, switcher.getSelectItems().get(0).getValue());
             }
         }.run();
         
@@ -348,10 +346,10 @@ public class ConversationTest
             @Override
             protected void renderResponse() throws Exception {
                 Switcher switcher = (Switcher) getValue("#{switcher}");
-                assert switcher.getSelectItems().size() == 1;
+                Assert.assertEquals(1,switcher.getSelectItems().size());
                 
-                assert switcher.getSelectItems().get(0).getLabel().equals("another page description");
-                assert switcher.getSelectItems().get(0).getValue().equals(conv3);
+                Assert.assertEquals("another page description", switcher.getSelectItems().get(0).getLabel());
+                Assert.assertEquals(conv3, switcher.getSelectItems().get(0).getValue());
             }
         }.run();
     }
@@ -369,7 +367,7 @@ public class ConversationTest
          @Override
          protected void renderResponse() throws Exception
          {
-            assert ConversationEntries.instance().size() == 1;
+            Assert.assertEquals(1,ConversationEntries.instance().size());
          }
       }.run();
 
@@ -383,7 +381,7 @@ public class ConversationTest
          @Override
          protected void renderResponse() throws Exception
          {
-            assert ConversationEntries.instance().size() == 2;
+            Assert.assertEquals(2,ConversationEntries.instance().size());
          }
       }.run();
 
@@ -398,7 +396,7 @@ public class ConversationTest
          @Override
          protected void renderResponse() throws Exception
          {
-            assert ConversationEntries.instance().size() == 1;
+            Assert.assertEquals(1,ConversationEntries.instance().size());
          }
       }.run();
 
@@ -418,7 +416,7 @@ public class ConversationTest
          @Override
          protected void renderResponse() throws Exception
          {
-            assert ConversationEntries.instance().size() == 1;
+            Assert.assertEquals(1,ConversationEntries.instance().size());
          }
       }.run();
 
@@ -432,7 +430,7 @@ public class ConversationTest
          @Override
          protected void renderResponse() throws Exception
          {
-            assert ConversationEntries.instance().size() == 2;
+            Assert.assertEquals(2,ConversationEntries.instance().size());
          }
       }.run();
 
@@ -447,12 +445,12 @@ public class ConversationTest
          @Override
          protected void renderResponse() throws Exception
          {
-            assert ConversationEntries.instance().size() == 3;
+            Assert.assertEquals(3,ConversationEntries.instance().size());
 
             Manager.instance().killAllOtherConversations();
-            assert ConversationEntries.instance().size() == 2;
-            assert ConversationEntries.instance().getConversationIds()
-                  .contains(unrelated) == false;
+            Assert.assertEquals(2,ConversationEntries.instance().size());
+            Assert.assertEquals(true,ConversationEntries.instance().getConversationIds()
+                  .contains(unrelated) == false);
          }
 
       }.run();

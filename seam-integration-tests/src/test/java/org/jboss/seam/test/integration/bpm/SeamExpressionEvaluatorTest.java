@@ -7,7 +7,6 @@ import org.jboss.seam.mock.JUnitSeamTest;
 import org.jboss.seam.test.integration.Deployments;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jbpm.jpdl.el.ELException;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

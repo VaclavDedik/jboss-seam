@@ -100,7 +100,7 @@ public class FacesManager extends Manager
    protected void storeConversationToViewRootIfNecessary()
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      if ( facesContext!=null && FacesLifecycle.getPhaseId()==PhaseId.RENDER_RESPONSE )
+      if ( facesContext!=null && (FacesLifecycle.getPhaseId()==PhaseId.RENDER_RESPONSE || FacesLifecycle.getPhaseId()==PhaseId.RESTORE_VIEW) )
       {
          FacesPage.instance().storeConversation();
       }

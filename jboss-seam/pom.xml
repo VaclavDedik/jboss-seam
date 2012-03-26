@@ -103,7 +103,6 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<optional>true</optional>
-			<version>4.0.1.Final</version>
 		</dependency>
 
 		<!-- Maven's "nearest" dependency resolution doesn't take into account 
@@ -123,21 +122,17 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>4.2.0.Final</version>
-			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-search</artifactId>
-			<version>4.0.0.Final</version>
 			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>4.0.1.Final</version>
 			<optional>true</optional>
 		</dependency>
 
@@ -444,8 +439,6 @@
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-api</artifactId>
-			<optional>true</optional>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>

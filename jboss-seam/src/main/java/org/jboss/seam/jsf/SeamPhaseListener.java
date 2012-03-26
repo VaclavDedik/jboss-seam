@@ -27,7 +27,6 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.FacesLifecycle;
-import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
@@ -377,20 +376,17 @@ public class SeamPhaseListener implements PhaseListener
     */
    protected void beforeRestoreView(FacesContext facesContext)
    {
-      FacesLifecycle.beginRequest( facesContext.getExternalContext() );
+       FacesLifecycle.beginRequest( facesContext.getExternalContext() );
    }
    
    /**
     * Restore the page and conversation contexts during a JSF request
     */
    protected void afterRestoreView(FacesContext facesContext)
-   {
-      FacesLifecycle.resumePage();
-      Map parameters = facesContext.getExternalContext().getRequestParameterMap();
-      ConversationPropagation.instance().restoreConversationId(parameters);
-      boolean conversationFound = Manager.instance().restoreConversation();
-      FacesLifecycle.resumeConversation( facesContext.getExternalContext() );
-      postRestorePage(facesContext, parameters, conversationFound);
+   {	   
+	   boolean conversationFound = Contexts.isPageContextActive() ? Contexts.getPageContext().isSet("org.jboss.seam.jsf.SeamPhaseListener.conversationFound") : false;
+	   Map parameters = facesContext.getExternalContext().getRequestParameterMap();
+	   postRestorePage(facesContext, parameters, conversationFound);
    }
 
    public void raiseEventsBeforePhase(PhaseEvent event)
