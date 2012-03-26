@@ -43,29 +43,7 @@
 				</configuration>
 			</plugin>
 
-             <plugin>
-                 <artifactId>maven-javadoc-plugin</artifactId>
-                 <version>2.7</version>
-                 <configuration>
-                     <links>
-                         <link>http://java.sun.com/j2se/5.0/docs/api</link>
-                     </links>
-                     <keywords>true</keywords>
-                     <author>true</author>
-                     <stylesheetfile>jdstyle.css</stylesheetfile>
-                     <doctitle>JBoss Seam ${project.name} API ${project.version}</doctitle> <!-- Used by javadoc:javadoc goal -->
-                     <detectOfflineLinks>false</detectOfflineLinks>
-                 </configuration>
-                 <executions>
-                      <execution>
-                          <id>attach-javadocs</id>
-                          <phase>package</phase>
-                          <goals>
-                              <goal>jar</goal>
-                          </goals>
-                      </execution>
-                  </executions>
-             </plugin>		
+             		
 		</plugins>
 	</build>
 
@@ -241,7 +219,29 @@
                             </execution>
                      </executions>
                 </plugin>
-            </plugins>
+            <plugin>
+                 <artifactId>maven-javadoc-plugin</artifactId>
+                 <version>2.7</version>
+                 <configuration>
+                     <links>
+                         <link>http://docs.oracle.com/javase/6/docs/api/</link>
+                     </links>
+                     <keywords>true</keywords>
+                     <author>true</author>
+                     <stylesheetfile>jdstyle.css</stylesheetfile>
+                     <doctitle>JBoss Seam ${project.name} API ${project.version}</doctitle> <!-- Used by javadoc:javadoc goal -->
+                     <detectOfflineLinks>false</detectOfflineLinks>
+                 </configuration>
+                 <executions>
+                      <execution>
+                          <id>attach-javadocs</id>
+                          <phase>package</phase>
+                          <goals>
+                              <goal>jar</goal>
+                          </goals>
+                      </execution>
+                  </executions>
+             </plugin></plugins>
             </build>
         </profile>
     </profiles>
