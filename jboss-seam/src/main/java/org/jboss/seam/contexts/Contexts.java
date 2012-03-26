@@ -93,7 +93,7 @@ public class Contexts
    /**
     * Is PageContext set?
     * 
-    * If not it is lazily created in case of RESTORE_VIEW is processing
+    * If not, it is lazily created in case of RESTORE_VIEW is processing
     * This is a requirement for starting CONVERSATION - JSF2 change
     * @return
     */
