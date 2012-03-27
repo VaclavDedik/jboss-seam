@@ -6,6 +6,8 @@
  */
 package org.jboss.seam.contexts;
 
+import static javax.faces.event.PhaseId.RESTORE_VIEW;
+
 import java.util.Map;
 
 import org.jboss.seam.Component;
@@ -106,7 +108,7 @@ public class Contexts
          javax.faces.context.FacesContext facesContext = javax.faces.context.FacesContext.getCurrentInstance();
          if (facesContext != null)
          {
-            if (javax.faces.event.PhaseId.RESTORE_VIEW.equals(facesContext.getCurrentPhaseId()))
+            if (FacesLifecycle.getPhaseId() == RESTORE_VIEW )
             {
                log.debug("Page Context will be lazilly created");
                FacesLifecycle.resumePage();

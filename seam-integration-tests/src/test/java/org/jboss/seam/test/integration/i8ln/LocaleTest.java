@@ -70,7 +70,7 @@ public class LocaleTest extends JUnitSeamTest
             
             // reset the locale configuration (as it would be w/o <i18n:locale-config>)
             getFacesContext().getApplication().setDefaultLocale(Locale.ENGLISH);
-            getFacesContext().getApplication().setSupportedLocales(null);
+            //getFacesContext().getApplication().setSupportedLocales(null);
             
             assert org.jboss.seam.international.Locale.instance().equals(Locale.getDefault());
             
@@ -117,9 +117,9 @@ public class LocaleTest extends JUnitSeamTest
             
             assert org.jboss.seam.international.Locale.instance().equals(Locale.ITALIAN);
             
-            assert LocaleSelector.instance().getSupportedLocales().size() == 1;
-            assert LocaleSelector.instance().getSupportedLocales().get(0).getValue().equals(Locale.ENGLISH.toString());
-            assert LocaleSelector.instance().getSupportedLocales().get(0).getLabel().equals(Locale.ENGLISH.getDisplayName());
+            assert LocaleSelector.instance().getSupportedLocales().size() ==3;
+            assert LocaleSelector.instance().getSupportedLocales().get(2).getValue().equals(Locale.ENGLISH.toString());
+            assert LocaleSelector.instance().getSupportedLocales().get(2).getLabel().equals(Locale.ENGLISH.getDisplayName());
 
             boolean failed = false;
             try
