@@ -4,10 +4,11 @@
     <parent>
         <artifactId>messages</artifactId>
         <groupId>org.jboss.seam.examples-ee6</groupId>
-        <version>2.3.0.Beta1-SNAPSHOT</version>
+        <version>2.3.0.Beta1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
+    <groupId>org.jboss.seam.examples-ee6.messages</groupId>
     <artifactId>messages-ejb</artifactId>
     <packaging>ejb</packaging>
     <name>Messages EJB Module (EE6)</name>
