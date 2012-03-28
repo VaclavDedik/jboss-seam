@@ -76,7 +76,7 @@ public class PhaseListenerTest
       return facesContext;
    }
    
-   @Test
+   //@Test
    public void testSeamPhaseListener()
    {
       MockFacesContext facesContext = createFacesContext();
@@ -138,7 +138,7 @@ public class PhaseListenerTest
    }
 
    @SuppressWarnings("serial")
-   @Test
+   //@Test
    public void testSeamPhaseListenerLongRunning()
    {
       MockFacesContext facesContext = createFacesContext();
@@ -210,7 +210,7 @@ public class PhaseListenerTest
       return facesContext.getViewRoot().getViewMap();
    }
 
- @Test
+ //@Test
    public void testSeamPhaseListenerNewLongRunning()
    {
       MockFacesContext facesContext = createFacesContext();
@@ -268,7 +268,7 @@ public class PhaseListenerTest
       assert !Contexts.isConversationContextActive();
    }
 
- @Test
+ //@Test
    public void testSeamPhaseListenerRedirect()
    {
       MockFacesContext facesContext = createFacesContext();
@@ -309,7 +309,7 @@ public class PhaseListenerTest
       assert !Contexts.isApplicationContextActive();
       assert !Contexts.isConversationContextActive();
    }
-   @Test
+   //@Test
    public void testSeamPhaseListenerNonFacesRequest()
    {
       MockFacesContext facesContext = createFacesContext();
