@@ -1,6 +1,46 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - Seam2 - Version 2.3.0.BETA1
+
+** Feature Request
+   * [ JBSEAM-4722 ] Add JSF2, bean validation and EJB 3.1 support          
+   * [ JBSEAM-4756 ] Update Seam drools libraries to Drools 5.1             
+
+** Bug
+   * [ JBSEAM-3848 ] Seam fails to create and inject components when multiple ajax-requests are fired from a commandLink or commandButton, using ajax4jsf.          
+   * [ JBSEAM-4146 ] "no file extension in servlet path" exception whenever a servlet throws an exception           
+   * [ JBSEAM-4500 ] Seam 2.2.0 based application fails to run if hibernate validator 4.0.2 GA used             
+   * [ JBSEAM-4621 ] Page Navigation exception after upgrading to JSF 2.0           
+   * [ JBSEAM-4637 ] Seam does not work with JSF 2.0 faces-config.xml           
+   * [ JBSEAM-4639 ] In JSF2, Seam sets JSF view Id to null for postback requests           
+   * [ JBSEAM-4652 ] Using JSF 2 And Seam           
+   * [ JBSEAM-4667 ] Using JSF 2 And Seam - conversation Id             
+   * [ JBSEAM-4829 ] Multiple class changes to make JpaIdentityStore clusterable            
+   * [ JBSEAM-4830 ] Seam version is not displayed on JBoss AS 7            
+   * [ JBSEAM-4839 ] Order of Local and Remote Business interfaces is not deterministic             
+   * [ JBSEAM-4840 ] ProxyFactory with old Javassist bugs           
+   * [ JBSEAM-4854 ] countQuery not correcly generated when group by is used            
+   * [ JBSEAM-4857 ] Global Non-EE thread can't get UserTransaction on JBoss AS7            
+   * [ JBSEAM-4864 ] Debug page for exceptions are not found on AS7 with JSF2           
+   * [ JBSEAM-4868 ] Long conversation is time out immediately after redirect           
+   * [ JBSEAM-4891 ] JSF2 Booking example validation doesn't work           
+   * [ JBSEAM-4892 ] spring-seam-2.2.xsd renamed to 2.3, but not updated in spring.schemas          
+   * [ JBSEAM-4893 ] Seam Mail does not work in JSF 2.0             
+   * [ JBSEAM-4895 ] Add Seam-Version into <jar>/META-INF/Manifest.mf as JBoss Tools requires it            
+   * [ JBSEAM-4896 ] Seam 2.3 examples don't work OOTB in JBoss Tools 3.3.0.M5          
+   * [ JBSEAM-4898 ] JSF2 Page Scope components are not active on postback          
+   * [ JBSEAM-4900 ] jbpm with hibernate4 fails with java.lang.NoSuchMethodError: org.hibernate.SessionFactory.openSession()Lorg/hibernate/classic/Session;             
+   * [ JBSEAM-4902 ] Problem with Hibernate validator annotations when generating entities          
+   * [ JBSEAM-4904 ] jsf2 profile integration tests broken (IllegalArgumentException during restoreConversationId )             
+   * [ JBSEAM-4907 ] ee6 ui example <s:convertEntity> No Converter was created          
+   * [ JBSEAM-4908 ] ee6 excel example java.lang.ClassCastException: org.richfaces.component.UIDataTable cannot be cast to javax.faces.component.UIData             
+   * [ JBSEAM-4909 ] Cannot generate Seam entities in JBDS          
+
+** Task
+   * [ JBSEAM-4850 ] Disable JBoss Deprecated Maven repository and replace all dependencies from it to non-deprecated dependencies
+
+
 Release Notes - Seam2 - Version 2.3.0.ALPHA
 
 ** Feature Request

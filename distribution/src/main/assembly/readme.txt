@@ -1,7 +1,7 @@
 
 JBoss Seam - Contextual Component framework for Java EE 5
 =========================================================
-version 2.3.0.ALPHA, October 2011
+version 2.3.0.Beta1, March 2012
 
 This software is distributed under the terms of the FSF Lesser Gnu
 Public License (see lgpl.txt). 
@@ -9,25 +9,22 @@ Public License (see lgpl.txt).
 Get Up And Running Quick
 ------------------------
    
-1. Install JBoss AS 5.1.0.GA.  
+1. Install JBoss AS 7.1.0.Final  
 
-2. Set JBOSS_HOME system enviroment property to your 
-   JBoss AS installation directory
+2. Start JBoss AS by typing "bin/standalone.sh" in the JBoss home directory
 
-3. Start JBoss AS by typing "bin/run.sh" in the JBoss home directory
+3. In the "examples-ee6/booking" directory, type "mvn clean package" and check 
+   for any error messages.
 
-4. In the "examples/booking" directory, type "mvn clean package" and check 
-   for any error messages
+4. In the booking-ear directory run:
+
+    mvn jboss-as:deploy
    
-5. In the booking-ear directory run:
-
-    mvn jboss:hard-deploy
-   
-6. Point your browser to    
+5. Point your browser to    
 
    http://localhost:8080/seam-booking/
       
-7. Register an account, search for hotels, book a room...
+6. Register an account, search for hotels, book a room...
 
 Learn more
 ----------
@@ -37,6 +34,9 @@ Learn more
 
 Notes for this release
 ----------------------
+
+Be warned that JBoss Embedded is LEGACY runtime. Description below is still 
+working but is not supported.
 
 Running the examples with embedded JBoss on Tomcat 6 requires the following 
 additional JARs to be updated/added to the Tomcat lib directory after normal 
