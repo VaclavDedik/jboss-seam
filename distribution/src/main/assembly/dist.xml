@@ -145,7 +145,13 @@
             <include>org.jboss.seam:jboss-seam-ioc:jar</include>
             <include>org.jboss.seam.embedded:jboss-embedded-api:jar</include>
          </includes>
-         <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+         <excludes>
+            <exclude>*:*:ejb:sources</exclude>
+            <exclude>*:*:ejb:javadoc</exclude>
+            <exclude>*:*:jar:sources</exclude>
+            <exclude>*:*:jar:javadoc</exclude>
+         </excludes>         
+         <outputFileNameMapping>${artifact.artifactId}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
       </dependencySet>
       
       <!-- Seam jul -->
