@@ -23,6 +23,7 @@
         <module>excel</module>
         <module>mail</module>
         <module>messages</module>
+        <module>nestedbooking</module>
         <module>remoting/chatroom</module>
         <module>remoting/gwt</module>
         <module>remoting/helloworld</module>
