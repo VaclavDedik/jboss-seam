@@ -24,6 +24,7 @@
         <module>mail</module>
         <module>messages</module>
         <module>nestedbooking</module>
+        <module>openid</module>
         <module>remoting/chatroom</module>
         <module>remoting/gwt</module>
         <module>remoting/helloworld</module>
