@@ -30,6 +30,7 @@
         <module>remoting/helloworld</module>
         <module>remoting/progressbar</module>
         <module>restbay</module>
+        <module>seambay</module>
         <module>seampay</module>
         <module>seamspace</module>
         <module>tasks</module>
