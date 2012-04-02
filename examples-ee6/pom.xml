@@ -27,6 +27,7 @@
         <module>remoting/gwt</module>
         <module>remoting/helloworld</module>
         <module>remoting/progressbar</module>
+        <module>seamspace</module>
         <module>todo</module>
         <module>ui</module>
     </modules>
