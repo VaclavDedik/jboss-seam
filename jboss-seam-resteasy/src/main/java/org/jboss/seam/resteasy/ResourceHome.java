@@ -36,12 +36,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.MessageBodyReader;
 
-import org.jboss.resteasy.core.Headers;
 import org.jboss.resteasy.core.StringParameterInjector;
 import org.jboss.seam.Entity;
 import org.jboss.seam.annotations.Create;
@@ -68,7 +68,7 @@ public class ResourceHome<T, T2> extends AbstractResource<T>
    @Context
    private UriInfo uriInfo;
    @Context
-   private Headers headers;
+   private HttpHeaders headers;
    @HeaderParam("Content-Type")
    private MediaType requestContentType;
 
@@ -275,7 +275,7 @@ public class ResourceHome<T, T2> extends AbstractResource<T>
       T entity;
       try
       {
-         entity = reader.readFrom(entityClass, entityClass, entityClass.getAnnotations(), requestContentType, headers, is);
+         entity = reader.readFrom(entityClass, entityClass, entityClass.getAnnotations(), requestContentType, headers.getRequestHeaders(), is);
       }
       catch (Exception e)
       {
