@@ -92,7 +92,7 @@ public class Transaction
          }
          catch (NamingException nnfe2) {
              // Try the other JBoss location in JBoss AS7
-             return (UserTransaction) context.lookup("java:jboss/UserTransaction");
+             return (javax.transaction.UserTransaction) context.lookup("java:jboss/UserTransaction");
          }
          catch (Exception e)
          {
