@@ -43,4 +43,6 @@
 
     <core:init debug="true" jndi-pattern="@jndiPattern@" />
 
+    <component class="org.jboss.seam.transaction.EjbSynchronizations" jndi-name="java:app/jboss-seam/EjbSynchronizations"/>
+
 </components>
