@@ -28,6 +28,7 @@
         <module>remoting/gwt</module>
         <module>remoting/helloworld</module>
         <module>remoting/progressbar</module>
+        <module>restbay</module>
         <module>seampay</module>
         <module>seamspace</module>
         <module>todo</module>
