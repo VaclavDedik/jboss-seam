@@ -11,7 +11,7 @@
     <groupId>org.jboss.seam.examples-ee6.remoting.gwt</groupId>
     <artifactId>gwt-ejb</artifactId>
     <packaging>ejb</packaging>
-    <name>Gwt EJB Module</name>
+    <name>Gwt EJB Module (EE6)</name>
     
     <build>
         <plugins>

@@ -11,7 +11,7 @@
     <groupId>org.jboss.seam.examples-ee6.remoting.helloworld</groupId>
     <artifactId>helloworld-web</artifactId>
     <packaging>war</packaging>
-    <name>Helloworld Web Module</name>
+    <name>Helloworld Web Module (EE6)</name>
     
     <properties>
         <!-- filtering property for components.xml -->
