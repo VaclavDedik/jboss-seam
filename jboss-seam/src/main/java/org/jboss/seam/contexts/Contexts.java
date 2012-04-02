@@ -104,21 +104,29 @@ public class Contexts
       if (pageContext.get() == null)
       {
          log.debug("isPageContextActive is null");
-         // lazy initialize the page context during restore view
-         javax.faces.context.FacesContext facesContext = javax.faces.context.FacesContext.getCurrentInstance();
-         if (facesContext != null)
+         
+         try
          {
-            if (FacesLifecycle.getPhaseId() == RESTORE_VIEW )
+            // lazy initialize the page context during restore view
+            javax.faces.context.FacesContext facesContext = javax.faces.context.FacesContext.getCurrentInstance();
+            if (facesContext != null)
             {
-               log.debug("Page Context will be lazilly created");
-               FacesLifecycle.resumePage();
-               Map<String, String> parameters = facesContext.getExternalContext().getRequestParameterMap();
-               ConversationPropagation.instance().restoreConversationId(parameters);
-               boolean conversationFound = Manager.instance().restoreConversation();
-               pageContext.get().set("org.jboss.seam.jsf.SeamPhaseListener.conversationFound", conversationFound);
-               
-               FacesLifecycle.resumeConversation(facesContext.getExternalContext());
+               if (FacesLifecycle.getPhaseId() == RESTORE_VIEW )
+               {
+                  log.debug("Page Context will be lazilly created");
+                  FacesLifecycle.resumePage();
+                  Map<String, String> parameters = facesContext.getExternalContext().getRequestParameterMap();
+                  ConversationPropagation.instance().restoreConversationId(parameters);
+                  boolean conversationFound = Manager.instance().restoreConversation();
+                  pageContext.get().set("org.jboss.seam.jsf.SeamPhaseListener.conversationFound", conversationFound);
+                  
+                  FacesLifecycle.resumeConversation(facesContext.getExternalContext());
+               }
             }
+         }
+         catch (NoClassDefFoundError e)
+         {
+            // do nothing as this context is supposed to be active only with JSF view layer
          }
 
       }

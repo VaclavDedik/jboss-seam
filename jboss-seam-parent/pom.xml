@@ -40,20 +40,16 @@
 
 		<!-- Version string properties -->
 		<version.arquillian_core>1.0.0.CR7</version.arquillian_core>
-		<version.richfaces>4.1.0.Final</version.richfaces>
 		<version.wicket>1.4.14</version.wicket>
 		<version.drools>5.1.1</version.drools>
 		<version.testng>5.10</version.testng>
-		<version.resteasy>2.0-beta-2</version.resteasy>
-		<version.spring>2.5.6.SEC02</version.spring>
+		<version.resteasy>2.0.1.GA</version.resteasy>
+		<version.spring>2.5.6.SEC03</version.spring>
 		<version.jbossembedded>beta3.SP15</version.jbossembedded>
-		<version.jbossas7>7.1.0.Final</version.jbossas7>
+		<version.jbossas7>7.1.1.Final</version.jbossas7>
 		<version.emma>2.0.5312</version.emma>
-		<version.jsf2>2.1.5</version.jsf2>
+		<version.jsf2>2.1.7</version.jsf2>
 		<version.junit>4.8.2</version.junit>
-		<version.hibernatevalidator>4.2.0.Final</version.hibernatevalidator>
-		<version.hibernatesearch>4.0.0.Final</version.hibernatesearch>
-		<version.hcore>4.0.1.Final</version.hcore>
 
 		<!-- ***************** -->
 		<!-- Repository Deployment URLs -->
@@ -70,6 +66,14 @@
 		<dependencies>
 
 			<dependency>
+			  <groupId>org.jboss.bom</groupId>
+			  <artifactId>jboss-javaee-6.0-with-hibernate</artifactId>
+			  <version>1.0.0.M6</version>
+			  <type>pom</type>
+			  <scope>import</scope>
+			</dependency>
+			
+			<dependency>
 				<groupId>org.jboss.arquillian</groupId>
 				<artifactId>arquillian-bom</artifactId>
 				<version>${version.arquillian_core}</version>
@@ -77,6 +81,7 @@
 				<scope>import</scope>
 			</dependency>
 
+            <!-- All Seam modules -->
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
 				<artifactId>distribution</artifactId>
@@ -89,7 +94,6 @@
 				<version>${project.version}</version>
 			</dependency>
 
-			<!-- All Seam modules -->
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
 				<artifactId>jboss-seam</artifactId>
@@ -137,13 +141,8 @@
 				<groupId>org.jboss.seam</groupId>
 				<artifactId>jboss-seam-ui</artifactId>
 				<version>${project.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
+			
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
 				<artifactId>jboss-seam-debug</artifactId>
@@ -180,18 +179,7 @@
 				<version>${project.version}</version>
 			</dependency>
 
-			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>servlet-api</artifactId>
-				<version>2.5</version>
-			</dependency>
-
-			<dependency>
-				<groupId>javax.servlet.jsp</groupId>
-				<artifactId>jsp-api</artifactId>
-				<version>2.1</version>
-			</dependency>
-
+            <!-- thirdparty dependencies -->
 			<dependency>
 				<groupId>antlr</groupId>
 				<artifactId>antlr</artifactId>
@@ -216,18 +204,6 @@
 				<artifactId>ant-antlr</artifactId>
 				<version>1.7.0</version>
 			</dependency>
-
-<!-- 			<dependency> -->
-<!-- 				<groupId>org.richfaces.core</groupId> -->
-<!-- 				<artifactId>richfaces-core-api</artifactId> -->
-<!-- 				<version>${version.richfaces}</version> -->
-<!-- 			</dependency> -->
-
-<!--             <dependency> -->
-<!--                 <groupId>org.richfaces.core</groupId> -->
-<!--                 <artifactId>richfaces-core-impl</artifactId> -->
-<!--                 <version>${version.richfaces}</version> -->
-<!--             </dependency> -->
 
 			<dependency>
 				<groupId>org.jbpm.jbpm3</groupId>
@@ -369,37 +345,6 @@
 			</dependency>
 
 			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-core</artifactId>
-				<version>${version.hcore}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-entitymanager</artifactId>
-				<version>${version.hcore}</version>
-
-			</dependency>
-
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-validator</artifactId>
-				<version>${version.hibernatevalidator}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-search</artifactId>
-				<version>${version.hibernatesearch}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>javax.el</groupId>
-				<artifactId>el-api</artifactId>
-				<version>1.0</version>
-			</dependency>
-
-			<dependency>
 				<groupId>commons-beanutils</groupId>
 				<artifactId>commons-beanutils</artifactId>
 				<version>1.7.0</version>
@@ -413,18 +358,6 @@
 						<artifactId>junit</artifactId>
 					</exclusion>
 				</exclusions>
-			</dependency>
-
-			<dependency>
-				<groupId>commons-collections</groupId>
-				<artifactId>commons-collections</artifactId>
-				<version>3.2</version>
-			</dependency>
-
-			<dependency>
-				<groupId>commons-logging</groupId>
-				<artifactId>commons-logging</artifactId>
-				<version>1.1.1</version>
 			</dependency>
 
 			<dependency>
@@ -449,19 +382,7 @@
 				<groupId>commons-httpclient</groupId>
 				<artifactId>commons-httpclient</artifactId>
 				<version>3.1-jbossorg-1</version>
-			</dependency>
-
-			<dependency>
-				<groupId>javax.persistence</groupId>
-				<artifactId>persistence-api</artifactId>
-				<version>1.0</version>
-			</dependency>
-
-			<dependency>
-				<groupId>jboss</groupId>
-				<artifactId>jboss-system</artifactId>
-				<version>4.2.3.GA</version>
-			</dependency>
+			</dependency>	
 
 			<dependency>
 				<groupId>jboss</groupId>
@@ -511,12 +432,19 @@
 				</exclusions>
 			</dependency>
 
+            <!-- these 2 dependencies are for jboss-seam functionality -->
 			<dependency>
 				<groupId>jboss</groupId>
 				<artifactId>jboss-jmx</artifactId>
 				<version>4.2.3.GA</version>
 			</dependency>
 
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jboss-system</artifactId>
+                <version>4.2.3.GA</version>
+            </dependency>
+            
 			<!-- Excel export module dependency -->
 			<dependency>
 				<groupId>net.sourceforge.jexcelapi</groupId>
@@ -579,61 +507,15 @@
 			</dependency>
 
 			<dependency>
-				<groupId>javax.ejb</groupId>
-				<artifactId>ejb-api</artifactId>
-				<version>3.0</version>
-			</dependency>
-
-			<dependency>
-				<groupId>javax.jws</groupId>
-				<artifactId>jsr181-api</artifactId>
-				<version>1.0-MR1</version>
-				<exclusions>
-					<exclusion>
-						<groupId>javax.xml.bind</groupId>
-						<artifactId>jaxb-api</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-			<dependency>
 				<groupId>javax.xml.soap</groupId>
 				<artifactId>saaj-api</artifactId>
 				<version>1.3</version>
 			</dependency>
 
 			<dependency>
-				<groupId>javax.jms</groupId>
-				<artifactId>jms</artifactId>
-				<version>1.1</version>
-			</dependency>
-
-			<dependency>
 				<groupId>javax.annotation</groupId>
 				<artifactId>jsr250-api</artifactId>
 				<version>1.0</version>
-			</dependency>
-
-			<dependency>
-				<groupId>javax.transaction</groupId>
-				<artifactId>jta</artifactId>
-				<version>1.1</version>
-			</dependency>
-
-			<dependency>
-				<groupId>javax.xml.bind</groupId>
-				<artifactId>jaxb-api</artifactId>
-				<version>2.1</version>
-				<exclusions>
-					<exclusion>
-						<groupId>javax.xml.stream</groupId>
-						<artifactId>stax-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.activation</groupId>
-						<artifactId>activation</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 
 			<dependency>
@@ -801,18 +683,6 @@
 			</dependency>
 
 			<dependency>
-				<groupId>com.thoughtworks.xstream</groupId>
-				<artifactId>xstream</artifactId>
-				<version>1.3.1</version>
-			</dependency>
-
-			<dependency>
-				<groupId>xpp3</groupId>
-				<artifactId>xpp3_min</artifactId>
-				<version>1.1.3.4.O</version>
-			</dependency>
-
-			<dependency>
 				<groupId>org.jboss.el</groupId>
 				<artifactId>jboss-el</artifactId>
 				<version>1.0_02.CR6</version>
@@ -861,54 +731,12 @@
 			</dependency>
 
 
-			<dependency>
+<!--  			<dependency>
 				<groupId>jboss.jboss-aop</groupId>
 				<artifactId>jboss-aop</artifactId>
 				<version>1.5.0.GA</version>
 			</dependency>
-
-			<dependency>
-				<groupId>org.jboss</groupId>
-				<artifactId>jboss-vfs</artifactId>
-				<version>2.0.0.Beta11</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.jboss</groupId>
-						<artifactId>jboss-common-core</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-			<dependency>
-				<groupId>jboss</groupId>
-				<artifactId>jboss-common-logging-spi</artifactId>
-				<version>2.0.4.GA</version>
-			</dependency>
-
-			<dependency>
-				<groupId>jboss</groupId>
-				<artifactId>jboss-common-core</artifactId>
-				<version>2.0.4.GA</version>
-				<exclusions>
-					<exclusion>
-						<groupId>apache-xerces</groupId>
-						<artifactId>xml-apis</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>apache-httpclient</groupId>
-						<artifactId>commons-httpclient</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>apache-slide</groupId>
-						<artifactId>webdavlib</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>jboss</groupId>
-						<artifactId>jboss-common-logging-spi</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
+-->
 			<dependency>
 				<groupId>com.adobe.blazeds</groupId>
 				<artifactId>blazeds-common</artifactId>
@@ -992,17 +820,6 @@
 				<artifactId>openid4java-consumer</artifactId>
 				<version>0.9.6</version>
 				<type>pom</type>
-				<exclusions>
-					<exclusion>
-						<groupId>log4j</groupId>
-						<artifactId>log4j</artifactId>
-					</exclusion>
-
-					<exclusion>
-						<groupId>xerces</groupId>
-						<artifactId>xercesImpl</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 			
 			<dependency>
@@ -1028,7 +845,6 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-
 
 			<dependency>
 				<groupId>org.beanshell</groupId>
@@ -1163,7 +979,7 @@
 			</dependency>
 
 			<dependency>
-				<groupId>oswego-concurrent</groupId>
+				<groupId>concurrent</groupId>
 				<artifactId>concurrent</artifactId>
 				<version>1.3.4</version>
 			</dependency>
@@ -1307,13 +1123,7 @@
 				<artifactId>functional-tests</artifactId>
 				<version>${project.version}</version>
 				<scope>test</scope>
-			</dependency>
-			
-			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>jstl</artifactId>
-				<version>1.1.2</version>
-			</dependency>
+			</dependency>			
 			
 			<dependency>
 				<groupId>commons-digester</groupId>
@@ -1331,43 +1141,7 @@
 				<groupId>commons-fileupload</groupId>
 				<artifactId>commons-fileupload</artifactId>
 				<version>1.2.1</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>commons-logging</groupId>
-				<artifactId>commons-logging-api</artifactId>
-				<version>1.1</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.icefaces</groupId>
-				<artifactId>icefaces</artifactId>
-				<version>1.8.2</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.icefaces</groupId>
-				<artifactId>icefaces-comps</artifactId>
-				<version>1.8.2</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.icefaces</groupId>
-				<artifactId>icefaces-facelets</artifactId>
-				<version>1.8.2</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.apache.myfaces.trinidad</groupId>
-				<artifactId>trinidad-api</artifactId>
-				<version>1.2.5</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.myfaces.trinidad</groupId>
-				<artifactId>trinidad-impl</artifactId>
-				<version>1.2.5</version>
-			</dependency>
+			</dependency>			
 
 			<dependency>
 				<groupId>org.codehaus.jettison</groupId>
@@ -1379,45 +1153,13 @@
 						<artifactId>stax-api</artifactId>
 					</exclusion>
 				</exclusions>
-			</dependency>
-
-			<dependency>
-				<groupId>org.metawidget</groupId>
-				<artifactId>metawidget-backend</artifactId>
-				<version>0.95</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.metawidget</groupId>
-				<artifactId>metawidget-frontend</artifactId>
-				<version>0.95</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.metawidget</groupId>
-				<artifactId>metawidget</artifactId>
-				<version>0.95</version>
-			</dependency>
-
-			<dependency>
-				<groupId>com.sun.faces</groupId>
-				<artifactId>jsf-api</artifactId>
-				<version>${version.jsf2}</version>
-			</dependency>
+			</dependency>			
 
 			<dependency>
 				<groupId>com.sun.faces</groupId>
 				<artifactId>jsf-impl</artifactId>
 				<version>${version.jsf2}</version>
 			</dependency>			   
-			
-			<dependency>
-				<groupId>org.jboss.spec</groupId>
-				<artifactId>jboss-javaee-6.0</artifactId>
-				<version>1.0.0.Final</version>
-				<type>pom</type>
-				<scope>provided</scope>
-			</dependency>
 
 			<dependency>
 				<groupId>org.jboss.as</groupId>

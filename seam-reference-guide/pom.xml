@@ -6,9 +6,8 @@
 		<version>2.3.0.Beta2-SNAPSHOT</version>
 		<relativePath>../jboss-seam-parent/pom.xml</relativePath>
 	</parent>
-	<groupId>org.jboss.seam</groupId>
+	
 	<artifactId>seam-reference-guide</artifactId>
-	<version>2.3.0.Beta2-SNAPSHOT</version>
 	<name>Seam Reference Guide</name>
 	<packaging>jar</packaging>
 

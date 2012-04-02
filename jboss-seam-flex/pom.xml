@@ -6,7 +6,7 @@
 		<relativePath>../jboss-seam-parent/pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.jboss.seam</groupId>
+
 	<artifactId>jboss-seam-flex</artifactId>
 	<name>Seam Flex</name>
 
@@ -35,14 +35,14 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
+			<groupId>org.jboss.spec.javax.servlet</groupId>
+			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>javax.el</groupId>
-			<artifactId>el-api</artifactId>
+			<groupId>org.jboss.spec.javax.el</groupId>
+			<artifactId>jboss-el-api_2.2_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
 

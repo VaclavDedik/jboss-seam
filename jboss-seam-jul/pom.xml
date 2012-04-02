@@ -6,7 +6,7 @@
 		<version>2.3.0.Beta2-SNAPSHOT</version>
 		<relativePath>../jboss-seam-parent/pom.xml</relativePath>
 	</parent>
-	<groupId>org.jboss.seam</groupId>
+
 	<artifactId>jboss-seam-jul</artifactId>
 	<name>Seam JUL</name>
 

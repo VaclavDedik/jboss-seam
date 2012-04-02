@@ -7,9 +7,14 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Map;
 
+import javax.persistence.Cache;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnitUtil;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.metamodel.Metamodel;
 
+import org.hibernate.id.SequenceIdentityGenerator.Delegate;
 import org.jboss.seam.Component;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -146,5 +151,35 @@ public class SeamManagedEntityManagerFactory implements EntityManagerFactory, Se
             throw ex.getTargetException();
          }
       }
+   }
+
+   public CriteriaBuilder getCriteriaBuilder()
+   {
+      // TODO Auto-generated method stub
+      return null;
+   }
+
+   public Metamodel getMetamodel()
+   {
+      // TODO Auto-generated method stub
+      return null;
+   }
+
+   public Map<String, Object> getProperties()
+   {
+      // TODO Auto-generated method stub
+      return null;
+   }
+
+   public Cache getCache()
+   {
+      // TODO Auto-generated method stub
+      return null;
+   }
+
+   public PersistenceUnitUtil getPersistenceUnitUtil()
+   {
+      // TODO Auto-generated method stub
+      return null;
    }
 }

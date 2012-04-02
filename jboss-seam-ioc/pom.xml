@@ -6,7 +6,7 @@
 		<relativePath>../jboss-seam-parent/pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.jboss.seam</groupId>
+
 	<artifactId>jboss-seam-ioc</artifactId>
 	<name>Seam IoC</name>
 
@@ -30,15 +30,15 @@
 		</dependency>
 
 		<dependency>
-			<groupId>javax.el</groupId>
-			<artifactId>el-api</artifactId>
+			<groupId>org.jboss.spec.javax.el</groupId>
+			<artifactId>jboss-el-api_2.2_spec</artifactId>
 			<optional>true</optional>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>javax.transaction</groupId>
-			<artifactId>jta</artifactId>
+			<groupId>org.jboss.spec.javax.transaction</groupId>
+			<artifactId>jboss-transaction-api_1.1_spec</artifactId>
 			<optional>true</optional>
 			<scope>provided</scope>
 		</dependency>
@@ -56,8 +56,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>javax.persistence</groupId>
-			<artifactId>persistence-api</artifactId>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
 			<optional>true</optional>
 			<scope>provided</scope>
 		</dependency>
@@ -69,15 +69,15 @@
 		</dependency>
 
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
+			<groupId>org.jboss.spec.javax.servlet</groupId>
+			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>jboss</groupId>
-			<artifactId>jboss-jmx</artifactId>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>jboss</groupId> -->
+<!-- 			<artifactId>jboss-jmx</artifactId> -->
+<!-- 		</dependency> -->
 
 	</dependencies>
 

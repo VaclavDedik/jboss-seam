@@ -8,11 +8,11 @@
 	</parent>
 	<artifactId>jboss-seam-ui</artifactId>
 	<name>Seam UI JSF2 support</name>
-
+    
     <properties>
         <version.richfaces>3.3.3.Final</version.richfaces>
     </properties>
-    
+	
 	<build>
 <!-- 		<finalName>jboss-seam-ui</finalName> -->
 		<plugins>
@@ -51,15 +51,15 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
+			<groupId>org.jboss.spec.javax.servlet</groupId>
+			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
 			<optional>true</optional>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>jsp-api</artifactId>
+			<groupId>org.jboss.spec.javax.servlet.jsp</groupId>
+			<artifactId>jboss-jsp-api_2.2_spec</artifactId>
 			<optional>true</optional>
 			<scope>provided</scope>
 		</dependency>
@@ -103,17 +103,15 @@
 		</dependency>
 
         <dependency>
-          <groupId>com.sun.faces</groupId>
-          <artifactId>jsf-api</artifactId>
+          <groupId>org.jboss.spec.javax.faces</groupId>
+          <artifactId>jboss-jsf-api_2.0_spec</artifactId>
           <scope>provided</scope>
-<!--          <version>2.1.5</version> -->
         </dependency>
         		
 		<dependency>
 		  <groupId>com.sun.faces</groupId>
 		  <artifactId>jsf-impl</artifactId>
 		  <scope>provided</scope>
-<!--		  <version>2.1.5</version> -->
 		</dependency>
 
 
@@ -132,12 +130,13 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
+			<scope>provided</scope>
 			<optional>true</optional>
 		</dependency>
 
 		<dependency>
-			<groupId>javax.el</groupId>
-			<artifactId>el-api</artifactId>
+			<groupId>org.jboss.spec.javax.el</groupId>
+			<artifactId>jboss-el-api_2.2_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
@@ -146,21 +145,10 @@
 			<artifactId>commons-beanutils</artifactId>
 		</dependency>
 
-<!--  This prepared RF dependencies for Full suport of Richfaces 4.x with CDK templating -->
-<!--         <dependency> -->
-<!--             <groupId>org.richfaces.core</groupId> -->
-<!--             <artifactId>richfaces-core-api</artifactId> -->
-<!--             <optional>true</optional>             -->
-<!--         </dependency> -->
-<!--         <dependency> -->
-<!--             <groupId>org.richfaces.core</groupId> -->
-<!--             <artifactId>richfaces-core-impl</artifactId> -->
-<!--             <optional>true</optional>             -->
-<!--         </dependency> -->
-        
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
+			<scope>provided</scope>
 			<optional>true</optional>
 		</dependency>
 

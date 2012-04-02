@@ -15,10 +15,12 @@ import org.hibernate.Criteria;
 import org.hibernate.Filter;
 import org.hibernate.FlushMode;
 import org.hibernate.HibernateException;
+import org.hibernate.IdentifierLoadAccess;
 import org.hibernate.Interceptor;
 import org.hibernate.LobHelper;
 import org.hibernate.LockMode;
 import org.hibernate.LockOptions;
+import org.hibernate.NaturalIdLoadAccess;
 import org.hibernate.Query;
 import org.hibernate.ReplicationMode;
 import org.hibernate.SQLQuery;
@@ -27,6 +29,7 @@ import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.SharedSessionBuilder;
+import org.hibernate.SimpleNaturalIdLoadAccess;
 import org.hibernate.Transaction;
 import org.hibernate.TypeHelper;
 import org.hibernate.cache.spi.CacheKey;
@@ -810,6 +813,36 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
    public LobHelper getLobHelper()
    {
       return ((EventSource) delegate).getLobHelper();
+   }
+
+   public IdentifierLoadAccess byId(String entityName)
+   {
+      return delegate.byId(entityName);
+   }
+
+   public IdentifierLoadAccess byId(Class entityClass)
+   {
+      return delegate.byId(entityClass);
+   }
+
+   public NaturalIdLoadAccess byNaturalId(String entityName)
+   {
+      return delegate.byNaturalId(entityName);
+   }
+
+   public NaturalIdLoadAccess byNaturalId(Class entityClass)
+   {
+      return delegate.byNaturalId(entityClass);
+   }
+
+   public SimpleNaturalIdLoadAccess bySimpleNaturalId(String entityName)
+   {
+      return delegate.bySimpleNaturalId(entityName);
+   }
+
+   public SimpleNaturalIdLoadAccess bySimpleNaturalId(Class entityClass)
+   {
+      return delegate.bySimpleNaturalId(entityClass);
    }
 
 }

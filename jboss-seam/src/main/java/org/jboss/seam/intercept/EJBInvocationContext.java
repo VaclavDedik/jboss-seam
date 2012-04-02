@@ -48,4 +48,10 @@ class EJBInvocationContext implements InvocationContext, javax.interceptor.Invoc
    {
       context.setParameters(params);
    }
+
+   @Override
+   public Object getTimer()
+   {
+      return context.getTimer();
+   }
 }

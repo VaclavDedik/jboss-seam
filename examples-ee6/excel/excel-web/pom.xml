@@ -29,6 +29,11 @@
             <groupId>org.jboss.seam</groupId>
             <artifactId>jboss-seam</artifactId>
             <type>ejb</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>jboss-seam-excel</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>
@@ -52,19 +57,13 @@
         </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>
-            <artifactId>jboss-seam-excel</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.seam</groupId>
             <artifactId>jboss-seam-debug</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.richfaces.ui</groupId>
-            <artifactId>richfaces-components-ui</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.richfaces.core</groupId>
-            <artifactId>richfaces-core-impl</artifactId>
+            <exclusions>
+            	<exclusion>
+            		<artifactId>jboss-jsf-api_2.0_spec</artifactId>
+            		<groupId>org.jboss.spec.javax.faces</groupId>
+            	</exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

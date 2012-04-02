@@ -85,26 +85,17 @@
 
 		<!-- Maven's "nearest" dependency resolution doesn't take into account 
 			parent dependency management! -->
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<optional>true</optional>
-		</dependency>
 
-		<dependency>
-			<groupId>commons-collections</groupId>
-			<artifactId>commons-collections</artifactId>
-			<optional>true</optional>
-		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-search</artifactId>
+			<artifactId>hibernate-search-orm</artifactId>
 			<optional>true</optional>
 		</dependency>
 
@@ -132,12 +123,14 @@
 			<optional>true</optional>
 		</dependency>
 
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
+        <dependency>
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_3.0_spec</artifactId>
 			<optional>true</optional>
 			<scope>provided</scope>
 		</dependency>
+		
+		
 
 		<dependency>
 			<groupId>javax.mail</groupId>
@@ -153,25 +146,26 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>javax.jws</groupId>
-			<artifactId>jsr181-api</artifactId>
-			<scope>provided</scope>
-			<optional>true</optional>
-		</dependency>
 
 		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>jsp-api</artifactId>
+			<groupId>org.jboss.spec.javax.servlet.jsp</groupId>
+			<artifactId>jboss-jsp-api_2.2_spec</artifactId>
 			<optional>true</optional>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>javax.ejb</groupId>
-			<artifactId>ejb-api</artifactId>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
 			<optional>true</optional>
 			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+            <groupId>org.jboss.spec.javax.interceptor</groupId>
+            <artifactId>jboss-interceptors-api_1.1_spec</artifactId>
+            <optional>true</optional>
+            <scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -181,9 +175,9 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>javax.jms</groupId>
-			<artifactId>jms</artifactId>
+        <dependency>
+            <groupId>org.jboss.spec.javax.jms</groupId>
+            <artifactId>jboss-jms-api_1.1_spec</artifactId>
 			<optional>true</optional>
 			<scope>provided</scope>
 		</dependency>
@@ -195,12 +189,6 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>javax.transaction</groupId>
-			<artifactId>jta</artifactId>
-			<optional>true</optional>
-			<scope>provided</scope>
-		</dependency>
 
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
@@ -214,11 +202,6 @@
 			<optional>true</optional>
 		</dependency>
 
-		<dependency>
-			<groupId>javax.el</groupId>
-			<artifactId>el-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
 
 
 		<dependency>
@@ -227,11 +210,6 @@
 			<optional>true</optional>
 		</dependency>
 
-		<dependency>
-			<groupId>org.apache.ant</groupId>
-			<artifactId>ant-antlr</artifactId>
-			<optional>true</optional>
-		</dependency>
 
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
@@ -256,11 +234,6 @@
 
 
 		<!-- This is actually a dep of jboss-cache, but it doesn't declare it -->
-		<dependency>
-			<groupId>jboss</groupId>
-			<artifactId>jboss-system</artifactId>
-			<optional>true</optional>
-		</dependency>
 
 		<!-- This is actually a dep of jboss-cache, but it doesn't declare it -->
 		<dependency>
@@ -268,6 +241,12 @@
 			<artifactId>jboss-jmx</artifactId>
 			<optional>true</optional>
 		</dependency>
+		
+        <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-system</artifactId>
+            <optional>true</optional>            
+        </dependency>		
 
 		<!-- This is actually a dep of jboss-cache, but it doesn't declare it -->
 		<dependency>
@@ -307,15 +286,7 @@
 			</exclusions>
 		</dependency>
 
-		<dependency>
-			<groupId>com.thoughtworks.xstream</groupId>
-			<artifactId>xstream</artifactId>
-		</dependency>
 
-		<dependency>
-			<groupId>xpp3</groupId>
-			<artifactId>xpp3_min</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>net.sourceforge.jexcelapi</groupId>
@@ -377,7 +348,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>oswego-concurrent</groupId>
+			<groupId>concurrent</groupId>
 			<artifactId>concurrent</artifactId>
 			<optional>true</optional>
 		</dependency>
@@ -388,17 +359,7 @@
 			<optional>true</optional>
 		</dependency>
 
-		<dependency>
-			<groupId>org.jboss</groupId>
-			<artifactId>jboss-vfs</artifactId>
-			<optional>true</optional>
-		</dependency>
 
-		<dependency>
-			<groupId>jboss</groupId>
-			<artifactId>jboss-common-core</artifactId>
-			<optional>true</optional>
-		</dependency>
 
 		<dependency>
 			<groupId>org.openid4java</groupId>
@@ -407,22 +368,23 @@
 			<optional>true</optional>
 		</dependency>
 
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<scope>test</scope>
-			<version>1.6.1</version>
-		</dependency>
 		
 		<dependency>
-			<groupId>com.sun.faces</groupId>
-			<artifactId>jsf-api</artifactId>
+            <groupId>org.jboss.spec.javax.faces</groupId>
+            <artifactId>jboss-jsf-api_2.0_spec</artifactId>
+            <scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-impl</artifactId>
 			<optional>true</optional>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 

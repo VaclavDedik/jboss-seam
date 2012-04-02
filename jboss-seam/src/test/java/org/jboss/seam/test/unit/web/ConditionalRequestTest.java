@@ -117,7 +117,7 @@ public class ConditionalRequestTest
       resource.getResource(request, response);
 
       assertEquals(response.getStatus(), HttpServletResponse.SC_NOT_MODIFIED);
-      assertEquals(response.getHeader(ConditionalAbstractResource.HEADER_LAST_MODIFIED), currentTime);
+      assertEquals(response.getHeader(ConditionalAbstractResource.HEADER_LAST_MODIFIED), currentTime.toString());
 
    }
 
@@ -151,7 +151,7 @@ public class ConditionalRequestTest
       resource.getResource(request, response);
 
       assertEquals(response.getStatus(), HttpServletResponse.SC_OK);
-      assertEquals(response.getHeader(ConditionalAbstractResource.HEADER_LAST_MODIFIED), currentTime + 5000);
+      assertEquals(response.getHeader(ConditionalAbstractResource.HEADER_LAST_MODIFIED), currentTime + 5000 +"");
 
    }
 
@@ -186,7 +186,7 @@ public class ConditionalRequestTest
       resource.getResource(request, response);
 
       assertEquals(response.getStatus(), HttpServletResponse.SC_NOT_MODIFIED);
-      assertEquals(response.getHeader(ConditionalAbstractResource.HEADER_LAST_MODIFIED), currentTime);
+      assertEquals(response.getHeader(ConditionalAbstractResource.HEADER_LAST_MODIFIED), currentTime.toString());
       assertEquals(response.getHeader(ConditionalAbstractResource.HEADER_ETAG), "\"5678\"");
 
    }
@@ -222,7 +222,7 @@ public class ConditionalRequestTest
       resource.getResource(request, response);
 
       assertEquals(response.getStatus(), HttpServletResponse.SC_OK);
-      assertEquals(response.getHeader(ConditionalAbstractResource.HEADER_LAST_MODIFIED), currentTime + 5000);
+      assertEquals(response.getHeader(ConditionalAbstractResource.HEADER_LAST_MODIFIED), currentTime + 5000+"");
       assertEquals(response.getHeader(ConditionalAbstractResource.HEADER_ETAG), "\"5678\"");
 
    }

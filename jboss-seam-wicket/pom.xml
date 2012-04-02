@@ -7,7 +7,6 @@
 		<relativePath>../jboss-seam-parent/pom.xml</relativePath>
 	</parent>
 
-	<groupId>org.jboss.seam</groupId>
 	<artifactId>jboss-seam-wicket</artifactId>
 	<name>Seam Wicket</name>
 
@@ -60,8 +59,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
+			<groupId>org.jboss.spec.javax.servlet</groupId>
+			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
@@ -72,14 +71,14 @@
 		</dependency>
 
 		<dependency>
-			<groupId>javax.ejb</groupId>
-			<artifactId>ejb-api</artifactId>
+			<groupId>org.jboss.spec.javax.ejb</groupId>
+			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.apache.ant</groupId>
 			<artifactId>ant</artifactId>
-			<version>1.7.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>

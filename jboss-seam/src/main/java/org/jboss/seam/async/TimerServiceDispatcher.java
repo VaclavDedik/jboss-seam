@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.EJBException;
 import javax.ejb.NoSuchObjectLocalException;
+import javax.ejb.ScheduleExpression;
 import javax.ejb.Stateless;
 import javax.ejb.Timeout;
 import javax.ejb.Timer;
@@ -185,6 +186,24 @@ public class TimerServiceDispatcher
                      }
                  });  
         }
+
+      @Override
+      public ScheduleExpression getSchedule() throws IllegalStateException, NoSuchObjectLocalException, EJBException
+      {
+         return null;
+      }
+
+      @Override
+      public boolean isCalendarTimer() throws IllegalStateException, NoSuchObjectLocalException, EJBException
+      {
+         return false;
+      }
+
+      @Override
+      public boolean isPersistent() throws IllegalStateException, NoSuchObjectLocalException, EJBException
+      {
+         return false;
+      }
     }
 
     static class TimerHandleProxy

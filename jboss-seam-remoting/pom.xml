@@ -6,7 +6,7 @@
 		<relativePath>../jboss-seam-parent/pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.jboss.seam</groupId>
+	
 	<artifactId>jboss-seam-remoting</artifactId>
 	<name>Seam Remoting</name>
 	
@@ -50,14 +50,14 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
+			<groupId>org.jboss.spec.javax.servlet</groupId>
+			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
          <scope>provided</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>javax.jms</groupId>
-			<artifactId>jms</artifactId>
+			<groupId>org.jboss.spec.javax.jms</groupId>
+			<artifactId>jboss-jms-api_1.1_spec</artifactId>
 			<optional>true</optional>
             <scope>provided</scope>
 		</dependency>
@@ -68,17 +68,20 @@
 			<classifier>jdk15</classifier>
 			<scope>test</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>javassist</groupId>
 			<artifactId>javassist</artifactId>
 			<type>jar</type>
 		</dependency>
+		
 		<dependency>
-			<groupId>javax.persistence</groupId>
-			<artifactId>persistence-api</artifactId>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
+		
 		<dependency>
             <groupId>org.jboss.el</groupId>
             <artifactId>jboss-el</artifactId>

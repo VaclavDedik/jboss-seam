@@ -6,7 +6,7 @@
 		<version>2.3.0.Beta2-SNAPSHOT</version>
 		<relativePath>../jboss-seam-parent/pom.xml</relativePath>
 	</parent>
-	<groupId>org.jboss.seam</groupId>
+	
 	<artifactId>jboss-seam-mail</artifactId>
 	<name>Seam Mail</name>
 
@@ -22,8 +22,8 @@
 			<artifactId>jboss-seam-ui</artifactId>
 		</dependency>
         <dependency>
-            <groupId>com.sun.faces</groupId>
-            <artifactId>jsf-api</artifactId>
+            <groupId>org.jboss.spec.javax.faces</groupId>
+            <artifactId>jboss-jsf-api_2.0_spec</artifactId>
         </dependency>
 
 		<dependency>
@@ -49,8 +49,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>javax.el</groupId>
-			<artifactId>el-api</artifactId>
+			<groupId>org.jboss.spec.javax.el</groupId>
+			<artifactId>jboss-el-api_2.2_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
@@ -60,6 +60,7 @@
 			<classifier>jdk15</classifier>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-impl</artifactId>
