@@ -1,18 +1,45 @@
 //$Id: DroolsNumberGuessTest.java 6415 2007-10-07 22:27:57Z pmuir $
 package org.jboss.seam.example.numberguess.test;
 
+import java.io.File;
+
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.pageflow.Pageflow;
 import org.jboss.seam.example.numberguess.Game;
 import org.jboss.seam.example.numberguess.Guess;
 import org.jboss.seam.example.numberguess.RandomNumber;
-import org.jboss.seam.mock.SeamTest;
-import org.testng.annotations.Test;
+import org.jboss.seam.mock.JUnitSeamTest;
+import org.jboss.seam.pageflow.Pageflow;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.importer.ZipImporter;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class DroolsNumberGuessTest extends SeamTest
+@RunWith(Arquillian.class)
+public class DroolsNumberGuessTest extends JUnitSeamTest
 {
    
    private int guessedValue;
+   
+   
+   @Deployment(name="RenderTest")
+   @OverProtocol("Servlet 3.0")
+   public static Archive<?> createDeployment()
+   {
+       EnterpriseArchive er = ShrinkWrap.create(ZipImporter.class, "seam-drools.ear").importFrom(new File("../drools-ear/target/seam-drools.ear"))
+           .as(EnterpriseArchive.class);
+       WebArchive web = er.getAsType(WebArchive.class, "drools-web.war");
+       web.addAsWebInfResource(new StringAsset("org.jboss.seam.mock.MockFacesContextFactory"), "classes/META-INF/services/javax.faces.context.FacesContextFactory");
+       web.addClasses(DroolsNumberGuessTest.class);
+
+       return er;
+   }
    
    @Test
    public void testNumberGuessWin() throws Exception
