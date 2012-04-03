@@ -5,7 +5,9 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
+import org.junit.Ignore;
 
+@Ignore
 public class LoginTest extends SeamTest
 {
    

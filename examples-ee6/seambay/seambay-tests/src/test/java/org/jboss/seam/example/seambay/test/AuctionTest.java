@@ -9,7 +9,9 @@ import org.jboss.seam.example.seambay.Auction;
 import org.jboss.seam.example.seambay.Category;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
+import org.junit.Ignore;
 
+@Ignore
 public class AuctionTest extends SeamTest
 {
    @Test

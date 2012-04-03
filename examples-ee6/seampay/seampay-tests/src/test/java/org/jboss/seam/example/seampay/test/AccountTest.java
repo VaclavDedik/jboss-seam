@@ -8,10 +8,11 @@ import org.jboss.seam.example.seampay.Payment;
 import org.jboss.seam.example.seampay.Payment.Frequency;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
-
+import org.junit.Ignore;
 /**
  *  embedded ejb3 doesn't support timer service, so we are fairly limited on what we can test.
  */
+@Ignore
 public class AccountTest 
     extends SeamTest 
 {

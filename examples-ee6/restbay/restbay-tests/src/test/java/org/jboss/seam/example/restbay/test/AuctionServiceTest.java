@@ -5,6 +5,7 @@ import org.jboss.seam.mock.SeamTest;
 import org.jboss.seam.mock.ResourceRequestEnvironment;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.junit.Ignore;
 
 import static org.jboss.seam.mock.ResourceRequestEnvironment.Method;
 import static org.jboss.seam.mock.ResourceRequestEnvironment.ResourceRequest;
@@ -12,6 +13,7 @@ import static org.jboss.seam.mock.ResourceRequestEnvironment.ResourceRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+@Ignore
 public class AuctionServiceTest extends SeamTest
 {
 

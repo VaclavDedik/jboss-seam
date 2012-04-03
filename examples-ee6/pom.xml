@@ -240,6 +240,7 @@
                                         <!-- exclude selenium tests -->
                                         <excludes>
                                             <exclude>**/selenium/*</exclude>
+                                            <exclude>**/webdriver/*</exclude>
                                         </excludes>
                                         <systemProperties>
                                             <!-- used by the jbossas-managed-7 profile in arquillian.xml for the jbossHome property-->

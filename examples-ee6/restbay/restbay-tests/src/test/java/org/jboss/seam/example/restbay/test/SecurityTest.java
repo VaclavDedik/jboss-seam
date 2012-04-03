@@ -10,6 +10,7 @@ import static org.jboss.seam.mock.ResourceRequestEnvironment.Method;
 import static org.jboss.seam.mock.ResourceRequestEnvironment.ResourceRequest;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
+import org.junit.Ignore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +20,7 @@ import java.util.Map;
  *
  * @author Jozef Hartinger
  */
+@Ignore
 public class SecurityTest extends SeamTest
 {
 

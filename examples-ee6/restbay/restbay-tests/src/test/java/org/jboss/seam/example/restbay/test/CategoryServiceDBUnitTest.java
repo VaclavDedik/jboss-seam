@@ -9,6 +9,8 @@ import org.jboss.seam.mock.ResourceRequestEnvironment;
 import org.jboss.seam.mock.EnhancedMockHttpServletRequest;
 import org.jboss.seam.mock.EnhancedMockHttpServletResponse;
 
+import org.junit.Ignore;
+
 import static org.jboss.seam.mock.ResourceRequestEnvironment.ResourceRequest;
 import static org.jboss.seam.mock.ResourceRequestEnvironment.Method;
 
@@ -18,6 +20,7 @@ import java.util.HashMap;
 /**
  *
  */
+@Ignore
 public class CategoryServiceDBUnitTest extends DBUnitSeamTest
 {
 

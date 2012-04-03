@@ -10,12 +10,14 @@ import org.jboss.seam.mock.SeamTest;
 import org.jboss.seam.mock.ResourceRequestEnvironment;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.junit.Ignore;
 
 /**
  * 
  * @author Jozef Hartinger
  * 
  */
+@Ignore
 public class ResourceQueryTest extends SeamTest
 {
 

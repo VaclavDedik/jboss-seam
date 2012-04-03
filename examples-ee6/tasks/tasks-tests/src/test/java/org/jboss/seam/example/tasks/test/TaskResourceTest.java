@@ -31,12 +31,14 @@ import org.jboss.seam.mock.EnhancedMockHttpServletRequest;
 import org.jboss.seam.mock.EnhancedMockHttpServletResponse;
 import org.jboss.seam.mock.ResourceRequestEnvironment;
 import org.testng.annotations.Test;
+import org.junit.Ignore;
 
 /**
  * Test class for TaskResourceHome and TaskResourceQuery components.
  * @author Jozef Hartinger
  *
  */
+@Ignore
 public class TaskResourceTest extends SeamTest
 {
    @Test

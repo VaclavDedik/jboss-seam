@@ -10,11 +10,13 @@ import org.jboss.seam.mock.ResourceRequestEnvironment.Method;
 import org.jboss.seam.mock.ResourceRequestEnvironment.ResourceRequest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.junit.Ignore;
 
 /**
  *
  * @author Jozef Hartinger
  */
+@Ignore
 public class ContextDataTest extends SeamTest
 {
    @DataProvider(name = "contextDataTypes")

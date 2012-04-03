@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.BeforeClass;
 import static org.testng.Assert.assertEquals;
+import org.junit.Ignore;
 
 import javax.servlet.http.Cookie;
 import javax.ws.rs.core.MediaType;
@@ -68,6 +69,7 @@ import java.util.HashMap;
  * </pre>
  *
  */
+@Ignore
 public class BasicServiceTest extends SeamTest
 {
 

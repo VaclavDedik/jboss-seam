@@ -32,12 +32,14 @@ import org.jboss.seam.mock.EnhancedMockHttpServletResponse;
 import org.jboss.seam.mock.ResourceRequestEnvironment;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.junit.Ignore;
 
 /**
  * Test class for /category part of API
  * @author Jozef Hartinger
  *
  */
+@Ignore
 public class CategoryResourceTest extends SeamTest
 {
    @DataProvider(name = "query")

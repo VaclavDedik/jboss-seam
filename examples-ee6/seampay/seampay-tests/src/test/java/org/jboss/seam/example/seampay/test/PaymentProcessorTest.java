@@ -9,7 +9,9 @@ import org.jboss.seam.example.seampay.PaymentProcessor;
 import org.jboss.seam.example.seampay.Payment.Frequency;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
+import org.junit.Ignore;
 
+@Ignore
 public class PaymentProcessorTest 
     extends SeamTest
 {

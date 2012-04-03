@@ -18,7 +18,9 @@ import org.jboss.seam.example.booking.HotelBooking;
 import org.jboss.seam.example.booking.User;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
+import org.junit.Ignore;
 
+@Ignore
 public class BookingTest extends SeamTest
 {
    

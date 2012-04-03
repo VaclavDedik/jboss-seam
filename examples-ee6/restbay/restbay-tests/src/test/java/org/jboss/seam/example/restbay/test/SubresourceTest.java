@@ -9,7 +9,9 @@ import org.jboss.seam.mock.SeamTest;
 import org.jboss.seam.mock.ResourceRequestEnvironment.Method;
 import org.jboss.seam.mock.ResourceRequestEnvironment.ResourceRequest;
 import org.testng.annotations.Test;
+import org.junit.Ignore;
 
+@Ignore
 public class SubresourceTest extends SeamTest
 {
    @Test

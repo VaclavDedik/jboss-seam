@@ -6,7 +6,9 @@ import org.jboss.seam.core.Manager;
 import org.jboss.seam.example.booking.User;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
+import org.junit.Ignore;
 
+@Ignore
 public class ChangePasswordTest extends SeamTest
 {
    

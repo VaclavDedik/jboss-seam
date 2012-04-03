@@ -2,7 +2,9 @@ package org.jboss.seam.example.seamspace.test;
 
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
+import org.junit.Ignore;
 
+@Ignore
 public class BlogTest extends SeamTest
 {   
    @Test

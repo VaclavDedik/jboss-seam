@@ -33,12 +33,14 @@ import org.jboss.seam.mock.ResourceRequestEnvironment;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.junit.Ignore;
 
 /**
  * Test class for /user/{username}/tasks/resolved part of API.
  * @author Jozef Hartinger
  *
  */
+@Ignore
 public class ResolvedTaskResourceQueryTest extends SeamTest
 {
 

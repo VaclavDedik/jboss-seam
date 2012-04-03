@@ -8,6 +8,7 @@ import org.jboss.seam.mock.SeamTest;
 import org.jboss.seam.mock.ResourceRequestEnvironment;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.junit.Ignore;
 
 import static org.testng.Assert.assertEquals;
 
@@ -16,6 +17,7 @@ import static org.testng.Assert.assertEquals;
  * @author Jozef Hartinger
  * 
  */
+@Ignore
 public class ResourceHomeTest extends SeamTest
 {
 
