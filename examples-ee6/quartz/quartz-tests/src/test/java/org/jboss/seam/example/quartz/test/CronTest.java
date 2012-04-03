@@ -10,12 +10,13 @@ import org.jboss.seam.example.quartz.Payment;
 import org.jboss.seam.example.quartz.Payment.Frequency;
 import org.jboss.seam.mock.DBUnitSeamTest;
 import org.testng.annotations.Test;
+import org.junit.Ignore;
 
 /**
  * @author Pete Muir
  * 
  */
-
+@Ignore
 public class CronTest  extends DBUnitSeamTest 
 {
     private QuartzTriggerHandle quartzTriggerHandle;

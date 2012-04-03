@@ -19,6 +19,7 @@ import org.jboss.seam.async.QuartzTriggerHandle;
 import org.jboss.seam.example.quartz.Payment;
 import org.jboss.seam.example.quartz.PaymentProcessor;
 import org.jboss.seam.log.Log;
+import org.junit.Ignore;
 
 /**
  * @author Pete Muir
@@ -27,6 +28,7 @@ import org.jboss.seam.log.Log;
 @Name("processor")
 @Install(precedence=MOCK)
 @AutoCreate
+@Ignore
 public class TestPaymentProcessor extends PaymentProcessor
 {
     

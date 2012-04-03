@@ -8,6 +8,7 @@ import org.jboss.seam.example.quartz.Account;
 import org.jboss.seam.example.quartz.Payment;
 import org.jboss.seam.mock.DBUnitSeamTest;
 import org.testng.annotations.Test;
+import org.junit.Ignore;
 
 /**
  * 
@@ -17,6 +18,7 @@ import org.testng.annotations.Test;
 
 // Actually this doesn't happen in the example, but lets test it here to keep
 // all quartz tests in one place
+@Ignore
 public class AsynchronousTest extends DBUnitSeamTest 
 {
     
