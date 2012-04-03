@@ -1,0 +1,9 @@
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.0">
+  <deployment>
+  	  <dependencies>
+          <module name="org.dom4j" export="true"/>
+          <module name="org.apache.commons.collections" export="true"/>
+	      <module name="javax.faces.api" export="true"/>
+	    </dependencies>
+  </deployment>  
+</jboss-deployment-structure> 
