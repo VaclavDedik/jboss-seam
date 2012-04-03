@@ -32,6 +32,7 @@
         <module>remoting/helloworld</module>
         <module>remoting/progressbar</module>
         <module>restbay</module>
+        <module>rss</module>
         <module>seambay</module>
         <module>seampay</module>
         <module>seamspace</module>
@@ -243,6 +244,7 @@
                                         <excludes>
                                             <exclude>**/selenium/*</exclude>
                                             <exclude>**/webdriver/*</exclude>
+                                            <exclude>**/xml/*</exclude>
                                         </excludes>
                                         <systemProperties>
                                             <!-- used by the jbossas-managed-7 profile in arquillian.xml for the jbossHome property-->
