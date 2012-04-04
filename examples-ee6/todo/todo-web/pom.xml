@@ -15,7 +15,7 @@
     
     <properties>
         <!-- filtering property for components.xml -->
-        <jndiPattern>seam-todo/#{ejbName}/local</jndiPattern>
+        <jndiPattern>java:app/todo-ejb/#{ejbName}</jndiPattern>
     </properties>
     
     <dependencies>
