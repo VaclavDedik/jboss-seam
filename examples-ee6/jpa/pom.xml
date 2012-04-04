@@ -23,7 +23,7 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.jboss.seam.examples</groupId>
+                <groupId>org.jboss.seam.examples-ee6</groupId>
                 <artifactId>jpa-web</artifactId>
                 <version>${project.version}</version>
                 <type>war</type>

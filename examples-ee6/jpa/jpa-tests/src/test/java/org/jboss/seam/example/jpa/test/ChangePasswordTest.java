@@ -1,15 +1,32 @@
 //$Id: ChangePasswordTest.java 6505 2007-10-12 11:24:54Z pmuir $
 package org.jboss.seam.example.jpa.test;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.example.jpa.User;
+import org.jboss.seam.mock.JUnitSeamTest;
 import org.jboss.seam.mock.SeamTest;
-import org.testng.annotations.Test;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Test;
 
-public class ChangePasswordTest extends SeamTest
+public class ChangePasswordTest extends JUnitSeamTest
 {
-   
+
+   @Deployment(name="ChangePasswordTest")
+   @OverProtocol("Servlet 3.0")
+   public static Archive<?> createDeployment()
+   {
+      WebArchive er = Deployments.jpaDeployment();
+
+      er.addClasses(ChangePasswordTest.class);
+
+      return er;
+   }
+
    @Test
    public void testChangePassword() throws Exception
    {

@@ -14,10 +14,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
-import org.hibernate.validator.Length;
-import org.hibernate.validator.NotNull;
-import org.hibernate.validator.Pattern;
+import org.hibernate.validator.constraints.Length;
 import org.jboss.seam.annotations.Name;
 
 @Entity
@@ -109,8 +110,8 @@ public class Booking implements Serializable
    }
    
    @NotNull(message="Credit card number is required")
-   @Length(min=16, max=16, message="Credit card number must 16 digits long")
-   @Pattern(regex="^\\d*$", message="Credit card number must be numeric")
+   @Size(min=16, max=16, message="Credit card number must 16 digits long")
+   @Pattern(regexp="^\\d*$", message="Credit card number must be numeric")
    public String getCreditCard()
    {
       return creditCard;
@@ -150,7 +151,7 @@ public class Booking implements Serializable
       this.beds = beds;
    }
    @NotNull(message="Credit card name is required")
-   @Length(min=3, max=70, message="Credit card name is required")
+   @Size(min=3, max=70, message="Credit card name is required")
    public String getCreditCardName()
    {
       return creditCardName;

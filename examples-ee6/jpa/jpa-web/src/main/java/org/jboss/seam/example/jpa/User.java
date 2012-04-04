@@ -8,10 +8,10 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
-import org.hibernate.validator.Length;
-import org.hibernate.validator.NotNull;
-import org.hibernate.validator.Pattern;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 
@@ -35,7 +35,7 @@ public class User implements Serializable
    public User() {}
 
    @NotNull
-   @Length(max=100)
+   @Size(max=100)
    public String getName()
    {
       return name;
@@ -46,7 +46,7 @@ public class User implements Serializable
    }
    
    @NotNull
-   @Length(min=5, max=15)
+   @Size(min=5, max=15)
    public String getPassword()
    {
       return password;
@@ -57,8 +57,8 @@ public class User implements Serializable
    }
    
    @Id
-   @Length(min=5, max=15)
-   @Pattern(regex="^\\w*$", message="not a valid username")
+   @Size(min=5, max=15)
+   @Pattern(regexp="^\\w*$", message="not a valid username")
    public String getUsername()
    {
       return username;
