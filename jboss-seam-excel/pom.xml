@@ -26,6 +26,7 @@
         <dependency>
             <groupId>org.jboss.spec.javax.faces</groupId>
             <artifactId>jboss-jsf-api_2.0_spec</artifactId>
+            <scope>provided</scope>
         </dependency>
 		<dependency>
 			<groupId>net.sourceforge.jexcelapi</groupId>
