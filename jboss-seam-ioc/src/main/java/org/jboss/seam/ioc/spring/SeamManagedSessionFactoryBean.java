@@ -17,7 +17,6 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
-import org.springframework.orm.hibernate3.SessionFactoryUtils;
 import org.springframework.util.ClassUtils;
 
 /**
@@ -175,7 +174,7 @@ public class SeamManagedSessionFactoryBean extends AbstractFactoryBean
          {
             try
             {
-               return SessionFactoryUtils.doGetSession((SessionFactory) proxy, false);
+               return getSession();
             }
             catch (IllegalStateException ex)
             {

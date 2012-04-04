@@ -104,4 +104,9 @@ public class SeamScope
         }
         return bean;
     }
+
+   public Object resolveContextualObject(String key)
+   {
+      return null;
+   }
 }
