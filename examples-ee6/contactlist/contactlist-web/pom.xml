@@ -15,7 +15,7 @@
 
    <properties>
       <!-- filtering property for components.xml -->
-      <jndiPattern>seam-contactlist/#{ejbName}/local</jndiPattern>
+      <jndiPattern>java:app/contactlist-ejb/#{ejbName}</jndiPattern>
       <distributable>false</distributable>
    </properties>
 
