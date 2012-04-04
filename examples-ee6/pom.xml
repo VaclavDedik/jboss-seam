@@ -36,6 +36,7 @@
         <module>seambay</module>
         <module>seampay</module>
         <module>seamspace</module>
+        <module>spring</module>
         <module>tasks</module>
         <module>todo</module>
         <module>ui</module>
