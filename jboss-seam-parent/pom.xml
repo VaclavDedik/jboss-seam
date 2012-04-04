@@ -44,7 +44,7 @@
 		<version.drools>5.1.1</version.drools>
 		<version.testng>5.10</version.testng>
 		<version.resteasy>2.0.1.GA</version.resteasy>
-		<version.spring>2.5.6.SEC03</version.spring>
+		<version.spring>3.1.1.RELEASE</version.spring>
 		<version.jbossembedded>beta3.SP15</version.jbossembedded>
 		<version.jbossas7>7.1.1.Final</version.jbossas7>
 		<version.emma>2.0.5312</version.emma>
@@ -702,20 +702,68 @@
 
 			<dependency>
 				<groupId>org.springframework</groupId>
-				<artifactId>spring</artifactId>
+				<artifactId>spring-beans</artifactId>
 				<version>${version.spring}</version>
-				<exclusions>
-					<!-- Prevent the insanity which is commons-logging pom introducing dependencies 
-						on weird stuff -->
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>junit</groupId>
-						<artifactId>junit</artifactId>
-					</exclusion>
-				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
+				<version>${version.spring}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${version.spring}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${version.spring}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context-support</artifactId>
+				<version>${version.spring}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${version.spring}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${version.spring}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${version.spring}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jms</artifactId>
+				<version>${version.spring}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${version.spring}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${version.spring}</version>
 			</dependency>
 
 			<dependency>
