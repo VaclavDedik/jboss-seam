@@ -12,6 +12,7 @@ import javax.faces.model.ListDataModel;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.example.jpa.Booking;
@@ -25,6 +26,9 @@ import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 
+import org.junit.runner.RunWith;
+
+@RunWith(Arquillian.class)
 public class BookingTest extends JUnitSeamTest
 {
    @Deployment(name="BookingTest")

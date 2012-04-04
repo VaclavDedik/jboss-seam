@@ -9,7 +9,7 @@ import java.io.File;
 
 public class Deployments {
 	public static WebArchive jpaDeployment() {
-		return ShrinkWrap.create(ZipImporter.class, "jpa.war").importFrom(new File("../booking-ear/target/jpa.war"))
+		return ShrinkWrap.create(ZipImporter.class, "jboss-seam-jpa.war").importFrom(new File("../jpa-web/target/jboss-seam-jpa.war"))
 				.as(WebArchive.class);
 	}
 }

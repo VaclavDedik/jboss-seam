@@ -93,6 +93,12 @@
          <groupId>javassist</groupId>
          <artifactId>javassist</artifactId>
       </dependency>
+
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <scope>provided</scope>
+      </dependency>
    </dependencies>
 
    <build>
@@ -175,21 +181,10 @@
       <profile>
          <id>ftest-jbossas</id>
          <properties>
-            <example.context.path>seam-guice</example.context.path>
+            <example.context.path>jboss-seam-jpa</example.context.path>
          </properties>
          <build>
             <plugins>
-               <plugin>
-                  <groupId>org.codehaus.mojo</groupId>
-                  <artifactId>jboss-maven-plugin</artifactId>
-                  <configuration>
-                     <jbossHome>${jboss.home}</jbossHome>
-                     <serverName>${jboss.domain}</serverName>
-                     <fileNames>
-                        <param>${basedir}/../guice-ear/target/jpa-web.war</param>
-                     </fileNames>
-                  </configuration>
-               </plugin>
                <plugin>
                   <groupId>org.codehaus.mojo</groupId>
                   <artifactId>selenium-maven-plugin</artifactId>
@@ -208,7 +203,7 @@
       <profile>
          <id>ftest-tomcat</id>
          <properties>
-            <example.context.path>jboss-seam-guice</example.context.path>
+            <example.context.path>jboss-seam-jpa</example.context.path>
          </properties>
          <build>
             <plugins>
