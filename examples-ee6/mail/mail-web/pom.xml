@@ -15,7 +15,7 @@
     
     <properties>
         <!-- filtering property for components.xml -->
-        <jndiPattern>seam-mail/#{ejbName}/local</jndiPattern>
+        <jndiPattern>java:app/seam-mail/#{ejbName}</jndiPattern>
     </properties>
     
     <dependencies>
