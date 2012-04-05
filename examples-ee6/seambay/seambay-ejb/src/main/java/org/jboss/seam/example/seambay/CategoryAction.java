@@ -48,7 +48,7 @@ public class CategoryAction
    @WebRemote
    public List<Category> getAllCategories()
    {
-      allCategories = entityManager.createQuery("from Category").getResultList(); 
+      allCategories = entityManager.createQuery("from Category c order by c.categoryId").getResultList(); 
       return allCategories;
    }
    

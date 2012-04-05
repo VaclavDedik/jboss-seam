@@ -61,7 +61,7 @@ public class WebServicesTest extends AjaxWebDriverTest
    protected static final String SET_DURATION_RESPONSE_JBOSS_4 = "<setAuctionDurationResponse xmlns=\"http://seambay.example.seam.jboss.org/";
    protected static final String SET_STARTING_PRICE_RESPONSE_JBOSS_56 = "<ns2:setAuctionPriceResponse xmlns:ns2=\"http://seambay.example.seam.jboss.org/\"";
    protected static final String SET_STARTING_PRICE_RESPONSE_JBOSS_4 = "<setAuctionPriceResponse xmlns=\"http://seambay.example.seam.jboss.org/";
-   protected static final String AUCTION_DETAILS_PRICE_RESPONSE = "<ns2:getNewAuctionDetailsResponse xmlns:ns2=\"http://seambay.example.seam.jboss.org/\"><return><account><accountId>1</accountId><feedbackPercent>0.0</feedbackPercent><feedbackScore>0</feedbackScore><location>Sydney, NSW, Australia</location>";
+   protected static final String AUCTION_DETAILS_PRICE_RESPONSE = "<ns2:getNewAuctionDetailsResponse xmlns:ns2=\"http://seambay.example.seam.jboss.org/\"><return><account><accountId>-1</accountId><feedbackPercent>0.0</feedbackPercent><feedbackScore>0</feedbackScore><location>Sydney, NSW, Australia</location>";
    protected static final String LOGOUT_RESPONSE = "<ns2:logoutResponse xmlns:ns2=\"http://seambay.example.seam.jboss.org/\"><return>true</return></ns2:logoutResponse>";
    protected static final String CONFIRMATION_RESPONSE_JBOSS_56 = "<ns2:confirmAuctionResponse xmlns:ns2=\"http://seambay.example.seam.jboss.org/\"";
    protected static final String CONFIRMATION_RESPONSE_JBOSS_4 = "<confirmAuctionResponse xmlns=\"http://seambay.example.seam.jboss.org/\"";
