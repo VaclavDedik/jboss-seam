@@ -10,7 +10,7 @@
     
     <groupId>org.jboss.seam.examples-ee6.ui</groupId>
     <artifactId>ui-tests</artifactId>
-    <name>UI Integration Tests Module</name>      
+    <name>UI Integration Tests Module (EE6)</name>
     
     <dependencies>
         <dependency>
