@@ -21,6 +21,8 @@
         <module>drools</module>
 <!--        <module>dvdstore</module> -->
         <module>excel</module>
+        <module>groovybooking</module>
+        <module>jpa</module>
         <module>mail</module>
         <module>messages</module>
         <module>nestedbooking</module>
