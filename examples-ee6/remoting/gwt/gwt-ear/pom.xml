@@ -29,16 +29,6 @@
             <artifactId>jboss-seam</artifactId>
             <type>ejb</type>
             <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.thoughtworks.xstream</groupId>
-                    <artifactId>xstream</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>xpp3</groupId>
-                    <artifactId>xpp3_min</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>
@@ -76,6 +66,11 @@
                             <artifactId>gwt-ejb</artifactId>
                             <bundleFileName>gwt-ejb.jar</bundleFileName>
                         </ejbModule>
+                        <ejbModule>
+                            <groupId>org.jboss.seam</groupId>
+                            <artifactId>jboss-seam</artifactId>
+                            <bundleFileName>jboss-seam.jar</bundleFileName>
+                        </ejbModule> 
                     </modules>
                 </configuration>
             </plugin>
