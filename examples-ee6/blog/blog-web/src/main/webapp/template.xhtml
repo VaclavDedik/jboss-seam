@@ -9,7 +9,7 @@
       lang="en">
 
 <f:view>
-   <head>
+   <h:head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       <title>#{blog.name}</title>
       <link href="#{theme.css}" rel="stylesheet" type="text/css" /> 
@@ -18,9 +18,9 @@
             title="atom" 
             href="#{request.contextPath}/seam/index.xml" />
 
-   </head>
+   </h:head>
 
-   <body>
+   <h:body>
       <div id="menu">
          <ui:include src="menu.xhtml"/>
       </div>
@@ -35,7 +35,7 @@
             Total pageviews: #{blog.hitCount.pageviews}
          </div>
       </div>
-   </body>
+   </h:body>
 </f:view>
 
 </html>

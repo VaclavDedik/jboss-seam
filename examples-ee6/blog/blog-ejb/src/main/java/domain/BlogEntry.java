@@ -11,6 +11,7 @@ import org.hibernate.search.annotations.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -23,7 +24,7 @@ import java.util.Date;
  * @author Sanne Grinovero
  */
 @Entity
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 @Indexed
 @AnalyzerDefs({
         @AnalyzerDef(name = "en",
@@ -55,11 +56,11 @@ public class BlogEntry {
            @Field(name = "title:ngrams", analyzer = @Analyzer(definition = "ngrams"))})
    private String title;
 
-   @Size(max = 200)
+   @Size(max=1024)
    private String excerpt;
 
    @NotNull
-   @Size(max = 1400)
+   @Lob
    @Fields({
            @Field(name = "body:en", analyzer = @Analyzer(definition = "en")),
            @Field(name = "body:ngrams", analyzer = @Analyzer(definition = "ngrams"))})

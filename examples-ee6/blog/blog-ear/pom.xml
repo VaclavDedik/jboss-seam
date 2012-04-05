@@ -14,13 +14,6 @@
    <packaging>ear</packaging>
    <name>Blog EAR Module (EE6)</name>
 
-   <properties>
-      <jboss.home>${env.JBOSS_HOME}</jboss.home>
-      <jboss.domain>default</jboss.domain>
-      <jboss-cache.lib>jboss-cache-1.4.1.SP9.jar</jboss-cache.lib>
-      <jgroups.lib>jgroups-2.4.1.jar</jgroups.lib>
-   </properties>
-
    <dependencies>
       <dependency>
          <groupId>org.jboss.seam.examples-ee6</groupId>
@@ -48,24 +41,38 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-ear-plugin</artifactId>
+            <version>2.7</version>
             <configuration>
+               <version>6</version>
                <defaultLibBundleDir>lib</defaultLibBundleDir>
                <!-- Exclude eclipse generated application.xml and manually modified jboss-app.xml during mvn build  -->
                <earSourceExcludes>**/application.xml, **/jboss-app.xml</earSourceExcludes>
                <!-- use maven generated application.xml instead -->
                <generateApplicationXml>true</generateApplicationXml>
                <filtering>true</filtering>
+
+               <!-- Required as indexerService cannot be initialized before the blogEntityManagerFactory is available -->
+               <initializeInOrder>true</initializeInOrder>
+
                <modules>
+
+                  <ejbModule>
+                     <groupId>org.jboss.seam.examples-ee6</groupId>
+                     <artifactId>blog-ejb</artifactId>
+                     <bundleFileName>blog-ejb.jar</bundleFileName>
+                  </ejbModule>
+
                   <webModule>
                      <groupId>org.jboss.seam.examples-ee6</groupId>
                      <artifactId>blog-web</artifactId>
                      <contextRoot>/seam-blog</contextRoot>
                      <bundleFileName>blog-web.war</bundleFileName>
                   </webModule>
+
                   <ejbModule>
-                     <groupId>org.jboss.seam.examples-ee6</groupId>
-                     <artifactId>blog-ejb</artifactId>
-                     <bundleFileName>blog-ejb.jar</bundleFileName>
+                     <groupId>org.jboss.seam</groupId>
+                     <artifactId>jboss-seam</artifactId>
+                     <bundleFileName>jboss-seam.jar</bundleFileName>
                   </ejbModule>
                </modules>
             </configuration>

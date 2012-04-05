@@ -25,13 +25,14 @@
       <dependency>
          <groupId>org.jboss.seam.examples-ee6</groupId>
          <artifactId>blog-ejb</artifactId>
-         <version>${project.version}</version>
          <type>ejb</type>
+         <scope>provided</scope>
       </dependency>
       <dependency>
          <groupId>org.jboss.seam</groupId>
          <artifactId>jboss-seam</artifactId>
-         <version>${project.version}</version>
+         <type>ejb</type>
+         <scope>provided</scope>
       </dependency>
       <dependency>
          <groupId>org.jboss.seam</groupId>
@@ -72,10 +73,6 @@
          <groupId>org.jboss.spec.javax.faces</groupId>
          <artifactId>jboss-jsf-api_2.0_spec</artifactId>
          <scope>provided</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.hibernate</groupId>
-         <artifactId>hibernate-search</artifactId>
       </dependency>
    </dependencies>
 

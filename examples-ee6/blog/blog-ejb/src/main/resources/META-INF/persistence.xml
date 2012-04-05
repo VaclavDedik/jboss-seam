@@ -9,13 +9,14 @@
       <properties>
          <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
          <property name="hibernate.show_sql" value="true"/>
+
+         <property name="hibernate.cache.use_second_level_cache" value="true"/>
          <property name="hibernate.cache.use_query_cache" value="true"/>
-         <!--<property name="jboss.entity.manager.factory.jndi.name" value="java:/blogEntityManagerFactory"/>-->
+         <property name="jboss.entity.manager.factory.jndi.name" value="java:/blogEntityManagerFactory"/>
          <property name="hibernate.jdbc.charSet" value="utf-8"/>
 
           <!-- use a file system based index -->
-         <property name="hibernate.search.default.directory_provider"
-                  value="org.hibernate.search.store.FSDirectoryProvider"/>
+         <property name="hibernate.search.default.directory_provider" value="filesystem"/>
          <!-- directory where the indexes will be stored -->
          <property name="hibernate.search.default.indexBase" value="./blogindexes"/>
       </properties>

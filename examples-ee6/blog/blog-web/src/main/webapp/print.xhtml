@@ -9,13 +9,13 @@
       lang="en">
 
 <f:view>
-   <head>
+   <h:head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       <title>#{blog.name}</title>
       <link href="#{theme.css}" rel="stylesheet" type="text/css" />
-   </head>
+   </h:head>
 
-   <body>
+   <h:body>
       <div id="menu">
          <ui:include src="nav.xhtml"/>
          &#160;&#160;
@@ -26,7 +26,7 @@
          <p>[Timezone: #{blog.timeZone.displayName}]</p>
          <ui:insert name="content"/>
       </div>
-   </body>
+   </h:body>
 </f:view>
 
 </html>

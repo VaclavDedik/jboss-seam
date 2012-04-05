@@ -23,7 +23,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  * @author    Simon Brown
  */
 @Entity
-@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cache(usage=CacheConcurrencyStrategy.TRANSACTIONAL)
 public class Blog {
 
   /** the name of the blog */
@@ -51,7 +51,7 @@ public class Blog {
   /** the list of blog entries, in reverse chronological order */
   @OneToMany(mappedBy="blog") 
   @OrderBy("date desc")
-  @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+  @Cache(usage=CacheConcurrencyStrategy.TRANSACTIONAL)
   private List<BlogEntry> blogEntries;
 
   /**
