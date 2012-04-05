@@ -30,8 +30,8 @@
         </theme:available-themes>
     </theme:theme-selector>
         
-    <persistence:managed-persistence-context auto-create="true" name="entityManager">
-        <persistence:persistence-unit-jndi-name>java:/blogEntityManagerFactory</persistence:persistence-unit-jndi-name>
-    </persistence:managed-persistence-context>
+    <!--<persistence:managed-persistence-context auto-create="true" name="entityManager">-->
+        <!--<persistence:persistence-unit-jndi-name>java:/blogEntityManagerFactory</persistence:persistence-unit-jndi-name>-->
+    <!--</persistence:managed-persistence-context>-->
 
 </components>

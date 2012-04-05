@@ -8,20 +8,41 @@ import java.util.ResourceBundle;
 import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.mock.JUnitSeamTest;
 import org.jboss.seam.mock.SeamTest;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.theme.Theme;
 import org.jboss.seam.theme.ThemeSelector;
-import org.testng.annotations.Test;
 
 import actions.BlogService;
 import actions.SearchService;
 import domain.Blog;
 import domain.BlogEntry;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class BlogTest extends SeamTest
+@RunWith(Arquillian.class)
+public class BlogTest extends JUnitSeamTest
 {
+
+   @Deployment(name="BookingTest")
+   @OverProtocol("Servlet 3.0")
+   public static Archive<?> createDeployment()
+   {
+      EnterpriseArchive er = Deployments.bookingDeployment();
+      WebArchive web = er.getAsType(WebArchive.class, "blog-web.war");
+
+      web.addClasses(BlogTest.class);
+
+      return er;
+   }
       
    @Test
    public void testPost() throws Exception

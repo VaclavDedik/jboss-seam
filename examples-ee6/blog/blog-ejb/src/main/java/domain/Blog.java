@@ -11,10 +11,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.validator.constraints.Length;
 
 
 /**
@@ -27,11 +27,11 @@ import org.hibernate.validator.constraints.Length;
 public class Blog {
 
   /** the name of the blog */
-  @Id @Length(max=70)
+  @Id @Size(max=70)
   private String name;
 
   /** the description of the blog */
-  @Length(max=150) @NotNull
+  @Size(max=150) @NotNull
   private String description;
 
   /** the locale of the blog */
@@ -42,7 +42,7 @@ public class Blog {
   @NotNull
   private TimeZone timeZone;
   
-  @Length(min=5, max=10) @NotNull
+  @Size(min=5, max=10) @NotNull
   private String password;
   
   @OneToOne(optional=false, mappedBy="blog")

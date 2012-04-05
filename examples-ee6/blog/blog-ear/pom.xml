@@ -9,7 +9,7 @@
       <relativePath>../pom.xml</relativePath>
    </parent>
 
-   <groupId>org.jboss.seam.examples-ee6.blog</groupId>
+   <groupId>org.jboss.seam.examples-ee6</groupId>
    <artifactId>blog-ear</artifactId>
    <packaging>ear</packaging>
    <name>Blog EAR Module (EE6)</name>
@@ -39,16 +39,6 @@
          <artifactId>jboss-seam</artifactId>
          <type>ejb</type>
          <scope>compile</scope>
-         <exclusions>
-            <exclusion>
-               <groupId>com.thoughtworks.xstream</groupId>
-               <artifactId>xstream</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>xpp3</groupId>
-               <artifactId>xpp3_min</artifactId>
-            </exclusion>
-         </exclusions>
       </dependency>
    </dependencies>
 

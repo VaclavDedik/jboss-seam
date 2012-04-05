@@ -8,12 +8,12 @@ import org.apache.solr.analysis.StandardTokenizerFactory;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.search.annotations.*;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -44,22 +44,22 @@ import java.util.Date;
 public class BlogEntry {
 
    @Id
-   @Length(min = 1, max = 20)
+   @Size(min = 1, max = 20)
    @DocumentId
    private String id;
 
    @NotNull
-   @Length(max = 70)
+   @Size(max = 70)
    @Fields({
            @Field(name = "title:en", analyzer = @Analyzer(definition = "en")),
            @Field(name = "title:ngrams", analyzer = @Analyzer(definition = "ngrams"))})
    private String title;
 
-   @Length(max = 200)
+   @Size(max = 200)
    private String excerpt;
 
    @NotNull
-   @Length(max = 1400)
+   @Size(max = 1400)
    @Fields({
            @Field(name = "body:en", analyzer = @Analyzer(definition = "en")),
            @Field(name = "body:ngrams", analyzer = @Analyzer(definition = "ngrams"))})

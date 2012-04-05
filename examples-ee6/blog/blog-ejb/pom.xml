@@ -9,7 +9,7 @@
       <relativePath>../pom.xml</relativePath>
    </parent>
 
-   <groupId>org.jboss.seam.examples-ee6.blog</groupId>
+   <groupId>org.jboss.seam.examples-ee6</groupId>
    <artifactId>blog-ejb</artifactId>
    <packaging>ejb</packaging>
    <name>Blog EJB Module (EE6)</name>
@@ -21,51 +21,66 @@
          <type>ejb</type>
       </dependency>
       <dependency>
-         <groupId>javax.persistence</groupId>
-         <artifactId>persistence-api</artifactId>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-log4j12</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.hibernate.javax.persistence</groupId>
+         <artifactId>hibernate-jpa-2.0-api</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.jboss.spec.javax.servlet</groupId>
+         <artifactId>jboss-servlet-api_3.0_spec</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.jboss.spec.javax.ejb</groupId>
+         <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.hibernate</groupId>
+         <artifactId>hibernate-core</artifactId>
       </dependency>
       <dependency>
          <groupId>org.hibernate</groupId>
          <artifactId>hibernate-validator</artifactId>
       </dependency>
+      <!--<dependency>-->
+         <!--<groupId>org.hibernate</groupId>-->
+         <!--<artifactId>hibernate-annotations</artifactId>-->
+      <!--</dependency>-->
       <dependency>
          <groupId>org.hibernate</groupId>
          <artifactId>hibernate-entitymanager</artifactId>
       </dependency>
       <dependency>
-         <groupId>javax.servlet</groupId>
-         <artifactId>servlet-api</artifactId>
-         <scope>provided</scope>
-      </dependency>
-      <dependency>
-         <groupId>javax.ejb</groupId>
-         <artifactId>ejb-api</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.sun.faces</groupId>
-         <artifactId>jsf-api</artifactId>
+         <groupId>org.hibernate</groupId>
+         <artifactId>hibernate-search</artifactId>
       </dependency>
       <dependency>
          <groupId>org.hibernate</groupId>
-         <artifactId>hibernate-search</artifactId>
-         <exclusions>
-            <exclusion>
-               <groupId>org.hibernate</groupId>
-               <artifactId>hibernate-core</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>org.hibernate</groupId>
-               <artifactId>ejb3-persistence</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>javax.transaction</groupId>
-               <artifactId>jta</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>hsqldb</groupId>
-               <artifactId>hsqldb</artifactId>
-            </exclusion>
-         </exclusions>
+         <artifactId>hibernate-search-analyzers</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.hibernate</groupId>
+         <artifactId>hibernate-search-engine</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.hibernate</groupId>
+         <artifactId>hibernate-search-infinispan</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.hibernate</groupId>
+         <artifactId>hibernate-search-orm</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>javax.validation</groupId>
+         <artifactId>validation-api</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.jboss.spec.javax.faces</groupId>
+         <artifactId>jboss-jsf-api_2.0_spec</artifactId>
+         <scope>provided</scope>
       </dependency>
    </dependencies>
    <profiles>
