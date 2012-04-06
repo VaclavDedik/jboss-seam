@@ -2,12 +2,33 @@ package org.jboss.seam.example.contactlist.test;
 
 import java.util.List;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.example.contactlist.Contact;
-import org.jboss.seam.mock.SeamTest;
-import org.testng.annotations.Test;
+import org.jboss.seam.mock.JUnitSeamTest;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class ContactListTest extends SeamTest
+@RunWith(Arquillian.class)
+public class ContactListTest extends JUnitSeamTest
 {
+
+   @Deployment(name="<project>Test")
+   @OverProtocol("Servlet 3.0")
+   public static Archive<?> createDeployment()
+   {
+      EnterpriseArchive er = Deployments.contactListDeployment();
+      WebArchive web = er.getAsType(WebArchive.class, "contactlist-web.war");
+
+      web.addClasses(ContactListTest.class);
+
+      return er;
+   }
+
    @Test
    public void testList() throws Exception
    {
@@ -55,6 +76,7 @@ public class ContactListTest extends SeamTest
          protected void renderResponse() throws Exception
          {
             List<Contact> contacts = (List<Contact>) getValue("#{contacts.resultList}");
+            System.out.println(contacts.size());
             assert contacts.size()==1;
          }
       }.run();
