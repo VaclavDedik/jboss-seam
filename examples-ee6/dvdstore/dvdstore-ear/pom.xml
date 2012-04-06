@@ -11,12 +11,7 @@
     <groupId>org.jboss.seam.examples-ee6.dvdstore</groupId>
     <artifactId>dvdstore-ear</artifactId>
     <packaging>ear</packaging>
-    <name>Dvdstore EAR Module</name>
-    
-    <properties>
-        <jboss.home>${env.JBOSS_HOME}</jboss.home>
-        <jboss.domain>default</jboss.domain>
-    </properties>
+    <name>Dvdstore EAR Module (EE6)</name>
     
     <dependencies>
         <dependency>
@@ -36,14 +31,6 @@
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
-                    <groupId>com.thoughtworks.xstream</groupId>
-                    <artifactId>xstream</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>xpp3</groupId>
-                    <artifactId>xpp3_min</artifactId>
-                </exclusion>
-                <exclusion>
                 	<artifactId>testng</artifactId>
                 	<groupId>org.testng</groupId>
                 </exclusion>
@@ -61,7 +48,8 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ear-plugin</artifactId>
-                <configuration>                     
+                <configuration>
+                    <version>6</version>
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
                     <!-- Exclude eclipse generated application.xml and manually modified jboss-app.xml during mvn build  -->
                     <earSourceExcludes>**/application.xml, **/jboss-app.xml</earSourceExcludes>
@@ -88,18 +76,6 @@
                     </modules>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.jboss.as.plugins</groupId>
-                <artifactId>jboss-as-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase></phase>
-                        <goals>
-                            <goal>deploy</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>            
         </plugins>
     </build>
 

@@ -11,7 +11,7 @@
     <groupId>org.jboss.seam.examples-ee6.dvdstore</groupId>
     <artifactId>dvdstore-web</artifactId>
     <packaging>war</packaging>
-    <name>Dvdstore Web Module</name>
+    <name>Dvdstore Web Module (EE6)</name>
     
     <properties>
         <!-- filtering property for components.xml -->
@@ -29,16 +29,7 @@
             <groupId>org.jboss.seam</groupId>
             <artifactId>jboss-seam</artifactId>
             <type>ejb</type>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.thoughtworks.xstream</groupId>
-                    <artifactId>xstream</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>xpp3</groupId>
-                    <artifactId>xpp3_min</artifactId>
-                </exclusion>
-            </exclusions>            
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>

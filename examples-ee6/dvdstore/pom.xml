@@ -10,7 +10,7 @@
     <groupId>org.jboss.seam.examples-ee6</groupId>
     <artifactId>dvdstore</artifactId>
     <packaging>pom</packaging>
-    <name>Dvdstore Example</name>
+    <name>Dvdstore Example (EE6)</name>
   
     <modules>
         <module>dvdstore-ejb</module>

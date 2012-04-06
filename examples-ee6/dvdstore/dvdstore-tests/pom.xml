@@ -10,7 +10,7 @@
     
     <groupId>org.jboss.seam.examples-ee6.dvdstore</groupId>
     <artifactId>dvdstore-tests</artifactId>
-    <name>Dvdstore Integration Tests Module</name>
+    <name>Dvdstore Integration Tests Module (EE6)</name>
     
     <dependencies>
         <dependency>
@@ -31,8 +31,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.sun.faces</groupId>
-            <artifactId>jsf-api</artifactId>
+            <groupId>org.jboss.spec.javax.faces</groupId>
+            <artifactId>jboss-jsf-api_2.0_spec</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium.server</groupId>
@@ -49,11 +50,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-        	<groupId>javax.persistence</groupId>
-        	<artifactId>persistence-api</artifactId>
-        	<scope>provided</scope>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
+            <scope>provided</scope>
         </dependency>
-
 		<dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
@@ -67,25 +67,16 @@
         </dependency>
 
         <dependency>
-            <groupId>org.jboss.shrinkwrap.resolver</groupId>
-            <artifactId>shrinkwrap-resolver-api-maven</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.shrinkwrap.resolver</groupId>
-            <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
         	<groupId>log4j</groupId>
         	<artifactId>log4j</artifactId>
         	<scope>test</scope>
         </dependency>
+
         <dependency>
-        	<groupId>javax.transaction</groupId>
-        	<artifactId>jta</artifactId>
+           <groupId>org.jboss.spec.javax.el</groupId>
+           <artifactId>jboss-el-api_2.2_spec</artifactId>
         </dependency>
+
     </dependencies>
     
     <build>

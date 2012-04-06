@@ -1,8 +1,5 @@
 <jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.0">
   <deployment>
-    <exclusions>
-      <module name="org.hibernate" slot="main"/>
-    </exclusions>
         <dependencies>
           <module name="org.apache.log4j" export="true"/>
           <module name="org.dom4j" export="true"/>
@@ -15,12 +12,4 @@
           <module name="com.sun.jsf-impl" export="true"/>          
         </dependencies>
   </deployment>
-  <sub-deployment name="dvdstore-web.war">
-
-  </sub-deployment>
-
-  <sub-deployment name="dvdstore-ejb.jar">
-
-  </sub-deployment>
-
 </jboss-deployment-structure>

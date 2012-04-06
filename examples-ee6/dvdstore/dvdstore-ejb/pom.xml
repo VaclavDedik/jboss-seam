@@ -11,7 +11,7 @@
     <groupId>org.jboss.seam.examples-ee6.dvdstore</groupId>
     <artifactId>dvdstore-ejb</artifactId>
     <packaging>ejb</packaging>
-    <name>Dvdstore EJB Module EE6</name>
+    <name>Dvdstore EJB Module (EE6)</name>
     
 	<dependencies>
 		<dependency>
@@ -19,14 +19,6 @@
 			<artifactId>jboss-seam</artifactId>
 			<type>ejb</type>
 			<exclusions>
-			 <exclusion>
-                <groupId>xpp3</groupId>
-                <artifactId>xpp3_min</artifactId>			 
-			 </exclusion>
-             <exclusion>
-                <groupId>com.thoughtworks.xstream</groupId>
-                <artifactId>xstream</artifactId>            
-             </exclusion>
              <exclusion>
              	<artifactId>testng</artifactId>
              	<groupId>org.testng</groupId>
@@ -51,8 +43,8 @@
 		</dependency>
 
         <dependency>
-            <groupId>javax.ejb</groupId>
-            <artifactId>ejb-api</artifactId>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
         
@@ -88,11 +80,13 @@
                 </exclusion>
             </exclusions>			
 		</dependency>
-		<dependency>
-			<groupId>com.sun.faces</groupId>
-			<artifactId>jsf-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
+
+        <dependency>
+            <groupId>org.jboss.spec.javax.faces</groupId>
+            <artifactId>jboss-jsf-api_2.0_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
 		<dependency>
 			<groupId>org.jbpm.jbpm3</groupId>
 			<artifactId>jbpm-jpdl</artifactId>
