@@ -1,0 +1,215 @@
+In each test class
+==================
+Add @RunWith(Arquillian.class) annotation to the class
+import org.jboss.arquillian.junit.Arquillian;
+extends JUnitSeamTest
+Change all @Test annotation from TestNG to JUnit
+
+Add the method:
+   @Deployment(name="<project>Test")
+   @OverProtocol("Servlet 3.0")
+   public static Archive<?> createDeployment()
+   {
+      EnterpriseArchive er = Deployments.<project>Deployment();
+      WebArchive web = er.getAsType(WebArchive.class, "<project>-web.war");
+
+      web.addClasses(<testName>.class);
+
+      return er;
+   }
+      
+
+In source folder of *-tests
+===========================
+Create a Deployments class with the content:
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.importer.ZipImporter;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+
+import java.io.File;
+
+public class Deployments {
+	public static EnterpriseArchive <project>Deployment() {
+		return ShrinkWrap.create(ZipImporter.class, "seam-<project>.ear").importFrom(new File("../<project>-ear/target/seam-<project>.ear"))
+				.as(EnterpriseArchive.class);
+	}
+}
+
+
+Arquillian.xml
+==============
+Add arquillian.xml in folder resource-integration.  Contents of arquillian.xml:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<arquillian xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://jboss.org/schema/arquillian"
+    xsi:schemaLocation="http://jboss.org/schema/arquillian http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+
+    <engine>
+        <property name="deploymentExportPath">target/</property>
+    </engine>
+
+    <container qualifier="jboss" default="true">
+        <configuration>
+            <property name="javaVmArguments">-Xmx1024m -XX:MaxPermSize=512m</property>
+            <property name="jbossHome">target/jboss-as-${version.jbossas7}</property>
+        </configuration>
+    </container>
+</arquillian>
+
+
+
+
+In *-tests.pom
+===============
+add hibernate-validator
+<example.context.path>seam-<module-name></example.context.path>
+
+
+plugins should be:
+  <build>
+            <plugins>
+               <plugin>
+                  <groupId>org.codehaus.mojo</groupId>
+                  <artifactId>selenium-maven-plugin</artifactId>
+               </plugin>
+               <plugin>
+                  <groupId>org.codehaus.mojo</groupId>
+                  <artifactId>failsafe-maven-plugin</artifactId>
+               </plugin>
+               <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-antrun-plugin</artifactId>
+               </plugin>
+            </plugins>
+         </build>
+
+
+
+
+In faces-config.xml
+===================
+
+Remove:
+    <!-- Facelets support -->
+    <application>
+        <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+    </application>
+
+Upgrade version to 2.1
+
+In jboss-deployment-structure.xml
+=================================
+Remove exclusion
+Remove slot attributes
+Include    <module name="org.antlr" export="true"/>
+
+In web.xml 
+==========
+Migrate version from 2.5 to 3.0
+
+In all xhtml pages
+===================
+Convert
+     <head><body>and<html> tags to <h:head><h:body>and<h:html>
+     with <(/?)head> <$1h:head>
+     with <(/?)body> <$1h:body>
+     with <(/?)html> <$1h:html> 
+
+
+
+in persistence.xml
+change from    <non-jta-data-source>java:/DefaultDS</non-jta-data-source> to <non-jta-data-source>java:jboss/datasources/ExampleDS</non-jta-data-source>
+
+in *-web.pom
+============
+
+     <jndiPattern>([^/]*)?/\#\{ejbName\}/local</jndiPattern>
+     replace with <jndiPattern>java:app/$1/#{ejbName}</jndiPattern>
+     go from: seam-mail/#{ejbName}/local
+     <jndiPattern>java:app/seam-mail-ejb/#{ejbName}</jndiPattern>
+
+     remove:
+            <exclusions>
+                <exclusion>
+                    <groupId>com.thoughtworks.xstream</groupId>
+                    <artifactId>xstream</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>xpp3</groupId>
+                    <artifactId>xpp3_min</artifactId>
+                </exclusion>
+            </exclusions>
+
+add:
+         <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
+            <scope>provided</scope>
+         </dependency>
+
+add the rest as:
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.el</groupId>
+            <artifactId>jboss-el</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.richfaces.ui</groupId>
+            <artifactId>richfaces-components-ui</artifactId>
+        </dependency>  
+        <dependency>
+            <groupId>org.richfaces.core</groupId>
+            <artifactId>richfaces-core-impl</artifactId>
+        </dependency>    
+        <dependency>
+            <groupId>org.richfaces.core</groupId>
+            <artifactId>richfaces-core-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.faces</groupId>
+            <artifactId>jboss-jsf-api_2.0_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        Get rid of <activation> on <id>jbossas51</id>
+
+       remove maven dependency plugin
+        <!--<plugin>-->
+            <!--<groupId>org.apache.maven.plugins</groupId>-->
+            <!--<artifactId>maven-dependency-plugin</artifactId>-->
+            <!--<executions>-->
+               <!--<execution>-->
+                  <!--<id>unpack</id>-->
+                  <!--<phase>package</phase>-->
+                  <!--<goals>-->
+                     <!--<goal>unpack</goal>-->
+                  <!--</goals>-->
+                  <!--<configuration>-->
+                     <!--<artifactItems>-->
+                        <!--<artifactItem>-->
+                           <!--<groupId>org.jboss.seam.examples</groupId>-->
+                           <!--<artifactId>groovybooking-web</artifactId>-->
+                           <!--<type>war</type>-->
+                           <!--<overWrite>true</overWrite>-->
+                           <!--<outputDirectory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.war</outputDirectory>-->
+                        <!--</artifactItem>-->
+                     <!--</artifactItems>-->
+                  <!--</configuration>-->
+               <!--</execution>-->
+            <!--</executions>-->
+         <!--</plugin>-->
+
+In *-ejb.pom
+===========
+All hibernate dependencies will need to be listed as 'provided'
+
