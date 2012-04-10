@@ -2,11 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:e="http://jboss.com/products/seam/excel"
-	xmlns:s="http://jboss.com/products/seam/taglib"
-	xmlns:rich="http://richfaces.org/rich">
+	xmlns:s="http://jboss.com/products/seam/taglib">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>Microsoft&#174; Excel&#174; Export examples</title>
@@ -25,14 +23,13 @@
 	<br />
 	<h:form id="excelExport">
 		<h:inputText value="#{excelTest.searchWord}" />
-		<a4j:commandButton value="Search" reRender="searchResults"
+		<h:commandButton value="Search"
 			action="#{excelTest.search}" />
-		<a4j:commandButton value="Clear" reRender="searchResults"
+		<h:commandButton value="Clear"
 			action="#{excelTest.clear}" />
 		<br />
 
-		<a4j:outputPanel id="searchResults">
-			<h:dataTable value="#{excelTest.result}" var="person"
+	    <h:dataTable value="#{excelTest.result}" var="person"
 				rendered="#{!empty excelTest.result}" id="excelTable"
 				style="xls-font: 10 Verdana; xls-column-widths: 8000 9000 10000"
 				columnClasses="left, right" width="500px">
@@ -68,7 +65,6 @@
 			<h:commandLink value="Export table as CSV"
 				rendered="#{!empty excelTest.result}"
 				action="#{excelExporter.export('excelExport:excelTable','csv')}" />
-		</a4j:outputPanel>
 
 	</h:form>
 
