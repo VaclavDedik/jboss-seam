@@ -16,7 +16,6 @@ import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
@@ -37,7 +36,7 @@ public class CheckoutAction
 {
     private static final long serialVersionUID = -4651884454184474207L;
 
-    @PersistenceContext(type=PersistenceContextType.EXTENDED)
+    @PersistenceContext
     EntityManager em;
 
     @In(value="currentUser",required=false)

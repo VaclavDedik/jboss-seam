@@ -13,7 +13,6 @@ import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
@@ -40,7 +39,7 @@ public class ShowOrdersAction
     @In(value="currentUser",required=false)
     Customer customer;
 
-    @PersistenceContext(type=PersistenceContextType.EXTENDED)
+    @PersistenceContext
     EntityManager em;
 
     @DataModel
@@ -67,7 +66,7 @@ public class ShowOrdersAction
 
     @ResumeProcess(definition="OrderManagement", processKey="#{orders.rowData.orderId}")
     public String cancelOrder() {
-       
+        order = em.merge(order);
         em.refresh(order);
        
         if ( order.getStatus() != Status.OPEN ) {
@@ -82,6 +81,7 @@ public class ShowOrdersAction
     }
 
     public String detailOrder() {
+        order = em.merge(order);
         em.refresh(order);
         return "showorders";
     }
