@@ -3,33 +3,34 @@ package org.jboss.seam.example.booking.test;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 
-import org.jboss.shrinkwrap.api.asset.Asset; 
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OverProtocol;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.seam.Component;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.example.booking.Booking;
+import org.jboss.seam.example.booking.BookingList;
 import org.jboss.seam.example.booking.Hotel;
 import org.jboss.seam.example.booking.HotelBooking;
+import org.jboss.seam.example.booking.HotelSearching;
 import org.jboss.seam.example.booking.User;
-import org.jboss.seam.mock.JUnitSeamTest;
+import org.jboss.seam.security.Identity;
 
+import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(Arquillian.class)
-public class BookingTest extends JUnitSeamTest
+public class BookingTest
 {
    @Deployment(name="BookingTest")
    @OverProtocol("Servlet 3.0") 
@@ -37,273 +38,103 @@ public class BookingTest extends JUnitSeamTest
    {
       EnterpriseArchive er = Deployments.bookingDeployment();
       WebArchive web = er.getAsType(WebArchive.class, "booking-web.war");
-      
+
       web.addClasses(BookingTest.class);
-      	  
+
       return er;
    }
-   
+
+   @In(value="org.jboss.seam.core.manager")
+   private Manager manager;
+
+   @In(value="org.jboss.seam.security.identity")
+   private Identity identity;
+
+   @In
+   private HotelSearching hotelSearch;
+
+   @In
+   private HotelBooking hotelBooking;
+
+   @In
+   private BookingList bookingList;
+
    @Test
    public void testBookHotel() throws Exception
    {
+      manager.initializeTemporaryConversation();
+      Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
+
+      identity.setUsername("gavin");
+      identity.setPassword("foobar");
+      identity.login();
+
+      hotelSearch.setSearchString("Union Square");
+      hotelSearch.find();
+
+      DataModel hotels = (DataModel) Contexts.getSessionContext().get("hotels");
       
-      new FacesRequest() {
-         
-         @Override
-         protected void invokeApplication() throws Exception
-         {
-            Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
-            setValue("#{identity.username}", "gavin");
-            setValue("#{identity.password}", "foobar");            
-            invokeAction("#{identity.login}");
-         }
-         
-      }.run();
-      
-      new FacesRequest("/main.xhtml") {
+      assertEquals(1, hotels.getRowCount());
+      assertEquals("NY", ((Hotel) hotels.getRowData() ).getCity());
+      assertEquals("Union Square", hotelSearch.getSearchString());
+      assertFalse(manager.isLongRunningConversation());
 
-         @Override
-         protected void updateModelValues() throws Exception
-         {
-            setValue("#{hotelSearch.searchString}", "Union Square");
-         }
+      hotels = (DataModel) Contexts.getSessionContext().get("hotels");
+      assertEquals(1, hotels.getRowCount());
+      hotelBooking.selectHotel( (Hotel) hotels.getRowData() );
 
-         @Override
-         protected void invokeApplication()
-         {
-            assert invokeAction("#{hotelSearch.find}")==null;
-         }
+      Hotel hotel = (Hotel) Contexts.getConversationContext().get("hotel");
+      assertEquals("NY", hotel.getCity());
+      assertEquals("10011", hotel.getZip());
+      assertTrue(manager.isLongRunningConversation());
 
-         @Override
-         protected void renderResponse()
-         {
-            DataModel hotels = (DataModel) Contexts.getSessionContext().get("hotels");
-            assert hotels.getRowCount()==1;
-            assert ( (Hotel) hotels.getRowData() ).getCity().equals("NY");
-            assert getValue("#{hotelSearch.searchString}").equals("Union Square");
-            assert !Manager.instance().isLongRunningConversation();
-         }
-         
-      }.run();
-      
-      String id = new FacesRequest("/main.xhtml") {
-         
-         @Override
-         protected void invokeApplication() throws Exception {
-            HotelBooking hotelBooking = (HotelBooking) getInstance("hotelBooking");
-            DataModel hotels = (DataModel) Contexts.getSessionContext().get("hotels");
-            assert hotels.getRowCount()==1;
-            hotelBooking.selectHotel( (Hotel) hotels.getRowData() );
-         }
+      hotelBooking.bookHotel();
 
-         @Override
-         protected void renderResponse()
-         {
-            Hotel hotel = (Hotel) Contexts.getConversationContext().get("hotel");
-            assert hotel.getCity().equals("NY");
-            assert hotel.getZip().equals("10011");
-            assert Manager.instance().isLongRunningConversation();
-         }
-         
-      }.run();
-      
-      id = new FacesRequest("/hotel.xhtml", id) {
+      Booking booking = (Booking) Contexts.getConversationContext().get("booking");
+      assertNotNull(booking.getUser());
+      assertNotNull(booking.getHotel());
+      assertNull(booking.getCreditCard());
+      assertNull(booking.getCreditCardName());
 
-         @Override
-         protected void invokeApplication()
-         {
-            invokeAction("#{hotelBooking.bookHotel}");
-         }
+      assertEquals(Contexts.getConversationContext().get("hotel"), booking.getHotel());
+      assertEquals(Contexts.getSessionContext().get("user"), booking.getUser());
+      assertTrue(Manager.instance().isLongRunningConversation());
 
-         @Override
-         protected void renderResponse()
-         {
-            assert getValue("#{booking.user}")!=null;
-            assert getValue("#{booking.hotel}")!=null;
-            assert getValue("#{booking.creditCard}")==null;
-            assert getValue("#{booking.creditCardName}")==null;
-            Booking booking = (Booking) Contexts.getConversationContext().get("booking");
-            assert booking.getHotel()==Contexts.getConversationContext().get("hotel");
-            assert booking.getUser()==Contexts.getSessionContext().get("user");
-            assert Manager.instance().isLongRunningConversation();
-         }
-         
-      }.run();
-      
-      new FacesRequest("/book.xhtml", id) {
+      booking.setCreditCard("1234567891021234");
+      booking.setCreditCardName("GAVIN KING");
+      booking.setBeds(2);
+      Date now = new Date();
+      booking.setCheckinDate(now);
+      booking.setCheckoutDate(now);
 
-         @Override
-         protected void processValidations() throws Exception
-         {
-            validateValue("#{booking.creditCard}", "123");
-            assert isValidationFailure();
-         }
+      hotelBooking.setBookingDetails();
+      assertFalse(hotelBooking.isBookingValid());
 
-         @Override
-         protected void renderResponse()
-         {
-            Iterator messages = FacesContext.getCurrentInstance().getMessages();
-            assert messages.hasNext();
-            assert ( (FacesMessage) messages.next() ).getSummary().equals("Credit card number must 16 digits long");
-            assert !messages.hasNext();
-            assert Manager.instance().isLongRunningConversation();
-         }
-         
-         @Override
-         protected void afterRequest()
-         {
-            assert !isInvokeApplicationBegun();
-         }
-         
-      }.run();
-      
-      new FacesRequest("/book.xhtml", id) {
+      Calendar cal = Calendar.getInstance();
+      cal.add(Calendar.DAY_OF_MONTH, 2);
+      booking.setCheckoutDate(cal.getTime());
 
-         @Override
-         protected void processValidations() throws Exception
-         {
-            validateValue("#{booking.creditCardName}", "");
-            assert isValidationFailure();
-         }
+      hotelBooking.setBookingDetails();
+      assertTrue(hotelBooking.isBookingValid());
+      assertTrue(manager.isLongRunningConversation());
 
-         @Override
-         protected void renderResponse()
-         {
-            Iterator messages = FacesContext.getCurrentInstance().getMessages();
-            assert messages.hasNext();
-            assert ( (FacesMessage) messages.next() ).getSummary().equals("Credit card name is required");
-            assert !messages.hasNext();
-            assert Manager.instance().isLongRunningConversation();
-         }
-         
-         @Override
-         protected void afterRequest()
-         {
-            assert !isInvokeApplicationBegun();
-         }
-         
-      }.run();
-      
-      new FacesRequest("/book.xhtml", id) {
-         
-         @Override @SuppressWarnings("deprecation")
-         protected void updateModelValues() throws Exception
-         {  
-            setValue("#{booking.creditCard}", "1234567891021234");
-            setValue("#{booking.creditCardName}", "GAVIN KING");
-            setValue("#{booking.beds}", 2);
-            Date now = new Date();
-            setValue("#{booking.checkinDate}", now);
-            setValue("#{booking.checkoutDate}", now);
-         }
+      hotelBooking.confirm();
 
-         @Override
-         protected void invokeApplication()
-         {
-            assert invokeAction("#{hotelBooking.setBookingDetails}")==null;
-         }
+      ListDataModel bookings = (ListDataModel) Component.getInstance("bookings");
+      assertEquals(1, bookings.getRowCount());
+      bookings.setRowIndex(0);
+      booking = (Booking) bookings.getRowData();
+      assertEquals("NY",  booking.getHotel().getCity());
+      assertEquals("gavin",  booking.getUser().getUsername());
+      assertFalse(manager.isLongRunningConversation());
 
-         @Override
-         protected void renderResponse()
-         {
-            Iterator messages = FacesContext.getCurrentInstance().getMessages();
-            assert messages.hasNext();
-            FacesMessage message = (FacesMessage) messages.next();
-            assert message.getSummary().equals("Check out date must be later than check in date");
-            assert !messages.hasNext();
-            assert Manager.instance().isLongRunningConversation();
-         }
-         
-         @Override
-         protected void afterRequest()
-         {
-            assert isInvokeApplicationComplete();
-         }
-         
-      }.run();
-      
-      new FacesRequest("/book.xhtml", id) {
-         
-         @Override @SuppressWarnings("deprecation")
-         protected void updateModelValues() throws Exception
-         {
-            Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.DAY_OF_MONTH, 2);
-            setValue("#{booking.checkoutDate}", cal.getTime() );
-         }
+      bookings = (ListDataModel) Contexts.getSessionContext().get("bookings");
+      bookings.setRowIndex(0);
+      bookingList.cancel();
 
-         @Override
-         protected void invokeApplication()
-         {
-            invokeAction("#{hotelBooking.setBookingDetails}");
-         }
-
-         @Override
-         protected void renderResponse()
-         {
-            assert Manager.instance().isLongRunningConversation();
-         }
-         
-         @Override
-         protected void afterRequest()
-         {
-            assert isInvokeApplicationComplete();
-         }
-         
-      }.run();
-      
-      new FacesRequest("/confirm.xhtml", id) {
-
-         @Override
-         protected void invokeApplication()
-         {
-            invokeAction("#{hotelBooking.confirm}");
-         }
-         
-         @Override
-         protected void afterRequest()
-         {
-            assert isInvokeApplicationComplete();
-         }
-         
-      }.run();
-      
-      new NonFacesRequest("/main.xhtml") {
-
-         @Override
-         protected void renderResponse()
-         {
-            ListDataModel bookings = (ListDataModel) getInstance("bookings");
-            assert bookings.getRowCount()==1;
-            bookings.setRowIndex(0);
-            Booking booking = (Booking) bookings.getRowData();
-            assert booking.getHotel().getCity().equals("NY");
-            assert booking.getUser().getUsername().equals("gavin");
-            assert !Manager.instance().isLongRunningConversation();
-         }
-         
-      }.run();
-      
-      new FacesRequest("/main.xhtml") {
-         
-         @Override
-         protected void invokeApplication()
-         {
-            ListDataModel bookings = (ListDataModel) Contexts.getSessionContext().get("bookings");
-            bookings.setRowIndex(0);
-            invokeAction("#{bookingList.cancel}");
-         }
-
-         @Override
-         protected void renderResponse()
-         {
-            ListDataModel bookings = (ListDataModel) Contexts.getSessionContext().get("bookings");
-            assert bookings.getRowCount()==0;
-            assert !Manager.instance().isLongRunningConversation();
-         }
-         
-      }.run();
-      
+      bookings = (ListDataModel) Contexts.getSessionContext().get("bookings");
+      assertEquals(0, bookings.getRowCount());
+      assertFalse(manager.isLongRunningConversation());
    }
-   
+
 }

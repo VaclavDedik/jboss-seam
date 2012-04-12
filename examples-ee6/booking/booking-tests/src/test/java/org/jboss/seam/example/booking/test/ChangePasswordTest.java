@@ -2,158 +2,94 @@
 package org.jboss.seam.example.booking.test;
 
 import org.jboss.shrinkwrap.api.Archive;
-import org.jboss.shrinkwrap.api.asset.Asset; 
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OverProtocol;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.seam.Component;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.example.booking.ChangePassword;
 import org.jboss.seam.example.booking.User;
-import org.jboss.seam.mock.JUnitSeamTest;
+import org.jboss.seam.security.Identity;
 
+import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(Arquillian.class)
-public class ChangePasswordTest extends JUnitSeamTest
+public class ChangePasswordTest
 {
    @Deployment(name="ChangePasswordTest")
    @OverProtocol("Servlet 3.0") 
    public static Archive<?> createDeployment()
    {
-	   EnterpriseArchive er = Deployments.bookingDeployment();
-	      WebArchive web = er.getAsType(WebArchive.class, "booking-web.war");
-	      
-	      web.addClasses(ChangePasswordTest.class);
-	    		  
-	      return er;
+      EnterpriseArchive er = Deployments.bookingDeployment();
+      WebArchive web = er.getAsType(WebArchive.class, "booking-web.war");
+
+      web.addClasses(ChangePasswordTest.class);
+
+      return er;
    }
-   
+
+   @In(value="org.jboss.seam.security.identity")
+   private Identity identity;
+
    @Test
    public void testChangePassword() throws Exception
    {
-      
-      new FacesRequest() {
-         
-         @Override
-         protected void invokeApplication() throws Exception
-         {
-            Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
-            setValue("#{identity.username}", "gavin");
-            setValue("#{identity.password}", "foobar");
-            invokeMethod("#{identity.login}");
-         }
-         
-      }.run();
-      
-      new FacesRequest() {
-         
-         @Override
-         protected void processValidations() throws Exception
-         {
-            validateValue("#{user.password}", "xxx");
-            assert isValidationFailure();
-         }
+      Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
+      identity.setUsername("gavin");
+      identity.setPassword("foobar");
+      identity.login();
 
-         @Override
-         protected void renderResponse()
-         {
-            assert getValue("#{user.name}").equals("Gavin King");
-            assert getValue("#{user.username}").equals("gavin");
-            assert getValue("#{user.password}").equals("foobar");
-            assert !Manager.instance().isLongRunningConversation();
-            assert getValue("#{identity.loggedIn}").equals(true);
+      User user = (User)Component.getInstance("user");
+      assertEquals("Gavin King", user.getName());
+      assertEquals("gavin", user.getUsername());
+      assertEquals("foobar", user.getPassword());
+      assertFalse(Manager.instance().isLongRunningConversation());
+      assertTrue(identity.isLoggedIn());
 
-         }
-         
-      }.run();
-      
-      new FacesRequest() {
+      user.setPassword("xxxyyy");
+      ChangePassword changePassword = (ChangePassword)Component.getInstance("changePassword");
+      changePassword.setVerify("xxyyyx");
+      changePassword.changePassword();
 
-         @Override
-         protected void updateModelValues() throws Exception
-         {
-            setValue("#{user.password}", "xxxyyy");
-            setValue("#{changePassword.verify}", "xxyyyx");
-         }
+      user = (User)Component.getInstance("user");
+      assertEquals("Gavin King", user.getName());
+      assertEquals("gavin", user.getUsername());
+      assertEquals("foobar", user.getPassword());
+      assertFalse(Manager.instance().isLongRunningConversation());
+      assertTrue(identity.isLoggedIn());
 
-         @Override
-         protected void invokeApplication()
-         {
-            assert invokeAction("#{changePassword.changePassword}")==null;
-         }
+      user = (User)Component.getInstance("user");
+      user.setPassword("xxxyyy");
+      changePassword = (ChangePassword)Component.getInstance("changePassword");
+      changePassword.setVerify("xxxyyy");
+      changePassword.changePassword();
 
-         @Override
-         protected void renderResponse()
-         {
-            assert getValue("#{user.name}").equals("Gavin King");
-            assert getValue("#{user.username}").equals("gavin");
-            assert getValue("#{user.password}").equals("foobar");
-            assert !Manager.instance().isLongRunningConversation();
-            assert getValue("#{identity.loggedIn}").equals(true);
-         }
-         
-      }.run();
-      
-      new FacesRequest() {
+      user = (User)Component.getInstance("user");
+      assertEquals("Gavin King", user.getName());
+      assertEquals("gavin", user.getUsername());
+      assertEquals("xxxyyy", user.getPassword());
+      assertFalse(Manager.instance().isLongRunningConversation());
+      assertTrue(identity.isLoggedIn());
 
-         @Override
-         protected void updateModelValues() throws Exception
-         {
-            setValue("#{user.password}", "xxxyyy");
-            setValue("#{changePassword.verify}", "xxxyyy");
-         }
+      user = (User)Component.getInstance("user");
+      assertEquals("xxxyyy", user.getPassword());
+      user.setPassword("foobar");
+      changePassword = (ChangePassword)Component.getInstance("changePassword");
+      changePassword.setVerify("foobar");
+      changePassword.changePassword();
 
-         @Override
-         protected void invokeApplication()
-         {
-            invokeMethod("#{changePassword.changePassword}");
-         }
-
-         @Override
-         protected void renderResponse()
-         {
-            assert getValue("#{user.name}").equals("Gavin King");
-            assert getValue("#{user.username}").equals("gavin");
-            assert getValue("#{user.password}").equals("xxxyyy");
-            assert !Manager.instance().isLongRunningConversation();
-            assert getValue("#{identity.loggedIn}").equals(true);
-
-         }
-         
-      }.run();
-      
-      new FacesRequest() {
-
-         @Override
-         protected void updateModelValues() throws Exception
-         {
-            assert getValue("#{user.password}").equals("xxxyyy");
-            setValue("#{user.password}", "foobar");
-            setValue("#{changePassword.verify}", "foobar");
-         }
-
-         @Override
-         protected void invokeApplication()
-         {
-            invokeMethod("#{changePassword.changePassword}");
-         }
-
-         @Override
-         protected void renderResponse()
-         {
-            assert getValue("#{user.name}").equals("Gavin King");
-            assert getValue("#{user.username}").equals("gavin");
-            assert getValue("#{user.password}").equals("foobar");
-            assert !Manager.instance().isLongRunningConversation();
-            assert getValue("#{identity.loggedIn}").equals(true);
-
-         }
-         
-      }.run();
-      
+      user = (User)Component.getInstance("user");
+      assertEquals("Gavin King", user.getName());
+      assertEquals("gavin", user.getUsername());
+      assertEquals("foobar", user.getPassword());
+      assertFalse(Manager.instance().isLongRunningConversation());
+      assertTrue(identity.isLoggedIn());
    }
 
 }
