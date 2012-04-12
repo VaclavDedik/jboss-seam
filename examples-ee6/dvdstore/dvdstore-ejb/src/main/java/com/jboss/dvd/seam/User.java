@@ -24,7 +24,7 @@ public abstract class User
     String  firstName;
     String  lastName;
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="USERID")
     public long getId() {
         return id;
