@@ -40,6 +40,7 @@
 
 		<!-- Version string properties -->
 		<version.arquillian_core>1.0.0.CR7</version.arquillian_core>
+		<version.arquillian_seam2>1.0.0.Alpha2</version.arquillian_seam2>
 		<version.wicket>1.4.14</version.wicket>
 		<version.drools>5.1.1</version.drools>
 		<version.testng>5.10</version.testng>
@@ -79,6 +80,13 @@
 				<version>${version.arquillian_core}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.arquillian.extension</groupId>
+				<artifactId>arquillian-seam2</artifactId>
+				<version>${version.arquillian_seam2}</version>
+				<scope>test</scope>
 			</dependency>
 
             <!-- All Seam modules -->
