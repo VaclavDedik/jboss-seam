@@ -82,40 +82,6 @@
                     </modules>
                 </configuration>
             </plugin>
-           <plugin>
-              <groupId>org.jboss.as.plugins</groupId>
-              <artifactId>jboss-as-maven-plugin</artifactId>
-              <version>7.1.1.Final</version>
-              <executions>
-                 <!-- This requires to be enabled manually as <enabled>true</enabled> doesn't
-                work -->
-                 <!-- <execution> -->
-                 <!-- <id>add-datasource</id> -->
-                 <!-- <phase>package</phase> -->
-                 <!-- <configuration> -->
-                 <!-- <address>subsystem=datasources,data-source=java:/bookingDatasource</address> -->
-                 <!-- <properties> -->
-                 <!-- <connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url> -->
-                 <!-- <jndi-name>java:/bookingDatasource</jndi-name> -->
-                 <!-- <enabled>true</enabled> -->
-                 <!-- <pool-name>bookingDSPool</pool-name> -->
-                 <!-- <user-name>sa</user-name> -->
-                 <!-- <driver-name>h2</driver-name> -->
-                 <!-- </properties> -->
-                 <!-- </configuration> -->
-                 <!-- <goals> -->
-                 <!-- <goal>add-resource</goal> -->
-                 <!-- </goals> -->
-                 <!-- </execution> -->
-                 <!-- Datasource has to be created before running deploy -->
-                 <execution>
-                    <phase>install</phase>
-                    <goals>
-                       <goal>deploy</goal>
-                    </goals>
-                 </execution>
-              </executions>
-           </plugin>
         </plugins>
     </build>
 
