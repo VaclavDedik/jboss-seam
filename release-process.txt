@@ -20,6 +20,10 @@ Updating version numbers
         - Only "issue types" that have jira's will work
         - Usually that is (Bug, Feature Request, Task, and Patch)
         - Check all the issue types one at a time to determine final list.
+ - update pom.xml versions
+    - mvn versions:set -DnewVersion=XXX
+ - Update also seam-integration-tests/src/test/java/org/jboss/seam/test/integration/Deployments.java with current version
+
     
 Maven repository settings
 -------------------------
