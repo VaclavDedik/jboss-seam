@@ -9,14 +9,13 @@
       <relativePath>../pom.xml</relativePath>
    </parent>
 
-   <groupId>org.jboss.seam.examples-ee6</groupId>
+   <groupId>org.jboss.seam.examples-ee6.blog</groupId>
    <artifactId>blog-tests</artifactId>
    <name>Blog Integration Tests Module (EE6)</name>
    <dependencies>
       <dependency>
-         <groupId>org.jboss.seam.examples-ee6</groupId>
+         <groupId>org.jboss.seam.examples-ee6.blog</groupId>
          <artifactId>blog-ejb</artifactId>
-         <version>2.3.0.Beta2-SNAPSHOT</version>
          <type>ejb</type>
       </dependency>
       <dependency>
@@ -80,17 +79,6 @@
          <scope>test</scope>
       </dependency>
 
-      <dependency>
-         <groupId>org.jboss.shrinkwrap.resolver</groupId>
-         <artifactId>shrinkwrap-resolver-api-maven</artifactId>
-         <scope>test</scope>
-      </dependency>
-
-      <dependency>
-         <groupId>org.jboss.shrinkwrap.resolver</groupId>
-         <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
-         <scope>test</scope>
-      </dependency>
       <dependency>
          <groupId>org.jboss.spec.javax.el</groupId>
          <artifactId>jboss-el-api_2.2_spec</artifactId>

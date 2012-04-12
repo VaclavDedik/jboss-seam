@@ -9,20 +9,20 @@
       <relativePath>../pom.xml</relativePath>
    </parent>
 
-   <groupId>org.jboss.seam.examples-ee6</groupId>
+   <groupId>org.jboss.seam.examples-ee6.blog</groupId>
    <artifactId>blog-ear</artifactId>
    <packaging>ear</packaging>
    <name>Blog EAR Module (EE6)</name>
 
    <dependencies>
       <dependency>
-         <groupId>org.jboss.seam.examples-ee6</groupId>
+         <groupId>org.jboss.seam.examples-ee6.blog</groupId>
          <artifactId>blog-web</artifactId>
          <version>${project.version}</version>
          <type>war</type>
       </dependency>
       <dependency>
-         <groupId>org.jboss.seam.examples-ee6</groupId>
+         <groupId>org.jboss.seam.examples-ee6.blog</groupId>
          <artifactId>blog-ejb</artifactId>
          <version>${project.version}</version>
          <type>ejb</type>
@@ -57,13 +57,13 @@
                <modules>
 
                   <ejbModule>
-                     <groupId>org.jboss.seam.examples-ee6</groupId>
+                     <groupId>org.jboss.seam.examples-ee6.blog</groupId>
                      <artifactId>blog-ejb</artifactId>
                      <bundleFileName>blog-ejb.jar</bundleFileName>
                   </ejbModule>
 
                   <webModule>
-                     <groupId>org.jboss.seam.examples-ee6</groupId>
+                     <groupId>org.jboss.seam.examples-ee6.blog</groupId>
                      <artifactId>blog-web</artifactId>
                      <contextRoot>/seam-blog</contextRoot>
                      <bundleFileName>blog-web.war</bundleFileName>
@@ -76,39 +76,6 @@
                   </ejbModule>
                </modules>
             </configuration>
-         </plugin>
-         <plugin>
-            <groupId>org.jboss.as.plugins</groupId>
-            <artifactId>jboss-as-maven-plugin</artifactId>
-            <executions>
-               <!-- This requires to be enabled manually as <enabled>true</enabled> doesn't
-              work -->
-               <!-- <execution> -->
-               <!-- <id>add-datasource</id> -->
-               <!-- <phase>package</phase> -->
-               <!-- <configuration> -->
-               <!-- <address>subsystem=datasources,data-source=java:/bookingDatasource</address> -->
-               <!-- <properties> -->
-               <!-- <connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url> -->
-               <!-- <jndi-name>java:/bookingDatasource</jndi-name> -->
-               <!-- <enabled>true</enabled> -->
-               <!-- <pool-name>bookingDSPool</pool-name> -->
-               <!-- <user-name>sa</user-name> -->
-               <!-- <driver-name>h2</driver-name> -->
-               <!-- </properties> -->
-               <!-- </configuration> -->
-               <!-- <goals> -->
-               <!-- <goal>add-resource</goal> -->
-               <!-- </goals> -->
-               <!-- </execution> -->
-               <!-- Datasource has to be created before running deploy -->
-               <execution>
-                  <phase></phase>
-                  <goals>
-                     <goal>deploy</goal>
-                  </goals>
-               </execution>
-            </executions>
          </plugin>
       </plugins>
    </build>
@@ -134,7 +101,7 @@
                         <configuration>
                            <artifactItems>
                               <artifactItem>
-                                 <groupId>org.jboss.seam.examples-ee6</groupId>
+                                 <groupId>org.jboss.seam.examples-ee6.blog</groupId>
                                  <artifactId>blog-ear</artifactId>
                                  <type>ear</type>
                                  <overWrite>true</overWrite>
@@ -142,7 +109,7 @@
                                  </outputDirectory>
                               </artifactItem>
                               <artifactItem>
-                                 <groupId>org.jboss.seam.examples-ee6</groupId>
+                                 <groupId>org.jboss.seam.examples-ee6.blog</groupId>
                                  <artifactId>blog-web</artifactId>
                                  <type>war</type>
                                  <overWrite>true</overWrite>
@@ -151,7 +118,7 @@
                                  </outputDirectory>
                               </artifactItem>
                               <artifactItem>
-                                 <groupId>org.jboss.seam.examples-ee6</groupId>
+                                 <groupId>org.jboss.seam.examples-ee6.blog</groupId>
                                  <artifactId>blog-ejb</artifactId>
                                  <type>jar</type>
                                  <overWrite>true</overWrite>
@@ -163,18 +130,6 @@
                         </configuration>
                      </execution>
                   </executions>
-               </plugin>
-               <plugin>
-                  <groupId>org.codehaus.mojo</groupId>
-                  <artifactId>jboss-maven-plugin</artifactId>
-                  <configuration>
-                     <jbossHome>${jboss.home}</jbossHome>
-                     <serverName>${jboss.domain}</serverName>
-                     <fileNames>
-                        <param>src/main/resources/blog-ds.xml</param>
-                        <directory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear</directory>
-                     </fileNames>
-                  </configuration>
                </plugin>
             </plugins>
          </build>
