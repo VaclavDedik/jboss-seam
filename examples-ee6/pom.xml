@@ -160,7 +160,7 @@
                 <version>${slf4j.version}</version>
             </dependency>
 
-            <dependency>
+           <!-- <dependency>
                 <groupId>org.metawidget</groupId>
                 <artifactId>metawidget-backend</artifactId>
                 <version>0.95</version>
@@ -176,7 +176,7 @@
                 <groupId>org.metawidget</groupId>
                 <artifactId>metawidget</artifactId>
                 <version>0.95</version>
-            </dependency>
+            </dependency>-->
             
            <dependency>
                 <groupId>org.apache.myfaces.trinidad</groupId>
