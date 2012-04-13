@@ -67,17 +67,9 @@
 		<dependencies>
 
 			<dependency>
-			  <groupId>org.jboss.bom</groupId>
-			  <artifactId>jboss-javaee-6.0-with-hibernate</artifactId>
-			  <version>1.0.0.M6</version>
-			  <type>pom</type>
-			  <scope>import</scope>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.jboss.arquillian</groupId>
-				<artifactId>arquillian-bom</artifactId>
-				<version>${version.arquillian_core}</version>
+				<groupId>org.jboss.seam</groupId>
+				<artifactId>bom</artifactId>
+				<version>${project.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
