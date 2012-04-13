@@ -10,7 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 
 /**
- * Provides BaseSeamTest functionality for TestNG integration tests.
+ * Provides BaseSeamTest functionality for Arquillian JUnit integration tests.
  * 
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
@@ -20,14 +20,19 @@ import org.junit.Before;
  */
 public class JUnitSeamTest extends AbstractSeamTest
 {
+   private boolean seamStarted = false;
+
    
    @Before
    @Override
    public void begin()
    {
       try {
-         startSeam();
-         setupClass();
+         if (!seamStarted) {
+            startSeam();
+            seamStarted = true;
+            setupClass();
+         }
       }
       catch (Exception x) {
          throw new RuntimeException(x);
@@ -40,13 +45,6 @@ public class JUnitSeamTest extends AbstractSeamTest
    public void end()
    {
       super.end();
-      try {
-         cleanupClass();
-         stopSeam();
-      }
-      catch (Exception x) {
-         throw new RuntimeException(x);
-      }
    }
    
    /**
