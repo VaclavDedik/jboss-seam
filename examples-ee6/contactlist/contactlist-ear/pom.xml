@@ -8,7 +8,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>org.jboss.seam.examples-ee6</groupId>
+    <groupId>org.jboss.seam.examples-ee6.contactlist</groupId>
     <artifactId>contactlist-ear</artifactId>
     <packaging>ear</packaging>
     <name>Contact List EAR Module (EE6)</name>
@@ -20,13 +20,13 @@
     
     <dependencies>
         <dependency>
-            <groupId>org.jboss.seam.examples-ee6</groupId>
+            <groupId>org.jboss.seam.examples-ee6.contactlist</groupId>
             <artifactId>contactlist-web</artifactId>
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
         <dependency>
-            <groupId>org.jboss.seam.examples-ee6</groupId>
+            <groupId>org.jboss.seam.examples-ee6.contactlist</groupId>
             <artifactId>contactlist-ejb</artifactId>
             <version>${project.version}</version>
             <type>ejb</type>
@@ -36,16 +36,6 @@
             <artifactId>jboss-seam</artifactId>
             <type>ejb</type>
             <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.thoughtworks.xstream</groupId>
-                    <artifactId>xstream</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>xpp3</groupId>
-                    <artifactId>xpp3_min</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 
@@ -55,29 +45,29 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ear-plugin</artifactId>
-                <version>2.3.2</version>
                 <configuration>
-                    <version>5</version>
+                    <version>6</version>
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
                     <!-- Exclude eclipse generated application.xml and manually modified jboss-app.xml during mvn build  -->
                     <earSourceExcludes>**/application.xml, **/jboss-app.xml</earSourceExcludes>
                     <!-- use maven generated application.xml instead -->
                     <generateApplicationXml>true</generateApplicationXml>
-                    <jboss>
-                        <version>5</version>
-                        <loader-repository>seam.jboss.org:loader=seam-contactlist.ear</loader-repository>
-                    </jboss>
                     <modules>
                         <webModule>
-                            <groupId>org.jboss.seam.examples-ee6</groupId>
+                            <groupId>org.jboss.seam.examples-ee6.contactlist</groupId>
                             <artifactId>contactlist-web</artifactId>
                             <contextRoot>/seam-contactlist</contextRoot>
                             <bundleFileName>contactlist-web.war</bundleFileName>
                         </webModule>
                         <ejbModule>
-                            <groupId>org.jboss.seam.examples-ee6</groupId>
+                            <groupId>org.jboss.seam.examples-ee6.contactlist</groupId>
                             <artifactId>contactlist-ejb</artifactId>
                             <bundleFileName>contactlist-ejb.jar</bundleFileName>
+                        </ejbModule>
+                        <ejbModule>
+                            <groupId>org.jboss.seam</groupId>
+                            <artifactId>jboss-seam</artifactId>
+                            <bundleFileName>jboss-seam.jar</bundleFileName>
                         </ejbModule>
                     </modules>
                 </configuration>
@@ -103,21 +93,21 @@
                                 <configuration>
                                     <artifactItems>
                                         <artifactItem>
-                                            <groupId>org.jboss.seam.examples-ee6</groupId>
+                                            <groupId>org.jboss.seam.examples-ee6.contactlist</groupId>
                                             <artifactId>contactlist-ear</artifactId>
                                             <type>ear</type>
                                             <overWrite>true</overWrite>
                                             <outputDirectory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear</outputDirectory>
                                         </artifactItem>
                                         <artifactItem>
-                                            <groupId>org.jboss.seam.examples-ee6</groupId>
+                                            <groupId>org.jboss.seam.examples-ee6.contactlist</groupId>
                                             <artifactId>contactlist-web</artifactId>
                                             <type>war</type>
                                             <overWrite>true</overWrite>
                                             <outputDirectory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear/${example.name}-web.war</outputDirectory>
                                         </artifactItem>
                                         <artifactItem>
-                                            <groupId>org.jboss.seam.examples-ee6</groupId>
+                                            <groupId>org.jboss.seam.examples-ee6.contactlist</groupId>
                                             <artifactId>contactlist-ejb</artifactId>
                                             <type>jar</type>
                                             <overWrite>true</overWrite>
@@ -127,17 +117,6 @@
                                 </configuration>
                             </execution>
                         </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>jboss-maven-plugin</artifactId>
-                        <configuration>
-                            <jbossHome>${jboss.home}</jbossHome>
-                            <serverName>${jboss.domain}</serverName>
-                            <fileNames>
-                                <directory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear</directory>
-                            </fileNames>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>

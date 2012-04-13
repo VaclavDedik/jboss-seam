@@ -8,7 +8,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     
-    <groupId>org.jboss.seam.examples-ee6</groupId>
+    <groupId>org.jboss.seam.examples-ee6.contactlist</groupId>
     <artifactId>contactlist-ejb</artifactId>
     <packaging>ejb</packaging>
     <name>Contact List EJB Module (EE6)</name>

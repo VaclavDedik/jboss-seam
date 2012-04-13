@@ -8,7 +8,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     
-    <groupId>org.jboss.seam.examples-ee6</groupId>
+    <groupId>org.jboss.seam.examples-ee6.contactlist</groupId>
     <artifactId>contactlist-web</artifactId>
     <packaging>war</packaging>
     <name>Contact List Web Module (EE6)</name>
@@ -21,7 +21,7 @@
 
    <dependencies>
         <dependency>
-            <groupId>org.jboss.seam.examples-ee6</groupId>
+            <groupId>org.jboss.seam.examples-ee6.contactlist</groupId>
             <artifactId>contactlist-ejb</artifactId>
             <type>ejb</type>
             <scope>provided</scope>
@@ -100,7 +100,7 @@
             </properties>
             <dependencies>
                 <dependency>
-                    <groupId>org.jboss.seam.examples</groupId>
+                    <groupId>org.jboss.seam.examples-ee6.contactlist</groupId>
                     <artifactId>contactlist-ejb</artifactId>
                     <type>ejb</type>
                     <scope>compile</scope>
