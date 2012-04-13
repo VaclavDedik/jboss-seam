@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd"
+              version="2.1">
+   ...
+</faces-config>
+   <!--<application>-->
+      <!--<message-bundle>messages</message-bundle>-->
+      <!--<view-handler>com.icesoft.faces.facelets.D2DSeamFaceletViewHandler</view-handler>-->
+   <!--</application>-->
+
+   <!--<managed-bean>-->
+
+      <!--<managed-bean-name>highlight</managed-bean-name>-->
+
+      <!--<managed-bean-class>com.icesoft.faces.context.effects.Highlight</managed-bean-class>-->
+
+      <!--<managed-bean-scope>application</managed-bean-scope>-->
+
+   <!--</managed-bean>-->

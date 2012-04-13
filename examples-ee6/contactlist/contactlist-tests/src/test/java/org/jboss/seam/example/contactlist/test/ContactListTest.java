@@ -17,7 +17,7 @@ import org.junit.runner.RunWith;
 public class ContactListTest extends JUnitSeamTest
 {
 
-   @Deployment(name="<project>Test")
+   @Deployment(name="ContactListTest")
    @OverProtocol("Servlet 3.0")
    public static Archive<?> createDeployment()
    {

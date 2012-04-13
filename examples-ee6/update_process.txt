@@ -213,3 +213,10 @@ In *-ejb.pom
 ===========
 All hibernate dependencies will need to be listed as 'provided'
 
+
+In src/main/resources/persistence.xml
+==================
+Change <jta-data-source>java:/icefaces-bookingDatasource</jta-data-source> to
+<non-jta-data-source>java:jboss/datasources/ExampleDS</non-jta-data-source>
+Run tests with:
+mvn -Darquillian=jbossas-managed-7 clean test integration-test
