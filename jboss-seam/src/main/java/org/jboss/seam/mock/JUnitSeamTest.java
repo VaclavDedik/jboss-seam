@@ -30,8 +30,8 @@ public class JUnitSeamTest extends AbstractSeamTest
       try {
          if (!seamStarted) {
             startSeam();
-            seamStarted = true;
             setupClass();
+            seamStarted = true;
          }
       }
       catch (Exception x) {

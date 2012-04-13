@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
     <listener>
-        <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
+        <listener-class>org.jboss.seam.mock.MockSeamListener</listener-class>
     </listener>
 
 </web-app>

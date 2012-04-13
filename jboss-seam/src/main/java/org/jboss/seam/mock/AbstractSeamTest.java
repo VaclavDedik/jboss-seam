@@ -934,12 +934,16 @@ public class AbstractSeamTest
     */
    protected void startSeam() throws Exception
    {
+      if (realServletContext == null && MockSeamListener.getServletContext() != null) {
+         realServletContext = MockSeamListener.getServletContext();
+      }
+
       // If the Seam Filter is already initialized, we can grab the real servlet context
-     if (realServletContext == null && ServletLifecycle.getServletContext() != null) {
-        realServletContext = ServletLifecycle.getServletContext();
-     }
-     
-     ServletContext realContext = realServletContext;
+      if (realServletContext == null && ServletLifecycle.getServletContext() != null) {
+         realServletContext = ServletLifecycle.getServletContext();
+      }
+
+      ServletContext realContext = realServletContext;
       this.servletContext = createServletContext(realContext);
       ServletLifecycle.beginApplication(servletContext);
       FactoryFinder.setFactory(FactoryFinder.APPLICATION_FACTORY, MockApplicationFactory.class.getName());
