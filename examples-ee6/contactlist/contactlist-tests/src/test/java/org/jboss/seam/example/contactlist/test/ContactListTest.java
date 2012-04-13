@@ -25,6 +25,10 @@ public class ContactListTest extends JUnitSeamTest
       WebArchive web = er.getAsType(WebArchive.class, "contactlist-web.war");
 
       web.addClasses(ContactListTest.class);
+      
+      // Install org.jboss.seam.mock.MockSeamListener
+      web.delete("/WEB-INF/web.xml");
+      web.addAsWebInfResource("web.xml");
 
       return er;
    }
