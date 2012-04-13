@@ -32,7 +32,7 @@ public class BestSellersTest
       WebArchive web = er.getAsType(WebArchive.class, "dvdstore-web.war");
       web.addClasses(BestSellersTest.class);
       
-   // Install org.jboss.seam.mock.MockSeamListener
+      // Install org.jboss.seam.mock.MockSeamListener
       web.delete("/WEB-INF/web.xml");
       web.addAsWebInfResource("web.xml");
 
