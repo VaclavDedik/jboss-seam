@@ -3474,7 +3474,7 @@ insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (436, 62)
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (436, 2);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (436, 4);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (436, 29);
-insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (436, 436, 25, 24);
+insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (436, 436, 25, 25);
 insert into PRODUCTS (PROD_ID, ASIN, TITLE, PRICE, IMAGE_URL, DESCRIPTION) values ('437', 'B00004RF97', 'The Philadelphia Story', 19.97, 'http://images.amazon.com/images/P/B00004RF97.01.MZZZZZZZ.jpg', 'Recreating the role she originated in Philip Barry''s wickedly witty Broadway play, Katharine Hepburn stars as the spoiled and snobby socialite Tracy Lord in this sparkling 1940 screen adaptation of The Philadelphia Story, one of the great romantic comedies from the golden age of MGM studios. Applying her impossibly high ideals to everyone but herself, Tracy is about to marry a stuffy executive when her congenial ex-husband (Cary Grant), arrives to protect his former father-in-law from a potentially scandalous tabloid expose. In an Oscar-winning role, James Stewart is the scandal reporter who falls for Tracy as her wedding day arrives, throwing her into a dizzying state of premarital jitters. Who will join Tracy at the altar? Snappy dialogue flows like sparkling wine under the sophisticated direction of George Cukor in this film that turned the tide of Hepburn''s career from "box-office poison" to glamorous Hollywood star. ');
 insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (437, 62)
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (437, 7);
