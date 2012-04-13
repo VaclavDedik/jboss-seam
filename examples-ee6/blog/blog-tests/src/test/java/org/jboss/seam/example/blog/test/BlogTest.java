@@ -5,24 +5,18 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import javax.faces.component.UIViewRoot;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OverProtocol;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.junit.InSequence;
 import org.jboss.seam.Component;
-import org.jboss.seam.annotations.In;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.mock.JUnitSeamTest;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.theme.Theme;
 import org.jboss.seam.theme.ThemeSelector;
-import org.jboss.seam.transaction.Transaction;
 import org.jboss.seam.transaction.UserTransaction;
 
 import actions.BlogService;
