@@ -14,7 +14,6 @@ import org.jboss.seam.mock.JUnitSeamTest;
 import org.jboss.seam.pageflow.Pageflow;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -35,8 +34,11 @@ public class DroolsNumberGuessTest extends JUnitSeamTest
        EnterpriseArchive er = ShrinkWrap.create(ZipImporter.class, "seam-drools.ear").importFrom(new File("../drools-ear/target/seam-drools.ear"))
            .as(EnterpriseArchive.class);
        WebArchive web = er.getAsType(WebArchive.class, "drools-web.war");
-       web.addAsWebInfResource(new StringAsset("org.jboss.seam.mock.MockFacesContextFactory"), "classes/META-INF/services/javax.faces.context.FacesContextFactory");
        web.addClasses(DroolsNumberGuessTest.class);
+       
+       // Install org.jboss.seam.mock.MockSeamListener
+       web.delete("/WEB-INF/web.xml");
+       web.addAsWebInfResource("web.xml");
 
        return er;
    }

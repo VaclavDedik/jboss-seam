@@ -72,12 +72,6 @@
       </dependency>
 
       <dependency>
-        <groupId>org.jboss.arquillian.extension</groupId>
-        <artifactId>arquillian-seam2</artifactId>
-        <scope>test</scope>
-      </dependency>
-
-      <dependency>
       	<groupId>org.jbpm.jbpm3</groupId>
       	<artifactId>jbpm-jpdl</artifactId>
       </dependency>
