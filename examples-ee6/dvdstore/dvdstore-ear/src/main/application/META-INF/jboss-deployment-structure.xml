@@ -2,7 +2,6 @@
   <deployment>
         <dependencies>
           <module name="org.apache.log4j" export="true"/>
-          <module name="org.dom4j" export="true"/>
           <module name="org.apache.commons.logging" export="true"/>
           <module name="org.apache.commons.collections" export="true"/>
           <module name="org.slf4j" export="true"/>

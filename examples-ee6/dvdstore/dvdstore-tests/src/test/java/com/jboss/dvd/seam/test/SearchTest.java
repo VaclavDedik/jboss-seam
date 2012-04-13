@@ -32,6 +32,10 @@ public class SearchTest
       EnterpriseArchive er = ShrinkWrap.create(ZipImporter.class, "seam-dvdstore.ear").importFrom(new File("../dvdstore-ear/target/seam-dvdstore.ear")).as(EnterpriseArchive.class);
       WebArchive web = er.getAsType(WebArchive.class, "dvdstore-web.war");
       web.addClasses(SearchTest.class);
+      
+      // Install org.jboss.seam.mock.MockSeamListener
+      web.delete("/WEB-INF/web.xml");
+      web.addAsWebInfResource("web.xml");
 
       return er;
    }
