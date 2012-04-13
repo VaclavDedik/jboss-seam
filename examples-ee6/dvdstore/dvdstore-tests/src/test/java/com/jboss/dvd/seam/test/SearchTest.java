@@ -40,6 +40,8 @@ public class SearchTest
     public void testNoParamSearch() 
         throws Exception
     {
+        // Wait a while for the indexing
+        Thread.sleep(10000);
         
         new FacesRequest() {
            FullTextSearch search;
@@ -61,11 +63,13 @@ public class SearchTest
                 ListDataModel model = (ListDataModel) lookup("searchResults");
                 //exact number of matches depends on search algorithm,
                 //so we only check that at least something was found:
-                Assert.assertEquals("should have found something",model.isRowAvailable());
+                
+                
+                Assert.assertTrue("should have found something", model.isRowAvailable());
                 Product firstMatch = (Product) model.getRowData();
-                Assert.assertEquals("at least top match should have keyword in title",
+                Assert.assertTrue("at least top match should have keyword in title",
                       firstMatch.getTitle().toLowerCase().contains("king"));
-                Assert.assertEquals("in conversation", isLongRunningConversation());
+                Assert.assertTrue("in conversation", isLongRunningConversation());
             }
         }.run();
     }

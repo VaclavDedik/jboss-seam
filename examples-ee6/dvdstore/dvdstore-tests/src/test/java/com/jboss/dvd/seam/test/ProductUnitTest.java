@@ -49,13 +49,14 @@ public class ProductUnitTest
                 Product p = new Product();
 
                 EntityManager em = (EntityManager) getValue("#{entityManager}");
+                
                 try {
-                    em.persist(p);
-                    Assert.fail("empty product persisted");
+                   em.persist(p);
+                   Assert.fail("empty product persisted");
                 } catch (PersistenceException e) {
                     // good
-                }                 
-            }            
+                }
+            }
         }.run();
     }
 
@@ -69,8 +70,8 @@ public class ProductUnitTest
          new FacesRequest() {
             protected void invokeApplication()
             {
-                EntityManager em = (EntityManager) getValue("#{entityManager}");                
-                em.persist(p);            
+                EntityManager em = (EntityManager) getValue("#{entityManager}");
+                em.persist(p);
             }
             
            
@@ -85,7 +86,7 @@ public class ProductUnitTest
                  Assert.assertEquals("id", p.getProductId(), found.getProductId());
                  Assert.assertEquals("title", "test", found.getTitle());
          
-                 em.remove(found);             
+                 em.remove(found);
              }
           }.run();
          
@@ -95,7 +96,7 @@ public class ProductUnitTest
                   EntityManager em = (EntityManager) getValue("#{entityManager}");
                   Product found = em.find(Product.class ,p.getProductId());
 
-                  Assert.assertEquals("deleted product", found);             
+                  Assert.assertNull("deleted product", found);
               }
            }.run();
           

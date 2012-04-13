@@ -54,7 +54,7 @@ public class StoreManagerTest
                 Assert.assertEquals("total sales",     BigDecimal.ZERO,   manager.getTotalSales());
 
                 // these are from inventory
-                Assert.assertEquals("units sold",      5734,  manager.getUnitsSold());
+                Assert.assertEquals("units sold",      5735,  manager.getUnitsSold());
                 Assert.assertEquals("total inventory", 23432, manager.getTotalInventory());
             }               
         }.run();
