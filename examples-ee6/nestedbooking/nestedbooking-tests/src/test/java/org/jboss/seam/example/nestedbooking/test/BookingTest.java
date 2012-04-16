@@ -10,20 +10,35 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.example.booking.Booking;
 import org.jboss.seam.example.booking.Hotel;
 import org.jboss.seam.example.booking.HotelBooking;
 import org.jboss.seam.example.booking.User;
-import org.jboss.seam.mock.SeamTest;
-import org.testng.annotations.Test;
-import org.junit.Ignore;
+import org.jboss.seam.mock.JUnitSeamTest;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-@Ignore
-public class BookingTest extends SeamTest
+@RunWith(Arquillian.class)
+public class BookingTest extends JUnitSeamTest
 {
-   
+   @Deployment(name="BookingTest")
+   @OverProtocol("Servlet 3.0")
+   public static Archive<?> createDeployment()
+   {
+      EnterpriseArchive er = Deployments.nestedBookingDeployment();
+      WebArchive web = er.getAsType(WebArchive.class, "nestedbooking-web.war");
+      web.addClasses(BookingTest.class);
+      return er;
+   }
+
    @Test
    public void testBookHotel() throws Exception
    {
@@ -35,7 +50,7 @@ public class BookingTest extends SeamTest
          {
             Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
             setValue("#{identity.username}", "gavin");
-            setValue("#{identity.password}", "foobar");            
+            setValue("#{identity.password}", "foobar");
             invokeMethod("#{identity.login}");
          }
          
