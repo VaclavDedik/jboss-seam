@@ -77,13 +77,21 @@
       </dependency>
 
       <dependency>
+         <groupId>org.jboss.arquillian.extension</groupId>
+         <artifactId>arquillian-seam2</artifactId>
+         <scope>test</scope>
+      </dependency>
+
+      <dependency>
          <groupId>org.jboss.spec.javax.el</groupId>
          <artifactId>jboss-el-api_2.2_spec</artifactId>
       </dependency>
+
       <dependency>
          <groupId>dom4j</groupId>
          <artifactId>dom4j</artifactId>
       </dependency>
+
       <dependency>
          <groupId>javassist</groupId>
          <artifactId>javassist</artifactId>
