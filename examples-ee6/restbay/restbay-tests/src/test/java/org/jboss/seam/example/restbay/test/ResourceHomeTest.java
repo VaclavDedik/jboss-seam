@@ -1,135 +1,160 @@
 package org.jboss.seam.example.restbay.test;
 
+import static org.junit.Assert.assertEquals;
+
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.mock.EnhancedMockHttpServletRequest;
 import org.jboss.seam.mock.EnhancedMockHttpServletResponse;
+import org.jboss.seam.mock.JUnitSeamTest;
+
 import static org.jboss.seam.mock.ResourceRequestEnvironment.Method;
 import static org.jboss.seam.mock.ResourceRequestEnvironment.ResourceRequest;
-import org.jboss.seam.mock.SeamTest;
 import org.jboss.seam.mock.ResourceRequestEnvironment;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-import org.junit.Ignore;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import static org.testng.Assert.assertEquals;
 
 /**
  * 
  * @author Jozef Hartinger
  * 
  */
-@Ignore
-public class ResourceHomeTest extends SeamTest
+@RunWith(Arquillian.class)
+public class ResourceHomeTest extends JUnitSeamTest
 {
-
-   @DataProvider(name = "queryPaths")
-   public Object[][] getData()
+   @Deployment(name="ResourceHomeTest")
+   @OverProtocol("Servlet 3.0")
+   public static Archive<?> createDeployment()
    {
-      return new String[][]{ { "/configuredCategory" }, { "/extendedCategory" } };
+      EnterpriseArchive er = Deployments.restbayDeployment();
+      WebArchive web = er.getAsType(WebArchive.class, "restbay-web.war");
+      web.addClasses(ResourceHomeTest.class);
+      return er;
    }
 
-   @Test(dataProvider = "queryPaths")
-   public void testResourceHomeRead(final String resourcePath) throws Exception
+   public String[] getQueryPaths()
    {
-      final String expectedResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><category><categoryId>1</categoryId><name>Antiques</name></category>";
-      final String path = "/restv1" + resourcePath + "/1";
-
-      new ResourceRequest(new ResourceRequestEnvironment(this), Method.GET, path)
-      {
-
-         @Override
-         protected void prepareRequest(EnhancedMockHttpServletRequest request)
-         {
-            super.prepareRequest(request);
-            request.addHeader("Accept", "application/xml");
-         }
-
-         @Override
-         protected void onResponse(EnhancedMockHttpServletResponse response)
-         {
-            assertEquals(response.getContentAsString(), expectedResponse, "Unexpected response.");
-         }
-
-      }.run();
+      return new String[]{ "/configuredCategory", "/extendedCategory" };
    }
 
-   @Test(dataProvider = "queryPaths")
-   public void testResourceHomeCreate(final String resourcePath) throws Exception
+   @Test
+   public void testResourceHomeRead() throws Exception
    {
-      final String name = "Airplanes";
-      final String body = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><category><name>" + name + "</name></category>";
-      final String mediaType = "application/xml";
-      final String path = "/restv1" + resourcePath;
-
-      new ResourceRequest(new ResourceRequestEnvironment(this), Method.POST, path)
+      for (String resourcePath : getQueryPaths())
       {
-         @Override
-         protected void prepareRequest(EnhancedMockHttpServletRequest request)
-         {
-            super.prepareRequest(request);
-            // TODO for some reason content type must be set using both these
-            // methods
-            request.addHeader("Content-Type", mediaType);
-            request.setContentType(mediaType);
-            request.setContent(body.getBytes());
-         }
+         final String expectedResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><category><categoryId>1</categoryId><name>Antiques</name></category>";
+         final String path = "/restv1" + resourcePath + "/1";
 
-         @Override
-         protected void onResponse(EnhancedMockHttpServletResponse response)
+         new ResourceRequest(new ResourceRequestEnvironment(this), Method.GET, path)
          {
-            assertEquals(response.getStatus(), 201, "Unexpected response code.");
-         }
 
-      }.run();
+            @Override
+            protected void prepareRequest(EnhancedMockHttpServletRequest request)
+            {
+               super.prepareRequest(request);
+               request.addHeader("Accept", "application/xml");
+            }
+
+            @Override
+            protected void onResponse(EnhancedMockHttpServletResponse response)
+            {
+               assertEquals("Unexpected response.", expectedResponse, response.getContentAsString());
+            }
+
+         }.run();
+      }
    }
 
-   @Test(dataProvider = "queryPaths")
-   public void testResourceHomeUpdate(String resourcePath) throws Exception
+   @Test
+   public void testResourceHomeCreate() throws Exception
    {
-      final String body = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><category><categoryId>5</categoryId><name>" + resourcePath.hashCode() + "</name></category>";
-      final String mediaType = "application/xml";
-      final String path = "/restv1" + resourcePath + "/5";
-
-      new ResourceRequest(new ResourceRequestEnvironment(this), Method.PUT, path)
+      for (String resourcePath : getQueryPaths())
       {
+         final String name = "Airplanes";
+         final String body = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><category><name>" + name
+               + "</name></category>";
+         final String mediaType = "application/xml";
+         final String path = "/restv1" + resourcePath;
 
-         @Override
-         protected void prepareRequest(EnhancedMockHttpServletRequest request)
+         new ResourceRequest(new ResourceRequestEnvironment(this), Method.POST, path)
          {
-            super.prepareRequest(request);
-            request.setContentType(mediaType);
-            request.addHeader("Content-Type", mediaType);
-            request.setContent(body.getBytes());
-         }
+            @Override
+            protected void prepareRequest(EnhancedMockHttpServletRequest request)
+            {
+               super.prepareRequest(request);
+               // TODO for some reason content type must be set using both these
+               // methods
+               request.addHeader("Content-Type", mediaType);
+               request.setContentType(mediaType);
+               request.setContent(body.getBytes());
+            }
 
-         @Override
-         protected void onResponse(EnhancedMockHttpServletResponse response)
-         {
-            assertEquals(response.getStatus(), 204, "Unexpected response code.");
-         }
+            @Override
+            protected void onResponse(EnhancedMockHttpServletResponse response)
+            {
+               assertEquals("Unexpected response code.", 201, response.getStatus(), 201);
+            }
 
-      }.run();
-      
-      reset();
+         }.run();
+      }
+   }
 
-      new ResourceRequest(new ResourceRequestEnvironment(this), Method.GET, path)
+   @Test
+   public void testResourceHomeUpdate() throws Exception
+   {
+      for (String resourcePath : getQueryPaths())
       {
+         final String body = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><category><categoryId>5</categoryId><name>"
+               + resourcePath.hashCode() + "</name></category>";
+         final String mediaType = "application/xml";
+         final String path = "/restv1" + resourcePath + "/5";
 
-         @Override
-         protected void prepareRequest(EnhancedMockHttpServletRequest request)
+         new ResourceRequest(new ResourceRequestEnvironment(this), Method.PUT, path)
          {
-            super.prepareRequest(request);
-            request.addHeader("Accept", mediaType);
-         }
 
-         @Override
-         protected void onResponse(EnhancedMockHttpServletResponse response)
+            @Override
+            protected void prepareRequest(EnhancedMockHttpServletRequest request)
+            {
+               super.prepareRequest(request);
+               request.setContentType(mediaType);
+               request.addHeader("Content-Type", mediaType);
+               request.setContent(body.getBytes());
+            }
+
+            @Override
+            protected void onResponse(EnhancedMockHttpServletResponse response)
+            {
+               assertEquals("Unexpected response code.", 204, response.getStatus());
+            }
+
+         }.run();
+
+         reset();
+
+         new ResourceRequest(new ResourceRequestEnvironment(this), Method.GET, path)
          {
-            assertEquals(response.getStatus(), 200, "Unexpected response code.");
-            assertEquals(response.getContentAsString(), body, "Unexpected response.");
-         }
 
-      }.run();
+            @Override
+            protected void prepareRequest(EnhancedMockHttpServletRequest request)
+            {
+               super.prepareRequest(request);
+               request.addHeader("Accept", mediaType);
+            }
 
+            @Override
+            protected void onResponse(EnhancedMockHttpServletResponse response)
+            {
+               assertEquals("Unexpected response code.", 200, response.getStatus());
+               assertEquals("Unexpected response.", body, response.getContentAsString());
+            }
+
+         }.run();
+      }
    }
 
    @Test
@@ -144,7 +169,7 @@ public class ResourceHomeTest extends SeamTest
          @Override
          protected void onResponse(EnhancedMockHttpServletResponse response)
          {
-            assertEquals(response.getStatus(), 204, "Unexpected response code.");
+            assertEquals("Unexpected response code.", 204, response.getStatus());
          }
 
       }.run();
@@ -164,7 +189,7 @@ public class ResourceHomeTest extends SeamTest
          @Override
          protected void onResponse(EnhancedMockHttpServletResponse response)
          {
-            assertEquals(response.getStatus(), 404, "Unexpected response code.");
+            assertEquals("Unexpected response code.", response.getStatus(), 404);
          }
 
       }.run();

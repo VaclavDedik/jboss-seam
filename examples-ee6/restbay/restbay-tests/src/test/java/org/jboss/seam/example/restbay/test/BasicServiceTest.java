@@ -1,16 +1,25 @@
 package org.jboss.seam.example.restbay.test;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.mock.EnhancedMockHttpServletResponse;
 import org.jboss.seam.mock.EnhancedMockHttpServletRequest;
+import org.jboss.seam.mock.JUnitSeamTest;
 import org.jboss.seam.mock.SeamTest;
 import org.jboss.seam.mock.ResourceRequestEnvironment;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+
 import static org.jboss.seam.mock.ResourceRequestEnvironment.Method;
 import static org.jboss.seam.mock.ResourceRequestEnvironment.ResourceRequest;
-import org.testng.annotations.Test;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.BeforeClass;
-import static org.testng.Assert.assertEquals;
+
+import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import static org.junit.Assert.*;
 
 import javax.servlet.http.Cookie;
 import javax.ws.rs.core.MediaType;
@@ -69,13 +78,22 @@ import java.util.HashMap;
  * </pre>
  *
  */
-@Ignore
-public class BasicServiceTest extends SeamTest
+@RunWith(Arquillian.class)
+public class BasicServiceTest extends JUnitSeamTest
 {
+   @Deployment(name="BasicServiceTest")
+   @OverProtocol("Servlet 3.0")
+   public static Archive<?> createDeployment()
+   {
+      EnterpriseArchive er = Deployments.restbayDeployment();
+      WebArchive web = er.getAsType(WebArchive.class, "restbay-web.war");
+      web.addClasses(BasicServiceTest.class);
+      return er;
+   }
 
    ResourceRequestEnvironment requestEnv;
 
-   @BeforeClass
+   @Before
    public void prepareEnv() throws Exception
    {
       requestEnv = new ResourceRequestEnvironment(this)
@@ -84,9 +102,9 @@ public class BasicServiceTest extends SeamTest
          public Map<String, Object> getDefaultHeaders()
          {
             return new HashMap<String, Object>()
-            {{
-                  put("Accept", "text/plain");
-               }};
+                  {{
+                     put("Accept", "text/plain");
+                  }};
          }
 
          @Override
@@ -98,22 +116,21 @@ public class BasicServiceTest extends SeamTest
       };
    }
 
-   @DataProvider(name = "queryPaths")
-   public Object[][] getData()
+   public String[] getQueryPaths()
    {
-      return new String[][] {
-            { "/restv1/plainTest" },
+      return new String[] {
+            "/restv1/plainTest",
 
-            { "/restv1/eventComponentTest" },
-            { "/restv1/applicationComponentTest" },
-            { "/restv1/statelessComponentTest" },
+            "/restv1/eventComponentTest",
+            "/restv1/applicationComponentTest",
+            "/restv1/statelessComponentTest",
 
-            { "/restv1/interfaceEventComponentTest" },
-            { "/restv1/interfaceApplicationComponentTest" },
-            { "/restv1/interfaceStatelessComponentTest" },
+            "/restv1/interfaceEventComponentTest",
+            "/restv1/interfaceApplicationComponentTest",
+            "/restv1/interfaceStatelessComponentTest",
 
-            { "/restv1/statelessEjbTest" },
-            { "/restv1/statelessEjbComponentTest" }
+            "/restv1/statelessEjbTest",
+            "/restv1/statelessEjbComponentTest"
       };
    }
 
@@ -125,308 +142,325 @@ public class BasicServiceTest extends SeamTest
          @Override
          protected void onResponse(EnhancedMockHttpServletResponse response)
          {
-            assertEquals(response.getStatus(), 200);
-            assertEquals(response.getContentAsString(), "Root");
+            assertEquals(200, response.getStatus());
+            assertEquals("Root", response.getContentAsString());
          }
 
       }.run();
    }
 
-   @Test(dataProvider = "queryPaths")
-   public void testExeptionMapping(final String resourcePath) throws Exception
+   @Test
+   public void testExeptionMapping() throws Exception
    {
-      new ResourceRequest(requestEnv, Method.GET, resourcePath + "/trigger/unsupported")
+      for (String resourcePath : getQueryPaths())
       {
-
-         @Override
-         protected void onResponse(EnhancedMockHttpServletResponse response)
+         new ResourceRequest(requestEnv, Method.GET, resourcePath + "/trigger/unsupported")
          {
-            assert response.getStatus() == 501;
-            assert response.getStatusMessage().equals("The request operation is not supported: foo");
-         }
 
-      }.run();
+            @Override
+            protected void onResponse(EnhancedMockHttpServletResponse response)
+            {
+               assert response.getStatus() == 501;
+               assert response.getStatusMessage().equals("The request operation is not supported: foo");
+            }
 
+         }.run();
+      }
    }
 
-   @Test(dataProvider = "queryPaths")
-   public void testEchos(final String resourcePath) throws Exception
+   @Test
+   public void testEchos() throws Exception
    {
-      new ResourceRequest(requestEnv, Method.GET, resourcePath + "/echouri")
+      for (String resourcePath : getQueryPaths())
       {
-
-         @Override
-         protected void onResponse(EnhancedMockHttpServletResponse response)
-         {
-            assert response.getStatus() == 200;
-            assert response.getContentAsString().endsWith("/echouri");
-         }
-
-      }.run();
-      
-      reset();
-
-      new ResourceRequest(requestEnv, Method.GET, resourcePath + "/echoquery")
-      {
-
-         @Override
-         protected void prepareRequest(EnhancedMockHttpServletRequest request)
-         {
-            request.setQueryString("asdf=123");
-            request.addQueryParameter("bar", "bbb");
-            request.addQueryParameter("baz", "bzzz");
-         }
-
-         @Override
-         protected void onResponse(EnhancedMockHttpServletResponse response)
-         {
-            assert response.getStatus() == 200;
-            assert response.getContentAsString().equals("bbb");
-         }
-
-      }.run();
-      
-      reset();
-
-      new ResourceRequest(requestEnv, Method.GET, resourcePath + "/echoheader")
-      {
-
-         @Override
-         protected void prepareRequest(EnhancedMockHttpServletRequest request)
-         {
-            request.addHeader("bar", "baz");
-         }
-
-         @Override
-         protected void onResponse(EnhancedMockHttpServletResponse response)
-         {
-            assert response.getStatus() == 200;
-            assert response.getContentAsString().equals("baz");
-         }
-
-      }.run();
-      
-      reset();
-
-      new ResourceRequest(requestEnv, Method.GET, resourcePath + "/echocookie")
-      {
-
-         @Override
-         protected void prepareRequest(EnhancedMockHttpServletRequest request)
-         {
-            request.addCookie(new Cookie("bar", "baz"));
-         }
-
-         @Override
-         protected void onResponse(EnhancedMockHttpServletResponse response)
-         {
-            assert response.getStatus() == 200;
-            assert response.getContentAsString().equals("baz");
-         }
-
-      }.run();
-      
-      reset();
-
-      new ResourceRequest(requestEnv, Method.GET, resourcePath + "/foo/bar/asdf")
-      {
-
-         @Override
-         protected void onResponse(EnhancedMockHttpServletResponse response)
+         new ResourceRequest(requestEnv, Method.GET, resourcePath + "/echouri")
          {
 
-            assert response.getStatus() == 200;
-            assert response.getContentAsString().equals("bar: asdf");
-         }
+            @Override
+            protected void onResponse(EnhancedMockHttpServletResponse response)
+            {
+               assert response.getStatus() == 200;
+               assert response.getContentAsString().endsWith("/echouri");
+            }
 
-      }.run();
-      
-      reset();
+         }.run();
 
-      new ResourceRequest(requestEnv, Method.GET, resourcePath + "/echotwoparams/foo/bar")
-      {
+         reset();
 
-         @Override
-         protected void onResponse(EnhancedMockHttpServletResponse response)
+         new ResourceRequest(requestEnv, Method.GET, resourcePath + "/echoquery")
          {
-            assert response.getStatus() == 200;
-            assert response.getContentAsString().equals("foobar");
-         }
 
-      }.run();
+            @Override
+            protected void prepareRequest(EnhancedMockHttpServletRequest request)
+            {
+               request.setQueryString("asdf=123");
+               request.addQueryParameter("bar", "bbb");
+               request.addQueryParameter("baz", "bzzz");
+            }
+
+            @Override
+            protected void onResponse(EnhancedMockHttpServletResponse response)
+            {
+               assert response.getStatus() == 200;
+               assert response.getContentAsString().equals("bbb");
+            }
+
+         }.run();
+
+         reset();
+
+         new ResourceRequest(requestEnv, Method.GET, resourcePath + "/echoheader")
+         {
+
+            @Override
+            protected void prepareRequest(EnhancedMockHttpServletRequest request)
+            {
+               request.addHeader("bar", "baz");
+            }
+
+            @Override
+            protected void onResponse(EnhancedMockHttpServletResponse response)
+            {
+               assert response.getStatus() == 200;
+               assert response.getContentAsString().equals("baz");
+            }
+
+         }.run();
+
+         reset();
+
+         new ResourceRequest(requestEnv, Method.GET, resourcePath + "/echocookie")
+         {
+
+            @Override
+            protected void prepareRequest(EnhancedMockHttpServletRequest request)
+            {
+               request.addCookie(new Cookie("bar", "baz"));
+            }
+
+            @Override
+            protected void onResponse(EnhancedMockHttpServletResponse response)
+            {
+               assert response.getStatus() == 200;
+               assert response.getContentAsString().equals("baz");
+            }
+
+         }.run();
+
+         reset();
+
+         new ResourceRequest(requestEnv, Method.GET, resourcePath + "/foo/bar/asdf")
+         {
+
+            @Override
+            protected void onResponse(EnhancedMockHttpServletResponse response)
+            {
+
+               assert response.getStatus() == 200;
+               assert response.getContentAsString().equals("bar: asdf");
+            }
+
+         }.run();
+
+         reset();
+
+         new ResourceRequest(requestEnv, Method.GET, resourcePath + "/echotwoparams/foo/bar")
+         {
+
+            @Override
+            protected void onResponse(EnhancedMockHttpServletResponse response)
+            {
+               assert response.getStatus() == 200;
+               assert response.getContentAsString().equals("foobar");
+            }
+
+         }.run();
+      }
 
    }
 
-   @Test(dataProvider = "queryPaths")
-   public void testEncoding(final String resourcePath) throws Exception
+   @Test
+   public void testEncoding() throws Exception
    {
-      new ResourceRequest(requestEnv, Method.GET, resourcePath + "/echoencoded/foo bar")
+      for (String resourcePath : getQueryPaths())
       {
-
-         @Override
-         protected void onResponse(EnhancedMockHttpServletResponse response)
+         new ResourceRequest(requestEnv, Method.GET, resourcePath + "/echoencoded/foo bar")
          {
-            assert response.getStatus() == 200;
-            assert response.getContentAsString().equals("foo%20bar");
-         }
 
-      }.run();
+            @Override
+            protected void onResponse(EnhancedMockHttpServletResponse response)
+            {
+               assert response.getStatus() == 200;
+               assert response.getContentAsString().equals("foo%20bar");
+            }
+
+         }.run();
+      }
    }
 
-   @Test(dataProvider = "queryPaths")
-   public void testFormHandling(final String resourcePath) throws Exception
+   @Test
+   public void testFormHandling() throws Exception
    {
-      new ResourceRequest(requestEnv, Method.POST, resourcePath + "/echoformparams")
+      for (String resourcePath : getQueryPaths())
       {
-
-         @Override
-         protected void prepareRequest(EnhancedMockHttpServletRequest request)
+         new ResourceRequest(requestEnv, Method.POST, resourcePath + "/echoformparams")
          {
-            request.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-            request.addParameter("foo", new String[]{"bar", "baz"});
-         }
 
-         @Override
-         protected void onResponse(EnhancedMockHttpServletResponse response)
+            @Override
+            protected void prepareRequest(EnhancedMockHttpServletRequest request)
+            {
+               request.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+               request.addParameter("foo", new String[]
+               {"bar", "baz"});
+            }
+
+            @Override
+            protected void onResponse(EnhancedMockHttpServletResponse response)
+            {
+               assert response.getStatus() == 200;
+               assert response.getContentAsString().equals("barbaz");
+            }
+
+         }.run();
+
+         reset();
+
+         new ResourceRequest(requestEnv, Method.POST, resourcePath + "/echoformparams2")
          {
-            assert response.getStatus() == 200;
-            assert response.getContentAsString().equals("barbaz");
-         }
 
-      }.run();
-      
-      reset();
+            @Override
+            protected void prepareRequest(EnhancedMockHttpServletRequest request)
+            {
+               request.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+               request.addParameter("foo", new String[]
+               {"bar", "baz"});
+            }
 
-      new ResourceRequest(requestEnv, Method.POST, resourcePath + "/echoformparams2")
-      {
+            @Override
+            protected void onResponse(EnhancedMockHttpServletResponse response)
+            {
+               assert response.getStatus() == 200;
+               assert response.getContentAsString().equals("barbaz");
+            }
 
-         @Override
-         protected void prepareRequest(EnhancedMockHttpServletRequest request)
+         }.run();
+
+         reset();
+
+         new ResourceRequest(requestEnv, Method.POST, resourcePath + "/echoformparams3")
          {
-            request.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-            request.addParameter("foo", new String[]{"bar", "baz"});
-         }
 
-         @Override
-         protected void onResponse(EnhancedMockHttpServletResponse response)
-         {
-            assert response.getStatus() == 200;
-            assert response.getContentAsString().equals("barbaz");
-         }
+            @Override
+            protected void prepareRequest(EnhancedMockHttpServletRequest request)
+            {
+               request.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+               request.addHeader("bar", "foo");
+               request.addParameter("foo", new String[]
+               {"bar", "baz"});
+            }
 
-      }.run();
-      
-      reset();
+            @Override
+            protected void onResponse(EnhancedMockHttpServletResponse response)
+            {
+               assert response.getStatus() == 200;
+               assert response.getContentAsString().equals("foobarbaz");
+            }
 
-      new ResourceRequest(requestEnv, Method.POST, resourcePath + "/echoformparams3")
-      {
+         }.run();
 
-         @Override
-         protected void prepareRequest(EnhancedMockHttpServletRequest request)
-         {
-            request.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-            request.addHeader("bar", "foo");
-            request.addParameter("foo", new String[]{"bar", "baz"});
-         }
-
-         @Override
-         protected void onResponse(EnhancedMockHttpServletResponse response)
-         {
-            assert response.getStatus() == 200;
-            assert response.getContentAsString().equals("foobarbaz");
-         }
-
-      }.run();
-      
-      reset();
-
+         reset();
+      }
    }
 
-   @Test(dataProvider = "queryPaths")
-   public void testStringConverter(final String resourcePath) throws Exception
+   @Test()
+   public void testStringConverter() throws Exception
    {
       final String ISO_DATE = "2007-07-10T14:54:56-0500";
       final String ISO_DATE_MILLIS = "1184097296000";
-
-      new ResourceRequest(requestEnv, Method.GET, resourcePath + "/convertDate/" + ISO_DATE)
+      
+      for (String resourcePath : getQueryPaths())
       {
 
-         @Override
-         protected void onResponse(EnhancedMockHttpServletResponse response)
+         new ResourceRequest(requestEnv, Method.GET, resourcePath + "/convertDate/" + ISO_DATE)
          {
-            assert response.getStatus() == 200;
-            assertEquals(response.getContentAsString(), ISO_DATE_MILLIS);
-         }
 
-      }.run();
+            @Override
+            protected void onResponse(EnhancedMockHttpServletResponse response)
+            {
+               assert response.getStatus() == 200;
+               assertEquals(ISO_DATE_MILLIS, response.getContentAsString());
+            }
 
+         }.run();
+      }
    }
 
-   @Test(dataProvider = "queryPaths")
-   public void testProvider(final String resourcePath) throws Exception
+   @Test
+   public void testProvider() throws Exception
    {
-
-      new ResourceRequest(requestEnv, Method.GET, resourcePath + "/commaSeparated")
+      for (String resourcePath : getQueryPaths())
       {
-
-         @Override
-         protected void prepareRequest(EnhancedMockHttpServletRequest request)
+         new ResourceRequest(requestEnv, Method.GET, resourcePath + "/commaSeparated")
          {
-            request.addHeader("Accept", "text/csv");
-         }
 
-         @Override
-         protected void onResponse(EnhancedMockHttpServletResponse response)
+            @Override
+            protected void prepareRequest(EnhancedMockHttpServletRequest request)
+            {
+               request.addHeader("Accept", "text/csv");
+            }
+
+            @Override
+            protected void onResponse(EnhancedMockHttpServletResponse response)
+            {
+               assert response.getStatus() == 200;
+               assert response.getContentAsString().equals("foo,bar\r\nasdf,123\r\n");
+            }
+
+         }.run();
+
+         reset();
+
+         new ResourceRequest(requestEnv, Method.GET, resourcePath + "/commaSeparatedStrings")
          {
-            assert response.getStatus() == 200;
-            assert response.getContentAsString().equals("foo,bar\r\nasdf,123\r\n");
-         }
 
-      }.run();
-      
-      reset();
+            @Override
+            protected void prepareRequest(EnhancedMockHttpServletRequest request)
+            {
+               request.addHeader("Accept", "text/plain");
+            }
 
-      new ResourceRequest(requestEnv, Method.GET, resourcePath + "/commaSeparatedStrings")
-      {
+            @Override
+            protected void onResponse(EnhancedMockHttpServletResponse response)
+            {
+               assert response.getStatus() == 200;
+               assert response.getContentAsString().equals("abc,foo,bar,baz");
+            }
 
-         @Override
-         protected void prepareRequest(EnhancedMockHttpServletRequest request)
+         }.run();
+
+         reset();
+
+         new ResourceRequest(requestEnv, Method.GET, resourcePath + "/commaSeparatedIntegers")
          {
-            request.addHeader("Accept", "text/plain");
-         }
 
-         @Override
-         protected void onResponse(EnhancedMockHttpServletResponse response)
-         {
-            assert response.getStatus() == 200;
-            assert response.getContentAsString().equals("abc,foo,bar,baz");
-         }
+            @Override
+            protected void prepareRequest(EnhancedMockHttpServletRequest request)
+            {
+               request.addHeader("Accept", "text/plain");
+            }
 
-      }.run();
-      
-      reset();
-
-      new ResourceRequest(requestEnv, Method.GET, resourcePath + "/commaSeparatedIntegers")
-      {
-
-         @Override
-         protected void prepareRequest(EnhancedMockHttpServletRequest request)
-         {
-            request.addHeader("Accept", "text/plain");
-         }
-
-         @Override
-         protected void onResponse(EnhancedMockHttpServletResponse response)
-         {
-            assert response.getStatus() == 200;
-            assert response.getContentAsString().equals("abc,1,2,3");
-         }
-      };
-      // }.run();
-      // TODO: Retracted support for Seam component providers, injection shouldn't happen, see https://jira.jboss.org/jira/browse/JBSEAM-4247
-
+            @Override
+            protected void onResponse(EnhancedMockHttpServletResponse response)
+            {
+               assert response.getStatus() == 200;
+               assert response.getContentAsString().equals("abc,1,2,3");
+            }
+         };
+         // }.run();
+         // TODO: Retracted support for Seam component providers, injection shouldn't happen, see https://jira.jboss.org/jira/browse/JBSEAM-4247
+      }
    }
-   
+
    @Test
    // JBPAPP-3713
    public void synchronizationsLookup() throws Exception
@@ -438,14 +472,14 @@ public class BasicServiceTest extends SeamTest
          {
             super.prepareRequest(request);
          }
-         
+
          @Override
          protected void onResponse(EnhancedMockHttpServletResponse response)
          {
-            assertEquals(response.getStatus(), 200, "Unexpected response code.");
+            assertEquals("Unexpected response code.", 200, response.getStatus(), 200);
             assert response.getContentAsString().equals("true");
          }
-         
+
       }.run();
    }
 }

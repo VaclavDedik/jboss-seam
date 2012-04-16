@@ -1,16 +1,23 @@
 package org.jboss.seam.example.restbay.test;
 
-import static org.testng.Assert.assertEquals;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.mock.EnhancedMockHttpServletRequest;
 import org.jboss.seam.mock.EnhancedMockHttpServletResponse;
-import org.jboss.seam.mock.SeamTest;
+import org.jboss.seam.mock.JUnitSeamTest;
 import org.jboss.seam.mock.ResourceRequestEnvironment;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+
 import static org.jboss.seam.mock.ResourceRequestEnvironment.Method;
 import static org.jboss.seam.mock.ResourceRequestEnvironment.ResourceRequest;
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeClass;
-import org.junit.Ignore;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,13 +27,22 @@ import java.util.Map;
  *
  * @author Jozef Hartinger
  */
-@Ignore
-public class SecurityTest extends SeamTest
+@RunWith(Arquillian.class)
+public class SecurityTest extends JUnitSeamTest
 {
+   @Deployment(name="SecurityTest")
+   @OverProtocol("Servlet 3.0")
+   public static Archive<?> createDeployment()
+   {
+      EnterpriseArchive er = Deployments.restbayDeployment();
+      WebArchive web = er.getAsType(WebArchive.class, "restbay-web.war");
+      web.addClasses(SecurityTest.class);
+      return er;
+   }
 
    ResourceRequestEnvironment requestEnv;
 
-   @BeforeClass
+   @Before
    public void prepareEnv() throws Exception
    {
       requestEnv = new ResourceRequestEnvironment(this)
@@ -58,8 +74,8 @@ public class SecurityTest extends SeamTest
          @Override
          protected void onResponse(EnhancedMockHttpServletResponse response)
          {
-            assertEquals(response.getStatus(), 200, "Unexpected response code.");
-            assertEquals(response.getContentAsString(), "false", "Unexpected response.");
+            assertEquals("Unexpected response code.", 200, response.getStatus(), 200);
+            assertEquals("Unexpected response.", "false", response.getContentAsString());
          }
 
       }.run();
@@ -82,11 +98,11 @@ public class SecurityTest extends SeamTest
          protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             assertEquals(
-                  response.getHeader("WWW-Authenticate"),
+                  "Invalid authentication header value",
                   "Basic realm=\"Seam RestBay Application\"",
-                  "Invalid authentication header value"
+                  response.getHeader("WWW-Authenticate")
             );
-            assertEquals(response.getStatus(), 401, "Unexpected response code.");
+            assertEquals("Unexpected response code.", 401, response.getStatus());
          }
 
       }.run();
@@ -108,8 +124,8 @@ public class SecurityTest extends SeamTest
          @Override
          protected void onResponse(EnhancedMockHttpServletResponse response)
          {
-            assertEquals(response.getStatus(), 200, "Unexpected response code.");
-            assertEquals(response.getContentAsString(), "true");
+            assertEquals("Unexpected response code.", 200, response.getStatus());
+            assertEquals("true", response.getContentAsString());
          }
 
       }.run();
@@ -131,8 +147,8 @@ public class SecurityTest extends SeamTest
          @Override
          protected void onResponse(EnhancedMockHttpServletResponse response)
          {
-            assertEquals(response.getStatus(), 200, "Unexpected response code.");
-            assertEquals(response.getContentAsString(), "true");
+            assertEquals("Unexpected response code.", 200, response.getStatus());
+            assertEquals("true", response.getContentAsString());
          }
 
       }.run();
@@ -155,7 +171,7 @@ public class SecurityTest extends SeamTest
          protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             // See AuthorizationException mapping to 403 in pages.xml!
-            assertEquals(response.getStatus(), 403, "Unexpected response code.");
+            assertEquals("Unexpected response code.", 403, response.getStatus());
             assert response.getStatusMessage().startsWith("Not authorized to access resource");
          }
 
@@ -179,7 +195,7 @@ public class SecurityTest extends SeamTest
          @Override
          protected void onResponse(EnhancedMockHttpServletResponse response)
          {
-            assertEquals(response.getStatus(), 200, "Unexpected response code.");
+            assertEquals("Unexpected response code.", 200, response.getStatus(), 200);
             assert response.getContentAsString().equals("true");
          }
          
@@ -203,7 +219,7 @@ public class SecurityTest extends SeamTest
          @Override
          protected void onResponse(EnhancedMockHttpServletResponse response)
          {
-            assertEquals(response.getStatus(), 200, "Unexpected response code.");
+            assertEquals("Unexpected response code.", 200, response.getStatus());
             assert response.getContentAsString().equals("true");
          }
          
