@@ -20,4 +20,7 @@
 
     <security:identity authenticate-method="#{authenticator.authenticate}"/>
 
+    <component class="org.jboss.seam.transaction.EjbSynchronizations" jndi-name="java:app/jboss-seam/EjbSynchronizations"/>
+    <component class="org.jboss.seam.async.TimerServiceDispatcher" jndi-name="java:app/jboss-seam/TimerServiceDispatcher"/>
+
 </components>

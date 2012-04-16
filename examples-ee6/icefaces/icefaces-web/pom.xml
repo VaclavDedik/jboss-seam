@@ -16,7 +16,7 @@
 
    <properties>
       <!-- filtering property for components.xml -->
-      <jndiPattern>java:app/seam-icefaces/#{ejbName}</jndiPattern>
+      <jndiPattern>java:app/icefaces-ejb/#{ejbName}</jndiPattern>
    </properties>
 
    <repositories>
@@ -39,6 +39,7 @@
          <groupId>org.jboss.seam</groupId>
          <artifactId>jboss-seam</artifactId>
          <type>ejb</type>
+         <scope>provided</scope>
       </dependency>
       <dependency>
          <groupId>commons-logging</groupId>
