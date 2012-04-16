@@ -8,8 +8,13 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import java.io.File;
 
 public class Deployments {
-	public static WebArchive jpaDeployment() {
-		return ShrinkWrap.create(ZipImporter.class, "jboss-seam-jpa.war").importFrom(new File("../jpa-web/target/jboss-seam-jpa.war"))
-				.as(WebArchive.class);
-	}
+   public static WebArchive jpaDeployment() {
+      WebArchive web = ShrinkWrap.create(ZipImporter.class, "jboss-seam-jpa.war").importFrom(new File("../jpa-web/target/jboss-seam-jpa.war"))
+            .as(WebArchive.class);
+
+      web.delete("/WEB-INF/web.xml");
+      web.addAsWebInfResource("web.xml");
+      
+      return web;
+   }
 }

@@ -53,7 +53,7 @@ public class BookingTest extends JUnitSeamTest
          {
             Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
             setValue("#{identity.username}", "gavin");
-            setValue("#{identity.password}", "foobar");            
+            setValue("#{identity.password}", "foobar");
             invokeAction("#{identity.login}");
          }
          
