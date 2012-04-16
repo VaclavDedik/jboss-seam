@@ -27,8 +27,12 @@ public class MessageListTest extends JUnitSeamTest
 	{
       EnterpriseArchive er = ShrinkWrap.create(ZipImporter.class, "seam-messages.ear").importFrom(new File("../messages-ear/target/seam-messages.ear"))
 				.as(EnterpriseArchive.class);
-      WebArchive web = er.getAsType(WebArchive.class, "messages-web.war");      
+      WebArchive web = er.getAsType(WebArchive.class, "messages-web.war");
       web.addClasses(MessageListTest.class);
+      
+      // Install org.jboss.seam.mock.MockSeamListener
+      web.delete("/WEB-INF/web.xml");
+      web.addAsWebInfResource("web.xml");
 
       return er;
    }
