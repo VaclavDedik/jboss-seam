@@ -54,7 +54,7 @@ public class MailTest extends JUnitSeamTest
 	{
       EnterpriseArchive er = ShrinkWrap.create(ZipImporter.class, "seam-mail.ear").importFrom(new File("../mail-ear/target/seam-mail.ear"))
 				.as(EnterpriseArchive.class);
-      WebArchive web = er.getAsType(WebArchive.class, "mail-web.war");      
+      WebArchive web = er.getAsType(WebArchive.class, "mail-web.war");
       web.addClasses(MailTest.class);
       //web.addAsWebInfResource(new StringAsset("org.jboss.seam.mock.MockApplicationFactory"), "classes/META-INF/services/javax.faces.application.ApplicationFactory");
       web.addAsWebInfResource(new StringAsset("org.jboss.seam.mock.MockFacesContextFactory"), "classes/META-INF/services/javax.faces.context.FacesContextFactory");
@@ -63,7 +63,11 @@ public class MailTest extends JUnitSeamTest
       web.addAsWebResource("org/jboss/seam/example/mail/test/errors3.xhtml", "org/jboss/seam/example/mail/test/errors3.xhtml");
       web.addAsWebResource("org/jboss/seam/example/mail/test/errors4.xhtml", "org/jboss/seam/example/mail/test/errors4.xhtml");
       web.addAsWebResource("org/jboss/seam/example/mail/test/sanitization.xhtml", "org/jboss/seam/example/mail/test/sanitization.xhtml");
-     
+      
+      // Install org.jboss.seam.mock.MockSeamListener
+      web.delete("/WEB-INF/web.xml");
+      web.addAsWebInfResource("web.xml");
+      
       return er;
    }
     

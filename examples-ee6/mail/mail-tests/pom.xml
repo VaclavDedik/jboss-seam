@@ -95,17 +95,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.jboss.shrinkwrap.resolver</groupId>
-            <artifactId>shrinkwrap-resolver-api-maven</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.shrinkwrap.resolver</groupId>
-            <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
         	<groupId>org.jboss.spec.javax.el</groupId>
         	<artifactId>jboss-el-api_2.2_spec</artifactId>
         	<scope>runtime</scope>
