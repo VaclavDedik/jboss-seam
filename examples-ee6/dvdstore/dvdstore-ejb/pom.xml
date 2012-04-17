@@ -39,6 +39,10 @@
 					<artifactId>jboss-logging</artifactId>
 					<groupId>org.jboss.logging</groupId>
 				</exclusion>
+				<exclusion>
+					<artifactId>dom4j</artifactId>
+					<groupId>dom4j</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 
@@ -110,6 +114,10 @@
               <exclusion>
               	<artifactId>hibernate-ehcache</artifactId>
               	<groupId>org.hibernate</groupId>
+              </exclusion>
+              <exclusion>
+              	<artifactId>dom4j</artifactId>
+              	<groupId>dom4j</groupId>
               </exclusion>
 		    </exclusions>
 		</dependency>

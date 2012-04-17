@@ -24,6 +24,16 @@
             <artifactId>dvdstore-ejb</artifactId>
             <type>ejb</type>
             <scope>provided</scope>
+            <exclusions>
+            	<exclusion>
+            		<artifactId>dom4j</artifactId>
+            		<groupId>dom4j</groupId>
+            	</exclusion>
+            	<exclusion>
+            		<artifactId>javassist</artifactId>
+            		<groupId>javassist</groupId>
+            	</exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>
