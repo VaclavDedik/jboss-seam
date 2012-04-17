@@ -27,6 +27,7 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.FacesLifecycle;
+import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
@@ -387,7 +388,14 @@ public class SeamPhaseListener implements PhaseListener
 	   boolean conversationFound = Contexts.isPageContextActive() ? Contexts.getPageContext().isSet("org.jboss.seam.jsf.SeamPhaseListener.conversationFound") : false;
 	   FacesLifecycle.resumePage();
 	   Map parameters = facesContext.getExternalContext().getRequestParameterMap();
+	   if (!conversationFound) // there is exceptional case when restoring of conversation wasn't called while page context was lazily initialized
+	   {
+	      ConversationPropagation.instance().restoreConversationId(parameters);
+	      conversationFound = Manager.instance().restoreConversation();
+	   }
+	   FacesLifecycle.resumeConversation( facesContext.getExternalContext() );
 	   postRestorePage(facesContext, parameters, conversationFound);
+	   
    }
 
    public void raiseEventsBeforePhase(PhaseEvent event)
