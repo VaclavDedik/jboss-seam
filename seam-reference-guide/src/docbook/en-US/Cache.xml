@@ -84,7 +84,7 @@
          <para>
             The application can cache transactional state using the Seam
             <literal>cacheProvider</literal> component, which integrates 
-            JBossCache, JBoss POJO Cache or EHCache into the Seam environment. 
+            JBossCache, JBoss POJO Cache, Infinispan or EHCache into the Seam environment. 
             This state will be visible to other nodes if your cache supports
             running in a clustered mode.
          </para>
@@ -117,6 +117,17 @@
       </para>
       
       <variablelist>
+         <varlistentry>
+            <term>
+               Infinispan 5.x (suitable for use in JBoss AS 7.1.x or later and other
+               containers)
+            </term>
+            <listitem>
+               <para>
+                  <literal>org.infninispan.tree.TreeCache</literal>
+               </para>
+            </listitem>
+         </varlistentry>      
          <varlistentry>
             <term>
                JBoss Cache 1.x (suitable for use in JBoss 4.2.x or later and other
@@ -177,6 +188,28 @@
       </para>
       
       <variablelist>
+         <varlistentry>
+            <term>
+               Infinispan 5.x
+            </term>
+            <listitem>
+               <itemizedlist>
+                  <listitem>
+                     <para>
+                        <literal>infinispan-core.jar</literal> - Infinispan Core 5.1.x.Final
+                     </para>
+                     <para>
+                        <literal>infinispan-tree.jar</literal> - Infinispan TreeCache 5.1.x.Final
+                     </para>                     
+                  </listitem>
+                  <listitem>
+                     <para>
+                        <literal>jgroups.jar</literal> - JGroups 3.0
+                     </para>
+                  </listitem>
+               </itemizedlist>
+            </listitem>
+         </varlistentry>      
          <varlistentry>
             <term>
                JBoss Cache 1.x
@@ -257,30 +290,33 @@
       
       <tip>
          <para>
-            If you are using JBoss Cache in containers other than JBoss
-            Application Server, look at the JBoss Cache
-            <ulink url="http://wiki.jboss.org/wiki/JBossCache">wiki</ulink> page
-            for more dependencies.
+            If you would like to know more details about Infinispan, look at the Infinispan 
+            <ulink url="https://docs.jboss.org/author/display/ISPN/Home">Documentation</ulink> page.
          </para>
       </tip>
       
       <para>
-         For an EAR deployment of Seam, we recommend that the cache jars and
+         For an EAR deployment of Seam, we recommend that the infinispan jars and
          configuration go directly into the EAR.
       </para>
       
+      <note>
+        <para>JBoss AS7 already provides Infinispan and JGroups jars, so you need to turn on that 
+        dependencies in your JBoss AS 7 deployment file or modify <literal>META-INF/Manifest.mf</literal>
+        to have this dependencies. Check the Blog example or JBoss AS7 documentation how to do that.</para>
+      </note>
+      
       <para>
-         You'll also need to provide a configuration file for JBossCache. Place
-         <literal>treecache.xml</literal> with an appropriate cache 
-         configuration into the classpath (e.g. the ejb jar or
-         <literal>WEB-INF/classes</literal>). JBossCache has many scary and 
-         confusing configuration settings, so we won't discuss them here. Please
-         refer to the JBossCache documentation for more information.
+         You'll also need to provide a configuration file for Infinispan. Place
+         <literal>infinispan.xml</literal> with an appropriate cache 
+         configuration into the Web applicaiton classpath (e.g. the ejb jar or
+         <literal>WEB-INF/classes</literal>). Infinispan  has many configuration settings,
+          so we won't discuss them here. Please refer to the Infinispan documentation for more information.
       </para>
 
       <para>
-         You can find a sample <literal>treecache.xml</literal> in
-         <literal>examples/blog/resources/treecache.xml</literal>.
+         You can find a sample configuration file <literal>infinispan.xml</literal> in
+         <literal>examples-ee6/blog/blog-web/src/main/resources/infinispan.xml</literal>.
       </para>
       
       <para>
@@ -293,9 +329,9 @@
          <literal>components.xml</literal>:
       </para>
       
-      <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
-            xmlns:cache="http://jboss.com/products/seam/cache">
-   <cache:jboss-cache-provider configuration="META-INF/cache/treecache.xml" />
+      <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.org/schema/seam/components"
+            xmlns:cache="http://jboss.org/schema/seam/cache">
+   <cache:infinispan-cache-provider configuration="infinispan.xml" />
 </components>]]></programlisting>
 
       <para>Now you can inject the cache into any Seam component:</para>
@@ -325,8 +361,8 @@ public class ChatroomUsers
 
       <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
             xmlns:cache="http://jboss.com/products/seam/cache">
-   <cache:jboss-cache-provider name="myCache" configuration="myown/cache.xml"/>
-   <cache:jboss-cache-provider name="myOtherCache" configuration="myother/cache.xml"/>
+   <cache:infinispan-cache-provider name="myCache" configuration="myown/cache.xml"/>
+   <cache:infinispan-cache-provider name="myOtherCache" configuration="myother/cache.xml"/>
 </components>]]></programlisting>
 
    </section>
