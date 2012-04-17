@@ -8,6 +8,7 @@
          <module name="org.apache.commons.collections" export="true"/>
          <module name="javax.faces.api" export="true"/>
          <module name="com.sun.jsf-impl" export="true"/>
+         <module name="org.jgroups" export="true"/>
       </dependencies>
    </deployment>
 </jboss-deployment-structure> 

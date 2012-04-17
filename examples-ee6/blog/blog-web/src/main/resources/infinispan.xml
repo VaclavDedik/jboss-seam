@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<infinispan xmlns="urn:infinispan:config:5.1">
+   <global>
+      <asyncListenerExecutor factory="org.infinispan.executors.DefaultExecutorFactory">
+         <properties>
+            <property name="maxThreads" value="1"/>
+            <property name="queueSize" value="1000000"/>
+            <property name="threadNamePrefix" value="AsyncListenerThread"/>
+         </properties>
+      </asyncListenerExecutor>
+      <asyncTransportExecutor factory="org.infinispan.executors.DefaultExecutorFactory">
+         <properties>
+            <property name="threadNamePrefix" value="AsyncSerializationThread"/>
+         </properties>
+      </asyncTransportExecutor>
+      <evictionScheduledExecutor factory="org.infinispan.executors.DefaultScheduledExecutorFactory">
+         <properties>
+            <property name="threadNamePrefix" value="EvictionThread"/>
+         </properties>
+      </evictionScheduledExecutor>
+      <replicationQueueScheduledExecutor factory="org.infinispan.executors.DefaultScheduledExecutorFactory">
+         <properties>
+            <property name="threadNamePrefix" value="ReplicationQueueThread"/>
+         </properties>
+      </replicationQueueScheduledExecutor>
+      <globalJmxStatistics jmxDomain="infinispan" enabled="false"/>
+      <transport transportClass="org.infinispan.remoting.transport.jgroups.JGroupsTransport" clusterName="Infinispan-Cache" distributedSyncTimeout="20000">
+         <properties>
+            <property name="configurationFile" value="jgroupsConfig.xml"/>
+         </properties>
+      </transport>
+      <shutdown hookBehavior="DEFAULT"/>
+   </global>
+   <default>
+      <locking isolationLevel="REPEATABLE_READ" lockAcquisitionTimeout="20000" concurrencyLevel="500"/>
+      <transaction transactionManagerLookupClass="org.infinispan.transaction.lookup.JBossTransactionManagerLookup" syncRollbackPhase="false" syncCommitPhase="false"/>
+      <jmxStatistics enabled="false"/>
+      <invocationBatching enabled="true"/>
+      <clustering mode="replication">
+         <stateRetrieval timeout="20000" fetchInMemoryState="false"/>
+         <sync replTimeout="20000"/>
+      </clustering>
+   </default>
+</infinispan>

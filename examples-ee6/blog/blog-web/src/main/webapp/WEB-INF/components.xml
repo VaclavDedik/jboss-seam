@@ -30,11 +30,13 @@
       </theme:available-themes>
    </theme:theme-selector>
 
-   <cache:eh-cache-provider/>
+   <cache:infinispan-cache-provider/>
 
    <persistence:managed-persistence-context name="entityManager"
                                             auto-create="true"
                                             persistence-unit-jndi-name="java:/blogEntityManagerFactory"/>
 
-
+    <component class="org.jboss.seam.transaction.EjbSynchronizations" jndi-name="java:app/jboss-seam/EjbSynchronizations"/>
+    <component class="org.jboss.seam.async.TimerServiceDispatcher" jndi-name="java:app/jboss-seam/TimerServiceDispatcher"/>
+    
 </components>
