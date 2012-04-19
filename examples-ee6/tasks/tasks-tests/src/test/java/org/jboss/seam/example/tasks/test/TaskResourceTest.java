@@ -21,26 +21,42 @@
  */
 package org.jboss.seam.example.tasks.test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 
-import org.jboss.seam.mock.SeamTest;
 import static org.jboss.seam.mock.ResourceRequestEnvironment.Method;
 import static org.jboss.seam.mock.ResourceRequestEnvironment.ResourceRequest;
 import org.jboss.seam.mock.EnhancedMockHttpServletRequest;
 import org.jboss.seam.mock.EnhancedMockHttpServletResponse;
+import org.jboss.seam.mock.JUnitSeamTest;
 import org.jboss.seam.mock.ResourceRequestEnvironment;
-import org.testng.annotations.Test;
-import org.junit.Ignore;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import org.junit.runner.RunWith;
 
 /**
  * Test class for TaskResourceHome and TaskResourceQuery components.
  * @author Jozef Hartinger
  *
  */
-@Ignore
-public class TaskResourceTest extends SeamTest
+@RunWith(Arquillian.class)
+public class TaskResourceTest extends JUnitSeamTest
 {
+   @Deployment(name="TaskResourceTest")
+   @OverProtocol("Servlet 3.0")
+   public static Archive<?> createDeployment()
+   {
+      EnterpriseArchive er = Deployments.tasksDeployment();
+      WebArchive web = er.getAsType(WebArchive.class, "tasks-web.war");
+      web.addClasses(TaskResourceTest.class);
+      return er;
+   }
+    
    @Test
    public void createTaskTest() throws Exception
    {
@@ -64,7 +80,7 @@ public class TaskResourceTest extends SeamTest
          protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             super.onResponse(response);
-            assertEquals(response.getStatus(), 201, "Unexpected response code.");
+            assertEquals("Unexpected response code.", 201, response.getStatus());
          }
          
       }.run();
@@ -93,7 +109,7 @@ public class TaskResourceTest extends SeamTest
          protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             super.onResponse(response);
-            assertEquals(response.getStatus(), 204, "Unexpected response code.");
+            assertEquals("Unexpected response code.", 204, response.getStatus());
          }
 
       }.run();
@@ -113,8 +129,8 @@ public class TaskResourceTest extends SeamTest
          protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             super.onResponse(response);
-            assertEquals(response.getStatus(), 200, "Unexpected response code.");
-            assertTrue(response.getContentAsString().contains("Learn new English vocabulary"), "Unexpected response.");
+            assertEquals("Unexpected response code.", 200, response.getStatus());
+            assertTrue("Unexpected response.", response.getContentAsString().contains("Learn new English vocabulary"));
          }
 
       }.run();
@@ -137,7 +153,7 @@ public class TaskResourceTest extends SeamTest
          protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             super.onResponse(response);
-            assertEquals(response.getStatus(), 204, "Unexpected response code.");
+            assertEquals("Unexpected response code.", 204, response.getStatus());
          }
          
       }.run();

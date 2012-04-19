@@ -21,56 +21,69 @@
  */
 package org.jboss.seam.example.tasks.test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 
-import org.jboss.seam.mock.SeamTest;
 import static org.jboss.seam.mock.ResourceRequestEnvironment.Method;
 import static org.jboss.seam.mock.ResourceRequestEnvironment.ResourceRequest;
 import org.jboss.seam.mock.EnhancedMockHttpServletRequest;
 import org.jboss.seam.mock.EnhancedMockHttpServletResponse;
+import org.jboss.seam.mock.JUnitSeamTest;
 import org.jboss.seam.mock.ResourceRequestEnvironment;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-import org.junit.Ignore;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test class for /category part of API
  * @author Jozef Hartinger
  *
  */
-@Ignore
-public class CategoryResourceTest extends SeamTest
+@RunWith(Arquillian.class)
+public class CategoryResourceTest extends JUnitSeamTest
 {
-   @DataProvider(name = "query")
-   public String[][] getQueryData()
+   @Deployment(name="CategoryResourceTest")
+   @OverProtocol("Servlet 3.0")
+   public static Archive<?> createDeployment()
    {
-      return new String[][] { new String[] { "application/xml", "<category><name>School</name></category>" }, new String[] { "application/json", "{\"category\":{\"name\":\"School\"}}" } };
+      EnterpriseArchive er = Deployments.tasksDeployment();
+      WebArchive web = er.getAsType(WebArchive.class, "tasks-web.war");
+      web.addClasses(CategoryResourceTest.class);
+      return er;
    }
 
-   @Test(dataProvider = "query")
-   public void getCategoryListTest(final String contentType, final String expectedResponse) throws Exception
+   @Test
+   public void getCategoryListTest() throws Exception
    {
-      new ResourceRequest(new ResourceRequestEnvironment(this), Method.GET, "/v1/auth/category")
-      {
+      String[][] data = new String[][] { new String[] { "application/xml", "<category><name>School</name></category>" }, new String[] { "application/json", "{\"category\":{\"name\":\"School\"}}" } };
+      
+      for (final String[] caseData : data) {
+        new ResourceRequest(new ResourceRequestEnvironment(this), Method.GET, "/v1/auth/category")
+        {
 
-         @Override
-         protected void prepareRequest(EnhancedMockHttpServletRequest request)
-         {
-            super.prepareRequest(request);
-            request.addHeader("Accept", contentType);
-            request.addHeader("Authorization", "Basic ZGVtbzpkZW1v"); // demo:demo
-         }
+            @Override
+            protected void prepareRequest(EnhancedMockHttpServletRequest request)
+            {
+                super.prepareRequest(request);
+                request.addHeader("Accept", caseData[0]);
+                request.addHeader("Authorization", "Basic ZGVtbzpkZW1v"); // demo:demo
+            }
 
-         @Override
-         protected void onResponse(EnhancedMockHttpServletResponse response)
-         {
-            super.onResponse(response);
-            assertEquals(response.getStatus(), 200, "Unexpected response code.");
-            assertTrue(response.getContentAsString().contains(expectedResponse), "Unexpected response.");
-         }
+            @Override
+            protected void onResponse(EnhancedMockHttpServletResponse response)
+            {
+                super.onResponse(response);
+                assertEquals("Unexpected response code.", 200, response.getStatus());
+                assertTrue("Unexpected response.", response.getContentAsString().contains(caseData[1]));
+            }
 
-      }.run();
+        }.run();
+      }
    }
 
    @Test
@@ -91,7 +104,7 @@ public class CategoryResourceTest extends SeamTest
          protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             super.onResponse(response);
-            assertEquals(response.getStatus(), 204, "Unexpected response code.");
+            assertEquals("Unexpected response code.", 204, response.getStatus());
          }
 
       }.run();
@@ -119,7 +132,7 @@ public class CategoryResourceTest extends SeamTest
          protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             super.onResponse(response);
-            assertEquals(response.getStatus(), 201, "Unexpected response code.");
+            assertEquals("Unexpected response code.", 201, response.getStatus());
          }
 
       }.run();
@@ -139,8 +152,8 @@ public class CategoryResourceTest extends SeamTest
          protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             super.onResponse(response);
-            assertEquals(response.getStatus(), 200, "Unexpected response code.");
-            assertEquals(response.getContentAsString(), expectedResponse, "Unexpected response.");
+            assertEquals("Unexpected response code.", 200, response.getStatus());
+            assertEquals("Unexpected response.", expectedResponse, response.getContentAsString());
          }
 
       }.run();
@@ -163,7 +176,7 @@ public class CategoryResourceTest extends SeamTest
          protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             super.onResponse(response);
-            assertEquals(response.getStatus(), 401, "Unexpected response code.");
+            assertEquals("Unexpected response code.", 401, response.getStatus());
          }
 
       }.run();

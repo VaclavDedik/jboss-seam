@@ -38,7 +38,7 @@
 	</exception>
 
 	<exception
-		class="org.jboss.seam.example.tasks.exceptions.ResourceNotFoundException"
+		class="org.jboss.seam.example.tasks.ResourceNotFoundException"
 		log-level="debug">
 		<http-error error-code="404">
 			<message>Not Found</message>

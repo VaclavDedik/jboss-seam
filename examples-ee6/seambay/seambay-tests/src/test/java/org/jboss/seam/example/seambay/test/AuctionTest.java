@@ -1,19 +1,47 @@
 package org.jboss.seam.example.seambay.test;
 
+import java.io.File;
 import java.util.List;
 
 import javax.faces.model.DataModel;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.example.seambay.Auction;
 import org.jboss.seam.example.seambay.Category;
-import org.jboss.seam.mock.SeamTest;
-import org.testng.annotations.Test;
-import org.junit.Ignore;
+import org.jboss.seam.mock.AbstractSeamTest.FacesRequest;
+import org.jboss.seam.mock.JUnitSeamTest;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.importer.ZipImporter;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-@Ignore
-public class AuctionTest extends SeamTest
+
+@RunWith(Arquillian.class)
+public class AuctionTest extends JUnitSeamTest
 {
+   @Deployment(name="AuctionTest")
+   @OverProtocol("Servlet 3.0")
+   public static Archive<?> createDeployment()
+   {
+      EnterpriseArchive ear = ShrinkWrap.create(ZipImporter.class, "seam-seambay.ear").importFrom(new File("../seambay-ear/target/seam-seambay.ear")).as(EnterpriseArchive.class);
+
+      // Install org.jboss.seam.mock.MockSeamListener
+      WebArchive web = ear.getAsType(WebArchive.class, "seambay-web.war");
+      web.delete("/WEB-INF/web.xml");
+      web.addAsWebInfResource("web.xml");
+      
+      web.addClasses(AuctionTest.class);
+
+      return ear;
+   }
+   
    @Test
    public void testCreateAuction() throws Exception
    {

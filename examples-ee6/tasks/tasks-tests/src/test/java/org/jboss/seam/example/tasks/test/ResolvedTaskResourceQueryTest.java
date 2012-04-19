@@ -21,31 +21,46 @@
  */
 package org.jboss.seam.example.tasks.test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 
-import org.jboss.seam.mock.SeamTest;
 import static org.jboss.seam.mock.ResourceRequestEnvironment.Method;
 import static org.jboss.seam.mock.ResourceRequestEnvironment.ResourceRequest;
 import org.jboss.seam.mock.EnhancedMockHttpServletRequest;
 import org.jboss.seam.mock.EnhancedMockHttpServletResponse;
+import org.jboss.seam.mock.JUnitSeamTest;
 import org.jboss.seam.mock.ResourceRequestEnvironment;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-import org.junit.Ignore;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.runner.RunWith;
 
 /**
  * Test class for /user/{username}/tasks/resolved part of API.
  * @author Jozef Hartinger
  *
  */
-@Ignore
-public class ResolvedTaskResourceQueryTest extends SeamTest
+@RunWith(Arquillian.class)
+public class ResolvedTaskResourceQueryTest extends JUnitSeamTest
 {
 
+   @Deployment(name="ResolvedTaskResourceQueryTest")
+   @OverProtocol("Servlet 3.0")
+   public static Archive<?> createDeployment()
+   {
+      EnterpriseArchive er = Deployments.tasksDeployment();
+      WebArchive web = er.getAsType(WebArchive.class, "tasks-web.war");
+      web.addClasses(ResolvedTaskResourceQueryTest.class);
+      return er;
+   }
+    
    // We could do this BeforeClass only once but we can't do ResourceRequests there
-   @BeforeMethod
+   @Before
    public void resolveTask() throws Exception {
       
       final String mimeType = "application/xml";
@@ -68,42 +83,41 @@ public class ResolvedTaskResourceQueryTest extends SeamTest
          protected void onResponse(EnhancedMockHttpServletResponse response)
          {
             super.onResponse(response);
-            assertEquals(response.getStatus(), 204, "Unexpected response code.");
+            assertEquals("Unexpected response code.", 204, response.getStatus());
          }
 
       }.run();
    }
    
-   @DataProvider(name="data")
-   public String[][] getData() {
-      return new String[][] {
+   @Test
+   public void editTaskTest() throws Exception
+   {
+      String[][] data = new String[][] {
             new String[] {"application/xml", "<name>Get a haircut</name>"},
             new String[] {"application/json", "\"name\":\"Get a haircut\""},
             new String[] {"application/atom+xml", "<atom:title>Get a haircut</atom:title>"}
-      };
-   }
-   
-   @Test(dataProvider="data")
-   public void editTaskTest(final String mimeType, final String expectedResponsePart) throws Exception
-   {
-      new ResourceRequest(new ResourceRequestEnvironment(this), Method.GET, "/v1/user/demo/tasks/resolved")
-      {
+      }; 
+      
+      for(final String[] caseData : data) {
+        new ResourceRequest(new ResourceRequestEnvironment(this), Method.GET, "/v1/user/demo/tasks/resolved")
+        {
 
-         @Override
-         protected void prepareRequest(EnhancedMockHttpServletRequest request)
-         {
-            super.prepareRequest(request);
-            request.addHeader("Accept", mimeType);
-         }
+            @Override
+            protected void prepareRequest(EnhancedMockHttpServletRequest request)
+            {
+                super.prepareRequest(request);
+                request.addHeader("Accept", caseData[0]);
+            }
 
-         @Override
-         protected void onResponse(EnhancedMockHttpServletResponse response)
-         {
-            super.onResponse(response);
-            assertEquals(response.getStatus(), 200, "Unexpected response code.");
-            assertTrue(response.getContentAsString().contains(expectedResponsePart), "Unexpected response.");
-         }
+            @Override
+            protected void onResponse(EnhancedMockHttpServletResponse response)
+            {
+                super.onResponse(response);
+                assertEquals("Unexpected response code.", 200, response.getStatus());
+                assertTrue("Unexpected response.", response.getContentAsString().contains(caseData[1]));
+            }
 
-      }.run();
+        }.run();
+      }
    }
 }

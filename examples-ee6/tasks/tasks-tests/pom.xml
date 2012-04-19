@@ -12,32 +12,37 @@
     <artifactId>tasks-tests</artifactId>
     <name>Tasks Integration Tests Module (EE6)</name>
     
+    <properties>
+        <!-- filtering property for components.xml -->
+        <jndiPattern>java:app/tasks-ejb/#{ejbName}</jndiPattern>
+    </properties>
+    
     <dependencies>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <classifier>jdk15</classifier>
-        </dependency>
         <dependency>
             <groupId>org.jboss.seam.examples-ee6.tasks</groupId>
             <artifactId>tasks-ejb</artifactId>
             <type>ejb</type>
             <scope>test</scope>
-        </dependency>        
+        </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>
             <artifactId>jboss-seam</artifactId>
             <type>ejb</type>
             <scope>test</scope>
-        </dependency>        
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.sun.faces</groupId>
-            <artifactId>jsf-api</artifactId>
+            <groupId>org.jboss.spec.javax.faces</groupId>
+            <artifactId>jboss-jsf-api_2.0_spec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <classifier>jdk15</classifier>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium.server</groupId>
@@ -53,9 +58,27 @@
             <artifactId>functional-tests</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.jboss.seam</groupId>
             <artifactId>jboss-seam-resteasy</artifactId>
+        </dependency>
+
+		<dependency>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.arquillian.protocol</groupId>
+            <artifactId>arquillian-protocol-servlet</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+        	<artifactId>hibernate-jpa-2.0-api</artifactId>        	
         </dependency>
         <dependency>
             <groupId>org.jboss.spec.javax.el</groupId>
@@ -70,12 +93,7 @@
                 <filtering>true</filtering>
             </testResource>
             <testResource>
-                <directory>${basedir}/../tasks-ear/src/main/resources</directory>
-                <filtering>true</filtering>
-            </testResource>
-            <testResource>
-                 <directory>${basedir}/../tasks-web/src/main/resources</directory>
-                 <filtering>true</filtering>
+                <directory>src/test/resources-integration</directory>
             </testResource>
         </testResources>
         <plugins>
@@ -90,6 +108,43 @@
     </build>    
 
     <profiles>
+        <profile>
+            <id>integration-tests</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                </property>
+            </activation> 
+        </profile>
+
+        <profile>
+            <id>arq-jbossas-7-managed</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                    <value>jbossas-managed-7</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>arq-jbossas-7-remote</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                    <value>jbossas-remote-7</value>
+                </property>
+            </activation>
+        </profile>
+
         <profile>
             <id>ftest-jbossas</id>
             <properties>

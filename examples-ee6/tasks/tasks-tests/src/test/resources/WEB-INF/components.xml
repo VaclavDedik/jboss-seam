@@ -14,7 +14,7 @@
         http://jboss.com/products/seam/web http://jboss.com/products/seam/web-2.3.xsd
         http://jboss.com/products/seam/resteasy http://jboss.com/products/seam/resteasy-2.3.xsd">
 
-	<core:init jndi-pattern="#{ejbName}/local" debug="false" />
+	<core:init jndi-pattern="@jndiPattern@" debug="false" />
 
 	<core:manager conversation-timeout="120000"
 		concurrent-request-timeout="500" conversation-id-parameter="cid" />
@@ -55,5 +55,7 @@
 	auth-type="basic" realm="Seam Tasks Application" />
 
 	<security:identity authenticate-method="#{authenticator.authenticate}" />
+
+    <component class="org.jboss.seam.transaction.EjbSynchronizations" jndi-name="java:app/jboss-seam/EjbSynchronizations"/>
 
 </components>

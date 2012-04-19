@@ -1,12 +1,29 @@
 package org.jboss.seam.example.seamspace.test;
 
-import org.jboss.seam.mock.SeamTest;
-import org.testng.annotations.Test;
-import org.junit.Ignore;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.seam.mock.AbstractSeamTest.FacesRequest;
+import org.jboss.seam.mock.JUnitSeamTest;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-@Ignore
-public class BlogTest extends SeamTest
+@RunWith(Arquillian.class)
+public class BlogTest extends JUnitSeamTest
 {   
+   @Deployment(name="BlogTest")
+   @OverProtocol("Servlet 3.0")
+   public static Archive<?> createDeployment()
+   {
+      EnterpriseArchive er = Deployments.seamSpaceDeployment();
+      WebArchive web = er.getAsType(WebArchive.class, "seamspace-web.war");
+      web.addClasses(BlogTest.class);
+      return er;
+   }
+   
    @Test
    public void testCreateBlog() throws Exception
    {
