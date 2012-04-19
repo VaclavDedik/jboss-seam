@@ -4,11 +4,17 @@ import static org.jboss.seam.example.quartz.Payment.Frequency.ONCE;
 
 import java.math.BigDecimal;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.example.quartz.Account;
 import org.jboss.seam.example.quartz.Payment;
-import org.jboss.seam.mock.DBUnitSeamTest;
-import org.testng.annotations.Test;
-import org.junit.Ignore;
+import org.jboss.seam.mock.DBJUnitSeamTest;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * 
@@ -18,12 +24,25 @@ import org.junit.Ignore;
 
 // Actually this doesn't happen in the example, but lets test it here to keep
 // all quartz tests in one place
-@Ignore
-public class AsynchronousTest extends DBUnitSeamTest 
+@RunWith(Arquillian.class)
+public class AsynchronousTest extends DBJUnitSeamTest 
 {
+    @Deployment(name="AsynchronousTest")
+    @OverProtocol("Servlet 3.0")
+    public static Archive<?> createDeployment()
+    {
+        EnterpriseArchive er = Deployments.quartzDeployment();
+        WebArchive web = er.getAsType(WebArchive.class, "quartz-web.war");
+        web.addClasses(AsynchronousTest.class);
+        return er;
+    }
     
     @Override
     protected void prepareDBUnitOperations() {
+       
+        setDatabase("HSQL");
+        setDatasourceJndiName("java:jboss/datasources/ExampleDS");
+       
         beforeTestOperations.add(
                 new DataSetOperation("BaseData.xml")
         );

@@ -4,29 +4,47 @@ import static org.jboss.seam.example.quartz.Payment.Frequency.EVERY_SECOND;
 
 import java.math.BigDecimal;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.async.QuartzTriggerHandle;
 import org.jboss.seam.example.quartz.Account;
 import org.jboss.seam.example.quartz.Payment;
 import org.jboss.seam.example.quartz.Payment.Frequency;
-import org.jboss.seam.mock.DBUnitSeamTest;
-import org.testng.annotations.Test;
-import org.junit.Ignore;
+import org.jboss.seam.mock.DBJUnitSeamTest;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * @author Pete Muir
  * 
  */
-@Ignore
-public class CronTest  extends DBUnitSeamTest 
+@RunWith(Arquillian.class)
+public class CronTest  extends DBJUnitSeamTest 
 {
     private QuartzTriggerHandle quartzTriggerHandle;
     private Long paymentId;
     
     private static final Frequency REPEATING = EVERY_SECOND;
 
+    @Deployment(name="CronTest")
+    @OverProtocol("Servlet 3.0")
+    public static Archive<?> createDeployment()
+    {
+        EnterpriseArchive er = Deployments.quartzDeployment();
+        WebArchive web = er.getAsType(WebArchive.class, "quartz-web.war");
+        web.addClasses(CronTest.class);
+        return er;
+    }
     
     @Override
     protected void prepareDBUnitOperations() {
+        setDatabase("HSQL");
+        setDatasourceJndiName("java:jboss/datasources/ExampleDS");
+        
         beforeTestOperations.add(
                 new DataSetOperation("BaseData.xml")
         );
@@ -36,7 +54,7 @@ public class CronTest  extends DBUnitSeamTest
     
     
   
-    //@Test
+    @Test
     public void scheduleCron() throws Exception
     {
                         
@@ -235,7 +253,7 @@ public class CronTest  extends DBUnitSeamTest
         }
     }
 
-    //@Test
+    @Test
     public void scheduleCronWithStartAndEndTime() throws Exception
     {
                         

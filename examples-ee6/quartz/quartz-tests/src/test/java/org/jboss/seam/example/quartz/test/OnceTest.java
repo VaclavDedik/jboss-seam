@@ -4,25 +4,45 @@ import static org.jboss.seam.example.quartz.Payment.Frequency.ONCE;
 
 import java.math.BigDecimal;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.async.QuartzTriggerHandle;
 import org.jboss.seam.example.quartz.Account;
 import org.jboss.seam.example.quartz.Payment;
-import org.jboss.seam.mock.DBUnitSeamTest;
-import org.testng.annotations.Test;
+import org.jboss.seam.mock.DBJUnitSeamTest;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * 
  * @author Pete Muir
  *
  */
-@Ignore
-public class OnceTest extends DBUnitSeamTest 
+@RunWith(Arquillian.class)
+public class OnceTest extends DBJUnitSeamTest 
 {
+    @Deployment(name="OnceTest")
+    @OverProtocol("Servlet 3.0")
+    public static Archive<?> createDeployment()
+    {
+        EnterpriseArchive er = Deployments.quartzDeployment();
+        WebArchive web = er.getAsType(WebArchive.class, "quartz-web.war");
+        web.addClasses(OnceTest.class);
+        return er;
+    }
+   
     private QuartzTriggerHandle quartzTriggerHandle;
     
     @Override
     protected void prepareDBUnitOperations() {
+        setDatabase("HSQL");
+        setDatasourceJndiName("java:jboss/datasources/ExampleDS");
+        
         beforeTestOperations.add(
                 new DataSetOperation("BaseData.xml")
         );
@@ -30,7 +50,8 @@ public class OnceTest extends DBUnitSeamTest
     
    
     
-    //@Test
+    @Test
+    @Ignore
     public void scheduleOnce() throws Exception
     {
         try

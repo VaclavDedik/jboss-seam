@@ -15,7 +15,6 @@ import org.jboss.seam.core.Events;
 import org.jboss.seam.example.quartz.Payment;
 import org.jboss.seam.example.quartz.PaymentHome;
 import org.jboss.seam.log.Log;
-import org.junit.Ignore;
 
 /**
  * @author Pete Muir
@@ -23,7 +22,6 @@ import org.junit.Ignore;
  */
 @Name("paymentHome")
 @Install(precedence=MOCK)
-@Ignore
 public class TestPaymentController extends PaymentHome
 {
     

@@ -43,6 +43,8 @@
     <!-- Install the QuartzDispatcher -->
     <async:quartz-dispatcher/>
 
-    <core:init debug="true" jndi-pattern="seam-quartz/#{ejbName}/local" />
+    <core:init debug="true" jndi-pattern="java:app/quartz-ejb/#{ejbName}" />
+
+    <component class="org.jboss.seam.transaction.EjbSynchronizations" jndi-name="java:app/jboss-seam/EjbSynchronizations"/>
 
 </components>
