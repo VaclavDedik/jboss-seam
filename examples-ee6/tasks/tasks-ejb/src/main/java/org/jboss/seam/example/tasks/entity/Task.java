@@ -23,14 +23,7 @@ package org.jboss.seam.example.tasks.entity;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -55,7 +48,7 @@ public class Task
    private Category category;
 
    @Id
-   @GeneratedValue
+   @GeneratedValue(strategy= GenerationType.IDENTITY)
    public Long getId()
    {
       return id;
