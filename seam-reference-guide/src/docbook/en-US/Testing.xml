@@ -825,16 +825,19 @@ public class RegisterTest
           </note>
 
           <para>
-            The changes that still has to be done are:
+            The following changes must be done to run a SeamTest with Arquillian:
           </para>
 
           <itemizedlist>
             <listitem>
-                <para>Creating the <literal>@Deployment</literal> method.</para>
+                <para>Create the <literal>@Deployment</literal> method.</para>
             </listitem>
             <listitem>
-                <para>Converting the test to JUnit. A <literal>JUnitSeamTest</literal>
+                <para>Convert the test to JUnit. A <literal>JUnitSeamTest</literal>
                 class can now be used instead of the original <literal>SeamTest</literal>.</para>
+            </listitem>
+            <listitem>
+                <para>Replace the <literal>SeamListener</literal> with <literal>org.jboss.seam.mock.MockSeamListener</literal> in web.xml.</para>
             </listitem>
           </itemizedlist> 
 
@@ -853,6 +856,11 @@ public class RegisterTest extends JUnitSeamTest
          .as(EnterpriseArchive.class);
       WebArchive web = er.getAsType(WebArchive.class, "registration-web.war");
       web.addClasses(RegisterTest.class);
+
+      // Replacing the SeamListener with MockSeamListener
+      web.delete("/WEB-INF/web.xml");
+      web.addAsWebInfResource("WEB-INF/mock-web.xml", "web.xml");
+
       return er;
    }
 
@@ -881,6 +889,25 @@ public class RegisterTest extends JUnitSeamTest
 
 }]]></programlisting>
           </example>
+
+          <example>
+            <title>mock-web.xml</title>
+            <programlisting role="XML"><![CDATA[
+<?xml version="1.0" ?>
+<web-app version="3.0"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+         
+    <listener>
+        <listener-class>org.jboss.seam.mock.MockSeamListener</listener-class>
+    </listener>
+
+</web-app>
+]]></programlisting>
+        
+          </example>
+
         </section>
        
     </section>
