@@ -105,7 +105,7 @@
 				<div class="input">
 					<s:decorate id="creditCardDecorate">
 						<h:inputText id="creditCard" value="#{booking.creditCard}" required="true">
-                           <a:support event="onblur" reRender="creditCardDecorate"/>
+                           <a:ajax event="blur" render="creditCardDecorate"/>
                         </h:inputText>
 					</s:decorate>
 				</div>
@@ -116,7 +116,7 @@
 				<div class="input">
 					<s:decorate id="creditCardNameDecorate">
 						<h:inputText id="creditCardName" value="#{booking.creditCardName}" required="true">
-                           <a:support event="onblur" reRender="creditCardNameDecorate"/>
+                           <a:ajax event="blur" render="creditCardNameDecorate"/>
                         </h:inputText>
 					</s:decorate>
 				</div>

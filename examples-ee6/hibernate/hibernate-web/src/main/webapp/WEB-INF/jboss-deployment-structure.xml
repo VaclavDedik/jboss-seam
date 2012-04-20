@@ -1,0 +1,9 @@
+<jboss-deployment-structure> 
+   <deployment>
+      <dependencies>
+          <module name="org.javassist" export="true"/>
+          <module name="org.dom4j" export="true"/>
+          <module name="org.hibernate" export="true"/>
+      </dependencies>
+    </deployment>   
+</jboss-deployment-structure> 
