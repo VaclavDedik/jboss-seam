@@ -29,6 +29,8 @@
         <module>jpa</module>
         <module>mail</module>
         <module>messages</module>
+        <module>metawidget/booking</module>
+        <module>metawidget/groovybooking</module>
         <module>nestedbooking</module>
         <module>openid</module>
         <module>quartz</module>
