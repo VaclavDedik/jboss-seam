@@ -3,7 +3,7 @@ package com.jboss.dvd.seam.test;
 import java.io.File;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OverProtocol;
@@ -57,7 +57,7 @@ public class ProductUnitTest
                 try {
                    em.persist(p);
                    Assert.fail("empty product persisted");
-                } catch (PersistenceException e) {
+                } catch (ConstraintViolationException e) {
                     // good
                 }
             }

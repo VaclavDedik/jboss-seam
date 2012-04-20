@@ -77,6 +77,12 @@
            <artifactId>jboss-el-api_2.2_spec</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
     
     <build>
