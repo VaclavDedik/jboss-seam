@@ -22,6 +22,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.apache.solr.analysis.LowerCaseFilterFactory;
 import org.apache.solr.analysis.NGramFilterFactory;
@@ -114,6 +115,7 @@ public class Product implements Serializable
         this.categories = categories;
     }
     
+    @NotNull
     @Column(name="TITLE",nullable=false,length=100)
     @Fields({
        @Field(index=Index.YES),
@@ -146,6 +148,7 @@ public class Product implements Serializable
         this.imageURL = imageURL;
     }
 
+    @NotNull
     @Column(name="PRICE",nullable=false,precision=12,scale=2)
     public BigDecimal getPrice() {
         return price;
@@ -153,4 +156,5 @@ public class Product implements Serializable
     public void setPrice(BigDecimal price) {
         this.price=price;
     }
+
 }
