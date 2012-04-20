@@ -23,6 +23,7 @@
         <module>excel</module>
         <module>groovybooking</module>
         <module>guice</module>
+        <module>hibernate</module>
         <module>jpa</module>
         <module>mail</module>
         <module>messages</module>
