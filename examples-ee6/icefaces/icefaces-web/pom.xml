@@ -9,10 +9,10 @@
       <relativePath>../pom.xml</relativePath>
    </parent>
 
-   <groupId>org.jboss.seam.examples-ee6</groupId>
+   <groupId>org.jboss.seam.examples-ee6.icefaces</groupId>
    <artifactId>icefaces-web</artifactId>
    <packaging>war</packaging>
-   <name>Icefaces Web Module</name>
+   <name>Icefaces Web Module (EE6)</name>
 
    <properties>
       <!-- filtering property for components.xml -->
@@ -29,18 +29,12 @@
 
    <dependencies>
       <dependency>
-         <groupId>org.jboss.seam.examples-ee6</groupId>
+         <groupId>org.jboss.seam.examples-ee6.icefaces</groupId>
          <artifactId>icefaces-ejb</artifactId>
          <version>${project.version}</version>
          <type>ejb</type>
          <scope>provided</scope>
       </dependency>
-      <!--<dependency>-->
-         <!--<groupId>org.jboss.seam</groupId>-->
-         <!--<artifactId>jboss-seam</artifactId>-->
-         <!--<type>ejb</type>-->
-         <!--<scope>provided</scope>-->
-      <!--</dependency>-->
       <dependency>
          <groupId>commons-logging</groupId>
          <artifactId>commons-logging</artifactId>
@@ -96,96 +90,5 @@
          </plugin>
       </plugins>
    </build>
-
-   <profiles>
-      <profile>
-         <id>tomcat</id>
-         <properties>
-            <!-- filtering property for components.xml -->
-            <jndiPattern>#{ejbName}/local</jndiPattern>
-         </properties>
-         <dependencies>
-            <dependency>
-               <groupId>org.jboss.seam.examples</groupId>
-               <artifactId>icefaces-ejb</artifactId>
-               <type>ejb</type>
-               <scope>compile</scope>
-            </dependency>
-            <dependency>
-               <groupId>org.jboss.seam</groupId>
-               <artifactId>jboss-seam</artifactId>
-               <type>ejb</type>
-               <scope>compile</scope>
-               <exclusions>
-                  <exclusion>
-                     <groupId>com.thoughtworks.xstream</groupId>
-                     <artifactId>xstream</artifactId>
-                  </exclusion>
-                  <exclusion>
-                     <groupId>xpp3</groupId>
-                     <artifactId>xpp3_min</artifactId>
-                  </exclusion>
-               </exclusions>
-            </dependency>
-            <dependency>
-               <groupId>javax.faces</groupId>
-               <artifactId>jsf-api</artifactId>
-               <scope>compile</scope>
-            </dependency>
-            <dependency>
-               <groupId>javax.faces</groupId>
-               <artifactId>jsf-impl</artifactId>
-               <scope>compile</scope>
-            </dependency>
-            <dependency>
-               <groupId>javax.servlet</groupId>
-               <artifactId>jstl</artifactId>
-            </dependency>
-            <dependency>
-               <groupId>commons-beanutils</groupId>
-               <artifactId>commons-beanutils</artifactId>
-               <exclusions>
-                  <exclusion>
-                     <groupId>commons-collections</groupId>
-                     <artifactId>commons-collections</artifactId>
-                  </exclusion>
-                  <exclusion>
-                     <groupId>commons-logging</groupId>
-                     <artifactId>commons-logging</artifactId>
-                  </exclusion>
-               </exclusions>
-            </dependency>
-            <dependency>
-               <groupId>commons-digester</groupId>
-               <artifactId>commons-digester</artifactId>
-            </dependency>
-            <dependency>
-               <groupId>com.lowagie</groupId>
-               <artifactId>icefaces-rtf</artifactId>
-            </dependency>
-            <dependency>
-               <groupId>com.lowagie</groupId>
-               <artifactId>icefaces</artifactId>
-            </dependency>
-            <dependency>
-               <groupId>jfree</groupId>
-               <artifactId>jfreechart</artifactId>
-            </dependency>
-            <dependency>
-               <groupId>org.richfaces.framework</groupId>
-               <artifactId>richfaces-api</artifactId>
-               <exclusions>
-                  <exclusion>
-                     <groupId>commons-collections</groupId>
-                     <artifactId>commons-collections</artifactId>
-                  </exclusion>
-               </exclusions>
-            </dependency>
-         </dependencies>
-         <build>
-            <finalName>jboss-seam-icefaces</finalName>
-         </build>
-      </profile>
-   </profiles>
 
 </project>

@@ -8,7 +8,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     
-    <groupId>org.jboss.seam.examples-ee6</groupId>
+    <groupId>org.jboss.seam.examples-ee6.icefaces</groupId>
     <artifactId>icefaces-ejb</artifactId>
     <packaging>ejb</packaging>
     <name>Icefaces EJB Module (EE6)</name>
@@ -18,7 +18,6 @@
           <groupId>org.jboss.seam</groupId>
           <artifactId>jboss-seam</artifactId>
           <type>ejb</type>
-          <scope>provided</scope>
        </dependency>
        <dependency>
           <groupId>org.hibernate</groupId>
