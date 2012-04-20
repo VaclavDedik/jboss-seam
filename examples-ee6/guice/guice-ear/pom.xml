@@ -4,28 +4,23 @@
     <parent>
         <artifactId>guice</artifactId>
         <groupId>org.jboss.seam.examples-ee6</groupId>
-        <version>2.3.0.Beta1-SNAPSHOT</version>
+        <version>2.3.0.Beta2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
-    <groupId>org.jboss.seam.examples-ee6</groupId>
+    <groupId>org.jboss.seam.examples-ee6.guice</groupId>
     <artifactId>guice-ear</artifactId>
     <packaging>ear</packaging>
     <name>Guice EAR Module (EE6)</name>
     
-    <properties>
-        <jboss.home>${env.JBOSS_HOME}</jboss.home>
-        <jboss.domain>default</jboss.domain>
-    </properties>
-    
     <dependencies>
         <dependency>
-            <groupId>org.jboss.seam.examples-ee6</groupId>
+            <groupId>org.jboss.seam.examples-ee6.guice</groupId>
             <artifactId>guice-web</artifactId>
             <type>war</type>
         </dependency>
         <dependency>
-            <groupId>org.jboss.seam.examples-ee6</groupId>
+            <groupId>org.jboss.seam.examples-ee6.guice</groupId>
             <artifactId>guice-ejb</artifactId>
             <type>ejb</type>
         </dependency>
@@ -34,16 +29,6 @@
             <artifactId>jboss-seam</artifactId>
             <type>ejb</type>
             <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.thoughtworks.xstream</groupId>
-                    <artifactId>xstream</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>xpp3</groupId>
-                    <artifactId>xpp3_min</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>
@@ -58,104 +43,34 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ear-plugin</artifactId>
-                <version>2.3.2</version>
                 <configuration>
-                    <version>5</version>
+                    <version>6</version>
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
                     <!-- Exclude eclipse generated application.xml and manually modified jboss-app.xml during mvn build  -->
                     <earSourceExcludes>**/application.xml, **/jboss-app.xml</earSourceExcludes>
                     <!-- use maven generated application.xml instead -->
                     <generateApplicationXml>true</generateApplicationXml>
-                    <jboss>
-                        <version>5</version>
-                        <loader-repository>seam.jboss.org:loader=seam-guice.ear</loader-repository>
-                    </jboss>
                     <modules>
                         <webModule>
-                            <groupId>org.jboss.seam.examples-ee6</groupId>
+                            <groupId>org.jboss.seam.examples-ee6.guice</groupId>
                             <artifactId>guice-web</artifactId>
                             <contextRoot>/seam-guice</contextRoot>
                             <bundleFileName>guice-web.war</bundleFileName>
                         </webModule>
                         <ejbModule>
-                            <groupId>org.jboss.seam.examples-ee6</groupId>
+                            <groupId>org.jboss.seam.examples-ee6.guice</groupId>
                             <artifactId>guice-ejb</artifactId>
                             <bundleFileName>guice-ejb.jar</bundleFileName>
                         </ejbModule>
+                        <ejbModule>
+                            <groupId>org.jboss.seam</groupId>
+                            <artifactId>jboss-seam</artifactId>
+                            <bundleFileName>jboss-seam.jar</bundleFileName>
+                        </ejbModule> 
                     </modules>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jboss-maven-plugin</artifactId>
-                <configuration>
-                    <jbossHome>${jboss.home}</jbossHome>
-                    <serverName>${jboss.domain}</serverName>
-                    <fileNames>
-                        <param>${project.build.directory}/${project.build.finalName}.${project.packaging}</param>
-                    </fileNames>
                 </configuration>
             </plugin>
         </plugins>
     </build>
 
-    <profiles>
-        <profile>
-            <id>exploded</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>unpack</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>unpack</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>org.jboss.seam.examples-ee6</groupId>
-                                            <artifactId>guice-ear</artifactId>
-                                            <type>ear</type>
-                                            <overWrite>true</overWrite>
-                                            <outputDirectory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear</outputDirectory>
-                                        </artifactItem>
-                                        <artifactItem>
-                                            <groupId>org.jboss.seam.examples-ee6</groupId>
-                                            <artifactId>guice-web</artifactId>
-                                            <type>war</type>
-                                            <overWrite>true</overWrite>
-                                            <outputDirectory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear/${example.name}-web.war</outputDirectory>
-                                        </artifactItem>
-                                        <artifactItem>
-                                            <groupId>org.jboss.seam.examples-ee6</groupId>
-                                            <artifactId>guice-ejb</artifactId>
-                                            <type>jar</type>
-                                            <overWrite>true</overWrite>
-                                            <outputDirectory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear/${example.name}-ejb.jar</outputDirectory>
-                                        </artifactItem>
-                                    </artifactItems>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>jboss-maven-plugin</artifactId>
-                        <version>1.5.0</version>
-                        <configuration>
-                            <jbossHome>${jboss.home}</jbossHome>
-                            <serverName>${jboss.domain}</serverName>
-                            <fileNames>
-                                <directory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear</directory>
-                            </fileNames>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>
