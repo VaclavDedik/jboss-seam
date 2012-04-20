@@ -40,12 +40,10 @@
             </exclusion>
          </exclusions>
       </dependency>
-<!--
       <dependency>
          <groupId>org.jboss.seam</groupId>
          <artifactId>jboss-seam-debug</artifactId>
       </dependency>
--->
       <dependency>
          <groupId>commons-beanutils</groupId>
          <artifactId>commons-beanutils</artifactId>
