@@ -1,14 +1,26 @@
 //$Id: LoginTest.java 6987 2007-12-23 19:53:07Z pmuir $
 package org.jboss.seam.example.hibernate.test;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.web.Session;
-import org.jboss.seam.mock.SeamTest;
-import org.testng.annotations.Test;
+import org.jboss.seam.mock.JUnitSeamTest;
+import org.jboss.shrinkwrap.api.Archive;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class LoginTest extends SeamTest
+@RunWith(Arquillian.class)
+public class LoginTest extends JUnitSeamTest
 {
-   
+   @Deployment(name="LoginTest")
+   @OverProtocol("Servlet 3.0")
+   public static Archive<?> createDeployment()
+   {
+       return Deployments.hibernateDeployment();
+   }
+
    @Test
    public void testLoginComponent() throws Exception
    {
