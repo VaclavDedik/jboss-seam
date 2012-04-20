@@ -22,6 +22,7 @@
         <module>dvdstore</module>
         <module>excel</module>
         <module>groovybooking</module>
+        <module>guice</module>
         <module>jpa</module>
         <module>mail</module>
         <module>messages</module>
