@@ -41,7 +41,7 @@
 							<div class="input">
 								<s:decorate id="usernameDecorate">
 									<h:inputText id="username" value="#{user.username}" required="true">
-                                        <a:support event="onblur" reRender="usernameDecorate"/>
+                                        <a:ajax event="blur" render="usernameDecorate"/>
                                     </h:inputText>
 								</s:decorate>
 							</div>
@@ -52,7 +52,7 @@
 							<div class="input">
 								<s:decorate id="nameDecorate">
 									<h:inputText id="name" value="#{user.name}" required="true">
-                                        <a:support event="onblur" reRender="nameDecorate"/>
+                                        <a:ajax event="blur" render="nameDecorate"/>
                                     </h:inputText>
 								</s:decorate>
 							</div>

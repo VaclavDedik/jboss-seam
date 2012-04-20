@@ -1,0 +1,12 @@
+<jboss-deployment-structure> 
+   <deployment>
+      <dependencies>
+         <!-- <module name="org.apache.log4j" />-->
+          <module name="org.dom4j" />
+<!--          <module name="org.apache.commons.logging" />
+          <module name="org.apache.commons.collections" />
+          <module name="javax.faces.api"/>
+          <module name="com.sun.jsf-impl"/>-->
+      </dependencies>
+    </deployment>   
+</jboss-deployment-structure> 
