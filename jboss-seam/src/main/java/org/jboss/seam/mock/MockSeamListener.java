@@ -9,17 +9,20 @@ package org.jboss.seam.mock;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
 
 import org.jboss.seam.Seam;
+import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
 /**
- * Used to retrieve real ServletContext for the AbstractSeamTest startSeam
+ * Used to retrieve real ServletContext for the AbstractSeamTest startSeam. 
  * 
  * @author Marek Schmidt
  */
-public class MockSeamListener implements ServletContextListener
+public class MockSeamListener implements ServletContextListener, HttpSessionListener
 {
    private static final LogProvider log = Logging.getLogProvider(ServletContextListener.class);
    
@@ -32,11 +35,21 @@ public class MockSeamListener implements ServletContextListener
       servletContext = event.getServletContext();
    }
    
+   public static ServletContext getServletContext() {
+      return servletContext;
+   }
+   
    public void contextDestroyed(ServletContextEvent event) 
    {
    }
    
-   public static ServletContext getServletContext() {
-      return servletContext;
+   public void sessionCreated(HttpSessionEvent event) 
+   {
+      ServletLifecycle.beginSession( event.getSession() );
+   }
+   
+   public void sessionDestroyed(HttpSessionEvent event) 
+   {
+      ServletLifecycle.endSession( event.getSession() );
    }
 }
