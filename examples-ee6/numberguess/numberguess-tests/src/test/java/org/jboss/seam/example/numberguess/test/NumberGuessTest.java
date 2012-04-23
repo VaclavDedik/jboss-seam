@@ -23,7 +23,8 @@ public class NumberGuessTest extends JUnitSeamTest {
     @OverProtocol("Servlet 3.0")
     public static Archive<?> createDeployment() {
         EnterpriseArchive er = Deployments.numberGuessDeployment();
-        WebArchive web = er.getAsType(WebArchive.class, "<project>-web.war");
+        WebArchive web = er.getAsType
+                (WebArchive.class, "numberguess-web.war");
 
         web.addClasses(NumberGuessTest.class);
 

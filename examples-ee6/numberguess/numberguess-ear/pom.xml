@@ -30,22 +30,6 @@
             <artifactId>numberguess-ejb</artifactId>
             <type>ejb</type>
         </dependency>
-        <dependency>
-            <groupId>org.jboss.seam</groupId>
-            <artifactId>jboss-seam</artifactId>
-            <type>ejb</type>
-        </dependency>
-        <dependency>
-            <groupId>org.jbpm</groupId>
-            <artifactId>jbpm-jpdl</artifactId>
-            <version>3.2.3</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
     </dependencies>
 
     <build>
@@ -80,6 +64,7 @@
                             <artifactId>jboss-seam</artifactId>
                             <bundleFileName>jboss-seam.jar</bundleFileName>
                         </ejbModule>
+
                     </modules>
                 </configuration>
             </plugin>

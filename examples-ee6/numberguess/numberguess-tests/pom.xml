@@ -17,14 +17,12 @@
         <dependency>
             <groupId>org.jboss.seam.examples-ee6</groupId>
             <artifactId>numberguess-ejb</artifactId>
-            <version>${project.version}</version>
             <type>ejb</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>
             <artifactId>jboss-seam</artifactId>
-            <version>${project.version}</version>
             <type>ejb</type>
             <scope>test</scope>
         </dependency>
@@ -34,21 +32,13 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.0-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.jboss.spec.javax.faces</groupId>
             <artifactId>jboss-jsf-api_2.0_spec</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <classifier>jdk15</classifier>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium.server</groupId>
@@ -59,16 +49,9 @@
             <groupId>org.seleniumhq.selenium.client-drivers</groupId>
             <artifactId>selenium-java-client-driver</artifactId>
         </dependency>
-
-        <!--<dependency>-->
-        <!--<groupId>org.jboss.seam</groupId>-->
-        <!--<artifactId>functional-tests</artifactId>-->
-        <!--<scope>test</scope>-->
-        <!--</dependency>-->
-
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>functional-tests</artifactId>
             <scope>test</scope>
         </dependency>
 
@@ -85,38 +68,17 @@
         </dependency>
 
         <dependency>
-            <groupId>org.jboss.seam</groupId>
-            <artifactId>functional-tests</artifactId>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jboss.spec.javax.el</groupId>
             <artifactId>jboss-el-api_2.2_spec</artifactId>
         </dependency>
         <dependency>
-            <groupId>dom4j</groupId>
-            <artifactId>dom4j</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javassist</groupId>
-            <artifactId>javassist</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-jpdl</artifactId>
             <version>3.2.3</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 
@@ -127,16 +89,7 @@
                 <filtering>true</filtering>
             </testResource>
             <testResource>
-                <directory>src/test/bootstrap</directory>
-                <filtering>false</filtering>
-            </testResource>
-            <testResource>
-                <directory>${basedir}/../numberguess-ear/src/main/application</directory>
-                <filtering>true</filtering>
-            </testResource>
-            <testResource> <!-- this takes themes aka *.properties -->
-                <directory>${basedir}/../numberguess-web/src/main/resources</directory>
-                <filtering>true</filtering>
+                <directory>src/test/resources-integration</directory>
             </testResource>
         </testResources>
         <plugins>
@@ -144,103 +97,71 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <skipTests>false</skipTests>
-                    <!--<argLine>-Dsun.lang.ClassLoader.allowArraySyntax=true -Xms512m -Xmx512m</argLine>-->
-                    <!--<additionalClasspathElements>-->
-                        <!--<additionalClasspathElement>${basedir}/../numberguess-web/src/main/webapp-->
-                        <!--</additionalClasspathElement>-->
-                        <!--<additionalClasspathElement>${project.build.directory}/dependency/bootstrap-->
-                        <!--</additionalClasspathElement>-->
-                    <!--</additionalClasspathElements>-->
-                    <!--<suiteXmlFiles>-->
-                        <!--<suiteXmlFile>src/test/resources-integration/testng.xml</suiteXmlFile>-->
-                    <!--</suiteXmlFiles>-->
+                    <skip>true</skip>
                 </configuration>
             </plugin>
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-dependency-plugin</artifactId>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>copy-seam-bootstrap</id>-->
-                        <!--<phase>process-resources</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>unpack</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<includes>bootstrap/**</includes>-->
-                            <!--<artifactItems>-->
-                                <!--<artifactItem>-->
-                                    <!--<groupId>org.jboss.seam</groupId>-->
-                                    <!--<artifactId>jboss-embedded-bootstrap</artifactId>-->
-                                    <!--<version>${project.version}</version>-->
-                                    <!--<type>jar</type>-->
-                                    <!--<overWrite>false</overWrite>-->
-                                <!--</artifactItem>-->
-                            <!--</artifactItems>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
         </plugins>
     </build>
 
-    <!--<profiles>-->
-        <!--<profile>-->
-            <!--<id>ftest-jbossas</id>-->
-            <!--<properties>-->
-                <!--<example.context.path>seam-numberguess</example.context.path>-->
-            <!--</properties>-->
-            <!--<build>-->
-                <!--<plugins>-->
-                    <!--<plugin>-->
-                        <!--<groupId>org.codehaus.mojo</groupId>-->
-                        <!--<artifactId>jboss-maven-plugin</artifactId>-->
-                        <!--<configuration>-->
-                            <!--<jbossHome>${jboss.home}</jbossHome>-->
-                            <!--<serverName>${jboss.domain}</serverName>-->
-                            <!--<fileNames>-->
-                                <!--<param>${basedir}/../numberguess-ear/target/seam-numberguess.ear</param>-->
-                            <!--</fileNames>-->
-                        <!--</configuration>-->
-                    <!--</plugin>-->
-                    <!--<plugin>-->
-                        <!--<groupId>org.codehaus.mojo</groupId>-->
-                        <!--<artifactId>selenium-maven-plugin</artifactId>-->
-                    <!--</plugin>-->
-                    <!--<plugin>-->
-                        <!--<groupId>org.codehaus.mojo</groupId>-->
-                        <!--<artifactId>failsafe-maven-plugin</artifactId>-->
-                    <!--</plugin>-->
-                    <!--<plugin>-->
-                        <!--<groupId>org.apache.maven.plugins</groupId>-->
-                        <!--<artifactId>maven-antrun-plugin</artifactId>-->
-                    <!--</plugin>-->
-                <!--</plugins>-->
-            <!--</build>-->
-        <!--</profile>-->
-        <!--<profile>-->
-            <!--<id>ftest-tomcat</id>-->
-            <!--<properties>-->
-                <!--<example.context.path>jboss-seam-numberguess</example.context.path>-->
-            <!--</properties>-->
-            <!--<build>-->
-                <!--<plugins>-->
-                    <!--<plugin>-->
-                        <!--<groupId>org.codehaus.mojo</groupId>-->
-                        <!--<artifactId>selenium-maven-plugin</artifactId>-->
-                    <!--</plugin>-->
-                    <!--<plugin>-->
-                        <!--<groupId>org.codehaus.mojo</groupId>-->
-                        <!--<artifactId>failsafe-maven-plugin</artifactId>-->
-                    <!--</plugin>-->
-                    <!--<plugin>-->
-                        <!--<groupId>org.apache.maven.plugins</groupId>-->
-                        <!--<artifactId>maven-antrun-plugin</artifactId>-->
-                    <!--</plugin>-->
-                <!--</plugins>-->
-            <!--</build>-->
-        <!--</profile>-->
-    <!--</profiles>-->
+    <profiles>
+        <profile>
+            <id>integration-tests</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                </property>
+            </activation>
+        </profile>
 
+        <profile>
+            <id>arq-jbossas-7-managed</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                    <value>jbossas-managed-7</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>arq-jbossas-7-remote</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                    <value>jbossas-remote-7</value>
+                </property>
+            </activation>
+        </profile>
+
+        <profile>
+            <id>ftest-jbossas</id>
+            <properties>
+                <example.context.path>seam-numberguess</example.context.path>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>selenium-maven-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>failsafe-maven-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
