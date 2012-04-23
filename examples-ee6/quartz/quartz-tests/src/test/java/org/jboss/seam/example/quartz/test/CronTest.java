@@ -15,6 +15,7 @@ import org.jboss.seam.mock.DBJUnitSeamTest;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -53,7 +54,7 @@ public class CronTest  extends DBJUnitSeamTest
     
     
     
-  
+    @Ignore
     @Test
     public void scheduleCron() throws Exception
     {
@@ -253,6 +254,7 @@ public class CronTest  extends DBJUnitSeamTest
         }
     }
 
+    @Ignore
     @Test
     public void scheduleCronWithStartAndEndTime() throws Exception
     {
