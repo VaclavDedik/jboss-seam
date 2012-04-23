@@ -1,5 +1,9 @@
 package org.jboss.seam.example.restbay.test;
 
+import static org.junit.Assert.assertTrue;
+
+import java.util.regex.Pattern;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OverProtocol;
 import org.jboss.arquillian.junit.Arquillian;
@@ -9,14 +13,13 @@ import org.jboss.seam.mock.JUnitSeamTest;
 
 import static org.jboss.seam.mock.ResourceRequestEnvironment.Method;
 import static org.jboss.seam.mock.ResourceRequestEnvironment.ResourceRequest;
-import org.jboss.seam.mock.SeamTest;
 import org.jboss.seam.mock.ResourceRequestEnvironment;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.junit.Assert.assertEquals;
+
 
 /**
  * 
@@ -63,8 +66,15 @@ public class ResourceQueryTest extends JUnitSeamTest
             @Override
             protected void onResponse(EnhancedMockHttpServletResponse response)
             {
-               String expectedResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><collection><category><categoryId>3</categoryId><name>Books</name></category><category><categoryId>4</categoryId><name>Cameras and Photography</name></category></collection>";
-               assertEquals("Unexpected response.", expectedResponse, response.getContentAsString());
+               String responseString = response.getContentAsString();
+               String expectedResponseRegex = "<\\?xml version=\"1\\.0\" encoding=\"UTF-8\" standalone=\"yes\"\\?>" +
+               		"<collection>" +
+               		   "(<category>" +
+               		      "<categoryId>[^<]+</categoryId><name>[^<]+</name>" +
+               		      "(<parent><categoryId>[^<]+</categoryId><name>[^<]+</name></parent>)?" +
+               		   "</category>){2}" +
+               		"</collection>";
+               assertTrue("The response string doesn't match the expected response. " + responseString, Pattern.matches(expectedResponseRegex, responseString));
             }
 
          }.run();
