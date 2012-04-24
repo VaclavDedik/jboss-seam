@@ -10,6 +10,8 @@
 
 	<artifactId>seam-integration-tests</artifactId>
 	<name>Seam Integration Tests</name>
+	<!-- We let Maven build a skeleton war with the required dependencies to be used in tests -->
+	<packaging>war</packaging>
 
 	<build>
 	   <testResources>
@@ -60,71 +62,67 @@
 
 	<dependencies>
 		<dependency>
-		  <groupId>org.jbpm.jbpm3</groupId>
-		  <artifactId>jbpm-jpdl</artifactId>
+			<groupId>org.jbpm.jbpm3</groupId>
+			<artifactId>jbpm-jpdl</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.jackrabbit</groupId>
+					<artifactId>jackrabbit-core</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-
+	
+		<dependency>
+			<groupId>org.beanshell</groupId>
+			<artifactId>bsh</artifactId>
+		</dependency>
+	
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+	
 		<dependency>
-			<groupId>javassist</groupId>
-			<artifactId>javassist</artifactId>
-			<scope>test</scope>
+			<groupId>org.jboss.spec.javax.jms</groupId>
+			<artifactId>jboss-jms-api_1.1_spec</artifactId>
+			<scope>provided</scope>
 		</dependency>
-		
+	
 		<dependency>
-		   <groupId>org.jboss.spec.javax.jms</groupId>
-		   <artifactId>jboss-jms-api_1.1_spec</artifactId>
+			<groupId>org.jboss.spec.javax.ejb</groupId>
+			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
+			<scope>provided</scope>
 		</dependency>
-		
-        <dependency>
-           <groupId>org.jboss.spec.javax.ejb</groupId>
-           <artifactId>jboss-ejb-api_3.1_spec</artifactId>
-        </dependency>
-        
-        <dependency>
-           <groupId>org.jboss.spec.javax.faces</groupId>
-           <artifactId>jboss-jsf-api_2.0_spec</artifactId>
-        </dependency>
-        
-        <dependency>
-           <groupId>org.jboss.spec.javax.servlet</groupId>
-           <artifactId>jboss-servlet-api_3.0_spec</artifactId>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.jboss.el</groupId>
-            <artifactId>jboss-el</artifactId>
-        </dependency>
-
+	
+		<dependency>
+			<groupId>org.jboss.spec.javax.faces</groupId>
+			<artifactId>jboss-jsf-api_2.0_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	
+		<dependency>
+			<groupId>org.jboss.spec.javax.servlet</groupId>
+			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	
 		<dependency>
 			<groupId>org.jboss.arquillian.junit</groupId>
 			<artifactId>arquillian-junit-container</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+	
 		<dependency>
 			<groupId>org.jboss.arquillian.protocol</groupId>
 			<artifactId>arquillian-protocol-servlet</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.shrinkwrap.resolver</groupId>
-			<artifactId>shrinkwrap-resolver-api-maven</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.shrinkwrap.resolver</groupId>
-			<artifactId>shrinkwrap-resolver-impl-maven</artifactId>
-			<scope>test</scope>
-		</dependency>
-
+	
 		<dependency>
 			<groupId>org.jboss.seam</groupId>
 			<artifactId>jboss-seam</artifactId>
@@ -136,14 +134,17 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+	
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
+			<scope>provided</scope>
 		</dependency>
-
+	
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	
