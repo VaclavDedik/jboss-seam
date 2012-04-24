@@ -5,18 +5,5 @@
             <module name="org.apache.commons.collections" export="true"/>
             <module name="javax.faces.api" export="true"/>
         </dependencies>
-        <exclusions>
-            <module name="org.jboss.resteasy.resteasy-jaxrs" slot="main"/>
-            <module name="org.jboss.resteasy.resteasy-jettison-provider" slot="main"/>
-            <module name="org.jboss.resteasy.resteasy-jaxb-provider" slot="main"/>
-        </exclusions>
     </deployment>
-    <sub-deployment name="tasks-web.war">
-        <exclusions>
-            <module name="org.jboss.resteasy.resteasy-jaxrs" slot="main"/>
-            <module name="org.jboss.resteasy.resteasy-jettison-provider" slot="main"/>
-            <module name="org.jboss.resteasy.resteasy-jaxb-provider" slot="main"/>
-            <module name="org.jboss.resteasy.resteasy-yaml-provider" slot="main"/>
-        </exclusions>
-    </sub-deployment>
 </jboss-deployment-structure>

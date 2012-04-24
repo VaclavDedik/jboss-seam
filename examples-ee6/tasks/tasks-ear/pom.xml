@@ -30,14 +30,6 @@
             <type>ejb</type>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jaxrs</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-atom-provider</artifactId>
-        </dependency>
     </dependencies>
     
 
@@ -72,7 +64,7 @@
                             <artifactId>jboss-seam</artifactId>
                             <bundleFileName>jboss-seam.jar</bundleFileName>
                         </ejbModule>
-                        <jarModule>
+<!--                        <jarModule>
                             <groupId>org.jboss.resteasy</groupId>
                             <artifactId>resteasy-jaxrs</artifactId>
                             <bundleDir>lib</bundleDir>
@@ -81,7 +73,7 @@
                             <groupId>org.jboss.resteasy</groupId>
                             <artifactId>resteasy-atom-provider</artifactId>
                             <bundleDir>lib</bundleDir>
-                        </jarModule>
+                        </jarModule>-->
                         
                     </modules>
                 </configuration>

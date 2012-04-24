@@ -37,6 +37,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import javax.validation.constraints.NotNull;
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+import org.jboss.resteasy.annotations.providers.jaxb.IgnoreMediaTypes;
 
 /**
  * 
@@ -92,6 +95,7 @@ public class Category
 
    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
    @XmlTransient
+   @JsonManagedReference("category-task")
    public List<Task> getTasks()
    {
       return tasks;
@@ -104,6 +108,7 @@ public class Category
 
    @ManyToOne
    @XmlTransient
+   @JsonBackReference("category-owner")
    public User getOwner()
    {
       return owner;
