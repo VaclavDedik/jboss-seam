@@ -29,7 +29,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import javax.validation.constraints.NotNull;
-import org.codehaus.jackson.annotate.JsonBackReference;
 
 /**
  * 
@@ -109,7 +108,6 @@ public class Task
    @ManyToOne
    @XmlTransient
    @NotNull
-   @JsonBackReference("category-task")
    public Category getCategory()
    {
       return category;
@@ -128,7 +126,6 @@ public class Task
    }
    
    @Transient
-   @JsonBackReference("task-owner")
    public User getOwner() {
       return category.getOwner();
    }

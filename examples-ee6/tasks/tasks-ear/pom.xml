@@ -64,16 +64,6 @@
                             <artifactId>jboss-seam</artifactId>
                             <bundleFileName>jboss-seam.jar</bundleFileName>
                         </ejbModule>
-<!--                        <jarModule>
-                            <groupId>org.jboss.resteasy</groupId>
-                            <artifactId>resteasy-jaxrs</artifactId>
-                            <bundleDir>lib</bundleDir>
-                        </jarModule>
-                        <jarModule>
-                            <groupId>org.jboss.resteasy</groupId>
-                            <artifactId>resteasy-atom-provider</artifactId>
-                            <bundleDir>lib</bundleDir>
-                        </jarModule>-->
                         
                     </modules>
                 </configuration>

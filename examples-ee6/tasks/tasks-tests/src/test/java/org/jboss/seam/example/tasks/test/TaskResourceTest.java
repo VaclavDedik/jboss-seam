@@ -61,7 +61,7 @@ public class TaskResourceTest extends JUnitSeamTest
    public void createTaskTest() throws Exception
    {
       final String mimeType = "application/json";
-      final String representation = "{\"name\":\"Test task\"}";
+      final String representation = "{\"task\":{\"name\":\"Test task\"}}";
       
       new ResourceRequest(new ResourceRequestEnvironment(this), Method.POST, "/v1/auth/category/School/unresolved")
       {

@@ -30,7 +30,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import javax.validation.constraints.NotNull;
-import org.codehaus.jackson.annotate.JsonManagedReference;
 
 /**
  * 
@@ -70,7 +69,6 @@ public class User
 
    @OneToMany(mappedBy = "owner")
    @XmlTransient
-   @JsonManagedReference("category-owner")
    public List<Category> getCategories()
    {
       return categories;

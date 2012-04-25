@@ -5,5 +5,13 @@
             <module name="org.apache.commons.collections" export="true"/>
             <module name="javax.faces.api" export="true"/>
         </dependencies>
+        <exclusions>
+            <module name="org.jboss.resteasy.resteasy-jackson-provider" slot="main"/>
+        </exclusions>
     </deployment>
+    <sub-deployment name="tasks-web.war">
+        <exclusions>
+            <module name="org.jboss.resteasy.resteasy-jackson-provider" slot="main"/>
+        </exclusions>
+    </sub-deployment>
 </jboss-deployment-structure>
