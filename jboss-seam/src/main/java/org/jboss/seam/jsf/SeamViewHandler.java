@@ -92,7 +92,10 @@ public class SeamViewHandler extends ViewHandlerWrapper
    public UIViewRoot restoreView(FacesContext ctx, String viewId) 
    {
       UIViewRoot viewRoot =viewHandler.restoreView(ctx, viewId);
-      viewRoot.setViewId(viewHandler.deriveViewId(ctx,viewId));
+      if (viewRoot != null)
+      {
+         viewRoot.setViewId(viewHandler.deriveViewId(ctx,viewId));
+      }
       return viewRoot;
    }
 
