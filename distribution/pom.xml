@@ -27,33 +27,34 @@
                             <finalName>jboss-seam-${project.version}</finalName>
 							<descriptors>
 								<descriptor>src/main/assembly/dist.xml</descriptor>
+								<descriptor>src/main/assembly/src.xml</descriptor>
 							</descriptors>	
 							<appendAssemblyId>true</appendAssemblyId>
 						</configuration>						
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-			 <artifactId>maven-dependency-plugin</artifactId>
-			 <configuration>
-			  <includeGroupIds>org.jboss.seam</includeGroupIds>
-			  <excludeGroupIds>org.jboss.seam.embedded</excludeGroupIds>
-			 </configuration>
-			 <executions>
-                    <execution>
-                        <id>copy-sources</id>
-                        <goals>
-                            <goal>unpack-dependencies</goal>
-                        </goals>
-                        <phase>compile</phase>
-                        <configuration>
-                            <classifier>project</classifier>
-                            <type>zip</type>
-                              <excludes>META-INF/**,.settings/,**/.settings/,.gitignore,.project,.classpath,**/.project,**/.classpath</excludes>
-                        </configuration>
-                    </execution>
-			 </executions>
-			</plugin>
+<!-- 			<plugin> -->
+<!-- 			 <artifactId>maven-dependency-plugin</artifactId> -->
+<!-- 			 <configuration> -->
+<!-- 			  <includeGroupIds>org.jboss.seam</includeGroupIds> -->
+<!-- 			  <excludeGroupIds>org.jboss.seam.embedded</excludeGroupIds> -->
+<!-- 			 </configuration> -->
+<!-- 			 <executions> -->
+<!--                     <execution> -->
+<!--                         <id>copy-sources</id> -->
+<!--                         <goals> -->
+<!--                             <goal>unpack-dependencies</goal> -->
+<!--                         </goals> -->
+<!--                         <phase>compile</phase> -->
+<!--                         <configuration> -->
+<!--                             <classifier>project</classifier> -->
+<!--                             <type>zip</type> -->
+<!--                               <excludes>META-INF/**,.settings/,**/.settings/,.gitignore,.project,.classpath,**/.project,**/.classpath</excludes> -->
+<!--                         </configuration> -->
+<!--                     </execution> -->
+<!-- 			 </executions> -->
+<!-- 			</plugin> -->
 		</plugins>
 	</build>
 
@@ -63,14 +64,7 @@
             <groupId>org.jboss.seam</groupId>
             <artifactId>seam-integration-tests</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.jboss.seam</groupId>
-            <artifactId>jboss-seam-parent</artifactId>
-            <type>zip</type>
-            <version>${project.version}</version>
-            <classifier>project</classifier>
+            <type>war</type>
         </dependency>
 
 		<dependency>
@@ -233,29 +227,29 @@
             <version>${project.version}</version>
         </dependency>
 
-		<dependency>
-			<groupId>org.jboss.seam</groupId>
-			<artifactId>jboss-embedded-bootstrap</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.jboss.seam</groupId> -->
+<!-- 			<artifactId>jboss-embedded-bootstrap</artifactId> -->
+<!-- 			<version>${project.version}</version> -->
+<!-- 		</dependency> -->
 		
-		<dependency>
-			<groupId>org.jboss.seam.embedded</groupId>
-			<artifactId>jboss-embedded-all</artifactId>
-			<version>${version.jbossembedded}</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.jboss.seam.embedded</groupId> -->
+<!-- 			<artifactId>jboss-embedded-all</artifactId> -->
+<!-- 			<version>${version.jbossembedded}</version> -->
+<!-- 		</dependency> -->
 		
-		<dependency>
-			<groupId>org.jboss.seam.embedded</groupId>
-			<artifactId>hibernate-all</artifactId>
-			<version>${version.jbossembedded}</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.jboss.seam.embedded</groupId> -->
+<!-- 			<artifactId>hibernate-all</artifactId> -->
+<!-- 			<version>${version.jbossembedded}</version> -->
+<!-- 		</dependency> -->
 		
-		<dependency>
-			<groupId>org.jboss.seam.embedded</groupId>
-			<artifactId>thirdparty-all</artifactId>
-			<version>${version.jbossembedded}</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.jboss.seam.embedded</groupId> -->
+<!-- 			<artifactId>thirdparty-all</artifactId> -->
+<!-- 			<version>${version.jbossembedded}</version> -->
+<!-- 		</dependency> -->
 		
 		<dependency>
             <groupId>org.jboss.seam</groupId>
@@ -276,12 +270,6 @@
             <groupId>org.jboss.seam</groupId>
             <artifactId>jboss-seam-ui</artifactId>
        </dependency>                
-       <dependency>
-            <groupId>org.jboss.seam</groupId>
-            <artifactId>examples-ee6</artifactId>
-            <classifier>project</classifier>
-            <version>${project.version}</version>
-            <type>zip</type>
-       </dependency>                
+                
 	</dependencies>
 </project>

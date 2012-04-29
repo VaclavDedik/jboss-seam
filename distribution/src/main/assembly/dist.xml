@@ -13,22 +13,12 @@
    
    <!-- Add distribution files -->
    <fileSets>
-   
-      <!--  All module sources defined in dependencies except examples -->
-      <fileSet>
-        <directory>target/dependency</directory>
-        <outputDirectory>src</outputDirectory>
-        <excludes>
-            <exclude>examples/</exclude>
-        </excludes>
-      </fileSet>
-      
       <!-- Examples only -->
       <fileSet>
         <directory>target/dependency</directory>
         <outputDirectory>.</outputDirectory>
         <includes>
-            <include>examples/</include>
+            <include>examples-ee6/</include>
         </includes>
         <excludes>
             <exclude>examples/wiki/</exclude>
@@ -38,18 +28,20 @@
       <!-- Distribution related files -->
       <fileSet>
          <directory>src/main/assembly</directory>
-         <outputDirectory>.</outputDirectory>
+         <outputDirectory>.</outputDirectory>         
          <includes>
             <include>readme.txt</include>
             <include>lgpl.txt</include>
             <include>copyright.txt</include>
             <include>changelog.txt</include>
             <include>seam21migration.txt</include>
+            <include>seam23migration.txt</include>
             <include>seam2migration.txt</include>
             <include>clustering-howto.txt</include>
             <include>seam</include>
             <include>seam.bat</include>
-         </includes>
+         </includes>         
+        <fileMode>0744</fileMode>         
       </fileSet>
       <fileSet>
       	<directory>../extras</directory>
@@ -83,33 +75,18 @@
             <include>*.jar</include>
         </includes>
       </fileSet>
+      <fileSet>
+        <directory>../build</directory>
+        <outputDirectory>./build</outputDirectory>
+        <includes>
+            <include>*.xml</include>
+            <include>lib/*</include>
+        </includes>
+      </fileSet>      
    </fileSets>    
 
    <dependencySets>
-   
-   <!-- some extra things Embedded bootstrap, extras etc. -->
-   	<dependencySet>
-   		<outputDirectory>.</outputDirectory>
-   		<useProjectArtifact>false</useProjectArtifact>
-   		<includes>
-   			<include>org.jboss.seam:jboss-embedded-bootstrap</include>
-   		</includes>
-   		<unpack>true</unpack>
-   		<unpackOptions>   		
-   			<excludes>
-   				<exclude>META-INF/**</exclude>
-   				<exclude>.settings/</exclude>
-   				<exclude>**/.settings/</exclude>
-   				<exclude>.gitignore</exclude>
-   				<exclude>.project</exclude>
-   				<exclude>.classpath</exclude>
-   				<exclude>**/.project</exclude>
-                <exclude>**/.classpath</exclude>
-   			</excludes>
-   		</unpackOptions>
-   		<outputFileNameMapping>${artifact.artifactId}</outputFileNameMapping>
-   	</dependencySet>
-   	
+      	
    <!-- Add necessary sources jars -->
       <dependencySet>
          <outputDirectory>lib/src</outputDirectory>
@@ -143,7 +120,6 @@
             <include>org.jboss.seam:jboss-seam-remoting:jar</include>
             <include>org.jboss.seam:jboss-seam-flex:jar</include>
             <include>org.jboss.seam:jboss-seam-ioc:jar</include>
-            <include>org.jboss.seam.embedded:jboss-embedded-api:jar</include>
          </includes>
          <excludes>
             <exclude>*:*:ejb:sources</exclude>
@@ -225,17 +201,6 @@
          <includes>
             <include>org.jboss.seam:jboss-seam-gen:zip:distribution</include>
          </includes>
-      </dependencySet>
-      
-      <dependencySet>
-         <outputDirectory>lib/test</outputDirectory>
-         <useProjectArtifact>false</useProjectArtifact>
-         <includes>
-            <include>org.jboss.seam.embedded:hibernate-all:*</include>
-            <include>org.jboss.seam.embedded:jboss-embedded-all:*</include>
-            <include>org.jboss.seam.embedded:thirdparty-all:*</include>
-         </includes>
-         <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
       </dependencySet>
       
       <!-- Pull in docbook artifacts -->

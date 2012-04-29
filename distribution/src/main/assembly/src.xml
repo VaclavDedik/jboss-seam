@@ -1,0 +1,28 @@
+<assembly
+   xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/2.2"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/2.2 http://maven.apache.org/xsd/assembly-2.2.xsd">
+
+   <id>src</id>
+   <formats>
+       <format>zip</format>
+   </formats>
+   <includeBaseDirectory>true</includeBaseDirectory>   
+   
+   <!-- Add sources files -->
+   <fileSets>
+   
+      <!--  All module sources defined in dependencies except examples -->
+      <fileSet>
+        <directory>../</directory>
+        <useDefaultExcludes>true</useDefaultExcludes>
+        <excludes>
+            <exclude>**/*.log</exclude>
+            <exclude>**/${project.build.directory}/**</exclude>
+            <exclude>**/jar-dependencies/**</exclude>
+        </excludes>
+      </fileSet>
+      
+   </fileSets>    
+
+</assembly>

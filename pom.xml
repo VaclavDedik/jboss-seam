@@ -1357,7 +1357,7 @@
 		<module>jboss-seam-wicket</module>
 		<module>jboss-seam-ioc</module>
 		<module>jboss-seam-jul</module>
-		<module>jboss-embedded-bootstrap</module>
+<!-- 		<module>jboss-embedded-bootstrap</module> -->
 		<module>functional-tests</module>
 	    <module>examples-ee6</module>
 	    <module>seam-integration-tests</module>
@@ -1379,23 +1379,23 @@
            </modules>
            <build>
            	<plugins>
-	           	<plugin>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>project-distribution</id>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>single</goal>
-                            </goals>
-                            <configuration>
-                      			<descriptorRefs>
-                      				<descriptorRef>project</descriptorRef>
-                      			</descriptorRefs>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>         
+<!-- 	           	<plugin> -->
+<!--                     <artifactId>maven-assembly-plugin</artifactId> -->
+<!--                     <executions> -->
+<!--                         <execution> -->
+<!--                             <id>project-distribution</id> -->
+<!--                             <phase>package</phase> -->
+<!--                             <goals> -->
+<!--                                 <goal>single</goal> -->
+<!--                             </goals> -->
+<!--                             <configuration> -->
+<!--                       			<descriptorRefs> -->
+<!--                       				<descriptorRef>project</descriptorRef> -->
+<!--                       			</descriptorRefs> -->
+<!--                             </configuration> -->
+<!--                         </execution> -->
+<!--                     </executions> -->
+<!--                 </plugin>          -->
            	</plugins>           	
            </build>
            

@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<!-- Ant build file containing build related common properties, definitions and targets -->
+<!-- Properties used:
+   build.dir - root of Seam build system
+   version
+   patchlevel
+   mavenised - whether to use a mavenised dependency management system. 
+               If false a ${seam.dir}/lib dir and the ${seam.dir}/jboss-seam*.jar
+               must be present.
+-->
+<project basedir="." xmlns:artifact="urn:maven-artifact-ant">
+
+    <tstamp />
+    
+    <property name="seam.dir" value="." />
+    
+    <property name="build.dir" value="${seam.dir}/build" />
+    <property name="tmp.dir" value="${seam.dir}/classes" />
+    <property name="lib.dir" value="${seam.dir}/lib" />
+    <property name="endorsed.dir" value="${tmp.dir}/endorsed" />
+    
+    <!-- Set the location of the maven settings.xml file -->    
+    <property name="maven.settings.xml" location="../build/settings.xml" />
+  
+    <import file="utilities.xml" />
+    
+    <path id="maven-ant-tasks.classpath" path="${build.dir}/lib/maven-ant-tasks.jar" />
+    <typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant" classpathref="maven-ant-tasks.classpath" />
+    
+    <!-- If build.properties doesn't exist, create it by copying build.properties.sample -->
+    <condition property="copy.default.properties">
+        <and>
+            <available file="${build.dir}/sample.build.properties" />
+            <not>
+                <available file="${seam.dir}/build.properties" />
+            </not>
+        </and>
+    </condition>
+    
+    <copy todir="${seam.dir}">
+        <fileset dir="${build.dir}">
+            <include name="sample.build.properties" if="copy.default.properties" />
+        </fileset>
+        <mapper type="glob" from="sample.build.properties" to="build.properties" />
+    </copy>
+    
+    <!-- User set properties, order of this and default properties is important! -->
+    <property file="${seam.dir}/build.properties" />
+        
+    <property name="complete.version" value="2.3.0.Beta2-SNAPSHOT" />
+    
+    <condition property="mavenized.property">
+        <not>
+            <equals arg1="${mavenized}" arg2="false" />
+        </not>
+    </condition>
+
+    <property name="maven.dir" value="${build.dir}/maven" />
+  
+    <property name="coverage.dir" value="${seam.dir}/coverage-output" />
+    <property name="coverage.ec" value="${coverage.dir}/coverage.ec" />
+
+<!--    <artifact:remoteRepository id="repository.jboss.org" url="http://repository.jboss.org/maven2" /> -->
+    
+
+    <target name="initcopy">
+        <mkdir dir="${lib.dir}" />
+    </target>
+
+    <target name="initpoms" unless="initpomsdone">
+        <!-- POMs -->
+        <echo>Setting up dependencies</echo>
+   
+        <property name="initpomsdone" value="true" />
+    </target>
+
+    <target name="copyseamdependencies" if="mavenized.property" unless="copyseamdependenciesdone" depends="initcopy, initpoms">
+        <copyDependencies id="core" pom="${core.pom}" todir="${lib.dir}" scope="runtime" />
+        <copyDependencies id="debug" pom="${debug.pom}" todir="${lib.dir}" scope="runtime" />
+        <copyDependencies id="wicket" pom="${wicket.pom}" todir="${lib.dir}" scope="runtime" />
+        <copyDependencies id="ioc" pom="${ioc.pom}" todir="${lib.dir}" scope="runtime" />
+        <copyDependencies id="mail" pom="${mail.pom}" todir="${lib.dir}" scope="runtime" />
+        <copyDependencies id="pdf" pom="${pdf.pom}" todir="${lib.dir}" scope="runtime" />
+        <copyDependencies id="flex" pom="${flex.pom}" todir="${lib.dir}" scope="runtime" />
+        <copyDependencies id="excel" pom="${excel.pom}" todir="${lib.dir}" scope="runtime" />
+        <copyDependencies id="remoting" pom="${remoting.pom}" todir="${lib.dir}" scope="runtime" />
+        <copyDependencies id="resteasy" pom="${resteasy.pom}" todir="${lib.dir}" scope="runtime" />
+        <copyDependencies id="ui" pom="${ui.pom}" todir="${lib.dir}" scope="runtime" />
+        <copyDependencies id="gen" pom="${gen.pom}" todir="${lib.dir}/gen" scope="runtime" />
+        <copyDependencies id="core" pom="${core.pom}" todir="${lib.dir}" scope="compile" />
+        <copyDependencies id="debug" pom="${debug.pom}" todir="${lib.dir}" scope="compile" />
+        <copyDependencies id="wicket" pom="${wicket.pom}" todir="${lib.dir}" scope="compile" />
+        <copyDependencies id="ioc" pom="${ioc.pom}" todir="${lib.dir}" scope="compile" />
+        <copyDependencies id="mail" pom="${mail.pom}" todir="${lib.dir}" scope="compile" />
+        <copyDependencies id="pdf" pom="${pdf.pom}" todir="${lib.dir}" scope="compile" />
+        <copyDependencies id="flex" pom="${flex.pom}" todir="${lib.dir}" scope="compile" />
+        <copyDependencies id="excel" pom="${excel.pom}" todir="${lib.dir}" scope="compile" />
+        <copyDependencies id="rss" pom="${rss.pom}" todir="${lib.dir}" scope="compile" />
+        <copyDependencies id="remoting" pom="${remoting.pom}" todir="${lib.dir}" scope="compile" />
+        <copyDependencies id="resteasy" pom="${resteasy.pom}" todir="${lib.dir}" scope="compile" />
+        <copyDependencies id="ui" pom="${ui.pom}" todir="${lib.dir}" scope="compile" />
+        <copyDependencies id="gen" pom="${gen.pom}" todir="${lib.dir}/gen" scope="compile" />
+        <property name="copyseamdependenciesdone" value="true" />
+    </target>
+
+    <target name="copyseam" if="mavenized.property" unless="copyseamdone" depends="initcopy, initpoms">
+        <copyInlineDependencies id="seam" scope="compile" todir="${lib.dir}">
+            <dependency groupId="org.jboss.seam" artifactId="jboss-seam" version="${complete.version}" />
+            <dependency groupId="org.jboss.seam" artifactId="jboss-seam-debug" version="${complete.version}" />
+            <dependency groupId="org.jboss.seam" artifactId="jboss-seam-wicket" version="${complete.version}" />
+            <dependency groupId="org.jboss.seam" artifactId="jboss-seam-ioc" version="${complete.version}" />
+            <dependency groupId="org.jboss.seam" artifactId="jboss-seam-mail" version="${complete.version}" />
+            <dependency groupId="org.jboss.seam" artifactId="jboss-seam-pdf" version="${complete.version}" />
+            <dependency groupId="org.jboss.seam" artifactId="jboss-seam-flex" version="${complete.version}" />
+            <dependency groupId="org.jboss.seam" artifactId="jboss-seam-remoting" version="${complete.version}" />
+            <dependency groupId="org.jboss.seam" artifactId="jboss-seam-resteasy" version="${complete.version}" />
+            <dependency groupId="org.jboss.seam" artifactId="jboss-seam-ui" version="${complete.version}" />
+            <dependency groupId="org.jboss.seam" artifactId="jboss-seam-excel" version="${complete.version}" />
+            <dependency groupId="org.jboss.seam" artifactId="jboss-seam-rss" version="${complete.version}" />
+        </copyInlineDependencies>
+        <property name="copyseamdone" value="true" />
+    </target>
+
+    <target name="copyjbossembedded" if="mavenized.property" unless="copyjbossembeddeddone" depends="initpoms, initcopy">
+        <copyInlineDependencies id="embeddedjboss" scope="compile" todir="${lib.dir}/test">
+            <dependency groupId="org.jboss.seam.embedded" artifactId="jboss-embedded-all" version="${embedded.version}">
+              <!-- Exclude the embedded api, its a dep of Seam core -->
+              <exclusion groupId="org.jboss.seam.embedded" artifactId="jboss-embedded-api" />
+            </dependency>
+            <dependency groupId="org.jboss.seam.embedded" artifactId="thirdparty-all" version="${embedded.version}" />
+            <dependency groupId="org.jboss.seam.embedded" artifactId="hibernate-all" version="${embedded.version}" />
+            
+            <remoteRepository refId="repository.jboss.org" />
+            <remoteRepository id="snapshots.jboss.org" url="http://snapshots.jboss.org/maven2" />
+        </copyInlineDependencies>
+        <property name="copyjbossembeddeddone" value="true" />
+    </target>
+    
+</project>
