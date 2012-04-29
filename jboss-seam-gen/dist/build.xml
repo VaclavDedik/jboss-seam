@@ -859,7 +859,7 @@
             <fileset dir="${templates.dir}/resources">
                 <include name="META-INF/orm.xml"/>
                 <include name="META-INF/persistence-*-war.xml"/>
-                <include name="WEB-INF/jboss-web.xml"/>
+   <!--             <include name="WEB-INF/jboss-web.xml"/> -->
             </fileset>
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
