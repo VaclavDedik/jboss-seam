@@ -7,36 +7,30 @@
    <!-- RichFaces -->
 
    <context-param>
-      <param-name>org.richfaces.SKIN</param-name>
+      <param-name>org.richfaces.skin</param-name>
       <param-value>@skin@</param-value>
    </context-param>
 
    <!-- Suppress spurious stylesheets -->
 
    <context-param>
-      <param-name>org.richfaces.CONTROL_SKINNING</param-name>
+      <param-name>org.richfaces.enableControlSkinning</param-name>
       <param-value>disable</param-value>
    </context-param>
 
    <context-param>
-      <param-name>org.richfaces.CONTROL_SKINNING_CLASSES</param-name>
+      <param-name>org.richfaces.enableControlSkinningClasses</param-name>
       <param-value>disable</param-value>
    </context-param>
 
    <!-- Change load strategy to DEFAULT to disable sending scripts/styles as packs -->
 
    <context-param>
-      <param-name>org.richfaces.LoadStyleStrategy</param-name>
-      <param-value>ALL</param-value>
-   </context-param>
-
-   <context-param>
-      <param-name>org.richfaces.LoadScriptStrategy</param-name>
-      <param-value>ALL</param-value>
+      <param-name>org.richfaces.resourceOptimization.enabled</param-name>
+      <param-value>true</param-value>
    </context-param>
 
    <!-- Seam -->
-
    <listener>
       <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
    </listener>
@@ -61,15 +55,13 @@
       <url-pattern>/seam/resource/*</url-pattern>
    </servlet-mapping>
 
-   <!-- Facelets development mode (disable in production) -->
-
-   <context-param>
-      <param-name>facelets.DEVELOPMENT</param-name>
-      <param-value>@debug@</param-value>
-   </context-param>
+<!-- Change to "Production" when you are ready to deploy -->
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
 
    <!-- JSF -->
-
    <context-param>
       <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
       <param-value>.xhtml</param-value>
