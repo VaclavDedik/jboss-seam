@@ -75,6 +75,13 @@
             <groupId>org.jboss.spec.javax.el</groupId>
             <artifactId>jboss-el-api_2.2_spec</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.15.0-GA</version>
+        </dependency>
+
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-jpdl</artifactId>
