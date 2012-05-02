@@ -1,7 +1,7 @@
 //$Id: BookingListAction.java 8748 2008-08-20 12:08:30Z pete.muir@jboss.org $
 package org.jboss.seam.example.jpa;
 
-// import static javax.ejb.TransactionAttributeType.REQUIRES_NEW;
+//import static javax.ejb.TransactionAttributeType.REQUIRES_NEW;
 import static org.jboss.seam.ScopeType.SESSION;
 
 import java.io.Serializable;
@@ -23,7 +23,7 @@ import org.jboss.seam.log.Log;
 
 @Scope(SESSION)
 @Name("bookingList")
-// @TransactionAttribute(REQUIRES_NEW)
+//@TransactionAttribute(REQUIRES_NEW)
 public class BookingListAction implements Serializable
 {
    
@@ -43,7 +43,8 @@ public class BookingListAction implements Serializable
    
    @Factory
    @Observer("bookingConfirmed")
-   @Transactional
+// see JBSEAM-4928
+//   @Transactional
    public void getBookings()
    {
       bookings = em.createQuery("select b from Booking b where b.user.username = :username order by b.checkinDate")
