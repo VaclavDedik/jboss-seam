@@ -17,25 +17,12 @@
             <classifier>jdk15</classifier>
         </dependency>
         <dependency>
-            <groupId>org.seleniumhq.selenium.server</groupId>
+            <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-server</artifactId>
-            <classifier>standalone</classifier>
         </dependency>
         <dependency>
-            <groupId>org.seleniumhq.selenium.client-drivers</groupId>
-            <artifactId>selenium-java-client-driver</artifactId>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.seleniumhq.webdriver</groupId>
-            <artifactId>webdriver-firefox</artifactId>
-         </dependency>
-         <dependency>
-            <groupId>org.seleniumhq.webdriver</groupId>
-            <artifactId>webdriver-support</artifactId>
-         </dependency>
-         <dependency>
-            <groupId>org.seleniumhq.webdriver</groupId>
-            <artifactId>webdriver-ie</artifactId>
-         </dependency>
     </dependencies>
 </project>

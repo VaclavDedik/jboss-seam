@@ -85,7 +85,7 @@ public class WebServicesTest extends AjaxWebDriverTest
 
       // the same as Selenium, must use getValue to retrieve text inside
       // <textarea></textarea>
-      assertTrue("Response area should contain \"true\"", response.getValue().contains(LOGIN_RIGHT_RESPONSE));
+      assertTrue("Response area should contain \"true\"", response.getAttribute("value").contains(LOGIN_RIGHT_RESPONSE));
    }
 
    @Test(dependsOnMethods = {
@@ -99,7 +99,7 @@ public class WebServicesTest extends AjaxWebDriverTest
 
       AjaxWebElement response = driver.findElement(RESPONSE_AREA);
 
-      assertTrue("Response area should contain a list of categories.", response.getValue().contains(LIST_CATEGORIES_RESPONSE));
+      assertTrue("Response area should contain a list of categories.", response.getAttribute("value").contains(LIST_CATEGORIES_RESPONSE));
    }
 
    @Test(dependsOnMethods = {
@@ -112,8 +112,8 @@ public class WebServicesTest extends AjaxWebDriverTest
       AjaxWebElement response = driver.findElement(RESPONSE_AREA);
       
       assertTrue("Response area should contain information about creating the auction.", 
-         response.getValue().contains(CREATE_NEW_AUCTION_RESPONSE_JBOSS_56) || 
-         response.getValue().contains(CREATE_NEW_AUCTION_RESPONSE_JBOSS_4));
+         response.getAttribute("value").contains(CREATE_NEW_AUCTION_RESPONSE_JBOSS_56) || 
+         response.getAttribute("value").contains(CREATE_NEW_AUCTION_RESPONSE_JBOSS_4));
       
    }
 
@@ -132,7 +132,7 @@ public class WebServicesTest extends AjaxWebDriverTest
 
       AjaxWebElement response = driver.findElement(RESPONSE_AREA);
 
-      assertTrue("Response area should contain information about finding auction.", response.getValue().contains(FIND_AUCTIONS_RESPONSE));
+      assertTrue("Response area should contain information about finding auction.", response.getAttribute("value").contains(FIND_AUCTIONS_RESPONSE));
    }
 
    @Test(dependsOnMethods = {
@@ -155,8 +155,8 @@ public class WebServicesTest extends AjaxWebDriverTest
       AjaxWebElement response = driver.findElement(RESPONSE_AREA);
 
       assertTrue("Response area should contain information about updating the auction.", 
-         response.getValue().contains(UPDATE_AUCTION_RESPONSE_JBOSS_56) ||
-         response.getValue().contains(UPDATE_AUCTION_RESPONSE_JBOSS_4));
+         response.getAttribute("value").contains(UPDATE_AUCTION_RESPONSE_JBOSS_56) ||
+         response.getAttribute("value").contains(UPDATE_AUCTION_RESPONSE_JBOSS_4));
    }
 
    @Test(dependsOnMethods = {
@@ -174,8 +174,8 @@ public class WebServicesTest extends AjaxWebDriverTest
 
       AjaxWebElement response = driver.findElement(RESPONSE_AREA);
       assertTrue("Response area should contain information about setting duration.", 
-         response.getValue().contains(SET_DURATION_RESPONSE_JBOSS_56) ||
-         response.getValue().contains(SET_DURATION_RESPONSE_JBOSS_4));
+         response.getAttribute("value").contains(SET_DURATION_RESPONSE_JBOSS_56) ||
+         response.getAttribute("value").contains(SET_DURATION_RESPONSE_JBOSS_4));
    }
 
    @Test(dependsOnMethods = {
@@ -193,8 +193,8 @@ public class WebServicesTest extends AjaxWebDriverTest
 
       AjaxWebElement response = driver.findElement(RESPONSE_AREA);
       assertTrue("Response area should contain information about setting starting price.", 
-         response.getValue().contains(SET_STARTING_PRICE_RESPONSE_JBOSS_56) || 
-         response.getValue().contains(SET_STARTING_PRICE_RESPONSE_JBOSS_4));
+         response.getAttribute("value").contains(SET_STARTING_PRICE_RESPONSE_JBOSS_56) || 
+         response.getAttribute("value").contains(SET_STARTING_PRICE_RESPONSE_JBOSS_4));
    }
 
    @Test(dependsOnMethods = {
@@ -209,7 +209,7 @@ public class WebServicesTest extends AjaxWebDriverTest
       driver.findElement(INVOKE_SERVICE_BUTTON).clickAndWait();
 
       AjaxWebElement response = driver.findElement(RESPONSE_AREA);
-      assertTrue("Response area should contain auction details.", response.getValue().contains(AUCTION_DETAILS_PRICE_RESPONSE));
+      assertTrue("Response area should contain auction details.", response.getAttribute("value").contains(AUCTION_DETAILS_PRICE_RESPONSE));
    }
 
    @Test(dependsOnMethods = {
@@ -222,7 +222,7 @@ public class WebServicesTest extends AjaxWebDriverTest
       driver.findElement(INVOKE_SERVICE_BUTTON).clickAndWait();
 
       AjaxWebElement response = driver.findElement(RESPONSE_AREA);
-      assertTrue("Response area should contain logout confirmation.", response.getValue().contains(LOGOUT_RESPONSE));
+      assertTrue("Response area should contain logout confirmation.", response.getAttribute("value").contains(LOGOUT_RESPONSE));
    }
 
    @Test(dependsOnMethods = {
@@ -236,8 +236,8 @@ public class WebServicesTest extends AjaxWebDriverTest
 
       AjaxWebElement response = driver.findElement(RESPONSE_AREA);
       assertTrue("Response area should contain information about confirmation.", 
-         response.getValue().contains(CONFIRMATION_RESPONSE_JBOSS_56) ||
-         response.getValue().contains(CONFIRMATION_RESPONSE_JBOSS_4));
+         response.getAttribute("value").contains(CONFIRMATION_RESPONSE_JBOSS_56) ||
+         response.getAttribute("value").contains(CONFIRMATION_RESPONSE_JBOSS_4));
    }
 
    /**

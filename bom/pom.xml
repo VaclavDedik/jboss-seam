@@ -898,58 +898,15 @@
 			</dependency>
 			
 			<dependency>
-				<groupId>org.seleniumhq.selenium.server</groupId>
+				<groupId>org.seleniumhq.selenium</groupId>
 				<artifactId>selenium-server</artifactId>
-				<version>1.0.1</version>
-				<classifier>standalone</classifier>
-				<exclusions>
-					<exclusion>
-						<groupId>org.seleniumhq.selenium.core</groupId>
-						<artifactId>selenium-core</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.seleniumhq.selenium.server</groupId>
-						<artifactId>selenium-server-coreless</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.ant</groupId>
-						<artifactId>ant-trax</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.ant</groupId>
-						<artifactId>ant-nodeps</artifactId>
-					</exclusion>
-				</exclusions>
+				<version>2.21.0</version>
 			</dependency>
 			 
 			<dependency>
-				<groupId>org.seleniumhq.selenium.client-drivers</groupId>
-				<artifactId>selenium-java-client-driver</artifactId>
-				<version>1.0.1</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.codehaus.groovy.maven.runtime</groupId>
-						<artifactId>gmaven-runtime-default</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			 
-			<dependency>
-				<groupId>org.seleniumhq.webdriver</groupId>
-				<artifactId>webdriver-firefox</artifactId>
-				<version>${version.webdriver}</version>
-			</dependency>
-			 
-			<dependency>
-				<groupId>org.seleniumhq.webdriver</groupId>
-				<artifactId>webdriver-support</artifactId>
-				<version>${version.webdriver}</version>
-			</dependency>
-			 
-			<dependency>
-				<groupId>org.seleniumhq.webdriver</groupId>
-				<artifactId>webdriver-ie</artifactId>
-				<version>${version.webdriver}</version>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-java</artifactId>
+				<version>2.21.0</version>
 			</dependency>
 			 
 			<dependency>
