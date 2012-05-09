@@ -76,6 +76,13 @@
         </includes>
       </fileSet>
       <fileSet>
+        <directory>target/arquillian</directory>
+        <outputDirectory>./lib/test</outputDirectory>
+        <includes>
+            <include>*.jar</include>
+        </includes>
+      </fileSet>      
+      <fileSet>
         <directory>../build</directory>
         <outputDirectory>./build</outputDirectory>
         <includes>

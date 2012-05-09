@@ -1,0 +1,19 @@
+<project xmlns:aether="antlib:org.sonatype.aether.ant"  default="copyarq">
+	<taskdef uri="antlib:org.sonatype.aether.ant" resource="org/sonatype/aether/ant/antlib.xml">
+    <classpath>
+      <fileset dir="../build/lib" includes="aether-ant-tasks-*.jar" />
+    </classpath>
+  </taskdef>
+	
+  <property name="test.lib.dir" location="test" />
+  <property name="version.jboss-as7" value="7.1.1.Final"/>
+  <target name="copyarq" >
+        <mkdir dir="${test.lib.dir}"/>
+		<aether:resolve>
+		    <aether:dependencies>
+		        <aether:dependency groupid="org.jboss.as" artifactid="jboss-as-arquillian-container-managed" version="${version.jboss-as7}" />
+		    </aether:dependencies>
+		    <files dir="${test.lib.dir}"  layout="{artifactId}-{version}-{classifier}.{extension}" />
+		</aether:resolve>
+  </target>		
+</project>

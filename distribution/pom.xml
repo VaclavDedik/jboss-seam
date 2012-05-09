@@ -14,6 +14,26 @@
 
 	<build>
 		<plugins>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                  <execution>
+                    <phase>validate</phase>
+                    <configuration>
+                         <exportAntProperties>true</exportAntProperties>          
+                         <target>              
+                            <property name="test.lib.dir"  location="target/arquillian/" />
+                            <property name="version.jboss-as7" value="${version.jbossas7}" />
+                            <ant antfile="arq-aether-task.xml" target="copyarq"/>
+                        </target>
+                    </configuration>
+                    <goals>
+                      <goal>run</goal>
+                    </goals>
+                  </execution>
+                </executions>
+              </plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<executions>
@@ -34,32 +54,10 @@
 					</execution>
 				</executions>
 			</plugin>
-<!-- 			<plugin> -->
-<!-- 			 <artifactId>maven-dependency-plugin</artifactId> -->
-<!-- 			 <configuration> -->
-<!-- 			  <includeGroupIds>org.jboss.seam</includeGroupIds> -->
-<!-- 			  <excludeGroupIds>org.jboss.seam.embedded</excludeGroupIds> -->
-<!-- 			 </configuration> -->
-<!-- 			 <executions> -->
-<!--                     <execution> -->
-<!--                         <id>copy-sources</id> -->
-<!--                         <goals> -->
-<!--                             <goal>unpack-dependencies</goal> -->
-<!--                         </goals> -->
-<!--                         <phase>compile</phase> -->
-<!--                         <configuration> -->
-<!--                             <classifier>project</classifier> -->
-<!--                             <type>zip</type> -->
-<!--                               <excludes>META-INF/**,.settings/,**/.settings/,.gitignore,.project,.classpath,**/.project,**/.classpath</excludes> -->
-<!--                         </configuration> -->
-<!--                     </execution> -->
-<!-- 			 </executions> -->
-<!-- 			</plugin> -->
 		</plugins>
 	</build>
 
 	<dependencies>
-	
         <dependency>
             <groupId>org.jboss.seam</groupId>
             <artifactId>seam-integration-tests</artifactId>
@@ -227,30 +225,6 @@
             <version>${project.version}</version>
         </dependency>
 
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.jboss.seam</groupId> -->
-<!-- 			<artifactId>jboss-embedded-bootstrap</artifactId> -->
-<!-- 			<version>${project.version}</version> -->
-<!-- 		</dependency> -->
-		
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.jboss.seam.embedded</groupId> -->
-<!-- 			<artifactId>jboss-embedded-all</artifactId> -->
-<!-- 			<version>${version.jbossembedded}</version> -->
-<!-- 		</dependency> -->
-		
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.jboss.seam.embedded</groupId> -->
-<!-- 			<artifactId>hibernate-all</artifactId> -->
-<!-- 			<version>${version.jbossembedded}</version> -->
-<!-- 		</dependency> -->
-		
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.jboss.seam.embedded</groupId> -->
-<!-- 			<artifactId>thirdparty-all</artifactId> -->
-<!-- 			<version>${version.jbossembedded}</version> -->
-<!-- 		</dependency> -->
-		
 		<dependency>
             <groupId>org.jboss.seam</groupId>
             <artifactId>functional-tests</artifactId>
