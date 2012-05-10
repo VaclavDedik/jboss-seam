@@ -1,5 +1,6 @@
 package org.jboss.seam.example.blog.test;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
@@ -11,169 +12,305 @@ import javax.persistence.EntityManager;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OverProtocol;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.mock.JUnitSeamTest;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.theme.Theme;
 import org.jboss.seam.theme.ThemeSelector;
-import org.jboss.seam.transaction.UserTransaction;
-
-import actions.BlogService;
-import actions.EntryAction;
-import actions.PostAction;
-import actions.SearchService;
-import domain.Blog;
-import domain.BlogEntry;
 import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import static org.junit.Assert.*;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-@RunWith(Arquillian.class)
-public class BlogTest
-{
+import actions.BlogService;
+import actions.SearchService;
+import domain.Blog;
+import domain.BlogEntry;
 
-   @Deployment(name="BookingTest")
+@RunWith(Arquillian.class)
+public class BlogTest extends JUnitSeamTest
+{
+   @Deployment(name = "BestSellersTest")
    @OverProtocol("Servlet 3.0")
    public static Archive<?> createDeployment()
    {
-      EnterpriseArchive er = Deployments.bookingDeployment();
-      WebArchive web = er.getAsType(WebArchive.class, "blog-web.war");
+      EnterpriseArchive er = ShrinkWrap.create(ZipImporter.class, "seam-blog.ear").importFrom(new File("../blog-ear/target/seam-blog.ear")).as(EnterpriseArchive.class);
 
+      WebArchive web = er.getAsType(WebArchive.class, "blog-web.war");
       web.addClasses(BlogTest.class);
+
+      // Install org.jboss.seam.mock.MockSeamListener
+      web.delete("/WEB-INF/web.xml");
+      web.addAsWebInfResource("web.xml");
 
       return er;
    }
-
+   
    @Test
    public void testPost() throws Exception
    {
-      Lifecycle.beginCall();
-      Identity identity = Identity.instance();
-      identity.setPassword("tokyo");
-      identity.authenticate();
+      new FacesRequest()
+      {
+         @Override
+         protected void updateModelValues() throws Exception
+         {
+            Identity.instance().setPassword("tokyo");
+         }
+         @Override
+         protected void invokeApplication() throws Exception
+         {
+            Identity.instance().authenticate();
+         }
+      }.run();
+      
+      new FacesRequest("/post.xhtml")
+      {
 
-      BlogEntry entry = (BlogEntry) Component.getInstance("blogEntry");
-      entry.setId("testing");
-      entry.setTitle("Integration testing Seam applications is easy!");
-      entry.setBody("This post is about Arquillian...");
-      
-      UserTransaction transaction = (UserTransaction)Component.getInstance("org.jboss.seam.transaction.transaction");
-      transaction.begin();
-      PostAction postAction = (PostAction)Component.getInstance("postAction");
-      postAction.post();
-      transaction.commit();
-      
-      Lifecycle.endCall();
+         @Override
+         protected void updateModelValues() throws Exception
+         {            
+            BlogEntry entry = (BlogEntry) getInstance("blogEntry");
+            entry.setId("testing");
+            entry.setTitle("Integration testing Seam applications is easy!");
+            entry.setBody("This post is about SeamTest...");
+         }
+         
+         @Override
+         protected void invokeApplication() throws Exception
+         {
+            // post now returns void
+            // assert invokeMethod("#{postAction.post}").equals("/index.xhtml");
+            invokeMethod("#{postAction.post}");
+            setOutcome("/index.xhtml");
+         }
+         
+         @Override
+         protected void afterRequest()
+         {
+            assert isInvokeApplicationComplete();
+            assert !isRenderResponseBegun();
+         }
+         
+      }.run();
 
-      Lifecycle.beginCall();
-      
-      List<BlogEntry> blogEntries = ( (Blog) Component.getInstance(BlogService.class) ).getBlogEntries();
-      assertEquals(4, blogEntries.size());
-      
-      BlogEntry blogEntry = blogEntries.get(0);
-      assertEquals("testing", blogEntry.getId());
-      assertEquals("This post is about Arquillian...", blogEntry.getBody());
-      assertEquals("Integration testing Seam applications is easy!", blogEntry.getTitle());
+      new NonFacesRequest("/index.xhtml")
+      {
 
-      transaction = (UserTransaction)Component.getInstance("org.jboss.seam.transaction.transaction");
-      transaction.begin();
-      ( (EntityManager) Component.getInstance("entityManager") ).createQuery("delete from BlogEntry where id='testing'").executeUpdate();
-      transaction.commit();
+         @Override
+         protected void renderResponse() throws Exception
+         {
+            List<BlogEntry> blogEntries = ( (Blog) getInstance(BlogService.class) ).getBlogEntries();
+            assert blogEntries.size()==4;
+            BlogEntry blogEntry = blogEntries.get(0);
+            assert blogEntry.getId().equals("testing");
+            assert blogEntry.getBody().equals("This post is about SeamTest...");
+            assert blogEntry.getTitle().equals("Integration testing Seam applications is easy!");
+         }
+
+      }.run();
       
-      Lifecycle.endCall();
+      new FacesRequest()
+      {
+         @Override
+         protected void invokeApplication() throws Exception
+         {
+            ( (EntityManager) getInstance("entityManager") ).createQuery("delete from BlogEntry where id='testing'").executeUpdate();
+         }  
+      }.run();
+
    }
    
    @Test
    public void testLatest() throws Exception
    {
-      assertEquals(3, ( (Blog) Component.getInstance(BlogService.class) ).getBlogEntries().size());
+      new NonFacesRequest("/index.xhtml")
+      {
+
+         @Override
+         protected void renderResponse() throws Exception
+         {
+            assert ( (Blog) getInstance(BlogService.class) ).getBlogEntries().size()==3;
+         }
+         
+      }.run();
    }
    
    @Test
    public void testEntry() throws Exception
    {
-      EntryAction entryAction = (EntryAction)Component.getInstance("entryAction");
-      entryAction.loadBlogEntry("seamtext");
-      
-      BlogEntry blogEntry = (BlogEntry) Contexts.getEventContext().get("blogEntry");
-      assertNotNull(blogEntry);
-      assertEquals("seamtext", blogEntry.getId());
+      new NonFacesRequest("/entry.xhtml")
+      {
+         
+         @Override
+         protected void beforeRequest()
+         {
+            setParameter("blogEntryId", "seamtext");
+         }
+         
+         @Override
+         protected void renderResponse() throws Exception
+         {
+            BlogEntry blogEntry = (BlogEntry) Contexts.getEventContext().get("blogEntry");
+            assert blogEntry!=null;
+            assert blogEntry.getId().equals("seamtext");
 
-      // make sure the entry is really there
-      assertTrue(blogEntry.getBody().length() > 0);
-      assertEquals("Introducing Seam Text", blogEntry.getTitle());
+            // make sure the entry is really there
+            assert blogEntry.getBody().length() > 0;
+            assert blogEntry.getTitle().equals("Introducing Seam Text");
+         }
+         
+      }.run();
    }
    
    @Test
    public void testSearch() throws Exception
    {
-      SearchService searchService = (SearchService)Component.getInstance("searchService");
-      searchService.setSearchPattern("seam text");
+      // Some time to allow indexing in the background
+      Thread.sleep(1000);
       
-      List<BlogEntry> results = (List<BlogEntry>) Component.getInstance("searchResults");
-      assertEquals("seamtext", results.get(0).getId());
+      String id = new FacesRequest()
+      {
+         
+         @Override
+         protected void updateModelValues() throws Exception
+         {
+            ( (SearchService) getInstance(SearchService.class) ).setSearchPattern("seam");
+         }
+         
+         @Override
+         protected String getInvokeApplicationOutcome()
+         {
+            return "/search.xhtml";
+         }
+
+         @Override
+         protected void afterRequest()
+         {
+            assert !isRenderResponseBegun();
+         }
+         
+      }.run();
+
+      new NonFacesRequest("/search.xhtml", id)
+      {
+
+         @Override
+         protected void beforeRequest()
+         {
+            setParameter("searchPattern", "\"seam text\"");
+         }
+         
+         @Override
+         protected void renderResponse() throws Exception
+         {
+            List<BlogEntry> results = (List<BlogEntry>) getInstance("searchResults");
+            // The hibernate search returns non-precise matches since version 4, so we only check that the expected result is first
+            assert "seamtext".equals(results.get(0).getId());
+         }
+         
+      }.run();
    }
    
    @Test
-   @Ignore // themeSelector.select uses FacesContext, which isn't available in a test
    public void testSelectTheme() throws Exception
    {
-      ThemeSelector themeSelector = ThemeSelector.instance();
-      List<SelectItem> themes = (List<SelectItem>) themeSelector.getThemes();
-      assertEquals(3, themes.size());
-      assertEquals("default", themes.get(0).getLabel());
-      assertEquals("default", themeSelector.getTheme());
+       String id = new NonFacesRequest("/index.xhtml")
+       {
+           
+           @Override
+           protected void renderResponse() throws Exception 
+           {
+               List<SelectItem> themes = (List<SelectItem>) getValue("#{themeSelector.themes}");
+               assert themes.size() == 3;
+               assert themes.get(0).getLabel().equals("default");
+               assert themes.get(0).getLabel().equals("default");
+               assert "default".equals(getValue("#{themeSelector.theme}"));
 
-      Map<String, String> theme = Theme.instance();
-      assertEquals("template.xhtml", theme.get("template"));
-      // we can't do interpolate the value correctly in these tests
-      assertEquals("/screen.css", theme.get("css"));
-      assertEquals("foo", theme.get("foo"));
-      
-      themeSelector.setTheme("accessible");
-      themeSelector.select();
-
-      assertEquals("accessible", themeSelector.getTheme());
-      
-      theme = Theme.instance();
-      assertEquals("/accessible.css", theme.get("css"));
-      assertEquals("template.xhtml", theme.get("template"));
+               assert "template.xhtml".equals(getValue("#{theme.template}"));
+               // we can't do interpolate the value correctly in these tests
+               // assert "/screen.css".equals(getValue("#{theme.css}"));
+               assert "foo".equals(getValue("#{theme.foo}"));
+           }
+           
+       }.run();
        
-      
-      themeSelector.selectTheme("printable");
-      assertEquals("printable", themeSelector.getTheme());
-      
-      theme = Theme.instance();
-      assertEquals("/printable.css", theme.get("css"));
-      assertEquals("print.xhtml", theme.get("template"));
-      
-      theme = Theme.instance();
-      assertEquals(2, theme.entrySet().size());
-      
-      themeSelector.setTheme("foo");
-      themeSelector.select();
-      assertEquals("foo", themeSelector.getTheme());
-      theme = Theme.instance();
-      ResourceBundle themeResources = ThemeSelector.instance().getThemeResourceBundle();
-      assertFalse(themeResources.getKeys().hasMoreElements());
-      assertEquals(0, theme.entrySet().size());
-      boolean exception = false;
-      try
-      {
-         themeResources.getObject("bar");
-      }
-      catch (MissingResourceException e) 
-      {
-         exception = true; 
-      }
-      assertTrue(exception);
-      assertEquals("bar", theme.get("bar"));
+       new FacesRequest("/index.xhtml", id)
+       {
+           @Override
+           protected void updateModelValues() throws Exception {
+               setValue("#{themeSelector.theme}", "accessible");
+           }
+           
+           @Override
+           protected void invokeApplication() throws Exception {
+               invokeAction("#{themeSelector.select}");
+           }
+           
+           @Override
+           protected void renderResponse() throws Exception 
+           {
+               assert "accessible".equals(getValue("#{themeSelector.theme}"));
+               //assert "/accessible.css".equals(getValue("#{theme.css}"));
+               assert "template.xhtml".equals(getValue("#{theme.template}"));
+           }
+       }.run();
+       
+       new FacesRequest("/index.xhtml", id)
+       {
+           
+           @Override
+           protected void invokeApplication() throws Exception {
+               invokeAction("#{themeSelector.selectTheme('printable')}");
+           }
+           
+           @Override
+           protected void renderResponse() throws Exception 
+           {
+               assert "printable".equals(getValue("#{themeSelector.theme}"));
+               //assert "/printable.css".equals(getValue("#{theme.css}"));
+               assert "print.xhtml".equals(getValue("#{theme.template}"));
+               Map<String, String> theme = Theme.instance();
+               assert theme.entrySet().size() == 2;
+           }
+       }.run();
+       
+       new FacesRequest("/index.xhtml", id)
+       {
+           @Override
+           protected void updateModelValues() throws Exception {
+               setValue("#{themeSelector.theme}", "foo");
+           }
+           
+           @Override
+           protected void invokeApplication() throws Exception {
+               invokeAction("#{themeSelector.select}");
+           }
+           
+           @Override
+           protected void renderResponse() throws Exception 
+           {
+               assert "foo".equals(getValue("#{themeSelector.theme}"));
+               Map<String, String> theme = Theme.instance();
+               ResourceBundle themeResources = ThemeSelector.instance().getThemeResourceBundle();
+               assert !themeResources.getKeys().hasMoreElements();
+               assert theme.entrySet().size() == 0;
+               boolean exception = false;
+               try
+               {
+                   themeResources.getObject("bar");
+               }
+               catch (MissingResourceException e) 
+               {
+                  exception = true; 
+               }
+               assert exception;
+               assert theme.get("bar").equals("bar");
+           }
+       }.run();
    }
 
 }
