@@ -16,16 +16,15 @@
 		<plugins>
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.7</version>
                 <executions>
                   <execution>
-                    <phase>validate</phase>
+                    <phase>package</phase>
                     <configuration>
                          <exportAntProperties>true</exportAntProperties>          
                          <target>              
                             <property name="test.lib.dir"  location="target/arquillian/" />
                             <property name="version.jboss-as7" value="${version.jbossas7}" />
-                            <ant antfile="arq-aether-task.xml" target="copyarq"/>
+                            <ant antfile="get-arquillian-libs.xml" target="copyarq"/>
                         </target>
                     </configuration>
                     <goals>

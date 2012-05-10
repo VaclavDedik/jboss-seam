@@ -43,6 +43,14 @@
          </includes>         
         <fileMode>0744</fileMode>         
       </fileSet>
+
+      <fileSet>
+        <directory>.</directory>
+        <outputDirectory>.</outputDirectory>
+        <includes>
+            <include>get-arquillian-libs.xml</include>
+        </includes>
+      </fileSet>
       <fileSet>
       	<directory>../extras</directory>
       	<outputDirectory>extras</outputDirectory>
