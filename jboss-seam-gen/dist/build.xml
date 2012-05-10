@@ -936,7 +936,6 @@
                 <exclude name="WEB-INF/components*.xml"/>
                 <exclude name="META-INF/persistence*.xml"/>
                 <exclude name="META-INF/application.xml"/>
-            	<include name="META-INF/jboss-deployment-structure.xml"/>
                 <exclude name="META-INF/ejb-jar.xml"/>
                 <exclude name="WEB-INF/jboss-web.xml"/>
                 <exclude name="*identity-management*"/>
