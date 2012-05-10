@@ -47,15 +47,20 @@ public class ResourceLoader extends org.jboss.seam.core.ResourceLoader
    @Override
    public URL getResource(String resource) 
    {
+      URL url = null;
+       
       javax.faces.context.FacesContext context = javax.faces.context.FacesContext.getCurrentInstance();
       if (context!=null)
       {
-         return FacesResources.getResource( resource, context.getExternalContext() );
+          url = FacesResources.getResource( resource, context.getExternalContext() );
       }
-      else
+      
+      if (url == null)    
       {
-         return super.getResource(resource);
+          url = super.getResource(resource);
       }
+      
+      return url;
    }
    
 }
