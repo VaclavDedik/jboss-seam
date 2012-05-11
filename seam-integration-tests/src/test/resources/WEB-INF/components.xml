@@ -37,11 +37,11 @@
 
     <jms:managed-topic-publisher name="testPublisher"
                                  auto-create="true" 
-                                 topic-jndi-name="topic/test" />
+                                 topic-jndi-name="topic/seamTest" />
                              
     <jms:managed-queue-sender name="testSender"
                               auto-create="true"
-                              queue-jndi-name="queue/test" />
+                              queue-jndi-name="queue/seamTest" />
                        
 
 </components>

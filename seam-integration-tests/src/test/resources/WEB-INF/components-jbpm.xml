@@ -41,18 +41,5 @@
             <value>testProcess4.jpdl.xml</value>
         </bpm:process-definitions>
     </bpm:jbpm>
-    
-
-    <jms:topic-connection topic-connection-factory-jndi-name="/ConnectionFactory" />
-    <jms:queue-connection queue-connection-factory-jndi-name="/ConnectionFactory" />
-
-    <jms:managed-topic-publisher name="testPublisher"
-                                 auto-create="true" 
-                                 topic-jndi-name="/topic/testTopic" />
-    	                         
-    <jms:managed-queue-sender name="testSender"
-                              auto-create="true"
-                              queue-jndi-name="/queue/testQueue" />
-                       
 
 </components>

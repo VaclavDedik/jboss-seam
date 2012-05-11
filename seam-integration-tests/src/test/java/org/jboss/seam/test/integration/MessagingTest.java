@@ -112,7 +112,7 @@ public class MessagingTest
     
     @MessageDriven(activationConfig={
         @ActivationConfigProperty(propertyName="destinationType", propertyValue="javax.jms.Topic"),
-        @ActivationConfigProperty(propertyName="destination",     propertyValue="topic/test")
+        @ActivationConfigProperty(propertyName="destination",     propertyValue="topic/seamTest")
     })
     @Name("testTopicListener")
     static public class TestTopicListener 
@@ -133,7 +133,7 @@ public class MessagingTest
     
     @MessageDriven(activationConfig={
         @ActivationConfigProperty(propertyName="destinationType", propertyValue="javax.jms.Queue"),
-        @ActivationConfigProperty(propertyName="destination",     propertyValue="queue/test")
+        @ActivationConfigProperty(propertyName="destination",     propertyValue="queue/seamTest")
     })
     @Name("testQueueListener")
     static public class TestQueueListener 

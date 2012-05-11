@@ -28,7 +28,8 @@ public class Deployments {
                   .addAsWebInfResource("WEB-INF/components.xml", "components.xml")
                   .addAsWebInfResource("WEB-INF/pages.xml", "pages.xml")
                   .addAsWebInfResource("WEB-INF/web.xml", "web.xml")
-                  .addAsWebInfResource("WEB-INF/ejb-jar.xml", "ejb-jar.xml");
+                  .addAsWebInfResource("WEB-INF/ejb-jar.xml", "ejb-jar.xml")
+                  .addAsWebInfResource("WEB-INF/jboss-seam-integration-tests-hornetq-jms.xml", "jboss-seam-integration-tests-hornetq-jms.xml");
    }
 
    public static WebArchive jbpmSeamDeployment() {
