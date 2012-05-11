@@ -36,7 +36,7 @@
 		<version.wicket>1.4.14</version.wicket>
 		<version.drools>5.1.1</version.drools>
 		<version.resteasy>2.0.1.GA</version.resteasy>
-		<version.spring>2.5.6.SEC03</version.spring>
+		<version.spring>3.1.1.RELEASE</version.spring>
 		<version.jbossembedded>beta3.SP15</version.jbossembedded>
 		<version.jbossas7>7.1.1.Final</version.jbossas7>
 		<version.jsf2>2.1.7</version.jsf2>
@@ -627,24 +627,71 @@
 				<version>1.6.5</version>
 			</dependency>
 
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring</artifactId>
-				<version>${version.spring}</version>
-				<exclusions>
-					<!-- Prevent the insanity which is commons-logging pom introducing dependencies 
-						on weird stuff -->
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>junit</groupId>
-						<artifactId>junit</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
+                   <dependency>
+                               <groupId>org.springframework</groupId>
+                               <artifactId>spring-beans</artifactId>
+                               <version>${version.spring}</version>
+                       </dependency>
 
+                       <dependency>
+                               <groupId>org.springframework</groupId>
+                               <artifactId>spring-aop</artifactId>
+                               <version>${version.spring}</version>
+                       </dependency>
+
+                       <dependency>
+                               <groupId>org.springframework</groupId>
+                               <artifactId>spring-core</artifactId>
+                               <version>${version.spring}</version>
+                       </dependency>
+
+                       <dependency>
+                               <groupId>org.springframework</groupId>
+                               <artifactId>spring-context</artifactId>
+                               <version>${version.spring}</version>
+                       </dependency>
+
+                       <dependency>
+                               <groupId>org.springframework</groupId>
+                               <artifactId>spring-context-support</artifactId>
+                               <version>${version.spring}</version>
+                       </dependency>
+
+                       <dependency>
+                               <groupId>org.springframework</groupId>
+                               <artifactId>spring-tx</artifactId>
+                               <version>${version.spring}</version>
+                       </dependency>
+
+                       <dependency>
+                               <groupId>org.springframework</groupId>
+                               <artifactId>spring-jdbc</artifactId>
+                               <version>${version.spring}</version>
+                       </dependency>
+
+                       <dependency>
+                               <groupId>org.springframework</groupId>
+                               <artifactId>spring-orm</artifactId>
+                               <version>${version.spring}</version>
+                       </dependency>
+
+                       <dependency>
+                               <groupId>org.springframework</groupId>
+                               <artifactId>spring-jms</artifactId>
+                               <version>${version.spring}</version>
+                       </dependency>
+
+                       <dependency>
+                               <groupId>org.springframework</groupId>
+                               <artifactId>spring-web</artifactId>
+                               <version>${version.spring}</version>
+                       </dependency>
+
+                       <dependency>
+                               <groupId>org.springframework</groupId>
+                               <artifactId>spring-webmvc</artifactId>
+                               <version>${version.spring}</version>
+                       </dependency>
 			<dependency>
 				<groupId>com.google.code.guice</groupId>
 				<artifactId>guice</artifactId>
