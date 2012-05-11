@@ -4,6 +4,8 @@ package org.jboss.seam.core;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
+import javax.ejb.Stateful;
+
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.annotations.intercept.InterceptorType;
@@ -45,7 +47,8 @@ public class SynchronizationInterceptor extends AbstractInterceptor
    
    public boolean isInterceptorEnabled()
    {
-      return getComponent().isSynchronize();
+      // JBSEAM-4943
+      return getComponent().isSynchronize() && !getComponent().businessInterfaceHasAnnotation(Stateful.class);
    }
 
 }
