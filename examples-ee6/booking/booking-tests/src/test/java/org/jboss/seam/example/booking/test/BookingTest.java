@@ -16,6 +16,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.example.booking.Booking;
 import org.jboss.seam.example.booking.BookingList;
@@ -26,6 +27,9 @@ import org.jboss.seam.example.booking.User;
 import org.jboss.seam.security.Identity;
 
 import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -44,24 +48,25 @@ public class BookingTest
       return er;
    }
 
-   @In(value="org.jboss.seam.core.manager")
-   private Manager manager;
+   @Before
+   public void before() {
+      Lifecycle.beginCall();
+   }
 
-   @In(value="org.jboss.seam.security.identity")
-   private Identity identity;
-
-   @In
-   private HotelSearching hotelSearch;
-
-   @In
-   private HotelBooking hotelBooking;
-
-   @In
-   private BookingList bookingList;
+   @After
+   public void after() {
+      Lifecycle.endCall();
+   }
 
    @Test
    public void testBookHotel() throws Exception
    {
+      Manager manager = Manager.instance();
+      Identity identity = Identity.instance();
+      HotelSearching hotelSearch = (HotelSearching)Component.getInstance("hotelSearch");
+      HotelBooking hotelBooking = (HotelBooking)Component.getInstance("hotelBooking");
+      BookingList bookingList = (BookingList)Component.getInstance("bookingList");
+
       manager.initializeTemporaryConversation();
       Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
 

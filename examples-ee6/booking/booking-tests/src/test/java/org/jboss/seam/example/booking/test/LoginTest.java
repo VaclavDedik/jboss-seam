@@ -9,12 +9,16 @@ import org.jboss.arquillian.container.test.api.OverProtocol;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.In;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.example.booking.User;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.web.Session;
 
 import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -32,13 +36,22 @@ public class LoginTest
 
       return er;
    }
-   
-   @In(value="org.jboss.seam.security.identity")
-   private Identity identity;
+
+   @Before
+   public void before() {
+      Lifecycle.beginCall();
+   }
+
+   @After
+   public void after() {
+      Lifecycle.endCall();
+   }
 
    @Test
    public void testLoginComponent() throws Exception
    {
+      Identity identity = Identity.instance();
+
       assertFalse(identity.isLoggedIn());
       identity.setUsername("gavin");
       identity.setPassword("foobar");
@@ -60,6 +73,8 @@ public class LoginTest
    @Test
    public void testLogin() throws Exception
    {
+      Identity identity = Identity.instance();
+
       assertFalse(identity.isLoggedIn());
 
       identity.setUsername("gavin");
