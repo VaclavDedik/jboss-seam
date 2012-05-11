@@ -1,5 +1,7 @@
 package org.jboss.seam.example.contactlist.test;
 
+import static org.junit.Assert.*;
+
 import java.util.List;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -13,7 +15,7 @@ import org.jboss.seam.framework.EntityQuery;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import static org.junit.Assert.*;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -36,14 +38,20 @@ public class ContactListTest
    @Test
    public void testList() throws Exception
    {
+      Lifecycle.beginCall();
+
       EntityQuery<Contact> contacts = (EntityQuery<Contact>)Component.getInstance("contacts");
       List<Contact> contactsList = (List<Contact>) (contacts.getResultList());
       assertEquals(5, contactsList.size());
+
+      Lifecycle.endCall();
    }
 
    @Test
    public void testSearch() throws Exception
    {
+      Lifecycle.beginCall();
+      
       Contact exampleContact = (Contact)Component.getInstance("exampleContact");
       exampleContact.setFirstName("Norman");
 
@@ -64,17 +72,19 @@ public class ContactListTest
       
       Lifecycle.endCall();
    }
-   
+
    Long contactId;
-   
+
    @Test
    public void testCreateDeleteContact() throws Exception
    {
+      Lifecycle.beginCall();
+
       Contact contact = (Contact) Component.getInstance("contact");
       contact.setFirstName("Emmanuel");
       contact.setLastName("Bernard");
       contact.setCity("Paris");
-      
+
       EntityHome<Contact> contactHome = (EntityHome<Contact>)Component.getInstance("contactHome");
       assertEquals("persisted", contactHome.persist());
       contactId = (Long)contactHome.getId();
@@ -91,9 +101,11 @@ public class ContactListTest
 
       Lifecycle.endCall();
       Lifecycle.beginCall();
-      
+
       contactHome = (EntityHome<Contact>)Component.getInstance("contactHome");
       contactHome.setId(contactId);
       assertEquals("removed", contactHome.remove());
+
+      Lifecycle.endCall();
    }
 }
