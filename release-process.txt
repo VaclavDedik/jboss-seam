@@ -34,7 +34,7 @@ Maven repository settings
     - Comment out any repository entry not "http://repository.jboss.org/maven2"
     - Should only be entries in "root.pom.xml" and "docs.pom.xml"
   - Verify prior to tagging
-    - Clean our your local maven repository
+    - Clean your local maven repository
         - ex. "~/.m2"
         - <TODO document way to set local repo settings for clean build />
     - Go to jboss-seam-parent and run "mvn clean verify -s ../build/settings.xml" with these changes
