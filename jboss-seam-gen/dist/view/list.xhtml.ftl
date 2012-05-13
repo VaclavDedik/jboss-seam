@@ -19,7 +19,7 @@
 
     <h:form id="${componentName}Search" styleClass="edit">
 
-        <rich:simpleTogglePanel label="${entityName} Search Filter" switchType="ajax">
+        <rich:collapsiblePanel label="${entityName} Search Filter" switchType="ajax">
 
 <#assign searchParamNames = []/>
 <#foreach property in pojo.allPropertiesIterator>
@@ -55,7 +55,7 @@
                 </h:selectOneRadio>
             </s:decorate>
 
-        </rich:simpleTogglePanel>
+        </rich:collapsiblePanel>
 
         <div class="actionButtons">
             <h:commandButton id="search" value="Search" action="/${listPageName}.xhtml"/>

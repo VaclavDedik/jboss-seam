@@ -274,10 +274,10 @@
             <equals arg1="${icefaces.new}" arg2="y"/>
         </condition>
 
-        <property name="old.richfaces.skin" value="glassX"/>
+        <property name="old.richfaces.skin" value="blueSky"/>
         <input addproperty="richfaces.skin.new"
                    message="Select a RichFaces skin [${old.richfaces.skin}]"
-                 validargs="blueSky,classic,darkX,deepMarine,DEFAULT,emeraldTown,glassX,japanCherry,laguna,ruby,wine"
+                 validargs="blueSky,emeraldTown,ruby,classic,japanCherry,wine,deepMarine,DEFAULT,plain"
               defaultvalue="${old.richfaces.skin}"/>
 
         <property name="old.project.type" value="war"/>
