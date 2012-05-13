@@ -6,6 +6,7 @@ import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.event.*;
 import javax.faces.validator.Validator;
 
 import org.jboss.seam.ui.component.UIEqualityValidator;
@@ -16,9 +17,11 @@ import org.jboss.seam.ui.validator.EqualityValidator;
  * This class mainly does some validation "hook-in"
  * 
  * @author Daniel Roth
+ * @author <a href="http://community.jboss.org/people/bleathem">Brian Leathem</a>
  * 
  */
-public class EqualityValidatorRendererBase extends RendererBase
+@ListenerFor(systemEventClass = PostAddToViewEvent.class)
+public class EqualityValidatorRendererBase extends RendererBase implements ComponentSystemEventListener
 {
 
    @Override
@@ -27,8 +30,7 @@ public class EqualityValidatorRendererBase extends RendererBase
       return UIEqualityValidator.class;
    }
 
-   @Override
-   protected void doEncodeChildren(ResponseWriter writer, FacesContext context, UIComponent component) throws IOException
+   private void attachValidator(UIComponent component)
    {
       UIEqualityValidator ev = (UIEqualityValidator) component;
       EditableValueHolder evh = null;
@@ -46,7 +48,6 @@ public class EqualityValidatorRendererBase extends RendererBase
          evh.setRequired(ev.isRequired());
       }
 
-      renderChildren(context, component);
    }
 
    private boolean hasEqualityValidator(EditableValueHolder evh)
@@ -67,4 +68,10 @@ public class EqualityValidatorRendererBase extends RendererBase
       return true;
    }
 
+   @Override
+   public void processEvent(ComponentSystemEvent event) throws AbortProcessingException
+   {
+      UIComponent component = event.getComponent();
+      this.attachValidator(component);
+   }
 }
