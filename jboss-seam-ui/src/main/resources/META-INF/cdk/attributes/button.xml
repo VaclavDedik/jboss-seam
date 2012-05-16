@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdk:properties xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:cdk="http://jboss.org/schema/richfaces/cdk/extensions" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee">
+
+	<property>
+		<description>the JSF view id to link to.</description>
+		<property-name>view</property-name>
+		<property-class>java.lang.String</property-class>		
+	</property>
+
+	<property>
+		<description>a pageflow definition to begin. (This is only useful when
+			propagation="begin" or propagation="join".)</description>
+		<property-name>pageflow</property-name>
+		<property-class>java.lang.String</property-class>
+	</property>
+	<property>
+		<description>determines the conversation propagation style: begin,
+			join, nest, none, end or endRoot.</description>
+		<property-name>propagation</property-name>
+		<property-class>java.lang.String</property-class>
+		<default-value>"default"</default-value>
+	</property>
+	<property>
+		<description>the fragment identifier to link to.</description>
+		<property-name>fragment</property-name>
+		<property-class>java.lang.String</property-class>
+	</property>
+	<property>
+		<property-name>outcome</property-name>
+		<property-class>java.lang.String</property-class>
+	</property>
+	<property>
+		<property-name>image</property-name>
+		<property-class>java.lang.String</property-class>
+	</property>
+	<property>
+		<description>Specify the task to operate on (e.g. for @StartTask)
+		</description>
+		<property-name>taskInstance</property-name>
+		<property-class>java.lang.Object</property-class>
+	</property>
+	<property>
+		<description>The name of the conversation for natural conversations
+		</description>
+		<property-name>conversationName</property-name>
+		<property-class>java.lang.String</property-class>
+	</property>
+	<property>
+		<description>Include page parameters defined in pages.xml when
+			rendering the button</description>
+		<property-name>includePageParams</property-name>
+		<property-class>boolean</property-class>
+		<default-value>true</default-value>
+	</property>
+</cdk:properties>

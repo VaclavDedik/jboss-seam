@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdk:properties xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:cdk="http://jboss.org/schema/richfaces/cdk/extensions"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee">     
+
+    <xi:include xpointer="xmlns(cdk=http://jboss.org/schema/richfaces/cdk/extensions)xpointer(/cdk:properties/*)"    
+        href="urn:attributes:javax.faces.component.UIComponent.xml" />
+    <xi:include xpointer="xmlns(cdk=http://jboss.org/schema/richfaces/cdk/extensions)xpointer(/cdk:properties/*)"    
+        href="urn:attributes:core-props.xml" />
+
+        <property>
+            <property-name>for</property-name>
+            <property-class>java.lang.String</property-class>
+            <description>Id of the input field to decorate</description>
+        </property>
+        
+        <property>           
+            <property-name>template</property-name>
+            <property-class>java.lang.String</property-class>
+            <description>XHTML template to use to decorate the input field</description>
+        </property>
+        
+        <property>
+            <property-name>enclose</property-name>
+            <property-class>boolean</property-class>
+            <description>if true, the template used to decorate the input field is
+                         enclosed by the element specified with the "element"
+                         attribute. By default this is a div element.
+            </description>
+            <default-value>true</default-value>
+        </property>
+        
+        <property>
+            <property-name>element</property-name>
+            <property-class>java.lang.String</property-class>
+            <description>the element to enclose the template used to decorate the input field.
+                         By default, the template is enclosed with a div element.</description>
+            <default-value>"div"</default-value>
+        </property>
+</cdk:properties>

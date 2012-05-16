@@ -26,11 +26,19 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 
 import org.jboss.seam.contexts.Contexts;
+import org.richfaces.cdk.annotations.Attribute;
+import org.richfaces.cdk.annotations.Description;
+import org.richfaces.cdk.annotations.JsfComponent;
+import org.richfaces.cdk.annotations.Tag;
 
 /**
  * JSF component class
  *
  */
+@JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Selection", value=""),
+family="org.jboss.seam.ui.Selection", type="org.jboss.seam.ui.Selection",generate="org.jboss.seam.ui.component.html.HtmlSelection", 
+tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="selection"),
+attributes = {"selection.xml" })
 public abstract class UISelection extends UIParameter {
 	
 	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.Selection";
@@ -55,11 +63,12 @@ public abstract class UISelection extends UIParameter {
          return rowIndex<0 ? null : getVar() + ':' + getDataModel() + '[' + rowIndex + ']';
       }
    }
-
+   @Attribute
    public abstract String getDataModel();
 
    public abstract void setDataModel(String dataModel);
    
+   @Attribute
    public abstract String getVar();
 
    public abstract void setVar(String var);

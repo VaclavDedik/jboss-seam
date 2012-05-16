@@ -21,32 +21,36 @@
 
 package org.jboss.seam.ui.component;
 
+import org.richfaces.cdk.annotations.Attribute;
+import org.richfaces.cdk.annotations.Description;
+import org.richfaces.cdk.annotations.Tag;
+import org.richfaces.cdk.annotations.JsfComponent;
+import org.richfaces.cdk.annotations.JsfRenderer;
+
 
 /**
- * JSF component class
+ * JSF component class for Seam UIButton
  *
  */
+@JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Button",value="A link that supports invocation of an action with control over conversation propagation"),
+ family="org.jboss.seam.ui.Button", type="org.jboss.seam.ui.Button",generate="org.jboss.seam.ui.component.html.HtmlButton", 
+ tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="button"), renderer = @JsfRenderer(generate="false",type="org.jboss.seam.ui.renderkit.ButtonRendererBase", family="org.jboss.seam.ui.ButtonRenderer"),
+ attributes = {"command-button-props.xml", "javax.faces.component.UICommand.xml", "javax.faces.component.ValueHolder.xml", "i18n-props.xml", "accesskey-props.xml", "button.xml" })
 public abstract class UIButton extends UISeamCommandBase  {
-   
+
+   @Attribute
 	public abstract String getStyleClass();
    
-   public abstract void setStyleClass(String styleClass);
-   
+   @Attribute   
    public abstract String getStyle();
-   
-   public abstract void setStyle(String style);
-   
+
+   @Attribute(defaultValue="false")
    public abstract boolean isDisabled();
 
-   public abstract void setDisabled(boolean disabled);
-   
+   @Attribute
    public abstract String getOnclick();
 
-   public abstract void setOnclick(String onclick);
-   
+   @Attribute
    public abstract String getImage();
-   
-   public abstract void setImage(String image);
-   
    
 }

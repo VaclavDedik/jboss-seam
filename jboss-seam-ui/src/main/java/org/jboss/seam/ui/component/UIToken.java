@@ -7,6 +7,11 @@ import javax.faces.component.UIOutput;
 import org.jboss.seam.Component;
 import org.jboss.seam.ui.ClientUidSelector;
 import org.jboss.seam.ui.UnauthorizedCommandException;
+import org.richfaces.cdk.annotations.Attribute;
+import org.richfaces.cdk.annotations.Description;
+import org.richfaces.cdk.annotations.JsfComponent;
+import org.richfaces.cdk.annotations.JsfRenderer;
+import org.richfaces.cdk.annotations.Tag;
 
 /**
  * <p>
@@ -61,6 +66,11 @@ import org.jboss.seam.ui.UnauthorizedCommandException;
  * 
  * @author Dan Allen
  */
+@JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Token",value="Render a secure token in the parent form that is validated on postback to guard against CSRF attacks"),
+family="org.jboss.seam.ui.Token", type="org.jboss.seam.ui.Token",generate="org.jboss.seam.ui.component.html.HtmlToken", 
+tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="token"), 
+renderer = @JsfRenderer(generate="false",type="org.jboss.seam.ui.renderkit.TokenRendererBase", family="org.jboss.seam.ui.TokenRenderer"),
+attributes = {"token.xml" })
 public abstract class UIToken extends UIOutput
 {
    @SuppressWarnings("unused")
@@ -75,6 +85,7 @@ public abstract class UIToken extends UIOutput
     * if the "build before restore" mode of Facelets is activated (the
     * default in JSF 2.0). The default value is false.
     */
+   @Attribute
    public abstract boolean isRequireSession();
    
    public abstract void setRequireSession(boolean required);
@@ -85,6 +96,7 @@ public abstract class UIToken extends UIOutput
     * enabled, present a notice to the user that form posts will not work.
     * The default value is false.
     */
+   @Attribute
    public abstract boolean isEnableCookieNotice();
    
    public abstract void setEnableCookieNotice(boolean state);
@@ -97,6 +109,7 @@ public abstract class UIToken extends UIOutput
     * have the UIToken component rerendered on any Ajax call where the UIToken
     * component would be processed. The default value is false.
     */
+   @Attribute
    public abstract boolean isAllowMultiplePosts();
    
    public abstract void setAllowMultiplePosts(boolean allow);

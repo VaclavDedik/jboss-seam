@@ -24,29 +24,34 @@ package org.jboss.seam.ui.component;
 import javax.faces.component.UIComponentBase;
 
 import org.jboss.seam.cache.CacheProvider;
+import org.richfaces.cdk.annotations.Attribute;
+import org.richfaces.cdk.annotations.Description;
+import org.richfaces.cdk.annotations.JsfComponent;
+import org.richfaces.cdk.annotations.JsfRenderer;
+import org.richfaces.cdk.annotations.Tag;
 
 
 /**
  * JSF component class
  * 
  */
+@JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Cache",value="Cache the rendered page fragment using the installed cache provider."),
+family="org.jboss.seam.ui.Cache", type="org.jboss.seam.ui.Cache",generate="org.jboss.seam.ui.component.html.HtmlCache", 
+tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="cache"), renderer = @JsfRenderer(generate="false",type="org.jboss.seam.ui.renderkit.ButtonRendererBase", family="org.jboss.seam.ui.ButtonRenderer"),
+attributes = {"base-props.xml", "cache.xml" })
 public abstract class UICache extends UIComponentBase
 {
-   
+
+   @Attribute
    public abstract boolean isEnabled();
    
-   public abstract void setEnabled(boolean enabled);
-   
+   @Attribute
    public abstract String getKey();
    
-   public abstract void setKey(String key);
-   
+   @Attribute
    public abstract String getRegion();
    
-   public abstract void setRegion(String region);
-   
+   @Attribute
    public abstract CacheProvider getCacheProvider();
    
-   public abstract void setCacheProvider(CacheProvider cacheProvider);
-
 }

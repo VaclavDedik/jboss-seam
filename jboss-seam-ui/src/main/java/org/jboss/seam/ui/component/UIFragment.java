@@ -24,13 +24,22 @@ package org.jboss.seam.ui.component;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 
+import org.richfaces.cdk.annotations.Description;
+import org.richfaces.cdk.annotations.JsfComponent;
+import org.richfaces.cdk.annotations.JsfRenderer;
+import org.richfaces.cdk.annotations.Tag;
+
 /**
  * JSF component class
  *
  */
+@JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Fragment",value="Surround a page fragment, allows you to apply render/not render without any html output."),
+family="org.jboss.seam.ui.Fragment", type="org.jboss.seam.ui.Fragment",generate="org.jboss.seam.ui.component.html.HtmlFragment", 
+tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="fragment"), 
+renderer = @JsfRenderer(generate="false",type="org.jboss.seam.ui.renderkit.FragmentRendererBase", family="org.jboss.seam.ui.FragmentRenderer"),
+attributes = {"javax.faces.component.UIComponent.xml" })
 public abstract class UIFragment extends UIComponentBase {
 	
-	@SuppressWarnings("unused")
    private static final String COMPONENT_TYPE = "org.jboss.seam.ui.Fragment";
 	
 	@SuppressWarnings("unused")

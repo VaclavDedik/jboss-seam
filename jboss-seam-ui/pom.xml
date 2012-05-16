@@ -10,7 +10,7 @@
 	<name>Seam UI JSF2 support</name>
     
     <properties>
-        <version.richfaces>4.2.0.Final</version.richfaces>
+        <version.richfaces>4.3.0-SNAPSHOT</version.richfaces>
     </properties>
     
     <dependencyManagement>
@@ -18,7 +18,7 @@
             <dependency>
                 <groupId>org.richfaces</groupId>
                 <artifactId>richfaces-bom</artifactId>
-                <version>4.2.0.Final</version>
+                <version>4.3.0-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -43,13 +43,13 @@
 					<library>
 						<prefix>org.jboss.seam.ui</prefix>
 						<description>JSF controls for JBoss Seam</description>
-						<taglib>
-							<displayName>JBoss Seam UI</displayName>
-							<shortName>s</shortName>
-							<uri>http://jboss.com/products/seam/taglib</uri>
-							<tlibVersion>2.0</tlibVersion>
-							<jspVersion>2.1</jspVersion>
-						</taglib>
+<!-- 						<taglib> -->
+<!-- 							<displayName>JBoss Seam UI</displayName> -->
+<!-- 							<shortName>s</shortName> -->
+<!-- 							<uri>http://jboss.com/products/seam/taglib</uri> -->
+<!-- 							<tlibVersion>2.0</tlibVersion> -->
+<!-- 							<jspVersion>2.1</jspVersion> -->
+<!-- 						</taglib> -->
 					</library>
 				</configuration>
 			</plugin>

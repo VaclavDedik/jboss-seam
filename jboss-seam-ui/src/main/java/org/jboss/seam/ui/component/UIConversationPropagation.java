@@ -24,10 +24,21 @@ package org.jboss.seam.ui.component;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 
+import org.richfaces.cdk.annotations.Attribute;
+import org.richfaces.cdk.annotations.Description;
+import org.richfaces.cdk.annotations.JsfComponent;
+import org.richfaces.cdk.annotations.JsfRenderer;
+import org.richfaces.cdk.annotations.Tag;
+
 /**
  * JSF component class
  *
  */
+@JsfComponent(description=@Description(displayName="org.jboss.seam.ui.ConversationPropagation",value="Customize the conversation propagation for a command link or button (or similar JSF control)."),
+family="org.jboss.seam.ui.ConversationPropagation", type="org.jboss.seam.ui.ConversationPropagation",generate="org.jboss.seam.ui.component.html.HtmlConversationPropagation", 
+tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="conversationPropagation"), 
+renderer = @JsfRenderer(generate="false",type="org.jboss.seam.ui.renderkit.ConversationPropagationRendererBase", family="org.jboss.seam.ui.ConversationPropagationRenderer"),
+attributes = {"conversationPropagation.xml" })
 public abstract class UIConversationPropagation extends UIParameter {
 	
 	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.ConversationPropagation";
@@ -44,10 +55,12 @@ public abstract class UIConversationPropagation extends UIParameter {
       return getPageflow()==null ? getType() : getType() + "." + getPageflow();
    }
 
+   @Attribute
    public abstract String getPageflow();
 
    public abstract void setPageflow(String pageflow);
 
+   @Attribute
    public abstract String getType();
 
    public abstract void setType(String type);

@@ -11,18 +11,25 @@ import javax.el.ValueExpression;
 import javax.faces.FacesException;
 import javax.faces.component.ValueHolder;
 import javax.faces.convert.Converter;
-
 import javax.faces.model.DataModel;
 
 import org.jboss.seam.framework.Query;
 import org.jboss.seam.ui.converter.ConverterChain;
 import org.jboss.seam.ui.converter.NoSelectionConverter;
+import org.richfaces.cdk.annotations.Attribute;
+import org.richfaces.cdk.annotations.Description;
+import org.richfaces.cdk.annotations.JsfComponent;
+import org.richfaces.cdk.annotations.Tag;
 
 
 /**
  * @auth Pete Muir
  *
  */
+@JsfComponent(description=@Description(displayName="org.jboss.seam.ui.SelectItems",value="Creates a List<SelectItem> from a List, Set, DataModel or Array."),
+family="javax.faces.SelectItems", type="org.jboss.seam.ui.SelectItems",generate="org.jboss.seam.ui.component.html.HtmlSelectItems", 
+tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="selectItems"), 
+attributes = {"selectItems.xml" })
 public abstract class UISelectItems extends javax.faces.component.UISelectItems {
    
    private List<javax.faces.model.SelectItem> selectItems;
@@ -124,25 +131,31 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
 
 
    public abstract void setHideNoSelectionLabel(Boolean hideNoSelectionLabel);
-   
-   public abstract Boolean getHideNoSelectionLabel();
-   
+
+   @Attribute
+   public abstract Boolean isHideNoSelectionLabel();
+
+   @Attribute
    public abstract String getNoSelectionLabel();
    
    public abstract void setNoSelectionLabel(String noSelectionLabel);
    
+   @Attribute
    public abstract String getVar();
    
    public abstract void setVar(String var);
       
-   public abstract Boolean getDisabled();
+   @Attribute
+   public abstract Boolean isDisabled();
    
    public abstract void setDisabled(Boolean disabled);
    
-   public abstract Boolean getEscape();
+   @Attribute
+   public abstract Boolean isEscape();
 
    public abstract void setEscape(Boolean escape);
 
+   @Attribute
    public abstract Object getItemValue();
    
    public abstract void setItemValue(Object itemValue);
@@ -198,14 +211,14 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
             @Override
             protected Boolean getSelectItemDisabled()
             {
-               Boolean disabled = getDisabled();
+               Boolean disabled = isDisabled();
                return disabled == null ? false : disabled;
             }
 
             @Override
             protected Boolean getSelectItemEscape()
             {
-               Boolean escape = getEscape();
+               Boolean escape = isEscape();
                return escape == null ? true : escape;
             }
 
@@ -252,7 +265,7 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
    {  
       ValueExpression vb = getValueExpression("noSelectionLabel");
       String noSelectionLabel = getNoSelectionLabel();
-      Boolean hideNoSelectionLabel = getHideNoSelectionLabel();
+      Boolean hideNoSelectionLabel = isHideNoSelectionLabel();
       Object parentValue = getParentValue();
       
       /*

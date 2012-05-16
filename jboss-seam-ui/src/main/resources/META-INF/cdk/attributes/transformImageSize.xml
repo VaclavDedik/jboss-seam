@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdk:properties xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:cdk="http://jboss.org/schema/richfaces/cdk/extensions"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee">    
+
+	<property>
+	    <property-name>maintainRatio</property-name>
+	    <property-class>boolean</property-class>
+	    <description>If true, don't alter the ratio of the image. In this case only height or width should be specificed.</description>
+	</property>     
+	<property>
+	    <property-name>width</property-name>
+	    <property-class>java.lang.Integer</property-class>
+	    <description>The new width of the image</description>
+	</property>     
+	<property>
+	    <property-name>height</property-name>
+	    <property-class>java.lang.Integer</property-class>
+	    <description>The new height of the image</description>
+	</property>
+	<property>
+	    <property-name>factor</property-name>
+	    <property-class>java.lang.Double</property-class>
+	    <description>Change the size of the image by a fraction. If factor is specified, height, width and maintainRatio should not be specified</description>
+	</property>
+</cdk:properties>

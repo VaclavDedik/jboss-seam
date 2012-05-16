@@ -4,7 +4,15 @@ import java.io.IOException;
 
 import javax.faces.component.UIComponentBase;
 
+import org.richfaces.cdk.annotations.Attribute;
+import org.richfaces.cdk.annotations.Description;
+import org.richfaces.cdk.annotations.JsfComponent;
+import org.richfaces.cdk.annotations.Tag;
 
+@JsfComponent(description=@Description(displayName="org.jboss.seam.ui.graphicImage.TransformImageSize",value="Nested in a s:graphicImage. Transform an image by altering the size."),
+family="org.jboss.seam.ui.graphicImage.TransformImageSize", type="org.jboss.seam.ui.graphicImage.TransformImageSize",generate="org.jboss.seam.ui.component.html.HtmlTransformImageSize", 
+tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="transformImageSize"), 
+attributes = {"transformImageSize.xml" })
 public abstract class UITransformImageSize extends UIComponentBase implements ImageTransform
 {
 
@@ -51,18 +59,22 @@ public abstract class UITransformImageSize extends UIComponentBase implements Im
       }
    }
 
+   @Attribute
    public abstract boolean isMaintainRatio();
 
    public abstract void setMaintainRatio(boolean maintainRatio);
 
+   @Attribute
    public abstract Integer getWidth();
 
    public abstract void setWidth(Integer width);
 
+   @Attribute
    public abstract Integer getHeight();
 
    public abstract void setHeight(Integer height);
 
+   @Attribute
    public abstract Double getFactor();
 
    public abstract void setFactor(Double factor);

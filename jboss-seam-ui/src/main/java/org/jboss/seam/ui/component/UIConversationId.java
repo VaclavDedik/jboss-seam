@@ -28,12 +28,20 @@ import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.navigation.Page;
 import org.jboss.seam.navigation.Pages;
+import org.richfaces.cdk.annotations.Attribute;
+import org.richfaces.cdk.annotations.Description;
+import org.richfaces.cdk.annotations.JsfComponent;
+import org.richfaces.cdk.annotations.Tag;
 
 
 /**
  * JSF component class
  *
  */
+@JsfComponent(description=@Description(displayName="org.jboss.seam.ui.ConversationId",value="Add the conversation id to JSF link or button (e.g. <h:commandLink />, <s:button />)."),
+family="org.jboss.seam.ui.ConversationId", type="org.jboss.seam.ui.ConversationId",generate="org.jboss.seam.ui.component.html.HtmlConversationId", 
+tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="conversationId"),
+attributes = {"javax.faces.component.UIParameter.xml", "conversationId.xml"})
 public abstract class UIConversationId extends UIParameter {
 	
 	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.ConversationId";   
@@ -76,6 +84,7 @@ public abstract class UIConversationId extends UIParameter {
       }
    }
 
+   @Attribute(hidden=true, literal=true)
    public abstract String getViewId();
 
    public abstract void setViewId(String viewId);

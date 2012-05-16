@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdk:properties xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:cdk="http://jboss.org/schema/richfaces/cdk/extensions"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee">
+        <xi:include xpointer="xmlns(cdk=http://jboss.org/schema/richfaces/cdk/extensions)xpointer(/cdk:properties/*)"    
+        href="urn:attributes:base-props.xml" />
+        <xi:include xpointer="xmlns(cdk=http://jboss.org/schema/richfaces/cdk/extensions)xpointer(/cdk:properties/*)"    
+        href="urn:attributes:javax.faces.component.UICommand.xml" />
+        <xi:include xpointer="xmlns(cdk=http://jboss.org/schema/richfaces/cdk/extensions)xpointer(/cdk:properties/*)"    
+        href="urn:attributes:javax.faces.component.UIComponent.xml" />
+
+<!--       <property required="true"> -->
+        <property>
+            <property-name>value</property-name>
+            <property-class>java.lang.Object</property-class>
+            <default-value>an EL expression specifying the data that backs the List&lt;SelectItem&gt;</default-value>
+        </property>
+<!--         <property required="true" el="false"> -->
+        <property>
+            <property-name>var</property-name>
+            <property-class>java.lang.String</property-class>
+            <description>defines the name of the local variable that holds the current object during iteration</description>
+        </property>
+        <property>
+            <property-name>itemValue</property-name>
+            <property-class>java.lang.Object</property-class>
+            <description>Value to return to the server if this option is selected. Optional, by default the var object is used. Can reference the var variable</description> 
+        </property>
+<!--         <property exist="true"> -->
+        <property>
+            <property-name>label</property-name>
+            <property-class>java.lang.String</property-class>
+            <description>the label to be used when rendering the SelectItem. Can reference the var variable</description>
+            <alias>itemLabel</alias>
+        </property>
+        <property>
+            <property-name>disabled</property-name>
+            <property-class>java.lang.Boolean</property-class>
+            <description>if true the SelectItem will be rendered disabled. Can reference the var variable</description>
+            <alias>itemDisabled</alias>
+        </property>
+        <property>
+            <property-name>noSelectionLabel</property-name>
+            <property-class>java.lang.String</property-class>
+            <description>specifies the (optional) label to place at the top of list (if required="true" is also specified then selecting this value will cause a validation error)</description>
+        </property>
+        <property>
+            <property-name>hideNoSelectionLabel</property-name>
+            <property-class>java.lang.Boolean</property-class>
+            <description>if true, the noSelectionLabel will be hidden when a value is selected</description>
+            <default-value>false</default-value>
+        </property>
+        <property>
+            <property-name>escape</property-name>
+            <property-class>java.lang.Boolean</property-class>
+            <description>if false, characters in the label will not be escaped. Beware that this is a safety issue when the label is in any way derived from input supplied by the application's user. . Can reference the var variable</description>
+            <default-value>true</default-value>
+        </property>
+</cdk:properties>

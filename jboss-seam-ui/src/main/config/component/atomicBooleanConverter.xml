@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<cdk:properties xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:cdk="http://jboss.org/schema/richfaces/cdk/ext"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee">
-<components>
-
-    <converter generate="false">
-        <id>org.jboss.seam.ui.AtomicBooleanConverter</id>
-        <classname>org.jboss.seam.ui.converter.AtomicBooleanConverter</classname>
+<faces-config version="2.0" metadata-complete="false"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd" xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:cdk="http://jboss.org/schema/richfaces/cdk/extensions" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    
+    <converter>
         <description>
             <![CDATA[Converter for java.util.concurrent.atomic.AtomicBoolean]]>
         </description>
-        <tag>
-            <name>convertAtomicBoolean</name>
-            <classname>org.jboss.seam.ui.taglib.AtomicBooleanTag</classname>
-            <superclass>
-                javax.faces.webapp.ConverterELTag
-            </superclass>
-        </tag>
+        <converter-id>org.jboss.seam.ui.AtomicBooleanConverter</converter-id>
+        <converter-class>org.jboss.seam.ui.converter.AtomicBooleanConverter</converter-class>
     </converter>    
-</components>
-</cdk:properties>
+</faces-config>

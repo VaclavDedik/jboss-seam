@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdk:properties xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:cdk="http://jboss.org/schema/richfaces/cdk/extensions"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee">     
+
+    <xi:include xpointer="xmlns(cdk=http://jboss.org/schema/richfaces/cdk/extensions)xpointer(/cdk:properties/*)"    
+        href="urn:attributes:javax.faces.component.UIOutput.xml" />
+    <xi:include xpointer="xmlns(cdk=http://jboss.org/schema/richfaces/cdk/extensions)xpointer(/cdk:properties/*)"    
+        href="urn:attributes:accesskey-props.xml" />
+    <xi:include xpointer="xmlns(cdk=http://jboss.org/schema/richfaces/cdk/extensions)xpointer(/cdk:properties/*)"    
+        href="urn:attributes:focus-props.xml" />                
+
+	<property>
+		<property-name>for</property-name>
+		<property-class>java.lang.String</property-class>
+		<description>Id of input component this label is for</description>
+	</property>
+</cdk:properties>

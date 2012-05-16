@@ -21,21 +21,35 @@
 
 package org.jboss.seam.ui.component;
 
+import org.richfaces.cdk.annotations.Attribute;
+import org.richfaces.cdk.annotations.Description;
+import org.richfaces.cdk.annotations.JsfComponent;
+import org.richfaces.cdk.annotations.JsfRenderer;
+import org.richfaces.cdk.annotations.Tag;
+
 
 /**
  * JSF component class
  *
  */
+@JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Link",value="A link that supports invocation of an action with control over conversation propagation. Does not submit the form."),
+family="org.jboss.seam.ui.Link", type="org.jboss.seam.ui.Link",generate="org.jboss.seam.ui.component.html.HtmlLink", 
+tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="link"), renderer = @JsfRenderer(generate="false",type="org.jboss.seam.ui.renderkit.LinkRendererBase", 
+family="org.jboss.seam.ui.LinkRenderer"),
+attributes = {"command-button-props.xml", "javax.faces.component.UICommand.xml", "javax.faces.component.ValueHolder.xml", "i18n-props.xml", "accesskey-props.xml", "button.xml" })
 public abstract class UILink extends UISeamCommandBase {
    
+   @Attribute
    public abstract String getStyleClass();
    
    public abstract void setStyleClass(String styleClass);
    
+   @Attribute
    public abstract String getStyle();
    
    public abstract void setStyle(String style);
    
+   @Attribute
    public abstract boolean isDisabled();
 
    public abstract void setDisabled(boolean disabled);

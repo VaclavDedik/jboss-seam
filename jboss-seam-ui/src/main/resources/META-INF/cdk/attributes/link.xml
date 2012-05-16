@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdk:properties xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:cdk="http://jboss.org/schema/richfaces/cdk/extensions"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee">
+        <xi:include xpointer="xmlns(cdk=http://jboss.org/schema/richfaces/cdk/extensions)xpointer(/cdk:properties/*)"    
+        href="urn:attributes:javax.faces.component.UICommand.xml" />
+    <xi:include xpointer="xmlns(cdk=http://jboss.org/schema/richfaces/cdk/extensions)xpointer(/cdk:properties/*)"    
+        href="urn:attributes:javax.faces.component.UIOutput.xml" />
+    <xi:include xpointer="xmlns(cdk=http://jboss.org/schema/richfaces/cdk/extensions)xpointer(/cdk:properties/*)"
+        href="urn:attributes:javax.faces.component.UIGraphic.xml" />         
+    <xi:include xpointer="xmlns(cdk=http://jboss.org/schema/richfaces/cdk/extensions)xpointer(/cdk:properties/*)"
+        href="urn:attributes:accesskey-props.xml" />
+    <xi:include xpointer="xmlns(cdk=http://jboss.org/schema/richfaces/cdk/extensions)xpointer(/cdk:properties/*)"
+        href="urn:attributes:i18n-props.xml" />        
+
+       <property>
+           <property-name>view</property-name>
+           <property-class>java.lang.String</property-class>
+           <description>the JSF view id to link to.</description>
+       </property>
+       <property>
+           <description>a pageflow definition to begin. (This is only useful when propagation="begin" or propagation="join".)</description>
+           <property-name>pageflow</property-name>
+           <property-class>java.lang.String</property-class>
+       </property>
+       <property>
+           <description>determines the conversation propagation style: begin, join, nest, none, end or endRoot.</description>
+           <property-name>propagation</property-name>
+           <property-class>java.lang.String</property-class>
+           <default-value>"default"</default-value>
+       </property>
+       <property>
+           <description>the fragment identifier to link to.</description>
+           <property-name>fragment</property-name>
+           <property-class>java.lang.String</property-class>
+       </property>
+       <property>
+           <description>The outcome to use when evaluating navigation rules</description>
+           <property-name>outcome</property-name>
+           <property-class>java.lang.String</property-class>
+       </property>
+       <property>
+           <description>If true, write the link as disabled in HTML</description>
+           <property-name>disabled</property-name>
+           <property-class>boolean</property-class>
+       </property>
+       <property>
+           <description>Specify the task to operate on (e.g. for @StartTask)</description>
+           <property-name>taskInstance</property-name>
+           <property-class>java.lang.Object</property-class>
+       </property>
+	    <property>
+	        <property-name>conversationName</property-name>
+	        <property-class>java.lang.String</property-class>
+	        <description>The name of the conversation for natural conversations</description>
+	    </property>
+	    <property>
+	        <property-name>includePageParams</property-name>
+	        <property-class>boolean</property-class>
+	        <description>Include page parameters defined in pages.xml when rendering the button</description>
+	        <default-value>true</default-value>
+	    </property> 
+</cdk:properties>

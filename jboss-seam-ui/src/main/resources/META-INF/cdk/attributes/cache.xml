@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdk:properties xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:cdk="http://jboss.org/schema/richfaces/cdk/extensions" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee">
+
+	<property>
+        <description>the key to cache rendered content, often a value
+            expression. For example, if we were caching a page fragment that
+            displays a document, we might use key="Document-#{document.id}".
+        </description>
+		<property-name>key</property-name>
+		<property-class>java.lang.String</property-class>
+
+	</property>
+	
+	<property>
+        <description>a cache node to use (different nodes can have different expiry policies).</description>
+		<property-name>region</property-name>
+		<property-class>java.lang.String</property-class>
+	</property>
+	
+	<property elonly="true">
+        <description>The cache provider to use, only needed if you install
+            alter the default cache provider in an application where multiple
+            cache providers are in use</description>
+		<property-name>cacheProvider</property-name>
+		<property-class>org.jboss.seam.cache.CacheProvider</property-class>
+		<default-value>org.jboss.seam.cache.CacheProvider.instance()</default-value>
+	</property>
+	
+	<property elonly="true">
+        <description>a value expression that determines if the cache should be
+            used.</description>
+		<property-name>enabled</property-name>
+		<property-class>boolean</property-class>
+		<default-value>true</default-value>
+	</property>
+        
+</cdk:properties>

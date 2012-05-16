@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdk:properties xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:cdk="http://jboss.org/schema/richfaces/cdk/extensions"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee">    
+
+        <property>
+            <description>The mime type of the output image</description>
+            <property-name>contentType</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+</cdk:properties>

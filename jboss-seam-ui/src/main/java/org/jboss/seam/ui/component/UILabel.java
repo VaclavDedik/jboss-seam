@@ -4,7 +4,14 @@ import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlOutputLabel;
 
+import org.richfaces.cdk.annotations.Description;
+import org.richfaces.cdk.annotations.JsfComponent;
+import org.richfaces.cdk.annotations.Tag;
 
+@JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Label",value="A label associated with the nearest JSF input component"),
+family="javax.faces.Output", type="org.jboss.seam.ui.Label",generate="org.jboss.seam.ui.component.html.HtmlLabel", 
+tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="label"), 
+attributes = {"label.xml" })
 public abstract class UILabel extends HtmlOutputLabel
 {
 

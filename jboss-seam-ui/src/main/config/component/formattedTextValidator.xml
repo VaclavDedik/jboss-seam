@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<cdk:properties xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:cdk="http://jboss.org/schema/richfaces/cdk/ext"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee">
-<components>
-    <validator generate="false">
-        <id>org.jboss.seam.ui.FormattedTextValidator</id>
-        <classname>org.jboss.seam.ui.validator.FormattedTextValidator</classname>
+<faces-config version="2.0" metadata-complete="false"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd" xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:cdk="http://jboss.org/schema/richfaces/cdk/extensions" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <validator>
         <description>
             <![CDATA[Validate Seam Text input]]>
         </description>
-        <tag>
-            <name>validateFormattedText</name>
-            <classname>org.jboss.seam.ui.taglib.FormattedTextValidatorTag</classname>
-            <superclass>javax.faces.webapp.ValidatorELTag</superclass>
-        </tag>
+        <validator-id>org.jboss.seam.ui.FormattedTextValidator</validator-id>
+        <validator-class>org.jboss.seam.ui.validator.FormattedTextValidator</validator-class>
     </validator>
-</components>
-</cdk:properties>
+</faces-config>

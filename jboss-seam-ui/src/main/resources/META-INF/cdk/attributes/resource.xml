@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdk:properties xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:cdk="http://jboss.org/schema/richfaces/cdk/extensions"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee">     
+
+        <property>
+            <property-name>data</property-name>
+            <property-class>java.lang.Object</property-class>
+            <description>Inputstream, File or byte[].</description>
+        </property>
+        <property>
+            <property-name>contentType</property-name>
+            <property-class>java.lang.String</property-class>
+            <description>Content-type of given data</description>
+        </property>
+        <property>
+            <property-name>fileName</property-name>
+            <property-class>java.lang.String</property-class>
+            <description>file name to send to browser (default: name of view)</description>
+        </property>
+        <property>
+            <property-name>disposition</property-name>
+            <property-class>java.lang.String</property-class>
+            <description>Content-Disposition for file (default: inline)</description>
+        </property> 
+</cdk:properties>

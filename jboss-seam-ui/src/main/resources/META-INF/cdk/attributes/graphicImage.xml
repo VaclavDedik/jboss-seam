@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdk:properties xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:cdk="http://jboss.org/schema/richfaces/cdk/extensions"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee">
+    <xi:include xpointer="xmlns(cdk=http://jboss.org/schema/richfaces/cdk/extensions)xpointer(/cdk:properties/*)"    
+        href="urn:attributes:javax.faces.component.UIOutput.xml" />
+    <xi:include xpointer="xmlns(cdk=http://jboss.org/schema/richfaces/cdk/extensions)xpointer(/cdk:properties/*)"
+        href="urn:attributes:javax.faces.component.UIGraphic.xml" />         
+
+        <property>
+            <description>File name for the generated URL - allows a stable file name and thus browser caching</description>
+            <property-name>fileName</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+</cdk:properties>

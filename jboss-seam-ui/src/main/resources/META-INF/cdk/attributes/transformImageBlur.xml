@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdk:properties xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:cdk="http://jboss.org/schema/richfaces/cdk/extensions"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee">    
+
+   <property>
+       <property-name>radius</property-name>
+       <property-class>java.lang.String</property-class>
+       <description>The radius of the blur (essentially the amount of blur)</description>
+   </property>
+</cdk:properties>

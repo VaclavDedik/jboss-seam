@@ -26,10 +26,13 @@ import java.io.StringReader;
 
 import javax.faces.component.UIOutput;
 
+import org.jboss.seam.log.Log;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.text.SeamTextLexer;
 import org.jboss.seam.text.SeamTextParser;
-import org.jboss.seam.log.Logging;
-import org.jboss.seam.log.Log;
+import org.richfaces.cdk.annotations.Description;
+import org.richfaces.cdk.annotations.JsfComponent;
+import org.richfaces.cdk.annotations.Tag;
 
 import antlr.ANTLRException;
 import antlr.RecognitionException;
@@ -38,6 +41,10 @@ import antlr.RecognitionException;
  * JSF component class
  *
  */
+@JsfComponent(description=@Description(displayName="org.jboss.seam.ui.FormattedText",value="Output Seam Text. Parse errors generate WARN level log messages."),
+family="org.jboss.seam.ui.FormattedText", type="org.jboss.seam.ui.FormattedText",generate="org.jboss.seam.ui.component.html.HtmlFormattedText", 
+tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="formattedText"),
+attributes = {"formattedText.xml" })
 public abstract class UIFormattedText extends UIOutput {
 	
    Log log = Logging.getLog(UIFormattedText.class);

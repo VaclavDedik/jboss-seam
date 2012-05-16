@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<cdk:properties xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:cdk="http://jboss.org/schema/richfaces/cdk/ext"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee">
-<components>
-	<converter generate="false">
-		<id>org.jboss.seam.ui.EnumConverter</id>
-		<classname>org.jboss.seam.ui.converter.EnumConverter</classname>
-		<description>
-			<![CDATA[Convert an enum.]]>
-		</description>
-		<tag>
-			<name>convertEnum</name>
-			<classname>org.jboss.seam.ui.taglib.ConvertEnumTag</classname>
-			<superclass>
-				javax.faces.webapp.ConverterELTag
-			</superclass>
-		</tag>
+<faces-config version="2.0" metadata-complete="false"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd" xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:cdk="http://jboss.org/schema/richfaces/cdk/extensions" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<converter>
+        <description>
+            <![CDATA[Convert an enum.]]>
+        </description>
+		<converter-id>org.jboss.seam.ui.EnumConverter</converter-id>
+		<converter-class>org.jboss.seam.ui.converter.EnumConverter</converter-class>
 	</converter>
 	
-</components>
-</cdk:properties>
+</faces-config>

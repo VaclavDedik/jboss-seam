@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdk:properties xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:cdk="http://jboss.org/schema/richfaces/cdk/extensions"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee">
+    <xi:include xpointer="xmlns(cdk=http://jboss.org/schema/richfaces/cdk/extensions)xpointer(/cdk:properties/*)"    
+        href="urn:attributes:core-props.xml" />
+    <xi:include xpointer="xmlns(cdk=http://jboss.org/schema/richfaces/cdk/extensions)xpointer(/cdk:properties/*)"    
+        href="urn:attributes:focus-props.xml" />
+    <xi:include xpointer="xmlns(cdk=http://jboss.org/schema/richfaces/cdk/extensions)xpointer(/cdk:properties/*)"    
+        href="urn:attributes:javax.faces.component.EditableValueHolder.xml" />
+        
+
+	<property>
+		<property-name>accept</property-name>
+		<property-class>java.lang.String</property-class>
+		<description>a comma-separated list of content types to accept, may
+			not be supported by the browser. E.g. "images/png,images/jpg",
+			"images/*".</description>
+	</property>
+	<property>
+		<property-name>data</property-name>
+		<property-class>java.lang.Object</property-class>
+		<description>this value binding receives the file's content type
+			(optional).</description>
+	</property>
+	<property>
+		<property-name>contentType</property-name>
+		<property-class>java.lang.String</property-class>
+		<description>the property to receive the contentType</description>
+	</property>
+	<property>
+		<property-name>fileName</property-name>
+		<property-class>java.lang.String</property-class>
+		<description>this value binding receives the filename (optional).
+		</description>
+	</property>
+	<property>
+		<property-name>fileSize</property-name>
+		<property-class>java.lang.Integer</property-class>
+		<description>this value binding receives the file size (optional).
+		</description>
+	</property>
+</cdk:properties>

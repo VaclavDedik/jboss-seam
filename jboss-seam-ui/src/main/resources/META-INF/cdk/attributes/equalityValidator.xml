@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdk:properties xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:cdk="http://jboss.org/schema/richfaces/cdk/extensions"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee">
+        <property>
+            <property-name>for</property-name>
+            <property-class>java.lang.String</property-class>
+            <description>Id of component to validate against</description>
+        </property>
+        <property>
+            <property-name>message</property-name>
+            <property-class>java.lang.String</property-class>
+            <description>Error message to show</description>
+        </property>
+        <property>
+            <property-name>messageId</property-name>
+            <property-class>java.lang.String</property-class>
+            <description>Message id to use on failure</description>
+        </property>
+        <property>
+            <property-name>operator</property-name>
+            <property-class>java.lang.String</property-class>
+            <description>Operation to use.</description>
+        </property> 
+        <property>
+            <property-name>required</property-name>
+            <property-class>boolean</property-class>
+            <description>True if a value is required for the filed to validate (default:true)</description>
+            <default-value>true</default-value>
+        </property>
+</cdk:properties>

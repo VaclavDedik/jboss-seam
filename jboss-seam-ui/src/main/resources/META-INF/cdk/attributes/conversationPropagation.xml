@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdk:properties xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:cdk="http://jboss.org/schema/richfaces/cdk/extensions"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee">
+    <xi:include xpointer="xmlns(cdk=http://jboss.org/schema/richfaces/cdk/extensions)xpointer(/cdk:properties/*)"
+        href="urn:attributes:javax.faces.component.UIParameter.xml" />
+
+        <property>
+            <property-name>pageflow</property-name>
+            <property-class>java.lang.String</property-class>
+            <description>a pageflow definition to begin. (This is only useful when propagation="begin" or propagation="join".)</description>
+        </property>
+        <property>
+            <property-name>type</property-name>
+            <property-class>java.lang.String</property-class>
+            <description>determines the conversation propagation style: begin, join, nested, none, end or endRoot.</description>
+            <default-value>"none"</default-value>
+        </property>
+        
+</cdk:properties>
