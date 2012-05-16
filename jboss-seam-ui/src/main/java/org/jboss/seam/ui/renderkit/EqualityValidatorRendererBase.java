@@ -12,6 +12,7 @@ import javax.faces.validator.Validator;
 import org.jboss.seam.ui.component.UIEqualityValidator;
 import org.jboss.seam.ui.util.cdk.RendererBase;
 import org.jboss.seam.ui.validator.EqualityValidator;
+import org.richfaces.cdk.annotations.JsfRenderer;
 
 /**
  * This class mainly does some validation "hook-in"
@@ -21,6 +22,7 @@ import org.jboss.seam.ui.validator.EqualityValidator;
  * 
  */
 @ListenerFor(systemEventClass = PostAddToViewEvent.class)
+@JsfRenderer(type="org.jboss.seam.ui.EqualityValidatorRenderer", family="org.jboss.seam.ui.EqualityValidatorRenderer")
 public class EqualityValidatorRendererBase extends RendererBase implements ComponentSystemEventListener
 {
 

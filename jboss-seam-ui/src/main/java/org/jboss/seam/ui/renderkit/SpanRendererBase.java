@@ -8,7 +8,9 @@ import javax.faces.context.ResponseWriter;
 
 import org.jboss.seam.ui.component.UISpan;
 import org.jboss.seam.ui.component.UIStyle;
+import org.richfaces.cdk.annotations.JsfRenderer;
 
+@JsfRenderer(type="org.jboss.seam.ui.SpanRenderer", family="org.jboss.seam.ui.SpanRenderer")
 public class SpanRendererBase extends StyleRendererBase
 {
 

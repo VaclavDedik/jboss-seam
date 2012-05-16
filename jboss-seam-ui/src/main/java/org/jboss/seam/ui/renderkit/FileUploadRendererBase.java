@@ -14,7 +14,9 @@ import org.jboss.seam.ui.component.UIFileUpload;
 import org.jboss.seam.ui.util.HTML;
 import org.jboss.seam.ui.util.cdk.RendererBase;
 import org.jboss.seam.web.MultipartRequest;
+import org.richfaces.cdk.annotations.JsfRenderer;
 
+@JsfRenderer(type="org.jboss.seam.ui.renderkit.FileUploadRendererBase", family="org.jboss.seam.ui.FileUploadRenderer")
 public class FileUploadRendererBase extends RendererBase
 {
 

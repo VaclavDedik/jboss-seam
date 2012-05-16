@@ -69,7 +69,7 @@ import org.richfaces.cdk.annotations.Tag;
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Token",value="Render a secure token in the parent form that is validated on postback to guard against CSRF attacks"),
 family="org.jboss.seam.ui.Token", type="org.jboss.seam.ui.Token",generate="org.jboss.seam.ui.component.html.HtmlToken", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="token"), 
-renderer = @JsfRenderer(generate="false",type="org.jboss.seam.ui.renderkit.TokenRendererBase", family="org.jboss.seam.ui.TokenRenderer"),
+renderer = @JsfRenderer(type="org.jboss.seam.ui.TokenRenderer", family="org.jboss.seam.ui.TokenRenderer"),
 attributes = {"token.xml" })
 public abstract class UIToken extends UIOutput
 {

@@ -16,7 +16,7 @@ import org.richfaces.cdk.annotations.Tag;
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Remote",value="Write out script element for use with Seam Remote"),
 family="org.jboss.seam.ui.Remote", type="org.jboss.seam.ui.Remote",generate="org.jboss.seam.ui.component.html.HtmlRemote", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="remote"), 
-renderer = @JsfRenderer(generate="false",type="org.jboss.seam.ui.renderkit.RemoteRendererBase", family="org.jboss.seam.ui.RemoteRenderer"),
+renderer = @JsfRenderer(type="org.jboss.seam.ui.RemoteRenderer", family="org.jboss.seam.ui.RemoteRenderer"),
 attributes = {"remote.xml" })
 public abstract class UIRemote extends UIComponentBase
 {

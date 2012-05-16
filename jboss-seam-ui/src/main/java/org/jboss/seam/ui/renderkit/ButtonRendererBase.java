@@ -11,7 +11,9 @@ import javax.faces.context.ResponseWriter;
 import org.jboss.seam.ui.component.UIButton;
 import org.jboss.seam.ui.util.HTML;
 import org.jboss.seam.ui.util.cdk.RendererBase;
+import org.richfaces.cdk.annotations.JsfRenderer;
 
+@JsfRenderer(type="org.jboss.seam.ui.ButtonRenderer", family="org.jboss.seam.ui.ButtonRenderer")
 public class ButtonRendererBase extends RendererBase
 {
 

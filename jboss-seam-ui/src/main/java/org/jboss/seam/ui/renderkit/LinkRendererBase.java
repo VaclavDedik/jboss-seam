@@ -9,7 +9,9 @@ import javax.faces.context.ResponseWriter;
 import org.jboss.seam.ui.component.UILink;
 import org.jboss.seam.ui.util.HTML;
 import org.jboss.seam.ui.util.cdk.RendererBase;
+import org.richfaces.cdk.annotations.JsfRenderer;
 
+@JsfRenderer(type="org.jboss.seam.ui.LinkRenderer",family="org.jboss.seam.ui.LinkRenderer")
 public class LinkRendererBase extends RendererBase
 {
 

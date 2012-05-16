@@ -5,11 +5,13 @@ import javax.faces.component.UIComponent;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.ui.component.UIConversationName;
+import org.richfaces.cdk.annotations.JsfRenderer;
 
 /**
  * @author Pete Muir
  *
  */
+@JsfRenderer(type="org.jboss.seam.ui.ConversationNameRenderer", family="org.jboss.seam.ui.ConversationNameRenderer")
 public class ConversationNameRendererBase extends CommandButtonParameterRendererBase
 {
    

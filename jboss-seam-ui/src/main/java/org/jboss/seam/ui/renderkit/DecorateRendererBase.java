@@ -14,7 +14,9 @@ import org.jboss.seam.ui.component.UIDecorate;
 import org.jboss.seam.ui.util.Decoration;
 import org.jboss.seam.ui.util.HTML;
 import org.jboss.seam.ui.util.cdk.RendererBase;
+import org.richfaces.cdk.annotations.JsfRenderer;
 
+@JsfRenderer(type="org.jboss.seam.ui.DecorateRenderer", family="org.jboss.seam.ui.DecorateRenderer")
 public class DecorateRendererBase extends RendererBase
 {
    // Place the attributes you want to store away

@@ -5,7 +5,10 @@ import java.io.IOException;
 import javax.faces.context.ResponseWriter;
 
 import org.jboss.seam.ui.component.UIStyle;
+import org.richfaces.cdk.annotations.JsfRenderer;
 
+@JsfRenderer(type="org.jboss.seam.ui.DivRenderer", 
+family="org.jboss.seam.ui.DivRenderer")
 public class DivRendererBase extends StyleRendererBase
 {
 

@@ -37,7 +37,8 @@ import org.richfaces.cdk.annotations.Tag;
  */
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Cache",value="Cache the rendered page fragment using the installed cache provider."),
 family="org.jboss.seam.ui.Cache", type="org.jboss.seam.ui.Cache",generate="org.jboss.seam.ui.component.html.HtmlCache", 
-tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="cache"), renderer = @JsfRenderer(generate="false",type="org.jboss.seam.ui.renderkit.ButtonRendererBase", family="org.jboss.seam.ui.ButtonRenderer"),
+tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="cache"), 
+renderer = @JsfRenderer(type="org.jboss.seam.ui.ButtonRenderer", family="org.jboss.seam.ui.ButtonRenderer"),
 attributes = {"base-props.xml", "cache.xml" })
 public abstract class UICache extends UIComponentBase
 {

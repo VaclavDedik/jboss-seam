@@ -9,12 +9,14 @@ import javax.faces.context.ResponseWriter;
 
 import org.jboss.seam.ui.component.UIRemote;
 import org.jboss.seam.ui.util.cdk.RendererBase;
+import org.richfaces.cdk.annotations.JsfRenderer;
 
 /**
  * Renderer for rendering the required &lt;script&gt; tags for Seam Remoting
  * 
  * @author Shane Bryzak
  */
+@JsfRenderer(type="org.jboss.seam.ui.RemoteRenderer", family="org.jboss.seam.ui.RemoteRenderer")
 public class RemoteRendererBase extends RendererBase
 {
    @Override

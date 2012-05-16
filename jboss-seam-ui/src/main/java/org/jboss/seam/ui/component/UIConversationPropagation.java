@@ -37,7 +37,7 @@ import org.richfaces.cdk.annotations.Tag;
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.ConversationPropagation",value="Customize the conversation propagation for a command link or button (or similar JSF control)."),
 family="org.jboss.seam.ui.ConversationPropagation", type="org.jboss.seam.ui.ConversationPropagation",generate="org.jboss.seam.ui.component.html.HtmlConversationPropagation", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="conversationPropagation"), 
-renderer = @JsfRenderer(generate="false",type="org.jboss.seam.ui.renderkit.ConversationPropagationRendererBase", family="org.jboss.seam.ui.ConversationPropagationRenderer"),
+renderer = @JsfRenderer(type="org.jboss.seam.ui.ConversationPropagationRenderer", family="org.jboss.seam.ui.ConversationPropagationRenderer"),
 attributes = {"conversationPropagation.xml" })
 public abstract class UIConversationPropagation extends UIParameter {
 	

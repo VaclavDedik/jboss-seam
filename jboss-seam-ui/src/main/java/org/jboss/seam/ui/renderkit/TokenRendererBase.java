@@ -17,6 +17,7 @@ import org.jboss.seam.ui.util.HTML;
 import org.jboss.seam.ui.util.cdk.RendererBase;
 import org.jboss.seam.util.Base64;
 import org.jboss.seam.util.RandomStringUtils;
+import org.richfaces.cdk.annotations.JsfRenderer;
 
 /**
  * <p>
@@ -71,6 +72,7 @@ import org.jboss.seam.util.RandomStringUtils;
  * @author Stuart Douglas
  * @see UnauthorizedCommandException
  */
+@JsfRenderer(type="org.jboss.seam.ui.TokenRenderer", family="org.jboss.seam.ui.TokenRenderer")
 public class TokenRendererBase extends RendererBase
 {
    public static final String FORM_SIGNATURE_PARAM = "javax.faces.FormSignature";

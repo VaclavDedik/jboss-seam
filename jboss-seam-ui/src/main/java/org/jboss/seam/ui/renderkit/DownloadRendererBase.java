@@ -11,7 +11,9 @@ import org.jboss.seam.ui.component.UIResource;
 import org.jboss.seam.ui.util.HTML;
 import org.jboss.seam.ui.util.ViewUrlBuilder;
 import org.jboss.seam.ui.util.cdk.RendererBase;
+import org.richfaces.cdk.annotations.JsfRenderer;
 
+@JsfRenderer(type="org.jboss.seam.ui.DownloadRenderer", family="org.jboss.seam.ui.DownloadRenderer")
 public class DownloadRendererBase extends RendererBase
 {
 

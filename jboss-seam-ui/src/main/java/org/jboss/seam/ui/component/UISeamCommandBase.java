@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.component.ActionSource2;
 import javax.faces.component.UIComponent;
@@ -12,6 +13,7 @@ import javax.faces.component.UIData;
 import javax.faces.component.UIOutput;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
+import javax.faces.el.MethodBinding;
 import javax.faces.event.ActionListener;
 import javax.faces.model.DataModel;
 
@@ -214,13 +216,37 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
    @Deprecated
    public void setAction(javax.faces.el.MethodBinding methodBinding)
    {
-      setActionExpression(new MethodBindingToMethodExpression(methodBinding));
+     // setActionExpression(new MethodBindingToMethodExpression(methodBinding));
+      
+      com.sun.faces.application.MethodExpressionMethodBindingAdapter adapter;
+      if (null != methodBinding) {
+          adapter = new com.sun.faces.application.MethodExpressionMethodBindingAdapter(methodBinding);
+          setActionExpression(adapter);
+      } else {
+          setActionExpression(null);
+      }
    }
    
    @Deprecated
    public javax.faces.el.MethodBinding getAction()
    {
-      return new org.jboss.seam.ui.util.cdk.MethodExpressionToMethodBinding(getActionExpression());
+      //return new org.jboss.seam.ui.util.cdk.MethodExpressionToMethodBinding(getActionExpression());
+      
+      MethodBinding result = null;
+      MethodExpression me;
+
+      if (null != (me = getActionExpression())) {
+          // if the MethodExpression is an instance of our private
+          // wrapper class.
+          if (me.getClass().equals(com.sun.faces.application.MethodExpressionMethodBindingAdapter.class)) {
+              result = ((com.sun.faces.application.MethodExpressionMethodBindingAdapter) me).getWrapped();
+          } else {
+              // otherwise, this is a real MethodExpression.  Wrap it
+              // in a MethodBinding.
+              result = new com.sun.faces.application.MethodBindingMethodExpressionAdapter(me);
+          }
+      }
+      return result;
    }
    
    private static boolean isPortletRequest(FacesContext facesContext)

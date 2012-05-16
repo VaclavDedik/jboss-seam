@@ -36,7 +36,7 @@ import org.richfaces.cdk.annotations.Tag;
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Fragment",value="Surround a page fragment, allows you to apply render/not render without any html output."),
 family="org.jboss.seam.ui.Fragment", type="org.jboss.seam.ui.Fragment",generate="org.jboss.seam.ui.component.html.HtmlFragment", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="fragment"), 
-renderer = @JsfRenderer(generate="false",type="org.jboss.seam.ui.renderkit.FragmentRendererBase", family="org.jboss.seam.ui.FragmentRenderer"),
+renderer = @JsfRenderer(type="org.jboss.seam.ui.renderkit.FragmentRendererBase", family="org.jboss.seam.ui.FragmentRenderer"),
 attributes = {"javax.faces.component.UIComponent.xml" })
 public abstract class UIFragment extends UIComponentBase {
 	

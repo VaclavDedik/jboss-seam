@@ -18,7 +18,7 @@ import org.richfaces.cdk.annotations.Tag;
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.ConversationName",value="Set the conversation name for a command link or button (or similar JSF control)."),
 family="org.jboss.seam.ui.ConversationName", type="org.jboss.seam.ui.ConversationName",generate="org.jboss.seam.ui.component.html.HtmlConversationName", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="conversationName", handler="org.jboss.seam.ui.handler.CommandButtonParameterComponentHandler"), 
-renderer = @JsfRenderer(generate="false",type="org.jboss.seam.ui.renderkit.ConversationNameRendererBase", family="org.jboss.seam.ui.ConversationNameRenderer"),
+renderer = @JsfRenderer(type="org.jboss.seam.ui.ConversationNameRenderer", family="org.jboss.seam.ui.ConversationNameRenderer"),
 attributes = {"conversationName.xml" })
 public abstract class UIConversationName extends UIParameter {
 	

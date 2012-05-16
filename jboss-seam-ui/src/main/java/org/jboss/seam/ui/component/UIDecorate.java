@@ -16,7 +16,7 @@ import org.richfaces.cdk.annotations.Tag;
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Decorate",value="\"Decorate\" a JSF input field when validation fails or when required=\"true\" is set."),
 family="org.jboss.seam.ui.Decorate", type="org.jboss.seam.ui.Decorate",generate="org.jboss.seam.ui.component.html.HtmlDecorate", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="decorate", handler="org.jboss.seam.ui.handler.DecorateHandler"), 
-renderer = @JsfRenderer(generate="false",type="org.jboss.seam.ui.renderkit.DecorateRendererBase", family="org.jboss.seam.ui.DecorateRenderer"),
+renderer = @JsfRenderer(type="org.jboss.seam.ui.DecorateRenderer", family="org.jboss.seam.ui.DecorateRenderer"),
 attributes = {"decorate.xml" })
 public abstract class UIDecorate extends UIComponentBase implements NamingContainer
 {

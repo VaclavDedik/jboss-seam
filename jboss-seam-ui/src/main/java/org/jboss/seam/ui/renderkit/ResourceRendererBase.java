@@ -8,7 +8,9 @@ import javax.faces.context.FacesContext;
 import org.jboss.seam.ui.DocumentStoreUtils;
 import org.jboss.seam.ui.component.UIResource;
 import org.jboss.seam.ui.util.cdk.RendererBase;
+import org.richfaces.cdk.annotations.JsfRenderer;
 
+@JsfRenderer(type="org.jboss.seam.ui.ResourceRenderer", family="org.jboss.seam.ui.ResourceRenderer")
 public class ResourceRendererBase extends RendererBase
 {
 

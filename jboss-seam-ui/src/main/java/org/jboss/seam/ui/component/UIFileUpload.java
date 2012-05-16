@@ -21,7 +21,7 @@ import org.richfaces.cdk.annotations.Tag;
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.FileUpload",value="Renders a file upload control. This control must be used within a form with an encoding type of multipart/form-data"),
 family="org.jboss.seam.ui.FileUpload", type="org.jboss.seam.ui.FileUpload",generate="org.jboss.seam.ui.component.html.HtmlButton", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="fileUpload"),
-renderer = @JsfRenderer(generate="false",type="org.jboss.seam.ui.renderkit.FileUploadRendererBase", family="org.jboss.seam.ui.FileUploadRenderer"),
+renderer = @JsfRenderer(type="org.jboss.seam.ui.renderkit.FileUploadRendererBase", family="org.jboss.seam.ui.FileUploadRenderer"),
 attributes = {"fileUpload.xml" })
 public abstract class UIFileUpload extends UIInput
 {

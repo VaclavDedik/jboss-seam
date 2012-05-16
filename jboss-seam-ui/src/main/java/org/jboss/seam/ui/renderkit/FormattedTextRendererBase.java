@@ -8,7 +8,9 @@ import javax.faces.context.ResponseWriter;
 
 import org.jboss.seam.ui.component.UIFormattedText;
 import org.jboss.seam.ui.util.cdk.RendererBase;
+import org.richfaces.cdk.annotations.JsfRenderer;
 
+@JsfRenderer(type="org.jboss.seam.ui.FormattedTextRenderer", family="org.jboss.seam.ui.FormattedTextRenderer")
 public class FormattedTextRendererBase extends RendererBase
 {
 
