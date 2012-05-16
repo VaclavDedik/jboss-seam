@@ -6,7 +6,9 @@ import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
+import javax.faces.convert.FacesConverter;
 
+@FacesConverter(value="org.jboss.seam.ui.EnumConverter")
 public class EnumConverter implements javax.faces.convert.Converter
 {
    public Object getAsObject(FacesContext context, UIComponent comp, String value)

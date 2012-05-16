@@ -11,7 +11,9 @@ import javax.faces.context.ResponseWriter;
 import org.jboss.seam.ui.component.UIValidateAll;
 import org.jboss.seam.ui.util.cdk.RendererBase;
 import org.jboss.seam.ui.validator.ModelValidator;
+import org.richfaces.cdk.annotations.JsfRenderer;
 
+@JsfRenderer(type="org.jboss.seam.ui.ValidateAllRenderer", family="org.jboss.seam.ui.ValidateAllRenderer")
 public class ValidateAllRendererBase extends RendererBase
 {
 

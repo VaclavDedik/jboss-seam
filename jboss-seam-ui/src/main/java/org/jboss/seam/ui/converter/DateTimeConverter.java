@@ -23,8 +23,11 @@ package org.jboss.seam.ui.converter;
 
 import java.util.TimeZone;
 
+import javax.faces.convert.FacesConverter;
+
 import org.jboss.seam.contexts.Contexts;
 
+@FacesConverter(value="org.jboss.seam.ui.DateTimeConverter")
 public class DateTimeConverter extends javax.faces.convert.DateTimeConverter{
 	
    public DateTimeConverter()

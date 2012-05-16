@@ -10,7 +10,7 @@
 	<name>Seam UI JSF2 support</name>
     
     <properties>
-        <version.richfaces>4.3.0-SNAPSHOT</version.richfaces>
+        <version.richfaces>4.2.2.Final</version.richfaces>
     </properties>
     
 	<build>

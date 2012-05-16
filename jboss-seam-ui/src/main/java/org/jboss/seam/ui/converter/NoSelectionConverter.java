@@ -4,7 +4,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
+import javax.faces.convert.FacesConverter;
 
+@FacesConverter(value="org.jboss.sema.ui.NoSelectionConverter")
 public class NoSelectionConverter implements Converter
 {
 	public static final String NO_SELECTION_VALUE = "org.jboss.seam.ui.NoSelectionConverter.noSelectionValue";

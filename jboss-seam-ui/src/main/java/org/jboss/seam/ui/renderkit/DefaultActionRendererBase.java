@@ -17,12 +17,14 @@ import javax.faces.context.ResponseWriter;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.ui.util.cdk.RendererBase;
+import org.richfaces.cdk.annotations.JsfRenderer;
 
 /**
  * @author Pete Muir
  * @author sim
  *
  */
+@JsfRenderer(type="org.jboss.seam.ui.DefaultActionRenderer", family="org.jboss.seam.ui.DefaultActionRenderer")
 public class DefaultActionRendererBase extends RendererBase
 {
    

@@ -7,11 +7,13 @@ import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
+import javax.faces.convert.FacesConverter;
 
 /**
  * Helper class for ConverterChain
  *
  */
+@FacesConverter(value="org.jboss.sema.ui.PrioritizableConverter")
 public class PrioritizableConverter implements Converter, Comparable<PrioritizableConverter>,
          StateHolder
 {
