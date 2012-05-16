@@ -985,7 +985,7 @@
         <!-- Excluded TestNG groups (ex: slow annotated tests won't run during 
             the test phase) -->
         <tests.excludedGroups>slow</tests.excludedGroups>        
-        <richfaces.version>4.2.0.Final</richfaces.version>
+        <richfaces.version>4.2.2.Final</richfaces.version>
         <slf4j.version>1.6.1</slf4j.version>
         
         <!-- dependencies for functional tests -->
