@@ -19,9 +19,11 @@ import org.jboss.seam.navigation.Pages;
 
 import com.sun.facelets.StateWriterControl;
 import com.sun.faces.facelets.Facelet;
+import com.sun.faces.facelets.FaceletFactory;
 import com.sun.faces.facelets.compiler.SAXCompiler;
 import com.sun.faces.facelets.impl.DefaultFaceletFactory;
-import com.sun.faces.facelets.impl.DefaultResourceResolver;
+import com.sun.faces.facelets.impl.FaceletCacheFactoryImpl;
+import com.sun.faces.util.RequestStateManager;
 
 /**
  * Intercepts any request for a view-id like /debug.xxx and renders
@@ -39,20 +41,21 @@ public class SeamDebugPhaseListener implements PhaseListener
       
       if ( Pages.isDebugPage() )
       {
-         try
-         {
+         /*try
+         //{
             FacesContext facesContext = FacesContext.getCurrentInstance();
             URL url = SeamDebugPhaseListener.class.getClassLoader().getResource("META-INF/resources/debug.xhtml");
             
-            ResourceResolver resroler=new ResourceResolver(){
+            ResourceResolver resolver =new ResourceResolver(){
                @Override
                public URL resolveUrl(String path)
                {
                   return SeamDebugPhaseListener.class.getClassLoader().getResource(path);
                }
             };
-               
-            Facelet f = new DefaultFaceletFactory( new SAXCompiler(),resroler).getFacelet(url);
+                                
+            Facelet f = new DefaultFaceletFactory( new SAXCompiler(), resolver, -1, 
+                    null).getFacelet(url);
             UIViewRoot viewRoot = facesContext.getViewRoot();
             f.apply(facesContext, viewRoot);
             HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
@@ -70,10 +73,10 @@ public class SeamDebugPhaseListener implements PhaseListener
             originalWriter.flush();
             facesContext.responseComplete();
          }
-         catch (IOException ioe)
+         catch (IOException ioe)         
          {
             throw new RuntimeException(ioe);
-         }
+         }*/
       }      
    }
 
