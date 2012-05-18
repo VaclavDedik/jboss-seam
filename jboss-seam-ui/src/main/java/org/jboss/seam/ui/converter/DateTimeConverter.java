@@ -27,7 +27,7 @@ import javax.faces.convert.FacesConverter;
 
 import org.jboss.seam.contexts.Contexts;
 
-@FacesConverter(value="org.jboss.seam.ui.DateTimeConverter")
+@FacesConverter("org.jboss.seam.ui.DateTimeConverter")
 public class DateTimeConverter extends javax.faces.convert.DateTimeConverter{
 	
    public DateTimeConverter()

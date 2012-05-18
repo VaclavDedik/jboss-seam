@@ -34,7 +34,7 @@ import org.richfaces.cdk.annotations.JsfRenderer;
  */
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Button",value="A link that supports invocation of an action with control over conversation propagation"),
  family="org.jboss.seam.ui.Button", type="org.jboss.seam.ui.Button",generate="org.jboss.seam.ui.component.html.HtmlButton", 
- tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="button"),
+ tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="button", handler="org.jboss.seam.ui.handler.CommandButtonParameterComponentHandler"),
  renderer = @JsfRenderer(type="org.jboss.seam.ui.ButtonRenderer", family="org.jboss.seam.ui.ButtonRenderer"),
  attributes = {"command-button-props.xml", "javax.faces.component.UICommand.xml", "javax.faces.component.ValueHolder.xml", "i18n-props.xml", "accesskey-props.xml", "button.xml" })
 public abstract class UIButton extends UISeamCommandBase  {

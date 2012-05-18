@@ -35,7 +35,7 @@ import org.richfaces.cdk.annotations.Tag;
  *
  */
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Message",value="Decorate a JSF input field with the validation error message."),
-family="org.jboss.seam.ui.Message", type="org.jboss.seam.ui.Message",generate="org.jboss.seam.ui.component.html.HtmlMessage", 
+family="javax.faces.Message", type="org.jboss.seam.ui.Message",generate="org.jboss.seam.ui.component.html.HtmlMessage", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="message"), 
 attributes = {"message.xml" })
 public abstract class UIMessage extends HtmlMessage {
@@ -93,7 +93,6 @@ public abstract class UIMessage extends HtmlMessage {
    }
 
    @Override
-   @Attribute
    public String getFor()
    {
       return getFor(this);
