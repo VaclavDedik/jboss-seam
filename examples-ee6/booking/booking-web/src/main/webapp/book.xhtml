@@ -15,7 +15,7 @@
 </div>
 <div class="section">
 	<div class="entry errors">
-		<h:messages id="messages" globalOnly="true"/>
+		<s:message id="messages" globalOnly="true"/>
 	</div>
 
 	<ui:include src="hotelview.xhtml"/>
@@ -27,12 +27,12 @@
 			
 		<s:decorate id="checkinDateDecorate" template="edit.xhtml">
 			<ui:define name="label">Check In Date:</ui:define>
-			<rich:calendar id="checkinDate" value="#{booking.checkinDate}" required="true" datePattern="MM/dd/yyyy" event="onblur" reRender="checkinDateDecorate" style="width: auto;" />
+			<rich:calendar id="checkinDate" value="#{booking.checkinDate}" required="true" datePattern="MM/dd/yyyy" render="checkinDateDecorate" style="width: auto;" />
 		</s:decorate>
 		
 		<s:decorate id="checkoutDateDecorate" template="edit.xhtml">
 			<ui:define name="label">Check Out Date:</ui:define>
-			<rich:calendar id="checkoutDate" value="#{booking.checkoutDate}" required="true" datePattern="MM/dd/yyyy" event="onblur" reRender="checkoutDateDecorate"  style="width: auto;"/>
+			<rich:calendar id="checkoutDate" value="#{booking.checkoutDate}" required="true" datePattern="MM/dd/yyyy" render="checkoutDateDecorate"  style="width: auto;"/>
 		</s:decorate>
 		
 		<s:decorate id="bedsDecorate" template="edit.xhtml">
@@ -55,14 +55,14 @@
 		<s:decorate id="creditCardDecorate" template="edit.xhtml">
 			<ui:define name="label">Credit Card #:</ui:define>
 			<h:inputText id="creditCard" value="#{booking.creditCard}" required="true">
-				<a:ajax id="onblur" event="blur" render="creditCardDecorate"/>
+				<a:ajax event="blur" render="creditCardDecorate"/>
 			</h:inputText>
 		</s:decorate>
 
 		<s:decorate id="creditCardNameDecorate" template="edit.xhtml">
 			<ui:define name="label">Credit Card Name:</ui:define>
 			<h:inputText id="creditCardName" value="#{booking.creditCardName}" required="true">
-				<a:ajax id="onblur" event="blur" render="creditCardNameDecorate"/>
+				<a:ajax event="blur" render="creditCardNameDecorate"/>
 			</h:inputText>
 		</s:decorate>
 
