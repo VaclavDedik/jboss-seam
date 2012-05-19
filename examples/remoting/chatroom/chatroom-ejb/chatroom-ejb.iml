@@ -24,11 +24,11 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="jboss-seam" scope="PROVIDED" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.jboss.seam:jboss-seam:ejb:2.3.0-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.thoughtworks.xstream:xstream:1.3.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: xpp3:xpp3_min:1.1.3.4.O" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.testng:testng:jdk15:5.10" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.8.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.jboss.el:jboss-el:1.0_02.CR6" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.el:el-api:1.0" level="project" />
     <orderEntry type="library" name="Maven: jboss:jboss-cache:1.4.1.SP9" level="project" />
@@ -36,7 +36,7 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.ejb:ejb-api:3.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.faces:jsf-api:1.2_12" level="project" />
-    <orderEntry type="module" module-name="jboss-seam-remoting" />
+    <orderEntry type="library" name="Maven: org.jboss.seam:jboss-seam-remoting:2.3.0-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.jms:jms:1.1" level="project" />
   </component>
 </module>
