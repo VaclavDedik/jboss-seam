@@ -7,16 +7,16 @@
    xmlns:a="http://richfaces.org/a4j"
    xmlns:s="http://jboss.com/products/seam/taglib"
    contentType="text/html">
-<html>
-   <head>
+<h:html>
+   <h:head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
       <title>@projectName@</title>
       <link rel="shortcut icon" href="#{request.contextPath}/favicon.ico"/>
       <h:outputStylesheet name="/stylesheet/theme.ecss"/>
       <h:outputStylesheet name="/stylesheet/theme.css"/>
       <ui:insert name="head"/>
-   </head>
-   <body>
+   </h:head>
+   <h:body>
       <ui:include src="menu.xhtml">
          <ui:param name="projectName" value="@projectName@"/>
       </ui:include>
@@ -41,6 +41,6 @@
          </p>
          </s:fragment>
       </div>
-   </body>
-</html>
+   </h:body>
+</h:html>
 </f:view>
