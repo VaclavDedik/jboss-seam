@@ -23,4 +23,5 @@ fontbox.jar
 jempbox.jar
 derby.jar
 mvel2.jar
-richfaces-api.jar
+richfaces-components-api.jar
+richfaces-core-api.jar

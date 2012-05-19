@@ -25,5 +25,5 @@ jboss-seam-rss.jar
 yarfraw.jar
 jboss-seam-ui.jar
 jboss-seam-jul.jar
-richfaces-impl.jar
-richfaces-ui.jar
+richfaces-components-ui.jar
+richfaces-core-impl.jar

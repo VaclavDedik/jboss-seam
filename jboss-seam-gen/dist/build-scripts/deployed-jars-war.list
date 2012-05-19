@@ -62,6 +62,8 @@ pdfbox.jar
 fontbox.jar
 jempbox.jar
 derby.jar
-richfaces-api.jar
-richfaces-impl.jar
-richfaces-ui.jar
+richfaces-components-api.jar
+richfaces-components-ui.jar
+richfaces-core-api.jar
+richfaces-core-impl.jar
+mvel2.jar
