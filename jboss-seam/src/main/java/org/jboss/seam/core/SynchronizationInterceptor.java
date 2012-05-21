@@ -49,7 +49,7 @@ public class SynchronizationInterceptor extends AbstractInterceptor
    public boolean isInterceptorEnabled()
    {
       // JBSEAM-4943
-      return getComponent().isSynchronize() && !ComponentType.STATEFUL_SESSION_BEAN.equals(getComponent().getType());
+      return getComponent().isSynchronize() && getComponent().getType() != ComponentType.STATEFUL_SESSION_BEAN;
    }
 
 }
