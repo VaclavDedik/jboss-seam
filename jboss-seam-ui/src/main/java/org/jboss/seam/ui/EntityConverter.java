@@ -8,6 +8,7 @@ import java.io.Serializable;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
+import javax.faces.convert.FacesConverter;
 
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
@@ -26,6 +27,7 @@ import org.jboss.seam.annotations.faces.Converter;
 @Scope(CONVERSATION)
 @Install(precedence = BUILT_IN)
 @Converter
+@FacesConverter("org.jboss.seam.ui.EntityConverter")
 @BypassInterceptors
 public class EntityConverter implements
          javax.faces.convert.Converter, Serializable

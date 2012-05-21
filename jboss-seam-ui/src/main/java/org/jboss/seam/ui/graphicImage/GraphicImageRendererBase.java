@@ -9,7 +9,9 @@ import javax.faces.context.ResponseWriter;
 import org.jboss.seam.ui.graphicImage.GraphicImageStore.ImageWrapper;
 import org.jboss.seam.ui.util.HTML;
 import org.jboss.seam.ui.util.cdk.RendererBase;
+import org.richfaces.cdk.annotations.JsfRenderer;
 
+@JsfRenderer(type="org.jboss.seam.ui.graphicImage.GraphicImageRenderer", family="org.jboss.seam.ui.GraphicImageRenderer")
 public class GraphicImageRendererBase extends RendererBase
 {
    
