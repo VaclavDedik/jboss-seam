@@ -27,10 +27,10 @@
 
     <property environment="env"/>
     <!-- set property defaults (also maintains backwards compatibility) -->
-    <condition property="jboss.home" value="${env.JBOSS_HOME}" else="C:/Program Files/jboss-5.1.0.GA">
+    <condition property="jboss.home" value="${env.JBOSS_HOME}" else="C:/Program Files/jboss-as-7.1.1.Final">
         <isset property="env.JBOSS_HOME"/>
     </condition>
-    <property name="jboss.domain" value="default"/>
+    <property name="jboss.domain" value="standalone"/>
     <condition property="glassfish.home" value="${env.GLASSFISH_HOME}" else="C:/Program Files/glassfish-v2.1">
         <isset property="env.GLASSFISH_HOME"/>
     </condition>
@@ -255,7 +255,7 @@
         <normalizeProjectName property="project.name.new"/>
         <echo message="Accepted project name as: ${project.name.new}"/>
 
-        <property name="old.icefaces" value="n"/>
+<!--        <property name="old.icefaces" value="n"/>
         <input addproperty="icefaces.new"
                    message="Do you want to use ICEfaces instead of RichFaces? [${old.icefaces}]"
                  validargs="y,n"
@@ -269,7 +269,7 @@
         <input addproperty="icefaces.home.new"
                    message="By default, seam-gen will download the recommended ICEfaces. If you want to use a specific version of ICEfaces, enter the path to ICEfaces [${old.icefaces.home}]"
                    defaultvalue="${old.icefaces.home}"/>
-
+-->
         <condition property="richfaces.skin.new" value="">
             <equals arg1="${icefaces.new}" arg2="y"/>
         </condition>
@@ -1209,7 +1209,7 @@
         <echo message="IDEA Users: Open the project using File > Open project... and select the file ${project.home}/${project.name}.ipr"/>
     </target>
 
-    <target name="update-seam" depends="validate-project,copyseam" if="project.exists"
+    <target name="update-seam" depends="validate-project" if="project.exists"
         description="Update the project with the latest Seam JARs from the Seam distribution directory.">
         <echo message="Copying Seam to the ${project.home}/lib directory..." />
         <copy todir="${project.home}/lib" overwrite="true">
@@ -1383,7 +1383,7 @@
     </target>
 
     <!-- FIXME: we ask the user for information that isn't needed for this target -->
-    <target name="new-test" depends="validate-project,action-input,setup-filters" description="Create a new test">
+<!--    <target name="new-test" depends="validate-project,action-input,setup-filters" description="Create a new test">
         <echo message="Creating a new SeamTest subclass for the specified Seam component"/>
         <copy file="${templates.dir}/test/ActionTest.java" tofile="${test.file}">
             <filterset refid="filters"/>
@@ -1392,6 +1392,7 @@
             <filterset refid="filters"/>
         </copy>
     </target>
+    -->
 
     <target name="new-query" depends="validate-project,query-input,setup-filters">
         <echo message="Creating a new query"/>
@@ -1661,6 +1662,7 @@
         description="Deploy the EAR or WAR">
         <echo message="Deploying project '${project.name}' to JBoss AS"/>
         <ant antfile="${project.home}/build.xml" target="deploy" inheritall="false"/>
+    	
     </target>
 
     <target name="undeploy" depends="validate-project" if="project.exists"
@@ -1675,7 +1677,7 @@
         <ant antfile="${project.home}/build.xml" target="redeploy" inheritall="false"/>
     </target>
 
-    <target name="explode" depends="validate-project" if="project.exists"
+   <target name="explode" depends="validate-project" if="project.exists"
         description="Deploy the project as an exploded directory">
         <echo message="Deploying project '${project.name}' to JBoss AS as an exploded directory"/>
         <ant antfile="${project.home}/build.xml" target="explode" inheritall="false"/>
@@ -1686,20 +1688,18 @@
         <echo message="Cleaning, undeploying and deploying project '${project.name}' to JBoss AS as an exploded directory"/>
         <ant antfile="${project.home}/build.xml" target="reexplode" inheritall="false"/>
     </target>
-
     <target name="restart" depends="validate-project" if="project.exists"
         description="Restart the exploded directory">
         <echo message="Restarting project '${project.name}'"/>
         <ant antfile="${project.home}/build.xml" target="restart" inheritall="false"/>
     </target>
-
     <target name="unexplode" depends="validate-project" if="project.exists"
         description="Undeploy the exploded directory">
         <echo message="Undeploying exploded directory for project '${project.name}'"/>
         <ant antfile="${project.home}/build.xml" target="unexplode" inheritall="false"/>
     </target>
-
-    <target name="test" depends="validate-project" if="project.exists"
+   <!--
+	<target name="test" depends="validate-project" if="project.exists"
         description="Run the automated tests">
         <fail message="Cannot run tests because path to project contains spaces">
             <condition>
@@ -1712,7 +1712,7 @@
         <echo message="Running tests for project '${project.name}'"/>
         <ant antfile="${project.home}/build.xml" target="test" inheritall="false"/>
     </target>
-
+-->
     <target name="clean" depends="validate-project" if="project.exists"
         description="Clean the project directory">
         <echo message="Cleaning project '${project.name}'"/>

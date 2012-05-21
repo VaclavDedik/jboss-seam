@@ -1,9 +1,9 @@
 package @testPackage@;
 
 import org.testng.annotations.Test;
-import org.jboss.seam.mock.SeamTest;
+import org.jboss.seam.mock.JUnitSeamTest;
 
-public class @interfaceName@Test extends SeamTest {
+public class @interfaceName@Test extends JUnitSeamTest {
 
 	@Test
 	public void test_@methodName@() throws Exception {

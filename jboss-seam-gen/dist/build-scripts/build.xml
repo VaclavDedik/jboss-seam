@@ -23,8 +23,8 @@
     <property name="war.dir" value="${ear.dir}/${project.name}_war"/>
     <property name="test.dir" value="test-build"/>
     <property name="bootstrap.dir" value="${basedir}/bootstrap"/>
-    <property name="jboss.domain" value="default"/>
-    <property name="deploy.dir" value="${jboss.home}/server/${jboss.domain}/deploy"/>
+    <property name="jboss.domain" value="standalone"/>
+    <property name="deploy.dir" value="${jboss.home}/${jboss.domain}/deployments"/>
     <property name="ear.deploy.dir" value="${deploy.dir}/${project.name}.ear"/>
     <property name="jar.deploy.dir" value="${ear.deploy.dir}/${project.name}.jar"/>
     <property name="war.deploy.dir" value="${ear.deploy.dir}/${project.name}.war"/>
