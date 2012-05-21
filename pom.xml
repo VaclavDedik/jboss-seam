@@ -10,7 +10,7 @@
 	<groupId>org.jboss.seam</groupId>
 	<artifactId>jboss-seam-parent</artifactId>
 	<name>Seam Parent</name>
-	<version>2.3.0.Beta2-SNAPSHOT</version>
+	<version>2.3.0.Beta2</version>
 	<packaging>pom</packaging>
 
 	<licenses>

@@ -1,7 +1,7 @@
 
-JBoss Seam - Contextual Component framework for Java EE 5
+JBoss Seam - Contextual Component framework for Java EE
 =========================================================
-version 2.3.0.Beta1, March 2012
+version 2.3.0.Beta2, May 2012
 
 This software is distributed under the terms of the FSF Lesser Gnu
 Public License (see lgpl.txt). 
@@ -9,7 +9,7 @@ Public License (see lgpl.txt).
 Get Up And Running Quick
 ------------------------
    
-1. Install JBoss AS 7.1.0.Final  
+1. Install JBoss AS 7.1.1.Final  
 
 2. Start JBoss AS by typing "bin/standalone.sh" in the JBoss home directory
 
@@ -35,15 +35,4 @@ Learn more
 Notes for this release
 ----------------------
 
-Be warned that JBoss Embedded is LEGACY runtime. Description below is still 
-working but is not supported.
-
-Running the examples with embedded JBoss on Tomcat 6 requires the following 
-additional JARs to be updated/added to the Tomcat lib directory after normal 
-embedded JBoss embedded install
-
-lib/test/hibernate-all.jar
-lib/test/thirdparty-all.jar
-lib/slf4j-api.jar
-lib/sl4j-log4j12.jar
-lib/hsqldb.jar
+Be warned that JBoss Embedded is LEGACY runtime and is not in Seam 2.3 distribution anymore

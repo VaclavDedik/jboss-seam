@@ -1,6 +1,48 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - Seam2 - Version 2.3.0.BETA2 
+
+** Sub-task
+   * [ JBSEAM-4875 ] Use RichFaces 4            
+   * [ JBSEAM-4877 ] Use Hibernate 4, including Validator and Search            
+   * [ JBSEAM-4888 ] Deprecate JBoss Embedded Tests and add support for Arquillian              
+
+** Feature Request
+   * [ JBSEAM-4859 ] Create Arquillian integration          
+   * [ JBSEAM-4921 ] Create Infinispan Cache provider           
+   * [ JBSEAM-4934 ] JUnit version of DBUnitSeamTest working with arquillian            
+
+** Bug
+   * [ JBSEAM-4870 ] JBoss Tools don't know about Seam 2.3          
+   * [ JBSEAM-4914 ] Cannot deploy Seam project generated in JBDS - datasource problem          
+   * [ JBSEAM-4915 ] Cannot deploy Seam project generated in JBDS - jboss-web.xml           
+   * [ JBSEAM-4917 ] seam-messages example error on every request: java.lang.IllegalStateException: No active conversation context          
+   * [ JBSEAM-4918 ] Cannot deploy Seam project generated in JBDS - other problems          
+   * [ JBSEAM-4919 ] seam-ui example java.lang.IndexOutOfBoundsException in restoreState            
+   * [ JBSEAM-4920 ] NPE in logging during SeamDebugPhaseListener beforePhase           
+   * [ JBSEAM-4922 ] Wrong class cast in org.jboss.seam.transaction.Transaction.getUserTransaction          
+   * [ JBSEAM-4923 ] Resteasy ResourceHome Unable to unmarshall request body on AS7             
+   * [ JBSEAM-4924 ] Seam 2.3.0.Beta1 distribution contains SNAPSHOT dependencies           
+   * [ JBSEAM-4928 ] jpa example Exception calling user Synchronization: ... reuse of Transaction instances not supported           
+   * [ JBSEAM-4929 ] seam-booking 2.3.0.Beta1 uses web.xml 3.0 without compiling to Java 1.6            
+   * [ JBSEAM-4930 ] NPE in SeamViewHandler.restoreView restoring expired view in the seam spring example           
+   * [ JBSEAM-4931 ] dvdstore example error "Found extended persistence context in SFSB invocation call stack but that cannot be used because the transaction already has a transactional context associated with it."          
+   * [ JBSEAM-4932 ] pages.xml is sometimes not loaded          
+   * [ JBSEAM-4936 ] SEAM 2.3 - Spring 3 - Hibernate 4 Integration bug          
+   * [ JBSEAM-4946 ] seam-gen executing command "create-project" error          
+   * [ JBSEAM-4952 ] seam-gen generated project deployment problem          
+   * [ JBSEAM-4956 ] seam-gen generated application missing jboss-deployment-structure.xml file             
+
+** Task
+   * [ JBSEAM-4858 ] Migrate integration testsuite for Seam and examples to Arquillian from JBoss Embedded          
+   * [ JBSEAM-4865 ] Upgrade Richfaces to 4.2.1.Final for JSF2 support          
+   * [ JBSEAM-4927 ] Create Seam 2 BOM file for easy usage          
+   * [ JBSEAM-4937 ] Upgrade Spring integration to latest Spring 3.1            
+   * [ JBSEAM-4943 ] Patch seam to not use the synchronisation interceptor for stateful session beans           
+   * [ JBSEAM-4950 ] Add ant task for getting Arquillian JBoss AS7 container jars into distribution for seam-gen    
+
+
 Release Notes - Seam2 - Version 2.3.0.BETA1
 
 ** Feature Request

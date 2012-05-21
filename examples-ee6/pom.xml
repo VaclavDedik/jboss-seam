@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.jboss.seam</groupId>
         <artifactId>jboss-seam-parent</artifactId>
-        <version>2.3.0.Beta2-SNAPSHOT</version>
+        <version>2.3.0.Beta2</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -32,6 +32,7 @@
         <module>metawidget/booking</module>
         <module>metawidget/groovybooking</module>
         <module>nestedbooking</module>
+<!--        <module>numberguess</module> -->
         <module>openid</module>
         <module>quartz</module>
         <module>registration</module>
