@@ -29,7 +29,8 @@
 				</f:facet>
 				<h:selectOneMenu value="#{country.continent}">
 					<s:selectItems value="#{continents.resultList}" var="continent" label="#{continent.name}" />
-					<s:convertEntity />
+					<f:converter converterId="org.jboss.seam.ui.EntityConverter" />
+					<!-- <s:convertEntity /> -->
 				</h:selectOneMenu>
 			</h:column>
 		</h:dataTable>

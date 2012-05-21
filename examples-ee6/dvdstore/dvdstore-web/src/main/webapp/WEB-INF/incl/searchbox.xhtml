@@ -12,7 +12,8 @@
                 <dt><h:outputText value="#{messages.searchCategory}"/></dt>
                 <dd>
                     <h:selectOneMenu value="#{search.category}">
-                        <s:convertEntity />
+                        <!--<s:convertEntity />-->
+                        <f:converter converterId="org.jboss.seam.ui.EntityConverter" />
                         <s:selectItems value="#{allCategories.resultList}" 
                                        var="category"
                                        label="#{category.name}"/>
