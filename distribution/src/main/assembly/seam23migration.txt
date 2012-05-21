@@ -35,3 +35,17 @@ Dependency changes (Maven)
 The "provided" platform is now JBoss AS 7.1.x, therefore all Java EE dependencies included
 in AS 7 are now marked as provided.
 
+Seam UI tags
+--------------------------
+We use Richfaces CDK for generation of Seam UI taglib, unfortunately Richfaces CDK 4 doesn't support to create custom tags for converter or validator:
+Affected seam tags are: 
+    convertEntity
+    convertEnum
+    convertAtomicBoolean
+    convertAtomicInteger
+    convertAtomicLong
+    validateFormattedText
+There can be used standard JSF 2 tags like f:converter or f:validator for the simulating the old behaviour of s:convert* or s:validate* tags.    
+    
+
+

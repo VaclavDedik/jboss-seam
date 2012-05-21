@@ -116,6 +116,7 @@
 		<dependency>
 			<groupId>org.jboss.seam</groupId>
 			<artifactId>seam-reference-guide</artifactId>
+            <version>${project.version}</version>
 		</dependency>
 		
 		<dependency>
