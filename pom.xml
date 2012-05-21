@@ -509,7 +509,6 @@
 		<module>jboss-seam-wicket</module>
 		<module>jboss-seam-ioc</module>
 		<module>jboss-seam-jul</module>
-<!-- 		<module>jboss-embedded-bootstrap</module> -->
 		<module>functional-tests</module>
 	    <module>examples-ee6</module>
 	    <module>seam-integration-tests</module>
