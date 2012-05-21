@@ -22,7 +22,6 @@ Updating version numbers
         - Check all the issue types one at a time to determine final list.
  - update pom.xml versions
     - mvn versions:set -DnewVersion=XXX
- - Update also seam-integration-tests/src/test/java/org/jboss/seam/test/integration/Deployments.java with current version
 
     
 Maven repository settings
@@ -39,16 +38,25 @@ Maven repository settings
         - <TODO document way to set local repo settings for clean build />
     - Go to jboss-seam-parent and run "mvn clean verify -s ../build/settings.xml" with these changes
     - This should build, and test without a problem.
-  - Run "mvn depedency:tree -s ../build/settings.xml -DoutputFile=../depedency-report.txt"
+  - Run "mvn dependency:tree -s ../build/settings.xml -DoutputFile=../dependency-report.txt"
     - Review for snapshot dependencies
 
 Staging Maven artifacts - UPDATE from tomboy note - TODO
 ------------------------
 * Maven release procedure.
-    - Run "mvn clean deploy -Drepository.username=<your_username> -Drepository.password=<your_password> stageReleaseSeam" in the build directory
+    - Run mvn deploy -DrepositoryId=jboss-releases-repository -Durl=https://repository.jboss.org/nexus/service/local/staging/deploy/maven2 -s settings-staging.xml    
     - Then follow http://community.jboss.org/wiki/MavenDeployingaRelease section Closing the Staging Respository
     - test a Seam project with staged artifacts in repository https://repository.jboss.org/nexus/content/groups/staging/
     - then release Maven artifacts 
+Note: staging-settings.xml contains a setup of jboss.org Account to be able to upload to Staging repository - look at  https://community.jboss.org/wiki/MavenRepositoryConfiguration
+There needs to be something like:
+
+	<server>
+      <id>jboss-releases-repository</id>
+      <username><your jboss.org account></username>
+      <password></password>
+    </server>
+  </servers>
 
 
 Internal testing before tagging for Final releases
@@ -68,7 +76,7 @@ SVN tagging and checkout
                -m "create JBoss_Seam_x_x_x_XXX tag""
         - ex. "svn copy https://svn.jboss.org/repos/seam/trunk 
                https://svn.jboss.org/repos/seam/tags/JBoss_Seam_2_1_0_B1 
-               -m "create JBoss_Seam_2_1_0_B1 tag""
+               -m "created JBoss_Seam_2_1_0_B1 tag"
 * In a clean directory checkout the newly tagged seam source ( XX as needed)
     - "svn co https://svn.jboss.org/repos/seam/tags/JBoss_Seam_x_x_x_XXX seam"  
         - ex. "svn co https://svn.jboss.org/repos/seam/tags/JBoss_Seam_2_1_0_B1 seam"
