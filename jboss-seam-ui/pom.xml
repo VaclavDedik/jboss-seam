@@ -10,10 +10,6 @@
     <artifactId>jboss-seam-ui</artifactId>
     <name>Seam UI JSF2 support</name>
 
-    <properties>
-<!--         <version.richfaces>4.2.2.Final</version.richfaces> -->
-    </properties>
-
     <build>
         <!-- 		<finalName>jboss-seam-ui</finalName> -->
         <plugins>
@@ -33,6 +29,7 @@
                     <library>
                         <prefix>org.jboss.seam.ui</prefix>
                         <description>JSF controls for JBoss Seam</description>
+                        <!-- This is configured now in java-package.info file in UI component package -->
                         <!-- 						<taglib> -->
                         <!-- 							<displayName>JBoss Seam UI</displayName> -->
                         <!-- 							<shortName>s</shortName> -->

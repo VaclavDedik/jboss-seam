@@ -19,7 +19,6 @@ import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.init.Initialization;
-import org.jboss.seam.mock.EmbeddedBootstrap;
 import org.jboss.seam.wicket.SeamWebApplication;
 
 
@@ -137,7 +136,7 @@ public class SeamWicketTester extends WicketTester
          }
       }
       ServletContext context = super.newServletContext(path);
-      startJbossEmbeddedIfNecessary();
+      //startJbossEmbeddedIfNecessary();
       ServletLifecycle.beginApplication(context);
       new Initialization(context).create().init();
       ((Init) context.getAttribute(Seam.getComponentName(Init.class))).setDebug(false);
@@ -158,33 +157,33 @@ public class SeamWicketTester extends WicketTester
    
    private static boolean started;
 
-   protected void startJbossEmbeddedIfNecessary() 
-   {
-      try 
-      {
-         if (!started && embeddedJBossAvailable())
-         {
-            new EmbeddedBootstrap().startAndDeployResources();
-         }
-         started = true;
-      }
-      catch (Exception exception)
-      {
-         throw new RuntimeException("Failure starting up Embedded Jboss",exception);
-      }
-   }
-
-   private boolean embeddedJBossAvailable()
-   {
-      try
-      {
-         Class.forName("org.jboss.embedded.Bootstrap");
-         return true;
-      }
-      catch (ClassNotFoundException e)
-      {
-         return false;
-      }
-   }
+//   protected void startJbossEmbeddedIfNecessary() 
+//   {
+//      try 
+//      {
+//         if (!started && embeddedJBossAvailable())
+//         {
+//            new EmbeddedBootstrap().startAndDeployResources();
+//         }
+//         started = true;
+//      }
+//      catch (Exception exception)
+//      {
+//         throw new RuntimeException("Failure starting up Embedded Jboss",exception);
+//      }
+//   }
+//
+//   private boolean embeddedJBossAvailable()
+//   {
+//      try
+//      {
+//         Class.forName("org.jboss.embedded.Bootstrap");
+//         return true;
+//      }
+//      catch (ClassNotFoundException e)
+//      {
+//         return false;
+//      }
+//   }
 
 }

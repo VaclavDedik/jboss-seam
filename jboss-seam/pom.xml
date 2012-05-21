@@ -37,7 +37,7 @@
 			
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.6</version>
+<!-- 				<version>1.6</version> -->
 				<configuration>
 					<target>
 						<jar destfile="${project.build.directory}/${project.artifactId}-wls-compatible.jar">
@@ -337,12 +337,6 @@
 		<dependency>
 			<groupId>org.jboss.el</groupId>
 			<artifactId>jboss-el</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.seam.embedded</groupId>
-			<artifactId>jboss-embedded-api</artifactId>
-			<optional>true</optional>
 		</dependency>
 
 		<dependency>

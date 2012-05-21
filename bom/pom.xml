@@ -32,18 +32,18 @@
 	<properties>
 		<!-- Version string properties -->
         <version.seam>2.3.0.Beta2-SNAPSHOT</version.seam>
-		<version.arquillian_core>1.0.0.CR7</version.arquillian_core>
 		<version.wicket>1.4.14</version.wicket>
 		<version.drools>5.1.1</version.drools>
 		<version.resteasy>2.0.1.GA</version.resteasy>
 		<version.spring>3.1.1.RELEASE</version.spring>
-		<version.jbossembedded>beta3.SP15</version.jbossembedded>
 		<version.jbossas7>7.1.1.Final</version.jbossas7>
 		<version.jsf2>2.1.7</version.jsf2>
         <version.webdriver>0.9.7376</version.webdriver>
         <version.infinispan>5.1.3.FINAL</version.infinispan>
         <version.junit>4.8.2</version.junit>
         <version.testng>5.14.10</version.testng>
+        <version.richfaces>4.2.2.Final</version.richfaces>
+        <version.arquillian_core>1.0.0.Final</version.arquillian_core>
 
 
 		<!-- ***************** -->
@@ -79,7 +79,7 @@
             <dependency>
                 <groupId>org.richfaces</groupId>
                 <artifactId>richfaces-bom</artifactId>
-                <version>4.2.2.Final</version>
+                <version>${version.richfaces}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
