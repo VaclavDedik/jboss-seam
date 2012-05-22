@@ -38,7 +38,8 @@
                             <td class="cntForm">
                                 <h:inputText id="userName" required="true"
                                              value="#{customer.userName}">
-                                    <s:validate/>
+                                    <!--<s:validate/>-->
+                                    <f:validator validatorId="org.jboss.seam.ui.ModelValidator"/>
                                 </h:inputText> *
                             </td>
                             <td><h:message id="MessageForUserName" for="userName" styleClass="cntError" /></td>
