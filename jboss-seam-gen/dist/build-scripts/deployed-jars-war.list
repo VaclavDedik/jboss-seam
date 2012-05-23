@@ -67,3 +67,5 @@ richfaces-components-ui.jar
 richfaces-core-api.jar
 richfaces-core-impl.jar
 mvel2.jar
+sac.jar
+cssparser.jar
