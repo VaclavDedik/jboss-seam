@@ -810,10 +810,6 @@ public class RegisterTest
         <section>
           <title>Using SeamTest with Arquillian</title>
 
-          <caution>
-            Warning! This feature is still under development.
-          </caution>
-
           <para>
             It is also possible to use the simulated JSF environment provided by <literal>SeamTest</literal> along with Arquillian. 
             This is useful especially if you are migrating from previous Seam releases and want to keep your existing testsuite mostly
