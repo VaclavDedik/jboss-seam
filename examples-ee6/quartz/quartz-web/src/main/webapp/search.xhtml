@@ -122,7 +122,7 @@
                         <tr>
                             <td>Start Date:</td>
                             <td><h:inputText id="paymentStartDate" value="#{newPayment.paymentDate}" required="true"> 
-                                    <s:convertDateTime pattern="MM/dd/yyyy HH:mm"/>
+                                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm"/>
                                 
                                 </h:inputText>
 
@@ -132,7 +132,7 @@
                         <tr>
                             <td>End Date:</td>
                             <td><h:inputText id="paymentEndDate" value="#{newPayment.paymentEndDate}"> 
-                                    <s:convertDateTime pattern="MM/dd/yyyy HH:mm"/>
+                                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm"/>
                                 
                                 </h:inputText>
 

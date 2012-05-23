@@ -86,7 +86,8 @@
         <h:column>
           <f:facet name="header">Posted</f:facet>
           <h:outputText value="#{c.created}">
-            <s:convertDateTime type="both"/>
+<!--            <s:convertDateTime type="both"/>-->
+            <f:convertDateTime type="both" />
           </h:outputText>
         </h:column>
         <h:column>

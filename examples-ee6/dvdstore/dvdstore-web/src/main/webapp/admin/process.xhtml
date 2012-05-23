@@ -41,7 +41,7 @@
                 <h:column id="column2">
                     <f:facet id="ProcessStartFacet" name="header">Process Start</f:facet>
                     <h:outputText id="ProcessStartTime" value="#{process.start}">
-                        <s:convertDateTime type="both"/>
+                        <f:convertDateTime type="both"/>
                     </h:outputText>
                 </h:column>
                 <h:column id="column3">
@@ -51,7 +51,7 @@
                 <h:column id="column4">
                     <f:facet id="CurrentNodeEnterFacet" name="header">Current Node Enter</f:facet>
                     <h:outputText id="CurrentNodeEnterTime" value="#{process.rootToken.nodeEnter}">
-                        <s:convertDateTime type="both"/>
+                        <f:convertDateTime type="both"/>
                     </h:outputText>
                 </h:column>
             </h:dataTable>

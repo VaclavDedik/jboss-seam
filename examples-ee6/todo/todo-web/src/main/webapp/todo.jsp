@@ -23,7 +23,7 @@
                     <h:outputText value="Created"/>
                 </f:facet>
                 <h:outputText value="#{task.taskMgmtInstance.processInstance.start}">
-                    <s:convertDateTime type="date"/>
+                    <f:convertDateTime type="date"/>
                 </h:outputText>
             </h:column>
             <h:column>
@@ -37,7 +37,7 @@
                     <h:outputText value="Due Date"/>
                 </f:facet>
                 <h:inputText id="dueDate" value="#{task.dueDate}" style="width: 100">
-                    <s:convertDateTime type="date" dateStyle="short"/>
+                    <f:convertDateTime type="date" dateStyle="short"/>
                 </h:inputText>
             </h:column>
             <h:column>

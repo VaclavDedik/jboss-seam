@@ -40,7 +40,7 @@
                 <h:column id="column2">
                     <f:facet id="OrderDateFacet" name="header">Date</f:facet>
                     <h:outputText id="OrderDateValue" value="#{item.orderDate}">
-                        <s:convertDateTime type="both" dateStyle="full"/> 
+                        <f:convertDateTime type="both" dateStyle="full"/> 
                     </h:outputText>
                 </h:column>                        
                 <h:column id="column3">
@@ -74,7 +74,7 @@
                         
                         <h:outputText id="OrderDateText" value="Order date:" />
                         <h:outputText id="OrderDateValue" value="#{myorder.orderDate}">
-                            <s:convertDateTime type="both" dateStyle="full"/> 
+                            <f:convertDateTime type="both" dateStyle="full"/> 
                         </h:outputText>
                         
                         <h:outputText id="NetAmountText" value="Net Amount:" />
