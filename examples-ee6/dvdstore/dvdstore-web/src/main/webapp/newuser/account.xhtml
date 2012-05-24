@@ -50,7 +50,8 @@
                             <td class="cntForm">
                                 <h:inputSecret id="password" required="true"
                                                value="#{customer.password}">
-                                    <s:validate />
+                                    <!--<s:validate />-->
+                                    <f:validator validatorId="org.jboss.seam.ui.ModelValidator"/>
                                 </h:inputSecret> *
                             </td>
                             <td><h:message id="MessageForPassword" for="password" styleClass="cntError" /></td>
