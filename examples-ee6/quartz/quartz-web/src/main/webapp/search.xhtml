@@ -154,7 +154,8 @@
                 <h:selectOneRadio id="radioList" 
                                   layout="lineDirection"
                                   value="#{newPayment.paymentFrequency}">
-                  <s:convertEnum />
+                  <f:converter converterId="org.jboss.seam.ui.EnumConverter" />
+                  <!-- <s:convertEnum />-->
                   <s:enumItem enumValue="ONCE"         label="Only Once" />
                   <s:enumItem enumValue="EVERY_MINUTE" label="Every Minute (testing)" />
                   <s:enumItem enumValue="HOURLY"       label="Every Hour (testing)" />
