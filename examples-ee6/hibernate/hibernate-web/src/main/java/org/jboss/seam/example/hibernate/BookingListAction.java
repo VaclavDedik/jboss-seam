@@ -42,7 +42,7 @@ public class BookingListAction implements Serializable
    
    @Factory
    @Observer("bookingConfirmed")
-   @Transactional
+   // @Transactional
    public void getBookings()
    {
       bookings = bookingDatabase.createQuery("select b from Booking b where b.user.username = :username order by b.checkinDate")
