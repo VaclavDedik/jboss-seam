@@ -14,7 +14,7 @@ import org.jboss.seam.ui.component.UICache;
 import org.jboss.seam.ui.util.cdk.RendererBase;
 import org.richfaces.cdk.annotations.JsfRenderer;
 
-@JsfRenderer(type="org.jboss.seam.ui.ButtonRenderer", family="org.jboss.seam.ui.ButtonRenderer")
+@JsfRenderer(type="org.jboss.seam.ui.CacheRenderer", family="org.jboss.seam.ui.CacheRenderer")
 public class CacheRendererBase extends RendererBase {
 
    private static final LogProvider log = Logging.getLogProvider(UICache.class);
