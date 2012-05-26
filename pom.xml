@@ -47,7 +47,7 @@
 		<version.arquillian_core>1.0.0.Final</version.arquillian_core>
 		<version.wicket>1.4.14</version.wicket>
 		<version.drools>5.1.1</version.drools>
-		<version.testng>5.10</version.testng>
+		<version.testng>5.14.10</version.testng>
 		<version.resteasy>2.0.1.GA</version.resteasy>
 		<version.jbossembedded>beta3.SP15</version.jbossembedded>
 		<version.jbossas7>7.1.1.Final</version.jbossas7>
@@ -339,7 +339,6 @@
 				<groupId>org.testng</groupId>
 				<artifactId>testng</artifactId>
 				<version>${version.testng}</version>
-				<classifier>jdk15</classifier>
 			</dependency>
 
 			<dependency>

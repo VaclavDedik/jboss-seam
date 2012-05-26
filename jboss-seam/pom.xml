@@ -34,6 +34,15 @@
 				</executions>
 			</plugin>
 
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+				    <suiteXmlFiles>
+				        <suiteXmlFile>${basedir}/src/test/java/org/jboss/seam/test/unit/testng.xml</suiteXmlFile>
+				    </suiteXmlFiles>
+				</configuration>
+            
+            </plugin>
 			
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
@@ -308,7 +317,6 @@
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
-			<classifier>jdk15</classifier>
 		</dependency>
 
 		<dependency>

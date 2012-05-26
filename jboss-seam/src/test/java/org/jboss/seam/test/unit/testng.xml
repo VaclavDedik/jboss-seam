@@ -28,6 +28,12 @@
      </classes>
    </test>
    
+   <test name="Seam Unit Tests JSF integration">
+     <classes>
+        <class name="org.jboss.seam.test.unit.PhaseListenerTest"/>
+     </classes>
+   </test>
+   
    <test name="Seam Unit Tests Pages dot xml">
      <classes>
         <class name="org.jboss.seam.test.unit.PageActionsTest" />
@@ -36,12 +42,6 @@
      </classes>
    </test>
    
-   <test name="Seam Unit Tests JSF integration">
-     <classes>
-        <class name="org.jboss.seam.test.unit.PhaseListenerTest"/>
-     </classes>
-   </test>
-      
    <test name="Seam Unit Tests Password Hash">
      <classes>
        <class name="org.jboss.seam.test.unit.PasswordHashTest"/>
