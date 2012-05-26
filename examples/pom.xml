@@ -285,7 +285,7 @@
                 <version>5.10</version>
                 <type>jar</type>
                 <scope>test</scope>
-                <classifier>jdk15</classifier>
+                
                 <exclusions>
                     <exclusion>
                         <groupId>org.junit</groupId>

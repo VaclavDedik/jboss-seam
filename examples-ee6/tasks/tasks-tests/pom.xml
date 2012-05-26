@@ -42,7 +42,7 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <classifier>jdk15</classifier>
+            
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>

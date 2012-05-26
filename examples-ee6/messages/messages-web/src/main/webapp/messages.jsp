@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
-<%@ taglib uri="http://jboss.com/products/seam/taglib" prefix="s" %>
+<%@ taglib uri="http://http://www.jboss.org/schema/seam/taglib" prefix="s" %>
 <html>
  <head>
   <title>Messages</title>

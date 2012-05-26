@@ -16,7 +16,6 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <classifier>jdk15</classifier>
         </dependency>
         <dependency>
             <groupId>org.jboss.seam.examples-ee6.excel</groupId>

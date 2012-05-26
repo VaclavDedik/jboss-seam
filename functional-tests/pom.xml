@@ -7,14 +7,12 @@
     </parent>
     
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.jboss.seam</groupId>
     <artifactId>functional-tests</artifactId>
     <name>Seam Functional Tests</name>
     <dependencies>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <classifier>jdk15</classifier>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
