@@ -343,11 +343,8 @@ public abstract class UIChart extends ITextComponent {
 
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
-        dataset = getDataset();
         // bypass super to avoid createITextObject() before the chart is ready
-        if (dataset == null) {
-            dataset = createDataset();
-        }
+        dataset = createDataset();
         
         chart = getChart();
         if (chart == null) {
