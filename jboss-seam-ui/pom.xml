@@ -40,8 +40,29 @@
                     </library>
                 </configuration>
             </plugin>
-
-
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <links>
+                        <link>http://docs.oracle.com/javase/6/docs/api/</link>
+                    </links>
+                    <keywords>true</keywords>
+                    <author>true</author>
+                    <stylesheetfile>jdstyle.css</stylesheetfile>
+                    <doctitle>JBoss Seam ${project.name} API ${project.version}</doctitle>
+                    <!-- Used by javadoc:javadoc goal -->
+                    <detectOfflineLinks>false</detectOfflineLinks>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
@@ -153,7 +174,7 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <classifier>jdk15</classifier>
+            
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -202,30 +223,6 @@
                                     <type>jar</type>
                                     <transitive>true</transitive>
                                 </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.7</version>
-                        <configuration>
-                            <links>
-                                <link>http://docs.oracle.com/javase/6/docs/api/</link>
-                            </links>
-                            <keywords>true</keywords>
-                            <author>true</author>
-                            <stylesheetfile>jdstyle.css</stylesheetfile>
-                            <doctitle>JBoss Seam ${project.name} API ${project.version}</doctitle>
-                            <!-- Used by javadoc:javadoc goal -->
-                            <detectOfflineLinks>false</detectOfflineLinks>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
                             </execution>
                         </executions>
                     </plugin>
