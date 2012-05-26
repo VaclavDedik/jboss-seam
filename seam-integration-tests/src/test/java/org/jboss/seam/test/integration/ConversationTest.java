@@ -141,7 +141,7 @@ public class ConversationTest
        }.run();
     }
    
-    //@Test
+    @Test
     public void conversationList() 
         throws Exception 
     {        
