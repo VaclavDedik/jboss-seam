@@ -73,20 +73,15 @@
 
       <programlisting role="JAVA"><![CDATA[@Stateless
 @Name("helloAction")
-public class HelloAction implements HelloLocal {
+public class HelloAction {
+    @WebRemote
     public String sayHello(String name) {
         return "Hello, " + name;
     }
 }]]></programlisting>
 
-      <para>You also need to create a local interface for our new component - take special note of the
+      <para>Take special note of the
           <literal>@WebRemote</literal> annotation, as it's required to make our method accessible via remoting:</para>
-
-      <programlisting role="JAVA"><![CDATA[@Local
-public interface HelloLocal {
-  @WebRemote
-  public String sayHello(String name);
-}]]></programlisting>
 
       <para> That's all the server-side code we need to write.</para>
 
