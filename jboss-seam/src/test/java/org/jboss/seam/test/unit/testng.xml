@@ -13,12 +13,6 @@
      </classes>
    </test>
    
-   <test name="Seam Unit Tests Mail">
-     <classes>
-        <class name="org.jboss.seam.test.unit.MailTest"/>
-     </classes>
-   </test>
-   
    <test name="Seam Unit Tests BPM and Pageflow">
      <classes>
         <class name="org.jboss.seam.test.unit.bpm.ActorTest" />
