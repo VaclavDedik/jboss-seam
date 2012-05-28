@@ -69,9 +69,9 @@ public class WebDriverChatroomTest extends AjaxWebDriverTest
    public static final By JOZEF_LISTED = By.xpath("//div/select[@id='userList']/option[contains(text(),'Jozef')]");
    public static final By JOZEF_DISCONNECTED = By.xpath("//div[@id='channelDisplay']/span[contains(text(),'Jozef disconnected.')]");
    public static final By MARTIN_GT = By.xpath("//div[@id='channelDisplay']/span[contains(text(),'Martin>')]");
-   public static final By HELLO = By.xpath("//div[@id='channelDisplay']/text()[contains(.,'"+ MESSAGE_FROM_MARTIN +"')]");   
+   public static final By HELLO = By.xpath("//div[@id='channelDisplay']/text()[contains(.,'"+ MESSAGE_FROM_MARTIN +"')]/..");   
    public static final By JOZEF_GT = By.xpath("//div[@id='channelDisplay']/span[contains(text(),'Jozef>')]");
-   public static final By GOOD_MORNING = By.xpath("//div[@id='channelDisplay']/text()[contains(.,'" + MESSAGE_FROM_JOZEF + "')]");
+   public static final By GOOD_MORNING = By.xpath("//div[@id='channelDisplay']/text()[contains(.,'" + MESSAGE_FROM_JOZEF + "')]/..");
          
    protected AjaxWebDriver driver2;
    
@@ -118,7 +118,7 @@ public class WebDriverChatroomTest extends AjaxWebDriverTest
       driver.setWaitTime(timeout);
       
       //more reliable than simple click
-      driver.findElement(CONNECT_BUTTON).clearAndSendKeys(Keys.RETURN);
+      driver.findElement(CONNECT_BUTTON).sendKeys(Keys.RETURN);
       
       try
       {
