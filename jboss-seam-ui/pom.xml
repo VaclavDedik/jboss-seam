@@ -99,20 +99,6 @@
             <artifactId>antlr</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>org.richfaces.core</groupId>
-            <artifactId>richfaces-core-impl</artifactId>
-            <!--<version>${version.richfaces}</version>-->
-        </dependency>
-        <dependency>
-            <groupId>org.richfaces.ui</groupId>
-            <artifactId>richfaces-components-api</artifactId>
-            <!--<version>${version.richfaces}</version>-->
-        </dependency>
-        <dependency>
-            <groupId>org.richfaces.ui</groupId>
-            <artifactId>richfaces-components-ui</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.richfaces.cdk</groupId>
