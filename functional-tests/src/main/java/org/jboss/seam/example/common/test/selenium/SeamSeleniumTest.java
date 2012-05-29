@@ -88,7 +88,7 @@ public abstract class SeamSeleniumTest {
     @AfterMethod
     public void tearDown() {
        /*browser is being closed from SeleniumFunctionalTestListener class*/ 
-       //stopBrowser();
+       stopBrowser();
     }
 
     public SeamSelenium startBrowser() {

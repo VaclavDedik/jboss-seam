@@ -55,13 +55,13 @@ public class SeleniumFunctionalTestListener extends SeamSeleniumTest implements 
          SeamSeleniumTest.browser.logHTMLContext(logPath + ".html");
       } catch (Exception e) {         
       } finally {         
-         stopBrowser();   
+         // stopBrowser();   
       }      
    }
    
    public void onTestSkipped(ITestResult arg0)
    {
-      stopBrowser();
+      //stopBrowser();
    }
    
    public void onTestStart(ITestResult arg0)
@@ -70,6 +70,6 @@ public class SeleniumFunctionalTestListener extends SeamSeleniumTest implements 
    
    public void onTestSuccess(ITestResult arg0)
    {
-      stopBrowser();
+      //stopBrowser();
    }   
 }

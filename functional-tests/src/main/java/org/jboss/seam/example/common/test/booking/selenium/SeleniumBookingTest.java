@@ -51,7 +51,7 @@ public class SeleniumBookingTest extends SeamSeleniumTest {
     @Override
     @AfterMethod
     public void tearDown() {
-//        logout();
+        logout();
         super.tearDown();
     }
 
