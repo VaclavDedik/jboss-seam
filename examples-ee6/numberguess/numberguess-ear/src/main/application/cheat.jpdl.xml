@@ -19,14 +19,14 @@
       <transition to="confirm"/>
    </start-state>
    
-   <page name="confirm" view-id="/confirm.jspx">
+   <page name="confirm" view-id="/confirm.xhtml">
       <transition name="yes" to="cheat">
          <action expression="#{numberGuess.cheated}"/>
       </transition>
       <transition name="no" to="end"/>
    </page>
    
-   <page name="cheat" view-id="/cheat.jspx">
+   <page name="cheat" view-id="/cheat.xhtml">
       <redirect/>
       <transition to="end"/>
    </page>

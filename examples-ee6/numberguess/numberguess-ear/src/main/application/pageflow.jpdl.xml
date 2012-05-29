@@ -16,7 +16,7 @@
 	    "http://jboss.com/products/seam/pageflow http://jboss.com/products/seam/pageflow-2.3.xsd"
 	name="numberGuess">
    
-   <start-page name="displayGuess" view-id="/numberGuess.jspx">
+   <start-page name="displayGuess" view-id="/numberGuess.xhtml">
       <redirect/>
       <transition name="guess" to="evaluateGuess">
          <action expression="#{numberGuess.guess}"/>
@@ -35,7 +35,7 @@
       <transition name="false" to="displayGuess"/>
    </decision>
    
-   <page name="giveup" view-id="/giveup.jspx">
+   <page name="giveup" view-id="/giveup.xhtml">
       <redirect/>
       <transition name="yes" to="lose"/>
       <transition name="no" to="displayGuess"/>
@@ -46,12 +46,12 @@
       <transition to="displayGuess"/>
    </process-state>
 
-   <page name="win" view-id="/win.jspx">
+   <page name="win" view-id="/win.xhtml">
       <end-conversation/>
       <redirect/>
    </page>
    
-   <page name="lose" view-id="/lose.jspx">
+   <page name="lose" view-id="/lose.xhtml">
       <end-conversation/>
       <redirect/>
    </page>

@@ -81,9 +81,34 @@
          <scope>provided</scope>
       </dependency>
       <dependency>
-         <groupId>org.jbpm</groupId>
+         <groupId>org.jbpm.jbpm3</groupId>
          <artifactId>jbpm-jpdl</artifactId>
-         <version>3.2.3</version>
+         <exclusions>
+            <exclusion>
+               <groupId>org.apache.jackrabbit</groupId>
+               <artifactId>jackrabbit-core</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>cglib</groupId>
+               <artifactId>cglib</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.slf4j</groupId>
+               <artifactId>slf4j-api</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.slf4j</groupId>
+               <artifactId>slf4j-log4j12</artifactId>
+            </exclusion>
+            <exclusion>
+               <artifactId>hibernate-ehcache</artifactId>
+               <groupId>org.hibernate</groupId>
+            </exclusion>
+            <exclusion>
+                <artifactId>dom4j</artifactId>
+                <groupId>dom4j</groupId>
+            </exclusion>
+         </exclusions>
       </dependency>
    </dependencies>
 </project>
