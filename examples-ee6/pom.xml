@@ -32,7 +32,7 @@
         <module>metawidget/booking</module>
         <module>metawidget/groovybooking</module>
         <module>nestedbooking</module>
-<!--        <module>numberguess</module> -->
+        <module>numberguess</module>
         <module>openid</module>
         <module>quartz</module>
         <module>registration</module>
