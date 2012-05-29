@@ -33,7 +33,7 @@ public class NumberGuessTest extends JUnitSeamTest {
 
     @Test
     public void testNumberGuessWin() throws Exception {
-        String id = new NonFacesRequest("/numberGuess.jspx") {
+        String id = new NonFacesRequest("/numberGuess.xhtml") {
 
             @Override
             protected void renderResponse() throws Exception {
@@ -50,7 +50,7 @@ public class NumberGuessTest extends JUnitSeamTest {
 
         }.run();
 
-        String id2 = new FacesRequest("/numberGuess.jspx", id) {
+        String id2 = new FacesRequest("/numberGuess.xhtml", id) {
 
             @Override
             protected void applyRequestValues() throws Exception {
@@ -68,14 +68,14 @@ public class NumberGuessTest extends JUnitSeamTest {
             @Override
             protected void afterRequest() {
                 assert !isRenderResponseBegun();
-                assert getViewId().equals("/numberGuess.jspx");
+                assert getViewId().equals("/numberGuess.xhtml");
             }
 
         }.run();
 
         assert id2.equals(id);
 
-        new NonFacesRequest("/numberGuess.jspx", id) {
+        new NonFacesRequest("/numberGuess.xhtml", id) {
 
             @Override
             protected void renderResponse() throws Exception {
@@ -95,7 +95,7 @@ public class NumberGuessTest extends JUnitSeamTest {
 
         }.run();
 
-        id2 = new FacesRequest("/numberGuess.jspx", id) {
+        id2 = new FacesRequest("/numberGuess.xhtml", id) {
 
             @Override
             protected void applyRequestValues() throws Exception {
@@ -112,14 +112,14 @@ public class NumberGuessTest extends JUnitSeamTest {
             @Override
             protected void afterRequest() {
                 assert !isRenderResponseBegun();
-                assert getViewId().equals("/win.jspx");
+                assert getViewId().equals("/win.xhtml");
             }
 
         }.run();
 
         assert id2.equals(id);
 
-        new NonFacesRequest("/win.jspx", id) {
+        new NonFacesRequest("/win.xhtml", id) {
             @Override
             protected void renderResponse() throws Exception {
                 NumberGuess ng = (NumberGuess) getInstance(NumberGuess.class);
@@ -138,7 +138,7 @@ public class NumberGuessTest extends JUnitSeamTest {
 
     @Test
     public void testNumberGuessLose() throws Exception {
-        String id = new NonFacesRequest("/numberGuess.jspx") {
+        String id = new NonFacesRequest("/numberGuess.xhtml") {
 
             @Override
             protected void renderResponse() throws Exception {
@@ -157,7 +157,7 @@ public class NumberGuessTest extends JUnitSeamTest {
 
             final int count = i;
 
-            new FacesRequest("/numberGuess.jspx", id) {
+            new FacesRequest("/numberGuess.xhtml", id) {
 
                 @Override
                 protected void applyRequestValues() throws Exception {
@@ -177,12 +177,12 @@ public class NumberGuessTest extends JUnitSeamTest {
                 @Override
                 protected void afterRequest() {
                     assert !isRenderResponseBegun();
-                    assert getViewId().equals("/numberGuess.jspx");
+                    assert getViewId().equals("/numberGuess.xhtml");
                 }
 
             }.run();
 
-            new NonFacesRequest("/numberGuess.jspx", id) {
+            new NonFacesRequest("/numberGuess.xhtml", id) {
 
                 @Override
                 protected void renderResponse() throws Exception {
@@ -204,7 +204,7 @@ public class NumberGuessTest extends JUnitSeamTest {
 
         }
 
-        new FacesRequest("/numberGuess.jspx", id) {
+        new FacesRequest("/numberGuess.xhtml", id) {
 
             @Override
             protected void applyRequestValues() throws Exception {
@@ -224,12 +224,12 @@ public class NumberGuessTest extends JUnitSeamTest {
             @Override
             protected void afterRequest() {
                 assert !isRenderResponseBegun();
-                assert getViewId().equals("/lose.jspx");
+                assert getViewId().equals("/lose.xhtml");
             }
 
         }.run();
 
-        new NonFacesRequest("/lose.jspx", id) {
+        new NonFacesRequest("/lose.xhtml", id) {
 
             @Override
             protected void renderResponse() throws Exception {
