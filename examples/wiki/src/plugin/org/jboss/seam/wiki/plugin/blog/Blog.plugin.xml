@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin key="blog"
-        xmlns="http://jboss.com/products/seam/wiki/plugin"
+        xmlns="http://jboss.org/schema/seam/wiki/plugin"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://jboss.com/products/seam/wiki/plugin
+        xsi:schemaLocation="http://jboss.org/schema/seam/wiki/plugin
                             classpath://org/jboss/seam/wiki/core/plugin/plugin-1.0.xsd">
 
     <plugin-info version="1.0">

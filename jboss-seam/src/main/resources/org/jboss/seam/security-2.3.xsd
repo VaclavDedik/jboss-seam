@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-    targetNamespace="http://jboss.com/products/seam/security" xmlns:security="http://jboss.com/products/seam/security"
-    xmlns:components="http://jboss.com/products/seam/components" attributeFormDefault="unqualified">
+    targetNamespace="http://jboss.org/schema/seam/security" xmlns:security="http://jboss.org/schema/seam/security"
+    xmlns:components="http://jboss.org/schema/seam/components" attributeFormDefault="unqualified">
     
-    <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-2.3.xsd"/>
+    <xs:import namespace="http://jboss.org/schema/seam/components" schemaLocation="components-2.3.xsd"/>
 
     <xs:element name="identity">
         <xs:complexType mixed="true">

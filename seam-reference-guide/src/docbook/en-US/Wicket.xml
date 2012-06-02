@@ -385,11 +385,11 @@ public class MyPage extends WebPage{
             tell Wicket which <code>WebApplication</code> class to use. 
          </para>
          
-         <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
- xmlns:wicket="http://jboss.com/products/seam/wicket"
+         <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.org/schema/seam/components"
+ xmlns:wicket="http://jboss.org/schema/seam/wicket"
  xsi:schemaLocation=
-  "http://jboss.com/products/seam/wicket
-   http://jboss.com/products/seam/wicket-2.3.xsd">
+  "http://jboss.org/schema/seam/wicket
+   http://jboss.org/schema/seam/wicket-2.3.xsd">
    
   <wicket:web-application 
     application-class="org.jboss.seam.example.wicket.WicketBookingApplication" />
@@ -400,12 +400,12 @@ public class MyPage extends WebPage{
           need to ensure that the jsf exception filter is only enabled for jsf urls:
          </para>
           
-                   <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
- xmlns:web="http://jboss.com/products/seam/web"
- xmlns:wicket="http://jboss.com/products/seam/wicket"
+                   <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.org/schema/seam/components"
+ xmlns:web="http://jboss.org/schema/seam/web"
+ xmlns:wicket="http://jboss.org/schema/seam/wicket"
  xsi:schemaLocation=
-  "http://jboss.com/products/seam/web
-   http://jboss.com/products/seam/web-2.3.xsd">
+  "http://jboss.org/schema/seam/web
+   http://jboss.org/schema/seam/web-2.3.xsd">
      
     <!-- Only map the seam jsf exception filter to jsf paths, which we identify with the *.seam path -->
 	<web:exception-filter url-pattern="*.seam"/>

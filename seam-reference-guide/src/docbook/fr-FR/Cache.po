@@ -259,13 +259,13 @@ msgstr "Pour modifier le fichier de configuration en cours d'utilisation, config
 #: Cache.xml:296
 #, no-c-format
 msgid ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
-"            xmlns:cache=\"http://jboss.com/products/seam/cache\">\n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\"\n"
+"            xmlns:cache=\"http://jboss.org/schema/seam/cache\">\n"
 "   <cache:jboss-cache-provider configuration=\"META-INF/cache/treecache.xml\" />\n"
 "</components>]]>"
 msgstr ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
-"            xmlns:cache=\"http://jboss.com/products/seam/cache\">\n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\"\n"
+"            xmlns:cache=\"http://jboss.org/schema/seam/cache\">\n"
 "   <cache:jboss-cache-provider configuration=\"META-INF/cache/treecache.xml\" />\n"
 "</components>]]>"
 
@@ -323,14 +323,14 @@ msgstr "Si vous voulez avoir de multplies configurations de mises en cache dans 
 #: Cache.xml:308
 #, no-c-format
 msgid ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
-"            xmlns:cache=\"http://jboss.com/products/seam/cache\">\n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\"\n"
+"            xmlns:cache=\"http://jboss.org/schema/seam/cache\">\n"
 "   <cache:jboss-cache-provider name=\"myCache\" configuration=\"myown/cache.xml\"/>\n"
 "   <cache:jboss-cache-provider name=\"myOtherCache\" configuration=\"myother/cache.xml\"/>\n"
 "</components>]]>"
 msgstr ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
-"            xmlns:cache=\"http://jboss.com/products/seam/cache\">\n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\"\n"
+"            xmlns:cache=\"http://jboss.org/schema/seam/cache\">\n"
 "   <cache:jboss-cache-provider name=\"myCache\" configuration=\"myown/cache.xml\"/>\n"
 "   <cache:jboss-cache-provider name=\"myOtherCache\" configuration=\"myother/cache.xml\"/>\n"
 "</components>]]>"

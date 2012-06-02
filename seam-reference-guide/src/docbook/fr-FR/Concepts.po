@@ -746,7 +746,7 @@ msgstr "Tous les composants Seam livrés ont un nom qualifié, mais la plus part
 #: Concepts.xml:533
 #, no-c-format
 msgid ""
-"&lt;components xmlns=&quot;http://jboss.com/products/seam/components&quot;&gt;\n"
+"&lt;components xmlns=&quot;http://jboss.org/schema/seam/components&quot;&gt;\n"
 "    \n"
 "    &lt;import&gt;org.jboss.seam.core&lt;/import&gt;\n"
 "    &lt;import&gt;org.jboss.seam.cache&lt;/import&gt;\n"
@@ -768,7 +768,7 @@ msgid ""
 "    &lt;!-- ... ---&gt;\n"
 "&lt;/components&gt;"
 msgstr ""
-"&lt;components xmlns=&quot;http://jboss.com/products/seam/components&quot;&gt;\n"
+"&lt;components xmlns=&quot;http://jboss.org/schema/seam/components&quot;&gt;\n"
 "    \n"
 "    &lt;import&gt;org.jboss.seam.core&lt;/import&gt;\n"
 "    &lt;import&gt;org.jboss.seam.cache&lt;/import&gt;\n"

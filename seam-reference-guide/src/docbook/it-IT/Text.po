@@ -386,8 +386,8 @@ msgstr "Un link può essere creato utilizzando la seguente sintassi:"
 #. Tag: programlisting
 #: Text.xml:102
 #, no-c-format
-msgid "<![CDATA[Go to the Seam website at [=>http://jboss.com/products/seam].]]>"
-msgstr "<![CDATA[Vai al sito web di Seam [=>http://jboss.com/products/seam].]]>"
+msgid "<![CDATA[Go to the Seam website at [=>http://jboss.org/schema/seam].]]>"
+msgstr "<![CDATA[Vai al sito web di Seam [=>http://jboss.org/schema/seam].]]>"
 
 #. Tag: para
 #: Text.xml:104
@@ -398,8 +398,8 @@ msgstr "Oppure, se si vuole specificare il testo del link:"
 #. Tag: programlisting
 #: Text.xml:108
 #, no-c-format
-msgid "<![CDATA[Go to [the Seam website=>http://jboss.com/products/seam].]]>"
-msgstr "<![CDATA[Vai al [sito web di Seam=>http://jboss.com/products/seam].]]>"
+msgid "<![CDATA[Go to [the Seam website=>http://jboss.org/schema/seam].]]>"
+msgstr "<![CDATA[Vai al [sito web di Seam=>http://jboss.org/schema/seam].]]>"
 
 #. Tag: para
 #: Text.xml:110
@@ -423,10 +423,10 @@ msgstr "Il testo può anche includere un certo sottoinsieme limitato di HTML (no
 #: Text.xml:125
 #, no-c-format
 msgid ""
-"<![CDATA[You might want to link to <a href=\"http://jboss.com/products/seam\">something\n"
+"<![CDATA[You might want to link to <a href=\"http://jboss.org/schema/seam\">something\n"
 "cool</a>, or even include an image: <img src=\"/logo.jpg\"/>]]>"
 msgstr ""
-"<![CDATA[Potresti voler fare un link a <a href=\"http://jboss.com/products/seam\">qualcosa di\n"
+"<![CDATA[Potresti voler fare un link a <a href=\"http://jboss.org/schema/seam\">qualcosa di\n"
 "forte</a>, oppure includere un'immagine: <img src=\"/logo.jpg\"/>]]>"
 
 #. Tag: para

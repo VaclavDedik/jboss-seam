@@ -554,7 +554,7 @@ public class LoginAction implements Login {
                 namespaces.
             </para>
             
-<programlisting>&lt;components xmlns=&quot;http://jboss.com/products/seam/components&quot;&gt;
+<programlisting>&lt;components xmlns=&quot;http://jboss.org/schema/seam/components&quot;&gt;
     
     &lt;import&gt;org.jboss.seam.core&lt;/import&gt;
     &lt;import&gt;org.jboss.seam.cache&lt;/import&gt;

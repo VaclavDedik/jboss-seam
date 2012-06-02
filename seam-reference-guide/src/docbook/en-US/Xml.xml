@@ -100,9 +100,9 @@
                 For example, the following <literal>components.xml</literal> file installs jBPM: 
             </para>
 
-            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
+            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.org/schema/seam/components" 
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xmlns:bpm="http://jboss.com/products/seam/bpm">
+            xmlns:bpm="http://jboss.org/schema/seam/bpm">
     <bpm:jbpm/>
 </components>]]></programlisting>
 
@@ -118,8 +118,8 @@
                 This one installs and configures two different Seam-managed persistence contexts:
             </para>
 
-            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
-            xmlns:persistence="http://jboss.com/products/seam/persistence"
+            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.org/schema/seam/components" 
+            xmlns:persistence="http://jboss.org/schema/seam/persistence"
 
     <persistence:managed-persistence-context name="customerDatabase"
                        persistence-unit-jndi-name="java:/customerEntityManagerFactory"/>
@@ -150,8 +150,8 @@
                 practice):
             </para>
 
-            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
-            xmlns:persistence="http://jboss.com/products/seam/persistence"
+            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.org/schema/seam/components" 
+            xmlns:persistence="http://jboss.org/schema/seam/persistence"
 
   <persistence:managed-persistence-context name="productDatabase" 
                                           scope="session"
@@ -176,8 +176,8 @@
                 annotation.
             </para>
 
-            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
-            xmlns:persistence="http://jboss.com/products/seam/persistence"
+            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.org/schema/seam/components" 
+            xmlns:persistence="http://jboss.org/schema/seam/persistence"
 
   <persistence:managed-persistence-context name="productDatabase" 
                                     auto-create="true"
@@ -413,8 +413,8 @@
             </para>
 
             <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<components xmlns="http://jboss.com/products/seam/components"
-            xsi:schemaLocation="http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.3.xsd">
+<components xmlns="http://jboss.org/schema/seam/components"
+            xsi:schemaLocation="http://jboss.org/schema/seam/components http://jboss.org/schema/seam/components-2.3.xsd">
 
     <component class="org.jboss.seam.core.init">
         <property name="debug">true</property>
@@ -431,12 +431,12 @@
             <para>The version with using namespaces looks like this:</para>
 
             <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<components xmlns="http://jboss.com/products/seam/components"
-            xmlns:core="http://jboss.com/products/seam/core"
+<components xmlns="http://jboss.org/schema/seam/components"
+            xmlns:core="http://jboss.org/schema/seam/core"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation=
-                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.3.xsd 
-                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.3.xsd">
+                "http://jboss.org/schema/seam/core http://jboss.org/schema/seam/core-2.3.xsd 
+                 http://jboss.org/schema/seam/components http://jboss.org/schema/seam/components-2.3.xsd">
 
     <core:init debug="true" jndi-pattern="@jndiPattern@"/>
 
@@ -462,7 +462,7 @@
                 <literal>package-info.java</literal> in the package directory.) Here is an example from the seampay demo:
             </para>
 
-            <programlisting role="JAVA">@Namespace(value="http://jboss.com/products/seam/examples/seampay")
+            <programlisting role="JAVA">@Namespace(value="http://jboss.org/schema/seam/examples/seampay")
 package org.jboss.seam.example.seampay;
 
 import org.jboss.seam.annotations.Namespace;</programlisting>
@@ -472,8 +472,8 @@ import org.jboss.seam.annotations.Namespace;</programlisting>
                 Now we can write:
             </para>
 
-            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
-            xmlns:pay="http://jboss.com/products/seam/examples/seampay"
+            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.org/schema/seam/components"
+            xmlns:pay="http://jboss.org/schema/seam/examples/seampay"
             ... >
 
     <pay:payment-home new-instance="#{newPayment}"
@@ -489,8 +489,8 @@ import org.jboss.seam.annotations.Namespace;</programlisting>
 
             <para>Or:</para>
 
-            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
-            xmlns:pay="http://jboss.com/products/seam/examples/seampay"
+            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.org/schema/seam/components"
+            xmlns:pay="http://jboss.org/schema/seam/examples/seampay"
             ... >
 
     <pay:payment-home>
@@ -553,40 +553,40 @@ public class Payment
             
             <itemizedlist>
                 <listitem>
-                    <para>components &#8212; <literal>http://jboss.com/products/seam/components</literal></para>
+                    <para>components &#8212; <literal>http://jboss.org/schema/seam/components</literal></para>
                 </listitem>
                 <listitem>
-                    <para>core &#8212; <literal>http://jboss.com/products/seam/core</literal></para>
+                    <para>core &#8212; <literal>http://jboss.org/schema/seam/core</literal></para>
                 </listitem>
                 <listitem>
-                    <para>drools &#8212; <literal>http://jboss.com/products/seam/drools</literal></para>
+                    <para>drools &#8212; <literal>http://jboss.org/schema/seam/drools</literal></para>
                 </listitem>
                 <listitem>
-                    <para>framework &#8212; <literal>http://jboss.com/products/seam/framework</literal></para>
+                    <para>framework &#8212; <literal>http://jboss.org/schema/seam/framework</literal></para>
                 </listitem>
                 <listitem>
-                    <para>jms &#8212; <literal>http://jboss.com/products/seam/jms</literal></para>
+                    <para>jms &#8212; <literal>http://jboss.org/schema/seam/jms</literal></para>
                 </listitem>
                 <listitem>
-                    <para>remoting &#8212; <literal>http://jboss.com/products/seam/remoting</literal></para>
+                    <para>remoting &#8212; <literal>http://jboss.org/schema/seam/remoting</literal></para>
                 </listitem>
                 <listitem>
-                    <para>theme &#8212; <literal>http://jboss.com/products/seam/theme</literal></para>
+                    <para>theme &#8212; <literal>http://jboss.org/schema/seam/theme</literal></para>
                 </listitem>
                 <listitem>
-                    <para>security &#8212; <literal>http://jboss.com/products/seam/security</literal></para>
+                    <para>security &#8212; <literal>http://jboss.org/schema/seam/security</literal></para>
                 </listitem>
                 <listitem>
-                    <para>mail &#8212; <literal>http://jboss.com/products/seam/mail</literal></para>
+                    <para>mail &#8212; <literal>http://jboss.org/schema/seam/mail</literal></para>
                 </listitem>
                 <listitem>
-                    <para>web &#8212; <literal>http://jboss.com/products/seam/web</literal></para>
+                    <para>web &#8212; <literal>http://jboss.org/schema/seam/web</literal></para>
                 </listitem>                
                 <listitem>
-                    <para>pdf &#8212; <literal>http://jboss.com/products/seam/pdf</literal></para>
+                    <para>pdf &#8212; <literal>http://jboss.org/schema/seam/pdf</literal></para>
                 </listitem>
                 <listitem>                    
-                    <para> spring &#8212; <literal>http://jboss.com/products/seam/spring</literal></para>
+                    <para> spring &#8212; <literal>http://jboss.org/schema/seam/spring</literal></para>
                 </listitem>
                 
             </itemizedlist>

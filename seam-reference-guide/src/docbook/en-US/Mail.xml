@@ -30,7 +30,7 @@
     </para>
     	
     <programlisting role="XHTML"><![CDATA[<m:message xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:m="http://jboss.com/products/seam/mail"
+    xmlns:m="http://jboss.org/schema/seam/mail"
     xmlns:h="http://java.sun.com/jsf/html">
   
     <m:from name="Peter" address="peter@example.com" />
@@ -305,7 +305,7 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>
         receipt:
       </para>
 	    	
-	  <programlisting role="XHTML"><![CDATA[<m:message xmlns:m="http://jboss.com/products/seam/mail"
+	  <programlisting role="XHTML"><![CDATA[<m:message xmlns:m="http://jboss.org/schema/seam/mail"
     importance="low"
     requestReadReceipt="true"/>]]></programlisting>
    
@@ -433,9 +433,9 @@ public class MailListenerMDB implements MailListener {
           describes the service in more detail.
         </para>
 		        
-        <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
-    xmlns:core="http://jboss.com/products/seam/core"
-    xmlns:mail="http://jboss.com/products/seam/mail">
+        <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.org/schema/seam/components"
+    xmlns:core="http://jboss.org/schema/seam/core"
+    xmlns:mail="http://jboss.org/schema/seam/mail">
         
     <mail:mail-session session-jndi-name="java:/Mail"/>
     
@@ -457,9 +457,9 @@ public class MailListenerMDB implements MailListener {
           smtp server:
         </para>
 	      	 	
-        <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
-    xmlns:core="http://jboss.com/products/seam/core"
-    xmlns:mail="http://jboss.com/products/seam/mail">
+        <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.org/schema/seam/components"
+    xmlns:core="http://jboss.org/schema/seam/core"
+    xmlns:mail="http://jboss.org/schema/seam/mail">
         
     <mail:mail-session host="smtp.example.com"/>
     
@@ -497,7 +497,7 @@ public class MailListenerMDB implements MailListener {
     <title>Tags</title>
 
     <para>
-      Emails are generated using tags in the <literal>http://jboss.com/products/seam/mail</literal>
+      Emails are generated using tags in the <literal>http://jboss.org/schema/seam/mail</literal>
       namespace. Documents should always have the <literal>message</literal>
       tag at the root of the message. The message tag prepares Seam to generate
       an email.

@@ -121,5 +121,31 @@
             </plugins>
             </build>
         </profile>
+        <profile>
+            <id>validate</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>xml-maven-plugin</artifactId>
+                        <configuration>
+                           <catalogs>
+                                <catalog>src/main/resources/org/jboss/seam/catalog.xml</catalog>
+                            </catalogs>
+                            <validationSets>
+                                <validationSet>
+                                    <dir>src/main/resources/META-INF/</dir>
+                                    <includes>
+                                        <include>faces-config.xml</include>
+<!--                                         <include>seam-excel.taglib.xml</include> -->
+                                    </includes>
+                                    <validating>true</validating>
+                                </validationSet>
+                            </validationSets>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>        
     </profiles>
 </project>

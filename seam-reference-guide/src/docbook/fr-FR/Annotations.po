@@ -1700,8 +1700,8 @@ msgstr "@Namespace"
 #. Tag: programlisting
 #: Annotations.xml:1502
 #, no-c-format
-msgid "<![CDATA[@Namespace(value=\"http://jboss.com/products/seam/example/seampay\")]]>"
-msgstr "<![CDATA[@Namespace(value=\"http://jboss.com/products/seam/example/seampay\")]]>"
+msgid "<![CDATA[@Namespace(value=\"http://jboss.org/schema/seam/example/seampay\")]]>"
+msgstr "<![CDATA[@Namespace(value=\"http://jboss.org/schema/seam/example/seampay\")]]>"
 
 #. Tag: para
 #: Annotations.xml:1503
@@ -1712,8 +1712,8 @@ msgstr "Spécifie que les composants présents dans le package courants sont ass
 #. Tag: programlisting
 #: Annotations.xml:1509
 #, no-c-format
-msgid "<![CDATA[@Namespace(value=\"http://jboss.com/products/seam/core\", prefix=\"org.jboss.seam.core\")]]>"
-msgstr "<![CDATA[@Namespace(value=\"http://jboss.com/products/seam/core\", prefix=\"org.jboss.seam.core\")]]>"
+msgid "<![CDATA[@Namespace(value=\"http://jboss.org/schema/seam/core\", prefix=\"org.jboss.seam.core\")]]>"
+msgstr "<![CDATA[@Namespace(value=\"http://jboss.org/schema/seam/core\", prefix=\"org.jboss.seam.core\")]]>"
 
 #. Tag: para
 #: Annotations.xml:1510

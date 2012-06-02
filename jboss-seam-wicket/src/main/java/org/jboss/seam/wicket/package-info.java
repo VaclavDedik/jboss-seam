@@ -1,7 +1,7 @@
 /**
  * A set of classes and Seam component for supporting Wicket
  */
-@Namespace(value="http://jboss.com/products/seam/wicket", prefix="org.jboss.seam.wicket")
+@Namespace(value="http://jboss.org/schema/seam/wicket", prefix="org.jboss.seam.wicket")
 @AutoCreate
 package org.jboss.seam.wicket;
 

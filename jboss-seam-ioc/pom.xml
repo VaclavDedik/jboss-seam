@@ -10,6 +10,10 @@
 	<artifactId>jboss-seam-ioc</artifactId>
 	<name>Seam IoC</name>
 
+	<properties>
+		<main.basedir>${project.parent.basedir}</main.basedir>
+	</properties>		
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -136,6 +140,31 @@
             </plugins>
             </build>
         </profile>
+        <profile>
+            <id>validate</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>xml-maven-plugin</artifactId>
+                        <configuration>
+                           <catalogs>
+                                <catalog>../jboss-seam/src/main/resources/org/jboss/seam/catalog.xml</catalog>
+                            </catalogs>
+                            <validationSets>
+                                <validationSet>
+                                    <dir>src/main/resources/META-INF/</dir>
+                                    <includes>
+                                        <include>components.xml</include>
+                                    </includes>
+                                    <validating>true</validating>
+                                </validationSet>
+                            </validationSets>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>        
     </profiles>
     
 </project>

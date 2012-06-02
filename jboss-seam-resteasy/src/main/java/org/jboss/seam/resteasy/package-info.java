@@ -1,4 +1,4 @@
-@Namespace("http://jboss.com/products/seam/resteasy")
+@Namespace("http://jboss.org/schema/seam/resteasy")
 package org.jboss.seam.resteasy;
 
 import org.jboss.seam.annotations.Namespace;

@@ -125,15 +125,15 @@ msgstr "Per esempio, il seguente file <literal>components.xml</literal> installa
 #: Xml.xml:103
 #, no-c-format
 msgid ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\" \n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\" \n"
 "            xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
-"            xmlns:bpm=\"http://jboss.com/products/seam/bpm\">\n"
+"            xmlns:bpm=\"http://jboss.org/schema/seam/bpm\">\n"
 "    <bpm:jbpm/>\n"
 "</components>]]>"
 msgstr ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\" \n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\" \n"
 "            xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
-"            xmlns:bpm=\"http://jboss.com/products/seam/bpm\">\n"
+"            xmlns:bpm=\"http://jboss.org/schema/seam/bpm\">\n"
 "    <bpm:jbpm/>\n"
 "</components>]]>"
 
@@ -165,8 +165,8 @@ msgstr "Questo installa e configura due differenti contesti di persistenza gesti
 #: Xml.xml:115
 #, no-c-format
 msgid ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\" \n"
-"            xmlns:persistence=\"http://jboss.com/products/seam/persistence\"\n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\" \n"
+"            xmlns:persistence=\"http://jboss.org/schema/seam/persistence\"\n"
 "\n"
 "    <persistence:managed-persistence-context name=\"customerDatabase\"\n"
 "                       persistence-unit-jndi-name=\"java:/customerEntityManagerFactory\"/>\n"
@@ -176,8 +176,8 @@ msgid ""
 "\n"
 "</components>]]>"
 msgstr ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\" \n"
-"            xmlns:persistence=\"http://jboss.com/products/seam/persistence\"\n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\" \n"
+"            xmlns:persistence=\"http://jboss.org/schema/seam/persistence\"\n"
 "\n"
 "    <persistence:managed-persistence-context name=\"customerDatabase\"\n"
 "                       persistence-unit-jndi-name=\"java:/customerEntityManagerFactory\"/>\n"
@@ -231,8 +231,8 @@ msgstr "Questo esempio crea un contesto di persistenza gestito da Seam con scope
 #: Xml.xml:128
 #, no-c-format
 msgid ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\" \n"
-"            xmlns:persistence=\"http://jboss.com/products/seam/persistence\"\n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\" \n"
+"            xmlns:persistence=\"http://jboss.org/schema/seam/persistence\"\n"
 "\n"
 "  <persistence:managed-persistence-context name=\"productDatabase\" \n"
 "                                          scope=\"session\"\n"
@@ -240,8 +240,8 @@ msgid ""
 "\n"
 "</components>]]>"
 msgstr ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\" \n"
-"            xmlns:persistence=\"http://jboss.com/products/seam/persistence\"\n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\" \n"
+"            xmlns:persistence=\"http://jboss.org/schema/seam/persistence\"\n"
 "\n"
 "  <persistence:managed-persistence-context name=\"productDatabase\" \n"
 "                                          scope=\"session\"\n"
@@ -283,8 +283,8 @@ msgstr "E' comune utilizzare l'opzione <literal>auto-create</literal> per gli og
 #: Xml.xml:139
 #, no-c-format
 msgid ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\" \n"
-"            xmlns:persistence=\"http://jboss.com/products/seam/persistence\"\n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\" \n"
+"            xmlns:persistence=\"http://jboss.org/schema/seam/persistence\"\n"
 "\n"
 "  <persistence:managed-persistence-context name=\"productDatabase\" \n"
 "                                    auto-create=\"true\"\n"
@@ -292,8 +292,8 @@ msgid ""
 "\n"
 "</components>]]>"
 msgstr ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\" \n"
-"            xmlns:persistence=\"http://jboss.com/products/seam/persistence\"\n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\" \n"
+"            xmlns:persistence=\"http://jboss.org/schema/seam/persistence\"\n"
 "\n"
 "  <persistence:managed-persistence-context name=\"productDatabase\" \n"
 "                                    auto-create=\"true\"\n"
@@ -720,8 +720,8 @@ msgstr "Attraverso gli esempi ci sono stati due modi per dichiarare i componenti
 #, no-c-format
 msgid ""
 "<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-"<components xmlns=\"http://jboss.com/products/seam/components\"\n"
-"            xsi:schemaLocation=\"http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.3.xsd\">\n"
+"<components xmlns=\"http://jboss.org/schema/seam/components\"\n"
+"            xsi:schemaLocation=\"http://jboss.org/schema/seam/components http://jboss.org/schema/seam/components-2.3.xsd\">\n"
 "\n"
 "    <component class=\"org.jboss.seam.core.init\">\n"
 "        <property name=\"debug\">true</property>\n"
@@ -731,8 +731,8 @@ msgid ""
 "</components>]]>"
 msgstr ""
 "<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-"<components xmlns=\"http://jboss.com/products/seam/components\"\n"
-"            xsi:schemaLocation=\"http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.3.xsd\">\n"
+"<components xmlns=\"http://jboss.org/schema/seam/components\"\n"
+"            xsi:schemaLocation=\"http://jboss.org/schema/seam/components http://jboss.org/schema/seam/components-2.3.xsd\">\n"
 "\n"
 "    <component class=\"org.jboss.seam.core.init\">\n"
 "        <property name=\"debug\">true</property>\n"
@@ -758,24 +758,24 @@ msgstr "La versione con namespace appare come:"
 #, no-c-format
 msgid ""
 "<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-"<components xmlns=\"http://jboss.com/products/seam/components\"\n"
-"            xmlns:core=\"http://jboss.com/products/seam/core\"\n"
+"<components xmlns=\"http://jboss.org/schema/seam/components\"\n"
+"            xmlns:core=\"http://jboss.org/schema/seam/core\"\n"
 "            xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
 "            xsi:schemaLocation=\n"
-"                \"http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.3.xsd \n"
-"                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.3.xsd\">\n"
+"                \"http://jboss.org/schema/seam/core http://jboss.org/schema/seam/core-2.3.xsd \n"
+"                 http://jboss.org/schema/seam/components http://jboss.org/schema/seam/components-2.3.xsd\">\n"
 "\n"
 "    <core:init debug=\"true\" jndi-pattern=\"@jndiPattern@\"/>\n"
 "\n"
 "</components>]]>"
 msgstr ""
 "<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-"<components xmlns=\"http://jboss.com/products/seam/components\"\n"
-"            xmlns:core=\"http://jboss.com/products/seam/core\"\n"
+"<components xmlns=\"http://jboss.org/schema/seam/components\"\n"
+"            xmlns:core=\"http://jboss.org/schema/seam/core\"\n"
 "            xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
 "            xsi:schemaLocation=\n"
-"                \"http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.3.xsd \n"
-"                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.3.xsd\">\n"
+"                \"http://jboss.org/schema/seam/core http://jboss.org/schema/seam/core-2.3.xsd \n"
+"                 http://jboss.org/schema/seam/components http://jboss.org/schema/seam/components-2.3.xsd\">\n"
 "\n"
 "    <core:init debug=\"true\" jndi-pattern=\"@jndiPattern@\"/>\n"
 "\n"
@@ -803,12 +803,12 @@ msgstr "Qualsiasi pacchetto Java può essere associato ad un namespace XML annot
 #: Xml.xml:334
 #, no-c-format
 msgid ""
-"@Namespace(value=\"http://jboss.com/products/seam/examples/seampay\")\n"
+"@Namespace(value=\"http://jboss.org/schema/seam/examples/seampay\")\n"
 "package org.jboss.seam.example.seampay;\n"
 "\n"
 "import org.jboss.seam.annotations.Namespace;"
 msgstr ""
-"@Namespace(value=\"http://jboss.com/products/seam/examples/seampay\")\n"
+"@Namespace(value=\"http://jboss.org/schema/seam/examples/seampay\")\n"
 "package org.jboss.seam.example.seampay;\n"
 "\n"
 "import org.jboss.seam.annotations.Namespace;"
@@ -823,8 +823,8 @@ msgstr "Questo è tutto ciò che bisogna fare per utilizzare lo stile namespace 
 #: Xml.xml:341
 #, no-c-format
 msgid ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
-"            xmlns:pay=\"http://jboss.com/products/seam/examples/seampay\"\n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\"\n"
+"            xmlns:pay=\"http://jboss.org/schema/seam/examples/seampay\"\n"
 "            ... >\n"
 "\n"
 "    <pay:payment-home new-instance=\"#{newPayment}\"\n"
@@ -838,8 +838,8 @@ msgid ""
 "     ...\n"
 "</components>]]>"
 msgstr ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
-"            xmlns:pay=\"http://jboss.com/products/seam/examples/seampay\"\n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\"\n"
+"            xmlns:pay=\"http://jboss.org/schema/seam/examples/seampay\"\n"
 "            ... >\n"
 "\n"
 "    <pay:payment-home new-instance=\"#{newPayment}\"\n"
@@ -863,8 +863,8 @@ msgstr "<para>Oppure:</para>"
 #: Xml.xml:345
 #, no-c-format
 msgid ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
-"            xmlns:pay=\"http://jboss.com/products/seam/examples/seampay\"\n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\"\n"
+"            xmlns:pay=\"http://jboss.org/schema/seam/examples/seampay\"\n"
 "            ... >\n"
 "\n"
 "    <pay:payment-home>\n"
@@ -881,8 +881,8 @@ msgid ""
 "     ...\n"
 "</components>]]>"
 msgstr ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
-"            xmlns:pay=\"http://jboss.com/products/seam/examples/seampay\"\n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\"\n"
+"            xmlns:pay=\"http://jboss.org/schema/seam/examples/seampay\"\n"
 "            ... >\n"
 "\n"
 "    <pay:payment-home>\n"
@@ -977,72 +977,72 @@ msgstr "Seam utilizza i seguenti namespace:"
 #. Tag: para
 #: Xml.xml:379
 #, no-c-format
-msgid "components &#8212; <literal>http://jboss.com/products/seam/components</literal>"
-msgstr "components &#8212; <literal>http://jboss.com/products/seam/components</literal>"
+msgid "components &#8212; <literal>http://jboss.org/schema/seam/components</literal>"
+msgstr "components &#8212; <literal>http://jboss.org/schema/seam/components</literal>"
 
 #. Tag: para
 #: Xml.xml:382
 #, no-c-format
-msgid "core &#8212; <literal>http://jboss.com/products/seam/core</literal>"
-msgstr "core &#8212; <literal>http://jboss.com/products/seam/core</literal>"
+msgid "core &#8212; <literal>http://jboss.org/schema/seam/core</literal>"
+msgstr "core &#8212; <literal>http://jboss.org/schema/seam/core</literal>"
 
 #. Tag: para
 #: Xml.xml:385
 #, no-c-format
-msgid "drools &#8212; <literal>http://jboss.com/products/seam/drools</literal>"
-msgstr "drools &#8212; <literal>http://jboss.com/products/seam/drools</literal>"
+msgid "drools &#8212; <literal>http://jboss.org/schema/seam/drools</literal>"
+msgstr "drools &#8212; <literal>http://jboss.org/schema/seam/drools</literal>"
 
 #. Tag: para
 #: Xml.xml:388
 #, no-c-format
-msgid "framework &#8212; <literal>http://jboss.com/products/seam/framework</literal>"
-msgstr "framework &#8212; <literal>http://jboss.com/products/seam/framework</literal>"
+msgid "framework &#8212; <literal>http://jboss.org/schema/seam/framework</literal>"
+msgstr "framework &#8212; <literal>http://jboss.org/schema/seam/framework</literal>"
 
 #. Tag: para
 #: Xml.xml:391
 #, no-c-format
-msgid "jms &#8212; <literal>http://jboss.com/products/seam/jms</literal>"
-msgstr "jms &#8212; <literal>http://jboss.com/products/seam/jms</literal>"
+msgid "jms &#8212; <literal>http://jboss.org/schema/seam/jms</literal>"
+msgstr "jms &#8212; <literal>http://jboss.org/schema/seam/jms</literal>"
 
 #. Tag: para
 #: Xml.xml:394
 #, no-c-format
-msgid "remoting &#8212; <literal>http://jboss.com/products/seam/remoting</literal>"
-msgstr "remoting &#8212; <literal>http://jboss.com/products/seam/remoting</literal>"
+msgid "remoting &#8212; <literal>http://jboss.org/schema/seam/remoting</literal>"
+msgstr "remoting &#8212; <literal>http://jboss.org/schema/seam/remoting</literal>"
 
 #. Tag: para
 #: Xml.xml:397
 #, no-c-format
-msgid "theme &#8212; <literal>http://jboss.com/products/seam/theme</literal>"
-msgstr "theme &#8212; <literal>http://jboss.com/products/seam/theme</literal>"
+msgid "theme &#8212; <literal>http://jboss.org/schema/seam/theme</literal>"
+msgstr "theme &#8212; <literal>http://jboss.org/schema/seam/theme</literal>"
 
 #. Tag: para
 #: Xml.xml:400
 #, no-c-format
-msgid "security &#8212; <literal>http://jboss.com/products/seam/security</literal>"
-msgstr "security &#8212; <literal>http://jboss.com/products/seam/security</literal>"
+msgid "security &#8212; <literal>http://jboss.org/schema/seam/security</literal>"
+msgstr "security &#8212; <literal>http://jboss.org/schema/seam/security</literal>"
 
 #. Tag: para
 #: Xml.xml:403
 #, no-c-format
-msgid "mail &#8212; <literal>http://jboss.com/products/seam/mail</literal>"
-msgstr "mail &#8212; <literal>http://jboss.com/products/seam/mail</literal>"
+msgid "mail &#8212; <literal>http://jboss.org/schema/seam/mail</literal>"
+msgstr "mail &#8212; <literal>http://jboss.org/schema/seam/mail</literal>"
 
 #. Tag: para
 #: Xml.xml:406
 #, no-c-format
-msgid "web &#8212; <literal>http://jboss.com/products/seam/web</literal>"
-msgstr "web &#8212; <literal>http://jboss.com/products/seam/web</literal>"
+msgid "web &#8212; <literal>http://jboss.org/schema/seam/web</literal>"
+msgstr "web &#8212; <literal>http://jboss.org/schema/seam/web</literal>"
 
 #. Tag: para
 #: Xml.xml:409
 #, no-c-format
-msgid "pdf &#8212; <literal>http://jboss.com/products/seam/pdf</literal>"
-msgstr "pdf &#8212; <literal>http://jboss.com/products/seam/pdf</literal>"
+msgid "pdf &#8212; <literal>http://jboss.org/schema/seam/pdf</literal>"
+msgstr "pdf &#8212; <literal>http://jboss.org/schema/seam/pdf</literal>"
 
 #. Tag: para
 #: Xml.xml:412
 #, no-c-format
-msgid "spring &#8212; <literal>http://jboss.com/products/seam/spring</literal>"
-msgstr "spring &#8212; <literal>http://jboss.com/products/seam/spring</literal>"
+msgid "spring &#8212; <literal>http://jboss.org/schema/seam/spring</literal>"
+msgstr "spring &#8212; <literal>http://jboss.org/schema/seam/spring</literal>"
 

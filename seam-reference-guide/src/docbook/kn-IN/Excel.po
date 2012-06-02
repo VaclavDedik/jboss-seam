@@ -98,7 +98,7 @@ msgstr ""
 #. Tag: programlisting
 #: Excel.xml:50
 #, no-c-format
-msgid "<![CDATA[xmlns:excel=\"http://jboss.com/products/seam/excel\"]]>"
+msgid "<![CDATA[xmlns:excel=\"http://jboss.org/schema/seam/excel\"]]>"
 msgstr ""
 
 #. Tag: para
@@ -150,7 +150,7 @@ msgstr ""
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
-"            <e:workbook xmlns:e=\"http://jboss.com/products/seam/excel\">\n"
+"            <e:workbook xmlns:e=\"http://jboss.org/schema/seam/excel\">\n"
 "               <e:worksheet>\n"
 "                  <e:cell column=\"0\" row=\"0\" value=\"Hello world!\"/>\n"
 "               </e:worksheet>\n"
@@ -169,7 +169,7 @@ msgstr ""
 #, no-c-format
 msgid ""
 "<![CDATA[\n"
-"            <e:workbook xmlns:e=\"http://jboss.com/products/seam/excel\">\n"
+"            <e:workbook xmlns:e=\"http://jboss.org/schema/seam/excel\">\n"
 "               <e:worksheet value=\"#{data}\" var=\"item\">\n"
 "                  <e:column>\n"
 "                     <e:cell value=\"#{item.value}\"/>\n"

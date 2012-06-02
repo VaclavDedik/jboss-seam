@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-           xmlns:doc="http://jboss.com/products/seam/document"
-           xmlns:components="http://jboss.com/products/seam/components" 
-           targetNamespace="http://jboss.com/products/seam/document" 
+           xmlns:doc="http://jboss.org/schema/seam/document"
+           xmlns:components="http://jboss.org/schema/seam/components" 
+           targetNamespace="http://jboss.org/schema/seam/document" 
            elementFormDefault="qualified"
            attributeFormDefault="unqualified"> 
 
-    <xs:import namespace="http://jboss.com/products/seam/components" 
+    <xs:import namespace="http://jboss.org/schema/seam/components" 
                schemaLocation="components-2.3.xsd"/>
 
     <xs:element name="document-store">

@@ -4,7 +4,7 @@
 		xmlns:h="http://java.sun.com/jsf/html"
 		xmlns:f="http://java.sun.com/jsf/core"
 		xmlns:ice="http://www.icesoft.com/icefaces/component"  
-		xmlns:s="http://jboss.com/products/seam/taglib">
+		xmlns:s="http://jboss.org/schema/seam/taglib">
   <ice:panelGroup id="menuPanelGroup" styleClass="formBorderHighlight">
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>

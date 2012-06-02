@@ -995,7 +995,7 @@ msgstr ""
 #: Concepts.xml:533
 #, no-c-format
 msgid ""
-"&lt;components xmlns=&quot;http://jboss.com/products/seam/components&quot;"
+"&lt;components xmlns=&quot;http://jboss.org/schema/seam/components&quot;"
 "&gt;\n"
 "    \n"
 "    &lt;import&gt;org.jboss.seam.core&lt;/import&gt;\n"

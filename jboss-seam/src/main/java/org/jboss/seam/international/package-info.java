@@ -1,7 +1,7 @@
 /**
  * Seam components for internationalition of JSF applications.
  */
-@Namespace(value="http://jboss.com/products/seam/international", prefix="org.jboss.seam.international")
+@Namespace(value="http://jboss.org/schema/seam/international", prefix="org.jboss.seam.international")
 @AutoCreate
 package org.jboss.seam.international;
 

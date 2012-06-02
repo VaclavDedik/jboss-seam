@@ -662,8 +662,8 @@ msgstr "resources/WEB-INF/components.xml"
 #. Tag: para
 #: Glassfish.xml:423
 #, no-c-format
-msgid "Enable container managed transaction integration - add the <literal><![CDATA[<transaction:ejb-transaction/>]]></literal> component, and it's namespace declaration <literal>xmlns:transaction=\"http://jboss.com/products/seam/transaction\"</literal>"
-msgstr "Abilitare l'integrazione con le transazioni gestite dal container - aggiungere il componente <literal><![CDATA[<transaction:ejb-transaction/>]]></literal> e la sua dichiarazione di namespace <literal>xmlns:transaction=\"http://jboss.com/products/seam/transaction\"</literal>"
+msgid "Enable container managed transaction integration - add the <literal><![CDATA[<transaction:ejb-transaction/>]]></literal> component, and it's namespace declaration <literal>xmlns:transaction=\"http://jboss.org/schema/seam/transaction\"</literal>"
+msgstr "Abilitare l'integrazione con le transazioni gestite dal container - aggiungere il componente <literal><![CDATA[<transaction:ejb-transaction/>]]></literal> e la sua dichiarazione di namespace <literal>xmlns:transaction=\"http://jboss.org/schema/seam/transaction\"</literal>"
 
 #. Tag: para
 #: Glassfish.xml:431

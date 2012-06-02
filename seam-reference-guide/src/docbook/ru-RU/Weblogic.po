@@ -1812,14 +1812,14 @@ msgstr ""
 #: Weblogic.xml:1163
 #, no-c-format
 msgid ""
-"<![CDATA[xmlns:transaction=\"http://jboss.com/products/seam/transaction\"]]>"
+"<![CDATA[xmlns:transaction=\"http://jboss.org/schema/seam/transaction\"]]>"
 msgstr ""
 
 #. Tag: programlisting
 #: Weblogic.xml:1164
 #, no-c-format
 msgid ""
-"<![CDATA[http://jboss.com/products/seam/transaction http://jboss.com/"
+"<![CDATA[http://jboss.org/schema/seam/transaction http://jboss.com/"
 "products/seam/transaction-2.3.xsd]]>"
 msgstr ""
 

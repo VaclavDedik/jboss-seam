@@ -2110,7 +2110,7 @@ msgstr ""
 #~ "Abilitare l'integrazione delle transazioni gestite dal container - "
 #~ "aggiungere il componente  <literal>&lt;transaction:ejb-transaction /&gt;</"
 #~ "literal> ed la sua dichiarazione di namespace <literal>xmlns:transaction="
-#~ "\"http://jboss.com/products/seam/transaction\"</literal>"
+#~ "\"http://jboss.org/schema/seam/transaction\"</literal>"
 
 #~ msgid ""
 #~ "Alter the <literal>jndi-pattern</literal> to <literal> java:comp/env/"

@@ -12,10 +12,11 @@
     <artifactId>blog-web</artifactId>
     <packaging>war</packaging>
     <name>Blog Web Module</name>
-    
+
     <properties>
         <!-- filtering property for components.xml -->
         <jndiPattern>seam-blog/#{ejbName}/local</jndiPattern>
+    	  <main.basedir>${project.parent.parent.basedir}</main.basedir>        
     </properties>
     
     <dependencies>

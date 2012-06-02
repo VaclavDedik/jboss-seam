@@ -331,15 +331,15 @@ msgstr "Di default il filtro di gestione eccezioni processerà tutte le richiest
 #: Configuration.xml:151
 #, no-c-format
 msgid ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
-"            xmlns:web=\"http://jboss.com/products/seam/web\">\n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\"\n"
+"            xmlns:web=\"http://jboss.org/schema/seam/web\">\n"
 "\n"
 "    <web:exception-filter url-pattern=\"*.seam\"/>\n"
 "\n"
 "</components>]]>"
 msgstr ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
-"            xmlns:web=\"http://jboss.com/products/seam/web\">\n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\"\n"
+"            xmlns:web=\"http://jboss.org/schema/seam/web\">\n"
 "\n"
 "    <web:exception-filter url-pattern=\"*.seam\"/>\n"
 "\n"
@@ -550,13 +550,13 @@ msgstr "Di default il filtro di logging processerà tutte le richieste, comunque
 #: Configuration.xml:293
 #, no-c-format
 msgid ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
-"            xmlns:web=\"http://jboss.com/products/seam/web\">\n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\"\n"
+"            xmlns:web=\"http://jboss.org/schema/seam/web\">\n"
 "    <web:logging-filter url-pattern=\"*.seam\"/>\n"
 "</components>]]>"
 msgstr ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
-"            xmlns:web=\"http://jboss.com/products/seam/web\">\n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\"\n"
+"            xmlns:web=\"http://jboss.org/schema/seam/web\">\n"
 "    <web:logging-filter url-pattern=\"*.seam\"/>\n"
 "</components>]]>"
 

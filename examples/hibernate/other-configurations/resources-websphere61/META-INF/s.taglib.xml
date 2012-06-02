@@ -3,7 +3,7 @@
   "-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN"
   "http://java.sun.com/dtd/facelet-taglib_1_0.dtd">
 <facelet-taglib xmlns="http://java.sun.com/JSF/Facelet">
-  <namespace>http://jboss.com/products/seam/taglib</namespace>
+  <namespace>http://jboss.org/schema/seam/taglib</namespace>
 
 
 

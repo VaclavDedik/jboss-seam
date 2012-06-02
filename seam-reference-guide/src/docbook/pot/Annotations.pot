@@ -2089,7 +2089,7 @@ msgstr ""
 #: Annotations.xml:1502
 #, no-c-format
 msgid ""
-"<![CDATA[@Namespace(value=\"http://jboss.com/products/seam/example/seampay"
+"<![CDATA[@Namespace(value=\"http://jboss.org/schema/seam/example/seampay"
 "\")]]>"
 msgstr ""
 
@@ -2106,7 +2106,7 @@ msgstr ""
 #: Annotations.xml:1509
 #, no-c-format
 msgid ""
-"<![CDATA[@Namespace(value=\"http://jboss.com/products/seam/core\", prefix="
+"<![CDATA[@Namespace(value=\"http://jboss.org/schema/seam/core\", prefix="
 "\"org.jboss.seam.core\")]]>"
 msgstr ""
 

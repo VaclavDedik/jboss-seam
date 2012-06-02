@@ -40,7 +40,7 @@
             <r:feed 
                xmlns="http://www.w3.org/1999/xhtml" 
                xmlns:ui="http://java.sun.com/jsf/facelets" 
-               xmlns:r="http://jboss.com/products/seam/rss"
+               xmlns:r="http://jboss.org/schema/seam/rss"
                title="#{rss.feed.title}"
                uid="#{rss.feed.uid}"
                subtitle="#{rss.feed.subtitle}"

@@ -1,4 +1,4 @@
-<pages xmlns="http://jboss.com/products/seam/pages"
+<pages xmlns="http://jboss.org/schema/seam/pages"
        no-conversation-view-id="/main.xhtml"
        login-view-id="/home.xhtml">
 

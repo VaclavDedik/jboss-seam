@@ -4,7 +4,7 @@
    "facelet-taglib_1_0.dtd">
    
 <facelet-taglib>
-    <namespace>http://jboss.com/products/seam/pdf</namespace>
+    <namespace>http://jboss.org/schema/seam/pdf</namespace>
 
     <tag>
         <tag-name>document</tag-name>

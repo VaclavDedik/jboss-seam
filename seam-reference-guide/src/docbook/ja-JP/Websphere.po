@@ -2118,7 +2118,7 @@ msgstr ""
 #~ msgstr ""
 #~ "コンテナ管理トランザクション統合を有効にします - <literal> &lt;"
 #~ "transaction:ejb-transaction /&gt; </literal> コンポーネントと、その名前空"
-#~ "間宣言  <literal>xmlns:transaction=\"http://jboss.com/products/seam/"
+#~ "間宣言  <literal>xmlns:transaction=\"http://jboss.org/schema/seam/"
 #~ "transaction\"</literal> を追記してください"
 
 #~ msgid ""

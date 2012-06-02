@@ -477,8 +477,8 @@ public void commitClaim() {
             mode:
         </para>
         
-        <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
-   xmlns:core="http://jboss.com/products/seam/core">
+        <programlisting><![CDATA[<components xmlns="http://jboss.org/schema/seam/components"
+   xmlns:core="http://jboss.org/schema/seam/core">
    <core:manager conversation-timeout="120000" default-flush-mode="manual" />
 </components>]]></programlisting>
 

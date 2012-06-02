@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-    targetNamespace="http://jboss.com/products/seam/wiki/plugin"
-    xmlns:plugin="http://jboss.com/products/seam/wiki/plugin">
+    targetNamespace="http://jboss.org/schema/seam/wiki/plugin"
+    xmlns:plugin="http://jboss.org/schema/seam/wiki/plugin">
 
     <!-- Plugin root -->
 

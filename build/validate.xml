@@ -4,26 +4,26 @@
 	<property name="seam.dir" value="${basedir}" />
 
 	<property name="seam.schemaLocations" value="
-	http://jboss.com/products/seam/async ${src.schema.dir}/async-${schema.version}.xsd 
-	http://jboss.com/products/seam/bpm ${src.schema.dir}/bpm-${schema.version}.xsd 
-	http://jboss.com/products/seam/components ${src.schema.dir}/components-${schema.version}.xsd 
-	http://jboss.com/products/seam/core ${src.schema.dir}/core-${schema.version}.xsd 
-	http://jboss.com/products/seam/drools ${src.schema.dir}/drools-${schema.version}.xsd 
-	http://jboss.com/products/seam/framework ${src.schema.dir}/framework-${schema.version}.xsd 
-	http://jboss.com/products/seam/international ${src.schema.dir}/international-${schema.version}.xsd 
-	http://jboss.com/products/seam/jms ${src.schema.dir}/jms-${schema.version}.xsd 
-	http://jboss.com/products/seam/mail ${src.schema.dir}/mail-${schema.version}.xsd 
-	http://jboss.com/products/seam/navigation ${src.schema.dir}/navigation-${schema.version}.xsd 
-	http://jboss.com/products/seam/pageflow ${src.schema.dir}/pageflow-${schema.version}.xsd 
-	http://jboss.com/products/seam/pages ${src.schema.dir}/pages-${schema.version}.xsd 
-	http://jboss.com/products/seam/pdf ${seam.dir}/src/pdf/org/jboss/seam/pdf/pdf-${schema.version}.xsd 
-	http://jboss.com/products/seam/persistence ${src.schema.dir}/persistence-${schema.version}.xsd 
-	http://jboss.com/products/seam/remoting ${src.schema.dir}/remoting-${schema.version}.xsd 
-	http://jboss.com/products/seam/resteasy ${seam.dir}/src/resteasy/org/jboss/seam/resteasy/resteasy-${schema.version}.xsd
-	http://jboss.com/products/seam/security ${src.schema.dir}/security-${schema.version}.xsd 
-	http://jboss.com/products/seam/theme ${src.schema.dir}/theme-${schema.version}.xsd 
-	http://jboss.com/products/seam/transaction ${src.schema.dir}/transaction-${schema.version}.xsd 
-	http://jboss.com/products/seam/web ${src.schema.dir}/web-${schema.version}.xsd " />
+	http://jboss.org/schema/seam/async ${src.schema.dir}/async-${schema.version}.xsd 
+	http://jboss.org/schema/seam/bpm ${src.schema.dir}/bpm-${schema.version}.xsd 
+	http://jboss.org/schema/seam/components ${src.schema.dir}/components-${schema.version}.xsd 
+	http://jboss.org/schema/seam/core ${src.schema.dir}/core-${schema.version}.xsd 
+	http://jboss.org/schema/seam/drools ${src.schema.dir}/drools-${schema.version}.xsd 
+	http://jboss.org/schema/seam/framework ${src.schema.dir}/framework-${schema.version}.xsd 
+	http://jboss.org/schema/seam/international ${src.schema.dir}/international-${schema.version}.xsd 
+	http://jboss.org/schema/seam/jms ${src.schema.dir}/jms-${schema.version}.xsd 
+	http://jboss.org/schema/seam/mail ${src.schema.dir}/mail-${schema.version}.xsd 
+	http://jboss.org/schema/seam/navigation ${src.schema.dir}/navigation-${schema.version}.xsd 
+	http://jboss.org/schema/seam/pageflow ${src.schema.dir}/pageflow-${schema.version}.xsd 
+	http://jboss.org/schema/seam/pages ${src.schema.dir}/pages-${schema.version}.xsd 
+	http://jboss.org/schema/seam/pdf ${seam.dir}/src/pdf/org/jboss/seam/pdf/pdf-${schema.version}.xsd 
+	http://jboss.org/schema/seam/persistence ${src.schema.dir}/persistence-${schema.version}.xsd 
+	http://jboss.org/schema/seam/remoting ${src.schema.dir}/remoting-${schema.version}.xsd 
+	http://jboss.org/schema/seam/resteasy ${seam.dir}/src/resteasy/org/jboss/seam/resteasy/resteasy-${schema.version}.xsd
+	http://jboss.org/schema/seam/security ${src.schema.dir}/security-${schema.version}.xsd 
+	http://jboss.org/schema/seam/theme ${src.schema.dir}/theme-${schema.version}.xsd 
+	http://jboss.org/schema/seam/transaction ${src.schema.dir}/transaction-${schema.version}.xsd 
+	http://jboss.org/schema/seam/web ${src.schema.dir}/web-${schema.version}.xsd " />
 	
 	<property name="xsdLocation" value="http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd" />
 

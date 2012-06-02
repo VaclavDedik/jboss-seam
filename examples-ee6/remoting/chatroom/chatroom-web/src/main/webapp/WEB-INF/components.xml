@@ -1,5 +1,5 @@
-<components xmlns="http://jboss.com/products/seam/components"
-            xmlns:cache="http://jboss.com/products/seam/cache">
+<components xmlns="http://jboss.org/schema/seam/components"
+            xmlns:cache="http://jboss.org/schema/seam/cache">
 
     <component name="org.jboss.seam.core.init">
         <property name="jndiPattern">@jndiPattern@</property>

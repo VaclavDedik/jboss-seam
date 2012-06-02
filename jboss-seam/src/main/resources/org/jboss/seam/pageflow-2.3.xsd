@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<xs:schema xmlns="http://jboss.com/products/seam/pageflow"
-	targetNamespace="http://jboss.com/products/seam/pageflow"
+<xs:schema xmlns="http://jboss.org/schema/seam/pageflow"
+	targetNamespace="http://jboss.org/schema/seam/pageflow"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	elementFormDefault="qualified">
 

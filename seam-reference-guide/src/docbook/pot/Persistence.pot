@@ -742,8 +742,8 @@ msgstr ""
 #: Persistence.xml:453
 #, no-c-format
 msgid ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
-"   xmlns:core=\"http://jboss.com/products/seam/core\">\n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\"\n"
+"   xmlns:core=\"http://jboss.org/schema/seam/core\">\n"
 "   <core:manager conversation-timeout=\"120000\" default-flush-mode=\"manual"
 "\" />\n"
 "</components>]]>"

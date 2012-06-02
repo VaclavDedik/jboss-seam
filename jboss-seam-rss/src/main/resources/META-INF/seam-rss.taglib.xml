@@ -4,7 +4,7 @@
    "facelet-taglib_1_0.dtd">
    
 <facelet-taglib>
-    <namespace>http://jboss.com/products/seam/rss</namespace>
+    <namespace>http://jboss.org/schema/seam/rss</namespace>
 
     <tag>
         <tag-name>feed</tag-name>

@@ -437,9 +437,9 @@ msgstr "リンクを作るには以下の構文を利用します:"
 #: Text.xml:102
 #, no-c-format
 msgid ""
-"<![CDATA[Go to the Seam website at [=>http://jboss.com/products/seam].]]>"
+"<![CDATA[Go to the Seam website at [=>http://jboss.org/schema/seam].]]>"
 msgstr ""
-"<![CDATA[Go to the Seam website at [=>http://jboss.com/products/seam].]]>"
+"<![CDATA[Go to the Seam website at [=>http://jboss.org/schema/seam].]]>"
 
 #. Tag: para
 #: Text.xml:104
@@ -450,8 +450,8 @@ msgstr "または、リンクテキストを指定したい場合:"
 #. Tag: programlisting
 #: Text.xml:108
 #, no-c-format
-msgid "<![CDATA[Go to [the Seam website=>http://jboss.com/products/seam].]]>"
-msgstr "<![CDATA[Go to [the Seam website=>http://jboss.com/products/seam].]]>"
+msgid "<![CDATA[Go to [the Seam website=>http://jboss.org/schema/seam].]]>"
+msgstr "<![CDATA[Go to [the Seam website=>http://jboss.org/schema/seam].]]>"
 
 #. Tag: para
 #: Text.xml:110
@@ -485,11 +485,11 @@ msgstr ""
 #: Text.xml:125
 #, no-c-format
 msgid ""
-"<![CDATA[You might want to link to <a href=\"http://jboss.com/products/seam"
+"<![CDATA[You might want to link to <a href=\"http://jboss.org/schema/seam"
 "\">something\n"
 "cool</a>, or even include an image: <img src=\"/logo.jpg\"/>]]>"
 msgstr ""
-"<![CDATA[You might want to link to <a href=\"http://jboss.com/products/seam"
+"<![CDATA[You might want to link to <a href=\"http://jboss.org/schema/seam"
 "\">something\n"
 "cool</a>, or even include an image: <img src=\"/logo.jpg\"/>]]>"
 

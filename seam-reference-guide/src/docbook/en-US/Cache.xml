@@ -359,8 +359,8 @@ public class ChatroomUsers
          multiple cache providers:
       </para>
 
-      <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
-            xmlns:cache="http://jboss.com/products/seam/cache">
+      <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.org/schema/seam/components"
+            xmlns:cache="http://jboss.org/schema/seam/cache">
    <cache:infinispan-cache-provider name="myCache" configuration="myown/cache.xml"/>
    <cache:infinispan-cache-provider name="myOtherCache" configuration="myother/cache.xml"/>
 </components>]]></programlisting>

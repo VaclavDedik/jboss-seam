@@ -98,7 +98,31 @@
             </plugins>
             </build>
         </profile>
-        
+        <profile>
+            <id>validate</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>xml-maven-plugin</artifactId>
+                        <configuration>
+                           <catalogs>
+                                <catalog>../jboss-seam/src/main/resources/org/jboss/seam/catalog.xml</catalog>
+                            </catalogs>
+                            <validationSets>
+                                <validationSet>
+                                    <dir>src/main/resources/META-INF/</dir>
+                                    <includes>
+                                        <include>faces-config.xml</include>
+                                    </includes>
+                                    <validating>true</validating>
+                                </validationSet>
+                            </validationSets>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>        
     </profiles>
 
 </project>

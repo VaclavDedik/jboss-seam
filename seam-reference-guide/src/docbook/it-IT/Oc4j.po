@@ -957,8 +957,8 @@ msgstr "resources/WEB-INF/components.xml"
 #. Tag: para
 #: Oc4j.xml:608
 #, no-c-format
-msgid "Enable container managed transaction integration - add the <literal> &lt;transaction:ejb-transaction /&gt; </literal> component, and it's namespace declaration <literal> xmlns:transaction=\"http://jboss.com/products/seam/transaction\" </literal>"
-msgstr "Abilitare l'integrazione delle transazioni gestite dal container - aggiungere il componente <literal> &lt;transaction:ejb-transaction /&gt; </literal> e la dichiarazione del namespace <literal> xmlns:transaction=\"http://jboss.com/products/seam/transaction\" </literal>"
+msgid "Enable container managed transaction integration - add the <literal> &lt;transaction:ejb-transaction /&gt; </literal> component, and it's namespace declaration <literal> xmlns:transaction=\"http://jboss.org/schema/seam/transaction\" </literal>"
+msgstr "Abilitare l'integrazione delle transazioni gestite dal container - aggiungere il componente <literal> &lt;transaction:ejb-transaction /&gt; </literal> e la dichiarazione del namespace <literal> xmlns:transaction=\"http://jboss.org/schema/seam/transaction\" </literal>"
 
 #. Tag: para
 #: Oc4j.xml:617

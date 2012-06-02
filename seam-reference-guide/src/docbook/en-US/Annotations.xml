@@ -1504,14 +1504,14 @@
                <literal>@Namespace</literal>
             </term>
             <listitem>
-               <programlisting role="JAVA"><![CDATA[@Namespace(value="http://jboss.com/products/seam/example/seampay")]]></programlisting>
+               <programlisting role="JAVA"><![CDATA[@Namespace(value="http://jboss.org/schema/seam/example/seampay")]]></programlisting>
                <para>
                   Specifies that components in the current package are associated
                   with the given namespace. The declared namespace can be used as
                   an XML namespace in a <literal>components.xml</literal> file to
                   simplify application configuration.
                </para>
-               <programlisting role="JAVA"><![CDATA[@Namespace(value="http://jboss.com/products/seam/core", prefix="org.jboss.seam.core")]]></programlisting>
+               <programlisting role="JAVA"><![CDATA[@Namespace(value="http://jboss.org/schema/seam/core", prefix="org.jboss.seam.core")]]></programlisting>
                <para>
                   Specifies a namespace to associate with a given package. 
                   Additionally, it specifies a component name prefix to be 

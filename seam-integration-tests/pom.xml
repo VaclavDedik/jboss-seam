@@ -330,5 +330,47 @@
 				</testResources>
 			</build>
 		</profile>
+        <profile>
+            <id>validate</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>xml-maven-plugin</artifactId>
+                        <configuration>
+<!--                            <catalogs> -->
+<!--                                 <catalog>src/main/resources/org/jboss/seam/catalog.xml</catalog> -->
+<!--                             </catalogs> -->
+                            <validationSets>
+                                <validationSet>
+                                    <dir>src/test/resources/WEB-INF/</dir>
+                                    <includes>
+                                        <include>components.xml</include>
+                                        <include>components-jbpm.xml</include>
+                                        <include>ejb-jar.xml</include>
+                                        <include>faces-config.xml</include>
+                                    </includes>
+                                    <validating>true</validating>
+                                </validationSet>
+                                <validationSet>
+                                    <dir>src/test/resources</dir>
+                                    <includes>
+                                        <include>*.jpdl.xml</include>
+                                    </includes>
+                                    <validating>true</validating>
+                                </validationSet>
+                                <validationSet>
+                                    <dir>src/test/resources/META-INF/</dir>
+                                    <includes>
+                                        <include>persistence.xml</include>
+                                    </includes>
+                                    <validating>true</validating>
+                                </validationSet>
+                            </validationSets>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>		
 	</profiles>
 </project>

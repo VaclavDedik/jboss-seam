@@ -70,8 +70,8 @@ And \= for unordered lists:
 
 We use HTML for <a href="http://www.hibernate.org/">links</a>.
 
-Or we can use [a special syntax=>http://jboss.com/products/seam] to
-link to [=>http://jboss.com/products/seam].
+Or we can use [a special syntax=>http://jboss.org/schema/seam] to
+link to [=>http://jboss.org/schema/seam].
 
 And for images: <img src="http://www.hibernate.org/tpl/jboss/img/01_oben_logo.gif"/>
 
@@ -100,5 +100,5 @@ Oh, and one last thing:
 = with 2 items
 
 and <i>some HTML</i> formatting and `some code` and
-and <a href="http://jboss.com/products/seam"><i>yet 
+and <a href="http://jboss.org/schema/seam"><i>yet 
 another</i> link</a>."

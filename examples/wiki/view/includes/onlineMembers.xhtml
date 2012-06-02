@@ -4,7 +4,7 @@
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:f="http://java.sun.com/jsf/core"
         xmlns:c="http://java.sun.com/jstl/core"
-        xmlns:s="http://jboss.com/products/seam/taglib">
+        xmlns:s="http://jboss.org/schema/seam/taglib">
 
     <h:panelGrid columns="#{not empty membersPerRow ? membersPerRow : '8'}" 
                  rendered="#{not empty wikiHttpSessionManager.onlineMembers}"

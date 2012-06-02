@@ -75,7 +75,7 @@ import org.jboss.seam.util.XML;
  */
 public class Initialization
 {
-   public static final String COMPONENT_NAMESPACE = "http://jboss.com/products/seam/components";
+   public static final String COMPONENT_NAMESPACE = "http://jboss.org/schema/seam/components";
    public static final String COMPONENT_SUFFIX = ".component";
    public static final String DUPLICATE_JARS_PATTERNS = "org.jboss.seam.init.duplicateJarsPatterns";
    

@@ -1,13 +1,13 @@
-<components xmlns="http://jboss.com/products/seam/components" 
-            xmlns:core="http://jboss.com/products/seam/core"
-            xmlns:drools="http://jboss.com/products/seam/drools"
-            xmlns:bpm="http://jboss.com/products/seam/bpm"
+<components xmlns="http://jboss.org/schema/seam/components" 
+            xmlns:core="http://jboss.org/schema/seam/core"
+            xmlns:drools="http://jboss.org/schema/seam/drools"
+            xmlns:bpm="http://jboss.org/schema/seam/bpm"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation=
-                "http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.3.xsd 
-                 http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.3.xsd 
-                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.3.xsd 
-                 http://jboss.com/products/seam/bpm http://jboss.com/products/seam/bpm-2.3.xsd">
+                "http://jboss.org/schema/seam/drools http://jboss.org/schema/seam/drools-2.3.xsd 
+                 http://jboss.org/schema/seam/core http://jboss.org/schema/seam/core-2.3.xsd 
+                 http://jboss.org/schema/seam/components http://jboss.org/schema/seam/components-2.3.xsd 
+                 http://jboss.org/schema/seam/bpm http://jboss.org/schema/seam/bpm-2.3.xsd">
             
     <drools:rule-base name="ruleBase" rule-files="numberguess.drl"/>
     <!-- use this in order to load from decision table instead -->        

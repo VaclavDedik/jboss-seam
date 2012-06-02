@@ -185,13 +185,13 @@ Any ideas?
             A link may be created using the following syntax:
         </para>
 
-        <programlisting><![CDATA[Go to the Seam website at [=>http://jboss.com/products/seam].]]></programlisting>
+        <programlisting><![CDATA[Go to the Seam website at [=>http://jboss.org/schema/seam].]]></programlisting>
         
         <para>
             Or, if you want to specify the text of the link:
         </para>
 
-        <programlisting><![CDATA[Go to [the Seam website=>http://jboss.com/products/seam].]]></programlisting>
+        <programlisting><![CDATA[Go to [the Seam website=>http://jboss.org/schema/seam].]]></programlisting>
         
         <para>
             For advanced users, it is even possible to customize the Seam Text parser to understand
@@ -208,7 +208,7 @@ Any ideas?
             to be safe from cross-site scripting attacks). This is useful for creating links:
         </para>
         
-        <programlisting role="XHTML"><![CDATA[You might want to link to <a href="http://jboss.com/products/seam">something
+        <programlisting role="XHTML"><![CDATA[You might want to link to <a href="http://jboss.org/schema/seam">something
 cool</a>, or even include an image: <img src="/logo.jpg"/>]]></programlisting>
         
         <para>

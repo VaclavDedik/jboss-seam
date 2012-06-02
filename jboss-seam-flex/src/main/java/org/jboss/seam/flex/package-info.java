@@ -1,4 +1,4 @@
-@Namespace(value="http://jboss.com/products/seam/flex", prefix="org.jboss.seam.flex")
+@Namespace(value="http://jboss.org/schema/seam/flex", prefix="org.jboss.seam.flex")
 @AutoCreate
 package org.jboss.seam.flex;
 

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-    targetNamespace="http://jboss.com/products/seam/guice" xmlns:guice="http://jboss.com/products/seam/guice"
-    xmlns:components="http://jboss.com/products/seam/components" attributeFormDefault="unqualified">
+    targetNamespace="http://jboss.org/schema/seam/guice" xmlns:guice="http://jboss.org/schema/seam/guice"
+    xmlns:components="http://jboss.org/schema/seam/components" attributeFormDefault="unqualified">
 
-    <xs:import namespace="http://jboss.com/products/seam/components"
-        schemaLocation="http://jboss.com/products/seam/components-2.3.xsd"/>
+    <xs:import namespace="http://jboss.org/schema/seam/components"
+        schemaLocation="http://jboss.org/schema/seam/components-2.3.xsd"/>
 
     <xs:element name="init">
         <xs:annotation>

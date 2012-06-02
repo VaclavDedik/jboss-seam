@@ -1,7 +1,7 @@
 /**
  * Seam components for sending email.
  */
-@Namespace(value="http://jboss.com/products/seam/mail",prefix="org.jboss.seam.mail")
+@Namespace(value="http://jboss.org/schema/seam/mail",prefix="org.jboss.seam.mail")
 @AutoCreate
 package org.jboss.seam.mail;
 

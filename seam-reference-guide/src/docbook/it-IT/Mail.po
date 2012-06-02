@@ -60,7 +60,7 @@ msgstr "Non occorre imparare un nuovo linguaggio di template per usare Seam Mail
 #, no-c-format
 msgid ""
 "<![CDATA[<m:message xmlns=\"http://www.w3.org/1999/xhtml\"\n"
-"    xmlns:m=\"http://jboss.com/products/seam/mail\"\n"
+"    xmlns:m=\"http://jboss.org/schema/seam/mail\"\n"
 "    xmlns:h=\"http://java.sun.com/jsf/html\">\n"
 "  \n"
 "    <m:from name=\"Peter\" address=\"peter@example.com\" />\n"
@@ -78,7 +78,7 @@ msgid ""
 "</m:message>]]>"
 msgstr ""
 "<![CDATA[<m:message xmlns=\"http://www.w3.org/1999/xhtml\"\n"
-"    xmlns:m=\"http://jboss.com/products/seam/mail\"\n"
+"    xmlns:m=\"http://jboss.org/schema/seam/mail\"\n"
 "    xmlns:h=\"http://java.sun.com/jsf/html\">\n"
 "  \n"
 "    <m:from name=\"Peter\" address=\"peter@example.com\" />\n"
@@ -507,11 +507,11 @@ msgstr "A volte si vogliono aggiungere altre intestazioni alla mail. Seam fornis
 #: Mail.xml:242
 #, no-c-format
 msgid ""
-"<![CDATA[<m:message xmlns:m=\"http://jboss.com/products/seam/mail\"\n"
+"<![CDATA[<m:message xmlns:m=\"http://jboss.org/schema/seam/mail\"\n"
 "    importance=\"low\"\n"
 "    requestReadReceipt=\"true\"/>]]>"
 msgstr ""
-"<![CDATA[<m:message xmlns:m=\"http://jboss.com/products/seam/mail\"\n"
+"<![CDATA[<m:message xmlns:m=\"http://jboss.org/schema/seam/mail\"\n"
 "    importance=\"low\"\n"
 "    requestReadReceipt=\"true\"/>]]>"
 
@@ -667,17 +667,17 @@ msgstr "<literal>deploy/mail-service.xml</literal> di JBoss AS configura una ses
 #: Mail.xml:344
 #, no-c-format
 msgid ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
-"    xmlns:core=\"http://jboss.com/products/seam/core\"\n"
-"    xmlns:mail=\"http://jboss.com/products/seam/mail\">\n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\"\n"
+"    xmlns:core=\"http://jboss.org/schema/seam/core\"\n"
+"    xmlns:mail=\"http://jboss.org/schema/seam/mail\">\n"
 "        \n"
 "    <mail:mail-session session-jndi-name=\"java:/Mail\"/>\n"
 "    \n"
 "</components>]]>"
 msgstr ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
-"    xmlns:core=\"http://jboss.com/products/seam/core\"\n"
-"    xmlns:mail=\"http://jboss.com/products/seam/mail\">\n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\"\n"
+"    xmlns:core=\"http://jboss.org/schema/seam/core\"\n"
+"    xmlns:mail=\"http://jboss.org/schema/seam/mail\">\n"
 "        \n"
 "    <mail:mail-session session-jndi-name=\"java:/Mail\"/>\n"
 "    \n"
@@ -705,17 +705,17 @@ msgstr "Una sessione mail può essere configurata via <literal>components.xml</l
 #: Mail.xml:362
 #, no-c-format
 msgid ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
-"    xmlns:core=\"http://jboss.com/products/seam/core\"\n"
-"    xmlns:mail=\"http://jboss.com/products/seam/mail\">\n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\"\n"
+"    xmlns:core=\"http://jboss.org/schema/seam/core\"\n"
+"    xmlns:mail=\"http://jboss.org/schema/seam/mail\">\n"
 "        \n"
 "    <mail:mail-session host=\"smtp.example.com\"/>\n"
 "    \n"
 "</components>]]>"
 msgstr ""
-"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
-"    xmlns:core=\"http://jboss.com/products/seam/core\"\n"
-"    xmlns:mail=\"http://jboss.com/products/seam/mail\">\n"
+"<![CDATA[<components xmlns=\"http://jboss.org/schema/seam/components\"\n"
+"    xmlns:core=\"http://jboss.org/schema/seam/core\"\n"
+"    xmlns:mail=\"http://jboss.org/schema/seam/mail\">\n"
 "        \n"
 "    <mail:mail-session host=\"smtp.example.com\"/>\n"
 "    \n"
@@ -748,8 +748,8 @@ msgstr "Tag"
 #. Tag: para
 #: Mail.xml:395
 #, no-c-format
-msgid "Emails are generated using tags in the <literal>http://jboss.com/products/seam/mail</literal> namespace. Documents should always have the <literal>message</literal> tag at the root of the message. The message tag prepares Seam to generate an email."
-msgstr "Le email vengono generate usando tag nel namespace <literal>http://jboss.com/products/seam/mail</literal>. I documenti dovrebbero sempre avere il tag <literal>message</literal> alla radice del messaggio. Il tag message prepara Seam a generare una email."
+msgid "Emails are generated using tags in the <literal>http://jboss.org/schema/seam/mail</literal> namespace. Documents should always have the <literal>message</literal> tag at the root of the message. The message tag prepares Seam to generate an email."
+msgstr "Le email vengono generate usando tag nel namespace <literal>http://jboss.org/schema/seam/mail</literal>. I documenti dovrebbero sempre avere il tag <literal>message</literal> alla radice del messaggio. Il tag message prepara Seam a generare una email."
 
 #. Tag: para
 #: Mail.xml:402

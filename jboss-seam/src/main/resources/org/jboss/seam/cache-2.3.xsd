@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
    elementFormDefault="qualified"
-   targetNamespace="http://jboss.com/products/seam/cache"
-   xmlns:cache="http://jboss.com/products/seam/cache"
-   xmlns:components="http://jboss.com/products/seam/components"
+   targetNamespace="http://jboss.org/schema/seam/cache"
+   xmlns:cache="http://jboss.org/schema/seam/cache"
+   xmlns:components="http://jboss.org/schema/seam/components"
    attributeFormDefault="unqualified">
-   <xs:import namespace="http://jboss.com/products/seam/components"
+   <xs:import namespace="http://jboss.org/schema/seam/components"
       schemaLocation="components-2.3.xsd" />
    
    <xs:element name="eh-cache-provider">

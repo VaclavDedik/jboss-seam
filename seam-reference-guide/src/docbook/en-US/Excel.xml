@@ -53,7 +53,7 @@
 	   <para>
          and register the excel namespace in the components tag with
 	   </para>
-      <programlisting role="XML"><![CDATA[xmlns:excel="http://jboss.com/products/seam/excel"]]></programlisting>
+      <programlisting role="XML"><![CDATA[xmlns:excel="http://jboss.org/schema/seam/excel"]]></programlisting>
 	   <para>
          Then set the UIWorkbook type to <literal>myExcelExporter</literal> and your 
          own exporter will be used. Default is "jxl", but support for CSV has also been 
@@ -81,7 +81,7 @@
       </para>
       <programlisting role="XML">
          <![CDATA[
-            <e:workbook xmlns:e="http://jboss.com/products/seam/excel">
+            <e:workbook xmlns:e="http://jboss.org/schema/seam/excel">
                <e:worksheet>
                   <e:cell column="0" row="0" value="Hello world!"/>
                </e:worksheet>
@@ -93,7 +93,7 @@
       </para>
       <programlisting role="XML">
          <![CDATA[
-            <e:workbook xmlns:e="http://jboss.com/products/seam/excel">
+            <e:workbook xmlns:e="http://jboss.org/schema/seam/excel">
                <e:worksheet value="#{data}" var="item">
                   <e:column>
                      <e:cell value="#{item.value}"/>

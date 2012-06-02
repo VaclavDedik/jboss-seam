@@ -20,7 +20,7 @@
       </para>
 
       <programlisting role="XHTML"><![CDATA[<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:s="http://jboss.com/products/seam/taglib">]]></programlisting>
+      xmlns:s="http://jboss.org/schema/seam/taglib">]]></programlisting>
 
       <para>
          The ui example demonstrates the use of a number of these tags.
@@ -352,8 +352,8 @@
                called <literal>entityManager</literal>, then you need to set it 
                in components.xml:
             </para>
-            <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
-            xmlns:ui="http://jboss.com/products/seam/ui">
+            <programlisting><![CDATA[<components xmlns="http://jboss.org/schema/seam/components"
+            xmlns:ui="http://jboss.org/schema/seam/ui">
  
    <ui:jpa-entity-loader entity-manager="#{em}" />]]></programlisting>
    
@@ -361,8 +361,8 @@
                If you are using a <emphasis>Managed Hibernate Session</emphasis>
                then you need to set it in components.xml:
             </para>
-            <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
-            xmlns:ui="http://jboss.com/products/seam/ui">
+            <programlisting><![CDATA[<components xmlns="http://jboss.org/schema/seam/components"
+            xmlns:ui="http://jboss.org/schema/seam/ui">
  
    <ui:hibernate-entity-loader />]]></programlisting>
    
@@ -372,8 +372,8 @@
                in components.xml:
             </para>
             
-            <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
-            xmlns:ui="http://jboss.com/products/seam/ui">
+            <programlisting><![CDATA[<components xmlns="http://jboss.org/schema/seam/components"
+            xmlns:ui="http://jboss.org/schema/seam/ui">
             
    <ui:hibernate-entity-loader session="#{hibernateSession}" />]]></programlisting>
    
@@ -385,8 +385,8 @@
                persistence operations:
             </para>
    
-            <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
-            xmlns:ui="http://jboss.com/products/seam/ui">
+            <programlisting><![CDATA[<components xmlns="http://jboss.org/schema/seam/components"
+            xmlns:ui="http://jboss.org/schema/seam/ui">
  
    <ui:entity-converter name="standardEntityConverter" entity-loader="#{standardEntityLoader}" />
             
@@ -690,7 +690,7 @@
    xmlns:ui="http://java.sun.com/jsf/facelets"
    xmlns:h="http://java.sun.com/jsf/html"
    xmlns:f="http://java.sun.com/jsf/core"
-   xmlns:s="http://jboss.com/products/seam/taglib">
+   xmlns:s="http://jboss.org/schema/seam/taglib">
                   
    <div>   
    
@@ -1272,7 +1272,7 @@
             <para><emphasis>Usage</emphasis></para>
 			<para>Here is an example on how to use the tag:</para>
             <programlisting role="XHTML"><![CDATA[<s:resource xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
 	data="#{resources.data}"
 	contentType="#{resources.contentType}"
 	fileName="#{resources.fileName}" />

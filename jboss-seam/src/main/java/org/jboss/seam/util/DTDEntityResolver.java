@@ -14,7 +14,7 @@ import org.xml.sax.InputSource;
 /**
  * An {@link EntityResolver} implementation which attempts to resolve
  * various systemId URLs to local classpath lookups<ol>
- * <li>Any systemId URL beginning with <tt>http://jboss.com/products/seam/</tt> is
+ * <li>Any systemId URL beginning with <tt>http://jboss.org/schema/seam/</tt> is
  * searched for as a classpath resource in the classloader which loaded the
  * Seam classes.</li>
  * <li>Any systemId URL using <tt>classpath</tt> as the scheme (i.e. starting
@@ -34,7 +34,7 @@ public class DTDEntityResolver implements EntityResolver, Serializable
 
     private static final LogProvider log = Logging.getLogProvider(DTDEntityResolver.class);
 
-    private static final String SEAM_NAMESPACE = "http://jboss.com/products/seam/";
+    private static final String SEAM_NAMESPACE = "http://jboss.org/schema/seam/";
     private static final String USER_NAMESPACE = "classpath://";
 
     public InputSource resolveEntity(String publicId, String systemId) 

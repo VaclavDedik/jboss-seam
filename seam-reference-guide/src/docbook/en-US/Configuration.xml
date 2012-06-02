@@ -186,8 +186,8 @@
                     adjusted by adding a <literal>&lt;web:exception-filter&gt;</literal> entry to
                         <literal>components.xml</literal>, as shown in this example: </para>
 
-                <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
-            xmlns:web="http://jboss.com/products/seam/web">
+                <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.org/schema/seam/components"
+            xmlns:web="http://jboss.org/schema/seam/web">
 
     <web:exception-filter url-pattern="*.seam"/>
 
@@ -340,8 +340,8 @@
                      adjusted by adding a <literal>&lt;web:logging-filter&gt;</literal> entry to
                      <literal>components.xml</literal>, as shown in this example: </para>
                  
-                <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
-            xmlns:web="http://jboss.com/products/seam/web">
+                <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.org/schema/seam/components"
+            xmlns:web="http://jboss.org/schema/seam/web">
     <web:logging-filter url-pattern="*.seam"/>
 </components>]]></programlisting>
 

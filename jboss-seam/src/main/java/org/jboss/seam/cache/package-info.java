@@ -1,7 +1,7 @@
 /**
  * A set of Seam components that provide caching
  */
-@Namespace(value="http://jboss.com/products/seam/cache", prefix="org.jboss.seam.cache")
+@Namespace(value="http://jboss.org/schema/seam/cache", prefix="org.jboss.seam.cache")
 @AutoCreate
 package org.jboss.seam.cache;
 

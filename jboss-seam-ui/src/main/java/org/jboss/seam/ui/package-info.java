@@ -2,7 +2,7 @@
  * Seam UI
  * 
  */
-@Namespace(value="http://jboss.com/products/seam/ui", prefix="org.jboss.seam.ui")
+@Namespace(value="http://jboss.org/schema/seam/ui", prefix="org.jboss.seam.ui")
 @AutoCreate
 package org.jboss.seam.ui;
 

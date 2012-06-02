@@ -4,7 +4,7 @@
         "http://java.sun.com/dtd/facelet-taglib_1_0.dtd">
 
 <facelet-taglib>
-    <namespace>http://jboss.com/products/seam/wiki</namespace>
+    <namespace>http://jboss.org/schema/seam/wiki</namespace>
 
     <function>
         <function-name>generateRandomNumber</function-name>

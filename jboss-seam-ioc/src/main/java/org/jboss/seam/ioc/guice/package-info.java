@@ -1,4 +1,4 @@
-@Namespace(value="http://jboss.com/products/seam/guice", prefix = "org.jboss.seam.ioc.guice")
+@Namespace(value="http://jboss.org/schema/seam/guice", prefix = "org.jboss.seam.ioc.guice")
 @AutoCreate
 package org.jboss.seam.ioc.guice;
 
