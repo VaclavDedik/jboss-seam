@@ -15,12 +15,12 @@
 
    <context-param>
       <param-name>org.richfaces.enableControlSkinning</param-name>
-      <param-value>disable</param-value>
+      <param-value>false</param-value>
    </context-param>
 
    <context-param>
       <param-name>org.richfaces.enableControlSkinningClasses</param-name>
-      <param-value>disable</param-value>
+      <param-value>false</param-value>
    </context-param>
 
    <!-- Change load strategy to DEFAULT to disable sending scripts/styles as packs -->
