@@ -3,7 +3,8 @@ commons-beanutils.jar
 core.jar
 drools-templates.jar
 drools-decisiontables.jar
-drools-compiler.jardrools-api.jar
+drools-compiler.jar
+drools-api.jar
 drools-core.jar
 groovy-all.jar
 jboss-el.jar
@@ -25,3 +26,4 @@ derby.jar
 mvel2.jar
 richfaces-components-api.jar
 richfaces-core-api.jar
+guava.jar

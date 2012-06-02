@@ -16,7 +16,6 @@ spring-tx.jar
 spring-web.jar
 spring-context.jar
 spring-expression.jar
-guice.jar
 jboss-seam-mail.jar
 jboss-seam-pdf.jar
 itext.jar
@@ -27,3 +26,8 @@ jboss-seam-ui.jar
 jboss-seam-jul.jar
 richfaces-components-ui.jar
 richfaces-core-impl.jar
+gwt-servlet.jar
+gwt-user.jar
+jboss-seam-remoting.jar
+sac.jar
+cssparser.jar
