@@ -335,6 +335,15 @@ public class HelloBean implements Hello {
     and displayed as UTC, unless a timezone is explicitly specified using
     <literal> &lt;f:convertDateTime&gt;</literal>. This is an extremely
     inconvenient default behavior.</para>
+    
+    <note>
+        <para>You can use application parameter to set up different default time zone for JSF 2 in <filename>web.xml</filename>.
+        <programlisting role="XML">&lt;context-param&gt;
+    &lt;param-name&gt;javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE&lt;/param-name&gt;
+    &lt;param-value>true&lt;/param-value&gt;
+    &lt;/context-param&gt;</programlisting>
+         </para>
+    </note>
 
     <para>Seam overrides this behavior, and defaults all dates and times to
     the Seam timezone. In addition, Seam provides the <literal>

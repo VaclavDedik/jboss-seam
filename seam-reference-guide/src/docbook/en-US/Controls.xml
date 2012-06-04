@@ -304,7 +304,7 @@
       <section>
          <title>Converters and Validators</title>
          
-         <section>
+<!--          <section>
             <title><literal>&lt;s:convertDateTime&gt;</literal></title>
             
             <para><emphasis>Description</emphasis></para>
@@ -318,11 +318,14 @@
    <s:convertDateTime type="both" dateStyle="full"/>
 </h:outputText>]]></programlisting>
    
+         <warning><para>This is not supported, use f:convertDateTime instead</para></warning>
          </section>
    
          <section>
             <title><literal>&lt;s:convertEntity&gt;</literal></title>
-   
+            
+            <warning><para>This is not supported, use <![CDATA[<f:converter converterId="your_converter" />]]> instead</para></warning>
+            
             <para><emphasis>Description</emphasis></para>
             <para>
                Assigns an entity converter to the current component. This is
@@ -491,7 +494,7 @@
 </h:outputText>]]></programlisting>
          </section>
          
-		 
+	 -->	 
          <section>
             <title><literal>&lt;s:validateEquality&gt;</literal></title>
             
@@ -835,7 +838,7 @@
       <section>
          <title>Seam Text</title>
          
-         <section>
+ <!--         <section>
             <title><literal>&lt;s:validateFormattedText&gt;</literal></title>
           
             <para><emphasis>Description</emphasis></para>
@@ -848,7 +851,7 @@
                None.
             </para>
          </section>
-         
+   -->       
          <section>
             <title><literal>&lt;s:formattedText&gt;</literal></title>
 
@@ -970,7 +973,8 @@
             <programlisting role="XHTML"><![CDATA[<h:selectOneRadio id="radioList"
                   layout="lineDirection"
                   value="#{newPayment.paymentFrequency}">
-   <s:convertEnum />
+   <f:converter converterId="org.jboss.seam.ui.EnumConverter" />
+   <f:converter id=""
    <s:enumItem enumValue="ONCE"         label="Only Once" />
    <s:enumItem enumValue="EVERY_MINUTE" label="Every Minute" />
    <s:enumItem enumValue="HOURLY"       label="Every Hour" />
