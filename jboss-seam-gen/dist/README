@@ -6,9 +6,7 @@ NAME
    generate source code. Ant is not required to be on your path to
    use this script.
    
-   JBoss AS must be installed to deploy the project. If you use EJB3
-   components, the JBoss server must have EJB 3 capabilities.
-   (JBoss AS 5.1 is strongly recommended)
+   JBoss AS must be installed to deploy the project (JBoss AS 7.1.1 is strongly recommended).
 
 SYNOPSIS
    seam COMMAND

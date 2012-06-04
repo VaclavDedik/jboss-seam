@@ -36,12 +36,12 @@ Maven repository settings
     - Clean your local maven repository
         - ex. "~/.m2"
         - <TODO document way to set local repo settings for clean build />
-    - Go to jboss-seam-parent and run "mvn clean verify -s ../build/settings.xml" with these changes
+    - Go to root and run "mvn clean verify -s ../build/settings.xml -Pall,distribution -Darquillian=jbossas-managed-7" with these changes
     - This should build, and test without a problem.
-  - Run "mvn dependency:tree -s ../build/settings.xml -DoutputFile=../dependency-report.txt"
+  - Run "mvn dependency:tree -s ../build/settings.xml -DoutputFile=../dependency-report.txt -DappendOutput=true"
     - Review for snapshot dependencies
 
-Staging Maven artifacts - UPDATE from tomboy note - TODO
+Staging Maven artifacts 
 ------------------------
 * Maven release procedure.
     - Run mvn deploy -DrepositoryId=jboss-releases-repository -Durl=https://repository.jboss.org/nexus/service/local/staging/deploy/maven2 -s settings-staging.xml    
@@ -111,44 +111,52 @@ Building and Checking Dist
         - Manually look over for any glaring differences or errors.
     - Delete "../tmp" if you wish
     
-* check that the following files/directories exist in the dist "ls -1"
-    bootstrap
+* check that the following files/directories exist in the distribution/target/*.zip or *.tar.gz "ls -1"    
     build
-    changelog.txt
-???    dependency-report.txt
+    clustering-howto.txt
+    copyright.txt
     doc
-    examples
     extras
+    changelog.txt
     lgpl.txt
     lib
     readme.txt
     seam
-    seam-gen
     seam.bat
+    seam-gen
     seam2migration.txt
     seam21migration.txt
-    src
+    seam23migration.txt
 
-* check that the following source directories exist in the dist "ls -1 src"
----------------------    TODO - rewrite --------------------------
-    debug
-    excel
-    gen
-    interop
-    ioc
-    mail
-    main
-    pdf
-    remoting
-    resteasy
-    rss
-    test
-    wicket
+* check that the following source directories exist in the distribution/target/jboss-seam-<version>-src.zip "ls -1"
+    bom
+    build
+    distribution
+    eclipse-code-formatter-profile.xml
+    examples-ee6
+    functional-tests
+    jboss-seam
+    jboss-seam-debug
+    jboss-seam-excel
+    jboss-seam-flex
+    jboss-seam-gen
+    jboss-seam-ioc
+    jboss-seam-jul
+    jboss-seam-mail
+    jboss-seam-pdf
+    jboss-seam-remoting
+    jboss-seam-resteasy
+    jboss-seam-rss
+    jboss-seam-ui
+    jboss-seam-wicket
+    pom.xml
+    release-process.txt
+    seam-integration-tests
+    seam-reference-guide
 
 * Archive reports
     - run these in the dist directory
         find . -name *.jar > ../releaselogs/jarlist.txt 
-???        find . -name *.sar > ../releaselogs/sarlist.txt
         find . -name *.war > ../releaselogs/warlist.txt
         find . -name *.ear > ../releaselogs/earlist.txt
         find . -name *.zip > ../releaselogs/ziplist.txt
@@ -158,12 +166,12 @@ Building and Checking Dist
         - <TODO: list expected items or provide listing in svn/>        
  
 * Built source verification, dependency report & test suite
-    - Clean our your local maven repository
+    - Clean your local maven repository
         - ex. "rm -Rf ~/.m2"
-        - <TODO document way to set local repo settings for clean build/>        
+        - take build/settings.xml and set <localRepository>/path/to/local/repo</localRepository> 
         
     ** Source verification **
-        - Go to jboss-seam-parent and run "mvn clean install -s ../build/settings.xml > ../releaselogs/x.x.x.XX.sourcebuild.txt"
+        - Go to root of checked out directory and run "mvn clean install -s ../build/settings.xml -Pall,distribution > ../releaselogs/x.x.x.XX.sourcebuild.txt"
         - diff the original and the built versions of the $DIST directories
             - only difference should be build related 
             - <TODO: list expected differences/>
@@ -172,8 +180,7 @@ Building and Checking Dist
             - Should be no differences except version of Maven and/or jdk versions
         
     ** Dependency report **
-        - "ant dependencyReport > ../releaselogs/x.x.x.XX.dependencybuild.txt"
-        - run "cp ./dependency-report.txt ../releaselogs"
+        - mvn dependency:tree -Pall -DoutputFile= ../releaselogs/x.x.x.XX.dependencybuild.txt -DappendOutput=true         
         - Review for snapshot dependencies
             - there should be none.
         - Compare with real jar versions from META-INF/MANIFEST.MF
@@ -183,8 +190,7 @@ Building and Checking Dist
         - "mvn clean verify > ../releaselogs/x.x.x.XX.testallreport.txt"
         - check ../releaselogs/x.x.x.XX.testallreport.txt
           - There should be no failures or errors.
-        - run "cp -R test-output ../releaselogs"
-        - run "cp -R test-report ../releaselogs"
+        - run "find . -type d -name surefire-reports -exec cp -R {} ../releaselogs \;"        
         
     ** Compare the original distribtion to the one used for the testing.
         - Review changes in thirdparty jars, directories, and files.
@@ -206,12 +212,14 @@ Example verification
 * For these examples verify the following:
     - readme.txt is accurate
     - mvn clean package -P<container-profile> - more details in example root
-    - mvn jboss:hard-deploy (while export JBOSS_HOME=<installation_path>)
-    - mvn clean verify
+    - mvn jboss-as:deploy (while export JBOSS_HOME=<installation_path>)
+    - mvn clean verify -Darquillian=jbossas-managed-7 
+    or
+    - mvn clean verify -Darquillian=jbossas-remote-7
 * Examples with "(tutorial)" are discussed in the reference guide tutorial.
     - document should be validated as well
     - including tomcat deployments
-* JBoss 5.1.0 examples
+* JBoss AS 7.1.1 examples
   - blog (tutorial)
   - booking (tutorial)
   - contactlist
@@ -240,26 +248,6 @@ Example verification
   - todo (tutorial)
   - ui
   - wicket (you should verify both buildtime instrumentation and runtime instrumentation)
-* Tomcat 6 examples 
-  - Note: use JBoss embedded unless specified differently
-  - blog (tutorial)
-  - booking (tutorial)
-  - dvdstore (tutorial)
-  - hibernate  (tutorial)
-  - hibernate  (tutorial) without embedded
-  - jpa 
-  - jpa without embedded
-  - messages (tutorial)
-  - numberguess (tutorial)
-  - registration (tutorial)
-  - seambay
-  - seampay
-  - todo (tutorial)
-* GlassFish v2.1 examples
-  - jee5
-  - jpa
-  - hibernate
-
 
 Functional tests of Seam examples
 ---------------------------------
@@ -268,7 +256,7 @@ at Hudson system which run the testsuites periodically.
 
 Set JBOSS_HOME or CATALINA_HOME environment property for automatic deployment of example for ftesting.
    
-* JBoss 5.1.0 examples
+* JBoss 7.1.1 examples
   The following examples are tested automatically:
 	
 	* blog (tutorial)
@@ -314,54 +302,22 @@ Set JBOSS_HOME or CATALINA_HOME environment property for automatic deployment of
    
   All automated tests are executed from src/test/ftest directory.
   	* To run the automated tests:
-	  mvn clean verify -Pjbossas51,ftest-jbossas
+	  mvn clean verify -Pftest-jbossas
 	* To test examples manually:
       cd <example_name>
 	  mvn clean package;
-      export JBOSS_HOME=<installation-path-to-jboss-as-5.1>
-      cd <example>-{ear,war} jboss:hard-deploy 
+      export JBOSS_HOME=<installation-path-to-jboss-as-7.1.1>
+      cd <example>-{ear,war} jboss-as:deploy 
 	  ...test manually
-	  mvn jboss:hard-undeploy
-        
-* Tomcat 6 examples (with JBoss embedded)
-  The following examples are tested (automatically):
-	
-	* blog (tutorial)
-	* booking (tutorial)
-	* dvdstore (tutorial)
-	* hibernate (tutorial)
-	* jpa
-	* messages (tutorial)
-	* numberguess (tutorial)
-	* registration (tutorial)
-	* seambay
-	* seampay
-	* todo (tutorial)
-	 
-* Tomcat 6 examples (without JBoss embedded)
-  The following examples are tested (automatically):
-	
-	* hibernate (tutorial)
-	* jpa
-	 
-All automated tests are executed from examples directory.
-* To run the automated tests:
-  mvn clean verify -Ptomcat,ftest-tomcat
-
-Most of the examples can be tested automatically also with JBoss 4.x. However there are exceptions 
-(the newest functional test were tested only on JBoss 5.x and later). The automated test can
-be executed with JBoss 4.x if there is defined jbossas42 <example_name>/pom.xml
-
-	* To run the automated tests with JBoss 4.x:
-	  mvn clean verify -Pjbossas42,ftest-jbossas
+	  mvn jboss-as:undeploy
  
-Testing of Cluster - TODO update for 2.3.0 
+Testing of Cluster - TODO update
 ------------------  
 Currently testing of cluster environment is done through one automated test of booking example.
 The main goal of this test is to simulate recovery from breakdown. 
 This test should be executed autonomously (not as a part of test bundle).
 To run the test follow these steps:
-1) Specify jboss5.home property in src/test/ftest/ftest.properties to point to your JBoss server folder
+1) Specify jboss.home property in src/test/ftest/ftest.properties to point to your JBoss server folder
 2) Create second "all" configuration of your JBossAS instance (name it for instance "all2")
 3) Start first (master) instance of JBossAS: 
 	JBOSS_HOME/bin/run.sh -c all -g DocsPartition -u 239.255.101.101 -b localhost -Djboss.messaging.ServerPeerID=1 
@@ -372,13 +328,13 @@ To run the test follow these steps:
 5) Go to src/test/ftest directory and run:
 	ant test -Dtest=booking -Dcluster=true
 
-** A booking example is configured to run in cluster only on JBoss server. **
+** A booking example is configured to run in cluster only on JBoss AS. **
 
   
-JBDS and seam-gen verification - TODO update for 2.3.0
+JBDS and seam-gen verification
 ------------------------------
 These tests use a stable version of MySQL and the latest release of JBDS.  Be sure
-to use the latest stable release of tools (2.1.1.GA at the time of writing), and
+to use the latest stable release of tools (3.3.0.GA at the time of writing), and
 to also apply the JBoss tools provided WTP patch.  <TODO: update is version changes
 behavior>
 
@@ -407,7 +363,7 @@ CREATE TABLE `Vehicle` (
        this you should first remove/rename your maven repository (document 
        option to set this as a property).  Then either disable networking, or 
        lock down a firewall on the test machine so that no requests are allowed 
-       out.  Then test the various seam-gen targets. JBoss-as may not start in 
+       out.  Then test the various seam-gen targets. JBoss AS may not start in 
        the configuration so testing the live app may need to be done after
        executing the various seam-gen targets.  This does not have to be
        done for each test below but the different targets should be verified./>       
@@ -424,15 +380,6 @@ CREATE TABLE `Vehicle` (
       - test both generated pages 
   - run seam test 
   - run "ant validate" in seam-gen project directory
-* seam-gen IceFaces EAR test 
-  - run seam  with setup create-project and explode
-      - during setup choose to use icefaces
-      - during setup choose an EAR project    
-      - verify basic functionality
-   - run seam generate-entities restart    
-      - test the basic functionality of the app (CRUD on each table)
-   - run seam test
-   - run "ant validate" in seam-gen project directory
 * seam-gen WAR 
   - run seam with setup create-project and explode
       - during setup choose a WAR project
@@ -465,7 +412,7 @@ CREATE TABLE `Vehicle` (
 * JBDS - test a subset of the examples with testNG plugin.
     - See "/readme.txt" and "/examples/readme.txt" for details. 
     
-Portlet Bridge Verification - TODO update for 2.3.0
+Portlet Bridge Verification
 --------------------------
 * Use the latest released version of the JBoss Portlet Bridge (PBR) and GateIn.
   - for PBR source distribution is preferred
@@ -524,16 +471,15 @@ Final Build + Upload
 --------------
 * When ready for the release
     - checkout a clean version of the tag in a new/clean directory.
-???    - run "mvn clean install -Pdistribution -Dbuild.translations=true > ../releaselogs/x.x.x.XX.finaldistbuild.txt"
+    - run "mvn clean install -Pall,distribution -Dbuild.translations=true > ../releaselogs/x.x.x.XX.finaldistbuild.txt"
     - diff this to the one used for testing
 
 * Follow instructions for sourceforge upload
     - Create md5 files for the ".zip" and ".tar.gz" files
-        - <QUESTION: do we want to create md5 files for the archives/>
+    - Create md5 files for the archives
     - upload the .zip and .tar.gz and md5 files
-        - FTP to your SF users "/incoming" directory
     
-* Login to sourceforge.org and go to jboss.org project
+* Login to sourceforge.org and go to http://sourceforge.net/projects/jboss/ project
     - Under admin tab click on "file releases"
     - Add a release to the "JBoss Seam" project
     - Set "Status" to "hidden"
@@ -543,7 +489,7 @@ Final Build + Upload
     - Keep everything hidden for now.
 
 * Upload the "seam-reference-guide/target/*.war" file content to "docs.jboss.com/seam/<NEW VERSION>" 
-    - Note: this can take a long time.
+    - Note: you need to setup SSH key for that- contact jboss.org team if you didn't have it
     
 * Create draft of the documentation and download pages on seamframework.org
     - documentation points to "docs.jboss.com"
@@ -574,12 +520,12 @@ Final Coordination and Announcement
     - jboss.org news
     - TheServerSide.com
 
-Update Demos
+Update Demos (out of date - probably create openshift deployment)
 ------------
 * This step is not needed for every point release:
 * Upload the booking and dvdstore examples to demo.jboss.com
 * <TODO more information on what is needed>
-* <QUESTION: is this really a part of the process or is it out of date/>
+
 
 Notes
 -----
