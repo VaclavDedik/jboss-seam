@@ -52,15 +52,6 @@
         </includes>
       </fileSet>
       <fileSet>
-      	<directory>../extras</directory>
-      	<outputDirectory>extras</outputDirectory>
-      	<includes>
-      		<include>mail-ra.rar</include>
-      		<include>jsUnit/**</include>
-      		<include>readme.txt</include>
-      	</includes>
-      </fileSet>
-      <fileSet>
         <directory>../jboss-seam/target</directory>
         <outputDirectory>lib/interop</outputDirectory>
         <includes>
