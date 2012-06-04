@@ -14,7 +14,40 @@
 
     <name>Seam 2 EE 6 examples</name>
     <description>Examples for Seam 2 Framework in Java EE6 environment</description>
+    
+    <properties>
+        <!-- Excluded TestNG groups (ex: slow annotated tests won't run during 
+            the test phase) -->
+        <tests.excludedGroups>slow</tests.excludedGroups>
+        <guava.version>12.0</guava.version>
+        <richfaces.version>4.2.2.Final</richfaces.version>
+        <slf4j.version>1.6.1</slf4j.version>
 
+        <!-- dependencies for functional tests -->
+        <ant.junit.version>1.6.2</ant.junit.version>
+        <ftest.version.discriminator/>
+        <selenium.browser>*firefoxproxy</selenium.browser>
+        <selenium.browser.url>http://localhost:8080</selenium.browser.url>
+        <selenium.browser.cluster.url>http://localhost:8180</selenium.browser.cluster.url>
+        <selenium.server.port>14444</selenium.server.port>
+        <selenium.server.host>localhost</selenium.server.host>
+        <selenium.speed>0</selenium.speed>
+        <selenium.timeout>30000</selenium.timeout>
+        <selenium.debug>false</selenium.debug>
+        <selenium.log.dir>${project.build.directory}/ftest-logs</selenium.log.dir>
+        <selenium.output.dir>${project.build.directory}/ftest-output</selenium.output.dir>
+        <application.deploy.timeout>300</application.deploy.timeout>
+        <browserSessionReuse>true</browserSessionReuse>
+        <ftest.resources.dir>src/test/resources-ftest</ftest.resources.dir>
+        <context.host>localhost</context.host>
+        <example.context.path>/${project.build.finalName}/</example.context.path>
+        <jboss.master.configuration>${env.JBOSS_HOME}/server/all</jboss.master.configuration>
+        <jboss.home>${env.JBOSS_HOME}</jboss.home>
+        <jboss.domain>default</jboss.domain>
+        <catalina.home>${env.CATALINA_HOME}</catalina.home>
+        <xml.namespace.aware>false</xml.namespace.aware>
+    </properties>
+    
     <modules>
         <module>blog</module>
         <module>booking</module>
@@ -53,12 +86,6 @@
         <module>ui</module>
         <module>wicket</module>
     </modules>
-
-
-    <properties>
-       <guava.version>12.0</guava.version>
-       <richfaces.version>4.2.2.Final</richfaces.version>
-    </properties>
 
     <build>
         <pluginManagement>
@@ -1075,36 +1102,5 @@
         </profile>          
     </profiles>
 
-    <properties>
-        <!-- Excluded TestNG groups (ex: slow annotated tests won't run during 
-            the test phase) -->
-        <tests.excludedGroups>slow</tests.excludedGroups>
-        <richfaces.version>4.2.2.Final</richfaces.version>
-        <slf4j.version>1.6.1</slf4j.version>
-
-        <!-- dependencies for functional tests -->
-        <ant.junit.version>1.6.2</ant.junit.version>
-        <ftest.version.discriminator/>
-        <selenium.browser>*firefoxproxy</selenium.browser>
-        <selenium.browser.url>http://localhost:8080</selenium.browser.url>
-        <selenium.browser.cluster.url>http://localhost:8180</selenium.browser.cluster.url>
-        <selenium.server.port>14444</selenium.server.port>
-        <selenium.server.host>localhost</selenium.server.host>
-        <selenium.speed>0</selenium.speed>
-        <selenium.timeout>30000</selenium.timeout>
-        <selenium.debug>false</selenium.debug>
-        <selenium.log.dir>${project.build.directory}/ftest-logs</selenium.log.dir>
-        <selenium.output.dir>${project.build.directory}/ftest-output</selenium.output.dir>
-        <application.deploy.timeout>300</application.deploy.timeout>
-        <browserSessionReuse>true</browserSessionReuse>
-        <ftest.resources.dir>src/test/resources-ftest</ftest.resources.dir>
-        <context.host>localhost</context.host>
-        <example.context.path>/${project.build.finalName}/</example.context.path>
-        <jboss.master.configuration>${env.JBOSS_HOME}/server/all</jboss.master.configuration>
-        <jboss.home>${env.JBOSS_HOME}</jboss.home>
-        <jboss.domain>default</jboss.domain>
-        <catalina.home>${env.CATALINA_HOME}</catalina.home>
-        <xml.namespace.aware>false</xml.namespace.aware>
-    </properties>
 </project>
 
