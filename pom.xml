@@ -49,7 +49,6 @@
 		<version.drools>5.1.1</version.drools>
 		<version.testng>5.14.10</version.testng>
 		<version.resteasy>2.0.1.GA</version.resteasy>
-		<version.jbossembedded>beta3.SP15</version.jbossembedded>
 		<version.jbossas7>7.1.1.Final</version.jbossas7>
 		<version.emma>2.0.5312</version.emma>
 		<version.jsf2>2.1.7</version.jsf2>
