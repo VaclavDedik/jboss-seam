@@ -974,7 +974,6 @@
                   layout="lineDirection"
                   value="#{newPayment.paymentFrequency}">
    <f:converter converterId="org.jboss.seam.ui.EnumConverter" />
-   <f:converter id=""
    <s:enumItem enumValue="ONCE"         label="Only Once" />
    <s:enumItem enumValue="EVERY_MINUTE" label="Every Minute" />
    <s:enumItem enumValue="HOURLY"       label="Every Hour" />
