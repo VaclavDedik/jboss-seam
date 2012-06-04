@@ -39,15 +39,15 @@
     <#assign padding = ""?left_pad(indent)/>
     <#if isDate(property)>
 ${padding}<h:outputText value="${expression}">
-${padding}    <s:convertDateTime type="date" dateStyle="short"/>
+${padding}    <f:convertDateTime type="date" dateStyle="short"/>
 ${padding}</h:outputText>
     <#elseif isTime(property)>
 ${padding}<h:outputText value="${expression}">
-${padding}    <s:convertDateTime type="time"/>
+${padding}    <f:convertDateTime type="time"/>
 ${padding}</h:outputText>
     <#elseif isTimestamp(property)>
 ${padding}<h:outputText value="${expression}">
-${padding}    <s:convertDateTime type="both" dateStyle="short"/>
+${padding}    <f:convertDateTime type="both" dateStyle="short"/>
 ${padding}</h:outputText>
     <#elseif isBigDecimal(property)>
 ${padding}<h:outputText value="${expression}">
