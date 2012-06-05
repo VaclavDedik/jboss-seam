@@ -492,10 +492,10 @@
 	</build>
 
 	<modules>
-        <module>bom</module>
-        <module>jboss-seam</module>
-	    <module>jboss-seam-ui</module>
-	    <module>jboss-seam-debug</module>
+      <module>bom</module>
+      <module>jboss-seam</module>
+	   <module>jboss-seam-ui</module>
+	   <module>jboss-seam-debug</module>
 		<module>jboss-seam-gen</module>
 		<module>jboss-seam-excel</module>
 		<module>jboss-seam-flex</module>
@@ -507,7 +507,8 @@
 		<module>jboss-seam-wicket</module>
 		<module>jboss-seam-ioc</module>
 		<module>jboss-seam-jul</module>
-        <module>seam-integration-tests</module>             
+      <module>functional-tests</module>
+      <module>seam-integration-tests</module>             
 	</modules>
 	
 	<profiles>
@@ -522,7 +523,6 @@
            <id>all</id>
            <modules>
                <module>seam-reference-guide</module>
-               <module>functional-tests</module>
                <module>examples-ee6</module>
                <module>distribution</module>
            </modules>
