@@ -67,9 +67,7 @@
         <property name="ejbJndiPattern" value="${project.name}/#{ejbName}/local"/>
         <property name="seamBootstrapsPu" value="false"/>
         <property name="seamEmfRef" value="#{null}"/>
-        <condition property="puJndiName" value="java:comp/env/${project.name}/pu" else="java:/${project.name}EntityManagerFactory">
-            <available file="${jboss.home}/lib/jboss-vfs.jar"/> <!-- JBoss AS >= 5.0 -->
-        </condition>
+        <property name="puJndiName" value="java:/${project.name}EntityManagerFactory"/>
 
         <filterset id="persistence">
             <filter token="transactionManagerLookupClass" value="${transactionManagerLookupClass}"/>
