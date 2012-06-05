@@ -43,7 +43,7 @@
         <version.junit>4.8.2</version.junit>
         <version.testng>5.14.10</version.testng>
         <version.richfaces>4.2.2.Final</version.richfaces>
-        <version.arquillian_core>1.0.0.Final</version.arquillian_core>
+        <version.arquillian_core>1.0.1.Final</version.arquillian_core>
 
 
 		<!-- ***************** -->
