@@ -30,10 +30,6 @@
             <type>ejb</type>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>org.apache.myfaces.trinidad</groupId>
-            <artifactId>trinidad-api</artifactId>
-        </dependency>      
     </dependencies>
 
     <build>

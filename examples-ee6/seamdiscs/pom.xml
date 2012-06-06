@@ -19,7 +19,7 @@
         <module>seamdiscs-ear</module>
         <module>seamdiscs-ejb</module>
         <module>seamdiscs-web</module>
-<!--         <module>seamdiscs-tests</module> -->
+        <module>seamdiscs-tests</module>
     </modules>
     
     <dependencyManagement>

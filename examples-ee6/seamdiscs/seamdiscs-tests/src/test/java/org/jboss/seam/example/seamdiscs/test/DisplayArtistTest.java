@@ -14,17 +14,39 @@ import javax.faces.model.DataModel;
 
 import org.apache.myfaces.trinidad.model.CollectionModel;
 import org.apache.myfaces.trinidad.model.SortCriterion;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.example.seamdiscs.model.Artist;
 import org.jboss.seam.example.seamdiscs.model.Band;
-import org.jboss.seam.mock.DBUnitSeamTest;
-import org.testng.annotations.Test;
+import org.jboss.seam.mock.DBJUnitSeamTest;
+import org.jboss.seam.trinidad.SeamCollectionModel;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.runner.RunWith;
+import org.junit.Test;
 
-
-public class DisplayArtistTest extends DBUnitSeamTest
+@RunWith(Arquillian.class)
+public class DisplayArtistTest extends DBJUnitSeamTest
 {
+    @Deployment(name="DisplayArtistTest")
+    @OverProtocol("Servlet 3.0")
+    public static Archive<?> createDeployment()
+    {
+        EnterpriseArchive er = Deployments.seamdiscsDeployment();
+        WebArchive web = er.getAsType(WebArchive.class, "seamdiscs-web.war");
+        web.addClasses(DisplayArtistTest.class);
+
+        return er;
+    }
     
     @Override
     protected void prepareDBUnitOperations() {
+       
+        setDatabase("HSQL");
+        setDatasourceJndiName("java:/jboss/seamdiscsDatasource");
+       
         beforeTestOperations.add(
                 new DataSetOperation("org/jboss/seam/example/seamdiscs/test/BaseData.xml")
         );
@@ -123,6 +145,7 @@ public class DisplayArtistTest extends DBUnitSeamTest
             protected void renderResponse() throws Exception 
             {
                 Object artists = getValue("#{artists.dataModel}");
+                
                 assert artists instanceof CollectionModel;
                 CollectionModel collectionModel = (CollectionModel) artists;
                 

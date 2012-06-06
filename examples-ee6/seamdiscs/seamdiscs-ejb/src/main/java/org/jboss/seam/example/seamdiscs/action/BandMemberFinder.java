@@ -14,7 +14,7 @@ public class BandMemberFinder extends EntityController
    @Transactional
    public List<BandMember> getBandMembers(Object name)
    {
-      return getEntityManager().createQuery("select bm from BandMember bm where lower(bm.name) like lower(:name + '%')").setParameter("name", name).getResultList();
+      return getEntityManager().createQuery("select bm from BandMember bm where lower(bm.name) like lower(:name || '%')").setParameter("name", name).getResultList();
    }
    
 }

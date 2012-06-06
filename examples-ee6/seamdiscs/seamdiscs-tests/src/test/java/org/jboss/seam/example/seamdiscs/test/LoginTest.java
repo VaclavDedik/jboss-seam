@@ -5,17 +5,38 @@ import static org.jboss.seam.example.seamdiscs.test.TestStrings.USERNAME;
 import static org.jboss.seam.example.seamdiscs.test.TestStrings.WRONG_PASSWORD;
 import static org.jboss.seam.example.seamdiscs.test.TestStrings.WRONG_USERNAME;
 
-import org.jboss.seam.mock.DBUnitSeamTest;
-import org.testng.annotations.Test;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.seam.mock.DBJUnitSeamTest;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.runner.RunWith;
+import org.junit.Test;
 
 /**
  * @author Pete Muir
  *
  */
-public class LoginTest extends DBUnitSeamTest {
-    
+@RunWith(Arquillian.class)
+public class LoginTest extends DBJUnitSeamTest {
+
+    @Deployment(name="LoginTest")
+    @OverProtocol("Servlet 3.0")
+    public static Archive<?> createDeployment()
+    {
+        EnterpriseArchive er = Deployments.seamdiscsDeployment();
+        WebArchive web = er.getAsType(WebArchive.class, "seamdiscs-web.war");
+        web.addClasses(LoginTest.class);
+        return er;
+    }
+
     @Override
     protected void prepareDBUnitOperations() {
+        setDatabase("HSQL");
+        setDatasourceJndiName("java:/jboss/seamdiscsDatasource");
+        
         beforeTestOperations.add(
                 new DataSetOperation("org/jboss/seam/example/seamdiscs/test/BaseData.xml")
         );
