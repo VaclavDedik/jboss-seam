@@ -987,7 +987,11 @@ public class AbstractSeamTest
    protected void setupClass() throws Exception
    {
       servletContext = ServletLifecycle.getServletContext();
-      applicationFactory = (ApplicationFactory) FactoryFinder.getFactory(FactoryFinder.APPLICATION_FACTORY);
+      
+      // FactoryFinder cannot be reliably used, as something could have called getFactory sooner
+      //applicationFactory = (ApplicationFactory) FactoryFinder.getFactory(FactoryFinder.APPLICATION_FACTORY);
+      applicationFactory = new MockApplicationFactory();
+      
       application = applicationFactory.getApplication();
       conversationViewRootAttributes = new HashMap<String, Map>();
       seamFilter = createSeamFilter();
