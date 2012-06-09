@@ -16,13 +16,13 @@
 
 package org.jboss.seam.mock;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
+
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 /**
  * Mock implementation of the {@link javax.servlet.RequestDispatcher} interface.
@@ -37,8 +37,8 @@ import javax.servlet.http.HttpServletResponseWrapper;
 public class MockRequestDispatcher implements RequestDispatcher
 {
 
-   private final Log logger = LogFactory.getLog(getClass());
-
+   private static final LogProvider logger = Logging.getLogProvider(MockRequestDispatcher.class);
+   
    private final String url;
 
 

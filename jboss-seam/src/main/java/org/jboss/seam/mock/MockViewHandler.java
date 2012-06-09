@@ -8,13 +8,13 @@ import javax.faces.application.ViewHandler;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Strings;
 
 public class MockViewHandler extends ViewHandler {
 
-	private final Log logger = LogFactory.getLog(getClass());
+	private static final LogProvider logger = Logging.getLogProvider(MockViewHandler.class);
 	
 	@Override
 	public Locale calculateLocale(FacesContext ctx) {
