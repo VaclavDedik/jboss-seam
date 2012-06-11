@@ -4,7 +4,6 @@
     <classpathentry kind="src" output="classes/hot" path="src/hot"/>
     <classpathentry kind="src" output="classes/test" path="src/test"/>
     <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-    <classpathentry kind="lib" path="bootstrap"/>
     <classpathentry kind="lib" path="lib/hibernate-validator.jar"/>
     <classpathentry kind="lib" path="lib/hibernate-core.jar"/>
     <classpathentry kind="lib" path="lib/hibernate-annotations.jar"/>
@@ -19,8 +18,9 @@
     <classpathentry kind="lib" path="lib/jgroups.jar"/>
     <classpathentry kind="lib" path="lib/jsf-facelets.jar"/>
     <classpathentry kind="lib" path="lib/jsf-api.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-as-embedded-7.1.1.Final.ja"/>
     <classpathentry kind="lib" path="lib/servlet-api.jar"/>
-    <classpathentry kind="lib" path="lib/testng-jdk15.jar"/>
+    <classpathentry kind="lib" path="lib/testng.jar"/>
     <classpathentry kind="lib" path="lib/jboss-el.jar"/>
     <classpathentry kind="lib" path="lib/el-api.jar"/>
     <classpathentry kind="lib" path="lib/mvel2.jar"/>
