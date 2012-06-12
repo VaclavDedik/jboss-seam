@@ -73,7 +73,7 @@
 </#foreach>
 
 <#if hasAssociations>
-<rich:tabPanel switchType="ajax">
+<rich:tabPanel switchType="client">
 </#if>
 <#foreach property in pojo.allPropertiesIterator>
 <#if isToOne(property)>
