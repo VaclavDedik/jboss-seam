@@ -144,58 +144,6 @@
             </executions>
          </plugin>
 
-         <!-- turned off the ant run since gmaven does the same thing with minimal lines -->
-         <!-- although there may have been an excellent reason for it, I am trying it this way -->
-         <!-- dhinojosa -->
-
-         <!--<plugin>-->
-         <!--<groupId>org.apache.maven.plugins</groupId>-->
-         <!--<artifactId>maven-antrun-plugin</artifactId>-->
-         <!--<executions>-->
-         <!--<execution>-->
-         <!--<id>compile-groovy-files</id>-->
-         <!--<phase>generate-resources</phase>-->
-         <!--<configuration>-->
-         <!--<tasks>-->
-         <!--<taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc">-->
-         <!--<classpath refid="maven.compile.classpath"/>-->
-         <!--</taskdef>-->
-         <!--<mkdir dir="${project.build.outputDirectory}"/>-->
-         <!--<groovyc destdir="${project.build.outputDirectory}" srcdir="${basedir}/src/main/groovy/model" listfiles="true">-->
-         <!--<classpath refid="maven.compile.classpath"/>-->
-         <!--</groovyc>-->
-         <!--</tasks>-->
-         <!--</configuration>-->
-         <!--<goals>-->
-         <!--<goal>run</goal>-->
-         <!--</goals>-->
-         <!--</execution>-->
-         <!--<execution>-->
-         <!--<id>copy-class-files</id>-->
-         <!--<phase>prepare-package</phase>-->
-         <!--<configuration>-->
-         <!--<tasks>-->
-         <!--<property name="dev.dir" value="${project.build.directory}/${project.build.finalName}/WEB-INF/dev"/>-->
-         <!--<mkdir dir="${dev.dir}"/>-->
-         <!--<copy todir="${dev.dir}">-->
-         <!--<fileset dir="${basedir}/src/main/groovy/action">-->
-         <!--<include name="**/*.groovy"/>-->
-         <!--</fileset>-->
-         <!--</copy>-->
-         <!--<move todir="${dev.dir}">-->
-         <!--<fileset dir="${project.build.outputDirectory}">-->
-         <!--<include name="**/AuthenticatorAction.class"/>-->
-         <!--<include name="**/ChangePasswordAction.class"/>-->
-         <!--</fileset>-->
-         <!--</move>-->
-         <!--</tasks>-->
-         <!--</configuration>-->
-         <!--<goals>-->
-         <!--<goal>run</goal>-->
-         <!--</goals>-->
-         <!--</execution>-->
-         <!--</executions>-->
-         <!--</plugin>-->
          <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>build-helper-maven-plugin</artifactId>
@@ -232,30 +180,6 @@
                </webResources>
             </configuration>
          </plugin>
-         <!--<plugin>-->
-            <!--<groupId>org.apache.maven.plugins</groupId>-->
-            <!--<artifactId>maven-dependency-plugin</artifactId>-->
-            <!--<executions>-->
-               <!--<execution>-->
-                  <!--<id>unpack</id>-->
-                  <!--<phase>package</phase>-->
-                  <!--<goals>-->
-                     <!--<goal>unpack</goal>-->
-                  <!--</goals>-->
-                  <!--<configuration>-->
-                     <!--<artifactItems>-->
-                        <!--<artifactItem>-->
-                           <!--<groupId>org.jboss.seam.examples</groupId>-->
-                           <!--<artifactId>groovybooking-web</artifactId>-->
-                           <!--<type>war</type>-->
-                           <!--<overWrite>true</overWrite>-->
-                           <!--<outputDirectory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.war</outputDirectory>-->
-                        <!--</artifactItem>-->
-                     <!--</artifactItems>-->
-                  <!--</configuration>-->
-               <!--</execution>-->
-            <!--</executions>-->
-         <!--</plugin>-->
       </plugins>
    </build>
 
