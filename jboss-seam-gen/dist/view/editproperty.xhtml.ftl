@@ -26,7 +26,7 @@
 </#if>
                           value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
                     <f:convertDateTime type="time"/>
-                    <a:support event="onblur" reRender="${componentProperty.name}Field" bypassUpdates="true" ajaxSingle="true"/>
+                    <a:ajax event="blur" render="${componentProperty.name}Field" bypassUpdates="true"/>
                 </h:inputText>
 <#elseif isTimestamp(componentProperty)>
                 <rich:calendar id="${componentProperty.name}"
@@ -41,7 +41,7 @@
 </#if>
                           value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}"
                            size="${column.precision+7}">
-                    <a:support event="onblur" reRender="${componentProperty.name}Field" bypassUpdates="true" ajaxSingle="true"/>
+                    <a:ajax event="blur" render="${componentProperty.name}Field" bypassUpdates="true"/>
                 </h:inputText>
 <#elseif isBigInteger(componentProperty)>
                 <h:inputText id="${componentProperty.name}"
@@ -53,7 +53,7 @@
 </#if>
                           value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}"
                            size="${column.precision+6}">
-                    <a:support event="onblur" reRender="${componentProperty.name}Field" bypassUpdates="true" ajaxSingle="true"/>
+                    <a:ajax event="blur" render="${componentProperty.name}Field" bypassUpdates="true"/>
                 </h:inputText>
 <#elseif isBoolean(componentProperty)>
                  <h:selectBooleanCheckbox id="${componentProperty.name}"
@@ -97,7 +97,7 @@
                           size="${size}"
                      maxlength="${column.length}"
                          value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
-                    <a:support event="onblur" reRender="${componentProperty.name}Field" bypassUpdates="true" ajaxSingle="true"/>
+                    <a:ajax event="blur" render="${componentProperty.name}Field" bypassUpdates="true"/>
                 </h:inputText>
 </#if>
 <#else>
@@ -109,7 +109,7 @@
                        disabled="${'#'}{${homeName}.managed}"
 </#if>
                           value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
-                    <a:support event="onblur" reRender="${componentProperty.name}Field" bypassUpdates="true" ajaxSingle="true"/>
+                    <a:ajax event="blur" render="${componentProperty.name}Field" bypassUpdates="true"/>
                 </h:inputText>
 </#if>
             </s:decorate>
@@ -137,7 +137,7 @@
 </#if>
                           value="${'#'}{${homeName}.instance.${property.name}}">
                     <f:convertDateTime type="time"/>
-                    <a:support event="onblur" reRender="${property.name}Field" bypassUpdates="true" ajaxSingle="true"/>
+                    <a:ajax event="blur" render="${property.name}Field" bypassUpdates="true"/>
                 </h:inputText>
 <#elseif isTimestamp(property)>
                 <rich:calendar id="${property.name}"
@@ -152,7 +152,7 @@
 </#if>
                           value="${'#'}{${homeName}.instance.${property.name}}"
                            size="${column.precision+7}">
-                    <a:support event="onblur" reRender="${property.name}Field" bypassUpdates="true" ajaxSingle="true"/>
+                    <a:ajax event="blur" render="${property.name}Field" bypassUpdates="true"/>
                 </h:inputText>
 <#elseif isBigInteger(property)>
                 <h:inputText id="${property.name}"
@@ -164,7 +164,7 @@
 </#if>
                           value="${'#'}{${homeName}.instance.${property.name}}"
                            size="${column.precision+6}">
-                    <a:support event="onblur" reRender="${property.name}Field" bypassUpdates="true" ajaxSingle="true"/>
+                    <a:ajax event="blur" render="${property.name}Field" bypassUpdates="true"/>
                 </h:inputText>
 <#elseif isBoolean(property)>
                 <h:selectBooleanCheckbox id="${property.name}"
@@ -208,7 +208,7 @@
                            size="${size}"
                       maxlength="${column.length}"
                           value="${'#'}{${homeName}.instance.${property.name}}">
-                    <a:support event="onblur" reRender="${property.name}Field" bypassUpdates="true" ajaxSingle="true"/>
+                    <a:ajax event="blur" render="${property.name}Field" bypassUpdates="true"/>
                 </h:inputText>
 </#if>
 <#else>
@@ -220,7 +220,7 @@
                        disabled="${'#'}{${homeName}.managed}"
 </#if>
                           value="${'#'}{${homeName}.instance.${property.name}}">
-                    <a:support event="onblur" reRender="${property.name}Field" bypassUpdates="true" ajaxSingle="true"/>
+                    <a:ajax event="blur" render="${property.name}Field" bypassUpdates="true"/>
                 </h:inputText>
 </#if>
             </s:decorate>
