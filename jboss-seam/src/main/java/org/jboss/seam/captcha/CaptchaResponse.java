@@ -15,4 +15,8 @@ import javax.validation.Constraint;
 public @interface CaptchaResponse 
 {
    String message() default "incorrect response";
+   
+   Class<?>[] groups() default {};
+   
+   Class<?>[] payload() default {};
 }
