@@ -259,6 +259,7 @@
             <fileset dir="${basedir}/resources/META-INF">
                 <include name="application.xml"/>
                 <include name="jboss-app.xml"/>
+                <include name="jboss-deployment-structure.xml"/>
             </fileset>
         </copy>
     </target>
