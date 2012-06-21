@@ -41,10 +41,8 @@
             </rich:toolbar>
         </div>
 
-        <rich:panel>
-            <f:facet name="header">About the Demo</f:facet>
-
-            <rich:messages />
+        <rich:panel header="About the Demo">
+           <rich:messages />
 
             <s:div rendered="#{!identity.loggedIn}">
             This application demonstrates the basic use of OpenID in an application.  To login, simply enter
