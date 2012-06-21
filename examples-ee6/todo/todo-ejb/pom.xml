@@ -99,42 +99,4 @@
         </dependency>
     </dependencies>
     
-    <profiles>
-        <profile>
-            <id>tomcat</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-ejb-plugin</artifactId>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>build-helper-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>add-resource</id>
-                                <phase>generate-resources</phase>
-                                <goals>
-                                    <goal>add-resource</goal>
-                                </goals>
-                                <configuration>
-                                    <resources>
-                                        <resource>
-                                            <directory>${basedir}/../todo-ear/src/main/application</directory>
-                                            <targetPath>${build.output.directory}</targetPath>
-                                            <includes>
-                                                <include>**/*.xml</include>
-                                            </includes>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-   
 </project>

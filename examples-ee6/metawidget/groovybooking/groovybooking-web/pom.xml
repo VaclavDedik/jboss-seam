@@ -259,11 +259,5 @@
                 </plugins>
             </build>
         </profile>
-        <profile>
-            <id>jbossas42</id>
-            <properties>
-                <loadPersistenceUnits>true</loadPersistenceUnits>
-            </properties>
-        </profile>
     </profiles>
 </project>

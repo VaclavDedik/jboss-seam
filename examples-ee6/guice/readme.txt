@@ -8,18 +8,11 @@ To deploy the example to JBossAS, follow these steps:
 
 * In the example root directory run:
 
-    mvn clean package
+    mvn clean install
 
 * Set JBOSS_HOME environment property.
 
 * In the guice-ear directory run:
 
-    mvn jboss:hard-deploy
+    mvn jboss-as:deploy
 
-To deploy the example to Tomcat with Embedded JBoss, follow these steps:
-
-* In the example root directory run:
-
-    mvn clean package -Ptomcat
-
-* Deploy the resulting WAR from guice-web/target directory to Tomcat manually.

@@ -13,17 +13,12 @@ To deploy the example to JBossAS, follow these steps:
 
 * In the example root directory run:
 
-    mvn clean package
+    mvn clean install
 
 * Set JBOSS_HOME environment property.
 
 * In the groovybooking-web directory run:
 
-    mvn jboss:hard-deploy
-
-When deploying to JBossAS 4, use a -Pjbossas42 maven profile to package the 
-application.
-
-* Open this URL in a web browser: http://localhost:8080/jboss-seam-metawidget-grovybooking
+    mvn jboss-as:deploy
 
 For further Metawidget documentation see http://metawidget.org/documentation.html

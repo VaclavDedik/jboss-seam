@@ -8,13 +8,13 @@ To deploy the example to JBoss AS, follow these steps:
 
 * In the example root directory run:
 
-    mvn clean package
+    mvn clean install
 
 * Set JBOSS_HOME environment property.
 
 * In the wicket-ear directory run:
 
-    mvn jboss:hard-deploy
+    mvn jboss-as:deploy
 
 * Open this URL in a web browser: http://localhost:8080/seam-wicket
 
@@ -22,7 +22,7 @@ By default, Java classes are instrumented by Wicket at compile time. You can use
 a runtime instrumentation issuing -Pruntime-instrumentation when building the 
 application, though:
     
-    mvn clean package -Pruntime-instrumentation
+    mvn clean install -Pruntime-instrumentation
 
 You can also execute functional tests using runtime instrumentation:
 

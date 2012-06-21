@@ -1,7 +1,7 @@
 Seam Example EE6 Applications
 =========================
 This directory contains the Seam example applications, which have all been
-tested on the latest release of JBoss AS 7.1. Consult the readme.txt file in each of 
+tested on the latest release of JBoss AS 7.1.1. Consult the readme.txt file in each of 
 the examples to see details.
 
 Below is a list of examples with a brief description. The name of the example,
@@ -11,7 +11,7 @@ omitted (i.e. seamspace -> space).
 
 ----------------------------------------------------------------------
 
-booking/              The Seam Booking demo application for EJB 3.0.
+booking/              The Seam Booking demo application for EJB 3.
 
 
 
@@ -24,7 +24,7 @@ readme.txt in the example to see if there are any specific instructions.
 How to Build and Deploy an Example on JBoss AS
 ----------------------------------------------
 
-1. Download and unzip JBoss AS 7.1 from:
+1. Download and unzip JBoss AS 7.1.1 from:
    
    http://jboss.org/jbossas/downloads
 
@@ -35,8 +35,8 @@ How to Build and Deploy an Example on JBoss AS
 3. Build the example by running the following command from the Seam
    "examples-ee6/${example.name}" directory:
    
-   mvn clean package
-   
+   mvn clean install   
+
    NOTE: Firstly, this command will also run unit tests on that example. To skip the tests add 
    -Dmaven.test.skip=true to the maven call. Secondly, there is an option to deploy an "exploded"
    archive. For this purpose, use -Pexploded maven profile.
@@ -63,19 +63,28 @@ How to Build and Deploy an Example on JBoss AS
 
    http://localhost:8080/jboss-seam-${example.name}
 
-   The WAR examples are ... TODO later
+   The WAR examples are:
+   spring, jpa, hibernate, groovybooking 
 
 NOTE: The examples use the H2 database embedded in JBoss AS
 
    
-Running The TestNG Tests
+Running The Integration Tests
 ------------------------
 
-TestNG tests are executed during building of the application using:
+Integration tests are executed during building of the application using:
 
-   mvn clean package -P<maven_profile>
+   mvn clean install -Darquillian=jbossas-{managed,remote}-7
 
-TODO: Running the TestNG Tests in Eclipse
+
+Running integration test(s) in Eclipse
+------------------------
+Detail guide is at http://docs.jboss.org/arquillian/reference/1.0.0.Alpha1/en-US/html_single/#d0e552
+
+
+Debugging of integration test(s) in Eclipse
+-----------------------
+http://docs.jboss.org/arquillian/reference/1.0.0.Alpha1/en-US/html_single/#d0e974
 
 
 Running functional tests on an example
@@ -84,23 +93,9 @@ Running functional tests on an example
 The following steps describe executing of functional tests in general. If particular example
 does not contain certain profile, it is simply ignored during the maven call.
 
-* Start JBoss AS 4, 5, 6 or Tomcat
-* Set JBOSS_HOME or CATALINA_HOME environment property, respectively
+* Start JBoss AS 7
+* Set JBOSS_HOME environment property, respectively
 
-To run functional tests on JBoss AS 4.2:
+To run functional tests:
 
-*   mvn clean verify -Pjbossas42,ftest-jbossas
-
-To run functional tests on JBoss AS 5.1:
-
-*   mvn clean verify -Pjbossas51,ftest-jbossas
-    
-To run functional tests on JBoss AS 6:
-
-*   mvn clean verify -Pjbossas6,ftest-jbossas
-    
-To run functional tests on Tomcat with Embedded JBoss:
-
-*   mvn clean verify -Ptomcat,ftest-tomcat
-
-
+*   mvn clean verify -Pftest-jbossas

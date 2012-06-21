@@ -109,18 +109,6 @@
                             </execution>
                         </executions>
                     </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>jboss-maven-plugin</artifactId>
-                        <configuration>
-                            <jbossHome>${jboss.home}</jbossHome>
-                            <serverName>${jboss.domain}</serverName>
-                            <fileNames>
-                                <param>${basedir}/src/main/resources/jboss-seam-seamdiscs-ds.xml</param>
-                                <directory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear</directory>
-                            </fileNames>
-                        </configuration>
-                    </plugin>
                 </plugins>
             </build>
         </profile>

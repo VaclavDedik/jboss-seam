@@ -25,13 +25,13 @@ Example
 </tr:table>
 
 
-This example runs on JBoss AS as an EAR.
+This example runs as an EAR.
 
-To deploy the example to JBoss AS, follow these steps:
+To deploy the example, follow these steps:
 
 * In the example root directory run:
 
-    mvn clean package
+    mvn clean install
 
 * Go to seamdiscs-ear:
 

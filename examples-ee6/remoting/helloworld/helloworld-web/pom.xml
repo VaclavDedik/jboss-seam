@@ -63,48 +63,5 @@
             </plugin>
         </plugins>
     </build>
-    
-    <profiles>
-        <profile>
-            <id>tomcat</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.jboss.seam.examples-ee6.remoting.helloworld</groupId>
-                    <artifactId>helloworld-ejb</artifactId>
-                    <type>ejb</type>
-                    <scope>compile</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.jboss.seam</groupId>
-                    <artifactId>jboss-seam</artifactId>
-                    <type>ejb</type>
-                    <scope>compile</scope>
-                    <exclusions>
-                        <exclusion>
-                            <groupId>com.thoughtworks.xstream</groupId>
-                            <artifactId>xstream</artifactId>
-                        </exclusion>
-                        <exclusion>
-                            <groupId>xpp3</groupId>
-                            <artifactId>xpp3_min</artifactId>
-                        </exclusion>
-                    </exclusions>
-                </dependency>
-                <dependency>
-                    <groupId>javax.faces</groupId>
-                    <artifactId>jsf-api</artifactId>
-                    <scope>compile</scope>
-                </dependency>
-                <dependency>
-                    <groupId>javax.faces</groupId>
-                    <artifactId>jsf-impl</artifactId>
-                    <scope>compile</scope>
-                </dependency>
-            </dependencies>
-            <build>
-                <finalName>jboss-seam-helloworld</finalName>
-            </build>
-        </profile>
-    </profiles>
   
 </project>

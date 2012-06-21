@@ -9,7 +9,7 @@ To deploy the example to JBossAS, follow these steps:
 
 * In the example root directory run:
 
-    mvn clean package
+    mvn clean install
 
 * In the booking-ear directory run:
 

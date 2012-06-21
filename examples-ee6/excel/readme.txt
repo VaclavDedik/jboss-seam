@@ -1,21 +1,20 @@
 Seam Excel Example
 ==================
 
-This example demonstrates the Seam Excel functionality. It runs on JBoss AS7 as
-an EAR.
+This example demonstrates the Seam Excel functionality.
 
-To deploy the example to JBoss AS7 , follow these steps:
+To deploy the example, follow these steps:
 
 * In the example root directory run:
 
-    mvn clean package
+    mvn clean install
 
 * Set JBOSS_HOME environment property.
 
 * Start the AS7 up.
 
-* Deploy the sample:
-
-    $JBOSS_HOME/bin/jboss-cli.sh --connect 'deploy excel-ear/target/seam-excel.ear'
+* Go to excel-ear directory and deply the sample by running:
+ 
+   mvn jboss-as:deploy
 
 * Open this URL in a web browser: http://localhost:8080/seam-excel

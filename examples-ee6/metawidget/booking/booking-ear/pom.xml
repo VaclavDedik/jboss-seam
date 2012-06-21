@@ -41,15 +41,9 @@
                 <version>2.6</version>
                 <configuration>
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
-                    <!-- Exclude eclipse generated application.xml and manually modified jboss-app.xml during mvn build  -->
-                    <earSourceExcludes>**/application.xml, **/jboss-app.xml</earSourceExcludes>
                     <!-- use maven generated application.xml instead -->
                     <generateApplicationXml>true</generateApplicationXml>
                     <filtering>true</filtering>
-                    <jboss>
-                        <version>4.2</version>
-                        <loader-repository>seam.jboss.org:loader=seam-metawidget-booking</loader-repository>
-                    </jboss>
                     <modules>
                         <webModule>
                             <groupId>org.jboss.seam.examples-ee6.metawidget</groupId>
@@ -69,39 +63,6 @@
                        </ejbModule>
                     </modules>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.jboss.as.plugins</groupId>
-                <artifactId>jboss-as-maven-plugin</artifactId>
-                <executions>
-                    <!-- This requires to be enabled manually as <enabled>true</enabled> doesn't 
-                        work -->
-                    <!-- <execution> -->
-                    <!-- <id>add-datasource</id> -->
-                    <!-- <phase>package</phase> -->
-                    <!-- <configuration> -->
-                    <!-- <address>subsystem=datasources,data-source=java:/bookingDatasource</address> -->
-                    <!-- <properties> -->
-                    <!-- <connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url> -->
-                    <!-- <jndi-name>java:/bookingDatasource</jndi-name> -->
-                    <!-- <enabled>true</enabled> -->
-                    <!-- <pool-name>bookingDSPool</pool-name> -->
-                    <!-- <user-name>sa</user-name> -->
-                    <!-- <driver-name>h2</driver-name> -->
-                    <!-- </properties> -->
-                    <!-- </configuration> -->
-                    <!-- <goals> -->
-                    <!-- <goal>add-resource</goal> -->
-                    <!-- </goals> -->
-                    <!-- </execution> -->
-                    <!-- Datasource has to be created before running deploy -->
-                    <execution>
-                        <phase></phase>
-                        <goals>
-                            <goal>deploy</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
