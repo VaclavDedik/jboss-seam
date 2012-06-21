@@ -64,10 +64,8 @@
             <istrue value="${debug}"/>
         </condition>
         <property name="transactionManagerLookupClass" value="org.hibernate.transaction.JBossTransactionManagerLookup"/>
-        <property name="ejbJndiPattern" value="${project.name}/#{ejbName}/local"/>
-        <condition property="seamBootstrapsPu" value="false" else="true">
-            <available file="${jboss.home}/lib/jboss-vfs.jar"/> <!-- JBoss AS >= 5.0 -->
-        </condition>
+        <property name="ejbJndiPattern" value="java:app/${project.name}-ejb/#{ejbName}"/>
+        <property name="seamBootstrapsPu" value="false" />
         <condition property="seamEmfRef" value="#{entityManagerFactory}" else="#{null}">
             <istrue value="${seamBootstrapsPu}"/>
         </condition>
