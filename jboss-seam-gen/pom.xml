@@ -36,15 +36,18 @@
    </build>
    <dependencies>
 
+      <!-- version runtime dependencies are managed only here instead in parent -->
       <dependency>
          <groupId>org.hibernate</groupId>
          <artifactId>hibernate-tools</artifactId>
+         <version>3.2.4.GA</version>
          <scope>runtime</scope>
       </dependency>
 
       <dependency>
          <groupId>freemarker</groupId>
          <artifactId>freemarker</artifactId>
+         <version>2.3.8</version>
          <scope>runtime</scope>
       </dependency>
       
@@ -52,11 +55,39 @@
          <groupId>org.eclipse.core</groupId>
          <artifactId>runtime</artifactId>
          <scope>runtime</scope>
+         <version>3.2.0-v20060603</version>
+         <exclusions>
+            <exclusion>
+               <groupId>org.eclipse</groupId>
+               <artifactId>osgi</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.eclipse.core</groupId>
+               <artifactId>jobs</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.eclipse.equinox</groupId>
+               <artifactId>registry</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.eclipse.equinox</groupId>
+               <artifactId>preferences</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.eclipse.equinox</groupId>
+               <artifactId>common</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.eclipse.core</groupId>
+               <artifactId>contenttype</artifactId>
+            </exclusion>
+         </exclusions>
       </dependency>
       
       <dependency>
          <groupId>org.eclipse.equinox</groupId>
          <artifactId>common</artifactId>
+         <version>3.2.0-v20060603</version>
          <scope>runtime</scope>
       </dependency>
       
@@ -64,6 +95,17 @@
          <groupId>org.eclipse</groupId>
          <artifactId>text</artifactId>
          <scope>runtime</scope>
+         <version>3.2.0-v20060605-1400</version>
+         <exclusions>
+            <exclusion>
+               <groupId>org.eclipse.core</groupId>
+               <artifactId>commands</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.eclipse.equinox</groupId>
+               <artifactId>common</artifactId>
+            </exclusion>
+         </exclusions>
       </dependency>
 
       <dependency>
