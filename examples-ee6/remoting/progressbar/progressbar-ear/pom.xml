@@ -28,7 +28,11 @@
             <groupId>org.jboss.seam</groupId>
             <artifactId>jboss-seam</artifactId>
             <type>ejb</type>
-            <scope>compile</scope>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+        	<groupId>org.jboss.el</groupId>
+        	<artifactId>jboss-el</artifactId>
         </dependency>
     </dependencies>
 
@@ -41,8 +45,6 @@
                 <configuration>
                     <version>6</version>
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
-                    <!-- Exclude eclipse generated application.xml and manually modified jboss-app.xml during mvn build  -->
-                    <earSourceExcludes>**/application.xml, **/jboss-app.xml</earSourceExcludes>
                     <!-- use maven generated application.xml instead -->
                     <generateApplicationXml>true</generateApplicationXml>
                     <filtering>true</filtering>
