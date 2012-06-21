@@ -2,18 +2,45 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.jboss.seam</groupId>
-        <artifactId>jboss-seam-parent</artifactId>
-        <version>2.3.0.CR1-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
-    </parent>
-
+    <groupId>org.jboss.seam</groupId>
     <artifactId>examples-ee6</artifactId>
+    <version>2.3.0.CR1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Seam 2 EE 6 examples</name>
     <description>Examples for Seam 2 Framework in Java EE6 environment</description>
+    <url>http://seamframework.org/Seam2</url>
+    
+    <licenses>
+        <license>
+            <name>LGPL</name>
+            <url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>JBoss Seam committers</name>
+        </developer>
+    </developers>
+
+    <mailingLists>
+        <mailingList>
+            <archive>http://lists.jboss.org/pipermail/seam-dev/</archive>
+            <name>Seam Developer List</name>
+        </mailingList>
+    </mailingLists>
+
+    <scm>
+        <connection>scm:svn:https://svn.jboss.org/repos/seam/branches/enterprise/WFK-2_0</connection>
+        <developerConnection>scm:svn:https://svn.jboss.org/repos/seam/branches/enterprise/WFK-2_0</developerConnection>
+        <url>scm:svn:https://svn.jboss.org/repos/seam/branches/enterprise/WFK-2_0</url>
+    </scm>
+
+    <organization>
+        <name>Seam Framework</name>
+        <url>http://seamframework.org</url>
+    </organization>        
     
     <properties>
         <!-- Excluded TestNG groups (ex: slow annotated tests won't run during 
@@ -46,6 +73,25 @@
         <jboss.domain>default</jboss.domain>
         <catalina.home>${env.CATALINA_HOME}</catalina.home>
         <xml.namespace.aware>false</xml.namespace.aware>
+
+        <!-- ************** -->
+        <!-- Build settings -->
+        <!-- ************** -->
+    
+        <!-- Cross plugins settings -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.6</maven.compiler.source>
+    
+        <!--
+            Options to override the compiler arguments directly on the compiler arument line to separate between what
+            the IDE understands as the source level and what the Maven compiler actually use.
+        -->
+        <maven.compiler.argument.target>${maven.compiler.target}</maven.compiler.argument.target>
+        <maven.compiler.argument.source>${maven.compiler.source}</maven.compiler.argument.source>
+        
     </properties>
     
     <modules>
@@ -87,15 +133,34 @@
     </modules>
 
     <build>
+        <defaultGoal>package</defaultGoal>
         <pluginManagement>
             <plugins>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.12</version>
                     <configuration>
                         <excludedGroups>${tests.excludedGroups}</excludedGroups>
                     </configuration>
                 </plugin>
-                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+                <plugin>
+                    <artifactId>maven-ear-plugin</artifactId>
+                    <version>2.7</version>
+                </plugin>
+                
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>1.7</version>
+                </plugin>
+                
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>2.5</version>
+                </plugin>
+                
+                <!--This plugin's configuration is used to store Eclipse 
+                    m2e settings only. It has no influence on the Maven build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
                     <artifactId>lifecycle-mapping</artifactId>
@@ -135,6 +200,22 @@
                         </execution>
                     </executions>
                 </plugin>
+                <plugin>
+                    <artifactId>maven-ejb-plugin</artifactId>
+                    <version>2.3</version>
+                    <configuration>
+                        <ejbVersion>3.0</ejbVersion>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>2.1.1</version>
+                    <inherited>true</inherited>
+                    <configuration>
+                        <failOnMissingWebXml>false</failOnMissingWebXml>
+                        <warName>${project.build.finalName}</warName>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -143,23 +224,10 @@
         <dependencies>
             <dependency>
                 <groupId>org.jboss.seam</groupId>
-                <artifactId>jboss-seam</artifactId>
+                <artifactId>bom</artifactId>
                 <version>${project.version}</version>
-                <type>ejb</type>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.testng</groupId>
-                        <artifactId>testng</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>junit</groupId>
-                        <artifactId>junit</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>el-api</artifactId>
-                        <groupId>javax.el</groupId>
-                    </exclusion>
-                </exclusions>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
             <dependency>

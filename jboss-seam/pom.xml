@@ -381,12 +381,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
 			<groupId>org.openid4java</groupId>
 			<artifactId>openid4java-consumer</artifactId>
 			<type>pom</type>
