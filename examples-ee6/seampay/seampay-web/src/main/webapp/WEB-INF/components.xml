@@ -41,7 +41,7 @@
     <async:timer-service-dispatcher />
     <component class="org.jboss.seam.async.ThreadPoolDispatcher" precedence="40" /> 
 
-    <core:init debug="true" jndi-pattern="@jndiPattern@" />
+    <core:init debug="true" jndi-pattern="${jndiPattern}" />
 
     <component class="org.jboss.seam.transaction.EjbSynchronizations" jndi-name="java:app/jboss-seam/EjbSynchronizations"/>
 

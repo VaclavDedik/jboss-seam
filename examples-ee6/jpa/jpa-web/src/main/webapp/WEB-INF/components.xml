@@ -18,7 +18,7 @@
                   
     <transaction:entity-transaction entity-manager="#{em}"/>
                   
-    <persistence:entity-manager-factory name="bookingDatabase" installed="@loadPersistenceUnits@"/>
+    <persistence:entity-manager-factory name="bookingDatabase" installed="${loadPersistenceUnits}"/>
 
     <!-- If Seam loads the persistence unit (JBoss 4.x), the EntityManagerFactory will be resolved from #{bookingDatabase}.
          On JBoss AS 5, the EntityManagerFactory is retrieved from JNDI (the binding occurs during application deployment). -->

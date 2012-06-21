@@ -20,5 +20,5 @@
                           key-password="keypass"
                           key-alias="pdfKey" />
 
-    <core:init debug="true" jndi-pattern="@jndiPattern@" />
+    <core:init debug="true" jndi-pattern="${jndiPattern}" />
 </components>

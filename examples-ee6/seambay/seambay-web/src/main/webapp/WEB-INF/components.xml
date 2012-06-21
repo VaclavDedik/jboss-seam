@@ -16,7 +16,7 @@
                  http://jboss.org/schema/seam/web http://jboss.org/schema/seam/web-2.3.xsd
                  http://jboss.org/schema/seam/drools http://jboss.org/schema/seam/drools-2.3.xsd">
 
-    <core:init jndi-pattern="@jndiPattern@" debug="true"/>
+    <core:init jndi-pattern="${jndiPattern}" debug="true"/>
  
     <core:manager conversation-timeout="120000" 
                   concurrent-request-timeout="500"

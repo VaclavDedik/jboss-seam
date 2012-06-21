@@ -6,6 +6,6 @@
                 "http://jboss.org/schema/seam/core http://jboss.org/schema/seam/core-2.3.xsd 
                  http://jboss.org/schema/seam/components http://jboss.org/schema/seam/components-2.3.xsd">
 
-    <core:init jndi-pattern="@jndiPattern@"/>
+    <core:init jndi-pattern="${jndiPattern}"/>
     
 </components>

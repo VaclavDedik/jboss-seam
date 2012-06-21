@@ -10,7 +10,7 @@
                  http://jboss.org/schema/seam/security http://jboss.org/schema/seam/security-2.3.xsd
                  http://jboss.org/schema/seam/components http://jboss.org/schema/seam/components-2.3.xsd">
 
-    <core:init jndi-pattern="@jndiPattern@" debug="true"/>
+    <core:init jndi-pattern="${jndiPattern}" debug="true"/>
 
     <core:manager conversation-timeout="120000"
                   concurrent-request-timeout="500"

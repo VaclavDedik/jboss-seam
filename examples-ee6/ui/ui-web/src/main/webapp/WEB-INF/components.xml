@@ -11,7 +11,7 @@
                  http://jboss.org/schema/seam/persistence http://jboss.org/schema/seam/persistence-2.3.xsd 
                  http://jboss.org/schema/seam/framework http://jboss.org/schema/seam/framework-2.3.xsd">
 	
-	<core:init jndi-pattern="@jndiPattern@" debug="true"/>
+	<core:init jndi-pattern="${jndiPattern}" debug="true"/>
 
 	<core:manager conversation-timeout="120000"/>
 

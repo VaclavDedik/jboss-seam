@@ -11,7 +11,7 @@
                                 http://jboss.org/schema/seam/components http://jboss.org/schema/seam/components-2.3.xsd">
 
 
-   <core:init debug="true" jndi-pattern="@jndiPattern@" />
+   <core:init debug="true" jndi-pattern="${jndiPattern}" />
 
    <document:document-store use-extensions="true"></document:document-store>
 

@@ -8,6 +8,6 @@
                  http://jboss.org/schema/seam/components http://jboss.org/schema/seam/components-2.3.xsd
                  http://jboss.org/schema/seam/remoting http://jboss.org/schema/seam/remoting-2.3.xsd">
 
-  <core:init jndi-pattern="@jndiPattern@" debug="true"/>
+  <core:init jndi-pattern="${jndiPattern}" debug="true"/>
             
 </components>

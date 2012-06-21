@@ -22,7 +22,7 @@
                  http://jboss.org/schema/seam/transaction http://jboss.org/schema/seam/transaction-2.3.xsd
                  http://jboss.org/schema/seam/drools http://jboss.org/schema/seam/drools-2.3.xsd">
 
-    <core:init jndi-pattern="@jndiPattern@" debug="true"/>
+    <core:init jndi-pattern="${jndiPattern}" debug="true"/>
 
     <core:manager conversation-timeout="120000"
                   concurrent-request-timeout="500"

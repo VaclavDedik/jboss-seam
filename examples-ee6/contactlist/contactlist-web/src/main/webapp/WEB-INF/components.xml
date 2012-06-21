@@ -13,7 +13,7 @@
     <persistence:managed-persistence-context name="entityManager" 
             persistence-unit-jndi-name="java:/contactlistEntityManagerFactory"/>
     
-    <core:init jndi-pattern="@jndiPattern@"/>
+    <core:init jndi-pattern="${jndiPattern}"/>
     
     <factory name="contact" value="#{contactHome.instance}"/>
     <fwk:entity-home name="contactHome" 

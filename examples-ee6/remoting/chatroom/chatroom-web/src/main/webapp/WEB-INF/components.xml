@@ -2,7 +2,7 @@
             xmlns:cache="http://jboss.org/schema/seam/cache">
 
     <component name="org.jboss.seam.core.init">
-        <property name="jndiPattern">@jndiPattern@</property>
+        <property name="jndiPattern">${jndiPattern}</property>
     </component>
     
     <component name="topicPublisher" class="org.jboss.seam.jms.ManagedTopicPublisher">

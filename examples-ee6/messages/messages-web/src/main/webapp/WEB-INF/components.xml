@@ -4,7 +4,7 @@
             xsi:schemaLocation="http://www.jboss.org/schema/seam/components http://www.jboss.org/schema/seam/components-2.3.xsd">
             
     <component name="org.jboss.seam.core.init">
-        <property name="jndiPattern">@jndiPattern@</property>
+        <property name="jndiPattern">${jndiPattern}</property>
     </component>
     
     <!-- This is required for JBoss AS7 due these EJB components are bound to jboss-seam module  -->
