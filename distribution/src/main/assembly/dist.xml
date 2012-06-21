@@ -160,6 +160,21 @@
          </includes>
          <outputFileNameMapping>${artifact.artifactId}-sources.${artifact.extension}</outputFileNameMapping>
       </dependencySet>
+
+      <!-- Add Richfaces for Seam-gen -->
+      <dependencySet>
+         <outputDirectory>lib</outputDirectory>
+         <useProjectArtifact>false</useProjectArtifact>                  
+         <includes>
+            <include>org.richfaces.core:richfaces-core-api</include>
+            <include>org.richfaces.core:richfaces-core-impl</include>
+            <include>org.richfaces.ui:richfaces-components-api</include>
+            <include>org.richfaces.ui:richfaces-components-ui</include>  
+            <include>net.sourceforge.cssparser:cssparser</include>
+            <include>org.w3c.css:sac</include>
+         </includes>         
+         <outputFileNameMapping>${artifact.artifactId}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+      </dependencySet>      
           
 	  <!-- Seam gen -->
       <dependencySet>
