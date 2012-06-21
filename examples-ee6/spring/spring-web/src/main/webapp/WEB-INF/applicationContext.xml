@@ -7,7 +7,7 @@
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
                            http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd
                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
-                           http://jboss.org/schema/seam/spring-seam http://jboss.org/schema/seam/spring-seam-2.3.xsd
+                           http://jboss.org/schema/seam/spring-seam http://www.jboss.org/schema/seam/spring-seam-2.3.xsd
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
 	default-lazy-init="true">
 

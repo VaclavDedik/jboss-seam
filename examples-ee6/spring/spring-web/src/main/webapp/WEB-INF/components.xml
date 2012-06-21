@@ -6,10 +6,10 @@
             xmlns:async="http://jboss.org/schema/seam/async"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="http://jboss.org/schema/seam/core http://jboss.org/schema/seam/core-2.3.xsd 
-                                http://jboss.org/schema/seam/persistence http://jboss.org/schema/seam/persistence-2.3.xsd
-                                http://jboss.org/schema/seam/components http://jboss.org/schema/seam/components-2.3.xsd
+                                http://jboss.org/schema/seam/persistence http://jboss.org/schema/seam/persistence-2.3.xsd                                
                                 http://jboss.org/schema/seam/spring http://jboss.org/schema/seam/spring-2.3.xsd
-                                http://jboss.org/schema/seam/async http://jboss.org/schema/seam/async-2.3.xsd">
+                                http://jboss.org/schema/seam/async http://jboss.org/schema/seam/async-2.3.xsd
+                                http://jboss.org/schema/seam/components http://jboss.org/schema/seam/components-2.3.xsd">
 
 
     <core:manager conversation-timeout="120000" 
@@ -31,7 +31,7 @@
 	 <component name="threadPoolDispatcher" class="org.jboss.seam.async.ThreadPoolDispatcher" />
     
     <!-- Install the SpringDispatcher as default -->
-    <spring:spring-task-executor-dispatcher schedule-dispatcher="#{threadPoolDispatcher}" task-executor="#{springThreadPoolTaskExecutor}"/>
+    <spring:task-executor-dispatcher schedule-dispatcher="#{threadPoolDispatcher}" task-executor="#{springThreadPoolTaskExecutor}"/>
     
     <spring:spring-transaction platform-transaction-manager="#{transactionManager}"/>
     
