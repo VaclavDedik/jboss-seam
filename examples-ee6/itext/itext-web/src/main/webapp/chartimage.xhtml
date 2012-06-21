@@ -68,7 +68,7 @@
     </rich:panel>
     <h:form>
         <rich:tabPanel switchType="ajax">
-            <rich:tab label="Title">
+            <rich:tab header="Title">
                 Label:
                 <h:inputText value="#{chart.title}">
                     <a:ajax event="change" render="chart" />
@@ -91,7 +91,7 @@
                 </h:selectOneMenu> 
                 
             </rich:tab>
-            <rich:tab label="Style">
+            <rich:tab header="Style">
                 3D: 
                 <h:selectBooleanCheckbox value="#{chart.is3d}">
                     <a:ajax event="change" render="chart" />
@@ -108,7 +108,7 @@
                 Height: <h:inputText value="#{chart.height}" /> 
                 Width: <h:inputText value="#{chart.width}" /> <br />
             </rich:tab>
-            <rich:tab label="Domain">
+            <rich:tab header="Domain">
                 Domain: <h:inputText value="#{chart.domainAxisLabel}">
                 <a:ajax event="change" render="chart" />
             </h:inputText>
@@ -132,7 +132,7 @@
                 </h:selectOneMenu> 
                 
             </rich:tab>
-            <rich:tab label="Range">
+            <rich:tab header="Range">
                 Range:<h:inputText value="#{chart.rangeAxisLabel}" />  
                 <h:selectOneMenu value="#{chart.rangeAxisPaint}">
                     <s:selectItems value="#{colors}" var="i" label="#{i}"
@@ -153,7 +153,7 @@
             <a:ajax event="change" render="chart" />
                     </h:selectOneMenu> 
             </rich:tab>
-            <rich:tab label="Plot">
+            <rich:tab header="Plot">
                 Background:
                 <h:selectOneMenu value="#{chart.plotBackgroundPaint}">             
                     <s:selectItems value="#{colors}" var="i" label="#{i}"
@@ -188,7 +188,7 @@
                     <a:ajax event="change" render="chart" />
                 </rich:inputNumberSlider>
             </rich:tab>
-            <rich:tab label="Border">
+            <rich:tab header="Border">
                 Border: 
                 <h:selectBooleanCheckbox value="#{chart.borderVisible}">
                     <a:ajax event="change" render="chart" />
@@ -211,7 +211,7 @@
                     <a:ajax event="change" render="chart" />
                 </h:selectOneMenu>
             </rich:tab>
-            <rich:tab label="Legend">
+            <rich:tab header="Legend">
                 Show Legend: 
                 <rich:dataTable value="#{chart.data}" var="dataset">
                     <f:facet name="header">
@@ -248,7 +248,7 @@
                 </h:selectOneMenu> 
                 
             </rich:tab>
-            <rich:tab label="Data">
+            <rich:tab header="Data">
                 <table class="dr-table rich-table" border="0" cellpadding="0" cellspacing="0">
                     <thead>
                         <tr class="dr-table-header rich-table-header">
