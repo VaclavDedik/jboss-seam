@@ -49,6 +49,7 @@
         <guava.version>12.0</guava.version>
         <richfaces.version>4.2.2.Final</richfaces.version>
         <slf4j.version>1.6.1</slf4j.version>
+        <version.jbossas7>7.1.1.Final</version.jbossas7>
 
         <!-- dependencies for functional tests -->
         <ant.junit.version>1.6.2</ant.junit.version>
