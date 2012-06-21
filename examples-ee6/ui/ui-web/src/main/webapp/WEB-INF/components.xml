@@ -5,7 +5,8 @@
 	xmlns:framework="http://jboss.org/schema/seam/framework"
 	xmlns:persistence="http://jboss.org/schema/seam/persistence"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://jboss.org/schema/seam/core http://jboss.org/schema/seam/core-2.3.xsd 
+	xsi:schemaLocation="http://jboss.org/schema/seam/cache http://jboss.org/schema/seam/cache-2.3.xsd
+                 http://jboss.org/schema/seam/core http://jboss.org/schema/seam/core-2.3.xsd 
                  http://jboss.org/schema/seam/components http://jboss.org/schema/seam/components-2.3.xsd 
                  http://jboss.org/schema/seam/persistence http://jboss.org/schema/seam/persistence-2.3.xsd 
                  http://jboss.org/schema/seam/framework http://jboss.org/schema/seam/framework-2.3.xsd">
