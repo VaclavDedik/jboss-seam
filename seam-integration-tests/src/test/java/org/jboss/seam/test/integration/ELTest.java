@@ -4,15 +4,10 @@ import javax.el.ELException;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.container.test.api.OverProtocol;
-import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.jsf.UnifiedELMethodBinding;
 import org.jboss.seam.jsf.UnifiedELValueBinding;
 import org.jboss.seam.mock.JUnitSeamTest;
-import org.jboss.shrinkwrap.api.Archive;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 
 /**
