@@ -45,7 +45,7 @@
                                 <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
                                 <resources>          
                                     <resource>
-                                        <directory>${basedir}/../gwt-ejb/target/gwt-ejb/org.jboss.seam.example.remoting.gwt.HelloWorld</directory>
+                                        <directory>${basedir}/../gwt-ejb/target/gwt-ejb-${project.version}/org.jboss.seam.example.remoting.gwt.HelloWorld</directory>
                                         <includes>
                                             <include>**/*</include>
                                         </includes>
