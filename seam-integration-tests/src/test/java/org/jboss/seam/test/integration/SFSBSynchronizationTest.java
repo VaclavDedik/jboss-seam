@@ -85,7 +85,7 @@ public class SFSBSynchronizationTest
       }
    }
    
-   // JBPAPP-8869
+   // JBPAPP-8869 (JBSEAM-4943)
    @Test
    public void synchronizationInterceptor() 
        throws Exception 
