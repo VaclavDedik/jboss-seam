@@ -1,146 +1,161 @@
 package org.jboss.seam.test.integration;
 
+import java.net.URL;
+import java.net.URLConnection;
+
 import javax.ejb.Local;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 
+import org.apache.commons.io.IOUtils;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OverProtocol;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.seam.Component;
+import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.mock.JUnitSeamTest;
+import org.jboss.seam.annotations.Synchronized;
 import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.assertEquals;
-
+@RunAsClient
 @RunWith(Arquillian.class)
-public class SFSBSynchronizationTest extends JUnitSeamTest
+public class SFSBSynchronizationTest
 {
-   private volatile boolean exceptionOccured = false;
-   
    @Deployment(name="SFSBSynchronizationTest")
    @OverProtocol("Servlet 3.0") 
    public static Archive<?> createDeployment()
    {
-      return Deployments.defaultSeamDeployment()
-            .addClasses(FactoryLockAction.class, FactoryLockLocal.class, TestProducer.class);
+      // This is a client test, use a real (non-mocked) Seam deployment
+      return Deployments.realSeamDeployment()
+            .addClasses(TestAction.class, TestLocal.class)
+            .addAsWebResource(new StringAsset(
+                  "<html xmlns=\"http://www.w3.org/1999/xhtml\"" +
+                  " xmlns:s=\"http://jboss.org/schema/seam/taglib\"" +
+                  " xmlns:h=\"http://java.sun.com/jsf/html\"" +
+                  " xmlns:f=\"http://java.sun.com/jsf/core\">" +
+                  "<h:head></h:head>" +
+                  "<h:body>" +
+                  "<h:outputText value=\"#{test.test1()} \" /><h:outputText value=\"#{test.test2()}\" />" +
+                  "</h:body>" + 
+                  "</html>"), "test.xhtml");
    }
    
-   // JBSEAM-4993
-   // The test starts two threads, one evaluates #{factoryLock.test.test()} and the other #{factoryLock.testString} 200ms later
+   @ArquillianResource
+   private URL deploymentUrl;
+   
+   private volatile boolean exceptionOccured = false;
+   
+   private class ClientThread extends Thread {
+      
+      private String cookie;
+      private URL url;
+      
+      private ClientThread(URL url, String cookie) {
+         this.url = url;
+         this.cookie = cookie;
+      }
+      
+      @Override
+      public void run()
+      {
+         try
+         {
+            // 10 iterations are enough to be very likely to reproduce the lock and takes only 2 seconds
+            for (int i = 0; i < 10; ++i) {
+               URLConnection urlConn;
+               urlConn = url.openConnection();
+               urlConn.setRequestProperty("Cookie", cookie);
+               urlConn.connect();
+               
+               String content = IOUtils.toString(urlConn.getInputStream());
+               assert content.contains("test1 test2");
+            }
+         }
+         catch (Throwable e)
+         {
+            e.printStackTrace();
+            exceptionOccured = true;
+         }
+      }
+   }
+   
+   // JBPAPP-8869
    @Test
-   public void factoryLock() 
+   public void synchronizationInterceptor() 
        throws Exception 
    {
-      Thread thread1 = new Thread() {
-         @Override
-         public void run()
-         {
-            try
-            {
-               SFSBSynchronizationTest.this.factoryLockTestPart1();
-            }
-            catch (Throwable e)
-            {
-               e.printStackTrace();
-               SFSBSynchronizationTest.this.exceptionOccured = true;
-            }
-         }
-      };
-
-      Thread thread2 = new Thread() {
-         @Override
-         public void run()
-         {
-            try
-            {
-               SFSBSynchronizationTest.this.factoryLockTestPart2();
-            }
-            catch (Throwable e)
-            {
-               e.printStackTrace();
-               SFSBSynchronizationTest.this.exceptionOccured = true;
-            }
-         }
-      };
-
+      System.out.println(deploymentUrl.toString());
+      
+      // Initial request to get the session
+      URL testUrl = new URL(deploymentUrl.toString() + "/test.seam");
+      URLConnection urlConn = testUrl.openConnection();
+      urlConn.connect();
+      
+      String cookie = urlConn.getHeaderField("Set-Cookie");
+      assert cookie != null;
+      assert cookie.startsWith("JSESSIONID=");
+      
+      Thread thread1 = new ClientThread(testUrl, cookie);
+      Thread thread2 = new ClientThread(testUrl, cookie);
+      
       thread1.start();
       thread2.start();
-   
+      
       thread1.join();
       thread2.join();
       
       assert !exceptionOccured;
    }
    
-   private void factoryLockTestPart1() throws Exception {
-      new ComponentTest() {
-         @Override
-         protected void testComponents() throws Exception {
-            assertEquals("test", invokeMethod("#{factoryLock.test.test()}"));
-         }
-     }.run();
-   }
-   
-   private void factoryLockTestPart2() throws Exception {
-      new ComponentTest() {
-         @Override
-         protected void testComponents() throws Exception {
-            Thread.sleep(200);
-            assertEquals("testString", getValue("#{factoryLock.testString}"));
-         }
-     }.run();
-   }
-
    @Local
-   public static interface FactoryLockLocal
+   public static interface TestLocal
    {
-      public String getTestString();
-      public String test();
+      public String test1();
+      public String test2();
       public void remove();
    }
 
    
    @Stateful
    @Scope(ScopeType.SESSION)
-   @Name("factoryLock.test")
-   @JndiName("java:global/test/SFSBSynchronizationTest$FactoryLockAction")
-   public static class FactoryLockAction implements FactoryLockLocal
+   @Name("test")
+   @JndiName("java:global/test/SFSBSynchronizationTest$TestAction")
+   @Synchronized(timeout=10000)
+   public static class TestAction implements TestLocal
    {
-      public String test() {
+      public String test1() {
          try
          {
-            Thread.sleep(500);
+            Thread.sleep(100);
          }
+         
          catch (InterruptedException e)
          {
             e.printStackTrace();
          }
-         Component.getInstance("factoryLock.foo", true);
-         return "test";
+         return "test1";
       }
       
-      @Factory(value="factoryLock.testString", scope=ScopeType.EVENT)
-      public String getTestString() {
-         return "testString";
+      public String test2() {
+         try
+         {
+            Thread.sleep(100);
+         }
+         
+         catch (InterruptedException e)
+         {
+            e.printStackTrace();
+         }
+         return "test2";
       }
-
+      
       @Remove
       public void remove() {}
-   }
-   
-   @Name("factoryLock.testProducer")
-   public static class TestProducer {
-      @Factory(value="factoryLock.foo", scope=ScopeType.EVENT)
-      public String getFoo() {
-         return "foo";
-      }
    }
 }
