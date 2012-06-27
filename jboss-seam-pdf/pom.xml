@@ -112,9 +112,6 @@
                             <validationSets>
                                 <validationSet>
                                     <dir>src/main/resources/META-INF/</dir>
-                                    <includes>
-                                        <include>faces-config.xml</include>
-                                    </includes>
                                     <validating>true</validating>
                                 </validationSet>
                             </validationSets>
