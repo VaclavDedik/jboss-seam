@@ -142,7 +142,7 @@
 
         <dependency>
             <groupId>org.jboss.spec.javax.faces</groupId>
-            <artifactId>jboss-jsf-api_2.1_spec</artifactId>
+            <artifactId>jboss-jsf-api_2.0_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -172,28 +172,22 @@
             <optional>true</optional>
         </dependency>
 
-        <dependency>
-            <groupId>org.jboss.spec.javax.el</groupId>
-            <artifactId>jboss-el-api_2.2_spec</artifactId>
-            <scope>provided</scope>
-        </dependency>
+<!--         <dependency> -->
+<!--             <groupId>org.jboss.spec.javax.el</groupId> -->
+<!--             <artifactId>jboss-el-api_2.2_spec</artifactId> -->
+<!--             <scope>provided</scope> -->
+<!--         </dependency> -->
+
 
         <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
             <scope>provided</scope>
-            <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            
             <scope>test</scope>
         </dependency>
     </dependencies>
