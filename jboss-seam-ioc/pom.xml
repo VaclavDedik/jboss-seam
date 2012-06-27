@@ -33,11 +33,6 @@
 			<optional>true</optional>
 		</dependency>
 
-		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib-nodep</artifactId>
-			<optional>true</optional>
-		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.seam</groupId>
@@ -45,12 +40,6 @@
 			<type>ejb</type>
 		</dependency>
 
-		<dependency>
-			<groupId>org.jboss.spec.javax.el</groupId>
-			<artifactId>jboss-el-api_2.2_spec</artifactId>
-			<optional>true</optional>
-			<scope>provided</scope>
-		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.spec.javax.transaction</groupId>
