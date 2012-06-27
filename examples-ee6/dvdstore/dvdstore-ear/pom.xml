@@ -30,7 +30,7 @@
             	</exclusion>
             	<exclusion>
             		<artifactId>javassist</artifactId>
-            		<groupId>javassist</groupId>
+            		<groupId>org.javassist</groupId>
             	</exclusion>
             </exclusions>
         </dependency>

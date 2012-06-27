@@ -187,12 +187,6 @@
                 <artifactId>jboss-system</artifactId>
                 <version>4.2.3.GA</version>
             </dependency>
-            
-			<dependency>
-				<groupId>javassist</groupId>
-				<artifactId>javassist</artifactId>
-				<version>3.12.0.GA</version>
-			</dependency>
 
 			<dependency>
 				<groupId>javax.portlet</groupId>
@@ -449,7 +443,6 @@
        <profile>
            <id>all</id>
            <modules>
-               <module>seam-reference-guide</module>
                <module>examples-ee6</module>
                <module>distribution</module>
            </modules>
