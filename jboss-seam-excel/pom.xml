@@ -129,17 +129,15 @@
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>xml-maven-plugin</artifactId>
                         <configuration>
-                           <catalogs>
-                                <catalog>src/main/resources/org/jboss/seam/catalog.xml</catalog>
+                            <catalogs>
+                              <catalog>../jboss-seam/src/main/resources/org/jboss/seam/catalog.xml</catalog>
                             </catalogs>
                             <validationSets>
                                 <validationSet>
                                     <dir>src/main/resources/META-INF/</dir>
-                                    <includes>
-                                        <include>faces-config.xml</include>
-<!--                                         <include>seam-excel.taglib.xml</include> -->
-                                    </includes>
-                                    <validating>true</validating>
+                                </validationSet>
+                                <validationSet>
+                                    <dir>src/main/resources/org/jboss/seam/excel</dir>
                                 </validationSet>
                             </validationSets>
                         </configuration>
