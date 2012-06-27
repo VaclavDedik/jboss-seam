@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:doc="http://jboss.org/schema/seam/document" xmlns:excel="http://jboss.org/schema/seam/excel"
-	xmlns:components="http://jboss.org/schema/seam/components" targetNamespace="http://jboss.org/schema/seam/document" elementFormDefault="qualified"
-	attributeFormDefault="unqualified">
+<xs:schema
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   xmlns:doc="http://jboss.org/schema/seam/document" 
+   xmlns:excel="http://jboss.org/schema/seam/excel"
+   xmlns:components="http://jboss.org/schema/seam/components"
+   targetNamespace="http://jboss.org/schema/seam/excel"
+   elementFormDefault="qualified" >
 
-	<xs:import namespace="http://jboss.org/schema/seam/components" schemaLocation="components-2.3.xsd" />
+	<xs:import namespace="http://jboss.org/schema/seam/components" schemaLocation="http://jboss.org/schema/seam/components-2.3.xsd" />
 
 	<xs:element name="excel-factory">
 		<xs:annotation>
