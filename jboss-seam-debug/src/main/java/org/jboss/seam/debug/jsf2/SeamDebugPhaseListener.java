@@ -2,28 +2,17 @@ package org.jboss.seam.debug.jsf2;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.net.URL;
 
 import javax.faces.application.StateManager;
-import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
-import javax.faces.view.facelets.ResourceResolver;
-import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.seam.contexts.FacesLifecycle;
 import org.jboss.seam.navigation.Pages;
 
 import com.sun.facelets.StateWriterControl;
-import com.sun.faces.facelets.Facelet;
-import com.sun.faces.facelets.FaceletFactory;
-import com.sun.faces.facelets.compiler.SAXCompiler;
-import com.sun.faces.facelets.impl.DefaultFaceletFactory;
-import com.sun.faces.facelets.impl.FaceletCacheFactoryImpl;
-import com.sun.faces.util.RequestStateManager;
 
 /**
  * Intercepts any request for a view-id like /debug.xxx and renders
