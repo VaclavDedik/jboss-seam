@@ -905,6 +905,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>xml-maven-plugin</artifactId>
+                        <version>1.0</version>
                         <configuration>
 <!--                            <catalogs> -->
 <!--                                 <catalog>src/main/resources/org/jboss/seam/catalog.xml</catalog> -->
