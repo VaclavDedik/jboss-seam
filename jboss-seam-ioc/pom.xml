@@ -146,7 +146,11 @@
                                     <includes>
                                         <include>components.xml</include>
                                     </includes>
-                                    <validating>true</validating>
+                                    <validating>false</validating>
+                                </validationSet>
+                                <validationSet>
+                                    <dir>src/main/resources/schema</dir>
+                                    <validating>false</validating>
                                 </validationSet>
                             </validationSets>
                         </configuration>
