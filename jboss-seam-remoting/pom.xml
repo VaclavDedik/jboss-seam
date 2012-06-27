@@ -60,11 +60,6 @@
 			<optional>true</optional>
 		</dependency>
 		
-		<dependency>
-			<groupId>org.jboss.spec.javax.servlet</groupId>
-			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
-         <scope>provided</scope>
-		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.spec.javax.jms</groupId>
@@ -78,30 +73,12 @@
 			<artifactId>testng</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
-		<dependency>
-			<groupId>javassist</groupId>
-			<artifactId>javassist</artifactId>
-         <scope>provided</scope>
-		</dependency>
-		
-		<dependency>
-         <groupId>org.hibernate.javax.persistence</groupId>
-         <artifactId>hibernate-jpa-2.0-api</artifactId>
-			<scope>test</scope>
-		</dependency>
-		
-		<dependency>
-            <groupId>org.jboss.el</groupId>
-            <artifactId>jboss-el</artifactId>
-            <scope>test</scope>
-        </dependency>
 
-        <dependency>
-            <groupId>org.jboss.seam</groupId>
-            <artifactId>jboss-seam</artifactId>
-            <type>ejb</type>
-        </dependency>
+      <dependency>
+         <groupId>org.jboss.seam</groupId>
+         <artifactId>jboss-seam</artifactId>
+         <type>ejb</type>
+      </dependency>
 	</dependencies>
 
     <profiles>
@@ -169,10 +146,6 @@
                             <validationSets>
                                 <validationSet>
                                     <dir>src/main/resources/META-INF/</dir>
-                                    <includes>
-                                        <include>components.xml</include>
-                                        <include>faces-config.xml</include>
-                                    </includes>
                                     <validating>true</validating>
                                 </validationSet>
                             </validationSets>
