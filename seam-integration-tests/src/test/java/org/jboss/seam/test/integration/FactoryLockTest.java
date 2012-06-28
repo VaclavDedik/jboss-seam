@@ -33,42 +33,45 @@ public class FactoryLockTest extends JUnitSeamTest
             .addClasses(FactoryLockAction.class, FactoryLockLocal.class, TestProducer.class);
    }
    
+   private abstract class TestThread extends Thread {
+      public abstract void runTest() throws Exception;
+      
+      @Override
+      public void run()
+      {
+         try
+         {
+            runTest();
+         }
+         catch (Throwable e)
+         {
+            e.printStackTrace();
+            FactoryLockTest.this.exceptionOccured = true;
+         }
+      }
+   }
+   
    // JBSEAM-4993
-   // The test starts two threads, one evaluates #{factoryLock.test.test()} and the other #{factoryLock.testString} 200ms later
+   // The test starts two threads, one evaluates #{factoryLock.test.testOtherFactory()} and the other #{factoryLock.testString} 200ms later
    @Test
    public void factoryLock() 
        throws Exception 
    {
       exceptionOccured = false;
-      Thread thread1 = new Thread() {
+      Thread thread1 = new TestThread() {
          @Override
-         public void run()
+         public void runTest() throws Exception
          {
-            try
-            {
-               FactoryLockTest.this.factoryLockTestPart1();
-            }
-            catch (Throwable e)
-            {
-               e.printStackTrace();
-               FactoryLockTest.this.exceptionOccured = true;
-            }
+            FactoryLockTest.this.invokeMethod("foo", "#{factoryLock.test.testOtherFactory()}");
          }
       };
 
-      Thread thread2 = new Thread() {
+      Thread thread2 = new TestThread() {
          @Override
-         public void run()
+         public void runTest() throws Exception
          {
-            try
-            {
-               FactoryLockTest.this.factoryLockTestPart2();
-            }
-            catch (Throwable e)
-            {
-               e.printStackTrace();
-               FactoryLockTest.this.exceptionOccured = true;
-            }
+            Thread.sleep(200);
+            FactoryLockTest.this.getValue("testString", "#{factoryLock.testString}");
          }
       };
 
@@ -81,31 +84,62 @@ public class FactoryLockTest extends JUnitSeamTest
       assert !exceptionOccured;
    }
    
-   private void factoryLockTestPart1() throws Exception {
-      new ComponentTest() {
+   // This test is the same as factoryLock test, except it uses the same factory in both threads.
+   @Test
+   public void sameFactoryLock() 
+       throws Exception 
+   {
+      exceptionOccured = false;
+      Thread thread1 = new TestThread() {
          @Override
-         protected void testComponents() throws Exception {
-            assertEquals("test", invokeMethod("#{factoryLock.test.test()}"));
+         public void runTest() throws Exception
+         {
+            FactoryLockTest.this.invokeMethod("testString", "#{factoryLock.test.testSameFactory()}");
          }
-     }.run();
-   }
-   
-   private void factoryLockTestPart2() throws Exception {
-      new ComponentTest() {
+      };
+
+      Thread thread2 = new TestThread() {
          @Override
-         protected void testComponents() throws Exception {
+         public void runTest() throws Exception
+         {
             Thread.sleep(200);
-            assertEquals("testString", getValue("#{factoryLock.testString}"));
+            FactoryLockTest.this.getValue("testString", "#{factoryLock.testString}");
+         }
+      };
+
+      thread1.start();
+      thread2.start();
+   
+      thread1.join();
+      thread2.join();
+      
+      assert !exceptionOccured;
+   }
+   
+   private void invokeMethod(final String expected, final String el) throws Exception {
+      new ComponentTest() {
+         @Override
+         protected void testComponents() throws Exception {
+            assertEquals(expected, invokeMethod(el));
          }
      }.run();
    }
    
-  
+   private void getValue(final String expected, final String el) throws Exception {
+      new ComponentTest() {
+         @Override
+         protected void testComponents() throws Exception {
+            assertEquals(expected, getValue(el));
+         }
+     }.run();
+   }
+
    @Local
    public static interface FactoryLockLocal
    {
       public String getTestString();
-      public String test();
+      public String testOtherFactory();
+      public String testSameFactory();
       public void remove();
    }
 
@@ -116,18 +150,29 @@ public class FactoryLockTest extends JUnitSeamTest
    @JndiName("java:global/test/FactoryLockTest$FactoryLockAction")
    public static class FactoryLockAction implements FactoryLockLocal
    {
-      public String test() {
+      public String testOtherFactory() {
          try
          {
             Thread.sleep(500);
          }
-         
          catch (InterruptedException e)
          {
             e.printStackTrace();
          }
-         Component.getInstance("factoryLock.foo", true);
-         return "test";
+         return (String)Component.getInstance("factoryLock.foo", true);
+      }
+      
+      // gets instance produced by this component's factory 
+      public String testSameFactory() {
+         try
+         {
+            Thread.sleep(500);
+         }
+         catch (InterruptedException e)
+         {
+            e.printStackTrace();
+         }
+         return (String)Component.getInstance("factoryLock.testString", true);
       }
       
       @Factory(value="factoryLock.testString", scope=ScopeType.EVENT)
