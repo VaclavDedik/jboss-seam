@@ -18,6 +18,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Synchronized;
 import org.jboss.seam.mock.JUnitSeamTest;
 import org.jboss.shrinkwrap.api.Archive;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -33,7 +34,7 @@ public class FactoryLockTest extends JUnitSeamTest
    public static Archive<?> createDeployment()
    {
       return Deployments.defaultSeamDeployment()
-            .addClasses(FactoryLockAction.class, FactoryLockLocal.class, TestProducer.class, SeamSynchronizedFactoryLockAction.class);
+            .addClasses(FactoryLockAction.class, FactoryLockLocal.class, TestProducer.class, SeamSynchronizedFactoryLockAction.class, KnitFactory.class, PurlFactory.class);
    }
    
    private abstract class TestThread extends Thread {
@@ -138,6 +139,31 @@ public class FactoryLockTest extends JUnitSeamTest
       });
    }
    
+   // Test the behavior of two components using factories of each other.
+   @Test
+   // Skip the test, as it causes deadlock.
+   @Ignore
+   public void interleavingFactories()
+         throws Exception 
+   {
+      multiThreadedTest(new TestThread() {
+         @Override
+         public void runTest() throws Exception
+         {
+            FactoryLockTest.this.getValue("knit(purl)", "#{factoryLock.knitPurl}");
+         }
+      },
+      
+      new TestThread() {
+         @Override
+         public void runTest() throws Exception
+         {
+            Thread.sleep(200);
+            FactoryLockTest.this.getValue("purl(knit)", "#{factoryLock.purlKnit}");
+         }
+      });
+   }
+   
    private void invokeMethod(final String expected, final String el) throws Exception {
       new ComponentTest() {
          @Override
@@ -209,7 +235,7 @@ public class FactoryLockTest extends JUnitSeamTest
    @SuppressWarnings("serial")
    @Scope(ScopeType.SESSION)
    @Name("seamSynchronizedFactoryLock.test")
-   @Synchronized(timeout=10000)
+   @Synchronized(timeout=3000)
    public static class SeamSynchronizedFactoryLockAction implements Serializable
    {
       // gets instance produced by this component's factory 
@@ -239,6 +265,44 @@ public class FactoryLockTest extends JUnitSeamTest
       @Factory(value="factoryLock.foo", scope=ScopeType.SESSION)
       public String getFoo() {
          return "foo";
+      }
+   }
+   
+   @Scope(ScopeType.APPLICATION)
+   @Name("factoryLock.knitFactory")
+   public static class KnitFactory
+   {
+      @Factory(value="factoryLock.knitPurl", scope=ScopeType.SESSION)
+      public String getDoubleKnit() {
+         try
+         {
+            Thread.sleep(500);
+         }
+         catch (InterruptedException e)
+         {
+            e.printStackTrace();
+         }
+         return "knit(" + (String)Component.getInstance("factoryLock.purl") + ")";
+      }
+      
+      @Factory(value="factoryLock.knit", scope=ScopeType.SESSION)
+      public String getKnit() {
+         return "knit";
+      }
+   }
+   
+   @Scope(ScopeType.APPLICATION)
+   @Name("factoryLock.purlFactory")
+   public static class PurlFactory
+   {
+      @Factory(value="factoryLock.purlKnit", scope=ScopeType.SESSION)
+      public String getDoublePurl() {
+         return "purl(" + (String)Component.getInstance("factoryLock.knit") + ")";
+      }
+      
+      @Factory(value="factoryLock.purl", scope=ScopeType.SESSION)
+      public String getPurl() {
+         return "purl";
       }
    }
 }
