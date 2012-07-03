@@ -2076,6 +2076,7 @@ public class Component extends Model
          else if (factoryMethod != null && getOutScope(factoryMethod.getScope(), factoryMethod.getComponent()).isContextActive())
          {
             Object factory = Component.getInstance(factoryMethod.getComponent().getName(), true);
+            Component component = factoryMethod.getComponent();
             ScopeType scopeResult = getOutScope(factoryMethod.getScope(), factoryMethod.getComponent());
             ScopeType scopeFactory = factoryMethod.getComponent().getScope();
             // we need this lock in the following cases: (1) the target scope is
@@ -2105,12 +2106,12 @@ public class Component extends Model
                      return createInstanceFromFactory(name, scope, factoryMethod, factory);
                   }
                }
-               // synchronize all instances of this factory as they might
-               // outject to the same scope (i.e. factory in EVENT scope,
+               // synchronize all instances of this component as they might
+               // outject to the same scope (i.e. component factory in EVENT scope,
                // outjecting to APPLICATION scope).
                else
                {
-                  synchronized (factory.getClass())
+                  synchronized (component)
                   {
                      return createInstanceFromFactory(name, scope, factoryMethod, factory);
                   }
