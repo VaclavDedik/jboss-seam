@@ -175,7 +175,7 @@ public class FactoryLockTest extends JUnitSeamTest
          return (String)Component.getInstance("factoryLock.testString", true);
       }
       
-      @Factory(value="factoryLock.testString", scope=ScopeType.EVENT)
+      @Factory(value="factoryLock.testString", scope=ScopeType.SESSION)
       public String getTestString() {
          return "testString";
       }
@@ -185,7 +185,7 @@ public class FactoryLockTest extends JUnitSeamTest
    
    @Name("factoryLock.testProducer")
    public static class TestProducer {
-      @Factory(value="factoryLock.foo", scope=ScopeType.EVENT)
+      @Factory(value="factoryLock.foo", scope=ScopeType.SESSION)
       public String getFoo() {
          return "foo";
       }
