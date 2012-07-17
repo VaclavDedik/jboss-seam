@@ -24,9 +24,9 @@
     <section>
         <title>Before you start</title>
 
-        <para>Make sure you have JDK 5 or JDK 6 (see <xref
-            linkend="jdk_dependencies"/> for details), JBoss AS 4.2 or 5.0 and Ant 1.7.0, along with recent versions of
-            Eclipse, the JBoss IDE plugin for Eclipse and the TestNG plugin for Eclipse correctly installed before
+        <para>Make sure you have JDK 6 (see <xref
+            linkend="jdk_dependencies"/> for details), JBoss AS 7.1.1 and Maven 3.x, along with recent versions of
+            Eclipse, the JBoss IDE plugin for Eclipse correctly installed before
             starting. Add your JBoss installation to the JBoss Server View in Eclipse. Start JBoss in debug mode.
             Finally, start a command prompt in the directory where you unzipped the Seam distribution.</para>
 
@@ -43,7 +43,7 @@
         <programlisting>-Xms256m -Xmx512m -XX:PermSize=128m -XX:MaxPermSize=256m</programlisting>
 
         <para>If you're running JBoss from the command line, you can configure the JVM options in
-            <literal>bin/run.conf</literal>.</para>
+            <literal>bin/standalone.conf</literal>.</para>
 
         <para>If you don't want to bother with this stuff now, you don't have to—come back to it later, when you get
             your first <literal>OutOfMemoryException</literal>.</para>
@@ -55,7 +55,7 @@
         <para>The first thing we need to do is configure seam-gen for your environment: JBoss AS installation directory,
             project workspace, and database connection. It's easy, just type:</para>
 
-        <programlisting>cd jboss-seam-2.2.x
+        <programlisting>cd jboss-seam-2.3.0
 seam setup</programlisting>
 
         <para>And you will be prompted for the needed information:</para>
@@ -69,12 +69,12 @@ setup:
      [echo] Welcome to seam-gen :-)
     [input] Enter your project workspace (the directory that contains your Seam projects) [C:/Projects] [C:/Projects]
 /Users/pmuir/workspace
-    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.3.GA] [C:/Program Files/jboss-4.2.3.GA]
-/Applications/jboss-4.2.3.GA
+    [input] Enter your JBoss AS home directory [C:/Program Files/jboss-as-7.1.1.Final] [C:/Program Files/jboss-as-7.1.1.Final]
+/Applications/jboss-as-7.1.1.Final
     [input] Enter the project name [myproject] [myproject]
 helloworld
      [echo] Accepted project name as: helloworld
-    [input] Select a RichFaces skin (not applicable if using ICEFaces) [blueSky] ([blueSky], classic, ruby, wine, deepMarine, emeraldTown, sakura, DEFAULT)
+    [input] Select a RichFaces skin [blueSky] ([blueSky], emeraldTown, ruby, classic, japanCherry, wine, deepMarine, DEFAULT, plain)
 
     [input] Is this project deployed as an EAR (with EJB components) or a WAR (with no EJB support) [ear]  ([ear], war, )
 
@@ -84,7 +84,7 @@ org.jboss.helloworld
 
     [input] Enter the Java package name for your test cases [org.jboss.helloworld.test] [org.jboss.helloworld.test]
 
-    [input] What kind of database are you using? [hsql]  ([hsql], mysql, oracle, postgres, mssql, db2, sybase, enterprisedb, h2)
+    [input] What kind of database are you using? [h2]  ([h2], hsql, mysql, oracle, postgres, mssql, db2, sybase, enterprisedb)
 mysql
     [input] Enter the Hibernate dialect for your database [org.hibernate.dialect.MySQLDialect] [org.hibernate.dialect.MySQLDialect]
 
@@ -104,8 +104,7 @@ pmuir
     [input] Are you working with tables that already exist in the database? [n]  (y, [n], )
 y
     [input] Do you want to drop and recreate the database tables and data in import.sql each time you deploy? [n]  (y, [n], )
-n
-    [input] Enter your ICEfaces home directory (leave blank to omit ICEfaces) [] []
+n    
 
 [propertyfile] Creating new property file: /Users/pmuir/workspace/jboss-seam/seam-gen/build.properties
      [echo] Installing JDBC driver jar to JBoss server
@@ -157,7 +156,7 @@ C:\Projects\jboss-seam&gt;</programlisting>
                 (<literal>helloworld</literal> in this case), and then clicking <literal>Finish</literal>. Do not select
                 <literal>Java Project</literal> from the New Project wizard.</para>
 
-        <para>If your default JDK in Eclipse is not a Java SE 5 or Java SE 6 JDK, you will need to select a Java SE 5
+        <para>If your default JDK in Eclipse is not a Java SE 6 JDK, you will need to select a Java SE 6
             compliant JDK using <literal>Project -&gt; Properties -&gt; Java Compiler</literal>.</para>
 
         <para>Alternatively, you can deploy the project from outside Eclipse by typing <literal>seam explode</literal>.</para>
@@ -405,43 +404,6 @@ C:\Projects\jboss-seam&gt;</programlisting>
         <para>If you create a WAR project using seam-gen, incremental hot deployment is available out of the box for
             classes in the <literal>src/hot</literal> source directory. However, seam-gen does not support
             incremental hot deployment for EAR projects.</para>
-    </section>
-
-    <section>
-        <title>Using Seam with JBoss 4.0</title>
-
-        <para> Seam 2 was developed for JavaServer Faces 1.2. When using JBoss AS, we recommend using JBoss 4.2 or
-            JBoss 5.0, both of which bundle the JSF 1.2 reference implementation. However, it is still possible to use
-            Seam 2 on the JBoss 4.0 platform. There are two basic steps required to do this: install an EJB3-enabled
-            version of JBoss 4.0 and replace MyFaces with the JSF 1.2 reference implementation.  Once you complete these
-            steps, Seam 2 applications can be deployed to JBoss 4.0.</para>
-
-        <section>
-            <title>Install JBoss 4.0</title>
-            <para>JBoss 4.0 does not ship a default configuration compatible with Seam. To run Seam, you must install
-                JBoss 4.0.5 using the JEMS 1.2 installer with the ejb3 profile selected. Seam will not run with an
-                installation that doesn't include EJB3 support. The JEMS installer can be downloaded from <ulink
-                    url="http://www.jboss.org/jbossas/downloads"
-                >http://www.jboss.org/jbossas/downloads</ulink>. </para>
-        </section>
-
-        <section>
-            <title>Install the JSF 1.2 RI</title>
-
-            <para> The web configuration for JBoss 4.0 can be found in the
-                    <literal>server/default/deploy/jbossweb-tomcat55.sar</literal>. You'll need to delete
-                    <literal>myfaces-api.jar</literal> any <literal>myfaces-impl.jar</literal> from the
-                    <literal>jsf-libs </literal>directory. Then, you'll need to copy <literal>jsf-api.jar</literal>,
-                    <literal>jsf-impl.jar</literal>, <literal>el-api.jar</literal>, and <literal>el-ri.jar</literal>
-                to that directory. The JSF JARs can be found in the Seam <literal>lib</literal> directory. The el JARs
-                can be obtained from the Seam 1.2 release. </para>
-
-            <para>You'll also need to edit the <literal>conf/web.xml</literal>, replacing
-                <literal>myfaces-impl.jar</literal> with <literal>jsf-impl.jar</literal>. </para>
-        </section>
-
-
-
     </section>
 
 </chapter>

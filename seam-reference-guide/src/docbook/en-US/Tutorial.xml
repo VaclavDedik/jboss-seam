@@ -12,8 +12,30 @@
         of the Seam distribution.  The registration example, which will be the first example we look at,
         is in the <filename>examples/registration</filename> directory.</para>
 
-        <para>Each example has the same directory structure:</para>
+        <para>Each example has the very similar directory structure which is based on Maven project structure defaults:</para>
 
+        <itemizedlist>
+            <listitem>
+                <para> The <filename>*-ear</filename> directory contains  enterprise application submodule files such as 
+                    aggregator for web application files, EJB project.                        
+                </para>
+            </listitem>
+            <listitem>
+                <para> The <filename>*-web</filename> directory contains  web application submodule view-related files such as 
+                    web page templates, images and stylesheets.                        
+                </para>
+            </listitem>
+            <listitem>
+                <para> The <filename>*-ejb</filename> directory contains  Enterprise Java Beans components.                        
+                </para>
+            </listitem>
+            <listitem>
+                <para> The <filename>*-tests</filename> directory contains Maven integration and functional tests submodule.                            
+                </para>
+            </listitem>
+        </itemizedlist>
+        
+        <!-- TODO rewrite to maven project structure -->
         <itemizedlist>
             <listitem>
                 <para> The <filename>view</filename> directory contains view-related files such as 
@@ -31,26 +53,26 @@
             </listitem>
 
         </itemizedlist>
+<!-- end of TODO rewrite to maven project structure -->
 
         <para>
-            The example applications run both on JBoss AS and Tomcat with no additional configuration.
-            The following sections will explain the procedure in both cases.  Note that all the examples
-            are built and run from the Ant <filename>build.xml</filename>, so you'll need a recent version
-            of Ant installed before you get started.
+            The example applications run both on JBoss AS 7.1.1 with no additional configuration.
+            The following sections will explain the procedure.  Note that all the examples
+            are built and run from the Maven <filename>pom.xml</filename>, so you'll need at least version 3.x
+            of Maven installed before you get started. At the time of writing this text recent version was 3.0.4.
         </para>
-        
 
  
         <section>
             <title>Running the examples on JBoss AS</title>
 
-            <para>The examples are configured for use on JBoss AS 4.2 or 5.0. You'll need to set <literal>jboss.home</literal>,
-                in the shared <literal>build.properties</literal> file in the root folder of your Seam 
-                installation, to the location of your JBoss AS installation.</para>
+            <para>The examples are configured for use on JBoss AS 7.1. You'll need to set <literal>JBOSS_HOME</literal>,
+                in your environment, to the location of your JBoss AS installation.</para>
 
             <para>Once you've set the location of JBoss AS and started the application server, you can build and deploy
-                any example by typing <literal>ant explode</literal> in the directory for that example. Any example
-                that is packaged as an EAR deploys to a URL like
+                any example by typing <literal>mvn install</literal> in the example root directory. And deploys it by changing 
+                to *-ear or *-web directory in case of existence only *-web submodule. Type in that submodule <literal>mvn jboss-as:deploy</literal>. 
+                Any example  that is packaged as an EAR deploys to a URL like
                 <literal>/seam-<replaceable>example</replaceable></literal>, where <replaceable>example</replaceable> is
                 the name of the example folder, with one exception. If the example folder begins with seam, the prefix
                 "seam" is ommitted. For instance, if JBoss AS is running on port 8080, the URL for the registration
@@ -60,38 +82,8 @@
                 <literal>http://localhost:8080/seam-space/</literal></ulink>.</para>
                 
             <para>If, on the other hand, the example gets packaged as a WAR, then it deploys to a URL like
-                <literal>/jboss-seam-<replaceable>example</replaceable></literal>. Most of the examples can be deployed as a WAR
-                to Tomcat with Embedded JBoss by typing <literal>ant tomcat.deploy</literal>. Several of the examples
+                <literal>/jboss-seam-<replaceable>example</replaceable></literal>. Several of the examples
                 can only be deployed as a WAR. Those examples are groovybooking, hibernate, jpa, and spring.
-            </para>
-
-        </section>
-
-        <section>
-            <title>Running the examples on Tomcat</title>
-
-            <para>The examples are also configured for use on Tomcat 6.0.  You will need to follow the
-                instructions in <xref linkend="config.install.embedded"/>
-                for installing JBoss Embedded on Tomcat 6.0.  JBoss Embedded is only required to run the Seam 
-                demos that use EJB3 components on Tomcat. There are also examples of non-EJB3 applications that 
-                can be run on Tomcat without the use of JBoss Embedded.
-            </para>
-            <para>You'll need to
-                set <literal>tomcat.home</literal>, in the shared <literal>build.properties</literal> file in 
-                the root folder of your Seam installation, to the location of your Tomcat installation.
-                make sure you set the location of your Tomcat.  
-            </para>
-
-            <para>You'll need to use a different Ant target when using Tomcat.  Use 
-                <literal>ant tomcat.deploy</literal> in example subdirectory to build and deploy
-                any example for Tomcat.
-            </para>
-
-            <para>On Tomcat, the examples deploy to URLs like 
-                <literal>/jboss-seam-<replaceable>example</replaceable></literal>, so for the registration
-                example the URL would be <ulink url="http://localhost:8080/jboss-seam-registration/">
-                <literal>http://localhost:8080/jboss-seam-registration/</literal></ulink>. The same is true
-                for examples that deploy as a WAR, as mentioned in the previous section.
             </para>
 
         </section>
@@ -99,9 +91,9 @@
         <section>
             <title>Running the example tests</title>
             <para> 
-                Most of the examples come with a suite of TestNG integration tests. The easiest way to run the tests is
-                to run <literal>ant test</literal>.  It is also possible to run the tests inside your IDE using the
-                TestNG plugin. Consult the readme.txt in the examples directory of the Seam distribution for more
+                Most of the examples come with a suite of Arquillian JUnit integration tests. The easiest way to run the tests is
+                to run <literal>mvn verify -Darquillian=jbossas-managed-7</literal>.  It is also possible to run the tests inside your IDE using the
+                JUnit plugin. Consult the readme.txt in the examples directory of the Seam distribution for more
                 information.
             </para>
         </section>
@@ -178,7 +170,7 @@ public class User implements Serializable
    
    public User() {}
    
-   @NotNull @Length(min=5, max=15)
+   @NotNull @Size(min=5, max=15)
    public String getPassword()
    {
       return password;
@@ -200,7 +192,7 @@ public class User implements Serializable
       this.name = name;
    }
    
-   @Id @NotNull @Length(min=5, max=15)
+   @Id @NotNull @Size(min=5, max=15)
    public String getUsername()
    {
       return username;
@@ -253,7 +245,7 @@ public class User implements Serializable
                                 </para>
                             </callout>
                             <callout arearefs="registration-notnull">
-                                <para> The <literal>@NotNull</literal> and <literal>@Length</literal> annotations are
+                                <para> The <literal>@NotNull</literal> and <literal>@Size</literal> annotations are
                                     part of the Hibernate Validator framework. Seam integrates Hibernate Validator and
                                     lets you use it for data validation (even if you are not using Hibernate for
                                     persistence). </para>
@@ -269,7 +261,7 @@ public class User implements Serializable
                             <literal>@Scope</literal> annotations. These annotations establish that this class is a Seam component. </para>
                     <para> We'll see below that the properties of our <literal>User</literal> class are bound
                         directly to JSF components and are populated by JSF during the update model values phase. We
-                        don't need any tedious glue code to copy data back and forth between the JSP pages and the
+                        don't need any tedious glue code to copy data back and forth between the JSF pages and the
                         entity bean domain model. </para>
                     <para> However, entity beans shouldn't do transaction management or database access. So we can't use
                         this component as a JSF action listener. For that we need a session bean. </para>
@@ -436,7 +428,7 @@ public interface Register
                 <title>The view: <literal>register.xhtml</literal> and <literal>registered.xhtml</literal></title>
 
                 <para> The view pages for a Seam application could be implemented using any technology that supports
-                    JSF. In this example we use Facelets, because we think it's better than JSP.</para>
+                    JSF. In this example we use Facelets, because we think it's better than JSF.</para>
 
                 <example>
                 <title>register.xhtml</title>
@@ -540,9 +532,14 @@ public interface Register
 
                 <para> This code configures a property named <literal>jndiPattern</literal> of a built-in Seam component
                     named <literal>org.jboss.seam.core.init</literal>. The funny <literal>@</literal> symbols are
-                    there because our Ant build script puts the correct JNDI pattern in when we deploy the application,
+                    there because our Maven build puts the correct JNDI pattern in when we deploy the application,
                     which it reads from the components.properties file. You learn more about how this process works in
                     <xref linkend="xml.descriptor"/>.</para>
+                    
+                    <note>
+                        <para>Eclipse M2e Web tools plugin can't use the <literal>@</literal> for token property filtering.  Fortunately
+                        there works the other way which is in Maven filtering defined - <literal>${property}</literal>.</para>
+                    </note>
 
             </section>
 
@@ -558,8 +555,8 @@ public interface Register
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
         http://java.sun.com/xml/ns/javaee
-        http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-    version="2.5">
+        http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+    version="3.0">
 
     <listener>
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
@@ -607,21 +604,16 @@ public interface Register
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
         http://java.sun.com/xml/ns/javaee
-        http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"
-    version="1.2">
-
-    <application>
-        <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
-    </application>
+        http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd"
+    version="2.1">
     
 </faces-config>]]></programlisting>
                 </example>
                 
 
                 <para> Note that we don't need
-                    any JSF managed bean declarations! Our managed beans are annotated Seam components. In Seam applications,
-                    the <literal>faces-config.xml</literal> is used much less often than in plain JSF. Here, we are simply
-                    using it to enable Facelets as the view handler instead of JSP.</para>
+                    any JSF managed bean declarations and neither FaceletViewHandler definition as Facelets are default view technology 
+                    in JSF 2! Our managed beans are annotated Seam components.</para>
 
                 <para> In fact, once you have all the basic descriptors set up, the <emphasis>only</emphasis> XML you
                     need to write as you add new functionality to a Seam application is orchestration: navigation rules 
@@ -681,7 +673,7 @@ public interface Register
 
     <persistence-unit name="userDatabase">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
-        <jta-data-source>java:/DefaultDS</jta-data-source>
+        <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
         <properties>
             <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
         </properties>
@@ -695,34 +687,34 @@ public interface Register
                 <title>The EAR deployment descriptor: <literal>application.xml</literal></title>
 
                 <para> Finally, since our application is deployed as an EAR, we need a deployment descriptor there, too. </para>
+                
+                <note>
+                    <para>This file can be generated by Maven EAR plugin and registration application has got this set up registration-ear/pom.xml.</para>
+                </note>
 
+                <para>Just for imagination, the following is the result of that generation:</para>
+                
                 <example id="registration-application-xml"><title>registration application</title>
                   <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <application xmlns="http://java.sun.com/xml/ns/javaee" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
         http://java.sun.com/xml/ns/javaee
-        http://java.sun.com/xml/ns/javaee/application_5.xsd"
-    version="5">
-             
-    <display-name>Seam Registration</display-name>
-
+        http://java.sun.com/xml/ns/javaee/application_6.xsd"
+    version="6">
+    <display-name>registration-ear</display-name>
     <module>
         <web>
-            <web-uri>jboss-seam-registration.war</web-uri>
+            <web-uri>registration-web.war</web-uri>
             <context-root>/seam-registration</context-root>
         </web>
     </module>
     <module>
-        <ejb>jboss-seam-registration.jar</ejb>
+        <ejb>registration-ejb.jar</ejb>
     </module>
     <module>
         <ejb>jboss-seam.jar</ejb>
     </module>
-    <module>
-        <java>jboss-el.jar</java>
-    </module>
-
 </application>]]></programlisting>
                 </example>
 
@@ -784,7 +776,7 @@ public interface Register
         <section>
             <title>Understanding the code</title>
             <para> The message list example has one entity bean, <literal>Message</literal>, one session bean,
-                    <literal>MessageListBean</literal> and one JSP. </para>
+                    <literal>MessageListBean</literal> and one JSF. </para>
 
             <section>
                 <title>The entity bean: <literal>Message.java</literal></title>
@@ -815,7 +807,7 @@ public class Message implements Serializable
       this.id = id;
    }
    
-   @NotNull @Length(max=100)
+   @NotNull @Size(max=100)
    public String getTitle()
    {
       return title;
@@ -956,7 +948,7 @@ public class MessageManagerBean implements Serializable, MessageManager
                                     needing to make any explicit call to the <literal>EntityManager</literal>. </para>
                             </callout>
                             <callout arearefs="messages-factory">
-                                <para> The first time we navigate to the JSP page, there will be no value in the
+                                <para> The first time we navigate to the JSF page, there will be no value in the
                                         <literal>messageList</literal> context variable. The <literal>@Factory</literal>
                                     annotation tells Seam to create an instance of <literal>MessageManagerBean</literal>
                                     and invoke the <literal>findMessages()</literal> method to initialize the value. We
@@ -1008,58 +1000,58 @@ public interface MessageManager
                 <para> Let's skip over <literal>components.xml</literal>, <literal>persistence.xml</literal>,
                         <literal>web.xml</literal>, <literal>ejb-jar.xml</literal>, <literal>faces-config.xml</literal>
                     and <literal>application.xml</literal> since they are much the same as the previous example, and go
-                    straight to the JSP. </para>
+                    straight to the JSF. </para>
 
             </section>
 
             <section>
-                <title>The view: <literal>messages.jsp</literal></title>
+                <title>The view: <literal>messages.xhtml</literal></title>
 
-                <para> The JSP page is a straightforward use of the JSF <literal>&lt;h:dataTable&gt;</literal>
+                <para> The JSF page is a straightforward use of the JSF <literal>&lt;h:dataTable&gt;</literal>
                     component. Again, nothing specific to Seam. </para>
                 <example>
-                    <title>messages.jsp</title>
-                    <programlisting role="XHTML"><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
-<%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
-<html>
+                    <title>messages.xhtml</title>
+                    <programlisting role="XHTML"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:s="http://jboss.org/schema/seam/taglib"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
  <head>
   <title>Messages</title>
  </head>
  <body>
   <f:view>
-   <h:form>
      <h2>Message List</h2>
-     <h:outputText value="No messages to display" 
-                   rendered="#{messageList.rowCount==0}"/>
-     <h:dataTable var="msg" value="#{messageList}" 
-                  rendered="#{messageList.rowCount>0}">
+     <h:outputText id="noMessages" value="No messages to display" rendered="#{messageList.rowCount==0}"/>
+     <h:dataTable id="messages" var="msg" value="#{messageList}" rendered="#{messageList.rowCount>0}">
         <h:column>
            <f:facet name="header">
               <h:outputText value="Read"/>
            </f:facet>
-           <h:selectBooleanCheckbox value="#{msg.read}" disabled="true"/>
+           <h:selectBooleanCheckbox id="read" value="#{msg.read}" disabled="true"/>
         </h:column>
         <h:column>
            <f:facet name="header">
               <h:outputText value="Title"/>
            </f:facet>
-           <h:commandLink value="#{msg.title}" action="#{messageManager.select}"/>
+           <s:link id="link" value="#{msg.title}" action="#{messageManager.select}"/>
         </h:column>
         <h:column>
            <f:facet name="header">
               <h:outputText value="Date/Time"/>
            </f:facet>
-           <h:outputText value="#{msg.datetime}">
+           <h:outputText id="date" value="#{msg.datetime}">
               <f:convertDateTime type="both" dateStyle="medium" timeStyle="short"/>
            </h:outputText>
         </h:column>
         <h:column>
-           <h:commandButton value="Delete" action="#{messageManager.delete}"/>
+           <s:button id="delete" value="Delete" action="#{messageManager.delete}"/>
         </h:column>
      </h:dataTable>
-     <h3><h:outputText value="#{message.title}"/></h3>
-     <div><h:outputText value="#{message.text}"/></div>
-   </h:form>
+     <h3><h:outputText id="title" value="#{message.title}"/></h3>
+     <div><h:outputText id="text" value="#{message.text}"/></div>
   </f:view>
  </body>
 </html>]]></programlisting>
@@ -1073,7 +1065,7 @@ public interface MessageManager
         <section>
             <title>How it works</title>
 
-            <para> The first time we navigate to the <literal>messages.jsp</literal> page, the page will try to resolve the
+            <para> The first time we navigate to the <literal>messages.xhtml</literal> page, the page will try to resolve the
                     <literal>messageList</literal> context variable. Since this context variable is not initialized,
                 Seam will call the factory method <literal>findMessages()</literal>, which performs a query against the
                 database and results in a <literal>DataModel</literal> being outjected. This
@@ -1200,7 +1192,7 @@ public interface MessageManager
                 trivial possible business process: there is one <emphasis>task</emphasis> to be performed, and when that
                 task is complete, the business process ends. </para>
 
-            <para> The first JavaBean handles the login screen <literal>login.jsp</literal>. Its job is just to
+            <para> The first JavaBean handles the login screen <literal>login.xhtml</literal>. Its job is just to
                 initialize the jBPM actor id using the <literal>actor</literal> component. In a real application, it
                 would also need to authenticate the user.</para>
             <example>
@@ -1226,7 +1218,7 @@ public class Login
    public String login()
    {
       actor.setId(user);
-      return "/todo.jsp";
+      return "/todo.xhtml";
    }
 }]]></programlisting>
             </example>
@@ -1235,27 +1227,31 @@ public class Login
             <para> Here we see the use of <literal>@In</literal> to inject the built-in <literal>Actor</literal>
                 component. </para>
 
-            <para> The JSP itself is trivial: </para>
+            <para> The JSF itself is trivial: </para>
 
             <example>
-                <title>login.jsp</title>
-                <programlisting role="XHTML"><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
-<%@ taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
-<html>
-<head>
-<title>Login</title>
-</head>
-<body>
-<h1>Login</h1>
-<f:view>
-    <h:form>
-      <div>
-        <h:inputText value="#{login.user}"/>
-        <h:commandButton value="Login" action="#{login.login}"/>
-      </div>
-    </h:form>
-</f:view>
-</body>
+                <title>login.xhtml</title>
+                <programlisting role="XHTML"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:s="http://jboss.org/schema/seam/taglib"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+   <head>
+      <title>Login</title>
+   </head>
+   <body>
+      <h1>Login</h1>
+      <f:view>
+         <h:form id="login">
+            <div>
+               <h:inputText id="username" value="#{login.user}"/>
+               <h:commandButton id="submit" value="Login" action="#{login.login}"/>
+            </div>
+         </h:form>
+      </f:view>
+   </body>
 </html>]]></programlisting></example>
 
             
@@ -1295,7 +1291,7 @@ public class TodoList
 }]]></programlisting>
                     <calloutlist>
                         <callout arearefs="todo-description">
-                            <para> The description property accepts user input from the JSP page, and exposes it to the
+                            <para> The description property accepts user input from the JSF page, and exposes it to the
                                 process definition, allowing the task description to be set. </para>
                         </callout>
                         <callout arearefs="todo-createprocess-annotation">
@@ -1316,9 +1312,9 @@ public class TodoList
                 appear on the same method, because there is usually work to be done using the application in order to
                 complete the task. </para>
 
-            <para> Finally, the core of the application is in <literal>todo.jsp</literal>: </para>
+            <para> Finally, the core of the application is in <literal>todo.xhtml</literal>: </para>
             <example>
-                <title>todo.jsp</title>
+                <title>todo.xhtml</title>
                 <programlisting role="XHTML"><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
 <%@ taglib uri="http://jboss.org/schema/seam/taglib" prefix="s" %>
@@ -1392,7 +1388,7 @@ public class TodoList
             <para> The page renders a list of tasks, which it gets from a built-in Seam component named
                     <literal>taskInstanceList</literal>. The list is defined inside a JSF form. </para>
             <example>
-                <title>todo.jsp</title>
+                <title>todo.xhtml</title>
                 <programlisting role="XHTML"><![CDATA[<h:form id="list">
    <div>
       <h:outputText value="There are no todo items." rendered="#{empty taskInstanceList}"/>
@@ -1470,7 +1466,7 @@ public class TodoList
         
         <section>
             <title>How it works</title>
-            <para>After logging in, todo.jsp uses the <literal>taskInstanceList</literal> component to display a table
+            <para>After logging in, todo.xhtml uses the <literal>taskInstanceList</literal> component to display a table
             of outstanding todo items for a the current user.  Initially there are none.  It
             also presents a form to enter a new entry.  When the user types the todo item and
             hits the "Create New Item" button, <literal>#{todoList.createTodo}</literal> is called.  This starts
@@ -1488,7 +1484,7 @@ public class TodoList
             </para>
             
             <para>
-                When <literal>todo.jsp</literal> is redisplayed, <literal>taskInstanceList</literal> now finds 
+                When <literal>todo.xhtml</literal> is redisplayed, <literal>taskInstanceList</literal> now finds 
                 the task that was just created.
                 The task is shown in an <literal>h:dataTable</literal>.  The internal state of the task is 
                 displayed in 
@@ -1508,7 +1504,7 @@ public class TodoList
             The state of the task and process are both updated in the database.
             </para>
             
-            <para>When <literal>todo.jsp</literal> is displayed again, the now-completed task is no longer 
+            <para>When <literal>todo.xhtml</literal> is displayed again, the now-completed task is no longer 
                 displayed in the
             <literal>taskInstanceList</literal>, since that component only display active tasks for the user.</para>
         </section>
@@ -1538,7 +1534,7 @@ public class TodoList
 
         <section>
             <title>Understanding the code</title>
-            <para> The example is implemented using one JavaBean, three JSP pages and a jPDL pageflow definition. Let's
+            <para> The example is implemented using one JavaBean, three JSF pages and a jPDL pageflow definition. Let's
                 begin with the pageflow: </para>
              <!-- Can't use code hightlighting with callouts -->
              <example>
@@ -1557,7 +1553,7 @@ public class TodoList
                             http://jboss.org/schema/seam/pageflow-2.3.xsd"
         name="numberGuess">
    
-   <start-page name="displayGuess" view-id="/numberGuess.jspx">
+   <start-page name="displayGuess" view-id="/numberGuess.xhtml">
       <redirect/>
       <transition name="guess" to="evaluateGuess">
          <action expression="#{numberGuess.guess}"/>
@@ -1576,7 +1572,7 @@ public class TodoList
       <transition name="false" to="displayGuess"/>
    </decision>
    
-   <page name="giveup" view-id="/giveup.jspx">
+   <page name="giveup" view-id="/giveup.xhtml">
       <redirect/>
       <transition name="yes" to="lose"/>
       <transition name="no" to="displayGuess"/>
@@ -1587,12 +1583,12 @@ public class TodoList
       <transition to="displayGuess"/>
    </process-state>
    
-   <page name="win" view-id="/win.jspx">
+   <page name="win" view-id="/win.xhtml">
       <redirect/>
       <end-conversation/>
    </page>
    
-   <page name="lose" view-id="/lose.jspx">
+   <page name="lose" view-id="/lose.xhtml">
       <redirect/>
       <end-conversation/>
    </page>
@@ -1639,120 +1635,98 @@ public class TodoList
 
             <para> Now that we have seen the pageflow, it is very, very easy to understand the rest of the application! </para>
 
-            <para> Here is the main page of the application, <literal>numberGuess.jspx</literal>: </para>
+            <para> Here is the main page of the application, <literal>numberGuess.xhtml</literal>: </para>
 
             <example>
-                <title>numberGuess.jspx</title>
-                <programlisting role="XHTML"><![CDATA[<<?xml version="1.0"?>
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" 
-          xmlns:h="http://java.sun.com/jsf/html"
-          xmlns:f="http://java.sun.com/jsf/core"
-          xmlns:s="http://jboss.org/schema/seam/taglib"
-          xmlns="http://www.w3.org/1999/xhtml"
-          version="2.0">
-  <jsp:output doctype-root-element="html" 
-              doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
-              doctype-system="http://www.w3c.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
-  <jsp:directive.page contentType="text/html"/>
-  <html>
+                <title>numberGuess.xhtml</title>
+                <programlisting role="XHTML"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:s="http://jboss.org/schema/seam/taglib">
   <head>
     <title>Guess a number...</title>
     <link href="niceforms.css" rel="stylesheet" type="text/css" />
-    <script language="javascript" type="text/javascript" src="niceforms.js" />
+    <script language="javascript" type="text/javascript" src="niceforms.js"><!-- --></script>
   </head>
   <body>
     <h1>Guess a number...</h1>
-    <f:view>
-      <h:form styleClass="niceform">
-        
+      <h:form id="NumberGuessMain" styleClass="niceform">
+
         <div>
-        <h:messages globalOnly="true"/>
-        <h:outputText value="Higher!" 
-               rendered="#{numberGuess.randomNumber gt numberGuess.currentGuess}"/>
-        <h:outputText value="Lower!" 
-               rendered="#{numberGuess.randomNumber lt numberGuess.currentGuess}"/>
+        <h:messages id="messages" globalOnly="true"/>
+        <h:outputText id="Higher"
+                          value="Higher!" 
+                      rendered="#{numberGuess.randomNumber gt numberGuess.currentGuess}"/>
+        <h:outputText id="Lower"
+                          value="Lower!" 
+                      rendered="#{numberGuess.randomNumber lt numberGuess.currentGuess}"/>
         </div>
-        
+
         <div>
-        I'm thinking of a number between 
-        <h:outputText value="#{numberGuess.smallest}"/> and 
-        <h:outputText value="#{numberGuess.biggest}"/>. You have 
-        <h:outputText value="#{numberGuess.remainingGuesses}"/> guesses.
+        I'm thinking of a number between <h:outputText id="Smallest" value="#{numberGuess.smallest}"/> and
+        <h:outputText id="Biggest" value="#{numberGuess.biggest}"/>. You have
+        <h:outputText id="RemainingGuesses" value="#{numberGuess.remainingGuesses}"/> guesses.
         </div>
-        
+
         <div>
-        Your guess: 
-        <h:inputText value="#{numberGuess.currentGuess}" id="inputGuess" 
-                     required="true" size="3" 
-                     rendered="#{(numberGuess.biggest-numberGuess.smallest) gt 20}">
+        Your guess:
+        <h:inputText id="inputGuess" value="#{numberGuess.currentGuess}" required="true" size="3" 
+                 rendered="#{(numberGuess.biggest-numberGuess.smallest) gt 20}">
           <f:validateLongRange maximum="#{numberGuess.biggest}" 
                                minimum="#{numberGuess.smallest}"/>
         </h:inputText>
-        <h:selectOneMenu value="#{numberGuess.currentGuess}" 
-                         id="selectGuessMenu" required="true"
-                         rendered="#{(numberGuess.biggest-numberGuess.smallest) le 20 and 
-                                     (numberGuess.biggest-numberGuess.smallest) gt 4}">
-          <s:selectItems value="#{numberGuess.possibilities}" var="i" label="#{i}"/>
+        <h:selectOneMenu id="selectGuessMenu" value="#{numberGuess.currentGuess}" required="true"
+                       rendered="#{(numberGuess.biggest-numberGuess.smallest) le 20 and (numberGuess.biggest-numberGuess.smallest) gt 4}">
+          <s:selectItems id="PossibilitiesMenuItems" value="#{numberGuess.possibilities}" var="i" label="#{i}"/>
         </h:selectOneMenu>
-        <h:selectOneRadio value="#{numberGuess.currentGuess}" id="selectGuessRadio" 
-                          required="true"
-                          rendered="#{(numberGuess.biggest-numberGuess.smallest) le 4}">
-          <s:selectItems value="#{numberGuess.possibilities}" var="i" label="#{i}"/>
+        <h:selectOneRadio id="selectGuessRadio" value="#{numberGuess.currentGuess}" required="true"
+                       rendered="#{(numberGuess.biggest-numberGuess.smallest) le 4}">
+          <s:selectItems id="PossibilitiesRadioItems" value="#{numberGuess.possibilities}" var="i" label="#{i}"/>
         </h:selectOneRadio>
-        <h:commandButton value="Guess" action="guess"/>
-        <s:button value="Cheat" view="/confirm.jspx"/>
-        <s:button value="Give up" action="giveup"/>
+        <h:commandButton id="GuessButton" value="Guess" action="guess"/>
+        <s:button id="CheatButton" value="Cheat" action="cheat"/>
+        <s:button id="GiveUpButton" value="Give up" action="giveup"/>
         </div>
-        
+
         <div>
-        <h:message for="inputGuess" style="color: red"/>
+        <h:message id="message" for="inputGuess" style="color: red"/>
         </div>
-        
+
       </h:form>
-    </f:view>
   </body>
-  </html>
-</jsp:root>]]></programlisting>
+</html>]]></programlisting>
             </example>
             
 
             <para> Notice how the command button names the <literal>guess</literal> transition instead of calling an
                 action directly. </para>
 
-            <para> The <literal>win.jspx</literal> page is predictable: </para>
+            <para> The <literal>win.xhtml</literal> page is predictable: </para>
             <example>
-                <title>win.jspx</title>
-                <programlisting role="JSP"><![CDATA[<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" 
-          xmlns:h="http://java.sun.com/jsf/html"
-          xmlns:f="http://java.sun.com/jsf/core"
-          xmlns="http://www.w3.org/1999/xhtml"
-          version="2.0">
-  <jsp:output doctype-root-element="html"
-              doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
-              doctype-system="http://www.w3c.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
-  <jsp:directive.page contentType="text/html"/>
-  <html>
+                <title>win.xhtml</title>
+                <programlisting role="JSF"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:s="http://jboss.org/schema/seam/taglib">
   <head>
     <title>You won!</title>
     <link href="niceforms.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <h1>You won!</h1>
-    <f:view>
-      Yes, the answer was <h:outputText value="#{numberGuess.currentGuess}" />.
-      It took you <h:outputText value="#{numberGuess.guessCount}" /> guesses.
-      <h:outputText value="But you cheated, so it doesn't count!" 
-                    rendered="#{numberGuess.cheat}"/>
+      Yes, the answer was <h:outputText id="CurrentGuess" value="#{numberGuess.currentGuess}" />.
+      It took you <h:outputText id="GuessCount" value="#{numberGuess.guessCount}" /> guesses.
+      <h:outputText id="CheatedMessage" value="But you cheated, so it doesn't count!" rendered="#{numberGuess.cheat}"/>
       Would you like to <a href="numberGuess.seam">play again</a>?
-    </f:view>
   </body>
-  </html>
-</jsp:root>
+</html>
 ]]></programlisting>
             </example>
             
 
-            <para>The <literal>lose.jspx</literal> looks roughly the same, so we'll skip over it.</para>
+            <para>The <literal>lose.xhtml</literal> looks roughly the same, so we'll skip over it.</para>
             
             <para>Finally, we'll look at the actual application code: </para>
              <!-- Can't use code hightlighting with callouts -->
@@ -1867,7 +1841,7 @@ public class NumberGuess implements Serializable {
 ]]></programlisting>
                     <calloutlist>
                         <callout arearefs="numberguess-create">
-                            <para> The first time a JSP page asks for a <literal>numberGuess</literal> component, Seam
+                            <para> The first time a JSF page asks for a <literal>numberGuess</literal> component, Seam
                                 will create a new one for it, and the <literal>@Create</literal> method will be invoked,
                                 allowing the component to initialize itself. </para>
                         </callout>
@@ -1891,7 +1865,7 @@ public class NumberGuess implements Serializable {
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://jboss.org/schema/seam/pages http://jboss.org/schema/seam/pages-2.3.xsd">
 
-  <page view-id="/numberGuess.jspx">
+  <page view-id="/numberGuess.xhtml">
     <begin-conversation join="true" pageflow="numberGuess"/>
   </page>
 
@@ -1908,7 +1882,7 @@ public class NumberGuess implements Serializable {
         <section>
             <title>How it works</title>
             <para>We'll step through basic flow of the application.  The game starts with the 
-                <literal>numberGuess.jspx</literal> view.  When the page is first displayed, the 
+                <literal>numberGuess.xhtml</literal> view.  When the page is first displayed, the 
                 <literal>pages.xml</literal> configuration causes conversation to begin and associates
                 the <literal>numberGuess</literal> pageflow 
                 with that conversation.  The pageflow starts with a <literal>start-page</literal> tag, 
@@ -1934,7 +1908,7 @@ public class NumberGuess implements Serializable {
                 tests the <literal>#{numberGuess.lastGuess}</literal> state to determine whether or not the user has 
                 more guesses.  If there are more guesses (<literal>lastGuess</literal> is <literal>false</literal>),
                 we transition back to the original <literal>displayGuess</literal> state.  Finally we've
-                reached a page state, so the associated page <literal>/numberGuess.jspx</literal> is displayed.  
+                reached a page state, so the associated page <literal>/numberGuess.xhtml</literal> is displayed.  
                 Since the page has a redirect element, Seam sends a redirect to the user's browser, 
                 starting the process over.
             </para>
@@ -1942,7 +1916,7 @@ public class NumberGuess implements Serializable {
             <para>
                 We won't follow the state any more except to note that if on a future request either the 
                 <literal>win</literal> or the <literal>lose</literal> transition were taken, the user would 
-                be taken to either the <literal>/win.jspx</literal> or <literal>/lose.jspx</literal>. 
+                be taken to either the <literal>/win.xhtml</literal> or <literal>/lose.xhtml</literal>. 
                 Both states specify that Seam should end the conversation, tossing away all the game state and 
                 pageflow state, before redirecting the user to the
                 final page.  
@@ -2011,8 +1985,8 @@ public class NumberGuess implements Serializable {
         </mediaobject>
       </screenshot>
 
-            <para> The booking application uses JSF, EJB 3.0 and Seam, together with Facelets for the view. There is
-                also a port of this application to JSF, Facelets, Seam, JavaBeans and Hibernate3. </para>
+            <para> The booking application uses JSF 2, EJB 3.0 and Seam, together with Facelets for the view. There is
+                also a port of this application to JSF 2, Seam, JavaBeans and Hibernate4. </para>
 
             <para> One of the things you'll notice if you play with this application for long enough is that it is
                 extremely <emphasis>robust</emphasis>. You can play with back buttons and browser refresh and opening
@@ -2272,36 +2246,34 @@ public class HotelSearchingAction implements HotelSearching
                      <area id="booking-outputpanel-element" coords="37"/>
                      <area id="booking-link-element" coords="61"/>
                  </areaspec>
-                 <programlisting><![CDATA[<div class="section">
+                 <programlisting><![CDATA[
+<div class="section">
   
     <span class="errors">
-       <h:messages globalOnly="true"/>
+       <h:messages id="messages" globalOnly="true"/>
     </span>
     
     <h1>Search Hotels</h1>
 
     <h:form id="searchCriteria">
-    <fieldset> 
-       <h:inputText id="searchString" value="#{hotelSearch.searchString}" 
-                    style="width: 165px;">
-         <a:support event="onkeyup" actionListener="#{hotelSearch.find}" 
-                    reRender="searchResults" />
-       </h:inputText>
+    <fieldset>
+       <h:inputText id="searchString" value="#{hotelSearch.searchString}" style="width: 165px;">
+        <a:ajax event="keyup" render="searchResults" listener="#{hotelSearch.find}"/>
+       </h:inputText>                     
        &#160;
-       <a:commandButton id="findHotels" value="Find Hotels" action="#{hotelSearch.find}" 
-                        reRender="searchResults"/>
+       <a:commandButton id="findHotels" value="Find Hotels" actionListener="#{hotelSearch.find}"  render="searchResults"/>
        &#160;
-       <a:status>
-          <f:facet name="start">
-             <h:graphicImage value="/img/spinner.gif"/>
+       <a:status id="status">
+          <f:facet id="StartStatus" name="start">
+             <h:graphicImage id="SpinnerGif" value="/img/spinner.gif"/>
           </f:facet>
        </a:status>
        <br/>
-       <h:outputLabel for="pageSize">Maximum results:</h:outputLabel>&#160;
-       <h:selectOneMenu value="#{hotelSearch.pageSize}" id="pageSize">
-          <f:selectItem itemLabel="5" itemValue="5"/>
-          <f:selectItem itemLabel="10" itemValue="10"/>
-          <f:selectItem itemLabel="20" itemValue="20"/>
+       <h:outputLabel id="MaximumResultsLabel" for="pageSize">Maximum results:</h:outputLabel>&#160;
+       <h:selectOneMenu id="pageSize" value="#{hotelSearch.pageSize}">
+          <f:selectItem id="PageSize5" itemLabel="5" itemValue="5"/>
+          <f:selectItem id="PageSize10" itemLabel="10" itemValue="10"/>
+          <f:selectItem id="PageSize20" itemLabel="20" itemValue="20"/>
        </h:selectOneMenu>
     </fieldset>
     </h:form>
@@ -2310,39 +2282,36 @@ public class HotelSearchingAction implements HotelSearching
 
 <a:outputPanel id="searchResults">
   <div class="section">
-    <h:outputText value="No Hotels Found"
-                  rendered="#{hotels != null and hotels.rowCount==0}"/>
-    <h:dataTable id="hotels" value="#{hotels}" var="hot" 
-                 rendered="#{hotels.rowCount>0}">
-        <h:column>
-            <f:facet name="header">Name</f:facet>
+    <h:outputText id="NoHotelsFoundMessage" value="No Hotels Found" rendered="#{hotels != null and hotels.rowCount==0}"/>
+    <h:dataTable id="hotels" value="#{hotels}" var="hot" rendered="#{hotels.rowCount>0}">
+        <h:column id="column1">
+            <f:facet id="NameFacet" name="header">Name</f:facet>
             #{hot.name}
         </h:column>
-        <h:column>
-            <f:facet name="header">Address</f:facet>
+        <h:column id="column2">
+            <f:facet id="AddressFacet" name="header">Address</f:facet>
             #{hot.address}
         </h:column>
-        <h:column>
-            <f:facet name="header">City, State</f:facet>
+        <h:column id="column3">
+            <f:facet id="CityStateFacet" name="header">City, State</f:facet>
             #{hot.city}, #{hot.state}, #{hot.country}
         </h:column> 
-        <h:column>
-            <f:facet name="header">Zip</f:facet>
+        <h:column id="column4">
+            <f:facet id="ZipFacet" name="header">Zip</f:facet>
             #{hot.zip}
         </h:column>
-        <h:column>
-            <f:facet name="header">Action</f:facet>
-            <s:link id="viewHotel" value="View Hotel" 
-                    action="#{hotelBooking.selectHotel(hot)}"/>
+        <h:column id="column5">
+            <f:facet id="ActionFacet" name="header">Action</f:facet>
+            <s:link id="viewHotel" value="View Hotel" action="#{hotelBooking.selectHotel(hot)}"/>
         </h:column>
     </h:dataTable>
-    <s:link value="More results" action="#{hotelSearch.nextPage}" 
-            rendered="#{hotelSearch.nextPageAvailable}"/>
+    <s:link id="MoreResultsLink" value="More results" action="#{hotelSearch.nextPage}" rendered="#{hotelSearch.nextPageAvailable}"/>
   </div>
-</a:outputPanel>    ]]></programlisting>
+</a:outputPanel>
+]]></programlisting>
                     <calloutlist>
                         <callout arearefs="booking-support-element">
-                            <para> The RichFaces Ajax <literal>&lt;a:support&gt;</literal> tag allows a JSF action
+                            <para> The RichFaces Ajax <literal>&lt;a:ajax&gt;</literal> tag allows a JSF action
                                 event listener to be called by asynchronous <literal>XMLHttpRequest</literal> when a
                                 JavaScript event like <literal>onkeyup</literal> occurs. Even better, the
                                     <literal>reRender</literal> attribute lets us render a fragment of the JSF page and
@@ -2742,20 +2711,14 @@ selections).</para>
 <div class="section">
     <h:form id="room_selections_form">
         <div class="section">
-            <h:outputText styleClass="output" 
-                value="No rooms available for the dates selected: " 
-                rendered="#{availableRooms != null and availableRooms.rowCount == 0}"/>
-            <h:outputText styleClass="output" 
-                value="Rooms available for the dates selected: " 
-                rendered="#{availableRooms != null and availableRooms.rowCount > 0}"/>
-                
+            <h:outputText styleClass="output" value="No rooms available for the dates selected: " rendered="#{availableRooms != null and availableRooms.rowCount == 0}"/>
+            <h:outputText styleClass="output" value="Rooms available for the dates selected: " rendered="#{availableRooms != null and availableRooms.rowCount > 0}"/>
             <h:outputText styleClass="output" value="#{booking.checkinDate}"/> -
             <h:outputText styleClass="output" value="#{booking.checkoutDate}"/>
             
             <br/><br/>
             
-            <h:dataTable value="#{availableRooms}" var="room" 
-                    rendered="#{availableRooms.rowCount > 0}">
+            <h:dataTable id="rooms" value="#{availableRooms}" var="room" rendered="#{availableRooms.rowCount > 0}">
                 <h:column>
                     <f:facet name="header">Name</f:facet>
                     #{room.name}
@@ -2772,8 +2735,7 @@ selections).</para>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Action</f:facet>
-                    <h:commandLink id="selectRoomPreference" 
-                        action="#{roomPreference.selectPreference}">Select</h:commandLink>
+                    <h:commandLink id="selectRoomPreference" action="#{roomPreference.selectPreference}">Select</h:commandLink>
                 </h:column>
             </h:dataTable>
         </div>
@@ -2782,7 +2744,7 @@ selections).</para>
             <div class="input">
                 <s:button id="cancel" value="Revise Dates" view="/book.xhtml"/>
             </div>
-        </div>    
+        </div>  
     </h:form>
 </div>
 ]]></programlisting>

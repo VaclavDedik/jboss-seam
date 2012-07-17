@@ -172,13 +172,12 @@ public class AskQuestionWidget extends Composite {
   
   <section>
     <title>GWT Ant Targets</title>
-  
     <para>
       For deployment of GWT apps, there is a compile-to-Javascript step (which compacts and obfuscates the code).  There is an
       ant utility which can be used instead of the command line or GUI utility that GWT provides.  To use this, you will need
       to have the ant task jar in your ant classpath, as well as GWT downloaded (which you will need for hosted mode anyway).
-    </para>
-    
+      </para>
+      
     <para>
       Then, in your ant file, place (near the top of your ant file):
     </para>
@@ -229,6 +228,54 @@ public class AskQuestionWidget extends Composite {
       you can't or won't use the hosted mode browser, I would go far as to say you should NOT be using GWT at all - it's
       that valuable!).
     </para>
+      
+  </section>
+  
+  
+  <section>
+    <title>GWT Maven plugin</title>
+  
+    <para>
+      For a deployment of GWT apps, there is a set of maven GWT goals which does everything what GWT supports.  The
+      maven-gwt-plugin usage is in more
+      details at <ulink url="http://mojo.codehaus.org/gwt-maven-plugin/">GWT </ulink>.
+    </para>
     
+    <para>
+        Basic set up is for instance here:
+    </para>
+    <programlisting>
+    <![CDATA[ <build>
+        <plugins>
+            [...]
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <version>1.2</version> <!-- version 1.2 allows us to specify gwt version by gwt-user dependency -->
+                <configuration>
+                    <generateDirectory>${project.build.outoutDirectory}/${project.build.finalName}</generateDirectory>
+                    <inplace>false</inplace>
+                    <logLevel>TRACE</logLevel>
+                    <extraJvmArgs>-Xmx512m -DDEBUG</extraJvmArgs>
+                    <soyc>false</soyc>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>resources</goal>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            [...]
+        </plugins>
+            [...]
+    </build>]]>
+    </programlisting>
+    <para>
+        More can be seen here 
+        <ulink url="http://mojo.codehaus.org/gwt-maven-plugin/user-guide/compile.html">http://mojo.codehaus.org/gwt-maven-plugin/user-guide/compile.html</ulink>
+    </para>
   </section>
 </chapter>

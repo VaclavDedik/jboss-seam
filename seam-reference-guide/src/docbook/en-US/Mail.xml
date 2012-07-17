@@ -399,8 +399,8 @@ public class MailListenerMDB implements MailListener {
     <note>
       <para>
          The Seam Mail module requires the use of Facelets as the view 
-         technology. Future versions of the library may also support the use of 
-         JSP. Additionally, it requires the use of the seam-ui package.
+         technology. This is the default View technology in JSF 2. 
+         Additionally, it requires the use of the jboss-seam-ui module.
       </para>
     </note>
             
@@ -426,10 +426,10 @@ public class MailListenerMDB implements MailListener {
 		<title>JNDI lookup in JBoss AS</title>
 		        
 		<para>
-          The JBossAS <literal>deploy/mail-service.xml</literal> configures a 
+          The JBoss AS 7 Mail service is defined in <filename>standalone/configuration/standalone.xml</filename> file. It configures a 
           JavaMail session binding into JNDI.  The default service 
           configuration will need altering for your network.  
-          <ulink url="http://www.jboss.org/community/wiki/JavaMail">http://www.jboss.org/community/wiki/JavaMail</ulink>
+          <ulink url="http://www.mastertheboss.com/jboss-application-server/379-jboss-mail-service-configuration.html">Full article how to configure Mail system in JBoss AS 7</ulink>
           describes the service in more detail.
         </para>
 		        
@@ -437,13 +437,13 @@ public class MailListenerMDB implements MailListener {
     xmlns:core="http://jboss.org/schema/seam/core"
     xmlns:mail="http://jboss.org/schema/seam/mail">
         
-    <mail:mail-session session-jndi-name="java:/Mail"/>
+    <mail:mail-session session-jndi-name="java:jboss/mail/Default"/>
     
 </components>]]></programlisting>
 
         <para>
           Here we tell Seam to get the mail session bound to 
-          <literal>java:/Mail</literal> from JNDI.
+          <literal>java:jboss/mail/Default</literal> from JNDI.
         </para>
 		        
 	  </section>
@@ -469,30 +469,6 @@ public class MailListenerMDB implements MailListener {
     </section>
   </section>
 	
-  <section>
-    <title>Meldware</title>
-	
-    <para>
-	   Seam's mail examples use Meldware (from <ulink url="http://buni.org">buni.org</ulink>) 
-      as a mail server. Meldware is a groupware package that provides 
-      <literal>SMTP</literal>, <literal>POP3</literal>, <literal>IMAP</literal>,
-      webmail, a shared calendar and an graphical admin tool; it's written as a
-      JEE application so can be deployed onto JBoss AS alongside your Seam
-      application. 
-    </para>
-		
-    <caution>
-       <para>
-         The version of Meldware distributed with Seam (downloaded on demand)
-         is specially tailored for development - mailboxes, users and 
-         aliases (email addresses) are created every time the application 
-         deploys.  If you want to use Meldware in production you should install
-         the latest release from <ulink url="http://buni.org">buni.org</ulink>. 
-       </para>
-    </caution>
- 			
-  </section>
-
   <section id="mail.tags">
     <title>Tags</title>
 

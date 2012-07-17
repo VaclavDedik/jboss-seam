@@ -92,8 +92,7 @@ public class StatementOfAccount {
         <title>Integration testing Seam components</title>
 
         <note>
-            Using JBoss Embedded for integration testing is now deprecated. The preferred
-            way is to use Arquillian. See <xref linkend="testing.arquillian" />
+            Using JBoss Embedded for integration testing was removed. See <xref linkend="testing.arquillian" />
         </note>
         
         <para>
@@ -108,8 +107,7 @@ public class StatementOfAccount {
         <para>
             The approach taken by Seam is to let you write tests that exercise your
             components while running inside a pruned down container environment (Seam,
-            together with the JBoss Embedded container; see 
-            <xref linkend="config.install.embedded" /> for configuration details)
+            together with the JBoss AS container)
         </para>
         
 <programlisting role="JAVA"><![CDATA[public class RegisterTest extends SeamTest
@@ -202,7 +200,7 @@ public class MockPaymentProcessor extends PaymentProcessor {
         </para>
         
         <para>
-            Let's consider a JSP view for the component we unit tested above:
+            Let's consider a JSF view for the component we unit tested above:
         </para>
         
         <programlisting role="XHTML"><![CDATA[<html>
@@ -301,9 +299,10 @@ public class MockPaymentProcessor extends PaymentProcessor {
         <para>
             You'll find plenty of integration tests for the Seam example applications
             which demonstrate more complex cases. There are instructions for running
-            these tests using Ant, or using the TestNG plugin for eclipse:
+            these tests using Maven, or using the JUnit plugin for eclipse:
         </para>
 
+<!-- TODO capture new JUnit screenshot -->
         <mediaobject>
           <imageobject role="fo">
             <imagedata fileref="images/plugin-testng.png" align="center" scalefit="1"/>
@@ -324,171 +323,32 @@ public class MockPaymentProcessor extends PaymentProcessor {
            </para>
            
            <para>
-              First, lets look at the dependencies you need at a minimum:
-           </para>
-           
-           <table>
-              <title></title>
-              <tgroup cols="3">
-                 <thead>
-                    <row >
-                       <entry>
-                          Group Id
-                       </entry>
-                       <entry>
-                          Artifact Id
-                       </entry>
-                       <entry>
-                          Location in Seam
-                       </entry>
-                    </row>
-                 </thead>
-                 <tbody>
-                    <row>
-                       <entry>
-                          <literal>org.jboss.seam.embedded</literal>
-                       </entry>
-                       <entry>
-                          <literal>hibernate-all</literal>
-                       </entry>
-                       <entry>
-                          <literal>lib/test/hibernate-all.jar</literal>
-                       </entry>
-                    </row>
-                    <row>
-                       <entry>
-                          <literal>org.jboss.seam.embedded</literal>
-                       </entry>
-                       <entry>
-                          <literal>jboss-embedded-all</literal>
-                       </entry>
-                       <entry>
-                          <literal>lib/test/jboss-embedded-all.jar</literal>
-                       </entry>
-                    </row>
-                    <row>
-                       <entry>
-                          <literal>org.jboss.seam.embedded</literal>
-                       </entry>
-                       <entry>
-                          <literal>thirdparty-all</literal>
-                       </entry>
-                       <entry>
-                          <literal>lib/test/thirdparty-all.jar</literal>
-                       </entry>
-                    </row>
-                    <row>
-                       <entry>
-                          <literal>org.jboss.seam.embedded</literal>
-                       </entry>
-                       <entry>
-                          <literal>jboss-embedded-api</literal>
-                       </entry>
-                       <entry>
-                          <literal>lib/jboss-embedded-api.jar</literal>
-                       </entry>
-                    </row>
-                    <row>
-                       <entry>
-                          <literal>org.jboss.seam</literal>
-                       </entry>
-                       <entry>
-                          <literal>jboss-seam</literal>
-                       </entry>
-                       <entry>
-                          <literal>lib/jboss-seam.jar</literal>
-                       </entry>
-                    </row>
-                    <row>
-                       <entry>
-                          <literal>org.jboss.el</literal>
-                       </entry>
-                       <entry>
-                          <literal>jboss-el</literal>
-                       </entry>
-                       <entry>
-                          <literal>lib/jboss-el.jar</literal>
-                       </entry>
-                    </row>
-                    <row>
-                       <entry>
-                          <literal>javax.faces</literal>
-                       </entry>
-                       <entry>
-                          <literal>jsf-api</literal>
-                       </entry>
-                       <entry>
-                          <literal>lib/jsf-api.jar</literal>
-                       </entry>
-                    </row>
-                    <row>
-                       <entry>
-                          <literal>javax.el</literal>
-                       </entry>
-                       <entry>
-                          <literal>el-api</literal>
-                       </entry>
-                       <entry>
-                          <literal>lib/el-api.jar</literal>
-                       </entry>
-                    </row>
-                    <row>
-                       <entry>
-                          <literal>javax.activation</literal>
-                       </entry>
-                       <entry>
-                          <literal>javax.activation</literal>
-                       </entry>
-                       <entry>
-                          <literal>lib/activation.jar</literal>
-                       </entry>
-                    </row>
-                 </tbody>
-              </tgroup>
-           </table>
-           
-           <para>
-              It's very important you don't put the compile time JBoss AS 
-              dependencies from <literal>lib/</literal> (e.g. 
-              <literal>jboss-system.jar</literal>) on the classpath, these
-              will cause Embedded JBoss to not boot. So, just add the 
-              dependencies (e.g. Drools, jBPM)you need as you go.
-           </para>
-           
-           <para>
-              You also need to include the <literal>bootstrap/</literal> 
-              directory on the classpath; <literal>bootstrap/</literal> contains
-              the configuration for Embedded JBoss.
-           </para>
+            For ant or own build tool which uses jars on local - you can use to get all jars
+            by running <literal>ant -f get-arquillian-libs.xml -Dtest.lib.dir=lib/test</literal>.  This just copy all Arquillian
+            jars for managed JBoss AS 7.1.1 container and copy all jars into defined directory <filename>lib/test</filename>
+             by using that <literal>test.lib.dir</literal> property.                      
+           </para>             
            
            <para>
               And, of course you need to put your built project and tests onto
               the classpath as well as jar for your test framework. Don't forget
               to put all the correct configuration files for JPA and Seam onto 
-              the classpath as well.Seam asks Embedded JBoss to deploy any 
+              the classpath as well.Seam asks Arquillian to deploy any 
               resource (jar or directory) which has 
               <literal>seam.properties</literal> in it's root. Therefore, if you
               don't assemble a directory structure that resembles a deployable 
               archive containing your built project, you must put a 
               <literal>seam.properties</literal> in each resource.
            </para>
-           
-           <para>
-              By default, a generated project will use the 
-              <literal>java:/DefaultDS</literal> (a built in HSQL datasource in
-              Embedded JBoss) for testing. If you want to use another datasource
-              place the <literal>foo-ds.xml</literal> into 
-              <literal>bootstrap/deploy</literal> directory.
-           </para>
-           
+
          </section>
          
         <section>
            <title>Using SeamTest with another test framework</title>
          
            <para>
-              Seam provides TestNG support out of the box, but you can also use
-              another test framework, such as JUnit, if you want.
+              Seam provides JUnit and TestNG support out of the box, but you can also use
+              another test framework, if you want.
            </para>
            
            <para>
@@ -552,7 +412,7 @@ public class MockPaymentProcessor extends PaymentProcessor {
          
          <caution>
             DBUnit supports two formats for dataset files, flat and XML.  Seam's
-            <literal>DBUnitSeamTest</literal> assumes the flat format is used, so make sure that 
+            <literal>DBUnitSeamTest</literal> or <literal>DBJUnitSeamTest</literal> assumes the flat format is used, so make sure that 
             your dataset is in this format.
          </caution>
           
@@ -603,7 +463,7 @@ public class MockPaymentProcessor extends PaymentProcessor {
          <programlisting role="XML"><![CDATA[<parameter name="datasourceJndiName" value="java:/seamdiscsDatasource"/>]]></programlisting>
          
          <para>
-            DBUnitSeamTest has support for MySQL and HSQL - you need to tell it
+            DBUnitSeamTest and DBJUnitSeamTest have support for MySQL and HSQL - you need to tell it
             which database is being used, otherwise it defaults to HSQL:
          </para>
          

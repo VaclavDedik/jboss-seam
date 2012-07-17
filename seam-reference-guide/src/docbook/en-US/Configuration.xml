@@ -70,36 +70,6 @@
         </sect2>
 
         <sect2>
-            <title>Using Facelets</title>
-
-            <para> If you want follow our advice and use Facelets instead of JSP, add the following lines to
-                    <literal>faces-config.xml</literal>: </para>
-
-            <programlisting role="XML"><![CDATA[<application>
-    <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
-</application>]]></programlisting>
-
-            <para> And the following lines to <literal>web.xml</literal>: </para>
-
-            <programlisting role="XML"><![CDATA[<context-param>
-    <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
-    <param-value>.xhtml</param-value>
-</context-param>]]></programlisting>
-
-            <para>
-               If you are using facelets in JBoss AS, you'll find that Facelets logging is broken (the log messages
-               don't make it to the server log). Seam provides a bridge to fix this, to use it copy
-               <literal>lib/interop/jboss-seam-jul.jar</literal> to
-               <literal>$JBOSS_HOME/server/default/deploy/jboss-web.deployer/jsf-libs/</literal> and include the
-               <literal>jboss-seam-ui.jar</literal> in the <literal>WEB-INF/lib</literal> of your application.  The
-               Facelets logging catagories are itemized in the <ulink
-               url="https://facelets.dev.java.net/nonav/docs/dev/docbook.html#config-logging">Facelets Developer
-               Documentation</ulink>.
-            </para>
-
-        </sect2>
-
-        <sect2>
             <title>Seam Resource Servlet</title>
 
             <para> The Seam Resource Servlet provides resources used by Seam Remoting, captchas (see the security
@@ -750,9 +720,6 @@ Authenticator authenticator;
 
             <para> If you want to use jBPM or Drools, you must include the needed jars in the EAR's lib directory.</para>
 
-            <para> If you want to use facelets (our recommendation), you must include
-                <literal>jsf-facelets.jar</literal> in the <literal>WEB-INF/lib</literal> directory of the WAR. </para>
-
             <para> If you want to use the Seam tag library (most Seam applications do), you must include
                     <literal>jboss-seam-ui.jar</literal> in the <literal>WEB-INF/lib</literal> directory of the WAR. If
                 you want to use the PDF or email tag libraries, you need to put <literal>jboss-seam-pdf.jar</literal> or
@@ -773,10 +740,10 @@ Authenticator authenticator;
     </sect1>
 
     <sect1>
-        <title>Configuring Seam in J2EE</title>
+        <title>Configuring Seam in Java EE</title>
 
         <para> Seam is useful even if you're not yet ready to take the plunge into EJB 3.0. In this case you would use
-            Hibernate3 or JPA instead of EJB 3.0 persistence, and plain JavaBeans instead of session beans. You'll miss
+            Hibernate4 or JPA instead of EJB 3.0 persistence, and plain JavaBeans instead of session beans. You'll miss
             out on some of the nice features of session beans but it will be very easy to migrate to EJB 3.0 when you're
             ready and, in the meantime, you'll be able to take advantage of Seam's unique declarative state management
             architecture. </para>
@@ -848,8 +815,7 @@ Authenticator authenticator;
             jboss-seam.jar
             jboss-seam-ui.jar
             jboss-el.jar
-            jsf-facelets.jar
-            hibernate3.jar
+            hibernate-core.jar
             hibernate-annotations.jar
             hibernate-validator.jar
             ...
@@ -876,7 +842,7 @@ Authenticator authenticator;
     </sect1>
 
     <sect1>
-        <title>Configuring Seam in Java SE, without JBoss Embedded</title>
+        <title>Configuring Seam in Java SE</title>
 
         <para> It is possible to use Seam completely outside of an EE environment. In this case, you need to tell Seam
             how to manage transactions, since there will be no JTA available. If you're using JPA, you can tell
@@ -889,177 +855,7 @@ Authenticator authenticator;
         <programlisting role="XML"><![CDATA[<transaction:hibernate-transaction session="#{session}"/>]]></programlisting>
         
         <para> Of course, you'll also need to define a datasource.</para>
-        
-        <para> A better alternative is to use JBoss Embedded to get access to the EE APIs. </para>
                 
-    </sect1>
-
-    <sect1>
-        <title>Configuring Seam in Java SE, with JBoss Embedded</title>
-
-        <para> JBoss Embedded lets you run EJB3 components outside the context of the Java EE 5 application server. This
-            is especially, but not only, useful for testing. </para>
-
-        <para> The Seam booking example application includes a TestNG integration test suite that runs on JBoss Embedded
-            via <literal>SeamTest</literal>. </para>
-
-        <mediaobject>
-            <imageobject role="fo">
-                <imagedata fileref="images/testng.png" align="center"/>
-            </imageobject>
-            <imageobject role="html">
-                <imagedata fileref="images/testng.png" align="center"/>
-            </imageobject>
-        </mediaobject>
-
-        <para> The booking example application may even be deployed to Tomcat. </para>
-
-        <mediaobject>
-            <imageobject role="fo">
-                <imagedata fileref="images/e-ejb3.png" align="center"/>
-            </imageobject>
-            <imageobject role="html">
-                <imagedata fileref="images/e-ejb3.png" align="center"/>
-            </imageobject>
-        </mediaobject>
-
-        <sect2 id="config.install.embedded">
-            <title>Installing Embedded JBoss</title>
-
-
-            <para>
-              Embedded JBoss must by installed into Tomcat for Seam applications
-              to run correctly on it. Embedded JBoss runs with JDK 5 or JDK 6 (
-              see <xref linkend="jdk_dependencies" /> for details on using JDK 6).                
-              Embedded JBoss can be downloaded 
-              <ulink url="http://sourceforge.net/projects/jboss/files/Embedded%20JBoss/Embedded%20JBoss%20Beta%203/">here</ulink>.
-              The process for installing Embedded JBoss into Tomcat 6 is quite 
-              simple. First, you should copy the Embedded JBoss JARs and 
-              configuration files into Tomcat. 
-            </para>
-
-            <itemizedlist>
-
-                <listitem>
-                    <para> Copy all files and directories under the Embedded JBoss <literal>bootstrap</literal> and
-                            <literal>lib</literal> directories, except for the <literal>jndi.properties</literal> file,
-                        into the Tomcat <literal>lib</literal> directory. </para>
-                </listitem>
-
-
-                <listitem>
-                    <para>Remove the <literal>annotations-api.jar</literal> file from the Tomcat <literal>lib</literal>
-                        directory. </para>
-                </listitem>
-            </itemizedlist>
-
-
-            <para>Next, two configuration files need to be updated to add Embedded JBoss-specific functionality.</para>
-
-            <itemizedlist>
-
-
-                <listitem>
-                    <para> Add the Embedded JBoss listener <literal>EmbeddedJBossBootstrapListener</literal> to 
-                        <literal>conf/server.xml</literal>. It must appear after all other listeners in the file:</para>
-
-                    <programlisting role="XML"><![CDATA[<Server port="8005" shutdown="SHUTDOWN">
-
-  <!-- Comment these entries out to disable JMX MBeans support used for the 
-       administration web application -->
-  <Listener className="org.apache.catalina.core.AprLifecycleListener" />
-  <Listener className="org.apache.catalina.mbeans.ServerLifecycleListener" />
-  <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
-  <Listener className="org.apache.catalina.storeconfig.StoreConfigLifecycleListener" />]]></programlisting>
-                    <programlisting role="XML"><![CDATA[  <!-- Add this listener -->
-  <Listener className="org.jboss.embedded.tomcat.EmbeddedJBossBootstrapListener" />]]></programlisting>
-                </listitem>
-
-                <listitem>
-                    <para>WAR file scanning should be enabled by adding the <literal>WebinfScanner</literal> listener to
-                            <literal>conf/context.xml</literal>: </para>
-
-                    <programlisting role="XML"><![CDATA[<Context>
-    <!-- Default set of monitored resources -->
-    <WatchedResource>WEB-INF/web.xml</WatchedResource>
-    
-    <!-- Uncomment this to disable session persistence across Tomcat restarts -->
-    <!--
-    <Manager pathname="" />
-    -->]]></programlisting>
-                    <programlisting role="XML"><![CDATA[  <!-- Add this listener -->
-  <Listener className="org.jboss.embedded.tomcat.WebinfScanner" />]]></programlisting>
-                    <programlisting role="XML"><![CDATA[</Context>]]></programlisting>
-                </listitem>
-                
-                <listitem>
-                    <para>If you are using Sun JDK 6, you need to set the Java option
-                        <literal>sun.lang.ClassLoader.allowArraySyntax</literal> to <literal>true</literal> in the
-                        JAVA_OPTS environment variable used by the Catalina startup script (catalina.bat on Windows or
-                        catalina.sh on Unix).</para>
-
-                    <para>Open the script appropriate for your operating system in a text editor. Add a new line
-                        immediately below the comments at the top of the file where you will define the JAVA_OPTS
-                        environment variable. On Windows, use the following syntax:</para>
-
-                    <programlisting><![CDATA[set JAVA_OPTS=%JAVA_OPTS% -Dsun.lang.ClassLoader.allowArraySyntax=true]]></programlisting>
-
-                    <para>On Unix, use this syntax instead:</para>
-
-                    <programlisting><![CDATA[JAVA_OPTS="$JAVA_OPTS -Dsun.lang.ClassLoader.allowArraySyntax=true"]]></programlisting>
-
-                </listitem>
-            </itemizedlist>
-
-            <para>For more configuration options, please see the Embedded JBoss Tomcat integration 
-                <ulink url="http://wiki.jboss.org/wiki/Wiki.jsp?page=EmbeddedAndTomcat">wiki entry</ulink>.</para>
-
-        </sect2>
-
-        <sect2>
-            <title>Packaging</title>
-
-            <para> The archive structure of a WAR-based deployment on an servlet engine like Tomcat will look something
-                like this: </para>
-
-            <programlisting><![CDATA[my-application.war/
-    META-INF/
-        MANIFEST.MF
-    WEB-INF/
-        web.xml
-        components.xml
-        faces-config.xml
-        lib/
-            jboss-seam.jar
-            jboss-seam-ui.jar
-            jboss-el.jar
-            jsf-facelets.jar
-            jsf-api.jar
-            jsf-impl.jar
-            ...
-            my-application.jar/
-                META-INF/
-                    MANIFEST.MF
-                    persistence.xml
-                seam.properties
-                org/
-                    jboss/
-                        myapplication/
-                            User.class
-                            Login.class
-                            LoginBean.class
-                            Register.class
-                            RegisterBean.class
-                            ...
-    login.jsp
-    register.jsp
-    ...]]></programlisting>
-
-            <para> Most of the Seam example applications may be deployed to Tomcat by running <literal>ant
-                deploy.tomcat</literal>. </para>
-
-        </sect2>
-
     </sect1>
 
     <sect1>
@@ -1119,7 +915,7 @@ Authenticator authenticator;
     jboss-seam.jar
     lib/
        jboss-el.jar
-       jbpm-3.1.jar
+       jbpm-jpdl.jar
     META-INF/
         MANIFEST.MF
         application.xml
@@ -1131,7 +927,6 @@ Authenticator authenticator;
             components.xml
             faces-config.xml
             lib/
-                jsf-facelets.jar
                 jboss-seam-ui.jar
         login.jsp
         register.jsp
@@ -1162,48 +957,37 @@ Authenticator authenticator;
     </sect1>
 
     <sect1>
-        <title>Configuring SFSB and Session Timeouts in JBoss AS</title>
+        <title>Configuring SFSB and Session Timeouts in JBoss AS 7</title>
 
         <para> It is very important that the timeout for Stateful Session Beans is set higher than the timeout for HTTP
             Sessions, otherwise SFSB's may time out before the user's HTTP session has ended. JBoss Application Server
             has a default session bean timeout of 30 minutes, which is configured in
-                <literal>server/default/conf/standardjboss.xml</literal> (replace <emphasis>default</emphasis> with your
-            own configuration). </para>
+                <literal>standalone/configuration/standalone.xml</literal> (replace <emphasis>standalone.xml</emphasis> with your
+            standalone-full.xml if you use full profile). </para>
 
-        <para> The default SFSB timeout can be adjusted by modifying the value of <literal>max-bean-life</literal> in
-            the <literal>LRUStatefulContextCachePolicy</literal> cache configuration: </para>
+        <para> The default SFSB timeout can be adjusted by modifying the value of <literal>default-access-timeout</literal> in
+            the EJB subsystem <literal>subsystem xmlns="urn:jboss:domain:ejb3:1.2"</literal>: </para>
 
-        <programlisting role="XML"><![CDATA[<container-cache-conf>
-    <cache-policy>org.jboss.ejb.plugins.LRUStatefulContextCachePolicy</cache-policy>
-    <cache-policy-conf>
-        <min-capacity>50</min-capacity>
-        <max-capacity>1000000</max-capacity>
-        <remover-period>1800</remover-period>
+        <programlisting role="XML"><![CDATA[<subsystem xmlns="urn:jboss:domain:ejb3:1.2">
+            <session-bean>
+                <stateless>
+                    <bean-instance-pool-ref pool-name="slsb-strict-max-pool"/>
+                </stateless>
+                <stateful default-access-timeout="5000" cache-ref="simple"/>
+                <singleton default-access-timeout="5000"/>
+            </session-bean>
+            ...
+</subsystem>]]></programlisting>
 
-        <!-- SFSB timeout in seconds; 1800 seconds == 30 minutes -->
-        <max-bean-life>1800</max-bean-life>  
+        <para> The default HTTP session timeout can't be modified in JBoss AS 7.</para>
 
-        <overager-period>300</overager-period>
-        <max-bean-age>600</max-bean-age>
-        <resizer-period>400</resizer-period>
-        <max-cache-miss-period>60</max-cache-miss-period>
-        <min-cache-miss-period>1</min-cache-miss-period>
-        <cache-load-factor>0.75</cache-load-factor>
-    </cache-policy-conf>
-</container-cache-conf>]]></programlisting>
-
-        <para> The default HTTP session timeout can be modified in
-                <literal>server/default/deploy/jbossweb-tomcat55.sar/conf/web.xml</literal> for JBoss 4.0.x, or in
-                <literal>server/default/deploy/jboss-web.deployer/conf/web.xml</literal> for JBoss 4.2.x or later. The following
-            entry in this file controls the default session timeout for all web applications: </para>
-
-        <programlisting role="XML"><![CDATA[<session-config>
-    <!-- HTTP Session timeout, in minutes -->
-    <session-timeout>30</session-timeout>
-</session-config>]]></programlisting>
-
-        <para> To override this value for your own application, simply include this entry in your application's own
-                <literal>web.xml</literal>. </para>
+        <para> To override default value for your own application, simply include <literal>session-timeout</literal> entry in your application's own
+                <literal>web.xml</literal>: </para>
+        
+        <programlisting>
+        <![CDATA[<session-config>
+            <session-timeout>30</session-timeout>
+        </session-config>]]></programlisting>
 
     </sect1>
     
