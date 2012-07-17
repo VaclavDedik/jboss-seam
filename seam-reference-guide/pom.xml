@@ -123,7 +123,7 @@
 					<masterTranslation>en-US</masterTranslation>
 
 					<imageResource>
-						<directory>${project.basedir}/src/docbook</directory>
+						<directory>${project.basedir}/src/docbook/en-US</directory>
 						<includes>
 							<include>images/*.png</include>
 						</includes>
