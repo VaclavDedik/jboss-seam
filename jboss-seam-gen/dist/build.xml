@@ -1529,6 +1529,10 @@
             <pathelement path="${seam.dir}/lib/hibernate-annotations.jar"/>
             <pathelement path="${seam.dir}/lib/hibernate-entitymanager.jar"/>
             <pathelement path="${seam.dir}/lib/hibernate-validator.jar"/>
+            <pathelement path="${seam.dir}/lib/jboss-logging.jar"/>
+            <pathelement path="${seam.dir}/lib/jboss-transaction-api_1.1_spec.jar"/>
+            <pathelement path="${seam.dir}/lib/hibernate-jpa-2.0-api.jar"/>
+            <pathelement path="${seam.dir}/lib/gen/core.jar"/>            
             <pathelement path="${seam.dir}/lib/slf4j-api.jar"/> 
             <pathelement path="${seam.dir}/lib/slf4j-log4j12.jar"/> 
             <pathelement path="${seam.dir}/lib/log4j.jar"/> 
