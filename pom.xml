@@ -45,7 +45,6 @@
 
 		<!-- Version string properties -->
 		<version.arquillian_core>1.0.1.Final</version.arquillian_core>
-		<version.arquillian_drone>1.0.0.Final</version.arquillian_drone>
 		<version.wicket>1.4.14</version.wicket>
 		<version.drools>5.1.1</version.drools>
 		<version.testng>5.14.10</version.testng>
@@ -102,14 +101,6 @@
 				<groupId>org.apache.ant</groupId>
 				<artifactId>ant-antlr</artifactId>
 				<version>1.7.0</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.jboss.arquillian.extension</groupId>
-				<artifactId>arquillian-drone-bom</artifactId>
-				<version>${version.arquillian_drone}</version>
-				<type>pom</type>
-				<scope>import</scope>
 			</dependency>
 
 			<!-- You should adjust this in the initcore task in build.xml as well -->

@@ -8,7 +8,6 @@ import java.net.URL;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OverProtocol;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.seam.ScopeType;
@@ -20,17 +19,19 @@ import org.jboss.shrinkwrap.api.asset.Asset;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+
+import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+
 
 // JBSEAM-5002
 @RunWith(Arquillian.class)
 @RunAsClient
 public class PageScopedUIIncludeTest
 {
-   @Drone
-   WebDriver driver;
-   
+   private final WebClient client = new WebClient();
+
    @ArquillianResource
    URL contextPath;
    
@@ -74,27 +75,29 @@ public class PageScopedUIIncludeTest
    }
    
    @Test
-   public void testComponent1()
+   public void testComponent1() throws Exception
    {
-      driver.navigate().to(contextPath + "test.seam");
-      assertTrue(driver.getPageSource().contains("Component 1"));
-      driver.findElement(By.id("form1:input")).clear();
-      driver.findElement(By.id("form1:input")).sendKeys("xyzzy");
-      driver.findElement(By.id("form1:save")).click();
-      assertTrue(driver.getPageSource().contains("Hello, xyzzy"));
+      HtmlPage page = client.getPage(contextPath + "test.seam");
+      assertTrue(page.getBody().getTextContent().contains("Component 1"));
+      
+      page.getElementById("form1:input").type("xyzzy");
+      page = page.getElementById("form1:save").click();
+      
+      assertTrue(page.getBody().getTextContent().contains("Hello, xyzzy"));
    }
    
    @Test
-   public void testComponent2()
+   public void testComponent2() throws Exception
    {
-      driver.navigate().to(contextPath + "test.seam");
-      assertTrue(driver.getPageSource().contains("Component 1"));
-      driver.findElement(By.id("controller:component2")).click();
-      assertTrue(driver.getPageSource().contains("Component 2"));
-      driver.findElement(By.id("form2:input")).clear();
-      driver.findElement(By.id("form2:input")).sendKeys("foobar");
-      driver.findElement(By.id("form2:save")).click();
-      assertTrue(driver.getPageSource().contains("Hi, foobar"));
+      HtmlPage page = client.getPage(contextPath + "test.seam");
+      assertTrue(page.getBody().getTextContent().contains("Component 1"));
+      page = page.getElementById("controller:component2").click();
+      assertTrue(page.getBody().getTextContent().contains("Component 2"));
+      
+      page.getElementById("form2:input").type("foobar");
+      page = page.getElementById("form2:save").click();
+      
+      assertTrue(page.getBody().getTextContent().contains("Hi, foobar"));
    }
    
    public abstract static class Component
