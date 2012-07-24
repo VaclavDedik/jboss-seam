@@ -87,4 +87,28 @@ public class Deployments {
                   .addAsWebInfResource("WEB-INF/web.xml", "web.xml")
                   .addAsWebInfResource("WEB-INF/ejb-jar.xml", "ejb-jar.xml");
    }
+
+   public static WebArchive defaultSeamDeployment(String customComponentsXml) {
+      return ShrinkWrap.create(ZipImporter.class, "test.war").importFrom(new File("target/seam-integration-tests.war")).as(WebArchive.class)
+            .addAsWebInfResource(new StringAsset(
+                  "<jboss-deployment-structure>" +
+                        "<deployment>" +
+                        "<dependencies>" +
+                        "<module name=\"org.javassist\"/>" +
+                        "<module name=\"org.dom4j\"/>" +
+                        "</dependencies>" +
+                        "</deployment>" +
+                  "</jboss-deployment-structure>"), "jboss-deployment-structure.xml")
+                  .addAsResource("seam.properties")
+                  .addAsResource("components.properties")
+                  .addAsResource("messages_en.properties")
+                  .addAsResource("META-INF/persistence.xml")
+   
+                  .addAsResource("hibernate.cfg.xml")
+                  .addAsWebInfResource(customComponentsXml, "components.xml")
+                  .addAsWebInfResource("WEB-INF/pages.xml", "pages.xml")
+                  .addAsWebInfResource("WEB-INF/web.xml", "web.xml")
+                  .addAsWebInfResource("WEB-INF/ejb-jar.xml", "ejb-jar.xml")
+                  .addAsWebInfResource("WEB-INF/jboss-seam-integration-tests-hornetq-jms.xml", "jboss-seam-integration-tests-hornetq-jms.xml");
+   }
 }

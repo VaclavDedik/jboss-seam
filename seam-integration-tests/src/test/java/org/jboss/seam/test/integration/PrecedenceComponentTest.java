@@ -18,7 +18,7 @@ public class PrecedenceComponentTest
    @OverProtocol("Servlet 3.0") 
    public static Archive<?> createDeployment()
    {
-      return Deployments.defaultSeamDeployment()
+      return Deployments.defaultSeamDeployment("WEB-INF/components-precedence.xml")
             .addClasses(Component1.class, Component2.class);
    }
     

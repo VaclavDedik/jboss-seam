@@ -561,7 +561,7 @@ public class Initialization
          {
             return true;
          }
-         return precedence > highestPriorityDescriptor.getPrecedence();
+         return precedence >= highestPriorityDescriptor.getPrecedence();
       }
       else
       {
