@@ -511,7 +511,17 @@ public class Initialization
             propName = prop.getQName().getName();
          }
          String qualifiedPropName = name + '.' + toCamelCase(propName, false);
-         properties.put( qualifiedPropName, getPropertyValue(prop, qualifiedPropName, replacements) );
+         if (properties.containsKey(qualifiedPropName))
+         {
+            if (isSetProperties(name, precedence))
+            {
+               properties.put(qualifiedPropName, getPropertyValue(prop, qualifiedPropName, replacements));
+            }
+         }
+         else
+         {
+            properties.put(qualifiedPropName, getPropertyValue(prop, qualifiedPropName, replacements));
+         }         
       }
       
       for ( Attribute prop: (List<Attribute>) component.attributes() )
@@ -520,11 +530,15 @@ public class Initialization
          if (isProperty(prop.getNamespaceURI(),attributeName))
          {
             String qualifiedPropName = name + '.' + toCamelCase( prop.getQName().getName(), false );
+            log.info("qualifiedPropName " + qualifiedPropName);
             Conversions.PropertyValue propValue = null;
             try
             {
                propValue = getPropertyValue(prop, replacements);
-               properties.put( qualifiedPropName, propValue );
+               if (isSetProperties(name, precedence)) 
+               {
+                   properties.put(qualifiedPropName, propValue);
+               }
             }
             catch (Exception ex)
             {
@@ -534,6 +548,24 @@ public class Initialization
                         
             }
          }
+      }
+   }
+
+   private boolean isSetProperties(String name, int precedence)
+   {
+      TreeSet<ComponentDescriptor> currentSet = (TreeSet<ComponentDescriptor>) componentDescriptors.get(name);
+      if (currentSet != null)
+      {
+         ComponentDescriptor highestPriorityDescriptor = currentSet.first();         
+         if (highestPriorityDescriptor == null)
+         {
+            return true;
+         }
+         return precedence > highestPriorityDescriptor.getPrecedence();
+      }
+      else
+      {
+         return true;
       }
    }
 

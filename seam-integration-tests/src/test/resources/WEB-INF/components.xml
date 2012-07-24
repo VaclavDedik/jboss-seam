@@ -42,6 +42,11 @@
     <jms:managed-queue-sender name="testSender"
                               auto-create="true"
                               queue-jndi-name="queue/seamTest" />
-                       
+    <component name="component1" class="org.jboss.seam.test.integration.Component2" precedence="30">
+        <property name="name">Component1High</property>
+    </component>
+    <component name="component1" class="org.jboss.seam.test.integration.Component1" precedence="10">
+        <property name="name">Component1Low</property>
+    </component>                       
 
 </components>
