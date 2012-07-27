@@ -47,7 +47,8 @@ public class PrecedenceComponentTest
                  Assert.fail("component is not expected Component2.class");
               }
               Component2 myPrecedenceComponent = (Component2) component;
-              Assert.assertEquals(myPrecedenceComponent.getName(), "Component1High");
+              Assert.assertEquals("Component1High", myPrecedenceComponent.getName());
+              Assert.assertEquals("Component2default", myPrecedenceComponent.getDefaultValue());
           }   
        }.run();
     }
