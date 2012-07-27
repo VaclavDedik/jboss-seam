@@ -41,7 +41,7 @@
 	to get started.</para>
 
     <programlisting role="XML"><![CDATA[<persistence-unit name="sample">
-   <jta-data-source>java:/DefaultDS</jta-data-source>
+   <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
    <properties>
       [...]
       <!-- use a file system based index -->
@@ -52,62 +52,41 @@
          value="/Users/prod/apps/dvdstore/dvdindexes"/>
    </properties>
 </persistence-unit>]]></programlisting>
-
-    <para>If you plan to target Hibernate Annotations or EntityManager 3.2.x
-    (embedded into JBoss AS 4.2.x and later), you also need to configure the
-    appropriate event listeners.</para>
-
-   <programlisting role="XML"><![CDATA[<persistence-unit name="sample">
-   <jta-data-source>java:/DefaultDS</jta-data-source>
-   <properties>
-      [...]
-      <!-- use a file system based index -->
-      <property name="hibernate.search.default.directory_provider" 
-                value="org.hibernate.search.store.FSDirectoryProvider"/>
-      <!-- directory where the indexes will be stored -->
-      <property name="hibernate.search.default.indexBase" 
-                value="/Users/prod/apps/dvdstore/dvdindexes"/>
-
-      <property name="hibernate.ejb.event.post-insert" 
-                value="org.hibernate.search.event.FullTextIndexEventListener"/>
-      <property name="hibernate.ejb.event.post-update" 
-                value="org.hibernate.search.event.FullTextIndexEventListener"/>
-      <property name="hibernate.ejb.event.post-delete" 
-                value="org.hibernate.search.event.FullTextIndexEventListener"/>
-                
-   </properties>
-</persistence-unit>]]></programlisting>
-
-    <note>
-      <para>It is not longer necessary the register the event listeners if
-      Hibernate Annotations or EntityManager 3.3.x are used.
-      When using Hibernate Search 3.1.x more eventlisteners are needed, but
-      these are registered automatically by Hibernate Annotations; refer
-      to the Hibernate Search reference for configuring it without
-      EntityManager and Annotations.</para>
-    </note>
-
+   
     <para>In addition to the configuration file, the following jars have to be
     deployed:</para>
 
     <itemizedlist>
       <listitem>
         <para>hibernate-search.jar</para>
+      </listitem>    
+    
+      <listitem>
+        <para>hibernate-search-orm.jar</para>
       </listitem>
 
       <listitem>
-        <para>hibernate-commons-annotations.jar</para>
+        <para>hibernate-search-engine.jar</para>
       </listitem>
-
+      
       <listitem>
         <para>lucene-core.jar</para>
       </listitem>
     </itemizedlist>
     
-    <para><filename>hibernate-commons-annotations.jar</filename> is not needed
-      in JBossAS6. Some Hibernate Search extensions require additional dependencies,
+    <para>Maven coordinates for using from Hibernate Search:
+      <programlisting role="XML"><![CDATA[
+        <dependency>
+           <groupId>org.hibernate</groupId>
+           <artifactId>hibernate-search</artifactId>
+           <version>4.1.1.Final</version>
+        </dependency>
+        ]]></programlisting>
+    </para>
+    
+    <para>Some Hibernate Search extensions require additional dependencies,
       a commonly used is <filename>hibernate-search-analyzers.jar</filename>.
-      For details, see the <ulink url="http://www.hibernate.org/subprojects/search/docs">
+      For details, see the <ulink url="http://docs.jboss.org/hibernate/search/4.1/reference/en-US/html_single">
       Hibernate Search documentation</ulink> for details.
     </para>
 
@@ -122,7 +101,7 @@
 
     <para>Hibernate Search uses annotations to map entities to a Lucene index,
     check the <ulink
-    url="http://www.hibernate.org/subprojects/search/docs">reference
+    url="http://docs.jboss.org/hibernate/search/4.1/reference/en-US/html_single">reference
     documentation</ulink> for more informations.</para>
 
     <para>Hibernate Search is fully integrated with the API and semantic of

@@ -668,8 +668,8 @@ public interface Register
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
         http://java.sun.com/xml/ns/persistence
-        http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" 
-    version="1.0">
+        http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd" 
+    version="2.0">
 
     <persistence-unit name="userDatabase">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
@@ -1113,7 +1113,7 @@ public interface MessageManager
 
         <section>
             <title>Understanding the code</title>
-            <para> The center of this example is the jBPM process definition. There are also two JSPs and two trivial
+            <para> The center of this example is the jBPM process definition. There are also two JSFs and two trivial
                 JavaBeans (There was no reason to use session beans, since they do not access the database, or have any
                 other transactional behavior). Let's start with the process definition: </para>
              <!-- Can't use code hightlighting with callouts -->
@@ -2311,18 +2311,18 @@ public class HotelSearchingAction implements HotelSearching
 ]]></programlisting>
                     <calloutlist>
                         <callout arearefs="booking-support-element">
-                            <para> The RichFaces Ajax <literal>&lt;a:ajax&gt;</literal> tag allows a JSF action
+                            <para> The RichFaces <literal>&lt;a:ajax&gt;</literal> tag allows a JSF action
                                 event listener to be called by asynchronous <literal>XMLHttpRequest</literal> when a
                                 JavaScript event like <literal>onkeyup</literal> occurs. Even better, the
                                     <literal>reRender</literal> attribute lets us render a fragment of the JSF page and
                                 perform a partial page update when the asynchronous response is received. </para>
                         </callout>
                         <callout arearefs="booking-status-element">
-                            <para> The RichFaces Ajax <literal>&lt;a:status&gt;</literal> tag lets us display an
+                            <para> The RichFaces <literal>&lt;a:status&gt;</literal> tag lets us display an
                                 animated image while we wait for asynchronous requests to return. </para>
                         </callout>
                         <callout arearefs="booking-outputpanel-element">
-                            <para> The RichFaces Ajax <literal>&lt;a:outputPanel&gt;</literal> tag defines a region of
+                            <para> The RichFaces <literal>&lt;a:outputPanel&gt;</literal> tag defines a region of
                                 the page which can be re-rendered by an asynchronous request. </para>
                         </callout>
                         <callout arearefs="booking-link-element">

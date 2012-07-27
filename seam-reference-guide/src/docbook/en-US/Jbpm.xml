@@ -101,23 +101,23 @@
         </para>
         
         <programlisting role="XML"><![CDATA[<navigation-rule>
-    <from-view-id>/numberGuess.jsp</from-view-id>
+    <from-view-id>/numberGuess.xhtml</from-view-id>
         
     <navigation-case>
         <from-outcome>guess</from-outcome>
-        <to-view-id>/numberGuess.jsp</to-view-id>
+        <to-view-id>/numberGuess.xhtml</to-view-id>
         <redirect/>
     </navigation-case>
 
     <navigation-case>
         <from-outcome>win</from-outcome>
-        <to-view-id>/win.jsp</to-view-id>
+        <to-view-id>/win.xhtml</to-view-id>
         <redirect/>
     </navigation-case>
         
     <navigation-case>
         <from-outcome>lose</from-outcome>
-        <to-view-id>/lose.jsp</to-view-id>
+        <to-view-id>/lose.xhtml</to-view-id>
         <redirect/>
     </navigation-case>
 
@@ -128,17 +128,17 @@
             rules:
         </para>
         
-        <programlisting role="XML"><![CDATA[<page view-id="/numberGuess.jsp">
+        <programlisting role="XML"><![CDATA[<page view-id="/numberGuess.xhtml">
         
     <navigation>
         <rule if-outcome="guess">
-            <redirect view-id="/numberGuess.jsp"/>
+            <redirect view-id="/numberGuess.xhtml"/>
         </rule>
         <rule if-outcome="win">
-            <redirect view-id="/win.jsp"/>
+            <redirect view-id="/win.xhtml"/>
         </rule>
         <rule if-outcome="lose">
-            <redirect view-id="/lose.jsp"/>
+            <redirect view-id="/lose.xhtml"/>
         </rule>
     </navigation>
 
@@ -150,8 +150,8 @@
         </para>
         
         <programlisting role="JAVA"><![CDATA[public String guess() {
-    if (guess==randomNumber) return "/win.jsp";
-    if (++guessCount==maxGuesses) return "/lose.jsp";
+    if (guess==randomNumber) return "/win.xhtml";
+    if (++guessCount==maxGuesses) return "/lose.xhtml";
     return null;
 }]]></programlisting>
 
@@ -161,7 +161,7 @@
         </para>
         
         <programlisting role="JAVA"><![CDATA[public String search() {
-    return "/searchResults.jsp?searchPattern=#{searchAction.searchPattern}";
+    return "/searchResults.xhtml?searchPattern=#{searchAction.searchPattern}";
 }]]></programlisting>
         
         <para>
@@ -178,7 +178,7 @@
         
         <programlisting role="XML"><![CDATA[<pageflow-definition name="numberGuess">
     
-   <start-page name="displayGuess" view-id="/numberGuess.jsp">
+   <start-page name="displayGuess" view-id="/numberGuess.xhtml">
       <redirect/>
       <transition name="guess" to="evaluateGuess">
       	<action expression="#{numberGuess.guess}" />
@@ -195,12 +195,12 @@
       <transition name="false" to="displayGuess"/>
    </decision>
    
-   <page name="win" view-id="/win.jsp">
+   <page name="win" view-id="/win.xhtml">
       <redirect/>
       <end-conversation />
    </page>
    
-   <page name="lose" view-id="/lose.jsp">
+   <page name="lose" view-id="/lose.xhtml">
       <redirect/>
       <end-conversation />
    </page>

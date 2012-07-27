@@ -3,8 +3,8 @@
     
     <para>
         Seam provides extensive support for the two most popular persistence
-        architectures for Java: Hibernate3, and the Java Persistence API
-        introduced with EJB 3.0. Seam's unique state-management architecture
+        architectures for Java: Hibernate, and the Java Persistence API
+        introduced with EJB 3.1. Seam's unique state-management architecture
         allows the most sophisticated ORM integration of any web application 
         framework.
     </para>

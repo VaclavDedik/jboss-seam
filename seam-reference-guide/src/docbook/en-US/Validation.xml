@@ -42,12 +42,12 @@
     private String zip;
     
     @NotNull
-    @Length(max=30)
+    @Size(max=30)
     public String getCountry() { return country; }
     public void setCountry(String c) { country = c; }
 
     @NotNull
-    @Length(max=6)
+    @Size(max=6)
     @Pattern("^\d*$")
     public String getZip() { return zip; }
     public void setZip(String z) { zip = z; }
@@ -307,7 +307,7 @@
     // Getters and setters for name
 
     @NotNull
-    @Length(max=6)
+    @Size(max=6)
     @ZipCode(message="#{messages['location.zipCode.invalid']}")
     public String getZip() { return zip; }
     public void setZip(String z) { zip = z; }

@@ -91,6 +91,10 @@
         <sect2>
             <title>Deploying a Seam application to a JBoss AS cluster with session replication</title>
 
+            <warning>
+                <para>This section needs to be updated for JBoss AS 7.x</para>
+            </warning>
+            
             <para>
                 The procedure outlined in this tutorial has been validated with an seam-gen application and the Seam
                 booking example.

@@ -343,7 +343,7 @@
         </para>
         
         <programlisting role="XML"><![CDATA[<pages>
-    <page view-id="/messageList.jsp" action="#{messageManager.list}"/>
+    <page view-id="/messageList.xhtml" action="#{messageManager.list}"/>
     ...
 </pages>]]></programlisting>
 
@@ -362,7 +362,7 @@
         </para>
         
         <programlisting role="XML"><![CDATA[<pages>
-    <page view-id="/messageList.jsp" action="#{conversation.begin}"/>
+    <page view-id="/messageList.xhtml" action="#{conversation.begin}"/>
     ...
 </pages>]]></programlisting>
 
@@ -380,7 +380,7 @@
         </para>
 
         <programlisting role="XML"><![CDATA[<pages>
-    <page view-id="/messageList.jsp">
+    <page view-id="/messageList.xhtml">
        <begin-conversation nested="true" pageflow="AddItem"/>
     <page>
     ...
@@ -392,7 +392,7 @@
         </para>
 
         <programlisting role="XML"><![CDATA[<pages>
-    <page view-id="/home.jsp">
+    <page view-id="/home.xhtml">
        <end-conversation/>
     <page>
     ...
@@ -835,8 +835,8 @@ public class EditDocumentBean implements EditDocument {
             </listitem>
             <listitem>
                 <para>
-                Include one or more of the standard workspace switcher JSP
-                or facelets fragments in your pages. The standard fragments
+                Include one or more of the standard workspace switcher JSF
+                or Facelets fragments in your pages. The standard fragments
                 support workspace management via a drop down menu, a list
                 of conversations, or breadcrumbs.
                 </para>
@@ -920,7 +920,7 @@ public class EditDocumentBean implements EditDocument {
             <title>The conversation switcher</title>
             
             <para>
-                Include the following fragment in your JSP or facelets page
+                Include the following fragment in your JSF page
                 to get a drop-down menu that lets you switch to any
                 current conversation, or to any other page of the application:
             </para>

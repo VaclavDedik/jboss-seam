@@ -61,22 +61,22 @@
         @Id @GeneratedValue
         Long id
 
-        @Length(max=50) @NotNull
+        @Size(max=50) @NotNull
         String name
 
-        @Length(max=100) @NotNull
+        @Size(max=100) @NotNull
         String address
 
-        @Length(max=40) @NotNull
+        @Size(max=40) @NotNull
         String city
 
-        @Length(min=2, max=10) @NotNull
+        @Size(min=2, max=10) @NotNull
         String state
 
-        @Length(min=4, max=6) @NotNull
+        @Size(min=4, max=6) @NotNull
         String zip
 
-        @Length(min=2, max=40) @NotNull
+        @Size(min=2, max=40) @NotNull
         String country
 
         @Column(precision=6, scale=2)
@@ -163,8 +163,8 @@ class BookingListAction implements Serializable
 
             <para>A Groovy class <emphasis>is</emphasis> a Java class, with a bytecode representation just like a Java
                 class. To deploy, a Groovy entity, a Groovy Session bean or a Groovy Seam component, a compilation step
-                is necessary. A common approach is to use the <literal>groovyc</literal> ant task. Once compiles, a
-                Groovy class is in no way different than a Java class and the application server will treat them
+                is necessary. A common approach is to use the <ulink url="http://docs.codehaus.org/display/GMAVEN/Home">gmaven-plugin</ulink>
+                 maven plugin. Once compiles, a Groovy class is in no way different than a Java class and the application server will treat them
                 equally. Note that this allow a seamless mix of Groovy and Java code.</para>
         </section>
 

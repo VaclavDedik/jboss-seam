@@ -22,19 +22,7 @@
             directory.  Sun's JDK6 Update 4 release upgraded to JAXB 2.1 and 
             removed this requirement.  When building, testing, or executing be
             sure to use this version or higher. 
-        </para>
-        
-        <para>
-            Seam used JBoss Embedded in its unit and integration testing.  This
-            has an additional requirement when using JDK 6. In order to run 
-            JBoss Embedded with JDK 6 you need to set the following JVM argument:
-            
-            <programlisting>-Dsun.lang.ClassLoader.allowArraySyntax=true</programlisting>
-            
-            Seam's internal build system is setting this by default when it 
-            executes Seam's test suite.  However if you are also using JBoss
-            Embedded for your testing you will need to set this value. 
-        </para>
+        </para>        
     </section>    
   </section>
   
@@ -48,7 +36,7 @@
       type is listed as <literal>war</literal>, the library should be placed in 
       the <literal>/WEB-INF/lib</literal> directory of your application's war
       file.  The scope of the dependency is either all, runtime or provided (by
-      JBoss AS 4.2 or 5.0).
+      JBoss AS 7.1.x).
     </para>
     
     <para>
@@ -241,21 +229,6 @@
             
             <row>
               <entry>
-                <para><literal>jsf-facelets.jar</literal></para>
-              </entry>
-              <entry align="center">
-                <para>runtime</para>
-              </entry>
-              <entry align="center">
-                <para>war</para>
-              </entry>
-              <entry>
-                <para>Facelets</para>
-              </entry>
-            </row>    
-            
-            <row>
-              <entry>
                 <para><literal>urlrewrite.jar</literal></para>
               </entry>
               <entry align="center">
@@ -323,7 +296,7 @@
           
             <row>
               <entry>
-                <para><literal>richfaces-api.jar</literal></para>
+                <para><literal>richfaces-core-api.jar</literal></para>
               </entry>
               <entry align="center">
                 <para>all</para>
@@ -333,7 +306,7 @@
               </entry>
               <entry>
                 <para>
-                  Required to use RichFaces.  Provides API classes that you may
+                  Required to use RichFaces.  Provides Core API classes that you may
                   wish to use from your application e.g. to create a tree
                 </para>
               </entry>
@@ -341,7 +314,7 @@
             
             <row>
               <entry>
-                <para><literal>richfaces-impl.jar</literal></para>
+                <para><literal>richfaces-core-impl.jar</literal></para>
               </entry>
               <entry align="center">
                 <para>runtime</para>
@@ -350,13 +323,13 @@
                 <para>war</para>
               </entry>
               <entry>
-                <para>Required to use RichFaces.</para>
+                <para>Required to use RichFaces Core implementations.</para>
               </entry>
             </row>
             
             <row>
               <entry>
-                <para><literal>richfaces-ui.jar</literal></para>
+                <para><literal>richfaces-components-ui.jar</literal></para>
               </entry>
               <entry align="center">
                 <para>runtime</para>
@@ -365,9 +338,24 @@
                 <para>war</para>
               </entry>
               <entry>
-                <para>Required to use RichFaces.  Provides all the UI components.</para>
+                <para>Required to use RichFaces.  Provides all the Components UI components.</para>
               </entry>
-            </row>                        
+            </row>
+            
+            <row>
+              <entry>
+                <para><literal>richfaces-components-api.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Required to use RichFaces.  Provides all the API for UI components.</para>
+              </entry>
+            </row> 
             
           </tbody>
         </tgroup>
@@ -405,22 +393,7 @@
     
           <tbody>
     
-            <row>
-              <entry>
-                <para><literal>activation.jar</literal></para>
-              </entry>
-              <entry align="center">
-                <para>runtime</para>
-              </entry>
-              <entry align="center">
-                <para>ear</para>
-              </entry>
-              <entry>
-                <para>Required for attachment support</para>
-              </entry>
-            </row>
-            
-            <row>
+           <row>
               <entry>
                 <para><literal>mail.jar</literal></para>
               </entry>
@@ -792,14 +765,14 @@
 
     
     <section>
-      <title>JBoss Rules</title>
+      <title>Drools</title>
       
       <para>
-        The JBoss Rules libraries can be found in the <literal>drools/lib</literal> directory in Seam.
+        The Drools libraries can be found in the <literal>lib</literal> directory in Seam.
       </para>
       
       <table>
-        <title>JBoss Rules Dependencies</title>
+        <title>Drools Dependencies</title>
      
         <tgroup cols="4">
           <colspec colnum="1" colwidth="4*" />
@@ -843,7 +816,7 @@
             
             <row>
               <entry>
-                <para><literal>core.jar</literal></para>
+                <para><literal>ecj.jar</literal></para>
               </entry>
               <entry align="center">
                 <para>runtime</para>
@@ -852,7 +825,7 @@
                 <para>ear</para>
               </entry>
               <entry>
-                <para>Eclipse JDT</para>
+                <para>Eclipse Compiler for Java</para>
               </entry>
             </row>          
             
@@ -882,7 +855,7 @@
                 <para>ear</para>
               </entry>
               <entry>
-                <para></para>
+                <para>Drools compiler</para>
               </entry>
             </row>          
             
@@ -930,21 +903,7 @@
                 <para></para>
               </entry>
             </row>
-            
-            <row>
-              <entry>
-                <para><literal>janino.jar</literal></para>
-              </entry>
-              <entry align="center">
-                <para>runtime</para>
-              </entry>
-              <entry align="center">
-                <para>ear</para>
-              </entry>
-              <entry>
-                <para></para>
-              </entry>
-            </row>
+
             
             <row>
               <entry>
@@ -1187,25 +1146,15 @@
     
   <section>
     <title>Dependency Management using Maven</title>
-
-  
-  <para>
-    Maven offers support for transitive dependency management and can be used
-    to manage the dependencies of your Seam project.  You can use Maven Ant
-    Tasks to integrate Maven into your Ant build, or can use Maven to build and
-    deploy your project.
-  </para>
   
   <para>
     We aren't actually going to discuss how to use Maven here, but just run
-    over some basic POMs you could use.
+    over some Seam usage from user/application point of view you could use.
   </para> 
 
    <para>
-     Released versions of Seam are available in <ulink url="http://repository.jboss.org/maven2">
-     http://repository.jboss.org/maven2</ulink>     
-     and nightly snapshots are available in <ulink url="http://snapshots.jboss.org/maven2">
-     http://snapshots.jboss.org/maven2</ulink>.
+     Released versions of Seam are available in <ulink url="http://repository.jboss.org/nexus/content/groups/public">
+     http://repository.jboss.org/nexus/content/groups/public</ulink>.     
    </para>
 
    <para>
@@ -1229,6 +1178,16 @@
 
 <programlisting role="XML"><![CDATA[<dependency>
   <groupId>org.jboss.seam</groupId>
+  <artifactId>jboss-seam-mail</artifactId>
+</dependency>]]></programlisting>
+
+<programlisting role="XML"><![CDATA[<dependency>
+  <groupId>org.jboss.seam</groupId>
+  <artifactId>jboss-seam-debug</artifactId>
+</dependency>]]></programlisting>
+
+<programlisting role="XML"><![CDATA[<dependency>
+  <groupId>org.jboss.seam</groupId>
   <artifactId>jboss-seam-remoting</artifactId>
 </dependency>]]></programlisting>
 
@@ -1239,10 +1198,26 @@
 
 <programlisting role="XML"><![CDATA[<dependency>
   <groupId>org.jboss.seam</groupId>
-  <artifactId>jboss-seam-ioc</artifactId>
+  <artifactId>jboss-seam-excel</artifactId>
 </dependency>]]></programlisting>
 
+<programlisting role="XML"><![CDATA[<dependency>
+  <groupId>org.jboss.seam</groupId>
+  <artifactId>jboss-seam-resteasy</artifactId>
+</dependency>]]></programlisting>
+
+<programlisting role="XML"><![CDATA[<dependency>
+  <groupId>org.jboss.seam</groupId>
+  <artifactId>jboss-seam-rss</artifactId>
+</dependency>]]></programlisting>
+
+<programlisting role="XML"><![CDATA[<dependency>
+  <groupId>org.jboss.seam</groupId>
+  <artifactId>jboss-seam-wicket</artifactId>
+</dependency>]]></programlisting>
   <para>
+  
+  
     This sample POM will give you Seam, JPA (provided by Hibernate), 
     Hibernate Validator and Hibernate Search:
   </para> 
@@ -1260,41 +1235,43 @@
   <repositories>
     <repository>
       <id>repository.jboss.org</id>
-      <name>JBoss Repository</name>
-      <url>http://repository.jboss.org/maven2</url>
+      <name>JBoss Public Repository</name>
+      <url>http://repository.jboss.org/nexus/content/groups/public</url>
     </repository>
   </repositories>
+
+  <dependencyManagement>
+     <dependencies>
+        <dependency>
+           <groupId>org.jboss.seam</groupId>
+           <artifactId>bom</artifactId>
+           <version>2.3.0.Final</version>
+           <type>pom</type>
+           <scope>import</scope>
+         </dependency>
+      </dependencies>
+  </dependencyManagement>
 
   <dependencies>
 
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-validator</artifactId>
-      <version>3.1.0.GA</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-annotations</artifactId>
-      <version>3.4.0.GA</version>
     </dependency>
 
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-entitymanager</artifactId>
-      <version>3.4.0.GA</version>
     </dependency>
     
     <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-search</artifactId>
-        <version>3.1.1.GA</version>
     </dependency>
 
     <dependency>
       <groupId>org.jboss.seam</groupId>
       <artifactId>jboss-seam</artifactId>
-      <version>2.2.0.GA</version>
     </dependency>
     
   </dependencies>

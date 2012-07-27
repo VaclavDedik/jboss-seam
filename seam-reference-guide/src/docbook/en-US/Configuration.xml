@@ -763,9 +763,9 @@ Authenticator authenticator;
             annotation. But most applications will just use Seam managed transactions when using Hibernate with
             JavaBeans. </para>
 
-        <para> The Seam distribution includes a version of the booking example application that uses Hibernate3 and
-            JavaBeans instead of EJB3, and another version that uses JPA and JavaBeans. These example applications are
-            ready to deploy into any J2EE application server. </para>
+        <para> The Seam distribution includes a version of the booking example application that uses Hibernate and
+            JavaBeans instead of EJB, and another version that uses JPA and JavaBeans. These example applications are
+            ready to deploy into any Java EE application server. </para>
 
         <sect2>
             <title>Boostrapping Hibernate in Seam</title>
