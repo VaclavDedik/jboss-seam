@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -502,7 +503,31 @@ public class Initialization
       {
          throw new IllegalArgumentException("must specify either class or name in <component/> declaration");
       }
-
+      
+      // if there is the same component with highest precedence do not set properties for it      
+      ComponentDescriptor highestPriorityComponent = getHighestPriorityDescriptor(name);
+      
+      if (highestPriorityComponent != null)
+      {
+         if (precedence < highestPriorityComponent.getPrecedence())
+         {
+            return;
+         }
+         else
+         {
+            // have to remove all properties for lower priority component 
+            Iterator<String> iterator = properties.keySet().iterator();
+            while (iterator.hasNext())
+            {
+               String qualifiedPropName = iterator.next();
+               if (qualifiedPropName.startsWith(name+"."))
+               {
+                  iterator.remove();
+               }
+            }
+         }
+      }
+      
       for ( Element prop : (List<Element>) component.elements() )
       {
          String propName = prop.attributeValue("name");
@@ -530,7 +555,6 @@ public class Initialization
          if (isProperty(prop.getNamespaceURI(),attributeName))
          {
             String qualifiedPropName = name + '.' + toCamelCase( prop.getQName().getName(), false );
-            log.info("qualifiedPropName " + qualifiedPropName);
             Conversions.PropertyValue propValue = null;
             try
             {
@@ -551,16 +575,29 @@ public class Initialization
       }
    }
 
-   private boolean isSetProperties(String name, int precedence)
+   /**
+    * Get the highest priority component for the component name
+    * @param componentName
+    * @return
+    */
+   private ComponentDescriptor getHighestPriorityDescriptor(String componentName)
    {
-      TreeSet<ComponentDescriptor> currentSet = (TreeSet<ComponentDescriptor>) componentDescriptors.get(name);
+      TreeSet<ComponentDescriptor> currentSet = (TreeSet<ComponentDescriptor>) componentDescriptors.get(componentName);
       if (currentSet != null)
       {
-         ComponentDescriptor highestPriorityDescriptor = currentSet.first();         
-         if (highestPriorityDescriptor == null)
-         {
-            return true;
-         }
+         return currentSet.first();
+      }
+      else
+      {
+         return null;
+      }
+   }
+   
+   private boolean isSetProperties(String name, int precedence)
+   {
+      ComponentDescriptor highestPriorityDescriptor = getHighestPriorityDescriptor(name);
+      if ( highestPriorityDescriptor != null)
+      {
          return precedence >= highestPriorityDescriptor.getPrecedence();
       }
       else
