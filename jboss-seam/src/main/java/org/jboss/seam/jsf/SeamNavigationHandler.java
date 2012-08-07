@@ -1,5 +1,10 @@
 package org.jboss.seam.jsf;
 
+import java.util.Map;
+import java.util.Set;
+
+import javax.faces.application.ConfigurableNavigationHandler;
+import javax.faces.application.NavigationCase;
 import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 
@@ -16,7 +21,7 @@ import org.jboss.seam.pageflow.Pageflow;
  * @author Gavin King
  *
  */
-public class SeamNavigationHandler extends NavigationHandler 
+public class SeamNavigationHandler extends ConfigurableNavigationHandler 
 {
    
    private final NavigationHandler baseNavigationHandler;
@@ -49,6 +54,32 @@ public class SeamNavigationHandler extends NavigationHandler
    private static boolean isOutcomeViewId(String outcome)
    {
       return outcome!=null && outcome.startsWith("/");
+   }
+
+   @Override
+   public NavigationCase getNavigationCase(FacesContext context, String fromAction, String outcome)
+   {
+      if (baseNavigationHandler instanceof ConfigurableNavigationHandler)
+      {
+         return ((ConfigurableNavigationHandler) baseNavigationHandler).getNavigationCase(context, fromAction, outcome);
+      }
+      else
+      {
+         return null;
+      }
+   }
+
+   @Override
+   public Map<String, Set<NavigationCase>> getNavigationCases()
+   {
+      if (baseNavigationHandler instanceof ConfigurableNavigationHandler)
+      {
+         return ((ConfigurableNavigationHandler) baseNavigationHandler).getNavigationCases();
+      }
+      else
+      {
+         return null;
+      }
    }
 
 }
