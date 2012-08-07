@@ -989,8 +989,8 @@ public class AbstractSeamTest
       servletContext = ServletLifecycle.getServletContext();
       
       // FactoryFinder cannot be reliably used, as something could have called getFactory sooner
-      //applicationFactory = (ApplicationFactory) FactoryFinder.getFactory(FactoryFinder.APPLICATION_FACTORY);
-      applicationFactory = new MockApplicationFactory();
+      applicationFactory = (ApplicationFactory) FactoryFinder.getFactory(FactoryFinder.APPLICATION_FACTORY);
+      //applicationFactory = new MockApplicationFactory();
       
       application = applicationFactory.getApplication();
       conversationViewRootAttributes = new HashMap<String, Map>();
