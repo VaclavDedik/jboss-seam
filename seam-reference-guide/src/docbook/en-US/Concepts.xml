@@ -278,6 +278,12 @@
                 <emphasis>extremely</emphasis> expensive. However, you can force a serialized threading model on any
                 session bean or JavaBean component by adding the <literal>@Synchronized</literal> annotation. 
             </para>
+            <note>
+               <para>Seam 2.3 removed the serialization of Stateful 
+               session beans by Seam synchronization interceptor 
+               because stateful session beans are serialized by EJB 3.1 
+               container by default .</para>
+            </note>
             <para> 
                 This concurrency model means that AJAX clients can safely use volatile session and conversational
                 state, without the need for any special work on the part of the developer.
