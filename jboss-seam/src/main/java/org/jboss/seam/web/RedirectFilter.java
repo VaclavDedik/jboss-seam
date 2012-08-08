@@ -69,7 +69,11 @@ public class RedirectFilter extends AbstractFilter
                   }
                }
             }
-            super.sendRedirect(url);
+            //if the response is already committed (e.g. a redirect has been already sent) do nothing
+            if ( !super.getResponse().isCommitted() )
+            {
+               super.sendRedirect(url);
+            }
          }
       };
    }
