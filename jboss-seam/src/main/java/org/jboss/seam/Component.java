@@ -301,7 +301,7 @@ public class Component extends Model
       boolean hasAnnotation = getBeanClass().isAnnotationPresent(Synchronized.class); 
       
       // Technically, we don't need to synchronize page-scoped components if StateManager#isSavingStateInClient(FacesContext) is true 
-      synchronize = ( scope==SESSION || scope==PAGE || hasAnnotation );
+      synchronize = ( scope==SESSION || scope==PAGE || hasAnnotation ) && type != ComponentType.STATEFUL_SESSION_BEAN;
             
       if (synchronize)
       {
@@ -313,6 +313,11 @@ public class Component extends Model
       if (hasAnnotation && !interceptionEnabled)
       {
          log.warn("Interceptors are disabled for @Synchronized component - synchronization will be disabled for: " + name);
+      }
+      
+      if (hasAnnotation && type != ComponentType.STATEFUL_SESSION_BEAN)
+      {
+         log.warn("Seam synchronization interceptor is disabled for @Synchronized @Stateful component - Seam synchronization will be disabled for: " + name);
       }
    }
    
