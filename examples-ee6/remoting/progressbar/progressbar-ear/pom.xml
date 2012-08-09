@@ -45,8 +45,6 @@
                 <configuration>
                     <version>6</version>
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
-                    <!-- use maven generated application.xml instead -->
-                    <generateApplicationXml>true</generateApplicationXml>
                     <filtering>true</filtering>
                     <modules>
                         <webModule>

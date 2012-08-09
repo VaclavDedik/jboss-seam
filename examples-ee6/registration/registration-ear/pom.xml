@@ -41,10 +41,6 @@
                 <configuration>
                     <version>6</version>
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
-                    <!-- Exclude eclipse generated application.xml and manually modified jboss-app.xml during mvn build  -->
-                    
-                    <!-- use maven generated application.xml instead -->
-                    <generateApplicationXml>true</generateApplicationXml>
                     <modules>
                         <webModule>
                             <groupId>org.jboss.seam.examples-ee6.registration</groupId>

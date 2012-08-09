@@ -40,10 +40,6 @@
                 <configuration>
                     <version>6</version>
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
-                    <!-- Exclude eclipse generated application.xml and manually modified jboss-app.xml during mvn build  -->
-                    
-                    <!-- use maven generated application.xml instead -->
-                    <generateApplicationXml>true</generateApplicationXml>
                     <filtering>true</filtering>
                     <modules>
                         <webModule>
