@@ -272,11 +272,11 @@
                 components are always protected by Seam from concurrent access so long as the Seam interceptors 
                 are not disabled for that component.  If interceptors are disabled, then any thread-safety that is
                 required must be implemented by the component itself. Seam serializes requests to session
-                scope session beans and JavaBeans by default (and detects and breaks any deadlocks that occur). This is
+                scope JavaBeans by default (and detects and breaks any deadlocks that occur). This is
                 not the default behaviour for application scoped components however, since application scoped components
                 do not usually hold volatile state and because synchronization at the global level is
                 <emphasis>extremely</emphasis> expensive. However, you can force a serialized threading model on any
-                session bean or JavaBean component by adding the <literal>@Synchronized</literal> annotation. 
+                JavaBean component by adding the <literal>@Synchronized</literal> annotation. 
             </para>
             <note>
                <para>Seam 2.3 removed the serialization of Stateful 
@@ -288,6 +288,14 @@
                 This concurrency model means that AJAX clients can safely use volatile session and conversational
                 state, without the need for any special work on the part of the developer.
             </para>
+            <warning>
+                <para>
+                    Be warned that Statefull session Beans are not serialized by Seam anymore. 
+                    Serialization of Statefull session beans are controlled by EJB container, 
+                    so there is no need for Seam to duplicate that. So @Synchronized annotation
+                    is ignored on Statefull session beans. 
+                </para>
+            </warning>
         </sect2>
 
     </sect1>
