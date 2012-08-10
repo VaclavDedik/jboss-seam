@@ -3353,7 +3353,7 @@ public @interface User {
     
         <itemizedlist>
           <listitem>
-            <para>drools-api.jar</para>
+            <para>knowledge-api.jar</para>
           </listitem>
           <listitem>
             <para>drools-compiler.jar</para>

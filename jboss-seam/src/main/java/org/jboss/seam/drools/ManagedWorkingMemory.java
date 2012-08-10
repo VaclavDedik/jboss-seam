@@ -6,7 +6,7 @@ import org.drools.RuleBase;
 import org.drools.StatefulSession;
 import org.drools.spi.GlobalResolver;
 import org.drools.event.AgendaEventListener;
-import org.drools.event.RuleFlowEventListener;
+import org.drools.event.process.ProcessEventListener;
 import org.drools.event.WorkingMemoryEventListener;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -100,9 +100,9 @@ public class ManagedWorkingMemory implements Mutable, Serializable
                {
                   statefulSession.addEventListener((AgendaEventListener) eventListenerObject);
                } 
-               else if(eventListenerObject instanceof RuleFlowEventListener) 
+               else if(eventListenerObject instanceof ProcessEventListener) 
                {
-                  statefulSession.addEventListener((RuleFlowEventListener) eventListenerObject);
+                  statefulSession.addEventListener((WorkingMemoryEventListener) eventListenerObject);
                } 
                else 
                {

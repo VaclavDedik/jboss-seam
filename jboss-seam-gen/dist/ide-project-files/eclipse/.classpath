@@ -258,7 +258,7 @@
     <classpathentry kind="lib" path="lib/jboss-seam.jar"/>
     <classpathentry kind="lib" path="lib/pdfbox.jar"/>
     <classpathentry kind="lib" path="lib/jboss-seam-ioc.jar"/>
-    <classpathentry kind="lib" path="lib/drools-api.jar"/>
+    <classpathentry kind="lib" path="lib/knowledge-api.jar"/>
     <classpathentry kind="lib" path="lib/rhq-pluginAnnotations.jar"/>
     <classpathentry kind="lib" path="lib/jboss-servlet-api_3.0_spec.jar"/>
     <classpathentry kind="lib" path="lib/jsf-impl.jar"/>

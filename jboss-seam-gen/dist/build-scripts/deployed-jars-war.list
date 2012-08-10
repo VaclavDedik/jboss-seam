@@ -4,7 +4,7 @@ commons-digester.jar
 bsh.jar
 drools-templates.jar
 drools-decisiontables.jar
-drools-api.jar
+knowledge-api.jar
 drools-compiler.jar
 drools-core.jar
 jboss-el.jar

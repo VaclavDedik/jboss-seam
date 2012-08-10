@@ -15,6 +15,7 @@ import org.jboss.seam.example.seamspace.MemberBlog;
 import org.jboss.seam.example.seamspace.MemberFriend;
 import org.jboss.seam.example.seamspace.MemberImage;
 
+
 # These rules allow members to manage permissions on their own images
 
 rule ManageImagePermissions
@@ -22,7 +23,7 @@ rule ManageImagePermissions
   activation-group "permissions"
 when
   acct: MemberAccount()
-  image: MemberImage(mbr : member -> (mbr.memberId.equals(acct.member.memberId)))
+  image: MemberImage(mbr : member , (mbr.memberId == acct.member.memberId ))
   check: PermissionCheck(target == image, action == "seam.read-permissions", granted == false)
 then
   check.grant();
@@ -33,7 +34,7 @@ rule GrantImagePermissions
   activation-group "permissions"
 when
   acct: MemberAccount()
-  image: MemberImage(mbr : member -> (mbr.memberId.equals(acct.member.memberId)))
+  image: MemberImage(mbr : member , (mbr.memberId == acct.member.memberId ))
   check: PermissionCheck(target == image, action == "seam.grant-permission", granted == false)
 then
   check.grant();
@@ -58,7 +59,7 @@ rule DeleteImage
   activation-group "permissions"
 when
   acct: MemberAccount()
-  image: MemberImage(mbr : member -> (mbr.memberId.equals(acct.member.memberId)))
+  image: MemberImage(mbr : member , (mbr.memberId == acct.member.memberId ))
   check: PermissionCheck(target == image, action == "delete", granted == false)
 then
   check.grant();
@@ -71,7 +72,7 @@ rule RevokeImagePermissions
   activation-group "permissions"
 when
   acct: MemberAccount()
-  image: MemberImage(mbr : member -> (mbr.memberId.equals(acct.member.memberId)))
+  image: MemberImage(mbr : member , (mbr.memberId == acct.member.memberId ))
   check: PermissionCheck(target == image, action == "seam.revoke-permission", granted == false)
 then
   check.grant();
@@ -93,7 +94,7 @@ rule FriendViewImage
   activation-group "permissions"
 when
   acct: MemberAccount()
-  image: MemberImage(mbr : member -> (mbr.isFriend(acct.member)))
+  image: MemberImage(mbr : member , (mbr.isFriend(acct.member)))
   PermissionCheck(target == image, action == "view")
   role: RoleCheck(name == "friends")
 then
@@ -116,7 +117,7 @@ rule ViewMyImages
   activation-group "permissions"
 when
   acct: MemberAccount()
-  image: MemberImage(mbr : member -> (mbr.memberId.equals(acct.member.memberId)))
+  image: MemberImage(mbr : member , (mbr.memberId == acct.member.memberId))
   check: PermissionCheck(target == image, action == "view")
 then
   check.grant();
@@ -160,7 +161,7 @@ rule CreateBlog
 when
   mbr: Member()
   acct: MemberAccount(member.memberId == mbr.memberId)
-  check: PermissionCheck(target.memberId == mbr.memberId, action == "createBlog", granted == false)
+  check: PermissionCheck( ((Member)target).memberId == mbr.memberId, action == "createBlog", granted == false)
 then
   check.grant();
 end
@@ -172,7 +173,7 @@ rule UploadImage
 when
   mbr: Member()
   acct: MemberAccount(member.memberId == mbr.memberId)
-  check: PermissionCheck(target.memberId == mbr.memberId, action == "uploadImage", granted == false)
+  check: PermissionCheck( ((Member)target).memberId ==mbr.memberId, action == "uploadImage", granted == false)
 then
   check.grant();
 end

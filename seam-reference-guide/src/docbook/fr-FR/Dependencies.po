@@ -762,8 +762,8 @@ msgstr "Eclipse JDT"
 #. Tag: literal
 #: Dependencies.xml:861
 #, no-c-format
-msgid "drools-api.jar"
-msgstr "drools-api.jar"
+msgid "knowledge-api.jar"
+msgstr "knowledge-api.jar"
 
 #. Tag: literal
 #: Dependencies.xml:876

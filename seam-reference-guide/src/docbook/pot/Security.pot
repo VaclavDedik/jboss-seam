@@ -3987,7 +3987,7 @@ msgstr ""
 #. Tag: para
 #: Security.xml:2917
 #, no-c-format
-msgid "drools-api.jar"
+msgid "knowledge-api.jar"
 msgstr ""
 
 #. Tag: para

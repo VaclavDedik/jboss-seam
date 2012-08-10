@@ -46,7 +46,6 @@
 		<!-- Version string properties -->
 		<version.arquillian_core>1.0.1.Final</version.arquillian_core>
 		<version.wicket>1.4.14</version.wicket>
-		<version.drools>5.1.1</version.drools>
 		<version.testng>5.14.10</version.testng>
 		<version.resteasy>2.0.1.GA</version.resteasy>
 		<version.jbossas7>7.1.1.Final</version.jbossas7>

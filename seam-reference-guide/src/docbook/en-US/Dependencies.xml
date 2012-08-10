@@ -831,7 +831,7 @@
             
             <row>
               <entry>
-                <para><literal>drools-api.jar</literal></para>
+                <para><literal>knowledge-api.jar</literal></para>
               </entry>
               <entry align="center">
                 <para>runtime</para>

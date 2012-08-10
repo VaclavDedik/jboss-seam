@@ -5148,7 +5148,7 @@ msgstr ""
 #. Tag: para
 #: Security.xml:2917
 #, fuzzy, no-c-format
-msgid "drools-api.jar"
+msgid "knowledge-api.jar"
 msgstr "drools-compiler.jar"
 
 #. Tag: para

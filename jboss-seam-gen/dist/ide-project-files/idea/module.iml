@@ -245,7 +245,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/drools-api.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/knowledge-api.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

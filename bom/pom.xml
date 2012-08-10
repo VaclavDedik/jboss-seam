@@ -33,7 +33,7 @@
 		<!-- Version string properties -->
         <version.seam>2.3.0.CR1-SNAPSHOT</version.seam>
 		<version.wicket>1.4.14</version.wicket>
-		<version.drools>5.1.1</version.drools>
+		<version.drools>5.3.3.Final</version.drools>
 		<version.resteasy>2.0.1.GA</version.resteasy>
 		<version.spring>3.1.1.RELEASE</version.spring>
 		<version.jbossas7>7.1.1.Final</version.jbossas7>
@@ -579,7 +579,7 @@
 			
 			<dependency>
 				<groupId>org.drools</groupId>
-				<artifactId>drools-api</artifactId>
+				<artifactId>knowledge-api</artifactId>
 				<version>${version.drools}</version>
 			</dependency>
 

@@ -4,7 +4,7 @@ core.jar
 drools-templates.jar
 drools-decisiontables.jar
 drools-compiler.jar
-drools-api.jar
+knowledge-api.jar
 drools-core.jar
 ecj.jar
 groovy-all.jar

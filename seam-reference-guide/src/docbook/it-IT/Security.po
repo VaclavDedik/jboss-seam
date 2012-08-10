@@ -3706,8 +3706,8 @@ msgstr "Se si usa la funzione dei permessi basati sulle regole fornita dalla sic
 #. Tag: para
 #: Security.xml:2917
 #, no-c-format
-msgid "drools-api.jar"
-msgstr "drools-api.jar"
+msgid "knowledge-api.jar"
+msgstr "knowledge-api.jar"
 
 #. Tag: para
 #: Security.xml:2920

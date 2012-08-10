@@ -3,7 +3,7 @@ backport-util-concurrent.jar
 commons-digester.jar
 commons-fileupload.jar
 core.jar
-drools-api.jar
+knowledge-api.jar
 drools-compiler.jar
 drools-core.jar
 drools-decisiontables.jar 

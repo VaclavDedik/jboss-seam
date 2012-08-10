@@ -711,7 +711,7 @@ msgstr ""
 #. Tag: literal
 #: Dependencies.xml:861
 #, no-c-format
-msgid "drools-api.jar"
+msgid "knowledge-api.jar"
 msgstr ""
 
 #. Tag: literal
