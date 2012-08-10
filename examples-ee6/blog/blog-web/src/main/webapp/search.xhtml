@@ -8,6 +8,7 @@
                 template="#{theme.template}">
 
 <ui:define name="content">
+   <h:messages id="messages" globalOnly="true"/>
    <h:dataTable id="searchResultTable" value="#{searchResults}" var="blogEntry">
       <h:column>
          <div>

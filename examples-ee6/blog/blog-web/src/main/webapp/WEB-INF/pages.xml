@@ -57,5 +57,11 @@
     <page view-id="*">
         <action execute="#{blog.hitCount.hit}"/>
     </page>
+
+    <exception class="org.hibernate.search.errors.EmptyQueryException">
+        <redirect view-id="/search.xhtml">
+            <message severity="warn">Given query is too simple. Try again.</message>
+        </redirect>
+    </exception>
     
 </pages>

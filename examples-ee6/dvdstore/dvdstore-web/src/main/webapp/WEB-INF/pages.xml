@@ -75,7 +75,7 @@
     
 
     <exception class="org.jboss.seam.security.NotLoggedInException"> 
-        <redirect view-id="/home.xhtml"> 
+        <redirect view-id="/home.xhtml">
             <message>You must be logged in to access administrative pages.</message> 
         </redirect> 
     </exception> 
@@ -89,6 +89,12 @@
     <exception class="javax.faces.application.ViewExpiredException">
         <redirect view-id="/home.xhtml">
             <message>The page you tried to access is no longer available.</message>
+        </redirect>
+    </exception>
+
+    <exception class="org.hibernate.search.errors.EmptyQueryException">
+        <redirect view-id="/browse.xhtml">
+            <message severity="warn">Given query is too simple. Try again.</message>
         </redirect>
     </exception>
        
