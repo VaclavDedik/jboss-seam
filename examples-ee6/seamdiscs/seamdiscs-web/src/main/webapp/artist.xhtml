@@ -1,4 +1,4 @@
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:s="http://jboss.org/schema/seam/taglib"
@@ -11,7 +11,7 @@
                 template="layout/template.xhtml">
 
 <ui:define name="body">
-    
+
     <rich:panel>
     	<f:facet name="header"><tr:outputText value="#{artist.name} (#{messages[artist.class.name]})" rendered="#{artist.name ne null}" /></f:facet>
 	  	<h:form id="artist">
@@ -20,7 +20,7 @@
 	    		<tr:inputText label="Artist" id="name" value="#{artist.name}" readOnly="#{not identity.loggedIn}" required="true"/>
 	    		<tr:panelLabelAndMessage label="Band Members" rendered="#{artist.class.simpleName eq 'Band'}">
 					<ul>
-			    		<ui:repeat value="#{artist.bandMembers}" var="bandMember">
+			    		<tr:iterator value="#{artist.bandMembers}" var="bandMember">
 			    			<li>
 			    				<tr:inputText simple="true" value="#{bandMember.name}" readOnly="#{not identity.loggedIn}" id="bandMember"/>
 			    				<rich:autocomplete for="bandMember" selfRendered="true" minChars="3" suggestionAction="#{bandMemberFinder.getBandMembers}" var="bandMember">
@@ -29,7 +29,7 @@
 			    						</h:column>
 			    				</rich:autocomplete>
 			    			</li>
-			    		</ui:repeat>
+			    		</tr:iterator>
 					</ul>
 		    		<f:facet name="end">
 		    			<h:commandButton id="addBandMember" action="#{artistHome.addBandMember}" value="Add Band Member" rendered="#{identity.loggedIn}"/>
@@ -40,7 +40,7 @@
 		    			 <a:ajax event="keyup" render="description_preview" requestDelay="3000" ignoreDupResponces="true" eventsQueue="previewQueue" />
 		    		</tr:inputText>
 		    		<s:div style="width: 300px" id="description_preview">
-			    	
+
 					   	<s:formattedText value="#{artist.description}" rendered="#{not empty artist.description}" />
 			    		<tr:outputText value="None known" rendered="#{empty artist.description}" />
 					</s:div>
@@ -57,7 +57,7 @@
 			    			<f:facet name="header">
 			    				Released
 			    			</f:facet>
-			    			<tr:inputNumberSpinbox label="Release Date" value="#{disc.release}" minimum="1900" maximum="2010" stepSize="1" readOnly="#{not identity.loggedIn}" />           
+			    			<tr:inputNumberSpinbox label="Release Date" value="#{disc.release}" minimum="1900" maximum="2010" stepSize="1" readOnly="#{not identity.loggedIn}" />
 			    		</tr:column>
 			    		<f:facet name="detailStamp">
 					    	<s:div style="width: 300px;">
@@ -72,7 +72,7 @@
 		    	</tr:panelLabelAndMessage>
 	    	</tr:panelFormLayout>
 	   	</s:validateAll>
-	   	
+
 	   	<tr:panelButtonBar rendered="#{identity.loggedIn}">
 	   		<h:commandButton action="#{artistHome.update}" value="Save" rendered="#{artistHome.managed}" id="update"/>
 	   		<h:commandButton action="#{artistHome.persist}" value="Save" rendered="#{not artistHome.managed}" id="persist"/>
@@ -80,6 +80,6 @@
 	   	</tr:panelButtonBar>
 	  	</h:form>
     </rich:panel>
-    
-</ui:define> 
+
+</ui:define>
 </ui:composition>
