@@ -15,6 +15,16 @@
 	<build>
 		<plugins>
             <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>../jar-dependencies</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+            <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                   <execution>
