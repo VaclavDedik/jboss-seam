@@ -223,6 +223,10 @@ public class FacesManager extends Manager
       {
          throw new RedirectException(ioe);
       }
+      catch (IllegalStateException ise)
+      {
+         throw new RedirectException(ise.getMessage());
+      }
       finally
       {
          Contexts.getEventContext().remove(REDIRECT_FROM_MANAGER);
