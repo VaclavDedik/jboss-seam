@@ -64,7 +64,7 @@
             <istrue value="${debug}"/>
         </condition>
         <property name="transactionManagerLookupClass" value="org.hibernate.transaction.JBossTransactionManagerLookup"/>
-        <property name="ejbJndiPattern" value="java:app/${project.name}-ejb/#{ejbName}"/>
+        <property name="ejbJndiPattern" value="java:app/${project.name}.jar/#{ejbName}"/>
         <property name="seamBootstrapsPu" value="false" />
         <condition property="seamEmfRef" value="#{entityManagerFactory}" else="#{null}">
             <istrue value="${seamBootstrapsPu}"/>
