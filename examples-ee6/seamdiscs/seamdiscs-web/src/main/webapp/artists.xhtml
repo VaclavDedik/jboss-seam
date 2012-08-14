@@ -47,10 +47,14 @@
 								rendered="#{artist.class.simpleName eq 'Artist'}" />
 							<tr:outputText value="None"
 								rendered="#{artist.class.simpleName eq 'Band' and empty artist.bandMembers}" />
-							<rich:list value="#{artist.bandMembers}" var="bandMember"
-								rendered="#{artist.class.simpleName eq 'Band' and not empty artist.bandMembers}">
-								<tr:outputText value="#{bandMember.name}" />
-							</rich:list>
+                     <tr:group
+                        rendered="#{artist.class.simpleName eq 'Band' and not empty artist.bandMembers}">
+                        <ul>
+                           <tr:iterator value="#{artist.bandMembers}" var="bandMember">
+                              <li><tr:outputText value="#{bandMember.name}"/></li>
+                           </tr:iterator>
+                        </ul>
+                     </tr:group>
 						</tr:column>
 						<f:facet name="detailStamp">
 							<s:div style="width: 200px">
