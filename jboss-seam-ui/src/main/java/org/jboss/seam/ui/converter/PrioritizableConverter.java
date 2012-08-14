@@ -13,7 +13,7 @@ import javax.faces.convert.FacesConverter;
  * Helper class for ConverterChain
  *
  */
-@FacesConverter(value="org.jboss.sema.ui.PrioritizableConverter")
+@FacesConverter(value="org.jboss.seam.ui.PrioritizableConverter")
 public class PrioritizableConverter implements Converter, Comparable<PrioritizableConverter>,
          StateHolder
 {
