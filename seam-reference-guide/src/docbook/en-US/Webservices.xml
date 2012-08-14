@@ -2,7 +2,7 @@
   <title>Web Services</title>
 
   <para>
-    Seam integrates with JBossWS to allow standard JEE web services to take full advantage of Seam's contextual framework,
+    Seam integrates with JBossWS to allow standard Java EE web services to take full advantage of Seam's contextual framework,
     including support for conversational web services. This chapter walks through the steps required to allow web 
     services to run within a Seam environment.
   </para>
@@ -17,28 +17,20 @@
     </para>
     
     <para>
-      A special configuration file, <literal>standard-jaxws-endpoint-config.xml</literal> should be placed 
+      A special configuration file, <literal>soap-handlers.xml</literal> should be placed 
       into the <literal>META-INF</literal> directory of the <literal>jar</literal> file that contains the 
       web service classes.  This file contains the following SOAP handler configuration:
     </para>
     
-    <programlisting role="XML"><![CDATA[<jaxws-config xmlns="urn:jboss:jaxws-config:2.0" 
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-              xmlns:javaee="http://java.sun.com/xml/ns/javaee"
-              xsi:schemaLocation="urn:jboss:jaxws-config:2.0 jaxws-config_2_0.xsd">
-   <endpoint-config>
-      <config-name>Seam WebService Endpoint</config-name>
-      <pre-handler-chains>
-         <javaee:handler-chain>
-            <javaee:protocol-bindings>##SOAP11_HTTP</javaee:protocol-bindings>
-            <javaee:handler>
-               <javaee:handler-name>SOAP Request Handler</javaee:handler-name>
-               <javaee:handler-class>org.jboss.seam.webservice.SOAPRequestHandler</javaee:handler-class>
-            </javaee:handler>
-         </javaee:handler-chain>
-      </pre-handler-chains>
-   </endpoint-config>
-</jaxws-config>]]></programlisting>
+    <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<handler-chains xmlns="http://java.sun.com/xml/ns/javaee">
+  <handler-chain>
+    <handler>
+      <handler-name>SOAP Request Handler</handler-name>
+      <handler-class>org.jboss.seam.webservice.SOAPRequestHandler</handler-class>
+    </handler>
+  </handler-chain>
+</handler-chains>]]></programlisting>
 
   </sect1>
   
@@ -51,19 +43,21 @@
     </para>
     
     <programlisting role="XML"><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
-    xmlns:seam="http://seambay.example.seam.jboss.org/">
+    xmlns:sb="http://seambay.example.seam.jboss.org/">
   <soapenv:Header>
-    <seam:conversationId xmlns:seam='http://www.jboss.org/seam/webservice'>2</seam:conversationId>
+    <seam:conversationId xmlns:seam='http://www.jboss.org/seam/webservice'>4</seam:conversationId>
   </soapenv:Header>
   <soapenv:Body>
-    <seam:confirmAuction/>
+    <sb:setAuctionPrice>
+      <arg0>100</arg0>
+    </sb:setAuctionPrice>
   </soapenv:Body>
-</soapenv:Envelope>    
+</soapenv:Envelope>
     ]]></programlisting>
     
     <para>
       As you can see in the above SOAP message, there is a <literal>conversationId</literal> element within the
-      SOAP header that contains the conversation ID for the request, in this case <literal>2</literal>.  
+      SOAP header that contains the conversation ID for the request, in this case <literal>4</literal>.  
       Unfortunately, because web services may be consumed by a variety of web service clients written in a 
       variety of languages, it is up to the developer to implement conversation ID propagation between individual 
       web services that are intended to be used within the scope of a single conversation.
@@ -75,14 +69,14 @@
       able to read the conversation ID from the request. Here's an example of a response to the above request message:
     </para>
     
-    <programlisting role="XML"><![CDATA[<env:Envelope xmlns:env='http://schemas.xmlsoap.org/soap/envelope/'>
-  <env:Header>
-    <seam:conversationId xmlns:seam='http://www.jboss.org/seam/webservice'>2</seam:conversationId>
-  </env:Header>
-  <env:Body>
-    <confirmAuctionResponse xmlns="http://seambay.example.seam.jboss.org/"/>
-  </env:Body>
-</env:Envelope>    
+    <programlisting role="XML"><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Header>
+        <seam:conversationId xmlns:seam="http://www.jboss.org/seam/webservice">4</seam:conversationId>
+    </soap:Header>
+    <soap:Body>
+        <ns2:setAuctionPriceResponse xmlns:ns2="http://seambay.example.seam.jboss.org/"/>
+    </soap:Body>
+ </soap:Envelope>    
     ]]></programlisting>
     
     <para>
@@ -127,7 +121,9 @@
     </para>
 
     <programlisting role="JAVA"><![CDATA[@Stateless
-@WebService(name = "AuctionService", serviceName = "AuctionService")
+@Name("auctionService")
+@WebService(name = "AuctionService")
+@HandlerChain(file = "soap-handlers.xml")
 public class AuctionService implements AuctionServiceRemote
 {
    @WebMethod
