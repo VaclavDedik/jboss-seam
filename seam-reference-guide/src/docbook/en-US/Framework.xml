@@ -230,7 +230,7 @@ public class PersonHome extends EntityHome<Person> {
         </para>
 
         <programlisting role="XML"><![CDATA[<pages>
-    <page view-id="/editPerson.jsp">
+    <page view-id="/editPerson.xhtml">
         <param name="personId" value="#{personHome.id}"/>
     </page>
 </pages>]]></programlisting>
@@ -420,7 +420,7 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
         <programlisting role="XHTML"><![CDATA[<h1>List of people</h1>
 <h:dataTable value="#{people.resultList}" var="person">
     <h:column>
-        <s:link view="/editPerson.jsp" value="#{person.firstName} #{person.lastName}">
+        <s:link view="/editPerson.xhtml" value="#{person.firstName} #{person.lastName}">
             <f:param name="personId" value="#{person.id}"/>
         </s:link>
     </h:column>
@@ -441,7 +441,7 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
 
 
         <programlisting role="XML"><![CDATA[<pages>
-    <page view-id="/searchPerson.jsp">
+    <page view-id="/searchPerson.xhtml">
         <param name="firstResult" value="#{people.firstResult}"/>
     </page>
 </pages>]]></programlisting>
@@ -453,7 +453,7 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
         <programlisting role="XHTML"><![CDATA[<h1>Search for people</h1>
 <h:dataTable value="#{people.resultList}" var="person">
     <h:column>
-        <s:link view="/editPerson.jsp" value="#{person.firstName} #{person.lastName}">
+        <s:link view="/editPerson.xhtml" value="#{person.firstName} #{person.lastName}">
             <f:param name="personId" value="#{person.id}"/>
         </s:link>
     </h:column>
@@ -501,12 +501,12 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
 <h:form>
     <div>First name: <h:inputText value="#{examplePerson.firstName}"/></div>
     <div>Last name: <h:inputText value="#{examplePerson.lastName}"/></div>
-    <div><h:commandButton value="Search" action="/search.jsp"/></div>
+    <div><h:commandButton value="Search" action="/search.xhtml"/></div>
 </h:form>
 
 <h:dataTable value="#{people.resultList}" var="person">
     <h:column>
-        <s:link view="/editPerson.jsp" value="#{person.firstName} #{person.lastName}">
+        <s:link view="/editPerson.xhtml" value="#{person.firstName} #{person.lastName}">
             <f:param name="personId" value="#{person.id}"/>
         </s:link>
     </h:column>
@@ -581,7 +581,7 @@ public class RegisterAction extends EntityController implements Register
       {
          persist(user);
          info("Registered new user #{user.username}");
-         return "/registered.jspx";
+         return "/registered.xhtmlx";
       }
       else
       {

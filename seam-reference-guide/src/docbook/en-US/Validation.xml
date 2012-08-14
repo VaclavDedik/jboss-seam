@@ -29,7 +29,7 @@
         "validation" actually enforces constraints that are part of
         the data model, and exist all the way down to the database
         schema definition. Seam provides support for model-based
-        constraints defined using Hibernate Validator.
+        constraints defined using Bean Validation.
     </para>
     
     <para>
@@ -56,7 +56,7 @@
     <para>
         Well, that's a decent first cut, but in practice it might be
         more elegant to use custom constraints instead of the ones
-        built into Hibernate Validator:
+        built into Bean Validation:
     </para>
 
     <programlisting role="JAVA"><![CDATA[public class Location {
@@ -161,7 +161,7 @@
      <para>
          You can then inject this value into the message string using
          the placeholder {0} (the first and only parameter passed to a
-         JSF message for a Hibernate Validator restriction). See the
+         JSF message for a Bean Validation restriction). See the
          internationalization section for more information regarding
          where to define these messages.
      </para>
@@ -247,14 +247,14 @@
     <s:decorate id="countryDecoration" template="edit.xhtml">
         <ui:define name="label">Country:</ui:define>
         <h:inputText value="#{location.country}" required="true">
-            <a:support event="onblur" reRender="countryDecoration" bypassUpdates="true"/>
+            <a:ajax event="blur" render="countryDecoration" bypassUpdates="true"/>
         </h:inputText>
     </s:decorate>
     
     <s:decorate id="zipDecoration" template="edit.xhtml">
         <ui:define name="label">Zip code:</ui:define>
         <h:inputText value="#{location.zip}" required="true">
-            <a:support event="onblur" reRender="zipDecoration" bypassUpdates="true"/>
+            <a:ajax event="blur" render="zipDecoration" bypassUpdates="true"/>
         </h:inputText>
     </s:decorate>
 
@@ -278,14 +278,14 @@
     <s:decorate id="countryDecoration" template="edit.xhtml">
         <ui:define name="label">Country:</ui:define>
         <h:inputText id="country" value="#{location.country}" required="true">
-            <a:support event="onblur" reRender="countryDecoration" bypassUpdates="true"/>
+            <a:ajax event="blur" render="countryDecoration" bypassUpdates="true"/>
         </h:inputText>
     </s:decorate>
     
     <s:decorate id="zipDecoration" template="edit.xhtml">
         <ui:define name="label">Zip code:</ui:define>
         <h:inputText id="zip" value="#{location.zip}" required="true">
-            <a:support event="onblur" reRender="zipDecoration" bypassUpdates="true"/>
+            <a:ajax event="blur" render="zipDecoration" bypassUpdates="true"/>
         </h:inputText>
     </s:decorate>
 
@@ -297,7 +297,7 @@
         And what if you want to specify a different message to be 
         displayed when validation fails?  You can use the Seam message
         bundle (and all it's goodies like el expressions inside the message,
-        and per-view message bundles) with the Hibernate Validator:
+        and per-view message bundles) with the Bean Validation:
     </para>
     
 <programlisting role="JAVA"><![CDATA[public class Location {

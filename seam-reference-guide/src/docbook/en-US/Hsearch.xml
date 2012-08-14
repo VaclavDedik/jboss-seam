@@ -46,7 +46,7 @@
       [...]
       <!-- use a file system based index -->
       <property name="hibernate.search.default.directory_provider" 
-         value="org.hibernate.search.store.FSDirectoryProvider"/>
+         value="filesystem"/>
       <!-- directory where the indexes will be stored -->
       <property name="hibernate.search.default.indexBase" 
          value="/Users/prod/apps/dvdstore/dvdindexes"/>
@@ -74,14 +74,13 @@
       </listitem>
     </itemizedlist>
     
-    <para>Maven coordinates for using from Hibernate Search:
-      <programlisting role="XML"><![CDATA[
-        <dependency>
-           <groupId>org.hibernate</groupId>
-           <artifactId>hibernate-search</artifactId>
-           <version>4.1.1.Final</version>
-        </dependency>
-        ]]></programlisting>
+    <para>Maven coordinates for using Hibernate Search:
+    <programlisting><![CDATA[
+    <dependency>
+       <groupId>org.hibernate</groupId>
+       <artifactId>hibernate-search</artifactId>
+       <version>4.1.1.Final</version>
+    </dependency>]]></programlisting>
     </para>
     
     <para>Some Hibernate Search extensions require additional dependencies,

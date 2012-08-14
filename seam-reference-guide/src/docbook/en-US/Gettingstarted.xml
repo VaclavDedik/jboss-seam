@@ -357,8 +357,9 @@ C:\Projects\jboss-seam&gt;</programlisting>
         </itemizedlist>
 
         <para>But if we want to change any Java code, we still need to do a full restart of the application. (In JBoss
-            this may be accomplished by touching the top level deployment descriptor: <literal>application.xml</literal>
-            for an EAR deployment, or <literal>web.xml</literal> for a WAR deployment.)</para>
+         this can be handled by configuring 
+         <ulink url="https://docs.jboss.org/author/display/AS7/Deployment+Scanner+configuration">deployment scanner mode</ulink>
+        - more details how to do that are in <filename>$JBOSS_HOME/standalone/deployments/README.txt</filename></para>
 
         <para>But if you really want a fast edit/compile/test cycle, Seam supports incremental redeployment of JavaBean
             components. To make use of this functionality, you must deploy the JavaBean components into the

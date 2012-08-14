@@ -79,15 +79,18 @@
                 <term><emphasis>Integrated with Java EE6</emphasis></term>
                 <listitem>
                     <para>
-                        While Seam 2 was targeted Java EE 5 mainly, you can use some Java EE 6 technologies
-                        also on Seam 2.
+                        While Seam 2.2 was targeted Java EE 5 mainly, you can use some Java EE 6 technologies
+                        also on Seam 2.3.x.
                     </para>
                     <para>
-                        Seam 2 and its extensions was added a little re-factored into Java EE 6 as CDI technology.
-                        So this should be a current focus of majority users. But for previous Seam 2 users who 
-                        doesn't want or can't use that, we bring some new features from the Java EE 6 set like JSF 2,
-                        JPA 2 and Bean Validation integrations into Seam 2.                        
+                        Seam 2 and some of its extensions/implementations were added into Java EE 6 as CDI technology.
+                        So this should be a current focus of majority users. But for previous Seam 2.2 users who 
+                        doesn't want or can't use pure Java EE 6, we bring some new features from the Java EE 6 set like JSF 2,
+                        JPA 2 and Bean Validation integrations into Seam 2.3.x.
                     </para>
+                    <note>
+                        <para>Be warned - Seam 2.3 should work only on Java EE 6 certified server like JBoss AS 7 is.</para>
+                    </note>
                 </listitem>
             </varlistentry>
                         

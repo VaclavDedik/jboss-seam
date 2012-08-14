@@ -287,7 +287,7 @@ public interface PaymentHandler
 }]]></programlisting>
 
         <para>
-            (For JavaBean components we can annotate the component implementation class if we like.)
+            (For JavaBean components we have to annotate the component implementation class.)
         </para>
         
         <para>
@@ -321,6 +321,17 @@ public class CreatePaymentAction
         return "success";
     }
 }]]></programlisting>
+
+        <note>
+            <para>Please distinguish between 
+            <ulink url="http://java.sun.com/developer/technicalArticles/JavaEE/JavaEE6Overview_Part3.html#asynejb">
+            EJB 3.1 annotation
+            <literal>javax.ejb.Asynchronous</literal></ulink> and Seam annotation
+            <literal>org.jboss.seam.annotations.async.Asynchronous</literal>.
+            While first is designated for session beans only, the latter works 
+            in non-EJB environment too.
+            </para>
+        </note>
 
         <para>
             The asynchronous method is processed in a completely new event context and does

@@ -14,13 +14,23 @@
       <title>Parameterized Expressions</title>
    
       <para>
-         Standard EL does not allow you to use a method with user defined 
+         Standard EL 2.1 does not allow you to use a method with user defined 
          parameters &#8212; of course, JSF listener methods (e.g. a 
-         <literal>valueChangeListener</literal>) take parameters provided by JSF. 
+         <literal>valueChangeListener</literal>) take parameters provided by JSF.
+         <ulink url="http://docs.oracle.com/javaee/6/tutorial/doc/gjddd.html">Standard EL 2.2</ulink>,
+          which is in Java EE 6, allows it now. So you don't have to use JBoss EL enhancements. 
+      </para>
+      
+      <para>You can still use JBoss EL instead of standard EL 2.2 from Java EE 6 by 
+      setting up <literal>com.sun.faces.expressionFactory</literal> in <filename>web.xml</filename>:
+      <programlisting role="XML"><![CDATA[<context-param>     
+    <param-name>com.sun.faces.expressionFactory</param-name>
+    <param-value>org.jboss.el.ExpressionFactoryImpl</param-value>   
+</context-param>]]> </programlisting>      
       </para>
       
       <para> 
-         JBoss EL removes this restriction. For example: 
+         JBoss EL and EL 2.2 removed this restriction. For example: 
       </para>
       
       <programlisting role="XHTML"><![CDATA[<h:commandButton action="#{hotelBooking.bookHotel(hotel)}" value="Book Hotel"/>]]></programlisting>

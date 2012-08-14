@@ -3,7 +3,7 @@
     
     <para>
         Seam provides extensive support for the two most popular persistence
-        architectures for Java: Hibernate, and the Java Persistence API
+        architectures for Java: Hibernate, and the Java Persistence API 2.0
         introduced with EJB 3.1. Seam's unique state-management architecture
         allows the most sophisticated ORM integration of any web application 
         framework.
@@ -165,7 +165,7 @@
     	<para>
             Seam transaction management is useful even if you're using EJB 3.0 
             container-managed persistence contexts. But it is especially useful
-            if you use Seam outside a Java EE 5 environment, or in any other
+            if you use Seam outside a Java EE environment, or in any other
             case where you would use a Seam-managed persistence context.
     	</para>
 
@@ -190,7 +190,7 @@
     		<para>
     			Seam provides a transaction management abstraction for beginning, committing, rolling back, and
     			synchronizing with a transaction. By default Seam uses a JTA transaction component that integrates with
-    			Container Managed and programmatic EJB transactions. If you are working in a Java EE 5 environment, you
+    			Container Managed and programmatic EJB transactions. If you are working in a Java EE environment, you
     			should install the EJB synchronization component in <literal>components.xml</literal>:
     		</para>
     	   
@@ -273,7 +273,7 @@
     			such as <literal>beforeCompletion()</literal> and <literal>afterCompletion()</literal>.
                 By default, Seam uses it's own transaction synchronization component which requires explicit use of the
     			Seam transaction component when committing a transaction to ensure synchronization callbacks are
-    			correctly executed. If in a Java EE 5 environment the
+    			correctly executed. If in a Java EE environment the
     			<literal>&lt;transaction:ejb-transaction/&gt;</literal>
     			component should be declared in <literal>components.xml</literal> to ensure that Seam synchronization callbacks are
     			correctly called if the container commits a transaction outside of Seam's knowledge.
@@ -285,7 +285,7 @@
         <title>Seam-managed persistence contexts</title>
 
         <para>
-            If you're using Seam outside of a Java EE 5 environment, you can't rely upon the
+            If you're using Seam outside of a Java EE environment, you can't rely upon the
             container to manage the persistence context lifecycle for you. Even if you are
             in an EE 5 environment, you might have a complex application with many loosly
             coupled components that collaborate together in the scope of a single conversation,

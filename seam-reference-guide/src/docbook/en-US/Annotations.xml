@@ -9,7 +9,7 @@
       lets you use annotations to achieve a declarative style of programming. 
       Most of the annotations you'll use are defined by the EJB 3.0 
       specification. The annotations for data validation are defined by the 
-      Hibernate Validator package. Finally, Seam defines its own set of 
+      Bean Validation standard. Finally, Seam defines its own set of 
       annotations, which we'll describe in this chapter. 
    </para>
 

@@ -54,7 +54,7 @@
             pageflow definition:
         </para>
                 
-        <programlisting role="XML"><![CDATA[<start-page name="hello" view-id="/hello.jsp">
+        <programlisting role="XML"><![CDATA[<start-page name="hello" view-id="/hello.xhtml">
     <transition to="hello">
         <action expression="#{helloWorld.sayHello}"/>
     </transition>
@@ -76,7 +76,7 @@
         </para>
        
         <programlisting role="XML"><![CDATA[<pages>
-    <page view-id="/hello.jsp" action="#{helloWorld.sayHello}"/>
+    <page view-id="/hello.xhtml" action="#{helloWorld.sayHello}"/>
 </pages>]]></programlisting>
 
         <para>
@@ -120,7 +120,7 @@
         </para>
         
         <programlisting role="XML"><![CDATA[<pages>
-    <page view-id="/hello.jsp">
+    <page view-id="/hello.xhtml">
         <action execute="#{helloWorld.sayHello}" if="#{not validation.failed}"/>
         <action execute="#{hitCount.increment}"/>
     </page>
@@ -193,7 +193,7 @@
               </para>
               
           <programlisting role="XML"><![CDATA[<pages>
-      <page view-id="/hello.jsp" action="#{helloWorld.sayHello}">
+      <page view-id="/hello.xhtml" action="#{helloWorld.sayHello}">
           <param name="firstName" value="#{person.firstName}"/>
           <param name="lastName" value="#{person.lastName}"/>
       </page>
@@ -240,8 +240,8 @@
               
               <para>
                   The essential idea behind all this is that <emphasis>however</emphasis>
-                  we get from any other page to <literal>/hello.jsp</literal> (or from 
-                  <literal>/hello.jsp</literal> back to <literal>/hello.jsp</literal>), 
+                  we get from any other page to <literal>/hello.xhtml</literal> (or from 
+                  <literal>/hello.xhtml</literal> back to <literal>/hello.xhtml</literal>), 
                   the value of the model attribute referred to in the value binding is
                   "remembered", without the need for a conversation (or other server-side
                   state).
@@ -260,7 +260,7 @@
                 </para>       
               
           <programlisting role="XML"><![CDATA[<pages>
-      <page view-id="/hello.jsp" action="#{helloWorld.sayHello}">
+      <page view-id="/hello.xhtml" action="#{helloWorld.sayHello}">
           <param name="firstName" />
           <param name="lastName" />
       </page>
@@ -383,7 +383,7 @@
          </para>
          
          <programlisting role="XML"><![CDATA[<pages>
-   <page view-id="/calculator.jsp" action="#{calculator.calculate}">
+   <page view-id="/calculator.xhtml" action="#{calculator.calculate}">
       <param name="x" value="#{calculator.lhs}"/>
       <param name="y" value="#{calculator.rhs}"/>
       <param name="op" converterId="com.my.calculator.OperatorConverter" value="#{calculator.op}"/>
@@ -395,7 +395,7 @@
          </para>
                 
          <programlisting role="XML"><![CDATA[<pages>
-   <page view-id="/calculator.jsp" action="#{calculator.calculate}">
+   <page view-id="/calculator.xhtml" action="#{calculator.calculate}">
       <param name="x" value="#{calculator.lhs}"/>
       <param name="y" value="#{calculator.rhs}"/>
       <param name="op" converter="#{operatorConverter}" value="#{calculator.op}"/>
@@ -637,7 +637,7 @@
                 or even just a lot of navigation rules,
                 you will almost certainly want to split the declarations up over
                 multiple files. You can define actions and parameters for a page
-                with the view id <literal>/calc/calculator.jsp</literal> in a 
+                with the view id <literal>/calc/calculator.xhtml</literal> in a 
                 resource named <literal>calc/calculator.page.xml</literal>. The
                 root element in this case is the <literal>&lt;page&gt;</literal>
                 element, and the view id is implied:

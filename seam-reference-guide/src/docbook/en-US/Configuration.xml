@@ -49,6 +49,18 @@
     <param-value>client</param-value>
 </context-param>]]></programlisting>
 
+            <warning>
+                <para>Setting of <literal>javax.faces.STATE_SAVING_METHOD</literal> to <literal>client</literal>
+                can lead to security issues and it should be set environment entry <literal>com.sun.faces.ClientStateSavingPassword</literal>
+                in <filename>web.xml</filename> like:
+                <programlisting><![CDATA[
+                <env-entry>
+                    <env-entry-name>com.sun.faces.ClientStateSavingPassword</env-entry-name>
+                    <env-entry-type>java.lang.String</env-entry-type>
+                    <env-entry-value>something</env-entry-value>
+                </env-entry>]]></programlisting>
+                </para>
+            </warning>
             <para>
                 There is a minor gray area in the JSF specification regarding the mutability of view state values. Since
                 Seam uses the JSF view state to back its PAGE scope this can become an issue in some cases. If you're
@@ -425,31 +437,25 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
             <para> Seam needs to know where to go to find session beans in JNDI. One way to do this is specify the
                     <literal>@JndiName</literal> annotation on every session bean Seam component. However, this is quite
                 tedious. A better approach is to specify a pattern that Seam can use to calculate the JNDI name from the
-                EJB name. Unfortunately, there is no standard mapping to global JNDI defined in the EJB3 specification,
-                so this mapping is vendor-specific (and may depend on your own naming conventions as well). We usually
-                specify this option in <literal>components.xml</literal>. </para>
+                EJB name. Fortunately, new portable JNDI Syntax was introduced in Java EE 6. There are three JNDI namespaces for
+                portable JNDI lookups - <literal>java:global</literal>, <literal>java:module</literal> and <literal>java:app</literal>.
+                More in <ulink url="http://docs.oracle.com/javaee/6/tutorial/doc/gipjf.html#girgn">Java EE 6 tutorial</ulink>
+                We usually specify this option in <literal>components.xml</literal>. </para>
 
-            <para> For JBoss AS, the following pattern is correct: </para>
+            <para> For JBoss AS 7, the following pattern is correct: </para>
 
-            <programlisting role="XML"><![CDATA[<core:init jndi-name="earName/#{ejbName}/local" />]]></programlisting>
+            <programlisting role="XML"><![CDATA[<core:init jndi-name="java:app/<ejb-module-name>/#{ejbName}" />]]></programlisting>
 
-            <para> In this case, <literal>earName</literal> is the name of the EAR in which the bean is deployed, Seam
-                replaces <literal>#{ejbName}</literal> with the name of the EJB, and the final segment represents the
-                type of interface (local or remote). </para>
-
-            <para> Outside the context of an EAR (when using the JBoss Embeddable EJB3 container), the first segment is
-                dropped since there is no EAR, leaving us with the following pattern: </para>
-
-            <programlisting role="XML"><![CDATA[<core:init jndi-name="#{ejbName}/local" />]]></programlisting>
+            <para> In this case, <literal>&lt;ejb-module-name&gt;</literal> is the name of the EJB module (by default it is filename of ejb jar)
+             in which the bean is deployed, Seam replaces <literal>#{ejbName}</literal> with the name of the EJB. </para>
 
             <para> How these JNDI names are resolved and somehow locate an EJB component might appear a bit like black
                 magic at this point, so let's dig into the details. First, let's talk about how the EJB components get
                 into JNDI.</para>
 
-            <para> The folks at JBoss don't care much for XML, if you can't tell. So when they designed JBoss AS, they
-                decided that EJB components would get assigned a global JNDI name automatically, using the pattern
-                just described (i.e., EAR name/EJB name/interface type). The EJB name is the first non-empty value
-                from the following list: </para>
+            <para> EJB components would get assigned a global JNDI name automatically, using the pattern
+                described in <ulink url="http://docs.oracle.com/javaee/6/tutorial/doc/gipjf.html#girgn">Java EE 6 tutorial</ulink>.
+                 The EJB name is the first non-empty value from the following list: </para>
             <itemizedlist>
                 <listitem>
                     <para>The value of the <literal>&lt;ejb-name&gt;</literal> element in ejb-jar.xml</para>
@@ -504,7 +510,7 @@ public class AuthenticatorBean implements Authenticator
                 is the EJB reference for the example component just shown: </para>
 
             <programlisting role="XML"><![CDATA[<ejb-local-ref>
-    <ejb-ref-name>myapp/AuthenticatorBean/local</ejb-ref-name>
+    <ejb-ref-name>myapp/AuthenticatorBean</ejb-ref-name>
     <ejb-ref-type>Session</ejb-ref-type>
     <local>org.example.vehicles.action.Authenticator</local>
 </ejb-local-ref>
@@ -570,17 +576,17 @@ Authenticator authenticator;
                 injecting a SFSB, there is no guarantee that you will get the SFSB bound to the active session or
                 conversation, whatever the case may be. Thus, you definitely want to inject the Seam EJB component using
                 <literal>@In</literal>.</para>
-
+<!-- 
             <para> That covers how JNDI names are defined and used. The lesson is that with some application servers,
                 such as GlassFish, you are going to have to specify JNDI names for all EJB components explicitly, and
                 sometimes twice! And even if you are following the same naming convention as JBoss AS, the JNDI pattern
                 in Seam may need to be altered. For instance, the global JNDI names are automatically prefixed with
                 java:comp/env on GlassFish, so you need to define the JNDI pattern as follows:</para>
-
+ 
             <programlisting role="XML"><![CDATA[<core:init jndi-name="java:comp/env/earName/#{ejbName}/local" />]]></programlisting>
-
+-->
             <para>
-                Finally, let's talk about transactions. In an EJB3 environment, we recommend the use of a special
+                Finally, let's talk about transactions. In an EJB environment, we recommend the use of a special
                 built-in component for transaction management, that is fully aware of container transactions, and can
                 correctly process transaction success events registered with the <literal>Events</literal> component. If
                 you don't add this line to your <literal>components.xml</literal> file, Seam won't know when
@@ -659,7 +665,7 @@ Authenticator authenticator;
     </sect1>
 
     <sect1>
-        <title>Configuring Seam in Java EE 5</title>
+        <title>Configuring Seam in Java EE 6</title>
 
         <mediaobject>
             <imageobject role="fo">
@@ -670,7 +676,7 @@ Authenticator authenticator;
             </imageobject>
         </mediaobject>
 
-        <para> If you're running in a Java EE 5 environment, this is all the configuration required to start using Seam! </para>
+        <para> If you're running in a Java EE environment, this is all the configuration required to start using Seam! </para>
 
         <sect2>
             <title>Packaging</title>
@@ -693,7 +699,6 @@ Authenticator authenticator;
             components.xml
             faces-config.xml
             lib/
-                jsf-facelets.jar
                 jboss-seam-ui.jar
         login.jsp
         register.jsp
@@ -1029,7 +1034,7 @@ org.jboss.seam.deployment.annotationTypes=com.acme.Foo:com.acme.Bar]]></programl
             annotated with <literal>@Foo</literal>:
         </para>
         
-        <programlisting><![CDATA[@Name("fooStartup")
+        <programlisting role="JAVA"><![CDATA[@Name("fooStartup")
 @Scope(APPLICATION)
 @Startup
 public class FooStartup {
@@ -1062,7 +1067,7 @@ public class FooStartup {
             To do this, we need to write a custom deployment handler:
         </para>
         
-        <programlisting><![CDATA[public class FooDeploymentHandler implements DeploymentHandler {
+        <programlisting role="JAVA"><![CDATA[public class FooDeploymentHandler implements DeploymentHandler {
     private static DeploymentMetadata FOO_METADATA = new DeploymentMetadata()
     {
 
@@ -1107,7 +1112,7 @@ org.jboss.seam.deployment.hotDeploymentHandlers=com.acme.FooDeploymentHandler]]>
              <literal>APPLICATION</literal> scoped component's startup: 
          </para>
          
-         <programlisting><![CDATA[@Name("fooStartup")
+         <programlisting  role="JAVA"><![CDATA[@Name("fooStartup")
 @Scope(APPLICATION)
 @Startup
 public class FooStartup {

@@ -270,9 +270,7 @@ public class HelloBean implements Hello {
 &lt;/context-param&gt;</programlisting>
 		</note>
 		<para>Seam overrides this behavior, and defaults all dates and times 
-		to the Seam timezone. In addition, Seam provides the <literal>
-		&lt;s:convertDateTime&gt;</literal> tag which always performs 
-		conversions in the Seam timezone.</para>
+		to the Seam timezone. </para>
 		<para>Seam also provides a default date converter to convert a string 
 		value to a date. This saves you from having to specify a converter on 
 		input fields that are simply capturing a date. The pattern is 

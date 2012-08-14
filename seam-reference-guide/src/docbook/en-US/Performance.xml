@@ -36,7 +36,7 @@
       The following code listing demonstrates a Seam component with its interceptors disabled:
     </para>
     
-    <programlisting><![CDATA[@Name("foo")
+    <programlisting role="JAVA"><![CDATA[@Name("foo")
 @Scope(EVENT)
 @BypassInterceptors
 public class Foo

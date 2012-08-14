@@ -377,8 +377,8 @@
                 the page or stateless contexts. 
             </para>
             <para> 
-                Concurrent requests to session-scoped stateful session beans are always serialized by Seam as long
-                as the Seam interceptors are not disabled for the bean.
+                Concurrent requests to session-scoped stateful session beans are not serialized by Seam as long
+                as EJB 3.1 has changed that. This is a difference in comparison to previous Seam 2.2.x.
                 
             </para>   
             <para>
@@ -568,7 +568,7 @@ public class LoginAction implements Login {
                 namespaces.
             </para>
             
-<programlisting>&lt;components xmlns=&quot;http://jboss.org/schema/seam/components&quot;&gt;
+<programlisting role="XML">&lt;components xmlns=&quot;http://jboss.org/schema/seam/components&quot;&gt;
     
     &lt;import&gt;org.jboss.seam.core&lt;/import&gt;
     &lt;import&gt;org.jboss.seam.cache&lt;/import&gt;

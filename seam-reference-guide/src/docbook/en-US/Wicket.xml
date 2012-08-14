@@ -44,12 +44,6 @@
          <code>super()</code>.
       </para>
       
-      <note>
-         <para>
-            We are working to improve this.
-         </para>
-      </note>
-      
       <para>
          When a method is called in an inner class, bijection occurs for any
          class which encloses it. This allows you to place your bijected

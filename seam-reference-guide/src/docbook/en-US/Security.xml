@@ -1056,7 +1056,7 @@ public class User {
   public Set<Role> getRoles() { return roles; }
   public void setRoles(Set<Role> roles) { this.roles = roles; }
 }]]></programlisting>
-<programlisting><![CDATA[@Entity
+<programlisting role="JAVA"><![CDATA[@Entity
 public class Role {
   private Integer roleId;
   private String rolename;
@@ -1131,7 +1131,7 @@ public class User {
   public Set<Role> getRoles() { return roles; }
   public void setRoles(Set<Role> roles) { this.roles = roles; }
 }]]></programlisting>
-<programlisting><![CDATA[@Entity
+<programlisting role="JAVA"><![CDATA[@Entity
 public class Role {
   private Integer roleId;
   private String rolename;

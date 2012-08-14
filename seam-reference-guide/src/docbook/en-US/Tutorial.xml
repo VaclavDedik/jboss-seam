@@ -12,54 +12,52 @@
         of the Seam distribution.  The registration example, which will be the first example we look at,
         is in the <filename>examples/registration</filename> directory.</para>
 
-        <para>Each example has the very similar directory structure which is based on Maven project structure defaults:</para>
+        <para>Each example has the very similar directory structure which is based on <ulink url="http://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html">
+        Maven project structure defaults</ulink>:</para>
 
         <itemizedlist>
             <listitem>
-                <para> The <filename>*-ear</filename> directory contains  enterprise application submodule files such as 
-                    aggregator for web application files, EJB project.                        
+                <para> The <filename>&lt;example&gt;-ear</filename> directory contains enterprise application submodule files such as 
+                    aggregator for web application files, EJB project.
                 </para>
             </listitem>
             <listitem>
-                <para> The <filename>*-web</filename> directory contains  web application submodule view-related files such as 
-                    web page templates, images and stylesheets.                        
+                <para> The <filename>&lt;example&gt;-web</filename> directory contains web application submodule view-related files such as 
+                    web page templates, images and stylesheets.
                 </para>
             </listitem>
             <listitem>
-                <para> The <filename>*-ejb</filename> directory contains  Enterprise Java Beans components.                        
+                <para> The <filename>&lt;example&gt;-ejb</filename> directory contains Enterprise Java Beans components.
                 </para>
             </listitem>
             <listitem>
-                <para> The <filename>*-tests</filename> directory contains Maven integration and functional tests submodule.                            
+                <para> The <filename>&lt;example&gt;-tests</filename> directory contains integration and functional tests.
                 </para>
             </listitem>
         </itemizedlist>
         
-        <!-- TODO rewrite to maven project structure -->
         <itemizedlist>
             <listitem>
-                <para> The <filename>view</filename> directory contains view-related files such as 
-                    web page templates, images and stylesheets.
-                        
+                <para> The <filename>&lt;example&gt;-web/src/main/webapp</filename> directory contains view-related files such as 
+                    web page templates, images and stylesheets.                        
                 </para>
             </listitem>
             <listitem>
-                <para> The <filename>resources</filename> directory contains deployment descriptors and
+                <para> The <filename>&lt;example&gt;-[ear|ejb]/src/main/resources</filename> directory contains deployment descriptors and
                     other configuration files.                            
                 </para>
             </listitem>
             <listitem>
-                <para> The  <filename>src</filename> directory contains the application source code. </para>
+                <para> The <filename>&lt;example&gt;-ejb/src/main/java</filename> directory contains the application source code. </para>
             </listitem>
 
         </itemizedlist>
-<!-- end of TODO rewrite to maven project structure -->
 
         <para>
-            The example applications run both on JBoss AS 7.1.1 with no additional configuration.
+            The example applications run on JBoss AS 7.1.1 with no additional configuration.
             The following sections will explain the procedure.  Note that all the examples
             are built and run from the Maven <filename>pom.xml</filename>, so you'll need at least version 3.x
-            of Maven installed before you get started. At the time of writing this text recent version was 3.0.4.
+            of Maven installed before you get started. At the time of writing this text recent version of Maven was 3.0.4.
         </para>
 
  
@@ -69,8 +67,8 @@
             <para>The examples are configured for use on JBoss AS 7.1. You'll need to set <literal>JBOSS_HOME</literal>,
                 in your environment, to the location of your JBoss AS installation.</para>
 
-            <para>Once you've set the location of JBoss AS and started the application server, you can build and deploy
-                any example by typing <literal>mvn install</literal> in the example root directory. And deploys it by changing 
+            <para>Once you've set the location of JBoss AS and started the application server, you can build
+                any example by typing <literal>mvn install</literal> in the example root directory. Any example is deployed by changing directory 
                 to *-ear or *-web directory in case of existence only *-web submodule. Type in that submodule <literal>mvn jboss-as:deploy</literal>. 
                 Any example  that is packaged as an EAR deploys to a URL like
                 <literal>/seam-<replaceable>example</replaceable></literal>, where <replaceable>example</replaceable> is
@@ -246,8 +244,9 @@ public class User implements Serializable
                             </callout>
                             <callout arearefs="registration-notnull">
                                 <para> The <literal>@NotNull</literal> and <literal>@Size</literal> annotations are
-                                    part of the Hibernate Validator framework. Seam integrates Hibernate Validator and
-                                    lets you use it for data validation (even if you are not using Hibernate for
+                                    part of the Bean Validation annotations specification (JSR-303). Seam integrates
+                                     Bean Validation through Hibernate Validator, which is the reference implementation,
+                                      and lets you use it for data validation (even if you are not using Hibernate for
                                     persistence). </para>
                             </callout>
                             <callout arearefs="registration-id-annotation">
@@ -293,7 +292,7 @@ public class User implements Serializable
                             <area id="registration-outcome" coords="25"/>
                             <area id="registration-builtin" coords="29"/>
                         </areaspec>
-                        <programlisting><![CDATA[@Stateless
+                        <programlisting role="JAVA"><![CDATA[@Stateless
 @Name("register")
 public class RegisterAction implements Register
 {
@@ -440,11 +439,11 @@ public interface Register
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core">
 
-   <head>
+   <h:head>
       <title>Register New User</title>
-   </head>
-   <body>
-      <f:view>
+   </h:head>
+   <h:body>
+ <h:head>f:view>
          <h:form>
             <s:validateAll>
                <h:panelGrid columns="2">
@@ -457,14 +456,14 @@ public interface Register
             <h:commandButton value="Register" action="#{register.register}"/>
          </h:form>
       </f:view>
-   </body>
+   </h:body>
 
 </html>]]></programlisting></example>
                 
 
                 <para> The only thing here that is specific to Seam is the
                     <literal>&lt;s:validateAll&gt;</literal> tag. This JSF component tells JSF to validate all
-                    the contained input fields against the Hibernate Validator annotations specified on the entity bean. </para>
+                    the contained input fields against the Bean Validation annotations specified on the entity bean. </para>
 
                 <example>
                   <title>registered.xhtml</title>
@@ -474,14 +473,14 @@ public interface Register
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://java.sun.com/jsf/core">
 
-    <head>
+    <h:head>
         <title>Successfully Registered New User</title>
-    </head>
-    <body>
+    </h:head>
+    <h:body>
         <f:view>
             Welcome, #{user.name}, you are successfully registered as #{user.username}.
         </f:view>
-    </body>
+    </h:body>
 
 </html>
 ]]></programlisting>
@@ -526,7 +525,7 @@ public interface Register
         http://jboss.org/schema/seam/components
         http://jboss.org/schema/seam/components-2.3.xsd">
             
-    <core:init jndi-pattern="@jndiPattern@"/>
+    <core:init jndi-pattern="${jndiPattern}"/>
      
 </components>]]></programlisting></example>
 
@@ -613,7 +612,8 @@ public interface Register
 
                 <para> Note that we don't need
                     any JSF managed bean declarations and neither FaceletViewHandler definition as Facelets are default view technology 
-                    in JSF 2! Our managed beans are annotated Seam components.</para>
+                    in JSF 2! Our managed beans are annotated Seam components. So basically we don't need <filename>faces-config.xml</filename> at all,
+                    but here is the <filename>faces-config.xml</filename> as the template for advanced JSF configurations.</para>
 
                 <para> In fact, once you have all the basic descriptors set up, the <emphasis>only</emphasis> XML you
                     need to write as you add new functionality to a Seam application is orchestration: navigation rules 
@@ -622,7 +622,7 @@ public interface Register
 
                 <para> In this simple example, we don't even need a navigation rule, since we decided to embed the view
                     id in our action code. </para>
-
+                    
             </section>
 
             <section>
@@ -689,10 +689,10 @@ public interface Register
                 <para> Finally, since our application is deployed as an EAR, we need a deployment descriptor there, too. </para>
                 
                 <note>
-                    <para>This file can be generated by Maven EAR plugin and registration application has got this set up registration-ear/pom.xml.</para>
+                    <para>This file can be generated by Maven EAR plugin and registration application has got this set up in registration-ear/pom.xml.</para>
                 </note>
 
-                <para>Just for imagination, the following is the result of that generation:</para>
+                <para>Just for clarity, the following is the result of that generation:</para>
                 
                 <example id="registration-application-xml"><title>registration application</title>
                   <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
@@ -733,7 +733,7 @@ public interface Register
                 Since there is no value already bound to that name (in any Seam context), Seam instantiates the
                     <literal>user</literal> component, and returns the resulting <literal>User</literal> entity bean
                 instance to JSF after storing it in the Seam session context. </para>
-            <para> The form input values are now validated against the Hibernate Validator constraints specified on the
+            <para> The form input values are now validated against the Bean Validator constraints specified on the
                     <literal>User</literal> entity. If the constraints are violated, JSF redisplays the page. Otherwise,
                 JSF binds the form input values to properties of the <literal>User</literal> entity bean. </para>
             <para> Next, JSF asks Seam to resolve the variable named <literal>register</literal>. Seam uses the JNDI
@@ -883,7 +883,7 @@ public class Message implements Serializable
                             <area id="messages-delete" coords="29"/>
                             <area id="messages-remove" coords="36"/>
                         </areaspec>
-                        <programlisting><![CDATA[@Stateful
+                        <programlisting role="JAVA"><![CDATA[@Stateful
 @Scope(SESSION)
 @Name("messageManager")
 public class MessageManagerBean implements Serializable, MessageManager
@@ -1018,10 +1018,10 @@ public interface MessageManager
       xmlns:s="http://jboss.org/schema/seam/taglib"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
- <head>
+ <h:head>
   <title>Messages</title>
- </head>
- <body>
+ </h:head>
+ <h:body>
   <f:view>
      <h2>Message List</h2>
      <h:outputText id="noMessages" value="No messages to display" rendered="#{messageList.rowCount==0}"/>
@@ -1053,7 +1053,7 @@ public interface MessageManager
      <h3><h:outputText id="title" value="#{message.title}"/></h3>
      <div><h:outputText id="text" value="#{message.text}"/></div>
   </f:view>
- </body>
+ </h:body>
 </html>]]></programlisting>
                 </example>
                 
@@ -1174,19 +1174,6 @@ public interface MessageManager
                     </calloutlist>
                 </programlistingco>
             </example>
-            
-
-            <para> If we view this process definition using the process definition editor provided by JBossIDE, this is
-                what it looks like: </para>
-
-            <mediaobject>
-                <imageobject role="fo">
-                    <imagedata fileref="images/todo-process.png" align="center"/>
-                </imageobject>
-                <imageobject role="html">
-                    <imagedata fileref="images/todo-process.png" align="center"/>
-                </imageobject>
-            </mediaobject>
 
             <para> This document defines our <emphasis>business process</emphasis> as a graph of nodes. This is the most
                 trivial possible business process: there is one <emphasis>task</emphasis> to be performed, and when that
@@ -1238,10 +1225,10 @@ public class Login
       xmlns:s="http://jboss.org/schema/seam/taglib"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
-   <head>
+   <h:head>
       <title>Login</title>
-   </head>
-   <body>
+   </h:head>
+   <h:body>
       <h1>Login</h1>
       <f:view>
          <h:form id="login">
@@ -1251,7 +1238,7 @@ public class Login
             </div>
          </h:form>
       </f:view>
-   </body>
+   </h:body>
 </html>]]></programlisting></example>
 
             
@@ -1315,10 +1302,13 @@ public class TodoList
             <para> Finally, the core of the application is in <literal>todo.xhtml</literal>: </para>
             <example>
                 <title>todo.xhtml</title>
-                <programlisting role="XHTML"><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
-<%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
-<%@ taglib uri="http://jboss.org/schema/seam/taglib" prefix="s" %>
-<html>
+                <programlisting role="XHTML"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:s="http://jboss.org/schema/seam/taglib"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
 <head>
 <title>Todo List</title>
 </head>
@@ -1327,15 +1317,13 @@ public class TodoList
 <f:view>
    <h:form id="list">
       <div>
-         <h:outputText value="There are no todo items." 
-                       rendered="#{empty taskInstanceList}"/>
-         <h:dataTable value="#{taskInstanceList}" var="task" 
-                      rendered="#{not empty taskInstanceList}">
+         <h:outputText id="noItems" value="There are no todo items." rendered="#{empty taskInstancePriorityList}"/>
+         <h:dataTable id="items" value="#{taskInstancePriorityList}" var="task" rendered="#{not empty taskInstancePriorityList}">
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Description"/>
                 </f:facet>
-                <h:inputText value="#{task.description}"/>
+                <h:inputText id="description" value="#{task.description}" style="width: 400"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
@@ -1349,18 +1337,18 @@ public class TodoList
                 <f:facet name="header">
                     <h:outputText value="Priority"/>
                 </f:facet>
-                <h:inputText value="#{task.priority}" style="width: 30"/>
+                <h:inputText id="priority" value="#{task.priority}" style="width: 30"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Due Date"/>
                 </f:facet>
-                <h:inputText value="#{task.dueDate}" style="width: 100">
+                <h:inputText id="dueDate" value="#{task.dueDate}" style="width: 100">
                     <f:convertDateTime type="date" dateStyle="short"/>
                 </h:inputText>
             </h:column>
             <h:column>
-                <s:button value="Done" action="#{todoList.done}" taskInstance="#{task}"/>
+                <s:button id="done" action="#{todoList.done}" taskInstance="#{task}" value="Done"/>
             </h:column>
          </h:dataTable>
       </div>
@@ -1368,13 +1356,13 @@ public class TodoList
       <h:messages/>
       </div>
       <div>
-         <h:commandButton value="Update Items" action="update"/>
+         <h:commandButton id="update" value="Update Items" rendered="#{not empty taskInstanceList}"/>
       </div>
    </h:form>
    <h:form id="new">
       <div>
-         <h:inputText value="#{todoList.description}"/>
-         <h:commandButton value="Create New Item" action="#{todoList.createTodo}"/>
+         <h:inputText id="description" value="#{todoList.description}" style="width: 400"/>
+         <h:commandButton id="create" value="Create New Item" action="#{todoList.createTodo}"/>
       </div>
    </h:form>
 </f:view>
@@ -1621,7 +1609,7 @@ public class TodoList
                 </programlistingco>
             </example>
                 
-
+<!-- 
             <para> Here is what the pageflow looks like in the JBoss Developer Studio pageflow editor: </para>
 
             <mediaobject>
@@ -1632,7 +1620,7 @@ public class TodoList
                     <imagedata fileref="images/numberguess-pageflow.png" align="center"/>
                 </imageobject>
             </mediaobject>
-
+ -->
             <para> Now that we have seen the pageflow, it is very, very easy to understand the rest of the application! </para>
 
             <para> Here is the main page of the application, <literal>numberGuess.xhtml</literal>: </para>
@@ -1644,12 +1632,12 @@ public class TodoList
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:s="http://jboss.org/schema/seam/taglib">
-  <head>
+  <h:head>
     <title>Guess a number...</title>
     <link href="niceforms.css" rel="stylesheet" type="text/css" />
     <script language="javascript" type="text/javascript" src="niceforms.js"><!-- --></script>
-  </head>
-  <body>
+  </h:head>
+  <h:body>
     <h1>Guess a number...</h1>
       <h:form id="NumberGuessMain" styleClass="niceform">
 
@@ -1694,7 +1682,7 @@ public class TodoList
         </div>
 
       </h:form>
-  </body>
+  </h:body>
 </html>]]></programlisting>
             </example>
             
@@ -1705,22 +1693,22 @@ public class TodoList
             <para> The <literal>win.xhtml</literal> page is predictable: </para>
             <example>
                 <title>win.xhtml</title>
-                <programlisting role="JSF"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                <programlisting role="XHTML"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:s="http://jboss.org/schema/seam/taglib">
-  <head>
+  <h:head>
     <title>You won!</title>
     <link href="niceforms.css" rel="stylesheet" type="text/css" />
-  </head>
-  <body>
+  </h:head>
+  <h:body>
     <h1>You won!</h1>
       Yes, the answer was <h:outputText id="CurrentGuess" value="#{numberGuess.currentGuess}" />.
       It took you <h:outputText id="GuessCount" value="#{numberGuess.guessCount}" /> guesses.
       <h:outputText id="CheatedMessage" value="But you cheated, so it doesn't count!" rendered="#{numberGuess.cheat}"/>
       Would you like to <a href="numberGuess.seam">play again</a>?
-  </body>
+  </h:body>
 </html>
 ]]></programlisting>
             </example>
@@ -1736,7 +1724,7 @@ public class TodoList
                  <areaspec>
                      <area id="numberguess-create" coords="13"/>
                  </areaspec>
-                 <programlisting><![CDATA[@Name("numberGuess")
+                 <programlisting role="JAVA"><![CDATA[@Name("numberGuess")
 @Scope(ScopeType.CONVERSATION)
 public class NumberGuess implements Serializable {
    
@@ -2129,7 +2117,7 @@ public class NumberGuess implements Serializable {
                      <area id="booking-datamodel-annotation" coords="15"/>
                      <area id="booking-destroy-annotation" coords="70"/>
                  </areaspec>
-                 <programlisting><![CDATA[@Stateful
+                 <programlisting role="JAVA"><![CDATA[@Stateful
 @Name("hotelSearch")
 @Scope(ScopeType.SESSION)
 @Restrict("#{identity.loggedIn}")
@@ -2314,7 +2302,7 @@ public class HotelSearchingAction implements HotelSearching
                             <para> The RichFaces <literal>&lt;a:ajax&gt;</literal> tag allows a JSF action
                                 event listener to be called by asynchronous <literal>XMLHttpRequest</literal> when a
                                 JavaScript event like <literal>onkeyup</literal> occurs. Even better, the
-                                    <literal>reRender</literal> attribute lets us render a fragment of the JSF page and
+                                    <literal>render</literal> attribute lets us render a fragment of the JSF page and
                                 perform a partial page update when the asynchronous response is received. </para>
                         </callout>
                         <callout arearefs="booking-status-element">
@@ -2329,10 +2317,7 @@ public class HotelSearchingAction implements HotelSearching
                             <para> The Seam <literal>&lt;s:link&gt;</literal> tag lets us attach a JSF action
                                 listener to an ordinary (non-JavaScript) HTML link. The advantage of this over the
                                 standard JSF <literal>&lt;h:commandLink&gt;</literal> is that it preserves the
-                                operation of "open in new window" and "open in new tab". Also notice that we use a
-                                method binding with a parameter: <literal>#{hotelBooking.selectHotel(hot)}</literal>.
-                                This is not possible in the standard Unified EL, but Seam provides an extension to the
-                                EL that lets you use parameters on any method binding expression. </para>
+                                operation of "open in new window" and "open in new tab". </para>
                             <para> If you're wondering how navigation occurs,
                                 you can find all the rules in <literal>WEB-INF/pages.xml</literal>;
                                 this is discussed in <xref linkend="events.pageaction.navigation"/>. </para>
@@ -2362,7 +2347,7 @@ public class HotelSearchingAction implements HotelSearching
                      <area id="booking-end-annotation" coords="72"/>
                      <area id="booking-dest-annotation" coords="85"/>
                  </areaspec>
-                 <programlisting><![CDATA[@Stateful
+                 <programlisting role="JAVA"><![CDATA[@Stateful
 @Name("hotelBooking")
 @Restrict("#{identity.loggedIn}")
 public class HotelBookingAction implements HotelBooking
@@ -2588,7 +2573,7 @@ use of nested conversations.  Again, we can read the class from top to bottom, a
                     <area id="nested-booking-select-preference" coords="43"/>
                     <area id="nested-booking-end-annotation" coords="58"/>
                 </areaspec>
-                <programlisting><![CDATA[@Stateful
+                <programlisting role="JAVA"><![CDATA[@Stateful
 @Name("roomPreference")
 @Restrict("#{identity.loggedIn}")
 public class RoomPreferenceAction implements RoomPreference 
@@ -2700,51 +2685,48 @@ selections).</para>
                   <!-- Can't use code hightlighting with callouts -->
                   <programlistingco>
                     <areaspec>
-                        <area id="nested-booking-available-rooms" coords="19"/>
-                        <area id="nested-booking-selection-action" coords="36"/>
-                        <area id="nested-booking-cancel-action" coords="45"/>
+                        <area id="nested-booking-available-rooms" coords="12"/>
+                        <area id="nested-booking-selection-action" coords="29"/>
+                        <area id="nested-booking-cancel-action" coords="36"/>
                     </areaspec>
                     <programlisting><![CDATA[<div class="section">
-    <h1>Room Preference</h1>
+  <h1>Room Preference</h1>
 </div>
-
 <div class="section">
-    <h:form id="room_selections_form">
-        <div class="section">
-            <h:outputText styleClass="output" value="No rooms available for the dates selected: " rendered="#{availableRooms != null and availableRooms.rowCount == 0}"/>
-            <h:outputText styleClass="output" value="Rooms available for the dates selected: " rendered="#{availableRooms != null and availableRooms.rowCount > 0}"/>
-            <h:outputText styleClass="output" value="#{booking.checkinDate}"/> -
-            <h:outputText styleClass="output" value="#{booking.checkoutDate}"/>
+  <h:form id="room_selections_form">
+    <div class="section">
+        <h:outputText styleClass="output" value="No rooms available for the dates selected: " rendered="#{availableRooms != null and availableRooms.rowCount == 0}"/>
+        <h:outputText styleClass="output" value="Rooms available for the dates selected: " rendered="#{availableRooms != null and availableRooms.rowCount > 0}"/>
+        <h:outputText styleClass="output" value="#{booking.checkinDate}"/> -
+        <h:outputText styleClass="output" value="#{booking.checkoutDate}"/>
             
-            <br/><br/>
-            
-            <h:dataTable id="rooms" value="#{availableRooms}" var="room" rendered="#{availableRooms.rowCount > 0}">
-                <h:column>
-                    <f:facet name="header">Name</f:facet>
-                    #{room.name}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Description</f:facet>
-                    #{room.description}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Per Night</f:facet>
-                    <h:outputText value="#{room.price}">
-                        <f:convertNumber type="currency" currencySymbol="$"/>
-                    </h:outputText>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Action</f:facet>
-                    <h:commandLink id="selectRoomPreference" action="#{roomPreference.selectPreference}">Select</h:commandLink>
-                </h:column>
-            </h:dataTable>
+        <h:dataTable id="rooms" value="#{availableRooms}" var="room" rendered="#{availableRooms.rowCount &gt; 0}">
+            <h:column>
+              <f:facet name="header">Name</f:facet>
+              #{room.name}
+            </h:column>
+            <h:column>
+              <f:facet name="header">Description</f:facet>
+              #{room.description}
+            </h:column>
+            <h:column>
+              <f:facet name="header">Per Night</f:facet>
+              <h:outputText value="#{room.price}">
+                <f:convertNumber type="currency" currencySymbol="$"/>
+              </h:outputText>
+            </h:column>
+            <h:column>
+              <f:facet name="header">Action</f:facet>
+              <h:commandLink id="selectRoomPreference" action="#{roomPreference.selectPreference}">Select</h:commandLink>
+            </h:column>
+        </h:dataTable>
+      </div>
+      <div class="entry">
+        <div class="label">&#160;</div>
+        <div class="input">
+          <s:button id="cancel" value="Revise Dates" view="/book.xhtml"/>
         </div>
-        <div class="entry">
-            <div class="label">&#160;</div>
-            <div class="input">
-                <s:button id="cancel" value="Revise Dates" view="/book.xhtml"/>
-            </div>
-        </div>  
+      </div>  
     </h:form>
 </div>
 ]]></programlisting>
@@ -2781,7 +2763,7 @@ can be achieved by simply extending the behavior of the <varname>HotelBookingAct
                         <area id="nested-booking-confirm" coords="82"/>
                         <area id="nested-booking-cancel" coords="89" />
                     </areaspec>
-                    <programlisting><![CDATA[@Stateful
+                    <programlisting role="JAVA"><![CDATA[@Stateful
 @Name("hotelBooking")
 @Restrict("#{identity.loggedIn}")
 public class HotelBookingAction implements HotelBooking
@@ -3031,7 +3013,7 @@ conversation model.</para>
                      <area id="blog-seampc" coords="7"/>
                      <area id="blog-unwrap" coords="9"/>
                  </areaspec>
-                 <programlisting><![CDATA[@Name("blog")
+                 <programlisting role="JAVA"><![CDATA[@Name("blog")
 @Scope(ScopeType.STATELESS)
 @AutoCreate
 public class BlogService 
@@ -3301,8 +3283,9 @@ public class EntryAction
 
             <para> Notice that the example is using page actions for post validation 
                 and the pageview counter. Also notice the use of a parameter in the page action method
-                binding. This is not a standard feature of JSF EL, but Seam lets you use it, not just 
-                for page actions but also in JSF method bindings. </para>
+                binding. This was not a standard feature of JSF EL in Java EE 5, but now it is and works
+                like Seam lets you use it before, not just for page actions but also in JSF method bindings.
+           </para>
 
             <para> When the <literal>entry.xhtml</literal> page is requested, Seam first binds the page parameter
                     <literal>blogEntryId</literal> to the model.  Keep in mind that because of the URL rewriting,
