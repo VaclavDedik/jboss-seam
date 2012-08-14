@@ -95,7 +95,7 @@ public class FactoryLockTest extends JUnitSeamTest
    
    // This test is the same as factoryLock test, except it uses the same factory in both threads.
    @Test
-   @Ignore // this is weird usecase so we don't test it as we know it doesn't work
+   @Ignore // this is weird use case so we don't test it as we know it doesn't work due SFSB doesn't serve for multithread request from same client
    public void sameFactoryLock() 
        throws Exception 
    {
@@ -117,7 +117,7 @@ public class FactoryLockTest extends JUnitSeamTest
       });
    }
    
-   // This test is the same as sameFactoryLock test, except it uses a @Syncrhonized Seam component, instead of an SFSB
+   // This test is the same as sameFactoryLock test, except it uses a @Synchronized Seam component, instead of an SFSB
    @Test
    public void seamSynchronizedFactoryLock() 
        throws Exception 
