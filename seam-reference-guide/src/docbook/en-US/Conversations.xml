@@ -1298,24 +1298,14 @@ public int getTotal() {
       </section>
     
       <section>
-        <title>RichFaces (Ajax4jsf)</title>
+        <title>RichFaces 4</title>
     
         <para>
-           RichFaces (Ajax4jsf) is the Ajax library most commonly used with Seam, and
+           RichFaces is the JSF 2 component library most commonly used with Seam, and
           provides all the controls discussed above:
         </para>
       
         <itemizedlist>
-          <listitem>
-            <para>
-              <literal>eventsQueue</literal> &#8212; provides a queue in which 
-              events are placed.  All events are queued and requests are sent to
-              the server serially.  This is useful if the request to the
-              server can take some time to execute (e.g. heavy computation,
-              retrieving information from a slow source) as the server isn't
-              flooded.
-            </para>
-          </listitem>
           <listitem>
             <para>
               <literal>ignoreDupResponses</literal> &#8212; ignores the response 
@@ -1346,7 +1336,7 @@ public int getTotal() {
           </listitem>
           <listitem>
             <para>
-              <literal>&lt;a:poll reRender="total" interval="1000" /&gt;</literal> &#8212;
+              <literal>&lt;a:poll render="total" interval="1000" /&gt;</literal> &#8212;
               Polls the server, and rerenders an area as needed
             </para>
           </listitem>
