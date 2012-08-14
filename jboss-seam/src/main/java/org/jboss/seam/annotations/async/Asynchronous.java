@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
  * 
  * Note that asynchronous calls are processed in
  * a different EVENT, SESSION and CONVERSATION
- * context to the caller, so the actual recieving
+ * context to the caller, so the actual receiving
  * object may be a different instance of the 
  * component to the object that was called.
  * 
