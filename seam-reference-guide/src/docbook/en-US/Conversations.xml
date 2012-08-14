@@ -1259,88 +1259,34 @@ public int getTotal() {
 </exception>]]></programlisting>
         
         <para>
-           ICEfaces, RichFaces Ajax and Seam Remoting can all handle HTTP error
+           Seam Remoting and JSF 2 can both handle HTTP error
            codes. Seam Remoting will pop up a dialog box showing the HTTP
-           error. ICEfaces will indicate the error in its connection status
-           component. RichFaces provides the most complete support for handling
+           error. JSF 2 provides support for handling
            HTTP errors by providing a user definable callback. For example, to
            show the error message to the user: 
         </para>
         
         <programlisting><![CDATA[<script type="text/javascript">
-   A4J.AJAX.onError = function(req,status,message) { 
+   jsf.ajax.addOnError(function(data) { 
       alert("An error occurred");
-   };
+   });
 </script>]]></programlisting>
 
+        <note>
+        <title>JSF 2 javascript documentation</title>
+            More details about JSF 2 javascript API can be seen at 
+            <ulink url="http://javaserverfaces.java.net/nonav/docs/2.0/jsdocs/symbols/jsf.ajax.html">http://javaserverfaces.java.net/nonav/docs/2.0/jsdocs/symbols/jsf.ajax.html</ulink>
+        </note>
+        
+        
         <para>
            If instead of an error code, the server reports that the view has expired,
-           perhaps because the session timed out, you use a separate callback function
-           in RichFaces to handle this scenario.
+           perhaps because the session timed out, you can use a standard 
+           <ulink url="http://docs.oracle.com/javaee/6/api/javax/faces/context/ExceptionHandler.html">javax.faces.context.ExceptionHandler</ulink>
+            to handle this scenario.
         </para>
 
-        <programlisting><![CDATA[<script type="text/javascript">
-   A4J.AJAX.onExpired = function(loc,message) { 
-      alert("View expired");
-   };
-</script>]]></programlisting>
-
-        <para>
-           Alternatively, you can allow RichFaces handle the error, in which
-           case the user will be presented with a prompt that reads "View state
-           couldn't be restored - reload page?" You can customize this message
-           globally by setting the following message key in an application
-           resource bundle.
-        </para>
-
-        <programlisting><![CDATA[AJAX_VIEW_EXPIRED=View expired. Please reload the page.]]></programlisting>
-        
       </section>
     
-      <section>
-        <title>RichFaces 4</title>
-    
-        <para>
-           RichFaces is the JSF 2 component library most commonly used with Seam, and
-          provides all the controls discussed above:
-        </para>
-      
-        <itemizedlist>
-          <listitem>
-            <para>
-              <literal>ignoreDupResponses</literal> &#8212; ignores the response 
-              produced by the request if a more recent 'similar' request is
-              already in the queue. ignoreDupResponses="true" does <emphasis>not 
-              cancel</emphasis> the processing of the request on the server
-              side &#8212; just prevents unnecessary updates on the client side.
-            </para>
-            <para>
-              This option should be used with care with Seam's conversations as
-              it allows multiple concurrent requests to be made.
-            </para>
-          </listitem>
-          <listitem>
-            <para>
-              <literal>requestDelay</literal> &#8212; defines the time (in ms.)
-              that the request will be remain on the queue. If the request has
-              not been processed by after this time the request will be sent 
-              (regardless of whether a response has been received) or discarded
-              (if there is a more recent similar event on the queue).
-            </para>
-            <para>
-              This option should be used with care with Seam's conversations as
-              it allows multiple concurrent requests to be made.  You need to be
-              sure that the delay you set (in combination with the concurrent
-              request timeout) is longer than the action will take to execute.
-            </para>
-          </listitem>
-          <listitem>
-            <para>
-              <literal>&lt;a:poll render="total" interval="1000" /&gt;</literal> &#8212;
-              Polls the server, and rerenders an area as needed
-            </para>
-          </listitem>
-        </itemizedlist>
-      </section>
     </section>
 </chapter>
