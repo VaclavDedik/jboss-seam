@@ -128,17 +128,55 @@
    <build>
       <finalName>jboss-seam-groovybooking</finalName>
       <plugins>
+         <!-- Can't use gmaven-plugin because hot deployment won't work otherwise -->
          <plugin>
-            <groupId>org.codehaus.gmaven</groupId>
-            <artifactId>gmaven-plugin</artifactId>
-            <version>1.4</version>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
             <executions>
                <execution>
+                  <id>compile-groovy-files</id>
+                  <phase>generate-resources</phase>
+                  <configuration>
+                     <tasks>
+                        <taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc">
+                           <classpath refid="maven.compile.classpath"/>
+                        </taskdef>
+                        <mkdir dir="${project.build.outputDirectory}"/>
+                        <groovyc destdir="${project.build.outputDirectory}"
+                                 srcdir="${basedir}/src/main/groovy/"
+                                 listfiles="true">
+                           <classpath refid="maven.compile.classpath"/>
+                           <include name="**/model/**"/>
+                        </groovyc>
+                     </tasks>
+                  </configuration>
                   <goals>
-                     <goal>generateStubs</goal>
-                     <goal>compile</goal>
-                     <goal>generateTestStubs</goal>
-                     <goal>testCompile</goal>
+                     <goal>run</goal>
+                  </goals>
+               </execution>
+               <execution>
+                  <id>copy-class-files</id>
+                  <phase>prepare-package</phase>
+                  <configuration>
+                     <tasks>
+                        <property name="dev.dir"
+                                  value="${project.build.directory}/${project.build.finalName}/WEB-INF/dev"/>
+                        <mkdir dir="${dev.dir}"/>
+                        <copy todir="${dev.dir}">
+                           <fileset dir="${basedir}/src/main/groovy/">
+                              <include name="**/action/**"/>
+                           </fileset>
+                        </copy>
+                        <move todir="${dev.dir}">
+                           <fileset dir="${project.build.outputDirectory}">
+                              <include name="**/AuthenticatorAction.class"/>
+                              <include name="**/ChangePasswordAction.class"/>
+                           </fileset>
+                        </move>
+                     </tasks>
+                  </configuration>
+                  <goals>
+                     <goal>run</goal>
                   </goals>
                </execution>
             </executions>

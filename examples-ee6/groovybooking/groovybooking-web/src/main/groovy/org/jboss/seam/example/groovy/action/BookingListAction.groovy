@@ -1,5 +1,5 @@
 //$Id: BookingListAction.groovy 8748 2008-08-20 12:08:30Z pete.muir@jboss.org $
-package org.jboss.seam.example.groovy
+package org.jboss.seam.example.groovy.action
 
 import javax.persistence.EntityManager
 
@@ -13,6 +13,8 @@ import org.jboss.seam.annotations.datamodel.DataModel
 import org.jboss.seam.annotations.datamodel.DataModelSelection
 import org.jboss.seam.faces.FacesMessages
 import org.jboss.seam.log.Log
+import org.jboss.seam.example.groovy.model.Booking
+import org.jboss.seam.example.groovy.model.User
 
 @Scope(ScopeType.SESSION)
 @Name("bookingList")

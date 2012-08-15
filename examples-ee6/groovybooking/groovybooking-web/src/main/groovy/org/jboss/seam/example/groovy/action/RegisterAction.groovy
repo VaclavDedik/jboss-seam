@@ -1,15 +1,15 @@
 //$Id: RegisterAction.groovy 5563 2007-06-26 22:20:03Z gavin $
-package org.jboss.seam.example.groovy;
+package org.jboss.seam.example.groovy.action;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
-import org.jboss.seam.annotations.Destroy;
+
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.faces.FacesMessages;
-import static org.jboss.seam.ScopeType.EVENT;
+import static org.jboss.seam.ScopeType.EVENT
+import org.jboss.seam.example.groovy.model.User;
 
 @Scope(EVENT)
 @Name("register")

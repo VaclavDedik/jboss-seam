@@ -1,5 +1,5 @@
 //$Id: HotelBookingAction.groovy 5563 2007-06-26 22:20:03Z gavin $
-package org.jboss.seam.example.groovy
+package org.jboss.seam.example.groovy.action
 
 import javax.persistence.EntityManager
 
@@ -13,6 +13,9 @@ import org.jboss.seam.annotations.Out
 import org.jboss.seam.core.Events
 import org.jboss.seam.faces.FacesMessages
 import org.jboss.seam.log.Log
+import org.jboss.seam.example.groovy.model.Booking
+import org.jboss.seam.example.groovy.model.Hotel
+import org.jboss.seam.example.groovy.model.User
 
 @Name("hotelBooking")
 class HotelBookingAction

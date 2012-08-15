@@ -1,5 +1,5 @@
 //$Id: User.groovy 4698 2007-04-18 06:40:06Z ebernard $
-package org.jboss.seam.example.groovy
+package org.jboss.seam.example.groovy.model
 
 import javax.persistence.Entity
 import javax.persistence.Id

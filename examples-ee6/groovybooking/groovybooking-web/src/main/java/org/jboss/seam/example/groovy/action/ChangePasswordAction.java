@@ -1,5 +1,5 @@
 //$Id: ChangePasswordAction.java 5305 2007-06-20 01:30:37Z gavin $
-package org.jboss.seam.example.groovy;
+package org.jboss.seam.example.groovy.action;
 
 import javax.persistence.EntityManager;
 
@@ -8,6 +8,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.example.groovy.model.User;
 import org.jboss.seam.faces.FacesMessages;
 
 @Scope(EVENT)

@@ -1,4 +1,4 @@
-package org.jboss.seam.example.groovy;
+package org.jboss.seam.example.groovy.action;
 
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -7,6 +7,7 @@ import static org.jboss.seam.ScopeType.SESSION;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.example.groovy.model.User;
 
 @Name("authenticator")
 public class AuthenticatorAction

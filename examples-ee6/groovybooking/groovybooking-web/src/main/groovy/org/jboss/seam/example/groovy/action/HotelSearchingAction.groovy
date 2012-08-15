@@ -1,11 +1,10 @@
 //$Id: HotelSearchingAction.groovy 4933 2007-05-27 03:13:24Z ebernard $
-package org.jboss.seam.example.groovy
+package org.jboss.seam.example.groovy.action
 
 import javax.persistence.EntityManager
-import javax.persistence.PersistenceContext
 
 import org.jboss.seam.ScopeType
-import org.jboss.seam.annotations.Destroy
+
 import org.jboss.seam.annotations.Name
 import org.jboss.seam.annotations.Scope
 import org.jboss.seam.annotations.datamodel.DataModel
@@ -13,6 +12,7 @@ import org.jboss.seam.annotations.datamodel.DataModel
 import org.jboss.seam.annotations.In
 
 import org.jboss.seam.annotations.Factory
+import org.jboss.seam.example.groovy.model.Hotel
 
 @Name("hotelSearch")
 @Scope(ScopeType.SESSION)
