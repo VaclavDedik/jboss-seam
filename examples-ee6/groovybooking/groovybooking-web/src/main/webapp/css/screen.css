@@ -1,6 +1,6 @@
 /* Setup defaults since variable in browsers
 ----------------------------------------------- */
-body, div, dd, dt, dl, img, ul, ol, li, p, h1, h2, h3, h4, h5, form, hr, fieldset {
+body, div, span, dd, dt, dl, img, ul, ol, li, p, h1, h2, h3, h4, h5, form, hr, fieldset {
 	margin: 0;
 	padding: 0;
 }
@@ -24,7 +24,7 @@ body {
 	margin-left: auto;
 	margin-right: auto;
 }
-label {
+.label {
 	font-weight: bold;
 	color: #5E5147;
 }
@@ -39,7 +39,8 @@ select {
 	padding: 4px;
 	margin: 5px 0;
 	background: #fff url(../img/input.bg.gif) 0 0 repeat-x;
-}ol, ul {
+}
+ol, ul {
 	margin: 10px 0px 10px 6px;
 }
 li {
@@ -110,21 +111,25 @@ input[type="submit"], input[type="button"] {
 }
 .entry .label {
 	float: left;
-	padding-top: 10px;
 	padding-right: 5px;
 	font-weight: bold;
 	width: 150px;
 	text-align: right;
 }
 .entry .output {
-	float: left;
-	width: 250px;
+	float: right;
+	width: 360px;
 	padding-top: 10px;
 	text-align: left;
 }
 .entry .input {
-	float: left;
-	width: 250px;
+	float: right;
+	width: 360px;
+	text-align: left;
+}
+.entry .error {
+	float: right;
+	width: 360px;
 	text-align: left;
 }
 /* Sidebar
@@ -146,6 +151,9 @@ input[type="submit"], input[type="button"] {
 .errors div {
 	text-align: left;
 }
+.errors span {
+	text-align: left;
+}
 .errors input {
 	border: 1px solid #600;
 }
@@ -155,6 +163,7 @@ input[type="submit"], input[type="button"] {
 .buttonBox {
 	text-align: center;
 	padding: 5px 0;
+	clear: both;
 }
 #sidebar p {
 	font-size: small;
@@ -228,12 +237,12 @@ input[type="submit"], input[type="button"] {
 	float: left;
 	width: 66%;
 }
-#radio table {
+#content table.radio {
 	border: 0px;
 }
 #content .input table,
 #content .input tbody tr td,
-#radio table tr td {
+#content table.radio tbody tr td {
 	border: 0px;
 	border-left: 0px;
 	border-bottom: 0px;
@@ -268,7 +277,4 @@ input[type="submit"], input[type="button"] {
 }
 #pgHome #content {
 	margin-top: 183px;
-}
-#pgHome #sidebar input[type="submit"] {
-	height: 30px;
 }

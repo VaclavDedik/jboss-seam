@@ -8,8 +8,7 @@
 
     <page view-id="/register.xhtml">
 
-        <action if="#{validation.failed}"
-           execute="#{register.invalid}"/>
+        <action if="#{validation.failed}" execute="#{register.invalid}"/>
 
         <navigation>
             <rule if="#{register.registered}">
@@ -19,11 +18,14 @@
 
     </page>
 
-    <page view-id="/home.xhtml">
+    <page view-id="/home.xhtml" action="#{identity.isLoggedIn}">
 
-        <navigation>
-            <rule if="#{identity.loggedIn}">
+        <navigation from-action="#{identity.isLoggedIn}">
+            <rule if-outcome="true">
                 <redirect view-id="/main.xhtml"/>
+            </rule>
+            <rule if-outcome="false">
+                <render view-id="/home.xhtml"/>
             </rule>
         </navigation>
 
@@ -33,7 +35,7 @@
           login-required="true">
 
         <navigation>
-            <rule if="#{changePassword.changed}">
+            <rule if="#{identity.loggedIn and changePassword.changed}">
                 <redirect view-id="/main.xhtml"/>
             </rule>
         </navigation>
@@ -47,10 +49,15 @@
             <redirect view-id="/hotel.xhtml"/>
         </navigation>
 
+        <navigation from-action="#{bookingList.cancel}">
+            <redirect/>
+        </navigation>
+
     </page>
 
-	<page view-id="/hotel.xhtml"
-          conversation-required="true">
+	 <page view-id="/hotel.xhtml"
+          conversation-required="true"
+          login-required="true">
 
         <description>View hotel: #{hotel.name}</description>
 
@@ -60,8 +67,9 @@
 
     </page>
 
-	<page view-id="/book.xhtml"
-          conversation-required="true">
+	 <page view-id="/book.xhtml"
+          conversation-required="true"
+          login-required="true">
 
         <description>Book hotel: #{hotel.name}</description>
 
@@ -73,8 +81,9 @@
 
     </page>
 
-	<page view-id="/confirm.xhtml"
-          conversation-required="true">
+	 <page view-id="/confirm.xhtml"
+          conversation-required="true"
+          login-required="true">
 
         <description>Confirm booking: #{booking.description}</description>
 
@@ -85,7 +94,6 @@
     </page>
 
     <page view-id="*">
-
         <navigation from-action="#{identity.logout}">
             <redirect view-id="/home.xhtml"/>
         </navigation>
