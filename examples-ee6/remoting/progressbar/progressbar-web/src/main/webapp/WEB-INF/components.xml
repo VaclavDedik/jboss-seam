@@ -1,7 +1,7 @@
 <components xmlns="http://jboss.org/schema/seam/components">
 
     <component name="org.jboss.seam.core.init">
-        <property name="jndiPattern">@jndiPattern@</property>
+        <property name="jndiPattern">${jndiPattern}</property>
     </component>
  
     <component name="org.jboss.seam.core.manager">
