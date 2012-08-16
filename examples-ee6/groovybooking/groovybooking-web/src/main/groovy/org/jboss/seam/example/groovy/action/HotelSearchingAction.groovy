@@ -13,9 +13,11 @@ import org.jboss.seam.annotations.In
 
 import org.jboss.seam.annotations.Factory
 import org.jboss.seam.example.groovy.model.Hotel
+import org.jboss.seam.annotations.security.Restrict
 
 @Name("hotelSearch")
 @Scope(ScopeType.SESSION)
+@Restrict("#{identity.loggedIn}")
 class HotelSearchingAction
 {
 
