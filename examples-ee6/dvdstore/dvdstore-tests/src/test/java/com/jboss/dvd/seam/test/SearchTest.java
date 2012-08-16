@@ -12,12 +12,12 @@ import org.jboss.seam.mock.JUnitSeamTest;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.importer.ZipImporter;
-import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.jboss.dvd.seam.Accept;
 import com.jboss.dvd.seam.FullTextSearch;
 import com.jboss.dvd.seam.Product;
 
@@ -29,15 +29,10 @@ public class SearchTest
    @OverProtocol("Servlet 3.0")
    public static Archive<?> createDeployment()
    {
-      EnterpriseArchive er = ShrinkWrap.create(ZipImporter.class, "seam-dvdstore.ear").importFrom(new File("../dvdstore-ear/target/seam-dvdstore.ear")).as(EnterpriseArchive.class);
-      WebArchive web = er.getAsType(WebArchive.class, "dvdstore-web.war");
-      web.addClasses(SearchTest.class);
-      
-      // Install org.jboss.seam.mock.MockSeamListener
-      web.delete("/WEB-INF/web.xml");
-      web.addAsWebInfResource("web.xml");
+      WebArchive web = ShrinkWrap.create(ZipImporter.class, "seam-dvdstore.war").importFrom(new File("target/seam-dvdstore.war")).as(WebArchive.class);
+      web.addPackages(true, Accept.class.getPackage());
 
-      return er;
+      return web;
    }
    
     @Test
