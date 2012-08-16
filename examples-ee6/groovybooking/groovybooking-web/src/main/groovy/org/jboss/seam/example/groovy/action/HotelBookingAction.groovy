@@ -82,13 +82,19 @@ class HotelBookingAction
       }
    }
 
+   @Out (required=false, scope=ScopeType.SESSION)
+   List <Booking> bookings
+
    @End
    void confirm()
    {
       em.persist(booking)
       facesMessages.add "Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}", new Object[0]
       log.info("New booking: #{booking.id} for #{user.username}")
-      events.raiseTransactionSuccessEvent("bookingConfirmed")
+      //events.raiseTransactionSuccessEvent("bookingConfirmed")
+
+      // force refresh
+      bookings = null
    }
 
    @End
