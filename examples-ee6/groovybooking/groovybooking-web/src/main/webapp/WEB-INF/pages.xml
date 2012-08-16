@@ -56,7 +56,8 @@
     </page>
 
 	 <page view-id="/hotel.xhtml"
-          conversation-required="true">
+          conversation-required="true"
+          login-required="true">
 
         <description>View hotel: #{hotel.name}</description>
 
