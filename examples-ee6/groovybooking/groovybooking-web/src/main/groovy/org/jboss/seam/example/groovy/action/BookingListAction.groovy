@@ -38,7 +38,7 @@ class BookingListAction implements Serializable
    Log log
 
    @Factory
-   @Observer("bookingConfirmed")
+   @Observer(["bookingConfirmed"])
    public void getBookings()
    {
       bookings = em.createQuery('''
