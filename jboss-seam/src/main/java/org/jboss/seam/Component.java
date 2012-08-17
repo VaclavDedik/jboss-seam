@@ -315,7 +315,7 @@ public class Component extends Model
          log.warn("Interceptors are disabled for @Synchronized component - synchronization will be disabled for: " + name);
       }
       
-      if (hasAnnotation && type != ComponentType.STATEFUL_SESSION_BEAN)
+      if (hasAnnotation && type == ComponentType.STATEFUL_SESSION_BEAN)
       {
          log.warn("Seam synchronization interceptor is disabled for @Synchronized @Stateful component - Seam synchronization will be disabled for: " + name);
       }
