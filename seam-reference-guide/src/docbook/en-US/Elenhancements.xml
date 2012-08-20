@@ -23,10 +23,10 @@
       
       <para>You can still use JBoss EL instead of standard EL 2.2 from Java EE 6 by 
       setting up <literal>com.sun.faces.expressionFactory</literal> in <filename>web.xml</filename>:
-      <programlisting role="XML"><![CDATA[<context-param>     
+      <programlisting><![CDATA[<context-param>
     <param-name>com.sun.faces.expressionFactory</param-name>
-    <param-value>org.jboss.el.ExpressionFactoryImpl</param-value>   
-</context-param>]]> </programlisting>      
+    <param-value>org.jboss.el.ExpressionFactoryImpl</param-value>
+</context-param>]]></programlisting>
       </para>
       
       <para> 
@@ -36,9 +36,10 @@
       <programlisting role="XHTML"><![CDATA[<h:commandButton action="#{hotelBooking.bookHotel(hotel)}" value="Book Hotel"/>]]></programlisting>
       
       <programlisting role="JAVA"><![CDATA[@Name("hotelBooking")
-public class HotelBooking {
-   
-   public String bookHotel(Hotel hotel) {
+public class HotelBooking 
+{   
+   public String bookHotel(Hotel hotel) 
+   {
       // Book the hotel
    }
 }]]></programlisting>

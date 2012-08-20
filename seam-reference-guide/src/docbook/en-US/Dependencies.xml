@@ -10,16 +10,16 @@
     <para>
       Seam does not work with JDK 1.4 and requires JDK 5 or above as it uses 
       annotations and other JDK 5.0 features. Seam has been thoroughly tested 
-      using Sun's JDKs.  However there are no known issues specific to Seam with
+      using Oracle's JDKs and OpenJDKs.  However there are no known issues specific to Seam with
       other JDKs.
     </para>
     
     <section id="jdk6_dependencies">
-        <title>Sun's JDK 6 Considerations</title>
+        <title>Oracle's JDK 6 Considerations</title>
         <para>
-            Earlier versions of Sun's JDK 6 contained an incompatible 
+            Earlier versions of Oracle's JDK 6 contained an incompatible 
             version of JAXB and required overriding it using the "endorsed" 
-            directory.  Sun's JDK6 Update 4 release upgraded to JAXB 2.1 and 
+            directory.  Oracle's JDK6 Update 4 release upgraded to JAXB 2.1 and 
             removed this requirement.  When building, testing, or executing be
             sure to use this version or higher. 
         </para>        
@@ -410,7 +410,7 @@
             
             <row>
               <entry>
-                <para><literal>mail-ra.jar</literal></para>
+                <para><literal>ironjacamar-mail.jar</literal></para>
               </entry>
               <entry align="center">
                 <para>compile only</para>
@@ -420,7 +420,7 @@
               </entry>
               <entry>
                 <para>Required for incoming mail support</para>
-                <para>mail-ra.rar should be deployed to the application server
+                <para><filename>ironjacamar-mail.jar</filename> should be deployed to the application server
                 at runtime</para>
               </entry>
             </row>                  

@@ -231,7 +231,7 @@
 	        <listitem>
 	        <para>
 	            The jPDL makes the user interaction immediately understandable,
-	            without us needing to even look at the JSP or Java code.
+	            without us needing to even look at the facelets template or Java code.
 	        </para>
 	        </listitem>
 	    </itemizedlist>

@@ -8,12 +8,12 @@
         off by the following sections; you'll never need to type any of this stuff yourself, since you can just use 
         seam-gen to start your application or you can copy and paste from the example applications! </para>
 
-    <sect1>
+    <section>
         <title>Basic Seam configuration</title>
 
         <para> First, let's look at the basic configuration that is needed whenever we use Seam with JSF. </para>
 
-        <sect2>
+        <section>
             <title>Integrating Seam with JSF and your servlet container</title>
 
             <para> Of course, you need a faces servlet! </para>
@@ -57,7 +57,7 @@
                 <env-entry>
                     <env-entry-name>com.sun.faces.ClientStateSavingPassword</env-entry-name>
                     <env-entry-type>java.lang.String</env-entry-type>
-                    <env-entry-value>something</env-entry-value>
+                    <env-entry-value>INSERT_YOUR_PASSWORD</env-entry-value>
                 </env-entry>]]></programlisting>
                 </para>
             </warning>
@@ -79,9 +79,9 @@
     <param-name>com.sun.faces.serializeServerState</param-name>
     <param-value>true</param-value>
 </context-param>]]></programlisting>
-        </sect2>
+        </section>
 
-        <sect2>
+        <section>
             <title>Seam Resource Servlet</title>
 
             <para> The Seam Resource Servlet provides resources used by Seam Remoting, captchas (see the security
@@ -97,9 +97,9 @@
   <servlet-name>Seam Resource Servlet</servlet-name>
   <url-pattern>/seam/resource/*</url-pattern>
 </servlet-mapping>]]></programlisting>
-        </sect2>
+        </section>
 
-        <sect2>
+        <section>
             <title>Seam servlet filters</title>
 
             <para> Seam doesn't need any servlet filters for basic operation. However, there are several features which
@@ -405,9 +405,9 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
                         (<literal>@Filter(within="org.jboss.seam.web.ajax4jsfFilter")</literal>). </para>
 
             </sect3>
-        </sect2>
+        </section>
 
-        <sect2 id="config.integration.ejb.container">
+        <section id="config.integration.ejb.container">
             <title>Integrating Seam with your EJB container</title>
 
             <para> In a Seam application, EJB components have a certain duality, as they are managed by both the EJB
@@ -594,9 +594,9 @@ Authenticator authenticator;
             
             <programlisting role="XML"><![CDATA[<transaction:ejb-transaction/>]]></programlisting>
 
-        </sect2>
+        </section>
 
-        <sect2>
+        <section>
             <title>Don't forget!</title>
 
             <para> There is one final item you need to know about. You must place a <literal>seam.properties</literal>,
@@ -616,11 +616,11 @@ Authenticator authenticator;
                 component explicitly in <literal>components.xml</literal>, just like some other competing frameworks do!
                 I think you'll like our way better. </para>
 
-        </sect2>
+        </section>
 
-    </sect1>
+    </section>
     
-    <sect1 id="alt-jpa-providers">
+    <section id="alt-jpa-providers">
         <title>Using Alternate JPA Providers</title>
         
         <para> Seam comes packaged and configured with Hibernate as the default JPA provider.
@@ -662,23 +662,23 @@ Authenticator authenticator;
             provider needs.  Don't forget to package your new provider's jar files in the 
             application if they are needed.
         </para>
-    </sect1>
+    </section>
 
-    <sect1>
+    <section>
         <title>Configuring Seam in Java EE 6</title>
 
         <mediaobject>
             <imageobject role="fo">
-                <imagedata fileref="images/ee5.png" align="center"/>
+                <imagedata fileref="images/ee6.png" align="center"/>
             </imageobject>
             <imageobject role="html">
-                <imagedata fileref="images/ee5.png" align="center"/>
+                <imagedata fileref="images/ee6.png" align="center"/>
             </imageobject>
         </mediaobject>
 
         <para> If you're running in a Java EE environment, this is all the configuration required to start using Seam! </para>
 
-        <sect2>
+        <section>
             <title>Packaging</title>
 
             <para> Once you've packaged all this stuff together into an EAR, the archive structure will look something
@@ -691,6 +691,7 @@ Authenticator authenticator;
     META-INF/
         MANIFEST.MF
         application.xml
+        jboss-deployment-structure.xml
     my-application.war/
         META-INF/
             MANIFEST.MF
@@ -734,31 +735,35 @@ Authenticator authenticator;
                     <literal>jboss-seam-debug.jar</literal> in the <literal>WEB-INF/lib</literal> directory of the WAR. </para>
 
             <para> Seam ships with several example applications that are deployable in any Java EE container that
-                supports EJB 3.0. </para>
+                supports EJB 3.1. </para>
+                
+            <para><filename>faces-config.xml</filename> is not required in JSF 2, but if you want to set up something non-default 
+            you need to place it in <filename>WAR/WEB-INF</filename>.</para>
 
             <para> I really wish that was all there was to say on the topic of configuration but unfortunately we're
                 only about a third of the way there. If you're too overwhelmed by all this tedious configuration stuff,
                 feel free to skip over the rest of this section and come back to it later. </para>
+                
 
-        </sect2>
+        </section>
 
-    </sect1>
+    </section>
 
-    <sect1>
-        <title>Configuring Seam in Java EE</title>
+    <section>
+        <title>Configuring Seam without EJB</title>
 
-        <para> Seam is useful even if you're not yet ready to take the plunge into EJB 3.0. In this case you would use
-            Hibernate4 or JPA instead of EJB 3.0 persistence, and plain JavaBeans instead of session beans. You'll miss
-            out on some of the nice features of session beans but it will be very easy to migrate to EJB 3.0 when you're
+        <para> Seam is useful even if you're not yet ready to take the plunge into EJB 3.1. In this case you would use
+            Hibernate 4 instead of EJB 3.1 persistence, and plain JavaBeans instead of session beans. You'll miss
+            out on some of the nice features of session beans but it will be very easy to migrate to EJB 3.1 when you're
             ready and, in the meantime, you'll be able to take advantage of Seam's unique declarative state management
             architecture. </para>
 
         <mediaobject>
             <imageobject role="fo">
-                <imagedata fileref="images/hibernate-ee.png" align="center"/>
+                <imagedata fileref="images/hibernate-ee6.png" align="center"/>
             </imageobject>
             <imageobject role="html">
-                <imagedata fileref="images/hibernate-ee.png" align="center"/>
+                <imagedata fileref="images/hibernate-ee6.png" align="center"/>
             </imageobject>
         </mediaobject>
 
@@ -772,7 +777,7 @@ Authenticator authenticator;
             JavaBeans instead of EJB, and another version that uses JPA and JavaBeans. These example applications are
             ready to deploy into any Java EE application server. </para>
 
-        <sect2>
+        <section>
             <title>Boostrapping Hibernate in Seam</title>
 
             <para> Seam will bootstrap a Hibernate <literal>SessionFactory</literal> from your
@@ -786,9 +791,9 @@ Authenticator authenticator;
             <programlisting role="XML"><![CDATA[<persistence:managed-hibernate-session name="hibernateSession"
                             session-factory="#{hibernateSessionFactory}"/>]]></programlisting>
 
-        </sect2>
+        </section>
 
-        <sect2>
+        <section>
             <title>Boostrapping JPA in Seam</title>
 
             <para> Seam will bootstrap a JPA <literal>EntityManagerFactory</literal> from your
@@ -802,9 +807,9 @@ Authenticator authenticator;
             <programlisting role="XML"><![CDATA[<persistence:managed-persistence-context name="entityManager"
                             entity-manager-factory="#{entityManagerFactory}"/>]]></programlisting>
 
-        </sect2>
+        </section>
 
-        <sect2>
+        <section>
             <title>Packaging</title>
 
             <para> We can package our application as a WAR, in the following structure: </para>
@@ -812,6 +817,7 @@ Authenticator authenticator;
             <programlisting><![CDATA[my-application.war/
     META-INF/
         MANIFEST.MF
+        jboss-deployment-structure.xml
     WEB-INF/
         web.xml
         components.xml
@@ -843,10 +849,10 @@ Authenticator authenticator;
             <para> If we want to deploy Hibernate in a non-EE environment like Tomcat or TestNG, we need to do a little
                 bit more work. </para>
 
-        </sect2>
-    </sect1>
+        </section>
+    </section>
 
-    <sect1>
+    <section>
         <title>Configuring Seam in Java SE</title>
 
         <para> It is possible to use Seam completely outside of an EE environment. In this case, you need to tell Seam
@@ -861,9 +867,9 @@ Authenticator authenticator;
         
         <para> Of course, you'll also need to define a datasource.</para>
                 
-    </sect1>
+    </section>
 
-    <sect1>
+    <section>
         <title>Configuring jBPM in Seam</title>
         <para> Seam's jBPM integration is not installed by default, so you'll need to enable jBPM by installing a
             built-in component. You'll also need to explicitly list your process and pageflow definitions. In
@@ -908,7 +914,7 @@ Authenticator authenticator;
         <para> The most important thing to notice here is that jBPM transaction control is disabled. Seam or EJB3 should
             control the JTA transactions. </para>
 
-        <sect2>
+        <section>
             <title>Packaging</title>
 
             <para> There is not yet any well-defined packaging format for jBPM configuration and process/pageflow
@@ -924,6 +930,7 @@ Authenticator authenticator;
     META-INF/
         MANIFEST.MF
         application.xml
+        jboss-deployment-structure.xml
     my-application.war/
         META-INF/
             MANIFEST.MF
@@ -957,11 +964,36 @@ Authenticator authenticator;
     approveDocument.jpdl.xml
     documentLifecycle.jpdl.xml]]></programlisting>
 
-        </sect2>
+        </section>
 
-    </sect1>
+    </section>
+    
+    <section>
+        <title>Deployment in JBoss AS 7</title>
+        
+        <para>JBoss AS 7 is default deployment target for all examples in Seam 2.3 distribution.</para>
+        
+        <para>Seam 2.3 requires to have setup special deployment metada file <filename>jboss-deployment-structure.xml</filename>
+         for correct initialization. Minimal content for EAR is: 
+        <example>
+            <title>jboss-deployment-structure.xml</title>
+        <programlisting><![CDATA[<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.0">
+  <deployment>
+      <dependencies>
+          <module name="org.dom4j" export="true"/>
+          <module name="org.apache.commons.collections" export="true"/>
+          <module name="javax.faces.api" export="true"/>
+        </dependencies>
+  </deployment>  
+</jboss-deployment-structure>]]></programlisting> 
+    </example>
+    
+    More details about new AS 7 classloading can be found at 
+    <ulink url="https://docs.jboss.org/author/display/AS7/Developer+Guide#DeveloperGuide-ClassloadinginJBossAS7">https://docs.jboss.org/author/display/AS7/Developer+Guide#DeveloperGuide-ClassloadinginJBossAS7</ulink> 
+</para>
+    </section>
 
-    <sect1>
+    <section>
         <title>Configuring SFSB and Session Timeouts in JBoss AS 7</title>
 
         <para> It is very important that the timeout for Stateful Session Beans is set higher than the timeout for HTTP
@@ -994,9 +1026,9 @@ Authenticator authenticator;
             <session-timeout>30</session-timeout>
         </session-config>]]></programlisting>
 
-    </sect1>
+    </section>
     
-    <sect1>
+    <section>
         <title>Running Seam in a Portlet</title>
 
         <para>
@@ -1007,9 +1039,9 @@ Authenticator authenticator;
            for more.
         </para>
 
-    </sect1>
+    </section>
     
-        <sect1>
+        <section>
         <title>Deploying custom resources</title>
         
         <para>
@@ -1139,6 +1171,6 @@ public class FooStartup {
    }
 }]]></programlisting>
 
-    </sect1>
+    </section>
 
 </chapter>

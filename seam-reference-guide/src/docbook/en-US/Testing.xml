@@ -29,7 +29,7 @@
 @Scope(EVENT)
 @Name("statementOfAccount")
 public class StatementOfAccount {
-   
+
    @In(create=true) EntityManager entityManager
    
    private double statementTotal;
@@ -64,8 +64,7 @@ public class StatementOfAccount {
             the business logic of the component) as follows:
         </para>
 
-        <programlisting role="JAVA"><![CDATA[public class StatementOfAccountTest {
-    
+        <programlisting role="JAVA"><![CDATA[public class StatementOfAccountTest {    
     @Test
     public testCalculateTotal {
        List<Invoice> invoices = generateTestInvoices(); // A test data generator
@@ -91,9 +90,10 @@ public class StatementOfAccount {
     <section>
         <title>Integration testing Seam components</title>
 
-        <note>
-            Using JBoss Embedded for integration testing was removed. See <xref linkend="testing.arquillian" />
-        </note>
+        <warning>
+            <para>Using JBoss Embedded for integration testing was removed. Seam uses
+            Arquillian with JUnit. Right now TestNG is not recommended test framework with Arquillian.</para>
+        </warning>
         
         <para>
             Integration testing is slightly more difficult. In this case, we can't eliminate
@@ -110,13 +110,185 @@ public class StatementOfAccount {
             together with the JBoss AS container)
         </para>
         
-<programlisting role="JAVA"><![CDATA[public class RegisterTest extends SeamTest
+        <para>
+          Arquillian makes it possible to run integration tests inside a real container, even without <literal>SeamTest</literal>.
+        </para>
+          
+          <example>
+            <title>RegisterTest.java</title>
+            <programlistingco>
+                <areaspec>
+                    <area id="registration-test-runwith" coords="1"/>
+                    <area id="registration-test-deployment" coords="4"/>
+                    <area id="registration-test-overprotocol" coords="5"/>
+                    <area id="registration-test-zipimporter" coords="8"/>
+                    <area id="registration-test-addtestclass" coords="12"/>
+                    <area id="registration-test-lifecycle" coords="19"/>
+                </areaspec>
+                <programlisting role="JAVA"><![CDATA[@RunWith(Arquillian)
+public class RegisterTest
 {
+   @Deployment
+   @OverProtocol("Servlet 3.0")
+   public static Archive<?> createDeployment()
+   {
+      EnterpriseArchive er = ShrinkWrap.create(ZipImporter.class)
+         .importFrom(new File("../registration-ear/target/seam-registration.ear"))
+         .as(EnterpriseArchive.class);
+      WebArchive web = er.getAsType(WebArchive.class, "registration-web.war");
+      web.addClasses(RegisterTest.class);
+      return er;
+   }
+
+   @Before
+   public void before()
+   {
+       Lifecycle.beginCall();
+   }
    
+   @After
+   public void after(
+   {
+       Lifecycle.endCall();
+   }
+
+   protected void setValue(String valueExpression, Object value)
+   {
+      Expressions.instance().createValueExpression(valueExpression).setValue(value);
+   }
+
    @Test
    public void testRegisterComponent() throws Exception
    {
-            
+     setValue("#{user.username}", "1ovthafew");
+     setValue("#{user.name}", "Gavin King");
+     setValue("#{user.password}", "secret");
+     Register register = (Register)Component.getInstance("register");
+     Assert.assertEquals("success", register.register());
+   }
+
+   ...
+}]]></programlisting>
+            <calloutlist>
+                <callout arearefs="registration-test-runwith">
+                    <para> The JUnit <literal>@RunWith</literal> annotation must be present to run our tests with Arquillian.
+                    </para>
+                </callout>
+                <callout arearefs="registration-test-deployment">
+                    <para> Since we want to run our test in a real container, we need to specify an archive that gets deployed.
+                    </para>
+                </callout>
+                <callout arearefs="registration-test-overprotocol">
+                    <para> <literal>@OverProtocol</literal> is an Arquillian annotation to specify the protocol used for running the tests.
+                        The "Servlet 3.0" protocol is the recommended protocol for running Seam tests.
+                    </para>
+                </callout>
+                <callout arearefs="registration-test-zipimporter">
+                    <para> ShrinkWrap can be used to create the deployment archive. In this example, the whole EAR is imported, but we could also use
+                        the ShrinkWrap API to create a WAR or an EAR from the scratch and put in just the artifacts that we need for the test.
+                    </para>
+                </callout>
+                <callout arearefs="registration-test-addtestclass">
+                    <para> The test class itself must be added to the web archive.
+                    </para>
+                </callout>
+                <callout arearefs="registration-test-lifecycle">
+                    <para> <literal>Lifecycle.beginCall()</literal> is needed to setup Seam contexts.
+                    </para>
+                </callout>
+            </calloutlist>
+          </programlistingco>
+        </example>
+
+        <section>
+          <title>Configuration</title>
+
+          <para>
+            The Arquillian configuration depends on the specific container used. See Arquillian documentation for more information.
+          </para>
+
+           <para>
+              Assuming you are using Maven as your build tool and want run your tests on JBoss AS 7, you will need to put these dependencies into your <literal>pom.xml</literal>:
+           </para>
+          
+           <programlisting role="XML"><![CDATA[<dependency>
+    <groupId>org.jboss.arquillian.junit</groupId>
+    <artifactId>arquillian-junit-container</artifactId>
+    <version>${version.arquillian}</version>
+    <scope>test</scope>
+</dependency>
+
+<dependency>
+    <groupId>org.jboss.as</groupId>
+    <artifactId>jboss-as-arquillian-container-managed</artifactId>
+    <version>${version.jboss.as7}</version>
+    <scope>test</scope>
+</dependency>]]></programlisting>
+
+          <para>
+            The Arquillian JBoss AS Managed Container will automatically start the application server,
+             provided the JBOSS_HOME environment property points to the JBoss AS 7 installation.
+          </para>
+
+        </section>
+
+        <section>
+          <title>Using JUnitSeamTest with Arquillian</title>
+          
+          <para>
+            It is also possible to use the simulated JSF environment provided by <literal>SeamTest</literal> along with Arquillian. 
+            This is useful especially if you are migrating from previous Seam releases and want to keep your existing testsuite mostly
+            unchanged.
+          </para>
+
+          <note>SeamTest was primary designated for TestNG integration tests. There are some glitches
+          so we recommend to use JUnitSeamTest which is the JUnit variant for SeamTest.            
+          </note>
+
+          <para>
+            The following changes must be done to run a JUnitSeamTest with Arquillian:
+          </para>
+
+          <itemizedlist>
+            <listitem>
+                <para>Create the <literal>@Deployment</literal> method.</para>
+            </listitem>
+            <listitem>
+                <para>Convert the test to JUnit. A <literal>JUnitSeamTest</literal>
+                class can now be used instead of the original <literal>SeamTest</literal>.</para>
+            </listitem>
+            <listitem>
+                <para>Replace the <literal>SeamListener</literal> with <literal>org.jboss.seam.mock.MockSeamListener</literal> in web.xml.</para>
+            </listitem>
+          </itemizedlist> 
+
+
+          <example>
+                <title>RegisterTest.java</title>
+                <programlisting role="JAVA"><![CDATA[@RunWith(Arquillian)
+public class RegisterTest extends JUnitSeamTest
+{
+   @Deployment
+   @OverProtocol("Servlet 3.0")
+   public static Archive<?> createDeployment()
+   {
+      EnterpriseArchive er = ShrinkWrap.create(ZipImporter.class)
+         .importFrom(new File("../registration-ear/target/seam-registration.ear"))
+         .as(EnterpriseArchive.class);
+      WebArchive web = er.getAsType(WebArchive.class, "registration-web.war");
+      web.addClasses(RegisterTest.class);
+
+      // Replacing the SeamListener with MockSeamListener
+      web.delete("/WEB-INF/web.xml");
+      web.addAsWebInfResource("WEB-INF/mock-web.xml", "web.xml");
+
+      return er;
+   }
+
+   @Test
+   public void testRegisterComponent() throws Exception
+   {
+
       new ComponentTest() {
 
          protected void testComponents() throws Exception
@@ -129,15 +301,32 @@ public class StatementOfAccount {
             assert getValue("#{user.name}").equals("Gavin King");
             assert getValue("#{user.password}").equals("secret");
          }
-         
+
       }.run();
-      
+
    }
 
    ...
-   
 }]]></programlisting>
+          </example>
 
+          <example>
+            <title>mock-web.xml</title>
+            <programlisting role="XML"><![CDATA[
+<?xml version="1.0" ?>
+<web-app version="3.0"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+         
+    <listener>
+        <listener-class>org.jboss.seam.mock.MockSeamListener</listener-class>
+    </listener>
+
+</web-app>
+]]></programlisting>
+        
+          </example>        
         
         <section>
             <title>Using mocks in integration tests</title>
@@ -189,7 +378,8 @@ public class MockPaymentProcessor extends PaymentProcessor {
         </para>
         
         <para>
-            <literal>SeamTest</literal> lets you write <emphasis>scripted</emphasis> tests,
+            <literal>SeamTest</literal> or <literal>JUnitSeamTest</literal> lets you write
+             <emphasis>scripted</emphasis> tests,
             in a simulated JSF environment. The role of a scripted test is to reproduce 
             the interaction between the view and the Seam components. In other words, you 
             get to pretend you are the JSF implementation!
@@ -234,17 +424,33 @@ public class MockPaymentProcessor extends PaymentProcessor {
         <para>
             We want to test the registration functionality of our application (the stuff
             that happens when the user clicks the Register button). We'll reproduce the JSF 
-            request lifecycle in an automated TestNG test:
+            request lifecycle in an automated JUnit test:
         </para>
 
-<programlisting role="JAVA"><![CDATA[public class RegisterTest extends SeamTest
+<programlisting role="JAVA"><![CDATA[@RunWith(Arquillian.class)
+public class RegisterTest extends JUnitSeamTest
 {
+   @Deployment(name="RegisterTest")
+   @OverProtocol("Servlet 3.0") 
+   public static Archive<?> createDeployment()
+   {
+     EnterpriseArchive er = ShrinkWrap.create(ZipImporter.class, "seam-registration.ear").importFrom(new File("../registration-ear/target/seam-registration.ear"))
+               .as(EnterpriseArchive.class);
+     WebArchive web = er.getAsType(WebArchive.class, "registration-web.war");
+     web.addClasses(RegisterTest.class);
+
+     // Install org.jboss.seam.mock.MockSeamListener
+     web.delete("/WEB-INF/web.xml");
+     web.addAsWebInfResource("web.xml");
+     
+     return er;
+  }
    
    @Test
-   public void testRegister() throws Exception
+   public void testLogin() throws Exception
    {
             
-      new FacesRequest() {
+      new FacesRequest("/register.xhtml") {
 
          @Override
          protected void processValidations() throws Exception
@@ -266,31 +472,28 @@ public class MockPaymentProcessor extends PaymentProcessor {
          @Override
          protected void invokeApplication()
          {
-            assert invokeMethod("#{register.register}").equals("success");
+            assert invokeMethod("#{register.register}").equals("/registered.xhtml");
+            setOutcome("/registered.xhtml");
          }
-
+         
          @Override
-         protected void renderResponse()
+         protected void afterRequest()
          {
-            assert getValue("#{user.username}").equals("1ovthafew");
-            assert getValue("#{user.name}").equals("Gavin King");
-            assert getValue("#{user.password}").equals("secret");
+            assert isInvokeApplicationComplete();
+            assert !isRenderResponseBegun();
          }
          
       }.run();
       
-   }
-
-   ...
-   
+      ...
 }]]></programlisting>
 
         <para>
-            Notice that we've extended <literal>SeamTest</literal>, which provides a 
+            Notice that we've extended <literal>JUnitSeamTest</literal>, which provides a 
             Seam environment for our components, and written our test script as an 
-            anonymous class that extends <literal>SeamTest.FacesRequest</literal>, 
+            anonymous class that extends <literal>JUnitSeamTest.FacesRequest</literal>, 
             which provides an emulated JSF request lifecycle. (There is also a
-            <literal>SeamTest.NonFacesRequest</literal> for testing GET requests.)
+            <literal>JUnitSeamTest.NonFacesRequest</literal> for testing GET requests.)
             We've written our code in methods which are named for the various JSF 
             phases, to emulate the calls that JSF would make to our components. Then 
             we've thrown in various assertions.
@@ -302,7 +505,15 @@ public class MockPaymentProcessor extends PaymentProcessor {
             these tests using Maven, or using the JUnit plugin for eclipse:
         </para>
 
-<!-- TODO capture new JUnit screenshot -->
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/plugin-junit.png" align="center" scalefit="1"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="images/plugin-junit.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+<!--         
         <mediaobject>
           <imageobject role="fo">
             <imagedata fileref="images/plugin-testng.png" align="center" scalefit="1"/>
@@ -311,7 +522,7 @@ public class MockPaymentProcessor extends PaymentProcessor {
             <imagedata fileref="images/plugin-testng.png" align="center"/>
           </imageobject>
         </mediaobject>
-       
+        -->
         <section>
            <title>Configuration</title>
            
@@ -333,7 +544,7 @@ public class MockPaymentProcessor extends PaymentProcessor {
               And, of course you need to put your built project and tests onto
               the classpath as well as jar for your test framework. Don't forget
               to put all the correct configuration files for JPA and Seam onto 
-              the classpath as well.Seam asks Arquillian to deploy any 
+              the classpath as well. Seam asks Arquillian to deploy any 
               resource (jar or directory) which has 
               <literal>seam.properties</literal> in it's root. Therefore, if you
               don't assemble a directory structure that resembles a deployable 
@@ -344,10 +555,10 @@ public class MockPaymentProcessor extends PaymentProcessor {
          </section>
          
         <section>
-           <title>Using SeamTest with another test framework</title>
+           <title>Using JUnitSeamTest with another test framework</title>
          
            <para>
-              Seam provides JUnit and TestNG support out of the box, but you can also use
+              Seam provides JUnit support out of the box, but you can also use
               another test framework, if you want.
            </para>
            
@@ -463,7 +674,7 @@ public class MockPaymentProcessor extends PaymentProcessor {
          <programlisting role="XML"><![CDATA[<parameter name="datasourceJndiName" value="java:/seamdiscsDatasource"/>]]></programlisting>
          
          <para>
-            DBUnitSeamTest and DBJUnitSeamTest have support for MySQL and HSQL - you need to tell it
+            DBUnitSeamTest or DBJUnitSeamTest have support for MySQL and HSQL - you need to tell it
             which database is being used, otherwise it defaults to HSQL:
          </para>
          
@@ -540,231 +751,6 @@ public class MockPaymentProcessor extends PaymentProcessor {
         </section> 
 
       </section>
-
-      <section id="testing.arquillian">
-
-        <title>Testing Seam with Arquillian</title>
-
-        <para>
-          Arquillian makes it possible to run integration tests inside a real container, even without <literal>SeamTest</literal>.
-        </para>
-          
-          <example>
-            <title>RegisterTest.java</title>
-            <programlistingco>
-                <areaspec>
-                    <area id="registration-test-runwith" coords="1"/>
-                    <area id="registration-test-deployment" coords="4"/>
-                    <area id="registration-test-overprotocol" coords="5"/>
-                    <area id="registration-test-zipimporter" coords="8"/>
-                    <area id="registration-test-addtestclass" coords="12"/>
-                    <area id="registration-test-lifecycle" coords="19"/>
-                </areaspec>
-                <programlisting role="JAVA"><![CDATA[@RunWith(Arquillian)
-public class RegisterTest
-{
-   @Deployment
-   @OverProtocol("Servlet 3.0")
-   public static Archive<?> createDeployment()
-   {
-      EnterpriseArchive er = ShrinkWrap.create(ZipImporter.class)
-         .importFrom(new File("../registration-ear/target/seam-registration.ear"))
-         .as(EnterpriseArchive.class);
-      WebArchive web = er.getAsType(WebArchive.class, "registration-web.war");
-      web.addClasses(RegisterTest.class);
-      return er;
-   }
-
-   @Before
-   public void before()
-   {
-       Lifecycle.beginCall();
-   }
-   
-   @After
-   public void after(
-   {
-       Lifecycle.endCall();
-   }
-
-   protected void setValue(String valueExpression, Object value)
-   {
-      Expressions.instance().createValueExpression(valueExpression).setValue(value);
-   }
-
-   @Test
-   public void testRegisterComponent() throws Exception
-   {
-     setValue("#{user.username}", "1ovthafew");
-     setValue("#{user.name}", "Gavin King");
-     setValue("#{user.password}", "secret");
-     Register register = (Register)Component.getInstance("register");
-     Assert.assertEquals("success", register.register());
-   }
-
-   ...
-
-}]]></programlisting>
-            <calloutlist>
-                <callout arearefs="registration-test-runwith">
-                    <para> The JUnit <literal>@RunWith</literal> annotation must be present to run our tests with Arquillian.
-                    </para>
-                </callout>
-                <callout arearefs="registration-test-deployment">
-                    <para> Since we want to run our test in a real container, we need to specify an archive that gets deployed.
-                    </para>
-                </callout>
-                <callout arearefs="registration-test-overprotocol">
-                    <para> <literal>@OverProtocol</literal> is an Arquillian annotation to specify the protocol used for running the tests.
-                        The "Servlet 3.0" protocol is the recommended protocol for running Seam tests.
-                    </para>
-                </callout>
-                <callout arearefs="registration-test-zipimporter">
-                    <para> ShrinkWrap can be used to create the deployment archive. In this example, the whole EAR is imported, but we could also use
-                        the ShrinkWrap API to create a WAR or an EAR from the scratch and put in just the artifacts that we need for the test.
-                    </para>
-                </callout>
-                <callout arearefs="registration-test-addtestclass">
-                    <para> The test class itself must be added to the web archive.
-                    </para>
-                </callout>
-                <callout arearefs="registration-test-lifecycle">
-                    <para> <literal>Lifecycle.beginCall()</literal> is needed to setup Seam contexts.
-                    </para>
-                </callout>
-            </calloutlist>
-          </programlistingco>
-        </example>
-
-        <section>
-          <title>Configuration</title>
-
-          <para>
-            The Arquillian configuration depends on the specific container used. See Arquillian documentation for more information.
-          </para>
-
-           <para>
-              Assuming you are using Maven as your build tool and want run your tests on JBoss AS 7, you will need to put these dependencies into your <literal>pom.xml</literal>:
-           </para>
-          
-           <programlisting role="XML"><![CDATA[<dependency>
-    <groupId>org.jboss.arquillian.junit</groupId>
-    <artifactId>arquillian-junit-container</artifactId>
-    <version>${version.arquillian}</version>
-    <scope>test</scope>
-</dependency>
-
-<dependency>
-    <groupId>org.jboss.as</groupId>
-    <artifactId>jboss-as-arquillian-container-managed</artifactId>
-    <version>${version.jboss.as7}</version>
-    <scope>test</scope>
-</dependency>]]></programlisting>
-
-          <para>
-            The Arquillian JBoss AS Managed Container will automatically start the application server, provided the JBOSS_HOME environment property points to the JBoss AS 7 installation.
-          </para>
-
-        </section>
-
-        <section>
-          <title>Using SeamTest with Arquillian</title>
-
-          <para>
-            It is also possible to use the simulated JSF environment provided by <literal>SeamTest</literal> along with Arquillian. 
-            This is useful especially if you are migrating from previous Seam releases and want to keep your existing testsuite mostly
-            unchanged.
-          </para>
-
-          <note>
-            This feature currently only works with JUnit.
-          </note>
-
-          <para>
-            The following changes must be done to run a SeamTest with Arquillian:
-          </para>
-
-          <itemizedlist>
-            <listitem>
-                <para>Create the <literal>@Deployment</literal> method.</para>
-            </listitem>
-            <listitem>
-                <para>Convert the test to JUnit. A <literal>JUnitSeamTest</literal>
-                class can now be used instead of the original <literal>SeamTest</literal>.</para>
-            </listitem>
-            <listitem>
-                <para>Replace the <literal>SeamListener</literal> with <literal>org.jboss.seam.mock.MockSeamListener</literal> in web.xml.</para>
-            </listitem>
-          </itemizedlist> 
-
-
-          <example>
-                <title>RegisterTest.java</title>
-                <programlisting role="JAVA"><![CDATA[@RunWith(Arquillian)
-public class RegisterTest extends JUnitSeamTest
-{
-   @Deployment
-   @OverProtocol("Servlet 3.0")
-   public static Archive<?> createDeployment()
-   {
-      EnterpriseArchive er = ShrinkWrap.create(ZipImporter.class)
-         .importFrom(new File("../registration-ear/target/seam-registration.ear"))
-         .as(EnterpriseArchive.class);
-      WebArchive web = er.getAsType(WebArchive.class, "registration-web.war");
-      web.addClasses(RegisterTest.class);
-
-      // Replacing the SeamListener with MockSeamListener
-      web.delete("/WEB-INF/web.xml");
-      web.addAsWebInfResource("WEB-INF/mock-web.xml", "web.xml");
-
-      return er;
-   }
-
-   @Test
-   public void testRegisterComponent() throws Exception
-   {
-
-      new ComponentTest() {
-
-         protected void testComponents() throws Exception
-         {
-            setValue("#{user.username}", "1ovthafew");
-            setValue("#{user.name}", "Gavin King");
-            setValue("#{user.password}", "secret");
-            assert invokeMethod("#{register.register}").equals("success");
-            assert getValue("#{user.username}").equals("1ovthafew");
-            assert getValue("#{user.name}").equals("Gavin King");
-            assert getValue("#{user.password}").equals("secret");
-         }
-
-      }.run();
-
-   }
-
-   ...
-
-}]]></programlisting>
-          </example>
-
-          <example>
-            <title>mock-web.xml</title>
-            <programlisting role="XML"><![CDATA[
-<?xml version="1.0" ?>
-<web-app version="3.0"
-         xmlns="http://java.sun.com/xml/ns/javaee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-         
-    <listener>
-        <listener-class>org.jboss.seam.mock.MockSeamListener</listener-class>
-    </listener>
-
-</web-app>
-]]></programlisting>
-        
-          </example>
-
-        </section>
        
     </section>
 	

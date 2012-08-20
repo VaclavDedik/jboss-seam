@@ -321,6 +321,9 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>
   </section>
   <section>
     <title>Receiving emails</title>
+
+
+    <warning>Please be reminded that this section is not updated for JBoss AS 7.x!</warning>
     
     <para>
       If you are using EJB then you can use a MDB (Message Driven Bean) to 
