@@ -975,7 +975,7 @@ Authenticator authenticator;
         
         <para>Seam 2.3 requires to have setup special deployment metada file <filename>jboss-deployment-structure.xml</filename>
          for correct initialization. Minimal content for EAR is: 
-        <example>
+         <example>
             <title>jboss-deployment-structure.xml</title>
         <programlisting><![CDATA[<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.0">
   <deployment>
@@ -986,11 +986,93 @@ Authenticator authenticator;
         </dependencies>
   </deployment>  
 </jboss-deployment-structure>]]></programlisting> 
-    </example>
-    
-    More details about new AS 7 classloading can be found at 
-    <ulink url="https://docs.jboss.org/author/display/AS7/Developer+Guide#DeveloperGuide-ClassloadinginJBossAS7">https://docs.jboss.org/author/display/AS7/Developer+Guide#DeveloperGuide-ClassloadinginJBossAS7</ulink> 
-</para>
+        </example>    
+            More details about new AS 7 classloading can be found at 
+            <ulink url="https://docs.jboss.org/author/display/AS7/Developer+Guide#DeveloperGuide-ClassloadinginJBossAS7">https://docs.jboss.org/author/display/AS7/Developer+Guide#DeveloperGuide-ClassloadinginJBossAS7</ulink> 
+        </para>
+
+   <warning>
+      <title>Deployment of multiple modules in one EAR</title>
+      <para>There is a significant enhancement for speed up the application deployment in AS 7. This unfortunatelly can
+         cause some issues while you have multiple war/ejb modules in your application.</para>
+      <para>
+         This situation requires to use and set up new Java EE 6 configuration parameter -
+         <emphasis>Module initialization order</emphasis>
+         - in
+         <filename>application.xml</filename>
+         -
+         <literal>initialize-in-order</literal>
+         to true.
+         This causes that initialization will happen in defined order like it is in
+         <filename>application.xml</filename>.
+         Example of <filename>application.xml</filename>:
+         <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  version="6" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_6.xsd">
+  <application-name>test-app</application-name>
+  <initialize-in-order>true</initialize-in-order>
+  <module>
+    <ejb>jboss-seam.jar</ejb>
+  </module>
+  <module>
+    <web>
+      <web-uri>test-web1.war</web-uri>
+      <context-root>test</context-root>
+    </web>
+    <web>
+      <web-uri>test-web2.war</web-uri>
+      <context-root>test</context-root>
+    </web>
+  </module>
+</application>]]></programlisting>
+      </para>
+      
+      <para>
+         If you are using <literal>maven-ear-plugin</literal> for generation of your application,
+          you can use this plugin configuration:
+            <programlisting><![CDATA[<plugin>
+    <artifactId>maven-ear-plugin</artifactId>
+    <!-- from version 2.6 the plugin supports Java EE 6 descriptor -->
+    <version>2.7</version>
+    <configuration> 
+        <version>6</version>
+        <generateApplicationXml>true</generateApplicationXml> 
+        <defaultLibBundleDir>lib</defaultLibBundleDir>                
+        <initializeInOrder>true</initializeInOrder>
+        <modules> 
+            <jarModule> 
+                <groupId>org.jboss.el</groupId> 
+                <artifactId>jboss-el</artifactId> 
+                <includeInApplicationXml>false</includeInApplicationXml> 
+                <bundleDir>lib</bundleDir> 
+            </jarModule> 
+            <ejbModule> 
+                <groupId>org.jboss.seam</groupId> 
+                <artifactId>jboss-seam</artifactId> 
+                <bundleFileName>jboss-seam.jar</bundleFileName>                         
+            </ejbModule> 
+            <ejbModule> 
+                <groupId>some.user.module</groupId> 
+                <artifactId>hello-ejbs</artifactId> 
+                <bundleFileName>hello-ejbs.jar</bundleFileName>                         
+            </ejbModule> 
+            <webModule> 
+                <groupId>some.user.module</groupId> 
+                <artifactId>hello-web1</artifactId> 
+                <contextRoot>/hello1</contextRoot> 
+                <bundleFileName>hello-web1.war</bundleFileName> 
+            </webModule> 
+            <webModule> 
+                <groupId>some.user.module</groupId> 
+                <artifactId>hello-web2</artifactId> 
+                <contextRoot>/hello2</contextRoot> 
+                <bundleFileName>hello-web2.war</bundleFileName> 
+            </webModule>                                         
+        </modules> 
+    </configuration> 
+</plugin>]]></programlisting>
+      </para>
+   </warning>
     </section>
 
     <section>
