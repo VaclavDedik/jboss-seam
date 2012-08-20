@@ -44,6 +44,7 @@
 		<pdf.name>${project.artifactId}.pdf</pdf.name>
 
 		<!-- Version string properties -->
+        <version.seam>2.3.0.CR1-SNAPSHOT</version.seam>
 		<version.arquillian_core>1.0.1.Final</version.arquillian_core>
 		<version.wicket>1.4.14</version.wicket>
 		<version.testng>5.14.10</version.testng>
@@ -71,7 +72,7 @@
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
 				<artifactId>bom</artifactId>
-				<version>${project.version}</version>
+				<version>${version.seam}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -410,25 +411,26 @@
 		</plugins>
 	</build>
 
-	<modules>
+   <modules>
       <module>bom</module>
+      <module>seam-cdk-helper</module>
       <module>jboss-seam</module>
-	   <module>jboss-seam-ui</module>
-	   <module>jboss-seam-debug</module>
-		<module>jboss-seam-gen</module>
-		<module>jboss-seam-excel</module>
-		<module>jboss-seam-flex</module>
-		<module>jboss-seam-mail</module>
-		<module>jboss-seam-pdf</module>
-		<module>jboss-seam-remoting</module>
-		<module>jboss-seam-resteasy</module>
-		<module>jboss-seam-rss</module>
-		<module>jboss-seam-wicket</module>
-		<module>jboss-seam-ioc</module>
-		<module>jboss-seam-jul</module>
+      <module>jboss-seam-ui</module>
+      <module>jboss-seam-debug</module>
+      <module>jboss-seam-gen</module>
+      <module>jboss-seam-excel</module>
+      <module>jboss-seam-flex</module>
+      <module>jboss-seam-mail</module>
+      <module>jboss-seam-pdf</module>
+      <module>jboss-seam-remoting</module>
+      <module>jboss-seam-resteasy</module>
+      <module>jboss-seam-rss</module>
+      <module>jboss-seam-wicket</module>
+      <module>jboss-seam-ioc</module>
+      <module>jboss-seam-jul</module>
       <module>functional-tests</module>
-      <module>seam-integration-tests</module>             
-	</modules>
+      <module>seam-integration-tests</module>
+   </modules>
 	
 	<profiles>
 	   <!-- Profile for generating Seam reference documentation  -->

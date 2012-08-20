@@ -21,16 +21,16 @@
          <s:decorate template="edit.xhtml" id="title">
             <ui:define name="label">Title</ui:define>
             <h:inputText value="#{blogEntry.title}" size="70" maxlength="70" required="true" id="titleInput">
-<!--             	 <s:validateFormattedText /> -->
-                <f:validator validatorId="org.jboss.seam.ui.FormattedTextValidator" />
+            	 <s:validateFormattedText />
+<!--                 <f:validator validatorId="org.jboss.seam.ui.FormattedTextValidator" /> -->
             </h:inputText>
          </s:decorate>
       
          <s:decorate template="edit.xhtml" id="excerpt">
             <ui:define name="label">Excerpt (optional)</ui:define>
             <h:inputTextarea value="#{blogEntry.excerpt}" cols="68" rows="3" id="excerptInput">
-<!--          	     <s:validateFormattedText /> -->
-                <f:validator validatorId="org.jboss.seam.ui.FormattedTextValidator" />
+         	     <s:validateFormattedText />
+<!--                 <f:validator validatorId="org.jboss.seam.ui.FormattedTextValidator" /> -->
             </h:inputTextarea>
          </s:decorate>
       

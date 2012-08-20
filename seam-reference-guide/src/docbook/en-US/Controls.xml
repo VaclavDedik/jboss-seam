@@ -304,7 +304,7 @@
       <section>
          <title>Converters and Validators</title>
          
-<!--          <section>
+          <section>
             <title><literal>&lt;s:convertDateTime&gt;</literal></title>
             
             <para><emphasis>Description</emphasis></para>
@@ -318,13 +318,10 @@
    <s:convertDateTime type="both" dateStyle="full"/>
 </h:outputText>]]></programlisting>
    
-         <warning><para>This is not supported, use f:convertDateTime instead</para></warning>
          </section>
    
          <section>
             <title><literal>&lt;s:convertEntity&gt;</literal></title>
-            
-            <warning><para>This is not supported, use <![CDATA[<f:converter converterId="your_converter" />]]> instead</para></warning>
             
             <para><emphasis>Description</emphasis></para>
             <para>
@@ -494,7 +491,6 @@
 </h:outputText>]]></programlisting>
          </section>
          
-	 -->	 
          <section>
             <title><literal>&lt;s:validateEquality&gt;</literal></title>
             
@@ -973,7 +969,8 @@
             <programlisting role="XHTML"><![CDATA[<h:selectOneRadio id="radioList"
                   layout="lineDirection"
                   value="#{newPayment.paymentFrequency}">
-   <f:converter converterId="org.jboss.seam.ui.EnumConverter" />
+   <!-- JSF 2 way <f:converter converterId="org.jboss.seam.ui.EnumConverter" />-->
+   <s:convertEnum />
    <s:enumItem enumValue="ONCE"         label="Only Once" />
    <s:enumItem enumValue="EVERY_MINUTE" label="Every Minute" />
    <s:enumItem enumValue="HOURLY"       label="Every Hour" />
