@@ -1,9 +1,11 @@
 //$Id: ComponentType.java 5355 2007-06-20 20:42:22Z gavin $
 package org.jboss.seam;
 
+import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.ScopeType.CONVERSATION;
 import static org.jboss.seam.ScopeType.EVENT;
 import static org.jboss.seam.ScopeType.STATELESS;
+
 
 /**
  * The types of components understood by Seam.
@@ -15,6 +17,7 @@ public enum ComponentType
    ENTITY_BEAN, 
    STATELESS_SESSION_BEAN,
    STATEFUL_SESSION_BEAN,
+   SINGLETON_SESSION_BEAN,
    MESSAGE_DRIVEN_BEAN,
    JAVA_BEAN;
    
@@ -25,7 +28,7 @@ public enum ComponentType
    
    public boolean isSessionBean()
    {
-      return this==STATELESS_SESSION_BEAN || this==STATEFUL_SESSION_BEAN;
+      return this==STATELESS_SESSION_BEAN || this==STATEFUL_SESSION_BEAN || this==SINGLETON_SESSION_BEAN;
    }
    
    public boolean isStateless()
@@ -37,6 +40,8 @@ public enum ComponentType
    {
       switch (this)
       {
+         case SINGLETON_SESSION_BEAN:
+            return APPLICATION;
          case STATEFUL_SESSION_BEAN:
          case ENTITY_BEAN:
             return CONVERSATION;

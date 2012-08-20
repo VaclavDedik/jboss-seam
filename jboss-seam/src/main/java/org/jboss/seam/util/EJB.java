@@ -16,6 +16,7 @@ public class EJB
    
    public static final Class<Annotation> STATELESS;
    public static final Class<Annotation> STATEFUL;
+   public static final Class<Annotation> SINGLETON;
    public static final Class<Annotation> MESSAGE_DRIVEN;
    public static final Class<Annotation> PRE_PASSIVATE;
    public static final Class<Annotation> POST_ACTIVATE;
@@ -47,6 +48,7 @@ public class EJB
    {
       STATELESS = classForName("javax.ejb.Stateless");
       STATEFUL = classForName("javax.ejb.Stateful");
+      SINGLETON = classForName("javax.ejb.Singleton");
       MESSAGE_DRIVEN = classForName("javax.ejb.MessageDriven");
       APPLICATION_EXCEPTION = classForName("javax.ejb.ApplicationException");
       PERSISTENCE_CONTEXT = classForName("javax.persistence.PersistenceContext");

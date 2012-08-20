@@ -6,9 +6,11 @@ import static org.jboss.seam.ComponentType.JAVA_BEAN;
 import static org.jboss.seam.ComponentType.MESSAGE_DRIVEN_BEAN;
 import static org.jboss.seam.ComponentType.STATEFUL_SESSION_BEAN;
 import static org.jboss.seam.ComponentType.STATELESS_SESSION_BEAN;
+import static org.jboss.seam.ComponentType.SINGLETON_SESSION_BEAN;
 import static org.jboss.seam.util.EJB.MESSAGE_DRIVEN;
 import static org.jboss.seam.util.EJB.STATEFUL;
 import static org.jboss.seam.util.EJB.STATELESS;
+import static org.jboss.seam.util.EJB.SINGLETON;
 import static org.jboss.seam.util.EJB.name;
 
 import java.io.IOException;
@@ -114,6 +116,10 @@ public class Seam
       {
           return STATELESS_SESSION_BEAN;
       } 
+      else if ( clazz.isAnnotationPresent(SINGLETON) ) 
+      {
+          return SINGLETON_SESSION_BEAN;
+      } 
       else if ( clazz.isAnnotationPresent(MESSAGE_DRIVEN) ) 
       {
           return MESSAGE_DRIVEN_BEAN;
@@ -216,6 +222,9 @@ public class Seam
            case STATELESS_SESSION_BEAN:
                return clazz.isAnnotationPresent(STATELESS) ?
                      getStatelessEjbName(clazz) : getEjbNameFromDescriptor(clazz);
+           case SINGLETON_SESSION_BEAN:
+              return clazz.isAnnotationPresent(SINGLETON) ?
+                     getSingletonEjbName(clazz) : getEjbNameFromDescriptor(clazz);
            case MESSAGE_DRIVEN_BEAN:
                return clazz.isAnnotationPresent(MESSAGE_DRIVEN) ?
                      getMessageDrivenEjbName(clazz) : getEjbNameFromDescriptor(clazz);
@@ -240,6 +249,12 @@ public class Seam
    {
       String statefulName = name( clazz.getAnnotation(STATEFUL) );
       return statefulName.equals("") ? unqualifyClassName(clazz) : statefulName;
+   }
+   
+   private static String getSingletonEjbName(Class<?> clazz)
+   {
+      String singletonName = name( clazz.getAnnotation(SINGLETON) );
+      return singletonName.equals("") ? unqualifyClassName(clazz) : singletonName;
    }
 
    private static String getEjbNameFromDescriptor(Class<?> clazz)

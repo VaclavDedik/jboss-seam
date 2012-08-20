@@ -1366,6 +1366,7 @@ public class Component extends Model
               return instantiateEntityBean();
            case STATELESS_SESSION_BEAN:
            case STATEFUL_SESSION_BEAN:
+           case SINGLETON_SESSION_BEAN:
               return instantiateSessionBean();
            case MESSAGE_DRIVEN_BEAN:
               throw new UnsupportedOperationException("Message-driven beans may not be called: " + name);
@@ -1385,6 +1386,7 @@ public class Component extends Model
               break;
            case STATELESS_SESSION_BEAN:
            case STATEFUL_SESSION_BEAN:
+           case SINGLETON_SESSION_BEAN:
               postConstructSessionBean(bean);
               break;
            case MESSAGE_DRIVEN_BEAN:
@@ -1830,6 +1832,12 @@ public class Component extends Model
                   return true;
                }
             }
+            
+            // No interface view
+            if (clazz.isInstance(bean)) {
+               return true;
+            }
+            
             return false;
       }
    }
@@ -2466,9 +2474,19 @@ public class Component extends Model
       Set<Class> interfaces = new LinkedHashSet<Class>();
       interfaces.add(Instance.class);
       interfaces.add(Proxy.class);
+      
+      boolean noInterfaceView = false;
+      
       if ( type.isSessionBean() )
       {
-          interfaces.addAll(businessInterfaces);
+          if (businessInterfaces.isEmpty())
+          {
+             noInterfaceView = true;
+          }
+          else
+          {
+             interfaces.addAll(businessInterfaces);
+          }
       }
       else
       {
@@ -2476,7 +2494,7 @@ public class Component extends Model
          interfaces.add(Mutable.class);
       }
       ProxyFactory factory = new ProxyFactory();
-      factory.setSuperclass( type==JAVA_BEAN ? beanClass : Object.class );
+      factory.setSuperclass( (type==JAVA_BEAN || noInterfaceView) ? beanClass : Object.class );
       factory.setInterfaces( interfaces.toArray( new Class[0] ) );
       factory.setFilter(FINALIZE_FILTER);
       return factory.createClass();
