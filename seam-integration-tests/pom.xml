@@ -134,6 +134,17 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-ui</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jboss.seam</groupId>
+					<artifactId>jboss-seam-jul</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 	
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -284,6 +295,7 @@
 				<dependency>
 					<groupId>org.jboss.as</groupId>
 					<artifactId>jboss-as-arquillian-container-managed</artifactId>
+					<scope>test</scope>
 				</dependency>
 			</dependencies>
 			<build>
@@ -339,6 +351,7 @@
 				<dependency>
 					<groupId>org.jboss.as</groupId>
 					<artifactId>jboss-as-arquillian-container-remote</artifactId>
+					<scope>test</scope>
 				</dependency>
 			</dependencies>
 			<build>

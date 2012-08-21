@@ -41,6 +41,7 @@ public class Deployments {
                         "<dependencies>" +
                         "<module name=\"org.javassist\"/>" +
                         "<module name=\"org.dom4j\"/>" +
+                        "<module name=\"org.apache.commons.collections\"/>" +
                         "</dependencies>" +
                         "</deployment>" +
                   "</jboss-deployment-structure>"), "jboss-deployment-structure.xml")
