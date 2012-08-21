@@ -14,7 +14,6 @@ public class SequenceAction implements Serializable {
    
    @Create
    public void create() {
-      System.out.println("XXX: create");
       sequence = new LinkedList<Long>();
    }
    
