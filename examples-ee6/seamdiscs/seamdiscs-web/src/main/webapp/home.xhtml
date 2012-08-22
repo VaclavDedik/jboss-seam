@@ -5,14 +5,12 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:rich="http://richfaces.org/rich"
                 xmlns:tr="http://myfaces.apache.org/trinidad"
                 template="layout/template.xhtml">
 
 <ui:define name="body">
     
-    <rich:panel>
-	    <f:facet name="header">Welcome to Seam Discs!</f:facet>
+    <tr:panelBox text="Welcome to Seam Discs!" background="medium">
     	<p>This application allows you to catalogue your favourite
     	bands, and albums they've released. It uses:</p>
     	
@@ -28,12 +26,8 @@
     	the techniques used in creating this application.</p>
     	
     	<p>You can log in as <code>administrator</code>/<code>administrator</code>.</p>
-    </rich:panel>
-    <rich:panel>
-	    <f:facet name="header">
-	    	<tr:outputText value="Artists &amp; Discs" />
-	    </f:facet>
-	    
+    </tr:panelBox>
+   <tr:panelBox text="Artists &amp; Discs" background="medium">
 	    	<tr:form>
 		    	<tr:tree value="#{artistHome.tree}" var="var">
 		    		<f:facet name="nodeStamp">
@@ -51,8 +45,7 @@
 		    		</f:facet>
 		    	</tr:tree>
 	    	</tr:form>
-    	
-    </rich:panel>
+   </tr:panelBox>
     
 </ui:define> 
 </ui:composition>

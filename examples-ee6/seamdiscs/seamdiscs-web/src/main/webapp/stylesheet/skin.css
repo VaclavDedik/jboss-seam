@@ -1,6 +1,14 @@
-af|column::header-text {color: white}
-af|showDetailHeader::level-one {color: grey}
-.AFDarkForeground:alias {color: grey}
+af|column::header-text {
+   color: white
+}
+
+af|showDetailHeader::level-one {
+   color: grey
+}
+
+.AFDarkForeground:alias {
+   color: grey
+}
 
 .source-code {
    font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace;
@@ -11,5 +19,25 @@ af|showDetailHeader::level-one {color: grey}
    line-height: 14px;
    padding: 5px;
    overflow: auto;
-   width: 420px;
+   width: 580px;
+}
+
+af|panelBox::body {
+   font-size: 11px;
+   width: 100%;
+}
+
+af|panelBox::header {
+   background-color: #BED6F8;
+   color: black;
+   font-weight: bold;
+   padding: 5px 10px;
+}
+
+af|panelBox::content {
+   background-color: white;
+   border-width: 1px;
+   border-color: #BED6F8;
+   border-style: solid;
+   padding: 10px;
 }

@@ -7,17 +7,13 @@
   <param-value>.xhtml</param-value>
  </context-param>
  <!-- Facelets development mode (disable in production) -->
- <context-param>
-  <param-name>javax.faces.PROJECT_STAGE</param-name>
-  <param-value>Development</param-value>
- </context-param>
+ <!--<context-param>-->
+  <!--<param-name>javax.faces.PROJECT_STAGE</param-name>-->
+  <!--<param-value>Development</param-value>-->
+ <!--</context-param>-->
  <context-param>
   <param-name>org.apache.myfaces.trinidad.CACHE_VIEW_ROOT</param-name>
   <param-value>false</param-value>
- </context-param>
- <context-param>
-  <param-name>org.richfaces.skin</param-name>
-  <param-value>blueSky</param-value>
  </context-param>
  <filter>
   <filter-name>Seam Filter</filter-name>

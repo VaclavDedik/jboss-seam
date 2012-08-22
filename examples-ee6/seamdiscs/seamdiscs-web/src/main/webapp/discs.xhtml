@@ -5,14 +5,12 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:rich="http://richfaces.org/rich"
                 xmlns:tr="http://myfaces.apache.org/trinidad"
                 template="layout/template.xhtml">
 
 <ui:define name="body">
-    
-    <rich:panel id="discs">
-   		<f:facet name="header">Discs</f:facet>
+
+   <tr:panelBox text="Discs" background="medium" id="discs">
     	<tr:form>
 	    	<tr:table value="#{discs.dataModel}" var="disc" rows="#{discs.maxResults}">
 	    		<tr:column sortable="true" sortProperty="disc.name">
@@ -43,7 +41,7 @@
 	    		</s:button>
 		    </tr:panelButtonBar>
     	</tr:form>
-    </rich:panel>
+    </tr:panelBox>
     
 </ui:define> 
 </ui:composition>

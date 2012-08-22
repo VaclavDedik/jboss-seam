@@ -5,16 +5,14 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:rich="http://richfaces.org/rich"
+                xmlns:tr="http://myfaces.apache.org/trinidad"
                 template="layout/template.xhtml">
 
 <ui:define name="body">
     
     <h:form id="login">
-    
-        <rich:panel>
-            <f:facet name="header">Login</f:facet>
-    
+
+       <tr:panelBox text="Login" background="medium">
             <p>You can log in as administrator/administrator</p>
         
             <div class="dialog">
@@ -31,7 +29,7 @@
                 </h:panelGrid>
             </div>
                 
-        </rich:panel>
+        </tr:panelBox>
             
         <div class="actionButtons">
             <h:commandButton value="Login" id="loginbutton" action="#{identity.login}"/>
