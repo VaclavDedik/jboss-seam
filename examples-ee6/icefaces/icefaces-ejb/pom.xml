@@ -19,11 +19,22 @@
             <groupId>org.jboss.seam</groupId>
             <artifactId>jboss-seam</artifactId>
             <type>ejb</type>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <scope>provided</scope>
+            <exclusions>
+               <exclusion>
+                  <artifactId>junit</artifactId>
+                  <groupId>junit</groupId>
+               </exclusion>
+               <exclusion>
+                  <artifactId>testng</artifactId>
+                  <groupId>org.testng</groupId>
+               </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jboss.spec.javax.servlet</groupId>
@@ -45,10 +56,10 @@
             <artifactId>hibernate-jpa-2.0-api</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.jbpm</groupId>
-            <artifactId>jbpm-jpdl</artifactId>
-            <version>3.2.3</version>
-        </dependency>
+<!--         <dependency> -->
+<!--             <groupId>org.jbpm</groupId> -->
+<!--             <artifactId>jbpm-jpdl</artifactId> -->
+<!--             <version>3.2.3</version> -->
+<!--         </dependency> -->
     </dependencies>
 </project>

@@ -11,10 +11,6 @@
       <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
    </listener>
     
-   <!--<listener>-->
-      <!--<listener-class>com.icesoft.faces.util.event.servlet.ContextEventRepeater</listener-class>-->
-   <!--</listener>-->
-     
  <!-- filters -->
     <servlet>
         <servlet-name>Seam Resource Servlet</servlet-name>
@@ -44,7 +40,12 @@
       <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
       <param-value>server</param-value>
    </context-param>
-    
+
+    <context-param>
+        <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>
+        
    <context-param>
       <param-name>facelets.DEVELOPMENT</param-name>
       <param-value>true</param-value>
@@ -55,78 +56,20 @@
         <param-value>.xhtml</param-value>
     </context-param>
     
-    <!--<context-param>-->
-        <!--<param-name>com.icesoft.faces.actionURLSuffix</param-name>-->
-        <!--<param-value>.seam</param-value>-->
-    <!--</context-param>-->
-
-    <!--<context-param>-->
-        <!--<param-name>com.icesoft.faces.synchronousUpdate</param-name>-->
-        <!--<param-value>false</param-value>-->
-    <!--</context-param>-->
-
-    <!--<context-param> -->
-        <!--<param-name>com.icesoft.faces.doJSFStateManagement</param-name>-->
-	    <!--<param-value>true</param-value>-->
-    <!--</context-param> -->
-
-    <!--<context-param>-->
-        <!--<param-name>com.icesoft.faces.standardRequestScope</param-name>-->
-        <!--<param-value>true</param-value>-->
-    <!--</context-param>-->
-   <!---->
-   <!--<context-param>-->
-        <!--<param-name>com.icesoft.faces.concurrentDOMViews</param-name>-->
-        <!--<param-value>true</param-value>-->
-    <!--</context-param>-->
-
-   	<!--  this is only for JBoss AS 6 - it contains JSF RI 2.0.2 which has a bug 
-		Remove this if you have upgraded to 2.0.3	-->   
-    <context-param>
-      <param-name>org.jboss.jbossfaces.JSF_CONFIG_NAME</param-name>
-      <param-value>Mojarra-1.2</param-value>
-   </context-param>
-       
-  <!-- servlets -->
    <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
-  <!--<servlet>-->
-        <!--<servlet-name>Persistent Faces Servlet</servlet-name>-->
-        <!--<servlet-class>com.icesoft.faces.webapp.xmlhttp.PersistentFacesServlet</servlet-class>-->
-        <!--<load-on-startup> 1 </load-on-startup>-->
-    <!--</servlet>-->
-    <!--<servlet>-->
-        <!--<servlet-name>Blocking Servlet</servlet-name>-->
-        <!--<servlet-class>com.icesoft.faces.webapp.xmlhttp.BlockingServlet</servlet-class>-->
-        <!--<load-on-startup> 1 </load-on-startup>-->
-    <!--</servlet>  -->
-    <!---->
-
-<!-- servlet mappings -->
-   <!--<servlet-mapping>-->
-        <!--<servlet-name>Persistent Faces Servlet</servlet-name>-->
-        <!--<url-pattern>*.seam</url-pattern>-->
-     <!--</servlet-mapping>-->
-
-     <!--<servlet-mapping>-->
-        <!--<servlet-name>Persistent Faces Servlet</servlet-name>-->
-        <!--<url-pattern>/xmlhttp/*</url-pattern>-->
-    <!--</servlet-mapping>-->
-    <!---->
-    <!--&lt;!&ndash; Blocking Servlet Mapping &ndash;&gt;-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>Blocking Servlet</servlet-name>-->
-        <!--<url-pattern>/block/*</url-pattern>-->
-    <!--</servlet-mapping>-->
-             
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.seam</url-pattern>
+    </servlet-mapping>
+    
     <session-config>
         <session-timeout>10</session-timeout> 
     </session-config>    
-
 
 </web-app>
 

@@ -36,12 +36,32 @@
          <scope>provided</scope>
       </dependency>
       <dependency>
+         <groupId>org.jboss.seam</groupId>
+         <artifactId>jboss-seam-ui</artifactId>
+         <exclusions>
+            <exclusion>
+               <groupId>org.jboss.seam</groupId>
+               <artifactId>jboss-seam-jul</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.jboss.seam</groupId>
+               <artifactId>jboss-seam</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+        <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>jboss-seam-debug</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jboss.seam</groupId>
+                    <artifactId>jboss-seam</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>      
+      <dependency>
          <groupId>commons-logging</groupId>
          <artifactId>commons-logging</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.el</groupId>
-         <artifactId>jboss-el</artifactId>
       </dependency>
       <dependency>
          <groupId>org.hibernate</groupId>
@@ -55,18 +75,14 @@
       </dependency>
       <dependency>
          <groupId>org.icefaces</groupId>
-         <artifactId>icefaces</artifactId>
+         <artifactId>icefaces-compat</artifactId>
          <version>3.0.1</version>
-      </dependency>
-      <dependency>
-         <groupId>org.icefaces</groupId>
-         <artifactId>icefaces-ace</artifactId>
-         <version>3.0.1</version>
-      </dependency>
-      <dependency>
-         <groupId>org.icefaces</groupId>
-         <artifactId>icepush</artifactId>
-         <version>3.0.1</version>
+         <exclusions>
+            <exclusion>
+               <artifactId>javax.faces</artifactId>
+               <groupId>org.glassfish</groupId>
+            </exclusion>
+         </exclusions>
       </dependency>
    </dependencies>
 

@@ -26,6 +26,26 @@
             <version>${project.version}</version>
             <type>ejb</type>
         </dependency>
+        <dependency>
+           <groupId>org.jboss.seam</groupId>
+           <artifactId>jboss-seam</artifactId>
+           <scope>runtime</scope>
+           <type>ejb</type>
+           <exclusions>
+              <exclusion>
+                 <artifactId>testng</artifactId>
+                 <groupId>org.testng</groupId>
+              </exclusion>
+              <exclusion>
+                 <artifactId>junit</artifactId>
+                 <groupId>junit</groupId>
+              </exclusion>
+              <exclusion>
+                 <artifactId>el-api</artifactId>
+                 <groupId>javax.el</groupId>
+              </exclusion>
+           </exclusions>
+        </dependency>
     </dependencies>
 
     <build>
