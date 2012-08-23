@@ -5,7 +5,7 @@
   xmlns:f="http://java.sun.com/jsf/core"
   xmlns:h="http://java.sun.com/jsf/html">
 <f:view>
-  <head>
+  <h:head>
    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
    <title>JBoss Seam Debug Page</title>
    <style type="text/css">
@@ -59,8 +59,8 @@
       }
    function foo() {}
    </script>
-  </head>
-  <body>
+  </h:head>
+  <h:body>
     <h1><h:outputLink value="#{facesContext.externalContext.request.requestURI}">JBoss Seam Debug Page</h:outputLink></h1>
     <div>
       This page allows you to browse and inspect components in any of the Seam
@@ -250,6 +250,6 @@
     </div>
     </f:subview>
 
-  </body>
+  </h:body>
 </f:view>
 </html>
