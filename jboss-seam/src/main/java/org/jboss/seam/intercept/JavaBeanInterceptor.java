@@ -81,16 +81,10 @@ public class JavaBeanInterceptor extends RootInterceptor
          }
       }
 
-      if ( markDirty(method) )
-      {
-         //mark it dirty each time it gets called 
-         //this flag will be ignored if the bean 
-         //implements Mutable
-         dirty = true;
-      }
-   
       //make default equals() method return true when called on itself
       //by unwrapping the proxy
+      //We don't let calling this equals make us dirty, as we assume it is without side effects
+      //this assumption is required, as Mojarra 2.0 calls equals during SessionMap.put, see JBSEAM-4966
       if ( method.getName().equals("equals") 
                && method.getParameterTypes().length == 1
                && method.getParameterTypes()[0] == Object.class
@@ -99,7 +93,14 @@ public class JavaBeanInterceptor extends RootInterceptor
             return interceptInvocation(method, new Object[]{bean});
       }
 
-      
+      if ( markDirty(method) )
+      {
+         //mark it dirty each time it gets called 
+         //this flag will be ignored if the bean 
+         //implements Mutable
+         dirty = true;
+      }   
+
       Object result = interceptInvocation(method, params);
       return result==bean ? proxy : result;
 
