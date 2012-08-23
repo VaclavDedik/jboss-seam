@@ -17,7 +17,6 @@ import org.jboss.seam.annotations.security.Restrict
 
 @Name("hotelSearch")
 @Scope(ScopeType.SESSION)
-@Restrict("#{identity.loggedIn}")
 class HotelSearchingAction
 {
 

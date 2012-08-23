@@ -20,7 +20,6 @@ import org.jboss.seam.annotations.security.Restrict
 
 @Scope(ScopeType.SESSION)
 @Name("bookingList")
-@Restrict("#{identity.loggedIn}")
 class BookingListAction implements Serializable
 {
 
