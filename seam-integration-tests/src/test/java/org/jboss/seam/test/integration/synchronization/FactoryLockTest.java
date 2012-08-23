@@ -1,10 +1,6 @@
-package org.jboss.seam.test.integration;
+package org.jboss.seam.test.integration.synchronization;
 
 import java.io.Serializable;
-
-import javax.ejb.Local;
-import javax.ejb.Remove;
-import javax.ejb.Stateful;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OverProtocol;
@@ -12,11 +8,11 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Factory;
-import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Synchronized;
 import org.jboss.seam.mock.JUnitSeamTest;
+import org.jboss.seam.test.integration.Deployments;
 import org.jboss.shrinkwrap.api.Archive;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -183,55 +179,6 @@ public class FactoryLockTest extends JUnitSeamTest
      }.run();
    }
 
-   @Local
-   public static interface FactoryLockLocal
-   {
-      public String getTestString();
-      public String testOtherFactory();
-      public String testSameFactory();
-      public void remove();
-   }
-
-   
-   @Stateful
-   @Scope(ScopeType.SESSION)
-   @Name("factoryLock.test")
-   @JndiName("java:global/test/FactoryLockTest$FactoryLockAction")
-   public static class FactoryLockAction implements FactoryLockLocal
-   {
-      public String testOtherFactory() {
-         try
-         {
-            Thread.sleep(500);
-         }
-         catch (InterruptedException e)
-         {
-            e.printStackTrace();
-         }
-         return (String)Component.getInstance("factoryLock.foo", true);
-      }
-      
-      // gets instance produced by this component's factory 
-      public String testSameFactory() {
-         try
-         {
-            Thread.sleep(500);
-         }
-         catch (InterruptedException e)
-         {
-            e.printStackTrace();
-         }
-         return (String)Component.getInstance("factoryLock.testString", true);
-      }
-      
-      @Factory(value="factoryLock.testString", scope=ScopeType.SESSION)
-      public String getTestString() {
-         return "testString";
-      }
-      @Remove
-      public void remove() {}
-   }
-   
    // Mostly the same as FactoryLockAction, except not a SFSB
    @SuppressWarnings("serial")
    @Scope(ScopeType.SESSION)
@@ -256,8 +203,6 @@ public class FactoryLockTest extends JUnitSeamTest
       public String getTestString() {
          return "testString";
       }
-      @Remove
-      public void remove() {}
    }
    
    

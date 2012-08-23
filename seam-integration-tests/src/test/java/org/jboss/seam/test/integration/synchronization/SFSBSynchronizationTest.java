@@ -1,11 +1,7 @@
-package org.jboss.seam.test.integration;
+package org.jboss.seam.test.integration.synchronization;
 
 import java.net.URL;
 import java.net.URLConnection;
-
-import javax.ejb.Local;
-import javax.ejb.Remove;
-import javax.ejb.Stateful;
 
 import org.apache.commons.io.IOUtils;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -13,11 +9,7 @@ import org.jboss.arquillian.container.test.api.OverProtocol;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.JndiName;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Synchronized;
+import org.jboss.seam.test.integration.Deployments;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.junit.Test;
@@ -111,51 +103,5 @@ public class SFSBSynchronizationTest
       thread2.join();
       
       assert !exceptionOccured;
-   }
-   
-   @Local
-   public static interface TestLocal
-   {
-      public String test1();
-      public String test2();
-      public void remove();
-   }
-
-   
-   @Stateful
-   @Scope(ScopeType.SESSION)
-   @Name("test")
-   @JndiName("java:global/test/SFSBSynchronizationTest$TestAction")
-   @Synchronized(timeout=10000)
-   public static class TestAction implements TestLocal
-   {
-      public String test1() {
-         try
-         {
-            Thread.sleep(100);
-         }
-         
-         catch (InterruptedException e)
-         {
-            e.printStackTrace();
-         }
-         return "test1";
-      }
-      
-      public String test2() {
-         try
-         {
-            Thread.sleep(100);
-         }
-         
-         catch (InterruptedException e)
-         {
-            e.printStackTrace();
-         }
-         return "test2";
-      }
-      
-      @Remove
-      public void remove() {}
    }
 }
