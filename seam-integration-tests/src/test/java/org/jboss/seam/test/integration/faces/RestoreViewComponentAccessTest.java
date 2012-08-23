@@ -15,6 +15,7 @@ import org.jboss.seam.test.integration.Deployments;
 import org.jboss.shrinkwrap.api.asset.Asset;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -118,21 +119,25 @@ public class RestoreViewComponentAccessTest
    }
    
    @Test
+   @Ignore
    public void testPage() throws Exception {
       testBase("page");
    }
    
    @Test
+   @Ignore
    public void testConversation() throws Exception {
       testBase("conversation");
    }
    
    @Test
+   @Ignore
    public void testSession() throws Exception {
       testBase("session");
    }
    
    @Test
+   @Ignore
    public void testApplication() throws Exception {
       testBase("application");
    }
