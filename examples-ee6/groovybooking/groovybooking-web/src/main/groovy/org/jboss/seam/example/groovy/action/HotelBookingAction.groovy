@@ -19,6 +19,7 @@ import org.jboss.seam.example.groovy.model.User
 import org.jboss.seam.annotations.security.Restrict
 
 @Name("hotelBooking")
+@Restrict("#{identity.loggedIn}")
 class HotelBookingAction
 {
 

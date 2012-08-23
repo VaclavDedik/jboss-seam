@@ -19,6 +19,7 @@ import org.jboss.seam.example.groovy.model.User
 import org.jboss.seam.annotations.security.Restrict
 
 @Scope(ScopeType.SESSION)
+@Restrict("#{identity.loggedIn}")
 @Name("bookingList")
 class BookingListAction implements Serializable
 {
