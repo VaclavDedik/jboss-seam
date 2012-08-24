@@ -64,7 +64,7 @@ public class BoundComponentConversationTest
                   "</html>"), "test.xhtml");
    }
    
-   @Ignore
+   @Ignore // JBSEAM-5020
    @Test
    public void testConversationRestoration() throws Exception
    {

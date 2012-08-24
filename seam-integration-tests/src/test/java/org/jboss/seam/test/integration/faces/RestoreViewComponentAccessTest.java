@@ -21,6 +21,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.test.integration.Deployments;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -82,8 +83,9 @@ public class RestoreViewComponentAccessTest
       return war;
    }
    
+   @Ignore // JBSEAM-4976
    @Test
-   public void testJBSEAM4976() throws Exception {
+   public void testConversationWithValidator() throws Exception {
       HtmlPage page = client.getPage(contextPath + "test.seam");
       assertTrue(page.getBody().getTextContent().contains("Sequence: "));
       

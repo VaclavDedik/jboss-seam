@@ -17,6 +17,7 @@ import org.jboss.seam.test.integration.Deployments;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.asset.Asset;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -85,6 +86,7 @@ public class PageScopedUIIncludeTest
       assertTrue(page.getBody().getTextContent().contains("Hello, xyzzy"));
    }
    
+   @Ignore // JBSEAM-5002
    @Test
    public void testComponent2() throws Exception
    {
