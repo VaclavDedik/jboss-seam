@@ -114,6 +114,7 @@ public class FactoryLockTest extends JUnitSeamTest
    }
    
    // This test is the same as sameFactoryLock test, except it uses a @Synchronized Seam component, instead of an SFSB
+   @Ignore // JBSEAM-5001
    @Test
    public void seamSynchronizedFactoryLock() 
        throws Exception 
