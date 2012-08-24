@@ -16,6 +16,7 @@ import org.testng.annotations.Test;
  */
 public class WebServicesTest extends AjaxWebDriverTest
 {
+   protected static final int WAIT_TIME = 1000;
 
    protected static final By HERE_LINK = By.partialLinkText("here");
    protected static final String SERVICE_PAGE_URL = "test.seam";
@@ -70,7 +71,16 @@ public class WebServicesTest extends AjaxWebDriverTest
    public void testGoToWSPage()
    {
       driver.get(serverURL + contextPath);
-      driver.findElement(HERE_LINK).click();
+      
+      try
+      {
+         Thread.sleep(WAIT_TIME);
+      }
+      catch (InterruptedException e)
+      {
+      }
+      
+      driver.findElement(HERE_LINK).clickAndWait();
 
       assertTrue("URL contains web services page", driver.getCurrentUrl().contains(SERVICE_PAGE_URL));
    }
@@ -245,12 +255,19 @@ public class WebServicesTest extends AjaxWebDriverTest
     */
    protected void loginService()
    {
-
       String username = "demo";
       String password = "demo";
 
       driver.get(serverURL + contextPath);
-      driver.findElement(HERE_LINK).click();
+      try
+      {
+         Thread.sleep(WAIT_TIME);
+      }
+      catch (InterruptedException e)
+      {
+      }
+      
+      driver.findElement(HERE_LINK).clickAndWait();
 
       driver.findElement(By.partialLinkText("Login")).clickAndWait();
 
