@@ -35,7 +35,7 @@ public class SessionScopedOutjectionOverwriteTest
    @ArquillianResource
    URL contextPath;
    
-   @Deployment(name="SessionScopedIdlingTest", testable=false)
+   @Deployment(name="SessionScopedOutjectionOverwriteTest", testable=false)
    @OverProtocol("Servlet 3.0") 
    public static Archive<?> createDeployment()
    {
@@ -51,8 +51,8 @@ public class SessionScopedOutjectionOverwriteTest
                   "<h:body>" +
                      "<h:form id='form'>" +
                      "<h:outputText value='Output: #{output}.'/>" +
-                     "<h:commandButton id='foo' action='#{foo.foo}' value='foo' />" +
-                     "<h:commandButton id='bar' action='#{bar.bar}' value='bar' />" +
+                     "<h:commandButton id='foo' action='#{faces.foo.foo}' value='foo' />" +
+                     "<h:commandButton id='bar' action='#{faces.bar.bar}' value='bar' />" +
                      "<h:commandButton id='nop' action='test' value='nop' />" +
                      "</h:form>" +
                    "</h:body>" + 
@@ -75,7 +75,7 @@ public class SessionScopedOutjectionOverwriteTest
    }
 
    @Scope(ScopeType.SESSION)
-   @Name("foo")
+   @Name("faces.foo")
    public static class Foo
    {
       @Out(scope=ScopeType.SESSION)
@@ -88,7 +88,7 @@ public class SessionScopedOutjectionOverwriteTest
    }
    
    @Scope(ScopeType.EVENT)
-   @Name("bar")
+   @Name("faces.bar")
    public static class Bar
    {
       @Out(scope=ScopeType.SESSION)
