@@ -307,5 +307,6 @@
     <classpathentry kind="lib" path="lib/jboss-seam-ui.jar"/>
     <classpathentry kind="lib" path="lib/wicket-datetime.jar"/>
     <classpathentry kind="lib" path="lib/wicket-extensions.jar"/>
+    <classpathentry kind="lib" path="lib/@driverJar@"/>
     <classpathentry kind="output" path="test-build"/>
 </classpath>
