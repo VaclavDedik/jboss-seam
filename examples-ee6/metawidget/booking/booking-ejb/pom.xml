@@ -77,7 +77,7 @@
                 </exclusion>   
                 <exclusion>
                     <groupId>org.jboss.spec.javax.faces</groupId>
-                    <artifactId>jboss-jsf-api_2.0_spec</artifactId>
+                    <artifactId>jboss-jsf-api_2.1_spec</artifactId>
                 </exclusion>   
                 <exclusion>
                     <groupId>javax.el</groupId>
@@ -87,7 +87,7 @@
         </dependency>
         <dependency>
             <groupId>org.jboss.spec.javax.faces</groupId>
-            <artifactId>jboss-jsf-api_2.0_spec</artifactId>
+            <artifactId>jboss-jsf-api_2.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
         

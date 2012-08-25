@@ -60,7 +60,7 @@
             <artifactId>jboss-seam-debug</artifactId>
             <exclusions>
             	<exclusion>
-            		<artifactId>jboss-jsf-api_2.0_spec</artifactId>
+            		<artifactId>jboss-jsf-api_2.1_spec</artifactId>
             		<groupId>org.jboss.spec.javax.faces</groupId>
             	</exclusion>
             </exclusions>
