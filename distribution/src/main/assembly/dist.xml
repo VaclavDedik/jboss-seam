@@ -238,6 +238,8 @@
                <exclude>META-INF/</exclude>
             </excludes>
          </unpackOptions>
+         <directoryMode>755</directoryMode>
+         <fileMode>755</fileMode>
          <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
       </dependencySet>
       
@@ -251,6 +253,8 @@
                <exclude>META-INF/</exclude>
             </excludes>
          </unpackOptions>
+         <directoryMode>755</directoryMode>
+         <fileMode>755</fileMode>
          <includes>
             <include>org.jboss.seam:jboss-seam:*:javadoc</include>
          </includes>
@@ -266,6 +270,8 @@
 				<exclude>META-INF/</exclude>
 			 </excludes>
 		 </unpackOptions>
+         <directoryMode>755</directoryMode>
+         <fileMode>755</fileMode>
          <includes>
             <include>org.jboss.seam:jboss-seam-ui:*:javadoc</include>
          </includes>
