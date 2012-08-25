@@ -25,7 +25,6 @@
     <classpathentry kind="lib" path="lib/hibernate-jpa-2.0-api.jar"/>
     <classpathentry kind="lib" path="lib/xercesImpl.jar"/>
     <classpathentry kind="lib" path="lib/commons-codec.jar"/>
-    <classpathentry kind="lib" path="lib/testng-jdk15.jar"/>
     <classpathentry kind="lib" path="lib/jackrabbit-jcr-commons.jar"/>
     <classpathentry kind="lib" path="lib/drools-core.jar"/>
     <classpathentry kind="lib" path="lib/itext.jar"/>
@@ -228,7 +227,6 @@
     <classpathentry kind="lib" path="lib/derby.jar"/>
     <classpathentry kind="lib" path="lib/gwt-servlet.jar"/>
     <classpathentry kind="lib" path="lib/avro.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-deployers-client-spi.jar"/>
     <classpathentry kind="lib" path="lib/slf4j-api.jar"/>
     <classpathentry kind="lib" path="lib/portlet-api.jar"/>
     <classpathentry kind="lib" path="lib/commons-collections.jar"/>
@@ -270,10 +268,8 @@
     <classpathentry kind="lib" path="lib/infinispan-core.jar"/>
     <classpathentry kind="lib" path="lib/jcip-annotations.jar"/>
     <classpathentry kind="lib" path="lib/servlet-api.jar"/>
-    <classpathentry kind="lib" path="lib/hsqldb.jar"/>
     <classpathentry kind="lib" path="lib/jboss-seam-flex.jar"/>
     <classpathentry kind="lib" path="lib/saaj-api.jar"/>
-    <classpathentry kind="lib" path="lib/cglib-nodep.jar"/>
     <classpathentry kind="lib" path="lib/yarfraw.jar"/>
     <classpathentry kind="lib" path="lib/spring-jdbc.jar"/>
     <classpathentry kind="lib" path="lib/drools-compiler.jar"/>
@@ -287,7 +283,6 @@
     <classpathentry kind="lib" path="lib/slf4j-log4j12.jar"/>
     <classpathentry kind="lib" path="lib/spring-asm.jar"/>
     <classpathentry kind="lib" path="lib/jboss-seam-rss.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-deployers-core-spi.jar"/>
     <classpathentry kind="lib" path="lib/solr-solrj.jar"/>
     <classpathentry kind="lib" path="lib/spring-core.jar"/>
     <classpathentry kind="lib" path="lib/hibernate-entitymanager.jar"/>

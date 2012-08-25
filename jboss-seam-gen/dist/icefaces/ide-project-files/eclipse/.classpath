@@ -43,6 +43,5 @@
     <classpathentry kind="lib" path="lib/lucene-core.jar" />
     <classpathentry kind="output" path="test-build"/>
     <classpathentry kind="lib" path="lib/icefaces.jar"/>
-    <classpathentry kind="lib" path="lib/icefaces-comps.jar"/>
-    <classpathentry kind="lib" path="lib/icefaces-facelets.jar"/>
+    <classpathentry kind="lib" path="lib/icefaces-compat.jar"/>
 </classpath>
