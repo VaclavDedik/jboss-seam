@@ -75,34 +75,48 @@
         
         <!-- metawidget -->
         <dependency>
-            <groupId>org.metawidget.modules</groupId>
-            <artifactId>metawidget-annotation</artifactId>
-            <version>2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.metawidget.modules.faces</groupId>
-            <artifactId>metawidget-facesannotation</artifactId>
-            <version>2.1</version>
-        </dependency>
-        <dependency>
             <groupId>org.metawidget.modules.faces</groupId>
             <artifactId>metawidget-faces</artifactId>
-            <version>2.1</version>
+            <version>2.3</version>
+            <exclusions>
+               <exclusion>
+                  <groupId>org.metawidget.modules</groupId>
+                  <artifactId>metawidget-core</artifactId>
+               </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.metawidget.modules.faces</groupId>
             <artifactId>metawidget-richfaces</artifactId>
-            <version>2.1</version>
+            <version>2.3</version>
+           <exclusions>
+              <exclusion>
+                 <groupId>org.metawidget.modules</groupId>
+                 <artifactId>metawidget-core</artifactId>
+              </exclusion>
+           </exclusions>
         </dependency>
         <dependency>
             <groupId>org.metawidget.modules</groupId>
             <artifactId>metawidget-jpa</artifactId>
-            <version>2.1</version>
+            <version>2.3</version>
+           <exclusions>
+              <exclusion>
+                 <groupId>org.metawidget.modules</groupId>
+                 <artifactId>metawidget-core</artifactId>
+              </exclusion>
+           </exclusions>
         </dependency>
         <dependency>
             <groupId>org.metawidget.modules</groupId>
             <artifactId>metawidget-beanvalidation</artifactId>
-            <version>2.1</version>
+            <version>2.3</version>
+           <exclusions>
+              <exclusion>
+                 <groupId>org.metawidget.modules</groupId>
+                 <artifactId>metawidget-core</artifactId>
+              </exclusion>
+           </exclusions>
         </dependency>
     </dependencies>
   
