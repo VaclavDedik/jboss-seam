@@ -1,163 +1,147 @@
 <?xml version="1.0"?>
 <project name="booking-test" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 
-    <!-- Give user a chance to override without editing this file or typing -D -->
-    <property file="${basedir}/../build.properties"/>
+   <!-- Give user a chance to override without editing this file or typing -D -->
+   <property file="${basedir}/../build.properties"/>
 
-    <property name="profile" value="dev"/>
-    <property file="${basedir}/../build-${profile}.properties"/>
+   <property name="profile" value="dev"/>
+   <property file="${basedir}/../build-${profile}.properties"/>
 
-    <!-- set global properties for this build -->
-    <property environment="env"/>
-    <property name="project.name" value="booking-ejb"/>
-    <property name="root.dir" value="../../.."/>
+   <!-- set global properties for this build -->
+   <property environment="env"/>
+   <property name="project.name" value="booking-ejb"/>
+   <property name="root.dir" value="../../.."/>
 
-    <property name="target.dir" value="target"/>
-    <property name="target.classes.dir" value="${target.dir}/classes"/>
-    <property name="target.test.classes.dir" value="${target.dir}/test-classes"/>
-    <property name="target.test.results.dir" value="${target.dir}/test-results"/>
+   <property name="target.dir" value="target"/>
+   <property name="target.classes.dir" value="${target.dir}/classes"/>
+   <property name="target.test.classes.dir" value="${target.dir}/test-classes"/>
+   <property name="target.test.results.dir" value="${target.dir}/test-results"/>
 
-    <property name="src.main.java.dir" value="${basedir}/src/main/java"/>
-    <property name="src.test.java.dir" value="${basedir}/src/test/java"/>
-    <property name="src.main.groovy.dir" value="${basedir}/src/main/groovy"/>
-    <property name="src.test.groovy.dir" value="${basedir}/src/test/groovy"/>
-    <property name="src.main.resources.dir" value="${basedir}/src/main/resources"/>
-    <property name="booking-ejb.dir" value="../booking-ejb"/>
+   <property name="src.main.java.dir" value="${basedir}/src/main/java"/>
+   <property name="src.test.java.dir" value="${basedir}/src/test/java"/>
+   <property name="src.main.groovy.dir" value="${basedir}/src/main/groovy"/>
+   <property name="src.test.groovy.dir" value="${basedir}/src/test/groovy"/>
+   <property name="src.main.resources.dir" value="${basedir}/src/main/resources"/>
+   <property name="booking.ear.dir" value="../booking-ear"/>
 
-    <property name="javac.debug" value="true"/>
-    <property name="javac.deprecation" value="false"/>
-    <property name="debug" value="false"/>
-    <property name="groovy.home" value="${env.GROOVY_HOME}"/>
+   <property name="javac.debug" value="true"/>
+   S
+   <property name="javac.deprecation" value="false"/>
+   <property name="debug" value="false"/>
+   <property name="groovy.home" value="${env.GROOVY_HOME}"/>
 
-    <path id="build.lib.classpath">
-        <fileset dir="${root.dir}/build/lib">
-            <include name="**/*.jar"/>
-        </fileset>
-    </path>
+   <path id="build.lib.classpath">
+      <fileset dir="${root.dir}/build/lib">
+         <include name="**/*.jar"/>
+      </fileset>
+   </path>
 
-    <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
-             uri="antlib:org.apache.maven.artifact.ant"
-             classpathref="build.lib.classpath"/>
+   <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
+            uri="antlib:org.apache.maven.artifact.ant"
+            classpathref="build.lib.classpath"/>
 
-    <artifact:dependencies pathId="build.classpath">
-        <dependency groupId="org.codehaus.groovy" artifactId="groovy" version="2.0.1"/>
-        <dependency groupId="org.codehaus.groovy" artifactId="groovy-ant" version="2.0.1"/>
-        <dependency groupId="commons-cli" artifactId="commons-cli" version="1.2"/>
-        <dependency groupId="junit" artifactId="junit" version="4.10" scope="test"/>
-    </artifact:dependencies>
+   <artifact:dependencies pathId="build.classpath">
+      <dependency groupId="org.codehaus.groovy" artifactId="groovy" version="2.0.1"/>
+      <dependency groupId="org.codehaus.groovy" artifactId="groovy-ant" version="2.0.1"/>
+      <dependency groupId="commons-cli" artifactId="commons-cli" version="1.2"/>
+      <dependency groupId="junit" artifactId="junit" version="4.10" scope="test"/>
+   </artifact:dependencies>
 
 
-    <artifact:dependencies pathId="project.classpath">
-        <dependency groupId="org.jboss.seam" artifactId="jboss-seam" scope="test" version="2.3.0.CR1-SNAPSHOT"/>
-        <dependency groupId="org.slf4j" artifactId="slf4j-log4j12" scope="test" version="1.6.1"/>
-        <dependency groupId="org.hibernate.javax.persistence" artifactId="hibernate-jpa-2.0-api" version="1.0.1.Final"/>
-        <dependency groupId="org.jboss.spec.javax.faces" artifactId="jboss-jsf-api_2.0_spec" version="1.0.0.Final"/>
-        <dependency groupId="javax.mail" artifactId="mail" version="1.4"/>
-        <dependency groupId="org.seleniumhq.selenium" artifactId="selenium-server" version="2.21.0"/>
-        <dependency groupId="org.seleniumhq.selenium" artifactId="selenium-java" version="2.21.0"/>
-        <dependency groupId="org.jboss.seam" artifactId="functional-tests" scope="test" version="2.3.0.CR1-SNAPSHOT"/>
-        <dependency groupId="junit" artifactId="junit" scope="test" version="4.8.2"/>
-        <dependency groupId="org.jboss.arquillian.junit" artifactId="arquillian-junit-container" scope="test"
-                    version="1.0.1.Final"/>
-        <dependency groupId="org.jboss.arquillian.protocol" artifactId="arquillian-protocol-servlet" scope="test"
-                    version="1.0.1.Final"/>
-        <dependency groupId="org.jboss.spec.javax.el" artifactId="jboss-el-api_2.2_spec" version="1.0.0.Final"/>
-    </artifact:dependencies>
+   <artifact:dependencies pathId="project.classpath">
+      <dependency groupId="org.jboss.seam" artifactId="jboss-seam" scope="test" version="2.3.0.CR1-SNAPSHOT"/>
+      <dependency groupId="org.slf4j" artifactId="slf4j-log4j12" scope="test" version="1.6.1"/>
+      <dependency groupId="org.hibernate.javax.persistence" artifactId="hibernate-jpa-2.0-api" version="1.0.1.Final"/>
+      <dependency groupId="org.jboss.spec.javax.faces" artifactId="jboss-jsf-api_2.0_spec" version="1.0.0.Final"/>
+      <dependency groupId="javax.mail" artifactId="mail" version="1.4"/>
+      <dependency groupId="org.seleniumhq.selenium" artifactId="selenium-server" version="2.21.0"/>
+      <dependency groupId="org.seleniumhq.selenium" artifactId="selenium-java" version="2.21.0"/>
+      <dependency groupId="org.jboss.seam" artifactId="functional-tests" scope="test" version="2.3.0.CR1-SNAPSHOT"/>
+      <dependency groupId="junit" artifactId="junit" scope="test" version="4.8.2"/>
+      <dependency groupId="org.jboss.arquillian.junit" artifactId="arquillian-junit-container" scope="test"
+                  version="1.0.1.Final"/>
+      <dependency groupId="org.jboss.arquillian.protocol" artifactId="arquillian-protocol-servlet" scope="test"
+                  version="1.0.1.Final"/>
+      <dependency groupId="org.jboss.spec.javax.el" artifactId="jboss-el-api_2.2_spec" version="1.0.0.Final"/>
+   </artifact:dependencies>
 
-    <path id="combined.project.classpath">
-        <path refid="project.classpath"/>
-        <pathelement location="resources-integration/arquillian.xml"/>
-        <pathelement location="${booking-ejb.dir}/target/classes"/>
-    </path>
+   <path id="combined.project.classpath">
+      <path refid="project.classpath"/>
+      <pathelement location="resources-integration/arquillian.xml"/>
+      <pathelement location="${booking-ejb.dir}/target/classes"/>
+   </path>
 
-    <path id="combined.test.project.classpath">
-        <path refid="combined.project.classpath"/>
-        <pathelement location="${target.test.classes.dir}"/>
-    </path>
+   <path id="combined.test.project.classpath">
+      <path refid="combined.project.classpath"/>
+      <pathelement location="${target.test.classes.dir}"/>
+   </path>
 
-    <taskdef name="groovyc"
-             classname="org.codehaus.groovy.ant.Groovyc"
-             classpathref="build.classpath"/>
+   <taskdef name="groovyc"
+            classname="org.codehaus.groovy.ant.Groovyc"
+            classpathref="build.classpath"/>
 
-    <target name="clean" description="Cleans up the target directory">
-        <delete dir="${target.dir}"/>
-    </target>
+   <target name="clean" description="Cleans up the target directory">
+      <delete dir="${target.dir}"/>
+   </target>
 
-    <target name="init">
-        <tstamp/>
-        <mkdir dir="${target.dir}"/>
-        <mkdir dir="${src.main.java.dir}"/>
-        <condition property="src.test.java.dir.exists">
-            <available file="${src.test.java.dir}" type="dir"/>
-        </condition>
-        <condition property="booking-ejb.target.class.dir.exists">
-            <available file="${booking-ejb.dir}/target/classes" type="dir"/>
-        </condition>
-        <echo message="${src.test.java.dir.exists}"/>
-        <echo message="${booking-ejb.target.class.dir.exists}"/>
-    </target>
+   <target name="init">
+      <tstamp/>
+      <mkdir dir="${target.dir}"/>
+      <mkdir dir="${src.main.java.dir}"/>
+      <condition property="src.test.java.dir.exists">
+         <available file="${src.test.java.dir}" type="dir"/>
+      </condition>
+      <condition property="booking-ejb.target.class.dir.exists">
+         <available file="${booking-ejb.dir}/target/classes" type="dir"/>
+      </condition>
+      <echo message="${src.test.java.dir.exists}"/>
+      <echo message="${booking-ejb.target.class.dir.exists}"/>
+   </target>
 
-    <target name="build-booking-ejb" depends="init" unless="booking-ejb.target.class.dir.exists">
-        <ant antfile="${booking-ejb.dir}/build.xml" target="compile" inheritAll="false"/>
-    </target>
+   <target name="build-booking-ear" depends="init" unless="booking.ear.target.class.dir.exists">
+      <ant antfile="${booking.ear.dir}/build.xml" target="package" inheritAll="false"/>
+   </target>
 
-    <target name="compile" depends="build-booking-ejb"
-            description="Compile the Java source code">
-        <mkdir dir="${target.classes.dir}"/>
-        <javac source="1.6" target="1.6" debug="${javac.debug}"
-               deprecation="${javac.deprecation}"
-               nowarn="on"
-               includeantruntime="false">
-            <src path="${src.main.java.dir}"/>
-            <classpath refid="combined.project.classpath"/>
-            <compilerarg value="-Xlint"/>
-        </javac>
-    </target>
+   <target name="compile" depends="build-booking-ejb"
+           description="Compile the Java source code">
+      <mkdir dir="${target.classes.dir}"/>
+      <javac source="1.6" target="1.6" debug="${javac.debug}"
+             deprecation="${javac.deprecation}"
+             nowarn="on"
+             includeantruntime="false">
+         <src path="${src.main.java.dir}"/>
+         <classpath refid="combined.project.classpath"/>
+         <compilerarg value="-Xlint"/>
+      </javac>
+   </target>
 
-    <target name="compile-test" depends="compile"
-            if="${src.test.java.dir.exists}">
-        <mkdir dir="${target.test.classes.dir}"/>
-        <property name="myclasspath" refid="combined.project.classpath"/>
+   <target name="compile-test" depends="compile"
+           if="${src.test.java.dir.exists}">
+      <mkdir dir="${target.test.classes.dir}"/>
+      <property name="myclasspath" refid="combined.project.classpath"/>
 
-        <!-- Emit the property to the ant console -->
-        <echo message="Classpath = ${myclasspath}"/>
+      <javac source="1.6" target="1.6" debug="${javac.debug}"
+             deprecation="${javac.deprecation}"
+             destdir="${target.test.classes.dir}"
+             nowarn="on"
+             includeantruntime="false">
+         <compilerarg value="-Xlint"/>
+         <src path="${src.test.java.dir}"/>
+         <classpath refid="combined.project.classpath"/>
+      </javac>
+   </target>
 
-        <javac source="1.6" target="1.6" debug="${javac.debug}"
-               deprecation="${javac.deprecation}"
-               destdir="${target.test.classes.dir}"
-               nowarn="on"
-               includeantruntime="false">
-            <compilerarg value="-Xlint"/>
-            <src path="${src.test.java.dir}"/>
-            <classpath refid="combined.project.classpath"/>
-        </javac>
-    </target>
+   <target name="test" depends="compile-test"
+           if="${src.test.java.dir.exists}">
+      <mkdir dir="${target.test.classes.dir}"/>
+      <mkdir dir="${target.test.results.dir}"/>
+      <junit printsummary="yes" haltonfailure="yes">
+         <formatter type="xml"/>
+         <classpath refid="combined.test.project.classpath"/>
+         <batchtest fork="yes" todir="${target.test.results.dir}">
+            <fileset dir="${target.test.classes.dir}"/>
+         </batchtest>
+      </junit>
+   </target>
 
-    <target name="test" depends="compile-test"
-            if="${src.test.java.dir.exists}">
-        <mkdir dir="${target.test.classes.dir}"/>
-        <mkdir dir="${target.test.results.dir}"/>
-        <junit printsummary="yes" haltonfailure="yes">
-            <formatter type="xml"/>
-            <classpath refid="combined.test.project.classpath"/>
-            <batchtest fork="yes" todir="${target.test.results.dir}">
-                <fileset dir="${target.test.classes.dir}"/>
-            </batchtest>
-        </junit>
-    </target>
-
-    <target name="package" depends="test"
-            description="Compile the Java source code">
-        <jar destfile="${target.dir}/booking-ejb.jar"
-             basedir="${target.classes.dir}">
-            <metainf dir="${src.main.resources.dir}/META-INF">
-                <include name="ejb-jar.xml"/>
-                <include name="persistence.xml"/>
-            </metainf>
-            <fileset dir="${src.main.resources.dir}">
-                <include name="import.sql"/>
-                <include name="seam.properties"/>
-            </fileset>
-        </jar>
-    </target>
 </project>
