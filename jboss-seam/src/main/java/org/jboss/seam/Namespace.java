@@ -55,6 +55,11 @@ public class Namespace
       return Component.getInstance( qualifyName(key), create );
    }
 
+   public Object getComponentInstance(String key, boolean create, boolean allowAutocreation)
+   {
+      return Component.getInstance( qualifyName(key), create, allowAutocreation );
+   }
+
    private String qualifyName(String key)
    {
       return name==null ? key : name + key;

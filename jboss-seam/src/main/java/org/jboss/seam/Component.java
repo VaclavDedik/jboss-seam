@@ -2361,8 +2361,9 @@ public class Component extends Model
          {
             log.debug("trying to inject with hierarchical context search: " + name);
          }
-         boolean create = in.create() && !org.jboss.seam.contexts.Lifecycle.isDestroying();
-         result = getInstanceInAllNamespaces(name, create);
+         boolean allowAutocreation = !org.jboss.seam.contexts.Lifecycle.isDestroying();
+         boolean create = in.create() && allowAutocreation;
+         result = getInstanceInAllNamespaces(name, create, allowAutocreation);
       }
       else
       {
@@ -2407,15 +2408,15 @@ public class Component extends Model
       }
    }
 
-   private Object getInstanceInAllNamespaces(String name, boolean create)
+   private Object getInstanceInAllNamespaces(String name, boolean create, boolean allowAutocreation)
    {
       Object result;
-      result = getInstance(name, create);
+      result = getInstance(name, create, allowAutocreation);
       if (result==null)
       {
          for ( Namespace namespace: getImports() )
          {
-            result = namespace.getComponentInstance(name, create);
+            result = namespace.getComponentInstance(name, create, allowAutocreation);
             if (result!=null) break; 
          }
       }
@@ -2423,7 +2424,7 @@ public class Component extends Model
       {
          for ( Namespace namespace: Init.instance().getGlobalImports() )
          {
-            result = namespace.getComponentInstance(name, create);
+            result = namespace.getComponentInstance(name, create, allowAutocreation);
             if (result!=null) break; 
          }
       }
@@ -2432,7 +2433,7 @@ public class Component extends Model
          Namespace namespace = getNamespace();
          if (namespace!=null)
          {
-            result = namespace.getComponentInstance(name, create);
+            result = namespace.getComponentInstance(name, create, allowAutocreation);
          }
       }
       return result;
