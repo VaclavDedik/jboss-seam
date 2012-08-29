@@ -1,13 +1,6 @@
 <?xml version="1.0"?>
 <project name="booking-ejb" basedir="."
          xmlns:artifact="antlib:org.apache.maven.artifact.ant">
-
-    <!-- Give user a chance to override without editing this file or typing -D -->
-    <property file="${basedir}/../build.properties"/>
-
-    <property name="profile" value="dev"/>
-    <property file="${basedir}/../build-${profile}.properties"/>
-
     <!-- set global properties for this build -->
     <property environment="env"/>
     <property name="project.name" value="booking-ejb"/>

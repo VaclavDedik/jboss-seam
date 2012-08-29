@@ -1,12 +1,6 @@
 <?xml version="1.0"?>
 <project name="booking-test" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 
-   <!-- Give user a chance to override without editing this file or typing -D -->
-   <property file="${basedir}/../build.properties"/>
-
-   <property name="profile" value="dev"/>
-   <property file="${basedir}/../build-${profile}.properties"/>
-
    <!-- set global properties for this build -->
    <property environment="env"/>
    <property name="project.name" value="booking-ejb"/>
@@ -16,6 +10,7 @@
    <property name="target.classes.dir" value="${target.dir}/classes"/>
    <property name="target.test.classes.dir" value="${target.dir}/test-classes"/>
    <property name="target.test.results.dir" value="${target.dir}/test-results"/>
+   <property name="target.test.reports.dir" value="${target.dir}/test-reports"/>
 
    <property name="src.main.java.dir" value="${basedir}/src/main/java"/>
    <property name="src.test.java.dir" value="${basedir}/src/test/java"/>
@@ -23,12 +18,11 @@
    <property name="src.test.groovy.dir" value="${basedir}/src/test/groovy"/>
    <property name="src.main.resources.dir" value="${basedir}/src/main/resources"/>
    <property name="booking.ear.dir" value="../booking-ear"/>
-
+   <property name="booking.ejb.dir" value="../booking-ejb"/>
    <property name="javac.debug" value="true"/>
-   S
    <property name="javac.deprecation" value="false"/>
    <property name="debug" value="false"/>
-   <property name="groovy.home" value="${env.GROOVY_HOME}"/>
+   <property name="version.jbossas7" value="${7.1.1.Final}"/>
 
    <path id="build.lib.classpath">
       <fileset dir="${root.dir}/build/lib">
@@ -47,7 +41,6 @@
       <dependency groupId="junit" artifactId="junit" version="4.10" scope="test"/>
    </artifact:dependencies>
 
-
    <artifact:dependencies pathId="project.classpath">
       <dependency groupId="org.jboss.seam" artifactId="jboss-seam" scope="test" version="2.3.0.CR1-SNAPSHOT"/>
       <dependency groupId="org.slf4j" artifactId="slf4j-log4j12" scope="test" version="1.6.1"/>
@@ -62,13 +55,13 @@
                   version="1.0.1.Final"/>
       <dependency groupId="org.jboss.arquillian.protocol" artifactId="arquillian-protocol-servlet" scope="test"
                   version="1.0.1.Final"/>
-      <dependency groupId="org.jboss.spec.javax.el" artifactId="jboss-el-api_2.2_spec" version="1.0.0.Final"/>
+      <dependency groupId="org.jboss.spec.javax.el" artifactId="jboss-el-api_2.2_spec" version="1.0.2.Final"/>
+      <dependency groupId="org.jboss.as" artifactId="jboss-as-arquillian-container-managed" version="7.1.2.Final" scope="test"/>
    </artifact:dependencies>
 
    <path id="combined.project.classpath">
       <path refid="project.classpath"/>
-      <pathelement location="resources-integration/arquillian.xml"/>
-      <pathelement location="${booking-ejb.dir}/target/classes"/>
+      <pathelement location="${booking.ejb.dir}/target/classes"/>
    </path>
 
    <path id="combined.test.project.classpath">
@@ -87,22 +80,29 @@
    <target name="init">
       <tstamp/>
       <mkdir dir="${target.dir}"/>
-      <mkdir dir="${src.main.java.dir}"/>
       <condition property="src.test.java.dir.exists">
          <available file="${src.test.java.dir}" type="dir"/>
       </condition>
-      <condition property="booking-ejb.target.class.dir.exists">
-         <available file="${booking-ejb.dir}/target/classes" type="dir"/>
+      <condition property="booking.ejb.target.classes.dir.exists">
+         <available file="${booking.ejb.dir}/target/classes" type="dir"/>
       </condition>
-      <echo message="${src.test.java.dir.exists}"/>
-      <echo message="${booking-ejb.target.class.dir.exists}"/>
+      <condition property="booking.ear.exists">
+         <available file="${booking.ear.dir}/target/seam-booking.ear" type="dir"/>
+      </condition>
+      <condition property="src.main.java.exists">
+         <available file="${src.main.java.dir}" type="dir"/>
+      </condition>
    </target>
 
-   <target name="build-booking-ear" depends="init" unless="booking.ear.target.class.dir.exists">
+   <target name="build-booking-ejb" depends="init" unless="booking.ejb.target.classes.dir.exists">
+      <ant antfile="${booking.ejb.dir}/build.xml" target="compile" inheritAll="false"/>
+   </target>
+
+   <target name="build-booking-ear" depends="build-booking-ejb" unless="booking.ear.exists">
       <ant antfile="${booking.ear.dir}/build.xml" target="package" inheritAll="false"/>
    </target>
 
-   <target name="compile" depends="build-booking-ejb"
+   <target name="compile" depends="build-booking-ear" if="${src.main.java.exists}"
            description="Compile the Java source code">
       <mkdir dir="${target.classes.dir}"/>
       <javac source="1.6" target="1.6" debug="${javac.debug}"
@@ -119,7 +119,7 @@
            if="${src.test.java.dir.exists}">
       <mkdir dir="${target.test.classes.dir}"/>
       <property name="myclasspath" refid="combined.project.classpath"/>
-
+      <echo message="${myclasspath}"/>
       <javac source="1.6" target="1.6" debug="${javac.debug}"
              deprecation="${javac.deprecation}"
              destdir="${target.test.classes.dir}"
@@ -131,17 +131,43 @@
       </javac>
    </target>
 
+   <target name="process-test-resources" depends="compile-test">
+      <copy todir="${target.test.classes.dir}">
+         <fileset dir="${src.test.resources}">
+            <include name="*"/>
+         </fileset>
+         <fileset dir="${src.test.resources-integration}">
+            <include name="*"/>
+         </fileset>
+         <fileset dir="${booking.web.dir}/src/main/resources">
+            <include name="*"/>
+         </fileset>
+         <filterset begintoken="${" endtoken="}">
+            <filter token="version.jbossas7" value="${version.jbossas7}"/>
+         </filterset>
+      </copy>
+   </target>
+
    <target name="test" depends="compile-test"
            if="${src.test.java.dir.exists}">
       <mkdir dir="${target.test.classes.dir}"/>
       <mkdir dir="${target.test.results.dir}"/>
+      <mkdir dir="${target.test.reports.dir}"/>
       <junit printsummary="yes" haltonfailure="yes">
          <formatter type="xml"/>
          <classpath refid="combined.test.project.classpath"/>
          <batchtest fork="yes" todir="${target.test.results.dir}">
-            <fileset dir="${target.test.classes.dir}"/>
+            <fileset dir="${target.test.classes.dir}">
+                <exclude name="**/Deployments.class"/>
+            </fileset>
          </batchtest>
       </junit>
+      <junitreport todir="${target.test.reports.dir}">
+         <fileset dir="${target.test.results.dir}">
+            <include name="TEST-*.xml" />
+         </fileset>
+         <report todir="${target.test.reports.dir}" />
+      </junitreport>
    </target>
 
 </project>

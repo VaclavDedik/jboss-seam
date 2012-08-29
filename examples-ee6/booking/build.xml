@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<project name="booking" basedir="." >
+
+   <property name="booking.ear.dir" value="${basedir}/booking-ear"/>
+   <property name="booking.ejb.dir" value="${basedir}/booking-ejb"/>
+   <property name="booking.web.dir" value="${basedir}/booking-web"/>
+   <property name="booking.tests.dir" value="${basedir}/booking-tests"/>
+
+   <target name="clean" description="Cleans up the target directory in every module">
+      <ant antfile="${booking.ear.dir}/build.xml" target="clean" inheritAll="false"/>
+      <ant antfile="${booking.ejb.dir}/build.xml" target="clean" inheritAll="false"/>
+      <ant antfile="${booking.web.dir}/build.xml" target="clean" inheritAll="false"/>
+      <ant antfile="${booking.tests.dir}/build.xml" target="clean" inheritAll="false"/>
+   </target>
+
+   <target name="package" description="Cleans up the target directory in every module">
+      <ant antfile="${booking.ear.dir}/build.xml" target="package" inheritAll="false"/>
+      <ant antfile="${booking.ejb.dir}/build.xml" target="package" inheritAll="false"/>
+      <ant antfile="${booking.web.dir}/build.xml" target="package" inheritAll="false"/>
+   </target>
+
+</project>

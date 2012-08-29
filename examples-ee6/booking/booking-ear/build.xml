@@ -2,12 +2,6 @@
 <project name="booking-ejb" basedir="."
          xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 
-   <!-- Give user a chance to override without editing this file or typing -D -->
-   <property file="${basedir}/../build.properties"/>
-
-   <property name="profile" value="dev"/>
-   <property file="${basedir}/../build-${profile}.properties"/>
-
    <!-- set global properties for this build -->
    <property environment="env"/>
    <property name="project.name" value="booking-ear"/>
@@ -18,7 +12,7 @@
    <property name="target.dir" value="target"/>
    <property name="target.classes.dir" value="${target.dir}/classes"/>
    <property name="target.test-classes.dir" value="${target.dir}/test-classes"/>
-   <property name="target.ear.dir" value="${target.dir}/ear"/>
+   <property name="target.booking.ear.dir" value="${target.dir}/booking-ear"/>
 
    <property name="src.main.resources.dir" value="${basedir}/src/main/resources"/>
    <property name="src.main.application.dir" value="${basedir}/src/main/application"/>
@@ -55,6 +49,11 @@
       </dependency>
    </artifact:dependencies>
 
+   <artifact:dependencies pathId="lib.classpath" filesetId="lib.fileset">
+      <dependency groupId="org.jboss.el" artifactId="jboss-el" version="1.0_02.CR6">
+         <exclusion groupId="javax.el" artifactId="el-api"/>
+      </dependency>
+   </artifact:dependencies>
 
    <target name="clean" description="Cleans up the target directory">
       <delete dir="${target.dir}"/>
@@ -89,7 +88,7 @@
    </target>
 
    <target name="package" depends="build-booking-web" description="Compile the Java source code">
-      <copy todir="${target.ear.dir}">
+      <copy todir="${target.booking.ear.dir}">
          <fileset refid="project.fileset"/>
          <!-- This mapper strips off all leading directory information -->
          <chainedmapper>
@@ -98,15 +97,21 @@
          </chainedmapper>
       </copy>
 
-      <ear destfile="${target.dir}/booking.ear"
+      <copy todir="${target.booking.ear.dir}/lib">
+         <fileset refid="lib.fileset"/>
+         <mapper type="flatten"/>
+      </copy>
+
+      <ear destfile="${target.dir}/seam-booking.ear"
            appxml="${src.main.resources.dir}/application-for-ant-only.xml">
          <metainf dir="${src.main.application.dir}/META-INF">
             <include name="*.xml"/>
          </metainf>
+
          <fileset file="${booking.ejb.dir}/target/booking-ejb.jar"/>
          <fileset file="${booking.web.dir}/target/booking-web.war"/>
-         <fileset dir="${target.ear.dir}">
-            <include name="*.jar"/>
+         <fileset dir="${target.booking.ear.dir}">
+            <include name="**/*"/>
          </fileset>
       </ear>
    </target>

@@ -1,144 +1,145 @@
 <?xml version="1.0"?>
 <project name="booking-ejb" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+   <!-- set global properties for this build -->
+   <property environment="env"/>
+   <property name="project.name" value="booking-ejb"/>
+   <property name="root.dir" value="../../.."/>
 
-    <!-- Give user a chance to override without editing this file or typing -D -->
-    <property file="${basedir}/../build.properties"/>
+   <property name="target.dir" value="target"/>
+   <property name="target.classes.dir" value="${target.dir}/classes"/>
+   <property name="target.web.dir" value="${target.dir}/webapp"/>
 
-    <property name="profile" value="dev"/>
-    <property file="${basedir}/../build-${profile}.properties"/>
+   <property name="src.main.java.dir" value="${basedir}/src/main/java"/>
+   <property name="src.test.java.dir" value="${basedir}/src/test/java"/>
+   <property name="src.main.groovy.dir" value="${basedir}/src/main/groovy"/>
+   <property name="src.test.groovy.dir" value="${basedir}/src/test/groovy"/>
+   <property name="src.main.webapp.dir" value="${basedir}/src/main/webapp"/>
+   <property name="src.main.resources.dir" value="${basedir}/src/main/resources"/>
 
-    <!-- set global properties for this build -->
-    <property environment="env"/>
-    <property name="project.name" value="booking-ejb"/>
-    <property name="root.dir" value="../../.."/>
+   <property name="javac.debug" value="true"/>
+   <property name="javac.deprecation" value="false"/>
+   <property name="debug" value="false"/>
+   <property name="groovy.home" value="${env.GROOVY_HOME}"/>
 
-    <property name="target.dir" value="target"/>
-    <property name="target.classes.dir" value="${target.dir}/classes"/>
-    <property name="target.web.dir" value="${target.dir}/webapp"/>
+   <property name="jndiPattern" value="java:app/booking-ejb/#{ejbName}"/>
+   <property name="distributable" value="false"/>
 
-    <property name="src.main.java.dir" value="${basedir}/src/main/java"/>
-    <property name="src.test.java.dir" value="${basedir}/src/test/java"/>
-    <property name="src.main.groovy.dir" value="${basedir}/src/main/groovy"/>
-    <property name="src.test.groovy.dir" value="${basedir}/src/test/groovy"/>
-    <property name="src.main.webapp.dir" value="${basedir}/src/main/webapp"/>
-    <property name="src.main.resources.dir" value="${basedir}/src/main/resources"/>
+   <path id="build.lib.classpath">
+      <fileset dir="${root.dir}/build/lib">
+         <include name="**/*.jar"/>
+      </fileset>
+   </path>
 
-    <property name="javac.debug" value="true"/>
-    <property name="javac.deprecation" value="false"/>
-    <property name="debug" value="false"/>
-    <property name="groovy.home" value="${env.GROOVY_HOME}"/>
+   <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
+            uri="antlib:org.apache.maven.artifact.ant"
+            classpathref="build.lib.classpath"/>
 
-    <path id="build.lib.classpath">
-        <fileset dir="${root.dir}/build/lib">
-            <include name="**/*.jar"/>
-        </fileset>
-    </path>
+   <artifact:dependencies pathId="build.classpath">
+      <dependency groupId="org.codehaus.groovy" artifactId="groovy" version="2.0.1"/>
+      <dependency groupId="org.codehaus.groovy" artifactId="groovy-ant" version="2.0.1"/>
+      <dependency groupId="commons-cli" artifactId="commons-cli" version="1.2"/>
+      <dependency groupId="junit" artifactId="junit" version="4.10" scope="test"/>
+   </artifact:dependencies>
 
-    <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
-             uri="antlib:org.apache.maven.artifact.ant"
-             classpathref="build.lib.classpath"/>
+   <artifact:dependencies pathId="project.classpath" filesetId="project.fileset" useScope="runtime">
+      <dependency groupId="org.jboss.seam" artifactId="jboss-seam-ui" version="2.3.0.CR1-SNAPSHOT" scope="runtime">
+         <exclusion groupId="org.jboss.seam" artifactId="jboss-seam-jul"/>
+         <exclusion groupId="org.jboss.seam" artifactId="jboss-seam"/>
+      </dependency>
+      <dependency groupId="org.jboss.seam" artifactId="jboss-seam-debug" version="2.3.0.CR1-SNAPSHOT"
+                  scope="compile">
+         <exclusion groupId="org.jboss.seam" artifactId="jboss-seam"/>
+      </dependency>
+      <dependency groupId="commons-beanutils" artifactId="commons-beanutils" version="1.8.3" scope="compile">
+         <exclusion groupId="commons-collections" artifactId="commons-collections"/>
+      </dependency>
+      <dependency groupId="commons-logging" artifactId="commons-logging" version="1.1.1" scope="compile"/>
+      <dependency groupId="org.richfaces.ui" artifactId="richfaces-components-ui" version="4.3.0.20120802-M1"
+                  scope="compile"/>
+      <dependency groupId="org.richfaces.core" artifactId="richfaces-core-impl" version="4.3.0.20120802-M1"
+                  scope="compile"/>
+      <dependency groupId="org.richfaces.core" artifactId="richfaces-core-api" version="4.3.0.20120802-M1"
+                  scope="compile"/>
+   </artifact:dependencies>
 
-    <artifact:dependencies pathId="build.classpath">
-           <dependency groupId="org.codehaus.groovy" artifactId="groovy" version="2.0.1"/>
-           <dependency groupId="org.codehaus.groovy" artifactId="groovy-ant" version="2.0.1"/>
-           <dependency groupId="commons-cli" artifactId="commons-cli" version="1.2"/>
-           <dependency groupId="junit" artifactId="junit" version="4.10" scope="test"/>
-    </artifact:dependencies>
+   <taskdef name="groovyc"
+            classname="org.codehaus.groovy.ant.Groovyc"
+            classpathref="build.classpath"/>
 
-    <artifact:dependencies pathId="project.classpath" filesetId="project.fileset" useScope="runtime">
-        <dependency groupId="org.jboss.seam" artifactId="jboss-seam-ui" version="2.3.0.CR1-SNAPSHOT" scope="runtime">
-            <exclusion groupId="org.jboss.seam" artifactId="jboss-seam-jul"/>
-            <exclusion groupId="org.jboss.seam" artifactId="jboss-seam"/>
-        </dependency>
-        <dependency groupId="org.jboss.seam" artifactId="jboss-seam-debug" version="2.3.0.CR1-SNAPSHOT"
-                    scope="compile">
-            <exclusion groupId="org.jboss.seam" artifactId="jboss-seam"/>
-        </dependency>
-        <dependency groupId="commons-beanutils" artifactId="commons-beanutils" version="1.8.3" scope="compile">
-            <exclusion groupId="commons-collections" artifactId="commons-collections"/>
-        </dependency>
-        <dependency groupId="commons-logging" artifactId="commons-logging" version="1.1.1" scope="compile"/>
-        <dependency groupId="org.richfaces.ui" artifactId="richfaces-components-ui" version="4.3.0.20120802-M1"
-                    scope="compile"/>
-        <dependency groupId="org.richfaces.core" artifactId="richfaces-core-impl" version="4.3.0.20120802-M1"
-                    scope="compile"/>
-        <dependency groupId="org.richfaces.core" artifactId="richfaces-core-api" version="4.3.0.20120802-M1"
-                    scope="compile"/>
-    </artifact:dependencies>
+   <target name="clean" description="Cleans up the target directory">
+      <delete dir="${target.dir}"/>
+   </target>
 
-    <taskdef name="groovyc"
-             classname="org.codehaus.groovy.ant.Groovyc"
-             classpathref="build.classpath"/>
+   <target name="init">
+      <tstamp/>
+      <mkdir dir="${target.dir}"/>
+      <mkdir dir="${src.main.java.dir}"/>
+      <condition property="src.test.java.dir.exists">
+         <available file="${src.test.java.dir}" type="dir"/>
+      </condition>
+   </target>
 
-    <target name="clean" description="Cleans up the target directory">
-        <delete dir="${target.dir}"/>
-    </target>
+   <target name="compile" depends="init"
+           description="Compile the Java source code">
+      <mkdir dir="${target.classes.dir}"/>
+      <javac source="1.6" target="1.6" debug="${javac.debug}"
+             deprecation="${javac.deprecation}"
+             nowarn="on"
+             includeantruntime="false">
+         <src path="${src.main.java.dir}"/>
+         <classpath refid="project.classpath"/>
+         <compilerarg value="-Xlint"/>
+      </javac>
+   </target>
 
-    <target name="init">
-        <tstamp/>
-        <mkdir dir="${target.dir}"/>
-        <mkdir dir="${src.main.java.dir}"/>
-        <condition property="src.test.java.dir.exists">
-            <available file="${src.test.java.dir}" type="dir"/>
-        </condition>
-    </target>
+   <target name="compile-test" depends="compile"
+           if="${src.test.java.dir.exists}">
+      <mkdir dir="${target.test-classes.dir}"/>
+      <javac source="1.6" target="1.6" debug="${javac.debug}"
+             deprecation="${javac.deprecation}"
+             destdir="${target.test-classes.dir}"
+             nowarn="on"
+             includeantruntime="false">
+         <compilerarg value="-Xlint"/>
+         <src path="${src.test.java.dir}"/>
+         <classpath refid="project.classpath"/>
+      </javac>
+   </target>
 
-    <target name="compile" depends="init"
-            description="Compile the Java source code">
-        <mkdir dir="${target.classes.dir}"/>
-        <javac source="1.6" target="1.6" debug="${javac.debug}"
-               deprecation="${javac.deprecation}"
-               nowarn="on"
-               includeantruntime="false">
-            <src path="${src.main.java.dir}"/>
-            <classpath refid="project.classpath"/>
-            <compilerarg value="-Xlint"/>
-        </javac>
-    </target>
+   <target name="test" depends="compile-test"
+           if="${src.test.java.dir.exists}">
+      <junit printsummary="yes" haltonfailure="yes">
+         <formatter type="xml"/>
+         <classpath refid="project.classpath"/>
+         <batchtest fork="yes" todir="${test.results.dir}">
+            <fileset dir="${target.test.classes.dir}"/>
+         </batchtest>
+      </junit>
+   </target>
 
-    <target name="compile-test" depends="compile"
-            if="${src.test.java.dir.exists}">
-        <mkdir dir="${target.test-classes.dir}"/>
-        <javac source="1.6" target="1.6" debug="${javac.debug}"
-               deprecation="${javac.deprecation}"
-               destdir="${target.test-classes.dir}"
-               nowarn="on"
-               includeantruntime="false">
-            <compilerarg value="-Xlint"/>
-            <src path="${src.test.java.dir}"/>
-            <classpath refid="project.classpath"/>
-        </javac>
-    </target>
+   <target name="package" depends="compile"
+           description="Compile the Java source code">
+      <mkdir dir="${target.web.dir}"/>
+      <copy todir="${target.web.dir}">
+         <fileset dir="${src.main.webapp.dir}"/>
+         <filterset begintoken="${" endtoken="}">
+            <filter token="jndiPattern" value="${jndiPattern}"/>
+            <filter token="distributable" value="${distributable}"/>
+         </filterset>
+      </copy>
 
-    <target name="test" depends="compile-test"
-            if="${src.test.java.dir.exists}">
-        <junit printsummary="yes" haltonfailure="yes">
-            <formatter type="xml"/>
-            <classpath refid="project.classpath"/>
-            <batchtest fork="yes" todir="${test.results.dir}">
-                <fileset dir="${target.test.classes.dir}"/>
-            </batchtest>
-        </junit>
-    </target>
+      <copy todir="${target.web.dir}/WEB-INF/lib">
+         <fileset refid="project.fileset"/>
+         <!-- This mapper strips off all leading directory information -->
+         <mapper type="flatten"/>
+      </copy>
 
-    <target name="package" depends="compile"
-            description="Compile the Java source code">
-        <mkdir dir="${target.web.dir}"/>
-        <copy todir="${target.web.dir}">
-            <fileset dir="${src.main.webapp.dir}"/>
-        </copy>
-        <copy todir="${target.web.dir}/WEB-INF/lib">
-            <fileset refid="project.fileset"/>
-            <!-- This mapper strips off all leading directory information -->
-            <mapper type="flatten"/>
-        </copy>
-
-        <war destfile="${target.dir}/booking-web.war"
-             webxml="${target.web.dir}/WEB-INF/web.xml">
-            <fileset dir="${target.web.dir}">
-                <exclude name="/WEB-INF/web.xml"/>
-            </fileset>
-            <classes dir="${target.classes.dir}"/>
-        </war>
-    </target>
+      <war destfile="${target.dir}/booking-web.war"
+           webxml="${target.web.dir}/WEB-INF/web.xml">
+         <fileset dir="${target.web.dir}">
+            <exclude name="/WEB-INF/web.xml"/>
+         </fileset>
+         <classes dir="${target.classes.dir}"/>
+      </war>
+   </target>
 </project>
