@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<project name="dvdstore" basedir=".">
+
+   <property name="dvdstore.ear.dir" value="${basedir}/dvdstore-ear"/>
+   <property name="dvdstore.ejb.dir" value="${basedir}/dvdstore-ejb"/>
+   <property name="dvdstore.web.dir" value="${basedir}/dvdstore-web"/>
+   <property name="dvdstore.tests.dir" value="${basedir}/dvdstore-tests"/>
+
+   <target name="clean" description="Cleans up the target directory in every module">
+      <ant antfile="${dvdstore.ear.dir}/build.xml" target="clean" inheritAll="false"/>
+      <ant antfile="${dvdstore.ejb.dir}/build.xml" target="clean" inheritAll="false"/>
+      <ant antfile="${dvdstore.web.dir}/build.xml" target="clean" inheritAll="false"/>
+      <ant antfile="${dvdstore.tests.dir}/build.xml" target="clean" inheritAll="false"/>
+   </target>
+
+   <target name="package" description="Cleans up the target directory in every module">
+      <ant antfile="${dvdstore.ear.dir}/build.xml" target="package" inheritAll="false"/>
+      <ant antfile="${dvdstore.ejb.dir}/build.xml" target="package" inheritAll="false"/>
+      <ant antfile="${dvdstore.web.dir}/build.xml" target="package" inheritAll="false"/>
+   </target>
+
+</project>
