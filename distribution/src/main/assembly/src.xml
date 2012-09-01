@@ -20,6 +20,12 @@
             <exclude>**/*.log</exclude>
             <exclude>**/${project.build.directory}/**</exclude>
             <exclude>**/jar-dependencies/**</exclude>
+            <exclude>**/.settings/**</exclude>
+            <exclude>**/.idea/**</exclude>
+            <exclude>**/.project</exclude>
+            <exclude>**/.classpath</exclude>
+            <exclude>**/*.iml</exclude>
+            <exclude>.gitignore</exclude>
         </excludes>
       </fileSet>
       

@@ -15,13 +15,16 @@
    <fileSets>
       <!-- Examples only -->
       <fileSet>
-        <directory>target/dependency</directory>
-        <outputDirectory>.</outputDirectory>
-        <includes>
-            <include>examples-ee6/</include>
-        </includes>
+        <directory>../examples-ee6</directory>
+        <outputDirectory>./examples</outputDirectory>
+        <useDefaultExcludes>true</useDefaultExcludes>
         <excludes>
-            <exclude>examples/wiki/</exclude>
+            <exclude>**/*.log</exclude>
+            <exclude>**/${project.build.directory}/**</exclude>
+            <exclude>**/jar-dependencies/**</exclude>
+            <exclude>**/.settings/**</exclude>
+            <exclude>**/.project</exclude>
+            <exclude>**/.classpath</exclude>
         </excludes>
       </fileSet>
       
