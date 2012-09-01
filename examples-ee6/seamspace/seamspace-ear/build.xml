@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<project name="seamspace-ear" basedir="."
+         xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+
+   <!-- set global properties for this build -->
+   <property environment="env"/>
+   <property name="project.name" value="seamspace-ear"/>
+
+   <property name="root.dir" value="../../.."/>
+   <property name="project.parent.dir" value=".."/>
+
+   <property name="target.dir" value="target"/>
+   <property name="target.classes.dir" value="${target.dir}/classes"/>
+   <property name="target.test-classes.dir" value="${target.dir}/test-classes"/>
+   <property name="target.seamspace.ear.dir" value="${target.dir}/seamspace-ear"/>
+
+   <property name="src.main.resources.dir" value="${basedir}/src/main/resources"/>
+   <property name="src.main.application.dir" value="${basedir}/src/main/application"/>
+
+   <property name="seamspace.ejb.dir" value="${project.parent.dir}/seamspace-ejb"/>
+   <property name="seamspace.web.dir" value="${project.parent.dir}/seamspace-web"/>
+
+
+   <path id="build.lib.classpath">
+      <fileset dir="${root.dir}/build/lib">
+         <include name="**/*.jar"/>
+      </fileset>
+   </path>
+
+   <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
+            uri="antlib:org.apache.maven.artifact.ant"
+            classpathref="build.lib.classpath"/>
+
+   <artifact:dependencies pathId="build.classpath">
+      <dependency groupId="org.codehaus.groovy" artifactId="groovy" version="2.0.1"/>
+      <dependency groupId="org.codehaus.groovy" artifactId="groovy-ant" version="2.0.1"/>
+      <dependency groupId="commons-cli" artifactId="commons-cli" version="1.2"/>
+      <dependency groupId="junit" artifactId="junit" version="4.10" scope="test"/>
+   </artifact:dependencies>
+
+
+   <artifact:dependencies pathId="project.classpath" filesetId="project.fileset">
+      <dependency groupId="org.jboss.seam" artifactId="jboss-seam" version="2.3.0.CR1-SNAPSHOT" scope="compile">
+         <exclusion groupId="org.testng" artifactId="testng"/>
+         <exclusion groupId="junit" artifactId="junit"/>
+         <exclusion groupId="org.jboss.spec.javax.faces" artifactId="jboss-jsf-api_2.0_spec"/>
+         <exclusion groupId="javax.el" artifactId="el-api"/>
+         <exclusion groupId="org.jboss.el" artifactId="jboss-el"/>
+      </dependency>
+      <dependency groupId="commons-digester" artifactId="commons-digester" version="2.1"/>
+      <dependency groupId="org.drools" artifactId="drools-core" version="5.1.1">
+         <exclusion groupId="joda-time" artifactId="joda-time"/>
+      </dependency>
+      <dependency groupId="org.drools" artifactId="drools-compiler" version="5.1.1"/>
+      <dependency groupId="org.drools" artifactId="drools-decisiontables" version="5.1.1"/>
+      <dependency groupId="org.drools" artifactId="drools-templates" version="5.1.1"/>
+      <dependency groupId="net.sourceforge.jexcelapi" artifactId="jxl" version="2.6.10">
+         <exclusion groupId="log4j" artifactId="log4j"/>
+      </dependency>
+   </artifact:dependencies>
+
+   <artifact:dependencies pathId="lib.classpath" filesetId="lib.fileset">
+      <dependency groupId="org.hibernate" artifactId="hibernate-entitymanager" version="4.1.0.Final"
+                  scope="provided"/>
+      <dependency groupId="org.hibernate" artifactId="hibernate-validator" version="4.2.0.Final" scope="provided"/>
+      <dependency groupId="org.hibernate.javax.persistence" artifactId="hibernate-jpa-2.0-api" version="1.0.1.Final"
+                  scope="provided"/>
+      <dependency groupId="org.jboss.seam" artifactId="jboss-seam" version="2.3.0.CR1-SNAPSHOT" scope="compile">
+         <exclusion groupId="org.testng" artifactId="testng"/>
+         <exclusion groupId="junit" artifactId="junit"/>
+         <exclusion groupId="org.jboss.spec.javax.faces" artifactId="jboss-jsf-api_2.0_spec"/>
+         <exclusion groupId="javax.el" artifactId="el-api"/>
+      </dependency>
+      <dependency groupId="org.jboss.spec.javax.ejb" artifactId="jboss-ejb-api_3.1_spec" version="1.0.1.Final"
+                  scope="provided"/>
+      <dependency groupId="org.jboss.spec.javax.faces" artifactId="jboss-jsf-api_2.0_spec" version="1.0.0.Final"
+                  scope="provided"/>
+      <dependency groupId="org.jboss.spec.javax.servlet" artifactId="jboss-servlet-api_3.0_spec" version="1.0.0.Final"
+                  scope="provided"/>
+      <dependency groupId="org.drools" artifactId="drools-core" version="5.1.1">
+         <exclusion groupId="joda-time" artifactId="joda-time"/>
+      </dependency>
+      <dependency groupId="org.drools" artifactId="drools-compiler" version="5.1.1"/>
+      <dependency groupId="org.drools" artifactId="drools-decisiontables" version="5.1.1"/>
+      <dependency groupId="org.drools" artifactId="drools-templates" version="5.1.1"/>
+      <dependency groupId="org.drools" artifactId="knowledge-api" version="5.3.3.Final" />
+      <dependency groupId="net.sourceforge.jexcelapi" artifactId="jxl" version="2.6.10">
+         <exclusion groupId="log4j" artifactId="log4j"/>
+      </dependency>
+   </artifact:dependencies>
+
+   <target name="clean" description="Cleans up the target directory">
+      <delete dir="${target.dir}"/>
+   </target>
+
+   <target name="init">
+      <tstamp/>
+      <mkdir dir="${target.dir}"/>
+      <condition property="seamspace.jar.exists">
+         <and>
+            <available file="${seamspace.ejb.dir}/target" type="dir"/>
+            <available file="${seamspace.ejb.dir}/target/seamspace-ejb.jar"/>
+         </and>
+      </condition>
+      <condition property="seamspace.web.exists">
+         <and>
+            <available file="${seamspace.web.dir}/target" type="dir"/>
+            <available file="${seamspace.web.dir}/target/seamspace-web.war"/>
+         </and>
+      </condition>
+      <echo message="${seamspace.jar.exists}"/>
+      <echo message="${seamspace.war.exists}"/>
+
+   </target>
+
+   <target name="build-seamspace-ejb" depends="init" unless="seamspace.jar.exists">
+      <ant antfile="${seamspace.ejb.dir}/build.xml" target="package" inheritAll="false"/>
+   </target>
+
+   <target name="build-seamspace-web" depends="build-seamspace-ejb" unless="seamspace.web.exists">
+      <ant antfile="${seamspace.web.dir}/build.xml" target="package" inheritAll="false"/>
+   </target>
+
+   <target name="package" depends="build-seamspace-web" description="Compile the Java source code">
+      <copy todir="${target.seamspace.ear.dir}">
+         <fileset refid="project.fileset"/>
+         <!-- This mapper strips off all leading directory information -->
+         <chainedmapper>
+            <mapper type="flatten"/>
+            <mapper type="glob" from="jboss-seam*.jar" to="jboss-seam.jar"/>
+         </chainedmapper>
+      </copy>
+
+      <copy todir="${target.seamspace.ear.dir}/lib">
+         <fileset refid="lib.fileset"/>
+         <mapper type="flatten"/>
+      </copy>
+
+      <ear destfile="${target.dir}/seam-seamspace.ear"
+           appxml="${src.main.resources.dir}/application-for-ant-only.xml">
+         <metainf dir="${src.main.application.dir}/META-INF">
+            <include name="*.xml"/>
+         </metainf>
+
+         <fileset file="${seamspace.ejb.dir}/target/seamspace-ejb.jar"/>
+         <fileset file="${seamspace.web.dir}/target/seamspace-web.war"/>
+         <fileset dir="${target.seamspace.ear.dir}">
+            <include name="**/*"/>
+         </fileset>
+      </ear>
+   </target>
+</project>

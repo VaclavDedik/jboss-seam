@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<project name="seamspace" basedir="." >
+
+   <property name="seamspace.ear.dir" value="${basedir}/seamspace-ear"/>
+   <property name="seamspace.ejb.dir" value="${basedir}/seamspace-ejb"/>
+   <property name="seamspace.web.dir" value="${basedir}/seamspace-web"/>
+   <property name="seamspace.tests.dir" value="${basedir}/seamspace-tests"/>
+
+   <target name="clean" description="Cleans up the target directory in every module">
+      <ant antfile="${seamspace.ear.dir}/build.xml" target="clean" inheritAll="false"/>
+      <ant antfile="${seamspace.ejb.dir}/build.xml" target="clean" inheritAll="false"/>
+      <ant antfile="${seamspace.web.dir}/build.xml" target="clean" inheritAll="false"/>
+      <ant antfile="${seamspace.tests.dir}/build.xml" target="clean" inheritAll="false"/>
+   </target>
+
+   <target name="package" description="Cleans up the target directory in every module">
+      <ant antfile="${seamspace.ear.dir}/build.xml" target="package" inheritAll="false"/>
+      <ant antfile="${seamspace.ejb.dir}/build.xml" target="package" inheritAll="false"/>
+      <ant antfile="${seamspace.web.dir}/build.xml" target="package" inheritAll="false"/>
+   </target>
+
+</project>

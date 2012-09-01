@@ -1,0 +1,198 @@
+<?xml version="1.0"?>
+<project name="seamspace-test" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+
+   <!-- set global properties for this build -->
+   <property environment="env"/>
+   <property name="project.name" value="seamspace-ejb"/>
+   <property name="root.dir" value="../../.."/>
+
+   <property name="target.dir" value="target"/>
+   <property name="target.classes.dir" value="${target.dir}/classes"/>
+   <property name="target.test.classes.dir" value="${target.dir}/test-classes"/>
+   <property name="target.test.results.dir" value="${target.dir}/test-results"/>
+   <property name="target.test.reports.dir" value="${target.dir}/test-reports"/>
+
+   <property name="src.main.java.dir" value="${basedir}/src/main/java"/>
+   <property name="src.test.java.dir" value="${basedir}/src/test/java"/>
+   <property name="src.test.resources.dir" value="${basedir}/src/test/resources"/>
+   <property name="src.test.resources-integration.dir" value="${basedir}/src/test/resources-integration"/>
+   <property name="src.main.groovy.dir" value="${basedir}/src/main/groovy"/>
+   <property name="src.test.groovy.dir" value="${basedir}/src/test/groovy"/>
+   <property name="src.main.resources.dir" value="${basedir}/src/main/resources"/>
+   <property name="seamspace.ear.dir" value="../seamspace-ear"/>
+   <property name="seamspace.ejb.dir" value="../seamspace-ejb"/>
+   <property name="seamspace.web.dir" value="../seamspace-web"/>
+   <property name="javac.debug" value="true"/>
+   <property name="javac.deprecation" value="false"/>
+   <property name="debug" value="false"/>
+   <property name="version.jbossas7" value="7.1.1.Final"/>
+
+   <path id="build.lib.classpath">
+      <fileset dir="${root.dir}/build/lib">
+         <include name="**/*.jar"/>
+      </fileset>
+   </path>
+
+   <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
+            uri="antlib:org.apache.maven.artifact.ant"
+            classpathref="build.lib.classpath"/>
+
+   <artifact:dependencies pathId="build.classpath">
+      <dependency groupId="org.codehaus.groovy" artifactId="groovy" version="2.0.1"/>
+      <dependency groupId="org.codehaus.groovy" artifactId="groovy-ant" version="2.0.1"/>
+      <dependency groupId="commons-cli" artifactId="commons-cli" version="1.2"/>
+      <dependency groupId="junit" artifactId="junit" version="4.10" scope="test"/>
+
+   </artifact:dependencies>
+
+   <artifact:dependencies pathId="project.classpath" filesetId="project.fileset">
+      <dependency groupId="org.jboss.seam" artifactId="jboss-seam" scope="test" version="2.3.0.CR1-SNAPSHOT"/>
+      <dependency groupId="org.slf4j" artifactId="slf4j-log4j12" scope="test" version="1.6.1"/>
+      <dependency groupId="org.hibernate.javax.persistence" scope="test" artifactId="hibernate-jpa-2.0-api" version="1.0.1.Final"/>
+      <dependency groupId="org.jboss.spec.javax.faces" scope="test" artifactId="jboss-jsf-api_2.0_spec" version="1.0.0.Final"/>
+      <dependency groupId="javax.mail" artifactId="mail" version="1.4"/>
+      <dependency groupId="org.seleniumhq.selenium" artifactId="selenium-server" version="2.21.0"/>
+      <dependency groupId="org.seleniumhq.selenium" artifactId="selenium-java" version="2.21.0"/>
+      <dependency groupId="org.jboss.seam" artifactId="functional-tests" scope="test" version="2.3.0.CR1-SNAPSHOT"/>
+      <dependency groupId="junit" artifactId="junit" scope="test" version="4.8.2"/>
+      <dependency groupId="org.jboss.arquillian.junit" artifactId="arquillian-junit-container" scope="test"
+                  version="1.0.1.Final"/>
+      <dependency groupId="org.jboss.arquillian.protocol" artifactId="arquillian-protocol-servlet" scope="test"
+                  version="1.0.1.Final"/>
+      <dependency groupId="org.jboss.spec.javax.el" artifactId="jboss-el-api_2.2_spec" version="1.0.2.Final"/>
+      <dependency groupId="org.jboss.as" artifactId="jboss-as-arquillian-container-managed" version="7.1.2.Final" scope="test"/>
+   </artifact:dependencies>
+
+   <artifact:dependencies pathId="jbossas.classpath" filesetId="jbossas.fileset" >
+      <dependency groupId="org.jboss.as" artifactId="jboss-as-dist" version="7.1.1.Final" type="zip"/>
+   </artifact:dependencies>
+
+   <path id="combined.project.classpath">
+      <path refid="project.classpath"/>
+      <pathelement location="${seamspace.ejb.dir}/target/seamspace-ejb.jar"/>
+   </path>
+
+   <path id="combined.test.project.classpath">
+      <path refid="combined.project.classpath"/>
+      <pathelement location="${target.test.classes.dir}"/>
+   </path>
+
+   <taskdef name="groovyc"
+            classname="org.codehaus.groovy.ant.Groovyc"
+            classpathref="build.classpath"/>
+
+   <target name="clean" description="Cleans up the target directory">
+      <delete dir="${target.dir}"/>
+   </target>
+
+   <target name="init">
+      <tstamp/>
+      <mkdir dir="${target.dir}"/>
+      <condition property="src.test.java.dir.exists">
+         <available file="${src.test.java.dir}" type="dir"/>
+      </condition>
+      <condition property="seamspace.ejb.target.classes.dir.exists">
+         <available file="${seamspace.ejb.dir}/target/classes" type="dir"/>
+      </condition>
+      <condition property="seamspace.ear.exists">
+         <available file="${seamspace.ear.dir}/target/seam-seamspace.ear" type="dir"/>
+      </condition>
+      <condition property="src.main.java.exists">
+         <available file="${src.main.java.dir}" type="dir"/>
+      </condition>
+   </target>
+
+   <target name="build-seamspace-ejb" depends="init" unless="seamspace.ejb.target.classes.dir.exists">
+      <ant antfile="${seamspace.ejb.dir}/build.xml" target="compile" inheritAll="false"/>
+   </target>
+
+   <target name="build-seamspace-ear" depends="build-seamspace-ejb" unless="seamspace.ear.exists">
+      <ant antfile="${seamspace.ear.dir}/build.xml" target="package" inheritAll="false"/>
+   </target>
+
+   <target name="compile" depends="build-seamspace-ear" if="${src.main.java.exists}"
+           description="Compile the Java source code">
+      <mkdir dir="${target.classes.dir}"/>
+      <javac source="1.6" target="1.6" debug="${javac.debug}"
+             deprecation="${javac.deprecation}"
+             nowarn="on"
+             includeantruntime="false">
+         <src path="${src.main.java.dir}"/>
+         <classpath refid="combined.project.classpath"/>
+         <compilerarg value="-Xlint"/>
+      </javac>
+   </target>
+
+   <target name="compile-test" depends="compile"
+           if="${src.test.java.dir.exists}">
+      <mkdir dir="${target.test.classes.dir}"/>
+
+      <javac source="1.6" target="1.6" debug="${javac.debug}"
+             deprecation="${javac.deprecation}"
+             destdir="${target.test.classes.dir}"
+             nowarn="on"
+             includeantruntime="false">
+         <compilerarg value="-Xlint"/>
+         <src path="${src.test.java.dir}"/>
+         <classpath refid="combined.test.project.classpath"/>
+      </javac>
+   </target>
+
+   <target name="process-test-resources" depends="compile-test">
+      <mkdir dir="${src.test.resources-integration.dir}"/>
+      <copy todir="${target.test.classes.dir}">
+         <!--<fileset dir="${src.test.resources.dir}">-->
+            <!--<include name="**/*"/>-->
+         <!--</fileset>-->
+         <fileset dir="${src.test.resources-integration.dir}">
+            <include name="*"/>
+         </fileset>
+         <!--<fileset dir="${seamspace.web.dir}/src/main/resources">-->
+            <!--<include name="*"/>-->
+         <!--</fileset>-->
+         <filterset begintoken="${" endtoken="}">
+            <filter token="version.jbossas7" value="${version.jbossas7}"/>
+         </filterset>
+      </copy>
+   </target>
+
+   <target name="process-jbossas" depends="process-test-resources">
+      <copy todir="${target.dir}">
+         <fileset refid="jbossas.fileset" />
+         <mapper type="flatten"/>
+      </copy>
+      <unzip dest="${target.dir}">
+         <fileset dir="${target.dir}">
+            <include name="**/*.zip"/>
+            <exclude name="**/tmp*.zip"/>
+         </fileset>
+      </unzip>
+   </target>
+
+   <target name="test" depends="process-jbossas"
+           if="${src.test.java.dir.exists}">
+      <mkdir dir="${target.test.classes.dir}"/>
+      <mkdir dir="${target.test.results.dir}"/>
+      <mkdir dir="${target.test.reports.dir}"/>
+      <property name="myclasspath" refid="combined.test.project.classpath"/>
+      <echo message="${myclasspath}"/>
+      <junit printsummary="yes" haltonfailure="no">
+         <formatter type="xml"/>
+         <classpath refid="combined.test.project.classpath"/>
+         <batchtest fork="yes" todir="${target.test.results.dir}">
+            <fileset dir="${target.test.classes.dir}">
+               <exclude name="**/Deployments.class"/>
+               <exclude name="**/selenium/*"/>
+               <include name="**/*Test.class"/>
+            </fileset>
+         </batchtest>
+      </junit>
+      <junitreport todir="${target.test.reports.dir}">
+         <fileset dir="${target.test.results.dir}">
+            <include name="TEST-*.xml"/>
+         </fileset>
+         <report todir="${target.test.reports.dir}"/>
+      </junitreport>
+   </target>
+
+</project>
