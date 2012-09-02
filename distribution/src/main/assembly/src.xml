@@ -26,6 +26,7 @@
             <exclude>**/.classpath</exclude>
             <exclude>**/*.iml</exclude>
             <exclude>.gitignore</exclude>
+            <exclude>release-process.txt</exclude>
         </excludes>
       </fileSet>
       
