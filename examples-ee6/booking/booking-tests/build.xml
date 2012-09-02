@@ -42,14 +42,14 @@
    </artifact:dependencies>
 
    <artifact:dependencies pathId="project.classpath">
-      <dependency groupId="org.jboss.seam" artifactId="jboss-seam" scope="test" version="2.3.0.CR1-SNAPSHOT"/>
+      <dependency groupId="org.jboss.seam" artifactId="jboss-seam" scope="test" version="2.3.0.CR1"/>
       <dependency groupId="org.slf4j" artifactId="slf4j-log4j12" scope="test" version="1.6.1"/>
       <dependency groupId="org.hibernate.javax.persistence" artifactId="hibernate-jpa-2.0-api" version="1.0.1.Final"/>
       <dependency groupId="org.jboss.spec.javax.faces" artifactId="jboss-jsf-api_2.0_spec" version="1.0.0.Final"/>
       <dependency groupId="javax.mail" artifactId="mail" version="1.4"/>
       <dependency groupId="org.seleniumhq.selenium" artifactId="selenium-server" version="2.21.0"/>
       <dependency groupId="org.seleniumhq.selenium" artifactId="selenium-java" version="2.21.0"/>
-      <dependency groupId="org.jboss.seam" artifactId="functional-tests" scope="test" version="2.3.0.CR1-SNAPSHOT"/>
+      <dependency groupId="org.jboss.seam" artifactId="functional-tests" scope="test" version="2.3.0.CR1"/>
       <dependency groupId="junit" artifactId="junit" scope="test" version="4.8.2"/>
       <dependency groupId="org.jboss.arquillian.junit" artifactId="arquillian-junit-container" scope="test"
                   version="1.0.1.Final"/>

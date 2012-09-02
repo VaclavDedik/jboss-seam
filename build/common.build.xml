@@ -47,7 +47,7 @@
     <!-- User set properties, order of this and default properties is important! -->
     <property file="${seam.dir}/build.properties" />
         
-    <property name="complete.version" value="2.3.0.CR1-SNAPSHOT" />
+    <property name="complete.version" value="2.3.0.CR1" />
     
     <condition property="mavenized.property">
         <not>

@@ -42,11 +42,11 @@
    </artifact:dependencies>
 
    <artifact:dependencies pathId="project.classpath" filesetId="project.fileset" useScope="runtime">
-      <dependency groupId="org.jboss.seam" artifactId="jboss-seam-ui" version="2.3.0.CR1-SNAPSHOT" scope="runtime">
+      <dependency groupId="org.jboss.seam" artifactId="jboss-seam-ui" version="2.3.0.CR1" scope="runtime">
          <exclusion groupId="org.jboss.seam" artifactId="jboss-seam-jul"/>
          <exclusion groupId="org.jboss.seam" artifactId="jboss-seam"/>
       </dependency>
-      <dependency groupId="org.jboss.seam" artifactId="jboss-seam-debug" version="2.3.0.CR1-SNAPSHOT"
+      <dependency groupId="org.jboss.seam" artifactId="jboss-seam-debug" version="2.3.0.CR1"
                   scope="compile">
          <exclusion groupId="org.jboss.seam" artifactId="jboss-seam"/>
       </dependency>

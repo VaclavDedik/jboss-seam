@@ -45,7 +45,7 @@
       <dependency groupId="org.hibernate" artifactId="hibernate-validator" version="4.2.0.Final" scope="provided"/>
       <dependency groupId="org.hibernate.javax.persistence" artifactId="hibernate-jpa-2.0-api" version="1.0.1.Final"
                   scope="provided"/>
-      <dependency groupId="org.jboss.seam" artifactId="jboss-seam" version="2.3.0.CR1-SNAPSHOT" scope="compile">
+      <dependency groupId="org.jboss.seam" artifactId="jboss-seam" version="2.3.0.CR1" scope="compile">
          <exclusion groupId="org.testng" artifactId="testng"/>
          <exclusion groupId="junit" artifactId="junit"/>
          <exclusion groupId="org.jboss.spec.javax.faces" artifactId="jboss-jsf-api_2.0_spec"/>
