@@ -1,6 +1,86 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - Seam2 - Version 2.3.0.CR1 
+
+** Feature Request
+   * [ JBSEAM-4703 ] Migrate Seam DVDStore to the new Hibernate Search 3.2 APIs 			
+   * [ JBSEAM-5003 ] Support EJB 3.1 features 			
+   * [ JBSEAM-5006 ] Warn on @Synchronized SFSB 			
+
+** Bug
+   * [ JBSEAM-3138 ] precedence doesn't work for the component properties specified in components.xml 			
+   * [ JBSEAM-4233 ] Asynchronous and Quartz: manual update 			
+   * [ JBSEAM-4654 ] s:selectItems noSelectionLabel does not generate option value 			
+   * [ JBSEAM-4863 ] Memory Leak when calling @Destroy (with SFSBs) 			
+   * [ JBSEAM-4889 ] Improvements to maven-ear-plugin configuration of seam booking 2.3 			
+   * [ JBSEAM-4899 ] Rendering multiple <p:piechart> using seam-pdf causes the data to overlap 			
+   * [ JBSEAM-4913 ] org.jboss.seam.test.integration.ConversationTest fails in integration testsuite 			
+   * [ JBSEAM-4918 ] Cannot deploy Seam project generated in JBDS - other problems 			
+   * [ JBSEAM-4926 ] openid example fails with "/openid.xhtml Not Found in ExternalContext as a Resource" 			
+   * [ JBSEAM-4940 ] @CaptchaResponse throws javax.validation exception 			
+   * [ JBSEAM-4945 ] Seam Drools fails on Java 7 with: value '1.7' is not a valid language level 			
+   * [ JBSEAM-4955 ] Custom converter tags are not available 			
+   * [ JBSEAM-4959 ] Seam gen needs to use different default JDBC driver than HSQLDB 			
+   * [ JBSEAM-4960 ] seam-gen project classpath not updated 			
+   * [ JBSEAM-4961 ] seam-gen web.xml and view updates 			
+   * [ JBSEAM-4963 ] seam-gen generating new action - compilation problem 			
+   * [ JBSEAM-4964 ] seam-gen generating new form - problem 			
+   * [ JBSEAM-4965 ] java.lang.IllegalArgumentException: Component must be of type org.jboss.seam.ui.component.UICache 			
+   * [ JBSEAM-4966 ] Factory not called after @Outjecting null value with redirect 			
+   * [ JBSEAM-4967 ] seam-messages fails with "The absolute uri: http://jboss.com/products/seam/taglib cannot be resolved in either web.xml or the jar files deployed with this application" 			
+   * [ JBSEAM-4968 ] metawidget example, error handling ViewExpiredException "Exception when handling error trying to reset the response.: javax.faces.application.ViewExpiredException" 			
+   * [ JBSEAM-4969 ] "One or more resources have the target of 'head', but no 'head' component has been defined within the view." JSF error in the richfaces examples 			
+   * [ JBSEAM-4970 ] jboss-seam-ui has non-optional compile-scoped dependency on richfaces artifacts 			
+   * [ JBSEAM-4971 ] Update Seam taglib URI in Seam-gen templates 			
+   * [ JBSEAM-4972 ] examples -Ptomcat profiles broken 			
+   * [ JBSEAM-4974 ] Seam-gen uses not supported s:convertDateTime tags  			
+   * [ JBSEAM-4975 ] Seam-gen generated project entityManager problem 			
+   * [ JBSEAM-4977 ] Metawidget examples broken, metawidget annotations ignored 			
+   * [ JBSEAM-4984 ] hibernate search examples search error searching for a stoplist word 			
+   * [ JBSEAM-4985 ] seamdiscs example, The class 'org.jboss.seam.example.seamdiscs.model.Artist' does not have the property 'bandMembers'." 			
+   * [ JBSEAM-4986 ] occasional NPE in dvdstore integration tests 			
+   * [ JBSEAM-4987 ] Seam2.3.0.Beta2 documentation issues 			
+   * [ JBSEAM-4988 ] revert change of namespace to avoid unnecessary user and tooling changes 			
+   * [ JBSEAM-4989 ]  javax.servlet.ServletException with message: "Component must be of type org.jboss.seam.ui.component.UICache" 			
+   * [ JBSEAM-4990 ] Wrong usage of commons-logging Logger in MockViewHandler and MockRequestDispatcher 			
+   * [ JBSEAM-4991 ] Seam-gen view template - Editing in CRUD doesn't work 			
+   * [ JBSEAM-4993 ] Deadlock between SFSB EJB lock and Component.getInstanceFromFactory factoryLock 			
+   * [ JBSEAM-4995 ] seam-gen doesn't automatically include jdbc-driver jar to project classpath  			
+   * [ JBSEAM-4996 ] Seam-gen generated EAR project not working 			
+   * [ JBSEAM-4997 ] Deadlock with components using factories of each other 			
+   * [ JBSEAM-4999 ] Images in documentation are missing 			
+   * [ JBSEAM-5007 ] SeamNavigationHandler should extend ConfigurableNavigationHandler instead 			
+   * [ JBSEAM-5008 ] Seam 2.3 documentation issues - required updates 			
+   * [ JBSEAM-5009 ] seamdiscs example Pink Floyd members are listed as Band Members in both Pink Floyd and Fairport Convention on the artists page 			
+   * [ JBSEAM-5010 ] Documentation, conversations, 7.12.2. Dealing with errors, needs to be updated wrt. RF4 			
+   * [ JBSEAM-5011 ] Documentation, conversations, 7.12.3. "RichFaces (Ajax4jsf)" needs to be updated wrt. RF4 			
+   * [ JBSEAM-5012 ] Documentation, events, "6.7. Navigation", remove JSF2 RI Waring 			
+   * [ JBSEAM-5013 ] Documentation, webservices, "24.1. Configuration and Packaging" webservice configuration must be updated for AS7 			
+   * [ JBSEAM-5014 ] Groovybooking lost hot deployment feature 			
+   * [ JBSEAM-5015 ] PrioritizableConverter has a type on @FacesConverter name 			
+   * [ JBSEAM-5017 ] Seamdiscs filtering by artist name doesn't work properly 			
+   * [ JBSEAM-5019 ] Icefaces example doesn't deploy 			
+   * [ JBSEAM-5021 ] Groovybooking example logout not working properly 			
+
+** Task
+   * [ JBSEAM-4825 ] Migrate XSD/XML validation to maven plugin 			
+   * [ JBSEAM-4856 ] AS7 Multi-war ear Seam 2.2.2.Final fails deployment (race condition?) 			
+   * [ JBSEAM-4860 ] Enable AS7 deployment for examples 			
+   * [ JBSEAM-4867 ] Run Seam 2.3 through the Seam 2 smoke tests 			
+   * [ JBSEAM-4911 ] Enable PhaseListenerTest unit tests 			
+   * [ JBSEAM-4912 ] Refactor LocaleTest in integration testsuite 			
+   * [ JBSEAM-4954 ] Incorrect documentation for Remoting 			
+   * [ JBSEAM-4957 ] JBoss Tools and M2e-WTP doesn't filter properly properties in files 			
+   * [ JBSEAM-4973 ] Update schema URIs from http//jboss.com/products/seam/ to http://jboss.org/schema/seam 			
+   * [ JBSEAM-4981 ] Remove nonused old files from extras directory 			
+   * [ JBSEAM-4982 ] Update text files in distribution 			
+   * [ JBSEAM-4983 ] Migrate seamdiscs testsuite 			
+
+** Patch
+   * [ JBSEAM-4861 ] Component.java uses application wide factoryLock too often  			
+
+
 Release Notes - Seam2 - Version 2.3.0.BETA2 
 
 ** Sub-task
