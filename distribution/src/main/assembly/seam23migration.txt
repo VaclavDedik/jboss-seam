@@ -4,8 +4,8 @@ Before you get started with Seam 2.3, there are a few things you should be aware
 of. This process should not be too painful - if you get stuck, just refer back
 to the updated Seam examples.
 
-This migration guide assumes you are using Seam 2.0, if you are migrating from
-Seam 1.2, see the seam2migration guide as well.
+This migration guide assumes you are using Seam 2.2, if you are migrating from
+Seam 1.2 or 2.0, see the seam2migration.txt and seam21migration.txt guide as well.
 
 
 Testing
@@ -13,39 +13,135 @@ Testing
 
 SeamTest and JBoss Embedded is legacy components and have many limitations and we doesn't support it now.
 We now bring Arquillian as a replacement of JBoss Embedded and integration testing 
-is provided by org.jboss.seam.mock.JUnitSeamTest. More in reference documentation guide.
+is provided by org.jboss.seam.mock.JUnitSeamTest, dbunit testing is provided by org.jboss.seam.mock.DBJUnitSeamTest.
+More due some issues with TestNG in Arquillian, we use JUnit as prefered test framework. Migration to Junit and
+Arquillian goes in the following steps:
+1. Add @RunWith(Arquillian.class) annotation to your test class.
+2. Your test class should extend JUnitSeamTest instead of SeamTest.
+3. Add a helper class for instance like
+examples/booking/booking-tests/src/test/java/org/jboss/seam/example/booking/test/Deployments.java
+4. Add a method like public static org.jboss.shrinkwrap.api.Archive<?> createDeployment(){} for creating deployment
+archive for Arquillian environment with annotations
+@Deployment(name="<your_test_name>") and @OverProtocol("Servlet 3.0") 
+5. Add arquillian.xml file into root of your classpath for running test(s). The file content should specify path to
+remote or managed container and some specific options for JVM or Arquillian. Example of arquillian file is at
+examples/booking/booking-tests/src/test/resources-integration/arquillian.xml.
+More details in Seam reference documentation guide in chapter 37. Testing Seam applications.
 
 Schemas
 ----------------
+
 XML schemas for validation Files that use the Seam 2.2 XSDs should be updated to refer to 
 the 2.3 XSDs. Current Schemas URL is www.jboss.org/schema/seam/<schema>-2.3.xsd.
 
-Bean Validation
+Bean Validation instead of Hibernate Validator
 ------------------
+
 You need to migrate from org.hibernate.validator.* validator annotations to java.validation.constraint.* equivalent
 for instance:
 org.hibernate.validator.Length to java.validation.constraint.Size,
 org.hibernate.validator.NotNull to java.validation.constraint.NotNull,
 org.hibernate.validator.Pattern to java.validation.constraint.Pattern.
 
+JSF 1 to JSF 2 Facelets
+------------------
+
+Configuration file faces-config.xml is not required to be in your application, if you anyway would like to have it,
+change version to 2.1.
+
+All your application JSF templates should use only facelets technology.
+
+Here it is required to convert <head>/<body> tags to <h:head><h:body>
+
+
+Java EE 6 upgrade
+-----------------
+
+Seam 2.3 can integrate with the major upgrades in Java EE (from 5 to 6). You can use persistence with JPA 2, EJB 3.1 and
+Bean Validation.
+
+Using JPA 2 requires to change version to 2.0 in your persistence.xml file. Version in application.xml should be 6.
+Migration of web.xml file is in changing version to 3.0.
+
+Examples of changed headers with versions are the following.
+
+persistence.xml:
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd" 
+    version="2.0">
+
+application.xml:
+<application xmlns="http://java.sun.com/xml/ns/javaee" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_6.xsd"
+    version="6">
+
+web.xml:
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+
+Further JNDI string creation changed due Java EE 6 JNDI portable syntax, and you have to change all JNDI strings from
+<your_application>/#{ejbName}/local to java:app/<application-module-name>/#{ejbName} like
+ for instance in WEB-INF/components.xml change jndiPattern from: seam-mail/#{ejbName}/local to java:app/seam-mail-ejb/#{ejbName}
+
+JBoss AS 7.1 deployment
+--------------------------
+
+If you using for development or testing default datasource in JBoss AS 7.1, change jndi string in your persistence.xml
+from  java:/DefaultDS to java:jboss/datasources/ExampleDS.
+
+JBoss AS 7 has got refactored classloading and specific classloading of bundled or provided libraries can be managed in 
+jboss-deployment-structure.xml, which should be placed in META-INF directory of your application. Minimal content for
+Seam 2.3 based application is:
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.0">
+  <deployment>
+  	  <dependencies>
+         <module name="org.dom4j" export="true"/>
+         <module name="org.apache.commons.collections" export="true"/>
+	      <module name="javax.faces.api" export="true"/> <!-- keep there only if you use JSF as view technology -->
+	    </dependencies>
+  </deployment>  
+</jboss-deployment-structure>
+More details are described in JBoss AS 7 documentation.
+
+
 
 Dependency changes (Maven)
 --------------------------
 
 The "provided" platform is now JBoss AS 7.1.x, therefore all Java EE dependencies included
-in AS 7 are now marked as provided.
+in AS 7 are now marked as provided. Seam uses JBoss Java EE BOM files through Seam BOM file for declaring dependencies.
+You should add import of org.jboss.seam:bom only and then just use the dependency groupId:artifactId[:scope] wherever in
+your maven project.
 
-Seam UI tags
---------------------------
-We use Richfaces CDK for generation of Seam UI taglib, unfortunately Richfaces CDK 4 doesn't support to create custom tags for converter or validator:
-Affected seam tags are: 
-    convertEntity
-    convertEnum
-    convertAtomicBoolean
-    convertAtomicInteger
-    convertAtomicLong
-    validateFormattedText
-There can be used standard JSF 2 tags like f:converter or f:validator for the simulating the old behaviour of s:convert* or s:validate* tags.    
-    
+<dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jboss.seam</groupId>
+                <artifactId>bom</artifactId>
+                <version>2.3.0.CR1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+         ...
+      </dependencies>
+</dependencyManagement>
+
+
+<dependencies>
+
+   <dependency>
+      <groupId>org.jboss.seam</groupId>
+      <artifactId>jboss-seam</artifactId>
+      <type>ejb</type>
+   <dependency>
+
+   ...
+</dependencies>
+
 
 
