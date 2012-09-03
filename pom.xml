@@ -10,7 +10,7 @@
 	<groupId>org.jboss.seam</groupId>
 	<artifactId>jboss-seam-parent</artifactId>
 	<name>Seam Parent</name>
-	<version>2.3.0.CR1</version>
+	<version>2.3.0.Final-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<licenses>
@@ -44,7 +44,7 @@
 		<pdf.name>${project.artifactId}.pdf</pdf.name>
 
 		<!-- Version string properties -->
-        <version.seam>2.3.0.CR1</version.seam>
+        <version.seam>2.3.0.Final-SNAPSHOT</version.seam>
 		<version.arquillian_core>1.0.1.Final</version.arquillian_core>
 		<version.wicket>1.4.14</version.wicket>
 		<version.testng>5.14.10</version.testng>
