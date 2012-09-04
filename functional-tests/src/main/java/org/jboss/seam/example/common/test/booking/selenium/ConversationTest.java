@@ -47,7 +47,17 @@ public class ConversationTest extends SeleniumBookingTest {
         // Start booking in window 1
         browser.openWindow(CONTEXT_PATH + getProperty("MAIN_PAGE"), "1");
         browser.openWindow(CONTEXT_PATH + getProperty("MAIN_PAGE"), "2");
+        
+        // A slight delay seems to be necessary for some reason after openWindow (doesn't wait for a redirect maybe?)
+        try
+        {
+           Thread.sleep(1000);
+        }
+        catch (InterruptedException e)
+        {}
+
         browser.selectWindow("1");
+        
         if (!isLoggedIn()) {
             login();
         }
