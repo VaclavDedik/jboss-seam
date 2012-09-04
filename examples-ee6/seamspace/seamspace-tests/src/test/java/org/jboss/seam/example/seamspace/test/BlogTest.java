@@ -1,9 +1,10 @@
 package org.jboss.seam.example.seamspace.test;
 
+import static org.junit.Assert.*;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OverProtocol;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.seam.mock.AbstractSeamTest.FacesRequest;
 import org.jboss.seam.mock.JUnitSeamTest;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
@@ -23,7 +24,7 @@ public class BlogTest extends JUnitSeamTest
       web.addClasses(BlogTest.class);
       return er;
    }
-   
+
    @Test
    public void testCreateBlog() throws Exception
    {
@@ -36,19 +37,19 @@ public class BlogTest extends JUnitSeamTest
             setValue("#{identity.username}", "demo");
             setValue("#{identity.password}", "demo");
             invokeAction("#{identity.login}");
-            assert getValue("#{identity.loggedIn}").equals(true);
+            assertTrue((Boolean)getValue("#{identity.loggedIn}"));
          }
       }.run();
-      
+
       String cid = new FacesRequest()
       {
          @Override
          protected void invokeApplication() throws Exception
-         {         
-            assert invokeAction("#{blog.createEntry}") == null;
-         }         
+         {
+            assertNull(invokeAction("#{blog.createEntry}"));
+         }
       }.run();
-      
+
       new FacesRequest("/createBlog.xhtml", cid)
       {
          @Override 
@@ -70,26 +71,26 @@ public class BlogTest extends JUnitSeamTest
                   "Sed vitae nulla eu tellus fringilla sagittis. Nunc convallis, mi at lobortis " +
                   "rhoncus, neque turpis ullamcorper odio, quis scelerisque est dolor non velit. Integer vulputate.");
          }
-         
+
          @Override
          protected void invokeApplication() throws Exception
          {
-            assert invokeAction("#{blog.saveEntry}") == null;
+            assertNull(invokeAction("#{blog.saveEntry}"));
          }
-         
+
       }.run();
-    
+
       new FacesRequest()
       {
          @Override
          protected void invokeApplication() throws Exception
          {
             invokeAction("#{identity.logout}");
-            assert getValue("#{identity.loggedIn}").equals(false);
+            assertFalse((Boolean)getValue("#{identity.loggedIn}"));
          }
-      }.run();      
+      }.run();
    }
-   
+
    //@Test
    public void testCreateComment() throws Exception
    {
@@ -101,10 +102,10 @@ public class BlogTest extends JUnitSeamTest
             setValue("#{identity.username}", "demo");
             setValue("#{identity.password}", "demo");
             invokeAction("#{identity.login}");
-            assert getValue("#{identity.loggedIn}").equals(true);
+            assertTrue((Boolean)getValue("#{identity.loggedIn}"));
          }
-      }.run();   
-      
+      }.run();
+
       String cid = new FacesRequest("/comment.xhtml")
       {
          @Override
@@ -112,13 +113,13 @@ public class BlogTest extends JUnitSeamTest
          {
             setParameter("name", "Mr_Smiley");
             setParameter("blogId", "1");
-         }         
+         }
 
          @Override
          protected void renderResponse() throws Exception
          {
-              assert getValue("#{selectedBlog}") != null;
-              assert getValue("#{selectedBlog.blogId}").equals(1);
+              assertNotNull(getValue("#{selectedBlog}"));
+              assertEquals(1, getValue("#{selectedBlog.blogId}"));
          }
       }.run();
 
@@ -127,13 +128,13 @@ public class BlogTest extends JUnitSeamTest
          @Override
          protected void invokeApplication() throws Exception
          {
-            assert invokeAction("#{blog.createComment}") == null;
-            
-            assert getValue("#{comment}") != null;
-            assert getValue("#{comment.blog}") != null;
+            assertNull(invokeAction("#{blog.createComment}"));
+
+            assertNotNull(getValue("#{comment}"));
+            assertNotNull(getValue("#{comment.blog}"));
          }
       }.run();
-      
+
        new FacesRequest("/comment.xhtml", cid)
        {
           @Override
@@ -141,23 +142,23 @@ public class BlogTest extends JUnitSeamTest
           {
              setValue("#{comment.comment}", "I totally disagree with your blog entry!");
           }
-         
+
           @Override
           protected void invokeApplication() throws Exception
           {
-             assert invokeAction("#{blog.saveComment}") == null;
+             assertNull(invokeAction("#{blog.saveComment}"));
           }
        }.run();
-      
+
       new FacesRequest()
       {
          @Override
          protected void invokeApplication() throws Exception
          {
             invokeAction("#{identity.logout}");
-            assert getValue("#{identity.loggedIn}").equals(false);
+            assertFalse((Boolean)getValue("#{identity.loggedIn}"));
          }
-      }.run();    
-      
+      }.run();
+
    }
 }

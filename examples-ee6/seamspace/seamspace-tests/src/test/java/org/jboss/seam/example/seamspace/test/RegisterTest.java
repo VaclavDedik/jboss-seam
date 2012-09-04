@@ -1,12 +1,13 @@
 package org.jboss.seam.example.seamspace.test;
 
+import static org.junit.Assert.*;
+
 import java.util.Date;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OverProtocol;
 import org.jboss.arquillian.junit.Arquillian;
 
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.mock.AbstractSeamTest.FacesRequest;
 import org.jboss.seam.mock.JUnitSeamTest;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
@@ -26,19 +27,19 @@ public class RegisterTest extends JUnitSeamTest
       WebArchive web = er.getAsType(WebArchive.class, "seamspace-web.war");
       web.addClasses(RegisterTest.class);
       return er;
-   } 
-    
+   }
+
    @Test
    public void testRegister() throws Exception
    {
-      String cid = new FacesRequest() 
-      {                 
+      String cid = new FacesRequest()
+      {
          @Override
          protected void invokeApplication() throws Exception
          {
-            assert invokeAction("#{register.start}") == null;
-         }         
-      }.run();      
+            assertNull(invokeAction("#{register.start}"));
+         }
+      }.run();
 
       new FacesRequest("/register.xhtml", cid)
       {
@@ -53,38 +54,38 @@ public class RegisterTest extends JUnitSeamTest
             setValue("#{register.password}", "secret");
             setValue("#{register.confirm}", "secret");
             setValue("#{register.gender}", "Male");
-            setValue("#{register.member.dob}", new Date(107100000000L));                        
+            setValue("#{register.member.dob}", new Date(107100000000L));
+         }
+
+         @Override
+         protected void invokeApplication() throws Exception
+         {
+            assertNull(invokeAction("#{register.next}"));
          }
          
-         @Override
-         protected void invokeApplication() throws Exception
-         {
-            assert invokeAction("#{register.next}") == null;
-         }          
-         
       }.run();
-      
+
       new FacesRequest("/register2.xhtml", cid)
-      {         
+      {
          @Override
          protected void invokeApplication() throws Exception
          {
-            assert invokeAction("#{register.uploadPicture}") == null;
-            assert !Manager.instance().isLongRunningConversation();
-         }          
-         
-      }.run();     
-      
+            assertNull(invokeAction("#{register.uploadPicture}"));
+            assertFalse(Manager.instance().isLongRunningConversation());
+         }
+
+      }.run();
+
       new FacesRequest()
-      {         
+      {
          @Override
          protected void invokeApplication() throws Exception
          {
-            assert getValue("#{identity.loggedIn}").equals(true);
-            assert invokeAction("#{identity.logout}") == null;
-            assert getValue("#{identity.loggedIn}").equals(false);
-         }          
-         
-      }.run();       
+            assertTrue((Boolean)getValue("#{identity.loggedIn}"));
+            assertNull(invokeAction("#{identity.logout}"));
+            assertFalse((Boolean)getValue("#{identity.loggedIn}"));
+         }
+
+      }.run();
    }
 }
