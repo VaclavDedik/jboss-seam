@@ -35,7 +35,6 @@
     <classpathentry kind="lib" path="lib/fontbox.jar"/>
     <classpathentry kind="lib" path="lib/lucene-core.jar"/>
     <classpathentry kind="lib" path="lib/resteasy-atom-provider.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-jsf-api_2.0_spec.jar"/>
     <classpathentry kind="lib" path="lib/jboss-jsf-api_2.1_spec.jar"/>
     <classpathentry kind="lib" path="lib/spring-tx.jar"/>
     <classpathentry kind="lib" path="lib/cssparser.jar"/>
