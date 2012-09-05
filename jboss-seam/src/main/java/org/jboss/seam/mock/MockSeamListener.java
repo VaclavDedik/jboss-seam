@@ -33,6 +33,10 @@ public class MockSeamListener implements ServletContextListener, HttpSessionList
       log.info( "Welcome to Mock Seam " + Seam.getVersion() );
       event.getServletContext().setAttribute( Seam.VERSION, Seam.getVersion() );
       servletContext = event.getServletContext();
+      
+      // Sabotage Mojarra initialization.
+      // This is required as Mojarra will attempt to initialize even if there is no FacesServlet configured in web.xml
+      servletContext.removeAttribute("com.sun.faces.facesInitializerMappingsAdded");
    }
    
    public static ServletContext getServletContext() {
