@@ -482,6 +482,9 @@ public void commitClaim() {
    <core:manager conversation-timeout="120000" default-flush-mode="manual" />
 </components>]]></programlisting>
 
+    <warning><para> if you use SMPC in your Stateful bean, manual flush mode is ignored as this mode is specific Hibernate extension to JPA specification.
+    Seam can’t control the flush mode of the persistence context on an SFSB - that means no manual flushing on SFSB! </para>
+    </warning>
     </section>
 
     </section>
