@@ -37,11 +37,11 @@ the 2.3 XSDs. Current Schemas URL is www.jboss.org/schema/seam/<schema>-2.3.xsd.
 Bean Validation instead of Hibernate Validator
 ------------------
 
-You need to migrate from org.hibernate.validator.* validator annotations to java.validation.constraint.* equivalent
+You need to migrate from org.hibernate.validator.* validator annotations to javax.validation.constraint.* equivalent
 for instance:
-org.hibernate.validator.Length to java.validation.constraint.Size,
-org.hibernate.validator.NotNull to java.validation.constraint.NotNull,
-org.hibernate.validator.Pattern to java.validation.constraint.Pattern.
+org.hibernate.validator.Length to javax.validation.constraint.Size,
+org.hibernate.validator.NotNull to javax.validation.constraint.NotNull,
+org.hibernate.validator.Pattern to javax.validation.constraint.Pattern.
 
 JSF 1 to JSF 2 Facelets
 ------------------
