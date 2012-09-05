@@ -58,14 +58,6 @@
             <version>2.9</version>
         </dependency>
         
-        <!-- Override for HTMLUnit -->
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
-            <scope>test</scope>
-        </dependency>
-        
     </dependencies>
     
     <build>

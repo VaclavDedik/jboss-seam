@@ -64,7 +64,7 @@ public class HtmlUnitUITest
    @BeforeMethod
    public void setUp() throws Exception{
       URL url = new URL(PAGE_URL);      
-      wc = new WebClient(BrowserVersion.FIREFOX_2);      
+      wc = new WebClient(BrowserVersion.FIREFOX_3_6);      
       page = (HtmlPage) wc.getPage(url);  
    }
 
