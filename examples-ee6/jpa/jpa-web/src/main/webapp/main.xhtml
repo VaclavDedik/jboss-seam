@@ -20,7 +20,7 @@
 	<h1>Search Hotels</h1>
 	<fieldset> 
 	   <h:inputText id="searchString" value="#{hotelSearch.searchString}" style="width: 165px;">
-         <a:ajax id="onkeyup" event="keyup" listener="#{hotelSearch.find}" render="searchResults" />
+         <a:ajax id="keyup" event="keyup" listener="#{hotelSearch.find}" render="searchResults" />
        </h:inputText>
        &#160;
 	   <a:commandButton id="findHotels" value="Find Hotels" action="#{hotelSearch.find}" reRender="searchResults"/>

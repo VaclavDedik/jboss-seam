@@ -13,6 +13,7 @@ import javax.faces.model.ListDataModel;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OverProtocol;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.example.jpa.Booking;
@@ -24,6 +25,7 @@ import org.jboss.seam.mock.SeamTest;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Assert;
 import org.junit.Test;
 
 import org.junit.runner.RunWith;
@@ -70,17 +72,17 @@ public class BookingTest extends JUnitSeamTest
          @Override
          protected void invokeApplication()
          {
-            assert invokeAction("#{hotelSearch.find}")==null;
+            Assert.assertNull(invokeAction("#{hotelSearch.find}"));
          }
 
          @Override
          protected void renderResponse()
          {
             DataModel hotels = (DataModel) Contexts.getSessionContext().get("hotels");
-            assert hotels.getRowCount()==1;
-            assert ( (Hotel) hotels.getRowData() ).getCity().equals("NY");
-            assert getValue("#{hotelSearch.searchString}").equals("Union Square");
-            assert !Manager.instance().isLongRunningConversation();
+            Assert.assertEquals(1, hotels.getRowCount());
+            Assert.assertEquals("NY",( (Hotel) hotels.getRowData() ).getCity() );
+            Assert.assertEquals("Union Square", getValue("#{hotelSearch.searchString}"));
+            Assert.assertTrue(!Manager.instance().isLongRunningConversation());
          }
          
       }.run();
@@ -91,7 +93,7 @@ public class BookingTest extends JUnitSeamTest
          protected void invokeApplication() throws Exception {
             HotelBookingAction hotelBooking = (HotelBookingAction) getInstance("hotelBooking");
             DataModel hotels = (DataModel) Contexts.getSessionContext().get("hotels");
-            assert hotels.getRowCount()==1;
+            Assert.assertEquals(1, hotels.getRowCount());
             hotelBooking.selectHotel( (Hotel) hotels.getRowData() );
          }
 
@@ -99,9 +101,9 @@ public class BookingTest extends JUnitSeamTest
          protected void renderResponse()
          {
             Hotel hotel = (Hotel) Contexts.getConversationContext().get("hotel");
-            assert hotel.getCity().equals("NY");
-            assert hotel.getZip().equals("10011");
-            assert Manager.instance().isLongRunningConversation();
+            Assert.assertEquals("NY",hotel.getCity() );
+            Assert.assertEquals("10011",hotel.getZip() );
+            Assert.assertTrue(Manager.instance().isLongRunningConversation());
          }
          
       }.run();
@@ -117,14 +119,14 @@ public class BookingTest extends JUnitSeamTest
          @Override
          protected void renderResponse()
          {
-            assert getValue("#{booking.user}")!=null;
-            assert getValue("#{booking.hotel}")!=null;
-            assert getValue("#{booking.creditCard}")==null;
-            assert getValue("#{booking.creditCardName}")==null;
+            Assert.assertNotNull(getValue("#{booking.user}"));
+            Assert.assertNotNull(getValue("#{booking.hotel}"));
+            Assert.assertNull(getValue("#{booking.creditCard}"));
+            Assert.assertNull(getValue("#{booking.creditCardName}"));
             Booking booking = (Booking) Contexts.getConversationContext().get("booking");
-            assert booking.getHotel()==Contexts.getConversationContext().get("hotel");
-            assert booking.getUser()==Contexts.getSessionContext().get("user");
-            assert Manager.instance().isLongRunningConversation();
+            Assert.assertTrue(booking.getHotel()==Contexts.getConversationContext().get("hotel"));
+            Assert.assertTrue(booking.getUser()==Contexts.getConversationContext().get("user"));
+            Assert.assertTrue(Manager.instance().isLongRunningConversation());
          }
          
       }.run();
@@ -135,23 +137,23 @@ public class BookingTest extends JUnitSeamTest
          protected void processValidations() throws Exception
          {
             validateValue("#{booking.creditCard}", "123");
-            assert isValidationFailure();
+            Assert.assertTrue(isValidationFailure());
          }
 
          @Override
          protected void renderResponse()
          {
             Iterator messages = FacesContext.getCurrentInstance().getMessages();
-            assert messages.hasNext();
-            assert ( (FacesMessage) messages.next() ).getSummary().equals("Credit card number must 16 digits long");
-            assert !messages.hasNext();
-            assert Manager.instance().isLongRunningConversation();
+            Assert.assertTrue(messages.hasNext());
+            Assert.assertEquals("Credit card number must 16 digits long", ( (FacesMessage) messages.next() ).getSummary());
+            Assert.assertFalse(messages.hasNext());
+            Assert.assertTrue(Manager.instance().isLongRunningConversation());
          }
          
          @Override
          protected void afterRequest()
          {
-            assert !isInvokeApplicationBegun();
+            Assert.assertTrue(!isInvokeApplicationBegun());
          }
          
       }.run();
@@ -162,23 +164,23 @@ public class BookingTest extends JUnitSeamTest
          protected void processValidations() throws Exception
          {
             validateValue("#{booking.creditCardName}", "");
-            assert isValidationFailure();
+            Assert.assertTrue(isValidationFailure());
          }
 
          @Override
          protected void renderResponse()
          {
             Iterator messages = FacesContext.getCurrentInstance().getMessages();
-            assert messages.hasNext();
-            assert ( (FacesMessage) messages.next() ).getSummary().equals("Credit card name is required");
-            assert !messages.hasNext();
-            assert Manager.instance().isLongRunningConversation();
+            Assert.assertTrue(messages.hasNext());
+            Assert.assertEquals("Credit card name is required", ( (FacesMessage) messages.next() ).getSummary());
+            Assert.assertFalse(messages.hasNext());
+            Assert.assertTrue(Manager.instance().isLongRunningConversation());
          }
          
          @Override
          protected void afterRequest()
          {
-            assert !isInvokeApplicationBegun();
+            Assert.assertFalse(isInvokeApplicationBegun());
          }
          
       }.run();
@@ -206,11 +208,12 @@ public class BookingTest extends JUnitSeamTest
          protected void renderResponse()
          {
             Iterator messages = FacesContext.getCurrentInstance().getMessages();
-            assert messages.hasNext();
+            Assert.assertTrue(Manager.instance().isLongRunningConversation());
+            Assert.assertTrue(messages.hasNext());
             FacesMessage message = (FacesMessage) messages.next();
-            assert message.getSummary().equals("Check out date must be later than check in date");
-            assert !messages.hasNext();
-            assert Manager.instance().isLongRunningConversation();
+            Assert.assertEquals("Check out date must be later than check in date",message.getSummary());
+            Assert.assertFalse(messages.hasNext());
+            Assert.assertTrue(Manager.instance().isLongRunningConversation());
          }
          
          @Override
@@ -240,13 +243,13 @@ public class BookingTest extends JUnitSeamTest
          @Override
          protected void renderResponse()
          {
-            assert Manager.instance().isLongRunningConversation();
+            Assert.assertTrue(Manager.instance().isLongRunningConversation());
          }
          
          @Override
          protected void afterRequest()
          {
-            assert isInvokeApplicationComplete();
+            Assert.assertTrue( isInvokeApplicationComplete() );
          }
          
       }.run();
@@ -262,7 +265,7 @@ public class BookingTest extends JUnitSeamTest
          @Override
          protected void afterRequest()
          {
-            assert isInvokeApplicationComplete();
+            Assert.assertTrue( isInvokeApplicationComplete() );
          }
          
       }.run();
@@ -273,12 +276,12 @@ public class BookingTest extends JUnitSeamTest
          protected void renderResponse()
          {
             ListDataModel bookings = (ListDataModel) getInstance("bookings");
-            assert bookings.getRowCount()==1;
+            Assert.assertEquals(1, bookings.getRowCount());
             bookings.setRowIndex(0);
             Booking booking = (Booking) bookings.getRowData();
-            assert booking.getHotel().getCity().equals("NY");
-            assert booking.getUser().getUsername().equals("gavin");
-            assert !Manager.instance().isLongRunningConversation();
+            Assert.assertEquals("NY", booking.getHotel().getCity());
+            Assert.assertEquals("gavin", booking.getUser().getUsername());
+            Assert.assertFalse(Manager.instance().isLongRunningConversation());
          }
          
       }.run();
@@ -297,8 +300,8 @@ public class BookingTest extends JUnitSeamTest
          protected void renderResponse()
          {
             ListDataModel bookings = (ListDataModel) Contexts.getSessionContext().get("bookings");
-            assert bookings.getRowCount()==0;
-            assert !Manager.instance().isLongRunningConversation();
+            Assert.assertEquals(0, bookings.getRowCount());
+            Assert.assertFalse(Manager.instance().isLongRunningConversation());
          }
          
       }.run();

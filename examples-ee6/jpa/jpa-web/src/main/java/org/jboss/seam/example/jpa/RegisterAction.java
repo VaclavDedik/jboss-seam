@@ -3,9 +3,8 @@ package org.jboss.seam.example.jpa;
 
 import static org.jboss.seam.ScopeType.EVENT;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -34,18 +33,19 @@ public class RegisterAction
    {
       if ( user.getPassword().equals(verify) )
       {
-         List existing = em.createQuery("select u.username from User u where u.username=#{user.username}")
-            .getResultList();
-         if (existing.size()==0)
+         // this is JPA 2.0 usage of new method getSingleResult() 
+         try
+         {
+            em.createQuery("select u.username from User u where u.username=#{user.username}").getSingleResult();
+            facesMessages.addToControl("username", "Username #{user.username} already exists");
+         }
+         catch (NoResultException e)
          {
             em.persist(user);
             facesMessages.add("Successfully registered as #{user.username}");
             registered = true;
          }
-         else
-         {
-            facesMessages.addToControl("username", "Username #{user.username} already exists");
-         }
+
       }
       else 
       {
