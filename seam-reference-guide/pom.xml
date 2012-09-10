@@ -148,6 +148,7 @@
 					<options>
 	                  <xincludeSupported>true</xincludeSupported>
 	                  <xmlTransformerType>saxon</xmlTransformerType>
+	                  <applyStandardInjectionValues>false</applyStandardInjectionValues>
 	                  <docbookVersion>1.72.0</docbookVersion>
 	                  <transformerParameters>
 	                     <property>
