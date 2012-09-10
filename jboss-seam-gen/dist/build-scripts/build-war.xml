@@ -40,11 +40,15 @@
     <property name="schema.version" value="@schemaVersion@"/>
     
     <fileset id="lib" dir="${lib.dir}">
-        <include name="*.jar" />
+        <include name="*.jar"/>
     </fileset>
-    
+    <fileset id="testlib" dir="${lib.dir}/test">
+        <include name="*.jar"/>
+     </fileset>
+
     <path id="build.classpath">
-        <fileset refid="lib" />
+        <fileset refid="lib"/>
+        <fileset refid="testlib"/>
     </path>
 
     <!-- Import GlassFish deployment targets -->
@@ -409,11 +413,12 @@
               file="${basedir}/resources/import-test.sql"/>
         <copy tofile="${test.dir}/components.properties" 
               file="${basedir}/resources/components-test.properties"/>
-        <copy todir="${test.dir}" flatten="true">
+<!--        <copy todir="${test.dir}" flatten="true">
             <fileset dir="${src.test.dir}">
                 <include name="**/*Test.xml" />
             </fileset>
         </copy>
+         -->
     </target>
     
     <target name="test" depends="buildtest" description="Run the tests">            
@@ -428,21 +433,21 @@
                 <not><available classname="javax.xml.bind.JAXB"/></not>
             </and>
         </condition>
-        <fail if="incompatible.jdk">You are using an incompatible JDK 6. Please use Sun JDK 6 Update 4 (1.6.0_04) or newer or use Open JDK 6.</fail>
-        <taskdef resource="testngtasks" classpath="${testng.jar}" />
+      <!--  <fail if="incompatible.jdk">You are using an incompatible JDK 6. Please use Sun JDK 6 Update 4 (1.6.0_04) or newer or use Open JDK 6.</fail>
+        <taskdef resource="testngtasks" classpath="${testng.jar}" />-->
         <path id="test.path">
             <path path="${test.dir}" />
             <fileset dir="${lib.dir}/test">
                 <include name="*.jar"/>
             </fileset>
-            <path path="${bootstrap.dir}" />
+<!--            <path path="${bootstrap.dir}" />-->
             <path refid="build.classpath" />
         </path>
-        <testng outputdir="${basedir}/test-report">
+        <!-- <testng outputdir="${basedir}/test-report">
             <jvmarg line="-Dsun.lang.ClassLoader.allowArraySyntax=true"/>
             <classpath refid="test.path" />
             <xmlfileset dir="${test.dir}" includes="*Test.xml" />
-        </testng>
+        </testng>-->
     </target>
 
     <target name="javadoc" depends="compile">
@@ -471,7 +476,7 @@
         <ant antfile="validate.xml" target="validateConfiguration"/>
     </target>
 
-    <target name="purge" depends="undeploy" description="Clean out JBoss AS temporary deployment files">
+   <target name="purge" depends="undeploy" description="Clean out JBoss AS temporary deployment files">
         <delete dir="${jboss.home}/server/default/tmp/deploy"/>
         <mkdir dir="${jboss.home}/server/default/tmp/deploy/"/>
         <delete dir="${jboss.home}/server/default/tmp/sessions"/>

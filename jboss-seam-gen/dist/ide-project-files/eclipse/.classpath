@@ -1,306 +1,321 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-    <classpathentry kind="src" output="classes/main" path="src/main"/>
+    <classpathentry kind="output" path="test-build"/>
     <classpathentry kind="src" output="classes/hot" path="src/hot"/>
+    <classpathentry kind="src" output="classes/main" path="src/main"/>
     <classpathentry kind="src" output="classes/test" path="src/test"/>
     <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-    <classpathentry kind="lib" path="lib/sac.jar"/>
-    <classpathentry kind="lib" path="lib/jackrabbit-spi-commons.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-seam-pdf.jar"/>
-    <classpathentry kind="lib" path="lib/spring-expression.jar"/>
-    <classpathentry kind="lib" path="lib/mail.jar"/>
-    <classpathentry kind="lib" path="lib/jcommander.jar"/>
-    <classpathentry kind="lib" path="lib/spring-context.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-el.jar"/>
-    <classpathentry kind="lib" path="lib/jackrabbit-core.jar"/>
-    <classpathentry kind="lib" path="lib/spring-aop.jar"/>
-    <classpathentry kind="lib" path="lib/javassist.jar"/>
-    <classpathentry kind="lib" path="lib/lucene-highlighter.jar"/>
+    <classpathentry kind="lib" path="lib/activation.jar"/>
+    <classpathentry kind="lib" path="lib/annotations.jar"/>
+    <classpathentry kind="lib" path="lib/ant.jar"/>
+    <classpathentry kind="lib" path="lib/antlr.jar"/>
     <classpathentry kind="lib" path="lib/antlr-runtime.jar"/>
-    <classpathentry kind="lib" path="lib/hibernate-search-engine.jar"/>
-    <classpathentry kind="lib" path="lib/resteasy-jaxrs.jar"/>
-    <classpathentry kind="lib" path="lib/richfaces-core-api.jar"/>
-    <classpathentry kind="lib" path="lib/mvel2.jar"/>
-    <classpathentry kind="lib" path="lib/richfaces-core-impl.jar"/>
-    <classpathentry kind="lib" path="lib/hibernate-jpa-2.0-api.jar"/>
-    <classpathentry kind="lib" path="lib/xercesImpl.jar"/>
-    <classpathentry kind="lib" path="lib/commons-codec.jar"/>
-    <classpathentry kind="lib" path="lib/jackrabbit-jcr-commons.jar"/>
-    <classpathentry kind="lib" path="lib/drools-core.jar"/>
-    <classpathentry kind="lib" path="lib/itext.jar"/>
-    <classpathentry kind="lib" path="lib/ehcache-core.jar"/>
+    <classpathentry kind="lib" path="lib/aopalliance.jar"/>
+    <classpathentry kind="lib" path="lib/asm.jar"/>
+    <classpathentry kind="lib" path="lib/avro.jar"/>
+    <classpathentry kind="lib" path="lib/backport-util-concurrent.jar"/>
+    <classpathentry kind="lib" path="lib/blazeds-common.jar"/>
+    <classpathentry kind="lib" path="lib/blazeds-core.jar"/>
+    <classpathentry kind="lib" path="lib/blazeds-proxy.jar"/>
     <classpathentry kind="lib" path="lib/blazeds-remoting.jar"/>
-    <classpathentry kind="lib" path="lib/poi.jar"/>
-    <classpathentry kind="lib" path="lib/jgroups.jar"/>
+    <classpathentry kind="lib" path="lib/bsh.jar"/>
+    <classpathentry kind="lib" path="lib/cglib.jar"/>
+    <classpathentry kind="lib" path="lib/commons-beanutils.jar"/>
+    <classpathentry kind="lib" path="lib/commons-codec.jar"/>
+    <classpathentry kind="lib" path="lib/commons-collections.jar"/>
+    <classpathentry kind="lib" path="lib/commons-io.jar"/>
+    <classpathentry kind="lib" path="lib/commons-lang.jar"/>
+    <classpathentry kind="lib" path="lib/commons-logging.jar"/>
+    <classpathentry kind="lib" path="lib/concurrent.jar"/>
+    <classpathentry kind="lib" path="lib/cssparser.jar"/>
+    <classpathentry kind="lib" path="lib/dbunit.jar"/>
+    <classpathentry kind="lib" path="lib/derby.jar"/>
+    <classpathentry kind="lib" path="lib/dom4j.jar"/>
+    <classpathentry kind="lib" path="lib/@driverJar@"/>
+    <classpathentry kind="lib" path="lib/drools-compiler.jar"/>
+    <classpathentry kind="lib" path="lib/drools-core.jar"/>
+    <classpathentry kind="lib" path="lib/drools-decisiontables.jar"/>
+    <classpathentry kind="lib" path="lib/drools-templates.jar"/>
+    <classpathentry kind="lib" path="lib/ecj.jar"/>
+    <classpathentry kind="lib" path="lib/ehcache-core.jar"/>
+    <classpathentry kind="lib" path="lib/ehcache.jar"/>
+    <classpathentry kind="lib" path="lib/el-api.jar"/>
     <classpathentry kind="lib" path="lib/fontbox.jar"/>
     <classpathentry kind="lib" path="lib/lucene-core.jar"/>
     <classpathentry kind="lib" path="lib/resteasy-atom-provider.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-jsf-api_2.1_spec.jar"/>
-    <classpathentry kind="lib" path="lib/spring-tx.jar"/>
-    <classpathentry kind="lib" path="lib/cssparser.jar"/>
-    <classpathentry kind="lib" path="lib/jcl-over-slf4j.jar"/>
-    <classpathentry kind="lib" path="lib/paranamer.jar"/>
-    <classpathentry kind="lib" path="lib/el-api.jar"/>
-    <classpathentry kind="lib" path="lib/quartz.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-seam-resteasy.jar"/>
-    <classpathentry kind="lib" path="lib/blazeds-proxy.jar"/>
-    <classpathentry kind="lib" path="lib/httpcore.jar"/>
-    <classpathentry kind="lib" path="lib/nekohtml.jar"/>
-    <classpathentry kind="lib" path="lib/log4j.jar"/>
-    <classpathentry kind="lib" path="lib/snakeyaml.jar"/>
-    <classpathentry kind="lib" path="lib/solr-core.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-el-api_2.2_spec.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-seam-debug.jar"/>
-    <classpathentry kind="lib" path="lib/guava.jar"/>
-    <classpathentry kind="lib" path="lib/jaxws-api.jar"/>
-    <classpathentry kind="lib" path="lib/concurrent.jar"/>
-    <classpathentry kind="lib" path="lib/stax-api.jar"/>
-    <classpathentry kind="lib" path="lib/antlr.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-marshalling.jar"/>
-    <classpathentry kind="lib" path="lib/asm.jar"/>
-    <classpathentry kind="lib" path="lib/resteasy-jettison-provider.jar"/>
-    <classpathentry kind="lib" path="lib/hibernate-ehcache.jar"/>
-    <classpathentry kind="lib" path="lib/blazeds-common.jar"/>
-    <classpathentry kind="lib" path="lib/jempbox.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-interceptor-spi-2.0.0.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/wagon-http-lightweight-1.0-beta-7.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-logmanager-log4j-1.0.0.GA.jar"/>
-    <classpathentry kind="lib" path="lib/test/hibernate-validator-4.2.0.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jbosgi-resolver-spi-1.0.13.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-as-controller-7.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/arquillian-core-spi-1.0.0.CR7.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-as-jmx-7.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-as-arquillian-common-7.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/validation-api-1.0.0.GA.jar"/>
-    <classpathentry kind="lib" path="lib/test/jbosgi-vfs30-1.0.7.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/arquillian-container-osgi-1.0.2.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/arquillian-testenricher-cdi-1.0.0.CR7.jar"/>
-    <classpathentry kind="lib" path="lib/test/arquillian-test-api-1.0.0.CR7.jar"/>
-    <classpathentry kind="lib" path="lib/test/plexus-classworlds-2.2.2.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-annotations-api_1.1_spec-1.0.0.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/wagon-file-1.0-beta-7.jar"/>
-    <classpathentry kind="lib" path="lib/test/aether-impl-1.8.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-as-process-controller-7.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/arquillian-config-impl-base-1.0.0.CR7.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-as-controller-client-7.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jdk-tools-jdk.jar"/>
-    <classpathentry kind="lib" path="lib/test/jbosgi-framework-core-1.1.8.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-as-ee-7.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-as-platform-mbean-7.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-as-embedded-7.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-as-naming-7.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/javax.inject-1.jar"/>
-    <classpathentry kind="lib" path="lib/test/jbosgi-repository-core-1.0.5.jar"/>
-    <classpathentry kind="lib" path="lib/test/jbosgi-repository-api-1.0.5.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-as-domain-http-interface-7.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/arquillian-testenricher-ejb-1.0.0.CR7.jar"/>
-    <classpathentry kind="lib" path="lib/test/plexus-cipher-1.4.jar"/>
-    <classpathentry kind="lib" path="lib/test/arquillian-testenricher-osgi-1.0.2.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-vfs-3.1.0.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-as-threads-7.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-threads-2.0.0.GA.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-msc-1.0.2.GA.jar"/>
-    <classpathentry kind="lib" path="lib/test/arquillian-container-test-api-1.0.0.CR7.jar"/>
-    <classpathentry kind="lib" path="lib/test/org.apache.felix.resolver-0.1.0.Beta1.jar"/>
-    <classpathentry kind="lib" path="lib/test/jbosgi-resolver-api-1.0.13.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/arquillian-protocol-jmx-1.0.0.CR7.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-logging-3.1.0.GA.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-invocation-1.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/maven-model-3.0.1.jar"/>
-    <classpathentry kind="lib" path="lib/test/slf4j-api-1.6.1.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-as-protocol-7.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-as-arquillian-container-managed-7.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/shrinkwrap-descriptors-spi-1.1.0-beta-1.jar"/>
-    <classpathentry kind="lib" path="lib/test/staxmapper-1.1.0.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/shrinkwrap-resolver-api-maven-1.0.0-beta-5.jar"/>
-    <classpathentry kind="lib" path="lib/test/plexus-interpolation-1.14.jar"/>
-    <classpathentry kind="lib" path="lib/test/jandex-1.0.3.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/wagon-provider-api-1.0-beta-7.jar"/>
-    <classpathentry kind="lib" path="lib/test/arquillian-test-spi-1.0.0.CR7.jar"/>
-    <classpathentry kind="lib" path="lib/test/httpserver-1.0.0.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-logmanager-1.2.2.GA.jar"/>
-    <classpathentry kind="lib" path="lib/test/plexus-sec-dispatcher-1.3.jar"/>
-    <classpathentry kind="lib" path="lib/test/arquillian-core-api-1.0.0.CR7.jar"/>
-    <classpathentry kind="lib" path="lib/test/shrinkwrap-descriptors-api-1.1.0-beta-1.jar"/>
-    <classpathentry kind="lib" path="lib/test/arquillian-container-test-impl-base-1.0.0.CR7.jar"/>
-    <classpathentry kind="lib" path="lib/test/plexus-utils-2.0.4.jar"/>
-    <classpathentry kind="lib" path="lib/test/google-collections-1.0.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-marshalling-river-1.3.11.GA.jar"/>
-    <classpathentry kind="lib" path="lib/test/arquillian-testenricher-resource-1.0.0.CR7.jar"/>
-    <classpathentry kind="lib" path="lib/test/org.osgi.core-4.2.0.jar"/>
-    <classpathentry kind="lib" path="lib/test/arquillian-container-test-spi-1.0.0.CR7.jar"/>
-    <classpathentry kind="lib" path="lib/test/aether-connector-wagon-1.8.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-as-build-config-7.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/arquillian-testenricher-initialcontext-1.0.0.CR7.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-as-remoting-7.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/arquillian-container-spi-1.0.0.CR7.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-interceptors-api_1.1_spec-1.0.0.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-as-deployment-repository-7.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/shrinkwrap-spi-1.0.0-cr-1.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-transaction-api_1.1_spec-1.0.0.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/xbean-reflect-3.4.jar"/>
-    <classpathentry kind="lib" path="lib/test/aether-spi-1.8.jar"/>
-    <classpathentry kind="lib" path="lib/test/jbosgi-metadata-2.0.3.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jbosgi-resolver-felix-1.0.13.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/shrinkwrap-resolver-api-1.0.0-beta-5.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-remoting-3.2.3.GA.jar"/>
-    <classpathentry kind="lib" path="lib/test/aether-util-1.8.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-stdio-1.0.1.GA.jar"/>
-    <classpathentry kind="lib" path="lib/test/xnio-api-3.0.0.GA.jar"/>
-    <classpathentry kind="lib" path="lib/test/jbosgi-deployment-1.0.12.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-as-arquillian-protocol-jmx-7.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-sasl-1.0.0.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-modules-1.1.1.GA.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-dmr-1.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-remote-naming-1.0.2.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/remoting-jmx-1.0.2.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/shrinkwrap-api-1.0.0-cr-1.jar"/>
-    <classpathentry kind="lib" path="lib/test/org.osgi.compendium-4.2.0.jar"/>
-    <classpathentry kind="lib" path="lib/test/maven-model-builder-3.0.1.jar"/>
-    <classpathentry kind="lib" path="lib/test/shrinkwrap-impl-base-1.0.0-cr-1.jar"/>
-    <classpathentry kind="lib" path="lib/test/log4j-1.2.12.jar"/>
-    <classpathentry kind="lib" path="lib/test/maven-settings-builder-3.0.1.jar"/>
-    <classpathentry kind="lib" path="lib/test/jbosgi-resolver-api-v2-2.0.0.Beta2.jar"/>
-    <classpathentry kind="lib" path="lib/test/aether-api-1.8.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-as-arquillian-testenricher-msc-7.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-common-core-2.2.17.GA.jar"/>
-    <classpathentry kind="lib" path="lib/test/maven-repository-metadata-3.0.1.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-ejb-client-1.0.0.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-as-osgi-service-7.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-as-server-7.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/xnio-nio-3.0.3.GA.jar"/>
-    <classpathentry kind="lib" path="lib/test/jbosgi-vfs-1.0.7.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jbosgi-spi-3.0.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-metadata-ear-7.0.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/maven-settings-3.0.1.jar"/>
-    <classpathentry kind="lib" path="lib/test/maven-aether-provider-3.0.1.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-metadata-common-7.0.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/arquillian-config-api-1.0.0.CR7.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-as-network-7.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/plexus-component-annotations-1.5.5.jar"/>
-    <classpathentry kind="lib" path="lib/test/wagon-http-shared-1.0-beta-7.jar"/>
-    <classpathentry kind="lib" path="lib/test/plexus-container-default-1.5.5.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-as-domain-management-7.1.1.Final.jar"/>
-    <classpathentry kind="lib" path="lib/test/org.osgi.enterprise-4.2.0.jar"/>
-    <classpathentry kind="lib" path="lib/test/shrinkwrap-resolver-impl-maven-1.0.0-beta-5.jar"/>
-    <classpathentry kind="lib" path="lib/test/jboss-marshalling-1.3.9.GA.jar"/>
-    <classpathentry kind="lib" path="lib/junit.jar"/>
-    <classpathentry kind="lib" path="lib/ehcache.jar"/>
-    <classpathentry kind="lib" path="lib/spring-web.jar"/>
-    <classpathentry kind="lib" path="lib/aopalliance.jar"/>
-    <classpathentry kind="lib" path="lib/lucene-analyzers.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-seam-remoting.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-jsp-api_2.2_spec.jar"/>
-    <classpathentry kind="lib" path="lib/spring-orm.jar"/>
-    <classpathentry kind="lib" path="lib/jxl.jar"/>
-    <classpathentry kind="lib" path="lib/drools-decisiontables.jar"/>
-    <classpathentry kind="lib" path="lib/commons-beanutils.jar"/>
-    <classpathentry kind="lib" path="lib/commons-logging.jar"/>
-    <classpathentry kind="lib" path="lib/hibernate-core.jar"/>
-    <classpathentry kind="lib" path="lib/poi-scratchpad.jar"/>
-    <classpathentry kind="lib" path="lib/backport-util-concurrent.jar"/>
-    <classpathentry kind="lib" path="lib/resteasy-jaxb-provider.jar"/>
-    <classpathentry kind="lib" path="lib/richfaces-components-ui.jar"/>
-    <classpathentry kind="lib" path="lib/jaxb-api.jar"/>
-    <classpathentry kind="lib" path="lib/annotations.jar"/>
-    <classpathentry kind="lib" path="lib/drools-templates.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-seam-excel.jar"/>
-    <classpathentry kind="lib" path="lib/stax2-api.jar"/>
-    <classpathentry kind="lib" path="lib/validation-api.jar"/>
-    <classpathentry kind="lib" path="lib/bsh.jar"/>
-    <classpathentry kind="lib" path="lib/itext-rtf.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-interceptors-api_1.1_spec.jar"/>
-    <classpathentry kind="lib" path="lib/snappy-java.jar"/>
-    <classpathentry kind="lib" path="lib/jackrabbit-text-extractors.jar"/>
-    <classpathentry kind="lib" path="lib/ant.jar"/>
-    <classpathentry kind="lib" path="lib/jsr305.jar"/>
-    <classpathentry kind="lib" path="lib/lucene-spatial.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-system.jar"/>
-    <classpathentry kind="lib" path="lib/richfaces-components-api.jar"/>
-    <classpathentry kind="lib" path="lib/urlrewritefilter.jar"/>
-    <classpathentry kind="lib" path="lib/woodstox-core-asl.jar"/>
-    <classpathentry kind="lib" path="lib/infinispan-tree.jar"/>
-    <classpathentry kind="lib" path="lib/gwt-user.jar"/>
-    <classpathentry kind="lib" path="lib/jaxrs-api.jar"/>
-    <classpathentry kind="lib" path="lib/httpclient.jar"/>
-    <classpathentry kind="lib" path="lib/derby.jar"/>
-    <classpathentry kind="lib" path="lib/gwt-servlet.jar"/>
-    <classpathentry kind="lib" path="lib/avro.jar"/>
-    <classpathentry kind="lib" path="lib/slf4j-api.jar"/>
-    <classpathentry kind="lib" path="lib/portlet-api.jar"/>
-    <classpathentry kind="lib" path="lib/commons-collections.jar"/>
-    <classpathentry kind="lib" path="lib/ecj.jar"/>
-    <classpathentry kind="lib" path="lib/dbunit.jar"/>
-    <classpathentry kind="lib" path="lib/lucene-spellchecker.jar"/>
-    <classpathentry kind="lib" path="lib/hibernate-search-orm.jar"/>
-    <classpathentry kind="lib" path="lib/commons-io.jar"/>
-    <classpathentry kind="lib" path="lib/activation.jar"/>
-    <classpathentry kind="lib" path="lib/joda-time.jar"/>
-    <classpathentry kind="lib" path="lib/jsr250-api.jar"/>
-    <classpathentry kind="lib" path="lib/blazeds-core.jar"/>
-    <classpathentry kind="lib" path="lib/testng.jar"/>
-    <classpathentry kind="lib" path="lib/wicket-ioc.jar"/>
-    <classpathentry kind="lib" path="lib/lucene-misc.jar"/>
-    <classpathentry kind="lib" path="lib/hibernate-validator.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-logging.jar"/>
     <classpathentry kind="lib" path="lib/groovy-all.jar"/>
-    <classpathentry kind="lib" path="lib/lucene-smartcn.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-marshalling-river.jar"/>
+    <classpathentry kind="lib" path="lib/guava.jar"/>
     <classpathentry kind="lib" path="lib/guice.jar"/>
-    <classpathentry kind="lib" path="lib/cglib.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-jmx.jar"/>
+    <classpathentry kind="lib" path="lib/gwt-servlet.jar"/>
+    <classpathentry kind="lib" path="lib/gwt-user.jar"/>
+    <classpathentry kind="lib" path="lib/hibernate-commons-annotations.jar"/>
+    <classpathentry kind="lib" path="lib/hibernate-core.jar"/>
+    <classpathentry kind="lib" path="lib/hibernate-ehcache.jar"/>
+    <classpathentry kind="lib" path="lib/hibernate-entitymanager.jar"/>
+    <classpathentry kind="lib" path="lib/hibernate-jpa-2.0-api.jar"/>
+    <classpathentry kind="lib" path="lib/hibernate-search-analyzers.jar"/>
+    <classpathentry kind="lib" path="lib/hibernate-search-engine.jar"/>
+    <classpathentry kind="lib" path="lib/hibernate-search-orm.jar"/>
+    <classpathentry kind="lib" path="lib/hibernate-validator.jar"/>
+    <classpathentry kind="lib" path="lib/httpclient.jar"/>
+    <classpathentry kind="lib" path="lib/httpcore.jar"/>
+    <classpathentry kind="lib" path="lib/infinispan-core.jar"/>
+    <classpathentry kind="lib" path="lib/infinispan-tree.jar"/>
+    <classpathentry kind="lib" path="lib/itext.jar"/>
+    <classpathentry kind="lib" path="lib/itext-rtf.jar"/>
+    <classpathentry kind="lib" path="lib/jackrabbit-api.jar"/>
+    <classpathentry kind="lib" path="lib/jackrabbit-core.jar"/>
+    <classpathentry kind="lib" path="lib/jackrabbit-jcr-commons.jar"/>
+    <classpathentry kind="lib" path="lib/jackrabbit-spi-commons.jar"/>
+    <classpathentry kind="lib" path="lib/jackrabbit-spi.jar"/>
+    <classpathentry kind="lib" path="lib/jackrabbit-text-extractors.jar"/>
+    <classpathentry kind="lib" path="lib/jackson-core-asl.jar"/>
+    <classpathentry kind="lib" path="lib/jackson-mapper-asl.jar"/>
+    <classpathentry kind="lib" path="lib/javassist.jar"/>
+    <classpathentry kind="lib" path="lib/jaxb-api.jar"/>
+    <classpathentry kind="lib" path="lib/jaxrs-api.jar"/>
+    <classpathentry kind="lib" path="lib/jaxws-api.jar"/>
     <classpathentry kind="lib" path="lib/jbosscache-core.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-transaction-api_1.1_spec.jar"/>
-    <classpathentry kind="lib" path="lib/commons-lang.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-seam.jar"/>
-    <classpathentry kind="lib" path="lib/pdfbox.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-cache.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-ejb-api_3.1_spec.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-el-api_2.2_spec.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-el.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-interceptors-api_1.1_spec.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-jms-api_1.1_spec.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-jmx.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-jsf-api_2.1_spec.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-jsp-api_2.2_spec.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-logging.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-marshalling.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-marshalling-river.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-seam-debug.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-seam-excel.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-seam-flex.jar"/>
     <classpathentry kind="lib" path="lib/jboss-seam-ioc.jar"/>
-    <classpathentry kind="lib" path="lib/knowledge-api.jar"/>
-    <classpathentry kind="lib" path="lib/rhq-pluginAnnotations.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-seam.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-seam-mail.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-seam-pdf.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-seam-remoting.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-seam-resteasy.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-seam-rss.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-seam-ui.jar"/>
     <classpathentry kind="lib" path="lib/jboss-servlet-api_3.0_spec.jar"/>
-    <classpathentry kind="lib" path="lib/jsf-impl.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-system.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-transaction-api_1.1_spec.jar"/>
     <classpathentry kind="lib" path="lib/jbpm-jpdl.jar"/>
-    <classpathentry kind="lib" path="lib/lucene-stempel.jar"/>
-    <classpathentry kind="lib" path="lib/jta.jar"/>
+    <classpathentry kind="lib" path="lib/jcip-annotations.jar"/>
+    <classpathentry kind="lib" path="lib/jcl-over-slf4j.jar"/>
+    <classpathentry kind="lib" path="lib/jcommander.jar"/>
+    <classpathentry kind="lib" path="lib/jcommon.jar"/>
+    <classpathentry kind="lib" path="lib/jempbox.jar"/>
     <classpathentry kind="lib" path="lib/jettison.jar"/>
     <classpathentry kind="lib" path="lib/jfreechart.jar"/>
-    <classpathentry kind="lib" path="lib/infinispan-core.jar"/>
-    <classpathentry kind="lib" path="lib/jcip-annotations.jar"/>
-    <classpathentry kind="lib" path="lib/servlet-api.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-seam-flex.jar"/>
-    <classpathentry kind="lib" path="lib/saaj-api.jar"/>
-    <classpathentry kind="lib" path="lib/yarfraw.jar"/>
-    <classpathentry kind="lib" path="lib/spring-jdbc.jar"/>
-    <classpathentry kind="lib" path="lib/drools-compiler.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-ejb-api_3.1_spec.jar"/>
+    <classpathentry kind="lib" path="lib/jgroups.jar"/>
+    <classpathentry kind="lib" path="lib/joda-time.jar"/>
+    <classpathentry kind="lib" path="lib/jsf-impl.jar"/>
+    <classpathentry kind="lib" path="lib/jsr250-api.jar"/>
+    <classpathentry kind="lib" path="lib/jsr305.jar"/>
+    <classpathentry kind="lib" path="lib/jta.jar"/>
+    <classpathentry kind="lib" path="lib/junit.jar"/>
+    <classpathentry kind="lib" path="lib/jxl.jar"/>
+    <classpathentry kind="lib" path="lib/knowledge-api.jar"/>
+    <classpathentry kind="lib" path="lib/log4j.jar"/>
+    <classpathentry kind="lib" path="lib/lucene-analyzers.jar"/>
+    <classpathentry kind="lib" path="lib/lucene-core.jar"/>
     <classpathentry kind="lib" path="lib/lucene-grouping.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-jms-api_1.1_spec.jar"/>
-    <classpathentry kind="lib" path="lib/hibernate-commons-annotations.jar"/>
-    <classpathentry kind="lib" path="lib/jackrabbit-spi.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-cache.jar"/>
-    <classpathentry kind="lib" path="lib/jcommon.jar"/>
-    <classpathentry kind="lib" path="lib/slf4j-log4j12.jar"/>
-    <classpathentry kind="lib" path="lib/spring-asm.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-seam-rss.jar"/>
-    <classpathentry kind="lib" path="lib/solr-solrj.jar"/>
-    <classpathentry kind="lib" path="lib/spring-core.jar"/>
-    <classpathentry kind="lib" path="lib/hibernate-entitymanager.jar"/>
+    <classpathentry kind="lib" path="lib/lucene-highlighter.jar"/>
     <classpathentry kind="lib" path="lib/lucene-memory.jar"/>
-    <classpathentry kind="lib" path="lib/jackson-mapper-asl.jar"/>
-    <classpathentry kind="lib" path="lib/solr-commons-csv.jar"/>
+    <classpathentry kind="lib" path="lib/lucene-misc.jar"/>
+    <classpathentry kind="lib" path="lib/lucene-smartcn.jar"/>
+    <classpathentry kind="lib" path="lib/lucene-spatial.jar"/>
+    <classpathentry kind="lib" path="lib/lucene-spellchecker.jar"/>
+    <classpathentry kind="lib" path="lib/lucene-stempel.jar"/>
+    <classpathentry kind="lib" path="lib/mail.jar"/>
+    <classpathentry kind="lib" path="lib/mvel2.jar"/>
+    <classpathentry kind="lib" path="lib/nekohtml.jar"/>
     <classpathentry kind="lib" path="lib/openid4java-nodeps.jar"/>
-    <classpathentry kind="lib" path="lib/wicket.jar"/>
-    <classpathentry kind="lib" path="lib/jackrabbit-api.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-seam-mail.jar"/>
-    <classpathentry kind="lib" path="lib/xml-apis.jar"/>
-    <classpathentry kind="lib" path="lib/hibernate-search-analyzers.jar"/>
-    <classpathentry kind="lib" path="lib/jackson-core-asl.jar"/>
-    <classpathentry kind="lib" path="lib/spring-beans.jar"/>
+    <classpathentry kind="lib" path="lib/paranamer.jar"/>
+    <classpathentry kind="lib" path="lib/pdfbox.jar"/>
+    <classpathentry kind="lib" path="lib/poi.jar"/>
+    <classpathentry kind="lib" path="lib/poi-scratchpad.jar"/>
+    <classpathentry kind="lib" path="lib/portlet-api.jar"/>
+    <classpathentry kind="lib" path="lib/quartz.jar"/>
+    <classpathentry kind="lib" path="lib/resteasy-atom-provider.jar"/>
+    <classpathentry kind="lib" path="lib/resteasy-jaxb-provider.jar"/>
+    <classpathentry kind="lib" path="lib/resteasy-jaxrs.jar"/>
+    <classpathentry kind="lib" path="lib/resteasy-jettison-provider.jar"/>
+    <classpathentry kind="lib" path="lib/rhq-pluginAnnotations.jar"/>
+    <classpathentry kind="lib" path="lib/richfaces-components-api.jar"/>
+    <classpathentry kind="lib" path="lib/richfaces-components-ui.jar"/>
+    <classpathentry kind="lib" path="lib/richfaces-core-api.jar"/>
+    <classpathentry kind="lib" path="lib/richfaces-core-impl.jar"/>
+    <classpathentry kind="lib" path="lib/saaj-api.jar"/>
+    <classpathentry kind="lib" path="lib/sac.jar"/>
+    <classpathentry kind="lib" path="lib/servlet-api.jar"/>
+    <classpathentry kind="lib" path="lib/slf4j-api.jar"/>
+    <classpathentry kind="lib" path="lib/slf4j-log4j12.jar"/>
+    <classpathentry kind="lib" path="lib/snakeyaml.jar"/>
+    <classpathentry kind="lib" path="lib/snappy-java.jar"/>
     <classpathentry kind="lib" path="lib/solr-analysis-extras.jar"/>
-    <classpathentry kind="lib" path="lib/dom4j.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-seam-ui.jar"/>
+    <classpathentry kind="lib" path="lib/solr-commons-csv.jar"/>
+    <classpathentry kind="lib" path="lib/solr-core.jar"/>
+    <classpathentry kind="lib" path="lib/solr-solrj.jar"/>
+    <classpathentry kind="lib" path="lib/spring-aop.jar"/>
+    <classpathentry kind="lib" path="lib/spring-asm.jar"/>
+    <classpathentry kind="lib" path="lib/spring-beans.jar"/>
+    <classpathentry kind="lib" path="lib/spring-context.jar"/>
+    <classpathentry kind="lib" path="lib/spring-core.jar"/>
+    <classpathentry kind="lib" path="lib/spring-expression.jar"/>
+    <classpathentry kind="lib" path="lib/spring-jdbc.jar"/>
+    <classpathentry kind="lib" path="lib/spring-orm.jar"/>
+    <classpathentry kind="lib" path="lib/spring-tx.jar"/>
+    <classpathentry kind="lib" path="lib/spring-web.jar"/>
+    <classpathentry kind="lib" path="lib/stax-api.jar"/>
+    <classpathentry kind="lib" path="lib/stax2-api.jar"/>
+    <classpathentry kind="lib" path="lib/test/aether-api-1.8.jar"/>
+    <classpathentry kind="lib" path="lib/test/aether-connector-wagon-1.8.jar"/>
+    <classpathentry kind="lib" path="lib/test/aether-impl-1.8.jar"/>
+    <classpathentry kind="lib" path="lib/test/aether-spi-1.8.jar"/>
+    <classpathentry kind="lib" path="lib/test/aether-util-1.8.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-config-api-1.0.0.CR7.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-config-api-1.0.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-config-impl-base-1.0.0.CR7.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-config-impl-base-1.0.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-container-impl-base-1.0.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-container-osgi-1.0.2.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-container-spi-1.0.0.CR7.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-container-spi-1.0.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-container-test-api-1.0.0.CR7.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-container-test-api-1.0.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-container-test-impl-base-1.0.0.CR7.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-container-test-impl-base-1.0.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-container-test-spi-1.0.0.CR7.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-container-test-spi-1.0.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-core-api-1.0.0.CR7.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-core-impl-base-1.0.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-core-spi-1.0.0.CR7.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-junit-container-1.0.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-junit-core-1.0.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-protocol-jmx-1.0.0.CR7.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-test-api-1.0.0.CR7.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-test-api-1.0.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-testenricher-cdi-1.0.0.CR7.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-testenricher-ejb-1.0.0.CR7.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-testenricher-initialcontext-1.0.0.CR7.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-testenricher-osgi-1.0.2.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-testenricher-resource-1.0.0.CR7.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-test-impl-base-1.0.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-test-spi-1.0.0.CR7.jar"/>
+<classpathentry kind="lib" path="lib/test/arquillian-test-spi-1.0.1.Final.jar"/>    
+    <classpathentry kind="lib" path="lib/test/google-collections-1.0.jar"/>
+    <classpathentry kind="lib" path="lib/test/hibernate-validator-4.2.0.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/httpserver-1.0.0.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/jandex-1.0.3.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/javax.inject-1.jar"/>
+    <classpathentry kind="lib" path="lib/test/jbosgi-deployment-1.0.12.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/jbosgi-framework-core-1.1.8.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/jbosgi-metadata-2.0.3.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/jbosgi-repository-api-1.0.5.jar"/>
+    <classpathentry kind="lib" path="lib/test/jbosgi-repository-core-1.0.5.jar"/>
+    <classpathentry kind="lib" path="lib/test/jbosgi-resolver-api-v2-2.0.0.Beta2.jar"/>
+    <classpathentry kind="lib" path="lib/test/jbosgi-resolver-api-1.0.13.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/jbosgi-resolver-felix-1.0.13.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/jbosgi-resolver-spi-1.0.13.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/jbosgi-spi-3.0.1.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/jbosgi-vfs-1.0.7.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/jbosgi-vfs30-1.0.7.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-annotations-api_1.1_spec-1.0.0.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/jboss-as-arquillian-common-7.1.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/jboss-as-arquillian-container-remote-7.1.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/jboss-as-arquillian-protocol-jmx-7.1.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/jboss-as-arquillian-testenricher-msc-7.1.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/jboss-as-build-config-7.1.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/jboss-as-controller-client-7.1.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/jboss-as-controller-7.1.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/jboss-as-deployment-repository-7.1.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/jboss-as-domain-http-interface-7.1.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/jboss-as-domain-management-7.1.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/jboss-as-ee-7.1.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/jboss-as-embedded-7.1.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/jboss-as-jmx-7.1.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/jboss-as-naming-7.1.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/jboss-as-network-7.1.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/jboss-as-osgi-service-7.1.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/jboss-as-platform-mbean-7.1.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/jboss-as-process-controller-7.1.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/jboss-as-protocol-7.1.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/jboss-as-remoting-7.1.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/jboss-as-server-7.1.1.Final.jar"/>
+<classpathentry kind="lib" path="lib/test/jboss-as-threads-7.1.1.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-common-core-2.2.17.GA.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-dmr-1.1.1.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-ejb-client-1.0.0.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-interceptors-api_1.1_spec-1.0.0.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-interceptor-spi-2.0.0.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-invocation-1.1.1.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-logging-3.1.0.GA.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-logmanager-log4j-1.0.0.GA.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-logmanager-1.2.2.GA.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-marshalling-river-1.3.11.GA.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-marshalling-1.3.9.GA.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-metadata-common-7.0.1.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-metadata-ear-7.0.1.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-modules-1.1.1.GA.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-msc-1.0.2.GA.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-remote-naming-1.0.2.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-remoting-3.2.3.GA.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-sasl-1.0.0.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-stdio-1.0.1.GA.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-threads-2.0.0.GA.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-transaction-api_1.1_spec-1.0.0.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/jboss-vfs-3.1.0.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/jdk-tools-jdk.jar"/>
+    <classpathentry kind="lib" path="lib/test/log4j-1.2.12.jar"/>
+    <classpathentry kind="lib" path="lib/test/maven-aether-provider-3.0.1.jar"/>
+    <classpathentry kind="lib" path="lib/test/maven-model-builder-3.0.1.jar"/>
+    <classpathentry kind="lib" path="lib/test/maven-model-3.0.1.jar"/>
+    <classpathentry kind="lib" path="lib/test/maven-repository-metadata-3.0.1.jar"/>
+    <classpathentry kind="lib" path="lib/test/maven-settings-builder-3.0.1.jar"/>
+    <classpathentry kind="lib" path="lib/test/maven-settings-3.0.1.jar"/>
+    <classpathentry kind="lib" path="lib/testng.jar"/>
+    <classpathentry kind="lib" path="lib/test/org.apache.felix.resolver-0.1.0.Beta1.jar"/>
+    <classpathentry kind="lib" path="lib/test/org.osgi.compendium-4.2.0.jar"/>
+    <classpathentry kind="lib" path="lib/test/org.osgi.core-4.2.0.jar"/>
+    <classpathentry kind="lib" path="lib/test/org.osgi.enterprise-4.2.0.jar"/>
+    <classpathentry kind="lib" path="lib/test/plexus-cipher-1.4.jar"/>
+    <classpathentry kind="lib" path="lib/test/plexus-classworlds-2.2.2.jar"/>
+    <classpathentry kind="lib" path="lib/test/plexus-component-annotations-1.5.5.jar"/>
+    <classpathentry kind="lib" path="lib/test/plexus-container-default-1.5.5.jar"/>
+    <classpathentry kind="lib" path="lib/test/plexus-interpolation-1.14.jar"/>
+    <classpathentry kind="lib" path="lib/test/plexus-sec-dispatcher-1.3.jar"/>
+    <classpathentry kind="lib" path="lib/test/plexus-utils-2.0.4.jar"/>
+    <classpathentry kind="lib" path="lib/test/remoting-jmx-1.0.2.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/shrinkwrap-api-1.0.0-cr-1.jar"/>
+    <classpathentry kind="lib" path="lib/test/shrinkwrap-descriptors-api-1.1.0-beta-1.jar"/>
+    <classpathentry kind="lib" path="lib/test/shrinkwrap-descriptors-spi-1.1.0-beta-1.jar"/>
+    <classpathentry kind="lib" path="lib/test/shrinkwrap-impl-base-1.0.0-cr-1.jar"/>
+    <classpathentry kind="lib" path="lib/test/shrinkwrap-resolver-api-maven-1.0.0-beta-5.jar"/>
+    <classpathentry kind="lib" path="lib/test/shrinkwrap-resolver-api-1.0.0-beta-5.jar"/>
+    <classpathentry kind="lib" path="lib/test/shrinkwrap-resolver-impl-maven-1.0.0-beta-5.jar"/>
+    <classpathentry kind="lib" path="lib/test/shrinkwrap-spi-1.0.0-cr-1.jar"/>
+    <classpathentry kind="lib" path="lib/test/slf4j-api-1.6.1.jar"/>
+    <classpathentry kind="lib" path="lib/test/staxmapper-1.1.0.Final.jar"/>
+    <classpathentry kind="lib" path="lib/test/validation-api-1.0.0.GA.jar"/>
+    <classpathentry kind="lib" path="lib/test/wagon-file-1.0-beta-7.jar"/>
+    <classpathentry kind="lib" path="lib/test/wagon-http-lightweight-1.0-beta-7.jar"/>
+    <classpathentry kind="lib" path="lib/test/wagon-http-shared-1.0-beta-7.jar"/>
+    <classpathentry kind="lib" path="lib/test/wagon-provider-api-1.0-beta-7.jar"/>
+    <classpathentry kind="lib" path="lib/test/xbean-reflect-3.4.jar"/>
+    <classpathentry kind="lib" path="lib/test/xnio-api-3.0.0.GA.jar"/>
+    <classpathentry kind="lib" path="lib/test/xnio-nio-3.0.3.GA.jar"/>
+    <classpathentry kind="lib" path="lib/urlrewritefilter.jar"/>
+    <classpathentry kind="lib" path="lib/validation-api.jar"/>
     <classpathentry kind="lib" path="lib/wicket-datetime.jar"/>
     <classpathentry kind="lib" path="lib/wicket-extensions.jar"/>
-    <classpathentry kind="lib" path="lib/@driverJar@"/>
-    <classpathentry kind="output" path="test-build"/>
+    <classpathentry kind="lib" path="lib/wicket-ioc.jar"/>
+    <classpathentry kind="lib" path="lib/wicket.jar"/>
+    <classpathentry kind="lib" path="lib/woodstox-core-asl.jar"/>
+    <classpathentry kind="lib" path="lib/xercesImpl.jar"/>
+    <classpathentry kind="lib" path="lib/xml-apis.jar"/>
+    <classpathentry kind="lib" path="lib/yarfraw.jar"/>
 </classpath>

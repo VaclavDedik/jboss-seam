@@ -209,6 +209,9 @@
             <filter token="listName" value="${component.name}List"/>
             <filter token="homeName" value="${component.name}Home"/>
             <filter token="query" value="${query.text}"/>
+        	<filter token="projectName" value="${project.name}"/>
+        	<filter token="projectType" value="${project.type}"/>
+        	<filter token="workspaceHome" value="${workspace.home}"/>
         </filterset>
 
     </target>
@@ -1305,10 +1308,14 @@
         <copy file="${templates.dir}/src/Action.java" tofile="${interface.file}">
             <filterset refid="filters"/>
         </copy>
+        <copy file="${templates.dir}/test/Deployments.java" tofile="${project.home}/src/${test.dir}/Deployments.java">
+            <filterset refid="filters"/>
+        </copy>    	
         <copy file="${templates.dir}/test/ActionTest.java" tofile="${test.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="${templates.dir}/test/testng.xml" tofile="${testng.file}">
+    	<mkdir dir="${project.home}/resources-test"/>
+        <copy file="${templates.dir}/test/arquillian.xml" tofile="${project.home}/resources-test/arquillian.xml">
             <filterset refid="filters"/>
         </copy>
         <copy file="${templates.dir}/view/action.xhtml" tofile="${page.file}">
@@ -1325,7 +1332,11 @@
         <copy file="${templates.dir}/test/ActionTest.java" tofile="${test.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="${templates.dir}/test/testng.xml" tofile="${testng.file}">
+        <copy file="${templates.dir}/test/Deployments.java" tofile="${project.home}/src/${test.dir}/Deployments.java">
+            <filterset refid="filters"/>
+        </copy>      	
+        <mkdir dir="${project.home}/resources-test"/>
+        <copy file="${templates.dir}/test/arquillian.xml" tofile="${project.home}/resources-test/arquillian.xml">
             <filterset refid="filters"/>
         </copy>
         <copy file="${templates.dir}/view/action.xhtml" tofile="${page.file}">
@@ -1342,12 +1353,16 @@
         <copy file="${templates.dir}/test/FormTest.java" tofile="${test.file}">
             <filterset refid="filters"/>
         </copy>
+        <copy file="${templates.dir}/test/Deployments.java" tofile="${project.home}/src/${test.dir}/Deployments.java">
+            <filterset refid="filters"/>
+        </copy>     	
         <copy file="${templates.dir}/view/form.xhtml" tofile="${page.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="${templates.dir}/test/testng.xml" tofile="${testng.file}">
+        <mkdir dir="${project.home}/resources-test"/>
+        <copy file="${templates.dir}/test/arquillian.xml" tofile="${project.home}/resources-test/arquillian.xml">
             <filterset refid="filters"/>
-        </copy>
+        </copy>    	
         <echo message="Type '${seam.cmd} explode' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
     </target>
 
@@ -1365,7 +1380,11 @@
         <copy file="${templates.dir}/view/form.xhtml" tofile="${page.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="${templates.dir}/test/testng.xml" tofile="${testng.file}">
+        <copy file="${templates.dir}/test/Deployments.java" tofile="${project.home}/src/${test.dir}/Deployments.java">
+            <filterset refid="filters"/>
+        </copy>         
+        <mkdir dir="${project.home}/resources-test"/>
+        <copy file="${templates.dir}/test/arquillian.xml" tofile="${project.home}/resources-test/arquillian.xml">
             <filterset refid="filters"/>
         </copy>
         <echo message="Type '${seam.cmd} restart' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>

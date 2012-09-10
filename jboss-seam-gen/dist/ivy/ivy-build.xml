@@ -1,21 +1,19 @@
 <?xml version="1.0"?>
 <project basedir="." xmlns:ivy="antlib:org.apache.ivy.ant" name="@projectName@-ivy">
-	<property name="ivy.install.version" value="2.0.0"/>
+	<property name="ivy.install.version" value="2.2.0"/>
 	<property name="ivy.jar.dir" value="${lib.dir}/ivy"/>
 	<property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar"/>
 	<property name="ivy.sync" value="false"/>
 	<property name="ivy.use.symlinks" value="false"/>
 	<property name="central.repo" value="http://repo1.maven.org/maven2"/>
 	<property name="jboss.repo" value="http://repository.jboss.org/nexus/content/groups/public"/>
-	<property name="jboss.deprecated.repo" value="https://repository.jboss.org/nexus/content/repositories/deprecated/"/>
-	
 
 	<!-- centralize some key artifact versions -->
-	<property name="seam.version" value="2.2.1.CR2"/>
-	<property name="jsf.version" value="1.2_12"/>
+	<property name="seam.version" value="2.3.0.CR1-SNAPSHOT"/>
+	<!--<property name="jsf.version" value="1.2_12"/>
 	<property name="richfaces.version" value="3.3.3.Final"/>
 	<property name="icefaces.version" value="1.8.1"/>
-	<property name="jboss-embedded.version" value="beta3.SP10"/>
+	<property name="jboss-embedded.version" value="beta3.SP10"/> -->
 
 	<target name="init-ivy">
 		<available property="ivy.installed" value="true" file="${ivy.jar.file}" type="file"/>

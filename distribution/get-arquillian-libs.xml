@@ -7,11 +7,13 @@
 	
   <property name="test.lib.dir" location="test" />
   <property name="version.jboss-as7" value="7.1.1.Final"/>
+	<property name="version.arquillian-junit" value="1.0.1.Final"/>
   <target name="copyarq" >
         <mkdir dir="${test.lib.dir}"/>
 		<aether:resolve>
 		    <aether:dependencies>
-		        <aether:dependency groupid="org.jboss.as" artifactid="jboss-as-arquillian-container-managed" version="${version.jboss-as7}" />
+		        <aether:dependency groupid="org.jboss.as" artifactid="jboss-as-arquillian-container-remote" version="${version.jboss-as7}" />
+		    	<aether:dependency groupid="org.jboss.arquillian.junit" artifactid="arquillian-junit-container" version="${version.arquillian-junit}" />
 		    </aether:dependencies>
 		    <files dir="${test.lib.dir}"  layout="{artifactId}-{version}-{classifier}.{extension}" />
 		</aether:resolve>

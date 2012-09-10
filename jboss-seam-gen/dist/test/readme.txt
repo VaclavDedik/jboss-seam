@@ -1,4 +1,4 @@
-If you want to run tests using the Eclipse TestNG plugin, you'll need to add
+If you want to run tests using the Eclipse Junit plugin, you'll need to add
 these jars to the top of your TestNG classpath. Using the Run Dialog, select the
 XML suite to run, and select these entries from the project tree:
 
