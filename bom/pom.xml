@@ -141,12 +141,6 @@
 
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
-				<artifactId>jboss-seam-jul</artifactId>
-				<version>${version.seam}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.jboss.seam</groupId>
 				<artifactId>jboss-seam-flex</artifactId>
 				<version>${version.seam}</version>
 			</dependency>

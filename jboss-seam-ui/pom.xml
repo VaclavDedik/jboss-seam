@@ -137,11 +137,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.jboss.seam</groupId>
-            <artifactId>jboss-seam-jul</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>antlr</groupId>
             <artifactId>antlr</artifactId>
             <optional>true</optional>

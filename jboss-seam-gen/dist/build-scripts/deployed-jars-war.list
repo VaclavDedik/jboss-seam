@@ -44,7 +44,6 @@ spring-expression.jar
 guice.jar
 jboss-seam-mail.jar
 jboss-seam-ui.jar
-jboss-seam-jul.jar
 jboss-seam-pdf.jar
 itext.jar
 itext-rtf.jar

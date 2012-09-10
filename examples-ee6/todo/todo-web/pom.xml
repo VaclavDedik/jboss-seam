@@ -48,10 +48,6 @@
             <artifactId>jboss-seam-ui</artifactId>
             <exclusions>
                 <exclusion>
-                    <groupId>org.jboss.seam</groupId>
-                    <artifactId>jboss-seam-jul</artifactId>
-                </exclusion>
-                <exclusion>
                     <groupId>commons-beanutils</groupId>
                     <artifactId>commons-beanutils</artifactId>
                 </exclusion>

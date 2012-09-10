@@ -43,12 +43,6 @@
         <dependency>
             <groupId>org.jboss.seam</groupId>
             <artifactId>jboss-seam-ui</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.jboss.seam</groupId>
-                    <artifactId>jboss-seam-jul</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>

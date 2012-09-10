@@ -96,10 +96,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.seam</groupId>
-			<artifactId>jboss-seam-jul</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.seam</groupId>
 			<artifactId>jboss-seam-mail</artifactId>
 		</dependency>
 		<dependency>
@@ -150,12 +146,6 @@
 		<dependency>
 			<groupId>org.jboss.seam</groupId>
 			<artifactId>jboss-seam-ioc</artifactId>
-			<version>${project.version}</version>
-			<classifier>sources</classifier>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.seam</groupId>
-			<artifactId>jboss-seam-jul</artifactId>
 			<version>${project.version}</version>
 			<classifier>sources</classifier>
 		</dependency>

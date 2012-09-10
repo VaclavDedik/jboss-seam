@@ -43,7 +43,6 @@
 		<dependency org="org.jboss.seam" name="jboss-seam-debug" rev="${seam.version}" conf="default,sources"/>
 		<dependency org="org.jboss.seam" name="jboss-seam-excel" rev="${seam.version}" conf="default,sources"/>
 		<dependency org="org.jboss.seam" name="jboss-seam-ioc" rev="${seam.version}" conf="default,sources"/>
-		<dependency org="org.jboss.seam" name="jboss-seam-jul" rev="${seam.version}" conf="default,sources"/>
 		<dependency org="org.jboss.seam" name="jboss-seam-mail" rev="${seam.version}" conf="default,sources"/>
 		<dependency org="org.jboss.seam" name="jboss-seam-pdf" rev="${seam.version}" conf="default,sources"/>
 		<dependency org="org.jboss.seam" name="jboss-seam-remoting" rev="${seam.version}" conf="default,sources"/>

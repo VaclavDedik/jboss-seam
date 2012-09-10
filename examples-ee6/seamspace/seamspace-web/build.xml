@@ -43,7 +43,6 @@
 
    <artifact:dependencies pathId="project.classpath" filesetId="project.fileset" useScope="runtime">
       <dependency groupId="org.jboss.seam" artifactId="jboss-seam-ui" version="2.3.0.Final-SNAPSHOT" scope="runtime">
-         <exclusion groupId="org.jboss.seam" artifactId="jboss-seam-jul"/>
          <exclusion groupId="org.jboss.seam" artifactId="jboss-seam"/>
       </dependency>
       <dependency groupId="org.jboss.seam" artifactId="jboss-seam-debug" version="2.3.0.Final-SNAPSHOT"
