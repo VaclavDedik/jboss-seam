@@ -266,7 +266,6 @@
               file="${basedir}/resources/WEB-INF/web.xml">
             <filterset refid="profile"/>
         </copy>
-        
     </target>
 
     <target name="clear-profile-artifacts" depends="init"
@@ -297,9 +296,11 @@
         <copy todir="${war.deploy.dir}">
             <fileset dir="${war.dir}"/>
         </copy>
+        <touch file="${deploy.dir}/${project.name}.war.dodeploy"/>
     </target>
     
     <target name="unexplode" description="Undeploy the exploded archive">
+        <delete file="${deploy.dir}/${project.name}.war.deployed"/>
         <delete failonerror="no">
             <fileset dir="${war.deploy.dir}">
                 <exclude name="**/*.jar"/>
@@ -315,13 +316,16 @@
     <target name="check-deployed" description="Check to see if packaged archive is currently deployed">
         <fail unless="jboss.home">jboss.home not set</fail>
         <condition property="archive.deployed" value="true">
-            <available file="${war.deploy.dir}" type="file"/>
+            <available file="${deploy.dir}/${project.name}.war.deployed" type="file"/>
+            <!-- <available file="${war.deploy.dir}" type="file"/> -->
         </condition>
     </target>
 
     <target name="restart-exploded" unless="archive.deployed" description="Deploy exploded archive if not deployed as packaged archive">
         <antcall target="explode"/>
-        <touch file="${war.deploy.dir}/WEB-INF/web.xml"/>
+        <!-- <touch file="${war.deploy.dir}/WEB-INF/web.xml"/> -->
+        <!-- JBoss AS 7 way how to say deploy exploded archive -->
+        <touch file="${deploy.dir}/${project.name}.war.dodeploy"/>
     </target>
 
     <target name="restart-deployed" if="archive.deployed" description="Deploy packaged archive if deployed as packaged archive">
@@ -477,11 +481,11 @@
     </target>
 
    <target name="purge" depends="undeploy" description="Clean out JBoss AS temporary deployment files">
-        <delete dir="${jboss.home}/server/default/tmp/deploy"/>
-        <mkdir dir="${jboss.home}/server/default/tmp/deploy/"/>
-        <delete dir="${jboss.home}/server/default/tmp/sessions"/>
-        <mkdir dir="${jboss.home}/server/default/tmp/sessions"/>
-        <delete dir="${jboss.home}/server/default/work/jboss.web/localhost/${project.name}"/>
+        <delete dir="${deploy.dir}/${project.name}.war.undeployed"/>
+        <delete dir="${deploy.dir}/${project.name}-ds.xml.undeployed"/>
+        <delete dir="${deploy.dir}/${project.name}.war.failed"/>
+        <delete dir="${deploy.dir}/${project.name}-ds.xml.failed"/>
+        <delete dir="${deploy.dir}/${project.name}.war"/>
     </target>
 
 </project>
