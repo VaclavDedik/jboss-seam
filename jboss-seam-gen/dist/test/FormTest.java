@@ -7,21 +7,21 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OverProtocol;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.mock.JUnitSeamTest;
-import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.runner.RunWith;
-import  @actionPackage@.@interfaceName@;
+import @actionPackage@.@interfaceName@;
+import @actionPackage@.@beanName@;
 
 @RunWith(Arquillian.class)
 public class @interfaceName@Test extends JUnitSeamTest {
 
    @Deployment(name="@interfaceName@Test")
    @OverProtocol("Servlet 3.0") 
-   public static Archive<?> createDeployment()
+   public static WebArchive createDeployment()
    {
-      // use in case jbpm is required in test deployment
-      // return Deployments.jbpmSeamDeployment().addClasses(ProcessComponent.class);
-      return Deployments.defaultWarDeployment()
-            .addClasses(@interfaceName@.class);
+      return Deployments.defaultDeployment()
+            .addClasses(@interfaceName@.class, @beanName@.class)
+            .addAsResource("seam.properties");
    }
    
 	@Test

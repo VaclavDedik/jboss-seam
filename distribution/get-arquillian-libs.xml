@@ -14,6 +14,7 @@
 		    <aether:dependencies>
 		        <aether:dependency groupid="org.jboss.as" artifactid="jboss-as-arquillian-container-remote" version="${version.jboss-as7}" />
 		    	<aether:dependency groupid="org.jboss.arquillian.junit" artifactid="arquillian-junit-container" version="${version.arquillian-junit}" />
+		    	<aether:dependency groupid="org.jboss.arquillian.protocol" artifactid="arquillian-protocol-servlet" version="${version.arquillian-junit}" />
 		    </aether:dependencies>
 		    <files dir="${test.lib.dir}"  layout="{artifactId}-{version}-{classifier}.{extension}" />
 		</aether:resolve>
