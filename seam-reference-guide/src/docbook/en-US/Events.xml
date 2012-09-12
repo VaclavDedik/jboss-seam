@@ -994,7 +994,12 @@ public class LoggedInInterceptor
 </filter-mapping>]]></programlisting>
 
         <para>
-            You need to disable Facelets development mode in <literal>web.xml</literal> and
+            As the second requirement is to add <literal>web:exception-filter</literal> configuration component 
+            into <filename>WEB-INF/components.xml</filename>. More details are in <xref linkend="exception_handling"/> 
+        </para>
+
+        <para>
+            You need to disable Facelets development mode in <literal>web.xml</literal> too and
             Seam debug mode in <literal>components.xml</literal> if you want your exception handlers
             to fire.
         </para>

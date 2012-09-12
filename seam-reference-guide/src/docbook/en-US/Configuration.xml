@@ -156,7 +156,7 @@
 
             <para> Adding the master filter enables the following built-in filters. </para>
 
-            <sect3>
+            <sect3 id="exception_handling">
                 <title>Exception handling</title>
                 <para> This filter provides the exception mapping functionality in <literal>pages.xml</literal> (almost
                     all applications will need this). It also takes care of rolling back uncommitted transactions when
