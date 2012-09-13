@@ -41,7 +41,6 @@
     <classpathentry kind="lib" path="lib/ehcache.jar"/>
     <classpathentry kind="lib" path="lib/el-api.jar"/>
     <classpathentry kind="lib" path="lib/fontbox.jar"/>
-    <classpathentry kind="lib" path="lib/resteasy-atom-provider.jar"/>
     <classpathentry kind="lib" path="lib/groovy-all.jar"/>
     <classpathentry kind="lib" path="lib/guava.jar"/>
     <classpathentry kind="lib" path="lib/guice.jar"/>
