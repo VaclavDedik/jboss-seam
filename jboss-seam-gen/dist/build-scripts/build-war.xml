@@ -424,7 +424,8 @@
          -->
     </target>
     
-    <target name="test" depends="buildtest" description="Run the tests">            
+    <target name="test" depends="buildtest" description="Run the tests">
+    	<fail message="Test target is currently not supported"/>
         <fail message="Cannot run tests because path to project contains spaces.">
             <condition>
                 <contains string="${basedir}" substring=" "/>

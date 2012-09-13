@@ -94,7 +94,7 @@ SEAM CODE GENERATION COMMANDS
    new-form
       Create a new Java interface and SFSB with key Seam/EJB3
       annotations, and associated xhtml view. Also, create a new
-      TestNG test case that can be used to simulate a JSF
+      JUnit ARQ test case that can be used to simulate a JSF
       request/response and standard JUnit type tests.
 
       Example: seam new-form

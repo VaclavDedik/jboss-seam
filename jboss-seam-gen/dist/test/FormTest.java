@@ -10,7 +10,7 @@ import org.jboss.seam.mock.JUnitSeamTest;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.runner.RunWith;
 import @actionPackage@.@interfaceName@;
-import @actionPackage@.@beanName@;
+//import @actionPackage@.@beanName@;
 
 @RunWith(Arquillian.class)
 public class @interfaceName@Test extends JUnitSeamTest {
@@ -19,9 +19,9 @@ public class @interfaceName@Test extends JUnitSeamTest {
    @OverProtocol("Servlet 3.0") 
    public static WebArchive createDeployment()
    {
-      return Deployments.defaultDeployment()
-            .addClasses(@interfaceName@.class, @beanName@.class)
-            .addAsResource("seam.properties");
+//      return Deployments.defaultDeployment()
+//            .addClasses(@interfaceName@.class, @beanName@.class)
+//            .addAsResource("seam.properties");
    }
    
 	@Test
