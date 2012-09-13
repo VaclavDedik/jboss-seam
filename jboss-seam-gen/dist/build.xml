@@ -30,7 +30,6 @@
     <condition property="jboss.home" value="${env.JBOSS_HOME}" else="C:/Program Files/jboss-as-7.1.1.Final">
         <isset property="env.JBOSS_HOME"/>
     </condition>
-    <property name="jboss.domain" value="standalone"/>
     <condition property="glassfish.home" value="${env.GLASSFISH_HOME}" else="C:/Program Files/glassfish-v2.1">
         <isset property="env.GLASSFISH_HOME"/>
     </condition>
@@ -181,7 +180,6 @@
             <filter token="testPackage" value="${test.package}"/>
             <filter token="deploymentType" value="${project.type}"/>
             <filter token="jbossHome" value="${jboss.home}"/>
-            <filter token="jbossDomain" value="${jboss.domain}"/>
             <filter token="glassfishHome" value="${glassfish.home}"/>
             <filter token="glassfishDomain" value="${glassfish.domain}"/>
             <filter token="iceHome" value="${icefaces.home}"/>
@@ -234,11 +232,6 @@
                    message="Enter your JBoss AS home directory [${old.jboss.home}]"
               defaultvalue="${old.jboss.home}"/>
         <pathFixer property="jboss.home.new"/>
-
-        <property name="old.jboss.domain" value="${jboss.domain}"/>
-        <input addproperty="jboss.domain.new"
-                   message="Enter your JBoss AS domain [${old.jboss.domain}]"
-              defaultvalue="${old.jboss.domain}"/>
 
         <property name="old.glassfish.home" value="${glassfish.home}"/>
         <input addproperty="glassfish.home.new"
@@ -575,7 +568,6 @@
             <entry key="richfaces.skin" value="${richfaces.skin.new}"/>
             <entry key="project.type" value="${project.type.new}"/>
             <entry key="jboss.home" value="${jboss.home.new}"/>
-            <entry key="jboss.domain" value="${jboss.domain.new}"/>
             <entry key="glassfish.home" value="${glassfish.home.new}"/>
             <entry key="glassfish.domain" value="${glassfish.domain.new}"/>
             <entry key="icefaces" value="${icefaces.new}"/>
@@ -604,7 +596,7 @@
         <condition property="has.license.jar">
             <not><equals arg1="${driver.license.jar.new}" arg2=""/></not>
         </condition>
-        <copy todir="${jboss.home.new}/${jboss.domain.new}/deployments" overwrite="true">
+        <copy todir="${jboss.home.new}/standalone/deployments" overwrite="true">
             <fileset file="${driver.jar.new}">
                 <include name="${driver.jar.new}"/>
             </fileset>
