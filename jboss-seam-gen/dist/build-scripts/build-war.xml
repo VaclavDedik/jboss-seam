@@ -69,12 +69,8 @@
         <property name="transactionManagerLookupClass" value="org.hibernate.transaction.JBossTransactionManagerLookup"/>
         <property name="ejbJndiPattern" value="java:app/${project.name}.jar/#{ejbName}"/>
         <property name="seamBootstrapsPu" value="false" />
-        <condition property="seamEmfRef" value="#{entityManagerFactory}" else="#{null}">
-            <istrue value="${seamBootstrapsPu}"/>
-        </condition>
-        <condition property="puJndiName" value="#{null}" else="java:comp/env/${project.name}/pu">
-            <istrue value="${seamBootstrapsPu}"/>
-        </condition>
+        <property name="seamEmfRef" value="#{null}"/>
+        <property name="puJndiName" value="java:/${project.name}EntityManagerFactory"/>
 
         <filterset id="persistence">
             <filter token="transactionManagerLookupClass" value="${transactionManagerLookupClass}"/>
