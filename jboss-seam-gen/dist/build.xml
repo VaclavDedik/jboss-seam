@@ -1108,7 +1108,7 @@
                 <include name="login.page.xml"/>
                 <include name="index.html"/>
                 <include name="layout/*"/>
-                <include name="stylesheet/*"/>
+                <include name="resources/*"/>
                 <exclude name="**/*.ftl"/>
             </fileset>
             <filterset refid="project"/>
@@ -1237,7 +1237,7 @@
         <copy todir="${project.home}/view">
             <fileset dir="${templates.dir}/view">
                 <include name="useradmin/**"/>
-                <include name="stylesheet/useradmin.css"/>
+                <include name="resources/useradmin.css"/>
                 <include name="img/btn*"/>
                 <include name="img/true.png"/>
                 <include name="img/false.png"/>

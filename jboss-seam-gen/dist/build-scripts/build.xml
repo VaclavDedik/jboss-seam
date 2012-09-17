@@ -227,12 +227,12 @@
 				<include name="messages*.properties"/>
 				<include name="*.skin.properties" if="richfaces.present"/>
 				<include name="*_theme.properties"/>
-				<include name="**/*.xcss" if="richfaces.present"/>
+				<include name="**/*.ecss" if="richfaces.present"/>
 			</fileset>
-			<!-- move XCSS into classpath for now
+			<!-- move ECSS into classpath for now
                  loading from web context only works in JBoss AS 4 -->
 			<fileset dir="${basedir}/view">
-				<include name="**/*.xcss" if="richfaces.present"/>
+				<include name="**/*.ecss" if="richfaces.present"/>
 			</fileset>
 		</copy>
 		<copy todir="${war.dir}/WEB-INF" 

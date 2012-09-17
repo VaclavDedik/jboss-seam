@@ -248,12 +248,12 @@
                 <include name="jbpm.cfg.xml" />
                 <include name="META-INF/orm.xml" />
                 <include name="*.skin.properties" if="richfaces.present"/>
-                <include name="**/*.xcss" if="richfaces.present"/>
+                <include name="**/*.ecss" if="richfaces.present"/>
             </fileset>
-            <!-- move XCSS into classpath for now
+            <!-- move ECSS into classpath for now
                  loading from web context only works in JBoss AS 4 -->
             <fileset dir="${basedir}/view"> 
-                <include name="**/*.xcss" if="richfaces.present"/>
+                <include name="**/*.ecss" if="richfaces.present"/>
             </fileset>
         </copy>
         
