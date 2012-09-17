@@ -82,9 +82,9 @@
 <#assign parentName = parentPojo.shortName?uncap_first>
 
 <#if property.optional>
-    <rich:tab label="${label(property.name)}">
+    <rich:tab header="${label(property.name)}">
 <#else>
-    <rich:tab label="${label(property.name)} *" labelClass="required">
+    <rich:tab header="${label(property.name)} *" labelClass="required">
 </#if>
     <div class="association" id="${property.name}Parent">
 
@@ -145,7 +145,7 @@
 </#if>
 <#if c2h.isOneToManyCollection(property)>
 
-    <rich:tab label="${label(property.name)}">
+    <rich:tab header="${label(property.name)}">
         <h:form styleClass="association" id="${property.name}Children">
 
 <#assign childPojo = c2j.getPOJOClass(property.value.element.associatedClass)>

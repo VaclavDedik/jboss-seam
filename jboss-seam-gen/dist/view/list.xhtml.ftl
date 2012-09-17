@@ -19,7 +19,7 @@
 
     <h:form id="${componentName}Search" styleClass="edit">
 
-        <rich:collapsiblePanel label="${entityName} Search Filter" switchType="ajax">
+        <rich:collapsiblePanel header="${entityName} Search Filter" switchType="ajax">
 
 <#assign searchParamNames = []/>
 <#foreach property in pojo.allPropertiesIterator>

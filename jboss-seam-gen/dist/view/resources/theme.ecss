@@ -49,19 +49,19 @@ input[type=submit][disabled], input[type=button][disabled]{
 	border:0;
 	font-size:11px;
 }
-.rich-table-subheadercell{
+.rf-tbl-subheadercell{
 	background-image:"url(#{resource['org.richfaces.renderkit.images.TabGradientB']})";
 }
-.rich-toolbar a:link, .rich-toolbar a:visited, .rich-toolbar a:active, .rich-toolbar a:hover{
+.rf-tb a:link, .rf-tb a:visited, .rf-tb a:active, .rf-tb a:hover{
 	color:'#{richSkin.headerTextColor}';
 }
-.rich-toolbar a:hover{
+.rf-tb a:hover{
 	color:'#{richSkin.generalTextColor}';
 }
-.rich-toolbar .rich-menu-item, .rich-toolbar .rich-menu-item a, .rich-toolbar .rich-menu-item a:hover, .rich-toolbar .rich-menu-item a:visited{
+.rf-tb .rf-ddm-itm, .rf-tb .rf-ddm-itm a, .rf-tb .rf-ddm-itm a:hover, .rf-tb .rf-ddm-itm a:visited{
 	color:'#{richSkin.generalTextColor}';
 }
-.rich-table-subheadercell a:hover{
+.rf-tbl-subheadercell a:hover{
 	color:'#{richSkin.calendarHolidaysTextColor}';
 }
 input[type=text][class*=rich-combobox-button-icon]{

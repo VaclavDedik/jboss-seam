@@ -49,7 +49,7 @@ select {
 	margin-bottom: 10px;
 }
 
-.rich-table {
+.rf-tbl {
 	width: 100%;
 }
 
@@ -124,19 +124,19 @@ img.errors {
 	padding-left: 2px;
 }
 
-.rich-stglpanel-body {
+.rf-cp {
 	overflow: auto;
 } 
 
 /* the specificity here is necessary to override the defaults */
 /*
-.rich-panel .rich-panel-header,
-.rich-stglpanel .rich-stglpanel-header {
+.rf-p .rf-p-hdr,
+.rf-cp .rf-cp-hdr {
 	padding: 2px 3px;
 }*/
 
-.rich-panel input[type=submit], .rich-panel input[type=button],
-.rich-tabpanel input[type=submit], .rich-tabpanel input[type=button] {
+.rf-p input[type=submit], .rf-p input[type=button],
+.rf-tbp input[type=submit], .rf-tbp input[type=button] {
 	margin-bottom: 0;
 }
 
@@ -160,25 +160,25 @@ img.errors {
 	vertical-align: bottom;
 }
 
-.rich-toolbar-item a {
+.rf-tb-itm a {
 	text-decoration: none;
 }
 
-.rich-toolbar-item a:hover, .rich-ddmenu-label-select {
+.rf-tb-itm a:hover, .rf-ddmenu-label-select {
 	text-decoration: underline;
 }
 
-.rich-toolbar-item .rich-menu-item a:hover {
+.rf-tb-itm .rf-menu-itm a:hover {
 	text-decoration: none;
 }
 
-.rich-datalist {
+.rf-dl {
 	list-style: square;
 	margin: 6px 0 1px 0;
 	padding-left: 18px;
 }
 
-.rich-list-item {
+.rf-lst-itm {
 	padding-bottom: 4px;
 }
 
