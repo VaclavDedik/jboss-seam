@@ -311,8 +311,7 @@
     <target name="check-deployed" description="Check to see if packaged archive is currently deployed">
         <fail unless="jboss.home">jboss.home not set</fail>
         <condition property="archive.deployed" value="true">
-            <available file="${deploy.dir}/${project.name}.war.deployed" type="file"/>
-            <!-- <available file="${war.deploy.dir}" type="file"/> -->
+            <available file="${war.deploy.dir}" type="file"/>
         </condition>
     </target>
 
