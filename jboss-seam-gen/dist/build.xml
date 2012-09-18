@@ -978,9 +978,9 @@
            package persistence.xml in the WAR, and add a <jar-file> element in persistence.xml with value "../../@projectName@.jar".
       <persistence-unit-name>@projectName@</persistence-unit-name>
       -->
-   <!--</persistence-unit-ref>
+   <!--</persistence-unit-ref>-->
 
-</web-app>-->]]></replacevalue>
+</web-app>]]></replacevalue>
 
         </replace>
 
