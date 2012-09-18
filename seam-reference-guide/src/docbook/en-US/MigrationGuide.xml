@@ -1,0 +1,367 @@
+<chapter id="migration23">
+ <title>Migration from 2.2 to 2.3</title> 
+ <para>Before you get started with Seam 2.3, there are a few things you should be aware
+of. This process should not be too painful - if you get stuck, just refer back
+to the updated Seam examples in Seam distribution.</para>
+
+   <para>
+   This migration guide assumes you are using Seam 2.2, if you are migrating from
+   Seam 1.2 or 2.0, see the <filename>jboss-seam-x.y.z.Final/seam2migration.txt</filename> and <filename>jboss-seam-x.y.z.Final/seam21migration.txt</filename> guide as well.
+    </para>
+   
+ <section id="newschemas">
+<title>Migration of XML Schemas</title>
+
+   <section id="seamschemamig">
+   <title>Seam schema migration</title>
+   <para>XML schemas for validation Files that use the Seam 2.2 XSDs should be updated to refer to 
+   the 2.3 XSDs, notice the version change. Current namespace pattern is <literal>www.jboss.org/schema/seam/*</literal> and schemaLocation URL was changed to <literal>www.jboss.org/schema/seam/*_-2.3.xsd</literal>, where <literal>*</literal> is Seam module.</para>
+
+   <para>Following snippet is an example of component declaration for 2.2 version:</para>
+   <example id="seam22components">
+   <title>Before migration of Seam <filename>components.xml</filename></title>
+   <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+   <components xmlns="http://jboss.com/products/seam/components"
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
+            xmlns:security="http://jboss.com/products/seam/security"
+            xmlns:theme="http://jboss.com/products/seam/theme"
+            xmlns:cache="http://jboss.com/products/seam/cache"
+            xmlns:web="http://jboss.com/products/seam/web"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation=
+                    "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.2.xsd
+                 http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.2.xsd
+                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.2.xsd
+                 http://jboss.com/products/seam/theme http://jboss.com/products/seam/theme-2.2.xsd
+                 http://jboss.com/products/seam/cache http://jboss.com/products/seam/cache-2.2.xsd
+                 http://jboss.com/products/seam/web http://jboss.com/products/seam/web-2.2.xsd
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.2.xsd">]]></programlisting>
+   </example>
+   
+   
+   <para>And finally migrated declaration of <filename>components.xml</filename> for 2.3 version:</para>
+   <example id="seam23components">
+      <title>Migrated <filename>components.xml</filename></title>
+      <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+      <components xmlns="http://jboss.org/schema/seam/components"
+                  xmlns:core="http://jboss.org/schema/seam/core"
+                  xmlns:persistence="http://jboss.org/schema/seam/persistence"
+                  xmlns:security="http://jboss.org/schema/seam/security"
+                  xmlns:theme="http://jboss.org/schema/seam/theme"
+                  xmlns:cache="http://jboss.org/schema/seam/cache"
+                  xmlns:web="http://jboss.org/schema/seam/web"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation=
+                          "http://jboss.org/schema/seam/core http://jboss.org/schema/seam/core-2.3.xsd
+                       http://jboss.org/schema/seam/persistence http://jboss.org/schema/seam/persistence-2.3.xsd
+                       http://jboss.org/schema/seam/security http://jboss.org/schema/seam/security-2.3.xsd
+                       http://jboss.org/schema/seam/theme http://jboss.org/schema/seam/theme-2.3.xsd
+                       http://jboss.org/schema/seam/cache http://jboss.org/schema/seam/cache-2.3.xsd
+                       http://jboss.org/schema/seam/web http://jboss.org/schema/seam/web-2.3.xsd
+                       http://jboss.org/schema/seam/components http://jboss.org/schema/seam/components-2.3.xsd">]]></programlisting>
+      </example>
+      
+      <para>Next remainning migration step is <filename>pages.xml</filename> file(s) as well as other files only requires that the schemas be upgraded.</para>
+      <example id="seam22pages">
+      <title>Before migration of Seam <filename>pages.xml</filename></title>
+      <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<pages xmlns="http://jboss.com/products/seam/pages"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+       ...
+</pages>]]></programlisting>
+      </example>
+
+      <example id="seam23pages">
+      <title>After migration of Seam <filename>pages.xml</filename></title>
+      <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<pages xmlns="http://jboss.org/schema/seam/pages"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://jboss.org/schema/seam/pages http://jboss.org/schema/seam/pages-2.3.xsd">
+       ...
+</pages>]]></programlisting>
+      </example>
+
+   </section>
+   
+   <section id="ee6schemas">
+   <title>Java EE 6 schema changes</title>
+   <para>Seam 2.3 technology upgrade includes also Java EE 6 upgrade so you need to update the following descriptors</para>
+   <itemizedlist>
+      <listitem><filename>persistence.xml</filename> for using JPA 2</listitem>
+      <listitem><filename>web.xml</filename> for using Servlet 3.0 and Web application </listitem>
+      <listitem><filename>application.xml</filename> for using Enterprise Java 6 application</listitem>
+      <listitem><filename>faces-config.xml</filename> if you need to specify some advanced configuration for JSF 2 
+      (this desciptor file is not mandatory, you don't have to use/include it in your application)</listitem>            
+   </itemizedlist>
+   <para>Examples of changed headers with correct versions are the following:</para>
+
+   <example id="jpa2xml">
+               <title>persistence.xml</title>
+   <programlisting role="XML"><![CDATA[<persistence xmlns="http://java.sun.com/xml/ns/persistence" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd" 
+       version="2.0">]]></programlisting>
+   </example>
+
+   <example id="eapp6">
+               <title>application.xml</title>
+   <programlisting role="XML"><![CDATA[<application xmlns="http://java.sun.com/xml/ns/javaee" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_6.xsd"
+       version="6">]]></programlisting>
+   </example>
+
+   <example id="webapp">
+               <title>web.xml</title>
+   <programlisting role="XML"><![CDATA[<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+            version="3.0">]]></programlisting>
+   </example>         
+
+   <example id="facesconfig2">
+               <title>faces-config.xml</title>
+   <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+   <faces-config version="2.1"
+                 xmlns="http://java.sun.com/xml/ns/javaee"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd">]]></programlisting>
+   </example>         
+   </section>    
+
+</section>
+
+<section id="ee6upgrade">
+   <title>Java EE 6 upgrade</title>
+
+   <para>Seam 2.3 can integrate with the major upgrades in Java EE (from 5 to 6). You can use persistence with JPA 2, EJB 3.1 and
+   Bean Validation. Almost all EE 6 technology upgrade requires to change XML schema declaration. See <xref linkend="ee6schemas"/></para>
+
+   <section id="beanvalidation">
+      <title>Using Bean Validation standard instead of Hibernate Validator</title>
+
+      <para>Bean Validation is a standard included in Java EE 6 as new technology. Seam already uses for validation Hibernate Validator which is
+      a reference implementation.</para>
+      <para>You need to migrate from using of <literal>org.hibernate.validator.*</literal> Hibernate validator annotations to  <literal>javax.validation.constraint.*</literal> equivalent
+      for instance Seam examples used a lot of the following annotations and you can use this list as a helper (<ulink url="http://docs.oracle.com/javaee/6/tutorial/doc/gircz.html">Using Bean Validation</ulink>):</para>
+      <itemizedlist>
+          <listitem><literal>org.hibernate.validator.Length</literal> to <literal>javax.validation.constraint.Size</literal>,</listitem>
+          <listitem><literal>org.hibernate.validator.NotNull</literal> to <literal>javax.validation.constraint.NotNull</literal>,</listitem>
+          <listitem><literal>org.hibernate.validator.Pattern</literal> to <literal>javax.validation.constraint.Pattern</literal>.</listitem>
+      </itemizedlist>
+   </section>
+   
+   <section id="jsf2templating">
+      <title>Migration of JSF 1 to JSF 2 Facelets templates</title>
+
+      <para>Configuration file <filename>faces-config.xml</filename> is not required to be in your application, so for simple using of JSF 2 you need to migrate only <filename>web.xml</filename>. 
+      If you anyway would like to have it, change the XML schema declaration as is described in <xref linkend="facesconfig2"/>.</para>
+
+      <para>All your application JSF templates should use only facelets technology as JSP is deprecated.</para>
+
+      <para>In facelet templates there are required to convert <literal>&lt;head&gt;</literal>/<literal>&lt;body&gt;</literal> tags to <literal>>&lt;h:head&gt;</literal>/<literal>&lt;h:body&gt;</literal>respectively.</para>
+
+      <para>Depending on what JSF components that you use like Richfaces or Icefaces, there may be some differences when upgrading from JSF 1.x to JSF 2.x. You may need to upgrade libraries entirely. Consult any component framework documentation on those changes. This migration doesn't cover these migration steps.</para>
+   </section>
+
+   <section id="jpa2">
+   <title>Migration to JPA 2.0</title>
+   <para>Using JPA 2 requires to change version to 2.0 in <filename>persistence.xml</filename>, see <xref linkend="jpa2xml"/> file and version in <filename>application.xml</filename> should be 6
+    if you are using EAR - see <xref linkend="eapp6"/> or version in <filename>web.xml</filename> file change to 3.0 if you use only WAR - look at <xref linkend="webapp"/>.</para>    
+    <para>What is important for developers, most application can use just WAR with EJB 3.1 and doesn't have to package application as EAR.</para>
+    
+   <para>JPA 2.0 is backward compatible with JPA 1.0, so you don't have to migrate any JPA annotation or classes. JPA 2.0 is more like enhancement to JPA 1.0.</para>
+   </section>
+       
+   <section id="jndirules">
+      <title>Using compatible JNDI for resources</title>
+      <para>Java EE 6 brings new standardized global rules for creating portable JNDI syntax. So you have to change all JNDI strings from
+      <literal>_your_application_/#{ejbName}/local</literal> to <literal>java:app/_application-module-name_/#{ejbName}</literal> like
+    for instance in <filename>WEB-INF/components.xml</filename> change of <literal>jndiPattern</literal> from:</para>
+      <programlisting><![CDATA[seam-mail/#{ejbName}/local]]></programlisting>
+      to
+      <programlisting><![CDATA[java:app/seam-mail-ejb/#{ejbName}]]></programlisting>
+   </section>
+</section>   
+
+<section id="as7deployment">
+   <title>JBoss AS 7.1 deployment</title>
+   
+   <section>
+   <title>Deployment changes</title>
+
+   <para>Next level is migration of your target runtime. Seam 2.3 uses JBoss AS 7 as default target runtime.</para>
+
+   <para>If you are using for development or testing default datasource in JBoss AS 7.1,
+    you need to change datasource JNDI in your <filename>persistence.xml</filename> from <literal>java:/DefaultDS</literal> to <literal>java:jboss/datasources/ExampleDS</literal>.</para>
+
+   <para>JBoss AS 7 has got refactored classloading model. Classloading of bundled or provided libraries can be managed in 
+   <filename>jboss-deployment-structure.xml</filename> or in <filename>META-INF/MANIFEST.MF</filename> file in section <literal>Dependencies</literal>. This migration documentation prefers using of <filename>jboss-deployment-structure.xml</filename> file, which should be placed in <filename>META-INF</filename> directory of your WAR or EAR application according to your application type. </para>
+   
+   <para>For full EAR projects, the <filename>jboss-deployment-structure.xml</filename> will be located in the <filename>_your_ear_/META-INF</filename> directory.</para>
+   <para>For Web (non-ear) projects, the <filename>jboss-deployment-structure.xml</filename> will be located in the <filename>_your_war_/WEB-INF</filename> directory.</para>
+
+   <para>Minimal content for
+   Seam 2.3 based application is:</para>
+   <programlisting role="XML"><![CDATA[<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.0">
+     <deployment>
+         <dependencies>
+            <module name="org.dom4j" export="true"/>
+            <module name="org.apache.commons.collections" export="true"/>
+             <module name="javax.faces.api" export="true"/> <!-- keep there only if you use JSF as view technology -->
+           </dependencies>
+     </deployment>  
+   </jboss-deployment-structure>]]></programlisting>
+   <para>More details are described in <ulink url="https://docs.jboss.org/author/display/AS7/Class+Loading+in+AS7">JBoss AS 7 documentation</ulink>.</para>
+   </section>
+   
+   <section id="AS7ds">
+   <title>Datasource migration</title>
+   <para>You can also include now any database descriptor (*-ds.xml) files into your project in the <filename>META-INF</filename> directory, and the data source will be deployed automatically when deployed to a JBoss AS 7.1 Application Server.  The structure of the file though has changed. Before the datasource file was a simple xml based file, but now is an <ulink url="https://www.jboss.org/ironjacamar">IronJacamar</ulink> based file.  Iron-Jacamar is the JBoss' JCA (Java Connector Architecture) project. Below on <xref linkend="oldds">JBoss AS 4/5 example of datasource</xref> is the former datasource for JBoss AS 4/5, and <xref linkend="newds">Ironjacamar datasource</xref> shows the conversion to IronJacamar using the same driver, url, and credentials.</para>
+
+   <example id="oldds">
+      <title>Sample Seam 2.2 Datasource Descriptor File</title>
+      <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE datasources
+              PUBLIC "-//JBoss//DTD JBOSS JCA Config 1.5//EN"
+              "http://www.jboss.org/j2ee/dtd/jboss-ds_1_5.dtd">
+      <datasources>
+         <local-tx-datasource>
+            <jndi-name>seamdiscsDatasource</jndi-name>
+            <connection-url>jdbc:hsqldb:.</connection-url>
+            <driver-class>org.hsqldb.jdbcDriver</driver-class>
+            <user-name>sa</user-name>
+            <password></password>
+         </local-tx-datasource>
+      </datasources>]]></programlisting>
+   </example>
+
+   <example id="newds">
+      <title>Ironjacamar Datasource Descriptor File</title>
+      <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+      <datasources xmlns="http://www.jboss.org/ironjacamar/schema">
+          <datasource
+              jndi-name="java:/jboss/seamdiscsDatasource"
+              enabled="true"
+              use-java-context="true" pool-name="seamdiscs">
+              <connection-url>jdbc:hsqldb:.</connection-url>
+              <driver>org.hsqldb.jdbcDriver</driver>
+              <security>
+                  <user-name>sa</user-name>
+                  <password></password>
+              </security>
+          </datasource>
+      </datasources>]]></programlisting>
+   </example>
+   </section>
+</section>
+
+<section id="testfrmwk-change">
+ <title>Changes in testing framework</title>
+ 
+ <para>SeamTest and JBoss Embedded are legacy components and have many limitations and we doesn't support it like we did in Seam 2.2.</para>
+
+<para>We now bring Arquillian as the replacement of JBoss Embedded and you should extend 
+ <literal>org.jboss.seam.mock.JUnitSeamTest</literal> instead of <literal>org.jboss.seam.mock.SeamTest</literal>, 
+ DBUnit testing is provided by <literal>org.jboss.seam.mock.DBJUnitSeamTest</literal> instead of <literal>org.jboss.seam.mock.DBUnitSeamTest</literal>.
+Due assertion issues with TestNG framework and Arquillian, we use JUnit as preferred test framework. Migration to Junit and
+Arquillian goes in the following steps:</para>
+
+<orderedlist>
+	<listitem>Add <programlisting role="JAVA">@RunWith(Arquillian.class)</programlisting> annotation to your test class.</listitem>
+	<listitem>Your test class should extend <literal>org.jboss.seam.mock.JUnitSeamTest</literal> instead of <literal>org.jboss.seam.mock.SeamTest</literal>.</listitem>
+	<listitem>Add a method for creating an ShrinkWrap deployment, Seam examples and Seam integration testsuite uses helper class for that purpose for instance. For inspiration look
+	for instance at Booking example test modules
+	 <filename>jboss-seam-x.y.z.Final/examples/booking/booking-tests/src/test/java/org/jboss/seam/example/booking/test/Deployments.java</filename>.
+	 <programlisting role="JAVA">package org.jboss.seam.example.booking.test;
+import java.io.File;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.importer.ZipImporter;
+
+public class Deployments {
+   public static EnterpriseArchive bookingDeployment() {
+      return ShrinkWrap.create(ZipImporter.class, "seam-booking.ear").importFrom(new File("../booking-ear/target/seam-booking.ear"))
+            .as(EnterpriseArchive.class);
+   }
+}</programlisting>
+
+	 </listitem>	
+	<listitem>Add a method like <programlisting role="JAVA"><![CDATA[@Deployment(name="_your_test_name_")
+	@OverProtocol("Servlet 3.0")
+	public static org.jboss.shrinkwrap.api.Archive<?> createDeployment(){}]]></programlisting> for creating test deployment
+	archive. The following example is taken from Booking example testsuite:
+	<programlisting role="JAVA"><![CDATA[@Deployment(name="BookingTest")
+   @OverProtocol("Servlet 3.0") 
+   public static Archive<?> createDeployment()
+   {
+      EnterpriseArchive er = Deployments.bookingDeployment();
+      WebArchive web = er.getAsType(WebArchive.class, "booking-web.war");
+      web.addClasses(BookingTest.class);
+      return er;
+   }]]></programlisting>
+	</listitem>
+	<listitem>Add <filename>arquillian.xml</filename> file into root of your classpath for running Arquillian test(s). The file content should specify path to
+	remote or managed container and some specific options for JVM or Arquillian. The example of arquillian file is at
+	<filename>jboss-seam-x.y.z.Final/examples/booking/booking-tests/src/test/resources-integration/arquillian.xml</filename>:
+	<programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<arquillian xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://jboss.org/schema/arquillian"
+    xsi:schemaLocation="http://jboss.org/schema/arquillian http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+    <engine>
+        <property name="deploymentExportPath">target/</property>
+    </engine>
+    <container qualifier="jboss" default="true">
+        <configuration>
+            <property name="javaVmArguments">-Xmx1024m -XX:MaxPermSize=512m</property>
+            <property name="jbossHome">target/jboss-as-${version.jbossas7}</property>
+        </configuration>
+    </container>
+</arquillian>]]></programlisting>
+	</listitem>
+</orderedlist>
+
+<para>More details in Seam reference documentation guide in <xref linkend="integrationtests">Testing Seam applications</xref>.</para>
+ </section>
+
+<section id="depchanges">
+   <title>Dependency changes with using Maven</title>
+
+   <para>The "provided" platform is now JBoss AS 7.1.x as is written above, therefore all Java EE dependencies included
+   in AS 7 are now marked as provided.</para>
+   
+   <section id="_bill_of_materials">
+   <title>Seam Bill of Materials</title>
+   <para>A Bill of materials is a set of dependeny elements in <literal>&lt;dependencyManagement&gt;</literal> section that can be used to import into your application maven build and be able to declare which dependencies and their versions that you wish to use in your application. The nice thing about the Seam BOM is that the dependencies and their versions are there recommended dependencies that would work well with Seam 2.3. The usage of Seam BOM is shown in <xref linkend="bomusage"/>. The Seam BOM is deployed in <ulink url="https://repository.jboss.org/nexus/index.html#nexus-search;gav~org.jboss.seam~bom~~~">JBoss Maven repository</ulink>.</para>
+
+   <example id="bomusage">
+   <title>Seam BOM usage</title>
+   <programlisting role="XML"><![CDATA[<dependencyManagement>
+           <dependencies>
+               <dependency>
+                   <groupId>org.jboss.seam</groupId>
+                   <artifactId>bom</artifactId>
+                   <version>2.3.0.Final</version>
+                   <type>pom</type>
+                   <scope>import</scope>
+               </dependency>
+            ...
+         </dependencies>
+   </dependencyManagement>
+
+   <dependencies>
+      <dependency>
+         <groupId>org.jboss.seam</groupId>
+         <artifactId>jboss-seam</artifactId>
+         <type>ejb</type>
+      <dependency>
+      ...
+   </dependencies>]]></programlisting>
+   </example>
+
+   </section>
+   
+ </section>
+</chapter>

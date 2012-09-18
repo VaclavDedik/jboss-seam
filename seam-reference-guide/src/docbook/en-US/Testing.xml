@@ -87,7 +87,7 @@ public class StatementOfAccount {
         
     </section>
     
-    <section>
+    <section id="integrationtests">
         <title>Integration testing Seam components</title>
 
         <warning>

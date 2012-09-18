@@ -7,6 +7,7 @@
     <xi:include href="Tutorial.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="Gettingstarted.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="Getting_Started_With_JBoss_Tools.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="MigrationGuide.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="Concepts.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="Xml.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="Events.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
