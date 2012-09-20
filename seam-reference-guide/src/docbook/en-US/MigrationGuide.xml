@@ -163,7 +163,7 @@ to the updated Seam examples in Seam distribution.</para>
 
       <para>In facelet templates there are required to convert <literal>&lt;head&gt;</literal>/<literal>&lt;body&gt;</literal> tags to <literal>>&lt;h:head&gt;</literal>/<literal>&lt;h:body&gt;</literal>respectively.</para>
 
-      <para>Depending on what JSF components that you use like Richfaces or Icefaces, there may be some differences when upgrading from JSF 1.x to JSF 2.x. You may need to upgrade libraries entirely. Consult any component framework documentation on those changes. This migration doesn't cover these migration steps.</para>
+      <para>Depending on what JSF components that you use like Richfaces or Icefaces, there has to be some differences when upgrading from JSF 1.x to JSF 2.x. You may need to upgrade libraries entirely. Consult any component framework documentation on those changes. This migration doesn't cover these migration steps.</para>
    </section>
 
    <section id="jpa2">
