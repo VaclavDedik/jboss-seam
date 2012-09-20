@@ -29,11 +29,15 @@
             <h:commandButton id="save"
                           value="Save"
                          action="#{@homeName@.persist}"
-                       rendered="#{!@homeName@.managed}"/>
+                       rendered="#{!@homeName@.managed}">
+                <s:conversationId/>
+            </h:commandButton>
             <h:commandButton id="update"
                           value="Save"
                          action="#{@homeName@.update}"
-                       rendered="#{@homeName@.managed}"/>
+                       rendered="#{@homeName@.managed}">
+                <s:conversationId/>
+            </h:commandButton>
             <h:commandButton id="delete"
                           value="Delete"
                          action="#{@homeName@.remove}"
