@@ -272,37 +272,41 @@ Arquillian goes in the following steps:</para>
 <orderedlist>
 	<listitem>Add <programlisting role="JAVA">@RunWith(Arquillian.class)</programlisting> annotation to your test class.</listitem>
 	<listitem>Your test class should extend <literal>org.jboss.seam.mock.JUnitSeamTest</literal> instead of <literal>org.jboss.seam.mock.SeamTest</literal>.</listitem>
-	<listitem>Add a method for creating an ShrinkWrap deployment, Seam examples and Seam integration testsuite uses helper class for that purpose for instance. For inspiration look
-	for instance at Booking example test modules
-	 <filename>jboss-seam-x.y.z.Final/examples/booking/booking-tests/src/test/java/org/jboss/seam/example/booking/test/Deployments.java</filename>.
-	 <programlisting role="JAVA">package org.jboss.seam.example.booking.test;
-import java.io.File;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
-import org.jboss.shrinkwrap.api.importer.ZipImporter;
-
-public class Deployments {
-   public static EnterpriseArchive bookingDeployment() {
-      return ShrinkWrap.create(ZipImporter.class, "seam-booking.ear").importFrom(new File("../booking-ear/target/seam-booking.ear"))
-            .as(EnterpriseArchive.class);
-   }
-}</programlisting>
-
-	 </listitem>	
 	<listitem>Add a method like <programlisting role="JAVA"><![CDATA[@Deployment(name="_your_test_name_")
-	@OverProtocol("Servlet 3.0")
-	public static org.jboss.shrinkwrap.api.Archive<?> createDeployment(){}]]></programlisting> for creating test deployment
-	archive. The following example is taken from Booking example testsuite:
-	<programlisting role="JAVA"><![CDATA[@Deployment(name="BookingTest")
-   @OverProtocol("Servlet 3.0") 
-   public static Archive<?> createDeployment()
-   {
-      EnterpriseArchive er = Deployments.bookingDeployment();
-      WebArchive web = er.getAsType(WebArchive.class, "booking-web.war");
-      web.addClasses(BookingTest.class);
-      return er;
-   }]]></programlisting>
+@OverProtocol("Servlet 3.0")
+public static org.jboss.shrinkwrap.api.Archive<?> createDeployment(){}]]></programlisting> for creating test deployment
+	archive. The following example is taken from Registration example testsuite. It imports the .ear archive buit with "mvn package", adds the test class to the deployment and replaces the WEB-INF/web.xml file with a SeamTest-specific version.
+	<programlisting role="JAVA"><![CDATA[@Deployment(name="RegisterTest")
+@OverProtocol("Servlet 3.0")
+public static Archive<?> createDeployment()
+{
+   EnterpriseArchive er = ShrinkWrap.create(ZipImporter.class, "seam-registration.ear").importFrom(new File("../registration-ear/target/seam-registration.ear"))
+              .as(EnterpriseArchive.class);
+   WebArchive web = er.getAsType(WebArchive.class, "registration-web.war");
+   web.addClasses(RegisterTest.class);
+
+   // Install org.jboss.seam.mock.MockSeamListener
+   web.delete("/WEB-INF/web.xml");
+   web.addAsWebInfResource("web.xml");
+
+   return er;
+}]]></programlisting>
 	</listitem>
+    <listitem>Create a SeamTest-specific web.xml contaning the org.jboss.seam.mock.MockSeamListener, instead of the usual org.jboss.seam.servlet.SeamListener. 
+    <programlisting role="XML"><![CDATA[
+<?xml version="1.0" ?>
+<web-app version="3.0"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+         
+    <listener>
+        <listener-class>org.jboss.seam.mock.MockSeamListener</listener-class>
+    </listener>
+
+</web-app>
+]]></programlisting>
+    </listitem>
 	<listitem>Add <filename>arquillian.xml</filename> file into root of your classpath for running Arquillian test(s). The file content should specify path to
 	remote or managed container and some specific options for JVM or Arquillian. The example of arquillian file is at
 	<filename>jboss-seam-x.y.z.Final/examples/booking/booking-tests/src/test/resources-integration/arquillian.xml</filename>:
