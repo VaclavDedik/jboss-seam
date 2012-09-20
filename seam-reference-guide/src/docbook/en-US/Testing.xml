@@ -555,7 +555,7 @@ public class RegisterTest extends JUnitSeamTest
          </section>
          
         <section>
-           <title>Using JUnitSeamTest with another test framework</title>
+           <title>Using SeamTest with another test framework</title>
          
            <para>
               Seam provides JUnit support out of the box, but you can also use
@@ -614,7 +614,7 @@ public class RegisterTest extends JUnitSeamTest
           <para>
             If you want to insert or clean data in your database before each
             test you can use Seam's integration with DBUnit.  To do this, extend 
-            <literal>DBUnitSeamTest</literal> rather than <literal>SeamTest</literal>.
+            <literal>DBJUnitSeamTest</literal> rather than <literal>JUnitSeamTest</literal>.
          </para>
          
          <para>
@@ -623,7 +623,7 @@ public class RegisterTest extends JUnitSeamTest
          
          <caution>
             DBUnit supports two formats for dataset files, flat and XML.  Seam's
-            <literal>DBUnitSeamTest</literal> or <literal>DBJUnitSeamTest</literal> assumes the flat format is used, so make sure that 
+            <literal>DBJUnitSeamTest</literal> assumes the flat format is used, so make sure that 
             your dataset is in this format.
          </caution>
           
@@ -647,6 +647,9 @@ public class RegisterTest extends JUnitSeamTest
          </para>
       
          <programlisting role="JAVA"><![CDATA[protected void prepareDBUnitOperations() {
+    setDatabase("HSQL");
+    setDatasourceJndiName("java:/jboss/myDatasource");
+
     beforeTestOperations.add(
        new DataSetOperation("my/datasets/BaseData.xml")
     );
@@ -666,34 +669,28 @@ public class RegisterTest extends JUnitSeamTest
          </para>
          
          <para>
-           You need to tell DBUnit which datasource you are using. This is accomplished by defining
-           a <ulink url="http://testng.org/doc/documentation-main.html#parameters-testng-xml">test
-           parameter</ulink> named <literal>datasourceJndiName</literal> in testng.xml as follows:
+           You need to tell DBUnit which datasource you are using. This is accomplished by calling 
+           <literal>setDatasourceJndiName</literal>.
          </para>
-         
-         <programlisting role="XML"><![CDATA[<parameter name="datasourceJndiName" value="java:/seamdiscsDatasource"/>]]></programlisting>
          
          <para>
-            DBUnitSeamTest or DBJUnitSeamTest have support for MySQL and HSQL - you need to tell it
-            which database is being used, otherwise it defaults to HSQL:
+            DBJUnitSeamTest has support for MySQL and HSQL - you need to tell it
+            which database is being used, otherwise it defaults to HSQL.
          </para>
-         
-          <programlisting role="XML"><![CDATA[<parameter name="database" value="MYSQL" />]]></programlisting>
-         
+
          <para>
             It also allows you to insert binary data into the test data set (n.b.
             this is untested on Windows). You need to tell it where to locate
             these resources on your classpath:
          </para>
          
-          <programlisting role="XML"><![CDATA[<parameter name="binaryDir" value="images/" />]]></programlisting> 
+         <programlisting role="JAVA"><![CDATA[setBinaryUrl("images/");]]></programlisting> 
           
          <para>
-            You do not have to configure any of these parameters if you use HSQL and have
-            no binary imports. However, unless you specify <literal>datasourceJndiName</literal>
-            in your test configuration, you will have to call <literal>setDatabaseJndiName()</literal>
+            You do not have to configure any of these parameters except the <literal>datasourceJndiName</literal>
+            if you use HSQL and have no binary imports. You have to call <literal>setDatabaseJndiName()</literal>
             before your test runs. If you are not using HSQL or MySQL, you need to override some
-            methods. See the Javadoc of <literal>DBUnitSeamTest</literal> for more details.
+            methods. See the Javadoc of <literal>DBJUnitSeamTest</literal> for more details.
          </para>
          
         </section>
