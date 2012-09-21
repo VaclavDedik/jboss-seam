@@ -133,7 +133,7 @@ Building and Checking Dist
     build
     distribution
     eclipse-code-formatter-profile.xml
-    examples-ee6
+    examples
     functional-tests
     jboss-seam
     jboss-seam-debug

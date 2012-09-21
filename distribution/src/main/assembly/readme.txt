@@ -13,7 +13,7 @@ Get Up And Running Quick
 
 2. Start JBoss AS by typing "bin/standalone.sh" in the JBoss home directory
 
-3. In the "examples-ee6/booking" directory, type "mvn clean package" and check 
+3. In the "examples/booking" directory, type "mvn clean package" and check 
    for any error messages.
 
 4. In the booking-ear directory run:

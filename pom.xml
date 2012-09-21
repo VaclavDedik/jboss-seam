@@ -442,7 +442,7 @@
        <profile>
            <id>all</id>
            <modules>
-               <module>examples-ee6</module>
+               <module>examples</module>
                <module>distribution</module>
            </modules>
        </profile>

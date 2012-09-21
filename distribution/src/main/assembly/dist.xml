@@ -15,7 +15,7 @@
    <fileSets>
       <!-- Examples only -->
       <fileSet>
-        <directory>../examples-ee6</directory>
+        <directory>../examples</directory>
         <outputDirectory>./examples</outputDirectory>
         <useDefaultExcludes>true</useDefaultExcludes>
         <excludes>
