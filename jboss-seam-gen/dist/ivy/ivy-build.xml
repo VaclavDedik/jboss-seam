@@ -9,7 +9,7 @@
 	<property name="jboss.repo" value="http://repository.jboss.org/nexus/content/groups/public"/>
 
 	<!-- centralize some key artifact versions -->
-	<property name="seam.version" value="2.3.0.Final"/>
+	<property name="seam.version" value="2.3.1-SNAPSHOT"/>
 	<!--<property name="jsf.version" value="1.2_12"/>
 	<property name="richfaces.version" value="3.3.3.Final"/>
 	<property name="icefaces.version" value="1.8.1"/>

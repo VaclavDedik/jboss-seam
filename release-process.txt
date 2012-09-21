@@ -78,9 +78,9 @@ SVN tagging and checkout
     -"svn copy https://svn.jboss.org/repos/seam/XX/XX 
                https://svn.jboss.org/repos/seam/tags/JBoss_Seam_x_x_x_XXX 
                -m "create JBoss_Seam_x_x_x_XXX tag""
-        - ex. "svn copy https://svn.jboss.org/repos/seam/trunk 
-               https://svn.jboss.org/repos/seam/tags/JBoss_Seam_2_1_0_B1 
-               -m "created JBoss_Seam_2_1_0_B1 tag"
+        - ex. "svn copy https://svn.jboss.org/repos/seam/branches/community/Seam_2_3
+          https://svn.jboss.org/repos/seam/tags/JBoss_Seam_2_3_0_Final -m "created JBoss_Seam_2_3_0_Final tag" "
+
 * In a clean directory checkout the newly tagged seam source ( XX as needed)
     - "svn co https://svn.jboss.org/repos/seam/tags/JBoss_Seam_x_x_x_XXX seam"  
         - ex. "svn co https://svn.jboss.org/repos/seam/tags/JBoss_Seam_2_1_0_B1 seam"

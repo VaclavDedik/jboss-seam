@@ -55,7 +55,7 @@
         <dependency groupId="org.javassist" artifactId="javassist" version="3.15.0-GA" scope="provided"/>
         <dependency groupId="org.jboss.el" artifactId="jboss-el" version="1.0_02.CR6" scope="compile"/>
         <dependency groupId="org.jboss.logging" artifactId="jboss-logging" version="3.1.0.CR2" scope="provided"/>
-        <dependency groupId="org.jboss.seam" artifactId="jboss-seam" version="2.3.0.Final" scope="compile">
+        <dependency groupId="org.jboss.seam" artifactId="jboss-seam" version="2.3.1-SNAPSHOT" scope="compile">
             <exclusion groupId="org.testng" artifactId="testng"/>
             <exclusion groupId="junit" artifactId="junit"/>
             <exclusion groupId="org.jboss.spec.javax.faces" artifactId="jboss-jsf-api_2.0_spec"/>
