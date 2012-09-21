@@ -29,7 +29,7 @@ Just at the plugin information on jboss-seam-ui pom.xml
           <plugin>
              <groupId>org.jboss.seam</groupId>
         		 <artifactId>seam-cdk-helper</artifactId>
-        		 <version>1.0-SNAPSHOT</version>
+        		 <version>1.0</version>
         		 <executions>
                 <execution>
                    <phase>generate-sources</phase>

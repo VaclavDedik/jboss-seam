@@ -1,6 +1,47 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - Seam 2 - Version 2.3.0.Final
+
+** Bug
+    * [JBSEAM-4503] - <s:token> - cookie identifying the browser (javax.faces.ClientToken) might contain illegal characters
+    * [JBSEAM-4901] - Seam reference guide requires set up english locale
+    * [JBSEAM-4925] - Some broken links in Seam 2.3 reference guide
+    * [JBSEAM-4978] - Seam-gen commands using hibernate-tools doesn't work
+    * [JBSEAM-5025] - seam-gen Eclipse IDE .classpath contains useless link to jboss-jsf-api_2.0_spec.jar
+    * [JBSEAM-5027] - NPE in seamdiscs integration tests
+    * [JBSEAM-5029] - Typos in bean validation packages in seam23migration.txt 
+    * [JBSEAM-5033] - seam-gen purge target is for old JBoss AS 
+    * [JBSEAM-5036] - seam-gen asks for an anachronism "Enter your JBoss AS domain [standalone]" 
+    * [JBSEAM-5038] - seam-gen generated project, editing ManyToOne relationship doesn't work
+    * [JBSEAM-5039] - seam2.3 seam-gen generated project looks ugly compared with seam2.2
+    * [JBSEAM-5040] - Errors Importing seam booking example into JBDS
+    * [JBSEAM-5042] - Seam-gen EAR generated project wrong comments in web.xml
+
+** Enhancement
+    * [JBSEAM-5031] - Seam-gen generated project doesn't get automatically deployed after import to JBDS
+    * [JBSEAM-5032] - Switch off ajax console rendering in Seam-gen/JBDS created projects
+
+** Feature Request
+    * [JBSEAM-5023] - Seam-gen generated project reference in test/readme.txt removed JBoss Embedded 
+    * [JBSEAM-5024] - Example Seamspace integration testsuite failures
+
+** Task
+    * [JBSEAM-3857] - Include in docs a entity manager flush behavior
+    * [JBSEAM-4693] - Complete all required steps for 6.12.2. Enabling Seam exception handling
+    * [JBSEAM-4867] - Run Seam 2.3 through the Seam 2 smoke tests
+    * [JBSEAM-4871] - Seam 2.3 Critical Path - describes key requirements for Seam 2.3
+    * [JBSEAM-5028] - Consider removing jboss-seam-jul
+
+** Sub-task
+    * [JBSEAM-4872] - Support JBoss AS 7.1
+    * [JBSEAM-4876] - Use JPA 2 API
+    * [JBSEAM-4878] - Create migration guide from Seam 2.2 to Seam 2.3 for reference guide
+    * [JBSEAM-4879] - Verify Seam 2.3 works in JBDS 5
+    * [JBSEAM-4884] - Misc issues
+    * [JBSEAM-4886] - Non Java EE 6 / JBoss AS 7 critical issues
+
+
 Release Notes - Seam2 - Version 2.3.0.CR1 
 
 ** Feature Request

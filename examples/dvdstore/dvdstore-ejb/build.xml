@@ -44,7 +44,7 @@
                   scope="provided"/>
       <dependency groupId="org.hibernate" artifactId="hibernate-validator" version="4.2.0.Final" scope="provided"/>
 
-      <dependency groupId="org.jboss.seam" artifactId="jboss-seam" version="2.3.0.Final-SNAPSHOT" scope="compile">
+      <dependency groupId="org.jboss.seam" artifactId="jboss-seam" version="2.3.0.Final" scope="compile">
          <exclusion groupId="org.testng" artifactId="testng"/>
          <exclusion groupId="junit" artifactId="junit"/>
       </dependency>

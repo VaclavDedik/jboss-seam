@@ -21,24 +21,28 @@ Updating version numbers
         - Usually that is (Bug, Feature Request, Task, and Patch)
         - Check all the issue types one at a time to determine final list.
  - update pom.xml versions
-    - mvn versions:set -DnewVersion=XXX
+    - mvn versions:set -DnewVersion=XXX -Pall
+    - cd examples-ee6; mvn versions:set -DnewVersion=XXX
+    - find examples-ee6/remoting/progressbar -type f -name pom.xml -exec sed -i 's/XXX/YYY/g' {} \;
+ - replace all other version string usages
+    - find . -path '*/.svn*' -prune -o -type f -name '*.xml' -exec sed -i /XXX/YYY/g' {} \;
 
     
 Maven repository settings
 -------------------------
 * A released version of seam should not reference any repositories other than
-  "http://repository.jboss.org/nexus/content/groups/public/" or for older things "https://repository.jboss.org/nexus/content/repositories/deprecated/".
+  "http://repository.jboss.org/nexus/content/groups/public/".
   See "build/readme.txt" for details.
   - Search "$SEAM/build" for "repositories".  
-    - Comment out any repository entry not "http://repository.jboss.org/maven2"
-    - Should only be entries in "root.pom.xml" and "docs.pom.xml"
+    - Comment out any repository entry not "http://repository.jboss.org/nexus/groups/public/"
+    - Should only be entries in "settings.xml" or "ci.settings.xml"
   - Verify prior to tagging
     - Clean your local maven repository
         - ex. "~/.m2"
         - <TODO document way to set local repo settings for clean build />
-    - Go to root and run "mvn clean verify -s ../build/settings.xml -Pall,distribution -Darquillian=jbossas-managed-7" with these changes
+    - Go to root and run "mvn clean verify -s build/settings.xml -Pall,distribution -Darquillian=jbossas-managed-7" with these changes
     - This should build, and test without a problem.
-  - Run "mvn dependency:tree -s ../build/settings.xml -DoutputFile=../dependency-report.txt -DappendOutput=true"
+  - Run "mvn dependency:tree -s build/settings.xml -DoutputFile=$(pwd)/dependency-report.txt -DappendOutput=true"
     - Review for snapshot dependencies
 
 Staging Maven artifacts 

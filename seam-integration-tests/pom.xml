@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>jboss-seam-parent</artifactId>
 		<groupId>org.jboss.seam</groupId>
-		<version>2.3.0.Final-SNAPSHOT</version>
+		<version>2.3.0.Final</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -211,7 +211,6 @@
 										<directory>${basedir}/../jboss-seam-flex/src/main/java</directory>
 										<directory>${basedir}/../jboss-seam-gen/src/main/java</directory>
 										<directory>${basedir}/../jboss-seam-ioc/src/main/java</directory>
-										<directory>${basedir}/../jboss-seam-jul/src/main/java</directory>
 										<directory>${basedir}/../jboss-seam-mail/src/main/java</directory>
 										<directory>${basedir}/../jboss-seam-pdf/src/main/java</directory>
 										<directory>${basedir}/../jboss-seam-remoting/src/main/java</directory>
