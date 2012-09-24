@@ -25,7 +25,6 @@ import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlMessage;
 
-import org.richfaces.cdk.annotations.Attribute;
 import org.richfaces.cdk.annotations.Description;
 import org.richfaces.cdk.annotations.JsfComponent;
 import org.richfaces.cdk.annotations.Tag;
@@ -38,7 +37,9 @@ import org.richfaces.cdk.annotations.Tag;
 family="javax.faces.Message", type="org.jboss.seam.ui.Message",generate="org.jboss.seam.ui.component.html.HtmlMessage", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="message"), 
 attributes = {"message.xml" })
-public abstract class UIMessage extends HtmlMessage {
+public abstract class UIMessage extends HtmlMessage implements UIDecorateAware {
+
+   protected UIDecorate decorate;
 
    /**
     * A depth-first search for an EditableValueHolder
@@ -95,7 +96,15 @@ public abstract class UIMessage extends HtmlMessage {
    @Override
    public String getFor()
    {
+      if(decorate != null) {
+         return getFor(decorate);
+      }
+      
       return getFor(this);
    }
-   
+
+   @Override
+   public void setUIDecorate(UIDecorate decorate) {
+      this.decorate = decorate;
+   }
 }
