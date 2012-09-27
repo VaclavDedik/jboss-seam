@@ -52,6 +52,7 @@
         <richfaces.version>4.2.2.Final</richfaces.version>
         <slf4j.version>1.6.1</slf4j.version>
         <version.jbossas7>7.1.1.Final</version.jbossas7>
+        <version.jacoco>0.5.8.201207111220</version.jacoco>
 
         <!-- dependencies for functional tests -->
         <ant.junit.version>1.6.2</ant.junit.version>
@@ -405,6 +406,7 @@
                                         <systemProperties>
                                             <!-- used by the jbossas-managed-7 profile in arquillian.xml for the jbossHome property-->
                                             <version.jbossas7>${version.jbossas7}</version.jbossas7>
+                                            <jacoco.agent>${jacoco.agent}</jacoco.agent>
                                         </systemProperties>
                                     </configuration>
                                 </execution>
@@ -962,8 +964,35 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>          
+        </profile>
+        <profile>
+            <id>jacoco</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+                <property>
+                    <name>jacoco</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>${version.jacoco}</version>
+                        <configuration>
+                            <propertyName>jacoco.agent</propertyName>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
-
 </project>
 
