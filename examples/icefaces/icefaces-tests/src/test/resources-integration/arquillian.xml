@@ -9,7 +9,7 @@
 
    <container qualifier="jboss" default="true">
       <configuration>
-         <property name="javaVmArguments">-Xmx1024m -XX:MaxPermSize=512m</property>
+         <property name="javaVmArguments">-Xmx1024m -XX:MaxPermSize=512m ${jacoco.agent}</property>
          <property name="jbossHome">target/jboss-as-${version.jbossas7}</property>
       </configuration>
    </container>
