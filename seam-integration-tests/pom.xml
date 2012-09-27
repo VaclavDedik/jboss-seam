@@ -258,6 +258,7 @@
 									<systemProperties>
 										<!-- used by the jbossas-managed-7 profile in arquillian.xml for the jbossHome property-->
 										<version.jbossas7>${version.jbossas7}</version.jbossas7>
+										<jacoco.agent>${jacoco.agent}</jacoco.agent>
 									</systemProperties>
 								</configuration>
 							</execution>
@@ -392,5 +393,36 @@
                 </plugins>
             </build>
         </profile>		
+
+        <profile>
+            <id>jacoco</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+                <property>
+                    <name>jacoco</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <configuration>
+                            <excludes>
+                                <exclude>org.jboss.seam.test.*</exclude>
+                            </excludes>
+                            <propertyName>jacoco.agent</propertyName>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
 	</profiles>
 </project>

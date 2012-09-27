@@ -49,6 +49,7 @@
 		<version.wicket>1.4.14</version.wicket>
 		<version.testng>5.14.10</version.testng>
 		<version.resteasy>2.0.1.GA</version.resteasy>
+		<version.jacoco>0.5.8.201207111220</version.jacoco>
 		<version.jbossas7>7.1.1.Final</version.jbossas7>
 		<version.emma>2.0.5312</version.emma>
 		<version.jsf2>2.1.7</version.jsf2>
@@ -345,16 +346,21 @@
 					<version>2.3</version>
 					<configuration>
 						<ejbVersion>3.0</ejbVersion>
-	    				<archive>
-	                        <manifest>
-	                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-	                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-	                        </manifest>
-	                        <manifestEntries>
-	                          <Seam-Version>${project.version}</Seam-Version>
-	                        </manifestEntries>
-	                    </archive>
+						<archive>
+							<manifest>
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+								<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+							</manifest>
+							<manifestEntries>
+								<Seam-Version>${project.version}</Seam-Version>
+							</manifestEntries>
+						</archive>
 					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>${version.jacoco}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
