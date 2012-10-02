@@ -493,6 +493,13 @@ Final Build + Upload
 
 * Upload the "seam-reference-guide/target/*.war" file content to "docs.jboss.com/seam/<NEW VERSION>" 
     - Note: you need to setup SSH key for that- contact jboss.org team if you didn't have it
+    - Warning: if you updating/recreating latest symlinks for final releases, you need to create link
+      on local and then rsync all to remote.
+      for instance:
+      mkdir 2.3.0.Final; 
+      extract seam-reference-guide/target/*.war into above created directory
+      ln -s 2.3.0.Final latest
+      rsync -rva --protocol=28 . seam@filemgmt.jboss.org:/docs_htdocs/seam/
     
 * Create draft of the documentation and download pages on seamframework.org
     - documentation points to "docs.jboss.com"
