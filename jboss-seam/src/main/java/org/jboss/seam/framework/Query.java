@@ -33,6 +33,8 @@ public abstract class Query<T, E>
    private static final Pattern WHERE_PATTERN = Pattern.compile("\\s(where)\\s",         Pattern.CASE_INSENSITIVE);
    private static final Pattern ORDER_PATTERN = Pattern.compile("\\s(order)(\\s)+by\\s", Pattern.CASE_INSENSITIVE);
    private static final Pattern GROUP_PATTERN = Pattern.compile("\\s(group)(\\s)+by\\s", Pattern.CASE_INSENSITIVE);
+   private static final Pattern JOIN_FETCH_PATTERN = Pattern.compile("join fetch",       Pattern.CASE_INSENSITIVE);
+   private static final String  JOIN_OPERATOR="join";
 
    private static final Pattern ORDER_COLUMN_PATTERN = Pattern.compile("^\\w+(\\.\\w+)*$");
 
@@ -319,9 +321,9 @@ public abstract class Query<T, E>
              throw new IllegalStateException("invalid select clause for query");
           }
       }
-      
+      String fromToWherePart=JOIN_FETCH_PATTERN.matcher(ejbql.substring(fromLoc, whereLoc)).replaceAll(JOIN_OPERATOR);
       return new StringBuilder(ejbql.length() + 15).append("select count(").append(subject).append(") ").
-         append(ejbql.substring(fromLoc, whereLoc).replace("join fetch", "join")).
+         append(fromToWherePart).
          append(ejbql.substring(whereLoc, groupLoc)).toString().trim();
    }
    

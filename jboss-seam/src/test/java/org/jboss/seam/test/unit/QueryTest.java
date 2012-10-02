@@ -40,7 +40,7 @@ public class QueryTest
       assertEquals(query.getCountEjbql(), "select count(distinct p) from Person p");
       query.setUseWildcardAsCountQuerySubject(true);
      
-      query.setEjbql("select v from Vehicle v join fetch v.person");
+      query.setEjbql("select v from Vehicle v JOIN FETCH v.person");
       query.setOrderColumn("make");
       query.parseEjbql();
       // TODO this should eventually become count(v)
