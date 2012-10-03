@@ -8,6 +8,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 
+/**
+ * Converter for Enums
+ * 
+ * @author mnovotny
+ *
+ */
 @FacesConverter(value="org.jboss.seam.ui.EnumConverter")
 public class EnumConverter implements javax.faces.convert.Converter
 {

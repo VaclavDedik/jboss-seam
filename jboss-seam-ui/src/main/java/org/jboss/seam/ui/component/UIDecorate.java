@@ -13,6 +13,11 @@ import org.richfaces.cdk.annotations.JsfRenderer;
 import org.richfaces.cdk.annotations.Tag;
 
 
+/**
+ * "Decorates" a JSF input field when validation fails or when required="true" is set
+ * @author mnovotny
+ *
+ */
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Decorate",value="\"Decorate\" a JSF input field when validation fails or when required=\"true\" is set."),
 family="org.jboss.seam.ui.Decorate", type="org.jboss.seam.ui.Decorate",generate="org.jboss.seam.ui.component.html.HtmlDecorate", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="decorate", handler="org.jboss.seam.ui.handler.DecorateHandler"), 

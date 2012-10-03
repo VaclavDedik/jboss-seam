@@ -9,6 +9,12 @@ import org.richfaces.cdk.annotations.Description;
 import org.richfaces.cdk.annotations.JsfComponent;
 import org.richfaces.cdk.annotations.Tag;
 
+/**
+ * JSF Component which nestes in a &lt;s:graphicImage&gt;.Transform an image by changing it's type.
+ * 
+ * @author mnovotny
+ *
+ */
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.graphicImage.TransformImageType",value="Nested in a s:graphicImage. Transform an image by changing it's type."),
 family="org.jboss.seam.ui.graphicImage.TransformImageType", type="org.jboss.seam.ui.graphicImage.TransformImageType",generate="org.jboss.seam.ui.component.html.HtmlTransformImageType", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="transformImageType"), 

@@ -15,7 +15,8 @@ import org.richfaces.cdk.annotations.JsfRenderer;
 import org.richfaces.cdk.annotations.Tag;
 
 /**
- * JSF component class
+ * JSF component class which renders a file upload control. 
+ * This control must be used within a form with an encoding type of multipart/form-data
  * 
  */
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.FileUpload",value="Renders a file upload control. This control must be used within a form with an encoding type of multipart/form-data"),

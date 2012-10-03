@@ -29,7 +29,8 @@ import org.richfaces.cdk.annotations.Tag;
 
 
 /**
- * JSF component class
+ * JSF component class which renders a link that supports invocation of an action with control over conversation propagation. 
+ * It does not submit the form.
  *
  */
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Link",value="A link that supports invocation of an action with control over conversation propagation. Does not submit the form."),

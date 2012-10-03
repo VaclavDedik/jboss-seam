@@ -32,7 +32,7 @@ import org.richfaces.cdk.annotations.Tag;
 
 
 /**
- * JSF component class
+ * JSF component class for Seam UICache
  * 
  */
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Cache",value="Cache the rendered page fragment using the installed cache provider."),

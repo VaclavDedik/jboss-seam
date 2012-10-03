@@ -30,7 +30,7 @@ import org.richfaces.cdk.annotations.JsfRenderer;
 import org.richfaces.cdk.annotations.Tag;
 
 /**
- * JSF component class
+ * JSF component class which surrounds a page fragment and allows you to apply render/not render without any html output
  *
  */
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Fragment",value="Surround a page fragment, allows you to apply render/not render without any html output."),

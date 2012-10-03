@@ -15,7 +15,7 @@ import org.jboss.seam.faces.FacesMessages;
 import javax.validation.ConstraintViolation; 
 
 /**
- * Validates using Hibernate Validator model-based annotations.
+ * Validates model using Bean Validation annotations .
  * 
  * @author Gavin King
  * @author Jacob Hookom

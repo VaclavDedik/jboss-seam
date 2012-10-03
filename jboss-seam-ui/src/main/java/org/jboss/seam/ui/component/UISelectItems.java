@@ -23,7 +23,9 @@ import org.richfaces.cdk.annotations.Tag;
 
 
 /**
- * @auth Pete Muir
+ * JSF Component which creates a List<SelectItem> from a List, Set, DataModel or Array.
+ * 
+ * @author Pete Muir
  *
  */
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.SelectItems",value="Creates a List<SelectItem> from a List, Set, DataModel or Array."),

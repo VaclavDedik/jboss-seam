@@ -9,7 +9,7 @@ import javax.faces.view.facelets.FaceletContext;
 import static org.jboss.seam.ui.util.cdk.RendererBase.getUtils;
 
 /**
- * If user didn't specify id on button, do it for them (we need one rendered)
+ * Command button based parameter handler. If user didn't specify id on button, do it for them (we need one rendered)
  * 
  * @author Pete Muir
  *

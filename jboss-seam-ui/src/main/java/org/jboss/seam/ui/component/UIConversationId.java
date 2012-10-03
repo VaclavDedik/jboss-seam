@@ -35,10 +35,10 @@ import org.richfaces.cdk.annotations.Tag;
 
 
 /**
- * JSF component class
+ * JSF component class which addd the conversation id to JSF link or button (e.g. &lt;h:commandLink/&gt;, &lt;s:button/&gt;)
  *
  */
-@JsfComponent(description=@Description(displayName="org.jboss.seam.ui.ConversationId",value="Add the conversation id to JSF link or button (e.g. <h:commandLink />, <s:button />)."),
+@JsfComponent(description=@Description(displayName="org.jboss.seam.ui.ConversationId",value="Add the conversation id to JSF link or button (e.g. &lt;h:commandLink/&gt;, &lt;s:button/&gt;)."),
 family="org.jboss.seam.ui.ConversationId", type="org.jboss.seam.ui.ConversationId",generate="org.jboss.seam.ui.component.html.HtmlConversationId", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="conversationId"),
 attributes = {"javax.faces.component.UIParameter.xml", "conversationId.xml"})

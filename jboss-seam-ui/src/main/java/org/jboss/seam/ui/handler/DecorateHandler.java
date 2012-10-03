@@ -9,6 +9,12 @@ import javax.faces.view.facelets.ComponentConfig;
 import javax.faces.view.facelets.ComponentHandler;
 import javax.faces.view.facelets.FaceletContext;
 
+/**
+ * Decorating handler 
+ * 
+ * @author mnovotny
+ *
+ */
 public class DecorateHandler extends ComponentHandler
 {
    private com.sun.faces.facelets.tag.ui.DecorateHandler delegate;

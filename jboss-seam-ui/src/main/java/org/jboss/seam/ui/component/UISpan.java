@@ -6,7 +6,12 @@ import org.richfaces.cdk.annotations.JsfComponent;
 import org.richfaces.cdk.annotations.JsfRenderer;
 import org.richfaces.cdk.annotations.Tag;
 
-@JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Span",value="Render a HTML <span>"),
+/**
+ * Renders a HTML &lt;span&gt;
+ * @author mnovotny
+ *
+ */
+@JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Span",value="Render a HTML &lt;span&gt;"),
 family="org.jboss.seam.ui.Span", type="org.jboss.seam.ui.Span",generate="org.jboss.seam.ui.component.html.HtmlSpan", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="span"), 
 renderer = @JsfRenderer(type="org.jboss.seam.ui.SpanRenderer", family="org.jboss.seam.ui.SpanRenderer"),

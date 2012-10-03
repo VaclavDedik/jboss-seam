@@ -7,11 +7,12 @@ import org.richfaces.cdk.annotations.JsfRenderer;
 import org.richfaces.cdk.annotations.Tag;
 
 /**
+ * JSF Component for Link which is able to download a file
  * 
  * @author Daniel Roth
  * 
  */
-@JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Download",value="Link for downloading a file"),
+@JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Download",value="JSF Component for Link which is able to download a file"),
 family="org.jboss.seam.ui.Download", type="org.jboss.seam.ui.Download",generate="org.jboss.seam.ui.component.html.HtmlDownload", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="download"), 
 renderer = @JsfRenderer(type="org.jboss.seam.ui.DownloadRenderer", family="org.jboss.seam.ui.DownloadRenderer"),

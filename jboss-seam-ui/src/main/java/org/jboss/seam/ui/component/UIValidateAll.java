@@ -8,10 +8,10 @@ import org.richfaces.cdk.annotations.JsfRenderer;
 import org.richfaces.cdk.annotations.Tag;
 
 /**
- * JSF component class
+ * JSF component class which validates all child JSF input fields against the bound properties using Bean validation 
  * 
  */
-@JsfComponent(description=@Description(displayName="org.jboss.seam.ui.ValidateAll",value="<![CDATA[Validate all child JSF input fields against the bound propertys using Hibernate Validator.]]>"),
+@JsfComponent(description=@Description(displayName="org.jboss.seam.ui.ValidateAll",value="Validate all child JSF input fields against the bound propertys using Hibernate Validator."),
 family="org.jboss.seam.ui.ValidateAll", type="org.jboss.seam.ui.ValidateAll",generate="org.jboss.seam.ui.component.html.HtmlValidateAll", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="validateAll"), 
 renderer = @JsfRenderer(type="org.jboss.seam.ui.ValidateAllRenderer", family="org.jboss.seam.ui.ValidateAllRenderer"))

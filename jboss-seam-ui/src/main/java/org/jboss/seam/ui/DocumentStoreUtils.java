@@ -19,6 +19,12 @@ import org.jboss.seam.document.DocumentData.DocumentType;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.ui.component.UIResource;
 
+/**
+ * Helper class for DocumentStore 
+ * 
+ * @author mnovotny
+ *
+ */
 public class DocumentStoreUtils
 {
     private static final int BUFFER_SIZE = 32768;

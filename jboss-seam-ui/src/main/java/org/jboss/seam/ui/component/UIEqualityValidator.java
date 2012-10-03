@@ -9,7 +9,7 @@ import org.richfaces.cdk.annotations.JsfRenderer;
 import org.richfaces.cdk.annotations.Tag;
 
 /**
- * UIComponent for validator 
+ * JSF Component for validation of all child JSF input fields against the bound properties using Bean Validation 
  * 
  * @author Daniel Roth
  */

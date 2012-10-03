@@ -9,6 +9,13 @@ import org.richfaces.cdk.annotations.Description;
 import org.richfaces.cdk.annotations.JsfComponent;
 import org.richfaces.cdk.annotations.Tag;
 
+/**
+ * 
+ * JSF Component which nestes in a &lt;s:graphicImage&gt;.Transforms an image by altering the size.
+ * 
+ * @author mnovotny
+ *
+ */
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.graphicImage.TransformImageSize",value="Nested in a s:graphicImage. Transform an image by altering the size."),
 family="org.jboss.seam.ui.graphicImage.TransformImageSize", type="org.jboss.seam.ui.graphicImage.TransformImageSize",generate="org.jboss.seam.ui.component.html.HtmlTransformImageSize", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="transformImageSize"), 

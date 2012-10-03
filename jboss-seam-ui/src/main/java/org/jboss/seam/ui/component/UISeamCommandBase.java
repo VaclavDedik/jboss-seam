@@ -20,8 +20,13 @@ import javax.faces.model.DataModel;
 import org.jboss.seam.core.PropagationType;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.ui.util.ViewUrlBuilder;
-import org.jboss.seam.ui.util.cdk.MethodBindingToMethodExpression;
 
+/**
+ * Parent of all Seam command like JSF components 
+ * 
+ * @author mnovotny
+ *
+ */
 public abstract class UISeamCommandBase extends UIOutput implements ActionSource2
 {
 

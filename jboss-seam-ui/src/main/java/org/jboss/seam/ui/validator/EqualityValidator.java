@@ -22,7 +22,7 @@ import org.jboss.seam.log.Logging;
 import org.jboss.seam.ui.component.UIDecorate;
 
 /**
- * Validate two fields are equal
+ * Validates two fields are equal
  * 
  * @author pmuir
  * @author Daniel Roth

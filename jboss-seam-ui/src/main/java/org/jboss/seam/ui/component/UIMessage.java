@@ -30,7 +30,8 @@ import org.richfaces.cdk.annotations.JsfComponent;
 import org.richfaces.cdk.annotations.Tag;
 
 /**
- * JSF component class
+ * 
+ * JSF component class which decorates a JSF input field with the validation error message.
  *
  */
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Message",value="Decorate a JSF input field with the validation error message."),

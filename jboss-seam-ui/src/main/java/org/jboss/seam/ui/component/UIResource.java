@@ -13,6 +13,8 @@ import org.richfaces.cdk.annotations.JsfRenderer;
 import org.richfaces.cdk.annotations.Tag;
 
 /**
+ * JSF Component which can use a data in form as inputstream, 
+ * java.util.File or byte[] and a content-type, this tag sends the data to the browser
  * @author Daniel Roth
  */
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Resource",value="Given a data in form of an inputstream, java.util.File or byte[] and a content-type, this tag sends the data to the browser"),

@@ -8,7 +8,13 @@ import org.richfaces.cdk.annotations.Description;
 import org.richfaces.cdk.annotations.JsfComponent;
 import org.richfaces.cdk.annotations.Tag;
 
-@JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Label",value="A label associated with the nearest JSF input component"),
+/**
+ * JSF Component which renders a label associated with the nearest JSF input component
+ * 
+ * @author mnovotny
+ *
+ */
+@JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Label",value="A label associated with the nearest JSF input component."),
 family="javax.faces.Output", type="org.jboss.seam.ui.Label",generate="org.jboss.seam.ui.component.html.HtmlLabel", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="label"), 
 attributes = {"label.xml" })

@@ -8,6 +8,11 @@ import org.richfaces.cdk.annotations.JsfComponent;
 import org.richfaces.cdk.annotations.JsfRenderer;
 import org.richfaces.cdk.annotations.Tag;
 
+/**
+ * Outputs an image to the view. You can specify the file as a path, a java.io.File, java.io.InputStream, java.net.URL or byte[]
+ * @author mnovotny
+ *
+ */
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.graphicImage.GraphicImage",value="Output an image to the view. You can specify the file as a path, a java.io.File, java.io.InputStream, java.net.URL or byte[]"),
 family="org.jboss.seam.ui.graphicImage.GraphicImage", type="org.jboss.seam.ui.graphicImage.GraphicImage",generate="org.jboss.seam.ui.component.html.HtmlGraphicImage", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="graphicImage"), 

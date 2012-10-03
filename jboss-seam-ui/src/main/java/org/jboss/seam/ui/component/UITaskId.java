@@ -31,7 +31,7 @@ import org.richfaces.cdk.annotations.JsfComponent;
 import org.richfaces.cdk.annotations.Tag;
 
 /**
- * JSF component class
+ * JSF component class for adding of task id to an output link (or similar JSF control), when the task is available via #{task}.
  *
  */
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.TaskId",value="Add the task id to an output link (or similar JSF control), when the task is available via #{task}."),

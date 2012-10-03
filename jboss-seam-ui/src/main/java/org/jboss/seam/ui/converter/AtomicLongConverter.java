@@ -9,6 +9,8 @@ import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 
 /**
+ *  Converter for java.util.concurrent.atomic.AtomicLong
+ * 
  * @author Dennis Byrne
  */
 @FacesConverter(value="org.jboss.seam.ui.AtomicLongConverter")

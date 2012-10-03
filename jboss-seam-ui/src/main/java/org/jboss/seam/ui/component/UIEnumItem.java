@@ -10,7 +10,7 @@ import org.richfaces.cdk.annotations.JsfComponent;
 import org.richfaces.cdk.annotations.Tag;
 
 /**
- * JSF component class
+ * JSF component class for creating SelectItem from an enum value
  * 
  */
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.EnumItem",value="Creates a SelectItem from an enum value."),

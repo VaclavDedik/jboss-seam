@@ -31,7 +31,8 @@ import org.richfaces.cdk.annotations.JsfRenderer;
 import org.richfaces.cdk.annotations.Tag;
 
 /**
- * JSF component class
+ * JSF component class for customization of the conversation propagation in a command link or a button
+ * 
  *
  */
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.ConversationPropagation",value="Customize the conversation propagation for a command link or button (or similar JSF control)."),
