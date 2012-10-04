@@ -18,13 +18,11 @@
       <dependency>
          <groupId>org.jboss.seam.examples.blog</groupId>
          <artifactId>blog-web</artifactId>
-         <version>${project.version}</version>
          <type>war</type>
       </dependency>
       <dependency>
          <groupId>org.jboss.seam.examples.blog</groupId>
          <artifactId>blog-ejb</artifactId>
-         <version>${project.version}</version>
          <type>ejb</type>
       </dependency>
       <dependency>
