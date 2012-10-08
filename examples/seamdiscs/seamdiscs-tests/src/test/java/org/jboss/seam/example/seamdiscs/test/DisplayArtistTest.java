@@ -20,7 +20,6 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.example.seamdiscs.model.Artist;
 import org.jboss.seam.example.seamdiscs.model.Band;
 import org.jboss.seam.mock.DBJUnitSeamTest;
-import org.jboss.seam.trinidad.SeamCollectionModel;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;

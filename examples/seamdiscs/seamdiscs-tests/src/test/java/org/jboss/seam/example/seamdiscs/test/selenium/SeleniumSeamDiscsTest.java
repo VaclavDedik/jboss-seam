@@ -28,7 +28,6 @@ import org.testng.annotations.BeforeMethod;
 import com.thoughtworks.selenium.SeleniumException;
 
 import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.fail;
 
 /**
  * 
