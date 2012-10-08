@@ -25,7 +25,6 @@ import org.jboss.seam.example.common.test.selenium.SeamSeleniumTest;
 import org.testng.annotations.BeforeMethod;
 
 import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.fail;
 
 /**
  * Main class for SeamBay example tests

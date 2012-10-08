@@ -51,7 +51,6 @@ public class AuctionAction implements Serializable
    private boolean primaryImage;
    
    @Begin(join = true)
-   @SuppressWarnings("unchecked")
    public void createAuction()
    {
       if (auction == null)
