@@ -2,6 +2,7 @@ package org.jboss.seam.ui.component;
 
 import static org.jboss.seam.util.Strings.emptyIfNull;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +11,7 @@ import java.util.List;
 import javax.el.ValueExpression;
 import javax.faces.FacesException;
 import javax.faces.component.ValueHolder;
+import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.model.DataModel;
 
@@ -163,6 +165,19 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
    public abstract void setItemValue(Object itemValue);
 
    @Override
+   public void encodeEnd(FacesContext context) throws IOException {
+	   if(isShowNoSelectionLabel()){
+		   ConverterChain converterChain = new ConverterChain(this.getParent());
+		   Converter noSelectionConverter = new NoSelectionConverter();
+		   // Make sure that the converter is only added once
+		   if (!converterChain.containsConverterType(noSelectionConverter)) {
+			   converterChain.addConverterToChain(noSelectionConverter, ConverterChain.CHAIN_START);
+		   }
+	   }
+	   super.encodeEnd(context);
+   }
+   
+   @Override
    public Object getValue()
    {
       List<javax.faces.model.SelectItem> temporarySelectItems = new ArrayList<javax.faces.model.SelectItem>();
@@ -249,12 +264,6 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
       if (isShowNoSelectionLabel())
       {
          NullableSelectItem s = new NullableSelectItem(NO_SELECTION_VALUE, getNoSelectionLabel());
-         ConverterChain converterChain = new ConverterChain(this.getParent());
-         Converter noSelectionConverter = new NoSelectionConverter();
-         // Make sure that the converter is only added once
-         if (!converterChain.containsConverterType(noSelectionConverter)) {
-            converterChain.addConverterToChain(noSelectionConverter, ConverterChain.CHAIN_START);
-         }
          return s;
       }
       else
