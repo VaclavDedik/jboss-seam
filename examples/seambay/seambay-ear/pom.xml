@@ -8,7 +8,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     
-    <groupId>org.jboss.seam.examples</groupId>
     <artifactId>seambay-ear</artifactId>
     <packaging>ear</packaging>
     <name>Seambay EAR Module (EE6)</name>

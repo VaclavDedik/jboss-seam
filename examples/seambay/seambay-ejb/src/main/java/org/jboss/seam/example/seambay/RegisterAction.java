@@ -5,7 +5,6 @@ import static org.jboss.seam.ScopeType.CONVERSATION;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.faces.application.FacesMessage;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 
