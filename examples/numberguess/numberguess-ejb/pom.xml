@@ -9,7 +9,6 @@
       <relativePath>../pom.xml</relativePath>
    </parent>
 
-   <groupId>org.jboss.seam.examples</groupId>
    <artifactId>numberguess-ejb</artifactId>
    <packaging>ejb</packaging>
    <name>Numberguess EJB Module (EE6)</name>

@@ -9,7 +9,6 @@
       <relativePath>../pom.xml</relativePath>
    </parent>
 
-   <groupId>org.jboss.seam.examples</groupId>
    <artifactId>numberguess-tests</artifactId>
    <name>Numberguess Integration Tests Module (EE6)</name>
 

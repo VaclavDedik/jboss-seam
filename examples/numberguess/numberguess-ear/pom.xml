@@ -9,7 +9,6 @@
       <relativePath>../pom.xml</relativePath>
    </parent>
 
-   <groupId>org.jboss.seam.examples</groupId>
    <artifactId>numberguess-ear</artifactId>
    <packaging>ear</packaging>
    <name>Numberguess EAR Module (EE6)</name>

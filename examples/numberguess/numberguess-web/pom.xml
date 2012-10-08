@@ -9,7 +9,6 @@
       <relativePath>../pom.xml</relativePath>
    </parent>
 
-   <groupId>org.jboss.seam.examples</groupId>
    <artifactId>numberguess-web</artifactId>
    <packaging>war</packaging>
    <name>Numberguess Web Module (EE6)</name>
@@ -25,17 +24,17 @@
          <groupId>org.jboss.seam.examples</groupId>
          <artifactId>numberguess-ejb</artifactId>
          <type>ejb</type>
-         <!--<scope>provided</scope>-->
+         <scope>provided</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.jboss.seam</groupId>
+         <artifactId>jboss-seam</artifactId>
+         <type>ejb</type>
+         <scope>provided</scope>
       </dependency>
       <dependency>
          <groupId>org.jboss.seam</groupId>
          <artifactId>jboss-seam-ui</artifactId>
-         <exclusions>
-            <exclusion>
-               <groupId>org.jboss.seam</groupId>
-               <artifactId>jboss-seam</artifactId>
-            </exclusion>
-         </exclusions>
       </dependency>
       <dependency>
          <groupId>org.jboss.el</groupId>
@@ -44,12 +43,6 @@
       <dependency>
          <groupId>org.jboss.seam</groupId>
          <artifactId>jboss-seam-debug</artifactId>
-         <exclusions>
-            <exclusion>
-               <groupId>org.jboss.seam</groupId>
-               <artifactId>jboss-seam</artifactId>
-            </exclusion>
-         </exclusions>
       </dependency>
       <dependency>
          <groupId>commons-beanutils</groupId>
@@ -60,6 +53,11 @@
                <artifactId>commons-collections</artifactId>
             </exclusion>
          </exclusions>
+      </dependency>
+      <dependency>
+         <groupId>org.jboss.spec.javax.faces</groupId>
+         <artifactId>jboss-jsf-api_2.1_spec</artifactId>
+         <scope>provided</scope>
       </dependency>
    </dependencies>
 
