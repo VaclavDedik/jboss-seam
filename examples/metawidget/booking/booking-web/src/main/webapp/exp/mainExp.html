@@ -91,7 +91,7 @@ public class HotelSearchingAction implements HotelSearching
    
    public boolean isNextPageAvailable()
    {
-      return hotels!=null && hotels.size()==pageSize;
+      return hotels!=null &amp;&amp; hotels.size()==pageSize;
    }
    
    public int getPageSize() {
@@ -137,7 +137,7 @@ public class HotelSearchingAction implements HotelSearching
 <code class="block">
 &lt;h:outputText value="No Hotels Found" 
               rendered="#{hotels != null and hotels.rowCount==0}"/&gt;
-&lt;h:dataTable value="#{hotels}" var="hot" rendered="#{hotels.rowCount>0}"&gt;
+&lt;h:dataTable value="#{hotels}" var="hot" rendered="#{hotels.rowCount&gt;0}"&gt;
 	&lt;h:column&gt;
 		&lt;f:facet name="header"&gt;Name&lt;/f:facet&gt;
 		#{hot.name}
@@ -202,11 +202,11 @@ public class HotelBookingAction implements HotelBooking
    }
 }
 </code>
-
+    <center>
        <form>
-          <input type="button" value="Close Window" onclick="window.close()"/>
+          <input type="button" value="Close Window" onclick="window.close()"></input>
        </form>
-
+    </center>
   </div>
 </div>
 
