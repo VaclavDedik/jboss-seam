@@ -5,7 +5,6 @@ import org.jboss.seam.annotations.In;
 
 import javax.ws.rs.*;
 import javax.persistence.EntityManager;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
