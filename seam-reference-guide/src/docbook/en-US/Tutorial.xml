@@ -130,7 +130,7 @@
             <section>
                 <title>The entity bean: <literal>User.java</literal></title>
 
-                <para> We need an EJB entity bean for user data. This class defines <emphasis>persistence</emphasis> and
+                <para> We need an JPA entity bean for user data. This class defines <emphasis>persistence</emphasis> and
                         <emphasis>validation</emphasis> declaratively, via annotations. It also needs some extra
                     annotations that define the class as a Seam component. </para>
                   <!-- Can't use code hightlighting with callouts -->
@@ -204,7 +204,7 @@ public class User implements Serializable
 }]]></programlisting>
                      <calloutlist>
                             <callout arearefs="registration-entity-annotation">
-                                <para> The EJB3 standard <literal>@Entity</literal> annotation indicates that the
+                                <para> The JPA standard <literal>@Entity</literal> annotation indicates that the
                                         <literal>User</literal> class is an entity bean. </para>
                             </callout>
                             <callout arearefs="registration-name-annotation">
@@ -227,7 +227,7 @@ public class User implements Serializable
                                 </para>
                             </callout>
                             <callout arearefs="registration-table-annotation">
-                                <para> The EJB standard <literal>@Table</literal> annotation indicates that the
+                                <para> The JPA standard <literal>@Table</literal> annotation indicates that the
                                         <literal>User</literal> class is mapped to the <literal>users</literal> table.
                                 </para>
                             </callout>
@@ -239,7 +239,7 @@ public class User implements Serializable
                                     render response and update model values phases. </para>
                             </callout>
                             <callout arearefs="registration-empty-constructor">
-                                <para> An empty constructor is both required by both the EJB specification and by Seam.
+                                <para> An empty constructor is both required by both the JPA specification and by Seam.
                                 </para>
                             </callout>
                             <callout arearefs="registration-notnull">
@@ -250,7 +250,7 @@ public class User implements Serializable
                                     persistence). </para>
                             </callout>
                             <callout arearefs="registration-id-annotation">
-                                <para> The EJB standard <literal>@Id</literal> annotation indicates the primary key
+                                <para> The JPA standard <literal>@Id</literal> annotation indicates the primary key
                                     attribute of the entity bean. </para>
                             </callout>
                         </calloutlist>
@@ -340,21 +340,21 @@ public class RegisterAction implements Register
                             </callout>
                             <callout arearefs="registration-persistencecontext-annotation">
                                 <para> The EJB standard <literal>@PersistenceContext</literal> annotation is used to
-                                    inject the EJB3 entity manager. </para>
+                                    inject the JPA entity manager. </para>
                             </callout>
                             <callout arearefs="registration-logger-annotation">
                                 <para> The Seam <literal>@Logger</literal> annotation is used to inject the component's
                                         <literal>Log</literal> instance. </para>
                             </callout>
                             <callout arearefs="registration-action-listener">
-                                <para> The action listener method uses the standard EJB3
+                                <para> The action listener method uses the standard JPA
                                     <literal>EntityManager</literal> API to interact with the database, and returns the
                                     JSF outcome. Note that, since this is a session bean, a transaction is automatically
                                     begun when the <literal>register()</literal> method is called, and committed when it
                                     completes. </para>
                             </callout>
                             <callout arearefs="registration-query">
-                                <para> Notice that Seam lets you use a JSF EL expression inside EJB-QL. Under the
+                                <para> Notice that Seam lets you use a JSF EL expression inside JPQL. Under the
                                     covers, this results in an ordinary JPA <literal>setParameter()</literal> call on
                                     the standard JPA <literal>Query</literal> object. Nice, huh? </para>
                             </callout>
@@ -657,9 +657,9 @@ public interface Register
             </section>
 
             <section>
-                <title>The EJB persistence deployment descriptor: <literal>persistence.xml</literal></title>
+                <title>The JPA persistence deployment descriptor: <literal>persistence.xml</literal></title>
 
-                <para> The <literal>persistence.xml</literal> file tells the EJB persistence provider where to find the
+                <para> The <literal>persistence.xml</literal> file tells the JPA persistence provider where to find the
                     datasource, and contains some vendor-specific settings. In this case, enables automatic schema
                     export at startup time. </para>
 
@@ -760,7 +760,7 @@ public interface Register
         <title>Clickable lists in Seam: the messages example</title>
 
         <para> Clickable lists of database search results are such an important part of any online application that Seam
-            provides special functionality on top of JSF to make it easier to query data using EJB-QL or HQL and display
+            provides special functionality on top of JSF to make it easier to query data using JPQL or HQL and display
             it as a clickable list using a JSF <literal>&lt;h:dataTable&gt;</literal>. The messages example
             demonstrates this functionality. </para>
 
@@ -942,7 +942,7 @@ public class MessageManagerBean implements Serializable, MessageManager
                                     named <literal>message</literal>. </para>
                             </callout>
                             <callout arearefs="messages-persistencecontext">
-                                <para> This stateful bean has an EJB3 <emphasis>extended persistence context</emphasis>.
+                                <para> This stateful bean has an JPA <emphasis>extended persistence context</emphasis>.
                                     The messages retrieved in the query remain in the managed state as long as the bean
                                     exists, so any subsequent method calls to the stateful bean can update them without
                                     needing to make any explicit call to the <literal>EntityManager</literal>. </para>
@@ -1083,7 +1083,7 @@ public interface MessageManager
 
             <para> If the user clicks the <literal>&lt;h:commandButton&gt;</literal>, JSF calls the
                     <literal>delete()</literal> action listener. Seam intercepts this call and injects the selected row
-                data into the <literal>message</literal> attribute of the <literal>messageList</literal> component. The
+                data into the <literal>message</literal> attribute of the <literal>messageManager</literal> component. The
                 action listener fires, removing the selected <literal>Message</literal> from the list, and also calling
                     <literal>remove()</literal> on the <literal>EntityManager</literal>. At the end of the call, Seam
                 refreshes the <literal>messageList</literal> context variable and clears the context variable named
