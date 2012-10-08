@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<components xmlns="http://www.jboss.org/schema/seam/components"
+<components xmlns="http://jboss.org/schema/seam/components"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="http://www.jboss.org/schema/seam/components http://www.jboss.org/schema/seam/components-2.3.xsd">
+            xsi:schemaLocation="http://jboss.org/schema/seam/components http://jboss.org/schema/seam/components-2.3.xsd">
             
     <component name="org.jboss.seam.core.init">
         <property name="jndiPattern">${jndiPattern}</property>
