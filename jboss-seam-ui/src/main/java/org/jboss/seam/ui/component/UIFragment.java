@@ -37,7 +37,7 @@ import org.richfaces.cdk.annotations.Tag;
 family="org.jboss.seam.ui.Fragment", type="org.jboss.seam.ui.Fragment",generate="org.jboss.seam.ui.component.html.HtmlFragment", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="fragment"), 
 renderer = @JsfRenderer(type="org.jboss.seam.ui.renderkit.FragmentRendererBase", family="org.jboss.seam.ui.FragmentRenderer"),
-attributes = {"javax.faces.component.UIComponent.xml" })
+attributes = {"base-props.xml" })
 public abstract class UIFragment extends UIComponentBase {
 	
    private static final String COMPONENT_TYPE = "org.jboss.seam.ui.Fragment";
