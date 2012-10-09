@@ -21,7 +21,6 @@ public class RegisterAction
     @In("#{hibernateTestService}")
     private HibernateTestService hibernateTestService;
 
-    @SuppressWarnings("unused")
     @In("hotelSearch")
     private HotelSearchingAction hotelSearchingAction;
 

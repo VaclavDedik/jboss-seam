@@ -3,10 +3,8 @@
  */
 package org.jboss.seam.example.spring;
 
-import java.sql.SQLException;
 import java.util.List;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.TransactionStatus;
