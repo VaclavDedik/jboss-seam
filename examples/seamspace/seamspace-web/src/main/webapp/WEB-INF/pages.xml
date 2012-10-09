@@ -115,10 +115,6 @@
             <redirect view-id="/home.xhtml"/>
         </navigation>
         
-        <navigation from-action="#{blog.createComment}">
-          <redirect view-id="/comment.xhtml"/>
-        </navigation>
-        
         <navigation from-action="#{blog.createEntry}">
           <redirect view-id="/createBlog.xhtml"/>
         </navigation>
