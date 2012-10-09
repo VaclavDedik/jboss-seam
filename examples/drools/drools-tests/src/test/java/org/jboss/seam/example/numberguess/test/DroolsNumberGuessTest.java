@@ -46,7 +46,7 @@ public class DroolsNumberGuessTest extends JUnitSeamTest
    @Test
    public void testNumberGuessWin() throws Exception
    {
-      String id = new NonFacesRequest("/numberGuess.jsp")
+      String id = new NonFacesRequest("/numberGuess.xhtml")
       {
 
          @Override
@@ -64,7 +64,7 @@ public class DroolsNumberGuessTest extends JUnitSeamTest
          
       }.run();
 
-      String id2 = new FacesRequest("/numberGuess.jsp", id)
+      String id2 = new FacesRequest("/numberGuess.xhtml", id)
       {
 
          @Override
@@ -83,14 +83,14 @@ public class DroolsNumberGuessTest extends JUnitSeamTest
          @Override
          protected void afterRequest() {
             assert !isRenderResponseBegun();
-            assert getViewId().equals("/numberGuess.jsp");
+            assert getViewId().equals("/numberGuess.xhtml");
          }
          
       }.run();
       
       assert id2.equals(id);
       
-      new NonFacesRequest("/numberGuess.jsp", id)
+      new NonFacesRequest("/numberGuess.xhtml", id)
       {
          
          @Override
@@ -108,7 +108,7 @@ public class DroolsNumberGuessTest extends JUnitSeamTest
          
       }.run();
 
-      id2 = new FacesRequest("/numberGuess.jsp", id)
+      id2 = new FacesRequest("/numberGuess.xhtml", id)
       {
 
          @Override
@@ -132,14 +132,14 @@ public class DroolsNumberGuessTest extends JUnitSeamTest
          protected void afterRequest()
          {
             assert !isRenderResponseBegun();
-            assert getViewId().equals("/win.jsp");
+            assert getViewId().equals("/win.xhtml");
          }
          
       }.run();
       
       assert id2.equals(id);
       
-      new NonFacesRequest("/win.jsp", id)
+      new NonFacesRequest("/win.xhtml", id)
       {
          @Override
          protected void renderResponse() throws Exception {
@@ -159,7 +159,7 @@ public class DroolsNumberGuessTest extends JUnitSeamTest
    @Test
    public void testNumberGuessLose() throws Exception
    {
-      String id = new NonFacesRequest("/numberGuess.jsp")
+      String id = new NonFacesRequest("/numberGuess.xhtml")
       {
 
          @Override
@@ -180,7 +180,7 @@ public class DroolsNumberGuessTest extends JUnitSeamTest
          
          final int count = i;
 
-         new FacesRequest("/numberGuess.jsp", id)
+         new FacesRequest("/numberGuess.xhtml", id)
          {
    
             @Override
@@ -202,12 +202,12 @@ public class DroolsNumberGuessTest extends JUnitSeamTest
             protected void afterRequest()
             {
                assert !isRenderResponseBegun();
-               assert getViewId().equals("/numberGuess.jsp");
+               assert getViewId().equals("/numberGuess.xhtml");
             }
             
          }.run();
          
-         new NonFacesRequest("/numberGuess.jsp", id)
+         new NonFacesRequest("/numberGuess.xhtml", id)
          {
    
             @Override
@@ -227,7 +227,7 @@ public class DroolsNumberGuessTest extends JUnitSeamTest
       
       }
 
-      new FacesRequest("/numberGuess.jsp", id)
+      new FacesRequest("/numberGuess.xhtml", id)
       {
 
          @Override
@@ -249,12 +249,12 @@ public class DroolsNumberGuessTest extends JUnitSeamTest
          protected void afterRequest()
          {
             assert !isRenderResponseBegun();
-            assert getViewId().equals("/lose.jsp");
+            assert getViewId().equals("/lose.xhtml");
          }
          
       }.run();
 
-      new NonFacesRequest("/lose.jsp", id)
+      new NonFacesRequest("/lose.xhtml", id)
       {
 
          @Override

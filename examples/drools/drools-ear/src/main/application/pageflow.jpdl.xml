@@ -11,7 +11,7 @@
 	    "http://jboss.org/schema/seam/pageflow http://jboss.org/schema/seam/pageflow-2.3.xsd" 
 	name="numberGuess">
    
-   <start-page name="displayGuess" view-id="/numberGuess.jsp">
+   <start-page name="displayGuess" view-id="/numberGuess.xhtml">
       <redirect/>
       <transition name="guess" to="drools"/>
    </start-page>
@@ -34,12 +34,12 @@
       
    </decision>
    
-   <page name="win" view-id="/win.jsp">
+   <page name="win" view-id="/win.xhtml">
    	  <end-conversation />
       <redirect/>
    </page>
    
-   <page name="lose" view-id="/lose.jsp">
+   <page name="lose" view-id="/lose.xhtml">
       <end-conversation />
       <redirect/>
    </page>
