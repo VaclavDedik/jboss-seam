@@ -28,23 +28,17 @@
         </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>
+            <artifactId>jboss-seam</artifactId>
+            <type>ejb</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.seam</groupId>
             <artifactId>jboss-seam-ui</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.jboss.seam</groupId>
-                    <artifactId>jboss-seam</artifactId>
-                </exclusion>                
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>
             <artifactId>jboss-seam-debug</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.jboss.seam</groupId>
-                    <artifactId>jboss-seam</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>commons-beanutils</groupId>
@@ -72,6 +66,16 @@
             <groupId>org.richfaces.core</groupId>
             <artifactId>richfaces-core-api</artifactId>
         </dependency> 
+        <dependency>
+            <groupId>org.jboss.spec.javax.faces</groupId>
+            <artifactId>jboss-jsf-api_2.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_3.0_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
   
     <build>
