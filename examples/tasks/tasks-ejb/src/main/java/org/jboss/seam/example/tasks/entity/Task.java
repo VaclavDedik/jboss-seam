@@ -37,7 +37,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @XmlRootElement
-@NamedQuery(name="taskByNameAndCategory", query="select task from Task task where task.name like :task and task.category.id = :category")
+@NamedQuery(name="taskByNameAndCategory", query="select t from Task t where t.name like :task and t.category.id = :category")
 public class Task
 {
    private Long id;

@@ -46,7 +46,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @XmlRootElement
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "NAME", "OWNER_USERNAME" }))
-@NamedQuery(name = "categoryByNameAndUser", query = "select category from Category category where category.owner.username like :username and category.name like :category")
+@NamedQuery(name = "categoryByNameAndUser", query = "select c from Category c where c.owner.username like :username and c.name like :category")
 public class Category
 {
    private Long id;

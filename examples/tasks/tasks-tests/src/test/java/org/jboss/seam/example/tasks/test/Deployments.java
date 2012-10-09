@@ -6,7 +6,6 @@ import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 import java.io.File;
-import org.jboss.shrinkwrap.api.asset.StringAsset;
 
 public class Deployments {
    public static EnterpriseArchive tasksDeployment() {
