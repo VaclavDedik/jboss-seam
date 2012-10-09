@@ -34,7 +34,7 @@ public class AccountTest
     
     @Test
     public void listAccounts() throws Exception {
-        String id = new FacesRequest("/search.xhtml") {
+        new FacesRequest("/search.xhtml") {
             
             @Override
             @SuppressWarnings("unchecked")
@@ -51,7 +51,6 @@ public class AccountTest
     public void selectAccount() throws Exception {        
         String id = new FacesRequest("/search.xhtml") {        
             @Override
-            @SuppressWarnings("unchecked")
             protected void renderResponse() throws Exception {           
                 assert !((Boolean)getValue("#{accountHome.idDefined}"));
             }          
