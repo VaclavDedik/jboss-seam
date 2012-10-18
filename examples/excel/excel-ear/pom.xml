@@ -28,6 +28,20 @@
             <groupId>org.jboss.seam</groupId>
             <artifactId>jboss-seam</artifactId>
             <type>ejb</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.testng</groupId>
+                    <artifactId>testng</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.el</groupId>
+                    <artifactId>el-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
