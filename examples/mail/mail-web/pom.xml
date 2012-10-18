@@ -34,20 +34,6 @@
         <dependency>
             <groupId>org.jboss.seam</groupId>
             <artifactId>jboss-seam-mail</artifactId>
-            <exclusions>
-            	<exclusion>
-            		<artifactId>jboss-seam-ui</artifactId>
-            		<groupId>org.jboss.seam</groupId>
-            	</exclusion>
-            	<exclusion>
-            		<artifactId>jsf-impl</artifactId>
-            		<groupId>com.sun.faces</groupId>
-            	</exclusion>
-            	<exclusion>
-            		<artifactId>jboss-jsf-api_2.1_spec</artifactId>
-            		<groupId>org.jboss.spec.javax.faces</groupId>
-            	</exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>
@@ -60,37 +46,27 @@
         <dependency>
             <groupId>org.jboss.seam</groupId>
             <artifactId>jboss-seam-pdf</artifactId>
-            <exclusions>
-            	<exclusion>
-            		<artifactId>jboss-seam-ui</artifactId>
-            		<groupId>org.jboss.seam</groupId>
-            	</exclusion>
-            	<exclusion>
-            		<artifactId>jboss-seam</artifactId>
-            		<groupId>org.jboss.seam</groupId>
-            	</exclusion>
-            	<exclusion>
-            		<artifactId>jboss-jsf-api_2.1_spec</artifactId>
-            		<groupId>org.jboss.spec.javax.faces</groupId>
-            	</exclusion>
-            </exclusions>
             <scope>runtime</scope>
         </dependency>
         <dependency>
         	<groupId>org.jboss.seam</groupId>
         	<artifactId>jboss-seam-excel</artifactId>
         	<scope>runtime</scope>
-        	<exclusions>
-        		<exclusion>
-        			<artifactId>jboss-jsf-api_2.1_spec</artifactId>
-        			<groupId>org.jboss.spec.javax.faces</groupId>
-        		</exclusion>
-        	</exclusions>
         </dependency>
         <dependency>
         	<groupId>org.jboss.spec.javax.el</groupId>
         	<artifactId>jboss-el-api_2.2_spec</artifactId>
         	<scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_3.0_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.faces</groupId>
+            <artifactId>jboss-jsf-api_2.1_spec</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
   
