@@ -54,8 +54,7 @@
       	      <div class="selectMany">
       	        <h:selectManyListbox id="friends" value="#{imagePermission.selectedFriends}" styleClass="roles" size="6">
       	          <s:selectItems value="#{imagePermission.availableFriends}" var="friend" label="#{friend.memberName}"/>
-      	          <!--<s:convertEntity />-->
-                  <f:converter converterId="org.jboss.seam.ui.EntityConverter" />
+      	          <s:convertEntity />
       	        </h:selectManyListbox>
       	      </div>
       	      <div class="validationError"><h:message for="friends"/></div>

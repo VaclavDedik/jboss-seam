@@ -34,8 +34,7 @@
               <h:inputText id="searchTerm" value="#{auctionSearch.searchTerm}" styleClass="searchTerm"/>
               <h:selectOneMenu id="selectedCat" value="#{auctionSearch.searchCategory}">
                 <s:selectItems value="#{categories}" var="cat" label="#{cat.name}" noSelectionLabel="All Categories"/>
-                <!--<s:convertEntity />-->
-                <f:converter converterId="org.jboss.seam.ui.EntityConverter" />
+                <s:convertEntity />
               </h:selectOneMenu>
               
               <br/>

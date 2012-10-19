@@ -18,8 +18,7 @@
 		    		<tr:inputNumberSpinbox label="Release Date" value="#{disc.release}" minimum="1900" maximum="2100" stepSize="1" readOnly="#{not identity.loggedIn}" columns="4"/>
 	    			<tr:selectOneChoice value="#{disc.artist}" label="Artist" required="true" readOnly="#{not identity.loggedIn}">
 	    				<s:selectItems value="#{allArtists.resultList}" var="artist" label="#{artist.name}" noSelectionLabel="Please Select..." hideNoSelectionLabel="true" />
-	    				<!--<s:convertEntity />-->
-                        <f:converter converterId="org.jboss.seam.ui.EntityConverter" />
+	    				<s:convertEntity />
 	    			</tr:selectOneChoice>
 	    			<tr:panelLabelAndMessage label="Details">
 			    		<tr:inputText simple="true" value="#{disc.description}" rendered="#{identity.loggedIn}" rows="4" columns="60" id="description">
