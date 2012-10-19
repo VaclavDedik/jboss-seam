@@ -57,18 +57,19 @@
                     <version>6</version>
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
                     <filtering>true</filtering>
+                    <initializeInOrder>true</initializeInOrder>
                     <modules>
+                        <ejbModule>
+                            <groupId>org.jboss.seam.examples.restbay</groupId>
+                            <artifactId>restbay-ejb</artifactId>
+                            <bundleFileName>restbay-ejb.jar</bundleFileName>
+                        </ejbModule>
                         <webModule>
                             <groupId>org.jboss.seam.examples.restbay</groupId>
                             <artifactId>restbay-web</artifactId>
                             <contextRoot>/seam-restbay</contextRoot>
                             <bundleFileName>restbay-web.war</bundleFileName>
                         </webModule>
-                        <ejbModule>
-                            <groupId>org.jboss.seam.examples.restbay</groupId>
-                            <artifactId>restbay-ejb</artifactId>
-                            <bundleFileName>restbay-ejb.jar</bundleFileName>
-                        </ejbModule>
                         <ejbModule>
                             <groupId>org.jboss.seam</groupId>
                             <artifactId>jboss-seam</artifactId>
