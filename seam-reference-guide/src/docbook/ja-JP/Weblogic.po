@@ -1644,10 +1644,10 @@ msgstr ""
 #: Weblogic.xml:848
 #, no-c-format
 msgid ""
-"cp ./dist-weblogic10/jboss-seam-jpa.war\n"
+"cp ./dist-weblogic10/jpa-web.war\n"
 "$BEA_HOME/user_projects/domains/seam_examples/autodeploy"
 msgstr ""
-"cp ./dist-weblogic10/jboss-seam-jpa.war\n"
+"cp ./dist-weblogic10/jpa-web.war\n"
 "$BEA_HOME/user_projects/domains/seam_examples/autodeploy"
 
 #. Tag: para
@@ -1655,9 +1655,9 @@ msgstr ""
 #, no-c-format
 msgid ""
 "Check out the application at the following <literal>http://localhost:7001/"
-"jboss-seam-jpa/</literal> ."
+"jpa-web/</literal> ."
 msgstr ""
-" <literal>http://localhost:7001/jboss-seam-jpa/</literal>に従って、アプリケー"
+" <literal>http://localhost:7001/jpa-web/</literal>に従って、アプリケー"
 "ションをチェックアウトしてください。"
 
 #. Tag: title

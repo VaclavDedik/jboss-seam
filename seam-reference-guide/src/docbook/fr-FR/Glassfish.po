@@ -300,14 +300,14 @@ msgstr "Accédez au <literal>Web Applications</literal> dans le menu d'option so
 #. Tag: para
 #: Glassfish.xml:233
 #, no-c-format
-msgid "Browse to <literal>examples/jpa/dist-glassfish/jboss-seam-jpa.war</literal>."
-msgstr "Navigez vers <literal>examples/jpa/dist-glassfish/jboss-seam-jpa.war</literal>."
+msgid "Browse to <literal>examples/jpa/dist-glassfish/jpa-web.war</literal>."
+msgstr "Navigez vers <literal>examples/jpa/dist-glassfish/jpa-web.war</literal>."
 
 #. Tag: para
 #: Glassfish.xml:245
 #, no-c-format
-msgid "You can now access the application at <literal>http://localhost:8081/jboss-seam-jpa/</literal>."
-msgstr "Vous pouvez maintenant accéder à l'application sur <literal>http://localhost:8081/jboss-seam-jpa/</literal>."
+msgid "You can now access the application at <literal>http://localhost:8081/jpa-web/</literal>."
+msgstr "Vous pouvez maintenant accéder à l'application sur <literal>http://localhost:8081/jpa-web/</literal>."
 
 #. Tag: title
 #: Glassfish.xml:255

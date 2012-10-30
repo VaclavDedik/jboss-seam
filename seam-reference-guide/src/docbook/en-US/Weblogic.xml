@@ -938,12 +938,12 @@ not allowed here
                it into the autodeploy directory.
             </para>
 
-            <programlisting>cp ./dist-weblogic10/jboss-seam-jpa.war
+            <programlisting>cp ./dist-weblogic10/jpa-web.war
 $BEA_HOME/user_projects/domains/seam_examples/autodeploy</programlisting>
 
             <para>
                Check out the application at the following
-               <literal>http://localhost:7001/jboss-seam-jpa/</literal>
+               <literal>http://localhost:7001/jpa-web/</literal>
                .
             </para>
          </section>

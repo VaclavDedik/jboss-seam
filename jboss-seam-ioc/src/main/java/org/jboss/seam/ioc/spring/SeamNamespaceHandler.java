@@ -133,7 +133,7 @@ public class SeamNamespaceHandler extends NamespaceHandlerSupport
             {
                throw new IllegalStateException("Unable to load class '"
                         + SEAM_COMPONENT_POST_PROCESSOR
-					       + "' make sure you have the jboss-seam-spring.jar in your classpath.", e);
+					       + "' make sure you have the spring-web.jar in your classpath.", e);
             }
             RootBeanDefinition beanDefinition = new RootBeanDefinition(cls);
             beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);

@@ -231,7 +231,7 @@
                      <itemizedlist>
                         <listitem>
                            <para>
-                              Browse to <literal>examples/jpa/dist-glassfish/jboss-seam-jpa.war</literal>.
+                              Browse to <literal>examples/jpa/dist-glassfish/jpa-web.war</literal>.
                            </para>
                         </listitem>
                         <listitem>
@@ -244,7 +244,7 @@
                   <listitem>
                      <para>
                         You can now access the application at 
-                        <literal>http://localhost:8081/jboss-seam-jpa/</literal>.
+                        <literal>http://localhost:8081/jpa-web/</literal>.
                      </para>
                   </listitem>
                </itemizedlist>

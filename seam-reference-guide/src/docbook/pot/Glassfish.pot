@@ -347,7 +347,7 @@ msgstr ""
 #: Glassfish.xml:233
 #, no-c-format
 msgid ""
-"Browse to <literal>examples/jpa/dist-glassfish/jboss-seam-jpa.war</literal>."
+"Browse to <literal>examples/jpa/dist-glassfish/jpa-web.war</literal>."
 msgstr ""
 
 #. Tag: para

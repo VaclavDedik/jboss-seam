@@ -398,9 +398,9 @@ msgstr ""
 #: Glassfish.xml:233
 #, no-c-format
 msgid ""
-"Browse to <literal>examples/jpa/dist-glassfish/jboss-seam-jpa.war</literal>."
+"Browse to <literal>examples/jpa/dist-glassfish/jpa-web.war</literal>."
 msgstr ""
-"ブラウザで <literal>examples/jpa/dist-glassfish/jboss-seam-jpa.war</literal> "
+"ブラウザで <literal>examples/jpa/dist-glassfish/jpa-web.war</literal> "
 "を指定してください。"
 
 #. Tag: para
@@ -410,7 +410,7 @@ msgid ""
 "You can now access the application at <literal>http://localhost:8081/jboss-"
 "seam-jpa/</literal>."
 msgstr ""
-"<literal>http://localhost:8081/jboss-seam-jpa/</literal> からアプリケーション"
+"<literal>http://localhost:8081/jpa-web/</literal> からアプリケーション"
 "にアクセスできます。"
 
 #. Tag: title

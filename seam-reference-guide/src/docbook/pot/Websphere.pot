@@ -955,7 +955,7 @@ msgstr ""
 #, no-c-format
 msgid ""
 "Follow the same instructions as for the <literal>jee5/booking</literal> "
-"sample. Select the <literal>examples/jpa/dist-websphere7/jboss-seam-jpa.war</"
+"sample. Select the <literal>examples/jpa/dist-websphere7/jpa-web.war</"
 "literal> file on the first page and on the <literal>Map context roots for "
 "Web modules</literal> page (after the <literal>Map virtual host for Web "
 "module</literal>), enter the context root you want to use for your "
