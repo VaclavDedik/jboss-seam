@@ -57,7 +57,13 @@
                     <version>6</version>
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
                     <filtering>true</filtering>
+                    <initializeInOrder>true</initializeInOrder>
                     <modules>
+                        <ejbModule>
+                            <groupId>org.jboss.seam.examples.tasks</groupId>
+                            <artifactId>tasks-ejb</artifactId>
+                            <bundleFileName>tasks-ejb.jar</bundleFileName>
+                        </ejbModule>
                         <webModule>
                             <groupId>org.jboss.seam.examples.tasks</groupId>
                             <artifactId>tasks-web</artifactId>
@@ -65,16 +71,10 @@
                             <bundleFileName>tasks-web.war</bundleFileName>
                         </webModule>
                         <ejbModule>
-                            <groupId>org.jboss.seam.examples.tasks</groupId>
-                            <artifactId>tasks-ejb</artifactId>
-                            <bundleFileName>tasks-ejb.jar</bundleFileName>
-                        </ejbModule>
-                        <ejbModule>
                             <groupId>org.jboss.seam</groupId>
                             <artifactId>jboss-seam</artifactId>
                             <bundleFileName>jboss-seam.jar</bundleFileName>
                         </ejbModule>
-                        
                     </modules>
                 </configuration>
             </plugin>
