@@ -27,8 +27,7 @@
 			<ui:define name="label">Title</ui:define>
 			<h:selectOneMenu value="#{person.honorific}">
 				<s:selectItems value="#{honorifics}" var="honorific" label="#{honorific.label}" noSelectionLabel="Please select" />
-					<f:converter converterId="org.jboss.seam.ui.EnumConverter" />
-<!-- 	look above how JSF 2 changed, no need to create custom Tag			<s:convertEnum /> -->
+            <s:convertEnum />
 			</h:selectOneMenu>
 		</s:decorate>		
 		
@@ -42,8 +41,7 @@
 			<ui:define name="label">Continent of Birth</ui:define>
 			<h:selectOneMenu value="#{personHome.instance.continent}" required="true" id="continent">
 				<s:selectItems value="#{continents.resultList}" var="continent" label="#{continent.name}" noSelectionLabel="Please Select..."/>
-					<f:converter converterId="org.jboss.seam.ui.EntityConverter" />
-<!-- 				<s:convertEntity /> -->
+ 				<s:convertEntity />
 			</h:selectOneMenu>
 		</s:decorate>
 		
@@ -51,8 +49,7 @@
 			<ui:define name="label">Country of Birth</ui:define>
 			<h:selectOneRadio value="#{personHome.instance.country}" required="true" disabled="#{empty person.continent}">
 				<s:selectItems value="#{personHome.instance.continent.countries}" var="country" label="#{country.name} (#{country.continent.name})" noSelectionLabel="Please Select..." hideNoSelectionLabel="true" converter="org.jboss.seam.ui.EntityConverter"/>
-				<f:converter converterId="org.jboss.seam.ui.EntityConverter" />
-<!-- 				<s:convertEntity /> -->
+ 				<s:convertEntity />
 			</h:selectOneRadio>
 		</s:decorate>
 		
@@ -60,8 +57,7 @@
 		  <ui:define name="label">Roles</ui:define>
 		  <h:selectManyCheckbox value="#{person.roles}" required="true" collectionType="java.util.ArrayList">
 		    <s:selectItems value="#{roles}" var="role" label="#{role.name}"/>
-		    <f:converter converterId="org.jboss.seam.ui.EnumConverter" />
-<!-- 		    <s:convertEnum /> -->
+ 		    <s:convertEnum /> 
 		  </h:selectManyCheckbox>
 		</s:decorate>
 	
@@ -87,8 +83,7 @@
 			<ui:define name="description">A colour is an entity</ui:define>
 			<h:selectManyListbox value="#{personHome.instance.favouriteColours}" collectionType="java.util.ArrayList">
 				<s:selectItems value="#{colours.resultList}" var="colour" label="#{colour.name}"/>
-				<f:converter converterId="org.jboss.seam.ui.EntityConverter" />
-<!-- 				<s:convertEntity /> -->
+- 				<s:convertEntity /> 
 			</h:selectManyListbox>
 		</s:decorate>
 	
@@ -97,8 +92,7 @@
 			<ui:define name="description">A book has a composite key</ui:define>
 			<h:selectOneListbox value="#{person.favouriteBook}" >
 				<s:selectItems value="#{books.resultList}" var="book" label="#{book.name} by #{book.author} (#{book.nationality})"/>
-				<f:converter converterId="org.jboss.seam.ui.EntityConverter" />
-<!-- 				<s:convertEntity /> -->
+ 				<s:convertEntity /> 
 			</h:selectOneListbox>
 		</s:decorate>
 		
