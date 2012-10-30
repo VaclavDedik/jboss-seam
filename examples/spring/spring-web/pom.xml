@@ -108,7 +108,7 @@
     </dependencies>
   
     <build>
-        <finalName>jboss-seam-spring</finalName>
+        <finalName>spring-web</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

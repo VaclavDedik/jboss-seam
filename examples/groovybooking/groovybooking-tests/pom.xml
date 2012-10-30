@@ -126,7 +126,7 @@
         <profile>
             <id>ftest-jbossas</id>
             <properties>
-                <example.context.path>jboss-seam-groovybooking</example.context.path>
+                <example.context.path>groovybooking-web</example.context.path>
             </properties>
             <build>
                 <plugins>

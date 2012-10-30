@@ -65,7 +65,7 @@
         <profile>
             <id>ftest-jbossas</id>
             <properties>
-                <example.context.path>jboss-seam-spring</example.context.path>
+                <example.context.path>spring-web</example.context.path>
             </properties>
             <build>
                 <plugins>

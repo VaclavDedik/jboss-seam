@@ -9,7 +9,7 @@ import java.io.File;
 
 public class Deployments {
     public static WebArchive hibernateDeployment() {
-       WebArchive web = ShrinkWrap.create(ZipImporter.class, "jboss-seam-hibernate.war").importFrom(new File("../hibernate-web/target/jboss-seam-hibernate.war"))
+       WebArchive web = ShrinkWrap.create(ZipImporter.class, "hibernate-web.war").importFrom(new File("../hibernate-web/target/hibernate-web.war"))
               .as(WebArchive.class);
 
         // Install org.jboss.seam.mock.MockSeamListener

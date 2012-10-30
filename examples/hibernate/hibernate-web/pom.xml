@@ -17,7 +17,7 @@
 
 
    <build>
-      <finalName>jboss-seam-hibernate</finalName>
+      <finalName>hibernate-web</finalName>
       <plugins>
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>

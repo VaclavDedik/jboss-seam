@@ -15,4 +15,4 @@ To deploy the example, follow these steps:
 
     mvn jboss-as:deploy
 
-* Open this URL in a web browser: http://localhost:8080/jboss-seam-jpa
+* Open this URL in a web browser: http://localhost:8080/jpa-web

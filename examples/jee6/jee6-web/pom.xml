@@ -15,7 +15,7 @@
     
     <properties>
         <!-- filtering property for components.xml -->
-        <jndiPattern>java:app/jboss-seam-jee6/#{ejbName}</jndiPattern>
+        <jndiPattern>java:app/jee6-web/#{ejbName}</jndiPattern>
         <distributable>false</distributable>
     </properties>
     
@@ -106,7 +106,7 @@
     </dependencies>
   
     <build>
-        <finalName>jboss-seam-jee6</finalName>
+        <finalName>jee6-web</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -9,7 +9,7 @@ import java.io.File;
 
 public class Deployments {
    public static WebArchive jpaDeployment() {
-      WebArchive web = ShrinkWrap.create(ZipImporter.class, "jboss-seam-jpa.war").importFrom(new File("../jpa-web/target/jboss-seam-jpa.war"))
+      WebArchive web = ShrinkWrap.create(ZipImporter.class, "jpa-web.war").importFrom(new File("../jpa-web/target/jpa-web.war"))
             .as(WebArchive.class);
 
       web.delete("/WEB-INF/web.xml");

@@ -125,7 +125,7 @@
    </dependencies>
 
    <build>
-      <finalName>jboss-seam-groovybooking</finalName>
+      <finalName>groovybooking-web</finalName>
       <plugins>
          <!-- Can't use gmaven-plugin because hot deployment won't work otherwise -->
          <plugin>

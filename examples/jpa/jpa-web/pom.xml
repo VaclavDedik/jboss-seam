@@ -87,7 +87,7 @@
     </dependencies>
   
     <build>
-        <finalName>jboss-seam-jpa</finalName>
+        <finalName>jpa-web</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

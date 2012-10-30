@@ -15,5 +15,5 @@ To deploy the example to JBossAS, follow these steps:
 
     mvn jboss-as:deploy
 
-* Open this URL in a web browser: http://localhost:8080/seam-jee6
+* Open this URL in a web browser: http://localhost:8080/jee6-web
 

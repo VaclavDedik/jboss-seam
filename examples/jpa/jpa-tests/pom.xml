@@ -156,7 +156,7 @@
       <profile>
          <id>ftest-jbossas</id>
          <properties>
-            <example.context.path>jboss-seam-jpa</example.context.path>
+            <example.context.path>jpa-web</example.context.path>
          </properties>
          <build>
             <plugins>

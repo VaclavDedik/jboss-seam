@@ -61,7 +61,7 @@ How to Build and Deploy an Example on JBoss AS
    However, WAR deployments use a different naming convention for the context
    path. If you deploy a WAR example, point your web browser to:
 
-   http://localhost:8080/jboss-seam-${example.name}
+   http://localhost:8080/${example.name}-web
 
    The WAR examples are:
    spring, jpa, hibernate, groovybooking 

@@ -159,7 +159,7 @@
         <profile>
             <id>ftest-jbossas</id>
             <properties>
-                <example.context.path>jboss-seam-jee6</example.context.path>
+                <example.context.path>jee6-web</example.context.path>
             </properties>
             <build>
                 <plugins>
