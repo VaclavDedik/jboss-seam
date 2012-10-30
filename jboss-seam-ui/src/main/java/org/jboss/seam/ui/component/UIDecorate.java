@@ -92,7 +92,7 @@ public abstract class UIDecorate extends UIComponentBase implements NamingContai
    
    public abstract void setStyle(String style);
 
-   @Attribute
+   @Attribute(defaultValue="true")
    public abstract boolean isEnclose();
       
    public abstract void setEnclose(boolean enclose);

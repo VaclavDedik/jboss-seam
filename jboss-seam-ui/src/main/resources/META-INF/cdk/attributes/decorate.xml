@@ -26,7 +26,6 @@
                          enclosed by the element specified with the "element"
                          attribute. By default this is a div element.
             </description>
-            <default-value>true</default-value>
         </property>
         
         <property>
