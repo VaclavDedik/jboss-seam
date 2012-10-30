@@ -8,7 +8,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     
-    <groupId>org.jboss.seam.examples.jee6</groupId>
+    <groupId>org.jboss.seam.examples</groupId>
     <artifactId>jee6-web</artifactId>
     <packaging>war</packaging>
     <name>Booking Web Module</name>
@@ -118,6 +118,7 @@
                             <filtering>true</filtering>
                         </resource>
                     </webResources>
+                    <attachClasses>true</attachClasses>
                 </configuration>
             </plugin>
         </plugins>
@@ -148,6 +149,7 @@
                                     <filtering>true</filtering>
                                 </resource>
                             </webResources>
+                            <attachClasses>true</attachClasses>
                         </configuration>
                     </plugin>
                 </plugins>

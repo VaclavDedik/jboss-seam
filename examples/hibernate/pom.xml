@@ -32,6 +32,12 @@
             <version>${project.version}</version>
             <type>war</type>
          </dependency>
+          <dependency>
+              <groupId>org.jboss.seam.examples.hibernate</groupId>
+              <artifactId>hibernate-web</artifactId>
+              <version>${project.version}</version>
+              <classifier>classes</classifier>
+          </dependency>
       </dependencies>
    </dependencyManagement>
 

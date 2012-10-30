@@ -20,5 +20,15 @@
         <module>jee6-web</module>
         <module>jee6-tests</module>
     </modules>
-    
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jboss.seam.examples</groupId>
+                <artifactId>jee6-web</artifactId>
+                <version>${project.version}</version>
+                <classifier>classes</classifier>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>
