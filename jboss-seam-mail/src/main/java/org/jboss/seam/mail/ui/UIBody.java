@@ -1,8 +1,8 @@
 package org.jboss.seam.mail.ui;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
@@ -81,11 +81,12 @@ public class UIBody extends MailComponent
                }
                else
                {
-                  // reset the attachment list after adding to message body
-                  // This is because ui:message can be in ui:repeat tag JBSEAM-4811
-                  findMessage().setAttachments(new ArrayList<MimeBodyPart>());
+                  getRootMultipart().addBodyPart(attachment);
                }
             }
+            // reset the attachment list after adding to message body
+            // This is because ui:message can be in ui:repeat tag JBPAPP-6650 
+            findMessage().setAttachments(new ArrayList<MimeBodyPart>());
          }
          if (bodyMultipart != null)
          {
