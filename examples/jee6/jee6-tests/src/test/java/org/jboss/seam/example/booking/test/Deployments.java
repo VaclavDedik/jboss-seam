@@ -8,7 +8,7 @@ import org.jboss.shrinkwrap.api.importer.ZipImporter;
 
 public class Deployments {
    public static WebArchive bookingDeployment() {
-      return ShrinkWrap.create(ZipImporter.class, "jee6-web.war").importFrom(new File("jee6-web.war"))
+      return ShrinkWrap.create(ZipImporter.class, "jee6-web.war").importFrom(new File("../jee6-web/target/jee6-web.war"))
             .as(WebArchive.class);
    }
 }
