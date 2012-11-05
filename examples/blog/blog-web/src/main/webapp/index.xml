@@ -1,6 +1,6 @@
 <?xml version="1.0"?>        
 
-<f:view contentType="application/atom+xml"
+<f:view contentType="application/xml"
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:f="http://java.sun.com/jsf/core"

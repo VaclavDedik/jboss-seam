@@ -44,5 +44,10 @@
     <session-config>
         <session-timeout>10</session-timeout> 
     </session-config>  
+
+    <context-param>
+        <param-name>javax.faces.FACELETS_VIEW_MAPPINGS</param-name>
+        <param-value>*.xhtml;*.xml</param-value>
+    </context-param>
     
 </web-app>
