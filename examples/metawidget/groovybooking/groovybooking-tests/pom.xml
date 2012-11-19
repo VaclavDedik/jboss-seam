@@ -3,14 +3,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>groovybooking</artifactId>
+        <artifactId>metawidget-groovybooking</artifactId>
         <groupId>org.jboss.seam.examples.metawidget</groupId>
         <version>2.3.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
     <groupId>org.jboss.seam.examples.metawidget</groupId>
-    <artifactId>groovybooking-tests</artifactId>
+    <artifactId>metawidget-groovybooking-tests</artifactId>
     <name>Metawidget Groovy Booking Integration Tests Module (EE6)</name>
     
     <dependencies>
@@ -144,7 +144,7 @@
         <profile>
             <id>ftest-jbossas</id>
             <properties>
-                <example.context.path>groovybooking-web</example.context.path>
+                <example.context.path>metawidget-groovybooking-web</example.context.path>
             </properties>
             <build>
                 <plugins>
@@ -155,7 +155,7 @@
                             <jbossHome>${jboss.home}</jbossHome>
                             <serverName>${jboss.domain}</serverName>
                              <fileNames>
-                                <directory>${basedir}/../groovybooking-web/target/groovybooking-web-exploded/groovybooking-web.war</directory>
+                                <directory>${basedir}/../groovybooking-web/target/metawidget-groovybooking-web-exploded/metawidget-groovybooking-web.war</directory>
                             </fileNames>
                         </configuration>
                     </plugin>
