@@ -138,7 +138,7 @@
     </dependencies>
 
     <build>
-        <finalName>jboss-seam-metawidget-groovybooking</finalName>
+        <finalName>groovybooking-web</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

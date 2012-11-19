@@ -144,7 +144,7 @@
         <profile>
             <id>ftest-jbossas</id>
             <properties>
-                <example.context.path>jboss-seam-metawidget-groovybooking</example.context.path>
+                <example.context.path>groovybooking-web</example.context.path>
             </properties>
             <build>
                 <plugins>
@@ -155,7 +155,7 @@
                             <jbossHome>${jboss.home}</jbossHome>
                             <serverName>${jboss.domain}</serverName>
                              <fileNames>
-                                <directory>${basedir}/../groovybooking-web/target/jboss-seam-metawidget-groovybooking-exploded/jboss-seam-metawidget-groovybooking.war</directory>
+                                <directory>${basedir}/../groovybooking-web/target/groovybooking-web-exploded/groovybooking-web.war</directory>
                             </fileNames>
                         </configuration>
                     </plugin>
