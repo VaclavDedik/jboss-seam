@@ -23,7 +23,7 @@ import org.richfaces.cdk.annotations.Tag;
 family="org.jboss.seam.ui.FileUpload", type="org.jboss.seam.ui.FileUpload",generate="org.jboss.seam.ui.component.html.HtmlFileUpload", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="fileUpload"),
 renderer = @JsfRenderer(type="org.jboss.seam.ui.FileUploadRenderer", family="org.jboss.seam.ui.FileUploadRenderer"),
-attributes = {"fileUpload.xml" })
+attributes = {"core-props.xml", "focus-props.xml", "javax.faces.component.EditableValueHolder.xml" })
 public abstract class UIFileUpload extends UIInput
 {
 
@@ -280,8 +280,21 @@ public abstract class UIFileUpload extends UIInput
    
    public abstract void setAccept(String accept);
    
-   @Attribute
+   @Attribute(description = @Description("a comma-separated list of content types to accept, " +
+           "may not be supported by the browser. E.g. \"images/png,images/jpg\",\"images/*\"."))
    public abstract String getAccept();
+
+   @Attribute(description = @Description("this value binding receives the file's content type (optional)."))
+   public abstract Object getData();
+
+   @Attribute(description = @Description("the property to receive the contentType"))
+   public abstract String getContentType();
+
+   @Attribute(description = @Description("this value binding receives the filename (optional)."))
+   public abstract String getFileName();
+
+   @Attribute(description = @Description("this value binding receives the file size (optional)."))
+   public abstract Integer getFileSize();
    
    @Attribute
    public abstract String getStyleClass();

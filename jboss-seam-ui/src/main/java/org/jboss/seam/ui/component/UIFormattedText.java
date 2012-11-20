@@ -46,7 +46,7 @@ import antlr.RecognitionException;
 family="org.jboss.seam.ui.FormattedText", type="org.jboss.seam.ui.FormattedText",generate="org.jboss.seam.ui.component.html.HtmlFormattedText", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="formattedText"),
 renderer = @JsfRenderer(type="org.jboss.seam.ui.FormattedTextRenderer", family="org.jboss.seam.ui.FormattedTextRenderer"),
-attributes = {"formattedText.xml" })
+attributes = {"javax.faces.component.UIOutput.xml" })
 public abstract class UIFormattedText extends UIOutput {
 	
    Log log = Logging.getLog(UIFormattedText.class);

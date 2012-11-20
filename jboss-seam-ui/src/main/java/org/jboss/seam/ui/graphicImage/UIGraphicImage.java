@@ -17,13 +17,13 @@ import org.richfaces.cdk.annotations.Tag;
 family="org.jboss.seam.ui.graphicImage.GraphicImage", type="org.jboss.seam.ui.graphicImage.GraphicImage",generate="org.jboss.seam.ui.component.html.HtmlGraphicImage", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="graphicImage"), 
 renderer = @JsfRenderer(type="org.jboss.seam.ui.graphicImage.GraphicImageRenderer", family="org.jboss.seam.ui.GraphicImageRenderer"),
-attributes = {"core-props.xml", "javax.faces.component.UIGraphic.xml", "javax.faces.component.UIOutput.xml", "graphicImage.xml" })
+attributes = {"core-props.xml", "javax.faces.component.UIGraphic.xml", "javax.faces.component.UIOutput.xml" })
 public abstract class UIGraphicImage extends HtmlGraphicImage
 {
 
    public static final String FAMILY = "org.jboss.seam.ui.UIGraphicImage";
 
-   @Attribute
+   @Attribute(description = @Description("File name for the generated URL - allows a stable file name and thus browser caching"))
    public abstract String getFileName();
 
    @Attribute

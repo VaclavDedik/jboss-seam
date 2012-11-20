@@ -70,7 +70,7 @@ import org.richfaces.cdk.annotations.Tag;
 family="org.jboss.seam.ui.Token", type="org.jboss.seam.ui.Token",generate="org.jboss.seam.ui.component.html.HtmlToken", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="token"), 
 renderer = @JsfRenderer(type="org.jboss.seam.ui.TokenRenderer", family="org.jboss.seam.ui.TokenRenderer"),
-attributes = {"token.xml" })
+attributes = {"javax.faces.component.UIComponent.xml" })
 public abstract class UIToken extends UIOutput
 {
    @SuppressWarnings("unused")
@@ -85,7 +85,8 @@ public abstract class UIToken extends UIOutput
     * if the "build before restore" mode of Facelets is activated (the
     * default in JSF 2.0). The default value is false.
     */
-   @Attribute
+   @Attribute(defaultValue = "false",
+           description = @Description("A flag indicating whether the session id should be tied into the secure token."))
    public abstract boolean isRequireSession();
    
    public abstract void setRequireSession(boolean required);
@@ -96,7 +97,8 @@ public abstract class UIToken extends UIOutput
     * enabled, present a notice to the user that form posts will not work.
     * The default value is false.
     */
-   @Attribute
+   @Attribute(defaultValue = "false",
+           description = @Description("A flag indicating whether a notice should be presented to the user if cookies are disabled."))
    public abstract boolean isEnableCookieNotice();
    
    public abstract void setEnableCookieNotice(boolean state);
@@ -109,7 +111,8 @@ public abstract class UIToken extends UIOutput
     * have the UIToken component rerendered on any Ajax call where the UIToken
     * component would be processed. The default value is false.
     */
-   @Attribute
+   @Attribute(defaultValue = "false",
+           description = @Description("A flag indicating whether the form can be submitted multiple times with the same signature (i.e., token)."))
    public abstract boolean isAllowMultiplePosts();
    
    public abstract void setAllowMultiplePosts(boolean allow);

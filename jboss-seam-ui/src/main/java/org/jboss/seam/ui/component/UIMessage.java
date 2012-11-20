@@ -37,7 +37,7 @@ import org.richfaces.cdk.annotations.Tag;
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Message",value="Decorate a JSF input field with the validation error message."),
 family="javax.faces.Message", type="org.jboss.seam.ui.Message",generate="org.jboss.seam.ui.component.html.HtmlMessage", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="message"), 
-attributes = {"message.xml" })
+attributes = {"javax.faces.component.UIMessage.xml" })
 public abstract class UIMessage extends HtmlMessage implements UIDecorateAware {
 
    protected UIDecorate decorate;

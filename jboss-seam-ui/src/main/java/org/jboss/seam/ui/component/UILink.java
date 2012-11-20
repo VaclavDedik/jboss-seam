@@ -37,7 +37,7 @@ import org.richfaces.cdk.annotations.Tag;
 family="org.jboss.seam.ui.Link", type="org.jboss.seam.ui.Link",generate="org.jboss.seam.ui.component.html.HtmlLink", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="link"), 
 renderer = @JsfRenderer(type="org.jboss.seam.ui.LinkRenderer",family="org.jboss.seam.ui.LinkRenderer"),
-attributes = {"command-button-props.xml", "javax.faces.component.UICommand.xml", "javax.faces.component.ValueHolder.xml", "i18n-props.xml", "accesskey-props.xml", "button.xml" })
+attributes = {"command-button-props.xml", "javax.faces.component.UICommand.xml", "javax.faces.component.ValueHolder.xml", "i18n-props.xml", "accesskey-props.xml"})
 public abstract class UILink extends UISeamCommandBase {
    
    @Attribute
@@ -54,5 +54,33 @@ public abstract class UILink extends UISeamCommandBase {
    public abstract boolean isDisabled();
 
    public abstract void setDisabled(boolean disabled);
-	
+
+   @Attribute(description = @Description("the JSF view id to link to."))
+   public abstract String getView();
+
+   @Attribute(description = @Description("a pageflow definition to begin. (This is only useful when propagation=\"begin\" or propagation=\"join\".)"))
+   public abstract String getPageflow();
+
+   @Attribute(defaultValue = "default",
+           description = @Description("determines the conversation propagation style: begin, join, nest, none, end or endRoot."))
+   public abstract String getPropagation();
+
+   @Attribute(description = @Description("the fragment identifier to link to."))
+   public abstract String getFragment();
+
+   @Attribute
+   public abstract String getOutcome();
+
+   @Attribute
+   public abstract String getImage();
+
+   @Attribute(description = @Description("Specify the task to operate on (e.g. for @StartTask)"))
+   public abstract Object getTaskInstance();
+
+   @Attribute(description = @Description("The name of the conversation for natural conversations"))
+   public abstract String getConversationName();
+
+   @Attribute(defaultValue = "true",
+           description = @Description("Include page parameters defined in pages.xml when rendering the button"))
+   public abstract boolean isIncludePageParams();
 }

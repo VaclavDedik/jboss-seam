@@ -38,7 +38,7 @@ import org.richfaces.cdk.annotations.Tag;
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.Selection", value="It inserts a parameter that can be bound to a data model"),
 family="org.jboss.seam.ui.Selection", type="org.jboss.seam.ui.Selection",generate="org.jboss.seam.ui.component.html.HtmlSelection", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="selection"),
-attributes = {"selection.xml" })
+attributes = {"javax.faces.component.UIComponent.xml" })
 public abstract class UISelection extends UIParameter {
 	
 	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.Selection";

@@ -19,7 +19,7 @@ import org.richfaces.cdk.annotations.Tag;
 family="org.jboss.seam.ui.ConversationName", type="org.jboss.seam.ui.ConversationName",generate="org.jboss.seam.ui.component.html.HtmlConversationName", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="conversationName", handler="org.jboss.seam.ui.handler.CommandButtonParameterComponentHandler"), 
 renderer = @JsfRenderer(type="org.jboss.seam.ui.ConversationNameRenderer", family="org.jboss.seam.ui.ConversationNameRenderer"),
-attributes = {"conversationName.xml" })
+attributes = {"javax.faces.component.UIParameter.xml" })
 public abstract class UIConversationName extends UIParameter {
 	
 	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.ConversationName";

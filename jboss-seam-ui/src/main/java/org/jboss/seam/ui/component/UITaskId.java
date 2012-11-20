@@ -37,7 +37,7 @@ import org.richfaces.cdk.annotations.Tag;
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.TaskId",value="Add the task id to an output link (or similar JSF control), when the task is available via #{task}."),
 family="org.jboss.seam.ui.TaskId", type="org.jboss.seam.ui.TaskId",generate="org.jboss.seam.ui.component.html.HtmlTaskId", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="taskid"),
-attributes = {"taskid.xml" })
+attributes = {"javax.faces.component.UIParameter.xml" })
 public abstract class UITaskId extends UIParameter {
 	
 	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.TaskId";

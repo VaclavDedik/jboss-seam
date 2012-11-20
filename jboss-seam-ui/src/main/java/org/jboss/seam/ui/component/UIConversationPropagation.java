@@ -39,7 +39,7 @@ import org.richfaces.cdk.annotations.Tag;
 family="org.jboss.seam.ui.ConversationPropagation", type="org.jboss.seam.ui.ConversationPropagation",generate="org.jboss.seam.ui.component.html.HtmlConversationPropagation", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="conversationPropagation"), 
 renderer = @JsfRenderer(type="org.jboss.seam.ui.ConversationPropagationRenderer", family="org.jboss.seam.ui.ConversationPropagationRenderer"),
-attributes = {"conversationPropagation.xml" })
+attributes = {"javax.faces.component.UIParameter.xml" })
 public abstract class UIConversationPropagation extends UIParameter {
 	
 	private static final String COMPONENT_TYPE = "org.jboss.seam.ui.ConversationPropagation";
@@ -56,12 +56,12 @@ public abstract class UIConversationPropagation extends UIParameter {
       return getPageflow()==null ? getType() : getType() + "." + getPageflow();
    }
 
-   @Attribute
+   @Attribute(description = @Description("a pageflow definition to begin. (This is only useful when propagation=\"begin\" or propagation=\"join\".)"))
    public abstract String getPageflow();
 
    public abstract void setPageflow(String pageflow);
 
-   @Attribute
+   @Attribute(defaultValue = "none", description = @Description("determines the conversation propagation style: begin, join, nested, none, end or endRoot."))
    public abstract String getType();
 
    public abstract void setType(String type);

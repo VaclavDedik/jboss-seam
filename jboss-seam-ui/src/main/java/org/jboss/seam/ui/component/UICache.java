@@ -39,20 +39,23 @@ import org.richfaces.cdk.annotations.Tag;
 family="org.jboss.seam.ui.Cache", type="org.jboss.seam.ui.Cache",generate="org.jboss.seam.ui.component.html.HtmlCache", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="cache"), 
 renderer = @JsfRenderer(type="org.jboss.seam.ui.CacheRenderer", family="org.jboss.seam.ui.CacheRenderer"),
-attributes = {"base-props.xml", "cache.xml" })
+attributes = {"base-props.xml" })
 public abstract class UICache extends UIComponentBase
 {
 
-   @Attribute
+   @Attribute(defaultValue = "true", description = @Description("a value expression that determines if the cache should be used."))
    public abstract boolean isEnabled();
    
-   @Attribute
+   @Attribute(description = @Description("the key to cache rendered content, often a value expression. For example, " +
+           "if we were caching a page fragment that displays a document, we might use key=\"Document-#{document.id}\"."))
    public abstract String getKey();
    
-   @Attribute
+   @Attribute(description = @Description("a cache node to use (different nodes can have different expiry policies)."))
    public abstract String getRegion();
    
-   @Attribute
+   @Attribute(defaultValue = "org.jboss.seam.cache.CacheProvider.instance()",
+           description = @Description("The cache provider to use, only needed if you install alter the default " +
+           "cache provider in an application where multiple cache providers are in use"))
    public abstract CacheProvider getCacheProvider();
    
 }

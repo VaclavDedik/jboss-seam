@@ -16,18 +16,18 @@ import org.richfaces.cdk.annotations.Tag;
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.EnumItem",value="Creates a SelectItem from an enum value."),
 family="org.jboss.seam.ui.EnumItem", type="org.jboss.seam.ui.EnumItem",generate="org.jboss.seam.ui.component.html.HtmlEnumItem", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="enumItem"),
-attributes = {"enumItem.xml" })
+attributes = {"base-props.xml", "javax.faces.component.UICommand.xml" })
 public abstract class UIEnumItem extends UISelectItem
 {
 
-   @Attribute
+   @Attribute(description = @Description("the string representation of the enum value."))
    public abstract String getEnumValue();
 
    public abstract void setEnumValue(String enumValue);
    
    public abstract void setLabel(String label);
    
-   @Attribute
+   @Attribute(description = @Description("the label to be used when rendering the SelectItem."))
    public abstract String getLabel();
    
    @Override

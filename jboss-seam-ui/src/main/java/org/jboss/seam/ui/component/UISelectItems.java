@@ -18,10 +18,7 @@ import javax.faces.model.DataModel;
 import org.jboss.seam.framework.Query;
 import org.jboss.seam.ui.converter.ConverterChain;
 import org.jboss.seam.ui.converter.NoSelectionConverter;
-import org.richfaces.cdk.annotations.Attribute;
-import org.richfaces.cdk.annotations.Description;
-import org.richfaces.cdk.annotations.JsfComponent;
-import org.richfaces.cdk.annotations.Tag;
+import org.richfaces.cdk.annotations.*;
 
 
 /**
@@ -33,7 +30,7 @@ import org.richfaces.cdk.annotations.Tag;
 @JsfComponent(description=@Description(displayName="org.jboss.seam.ui.SelectItems",value="Creates a List<SelectItem> from a List, Set, DataModel or Array."),
 family="javax.faces.SelectItems", type="org.jboss.seam.ui.SelectItems",generate="org.jboss.seam.ui.component.html.HtmlSelectItems", 
 tag = @Tag(baseClass="org.jboss.seam.ui.util.cdk.UIComponentTagBase", name="selectItems"), 
-attributes = {"selectItems.xml" })
+attributes = {"base-props.xml", "javax.faces.component.UICommand.xml", "javax.faces.component.UIComponent.xml" })
 public abstract class UISelectItems extends javax.faces.component.UISelectItems {
    
    private List<javax.faces.model.SelectItem> selectItems;
@@ -113,7 +110,9 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
    /* Kinder impl of get/setLabel */
    
    private String label;
-   
+
+   @Attribute(aliases = {@Alias("itemLabel")},
+           description = @Description("the label to be used when rendering the SelectItem. Can reference the var variable"))
    public String getLabel()
    {
       ValueExpression ve = getValueExpression("label");
@@ -136,30 +135,35 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
 
    public abstract void setHideNoSelectionLabel(Boolean hideNoSelectionLabel);
 
-   @Attribute
+   @Attribute(defaultValue = "false",
+           description = @Description("if true, the noSelectionLabel will be hidden when a value is selected"))
    public abstract Boolean isHideNoSelectionLabel();
 
-   @Attribute
+   @Attribute(description = @Description("specifies the (optional) label to place at the top of list " +
+           "(if required=\"true\" is also specified then selecting this value will cause a validation error)"))
    public abstract String getNoSelectionLabel();
    
    public abstract void setNoSelectionLabel(String noSelectionLabel);
    
-   @Attribute
+   @Attribute(description = @Description("defines the name of the local variable that holds the current object during iteration"))
    public abstract String getVar();
    
    public abstract void setVar(String var);
       
-   @Attribute
+   @Attribute(aliases = {@Alias("itemDisabled")},
+           description = @Description("if true the SelectItem will be rendered disabled. Can reference the var variable"))
    public abstract Boolean isDisabled();
    
    public abstract void setDisabled(Boolean disabled);
    
-   @Attribute
+   @Attribute(defaultValue = "true", description = @Description("if false, characters in the label will not be escaped. " +
+           "Beware that this is a safety issue when the label is in any way derived from input supplied by the application's user. . Can reference the var variable"))
    public abstract Boolean isEscape();
 
    public abstract void setEscape(Boolean escape);
 
-   @Attribute
+   @Attribute(description = @Description("Value to return to the server if this option is selected. " +
+           "Optional, by default the var object is used. Can reference the var variable"))
    public abstract Object getItemValue();
    
    public abstract void setItemValue(Object itemValue);
@@ -178,6 +182,7 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
    }
    
    @Override
+   @Attribute(description = @Description("an EL expression specifying the data that backs the List&lt;SelectItem&gt;"))
    public Object getValue()
    {
       List<javax.faces.model.SelectItem> temporarySelectItems = new ArrayList<javax.faces.model.SelectItem>();
