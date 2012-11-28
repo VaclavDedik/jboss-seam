@@ -88,8 +88,12 @@ public class FacesManager extends Manager
          while ( tokens.hasMoreTokens() )
          {
             String name = tokens.nextToken();
-            String value = Interpolator.instance().interpolate( tokens.nextToken() );
-            parameters.put(name, value);
+            if (tokens.hasMoreTokens())
+            {
+               String value = Interpolator.instance().interpolate( tokens.nextToken() );
+               parameters.put(name, value);
+            }
+            
          }
          url = url.substring(0, loc);
       }
