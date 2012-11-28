@@ -8,6 +8,7 @@ package org.jboss.seam.mock;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.Principal;
@@ -21,20 +22,26 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.context.PartialResponseWriter;
+import javax.faces.context.ResponseWriter;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.EnumerationIterator;
 
 /**
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
+ * @author Marek Novotny
  * @version $Revision: 13963 $
  */
 public class MockExternalContext extends ExternalContext
@@ -44,6 +51,8 @@ public class MockExternalContext extends ExternalContext
    private HttpServletRequest request;
 
    private HttpServletResponse response;
+   
+   private static final LogProvider log = Logging.getLogProvider( MockExternalContext.class );
 
    public MockExternalContext()
    {
@@ -525,11 +534,63 @@ public class MockExternalContext extends ExternalContext
    @Override
    public void redirect(String url) throws IOException
    {
-      response.sendRedirect(url);
+      if ("partial/ajax".equals(this.request.getHeader("Faces-Request")))
+      {
+         this.response.setContentType("text/xml");
+         this.response.setCharacterEncoding("UTF-8");
+         this.response.addHeader("Cache-Control", "no-cache");
+         this.response.setStatus(HttpServletResponse.SC_OK);
+         
+         FacesContext facesContext = FacesContext.getCurrentInstance();
+         PartialResponseWriter pwriter = facesContext.getPartialViewContext().getPartialResponseWriter();
+         
+         if (pwriter == null)
+         {
+            pwriter = createPartialResponseWriter();
+         }
+         pwriter.startDocument();
+         pwriter.redirect(url);
+         pwriter.endDocument();
+      }
+      else
+      {
+         this.response.sendRedirect(url);
+      }
+
       FacesContext.getCurrentInstance().responseComplete();
    }
    
-   
+   private PartialResponseWriter createPartialResponseWriter()
+   {
+      FacesContext facesCtx = FacesContext.getCurrentInstance();
+      ExternalContext externalCtx = facesCtx.getExternalContext();
+      String encoding = externalCtx.getRequestCharacterEncoding();
+      externalCtx.setResponseCharacterEncoding(encoding);
+      ResponseWriter responseWriter = null;
+      Writer outputWriter = null;
+      try
+      {
+         outputWriter = externalCtx.getResponseOutputWriter();
+      }
+      catch (IOException ioe)
+      {
+         log.error("couldn't get ResponseOutputWriter for Partial Ajax request", ioe);
+      }
+
+      if (outputWriter != null)
+      {
+         responseWriter = facesCtx.getRenderKit().createResponseWriter(outputWriter, "text/xml", encoding);
+      }
+      if (responseWriter instanceof PartialResponseWriter)
+      {
+         return (PartialResponseWriter) responseWriter;
+      }
+      else
+      {
+         return new PartialResponseWriter(responseWriter);
+      }
+
+   }
 
    @Override
    public void setRequest(Object myrequest)
