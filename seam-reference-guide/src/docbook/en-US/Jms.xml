@@ -324,7 +324,7 @@ public class CreatePaymentAction
 
         <note>
             <para>Please distinguish between 
-            <ulink url="http://java.sun.com/developer/technicalArticles/JavaEE/JavaEE6Overview_Part3.html#asynejb">
+            <ulink url="http://docs.oracle.com/javaee/6/api/javax/ejb/Asynchronous.html">
             EJB 3.1 annotation
             <literal>javax.ejb.Asynchronous</literal></ulink> and Seam annotation
             <literal>org.jboss.seam.annotations.async.Asynchronous</literal>.

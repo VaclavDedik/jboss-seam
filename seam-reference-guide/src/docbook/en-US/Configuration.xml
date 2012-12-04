@@ -68,7 +68,7 @@
                 for a given view of a page you will need to specify the following context-param. Otherwise if a user
                 uses the "back" button a PAGE scoped component will have the latest value if it has changed not the
                 value of the "back" page. (see
-                <ulink url="https://javaserverfaces-spec-public.dev.java.net/issues/show_bug.cgi?id=295">
+                <ulink url="http://java.net/jira/browse/JAVASERVERFACES_SPEC_PUBLIC-1127">
                     Spec Issue
                 </ulink>
                 ). This setting is not enabled by default because of the performance hit of serializing the JSF view
