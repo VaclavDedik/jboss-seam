@@ -1,22 +1,309 @@
 <?xml version="1.0"?>
-<project name="seamspace" basedir="." >
+<project name="seamspace" basedir="." 
+         xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 
-   <property name="seamspace.ear.dir" value="${basedir}/seamspace-ear"/>
-   <property name="seamspace.ejb.dir" value="${basedir}/seamspace-ejb"/>
-   <property name="seamspace.web.dir" value="${basedir}/seamspace-web"/>
-   <property name="seamspace.tests.dir" value="${basedir}/seamspace-tests"/>
+   <!-- Properties -->
+   <property environment="env"/>
+   <property name="project.name" value="seamspace"/>
+   <property name="root.dir" value="../.."/>
 
-   <target name="clean" description="Cleans up the target directory in every module">
-      <ant antfile="${seamspace.ear.dir}/build.xml" target="clean" inheritAll="false"/>
-      <ant antfile="${seamspace.ejb.dir}/build.xml" target="clean" inheritAll="false"/>
-      <ant antfile="${seamspace.web.dir}/build.xml" target="clean" inheritAll="false"/>
-      <ant antfile="${seamspace.tests.dir}/build.xml" target="clean" inheritAll="false"/>
+   <property name="ear.module.dir" value="${basedir}/${project.name}-ear"/>
+   <property name="ejb.module.dir" value="${basedir}/${project.name}-ejb"/>
+   <property name="web.module.dir" value="${basedir}/${project.name}-web"/>
+   <property name="tests.module.dir" value="${basedir}/${project.name}-tests"/>
+
+   <property name="target.dir" value="target"/>
+   <property name="target.classes.dir" value="${target.dir}/classes"/>
+   <property name="target.test-classes.dir" value="${target.dir}/test-classes"/>
+   <property name="target.web.dir" value="${target.dir}/webapp"/>
+   <property name="target.ear.dir" value="${target.dir}/${project.name}-ear"/>
+   <property name="target.test.classes.dir" value="${target.dir}/test-classes"/>
+   <property name="target.test.results.dir" value="${target.dir}/test-results"/>
+   <property name="target.test.reports.dir" value="${target.dir}/test-reports"/>
+
+   <property name="src.main.java.dir" value="src/main/java"/>
+   <property name="src.test.java.dir" value="src/test/java"/>
+   <property name="src.main.webapp.dir" value="src/main/webapp"/>
+   <property name="src.main.resources.dir" value="src/main/resources"/>
+   <property name="src.test.resources-integration.dir" value="src/test/resources-integration"/>
+   <property name="src.main.application.dir" value="src/main/application"/>
+
+   <property name="javac.debug" value="true"/>
+   <property name="javac.deprecation" value="false"/>
+   <property name="debug" value="false"/>
+   <property name="version.jbossas7" value="7.1.1.Final"/>
+   <property name="jndiPattern" value="java:app/seam-dvdstore/#{ejbName}"/>
+   <property name="distributable" value="false"/>
+
+   <!-- Maven ant tasks plugin setting -->
+   <path id="build.lib.classpath">
+      <fileset dir="${root.dir}/build/lib">
+         <include name="**/*.jar"/>
+      </fileset>
+   </path>
+
+   <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
+            uri="antlib:org.apache.maven.artifact.ant"
+            classpathref="build.lib.classpath"/>
+
+   <!-- POMs -->
+   <artifact:pom id="ejb-pom" file="${ejb.module.dir}/pom.xml"/>
+   <artifact:pom id="web-pom" file="${web.module.dir}/pom.xml"/>
+   <artifact:pom id="ear-pom" file="${ear.module.dir}/pom.xml"/>
+   <artifact:pom id="tests-pom" file="${tests.module.dir}/pom.xml">
+      <profile id="arq-jbossas-7-managed"/>
+   </artifact:pom>
+
+   <!-- Root targets -->
+   <target name="clean" 
+           depends="clean-ejb,clean-web,clean-ear,clean-tests"/>
+
+   <target name="compile" 
+           depends="compile-ejb,compile-web"/>
+
+   <target name="package" 
+           depends="package-ejb,package-web,package-ear"/>
+
+   <target name="install" 
+           depends="install-ejb,install-web,install-ear"/>
+
+   <!-- Module specific targets -->
+   <!-- Clean -->
+   <target name="clean-ejb">
+      <delete dir="${ejb.module.dir}/${target.dir}"/>
    </target>
 
-   <target name="package" description="Cleans up the target directory in every module">
-      <ant antfile="${seamspace.ear.dir}/build.xml" target="package" inheritAll="false"/>
-      <ant antfile="${seamspace.ejb.dir}/build.xml" target="package" inheritAll="false"/>
-      <ant antfile="${seamspace.web.dir}/build.xml" target="package" inheritAll="false"/>
+   <target name="clean-web">
+      <delete dir="${web.module.dir}/${target.dir}"/>
    </target>
 
+   <target name="clean-ear">
+      <delete dir="${ear.module.dir}/${target.dir}"/>
+   </target>
+
+   <target name="clean-tests">
+      <delete dir="${tests.module.dir}/${target.dir}"/>
+   </target>
+
+   <!-- Compile -->
+   <target name="compile-ejb">
+      <artifact:dependencies pathId="ejb.module.classpath" pomRefId="ejb-pom"/>
+      <mkdir dir="${ejb.module.dir}/${target.classes.dir}"/>
+      <javac source="1.6" target="1.6" debug="${javac.debug}"
+             deprecation="${javac.deprecation}"
+             nowarn="on"
+             includeantruntime="false"
+             destdir="${ejb.module.dir}/${target.classes.dir}">
+         <src path="${ejb.module.dir}/${src.main.java.dir}"/>
+         <classpath refid="ejb.module.classpath"/>
+         <compilerarg value="-Xlint"/>
+      </javac>
+   </target>
+
+   <target name="compile-web">
+      <artifact:dependencies pathId="web.module.classpath"
+            pomRefId="web-pom" useScope="runtime"/>
+      <mkdir dir="${web.module.dir}/${target.dir}"/>
+      <mkdir dir="${web.module.dir}/${src.main.java.dir}"/>
+      <mkdir dir="${web.module.dir}/${target.classes.dir}"/>
+      <javac source="1.6" target="1.6" debug="${javac.debug}"
+             deprecation="${javac.deprecation}"
+             nowarn="on"
+             includeantruntime="false">
+         <src path="${web.module.dir}/${src.main.java.dir}"/>
+         <classpath refid="web.module.classpath"/>
+         <compilerarg value="-Xlint"/>
+      </javac>
+   </target>
+
+   <!-- Package -->
+   <target name="package-ejb" depends="compile-ejb"
+           description="Package the compiled source code">
+      <jar destfile="${ejb.module.dir}/${target.dir}/${project.name}-ejb.jar"
+           basedir="${ejb.module.dir}/${target.classes.dir}">
+         <metainf dir="${ejb.module.dir}/${src.main.resources.dir}/META-INF">
+            <include name="ejb-jar.xml"/>
+            <include name="persistence.xml"/>
+         </metainf>
+         <fileset dir="${ejb.module.dir}/${src.main.resources.dir}">
+            <include name="import.sql"/>
+            <include name="seam.properties"/>
+         </fileset>
+      </jar>
+   </target>
+
+   <target name="package-web" depends="compile-web">
+      <artifact:dependencies filesetId="web.module.fileset" 
+            pomRefId="web-pom" useScope="runtime"/>
+      <mkdir dir="${web.module.dir}/${target.web.dir}"/>
+      <copy todir="${web.module.dir}/${target.web.dir}">
+         <fileset dir="${web.module.dir}/${src.main.webapp.dir}"/>
+         <filterset begintoken="${" endtoken="}">
+            <filter token="jndiPattern" value="${jndiPattern}"/>
+            <filter token="distributable" value="${distributable}"/>
+         </filterset>
+      </copy>
+
+      <copy todir="${web.module.dir}/${target.web.dir}/WEB-INF/lib">
+         <fileset refid="web.module.fileset"/>
+         <!-- This mapper strips off all leading directory information -->
+         <mapper type="flatten"/>
+      </copy>
+
+      <war destfile="${web.module.dir}/${target.dir}/${project.name}-web.war"
+           webxml="${web.module.dir}/${target.web.dir}/WEB-INF/web.xml">
+         <fileset dir="${web.module.dir}/${target.web.dir}">
+            <exclude name="/WEB-INF/web.xml"/>
+         </fileset>
+         <classes dir="${web.module.dir}/${target.classes.dir}"/>
+      </war>
+   </target>
+
+   <target name="package-ear" depends="install-web,install-ejb">
+      <artifact:dependencies pathId="ear.module.classpath" 
+            filesetId="ear.module.fileset" pomRefId="ear-pom"/>
+      <artifact:dependencies filesetId="ejb.module.fileset" useScope="runtime"
+            pomRefId="ejb-pom"/>
+
+      <copy todir="${ear.module.dir}/${target.ear.dir}">
+         <fileset refid="ear.module.fileset"/>
+         <mapper>
+            <chainedmapper>
+               <mapper type="flatten"/>
+               <mapper type="glob" from="jboss-seam*.jar" to="jboss-seam.jar"/>
+            </chainedmapper>
+            <chainedmapper>
+               <mapper type="flatten"/>
+               <mapper type="glob" from="${project.name}-ejb*.jar" to="${project.name}-ejb.jar"/>
+            </chainedmapper>
+            <chainedmapper>
+               <mapper type="flatten"/>
+               <mapper type="glob" from="${project.name}-web*.war" to="${project.name}-web.war"/>
+            </chainedmapper>
+         </mapper>
+      </copy>
+
+      <artifact:dependencies pathId="lib.classpath" filesetId="lib.fileset">
+         <dependency groupId="org.jboss.el" artifactId="jboss-el" version="1.0_02.CR6">
+            <exclusion groupId="javax.el" artifactId="el-api"/>
+         </dependency>
+      </artifact:dependencies>
+
+      <copy todir="${ear.module.dir}/${target.ear.dir}/lib">
+         <fileset refid="lib.fileset"/>
+         <fileset refid="ejb.module.fileset"/>
+         <mapper type="flatten"/>
+      </copy>
+
+      <ear destfile="${ear.module.dir}/${target.dir}/seam-${project.name}.ear"
+           appxml="${ear.module.dir}/${src.main.resources.dir}/application-for-ant-only.xml">
+         <metainf dir="${ear.module.dir}/${src.main.application.dir}/META-INF">
+            <include name="*.xml"/>
+         </metainf>
+
+         <fileset dir="${ear.module.dir}/${target.ear.dir}">
+            <include name="**/*"/>
+         </fileset>
+      </ear>
+   </target>
+
+   <!-- Install -->
+   <target name="install-ejb" depends="package-ejb">
+      <artifact:install file="${ejb.module.dir}/${target.dir}/${project.name}-ejb.jar">
+         <pom refid="ejb-pom"/>
+      </artifact:install>
+   </target>
+
+   <target name="install-web" depends="package-web">
+      <artifact:install file="${web.module.dir}/${target.dir}/${project.name}-web.war">
+         <pom refid="web-pom"/>
+      </artifact:install>
+   </target>
+
+   <target name="install-ear" depends="package-ear">
+      <artifact:install file="${ear.module.dir}/${target.dir}/seam-${project.name}.ear">
+         <pom refid="ear-pom"/>
+      </artifact:install>
+   </target>
+
+   <!-- Tests -->
+   <target name="compile-test" depends="install-ear">
+      <artifact:dependencies pathId="tests.module.classpath" 
+            pomRefId="tests-pom"/>
+      <path id="combined.project.classpath">
+         <path refid="tests.module.classpath"/>
+         <pathelement location="${ejb.module.dir}/${target.classes.dir}"/>
+      </path>
+      <mkdir dir="${tests.module.dir}/${target.test.classes.dir}"/>
+      <javac source="1.6" target="1.6" debug="${javac.debug}"
+             deprecation="${javac.deprecation}"
+             destdir="${tests.module.dir}/${target.test.classes.dir}"
+             nowarn="on"
+             includeantruntime="false">
+         <compilerarg value="-Xlint"/>
+         <src path="${tests.module.dir}/${src.test.java.dir}"/>
+         <classpath refid="combined.project.classpath"/>
+      </javac>
+   </target>
+
+   <target name="process-test-resources" depends="compile-test">
+      <mkdir dir="${tests.module.dir}/${src.test.resources-integration.dir}"/>
+      <copy todir="${tests.module.dir}/${target.test.classes.dir}">
+         <!--<fileset dir="${src.test.resources.dir}">-->
+            <!--<include name="**/*"/>-->
+         <!--</fileset>-->
+         <fileset dir="${tests.module.dir}/${src.test.resources-integration.dir}">
+            <include name="*"/>
+         </fileset>
+         <!--<fileset dir="${seamspace.web.dir}/src/main/resources">-->
+            <!--<include name="*"/>-->
+         <!--</fileset>-->
+         <filterset begintoken="${" endtoken="}">
+            <filter token="version.jbossas7" value="${version.jbossas7}"/>
+         </filterset>
+      </copy>
+   </target>
+
+   <target name="process-jbossas" depends="process-test-resources">
+      <artifact:dependencies pathId="jbossas.classpath" filesetId="jbossas.fileset" >
+         <dependency groupId="org.jboss.as" artifactId="jboss-as-dist" version="7.1.1.Final" type="zip"/>
+      </artifact:dependencies>
+      <copy todir="${tests.module.dir}/${target.dir}">
+         <fileset refid="jbossas.fileset" />
+         <mapper type="flatten"/>
+      </copy>
+      <unzip dest="${tests.module.dir}/${target.dir}">
+         <fileset dir="${tests.module.dir}/${target.dir}">
+            <include name="**/*.zip"/>
+            <exclude name="**/tmp*.zip"/>
+         </fileset>
+      </unzip>
+   </target>
+
+   <target name="test" depends="process-jbossas">
+      <path id="combined.test.project.classpath">
+         <path refid="combined.project.classpath"/>
+         <pathelement location="${tests.module.dir}/${target.test.classes.dir}"/>
+      </path>
+      <mkdir dir="${tests.module.dir}/${target.test.classes.dir}"/>
+      <mkdir dir="${tests.module.dir}/${target.test.results.dir}"/>
+      <mkdir dir="${tests.module.dir}/${target.test.reports.dir}"/>
+      <junit printsummary="yes" haltonfailure="no" fork="yes" dir="${tests.module.dir}">
+         <formatter type="xml"/>
+         <classpath refid="combined.test.project.classpath"/>
+         <batchtest fork="true" todir="${tests.module.dir}/${target.test.results.dir}">
+            <fileset dir="${tests.module.dir}/${target.test.classes.dir}">
+               <exclude name="**/Deployments.class"/>
+               <exclude name="**/selenium/*"/>
+               <include name="**/*Test.class"/>
+            </fileset>
+         </batchtest>
+      </junit>
+      <junitreport todir="${tests.module.dir}/${target.test.reports.dir}">
+         <fileset dir="${tests.module.dir}/${target.test.results.dir}">
+            <include name="TEST-*.xml" />
+         </fileset>
+         <report todir="${tests.module.dir}/${target.test.reports.dir}" />
+      </junitreport>
+   </target>
 </project>
