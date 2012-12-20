@@ -445,7 +445,7 @@
 	</target>
 
 	<target name="test" depends="buildtest" description="Run the tests">
-		<fail message="Test target is currently not supported"/>
+		<!-- <fail message="Test target is currently not supported"/> -->
 		<fail message="Cannot run tests because path to project contains spaces.">
 			<condition>
 				<contains string="${basedir}" substring=" "/>
@@ -467,9 +467,11 @@
 			</fileset>
 			<path refid="build.classpath"/>
 		</path>
+		<mkdir dir="${basedir}/test-report"/>
 		<junit printsummary="yes">
 			<!--outputdir="${basedir}/test-report">-->
 			<!--<jvmarg line="-Dsun.lang.ClassLoader.allowArraySyntax=true"/>-->
+			<formatter type="xml"/>
 			<classpath refid="test.path"/>
 			<batchtest todir="${basedir}/test-report">
 				<fileset dir="${test.dir}">

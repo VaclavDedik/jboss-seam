@@ -405,48 +405,60 @@
             </fileset>
             <fileset dir="${basedir}/view"/>
         </copy>
-        <copy tofile="${test.dir}/META-INF/persistence.xml" 
-              file="${basedir}/resources/META-INF/persistence-test.xml"/>
-        <copy tofile="${test.dir}/import.sql" 
-              file="${basedir}/resources/import-test.sql"/>
-        <copy tofile="${test.dir}/components.properties" 
-              file="${basedir}/resources/components-test.properties"/>
-<!--        <copy todir="${test.dir}" flatten="true">
+        <copy tofile="${test.dir}/META-INF/persistence.xml"
+            file="${basedir}/resources/META-INF/persistence-test.xml"/>
+        <copy tofile="${test.dir}/import.sql"
+            file="${basedir}/resources/import-test.sql"/>
+        <copy tofile="${test.dir}/components.properties"
+            file="${basedir}/resources/components-test.properties"/>
+        <copy todir="${test.dir}" flatten="true">
             <fileset dir="${src.test.dir}">
-                <include name="**/*Test.xml" />
+                <include name="**/*Test.xml"/>
             </fileset>
         </copy>
-         -->
+        <copy tofile="${test.dir}/components.properties"
+            file="${basedir}/resources/components-test.properties"/>        
     </target>
     
     <target name="test" depends="buildtest" description="Run the tests">
-    	<fail message="Test target is currently not supported"/>
+        <!-- <fail message="Test target is currently not supported"/> -->
         <fail message="Cannot run tests because path to project contains spaces.">
             <condition>
                 <contains string="${basedir}" substring=" "/>
             </condition>
         </fail>
-        <condition property="incompatible.jdk" value="true">
+        <!--      <condition property="incompatible.jdk" value="true">
             <and>
                 <equals arg1="${ant.java.version}" arg2="1.6"/>
                 <not><available classname="javax.xml.bind.JAXB"/></not>
             </and>
-        </condition>
-      <!--  <fail if="incompatible.jdk">You are using an incompatible JDK 6. Please use Sun JDK 6 Update 4 (1.6.0_04) or newer or use Open JDK 6.</fail>
-        <taskdef resource="testngtasks" classpath="${testng.jar}" />-->
+        </condition> 
+        <fail if="incompatible.jdk">You are using an incompatible JDK 6. Please use Sun JDK 6 Update 4 (1.6.0_04) or newer or use Open JDK 6.</fail>
+        -->
+        <!--<taskdef resource="testngtasks" classpath="${testng.jar}"/>-->
         <path id="test.path">
-            <path path="${test.dir}" />
+            <path path="${test.dir}"/>
             <fileset dir="${lib.dir}/test">
                 <include name="*.jar"/>
             </fileset>
-<!--            <path path="${bootstrap.dir}" />-->
-            <path refid="build.classpath" />
+            <path refid="build.classpath"/>
         </path>
-        <!-- <testng outputdir="${basedir}/test-report">
-            <jvmarg line="-Dsun.lang.ClassLoader.allowArraySyntax=true"/>
-            <classpath refid="test.path" />
-            <xmlfileset dir="${test.dir}" includes="*Test.xml" />
-        </testng>-->
+        <mkdir dir="${basedir}/test-report"/>
+        <junit printsummary="yes">
+            <!--outputdir="${basedir}/test-report">-->
+            <!--<jvmarg line="-Dsun.lang.ClassLoader.allowArraySyntax=true"/>-->
+            <formatter type="xml"/>
+            <classpath refid="test.path"/>
+            <batchtest todir="${basedir}/test-report">
+                <fileset dir="${test.dir}">
+                    <include name="**/*Test.class"/>
+                </fileset>
+           </batchtest>
+        </junit>
+        <junitreport todir="${basedir}/test-report">
+            <fileset dir="${basedir}/test-report"/>
+            <report todir="${basedir}/test-report"/>
+        </junitreport>
     </target>
 
     <target name="javadoc" depends="compile">

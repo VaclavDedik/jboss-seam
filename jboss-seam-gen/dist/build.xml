@@ -82,6 +82,12 @@
         <taskdef name="randomUUID"
             classname="org.jboss.seam.tool.RandomUUIDTask"
             classpathref="seam-gen.lib.path"/>
+
+        <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+            <classpath>
+                <pathelement location="${seam.dir}/build/lib/ant-contrib-0.6.jar"/>
+            </classpath>
+        </taskdef>
     </target>
 
     <target name="init-properties" depends="init">
@@ -191,8 +197,47 @@
 
     </target>
 
-    <target name="setup-filters">
+    <target name="setup-librarylist-war" if="project.war">
+        <path id="library.fileset">
+            <fileset dir="${project.home}/lib">
+                <includesfile name="${project.home}/deployed-jars.list"/>
+                <include name="jboss-seam.jar"/>
+                <include name="javassist.jar"/>
+            </fileset>
+        </path>
+    </target>
 
+    <target name="setup-librarylist-ear" if="project.ear">
+        <path id="library.fileset">
+            <fileset dir="${project.home}/lib">
+                <includesfile name="${project.home}/deployed-jars-ear.list"/>
+                <includesfile name="${project.home}/deployed-jars-war.list"/>
+                <include name="jboss-seam.jar"/>
+                <include name="javassist.jar"/>
+            </fileset>
+        </path>
+    </target>
+
+    <target name="setup-librarylist" 
+        depends="setup-librarylist-ear,setup-librarylist-war">
+        <property name="library.list.inner" refid="library.fileset"/>
+        <property name="indent" value="                          "/>
+        <propertyregex property="library.list.inner"
+                       override="true"
+                       regexp=":"
+                       replace='"), ${line.separator} ${indent} new File(PROJECT_HOME + "'
+                       input="${library.list.inner}"
+                       global="true"/>
+        <propertyregex property="library.list.inner"
+                       override="true"
+                       regexp="${project.home}/"
+                       replace=""
+                       input="${library.list.inner}"
+                       global="true"/>
+        <property name="library.list" value='new File(PROJECT_HOME + "${library.list.inner}")'/>
+    </target>
+
+    <target name="setup-filters" depends="setup-librarylist">
         <filterset id="filters">
             <filter token="interfaceName" value="${interface.name}"/>
             <filter token="beanName" value="${bean.name}"/>
@@ -207,9 +252,10 @@
             <filter token="listName" value="${component.name}List"/>
             <filter token="homeName" value="${component.name}Home"/>
             <filter token="query" value="${query.text}"/>
-        	<filter token="projectName" value="${project.name}"/>
-        	<filter token="projectType" value="${project.type}"/>
-        	<filter token="workspaceHome" value="${workspace.home}"/>
+            <filter token="projectName" value="${project.name}"/>
+            <filter token="projectType" value="${project.type}"/>
+            <filter token="workspaceHome" value="${workspace.home}"/>
+            <filter token="libraryList" value="${library.list}"/>
         </filterset>
 
     </target>
@@ -741,7 +787,6 @@
         <property name="list.file" value="${project.home}/src/${action.dir}/${entity.name}List.java"/>
         <property name="page.file" value="${project.home}/view/${page.name}.xhtml"/>
         <property name="masterPage.file" value="${project.home}/view/${masterPage.name}.xhtml"/>
-
     </target>
 
     <target name="query-input">
@@ -1299,10 +1344,7 @@
         </copy>
         <copy file="${templates.dir}/src/Action.java" tofile="${interface.file}">
             <filterset refid="filters"/>
-        </copy>
-        <copy file="${templates.dir}/test/Deployments.java" tofile="${project.home}/src/${test.dir}/Deployments.java">
-            <filterset refid="filters"/>
-        </copy>    	
+        </copy>  	
         <copy file="${templates.dir}/test/ActionTest.java" tofile="${test.file}">
             <filterset refid="filters"/>
         </copy>
@@ -1323,10 +1365,7 @@
         </copy>
         <copy file="${templates.dir}/test/ActionTest.java" tofile="${test.file}">
             <filterset refid="filters"/>
-        </copy>
-        <copy file="${templates.dir}/test/Deployments.java" tofile="${project.home}/src/${test.dir}/Deployments.java">
-            <filterset refid="filters"/>
-        </copy>      	
+        </copy>     	
         <mkdir dir="${project.home}/resources-test"/>
         <copy file="${templates.dir}/test/arquillian.xml" tofile="${project.home}/resources-test/arquillian.xml">
             <filterset refid="filters"/>
@@ -1344,10 +1383,7 @@
         </copy>
         <copy file="${templates.dir}/test/FormTest.java" tofile="${test.file}">
             <filterset refid="filters"/>
-        </copy>
-        <copy file="${templates.dir}/test/Deployments.java" tofile="${project.home}/src/${test.dir}/Deployments.java">
-            <filterset refid="filters"/>
-        </copy>     	
+        </copy> 	
         <copy file="${templates.dir}/view/form.xhtml" tofile="${page.file}">
             <filterset refid="filters"/>
         </copy>
@@ -1371,10 +1407,7 @@
         </copy>
         <copy file="${templates.dir}/view/form.xhtml" tofile="${page.file}">
             <filterset refid="filters"/>
-        </copy>
-        <copy file="${templates.dir}/test/Deployments.java" tofile="${project.home}/src/${test.dir}/Deployments.java">
-            <filterset refid="filters"/>
-        </copy>         
+        </copy>        
         <mkdir dir="${project.home}/resources-test"/>
         <copy file="${templates.dir}/test/arquillian.xml" tofile="${project.home}/resources-test/arquillian.xml">
             <filterset refid="filters"/>
