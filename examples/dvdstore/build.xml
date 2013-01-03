@@ -85,6 +85,7 @@
 
    <target name="clean-tests">
       <delete dir="${tests.module.dir}/${target.dir}"/>
+      <delete dir="${tests.module.dir}/dvdindexes"/>
    </target>
 
    <!-- Compile -->

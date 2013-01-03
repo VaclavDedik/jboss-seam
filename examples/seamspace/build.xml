@@ -89,6 +89,7 @@
 
    <target name="clean-tests">
       <delete dir="${tests.module.dir}/${target.dir}"/>
+      <delete file="${tests.module.dir}/jacoco.exec"/>
    </target>
 
    <!-- Compile -->
