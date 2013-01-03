@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
-<project name="booking" basedir="." 
-         xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+<project name="booking" basedir="." default="package"
+         xmlns:artifact="antlib:org.apache.maven.artifact.ant"
+         xmlns:rsel="antlib:org.apache.tools.ant.types.resources.selectors">
 
    <!-- Properties -->
    <property environment="env"/>
@@ -32,7 +33,7 @@
    <property name="javac.deprecation" value="false"/>
    <property name="debug" value="false"/>
    <property name="version.jbossas7" value="7.1.1.Final"/>
-   <property name="jndiPattern" value="java:app/seam-dvdstore/#{ejbName}"/>
+   <property name="jndiPattern" value="java:app/${project.name}-ejb/#{ejbName}"/>
    <property name="distributable" value="false"/>
 
    <!-- Maven ant tasks plugin setting -->
@@ -150,6 +151,12 @@
          <mapper type="flatten"/>
       </copy>
 
+      <copy todir="${web.module.dir}/${target.classes.dir}">
+         <fileset dir="${web.module.dir}/${src.main.resources.dir}">
+            <include name="messages.properties"/>
+         </fileset>
+      </copy>
+
       <war destfile="${web.module.dir}/${target.dir}/${project.name}-web.war"
            webxml="${web.module.dir}/${target.web.dir}/WEB-INF/web.xml">
          <fileset dir="${web.module.dir}/${target.web.dir}">
@@ -191,7 +198,12 @@
 
       <copy todir="${ear.module.dir}/${target.ear.dir}/lib">
          <fileset refid="lib.fileset"/>
-         <fileset refid="ejb.module.fileset"/>
+         <restrict>
+            <fileset refid="ejb.module.fileset"/>
+            <rsel:not>
+               <name name="**/jboss-seam*.jar"/>
+            </rsel:not>
+         </restrict>
          <mapper type="flatten"/>
       </copy>
 

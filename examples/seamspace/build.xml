@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
-<project name="seamspace" basedir="." 
-         xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+<project name="seamspace" basedir="." default="package"
+         xmlns:artifact="antlib:org.apache.maven.artifact.ant"
+         xmlns:rsel="antlib:org.apache.tools.ant.types.resources.selectors"
+         xmlns:jacoco="antlib:org.jacoco.ant">
 
    <!-- Properties -->
    <property environment="env"/>
@@ -32,7 +34,7 @@
    <property name="javac.deprecation" value="false"/>
    <property name="debug" value="false"/>
    <property name="version.jbossas7" value="7.1.1.Final"/>
-   <property name="jndiPattern" value="java:app/seam-dvdstore/#{ejbName}"/>
+   <property name="jndiPattern" value="java:app/${project.name}-ejb/#{ejbName}"/>
    <property name="distributable" value="false"/>
 
    <!-- Maven ant tasks plugin setting -->
@@ -44,6 +46,10 @@
 
    <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
             uri="antlib:org.apache.maven.artifact.ant"
+            classpathref="build.lib.classpath"/>
+
+   <taskdef resource="org/jacoco/ant/antlib.xml"
+            uri="antlib:org.jacoco.ant"
             classpathref="build.lib.classpath"/>
 
    <!-- POMs -->
@@ -124,6 +130,7 @@
          <metainf dir="${ejb.module.dir}/${src.main.resources.dir}/META-INF">
             <include name="ejb-jar.xml"/>
             <include name="persistence.xml"/>
+            <include name="security-rules.drl"/>
          </metainf>
          <fileset dir="${ejb.module.dir}/${src.main.resources.dir}">
             <include name="import.sql"/>
@@ -148,6 +155,12 @@
          <fileset refid="web.module.fileset"/>
          <!-- This mapper strips off all leading directory information -->
          <mapper type="flatten"/>
+      </copy>
+
+      <copy todir="${web.module.dir}/${target.classes.dir}">
+         <fileset dir="${web.module.dir}/${src.main.resources.dir}">
+            <include name="messages.properties"/>
+         </fileset>
       </copy>
 
       <war destfile="${web.module.dir}/${target.dir}/${project.name}-web.war"
@@ -191,7 +204,12 @@
 
       <copy todir="${ear.module.dir}/${target.ear.dir}/lib">
          <fileset refid="lib.fileset"/>
-         <fileset refid="ejb.module.fileset"/>
+         <restrict>
+            <fileset refid="ejb.module.fileset"/>
+            <rsel:not>
+               <name name="**/jboss-seam*.jar"/>
+            </rsel:not>
+         </restrict>
          <mapper type="flatten"/>
       </copy>
 
@@ -248,6 +266,7 @@
 
    <target name="process-test-resources" depends="compile-test">
       <mkdir dir="${tests.module.dir}/${src.test.resources-integration.dir}"/>
+      <jacoco:agent property="jacoco.agent"/>
       <copy todir="${tests.module.dir}/${target.test.classes.dir}">
          <!--<fileset dir="${src.test.resources.dir}">-->
             <!--<include name="**/*"/>-->
@@ -260,6 +279,7 @@
          <!--</fileset>-->
          <filterset begintoken="${" endtoken="}">
             <filter token="version.jbossas7" value="${version.jbossas7}"/>
+            <filter token="jacoco.agent" value="${jacoco.agent}"/>
          </filterset>
       </copy>
    </target>

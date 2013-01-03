@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
-<project name="dvdstore" basedir="." 
-         xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+<project name="dvdstore" basedir="." default="package"
+         xmlns:artifact="antlib:org.apache.maven.artifact.ant"
+         xmlns:rsel="antlib:org.apache.tools.ant.types.resources.selectors">
 
    <!-- Properties -->
    <property environment="env"/>
@@ -32,7 +33,8 @@
    <property name="javac.deprecation" value="false"/>
    <property name="debug" value="false"/>
    <property name="version.jbossas7" value="7.1.1.Final"/>
-   <property name="jndiPattern" value="java:app/seam-dvdstore/#{ejbName}"/>
+   <property name="jndiPattern-test" value="java:app/seam-${project.name}/#{ejbName}"/>
+   <property name="jndiPattern-web" value="java:app/${project.name}-ejb/#{ejbName}"/>
    <property name="distributable" value="false"/>
 
    <!-- Maven ant tasks plugin setting -->
@@ -126,8 +128,7 @@
             <include name="persistence.xml"/>
          </metainf>
          <fileset dir="${ejb.module.dir}/${src.main.resources.dir}">
-            <include name="import.sql"/>
-            <include name="seam.properties"/>
+            <exclude name="META-INF"/>
          </fileset>
       </jar>
    </target>
@@ -139,7 +140,7 @@
       <copy todir="${web.module.dir}/${target.web.dir}">
          <fileset dir="${web.module.dir}/${src.main.webapp.dir}"/>
          <filterset begintoken="${" endtoken="}">
-            <filter token="jndiPattern" value="${jndiPattern}"/>
+            <filter token="jndiPattern" value="${jndiPattern-web}"/>
             <filter token="distributable" value="${distributable}"/>
          </filterset>
       </copy>
@@ -148,6 +149,12 @@
          <fileset refid="web.module.fileset"/>
          <!-- This mapper strips off all leading directory information -->
          <mapper type="flatten"/>
+      </copy>
+
+      <copy todir="${web.module.dir}/${target.classes.dir}">
+         <fileset dir="${web.module.dir}/${src.main.resources.dir}">
+            <include name="messages.properties"/>
+         </fileset>
       </copy>
 
       <war destfile="${web.module.dir}/${target.dir}/${project.name}-web.war"
@@ -160,7 +167,7 @@
    </target>
 
    <target name="package-ear" depends="install-web,install-ejb">
-      <artifact:dependencies pathId="ear.module.classpath" 
+      <artifact:dependencies pathId="ear.module.classpath"
             filesetId="ear.module.fileset" pomRefId="ear-pom"/>
       <artifact:dependencies filesetId="ejb.module.fileset" useScope="runtime"
             pomRefId="ejb-pom"/>
@@ -183,6 +190,13 @@
          </mapper>
       </copy>
 
+      <copy todir="${ear.module.dir}/${target.ear.dir}">
+         <fileset dir="${ear.module.dir}/src/main/application/">
+            <include name="hibernate.cfg.xml"/>
+            <include name="jbpm.cfg.xml"/>
+         </fileset>
+      </copy>
+
       <artifact:dependencies pathId="lib.classpath" filesetId="lib.fileset">
          <dependency groupId="org.jboss.el" artifactId="jboss-el" version="1.0_02.CR6">
             <exclusion groupId="javax.el" artifactId="el-api"/>
@@ -191,7 +205,12 @@
 
       <copy todir="${ear.module.dir}/${target.ear.dir}/lib">
          <fileset refid="lib.fileset"/>
-         <fileset refid="ejb.module.fileset"/>
+         <restrict>
+            <fileset refid="ejb.module.fileset"/>
+            <rsel:not>
+               <name name="**/jboss-seam*.jar"/>
+            </rsel:not>
+         </restrict>
          <mapper type="flatten"/>
       </copy>
 
@@ -255,7 +274,7 @@
       <copy todir="${tests.module.dir}/${target.web.dir}">
          <fileset dir="${tests.module.dir}/${src.main.webapp.dir}"/>
          <filterset begintoken="@" endtoken="@">
-            <filter token="jndiPattern" value="${jndiPattern}"/>
+            <filter token="jndiPattern" value="${jndiPattern-test}"/>
          </filterset>
       </copy>
 
