@@ -90,6 +90,7 @@
         <includes>
             <include>*.xml</include>
             <include>lib/*</include>
+            <include>build.properties</include>
         </includes>
       </fileSet>      
    </fileSets>    
