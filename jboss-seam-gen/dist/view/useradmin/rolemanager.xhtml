@@ -9,7 +9,7 @@
     template="/layout/template.xhtml">
 
     <ui:define name="head">
-        <link href="../resources/useradmin.css" rel="stylesheet" type="text/css"/>
+        <h:outputStylesheet name="useradmin.css"/>
         <script type="text/javascript">
 function confirmDelete()
 {
@@ -25,7 +25,7 @@ function confirmDelete()
         <s:button id="newRole" action="#{roleAction.createRole}" styleClass="newrole" rendered="#{s:hasPermission('seam.role', 'create', null)}"/>
 
         <h:form id="rolesCmdForm" prependId="false">
-            <rich:dataTable id="roles" var="_role" value="#{roles}"
+            <h:dataTable id="roles" var="_role" value="#{roles}"
                 styleClass="useradmin" headerClass="header" rowClasses="odd,even" columnClasses=",,action">
                 <h:column id="role">
                     <f:facet name="header">Role</f:facet>
@@ -54,7 +54,7 @@ function confirmDelete()
                     <s:link id="delete" value="Delete" action="#{identityManager.deleteRole(roleSearch.selectedRole)}"
                         rendered="#{s:hasPermission('seam.role', 'delete')}" onclick="return confirmDelete()"/>
                 </h:column>
-            </rich:dataTable>
+            </h:dataTable>
         </h:form>
 
     </ui:define>
