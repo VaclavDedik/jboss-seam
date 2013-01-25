@@ -1,5 +1,6 @@
 package org.jboss.seam.test.integration.faces;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.Serializable;
@@ -31,14 +32,14 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  */
 @RunWith(Arquillian.class)
 @RunAsClient
-public class ConversationContextFlushTest
+public class ExceptionRedirectTest
 {
-private final WebClient client = new WebClient();
+   private final WebClient client = new WebClient();
    
    @ArquillianResource
    URL contextPath;
    
-   @Deployment(name="BoundComponentConversationTest")
+   @Deployment(name="ExceptionRedirectTest")
    @OverProtocol("Servlet 3.0") 
    public static Archive<?> createDeployment()
    {
@@ -55,6 +56,9 @@ private final WebClient client = new WebClient();
                      "<h:form id='form'>" +
                      "<h:commandButton id='begin' action='#{testComponent.begin}' value='Begin' />" +
                      "<h:commandButton id='throw' action='#{testComponent.throwTestException}' value='Throw' />" +
+                     "<h:commandButton id='throwAjax' action='#{testComponent.throwTestException}' value='Throw Ajax'>" +
+                     "<f:ajax/>" +
+                     "</h:commandButton>" +
                      "</h:form>" +
                    "</h:body>" + 
                   "</html>"), "test.xhtml")
@@ -73,7 +77,7 @@ private final WebClient client = new WebClient();
                   "<pages xmlns=\"http://jboss.org/schema/seam/pages\"" +
                   " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" +
                   " xsi:schemaLocation=\"http://jboss.org/schema/seam/pages http://jboss.org/schema/seam/pages-2.3.xsd\">\n" +
-                  "<exception class=\"org.jboss.seam.test.integration.faces.ConversationContextFlushTest.TestException\">" + 
+                  "<exception class=\"org.jboss.seam.test.integration.faces.ExceptionRedirectTest.TestException\">" + 
                    "<redirect view-id=\"/error.xhtml\">"+
                    "</redirect>"+
                    "</exception>"), "pages.xml");
@@ -111,6 +115,13 @@ private final WebClient client = new WebClient();
        {
            return state;
        }
+       
+       /*// Workaround
+       @BypassInterceptors
+       public boolean equals(Object obj)
+       {
+          return super.equals(obj);
+       }*/
    }
    
    @Scope(ScopeType.PAGE)
@@ -129,5 +140,20 @@ private final WebClient client = new WebClient();
       page = page.getElementById("form:throw").click();
       
       assertTrue(page.getBody().getTextContent().contains("Exception handled, state: begin;throwTestException;"));
+   }
+   
+   // JBSEAM-5045
+   @Test
+   public void testExceptionHandingDuringConversationWithPageScopedInjectionWithAjax() throws Exception
+   {
+      HtmlPage page = client.getPage(contextPath + "test.seam");
+      
+      page = page.getElementById("form:begin").click();
+      page = page.getElementById("form:throwAjax").click();
+      
+      Thread.sleep(1000);
+      
+      assertFalse("Page should not contain form:begin button, as it should have been redirected.", page.getElementById("form:begin") != null);
+      assertTrue("Page should contain 'Exception handled, state: begin;throwTestException;'", page.getBody().getTextContent().contains("Exception handled, state: begin;throwTestException;"));
    }
 }
