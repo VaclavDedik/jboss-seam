@@ -34,6 +34,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 @RunAsClient
 public class ExceptionRedirectTest
 {
+   private static final int AJAX_WAIT = 1000;
+   
    private final WebClient client = new WebClient();
    
    @ArquillianResource
@@ -116,8 +118,8 @@ public class ExceptionRedirectTest
            return state;
        }
        
-       /*// Workaround
-       @BypassInterceptors
+       /* // Workaround
+       @org.jboss.seam.annotations.intercept.BypassInterceptors
        public boolean equals(Object obj)
        {
           return super.equals(obj);
@@ -151,7 +153,9 @@ public class ExceptionRedirectTest
       page = page.getElementById("form:begin").click();
       page = page.getElementById("form:throwAjax").click();
       
-      Thread.sleep(1000);
+      Thread.sleep(AJAX_WAIT);
+      
+      page = (HtmlPage) client.getCurrentWindow().getEnclosedPage();
       
       assertFalse("Page should not contain form:begin button, as it should have been redirected.", page.getElementById("form:begin") != null);
       assertTrue("Page should contain 'Exception handled, state: begin;throwTestException;'", page.getBody().getTextContent().contains("Exception handled, state: begin;throwTestException;"));

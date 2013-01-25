@@ -30,6 +30,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 @RunAsClient
 public class ErrorHandlingTest
 {
+   private static final int AJAX_WAIT = 1000;
+   
    private final WebClient client = new WebClient();
    
    @ArquillianResource
@@ -120,7 +122,9 @@ public class ErrorHandlingTest
       page = page.getElementById("form:begin").click();
       page = page.getElementById("form:throwAjax").click();
       
-      Thread.sleep(1000);
+      Thread.sleep(AJAX_WAIT);
+      
+      page = (HtmlPage) client.getCurrentWindow().getEnclosedPage();
       
       assertFalse("Page should not contain form:begin button, as it should have been redirected.", page.getElementById("form:begin") != null);
 
