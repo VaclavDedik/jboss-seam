@@ -18,7 +18,7 @@ import org.richfaces.cdk.annotations.Tag;
  * <strong>UIToken</strong> is a UIComponent that produces a random token that
  * is inserted into a hidden form field to help to secure JSF form posts against
  * cross-site request forgery (XSRF) attacks. This is an adaptation of the
- * recommendation called Keyed‐Hashing for Message Authentication that is
+ * recommendation called Keyed-Hashing for Message Authentication that is
  * referenced in the Cross Site Reference Forgery by Jesse Burns
  * (http://www.isecpartners.com/files/XSRF_Paper_0.pdf)
  * </p>
