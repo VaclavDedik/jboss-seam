@@ -192,6 +192,12 @@ public class MockExternalContext extends ExternalContext
    }
 
    @Override
+   public String getRequestCharacterEncoding()
+   {
+      return request.getCharacterEncoding();
+   }
+
+   @Override
    public String getRequestContextPath()
    {
       String path = (String) request.getAttribute("org.jboss.seam.web.requestContextPath");
