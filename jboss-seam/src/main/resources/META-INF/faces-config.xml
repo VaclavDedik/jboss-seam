@@ -6,6 +6,7 @@
 
    <factory>
       <application-factory>org.jboss.seam.jsf.SeamApplicationFactory</application-factory>
+      <exception-handler-factory>org.jboss.seam.jsf.SeamExceptionHandlerFactory</exception-handler-factory>
    </factory>
 
    <application>
