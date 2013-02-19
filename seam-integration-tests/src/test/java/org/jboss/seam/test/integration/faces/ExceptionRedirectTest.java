@@ -56,9 +56,9 @@ public class ExceptionRedirectTest
                   "<h:head></h:head>" +
                   "<h:body>" +
                      "<h:form id='form'>" +
-                     "<h:commandButton id='begin' action='#{testComponent.begin}' value='Begin' />" +
-                     "<h:commandButton id='throw' action='#{testComponent.throwTestException}' value='Throw' />" +
-                     "<h:commandButton id='throwAjax' action='#{testComponent.throwTestException}' value='Throw Ajax'>" +
+                     "<h:commandButton id='begin' action='#{redirecttestComponent.begin}' value='Begin' />" +
+                     "<h:commandButton id='throw' action='#{redirecttestComponent.throwTestException}' value='Throw' />" +
+                     "<h:commandButton id='throwAjax' action='#{redirecttestComponent.throwTestException}' value='Throw Ajax'>" +
                      "<f:ajax/>" +
                      "</h:commandButton>" +
                      "</h:form>" +
@@ -71,7 +71,7 @@ public class ExceptionRedirectTest
                   " xmlns:ui=\"http://java.sun.com/jsf/facelets\">" +
                   "<h:head></h:head>" +
                   "<h:body>" +
-                   " Exception handled, state: <h:outputText value='#{testComponent.state}'/>" + 
+                   " Exception handled, state: <h:outputText value='#{redirecttestComponent.state}'/>" + 
                    "</h:body>" + 
                   "</html>"), "error.xhtml")
             .addAsWebInfResource(new StringAsset(
@@ -91,7 +91,7 @@ public class ExceptionRedirectTest
    }
    
    @Scope(ScopeType.CONVERSATION)
-   @Name("testComponent")
+   @Name("redirecttestComponent")
    public static class TestComponent implements Serializable
    {
        private static final long serialVersionUID = 1L;
