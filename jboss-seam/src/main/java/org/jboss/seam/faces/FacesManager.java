@@ -161,6 +161,7 @@ public class FacesManager extends Manager
     * @param parameters request parameters to be encoded (possibly null)
     * @param includeConversationId determines if the conversation id is to be encoded
     */
+   @SuppressWarnings("unchecked")
    public void redirect(String viewId, Map<String, Object> parameters, 
             boolean includeConversationId, boolean includePageParams)
    {
@@ -169,7 +170,7 @@ public class FacesManager extends Manager
          throw new RedirectException("cannot redirect to a null viewId");
       }
       FacesContext context = FacesContext.getCurrentInstance();
-      String url = context.getApplication().getViewHandler().getActionURL(context, viewId);
+      String url = context.getApplication().getViewHandler().getRedirectURL(context, viewId, Collections.EMPTY_MAP, false);
       if (parameters!=null) 
       {
          url = encodeParameters(url, parameters);
@@ -204,7 +205,7 @@ public class FacesManager extends Manager
          throw new RedirectException("cannot redirect to a null viewId");
       }
       FacesContext context = FacesContext.getCurrentInstance();
-      String url = context.getApplication().getViewHandler().getActionURL(context, viewId);
+      String url = context.getApplication().getViewHandler().getRedirectURL(context, viewId, Collections.EMPTY_MAP, false);
       url = encodeConversationId(url, viewId, conversationId);
       redirect(viewId, context, url);
    }

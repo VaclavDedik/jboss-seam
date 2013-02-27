@@ -97,7 +97,7 @@ public class SeamViewHandler extends ViewHandlerWrapper
        Manager manager = Manager.instance();
        String conversationIdParameter = manager.getConversationIdParameter();
 
-       if (!getSource().equals(Source.BOOKMARKABLE) )
+       if (!getSource().equals(Source.BOOKMARKABLE) && !getSource().equals(Source.REDIRECT) )
        {
           if ( !conversation.isNested() || conversation.isLongRunning() )
           {
