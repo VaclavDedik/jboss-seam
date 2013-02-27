@@ -75,7 +75,16 @@ public class DocumentStore
 
     public String preferredUrlForContent(String baseName, String extension, String contentId) 
     {                
-        return baseUrlForContent(baseName, extension) + "?docId=" + contentId;
+    	StringBuffer url = new StringBuffer(baseUrlForContent(baseName, extension));
+    	if (url.toString().indexOf('?') >= 0)
+    	{ 
+    		url.append("&docId=").append(contentId); 
+    	}
+    	else
+    	{
+    		url.append("?docId=").append(contentId); 
+    	}
+        return url.toString();
     }
 
     protected String baseUrlForContent(String baseName, String extension) {
