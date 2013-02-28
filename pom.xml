@@ -307,14 +307,14 @@
 	</issueManagement>
 
 	<ciManagement>
-		<system>Hudson</system>
-		<url>http://hudson.jboss.org/hudson/view/Seam/</url>
+		<system>Jenkins</system>
+		<url>https://hudson.jboss.org/hudson/view/Seam/</url>
 	</ciManagement>
 
 	<scm>
-		<connection>scm:svn:https://svn.jboss.org/repos/seam/branches/community/Seam_2_3</connection>
-		<developerConnection>scm:svn:https://svn.jboss.org/repos/seam/branches/community/Seam_2_3</developerConnection>
-		<url>scm:svn:https://svn.jboss.org/repos/seam/branches/community/Seam_2_3</url>
+		<connection>scm:git:git@github.com:seam2/jboss-seam.git</connection>
+		<developerConnection>scm:git:git@github.com:seam2/jboss-seam.git</developerConnection>
+		<url>scm:git:git@github.com:seam2/jboss-seam.git</url>
 	</scm>
 
 	<organization>
@@ -380,13 +380,14 @@
 						</manifestEntries>
 					</archive>
 				</configuration>
+<!-- execution is defined already in org.jboss:jboss-parent -->				
 				<executions>
 					<execution>
 						<id>attach-sources</id>
 						<phase>package</phase>
-						<goals>
-							<goal>jar</goal>
-						</goals>
+<!-- 						<goals> -->
+<!-- 							<goal>jar</goal> -->
+<!-- 						</goals> -->
 					</execution>
 				</executions>
 			</plugin>
@@ -577,7 +578,6 @@
                 <plugin>
                     <artifactId>maven-release-plugin</artifactId>
 			        <configuration>
-			          <tagBase>https://svn.jboss.org/repos/seam/tags</tagBase>
 			          <stagingRepository>https://repository.jboss.org/nexus/content/groups/staging</stagingRepository>
 			          <tagNameFormat>JBoss_Seam_@{project.version}</tagNameFormat>
 			          <autoVersionSubmodules>true</autoVersionSubmodules>
