@@ -19,6 +19,7 @@ import org.jboss.seam.core.Mutable;
  * Controller interceptor for JavaBean components
  * 
  * @author Gavin King
+ * @author Marel Novotny
  */
 public class JavaBeanInterceptor extends RootInterceptor
       implements MethodHandler
@@ -79,18 +80,22 @@ public class JavaBeanInterceptor extends RootInterceptor
                return (bean instanceof HttpSessionActivationListener) ? method.invoke(bean, params) : null;
             }
          }
-      }
+         else if ( params.length==1 && method.getName().equals("equals") && (params[0] == proxy) )
+         {
+            //make default equals() method return true when called on itself
+            //by unwrapping the proxy
+            //We don't let calling this equals make us dirty, as we assume it is without side effects
+            //this assumption is required, as Mojarra 2.0 calls equals during SessionMap.put, see JBSEAM-4966
+            if ( method.getParameterTypes().length == 1 && method.getParameterTypes()[0] == Object.class) 
+            {
+               return proceed.invoke(proxy, params);
+            }
 
-      //make default equals() method return true when called on itself
-      //by unwrapping the proxy
-      //We don't let calling this equals make us dirty, as we assume it is without side effects
-      //this assumption is required, as Mojarra 2.0 calls equals during SessionMap.put, see JBSEAM-4966
-      if ( method.getName().equals("equals") 
-               && method.getParameterTypes().length == 1
-               && method.getParameterTypes()[0] == Object.class
-               && params[0] == proxy) 
-      {
-            return interceptInvocation(method, new Object[]{bean});
+         } // JBSEAM-5066 - we need to skip the interceptInvocation in case of Object.equals(otherObject)
+         else if (  params.length==1 && method.getName().equals("equals") && (params[0] != proxy))
+         {
+            return proceed.invoke(bean, params);
+         }
       }
 
       if ( markDirty(method) )
