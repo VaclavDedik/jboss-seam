@@ -103,6 +103,13 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
          url.addParameter(uiPropagation);
       }
       
+      if (propagationType == PropagationType.NONE)
+      {
+         UIConversationPropagation uiPropagation = UIConversationPropagation.newInstance();
+         uiPropagation.setType(getPropagation());         
+         url.addParameter(uiPropagation);
+      }
+      
       if (getConversationName() != null)
       {
          UIConversationName name = UIConversationName.newInstance();
