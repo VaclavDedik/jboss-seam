@@ -170,7 +170,7 @@ public class ConversationPropagationsTest
    @Test
    public void testSButtonActionPropagationNone() throws Exception
    {
-      testCommonScenario("Output: . Conversation: false.", "sbutton_view_action_propagation_none");
+      testCommonScenario("Output: viewOutput;. Conversation: false.", "sbutton_view_action_propagation_none");
    }
 
    @Test
