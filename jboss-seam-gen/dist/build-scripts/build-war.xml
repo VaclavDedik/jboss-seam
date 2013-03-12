@@ -282,8 +282,12 @@
         <copy file="${basedir}/resources/${project.name}-${profile}-ds.xml"
             tofile="${deploy.dir}/${project.name}-ds.xml"/>
     </target>
+
+    <target name="explode" depends="prepare-explode,create-dodeploy"/>
+
+    <available file="${deploy.dir}/${project.name}.war.deployed" property="deployed.file.exists"/>
     
-    <target name="explode" depends="stage,datasource" 
+    <target name="prepare-explode" depends="stage,datasource" 
             description="Deploy the exploded archive">
         <fail unless="jboss.home">jboss.home not set</fail>
         
@@ -291,6 +295,9 @@
         <copy todir="${war.deploy.dir}">
             <fileset dir="${war.dir}"/>
         </copy>
+    </target>
+
+    <target name="create-dodeploy" unless="deployed.file.exists">
         <touch file="${deploy.dir}/${project.name}.war.dodeploy"/>
     </target>
     
