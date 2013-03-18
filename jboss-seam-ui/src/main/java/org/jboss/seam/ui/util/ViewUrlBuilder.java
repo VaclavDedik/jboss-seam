@@ -22,8 +22,7 @@ public class ViewUrlBuilder extends UrlBuilder
          throw new NullPointerException("viewId must not be null");
       }
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      String url = facesContext.getApplication().getViewHandler().getActionURL(facesContext,
-               viewId);
+      String url = facesContext.getApplication().getViewHandler().getBookmarkableURL(facesContext, viewId, null, false);
       url = Pages.instance().encodeScheme(viewId, facesContext, url);
       setUrl(url);
       
