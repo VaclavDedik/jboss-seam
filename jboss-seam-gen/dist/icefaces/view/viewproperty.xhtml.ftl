@@ -9,17 +9,17 @@
 <#if isDate(componentProperty)>
             <ice:outputText id="view${componentProperty.name}TextId"
 	                 value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
-                <f:convertDateTime type="date" dateStyle="short"/>
+                <s:convertDateTime type="date" dateStyle="short"/>
             </ice:outputText>
 <#elseif isTime(componentProperty)>
              <ice:outputText id="view${componentProperty.name}TextId" 
 	                  value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
-                <f:convertDateTime type="time"/>
+                <s:convertDateTime type="time"/>
              </ice:outputText>
 <#elseif isTimestamp(componentProperty)>
             <ice:outputText id="view${componentProperty.name}TextId"
 	                 value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
-                <f:convertDateTime type="both" dateStyle="short"/>
+                <s:convertDateTime type="both" dateStyle="short"/>
             </ice:outputText>
 <#elseif isBigDecimal(componentProperty)>
             <ice:outputText id="view${componentProperty.name}TextId"
@@ -43,17 +43,17 @@
 <#if isDate(property)>
             <ice:outputText id="view${property.name}TextId"
 	                 value="${'#'}{${homeName}.instance.${property.name}}">
-                <f:convertDateTime type="date" dateStyle="short"/>
+                <s:convertDateTime type="date" dateStyle="short"/>
             </ice:outputText>
 <#elseif isTime(property)>
             <ice:outputText id="view${property.name}TextId"
 	                 value="${'#'}{${homeName}.instance.${property.name}}">
-                <f:convertDateTime type="time"/>
+                <s:convertDateTime type="time"/>
             </ice:outputText>
 <#elseif isTimestamp(property)>
             <ice:outputText id="view${property.name}TextId"
 	                 value="${'#'}{${homeName}.instance.${property.name}}">
-                <f:convertDateTime type="both" dateStyle="short"/>
+                <s:convertDateTime type="both" dateStyle="short"/>
             </ice:outputText>
 <#elseif isBigDecimal(property)>
             <ice:outputText id="view${property.name}TextId"

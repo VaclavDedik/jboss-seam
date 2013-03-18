@@ -25,8 +25,4 @@
        <phase-listener>org.jboss.seam.document.DocumentStorePhaseListener</phase-listener>
    </lifecycle>    
 
-   <converter>
-      <converter-id>javax.faces.DateTime</converter-id>
-      <converter-class>org.jboss.seam.ui.converter.DateTimeConverter</converter-class>
-   </converter>
 </faces-config>

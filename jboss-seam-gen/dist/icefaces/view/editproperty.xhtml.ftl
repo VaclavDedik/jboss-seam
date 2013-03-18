@@ -19,7 +19,7 @@
                        required="true"
 </#if>
                                 value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}"> 
-                               <f:convertDateTime type="date"/>                                                          
+                               <s:convertDateTime type="date"/>                                                          
                         </ice:selectInputDate>
 <#elseif isTime(componentProperty)>
                         <ice:selectInputDate id="${componentProperty.name}" 
@@ -27,7 +27,7 @@
                             required="true"
 </#if>
                             value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
-                           <f:convertDateTime type="time"/>
+                           <s:convertDateTime type="time"/>
                         </ice:selectInputDate>
 <#elseif isTimestamp(componentProperty)>
                         <ice:selectInputDate id="${componentProperty.name}" 
@@ -35,7 +35,7 @@
                             required="true"
 </#if>
                             value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
-                            <f:convertDateTime type="both" dateStyle="short"/>
+                            <s:convertDateTime type="both" dateStyle="short"/>
                         </ice:inputText>
 <#elseif isBigDecimal(componentProperty)>
                         <ice:inputText id="${componentProperty.name}" 
@@ -133,7 +133,7 @@
                              required="true"
 </#if>
                                   value="${'#'}{${homeName}.instance.${property.name}}">
-                                    <f:convertDateTime type="date"/> 
+                                    <s:convertDateTime type="date"/> 
                        </ice:selectInputDate>
 <#elseif isTime(property)>
                        <ice:selectInputDate id="${property.name}" 
@@ -142,7 +142,7 @@
                                required="true"
 </#if>
                                   value="${'#'}{${homeName}.instance.${property.name}}">
-                            <f:convertDateTime type="time"/>
+                            <s:convertDateTime type="time"/>
                         </ice:selectInputDate>
 <#elseif isTimestamp(property)>
                         <ice:selectInputDate id="${property.name}" 
@@ -152,7 +152,7 @@
                                  required="true"
 </#if>
                                    value="${'#'}{${homeName}.instance.${property.name}}">
-                            <f:convertDateTime type="both" dateStyle="short"/>
+                            <s:convertDateTime type="both" dateStyle="short"/>
                         </ice:selectInputDate>
 <#elseif isBigDecimal(property)>
                         <ice:inputText id="${property.name}" 
