@@ -409,6 +409,8 @@
                 <exclude name="import*.sql"/>
                 <exclude name="${project.name}-*-ds.xml"/>
                 <exclude name="components-*.properties"/>
+    			<exclude name="WEB-INF/web-*.xml"/>
+    			<exclude name="WEB-INF/web.xml"/>            	
             </fileset>
             <fileset dir="${basedir}/view"/>
         </copy>
@@ -418,13 +420,13 @@
             file="${basedir}/resources/import-test.sql"/>
         <copy tofile="${test.dir}/components.properties"
             file="${basedir}/resources/components-test.properties"/>
+    	<copy tofile="${test.dir}/WEB-INF/web.xml"
+    	            file="${basedir}/resources/WEB-INF/web-test.xml"/>    	
         <copy todir="${test.dir}" flatten="true">
             <fileset dir="${src.test.dir}">
                 <include name="**/*Test.xml"/>
             </fileset>
-        </copy>
-        <copy tofile="${test.dir}/components.properties"
-            file="${basedir}/resources/components-test.properties"/>        
+        </copy>      
     </target>
     
     <target name="test" depends="buildtest" description="Run the tests">
