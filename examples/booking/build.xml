@@ -3,6 +3,17 @@
          xmlns:artifact="antlib:org.apache.maven.artifact.ant"
          xmlns:rsel="antlib:org.apache.tools.ant.types.resources.selectors">
 
+	<echo>${ant.version}</echo>
+	<!-- Check that we are using Ant 1.8.0 and higher. 
+	Not using <antversion> as it wasn't available until 1.7.0. 
+	-->
+	<condition property="compatible.ant">
+		<or>
+	    	<contains string="${ant.version}" substring="1.8"/>
+		</or>
+	</condition>	
+	<fail unless="compatible.ant">You are using ${ant.version}. You must use Ant 1.8.0 or higher to build Seam examples.</fail>
+	
    <!-- Properties -->
    <property environment="env"/>
    <property name="project.name" value="booking"/>
@@ -139,7 +150,7 @@
       <mkdir dir="${web.module.dir}/${target.web.dir}"/>
       <copy todir="${web.module.dir}/${target.web.dir}">
          <fileset dir="${web.module.dir}/${src.main.webapp.dir}"/>
-         <filterset begintoken="${" endtoken="}">
+         <filterset begintoken="$${" endtoken="}">
             <filter token="jndiPattern" value="${jndiPattern}"/>
             <filter token="distributable" value="${distributable}"/>
          </filterset>
@@ -173,8 +184,8 @@
             pomRefId="ejb-pom"/>
 
       <copy todir="${ear.module.dir}/${target.ear.dir}">
-         <fileset refid="ear.module.fileset"/>
-         <mapper>
+        <fileset refid="ear.module.fileset"/>
+        <mapper>
             <chainedmapper>
                <mapper type="flatten"/>
                <mapper type="glob" from="jboss-seam*.jar" to="jboss-seam.jar"/>
@@ -201,10 +212,13 @@
          <restrict>
             <fileset refid="ejb.module.fileset"/>
             <rsel:not>
-               <name name="**/jboss-seam*.jar"/>
+               <rsel:name name="**/jboss-seam*.jar"/>
             </rsel:not>
          </restrict>
-         <mapper type="flatten"/>
+     	<chainedmapper>
+     	   <flattenmapper/>
+           <mapper type="glob" from="jboss-el*.jar" to="jboss-el.jar"/>
+        </chainedmapper>
       </copy>
 
       <ear destfile="${ear.module.dir}/${target.dir}/seam-${project.name}.ear"
