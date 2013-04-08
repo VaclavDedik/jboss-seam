@@ -10,11 +10,10 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.importer.ExplodedImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.seam.mock.JUnitSeamTest;
-import @actionPackage@.@interfaceName@;
-import @actionPackage@.@beanName@;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.runner.RunWith;
 import java.io.File;
+
+@extraImports@
 
 @RunWith(Arquillian.class)
 public class @interfaceName@Test extends JUnitSeamTest {

@@ -1347,6 +1347,9 @@
         </copy>  	
         <copy file="${templates.dir}/test/ActionTest.java" tofile="${test.file}">
             <filterset refid="filters"/>
+            <filterset>
+                <filter token="extraImports" value="import ${action.package}.${interface.name};${line.separator}import ${action.package}.${bean.name};"/>
+            </filterset>
         </copy>
     	<mkdir dir="${project.home}/resources-test"/>
         <copy file="${templates.dir}/test/arquillian.xml" tofile="${project.home}/resources-test/arquillian.xml">
@@ -1365,6 +1368,9 @@
         </copy>
         <copy file="${templates.dir}/test/ActionTest.java" tofile="${test.file}">
             <filterset refid="filters"/>
+            <filterset>
+                <filter token="extraImports" value="import ${action.package}.${bean.name};"/>
+            </filterset>
         </copy>     	
         <mkdir dir="${project.home}/resources-test"/>
         <copy file="${templates.dir}/test/arquillian.xml" tofile="${project.home}/resources-test/arquillian.xml">
@@ -1383,6 +1389,9 @@
         </copy>
         <copy file="${templates.dir}/test/FormTest.java" tofile="${test.file}">
             <filterset refid="filters"/>
+            <filterset>
+                <filter token="extraImports" value="import ${action.package}.${bean.name};"/>
+            </filterset>
         </copy> 	
         <copy file="${templates.dir}/view/form.xhtml" tofile="${page.file}">
             <filterset refid="filters"/>
@@ -1404,6 +1413,9 @@
         </copy>
         <copy file="${templates.dir}/test/FormTest.java" tofile="${test.file}">
             <filterset refid="filters"/>
+            <filterset>
+                <filter token="extraImports" value="import ${action.package}.${interface.name};${line.separator}import ${action.package}.${bean.name};"/>
+            </filterset>
         </copy>
         <copy file="${templates.dir}/view/form.xhtml" tofile="${page.file}">
             <filterset refid="filters"/>
